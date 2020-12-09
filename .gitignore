@@ -50,7 +50,7 @@
 *.tx
 *.zap
 *.txx
-*.png
+# *.png
 
 # Видео
 *.mp4
@@ -80,8 +80,9 @@
 *RESOURCE/Particles/
 *RESOURCE/Sea/
 *RESOURCE/Sounds/
-*RESOURCE/Textures/
+# *RESOURCE/Textures/
 *RESOURCE/VIDEOS/
 *RESOURCE_Copy/
+*modules/
 options
 Buccaneer's Reef
