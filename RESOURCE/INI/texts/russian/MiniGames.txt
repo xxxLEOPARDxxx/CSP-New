@@ -1,0 +1,65 @@
+CARDS_RULE {We'll play 'twenty one.' The rules are simple. In the deck are 36 cards, from sixes to aces. Aces are 11; kings are 4; queens are 3; Jacks are 2. Everything else is what's on the face. The goal is to rack up 21 points. \n We are each dealt one card, then take the ones we lack. (Click on the deck.) Click the profile to the upper-right to end the turn. If the score runs over 21, then the game ends. Each card is a bet. You can start a game if you have enough money for three wagers. To repeat a game, click on the deck. To exit, cross or [Esc].}
+DICE_RULE {Let's play poker joker. Five dice per player; you roll 'em each in turn. You can roll any number of dice, and put a wager on each one, but only the once. The goal is to toss the highest roll. \n In rising value: one pair (2), two pairs (2+2), triad (3), full (3+2), care (4), street (cubes in order), and poker (5). If there's a tie, the winner is the one with the higher combination. Click on the glass to roll the bones; click on the dice to roll again. (You need money for the wager.) Click on the portrait to pass a turn (when you don't need to roll again).}
+Dice_1 {I'm first.}
+Dice_2 {You're first. Go on, don't hold us up.}
+Dice_3 {Starting the game.}
+Dice_4 {Place your bets.}
+Dice_5 {Continue the game.}
+Dice_6 {Place your bets.}
+Dice_7 {Your turn, now. Go on, don't hold us up.}
+Dice_8 {Make your choice. Choose what to throw away.}
+Dice_9 {Now, my turn.}
+Dice_10 {Wait... I need to decide what to throw away.}
+Dice_11 {I have}
+Dice_12 {. You have}
+Dice_13 {Ha! It's a draw! Let's continue.}
+Dice_14 {Hey, I won.}
+Dice_15 {Looks like you win.}
+Dice_16 {You're toast! I win!}
+Dice_17 {That's it, I've had enough.}
+Dice_18 {I'm toast! You win!}
+Dice_19 {That's it, I've had enough!}
+Dice_20 {Once more for luck?}
+Dice_21 {That's it, I've had enough!}
+Dice_22 {nothing}
+Dice_23 {poker}
+Dice_24 {street}
+Dice_25 {care}
+Dice_26 {full}
+Dice_27 {triad}
+Dice_28 {two pairs}
+Dice_29 {one pair}
+Dice_30 {I'll roll one die...}
+Dice_31 {I'll roll these...}
+Dice_32 {I'll roll these...}
+Dice_33 {I won't roll right now.}
+Cards_1 {What, out of cash? You poor boy!}
+Cards_2 {Man, I'm toast! What a losing streak!}
+Cards_3 {Open up!}
+Cards_4 {Now, a card for me.}
+Cards_5 {Now, a card for you.}
+Cards_7 {Your turn!}
+Cards_8 {Come on, don't stretch the cat's tail...}
+Cards_9 {Go on, grab a card! Don't hold us all up!}
+Cards_10 {Now, a card for me.}
+Cards_11 {Putting down a coin!}
+Cards_12 {My turn!}
+Cards_13 {Let's see what we've got here...}
+Cards_14 {Man, doggone it...}
+Cards_15 {Ha! You're over! I win.}
+Cards_16 {Whoops. Looks like I'm over! You win.}
+Cards_17 {Go again?}
+Cards_18 {One more time?}
+Cards_19 {That's it, I've had enough!}
+Cards_20 {I've had enough. Open up!}
+Cards_21 {Now for you! I've enough.}
+Cards_22 {Turn in the cards.}
+Cards_23 {Make your wagers.}
+Cards_24 {You win. You got}
+Cards_25 {, and I have}
+Cards_26 {Luck is on my side. I have}
+Cards_27 {, and you have}
+Cards_28 {. I win!}
+Cards_29 {Go again?}
+Cards_30 {One more time?}
+Cards_31 {That's it, I've had enough!}

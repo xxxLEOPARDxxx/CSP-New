@@ -1,0 +1,1 @@
+int iServerLightningSubTexX, iServerLightningSubTexY;

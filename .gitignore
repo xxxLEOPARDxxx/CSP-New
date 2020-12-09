@@ -1,0 +1,87 @@
+# Prerequisites
+*.d
+*.ppk
+*.log
+*.bat
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+*.ncb
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Файлы моделей
+*.qch
+*.gm
+*.dat
+*.COL
+*.xps
+*.an
+*.ptc
+*.grs
+
+# Текстуры
+*.tga
+*.tx
+*.zap
+*.txx
+*.png
+
+# Видео
+*.mp4
+*.wmv
+
+# Звуки/музыка
+*.mp3
+
+# Шейдеры
+*.sha
+*.scc
+*.wav
+*.ogg
+
+# Архивы
+*.7z
+*.zip
+*.rar
+
+# Папки
+*Fix_INTERFACE/
+*Fix_INTERFACE2/
+*SAVE/
+*RESOURCE/animation/
+*RESOURCE/foam/
+*RESOURCE/MODELS/
+*RESOURCE/Particles/
+*RESOURCE/Sea/
+*RESOURCE/Sounds/
+*RESOURCE/Textures/
+*RESOURCE/VIDEOS/
+*RESOURCE_Copy/
+options
+Buccaneer's Reef

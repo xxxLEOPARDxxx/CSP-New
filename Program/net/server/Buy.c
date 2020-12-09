@@ -1,0 +1,1 @@
+int iSecondsToStartGame = -1;
