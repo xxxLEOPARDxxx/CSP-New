@@ -176,22 +176,14 @@ void SetSchemeForLocation (ref loc)
 		{
 			case "town":
 				SetWeatherScheme("town");
-				if (CheckAttribute(loc,"QuestCapture"))
-				{
-					SetMusicAlarm("music_military");
-				}
 				if (CheckAttribute(loc,"fastreload"))
 				{
 					iColony = FindColony(loc.fastreload);
 				}
 				if (iColony != -1)
 				{
-					if (CheckAttribute(loc,"QuestCapture")) SetMusicAlarm("music_military");
-					else 
-				{
 					if (Whr_IsDay()) SetMusicAlarm(NationShortName(sti(Colonies[iColony].nation)) + "_music_day");
 					else SetMusicAlarm(NationShortName(sti(Colonies[iColony].nation)) + "_music_night");
-				}
 				}
 				else
 				{
@@ -206,7 +198,7 @@ void SetSchemeForLocation (ref loc)
 			
 			case "jungle":
 				SetWeatherScheme("land");
-				if (loc.id.label == "Village" || loc.id.label == "ExitTown" || loc.id.label == "Incas Temple")
+				if (loc.id.label == "ExitTown" || loc.id.label == "Incas Temple")
 				{
 					switch (loc.id.label)
 					{
@@ -215,10 +207,7 @@ void SetSchemeForLocation (ref loc)
 							else SetMusicAlarm("music_nightjungle");
 						break;
 						case "Incas Temple":
-							SetMusicAlarm("music_Incas_Temple");
-						break;
-						case "Village":
-							SetMusicAlarm("music_village");
+							SetMusicAlarm("music_teno");
 						break;
 					}
 				}
@@ -255,33 +244,9 @@ void SetSchemeForLocation (ref loc)
 				bMonstersGen = false; //сбросить флаг монстров
 			break;
 			
-			case "reef":
-				ResetSoundScheme();
-				SetSoundScheme("reef");
-				SetMusicAlarm("music_reef");
-			break;
-			
-			case "mine":
-				ResetSoundScheme();
-				SetSoundScheme("mine");
-				SetMusicAlarm("music_cave");
-			break;
-			
 			case "inca_temple": // не используется
 				SetSoundScheme("inca_temple");
-				SetMusicAlarm("music_coridor");
-			break;
-			
-			case "x_seashore":
-				ResetSoundScheme();
-				SetWeatherScheme("seashore");
-				SetMusicAlarm("music_teno");
-			break;
-			
-			case "x_jungle":
-				ResetSoundScheme();
-				SetWeatherScheme("land");
-				SetMusicAlarm("music_teno");
+				SetMusicAlarm("music_teno_inside");
 			break;
 			
 			case "questisland":
@@ -362,19 +327,8 @@ void SetSchemeForLocation (ref loc)
 			break;
 			
 			case "church":
-				if (isDay()) SetSoundScheme("church");
-				if (CheckAttribute(loc,"fastreload"))
-				{
-					iColony = FindColony(loc.fastreload);
-				}
-				if (iColony != -1)
-				{
-			    	SetMusicAlarm(NationShortName(sti(Colonies[iColony].nation)) + "_music_church");
-				}
-				else
-				{
+				SetSoundScheme("church");
 				SetMusicAlarm("music_church");
-				}
 			break;
 			
 			case "shipyard":
@@ -395,8 +349,6 @@ void SetSchemeForLocation (ref loc)
 				}
 				if (iColony != -1)
 				{
-					// if (CheckAttribute(loc,"QuestCapture")) SetMusicAlarm("music_military");
-					// else SetMusicAlarm("music_fort");
 					SetMusicAlarm("music_shore");
 				}
 				else
@@ -407,18 +359,13 @@ void SetSchemeForLocation (ref loc)
 			
 			case "deck": // мирная палуба
 				SetSoundScheme("deck");
-				if (Whr_IsDay()) SetMusic("music_sea_day");
+				if (Whr_IsDay()) SetMusic("music_deck");
 				else SetMusic("music_sea_night");
 			break;
 			
 			case "deck_fight": // боевая полуба
 				SetSoundScheme("deck_fight");
 				SetMusic("music_abordage");
-			break;
-			
-			case "slave_deck": // квестовая палуба
-				SetSoundScheme("slave_deck");
-				//SetMusicAlarm("music_spokplavanie");
 			break;
 			
 			case "boarding_cabine":
@@ -430,11 +377,6 @@ void SetSchemeForLocation (ref loc)
 				SetSoundScheme("sail_cabine");
 				if (Whr_IsDay()) SetMusicAlarm("music_sea_day");
 				else SetMusicAlarm("music_sea_night");
-			break;
-			
-			case "incquisitio":
-				SetSoundScheme("incquisitio");
-				SetMusicAlarm("music_incquisitio");
 			break;
 			
 			case "jail":
@@ -457,11 +399,6 @@ void SetSchemeForLocation (ref loc)
 				SetMusicAlarm("music_LostShipsCity");
 			break;
 			
-			case "underwater":
-				SetSoundScheme("underwater");
-				SetMusicAlarm("music_underwater");
-			break;
-			
 			case "teno":
 				SetWeatherScheme("land");
 				SetMusicAlarm("music_teno");
@@ -470,27 +407,6 @@ void SetSchemeForLocation (ref loc)
 			case "teno_inside":
 				SetSoundScheme("teno_inside");
 				SetMusicAlarm("music_teno_inside");
-			break;
-			
-			case "Alcove": // калеуче
-				SetSoundScheme("teno_inside");
-				SetMusicAlarm("music_alcove");
-			break;
-			
-			case "Alcove_1": // калеуче
-				SetSoundScheme("teno_inside");
-				SetMusicAlarm("music_alcove_1");
-			break;
-			
-			case "Judgement_dungeon": // Addon 2016-1 Jason пиратская линейка
-				SetSoundScheme("dungeon");
-				SetMusicAlarm("music_alcove");
-			break;
-			
-			case "Judgement_hell_dungeon": 
-				SetSoundScheme("dungeon");
-				if (loc.id == "Judgement_dungeon_10") SetMusicAlarm("music_retribution_1");
-				else SetMusicAlarm("music_retribution");
 			break;
 		}
 	}

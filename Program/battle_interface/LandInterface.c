@@ -568,8 +568,8 @@ void BLI_SetObjectData()
 
 	// objLandInterface.ManSign.gunchargetexturename	= "battle_interface\ShipClass.tga.tx";
 	objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge.png"; // LEO: Тут у нас другой UI
-	objLandInterface.ManSign.gunchargecolor			= argb(255,70, 130, 180);
-	objLandInterface.ManSign.gunchargebackcolor		= argb(255,0, 0, 0);
+	objLandInterface.ManSign.gunchargecolor			= argb(255,70, 130, 180); // LEO: Тут у нас другой UI
+	objLandInterface.ManSign.gunchargebackcolor		= argb(255,0, 0, 0); // LEO: Тут у нас другой UI
 	objLandInterface.ManSign.gunchargeuv			= "0.0,0.0,1.0,1.0";
 	objLandInterface.ManSign.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 	
