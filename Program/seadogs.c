@@ -760,7 +760,11 @@ int actLoadFlag = 0;
 void OnLoad()
 {
 	actLoadFlag = 1;
-
+	
+	bYesBoardStatus=false;
+	DeleteClass(&IBoardingStatus);
+	DeleteAttribute(&IBoardingStatus,"");
+	
 	//Boyer add
 	onLoadReInit();
 	//Boyer change #20170418-01
@@ -894,7 +898,11 @@ void NewGame()
 	CreateEntity(&reload_fader, "fader");
 	SendMessage(&reload_fader, "ls",FADER_PICTURE, RandPhraseSimple("loading\battle.tga.tx", "loading\Start_Loading.tga.tx"));
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
-
+	
+	bYesBoardStatus=false;
+	DeleteClass(&IBoardingStatus);
+	DeleteAttribute(&IBoardingStatus,"");
+	
 	SetEventHandler("frame","NewGame_continue",1);
 }
 

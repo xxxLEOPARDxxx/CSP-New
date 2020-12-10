@@ -259,7 +259,7 @@ void BLI_ExecuteCommand()
 	break;
 	case "BI_ItemsChange":
 		tmpi = SendMessage(pchar,"ls",MSG_CHARACTER_EX_MSG,"FindDialogCharacter");
-		if(tmpi>=0 && isOfficerInShip(GetCharacter(tmpi), true))//fix вот дыра дл¤ обмена с матросом
+		if(tmpi>=0 && isOfficerInShip(GetCharacter(tmpi), true))//fix вот дыра дл§ обмена с матросом
         {
             LaunchCharacterItemChange(GetCharacter(tmpi));
         }
@@ -380,9 +380,6 @@ void BLI_SetObjectData()
 		attrName = "id"+i;
 		makearef(ar,objLandInterface.data.icons.(attrName));
 		SetCharacterIconData(cn,ar);
-		//ar.picture = curCh.FaceId;
-		//ar.health = 0.0;
-		//ar.charge = 0.0;
 	}
 	BLI_SetMessageParameters();
 	// текстуры
@@ -493,14 +490,14 @@ void BLI_SetObjectData()
 	objLandInterface.Commands.DeadBox.selPicNum		= 4;
 	objLandInterface.Commands.DeadBox.texNum		= 0;
 	objLandInterface.Commands.DeadBox.event			= "BI_DeadBox";
-	objLandInterface.Commands.DeadBox.note			= "Обыск тела";
+	objLandInterface.Commands.DeadBox.note			= "ќбыск тела";
 	// диалог сам с собой -->
 	objLandInterface.Commands.TalkSelf.enable	= true;
  	objLandInterface.Commands.TalkSelf.picNum	 	= 18;
 	objLandInterface.Commands.TalkSelf.selPicNum	= 2;
 	objLandInterface.Commands.TalkSelf.texNum		= 0;
 	objLandInterface.Commands.TalkSelf.event		= "BI_TalkSelf";
-	objLandInterface.Commands.TalkSelf.note		    = "Мысли вслух";
+	objLandInterface.Commands.TalkSelf.note		    = "ћысли вслух";
 	// диалог сам с собой <--
 	objLandInterface.Commands.ActivateRush.enable	= true;
 	objLandInterface.Commands.ActivateRush.picNum	= 28;
@@ -527,8 +524,8 @@ void BLI_SetObjectData()
 		outGroupName = Locations[idxloc].fastreload;
 		CreateReloadPaths(outGroupName);
 	}
-	// objLandInterface.ManSign.backtexturename		= "battle_interface\ShipBackIcon.tga.tx";
-	objLandInterface.ManSign.backtexturename		= "battle_interface\CharBackIcon.tga";
+
+	objLandInterface.ManSign.backtexturename		= "battle_interface\ShipBackIcon.tga";
 	objLandInterface.ManSign.backcolor				= argb(255,128,128,128);
 	objLandInterface.ManSign.backuv					= "0.0,0.0,1.0,1.0";
 	objLandInterface.ManSign.backoffset				= "0.0,0.0";
@@ -567,9 +564,9 @@ void BLI_SetObjectData()
     objLandInterface.ManSign.manenergyiconsize	= fTmp + "," + fTmp2;
 
 	// objLandInterface.ManSign.gunchargetexturename	= "battle_interface\ShipClass.tga.tx";
-	objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge.tga"; // LEO: Тут у нас другой UI
-	objLandInterface.ManSign.gunchargecolor			= argb(255,70, 130, 180); // LEO: Тут у нас другой UI
-	objLandInterface.ManSign.gunchargebackcolor		= argb(255,0, 0, 0); // LEO: Тут у нас другой UI
+	objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge.tga"; // LEO: “ут у нас другой UI
+	objLandInterface.ManSign.gunchargecolor			= argb(255,70, 130, 180); // LEO: “ут у нас другой UI
+	objLandInterface.ManSign.gunchargebackcolor		= argb(255,0, 0, 0); // LEO: “ут у нас другой UI
 	objLandInterface.ManSign.gunchargeuv			= "0.0,0.0,1.0,1.0";
 	objLandInterface.ManSign.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 	
@@ -590,7 +587,7 @@ void BLI_SetObjectData()
     objLandInterface.ManSign.manfaceiconsize		= fTmp + "," + fTmp;
     objLandInterface.ManSign.commandlistverticaloffset = -40 * fHtRatio;
     fTmp = makeint(60.0 * fHtRatio);
-    fTmp2 = makeint(87.0 * fHtRatio);
+    fTmp2 = makeint(95.0 * fHtRatio);
 	
 	//#20170318-20
 	for(i = 1; i<=MAX_NUM_FIGHTERS + 1; i++) {
@@ -650,7 +647,19 @@ void BLI_SetObjectData()
 	RefreshLandTime();
 	//objLandInterface.textinfo.datatext.text = XI_convertString("Date:") + GetQuestBookData(); //GetDataDay()+" "+XI_ConvertString("target_month_" + GetDataMonth())+" "+GetDataYear();
 	objLandInterface.textinfo.datatext.refreshable = true;
+
+    fTmp = makeint(24.0 * fHtRatio);
+    fTmp2 = makeint(106.0 * fHtRatio);
+    int fTmp3 = makeint(76.0 * fHtRatio);
+    int fTmp4 = makeint(94.0 * fHtRatio);
+    string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
 	
+	objLandInterface.imageslist.textinfoback2.texture = "\battle_interface\CharBackIcon.png";
+	objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
+	objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,1.0,1.0";
+	objLandInterface.imageslist.textinfoback2.pos = off;
+
+
 	//Charge info
 	/*objLandInterface.textinfo.chargetext.font = "interface_button";
 	objLandInterface.textinfo.chargetext.scale = 1.5 * fHtRatio;
@@ -695,7 +704,7 @@ void BLI_SetObjectData()
 	objLandInterface.textinfo.timetext.text = makeint(GetHour())+":"+makeint(GetMinute());
     */
 
-    // Ёто у вас нет, у мен¤ все есть ;) - boal
+    // ®то у вас нет, у мен§ все есть ;) - boal
     objLandInterface.CommandList.CommandMaxIconQuantity = 15;
 	objLandInterface.CommandList.CommandIconSpace = 1;
 	objLandInterface.CommandList.CommandIconLeft = makeint(108 * fHtRatio);//157;
@@ -728,12 +737,12 @@ void BLI_SetObjectData()
 
 void RefreshChargeTime()
 {
-	ref chr = &Characters[nMainCharacterIndex];
-	aref chr_ai;
-	makearef(chr_ai,Characters[nMainCharacterIndex].chr_ai);
 	//charge/hp info
     /*objLandInterface.textinfo.chargetext.text = chr_ai.charge;
 	objLandInterface.textinfo.hptext.text = makeint(chr.chr_ai.hp) + "/" +  makeint(chr.chr_ai.hp_max);*/
+	ref chr = &Characters[nMainCharacterIndex];
+	aref chr_ai;
+	makearef(chr_ai, Characters[nMainCharacterIndex].chr_ai);
 	if (CheckAttribute(chr,"chr_ai.charge"))
 	{
 		float gunch = chr_ai.charge;
@@ -744,20 +753,14 @@ void RefreshChargeTime()
 		
 		if (CheckAttribute(chr,"chr_ai.charge_max"))
 		{
-			if (MakeInt(chr.chr_ai.charge) == makeint(chr.chr_ai.charge_max))
+			if (MakeInt(chr_ai.charge) == makeint(chr_ai.charge_max))
 			{
 				gunch = 1.0;
 			}
 		}
-		else
-		{
-			chr.chr_ai.charge_max = 1;
-			chr.chr_ai.chargeprc = 1;
-		}
 		float gunchm = 1.0;
-		DrawCharacterHPEx(makefloat(0.35/makefloat(gunchm)*makefloat(gunch)),makefloat(10.0/makefloat(gunchm)*makefloat(gunch)));
+		DrawCharacterHPEx(makefloat(0.35/makefloat(gunchm)*makefloat(gunch)),0.1);
 	}
-	else chr_ai.charge = 0.0;
 }
 
 bool FindUserIcon(string id,ref uiref)
@@ -851,7 +854,7 @@ void BLI_SetPossibleCommands()
 		// boal запрет всех переходов
 		if (chrDisableReloadToLocation) bTmpBool = false;
 		if (!CheckAttribute(loadedLocation,"fastreload")) bTmpBool = false;  // в каюте некуда переходить
-		if (bTmpBool) // все еще можно переходить, провер¤ем город враг
+		if (bTmpBool) // все еще можно переходить, провер§ем город враг
 		{
 		    string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
 			if (sNation != "none")
@@ -960,7 +963,7 @@ void BLI_SetPossibleCommands()
        objLandInterface.Commands.Exit_Deck.enable = true;
     }
 	
-	// ugeen  --> отслеживаем ситуацию взрыва или эпидемии на захваченном корабле --> покидание каюты мину¤ интерфейс грабежа
+	// ugeen  --> отслеживаем ситуацию взрыва или эпидемии на захваченном корабле --> покидание каюты мину§ интерфейс грабежа
 	if(CheckAttribute(loadedLocation, "CabinType") && !chrDisableReloadToLocation) 
 	{
 		if(CheckShipSituation_GenQuest())
@@ -1347,7 +1350,7 @@ void LI_ProcessControlPress()
 
 	switch(ControlName)
 	{
-		case "hk_Cure": // TO_DO не работет - у мен¤ в др месте
+		case "hk_Cure": // TO_DO не работет - у мен§ в др месте
 			if( LAi_GetCharacterRelHP(pchar) < 1.0 )
 			{
 				float dhlt = LAi_GetCharacterMaxHP(pchar) - LAi_GetCharacterHP(pchar);

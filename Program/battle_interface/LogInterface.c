@@ -139,7 +139,7 @@ void CreateSeaActionsEnvironment()
     //#20180714-01
     float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
 	ILogAndActions.type = "sea";
-	ILogAndActions.ActiveActions.TextureName = "battle_interface\list_icons.tga.tx";
+	ILogAndActions.ActiveActions.TextureName = "battle_interface\list_icons.tga";
 	ILogAndActions.ActiveActions.horzQ = 16;
 	ILogAndActions.ActiveActions.vertQ = 8;
 	ILogAndActions.ActiveActions.width = RecalculateHIcon(makeint(48 * fHtRatio));
@@ -289,16 +289,21 @@ void DrawCharacterHP(float myHP,float enemyHP)
 
 void DrawCharacterHPEx(float myHP,float enemyHP)
 {
-	if(bYesBoardStatus==false)
-	{
-		CreateEntity(&IBoardingStatus,"IBoardingStatus");
-		IBoardingStatus.myLeft = sti(showWindow.left)+35;
-		IBoardingStatus.myTop = sti(showWindow.top)+116;
+	float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    int fTmp, fTmp2;
+    
+    if(bYesBoardStatus==false)
+    {
+        CreateEntity(&IBoardingStatus,"IBoardingStatus");
+        fTmp = makeint(29.5 * fHtRatio);
+        IBoardingStatus.myLeft = fTmp + "," + fTmp2;
+        fTmp = makeint(98.0 * fHtRatio);
+        IBoardingStatus.myTop = fTmp + "," + fTmp2;
 		IBoardingStatus.enemyLeft = sti(showWindow.left)+230+73+makeint((14.0/1280.0*stf(showWindow.right)-4.0)/2.0);
 		IBoardingStatus.enemyTop = -1000;
-		IBoardingStatus.height = RecalculateVIcon(4);
-		IBoardingStatus.width = makeint((stf(showWindow.right)-303.0-158.0)/10.0);
-		IBoardingStatus.myColor = argb(255,155,155,155);
+		IBoardingStatus.height = RecalculateVIcon(4)*fHtRatio;
+		IBoardingStatus.width = RecalculateVIcon(121)*fHtRatio;
+		IBoardingStatus.myColor = argb(255,200,200,200);
 		IBoardingStatus.enemyColor = argb(255,128,0,0);
 		SendMessage(&IBoardingStatus,"l",LOG_INIT_CHARCTER_HP);
 		bYesBoardStatus = true;
