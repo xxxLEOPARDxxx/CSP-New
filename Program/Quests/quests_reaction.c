@@ -1841,7 +1841,7 @@ void QuestComplete(string sQuestName, string qname)
 				string encGroup = LAi_FindRandomLocator("encdetector");
 				sTemp = "locators." + encGroup;
 				makearef(arAll, location.(sTemp));
-				iTemp = GetAttributesNum(arAll); // кол-во человек в банде
+				iTemp = LAi_CalculateRaidersQuantity(GetAttributesNum(arAll)); // кол-во человек в банде
 				if (iTemp <= 0 ) iTemp = 1; //если локаторов меньше четырех
 				//--> генерим ранг 
 				if (sti(pchar.rank) > 6) 
@@ -1907,7 +1907,7 @@ void QuestComplete(string sQuestName, string qname)
 						LAi_SetActorType(sld);
 						SetFantomParamFromRank(sld, Rank, true);
 						//Получим локатор для логина
-						attrName = GetAttributeName(GetAttributeN(arAll, i));
+						attrName = GetAttributeName(GetAttributeN(arAll, 1));
 						ChangeCharacterAddressGroup(sld, location.id, encGroup, attrName);					
 						LAi_SetActorType(sld);
 						if (i == 0) LAi_ActorDialog(sld, pchar, "", -1, 0); 
@@ -1920,7 +1920,7 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 
 		case "DestroyGang_SuddenAttack":
-			for(i = 0; i < 4; i++)
+			for(i = 0; i < 30; i++)
 			{
 				if (GetCharacterIndex("MayorQuestGang_" + i) == -1) continue;
 				sld = CharacterFromID("MayorQuestGang_" + i);

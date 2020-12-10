@@ -574,8 +574,8 @@ bool LAi_CreateEncounters(ref location)
 			// if(rand(15) > 15 || CheckAttribute(pchar, "GenQuest.Convict") || location.type == "seashore" || location.type == "mayak" ) return false;	
 			if(CheckAttribute(location, "onUninhabitedIsland")) return false; // На необитаемых нельзя		
 			if (sAreal == "Panama") return false;
-			num = GetAttributesNum(grp); //кол-во человек в группе
-			// num = makeint(10+rand(10)); //кол-во человек в группе // LEO
+			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); //кол-во человек в группе // LEO
+			// num = GetAttributesNum(grp); //кол-во человек в группе
 			if(num <= 1) return false;
 			if (num <= 2) num = 2;
 			iRank = 2 + rand(3); //ранг каторжан
@@ -605,8 +605,8 @@ bool LAi_CreateEncounters(ref location)
 				{
 					chr = GetCharacter(NPC_GenerateCharacter("Convict_" + i, model[iMassive], "man", "man", iRank, PIRATE, -1, true));
 					SetFantomParamFromRank(chr, iRank, true);
-					locator = GetAttributeName(GetAttributeN(grp, i));
-					// locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
+					// locator = GetAttributeName(GetAttributeN(grp, 1));
+					locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
 					ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 					chr.dialog.filename = "GenQuests_Dialog.c";
 					chr.dialog.currentnode = "First time";
@@ -650,8 +650,8 @@ bool LAi_CreateEncounters(ref location)
 			LAi_group_SetRelation("Jungle_indians", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
 			if (rand(10) > 5) return false;
 			// if (rand(10) > 10) return false;
-			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); // LEO
 			// num = makeint(15+rand(5)); //кол-во человек в банде
+			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); // LEO
 			if (num <= 0 ) num = 2; //если локаторов меньше четырех
 			str = "Indian"+ location.index + "_";
 			//--> генерим ранг 
@@ -709,7 +709,7 @@ bool LAi_CreateEncounters(ref location)
 			
 			LAi_group_SetRelation("Jungle_indians", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 			LAi_group_SetCheck("Jungle_indians", "IndianInJungleClearGroup");
-			//Log_TestInfo("Враждебные индейцы: Сгенерился энкаунтер");//Korsar Maxim - раскомментировать, если не уверены, работает ли энкаунтер.
+			Log_TestInfo("Враждебные индейцы: Сгенерился энкаунтер");//Korsar Maxim - раскомментировать, если не уверены, работает ли энкаунтер.
 		break;
 
 
@@ -749,7 +749,7 @@ bool LAi_CreateEncounters(ref location)
 				i = 0;
 				iRank = sti(PChar.rank) + MOD_SKILL_ENEMY_RATE;
 				
-				num = 2 + makeint(MOD_SKILL_ENEMY_RATE / 3) + dRand(1); // Кол-во пиратов
+				num = rand(10) + makeint(MOD_SKILL_ENEMY_RATE / 3) + dRand(5); // Кол-во пиратов
 				PChar.GenQuest.PiratesOnUninhabited.PiratesQty = num;
 				
 				while(i < num)
@@ -760,7 +760,7 @@ bool LAi_CreateEncounters(ref location)
 					{
 						chr = GetCharacter(NPC_GenerateCharacter("PirateOnUninhabited_" + i, model[iMassive], "man", "man", iRank, PIRATE, -1, true));
 						SetFantomParamFromRank(chr, iRank, true);
-						locator = GetAttributeName(GetAttributeN(grp, i));
+						locator = GetAttributeName(GetAttributeN(grp, 1));
 						ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 						//ChangeCharacterAddressGroup(chr, location.id, "goto", "goto" + (i + 1));
 						chr.dialog.filename = "GenQuests_Dialog.c";
@@ -828,7 +828,7 @@ bool LAi_CreateEncounters(ref location)
 				i = 0;
 				iRank = sti(pchar.rank) + MOD_SKILL_ENEMY_RATE;
 				
-				num = 3 + dRand(5); // Кол-во кораблекрушенцев
+				num = 5 + dRand(10); // Кол-во кораблекрушенцев
 				pchar.GenQuest.ShipWreck.Qty = num;	
 				pchar.GenQuest.ShipWreck.Nation = drand(3); // нация
 				pchar.GenQuest.ShipWreck.Prize = GenQuest_GenerateTotem();
@@ -841,7 +841,7 @@ bool LAi_CreateEncounters(ref location)
 					{
 						chr = GetCharacter(NPC_GenerateCharacter("ShipWreck_" + i, model[iMassive], "man", "man", iRank, sti(pchar.GenQuest.ShipWreck.nation), -1, true));
 						SetFantomParamFromRank(chr, iRank, true);
-						locator = GetAttributeName(GetAttributeN(grp, i));
+						locator = GetAttributeName(GetAttributeN(grp, 1));
 						ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 						//ChangeCharacterAddressGroup(chr, location.id, "goto", "goto" + (i + 1));
 						FaceMaker(chr);

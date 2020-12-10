@@ -1527,7 +1527,7 @@ void PiratesOnUninhabited_InTreasureLoc(String _quest)
 	
 	if(!CheckAttribute(PChar, "GenQuest.PiratesOnUninhabited.TreasureLose"))
 	{
-		count = 2 + makeint(MOD_SKILL_ENEMY_RATE / 3) + dRand(1);
+		count = rand(10) + makeint(MOD_SKILL_ENEMY_RATE / 3) + dRand(5);
 		
 		PChar.GenQuest.PiratesOnUninhabited.ShorePiratesQty = count;
 		
@@ -4993,14 +4993,19 @@ string ShipWreck_GetStringQty(int Qty)
 	string strQty;
 	switch(Qty)
 	{
-		case 3:    	strQty = "трем"; 		break;
-		case 4:    	strQty = "четверым"; 	break;
-		case 5: 	strQty = "пятерым"; 	break;
-		case 6: 	strQty = "шестерым";	break;
-		case 7: 	strQty = "семерым";		break;
-		case 8: 	strQty = "восьмерым";	break;
-		case 9: 	strQty = "девятерым";	break;
-		case 10:	strQty = "десятерым";	break;		
+		case 3:    	strQty = "трем"; 				break;
+		case 4:    	strQty = "четверым"; 			break;
+		case 5: 	strQty = "пятерым"; 			break;
+		case 6: 	strQty = "шестерым";			break;
+		case 7: 	strQty = "семерым";				break;
+		case 8: 	strQty = "восьмерым";			break;
+		case 9: 	strQty = "девятерым";			break;
+		case 10:	strQty = "десятерым";			break;		
+		case 11:	strQty = "одиннадцатерым";		break;		
+		case 12:	strQty = "двенадцатерым";		break;		
+		case 13:	strQty = "тренадцатерым";		break;		
+		case 14:	strQty = "четырнадцатерым";		break;		
+		case 15:	strQty = "пятнадцатерым";		break;		
 	}
 	return strQty;
 }

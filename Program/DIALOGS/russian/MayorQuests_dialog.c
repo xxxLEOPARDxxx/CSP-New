@@ -22,7 +22,7 @@ void ProcessDialogEvent()
 			chrDisableReloadToLocation = false;
 			LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], false); //боевке можно
 			DeleteAttribute(&locations[FindLocation(pchar.GenQuest.DestroyGang.Location)], "DisableEncounters"); //энкаунтеры можно 
-			for(i = 1; i <= 3; i++)
+			for(i = 1; i <= 29; i++)
 			{
 				if (GetCharacterIndex("MayorQuestGang_" + i) == -1) continue;
 				sld = CharacterFromID("MayorQuestGang_" + i);
@@ -62,7 +62,7 @@ void ProcessDialogEvent()
 			LAi_SetWarriorType(npchar);
 			LAi_SetImmortal(npchar, false);
 			LAi_SetCheckMinHP(npchar, LAi_GetCharacterHP(npchar)-1, false, "DestroyGang_SuddenAttack");
-			for(i = 1; i < 4; i++)
+			for(i = 1; i < 30; i++)
 			{
 				if (GetCharacterIndex("MayorQuestGang_" + i) == -1) continue;	
 				sld = CharacterFromID("MayorQuestGang_" + i);
@@ -75,7 +75,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "DestroyGang_ExitFight":
-			for(i = 0; i < 4; i++)
+			for(i = 0; i < 30; i++)
 			{
 				if (GetCharacterIndex("MayorQuestGang_" + i) == -1) continue;
 				sld = CharacterFromID("MayorQuestGang_" + i);
