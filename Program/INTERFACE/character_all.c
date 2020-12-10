@@ -166,7 +166,7 @@ void ProcessCommandExecute()
 void SetVariable()
 {
 	FillSkillTables();
-	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + xi_refCharacter.FaceId + ".png");
+	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + xi_refCharacter.FaceId + ".tga");
 	SetFormatedText("HERO_NAME", GetFullName(xi_refCharacter));
 	
 	//navy --> alcohol
@@ -382,13 +382,13 @@ void ShowInfoWindow()
 					sText1 = GetCharacterFullName(Characters[iCharacter].id);
 					sHeader = XI_ConvertString("companionship");
 				}
-				sPicture = "interfaces\portraits\64\face_" + rchr.FaceId + ".png"
+				sPicture = "interfaces\portraits\64\face_" + rchr.FaceId + ".tga"
 			}
 
 
 			if(sPicture == "-1")
 			{
-				sPicture = "interfaces/portraits/128/" + sHeader + ".png";
+				sPicture = "interfaces/portraits/128/" + sHeader + ".tga";
 			}
             sText3 = "Клик по списку - назначение или съем офицера.";
             if (bBettaTestMode)

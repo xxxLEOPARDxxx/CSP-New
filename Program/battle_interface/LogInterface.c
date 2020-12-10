@@ -139,7 +139,7 @@ void CreateSeaActionsEnvironment()
     //#20180714-01
     float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
 	ILogAndActions.type = "sea";
-	ILogAndActions.ActiveActions.TextureName = "battle_interface\list_icons.png.tx";
+	ILogAndActions.ActiveActions.TextureName = "battle_interface\list_icons.tga.tx";
 	ILogAndActions.ActiveActions.horzQ = 16;
 	ILogAndActions.ActiveActions.vertQ = 8;
 	ILogAndActions.ActiveActions.width = RecalculateHIcon(makeint(48 * fHtRatio));
@@ -178,7 +178,7 @@ void CreateLandActionsEnvironment()
     float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
 	ILogAndActions.type = "land";
 
-	ILogAndActions.ActiveActions.TextureName = "battle_interface\LandCommands.png";
+	ILogAndActions.ActiveActions.TextureName = "battle_interface\LandCommands.tga";
 	ILogAndActions.ActiveActions.horzQ = 16;
 	ILogAndActions.ActiveActions.vertQ = 2;
 	ILogAndActions.ActiveActions.width = RecalculateHIcon(makeint(48 * fHtRatio));
@@ -223,7 +223,7 @@ void CreateWorldMapActionsEnvironment()
     float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
 	ILogAndActions.type = "map";
 
-	ILogAndActions.ActiveActions.TextureName = "battle_interface\WorldMapCommands.png";
+	ILogAndActions.ActiveActions.TextureName = "battle_interface\WorldMapCommands.tga";
 	ILogAndActions.ActiveActions.horzQ = 8;
 	ILogAndActions.ActiveActions.vertQ = 2;
 	ILogAndActions.ActiveActions.width = RecalculateHIcon(makeint(48 * fHtRatio));

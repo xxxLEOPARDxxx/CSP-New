@@ -280,11 +280,11 @@ void WM_SetParameterData()
     //#20180714-01
     float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
     int fTmp, fTmp2;
-	BattleInterface.CommandTextures.list.t0.name = "battle_interface\cancel.png";
+	BattleInterface.CommandTextures.list.t0.name = "battle_interface\cancel.tga";
 	BattleInterface.CommandTextures.list.t0.xsize = 2;
 	BattleInterface.CommandTextures.list.t0.ysize = 1;
 
-	BattleInterface.CommandTextures.list.t1.name = "battle_interface\worldmapcommands.png";
+	BattleInterface.CommandTextures.list.t1.name = "battle_interface\worldmapcommands.tga";
 	BattleInterface.CommandTextures.list.t1.xsize = 8;
 	BattleInterface.CommandTextures.list.t1.ysize = 2;
 

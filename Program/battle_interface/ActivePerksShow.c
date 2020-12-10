@@ -32,13 +32,13 @@ void LoadActivePerkShower()
 	// информация о текстурах
 	if(bSeaActive && !bAbordageStarted)
 	{	// морская часть
-		objActivePerkShower.Textures.t0.file = "battle_interface\list_icons.png";
+		objActivePerkShower.Textures.t0.file = "battle_interface\list_icons.tga";
 		objActivePerkShower.Textures.t0.horz = 16;
 		objActivePerkShower.Textures.t0.vert = 8;
 	}
 	else
 	{	// земная часть
-		objActivePerkShower.Textures.t0.file = "battle_interface\LandCommands.png";
+		objActivePerkShower.Textures.t0.file = "battle_interface\LandCommands.tga";
 		objActivePerkShower.Textures.t0.horz = 16;
 		objActivePerkShower.Textures.t0.vert = 2;
 	}
@@ -133,21 +133,21 @@ string GetPerkTextureName(string perkName)
 		case "TimeSpeed":
 			if(bSeaActive && !bAbordageStarted)
 			{
-				return "battle_interface\list_icons.png";
+				return "battle_interface\list_icons.tga";
 			}
 			else
 			{
-			    return "battle_interface\LandCommands.png";
+			    return "battle_interface\LandCommands.tga";
 			}
 		break;
-		case "Sink":			return "battle_interface\list_icons.png"; break;
-		case "Repair":			return "battle_interface\list_icons.png"; break;
-		case "Rush":			return "battle_interface\LandCommands.png";	break;
-		case "ImmediateReload":	return "battle_interface\list_icons.png"; break;
-		case "InstantBoarding":	return "battle_interface\list_icons.png"; break;
-		case "Turn180":			return "battle_interface\list_icons.png"; break;
-		case "LightRepair":		return "battle_interface\list_icons.png"; break;
-		case "InstantRepair":	return "battle_interface\list_icons.png"; break;
+		case "Sink":			return "battle_interface\list_icons.tga"; break;
+		case "Repair":			return "battle_interface\list_icons.tga"; break;
+		case "Rush":			return "battle_interface\LandCommands.tga";	break;
+		case "ImmediateReload":	return "battle_interface\list_icons.tga"; break;
+		case "InstantBoarding":	return "battle_interface\list_icons.tga"; break;
+		case "Turn180":			return "battle_interface\list_icons.tga"; break;
+		case "LightRepair":		return "battle_interface\list_icons.tga"; break;
+		case "InstantRepair":	return "battle_interface\list_icons.tga"; break;
 	}
 	trace("WARNING!!! Perk name - "+perkName+" hav`t texture");
 	return "";

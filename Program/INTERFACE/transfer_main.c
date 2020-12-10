@@ -665,7 +665,7 @@ void OnShipScrollChange()
 
 void ShowShipInfo(ref chr, string sAdd)
 {
-	SetNewPicture("MAIN_CHARACTER_PICTURE" + sAdd, "interfaces\portraits\128\face_" + chr.FaceId + ".png");
+	SetNewPicture("MAIN_CHARACTER_PICTURE" + sAdd, "interfaces\portraits\128\face_" + chr.FaceId + ".tga");
 
 	int iShip = sti(chr.ship.type);
 	if (iShip != SHIP_NOTUSED)
@@ -1244,7 +1244,7 @@ void GoToShipChange() // нажатие ОК на табличке ок-отмена
 			ExitShipChangeMenu();
 			// первый проход - кэп еще жив
 			SetFormatedText("CAPTURE_TEXT", XI_ConvertString("Surrendered_captain_capture"));
-			SetNewPicture("CAPTUR_PICTURE", "interfaces\portraits\128\face_" + xi_refCharacter.FaceId + ".png");
+			SetNewPicture("CAPTUR_PICTURE", "interfaces\portraits\128\face_" + xi_refCharacter.FaceId + ".tga");
 			ShowCaptureWindow();
 			SetNodeUsing("CAPTURE_CREW_KILL",  false);
 			SetNodeUsing("CAPTURE_CREW_PRISON",  false);
@@ -2194,7 +2194,7 @@ void InitVariable()
 		SetFormatedText("HIRE_CAPACITY", "");
 	}	
 
-	SetNewPicture("MAIN_HERO_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".png");
+	SetNewPicture("MAIN_HERO_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".tga");
 	SetFormatedText("MAIN_HERO_NAME", GetFullName(refCharacter));
 	
 	SetNewGroupPicture("HIRE_CREW_PICTURE", "SHIP_STATE_ICONS", "Crew");

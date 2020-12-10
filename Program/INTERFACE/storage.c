@@ -413,7 +413,7 @@ void SetDescription()
 		}
 	}
     CalculateInfoData();
-	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".png");
+	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".tga");
 	SetVariable();
 }
 

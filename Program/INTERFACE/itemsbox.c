@@ -1139,12 +1139,12 @@ void ProcessFrame()
 void FillCharactersImages()
 {
 	string sInterfaceType = sGetInterfaceType();
-	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\128\face_" + refCharacter.FaceId + ".png");
+	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\128\face_" + refCharacter.FaceId + ".tga");
 	
 	switch(sInterfaceType)
 	{
 		case INTERFACETYPE_EXCHANGE_ITEMS:
-			SetNewPicture("OTHER_PICTURE", "interfaces\portraits\128\face_" + refToChar.FaceId + ".png");
+			SetNewPicture("OTHER_PICTURE", "interfaces\portraits\128\face_" + refToChar.FaceId + ".tga");
 		break;
 		
 		case INTERFACETYPE_CHEST:
@@ -1156,7 +1156,7 @@ void FillCharactersImages()
 		break;
 		
 		case INTERFACETYPE_DEADMAN:
-			SetNewPicture("OTHER_PICTURE", "interfaces\portraits\128\face_666.png");
+			SetNewPicture("OTHER_PICTURE", "interfaces\portraits\128\face_666.tga");
 		break;
 	}
 }

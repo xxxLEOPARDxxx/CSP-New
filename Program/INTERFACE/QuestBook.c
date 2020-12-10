@@ -913,7 +913,7 @@ void FillShipPlaceTable(string _tabName)
 				    GameInterface.(_tabName).(row).td2.str = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'";
 				    GameInterface.(_tabName).(row).td2.scale = 0.83;
 				    
-	                GameInterface.(_tabName).(row).td3.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chref.faceId + ".png";
+	                GameInterface.(_tabName).(row).td3.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chref.faceId + ".tga";
 	                GameInterface.(_tabName).(row).td3.icon.uv = "0,0,1,1";
 	                GameInterface.(_tabName).(row).td3.icon.offset = "0, 3";
 	                GameInterface.(_tabName).(row).td3.icon.width  = 26;

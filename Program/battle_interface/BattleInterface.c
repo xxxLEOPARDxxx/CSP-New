@@ -1594,15 +1594,15 @@ ref BI_GetData()
 
 void SetParameterData()
 {
-	BattleInterface.CommandTextures.list.t0.name = "battle_interface\list_icons.png";
+	BattleInterface.CommandTextures.list.t0.name = "battle_interface\list_icons.tga";
 	BattleInterface.CommandTextures.list.t0.xsize = 16;
 	BattleInterface.CommandTextures.list.t0.ysize = 8;
 
-	BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.png";
+	BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.tga";
 	BattleInterface.CommandTextures.list.t1.xsize = 32;
 	BattleInterface.CommandTextures.list.t1.ysize = 32;
 
-	BattleInterface.CommandTextures.list.t2.name = "battle_interface\cancel.png";
+	BattleInterface.CommandTextures.list.t2.name = "battle_interface\cancel.tga";
 	BattleInterface.CommandTextures.list.t2.xsize = 2;
 	BattleInterface.CommandTextures.list.t2.ysize = 1;
 
@@ -1723,22 +1723,22 @@ void SetParameterData()
 	BattleInterface.navigation.argbBackMinColor			= argb(0,0,0,128);
 	BattleInterface.navigation.shipShowRadius			= 8.0;
 	//
-	BattleInterface.navigation.chargeTexture			= "battle_interface\list_icon2.png";
+	BattleInterface.navigation.chargeTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.chargeTextureGreed		= "8,8";
 	BattleInterface.navigation.chargePos				= "-30,"+RecalculateVIcon(270);
 	BattleInterface.navigation.chargePictureSize		= RecalculateHIcon(48)+","+RecalculateVIcon(48);
 	//Mett: порох TODO
-	BattleInterface.navigation.powderTexture			= "battle_interface\list_icon2.png";
+	BattleInterface.navigation.powderTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.powderTextureGreed		= "8,8";
 	BattleInterface.navigation.powderPos				= "30,"+RecalculateVIcon(270);
 	BattleInterface.navigation.powderPictureSize		= RecalculateHIcon(48)+","+RecalculateVIcon(48);
 	//
-	BattleInterface.navigation.sailstateTexture			= "battle_interface\list_icon2.png";
+	BattleInterface.navigation.sailstateTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.sailstateTextureGreed	= "8,8";
 	BattleInterface.navigation.sailstatePos				= RecalculateHIcon(30)+","+RecalculateVIcon(170);
 	BattleInterface.navigation.sailstatePictureSize		= RecalculateHIcon(48)+","+RecalculateVIcon(48);
 	//
-	BattleInterface.navigation.windStateTexture			= "battle_interface\list_icon2.png";
+	BattleInterface.navigation.windStateTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.windTextureGreed			= "8,8";
 	BattleInterface.navigation.windPos					= RecalculateHIcon(-30)+","+RecalculateVIcon(170);
 	BattleInterface.navigation.windPictureSize			= RecalculateHIcon(48)+","+RecalculateVIcon(48);
@@ -1873,7 +1873,7 @@ void SetParameterData()
 	BattleInterface.ShipIcon.shipclassiconsize		= "64,16";
 	BattleInterface.ShipIcon.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 
-	BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.png"; // »конка корабл€
+	BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.tga"; // »конка корабл€
 	BattleInterface.ShipIcon.shipcolor				= argb(255,128,128,128);
 	BattleInterface.ShipIcon.shipoffset				= "-13,-15";
 	BattleInterface.ShipIcon.shipiconsize			= "64,64";

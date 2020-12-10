@@ -757,7 +757,7 @@ void SetVariable(bool _init)
 	}
     SetFormatedText("HERO_TYPE", XI_ConvertString(NullCharacter.HeroParam.HeroType));
 
-    SetNewPicture("FACEPICT", "interfaces\portraits\256\face_" + GetNewMainCharacterFace() + ".png");
+    SetNewPicture("FACEPICT", "interfaces\portraits\256\face_" + GetNewMainCharacterFace() + ".tga");
     SelectNation(sti(NullCharacter.HeroParam.nation));
     totalInfo = LanguageConvertString(idLngFile, "hero_" + startHeroType);
     totalInfoChar = LanguageConvertString(idLngFile, NullCharacter.HeroParam.HeroType);

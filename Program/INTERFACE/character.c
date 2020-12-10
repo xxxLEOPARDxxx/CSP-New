@@ -177,7 +177,7 @@ void ProcessCommandExecute()
 void SetVariable()
 {
 	FillSkillTables();
-	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + xi_refCharacter.FaceId + ".png");
+	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + xi_refCharacter.FaceId + ".tga");
 	SetFormatedText("HERO_NAME", GetFullName(xi_refCharacter));
 
     // теперь это Лояльность

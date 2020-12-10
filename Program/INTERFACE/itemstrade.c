@@ -83,7 +83,7 @@ void InitInterface_R(string iniName, ref pTrader)
 
 	SetFormatedText("STORECAPTION1", XI_ConvertString("titleItemsTrade"));
 
-	SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + its(refStoreChar.FaceId) + ".png");
+	SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + its(refStoreChar.FaceId) + ".tga");
 }
 
 void ProcessBreakExit()
@@ -534,7 +534,7 @@ void ProcessFrame()
 }
 void FillCharacterInfo()
 {
-	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + refCharacter.FaceId + ".png");
+	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + refCharacter.FaceId + ".tga");
 	GameInterface.strings.CharName = GetFullName(refCharacter);
 }
 void SetDescription()

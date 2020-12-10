@@ -393,7 +393,7 @@ void FillShipParam(ref _chr)
 
 void OnShipScrollChange()
 {
-	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\128\face_" + xi_refCharacter.FaceId + ".png");
+	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\128\face_" + xi_refCharacter.FaceId + ".tga");
 	SetFormatedText("HERO_NAME", GetFullName(xi_refCharacter));
 	SetFormatedText("HERO_RANK",xi_refCharacter.Rank);
 	// нулим все формы, тк корабля может не быть

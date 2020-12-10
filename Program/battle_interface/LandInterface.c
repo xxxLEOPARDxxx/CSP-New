@@ -387,15 +387,15 @@ void BLI_SetObjectData()
 	BLI_SetMessageParameters();
 	// текстуры
 	int idLngFile = LanguageOpenFile("commands_name.txt");
-	objLandInterface.CommandTextures.list.t0.name = "battle_interface\LandCommands.png";
+	objLandInterface.CommandTextures.list.t0.name = "battle_interface\LandCommands.tga";
 	objLandInterface.CommandTextures.list.t0.xsize = 16;
 	objLandInterface.CommandTextures.list.t0.ysize = 2;
 
- 	objLandInterface.CommandTextures.list.t1.name = "battle_interface\LandTarget_SLB.png";
+ 	objLandInterface.CommandTextures.list.t1.name = "battle_interface\LandTarget_SLB.tga";
 	objLandInterface.CommandTextures.list.t1.xsize = 16;
 	objLandInterface.CommandTextures.list.t1.ysize = 2;
 
-	objLandInterface.CommandTextures.list.t2.name = "battle_interface\Cancel.png";
+	objLandInterface.CommandTextures.list.t2.name = "battle_interface\Cancel.tga";
 	objLandInterface.CommandTextures.list.t2.xsize = 2;
 	objLandInterface.CommandTextures.list.t2.ysize = 1;
 	objLandInterface.CommandTextures.list.t3.name = "battle_interface\UseFood.tga";
@@ -528,7 +528,7 @@ void BLI_SetObjectData()
 		CreateReloadPaths(outGroupName);
 	}
 	// objLandInterface.ManSign.backtexturename		= "battle_interface\ShipBackIcon.tga.tx";
-	objLandInterface.ManSign.backtexturename		= "battle_interface\CharBackIcon.png";
+	objLandInterface.ManSign.backtexturename		= "battle_interface\CharBackIcon.tga";
 	objLandInterface.ManSign.backcolor				= argb(255,128,128,128);
 	objLandInterface.ManSign.backuv					= "0.0,0.0,1.0,1.0";
 	objLandInterface.ManSign.backoffset				= "0.0,0.0";
@@ -567,7 +567,7 @@ void BLI_SetObjectData()
     objLandInterface.ManSign.manenergyiconsize	= fTmp + "," + fTmp2;
 
 	// objLandInterface.ManSign.gunchargetexturename	= "battle_interface\ShipClass.tga.tx";
-	objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge.png"; // LEO: “ут у нас другой UI
+	objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge.tga"; // LEO: “ут у нас другой UI
 	objLandInterface.ManSign.gunchargecolor			= argb(255,70, 130, 180); // LEO: “ут у нас другой UI
 	objLandInterface.ManSign.gunchargebackcolor		= argb(255,0, 0, 0); // LEO: “ут у нас другой UI
 	objLandInterface.ManSign.gunchargeuv			= "0.0,0.0,1.0,1.0";
@@ -1225,7 +1225,7 @@ void SetOfficerTexture(int officerIdx)
 		DeleteAttribute(ar,attrName);
 		ar.(attrName) = "";
 	} else {
-		ar.(attrName) = "interfaces\portraits\64\face_"+Characters[cn].FaceID+".png";
+		ar.(attrName) = "interfaces\portraits\64\face_"+Characters[cn].FaceID+".tga";
 	}
 }
 

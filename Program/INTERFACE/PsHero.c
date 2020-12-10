@@ -94,7 +94,7 @@ void FillTable()
 		//if (LAi_IsDead(chr)) continue;
 		
 		row = "tr" + n;
-		GameInterface.TABLE_HERO.(row).td1.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chr.faceId + ".png";
+		GameInterface.TABLE_HERO.(row).td1.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chr.faceId + ".tga";
 		GameInterface.TABLE_HERO.(row).td1.icon.uv = "0,0,1,1";
 	    GameInterface.TABLE_HERO.(row).td1.str = chr.id;
 	    GameInterface.TABLE_HERO.(row).td1.scale = 0.8;

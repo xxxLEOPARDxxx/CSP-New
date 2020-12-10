@@ -27,8 +27,8 @@ void InitInterface(string iniName)
     
 	if (bBettaTestMode)
 	{   // סמ סעמכבצמל ÃÃ
-		SetNewPicture("ICON_1", "interfaces\PORTRAITS\64\face_" + chref.faceId+ ".png");
-		SetNewPicture("ICON_2", "interfaces\PORTRAITS\64\face_" + chref.faceId+ ".png");
+		SetNewPicture("ICON_1", "interfaces\PORTRAITS\64\face_" + chref.faceId+ ".tga");
+		SetNewPicture("ICON_2", "interfaces\PORTRAITS\64\face_" + chref.faceId+ ".tga");
 		for (i=0; i< max_nt; i++)
 		{
 	        groupName = "NATIONS";

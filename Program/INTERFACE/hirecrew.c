@@ -163,7 +163,7 @@ void SetVariable()
 	QtyMax = GetCargoFreeSpace(refCharacter);
 	ref refBaseShip = GetRealShip(nShipType);
 	
-    SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".png");
+    SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".tga");
     
 	SetFormatedText("CAPACITY", GetFullName(refCharacter));
 

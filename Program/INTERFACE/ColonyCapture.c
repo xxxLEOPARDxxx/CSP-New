@@ -96,7 +96,7 @@ void InitInterface_R(string iniName, ref pStore)
 
  	if (refStore.Colony == "none")
 	{
-		SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + its(refShipChar.FaceId) + ".png");
+		SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + its(refShipChar.FaceId) + ".tga");
 	}
 }
 
@@ -514,7 +514,7 @@ void SetDescription()
 		}
 	}
     CalculateInfoData();
-	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".png");
+	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".tga");
 	SetVariable();
 }
 
