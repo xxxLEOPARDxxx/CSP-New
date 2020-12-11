@@ -1547,13 +1547,13 @@ heroNameDat_61 {Джеку}
 heroLastNameDat_61 {Воробью}
 
 heroFace_61 {514}
-heroModel_61 {PGG_Jack}
+heroModel_61 {PGG_Blad_vorob_0,PGG_Blad_vorob_1,PGG_Blad_vorob_2,PGG_Blad_vorob_3,PGG_Blad_vorob_4,PGG_Blad_vorob_5,PGG_Blad_vorob_0,PGG_Blad_vorob_0,PGG_Blad_vorob_0}
 
 heroType_61 {Корсар}
 heroNation_61 {Англия}
 
 sex_61 {man}
-animation_61 {man2_ab}
+animation_61 {man}
 
 hero_61
 {
