@@ -1,4 +1,4 @@
-# Prerequisites
+﻿# Prerequisites
 *.d
 *.ppk
 *.log
@@ -69,6 +69,7 @@
 *.7z
 *.zip
 *.rar
+*.lnk
 
 # Папки
 *Fix_INTERFACE/

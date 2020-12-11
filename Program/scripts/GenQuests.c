@@ -5000,12 +5000,17 @@ string ShipWreck_GetStringQty(int Qty)
 		case 7: 	strQty = "семерым";				break;
 		case 8: 	strQty = "восьмерым";			break;
 		case 9: 	strQty = "девятерым";			break;
-		case 10:	strQty = "десятерым";			break;		
-		case 11:	strQty = "одиннадцатерым";		break;		
-		case 12:	strQty = "двенадцатерым";		break;		
-		case 13:	strQty = "тренадцатерым";		break;		
-		case 14:	strQty = "четырнадцатерым";		break;		
-		case 15:	strQty = "пятнадцатерым";		break;		
+		case 10:	strQty = "десятерым";			break;
+		case 11:	strQty = "одиннадцатерым";		break;
+		case 12:	strQty = "двенадцатерым";		break;
+		case 13:	strQty = "тренадцатерым";		break;
+		case 14:	strQty = "четырнадцатерым";		break;
+		case 15:	strQty = "пятнадцатерым";		break;
+		case 16:	strQty = "шестнадцатерым";		break;
+		case 17:	strQty = "семнадцатерым";		break;
+		case 18:	strQty = "восемнадцатерым";		break;
+		case 19:	strQty = "девятнадцатерым";		break;
+		case 20:	strQty = "двадцатерым";			break;
 	}
 	return strQty;
 }

@@ -219,6 +219,9 @@ void CreateLandActionsEnvironment()
 
 void CreateWorldMapActionsEnvironment()
 {
+	bYesBoardStatus=false;
+	DeleteClass(&IBoardingStatus);
+	DeleteAttribute(&IBoardingStatus,"");
     //#20180714-01
     float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
 	ILogAndActions.type = "map";

@@ -647,17 +647,19 @@ void BLI_SetObjectData()
 	RefreshLandTime();
 	//objLandInterface.textinfo.datatext.text = XI_convertString("Date:") + GetQuestBookData(); //GetDataDay()+" "+XI_ConvertString("target_month_" + GetDataMonth())+" "+GetDataYear();
 	objLandInterface.textinfo.datatext.refreshable = true;
-
-    fTmp = makeint(24.0 * fHtRatio);
-    fTmp2 = makeint(106.0 * fHtRatio);
-    int fTmp3 = makeint(76.0 * fHtRatio);
-    int fTmp4 = makeint(94.0 * fHtRatio);
-    string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
-	
-	objLandInterface.imageslist.textinfoback2.texture = "\battle_interface\CharBackIcon.png";
-	objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
-	objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,1.0,1.0";
-	objLandInterface.imageslist.textinfoback2.pos = off;
+	if(!dialogRun)
+	{
+		fTmp = makeint(24.0 * fHtRatio);
+		fTmp2 = makeint(106.0 * fHtRatio);
+		int fTmp3 = makeint(76.0 * fHtRatio);
+		int fTmp4 = makeint(94.0 * fHtRatio);
+		string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
+		
+		objLandInterface.imageslist.textinfoback2.texture = "\battle_interface\CharBackIcon.png";
+		objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
+		objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,1.0,1.0";
+		objLandInterface.imageslist.textinfoback2.pos = off;
+	}
 
 
 	//Charge info
@@ -737,29 +739,38 @@ void BLI_SetObjectData()
 
 void RefreshChargeTime()
 {
-	//charge/hp info
-    /*objLandInterface.textinfo.chargetext.text = chr_ai.charge;
-	objLandInterface.textinfo.hptext.text = makeint(chr.chr_ai.hp) + "/" +  makeint(chr.chr_ai.hp_max);*/
-	ref chr = &Characters[nMainCharacterIndex];
-	aref chr_ai;
-	makearef(chr_ai, Characters[nMainCharacterIndex].chr_ai);
-	if (CheckAttribute(chr,"chr_ai.charge"))
+	if (dialogRun) 
 	{
-		float gunch = chr_ai.charge;
-		if (gunch > 1.0)
+		bYesBoardStatus=false;
+		DeleteClass(&IBoardingStatus);
+		DeleteAttribute(&IBoardingStatus,"");
+	}
+	else
+	{
+		//charge/hp info
+		/*objLandInterface.textinfo.chargetext.text = chr_ai.charge;
+		objLandInterface.textinfo.hptext.text = makeint(chr.chr_ai.hp) + "/" +  makeint(chr.chr_ai.hp_max);*/
+		ref chr = &Characters[nMainCharacterIndex];
+		aref chr_ai;
+		makearef(chr_ai, Characters[nMainCharacterIndex].chr_ai);
+		if (CheckAttribute(chr,"chr_ai.charge"))
 		{
-			gunch -= makeint(gunch);
-		}
-		
-		if (CheckAttribute(chr,"chr_ai.charge_max"))
-		{
-			if (MakeInt(chr_ai.charge) == makeint(chr_ai.charge_max))
+			float gunch = chr_ai.charge;
+			if (gunch > 1.0)
 			{
-				gunch = 1.0;
+				gunch -= makeint(gunch);
 			}
+			
+			if (CheckAttribute(chr,"chr_ai.charge_max"))
+			{
+				if (MakeInt(chr_ai.charge) == makeint(chr_ai.charge_max))
+				{
+					gunch = 1.0;
+				}
+			}
+			float gunchm = 1.0;
+			DrawCharacterHPEx(makefloat(0.35/makefloat(gunchm)*makefloat(gunch)),0.1);
 		}
-		float gunchm = 1.0;
-		DrawCharacterHPEx(makefloat(0.35/makefloat(gunchm)*makefloat(gunch)),0.1);
 	}
 }
 
