@@ -241,6 +241,12 @@ ChrAltAttackBase
 
 }
 
+ChrAltAttackBaseA
+{
+Круговой удар
+
+}
+
 ChrFire
 {
 Выстрел из пистолета

@@ -42,6 +42,8 @@ void ControlsTreeInit()
 	n = AddControlTreeNode(-1,"ChrAttackBase","ChrAttackForce2",0.0);
 	n = AddControlTreeNode(-1,"ChrAltAttackBase","ChrAttackFast2",0.0);
 	n = AddControlTreeNode(-1,"ChrAttackBreakBase","ChrAttackBreak",0.0);
+	
+	n = AddControlTreeNode(-1,"ChrAltAttackBaseA","ChrAttackRound",0.0);
 }
 
 void ControlsInit(string sPlatformName,bool bFirst,int choice)
