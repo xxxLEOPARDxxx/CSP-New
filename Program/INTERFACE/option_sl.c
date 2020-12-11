@@ -123,6 +123,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.SimpleSeaMode = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"SpyglassTextures") ) {
+		optref.cameramode.SpyglassTextures = sti(InterfaceStates.SpyglassTextures);
+	} else {
+		optref.cameramode.SpyglassTextures = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -219,6 +225,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.SimpleSea = optref.cameramode.SimpleSeaMode;
 	} else {
 		InterfaceStates.SimpleSea = false;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.SpyglassTextures") ) {
+		InterfaceStates.SpyglassTextures = optref.cameramode.SpyglassTextures;
+	} else {
+		InterfaceStates.SpyglassTextures = false;
 	}
 
 	// mouse

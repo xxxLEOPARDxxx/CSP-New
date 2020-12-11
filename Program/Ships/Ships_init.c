@@ -6217,7 +6217,7 @@ void InitShips()
 	refship.Track2.Width	= "8.0, 9.0";
 	refship.Track2.Speed	= "0.15, 0.25";
 	
-	refShip.hullNums = 5; // LEO
+	// refShip.hullNums = 5; // LEO
 	
 	//Nation
     refship.nation.england	= true;

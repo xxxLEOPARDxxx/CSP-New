@@ -1003,30 +1003,32 @@ hero_37
 - Имеет все виды кирас.
 }
 
-;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================
+heroName_38 {Джек}
+heroLastname_38 {Воробей}
 
-heroName_38 {Странник}
-heroLastname_38 {}
+heroNameGen_38 {Джека}
+heroLastnameGen_38 {Воробья}
 
-heroNameGen_38 {Странника}
-heroLastnameGen_38 {}
+heroNameDat_38 {Джеку}
+heroLastNameDat_61 {Воробью}
 
-heroNameDat_38 {Страннику}
-heroLastnameDat_38 {}
+heroFace_38 {514}
+heroModel_38 {PGG_Blad_vorob_0,PGG_Blad_vorob_1,PGG_Blad_vorob_2,PGG_Blad_vorob_3,PGG_Blad_vorob_4,PGG_Blad_vorob_5,PGG_Blad_vorob_0,PGG_Blad_vorob_0,PGG_Blad_vorob_0}
 
-heroFace_38 {531}
-heroModel_38 {PGG_Vincento}
-
-heroType_38 {Инквизитор}
+heroType_38 {Корсар}
 heroNation_38 {Англия}
 
 sex_38 {man}
-animation_38 {man2_ab}
+animation_38 {man}
 
 hero_38
 {
-Об этом человеке ничего не известно. Даже то, как он появился на карибах.
+Непотопляемый Джек Воробей. Очень не любит, когда к его имени забывают добавить слово "капитан".
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас
 }
+
+;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================
 
 heroName_39 {Натаниэль}
 heroLastname_39 {Хаук}
@@ -1144,13 +1146,13 @@ hero_43
 }
 
 heroName_44 {Мэри}
-heroLastname_44 {}
+heroLastname_44 {Каспер}
 
 heroNameGen_44 {Мэри}
-heroLastnameGen_44 {}
+heroLastnameGen_44 {Каспер}
 
 heroNameDat_44 {Мэри}
-heroLastNameDat_44 {}
+heroLastNameDat_44 {Каспер}
 
 heroFace_44 {517}
 heroModel_44 {PGG_Mary}
@@ -1537,27 +1539,27 @@ hero_60
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_61 {Джек}
-heroLastname_61 {Воробей}
+heroName_61 {Странник}
+heroLastname_61 {}
 
-heroNameGen_61 {Джека}
-heroLastnameGen_61 {Воробья}
+heroNameGen_61 {Странника}
+heroLastnameGen_61 {}
 
-heroNameDat_61 {Джеку}
-heroLastNameDat_61 {Воробью}
+heroNameDat_61 {Страннику}
+heroLastnameDat_61 {}
 
-heroFace_61 {514}
-heroModel_61 {PGG_Blad_vorob_0,PGG_Blad_vorob_1,PGG_Blad_vorob_2,PGG_Blad_vorob_3,PGG_Blad_vorob_4,PGG_Blad_vorob_5,PGG_Blad_vorob_0,PGG_Blad_vorob_0,PGG_Blad_vorob_0}
+heroFace_61 {531}
+heroModel_61 {PGG_Vincento}
 
-heroType_61 {Корсар}
+heroType_61 {Инквизитор}
 heroNation_61 {Англия}
 
 sex_61 {man}
-animation_61 {man}
+animation_61 {man2_ab}
 
 hero_61
 {
-Непотопляемый Джек Воробей. Очень не любит, когда к его имени забывают добавить слово "капитан".
+Об этом человеке ничего не известно. Даже то, как он появился на карибах.
 }
 
 heroName_62 {Изабелла}

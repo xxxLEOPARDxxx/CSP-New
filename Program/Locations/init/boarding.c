@@ -2615,7 +2615,7 @@ int LocationInitBoarding(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   	Locations[n].id = "My_CabineFDM"; 
     locations[n].id.label = "cabine";
-	locations[n].filespath.models = "locations\inside\cabinFDM\";
+	locations[n].filespath.models = "locations\inside\cabinFDM";
     Locations[n].image = "loading\Capdeck_" + rand(4) + ".tga";
 	//Sound
 	locations[n].type = "residence";

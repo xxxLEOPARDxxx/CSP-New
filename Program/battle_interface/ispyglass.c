@@ -344,8 +344,12 @@ void FillISpyGlassParameters()
 	    sTexture = pchar.equip.spyglass;
 	}
 	//log_info(pchar.equip.spyglass);
-	objISpyGlass.lens.texture = "battle_interface\\spyglass\\" + sTexture + ".tga";
-	objISpyGlass.lens.pos = showWindow.left+","+showWindow.top+"," + showWindow.right+","+showWindow.bottom;
+	int nHCenter = sti(showWindow.right)/2;
+	
+	if(InterfaceStates.SpyglassTextures) objISpyGlass.lens.texture = "battle_interface\\spyglassEHO\\" + sTexture + ".tga";
+	else objISpyGlass.lens.texture = "battle_interface\\spyglass\\" + sTexture + ".tga";
+	
+	objISpyGlass.lens.pos = (nHCenter-sti(showWindow.bottom))+","+(sti(showWindow.top)-1)+","+(nHCenter+sti(showWindow.bottom))+","+showWindow.bottom;
 
 	int ntop = sti(showWindow.bottom) - RecalculateVIconScaled(114);
 	int nbottom = ntop + RecalculateVIconScaled(128);

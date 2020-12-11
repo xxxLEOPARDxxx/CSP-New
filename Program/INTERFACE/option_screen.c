@@ -178,6 +178,13 @@ void IReadVariableAfterInit()
 		nEnabledSimpleSea = sti(InterfaceStates.SimpleSea);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SIMPLESEA_CHECKBOX", 2, 1, nEnabledSimpleSea );
+	
+	int nSpyglassTextures = 0;
+	if( CheckAttribute(&InterfaceStates,"SpyglassTextures") )
+	{
+		nSpyglassTextures = sti(InterfaceStates.SpyglassTextures);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SPYGLASSTEX_CHECKBOX", 2, 1, nSpyglassTextures );
 }
 
 void SetControlsTabMode(int nMode)
@@ -329,6 +336,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.SimpleSea = bBtnState;
+		}
+	}
+	
+	if( sNodName == "SPYGLASSTEX_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.SpyglassTextures = bBtnState;
 		}
 	}
 }
@@ -941,6 +955,11 @@ void ShowInfo()
 		case "SIMPLESEA_CHECKBOX":
 			sHeader = XI_ConvertString("SimpleSea Mode");
 			sText1 = XI_ConvertString("SimpleSea Mode_descr");
+		break;
+		
+		case "SPYGLASSTEX_CHECKBOX":
+			sHeader = XI_ConvertString("SpyglassTextures_title");
+			sText1 = XI_ConvertString("SpyglassTextures_desc");
 		break;
 		
 		//#20171223-01 Camera perspective option
