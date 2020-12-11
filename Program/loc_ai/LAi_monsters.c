@@ -473,10 +473,10 @@ bool LAi_CreateEncounters(ref location)
 				pchar.quest.Enc_FriendGirl_after.win_condition = "Enc_FriendGirl_after";				
 			}
 		break;
-		//------------------ Праздношатающиеся перцы ----------------------
-		case 2:
+        //------------------ Праздношатающиеся перцы ----------------------
+		case 2: //Korsar Maxim - доработка маленького и скучного энкаунтера.
 			LAi_group_Delete("LandEncGroup");
-			if (rand(10) > 7) return false;	
+			if (rand(10) > 7) return false;
 			if(CheckAttribute(location, "onUninhabitedIsland")) return false; // На необитаемых нельзя
 			locator = GetAttributeName(GetAttributeN(grp, 0));
 			//Начинаем перебирать локаторы и логинить фантомов
@@ -484,18 +484,81 @@ bool LAi_CreateEncounters(ref location)
 			{
 				chr = GetCharacter(NPC_GenerateCharacter("WalkerGirl", "girl_"+(rand(7)+1), "woman", "towngirl", 5, PIRATE, 0, false));
 				chr.greeting = "Gr_Woman_Citizen";
+				LAi_SetCitizenType(chr);
+				ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
+				
+				if(rand(3) == 1) //Korsar Maxim - Девушка может появится с мужем, или стражем
+				{
+					if(rand(1) == 0)
+					{
+			    		rCharacter = GetCharacter(NPC_GenerateCharacter("WalkerGirl_husband_1", "citiz_"+(rand(11)+1), "man", "man", sti(pchar.rank), PIRATE, 0, true));
+    					SetFantomParamFromRank(rCharacter, sti(pchar.rank), true);
+	    				rCharacter.greeting = "cit_common";
+			    		LAi_SetActorType(rCharacter);
+						LAi_ActorFollow(rCharacter, characterFromID("WalkerGirl"), "", -1);
+			    		LAi_SetCheckMinHP(rCharacter, LAi_GetCharacterHP(rCharacter)-1, false, "LandEnc_WalkerGirlHusbandHit");
+						LAi_group_MoveCharacter(rCharacter, "LandEncGroup");
+					   	ChangeCharacterAddressGroup(rCharacter, location.id, encGroup, locator);
+					}
+					else
+					{
+    					rCharacter = GetCharacter(NPC_GenerateCharacter("WalkerGirl_sold_1", "sold_"+NationShortName(iNation)+"_"+(rand(7)+1), "man", "man", sti(pchar.rank), PIRATE, 0, true));
+    				    SetFantomParamFromRank(rCharacter, sti(pchar.rank), true);
+    				    rCharacter.greeting = "soldier_arest";
+	    				LAi_SetActorType(rCharacter);
+    					LAi_ActorFollow(rCharacter, characterFromID("WalkerGirl"), "", -1);
+						LAi_SetCheckMinHP(rCharacter, LAi_GetCharacterHP(rCharacter)-1, false, "LandEnc_WalkerGirlGuardHit");
+   	 			       	LAi_group_MoveCharacter(rCharacter, "LandEncGroup");
+    					ChangeCharacterAddressGroup(rCharacter, location.id, encGroup, locator);	
+					}
+				}
 			}
 			else
 			{
-				chr = GetCharacter(NPC_GenerateCharacter("Walker", "citiz_"+(rand(9)+1), "man", "man", sti(pchar.rank), PIRATE, 0, true));
+				chr = GetCharacter(NPC_GenerateCharacter("Walker", "citiz_"+(rand(11)+1), "man", "man", sti(pchar.rank), PIRATE, 0, true));
 				SetFantomParamFromRank(chr, sti(pchar.rank), true);
 				chr.greeting = "cit_common";
+				LAi_SetCitizenType(chr);
+				LAi_SetCheckMinHP(chr, LAi_GetCharacterHP(chr)-1, false, "LandEnc_WalkerHit");
+				ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
+				
+				if(rand(3) == 1) //Korsar Maxim - Перец может появится с дружками или охраной
+				{
+					if(rand(1) == 0)
+					{
+						for(i = 1; i <= (rand(1)+1); i++)
+				        {
+				    		rCharacter = GetCharacter(NPC_GenerateCharacter("Walker_"+i, "citiz_"+(rand(11)+1), "man", "man", sti(pchar.rank), PIRATE, 0, true));
+    					    SetFantomParamFromRank(rCharacter, sti(pchar.rank), true);
+	    				    rCharacter.greeting = "cit_common";
+		    				LAi_SetActorType(rCharacter);
+							LAi_ActorFollow(rCharacter, characterFromID("Walker"), "", -1);
+				    		LAi_SetCheckMinHP(rCharacter, LAi_GetCharacterHP(rCharacter)-1, false, "LandEnc_WalkerHit");
+							LAi_group_MoveCharacter(rCharacter, "LandEncGroup");
+					    	ChangeCharacterAddressGroup(rCharacter, location.id, encGroup, locator);
+						}
+					}
+					else
+					{
+						for(i = 1; i <= (rand(1)+1); i++)
+			    	    {
+    						rCharacter = GetCharacter(NPC_GenerateCharacter("Walker_sold_"+i, "sold_"+NationShortName(iNation)+"_"+(rand(7)+1), "man", "man", sti(pchar.rank), PIRATE, 0, true));
+	    				    SetFantomParamFromRank(rCharacter, sti(pchar.rank), true);
+    					    rCharacter.greeting = "soldier_arest";
+    						LAi_SetActorType(rCharacter);
+							LAi_ActorFollow(rCharacter, characterFromID("Walker"), "", -1);
+    						LAi_SetCheckMinHP(rCharacter, LAi_GetCharacterHP(rCharacter)-1, false, "LandEnc_WalkerHit");
+    		    	    	LAi_group_MoveCharacter(rCharacter, "LandEncGroup");
+    						ChangeCharacterAddressGroup(rCharacter, location.id, encGroup, locator);	
+					    }
+					}
+				}
 			}
+			DoQuestCheckDelay("Followers_activate", 3.0);
 			chr.dialog.filename = "Enc_Walker.c";
 			chr.dialog.currentnode = "First time";
-			LAi_SetCitizenType(chr);
 			LAi_group_MoveCharacter(chr, "LandEncGroup");
-			ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
+			//ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 		break;
 		//------------------ Военный патруль ----------------------
 		case 3:
@@ -645,13 +708,13 @@ bool LAi_CreateEncounters(ref location)
 		break
 		
 					// Dolphin (Корсары: История Пирата)
-		//------------------ Индейцы в джунглях ----------------------
+		//------------------ Индейцы в джунглях (С небольшими апгрейдами от Korsar Maxim и LEO) ----------------------
 		case 5:
 			LAi_group_SetRelation("Jungle_indians", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
 			if (rand(10) > 5) return false;
 			// if (rand(10) > 10) return false;
-			// num = makeint(15+rand(5)); //кол-во человек в банде
 			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); // LEO
+			// num = makeint(15+rand(5)); //кол-во человек в банде
 			if (num <= 0 ) num = 2; //если локаторов меньше четырех
 			str = "Indian"+ location.index + "_";
 			//--> генерим ранг 
@@ -675,26 +738,34 @@ bool LAi_CreateEncounters(ref location)
 			while(i < num)
 			{
 				
-				chr = GetCharacter(NPC_GenerateCharacter(str + i, "AztecWarrior"+(rand(4)+1), "man", "man", iRank, PIRATE, 1, false));
+				if(i == 0 && rand(6) == 1) chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_boss", "man", "man", iRank*1.5, PIRATE, 1, false)); //Korsar Maxim - с шансом 1 на 7 встреч, первый индиан может быть главой каннибалов
+				else chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_"+(rand(5)+1), "man", "man", iRank, PIRATE, 1, false));
 				SetFantomParamFromRank(chr, iRank, false);
 				//Получим локатор для логина
 				locator = GetAttributeName(GetAttributeN(grp, 1));
 				
 				string _Blade = "blade5";
-				switch(rand(7))
-				{
-					case 0: _Blade = "blade5"; break;
-					case 1: _Blade = "rabble"; break;
-					case 2: _Blade = "topor3"; break;
-					case 3: _Blade = "topor1"; break;
-					case 4: _Blade = "blade4"; break;
-					case 5: _Blade = "blade2"; break;
-					case 6: _Blade = "blade1"; break;
-					case 7: _Blade = "blade35"; break;
-				}
 				
 				DeleteAttribute(chr, "equip");
 				DeleteAttribute(chr, "items");
+				
+				if(chr.model == "Canib_boss") //Korsar Maxim - Глава каннибалов круче своих по экипировке
+				{
+					chr.name = "Главный каннибал";
+					chr.lastname = "";
+					_Blade = GiveRandomBladeByType("ordinary");
+					chr.SaveItemsForDead  = true; 
+					TakeNItems(chr, "jewelry11", (rand(34)+1));
+			        TakeNItems(chr, "jewelry12", (rand(49)+1));
+					TakeNItems(chr, "Food1", (rand(14)+1));
+					TakeNItems(chr, "potion5", (rand(9)+1));
+				}
+				else 
+				{
+					chr.name = "Каннибал";
+					chr.lastname = "";
+					_Blade = GiveRandomBladeByType("Poor");
+				}
                 
 				_Blade = GetGeneratedItem(_Blade);
                 GiveItem2Character(chr, _Blade);
@@ -709,7 +780,7 @@ bool LAi_CreateEncounters(ref location)
 			
 			LAi_group_SetRelation("Jungle_indians", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 			LAi_group_SetCheck("Jungle_indians", "IndianInJungleClearGroup");
-			Log_TestInfo("Враждебные индейцы: Сгенерился энкаунтер");//Korsar Maxim - раскомментировать, если не уверены, работает ли энкаунтер.
+			//Log_TestInfo("Враждебные индейцы: Сгенерился энкаунтер");//Korsar Maxim - раскомментировать, если не уверены, работает ли энкаунтер.
 		break;
 
 

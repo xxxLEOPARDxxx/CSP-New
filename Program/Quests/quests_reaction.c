@@ -1801,6 +1801,107 @@ void QuestComplete(string sQuestName, string qname)
 			LAi_group_Delete(sTemp);
 		break;
 
+        case "Followers_activate": //Активация ходока
+			for(i = 1; i <= 2; i++)
+			{				
+				if (GetCharacterIndex("Walker_" + i) == -1) continue;
+				sld = CharacterFromID("Walker_" + i);
+				LAi_SetActorType(sld);
+				LAi_SetCheckMinHP(sld, LAi_GetCharacterHP(sld)-1, false, "LandEnc_WalkerHit");
+				LAi_group_MoveCharacter(sld, "LandEncGroup");
+				LAi_ActorFollow(sld, characterFromID("Walker"), "", -1);
+			}
+			
+			for(i = 1; i <= 2; i++)
+			{			
+				if (GetCharacterIndex("Walker_sold_" + i) == -1) continue;
+				sld = CharacterFromID("Walker_sold_" + i);
+				LAi_SetActorType(sld);
+				LAi_SetCheckMinHP(sld, LAi_GetCharacterHP(sld)-1, false, "LandEnc_WalkerHit");
+				LAi_group_MoveCharacter(sld, "LandEncGroup");
+				LAi_ActorFollow(sld, characterFromID("Walker"), "", -1);
+			}
+			
+			for(i = 1; i <= 2; i++)	
+			{	
+				if (GetCharacterIndex("WalkerGirl_husband_"+i) == -1) continue;
+				sld = CharacterFromID("WalkerGirl_husband_"+i);
+				LAi_SetActorType(sld);
+				LAi_SetCheckMinHP(sld, LAi_GetCharacterHP(sld)-1, false, "LandEnc_WalkerGirlGuardHit");
+				LAi_group_MoveCharacter(sld, "LandEncGroup");
+				LAi_ActorFollow(sld, characterFromID("WalkerGirl"), "", -1);
+			}
+			
+            for(i = 1; i <= 2; i++)
+			{			
+				if (GetCharacterIndex("WalkerGirl_sold_"+i) == -1) continue;
+				sld = CharacterFromID("WalkerGirl_sold_"+i);
+				LAi_SetActorType(sld);
+				LAi_SetCheckMinHP(sld, LAi_GetCharacterHP(sld)-1, false, "LandEnc_WalkerGirlGuardHit");
+				LAi_group_MoveCharacter(sld, "LandEncGroup");
+				LAi_ActorFollow(sld, characterFromID("WalkerGirl"), "", -1);
+			}
+		break;		
+		
+		case "LandEnc_WalkerGirlGuardHit": //если выстрел в ходока
+			sld = CharacterFromID("WalkerGirl_sold");
+			LAi_RemoveCheckMinHP(sld);
+			LAi_SetWarriorTypeNoGroup(sld);
+			
+			LAi_group_SetRelation("LandEncGroup", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("LandEncGroup", LAI_GROUP_PLAYER, true);
+			LAi_group_SetCheck("LandEncGroup", "LandEnc_WalkerGirlHitAfrer");
+		break;		
+		
+		case "LandEnc_WalkerGirlHusbandHit": //если выстрел в ходока
+			sld = CharacterFromID("WalkerGirl_husband");
+			LAi_RemoveCheckMinHP(sld);
+			LAi_SetWarriorTypeNoGroup(sld);
+			
+			LAi_group_SetRelation("LandEncGroup", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("LandEncGroup", LAI_GROUP_PLAYER, true);
+			LAi_group_SetCheck("LandEncGroup", "LandEnc_WalkerGirlHitAfrer");
+		break;
+		
+		case "LandEnc_WalkerHit": //если выстрел в ходока
+		    sld = CharacterFromID("Walker");
+			LAi_RemoveCheckMinHP(sld);
+			LAi_SetWarriorTypeNoGroup(sld);
+			
+			for(i = 1; i < 5; i++)
+			{				
+				if (GetCharacterIndex("Walker_" + i) == -1) continue;
+				sld = CharacterFromID("Walker_" + i);
+				LAi_RemoveCheckMinHP(sld);
+				LAi_SetWarriorTypeNoGroup(sld);
+				
+				if (GetCharacterIndex("Walker_sold_" + i) == -1) continue;
+				sld = CharacterFromID("Walker_sold_" + i);
+				LAi_RemoveCheckMinHP(sld);
+				LAi_SetWarriorTypeNoGroup(sld);
+			}
+			LAi_group_SetRelation("LandEncGroup", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("LandEncGroup", LAI_GROUP_PLAYER, true);
+			LAi_group_SetCheck("LandEncGroup", "LandEnc_WalkerHitAfrer");
+		break;
+
+		case "LandEnc_WalkerHitAfrer": //чистим за собой
+			LAi_group_SetRelation("LandEncGroup", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+			//слухи
+/* 			AddSimpleRumour(LinkRandPhrase("Недавно за городом нашли мертвым нашего местного жителя. Кто мог их убить? Зачем?..", 
+				"Наш комендат постоянно отправляет за город патрули, но теперь даже не знаю, как будет дальше. Недавно солдат нашли метрвыми в джунглях...", 
+				"Черт возьми, кто-то за городом перебил наши солдат, что патрулировали территорию..."), sti(pchar.GenQuest.(attrName).nation), 5, 1);
+			AddSimpleRumour("Говорят, что капитан " + GetFullName(pchar) + " нарвался в джунглях на солдат " + NationNameGenitive(sti(pchar.GenQuest.(attrName).nation)) + " и всех их перебил. Хех, " + NationNamePeople(sti(pchar.GenQuest.(attrName).nation)) + " - никуда негодные вояки...", sti(pchar.GenQuest.(attrName).nation)+10, 5, 1); */
+		break;	
+
+		case "LandEnc_WalkerGirlHitAfrer": //чистим за собой
+			LAi_group_SetRelation("LandEncGroup", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+			//слухи
+/* 			AddSimpleRumour(LinkRandPhrase("Недавно за городом нашли мертвой нашу местную. Кто мог их убить? Зачем?..", 
+				"Наш комендат постоянно отправляет за город патрули, но теперь даже не знаю, как будет дальше. Недавно солдат нашли метрвыми в джунглях...", 
+				"Черт возьми, кто-то за городом перебил наши солдат, что патрулировали территорию..."), sti(pchar.GenQuest.(attrName).nation), 5, 1);
+			AddSimpleRumour("Говорят, что капитан " + GetFullName(pchar) + " нарвался в джунглях на солдат " + NationNameGenitive(sti(pchar.GenQuest.(attrName).nation)) + " и всех их перебил. Хех, " + NationNamePeople(sti(pchar.GenQuest.(attrName).nation)) + " - никуда негодные вояки...", sti(pchar.GenQuest.(attrName).nation)+10, 5, 1); */
+		break;
  		////////////////////////////////////////////////////////////////////////
 		//  Конец   Ланд энкаунтеры
 		//////////////////////////////////////////////////////////////////////// 
