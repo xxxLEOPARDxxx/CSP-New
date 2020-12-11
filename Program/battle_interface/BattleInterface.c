@@ -1325,7 +1325,10 @@ ref GetCurrentCharge()
 	BI_intNRetValue[4] = sti(pchar.ship.cargo.goods.powder == 0);
 	BattleInterface.textinfo.Powder.text = /* XI_convertString("Powder") + ": " + */ sti(pchar.ship.cargo.goods.powder);
 	// <---
-
+	BI_intNRetValue[5] = sti(pchar.ship.cargo.goods.planks == 0);
+	BattleInterface.textinfo.Planks.text = /* XI_convertString("Powder") + ": " + */ sti(pchar.ship.cargo.goods.planks);
+	BI_intNRetValue[6] = sti(pchar.ship.cargo.goods.sailcloth == 0);
+	BattleInterface.textinfo.Sailcloth.text = /* XI_convertString("Powder") + ": " + */ sti(pchar.ship.cargo.goods.sailcloth);
 	return &BI_intNRetValue;
 }
 
@@ -1805,6 +1808,41 @@ void SetParameterData()
 	BattleInterface.textinfo.Powder.pos.y = RecalculateVIcon(399);//RecalculateVIcon(402);
 	BattleInterface.textinfo.Powder.text = XI_convertString("Powder");
 	BattleInterface.textinfo.Powder.refreshable = true;
+	//мониторим доски и парусину
+	BattleInterface.textinfo.Planks.font = "bold_numbers";
+	BattleInterface.textinfo.Planks.scale = 0.8;
+	BattleInterface.textinfo.Planks.color = argb(255,255,255,255);
+	BattleInterface.textinfo.Planks.pos.x = sti(showWindow.right) - RecalculateHIcon(170);//sti(showWindow.right) - RecalculateHIcon(104);
+	BattleInterface.textinfo.Planks.pos.y = RecalculateVIcon(483);//RecalculateVIcon(402);
+	BattleInterface.textinfo.Planks.text = XI_convertString("Planks");
+	BattleInterface.textinfo.Planks.refreshable = true;
+	BattleInterface.textinfo.Sailcloth.font = "bold_numbers";
+	BattleInterface.textinfo.Sailcloth.scale = 0.8;
+	BattleInterface.textinfo.Sailcloth.color = argb(255,255,255,255);
+	BattleInterface.textinfo.Sailcloth.pos.x = sti(showWindow.right) - RecalculateHIcon(109);//sti(showWindow.right) - RecalculateHIcon(104);
+	BattleInterface.textinfo.Sailcloth.pos.y = RecalculateVIcon(483);//RecalculateVIcon(402);
+	BattleInterface.textinfo.Sailcloth.text = XI_convertString("Sailcloth");
+	BattleInterface.textinfo.Sailcloth.refreshable = true;
+	//<---
+	//ставим иконки доскам и парусине
+	int fTmp = sti(showWindow.right) - RecalculateHIcon(144);
+	int fTmp2 = RecalculateVIcon(428);
+	int fTmp3 = sti(showWindow.right) - RecalculateHIcon(192);
+	int fTmp4 = RecalculateVIcon(480);
+	string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
+	BattleInterface.imageslist.textinfoback2.texture = "\battle_interface\Icon_Planks.tga";
+	BattleInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
+	BattleInterface.imageslist.textinfoback2.uv = "0.0,0.0,1.0,1.0";
+	BattleInterface.imageslist.textinfoback2.pos = off;
+	
+	fTmp = sti(showWindow.right) - RecalculateHIcon(84);
+	fTmp3 = sti(showWindow.right) - RecalculateHIcon(132);
+	off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
+	BattleInterface.imageslist.textinfoback3.texture = "\battle_interface\Icon_Sailcloth.tga";
+	BattleInterface.imageslist.textinfoback3.color = argb(255,128,128,128);
+	BattleInterface.imageslist.textinfoback3.uv = "0.0,0.0,1.0,1.0";
+	BattleInterface.imageslist.textinfoback3.pos = off;
+	//<---
 	BattleInterface.LineInfo.speed.color = argb(255,0,0,0);
 	BattleInterface.LineInfo.speed.begin.x = sti(showWindow.right) - RecalculateHIcon(202);
 	BattleInterface.LineInfo.speed.begin.y = RecalculateVIcon(339);
@@ -2877,7 +2915,7 @@ ref BI_GetLandData()
 	BI_intNRetValue[3] = -1;
 	BI_intNRetValue[4] = -1;
 	BI_intNRetValue[5] = -1;
-	BI_intNRetValue[6] = 0;
+	BI_intNRetValue[6] = -1;
 
 	if( CheckAttribute(arLoc,"fort.model") )
 	{
