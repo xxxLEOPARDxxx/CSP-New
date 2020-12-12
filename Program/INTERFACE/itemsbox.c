@@ -481,14 +481,16 @@ void ProcCommand()
 		case "TABLE_ADD_ALL_BUTTON":
 			if(comName == "activate" || comName == "click")
 			{
-				onTableAddAllBtnClick();
+				ADD_ALL_BUTTON();
+				TransactionOK();
 			}
 		break;
 		
 		case "TABLE_REMOVE_ALL_BUTTON":
 			if(comName == "activate" || comName == "click")
 			{
-				onTableRemoveAllBtnClick();
+				REMOVE_ALL_BUTTON();
+				TransactionOK();
 			}
 		break;
 		
@@ -1191,7 +1193,10 @@ void onGetAllBtnClick()
 			if(iItemsQty < 1) continue;
 			
 			// Учет перегруза -->
-			maxItemsToAdd = GetMaxItemsToTake(refCharacter, itemID)
+			//maxItemsToAdd = GetMaxItemsToTake(refCharacter, itemID)
+			float itemWeight = stf(Items[GetItemIndex(itemID)].weight);
+			int maxWeight = GetMaxItemsWeight(refCharacter);
+			maxItemsToAdd = makeint((maxWeight-fCharWeight)/itemWeight);
 			
 			if(maxItemsToAdd < iItemsQty) iItemsQty = maxItemsToAdd;
 			// <-- Учет перегруза

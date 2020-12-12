@@ -188,7 +188,7 @@ heroNameDat_5 {Джессике}
 heroLastNameDat_5 {Брэдфорд}
 
 heroFace_5 {244}
-heroModel_5 {jessika}
+heroModel_5 {PGG_jess0,PGG_jess1,PGG_jess2,PGG_jess3,PGG_jess4,PGG_jess5,PGG_jess6,PGG_jess7,PGG_jess8}
 
 heroType_5 {Корсар}
 heroNation_5 {Англия}
@@ -199,6 +199,8 @@ animation_5 {Jessika}
 hero_5
 {
 После предательства Белтропа она поклялась, что больше ни в чём не уступит мужчинам и станет успешным капитаном корсарской эскадры. Нужно признать, что у неё это неплохо получается, и правительства многих стран уже назначили награду за её прекрасную головку.
+
+- Имеет все виды кирас и костюмов.
 }
 
 heroName_6 {Делвин}
@@ -1025,7 +1027,7 @@ hero_38
 {
 Непотопляемый Джек Воробей. Очень не любит, когда к его имени забывают добавить слово "капитан".
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас
+- Имеет все виды кирас.
 }
 
 ;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================
@@ -1092,7 +1094,7 @@ heroType_41 {Авантюрист}
 heroNation_41 {Англия}
 
 sex_41 {woman}
-animation_41 {woman3_ab}
+animation_41 {Danielle}
 
 hero_41
 {
@@ -1109,7 +1111,7 @@ heroNameDat_42 {Весёлому}
 heroLastNameDat_42 {Роджеру}
 
 heroFace_42 {511}
-heroModel_42 {PGG_Skeletcap}
+heroModel_42 {PGG_Skeletcap,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
 
 heroType_42 {Корсар}
 heroNation_42 {Пират}
@@ -1395,7 +1397,7 @@ animation_54 {man2_ab}
 
 hero_54
 {
-Раньшн он был знаменитым пиратом, но полученные травмы в виде потерии ногу, запястья и глаза, сделали его прост бывалым на вид пиратом.
+Раньше он был знаменитым пиратом, но полученные травмы в виде потери ноги, запястья и глаза, сделали его прост бывалым на вид моряком.
 }
 
 heroName_55 {Гектор}
@@ -1508,7 +1510,7 @@ heroType_59 {Авантюрист}
 heroNation_59 {Франция}
 
 sex_59 {woman}
-animation_59 {woman3_ab}
+animation_59 {Danielle}
 
 hero_59
 {
@@ -1578,7 +1580,7 @@ heroType_62 {Авантюрист}
 heroNation_62 {Испания}
 
 sex_62 {woman}
-animation_62 {woman3_ab}
+animation_62 {Danielle}
 
 hero_62
 {
@@ -1601,7 +1603,7 @@ heroType_63 {Авантюрист}
 heroNation_63 {Испания}
 
 sex_63 {woman}
-animation_63 {woman3_ab}
+animation_63 {Danielle}
 
 hero_63
 {
@@ -1695,7 +1697,7 @@ heroType_67 {Авантюрист}
 heroNation_67 {Испания}
 
 sex_67 {woman}
-animation_67 {woman3_ab}
+animation_67 {Danielle}
 
 hero_67
 {

@@ -1826,9 +1826,9 @@ void SetParameterData()
 	//<---
 	//ставим иконки доскам и парусине
 	int fTmp = sti(showWindow.right) - RecalculateHIcon(144);
-	int fTmp2 = RecalculateVIcon(428);
+	int fTmp2 = sti(showWindow.top) + RecalculateVIcon(432);
 	int fTmp3 = sti(showWindow.right) - RecalculateHIcon(192);
-	int fTmp4 = RecalculateVIcon(480);
+	int fTmp4 = sti(showWindow.top) + RecalculateVIcon(480);
 	string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
 	BattleInterface.imageslist.textinfoback2.texture = "\battle_interface\Icon_Planks.tga";
 	BattleInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
@@ -2502,7 +2502,7 @@ void procMastFall()
 bool CheckInstantRepairCondition(ref chref)
 {
 //boal -->
-    if (CheckOfficersPerk(chref,"InstantRepair") || MOD_SKILL_ENEMY_RATE >= 10) return false;  // уже в деле
+    if (CheckOfficersPerk(chref,"InstantRepair")) return false;  // уже в деле
     if (!GetOfficersPerkUsing(chref,"InstantRepair")) return false;  // можно включить?
 //boal <--
 
