@@ -75,7 +75,7 @@
 *Fix_INTERFACE/
 *Fix_INTERFACE2/
 *SAVE/
-*RESOURCE/animation/
+# *RESOURCE/animation/
 *RESOURCE/foam/
 *RESOURCE/MODELS/
 *RESOURCE/Particles/
