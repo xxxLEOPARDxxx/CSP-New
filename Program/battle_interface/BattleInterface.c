@@ -1601,7 +1601,7 @@ void SetParameterData()
 	BattleInterface.CommandTextures.list.t0.xsize = 16;
 	BattleInterface.CommandTextures.list.t0.ysize = 8;
 
-	BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.tga";
+	BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.dds";
 	BattleInterface.CommandTextures.list.t1.xsize = 32;
 	BattleInterface.CommandTextures.list.t1.ysize = 32;
 
@@ -1877,44 +1877,43 @@ void SetParameterData()
 	BattleInterface.battleborder.texture = "battle_interface\battleborder.tga";
 
 	// Количество команды
-	BattleInterface.ShipIcon.sailorfontid			= "interface_normal";
+	BattleInterface.ShipIcon.sailorfontid			= "bold_numbers";
 	BattleInterface.ShipIcon.sailorfontcolor		= argb(255,255,255,255); // Цвет количества матросов
-	BattleInterface.ShipIcon.sailorfontscale		= 1.4;
-	BattleInterface.ShipIcon.sailorfontoffset		= "-14,19";
+	BattleInterface.ShipIcon.sailorfontscale		= 0.8;
+	BattleInterface.ShipIcon.sailorfontoffset		= "0,45";
 
 	// Название корабля
 	BattleInterface.ShipIcon.shipnamefontid			= "interface_normal";
 	BattleInterface.ShipIcon.shipnamefontcolor		= argb(255,255,255,255); // Цвет имени корабля
 	BattleInterface.ShipIcon.shipnamefontscale		= 1.2;
-	// BattleInterface.ShipIcon.shipnamefontoffset	= "50,0";
-	// BattleInterface.ShipIcon.shipnamefont.align 	= "left";
+	BattleInterface.ShipIcon.shipnamefontoffset		= "0,58";
 
-	BattleInterface.ShipIcon.backtexturename		= "battle_interface\ShipBackIcon.tga"; // Основа
+	BattleInterface.ShipIcon.backtexturename		= "battle_interface\Ship_Border.tga"; // Основа
 	BattleInterface.ShipIcon.backcolor				= argb(255,128,128,128);
 	BattleInterface.ShipIcon.backuv					= "0.0,0.0,1.0,1.0";
-	BattleInterface.ShipIcon.backoffset				= "-1,-2";
-	BattleInterface.ShipIcon.backiconsize			= "128,128";
+	BattleInterface.ShipIcon.backoffset				= "0,-5";
+	BattleInterface.ShipIcon.backiconsize			= "100,100";
 
-	BattleInterface.ShipIcon.shipstatetexturename	= "battle_interface\ShipState.tga"; // Полоски HP/SP
+	BattleInterface.ShipIcon.shipstatetexturename	= "battle_interface\ShipHP_SP.tga"; // Полоски HP/SP
 	BattleInterface.ShipIcon.shipstatecolor			= argb(255,128,128,128);
 	BattleInterface.ShipIcon.shiphpuv				= "0.0,0.109,0.5,0.6875";
-	BattleInterface.ShipIcon.shiphpoffset			= "-31,-13";
-	BattleInterface.ShipIcon.shiphpiconsize			= "64,74";
+	BattleInterface.ShipIcon.shiphpoffset			= "-36.5,-9";
+	BattleInterface.ShipIcon.shiphpiconsize			= "64,108";
 	BattleInterface.ShipIcon.shipspuv				= "0.5,0.109,1.0,0.6875";
-	BattleInterface.ShipIcon.shipspoffset			= "33,-13";
-	BattleInterface.ShipIcon.shipspiconsize			= "64,74";
+	BattleInterface.ShipIcon.shipspoffset			= "63,-9";
+	BattleInterface.ShipIcon.shipspiconsize			= "64,108";
 
-	BattleInterface.ShipIcon.shipclasstexturename	= "battle_interface\ShipClass.tga"; // Класс кораблей "звездочки"
+	BattleInterface.ShipIcon.shipclasstexturename	= "battle_interface\ShipClass1.tga"; // Класс кораблей "звездочки"
 	BattleInterface.ShipIcon.shipclasscolor			= argb(255,128,128,128);
 	BattleInterface.ShipIcon.shipclassuv			= "0.0,0.0,1.0,1.0";
 	BattleInterface.ShipIcon.shipclassoffset		= "-13,-53";
 	BattleInterface.ShipIcon.shipclassiconsize		= "64,16";
 	BattleInterface.ShipIcon.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 
-	BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.tga"; // Иконка корабля
+	BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.dds"; // Иконка корабля
 	BattleInterface.ShipIcon.shipcolor				= argb(255,128,128,128);
-	BattleInterface.ShipIcon.shipoffset				= "-13,-15";
-	BattleInterface.ShipIcon.shipiconsize			= "64,64";
+	BattleInterface.ShipIcon.shipoffset				= "0,-5";
+	BattleInterface.ShipIcon.shipiconsize			= "100,100";
 	BattleInterface.ShipIcon.xsize = 32;
 	BattleInterface.ShipIcon.ysize = 32;
 
@@ -1931,7 +1930,7 @@ void SetParameterData()
 
 	BattleInterface.CommandList.CommandMaxIconQuantity = 15; //boal
 	BattleInterface.CommandList.CommandIconSpace = 1;
-	BattleInterface.CommandList.CommandIconLeft = 108;//157;
+	BattleInterface.CommandList.CommandIconLeft = 150;//157;
 	BattleInterface.CommandList.CommandIconWidth = RecalculateHIcon(75);
 	BattleInterface.CommandList.CommandIconHeight = RecalculateVIcon(75);
 
@@ -1944,8 +1943,8 @@ void SetParameterData()
 	BattleInterface.CommandList.UDArrow_UV_Up = "0.0,1.0,1.0,0.0";
 	BattleInterface.CommandList.UDArrow_UV_Down = "0.0,0.0,1.0,1.0";
 	BattleInterface.CommandList.UDArrow_Size = RecalculateHIcon(32) + "," + RecalculateVIcon(32);
-	BattleInterface.CommandList.UDArrow_Offset_Up = RecalculateHIcon(-41) + "," + RecalculateVIcon(-30);
-	BattleInterface.CommandList.UDArrow_Offset_Down = RecalculateHIcon(-41) + "," + RecalculateVIcon(46);
+	BattleInterface.CommandList.UDArrow_Offset_Up = RecalculateHIcon(-51) + "," + RecalculateVIcon(-35);
+	BattleInterface.CommandList.UDArrow_Offset_Down = RecalculateHIcon(-51) + "," + RecalculateVIcon(83);
 
 	/*BattleInterface.CommandList.ActiveIcon_Texture = "battle_interface\enter_list.tga";
 	BattleInterface.CommandList.ActiveIcon_Offset = RecalculateHIcon(-49) + ",0";
