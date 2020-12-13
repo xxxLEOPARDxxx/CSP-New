@@ -287,114 +287,253 @@ void WM_SetParameterData()
 	BattleInterface.CommandTextures.list.t1.name = "battle_interface\worldmapcommands.tga";
 	BattleInterface.CommandTextures.list.t1.xsize = 8;
 	BattleInterface.CommandTextures.list.t1.ysize = 2;
+	//Новый HUD
+	if (InterfaceStates.HUDStyle)
+	{
+		BattleInterface.wm_sign.fontid			= "bold_numbers";
+		BattleInterface.wm_sign.fontcolor		= argb(255,255,255,255);
+		BattleInterface.wm_sign.fontscale		= 1.0;
+		BattleInterface.wm_sign.fontoffset		= "0,45";
+		
+		//#20180714-01
+		// BattleInterface.wm_sign.fontscale		= 1.1 * fHtRatio;
+		// fTmp = makeint(-14.0 * fHtRatio);
+		// fTmp2 = makeint(18.0 * fHtRatio);
+		// BattleInterface.wm_sign.fontoffset       = fTmp + "," + fTmp2;
 
-	BattleInterface.wm_sign.fontid			= "bold_numbers";
-	BattleInterface.wm_sign.fontcolor		= argb(255,255,255,255);
-    BattleInterface.wm_sign.fontscale		= 1.0;
-	BattleInterface.wm_sign.fontoffset		= "0,45";
-	
-	//#20180714-01
-    // BattleInterface.wm_sign.fontscale		= 1.1 * fHtRatio;
-    // fTmp = makeint(-14.0 * fHtRatio);
-    // fTmp2 = makeint(18.0 * fHtRatio);
-    // BattleInterface.wm_sign.fontoffset       = fTmp + "," + fTmp2;
+		BattleInterface.wm_sign.shipnamefontid			= "interface_normal"; // Цвет количества матросов + цвет имени корабля
+		BattleInterface.wm_sign.shipnamefontcolor		= argb(255,255,255,255);
+		BattleInterface.wm_sign.shipnamefontscale		= 1.2;
 
-	BattleInterface.wm_sign.shipnamefontid			= "interface_normal"; // Цвет количества матросов + цвет имени корабля
-	BattleInterface.wm_sign.shipnamefontcolor		= argb(255,255,255,255);
-    BattleInterface.wm_sign.shipnamefontscale		= 1.2;
+		//#20180714-01
+		// BattleInterface.wm_sign.shipnamefontscale		= 1.1 * fHtRatio;
+		// fTmp = makeint(-14.0 * fHtRatio);
+		// fTmp2 = makeint(40.0 * fHtRatio);
+		// BattleInterface.wm_sign.shipnamefontoffset       = fTmp + "," + fTmp2;
 
-	//#20180714-01
-    // BattleInterface.wm_sign.shipnamefontscale		= 1.1 * fHtRatio;
-    // fTmp = makeint(-14.0 * fHtRatio);
-    // fTmp2 = makeint(40.0 * fHtRatio);
-    // BattleInterface.wm_sign.shipnamefontoffset       = fTmp + "," + fTmp2;
+		BattleInterface.wm_sign.backtexturename		= "battle_interface\Ship_Border.tga";
+		BattleInterface.wm_sign.backcolor				= argb(255,128,128,128);
+		BattleInterface.wm_sign.backuv					= "0.0,0.0,1.0,1.0";
+		BattleInterface.wm_sign.backoffset				= "0,-5";
+		BattleInterface.wm_sign.backiconsize			= "100,100";
+		
+		//#20180714-01
+		// fTmp = makeint(128.0 * fHtRatio);
+		// BattleInterface.wm_sign.backiconsize			= fTmp + "," + fTmp;
 
-	BattleInterface.wm_sign.backtexturename		= "battle_interface\Ship_Border.tga";
-	BattleInterface.wm_sign.backcolor				= argb(255,128,128,128);
-	BattleInterface.wm_sign.backuv					= "0.0,0.0,1.0,1.0";
-	BattleInterface.wm_sign.backoffset				= "0,-5";
-    BattleInterface.wm_sign.backiconsize			= "100,100";
-	
-	//#20180714-01
-    // fTmp = makeint(128.0 * fHtRatio);
-    // BattleInterface.wm_sign.backiconsize			= fTmp + "," + fTmp;
+		BattleInterface.wm_sign.shipstatetexturename	= "battle_interface\ShipHP_SP.tga";
+		BattleInterface.wm_sign.shipstatecolor			= argb(255,128,128,128);
+		BattleInterface.wm_sign.shiphpuv				= "0.0,0.109,0.5,0.6875";
+		BattleInterface.wm_sign.shiphpoffset			= "-36.5,-9";
+		BattleInterface.wm_sign.shiphpiconsize			= "64,108";
+		BattleInterface.wm_sign.shipspuv				= "0.5,0.109,1.0,0.6875";
+		BattleInterface.wm_sign.shipspoffset			= "63,-9";
+		BattleInterface.wm_sign.shipspiconsize			= "64,108";
+		
+		//#20180714-01
+		// fTmp = makeint(-32.0 * fHtRatio);
+		// fTmp2 = makeint(-13.0 * fHtRatio);
+		// BattleInterface.wm_sign.shiphpoffset			= fTmp + "," + fTmp2;
+		// fTmp = makeint(32.0 * fHtRatio);
+		// BattleInterface.wm_sign.shipspoffset			= fTmp + "," + fTmp2;
+		// fTmp = makeint(64.0 * fHtRatio);
+		// fTmp2 = makeint(74.0 * fHtRatio);
+		// BattleInterface.wm_sign.shiphpiconsize			= fTmp + "," + fTmp2;
+		// BattleInterface.wm_sign.shipspiconsize			= fTmp + "," + fTmp2;
 
-	BattleInterface.wm_sign.shipstatetexturename	= "battle_interface\ShipHP_SP.tga";
-	BattleInterface.wm_sign.shipstatecolor			= argb(255,128,128,128);
-	BattleInterface.wm_sign.shiphpuv				= "0.0,0.109,0.5,0.6875";
-	BattleInterface.wm_sign.shiphpoffset			= "-36.5,-9";
-	BattleInterface.wm_sign.shiphpiconsize			= "64,108";
-	BattleInterface.wm_sign.shipspuv				= "0.5,0.109,1.0,0.6875";
-    BattleInterface.wm_sign.shipspoffset			= "63,-9";
-    BattleInterface.wm_sign.shipspiconsize			= "64,108";
-	
-	//#20180714-01
-    // fTmp = makeint(-32.0 * fHtRatio);
-    // fTmp2 = makeint(-13.0 * fHtRatio);
-    // BattleInterface.wm_sign.shiphpoffset			= fTmp + "," + fTmp2;
-    // fTmp = makeint(32.0 * fHtRatio);
-    // BattleInterface.wm_sign.shipspoffset			= fTmp + "," + fTmp2;
-    // fTmp = makeint(64.0 * fHtRatio);
-    // fTmp2 = makeint(74.0 * fHtRatio);
-    // BattleInterface.wm_sign.shiphpiconsize			= fTmp + "," + fTmp2;
-    // BattleInterface.wm_sign.shipspiconsize			= fTmp + "," + fTmp2;
+		BattleInterface.wm_sign.shipclasstexturename	= "battle_interface\ShipClassCSP.tga";
+		BattleInterface.wm_sign.shipclasscolor			= argb(255,50,50,50);
+		BattleInterface.wm_sign.shipclassuv				= "0.0,0.0,1.0,1.0";
+		BattleInterface.wm_sign.shipclassoffset			= "-12,-53";
+		BattleInterface.wm_sign.shipclassiconsize		= "64,16";
+		BattleInterface.wm_sign.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 
-	BattleInterface.wm_sign.shipclasstexturename	= "battle_interface\ShipClass1.tga";
-	BattleInterface.wm_sign.shipclasscolor			= argb(255,128,128,128);
-	BattleInterface.wm_sign.shipclassuv			= "0.0,0.0,1.0,1.0";
-	//#20180714-01
-    // fTmp = makeint(-14.0 * fHtRatio);
-    // fTmp2 = makeint(-50.0 * fHtRatio);
-    // BattleInterface.wm_sign.shipclassoffset		= fTmp + "," + fTmp2;
-    // fTmp = makeint(64.0 * fHtRatio);
-    // fTmp2 = makeint(16.0 * fHtRatio);
-    // BattleInterface.wm_sign.shipclassiconsize		= fTmp + "," + fTmp2;
+		//#20180714-01
+		// fTmp = makeint(-14.0 * fHtRatio);
+		// fTmp2 = makeint(-50.0 * fHtRatio);
+		// BattleInterface.wm_sign.shipclassoffset		= fTmp + "," + fTmp2;
+		// fTmp = makeint(64.0 * fHtRatio);
+		// fTmp2 = makeint(16.0 * fHtRatio);
+		// BattleInterface.wm_sign.shipclassiconsize		= fTmp + "," + fTmp2;
 
-    BattleInterface.wm_sign.shipclassoffset		= "-12,-53";
-    BattleInterface.wm_sign.shipclassiconsize		= "64,16";
-	
-	BattleInterface.wm_sign.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
+		BattleInterface.wm_sign.shiptexturename		= "battle_interface\ship_icons2.dds";
+		BattleInterface.wm_sign.shipcolor				= argb(255,128,128,128);
+		BattleInterface.wm_sign.shipoffset				= "0,-5";
+		BattleInterface.wm_sign.shipiconsize			= "100,100";
 
-	BattleInterface.wm_sign.shiptexturename		= "battle_interface\ship_icons2.dds";
-	BattleInterface.wm_sign.shipcolor				= argb(255,128,128,128);
-	BattleInterface.wm_sign.shipoffset				= "0,-5";
-	BattleInterface.wm_sign.shipiconsize			= "100,100";
+		//#20180714-01
+		// fTmp = makeint(-14.0 * fHtRatio);
+		// fTmp2 = makeint(-12.0 * fHtRatio);
+		// BattleInterface.wm_sign.shipoffset				= fTmp + "," + fTmp2;
+		// fTmp = makeint(64.0 * fHtRatio);
+		// BattleInterface.wm_sign.shipiconsize			= fTmp + "," + fTmp;
+		// fTmp = makeint(-40.0 * fHtRatio);
+		// BattleInterface.wm_sign.commandlistverticaloffset = fTmp;
+		// float fTmp3;
+		// fTmp = makeint(70.0 * fHtRatio);
+		// fTmp3 = fTmp;
+		// fTmp2 = makeint(128.0 * fHtRatio);
+		// BattleInterface.wm_sign.iconoffset1 = fTmp + "," + fTmp;
+		// fTmp3 += fTmp2;
+		// BattleInterface.wm_sign.iconoffset2 = fTmp + "," + fTmp3;
+		// fTmp3 += fTmp2;
+		// BattleInterface.wm_sign.iconoffset3 = fTmp + "," + fTmp3;
+		// fTmp3 += fTmp2;
+		// BattleInterface.wm_sign.iconoffset4 = fTmp + "," + fTmp3;
+		// fTmp3 += fTmp2;
+		// BattleInterface.wm_sign.iconoffset5 = fTmp + "," + fTmp3;
 
-	//#20180714-01
-    // fTmp = makeint(-14.0 * fHtRatio);
-    // fTmp2 = makeint(-12.0 * fHtRatio);
-    // BattleInterface.wm_sign.shipoffset				= fTmp + "," + fTmp2;
-    // fTmp = makeint(64.0 * fHtRatio);
-    // BattleInterface.wm_sign.shipiconsize			= fTmp + "," + fTmp;
-    // fTmp = makeint(-40.0 * fHtRatio);
-    // BattleInterface.wm_sign.commandlistverticaloffset = fTmp;
-    // float fTmp3;
-    // fTmp = makeint(70.0 * fHtRatio);
-    // fTmp3 = fTmp;
-    // fTmp2 = makeint(128.0 * fHtRatio);
-    // BattleInterface.wm_sign.iconoffset1 = fTmp + "," + fTmp;
-    // fTmp3 += fTmp2;
-    // BattleInterface.wm_sign.iconoffset2 = fTmp + "," + fTmp3;
-    // fTmp3 += fTmp2;
-    // BattleInterface.wm_sign.iconoffset3 = fTmp + "," + fTmp3;
-    // fTmp3 += fTmp2;
-    // BattleInterface.wm_sign.iconoffset4 = fTmp + "," + fTmp3;
-    // fTmp3 += fTmp2;
-    // BattleInterface.wm_sign.iconoffset5 = fTmp + "," + fTmp3;
+		BattleInterface.wm_sign.shipoffset				= "0,-5";
+		BattleInterface.wm_sign.shipiconsize			= "100,100";
 
-    BattleInterface.wm_sign.shipoffset				= "0,-5";
-    BattleInterface.wm_sign.shipiconsize			= "100,100";
+		BattleInterface.wm_sign.commandlistverticaloffset = -40;
 
-    BattleInterface.wm_sign.commandlistverticaloffset = -40;
+		BattleInterface.wm_sign.iconoffset1 = "70,70";
+		BattleInterface.wm_sign.iconoffset2 = "70,198";
+		BattleInterface.wm_sign.iconoffset3 = "70,326";
+		BattleInterface.wm_sign.iconoffset4 = "70,454";
+		BattleInterface.wm_sign.iconoffset5 = "70,582";
+		BattleInterface.wm_sign.iconoffset6 = "70,710"; //Saint-Ashley - Added icons for companion ships 6-8
+		BattleInterface.wm_sign.iconoffset7 = "70,838";
+		BattleInterface.wm_sign.iconoffset8 = "70,966";
+	}
+	else
+	{
+		BattleInterface.wm_sign.fontid			= "interface_normal";
+		BattleInterface.wm_sign.fontcolor		= argb(255,255,255,255);
+	 
+		//#20180714-01
+		//if(fHtRatio < BI_MIN_RES || fHtRatio > BI_MAX_RES) {
+			// BattleInterface.wm_sign.fontscale		= 1.1 * fHtRatio;
+			// fTmp = makeint(-14.0 * fHtRatio);
+			// fTmp2 = makeint(18.0 * fHtRatio);
+			// BattleInterface.wm_sign.fontoffset       = fTmp + "," + fTmp2;
+		//}
+		//else {
+		   BattleInterface.wm_sign.fontscale		= 1.5;
+		   BattleInterface.wm_sign.fontoffset		= "";
+		//}
 
-    BattleInterface.wm_sign.iconoffset1 = "70,70";
-    BattleInterface.wm_sign.iconoffset2 = "70,198";
-    BattleInterface.wm_sign.iconoffset3 = "70,326";
-    BattleInterface.wm_sign.iconoffset4 = "70,454";
-    BattleInterface.wm_sign.iconoffset5 = "70,582";
-    BattleInterface.wm_sign.iconoffset6 = "70,710"; //Saint-Ashley - Added icons for companion ships 6-8
-    BattleInterface.wm_sign.iconoffset7 = "70,838";
-    BattleInterface.wm_sign.iconoffset8 = "70,966";
+		BattleInterface.wm_sign.shipnamefontid			= "interface_normal"; // Oaao eiee?anoaa iao?inia + oaao eiaie ei?aaey
+		BattleInterface.wm_sign.shipnamefontcolor		= argb(255,255,255,255);
+														 
+
+		//#20180714-01
+		//if(fHtRatio < BI_MIN_RES || fHtRatio > BI_MAX_RES) {
+			// BattleInterface.wm_sign.shipnamefontscale		= 1.1 * fHtRatio;
+			// fTmp = makeint(-14.0 * fHtRatio);
+			// fTmp2 = makeint(40.0 * fHtRatio);
+			// BattleInterface.wm_sign.shipnamefontoffset       = fTmp + "," + fTmp2;
+		//}
+		//else {
+		   BattleInterface.wm_sign.shipnamefontscale		= 1.1;
+		//}
+
+		BattleInterface.wm_sign.backtexturename		= "battle_interface\ShipBackIcon_WM.tga.tx";
+		BattleInterface.wm_sign.backcolor				= argb(255,128,128,128);
+		BattleInterface.wm_sign.backuv					= "0.0,0.0,1.0,1.0";
+		BattleInterface.wm_sign.backoffset				= "-1,-2";
+														   
+	 
+		//#20180714-01
+		//if(fHtRatio < BI_MIN_RES || fHtRatio > BI_MAX_RES) {
+			// fTmp = makeint(128.0 * fHtRatio);
+			// BattleInterface.wm_sign.backiconsize			= fTmp + "," + fTmp;
+		//}
+		//else {
+		   BattleInterface.wm_sign.backiconsize			= "128,128";
+		//}
+
+		BattleInterface.wm_sign.shipstatetexturename	= "battle_interface\ShipState.tga.tx";
+		BattleInterface.wm_sign.shipstatecolor			= argb(255,128,128,128);
+		BattleInterface.wm_sign.shiphpuv				= "0.0,0.109,0.5,0.6875";
+		BattleInterface.wm_sign.shiphpoffset			= "-32,-13";
+		BattleInterface.wm_sign.shiphpiconsize			= "64,74";
+		BattleInterface.wm_sign.shipspuv				= "0.5,0.109,1.0,0.6875";
+														 
+															
+	 
+		//#20180714-01
+		//if(fHtRatio < BI_MIN_RES || fHtRatio > BI_MAX_RES) {
+			// fTmp = makeint(-32.0 * fHtRatio);
+			// fTmp2 = makeint(-13.0 * fHtRatio);
+			// BattleInterface.wm_sign.shiphpoffset			= fTmp + "," + fTmp2;
+			// fTmp = makeint(32.0 * fHtRatio);
+			// BattleInterface.wm_sign.shipspoffset			= fTmp + "," + fTmp2;
+			// fTmp = makeint(64.0 * fHtRatio);
+			// fTmp2 = makeint(74.0 * fHtRatio);
+			// BattleInterface.wm_sign.shiphpiconsize			= fTmp + "," + fTmp2;
+			// BattleInterface.wm_sign.shipspiconsize			= fTmp + "," + fTmp2;
+		//}
+		//else {
+		   BattleInterface.wm_sign.shiphpoffset			= "-32,-13";
+		   BattleInterface.wm_sign.shiphpiconsize			= "64,74";
+		   BattleInterface.wm_sign.shipspoffset			= "33,-13";
+		   BattleInterface.wm_sign.shipspiconsize			= "64,74";
+		//}
+
+		BattleInterface.wm_sign.shipclasstexturename	= "battle_interface\ShipClass.tga.tx";
+		BattleInterface.wm_sign.shipclasscolor			= argb(255,128,128,128);
+		BattleInterface.wm_sign.shipclassuv			= "0.0,0.0,1.0,1.0";
+		//#20180714-01
+		//if(fHtRatio < BI_MIN_RES || fHtRatio > BI_MAX_RES) {
+			// fTmp = makeint(-14.0 * fHtRatio);
+			// fTmp2 = makeint(-50.0 * fHtRatio);
+			// BattleInterface.wm_sign.shipclassoffset		= fTmp + "," + fTmp2;
+			// fTmp = makeint(64.0 * fHtRatio);
+			// fTmp2 = makeint(16.0 * fHtRatio);
+			// BattleInterface.wm_sign.shipclassiconsize		= fTmp + "," + fTmp2;
+		//}
+		//else {
+		   BattleInterface.wm_sign.shipclassoffset		= "-12,-53";
+		   BattleInterface.wm_sign.shipclassiconsize		= "64,16";
+		//}
+		BattleInterface.wm_sign.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
+
+		BattleInterface.wm_sign.shiptexturename		= "battle_interface\ship_icons2.tga.tx";
+		BattleInterface.wm_sign.shipcolor				= argb(255,128,128,128);
+		BattleInterface.wm_sign.shipoffset				= "-12,-15";
+		BattleInterface.wm_sign.shipiconsize			= "64,64";
+
+		//#20180714-01
+		//if(fHtRatio < BI_MIN_RES || fHtRatio > BI_MAX_RES) {
+        // fTmp = makeint(-14.0 * fHtRatio);
+        // fTmp2 = makeint(-12.0 * fHtRatio);
+        // BattleInterface.wm_sign.shipoffset				= fTmp + "," + fTmp2;
+        // fTmp = makeint(64.0 * fHtRatio);
+        // BattleInterface.wm_sign.shipiconsize			= fTmp + "," + fTmp;
+        // fTmp = makeint(-40.0 * fHtRatio);
+        // BattleInterface.wm_sign.commandlistverticaloffset = fTmp;
+        // float fTmp3;
+        // fTmp = makeint(70.0 * fHtRatio);
+        // fTmp3 = fTmp;
+        // fTmp2 = makeint(128.0 * fHtRatio);
+        // BattleInterface.wm_sign.iconoffset1 = fTmp + "," + fTmp;
+        // fTmp3 += fTmp2;
+        // BattleInterface.wm_sign.iconoffset2 = fTmp + "," + fTmp3;
+        // fTmp3 += fTmp2;
+        // BattleInterface.wm_sign.iconoffset3 = fTmp + "," + fTmp3;
+        // fTmp3 += fTmp2;
+        // BattleInterface.wm_sign.iconoffset4 = fTmp + "," + fTmp3;
+        // fTmp3 += fTmp2;
+        // BattleInterface.wm_sign.iconoffset5 = fTmp + "," + fTmp3;
+		//}
+		//else {
+       BattleInterface.wm_sign.shipoffset				= "-14,-12";
+       BattleInterface.wm_sign.shipiconsize			= "64,64";
+
+       BattleInterface.wm_sign.commandlistverticaloffset = -40;
+
+       BattleInterface.wm_sign.iconoffset1 = "70,70";
+       BattleInterface.wm_sign.iconoffset2 = "70,198";
+       BattleInterface.wm_sign.iconoffset3 = "70,326";
+       BattleInterface.wm_sign.iconoffset4 = "70,454";
+       BattleInterface.wm_sign.iconoffset5 = "70,582";
+       BattleInterface.wm_sign.iconoffset6 = "70,710"; //Saint-Ashley - Added icons for companion ships 6-8
+       BattleInterface.wm_sign.iconoffset7 = "70,838";
+       BattleInterface.wm_sign.iconoffset8 = "70,966";
+	//}
+	}
 
 	BattleInterface.CommandList.CommandMaxIconQuantity = 8;
 	BattleInterface.CommandList.CommandIconSpace = 1;

@@ -185,6 +185,13 @@ void IReadVariableAfterInit()
 		nSpyglassTextures = sti(InterfaceStates.SpyglassTextures);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SPYGLASSTEX_CHECKBOX", 2, 1, nSpyglassTextures );
+	
+	int nHUDStyle = 0;
+	if( CheckAttribute(&InterfaceStates,"HUDStyle") )
+	{
+		nHUDStyle = sti(InterfaceStates.HUDStyle);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"HUDStyle_CHECKBOX", 2, 1, nHUDStyle );
 }
 
 void SetControlsTabMode(int nMode)
@@ -343,6 +350,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.SpyglassTextures = bBtnState;
+		}
+	}
+	
+	if( sNodName == "HUDStyle_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.HUDStyle = bBtnState;
 		}
 	}
 }
@@ -960,6 +974,11 @@ void ShowInfo()
 		case "SPYGLASSTEX_CHECKBOX":
 			sHeader = XI_ConvertString("SpyglassTextures_title");
 			sText1 = XI_ConvertString("SpyglassTextures_desc");
+		break;
+		
+		case "HUDStyle_CHECKBOX":
+			sHeader = XI_ConvertString("HUDStyle_title");
+			sText1 = XI_ConvertString("HUDStyle_desc");
 		break;
 		
 		//#20171223-01 Camera perspective option

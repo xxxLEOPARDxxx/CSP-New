@@ -129,6 +129,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.SpyglassTextures = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"HUDStyle") ) {
+		optref.cameramode.HUDStyle = sti(InterfaceStates.HUDStyle);
+	} else {
+		optref.cameramode.HUDStyle = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -231,6 +237,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.SpyglassTextures = optref.cameramode.SpyglassTextures;
 	} else {
 		InterfaceStates.SpyglassTextures = false;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.HUDStyle") ) {
+		InterfaceStates.HUDStyle = optref.cameramode.HUDStyle;
+	} else {
+		InterfaceStates.HUDStyle = false;
 	}
 
 	// mouse
