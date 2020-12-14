@@ -126,7 +126,7 @@ void InitColonies()
 		colonies[n].map.x = 450;
 		colonies[n].map.y = 325;
 		colonies[n].StoreNum   = FortOrange_STORE;
-		colonies[n].from_sea   = "";
+		colonies[n].from_sea   = "Shore35";
 		colonies[n].HasNoFort = true;
 		colonies[n].Default.BoardLocation = "FortOrange_ExitTown";
 

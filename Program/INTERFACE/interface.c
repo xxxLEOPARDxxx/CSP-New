@@ -2316,6 +2316,7 @@ string GetSaveDataString(string label)
 		doctor + "," + treasurer + "," + carpenter +
 		"@" + GetStringTime(GetTime()) + "  " + GetStringDate( GetDataDay(),GetDataMonth(),GetDataYear() ) + // boal FIX
 		"@" + GetPlayTime() +
+		"@" + GetCurShip() +
 		"@" + LanguageGetLanguage();
 
 	return savedata;
@@ -2378,6 +2379,18 @@ string GetPlayTime()
 	}
 	sPlayTime += InterfaceStates.GameTime.hour + " hours " + InterfaceStates.GameTime.min + " min.";
 	return sPlayTime;
+}
+
+string GetCurShip()
+{
+	int iShip = pchar.ship.type;
+	if (iShip != SHIP_NOTUSED)
+	{
+		ref refBaseShip = GetRealShip(iShip);
+		string sShip = refBaseShip.BaseName;
+		return sShip;
+	}
+	else return "1000";
 }
 
 string GetStringTime(float time)

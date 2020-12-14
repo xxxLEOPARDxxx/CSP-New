@@ -613,10 +613,10 @@ void CalculateInfoDataF6()
 	AddItems(mc, "GunPowder", 50);
 	AddItems(mc, "cirass5", 1);
 
-	EquipCharacterbyItem(mc, "spyglass3");
-	EquipCharacterbyItem(mc, "pistol5");
+	EquipCharacterbyItem(mc, "spyglass4");
+	EquipCharacterbyItem(mc, "pistol7");
  	EquipCharacterbyItem(mc, sEquipItem);
- 	EquipCharacterbyItem(mc, "cirass3");
+ 	EquipCharacterbyItem(mc, "cirass5");
  	
  	SetHalfPerksToChar(mc, false);
  	
@@ -693,7 +693,7 @@ void CalculateInfoDataF8()
                     ok = false;
                     if (GetCityFrom_Sea(ch.City) != "")
                     {
-                        setCharacterShipLocation(mc, GetCityFrom_Sea(ch.City));
+						setCharacterShipLocation(mc, GetCityFrom_Sea(ch.City));
                         setWDMPointXZ(GetCityFrom_Sea(ch.City));
                     }
                     DoQuestReloadToLocation(ch.location,"reload","reload1", "");

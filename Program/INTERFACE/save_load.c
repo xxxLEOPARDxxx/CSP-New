@@ -721,12 +721,13 @@ void ShowDataForSave(int nSlot, string picname, int picpointer, string strdata)
 
 	if( strdata != "" )
 	{
-		string facestr, locName, timeStr, language, playtime;
-		if( ParseSaveData(strdata, &facestr, &locName, &timeStr, &language, &playtime) ) {
+		string facestr, locName, timeStr, language, playtime, curship;
+		if( ParseSaveData(strdata, &facestr, &locName, &timeStr, &language, &playtime, &curship) ) {
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#"+locName );
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#"+timeStr );
 			g_oSaveList[nSlot].faceinfo = facestr;
 			g_oSaveList[nSlot].playtime = playtime;
+			g_oSaveList[nSlot].curship = curship;
 		} else {
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#Unknown" );
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#No Time" );
@@ -875,13 +876,14 @@ void procProfileBtnAction()
 	}
 }
 
-bool ParseSaveData(string fullSaveData, ref facestr, ref locationStr, ref timeStr, ref languageID, ref playtime)
+bool ParseSaveData(string fullSaveData, ref facestr, ref locationStr, ref timeStr, ref languageID, ref playtime, ref curship)
 {
 	string lastStr;
 	if( !GetNextSubStr(fullSaveData, locationStr, &lastStr, "@") ) return false;
 	if( !GetNextSubStr(lastStr, facestr, &lastStr, "@") ) return false;
 	if( !GetNextSubStr(lastStr, timeStr, &lastStr, "@") ) return false;
 	if( !GetNextSubStr(lastStr, playtime, &lastStr, "@") ) return false;
+	if( !GetNextSubStr(lastStr, curship, &lastStr, "@") ) return false;
 	GetNextSubStr(lastStr, languageID, &lastStr, "@");
 	return true;
 }
@@ -1168,24 +1170,18 @@ void ShowFaceInfo( string facestr )
 	}
 }
 
-void SSI()
+void SSI(string shipTexture)
 {
-	int iShip = sti(pchar.ship.type);
-	if (iShip != SHIP_NOTUSED)
-	{
-		ref refBaseShip = GetRealShip(iShip);
-		string sShip = refBaseShip.BaseName;
-		SetNewPicture("SHIP_ICON", "interfaces\ships\" + sShip + ".tga.tx");
-	}
-	log_info("iship "+iship);
+	if (shipTexture != "1000")	SetNewPicture("SHIP_ICON", "interfaces\ships\" + shipTexture + ".tga.tx");
+	else SetNewPicture("SHIP_ICON", "");
 }
 
 void ReloadSaveInfo()
 {
 	int nSlot = g_nCurrentSaveIndex - g_nFirstSaveIndex;
-	ref mchar;
 	string info = "";
 	string playtime = "#";
+	string curship = "#";
 	if( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"faceinfo") ) {
 		info = g_oSaveList[nSlot].faceinfo;
 		if( g_oSaveList[nSlot].playtime != "" ) {
@@ -1193,7 +1189,7 @@ void ReloadSaveInfo()
 		}
 	}
 	ShowFaceInfo( info );
-	SSI();
+	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"curship") ) SSI(g_oSaveList[nSlot].curship);
 	SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 2, playtime );
 
 	if( info == "" ) {

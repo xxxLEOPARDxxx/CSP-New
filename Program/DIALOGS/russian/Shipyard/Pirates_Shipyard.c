@@ -1643,15 +1643,18 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				link.l1 = "К вам Эдвард Лоу заходил?";
 				link.l1.go = "PL_Q3_1";
 			}
-			if (pchar.questTemp.piratesLine.T1 == "KillLoy_GoodWork")
-			{
-				link.l1 = "Джекмен подарил мне 'Морского Волка'!";
-				link.l1.go = "PL_Q3_SW1";
-			}
-			if (pchar.questTemp.piratesLine.T1 == "KillLoy_LoyIsDied")
-			{
-				link.l1 = "У меня не очень хорошие новости относительно твоего брига, который Лоу увел...";
-				link.l1.go = "PL_Q3_SW2";
+			if (CheckAttribute(pchar, "questTemp.piratesLine.T1"))
+            {
+				if (pchar.questTemp.piratesLine.T1 == "KillLoy_GoodWork")
+				{
+					link.l1 = "Джекмен подарил мне 'Морского Волка'!";
+					link.l1.go = "PL_Q3_SW1";
+				}
+				if (pchar.questTemp.piratesLine.T1 == "KillLoy_LoyIsDied")
+				{
+					link.l1 = "У меня не очень хорошие новости относительно твоего брига, который Лоу увел...";
+					link.l1.go = "PL_Q3_SW2";
+				}
 			}
 			if ((pchar.questTemp.different == "GiveShipLetters") && !CheckAttribute(pchar, "questTemp.different.GiveShipLetters.speakAlexus"))
 			{

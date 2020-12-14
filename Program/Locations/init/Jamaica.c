@@ -1290,6 +1290,7 @@ int LocationInitJamaica(int n)
 	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
 	locations[n].worldmap = "Shore35";
 	//Sound
+	locations[n].townsack = "FortOrange";
 	locations[n].fastreload = "FortOrange";
 	locations[n].type = "seashore";
 	locations[n].islandId = "Jamaica";

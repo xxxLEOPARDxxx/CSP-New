@@ -932,7 +932,7 @@ string GetItemDescribe(int iGoodIndex)
 	}
 	//aw013 --> 
 	float fItmPrice;
-	if (arItm.price != 0) fItmPrice = stf(arItm.price) / stf(arItm.Weight);
+	if (arItm.price != 0 && arItm.Weight != 0) fItmPrice = stf(arItm.price) / stf(arItm.Weight);
 	else fItmPrice=0;
 	describeStr += "Цена " + makeint(arItm.price) + " / Вес " + FloatToString(stf(arItm.weight), 2) + newStr();
 	//aw013 <-- 

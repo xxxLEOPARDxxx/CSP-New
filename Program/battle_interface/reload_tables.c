@@ -29,16 +29,19 @@ void CreateReloadPaths(string groupID)
 		for(j=0; j<iMax; j++)
 		{
 			curReload = GetAttributeN(reloadList,j);
-			goLocName = curReload.go;
-			if(outLocName == goLocName) 
+			if( CheckAttribute(curReload,"go") )
 			{
-				continue;
-			}
-			if( !CheckAttribute(tbl,outLocName+"."+goLocName) )
-			{
-				tbl.(outLocName).(goLocName) = goLocName;
-				tbl.(outLocName).(goLocName).goLocator = curReload.emerge;
-				tbl.(outLocName).(goLocName).outLocator = curReload.name;
+				goLocName = curReload.go;
+				if(outLocName == goLocName) 
+				{
+					continue;
+				}
+				if( !CheckAttribute(tbl,outLocName+"."+goLocName) )
+				{
+					tbl.(outLocName).(goLocName) = goLocName;
+					tbl.(outLocName).(goLocName).goLocator = curReload.emerge;
+					tbl.(outLocName).(goLocName).outLocator = curReload.name;
+				}
 			}
 		}
 	}

@@ -190,25 +190,16 @@ void InterfaceInitButtons(ref _refCharacter)
 	{
 		case INTERFACETYPE_EXCHANGE_ITEMS:
 			SetNodeUsing("GETALL_BUTTON", true);
-			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 340, 552, 475, 577);
 		break;
 		
 		case INTERFACETYPE_DEADMAN:
 			SetNodeUsing("GETALL_BUTTON", true);
 			SetNodeUsing("DELBODY_BUTTON", true);
 			
-			// SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 265, 552, 395, 577);
-			// SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "DELBODY_BUTTON", 1, 415, 552, 545, 577);
-			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 540, 552, 670, 577);
-			SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "DELBODY_BUTTON", 1, 400, 552, 520, 577);
-			
 			// Проверка на возможность использования черепа
 			if(CheckCharacterItem(_refCharacter, "SkullAztec") && IsAztecSkullOfficer(arDeadChar) && LAi_IsDead(characters[sti(arDeadChar.index)]) && CheckNPCQuestDate(_refCharacter, "AztecSkull"))
 			{
 				SetNodeUsing("SKULL_BUTTON", true);
-				SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "GETALL_BUTTON", 1, 180, 552, 310, 577);
-				SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "SKULL_BUTTON", 1, 340, 552, 475, 577);
-				SendMessage(&GameInterface, "lslllll", MSG_INTERFACE_MSG_TO_NODE, "DELBODY_BUTTON", 1, 505, 552, 635, 577);
 			}
 		break;
 		
@@ -1195,22 +1186,32 @@ void onGetAllBtnClick()
 			// Учет перегруза -->
 			//maxItemsToAdd = GetMaxItemsToTake(refCharacter, itemID)
 			float itemWeight = stf(Items[GetItemIndex(itemID)].weight);
-			int maxWeight = GetMaxItemsWeight(refCharacter);
-			maxItemsToAdd = makeint((maxWeight-fCharWeight)/itemWeight);
-			
-			if(maxItemsToAdd < iItemsQty) iItemsQty = maxItemsToAdd;
-			// <-- Учет перегруза
-			
-			if(iItemsQty < 1) continue;
-			
-			RemoveItems(refToChar, itemID, iItemsQty);
-			AddItems(refCharacter, itemID, iItemsQty);
-			
-			bOk = true;
+			if(itemWeight == 0)
+			{
+				RemoveItems(refToChar, itemID, iItemsQty);
+				AddItems(refCharacter, itemID, iItemsQty);
+				continue;
+			}
+			else
+			{
+				int maxWeight = GetMaxItemsWeight(refCharacter);
+				maxItemsToAdd = makeint((maxWeight-fCharWeight)/itemWeight);
 				
-			weight = iItemsQty * stf(Items[i].weight);
-			fCharWeight += weight; // Тут обновляем для метода GetMaxItemsToTake, иначе тормоза
-			fStoreWeight -= weight;
+				if(maxItemsToAdd < iItemsQty) iItemsQty = maxItemsToAdd;
+				// <-- Учет перегруза
+				
+				if(iItemsQty < 1) continue;
+				
+
+				RemoveItems(refToChar, itemID, iItemsQty);
+				AddItems(refCharacter, itemID, iItemsQty);
+				
+				bOk = true;
+					
+				weight = iItemsQty * stf(Items[i].weight);
+				fCharWeight += weight; // Тут обновляем для метода GetMaxItemsToTake, иначе тормоза
+				fStoreWeight -= weight;
+			}
 		}
 	}
 	
