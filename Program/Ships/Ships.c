@@ -100,7 +100,41 @@ string GetShipLocationID(ref chref)
 	bool bBig2 = (RealShips[sti(pchar.ship.type)].DeckType == "Big");
 	bool bMed1 = (ShipsTypes[iShipType].DeckType == "Medium");
 	bool bMed2 = (RealShips[sti(pchar.ship.type)].DeckType == "Medium");
-	if (bBig1)
+	//Boyer change #20170501-01 New Orazio decks
+	bool bLineship1 = (ShipsTypes[iShipType].DeckType == "Lineship");
+	bool bLineship2 = (RealShips[sti(pchar.ship.type)].DeckType == "Lineship");
+	bool bFrigate1 = (ShipsTypes[iShipType].DeckType == "Frigate");
+	bool bFrigate2 = (RealShips[sti(pchar.ship.type)].DeckType == "Frigate");
+
+	//Log_SetStringToLog("My deck type: " + RealShips[sti(pchar.ship.type)].DeckType);
+	//Log_SetStringToLog("Enemy deck type: " + ShipsTypes[iShipType].DeckType);
+
+	if (bBig1 || bLineship1 || bFrigate1) {
+		if (bBig2 || bLineship2 || bFrigate2) {
+			return "BOARDING_LNSHP_FRGT_DECK"; // Big VS Big
+		} else {
+			if (bMed2) {
+				return "BOARDING_BIG_DECK"; // Big VS Medium
+			} else {
+				return "BOARDING_MEDIUM_DECK"; // Big VS Small
+			}
+		}
+	} else {
+		if (bMed1) {
+			if (bMed2 || bBig2 || bLineship2 || bFrigate2) {
+				return "BOARDING_BIG_DECK"; // Medium VS Big & Medium
+			} else {
+				return "BOARDING_SMALL_DECK"; // Medium VS Small
+			}
+		} else {
+			if (bBig2 || bLineship2 || bFrigate2) {
+				return "BOARDING_MEDIUM_DECK"; // Small VS Big
+			} else {
+				return "BOARDING_SMALL_DECK"; // Small VS Medium & Small
+			}
+		}
+	}
+	/* if (bBig1)
 	{
 	    if (bMed2 || bBig2) return "BOARDING_BIG_DECK";
 	    return "BOARDING_MEDIUM_DECK";
@@ -113,7 +147,7 @@ string GetShipLocationID(ref chref)
 		    return "BOARDING_MEDIUM_DECK";
 		}
 	}
-    return "BOARDING_SMALL_DECK";
+    return "BOARDING_SMALL_DECK"; */
 
 	/*if(!CheckAttribute(&RealShips[st],"AbordageLocation"))
 	{

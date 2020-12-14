@@ -1929,7 +1929,7 @@ void SetParameterData()
 		BattleInterface.ShipIcon.shiphpoffset			= "-36.5,-9";
 		BattleInterface.ShipIcon.shiphpiconsize			= "64,108";
 		BattleInterface.ShipIcon.shipspuv				= "0.5,0.109,1.0,0.6875";
-		BattleInterface.ShipIcon.shipspoffset			= "63,-9";
+		BattleInterface.ShipIcon.shipspoffset			= "63.5,-9";
 		BattleInterface.ShipIcon.shipspiconsize			= "64,108";
 
 		BattleInterface.ShipIcon.shipclasstexturename	= "battle_interface\ShipClassCSP.tga"; // Класс кораблей "звездочки"

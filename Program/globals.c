@@ -73,7 +73,7 @@ int     MAX_CHARACTERS   = 10;
 #define TOTAL_CHARACTERS			1000  // прописать в BOAT_CHARACTER  TOTAL_CHARACTERS - 1
 #define BOAT_CHARACTER               999
 
-#define MAX_LOCATIONS		725 // boal //700
+#define MAX_LOCATIONS		728 // boal //700
 #define MAX_ISLANDS   30
 #define MAX_COLONIES  34
 

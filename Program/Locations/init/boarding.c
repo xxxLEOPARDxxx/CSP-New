@@ -3180,6 +3180,64 @@ int LocationInitBoarding(int n)
 	LAi_LocationFightDisable(&Locations[n], true);
 	n = n + 1;
 	
+	//Boyer change #20170501-01 New Orazio decks
+	Locations[n].id = "Deck_Near_Ship_Frigate";
+	Locations[n].id.label = "Boarding deck";
+	//Info
+	Locations[n].image = "loading\Quarter_" + rand(1) + ".tga";
+	//Sound
+	Locations[n].type = "residence";
+	Locations[n].boarding = "true";
+	//Locations[n].lockCamAngle = 0.4;
+	Locations[n].camshuttle = 1;
+	//Models
+	//Always
+	Locations[n].filespath.models = "locations\decks\deckFrigate";
+	Locations[n].models.always.deckFrigate = "deckFrigate";
+	Locations[n].models.always.locators = "deckFrigate_locators";
+	//Day
+	locations[n].models.day.charactersPatch = "deckFrigate_patch";
+	Locations[n].models.day.deckFonarsDay = "deckFrigate_fd";
+	//Night
+	locations[n].models.night.charactersPatch = "deckFrigate_patch";
+	Locations[n].models.night.deckFonarsNight= "deckFrigate_fn";
+	Locations[n].locators_radius.camdetector.goto5 = 0.02;
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "true";
+	//Reload map
+	LAi_LocationFightDisable(&Locations[n], true);
+	n = n + 1;
+
+	Locations[n].id = "Deck_Near_Ship_Lineship";
+	Locations[n].id.label = "Boarding deck";
+	//Info
+	Locations[n].image = "loading\Quarter_" + rand(1) + ".tga";
+	//Sound
+	Locations[n].type = "residence";
+	Locations[n].boarding = "true";
+	//Locations[n].lockCamAngle = 0.4;
+	Locations[n].camshuttle = 1;
+	//Models
+	//Always
+	Locations[n].filespath.models = "locations\decks\deckLineship";
+	Locations[n].models.always.deckLineship = "deckLineship";
+	Locations[n].models.always.locators = "deckLineship_locators";
+	//Day
+	locations[n].models.day.charactersPatch = "deckLineship_patch";
+	Locations[n].models.day.deckFonarsDay = "deckLineship_fd";
+	//Night
+	locations[n].models.night.charactersPatch = "deckLineship_patch";
+	Locations[n].models.night.deckFonarsNight= "deckLineship_fn";
+	Locations[n].locators_radius.camdetector.goto5 = 0.02;
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "true";
+	//Reload map
+	LAi_LocationFightDisable(&Locations[n], true);
+	n = n + 1;
+	//End change
+
 	////////////////////////////////////////////////////////////
 	/// Корабельная палуба  для карта - море
 	////////////////////////////////////////////////////////////
@@ -3364,6 +3422,40 @@ int LocationInitBoarding(int n)
 	
 	n = n + 1;
 	
+	//Boyer change #20170501-01 New Orazio decks
+	//ID
+	Locations[n].id = "BOARDING_LNSHP_FRGT_DECK";
+	locations[n].id.label = "Boarding deck";
+	//Info
+	Locations[n].type = "deck_fight";
+	Locations[n].filespath.models = "locations\decks\deckLineshipVSFrigate";
+	Locations[n].image = "loading\Boarding_A" + rand(6) + ".tga";
+
+	Locations[n].lockCamAngle = 0.4;
+	Locations[n].camshuttle = 1;
+	//Models
+	//Always
+	Locations[n].models.always.l1 = "deckLineshipVSFrigate_part1";
+	Locations[n].models.always.l2 = "deckLineshipVSFrigate_part2";
+	Locations[n].models.always.locators = "deckLineshipVSFrigate_locators";
+	//Day
+	locations[n].models.day.charactersPatch = "deckLineshipVSFrigate_patch";
+	Locations[n].models.day.deckFonarsDay = "deckLineshipVSFrigate_fd";
+	//Night
+	locations[n].models.night.charactersPatch = "deckLineshipVSFrigate_patch";
+	Locations[n].models.night.deckFonarsNigh = "deckLineshipVSFrigate_fn";
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "true";
+
+	Locations[n].boarding = "true";
+	Locations[n].boarding.locatorNum = 24; //14;
+	Locations[n].boarding.nextdeck = "Boarding_Cargohold";
+	Locations[n].UpDeckType = true;
+
+	n = n + 1;
+    //End change
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Jason ------------------------ внутренние абордажные локации кораблей ------------------------------
 	////////////////////////////////////////////////////////////////////////////////////////////////////////

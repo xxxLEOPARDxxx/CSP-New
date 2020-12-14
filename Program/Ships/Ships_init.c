@@ -4741,7 +4741,7 @@ void InitShips()
     refShip.TurnDependWeight			= 0.4;
     refShip.WindAgainstSpeed   = 4.5;//boal
     refShip.CabinType          = "New_Cabin2";
-    refShip.DeckType           = "Medium";
+    refShip.DeckType           = "Frigate";
 
     refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -4821,7 +4821,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 4.6;//boal
 	refship.CabinType          = "New_Cabin2"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast3.Flag1 = FLAG_SPECIAL;
@@ -4897,7 +4897,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 2.6;//boal
 	refship.CabinType          = "Cabin_Medium2"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -5131,7 +5131,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.2;
 	refship.WindAgainstSpeed   = 2.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
@@ -5354,7 +5354,7 @@ void InitShips()
 	refship.TurnDependWeight	= 0.3;
 	refship.WindAgainstSpeed  	= 5.5;//boal
 	refship.CabinType          	= "New_Cabin2"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -5503,7 +5503,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 3.5;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
@@ -5585,7 +5585,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 2.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refship.InertiaAccelerationX	= 4.5;	refship.InertiaBrakingX		= 4.0;
 	refship.InertiaAccelerationY	= 3.5;	refship.InertiaBrakingY		= 3;
@@ -5735,7 +5735,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed = 4.5;//boal
 	refship.CabinType 					= "Cabin_Medium2"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 
 	refship.InertiaAccelerationX = 5.0; refship.InertiaBrakingX = 5.0;
 	refship.InertiaAccelerationY = 4; refship.InertiaBrakingY = 4;
@@ -5811,7 +5811,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -5885,7 +5885,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -5959,7 +5959,7 @@ void InitShips()
 	refship.TurnDependWeight 		= 0.4;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -6033,7 +6033,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -6107,7 +6107,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -6183,7 +6183,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
@@ -6482,7 +6482,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   			= 5.0;
 	refship.CabinType          			= "Cabin"; 
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -6558,7 +6558,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 	
 	refShip.Flags.Mast2.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast3.Flag1 = FLAG_SPECIAL;
@@ -6634,7 +6634,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   			= 4.4;
 	refship.CabinType          			= "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 		
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -6711,7 +6711,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.2;
 	refship.WindAgainstSpeed   = 2.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 	
 	refship.InertiaAccelerationX	= 4.5;	refship.InertiaBrakingX		= 4.5;
 	refship.InertiaAccelerationY	= 3;	refship.InertiaBrakingY		= 3;
@@ -6780,7 +6780,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.2;
 	refship.WindAgainstSpeed   = 2.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           = "Big";
+	refship.DeckType           = "Lineship";
 
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -6919,7 +6919,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Lineship";
 
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -6992,7 +6992,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.4;
 	refship.WindAgainstSpeed            = 1.7;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Lineship";
 
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
@@ -7156,7 +7156,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed = 3.5;//boal
 	refship.CabinType = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -7232,7 +7232,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 3.6;//boal
 	refship.CabinType          = "Cabin"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 
 	refship.InertiaAccelerationX	= 5.0;	refship.InertiaBrakingX		= 5.0;
 	refship.InertiaAccelerationY	= 4;	refship.InertiaBrakingY		= 4;
@@ -7600,7 +7600,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.4;
 	refship.WindAgainstSpeed            = 1.7;//boal
 	refship.CabinType          			= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 	
 	refship.InertiaAccelerationX	= 4.5;	refship.InertiaBrakingX		= 4.0;
 	refship.InertiaAccelerationY	= 3.5;	refship.InertiaBrakingY		= 3;
@@ -7671,7 +7671,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed            = 1.7;//boal
 	refship.CabinType          			= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 
 	refShip.Height.Bombs.Y				= 4.5;		refShip.Height.Bombs.DY		= 2.0;
 	refShip.Height.Grapes.Y				= 8.0;		refShip.Height.Grapes.DY	= 2.0;
@@ -7748,7 +7748,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.4;
 	refship.WindAgainstSpeed   			= 1.5;//boal
 	refship.CabinType          			= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
@@ -7907,7 +7907,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.4;
 	refship.WindAgainstSpeed   			= 1.0;//boal
 	refship.CabinType          			= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 
 	refShip.Flags.Mast1.Flag1 = FLAG_SPECIAL;
 	refShip.Flags.Mast2.Flag1 = FLAG_ENSIGN;
@@ -7988,7 +7988,7 @@ void InitShips()
 	refship.TurnDependWeight	= 0.4;
 	refship.WindAgainstSpeed   	= 2.0;//boal
 	refship.CabinType          	= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 	
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
 	refShip.Flags.Mast3.Flag1 = FLAG_ENSIGN;
@@ -8208,7 +8208,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 1.0;//boal
 	refship.CabinType          = "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 	
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
@@ -8363,7 +8363,7 @@ void InitShips()
 	refship.TurnDependWeight	= 0.4;
 	refship.WindAgainstSpeed   	= 2.0;//boal
 	refship.CabinType          		= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 	
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
@@ -8440,7 +8440,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.4;
 	refship.WindAgainstSpeed   			= 1.0;//boal
 	refship.CabinType         			= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 	
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
@@ -8598,7 +8598,7 @@ void InitShips()
 	refship.TurnDependWeight	= 0.4;
 	refship.WindAgainstSpeed   	= 1.0;//boal
 	refship.CabinType          	= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           	= "Big";
+	refship.DeckType           	= "Lineship";
 	
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
@@ -8762,7 +8762,7 @@ void InitShips()
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   			= 1.0;//boal
 	refship.CabinType          			= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 
 	refShip.Height.Bombs.Y				= 4.0;		refShip.Height.Bombs.DY		= 2.0;
 	refShip.Height.Grapes.Y				= 7.0;		refShip.Height.Grapes.DY	= 1.5;
@@ -8835,7 +8835,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.4;
 	refship.WindAgainstSpeed            = 1.7;//boal
 	refship.CabinType          			= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
@@ -8912,7 +8912,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.4;
 	refship.WindAgainstSpeed            = 1.7;//boal
 	refship.CabinType          			= "Cabin_Huge"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Lineship";
 
 	refShip.Flags.Mast2.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast3.Flag1 = FLAG_SPECIAL;
@@ -9876,7 +9876,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 4.0;//boal
 	refship.CabinType          = "Cabin_Quest"; // boal 28.03.05
-	refship.DeckType           			= "Medium";
+	refship.DeckType           			= "Frigate";
 
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
@@ -9951,7 +9951,7 @@ void InitShips()
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 4.5;//boal
 	refship.CabinType          = "Cabin_Quest"; // boal 28.03.05
-	refship.DeckType           			= "Big";
+	refship.DeckType           			= "Frigate";
 	
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
