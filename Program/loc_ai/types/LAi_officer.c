@@ -198,9 +198,12 @@ void LAi_type_officer_CharacterUpdate(aref chr, float dltTime)
 					//пробуем сменить цель, может уже есть кто ближе
 					fCheck = stf(chr.chr_ai.type.checkTarget) - dltTime;
 					chr.chr_ai.type.checkTarget = fCheck;
-					if (stf(LAi_grp_relations.distance) > 2.0 && fCheck < 0) //цель далеко, попробуем сменить на ближайшую
+					if (CheckAttribute(LAi_grp_relations,"distance"))
 					{
-						LAi_type_officer_FindTarget(chr);
+						if (stf(LAi_grp_relations.distance) > 2.0 && fCheck < 0) //цель далеко, попробуем сменить на ближайшую
+						{
+							LAi_type_officer_FindTarget(chr);
+						}
 					}
 				}
 			}

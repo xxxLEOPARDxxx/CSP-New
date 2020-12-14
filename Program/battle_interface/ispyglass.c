@@ -49,7 +49,7 @@ void SetSpyGlassData()
 	int chrIdx = GetEventData();
 	if(chrIdx<0) return;
 
-	string sTextureName = "battle_interface\ship_icons2.tga.tx";
+	string sTextureName = "battle_interface\ship_icons2.dds";
 	float uvLeft = 0;
 	float uvTop = 0;
 	float uvRight = 0.125;

@@ -53,6 +53,9 @@ void BLI_EnableShow()
 
 void BLI_DisableShow()
 {
+	bYesBoardStatus=false;
+	DeleteClass(&IBoardingStatus);
+	DeleteAttribute(&IBoardingStatus,"");
 	SetLandInterfaceShow(false);
 }
 
@@ -328,6 +331,10 @@ void EndBattleLandInterface()
 	bLandInterfaceStart = false;
 
 	DeleteAttribute( pchar, "boxname" );
+	
+	bYesBoardStatus=false;
+	DeleteClass(&IBoardingStatus);
+	DeleteAttribute(&IBoardingStatus,"");
 
 	BLI_DisableShow();
 	SendMessage(&objLandInterface,"l",MSG_BATTLE_LAND_END);
@@ -739,7 +746,7 @@ void BLI_SetObjectData()
 
 void RefreshChargeTime()
 {
-	if (dialogRun) 
+	if (dialogRun || !bLandInterfaceStart) 
 	{
 		bYesBoardStatus=false;
 		DeleteClass(&IBoardingStatus);

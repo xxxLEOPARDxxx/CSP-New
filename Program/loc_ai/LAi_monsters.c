@@ -637,8 +637,8 @@ bool LAi_CreateEncounters(ref location)
 			// if(rand(15) > 15 || CheckAttribute(pchar, "GenQuest.Convict") || location.type == "seashore" || location.type == "mayak" ) return false;	
 			if(CheckAttribute(location, "onUninhabitedIsland")) return false; // На необитаемых нельзя		
 			if (sAreal == "Panama") return false;
-			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); //кол-во человек в группе // LEO
-			// num = GetAttributesNum(grp); //кол-во человек в группе
+			// num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); //кол-во человек в группе // LEO
+			num = GetAttributesNum(grp); //кол-во человек в группе
 			if(num <= 1) return false;
 			if (num <= 2) num = 2;
 			iRank = 2 + rand(3); //ранг каторжан
@@ -668,8 +668,8 @@ bool LAi_CreateEncounters(ref location)
 				{
 					chr = GetCharacter(NPC_GenerateCharacter("Convict_" + i, model[iMassive], "man", "man", iRank, PIRATE, -1, true));
 					SetFantomParamFromRank(chr, iRank, true);
-					// locator = GetAttributeName(GetAttributeN(grp, 1));
-					locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
+					locator = GetAttributeName(GetAttributeN(grp, i));
+					// locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
 					ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 					chr.dialog.filename = "GenQuests_Dialog.c";
 					chr.dialog.currentnode = "First time";
