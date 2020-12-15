@@ -2241,7 +2241,7 @@ void initNewMainCharacter()
 		SetCharacterPerk(pchar, "LongRangeGrappling");
 		pchar.reputation.spahunter = 20+rand(5);
 	} */
-	//SetCharacterPerk(pchar, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+	SetCharacterPerk(pchar, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 	// начальные скилы задать
     InitStartParam(pchar);
     SetEnergyToCharacter(pchar);
