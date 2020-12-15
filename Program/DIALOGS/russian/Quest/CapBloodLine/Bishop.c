@@ -2291,6 +2291,7 @@ void ProcessDialogEvent()
             NextDiag.TempNode = "HTStep_12";
             Pchar.questTemp.CapBloodLine.Hugtorp = true;
             Pchar.questTemp.CapBloodLine.Officer = sti(Pchar.questTemp.CapBloodLine.Officer)+1;
+			Pchar.HugtorpQuestFinish = true;
             AddQuestRecord("HugtorpTrouble", "2");
             CloseQuestHeader("HugtorpTrouble");
 
@@ -2325,6 +2326,7 @@ void ProcessDialogEvent()
             NextDiag.TempNode = "HTStep_12";
             Pchar.questTemp.CapBloodLine.Hugtorp = true;
             Pchar.questTemp.CapBloodLine.Officer = sti(Pchar.questTemp.CapBloodLine.Officer)+1;
+			Pchar.HugtorpQuestFinish = true;
             AddQuestRecord("HugtorpTrouble", "4");
             CloseQuestHeader("HugtorpTrouble");
 
@@ -2342,6 +2344,7 @@ void ProcessDialogEvent()
         case "HTStep_13":
 
             LoginWinterwood();
+			Pchar.HugtorpQuestStart = true;
             AddQuestRecord("HugtorpTrouble", "1");
             NextDiag.CurrentNode = "HTStep_10";
 			DialogExit();

@@ -89,9 +89,9 @@ void SetSpyGlassData()
 	string sCaptainName = GetCharacterFullName(chref.id);
 	int nFencingSkill = GetCharacterSkill(chref,SKILL_DEFENCE);   // защита
 	int nCannonSkill = GetCharacterSkill(chref,SKILL_GRAPPLING);    // абордаж
-	int nAccuracySkill = GetCharacterSkill(chref,SKILL_CANNONS); // оруди¤
+	int nAccuracySkill = GetCharacterSkill(chref,SKILL_CANNONS); // орудия
 	int nNavigationSkill = GetCharacterSkill(chref,SKILL_ACCURACY); // меткость
-	int nBoardingSkill = GetCharacterSkill(chref,SKILL_SAILING);  // навигаци¤
+	int nBoardingSkill = GetCharacterSkill(chref,SKILL_SAILING);  // навигация
 	if( !CheckAttribute(arScopeItm,"scope.show.captain_skills") || sti(arScopeItm.scope.show.captain_skills)==0 ) {
 		nFencingSkill = -1;
 		nCannonSkill = -1;
@@ -107,10 +107,10 @@ void SetSpyGlassData()
 		nSailState = 2;
 	}
 	
-	//  эп "Мэри —елест" - его как бы и нету, поэтому показываем нули
+	// Кэп "Мэри Селест" - его как бы и нету, поэтому показываем нули
 	if((chref.ID == "MaryCelesteCapitan") || (CheckAttribute(pchar,"GenQuest.ShipSituation.Explosion")))
 	{
-		// ѕоказываем нули в скилах
+		// Њоказываем нули в скилах
 		nFencingSkill = 0;
 		nCannonSkill = 0;
 		nAccuracySkill = 0;
@@ -245,7 +245,7 @@ void SetSpyGlassData()
 	}	
 		if (CheckAttribute(arScopeItm,"scope.show.mushketshot") && sti(arScopeItm.scope.show.mushketshot) != 0  && CheckCharacterPerk(chref, "MusketsShoot") && !isFort)	
 		{
-			sCaptainName = CannonTypeName + "  ћушкетный залп   " + sCaptainName;
+			sCaptainName = CannonTypeName + "  Мушкетный залп   " + sCaptainName;
 		}
 		else
 		{
@@ -419,13 +419,13 @@ void FillISpyGlassParameters()
 		objISpyGlass.captain.cannon.uv = "0.75,0.125,0.875,0.25";  // абордаж
 		objISpyGlass.captain.accuracy.texture = "interfaces\\icons_spec.tga";
 		objISpyGlass.captain.accuracy.pos = RecalculateHIconScaled(686)+","+(ntop+RecalculateVIconScaled(42)) + "," + RecalculateHIconScaled(734)+","+(ntop+RecalculateVIconScaled(90));
-		objISpyGlass.captain.accuracy.uv = "0.375,0.125,0.5,0.25";  // оруди§
+		objISpyGlass.captain.accuracy.uv = "0.375,0.125,0.5,0.25";  // орудия
 		objISpyGlass.captain.navigation.texture = "interfaces\\icons_spec.tga";
 		objISpyGlass.captain.navigation.pos = RecalculateHIconScaled(614)+","+(ntop+RecalculateVIconScaled(42)) + "," + RecalculateHIconScaled(662)+","+(ntop+RecalculateVIconScaled(90));
 		objISpyGlass.captain.navigation.uv = "0.25,0.125,0.375,0.25"; // меткость
 		objISpyGlass.captain.boarding.texture = "interfaces\\icons_spec.tga";
 		objISpyGlass.captain.boarding.pos = RecalculateHIconScaled(542)+","+(ntop+RecalculateVIconScaled(42)) + "," + RecalculateHIconScaled(590)+","+(ntop+RecalculateVIconScaled(90));
-		objISpyGlass.captain.boarding.uv = "0.5,0.125,0.625,0.25";  // навигациІ
+		objISpyGlass.captain.boarding.uv = "0.5,0.125,0.625,0.25";  // навигация
 	//}
 
 	//==========================================================

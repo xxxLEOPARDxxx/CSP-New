@@ -298,6 +298,40 @@ void DrawCharacterHPEx(float myHP,float enemyHP)
     if(bYesBoardStatus==false)
     {
         CreateEntity(&IBoardingStatus,"IBoardingStatus");
+        // fTmp = makeint(29.5 * fHtRatio);
+        fTmp = makeint(25.0 * fHtRatio);
+        IBoardingStatus.myLeft = fTmp + "," + fTmp2;
+        // fTmp = makeint(98.0 * fHtRatio);
+        fTmp = makeint(86.0 * fHtRatio);
+        IBoardingStatus.myTop = fTmp + "," + fTmp2;
+		IBoardingStatus.enemyLeft = sti(showWindow.left)+230+73+makeint((14.0/1280.0*stf(showWindow.right)-4.0)/2.0);
+		IBoardingStatus.enemyTop = -1000;
+		IBoardingStatus.height = RecalculateVIcon(4)*fHtRatio;
+		IBoardingStatus.width = RecalculateVIcon(121)*fHtRatio;
+		IBoardingStatus.myColor = argb(255,200,200,200);
+		IBoardingStatus.enemyColor = argb(255,128,0,0);
+		SendMessage(&IBoardingStatus,"l",LOG_INIT_CHARCTER_HP);
+		bYesBoardStatus = true;
+	}
+	
+	if(enemyHP <=0)
+	{
+		bYesBoardStatus=false;
+		DeleteClass(&IBoardingStatus);
+		DeleteAttribute(&IBoardingStatus,"");
+	}
+	
+	SendMessage(&IBoardingStatus,"lff",LOG_SET_CHARCTER_HP,myHP,enemyHP);
+}
+
+void DrawCharacterHPExx(float myHP,float enemyHP)
+{
+	float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    int fTmp, fTmp2;
+    
+    if(bYesBoardStatus==false)
+    {
+        CreateEntity(&IBoardingStatus,"IBoardingStatus");
         fTmp = makeint(29.5 * fHtRatio);
         IBoardingStatus.myLeft = fTmp + "," + fTmp2;
         fTmp = makeint(98.0 * fHtRatio);

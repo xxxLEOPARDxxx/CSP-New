@@ -135,6 +135,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.HUDStyle = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"HUDStyleLand") ) {
+		optref.cameramode.HUDStyleLand = sti(InterfaceStates.HUDStyleLand);
+	} else {
+		optref.cameramode.HUDStyleLand = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -243,6 +249,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.HUDStyle = optref.cameramode.HUDStyle;
 	} else {
 		InterfaceStates.HUDStyle = false;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.HUDStyleLand") ) {
+		InterfaceStates.HUDStyleLand = optref.cameramode.HUDStyleLand;
+	} else {
+		InterfaceStates.HUDStyleLand = false;
 	}
 
 	// mouse

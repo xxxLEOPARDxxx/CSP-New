@@ -57,9 +57,9 @@ void WhrCreateSkyEnvironment()
 void UpdateSky()
 {
 	float windSpeed = 5.0;
-	float timeScale = 1.0 + TimeScaleCounter * 0.25; // РўРµРєСѓС‰РµРµ СѓСЃРєРѕСЂРµРЅРёРµ РІСЂРµРјРµРЅРё
+	float timeScale = 1.0 + TimeScaleCounter * 0.25; // Текущее ускорение времени
 	
-	// Р’С‹С‡РёСЃР»РµРЅРёРµ РґРµР»РёС‚РµР»СЏ РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ, С‡С‚РѕР± РЅР° x8 Р±РµС€РµРЅРЅРѕ РЅРµ РєСЂСѓС‚РёР»РёСЃСЊ
+	// Вычисление делител¤ дл¤ ускорения, чтоб на x8 бешенно не крутились
 	if(timeScale <= 2)
 	{
 		timeScale = 1;
@@ -74,7 +74,7 @@ void UpdateSky()
 		windSpeed = stf(Weather.Wind.Speed);
 	}
 	
-	// Sky.RotateSpeed == 0.05 - СЌС‚Рѕ СѓР¶Рµ РјРЅРѕРіРѕ
+	// Sky.RotateSpeed == 0.05 - это уже много
 	Sky.RotateSpeed = windSpeed / 1000 / timeScale;
 }
 

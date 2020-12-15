@@ -976,6 +976,7 @@ void NewGame_continue()
 		RemoveCharacterEquip(pchar, PATENT_ITEM_TYPE);
 		RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
 		RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, BACKPACK_ITEM_TYPE);
 		DeleteAttribute(pchar, "items");
 		InterfaceStates.startGameWeather = FindWeather("20 Hour");
 		LoadMainCharacterInFirstLocationGroup("Estate", "reload", "reload1");
@@ -1038,6 +1039,7 @@ void InitGame()
 	}
 	ReloadProgressUpdate();
 	GenerateGenerableItems(); // <-- ugeen генерация предметов
+	ReloadProgressUpdate();
 	//Boyer change #20170301-6...CharactersInit assigns RealShips, and after a bunch of 'New' games in a
 	//session, RealShips array overflows, so call new function to reset
 	ResetRealShipArray();
@@ -1982,6 +1984,14 @@ void restoreQuestItems()
         rItemRef.shown = true;
         rItemRef.startLocation = "Marigo_houseH2";
         rItemRef.startLocator = "item1";
+    }
+	if(CheckAttribute(pchar, "HugtorpQuestStart") && !CheckAttribute(pchar, "HugtorpQuestFinish"))
+	{
+		ref itm = ItemsFromID("DOjeronRing");
+		itm.picIndex = 15;
+		itm.picTexture = "ITEMS_13";
+		ChangeItemName("DOjeronRing", "itmname_HugtorpRing");
+		ChangeItemDescribe("DOjeronRing", "itmdescr_HugtorpRing");
     }
 }
 

@@ -192,6 +192,13 @@ void IReadVariableAfterInit()
 		nHUDStyle = sti(InterfaceStates.HUDStyle);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"HUDStyle_CHECKBOX", 2, 1, nHUDStyle );
+	
+	int nHUDStyleLand = 0;
+	if( CheckAttribute(&InterfaceStates,"HUDStyleLand") )
+	{
+		nHUDStyleLand = sti(InterfaceStates.HUDStyleLand);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"HUDStyleLand_CHECKBOX", 2, 1, nHUDStyleLand );
 }
 
 void SetControlsTabMode(int nMode)
@@ -357,6 +364,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.HUDStyle = bBtnState;
+		}
+	}
+	
+	if( sNodName == "HUDStyleLand_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.HUDStyleLand = bBtnState;
 		}
 	}
 }
@@ -979,6 +993,11 @@ void ShowInfo()
 		case "HUDStyle_CHECKBOX":
 			sHeader = XI_ConvertString("HUDStyle_title");
 			sText1 = XI_ConvertString("HUDStyle_desc");
+		break;
+		
+		case "HUDStyleLand_CHECKBOX":
+			sHeader = XI_ConvertString("HUDStyleLand_title");
+			sText1 = XI_ConvertString("HUDStyleLand_desc");
 		break;
 		
 		//#20171223-01 Camera perspective option
