@@ -62,15 +62,6 @@ void onLoadReInit()
 		SetArraySize(&RandItems, RANDITEMS_QUANTITY);
 		bInitItems = true;
 	}
-	if (bInitItems || (nItemSize != TOTAL_ITEMS)){
-		SetArraySize(&Items,TOTAL_ITEMS);
-		SetArraySize(&itemModels,TOTAL_ITEMS);
-		if(LoadSegment("items\initItems.c"))
-		{
-			InitItems();
-			//UnloadSegment("items\initItems.c");
-		}
-	}
 	if(nShipSize  != SHIP_TYPES_QUANTITY_WITH_FORT){
 		reinit = true;
 		SetArraySize(&ShipsTypes, SHIP_TYPES_QUANTITY_WITH_FORT);

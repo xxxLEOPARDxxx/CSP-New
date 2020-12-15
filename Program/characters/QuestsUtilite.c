@@ -1402,7 +1402,10 @@ void SortItems(ref NPChar)
     {
         curItem = GetAttributeN(arFromChar, i);
         attr = GetAttributeValue(curItem);
-		NPChar.Items.(attr) = i;
+        if (attr != "") //патенты клинит
+        {
+        	NPChar.Items.(attr) = sti(rObj.Items.(attr));
+        }
     }
     // неоптимальная сортировка по индексу itm.SortIndex
 	// размерность индекса определяется автоматом - длжен быть непрерывен!!, начинается с 1 - целое число
