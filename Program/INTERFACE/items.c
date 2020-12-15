@@ -85,36 +85,55 @@ void ProcessCommandExecute()
 			if(comName=="click")
 			{
 			    nodName = "I_CHARACTER";
+				InterfaceStates.ReloadMenuExit = true;
+				IDoExit(RC_INTERFACE_ANY_EXIT);
+				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
+				return;
 			}
 		break;
 		case "I_SHIP_2":
 			if(comName=="click")
 			{
 			    nodName = "I_SHIP";
+				InterfaceStates.ReloadMenuExit = true;
+				IDoExit(RC_INTERFACE_ANY_EXIT);
+				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
 			}
 		break;
 		case "I_QUESTBOOK_2":
 			if(comName=="click")
 			{
 			    nodName = "I_QUESTBOOK";
+				InterfaceStates.ReloadMenuExit = true;
+				IDoExit(RC_INTERFACE_ANY_EXIT);
+				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
 			}
 		break;
 		case "I_TRADEBOOK_2":
 			if(comName=="click")
 			{
 			    nodName = "I_TRADEBOOK";
+				InterfaceStates.ReloadMenuExit = true;
+				IDoExit(RC_INTERFACE_ANY_EXIT);
+				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
 			}
 		break;
 		case "I_NATIONS_2":
 			if(comName=="click")
 			{
 			    nodName = "I_NATIONS";
+				InterfaceStates.ReloadMenuExit = true;
+				IDoExit(RC_INTERFACE_ANY_EXIT);
+				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
 			}
 		break;
 		case "I_ITEMS_2":
 			if(comName=="click")
 			{
 			    nodName = "I_ITEMS";
+				InterfaceStates.ReloadMenuExit = true;
+				IDoExit(RC_INTERFACE_ANY_EXIT);
+				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
 			}
 		break;
 		case "QTY_ADD_BUTTON":
