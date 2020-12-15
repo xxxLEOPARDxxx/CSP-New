@@ -199,6 +199,13 @@ void IReadVariableAfterInit()
 		nHUDStyleLand = sti(InterfaceStates.HUDStyleLand);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"HUDStyleLand_CHECKBOX", 2, 1, nHUDStyleLand );
+	
+	int nCannonsHUD = 0;
+	if( CheckAttribute(&InterfaceStates,"CannonsHUD") )
+	{
+		nCannonsHUD = sti(InterfaceStates.CannonsHUD);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"CannonsHUD_CHECKBOX", 2, 1, nCannonsHUD );
 }
 
 void SetControlsTabMode(int nMode)
@@ -371,6 +378,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.HUDStyleLand = bBtnState;
+		}
+	}
+	
+	if( sNodName == "CannonsHUD_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.CannonsHUD = bBtnState;
 		}
 	}
 }
@@ -998,6 +1012,11 @@ void ShowInfo()
 		case "HUDStyleLand_CHECKBOX":
 			sHeader = XI_ConvertString("HUDStyleLand_title");
 			sText1 = XI_ConvertString("HUDStyleLand_desc");
+		break;
+		
+		case "CannonsHUD_CHECKBOX":
+			sHeader = XI_ConvertString("CannonsHUD_title");
+			sText1 = XI_ConvertString("CannonsHUD_desc");
 		break;
 		
 		//#20171223-01 Camera perspective option

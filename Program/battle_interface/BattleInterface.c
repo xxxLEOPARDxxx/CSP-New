@@ -1850,23 +1850,31 @@ void SetParameterData()
 	BattleInterface.imageslist.textinfoback3.pos = off;
 	//<---
 	//Рисуем интерфейс пушек
-	BattleInterface.textinfo.CannonsNum.font = "bold_numbers";
-	BattleInterface.textinfo.CannonsNum.scale = 0.8;
-	BattleInterface.textinfo.CannonsNum.color = argb(255,255,255,255);
-	BattleInterface.textinfo.CannonsNum.pos.x = sti(showWindow.right)/2 - RecalculateHIcon(8);//sti(showWindow.right) - RecalculateHIcon(104);
-	BattleInterface.textinfo.CannonsNum.pos.y = sti(showWindow.bottom) - RecalculateVIcon(122);;//RecalculateVIcon(402);
-	BattleInterface.textinfo.CannonsNum.text = XI_convertString("Cannon");
-	BattleInterface.textinfo.CannonsNum.refreshable = true;
-	
-	fTmp = sti(showWindow.right)/2 + RecalculateHIcon(128);
-	fTmp2 = sti(showWindow.bottom) - RecalculateVIcon(40);
-	fTmp3 = sti(showWindow.right)/2 - RecalculateHIcon(128);
-	fTmp4 = sti(showWindow.bottom) - RecalculateVIcon(104);
-	off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
-	BattleInterface.imageslist.textinfoback4.texture = "\battle_interface\HUD_Cannons.dds";
-	BattleInterface.imageslist.textinfoback4.color = argb(255,128,128,128);
-	BattleInterface.imageslist.textinfoback4.uv = "0.0,0.0,1.0,1.0";
-	BattleInterface.imageslist.textinfoback4.pos = off;
+	if(InterfaceStates.CannonsHUD)
+	{
+		BattleInterface.textinfo.CannonsNum.font = "bold_numbers";
+		BattleInterface.textinfo.CannonsNum.scale = 0.8;
+		BattleInterface.textinfo.CannonsNum.color = argb(255,255,255,255);
+		BattleInterface.textinfo.CannonsNum.pos.x = sti(showWindow.right)/2 - RecalculateHIcon(8);//sti(showWindow.right) - RecalculateHIcon(104);
+		BattleInterface.textinfo.CannonsNum.pos.y = sti(showWindow.bottom) - RecalculateVIcon(122);;//RecalculateVIcon(402);
+		BattleInterface.textinfo.CannonsNum.text = XI_convertString("Cannon");
+		BattleInterface.textinfo.CannonsNum.refreshable = true;
+		
+		fTmp = sti(showWindow.right)/2 + RecalculateHIcon(128);
+		fTmp2 = sti(showWindow.bottom) - RecalculateVIcon(40);
+		fTmp3 = sti(showWindow.right)/2 - RecalculateHIcon(128);
+		fTmp4 = sti(showWindow.bottom) - RecalculateVIcon(104);
+		off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
+		BattleInterface.imageslist.textinfoback4.texture = "\battle_interface\HUD_Cannons.dds";
+		BattleInterface.imageslist.textinfoback4.color = argb(255,128,128,128);
+		BattleInterface.imageslist.textinfoback4.uv = "0.0,0.0,1.0,1.0";
+		BattleInterface.imageslist.textinfoback4.pos = off;
+	}
+	else
+	{
+		BattleInterface.textinfo.CannonsNum.scale = 0;
+		BattleInterface.imageslist.textinfoback4.texture = "";
+	}
 	//<---
 	
 	BattleInterface.LineInfo.speed.color = argb(255,0,0,0);

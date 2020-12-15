@@ -141,6 +141,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.HUDStyleLand = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"CannonsHUD") ) {
+		optref.cameramode.CannonsHUD = sti(InterfaceStates.CannonsHUD);
+	} else {
+		optref.cameramode.CannonsHUD = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -255,6 +261,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.HUDStyleLand = optref.cameramode.HUDStyleLand;
 	} else {
 		InterfaceStates.HUDStyleLand = false;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.CannonsHUD") ) {
+		InterfaceStates.CannonsHUD = optref.cameramode.CannonsHUD;
+	} else {
+		InterfaceStates.CannonsHUD = false;
 	}
 
 	// mouse
