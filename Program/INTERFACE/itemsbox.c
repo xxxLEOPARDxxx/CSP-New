@@ -18,10 +18,10 @@ bool bBoxUsed = false; // Сундук-ли?
 aref refToChar, arChest, arDeadChar;
 String sCharactersArroy[INTERFACE_ITEMSBOX_CHAR_ARROYSIZE] = {"", "", "", "", "", "", "", "", "", ""};
 
-int iTableAddAllBtnX = 272;
-int iTableAddAllBtnY = 175;
-int iTableRemoveAllBtnX = 503;
-int iTableRemoveAllBtnY = 175;
+int iTableAddAllBtnX = 270;
+int iTableAddAllBtnY = 160;
+int iTableRemoveAllBtnX = 504;
+int iTableRemoveAllBtnY = 160;
 
 int iCurrentTabMode = 3; // Текущий режим сортировки
 
@@ -778,8 +778,8 @@ void AddToTable(ref rChar)
 				iSelLine = iLinesCount - sti(GameInterface.TABLE_LIST.top);
 			}
 			
-			SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE, "TABLE_ADD_ALL_BUTTON", 0, iTableAddAllBtnX, iTableAddAllBtnY + 60 * (iSelLine - 1), iTableAddAllBtnX + 30, iTableAddAllBtnY + 60 * (iSelLine - 1) + 30, 0);
-			SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE, "TABLE_REMOVE_ALL_BUTTON", 0, iTableRemoveAllBtnX, iTableRemoveAllBtnY + 60 * (iSelLine - 1), iTableRemoveAllBtnX + 30, iTableRemoveAllBtnY + 60 * (iSelLine - 1) + 30, 0);
+			SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE, "TABLE_ADD_ALL_BUTTON", 0, iTableAddAllBtnX, iTableAddAllBtnY + 30 * (iSelLine - 1), iTableAddAllBtnX + 30, iTableAddAllBtnY + 30 * (iSelLine - 1) + 30, 0);
+			SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE, "TABLE_REMOVE_ALL_BUTTON", 0, iTableRemoveAllBtnX, iTableRemoveAllBtnY + 30 * (iSelLine - 1), iTableRemoveAllBtnX + 30, iTableRemoveAllBtnY + 30 * (iSelLine - 1) + 30, 0);
 			
 			sList = "tr" + sti(GameInterface.TABLE_LIST.select);
 			iCurGoodsIdx = sti(GameInterface.TABLE_LIST.(sList).index);
@@ -813,8 +813,8 @@ void AddToTable(ref rChar)
 		GameInterface.TABLE_LIST.(sList).td3.icon.group = rItem.picTexture;
 		GameInterface.TABLE_LIST.(sList).td3.icon.image = "itm" + rItem.picIndex;
 		GameInterface.TABLE_LIST.(sList).td3.icon.offset = "-2, 0";
-		GameInterface.TABLE_LIST.(sList).td3.icon.width = 60;
-		GameInterface.TABLE_LIST.(sList).td3.icon.height = 60;
+		GameInterface.TABLE_LIST.(sList).td3.icon.width = 30;
+		GameInterface.TABLE_LIST.(sList).td3.icon.height = 30;
 		GameInterface.TABLE_LIST.(sList).td3.textoffset = "50, 0";
 		GameInterface.TABLE_LIST.(sList).td3.str = GetConvertStr(rItem.name, "ItemsDescribe.txt");
 		GameInterface.TABLE_LIST.(sList).index = Index;
@@ -876,8 +876,8 @@ void AddToTable(ref rChar)
 	        GameInterface.TABLE_LIST.(sList).td3.icon.group = rItem.picTexture;
 			GameInterface.TABLE_LIST.(sList).td3.icon.image = "itm" + rItem.picIndex;
 			GameInterface.TABLE_LIST.(sList).td3.icon.offset = "-2, 0";
-			GameInterface.TABLE_LIST.(sList).td3.icon.width = 60;
-			GameInterface.TABLE_LIST.(sList).td3.icon.height = 60;
+			GameInterface.TABLE_LIST.(sList).td3.icon.width = 30;
+			GameInterface.TABLE_LIST.(sList).td3.icon.height = 30;
 			GameInterface.TABLE_LIST.(sList).td3.textoffset = "50, 0";
 			GameInterface.TABLE_LIST.(sList).td3.str = GetConvertStr(rItem.name, "ItemsDescribe.txt");
 			GameInterface.TABLE_LIST.(sList).index = i;
@@ -932,8 +932,8 @@ void AddToTable(ref rChar)
 	        GameInterface.TABLE_LIST.(sList).td3.icon.group = rItem.picTexture;
 			GameInterface.TABLE_LIST.(sList).td3.icon.image = "itm" + rItem.picIndex;
 			GameInterface.TABLE_LIST.(sList).td3.icon.offset = "-2, 0";
-			GameInterface.TABLE_LIST.(sList).td3.icon.width = 60;
-			GameInterface.TABLE_LIST.(sList).td3.icon.height = 60;
+			GameInterface.TABLE_LIST.(sList).td3.icon.width = 30;
+			GameInterface.TABLE_LIST.(sList).td3.icon.height = 30;
 			GameInterface.TABLE_LIST.(sList).td3.textoffset = "50, 0";
 			GameInterface.TABLE_LIST.(sList).td3.str = GetConvertStr(rItem.name, "ItemsDescribe.txt");
 			GameInterface.TABLE_LIST.(sList).index = i;
@@ -1052,8 +1052,8 @@ void CS_TableSelectChange()
 		iSelLine = iSelected - sti(GameInterface.TABLE_LIST.top);
 	}
 	
-	SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE, "TABLE_ADD_ALL_BUTTON", 0, iTableAddAllBtnX, iTableAddAllBtnY + 60 * (iSelLine - 1), iTableAddAllBtnX + 30, iTableAddAllBtnY + 60 * (iSelLine - 1) + 30, 0);
-	SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE, "TABLE_REMOVE_ALL_BUTTON", 0, iTableRemoveAllBtnX, iTableRemoveAllBtnY + 60 * (iSelLine - 1), iTableRemoveAllBtnX + 30, iTableRemoveAllBtnY + 60 * (iSelLine - 1) + 30, 0);
+	SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE, "TABLE_ADD_ALL_BUTTON", 0, iTableAddAllBtnX, iTableAddAllBtnY + 30 * (iSelLine - 1), iTableAddAllBtnX + 30, iTableAddAllBtnY + 30 * (iSelLine - 1) + 30, 0);
+	SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE, "TABLE_REMOVE_ALL_BUTTON", 0, iTableRemoveAllBtnX, iTableRemoveAllBtnY + 30 * (iSelLine - 1), iTableRemoveAllBtnX + 30, iTableRemoveAllBtnY + 30 * (iSelLine - 1) + 30, 0);
 	
 	String sList = "tr" + iSelected;
 	SetCharWeight();

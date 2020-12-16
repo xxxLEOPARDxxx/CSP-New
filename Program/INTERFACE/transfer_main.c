@@ -952,9 +952,9 @@ void FillGoodsTable()
 
         GameInterface.TABLE_LIST.(row).td3.icon.group = "GOODS";
 		GameInterface.TABLE_LIST.(row).td3.icon.image = sGood;
-		GameInterface.TABLE_LIST.(row).td3.icon.offset = "0, -3";
-		GameInterface.TABLE_LIST.(row).td3.icon.width = 32;
-		GameInterface.TABLE_LIST.(row).td3.icon.height = 32;
+		GameInterface.TABLE_LIST.(row).td3.icon.offset = "-2, -1";
+		GameInterface.TABLE_LIST.(row).td3.icon.width = 20;
+		GameInterface.TABLE_LIST.(row).td3.icon.height = 20;
 		GameInterface.TABLE_LIST.(row).td3.textoffset = "27,0";
 		GameInterface.TABLE_LIST.(row).td3.str = XI_ConvertString(sGood);
 		GameInterface.TABLE_LIST.(row).td3.scale = 0.85;
@@ -1663,7 +1663,7 @@ void SetGoodsArrows()
 		    iLine = iSelected - 1 - sti(GameInterface.TABLE_LIST.top);
 			if  (GetCargoGoods(pchar, idx) > 0 && GetGoodQuantityByWeight(idx, GetCargoFreeSpace(xi_refCharacter)) > 0)
 	        {
-				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_RIGHT",0, 425 ,296 + 29*iLine, 455, 296 + 28 + 29*iLine, 0);
+				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_RIGHT",0, 438 ,286 + 20*iLine, 458, 286 + 20 + 20*iLine, 0);
 				SetNodeUsing("B_RIGHT", true);
 	        }
 	        else
@@ -1672,7 +1672,7 @@ void SetGoodsArrows()
 	        }
 	        if (GetCargoGoods(xi_refCharacter, idx) > 0 && GetGoodQuantityByWeight(idx, GetCargoFreeSpace(pchar)) > 0)
 	        {
-				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_LEFT",0, 292,296 + 29*iLine,322,296 + 28 + 29*iLine, 0);
+				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_LEFT",0, 289,286 + 20*iLine,309,286 + 20 + 20*iLine, 0);
 	            SetNodeUsing("B_LEFT",  true);
 	        }
 	        else
