@@ -909,7 +909,7 @@ int LocationInitSantaCatalina(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore54";
 	locations[n].id.label = "Shore54";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore54";
 	//Sound
 	locations[n].type = "seashore";
@@ -963,7 +963,7 @@ int LocationInitSantaCatalina(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore53";
 	locations[n].id.label = "Shore53";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore53";
 	//Sound
 	locations[n].type = "seashore";
@@ -1019,7 +1019,7 @@ int LocationInitSantaCatalina(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore55";
 	locations[n].id.label = "Shore55";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore55";
 	//Sound
 	locations[n].type = "seashore";

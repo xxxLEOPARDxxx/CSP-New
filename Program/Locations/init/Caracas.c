@@ -695,7 +695,7 @@ int LocationInitCaracas(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore21";
 	locations[n].id.label = "Shore21";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore21";
 	//Sound
 	locations[n].type = "seashore";

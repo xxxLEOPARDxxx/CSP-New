@@ -71,6 +71,12 @@ void extrnInitPerks()
 	ChrPerksList.list.SwordplayProfessional.condition.Tireless = true;
 	ChrPerksList.list.SwordplayProfessional.BaseType = "self";
 	
+	ChrPerksList.list.AgileMan.descr = "perkAgileMan";
+	ChrPerksList.list.AgileMan.condition.SwordplayProfessional = true;
+	ChrPerksList.list.AgileMan.condition.GunProfessional = true;
+	ChrPerksList.list.AgileMan.BaseType = "self";
+	ChrPerksList.list.AgileMan.PlayerOnly = true;
+	
 	ChrPerksList.list.Gunman.descr = "perkGunman";
 	ChrPerksList.list.Gunman.BaseType = "self";
 

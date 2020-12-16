@@ -227,7 +227,7 @@ int Reload(aref reload_group, string locator_name, string current_location)
 	{
 		if(!CheckAttribute(mc, "todeck"))
 		{
-			SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\seaStand.tga");
+			SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\seaStand_" + rand(9) + ".tga");
 		}
 		else
 		{
@@ -300,6 +300,7 @@ void ReloadStartFade()
 {
     //#20191123-01 Fix
     DialogExit();
+	ApplayNewSkill(pchar, "", 0);
 	//ResetSoundScheme();
 	ResetSound(); // new
 	PauseAllSounds();

@@ -702,7 +702,7 @@ int LocationInitGuadeloupe(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore29";
 	locations[n].id.label = "Shore29";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore29";
 	//Sound
 	locations[n].type = "seashore";
@@ -1084,7 +1084,7 @@ int LocationInitGuadeloupe(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore30";
 	locations[n].id.label = "Shore30";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore30";
 	//Sound
 	locations[n].type = "seashore";
@@ -1186,7 +1186,7 @@ int LocationInitGuadeloupe(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore31";
 	locations[n].id.label = "Shore31";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore31";
 	//Sound
 	locations[n].type = "seashore";

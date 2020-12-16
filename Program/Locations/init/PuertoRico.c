@@ -807,7 +807,7 @@ int LocationInitPuertoRico(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore45";
 	locations[n].id.label = "Shore45";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore45";
 	//Sound
 	locations[n].type = "seashore";
@@ -1078,7 +1078,7 @@ int LocationInitPuertoRico(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore44";
 	locations[n].id.label = "Shore44";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore44";
 	//Sound
 	locations[n].type = "seashore";

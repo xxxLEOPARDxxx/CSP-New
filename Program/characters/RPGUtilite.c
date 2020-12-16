@@ -492,6 +492,10 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 				LAi_SetHP(_chref,nphp+60,nphp+60);
 			}
 	}
+	if (CheckCharacterPerk(_chref, "AgileMan"))
+	{
+		if (_chref.model.animation == "man") _chref.model.animation = "man_fast";
+	}
 	// boal 05.05.04 разделение по группам -->
 	if (isSelfTypeSkill(_skill))
     {

@@ -190,7 +190,7 @@ void Return2SeaAfterCabin()
 	SetEventHandler("FaderEvent_EndFade", "Cabin_ReloadEndFadeAfter", 0);
 	//Создаём фейдер и запускаем
 	CreateEntity(&boarding_fader, "fader");
-	SendMessage(&boarding_fader, "ls", FADER_PICTURE, "loading\sea_" + rand(22) + ".tga");
+	SendMessage(&boarding_fader, "ls", FADER_PICTURE, "loading\sea_" + rand(31) + ".tga");
 
 	float fadeOutTime = RELOAD_TIME_FADE_OUT;
 

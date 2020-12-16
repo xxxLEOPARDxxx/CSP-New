@@ -1435,7 +1435,7 @@ void QuestToSeaLogin_Launch()
 	SetEventHandler("FaderEvent_EndFade", "QuestToSeaLoginFade", 0);
 	object fader;
 	CreateEntity(&fader, "fader");
-	SendMessage(&fader, "ls",FADER_PICTURE,"loading\sea_" + rand(22) + ".tga");
+	SendMessage(&fader, "ls",FADER_PICTURE,"loading\sea_" + rand(31) + ".tga");
 	SendMessage(&fader, "lfl", FADER_OUT, 1.0, true);
 	int idxLoadLoc = FindLoadedLocation();
 	if( idxLoadLoc!=-1 )

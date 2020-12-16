@@ -951,7 +951,7 @@ int LocationInitCartahena(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore25";
 	locations[n].id.label = "Shore25";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore25";
 	//Sound
 	locations[n].type = "seashore";

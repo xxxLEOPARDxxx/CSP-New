@@ -954,7 +954,7 @@ int LocationInitSantoDomingo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore33";
 	locations[n].id.label = "Shore33";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore33";
 	//Sound
 	locations[n].type = "seashore";
@@ -1120,7 +1120,7 @@ int LocationInitSantoDomingo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore32";
 	locations[n].id.label = "Shore32";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore32";
 	//Sound
 	locations[n].type = "seashore";

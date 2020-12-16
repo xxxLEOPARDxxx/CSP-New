@@ -1065,7 +1065,7 @@ int LocationInitHavana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore13";
 	locations[n].id.label = "Shore13";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore13";
 	//Sound
 	locations[n].type = "seashore";
@@ -1175,7 +1175,7 @@ int LocationInitHavana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore14";
 	locations[n].id.label = "Shore14";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore14";
 	//Sound
 	locations[n].type = "seashore";
@@ -1278,7 +1278,7 @@ int LocationInitHavana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore15";
 	locations[n].id.label = "Shore15";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore15";
 	//Sound
 	locations[n].type = "seashore";

@@ -1686,7 +1686,7 @@ void procInfoShow()
 						objInfoList[nInfoIdx].picfilename = "loading\start_loading.tga";
 					break;
 					case 1 :
-						objInfoList[nInfoIdx].picfilename = "loading\seaStand.tga";
+						objInfoList[nInfoIdx].picfilename = "loading\seaStand_" + rand(9) + ".tga";
 					break;
 					case 2 :
 						objInfoList[nInfoIdx].picfilename = "loading\battle.tga";

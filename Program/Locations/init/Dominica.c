@@ -10,7 +10,7 @@ int LocationInitDominica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore27";
 	locations[n].id.label = "Shore27";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Dominica";
 	//Sound
 	locations[n].type = "seashore";
@@ -122,7 +122,7 @@ int LocationInitDominica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore26";
 	locations[n].id.label = "Shore26";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Dominica";
 	//Sound
 	locations[n].type = "seashore";

@@ -6,7 +6,7 @@ int LocationInitPuertoPrincipe(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PuertoPrincipe_port";
 	locations[n].id.label = "PuertoPrincipe Port";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "PuertoPrincipe_port";
 	//Town sack
 	locations[n].townsack = "PuertoPrincipe";

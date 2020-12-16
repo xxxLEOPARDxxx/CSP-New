@@ -452,7 +452,7 @@ void Sea_MapLoad()
 	CreateEntity(&SeaFader, "fader");
 	SendMessage(&SeaFader, "lfl", FADER_OUT, 0.7, true);
 	SendMessage(&SeaFader, "l", FADER_STARTFRAME);
-	SendMessage(&SeaFader, "ls", FADER_PICTURE, "loading\sea_" + rand(22) + ".tga");
+	SendMessage(&SeaFader, "ls", FADER_PICTURE, "loading\sea_" + rand(31) + ".tga");
 
 	bSkipSeaLogin = true;
 
@@ -476,7 +476,7 @@ void Land_MapLoad()
 	CreateEntity(&SeaFader, "fader");
 	SendMessage(&SeaFader, "lfl", FADER_OUT, 0.7, true);
 	SendMessage(&SeaFader, "l", FADER_STARTFRAME);
-	SendMessage(&SeaFader, "ls", FADER_PICTURE, "loading\sea_" + rand(22) + ".tga");
+	SendMessage(&SeaFader, "ls", FADER_PICTURE, "loading\sea_" + rand(31) + ".tga");
 
 	bSkipSeaLogin = true;
 
@@ -594,7 +594,7 @@ void SeaLogin(ref Login)
 	// Sea Fader start
 	//Boyer add #20170401-02
 	pchar.loadscreen = "loading\sea.tga.tx";
-	if (!CheckAttribute(&Login,"ImageName")) { Login.ImageName = "loading\sea_" + rand(22) + ".tga"; }
+	if (!CheckAttribute(&Login,"ImageName")) { Login.ImageName = "loading\sea_" + rand(31) + ".tga"; }
 
 	CreateEntity(&SeaFader, "fader");
 	SendMessage(&SeaFader, "lfl", FADER_IN, 0.5, true);

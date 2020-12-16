@@ -1141,7 +1141,7 @@ int LocationInitSentMartin(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore41";
 	locations[n].id.label = "Shore41";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore41";
 	//Sound
 	locations[n].type = "seashore";
@@ -1194,7 +1194,7 @@ int LocationInitSentMartin(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore40";
 	locations[n].id.label = "Shore40";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore40";
 	//Sound
 	locations[n].type = "seashore";

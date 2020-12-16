@@ -1331,6 +1331,8 @@ void InitShips()
 	refship.Track2.Width	= "6.0, 8.0";
 	refship.Track2.Speed	= "0.15, 0.25";
 	
+	// refShip.hullNums = 5; // LEO
+	
 	//Nation
     refship.nation.england	= true;
 	refship.nation.france	= true;
@@ -6217,7 +6219,7 @@ void InitShips()
 	refship.Track2.Width	= "8.0, 9.0";
 	refship.Track2.Speed	= "0.15, 0.25";
 	
-	// refShip.hullNums = 5; // LEO
+	refShip.hullNums = 5; // LEO
 	
 	//Nation
     refship.nation.england	= true;
@@ -9909,6 +9911,8 @@ void InitShips()
 	refship.Track2.LifeTime = 8.5;
 	refship.Track2.Width	= "8.0, 9.0";
 	refship.Track2.Speed	= "0.15, 0.25";
+	
+	refShip.hullNums = 5; // LEO
 
 	///////////////////////////////////////////////////////////////////////////
 	//// FrigateQueen			Месть Королевы Анны

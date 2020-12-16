@@ -32,6 +32,7 @@ void SelAllPerksToChar(ref _ch, bool _isOfficer)
 	_ch.perks.list.CriticalHit = "1";
 	_ch.perks.list.Ciras = "1";
 	_ch.perks.list.SwordplayProfessional = "1";
+	_ch.perks.list.AgileMan = "1";
 	_ch.perks.list.Grus = "1";
 	_ch.perks.list.Rush = "1";
 	_ch.perks.list.Tireless = "1";

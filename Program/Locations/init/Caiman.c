@@ -11,7 +11,7 @@ int LocationInitCaiman(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore17";
 	locations[n].id.label = "Shore17";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Caiman";
 	//Sound
 	locations[n].type = "seashore";
@@ -123,7 +123,7 @@ int LocationInitCaiman(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore16";
 	locations[n].id.label = "Shore16";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Caiman";
 	//Sound
 	locations[n].type = "seashore";

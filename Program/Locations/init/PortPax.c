@@ -745,7 +745,7 @@ int LocationInitPortPax(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore34";
 	locations[n].id.label = "Shore34";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore34";
 	//Sound
 	locations[n].type = "seashore";

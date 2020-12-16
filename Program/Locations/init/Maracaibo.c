@@ -777,7 +777,7 @@ int LocationInitMaracaibo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore37";
 	locations[n].id.label = "Shore37";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore37";
 	//Sound
 	locations[n].type = "seashore";
@@ -929,7 +929,7 @@ int LocationInitMaracaibo(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore_ship3";
 	locations[n].id.label = "Shore_ship3";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore_ship3";
 	//Sound
 	locations[n].type = "seashore";

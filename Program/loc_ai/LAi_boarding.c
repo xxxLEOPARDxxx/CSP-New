@@ -75,7 +75,7 @@ string LAi_GetBoardingImage(ref echr, bool isMCAttack)
 			}
 		}
 	}
-	return "loading\battle_" + rand(14) + ".tga";
+	return "loading\battle_" + rand(23) + ".tga";
 }
 
 //Ќачать абордаж с главным персонажем

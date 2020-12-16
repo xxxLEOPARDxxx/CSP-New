@@ -153,7 +153,7 @@ void wdmCreateWorldMap()
 	if(IsEntity(wdm_fader) == 0) Trace("Fader not created!!!");	
 	float fadeInTime = 0.5;
 	SendMessage(&wdm_fader, "lfl", FADER_IN, fadeInTime, true);
-	SendMessage(&wdm_fader, "ls",FADER_PICTURE0,"loading\sea_" + rand(22) + ".tga");
+	SendMessage(&wdm_fader, "ls",FADER_PICTURE0,"loading\sea_" + rand(31) + ".tga");
 	//Установим звуковую схему
 	SetSchemeForMap();
 	//Сообщим, что загрузились

@@ -961,7 +961,7 @@ int LocationInitPortoBello(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore47";
 	locations[n].id.label = "Shore47";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore47";
 	//Sound
 	locations[n].type = "seashore";
@@ -1015,7 +1015,7 @@ int LocationInitPortoBello(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore48";
 	locations[n].id.label = "Shore48";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore48";
 	//Sound
 	locations[n].type = "seashore";
@@ -1069,7 +1069,7 @@ int LocationInitPortoBello(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore46";   
 	locations[n].id.label = "Shore46";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore46";
 	//Sound
 	locations[n].type = "seashore";

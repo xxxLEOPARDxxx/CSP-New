@@ -977,7 +977,7 @@ int LocationInitCumana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore19";
 	locations[n].id.label = "Shore19";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore19";
 	//Sound
 	locations[n].type = "seashore";
@@ -1031,7 +1031,7 @@ int LocationInitCumana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore20";
 	locations[n].id.label = "Shore20";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore20";
 	//Sound
 	locations[n].type = "seashore";
@@ -1087,7 +1087,7 @@ int LocationInitCumana(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore18";
 	locations[n].id.label = "Shore18";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore18";
 	//Sound
 	locations[n].type = "seashore";

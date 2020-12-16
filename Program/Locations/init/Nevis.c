@@ -984,7 +984,7 @@ int LocationInitNevis(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore43";
 	locations[n].id.label = "Shore43";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore43";
 	//Sound
 	locations[n].type = "seashore";
@@ -1234,7 +1234,7 @@ int LocationInitNevis(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore42";
 	locations[n].id.label = "Shore42";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore42";
 	//Sound
 	locations[n].type = "seashore";

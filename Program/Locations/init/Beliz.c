@@ -1001,7 +1001,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore_ship2";
 	locations[n].id.label = "Shore_ship2";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore_ship2";
 	//Sound
 	locations[n].type = "seashore";
@@ -1053,7 +1053,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore6";
 	locations[n].id.label = "Shore6";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore6";
 	//Sound
 	locations[n].type = "seashore";
@@ -1109,7 +1109,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore7";
 	locations[n].id.label = "Shore7";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore7";
 	//Sound
 	locations[n].type = "seashore";
@@ -1164,7 +1164,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore8";
 	locations[n].id.label = "Shore8";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore8";
 	//Sound
 	locations[n].type = "seashore";
@@ -1319,7 +1319,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore10";
 	locations[n].id.label = "Shore10";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore10";
 	//Sound
 	locations[n].type = "seashore";
@@ -1374,7 +1374,7 @@ int LocationInitBeliz(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore9";
 	locations[n].id.label = "Shore9";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore9";
 	//Sound
 	locations[n].type = "seashore";

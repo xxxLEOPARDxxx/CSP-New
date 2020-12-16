@@ -545,7 +545,7 @@ int LocationInitBermudes(int n)
 	locations[n].id = "Shore3";
 	locations[n].id.label = "Shore3";
 	locations[n].worldmap = "Shore3";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	//Sound
 	locations[n].type = "seashore";
  	locations[n].islandId = "Bermudes";
@@ -766,7 +766,7 @@ int LocationInitBermudes(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore_ship1";
 	locations[n].id.label = "Shore_ship1";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore_ship1";
     //Sound
 	locations[n].type = "seashore";

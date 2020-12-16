@@ -985,7 +985,7 @@ int LocationInitAntigua(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore1";
 	locations[n].id.label = "Shore1";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore1";
 	//Sound
 	locations[n].type = "seashore";
@@ -1038,7 +1038,7 @@ int LocationInitAntigua(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore2";
 	locations[n].id.label = "Shore2";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore2";
 	//Sound
 	locations[n].type = "seashore";

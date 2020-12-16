@@ -10,7 +10,7 @@ int LocationInitTerks(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore57";
 	locations[n].id.label = "Shore57";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Terks";
 	//Sound
 	locations[n].type = "seashore";
@@ -122,7 +122,7 @@ int LocationInitTerks(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore56";
 	locations[n].id.label = "Shore56";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Terks";
 	//Sound
 	locations[n].type = "seashore";

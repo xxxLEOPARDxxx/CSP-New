@@ -1035,7 +1035,7 @@ int LocationInitTrinidad(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore60";
 	locations[n].id.label = "Shore60";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore60";
 	//Sound
 	locations[n].type = "seashore";
@@ -1089,7 +1089,7 @@ int LocationInitTrinidad(int n)
 	locations[n].id = "Shore59";
 	locations[n].id.label = "Shore59";
 	locations[n].filespath.models = "locations\Outside\Shores\Grotto";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	//Sound
 	locations[n].type = "cave";
  	locations[n].islandId = "Trinidad";

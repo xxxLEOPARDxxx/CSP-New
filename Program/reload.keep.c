@@ -227,7 +227,7 @@ int Reload(aref reload_group, string locator_name, string current_location)
 	{
 		if(!CheckAttribute(mc, "todeck"))
 		{
-			SendMessage(&reload_fader, "ls",FADER_PICTURE, RandPhraseSimple(RandPhraseSimple(RandPhraseSimple("loading\seaStand.tga.tx", "loading\shipcannon1.tga.tx"), "loading\shipcannon3.tga.tx"), "loading\SpanishTown3.tga.tx"));
+			SendMessage(&reload_fader, "ls",FADER_PICTURE, RandPhraseSimple(RandPhraseSimple(RandPhraseSimple("loading\seaStand_" + rand(9) + ".tga", "loading\shipcannon1.tga.tx"), "loading\shipcannon3.tga.tx"), "loading\SpanishTown3.tga.tx"));
 		}
 		else
 		{

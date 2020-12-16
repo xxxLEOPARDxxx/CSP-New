@@ -1240,7 +1240,7 @@ int LocationInitTortuga(int n)
 	locations[n].id = "Shore58";
 	locations[n].id.label = "Shore58";
 	locations[n].worldmap = "Shore58";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	//Sound
 	locations[n].type = "seashore";
  	locations[n].islandId = "Tortuga";

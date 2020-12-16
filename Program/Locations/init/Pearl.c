@@ -123,7 +123,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore49";
 	locations[n].id.label = "Shore49";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore49";
 	//Sound
 	locations[n].type = "seashore";
@@ -233,7 +233,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore50";
 	locations[n].id.label = "Shore50";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore50";
 	//Sound
 	locations[n].type = "seashore";
@@ -544,7 +544,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore51";
 	locations[n].id.label = "Shore51";
-	locations[n].image = "loading\outside\harbor_" + rand(3) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
 	locations[n].worldmap = "Shore51";
 	//Sound
 	locations[n].type = "seashore";
