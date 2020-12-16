@@ -1165,16 +1165,6 @@ void Ship_CheckSituation()
 	int iCurrentBallType = sti(rCharacter.Ship.Cannons.Charge.Type);
 	bool bBalls, bKnippels, bBombs, bGrapes;
 	bBalls = true; bKnippels = true; bBombs = true; bGrapes = true;
-	// boal -->
-	if (CheckAttribute(rCharacter, "ShipCannonChargeType")) // офам приказ, чем палить все время
-	{
-	    if (GetCargoGoods(rCharacter, sti(rCharacter.ShipCannonChargeType))    < iShipCannonsNum)
-	    {
-	        DeleteAttribute(rCharacter, "ShipCannonChargeType"); // следующий проход решит на что менять заряд
-	    }
-	}
-	else
-	{
 	if (GetCargoGoods(rCharacter,GOOD_BALLS)    < iShipCannonsNum) { bBalls    = false; }
 	if (GetCargoGoods(rCharacter,GOOD_BOMBS)    < iShipCannonsNum) { bBombs    = false; }
 	if (GetCargoGoods(rCharacter,GOOD_KNIPPELS) < iShipCannonsNum) { bKnippels = false; }
@@ -1184,38 +1174,8 @@ void Ship_CheckSituation()
     oldRel = GetRelation(iCharIdx, GetMainCharacterIndex());
     //#20190612-02
     bool bStartRunaway = false;
-		if( !CheckAttribute(rCharacter,"BOAL_ReadyCharge"))
-	    {
-	        rCharacter.BOAL_ReadyCharge = "1";
-	    }
-	    if (rCharacter.BOAL_ReadyCharge == "0")
-	    {
-	        iNewBallType = Ship_FindOtherBallType(rCharacter, fMinEnemyDistance, bBalls, bBombs, bGrapes, bKnippels);
-	        rCharacter.BOAL_ReadyCharge = "1";
-	    	if (iNewBallType >= 0 && iNewBallType != iCurrentBallType)
-		    {
-		   	   Ship_ChangeCharge(rCharacter, iNewBallType);
-		    }
-	    }
-	    else
-	    {
-	        ref rCannon = GetCannonByType(sti(rCharacter.Ship.Cannons.Type));
-		    float range = stf(rCannon.FireRange);
-		    if ((fMinEnemyDistance > (range*0.9)) && bBalls) // из зоны ушли
-	        {
-	           iNewBallType = GOOD_BALLS;
-	           if (iNewBallType != iCurrentBallType)
-	           {
-	               Ship_ChangeCharge(rCharacter, iNewBallType);
-	           }
-	        }
-	    }
-    }
-    // выбор снаряда <--
-    // сбособ второй, модифицированный от к3, но по тестам старый вмл милее и оптимальнее
 	if(CheckAttribute(rCharacter, "Ship.Cannons.borts.cannonr.ChargeRatio"))
 	{
-															   
 		float fRightChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonr.ChargeRatio);
 		float fLeftChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonl.ChargeRatio);
 
@@ -1242,14 +1202,9 @@ void Ship_CheckSituation()
 				iNewBallType = Ship_FindOtherBallType(rCharacter, fMinEnemyDistance, bBalls, bBombs, bGrapes, bKnippels);
 				rCharacter.Sea_AI.cannon.charge = iNewBallType;
 				rCharacter.Sea_AI.cannon.charge.lasttime = 0;
-																																	
 				rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon = sti(rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon) + 1;
 			}
 		}
-																   
-   
-											   
-   
         //#20190612-02
         if (iNewBallType >= 0)
         {

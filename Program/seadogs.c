@@ -1122,7 +1122,7 @@ void ProcessControls()
 			 //// {*} BUHO-CIC - ADDED CODE - Key event response.
             //#20180226-02
             case "CIC_LoadBalls" :
-                Log_SetStringToLog("Ёскадра, зар€дить бомбы!");
+                Log_SetStringToLog("Ёскадра, зар€дить €дра!");
                 CIC_SendCommand(ControlName);
                 return;
             break;
