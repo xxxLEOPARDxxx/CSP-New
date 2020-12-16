@@ -1116,7 +1116,8 @@ void CalculateInfoDataF20()
 	Statistic_AddValue(PChar, "Cheats.F20", 1);
 }
 
-string descF21 = "Повернуть камеру в точку (-5, 2, -5) относительно ГГ";
+//string descF21 = "Повернуть камеру в точку (-5, 2, -5) относительно ГГ";
+string descF21 = "Медленный подъём камеры на 35 по Y относительно ГГ";
 void CalculateInfoDataF21()
 {
     totalInfo = descF21;
@@ -1125,7 +1126,8 @@ void CalculateInfoDataF21()
 	//locCameraRotateAroundHero(0.0, 1.0, 0.0, 0.0, 0.01, 5.0, 0.0, 150);
 	//locCameraRotateAroundHero(0.0, 1.0, 0.0, -0.03, 0.03, 7.0, 0.0, 225);
 	//locCameraFlyToPosition(stf(Camera.pos.x), stf(Camera.pos.y), stf(Camera.pos.z), stf(Camera.pos.x), stf(Camera.pos.y) + 30, stf(Camera.pos.z), 0.9, -1);
-	locCameraLockNearHero(-5.0, 2.0, -5.0, 200, true);
+	locCameraFlyToPosition(stf(Camera.pos.x), stf(Camera.pos.y), stf(Camera.pos.z), stf(Camera.pos.x), stf(Camera.pos.y) + 35, stf(Camera.pos.z), 0.05, -1);
+	//locCameraLockNearHero(-5.0, 2.0, -5.0, 200, true);
 	
 																			  
 												   

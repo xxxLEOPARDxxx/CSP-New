@@ -1,4 +1,4 @@
-object	Sail, Rope, Flag, Vant;
+object	Sail, Rope, Flag, Vant, Pennant, sFlag;
 object PirateFlag, PirateCFlag, CommanderFlag, FortFlag, MerchantFlag, PersonalFlag, QuestFlag;
 
 #define MIN_ENEMY_DISTANCE_TO_DISABLE_MAP_ENTER				1000.0
@@ -48,6 +48,9 @@ void CreateRiggingEnvironment()
 	LayerAddObject(sCurrentSeaExecute, &Rope, iShipPriorityExecute + 2);
 	LayerAddObject(sCurrentSeaRealize, &Rope, iShipPriorityRealize + 2);
 	
+	Flag.ratioLimit = 1;
+	Flag.sizeRatio = 3.5;
+	Flag.isDefault = 1;				
 	CreateEntity(&Flag, "Flag");
 	LayerAddObject(sCurrentSeaExecute, &Flag, iShipPriorityExecute + 3);
 	LayerAddObject(sCurrentSeaRealize, &Flag, iShipPriorityRealize + 3);
@@ -58,6 +61,21 @@ void CreateRiggingEnvironment()
 	LayerAddObject(sCurrentSeaRealize, &Vant, iShipPriorityRealize + 4);
 
 	iNumShips = 0;
+	//Boyer mod for new version #20170201
+	Pennant.ratioExceeds = 1;
+	Pennant.sizeRatio = 3.5;
+	Pennant.iniSection = "PENNANT";
+	CreateEntity(&Pennant, "Flag");
+	LayerAddObject(sCurrentSeaExecute, &Pennant, iShipPriorityExecute + 5);
+	LayerAddObject(sCurrentSeaRealize, &Pennant, iShipPriorityRealize + 5);
+	LayerAddObject("sea_reflection2", &Pennant, 3);
+
+	sFlag.lblGroup = "sflag";
+	sFlag.iniSection = "PENNANT";
+	CreateEntity(&sFlag, "Flag");
+	LayerAddObject(sCurrentSeaExecute, &sFlag, iShipPriorityExecute + 6);
+	LayerAddObject(sCurrentSeaRealize, &sFlag, iShipPriorityRealize + 6);
+	LayerAddObject("sea_reflection2", &sFlag, 3);	  
 }
 
 void DeleteRiggingEnvironment()
@@ -65,6 +83,9 @@ void DeleteRiggingEnvironment()
 	DeleteClass(&Sail);
 	DeleteClass(&Rope);
 	DeleteClass(&Flag);
+	//Boyer mod for new version #20170201
+	DeleteClass(&sFlag);
+	DeleteClass(&Pennant);
 	DeleteClass(&PirateFlag);
 	DeleteClass(&CommanderFlag);
 	DeleteClass(&FortFlag);
@@ -472,6 +493,8 @@ void Ship_FireAction()
 	Group_SetTaskAttack(PLAYER_GROUP, sGroupID);
 }
 
+//#20171230-01 Mast damage mod
+#define MAX_CAL_MAST_DMG 50
 float Ship_MastDamage()
 {
 	int iDamageType = GetEventData();
@@ -485,30 +508,53 @@ float Ship_MastDamage()
 	switch (iDamageType)
 	{
 		case SHIP_MAST_TOUCH_ISLAND:
-			fDamage = fDamage + 0.25;
+			fDamage = fDamage + 0.1;
 		break;
 		case SHIP_MAST_TOUCH_SHIP:
 			//aref rCollideCharacter = GetEventData();
 
-			fDamage = fDamage + 0.2;
+			fDamage = fDamage + 0.1;
 		break;
 		case SHIP_MAST_TOUCH_BALL:
-			int	iBallType = sti(AIBalls.CurrentBallType);   //спорно, тк это не ядра, того кто стрелял, а скорее ядра ГГ
+		    //#20171230-01 Mast damage mod
+            //int iBallCharacterIndex = GetEventData();  //Passed in message, but not needed as AIBalls has needed info
+            //ref rBallCharacter = GetCharacter(iBallCharacterIndex);
+            ref rCannon = GetCannonByType(sti(AIBalls.CurrentBallCannonType));
+            int nCaliber = sti(rCannon.caliber);
+            int	iBallType = sti(AIBalls.CurrentBallType);
+            int iShipType = sti(rCharacter.ship.type);
+            ref rBaseShip = GetRealShip(iShipType);
+            int nClass = sti(rBaseShip.Class);
+            float nDirect = 0.35; //Glancing
+            int nKni = nCaliber;
+            if(iBallType == GOOD_KNIPPELS)
+                nKni += 5;
+            if(rand(65) < nKni)
+                nDirect = 1.1; //Direct
+            float fCbrMDamage = 0.5 * retMin(makefloat(nCaliber) / MAX_CAL_MAST_DMG, 1.0);
+            float fClsMDamage = 0.005 * (nClass / 6);
+            float tempDamage = 0.0;
+            float baseDamage = 0.0;
 			switch (iBallType)
 			{
 				case GOOD_BALLS:
-					fDamage = fDamage + 0.1;
+					baseDamage = pow(nClass, 2.0) * 0.005; //0.025;
 				break;
 				case GOOD_GRAPES:
-					fDamage = fDamage + 0.05;
+					baseDamage = 0.0;
+					fCbrMDamage = 0.0;
+					fClsMDamage = 0.0;
 				break;
 				case GOOD_KNIPPELS:
-					fDamage = fDamage + 0.25;
+					baseDamage = pow(nClass, 2.0) * 0.0035; //0.015;
 				break;
 				case GOOD_BOMBS:
-					fDamage = fDamage + 0.15;
+					baseDamage = pow(nClass, 2.0) * 0.0015; //0.005;
 				break;
 			}
+			tempDamage = baseDamage * fCbrMDamage + fClsMDamage;
+			tempDamage = tempDamage * nDirect;
+			fDamage = fDamage + tempDamage;
         //#20190113-06
         int iBallCharacterIndex = GetEventData();
         ref rBallCharacter = GetCharacter(iBallCharacterIndex);

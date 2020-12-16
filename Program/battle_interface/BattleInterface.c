@@ -2548,6 +2548,18 @@ ref procGetRiggingData()
 			}
 		}
 	}
+	if(datName == "PENNANT")
+	{
+		switch(n)
+		{
+			case HOLLAND: retVal = rand(2); break;
+			case ENGLAND: retVal = 3 + rand(2); break;
+			case FRANCE: retVal = 6 + rand(2); break;
+			case SPAIN: retVal = 9 + rand(2); break;
+			case PIRATE: retVal = 12 + rand(2); break;
+			retVal = 18;
+		}
+    }
 	return &retVal;
 }
 
