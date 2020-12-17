@@ -2238,195 +2238,342 @@ ref procGetSailTextureData()
 	ref shref;
 	aref arEmbl,arSail;
 	string attrName;
-
+	int iUpgrade;
+	string sUpgrade;
+	string nationFileName;
+	string tmpStr;
+	
 	int chrIdx = GetEventData();
 
 	DeleteAttribute(&BI_objRetValue,"");
-    if (chrIdx>=0)
+	if (bNewSails)
 	{
-		st = GetCharacterShipType(GetCharacter(chrIdx));
-		if (st != SHIP_NOTUSED)
+		if (chrIdx>=0)
 		{
-			string sUpgrade = "common";
-		
-			shref = GetRealShip(st); 
-		
-			int iUpgrade = sti(shref.ship.upgrades.sails);  
-			switch(iUpgrade)
+			st = GetCharacterShipType(GetCharacter(chrIdx));
+			if (st != SHIP_NOTUSED)
 			{
-				case 1:	sUpgrade = "common";	break; // LEO: --> Все корабли используют
-				case 2: sUpgrade = "pat";		break;
-				case 3:	sUpgrade = "silk";		break;
-				case 4: sUpgrade = "silkblack";	break; // Sea Boss
-				case 5:	sUpgrade = "usual_1";	break;
-				case 6:	sUpgrade = "usual_2";	break;
-				case 7:	sUpgrade = "usual_3";	break;
-				case 8:	sUpgrade = "usual_4";	break;
-				case 9:	sUpgrade = "usual_5";	break;
-				case 10:sUpgrade = "usual_6";	break;
-				case 11:sUpgrade = "usual_7";	break;
-				case 12:sUpgrade = "usual_8";	break;
-				case 13:sUpgrade = "usual_9";	break;
-				case 14:sUpgrade = "usual_10";	break;
-				case 15:sUpgrade = "usual_11";	break;
-				case 16:sUpgrade = "usual_12";	break;
-				case 17:sUpgrade = "usual_13";	break;
-				case 18:sUpgrade = "usual_14";	break;
-				case 19:sUpgrade = "usual_15";	break;
-				case 20:sUpgrade = "usual_16";	break;
-				case 21:sUpgrade = "usual_17";	break;
-				case 22:sUpgrade = "usual_18";	break;
-				case 23:sUpgrade = "usual_19";	break;
-				case 24:sUpgrade = "usual_20";	break;
-				case 25:sUpgrade = "usual_21";	break;
-				case 26:sUpgrade = "usual_22";	break;
-				case 27:sUpgrade = "usual_23";	break;
-				case 28:sUpgrade = "usual_24";	break;
-				case 29:sUpgrade = "usual_25";	break;
-				case 30:sUpgrade = "usual_26";	break;
-				case 31:sUpgrade = "usual_27";	break;
-				case 32:sUpgrade = "usual_28";	break;
-				case 33:sUpgrade = "usual_29";	break;
-				case 34:sUpgrade = "usual_30";	break; // LEO: <-- Все корабли используют
+				sUpgrade = "common";
+			
+				shref = GetRealShip(st); 
+			
+				iUpgrade = sti(shref.ship.upgrades.sails);  
+				switch(iUpgrade)
+				{
+					case 1:	sUpgrade = "common";	break; // LEO: --> Все корабли используют
+					case 2: sUpgrade = "pat";		break;
+					case 3:	sUpgrade = "silk";		break;
+					case 4: sUpgrade = "silkblack";	break; // Sea Boss
+					case 5:	sUpgrade = "usual_1";	break;
+					case 6:	sUpgrade = "usual_2";	break;
+					case 7:	sUpgrade = "usual_3";	break;
+					case 8:	sUpgrade = "usual_4";	break;
+					case 9:	sUpgrade = "usual_5";	break;
+					case 10:sUpgrade = "usual_6";	break;
+					case 11:sUpgrade = "usual_7";	break;
+					case 12:sUpgrade = "usual_8";	break;
+					case 13:sUpgrade = "usual_9";	break;
+					case 14:sUpgrade = "usual_10";	break;
+					case 15:sUpgrade = "usual_11";	break;
+					case 16:sUpgrade = "usual_12";	break;
+					case 17:sUpgrade = "usual_13";	break;
+					case 18:sUpgrade = "usual_14";	break;
+					case 19:sUpgrade = "usual_15";	break;
+					case 20:sUpgrade = "usual_16";	break;
+					case 21:sUpgrade = "usual_17";	break;
+					case 22:sUpgrade = "usual_18";	break;
+					case 23:sUpgrade = "usual_19";	break;
+					case 24:sUpgrade = "usual_20";	break;
+					case 25:sUpgrade = "usual_21";	break;
+					case 26:sUpgrade = "usual_22";	break;
+					case 27:sUpgrade = "usual_23";	break;
+					case 28:sUpgrade = "usual_24";	break;
+					case 29:sUpgrade = "usual_25";	break;
+					case 30:sUpgrade = "usual_26";	break;
+					case 31:sUpgrade = "usual_27";	break;
+					case 32:sUpgrade = "usual_28";	break;
+					case 33:sUpgrade = "usual_29";	break;
+					case 34:sUpgrade = "usual_30";	break; // LEO: <-- Все корабли используют
+					
+					case 35:sUpgrade = "sail_torn_black_pirate_1";		break; // LEO: --> Только пираты
+					case 36:sUpgrade = "sail_torn_black_pirate_2";		break;
+					case 37:sUpgrade = "sail_torn_black_pirate_3";		break;
+					case 38:sUpgrade = "sail_torn_black_pirate_4";		break;
+					case 39:sUpgrade = "sail_torn_black_pirate_5";		break;
+					case 40:sUpgrade = "sail_torn_black_pirate_6";		break;
+					case 41:sUpgrade = "sail_torn_black_pirate_7";		break;
+					case 42:sUpgrade = "sail_torn_black_pirate_8";		break;
+					case 43:sUpgrade = "sail_torn_black_pirate_9";		break;
+					case 44:sUpgrade = "sail_torn_black_pirate_10";		break;
+					case 45:sUpgrade = "sail_torn_black_pirate_11";		break;
+					case 46:sUpgrade = "sail_torn_black_pirate_12";		break;
+					case 47:sUpgrade = "sail_torn_black_pirate_13";		break;
+					case 48:sUpgrade = "sail_torn_black_pirate_14";		break;
+					case 49:sUpgrade = "sail_whole_black_pirate_1";		break;
+					case 50:sUpgrade = "sail_whole_black_pirate_2";		break;
+					case 51:sUpgrade = "sail_whole_black_pirate_3";		break;
+					case 52:sUpgrade = "sail_whole_black_pirate_4";		break;
+					case 53:sUpgrade = "sail_whole_black_pirate_5";		break;
+					case 54:sUpgrade = "sail_whole_black_pirate_6";		break;
+					case 55:sUpgrade = "sail_whole_black_pirate_7";		break;
+					case 56:sUpgrade = "sail_whole_black_pirate_8";		break;
+					case 57:sUpgrade = "sail_whole_black_pirate_9";		break;
+					case 58:sUpgrade = "sail_whole_black_pirate_10";	break;
+					case 59:sUpgrade = "sail_whole_black_pirate_11";	break;
+					case 60:sUpgrade = "sail_whole_black_pirate_12";	break;
+					case 61:sUpgrade = "sail_whole_black_pirate_13";	break;
+					case 62:sUpgrade = "sail_whole_black_pirate_14";	break;
+					case 63:sUpgrade = "sail_whole_black_pirate_15";	break;
+					case 64:sUpgrade = "sail_whole_black_pirate_16";	break;
+					case 65:sUpgrade = "sail_whole_black_pirate_17";	break;
+					case 66:sUpgrade = "sail_whole_white_pirate_1";		break;
+					case 67:sUpgrade = "sail_whole_white_pirate_2";		break;
+					case 68:sUpgrade = "sail_whole_white_pirate_3";		break;
+					case 69:sUpgrade = "sail_whole_white_pirate_4";		break;
+					case 70:sUpgrade = "sail_whole_white_pirate_5";		break;
+					case 71:sUpgrade = "sail_whole_white_pirate_6";		break;
+					case 72:sUpgrade = "sail_whole_white_pirate_7";		break;
+					case 73:sUpgrade = "sail_whole_white_pirate_8";		break;
+					case 74:sUpgrade = "sail_whole_white_pirate_9";		break;
+					case 75:sUpgrade = "sail_whole_white_pirate_10";	break;
+					case 76:sUpgrade = "sail_whole_white_pirate_11";	break;
+					case 77:sUpgrade = "sail_whole_white_pirate_12";	break;
+					case 78:sUpgrade = "sail_whole_white_pirate_13";	break;
+					case 79:sUpgrade = "sail_whole_white_pirate_14";	break;
+					case 80:sUpgrade = "sail_whole_white_pirate_15";	break;
+					case 81:sUpgrade = "sail_whole_white_pirate_16";	break;
+					case 82:sUpgrade = "sail_whole_white_pirate_17";	break;
+					case 83:sUpgrade = "sail_whole_white_pirate_18";	break;
+					case 84:sUpgrade = "sail_whole_white_pirate_19";	break;
+					case 85:sUpgrade = "sail_whole_white_pirate_20";	break; // LEO: <-- Только пираты
+				}
+				nationFileName = "ships\parus_" + sUpgrade + ".tga";
+			
+				BI_objRetValue.normalTex = nationFileName;
+				BI_objRetValue.geraldTex = "";//"ships\gerald\chuckskull.tga";
+				BI_objRetValue.sailscolor = argb(255,255,255,255);  // белый парус
+			
+				//BI_objRetValue.geraldTexPointer = 0; // (IDirect3DTexture8*)
 				
-				case 35:sUpgrade = "sail_torn_black_pirate_1";		break; // LEO: --> Только пираты
-				case 36:sUpgrade = "sail_torn_black_pirate_2";		break;
-				case 37:sUpgrade = "sail_torn_black_pirate_3";		break;
-				case 38:sUpgrade = "sail_torn_black_pirate_4";		break;
-				case 39:sUpgrade = "sail_torn_black_pirate_5";		break;
-				case 40:sUpgrade = "sail_torn_black_pirate_6";		break;
-				case 41:sUpgrade = "sail_torn_black_pirate_7";		break;
-				case 42:sUpgrade = "sail_torn_black_pirate_8";		break;
-				case 43:sUpgrade = "sail_torn_black_pirate_9";		break;
-				case 44:sUpgrade = "sail_torn_black_pirate_10";		break;
-				case 45:sUpgrade = "sail_torn_black_pirate_11";		break;
-				case 46:sUpgrade = "sail_torn_black_pirate_12";		break;
-				case 47:sUpgrade = "sail_torn_black_pirate_13";		break;
-				case 48:sUpgrade = "sail_torn_black_pirate_14";		break;
-				case 49:sUpgrade = "sail_whole_black_pirate_1";		break;
-				case 50:sUpgrade = "sail_whole_black_pirate_2";		break;
-				case 51:sUpgrade = "sail_whole_black_pirate_3";		break;
-				case 52:sUpgrade = "sail_whole_black_pirate_4";		break;
-				case 53:sUpgrade = "sail_whole_black_pirate_5";		break;
-				case 54:sUpgrade = "sail_whole_black_pirate_6";		break;
-				case 55:sUpgrade = "sail_whole_black_pirate_7";		break;
-				case 56:sUpgrade = "sail_whole_black_pirate_8";		break;
-				case 57:sUpgrade = "sail_whole_black_pirate_9";		break;
-				case 58:sUpgrade = "sail_whole_black_pirate_10";	break;
-				case 59:sUpgrade = "sail_whole_black_pirate_11";	break;
-				case 60:sUpgrade = "sail_whole_black_pirate_12";	break;
-				case 61:sUpgrade = "sail_whole_black_pirate_13";	break;
-				case 62:sUpgrade = "sail_whole_black_pirate_14";	break;
-				case 63:sUpgrade = "sail_whole_black_pirate_15";	break;
-				case 64:sUpgrade = "sail_whole_black_pirate_16";	break;
-				case 65:sUpgrade = "sail_whole_black_pirate_17";	break;
-				case 66:sUpgrade = "sail_whole_white_pirate_1";		break;
-				case 67:sUpgrade = "sail_whole_white_pirate_2";		break;
-				case 68:sUpgrade = "sail_whole_white_pirate_3";		break;
-				case 69:sUpgrade = "sail_whole_white_pirate_4";		break;
-				case 70:sUpgrade = "sail_whole_white_pirate_5";		break;
-				case 71:sUpgrade = "sail_whole_white_pirate_6";		break;
-				case 72:sUpgrade = "sail_whole_white_pirate_7";		break;
-				case 73:sUpgrade = "sail_whole_white_pirate_8";		break;
-				case 74:sUpgrade = "sail_whole_white_pirate_9";		break;
-				case 75:sUpgrade = "sail_whole_white_pirate_10";	break;
-				case 76:sUpgrade = "sail_whole_white_pirate_11";	break;
-				case 77:sUpgrade = "sail_whole_white_pirate_12";	break;
-				case 78:sUpgrade = "sail_whole_white_pirate_13";	break;
-				case 79:sUpgrade = "sail_whole_white_pirate_14";	break;
-				case 80:sUpgrade = "sail_whole_white_pirate_15";	break;
-				case 81:sUpgrade = "sail_whole_white_pirate_16";	break;
-				case 82:sUpgrade = "sail_whole_white_pirate_17";	break;
-				case 83:sUpgrade = "sail_whole_white_pirate_18";	break;
-				case 84:sUpgrade = "sail_whole_white_pirate_19";	break;
-				case 85:sUpgrade = "sail_whole_white_pirate_20";	break; // LEO: <-- Только пираты
-			}
-			string nationFileName = "ships\parus_" + sUpgrade + ".tga";
-			string tmpStr;
-		
-			BI_objRetValue.normalTex = nationFileName;
-			BI_objRetValue.geraldTex = "";//"ships\gerald\chuckskull.tga";
-			BI_objRetValue.sailscolor = argb(255,255,255,255);  // белый парус
-		
-			//BI_objRetValue.geraldTexPointer = 0; // (IDirect3DTexture8*)
-			
-			//if (CheckAttribute(&characters[chrIdx], "ShipSails.SailsColor"))
-			if (CheckAttribute(shref, "ShipSails.SailsColor")) // 1.2.3 цвет теперь атрибут корабля, а не НПС
-			{
-				BI_objRetValue.sailscolor = sti(shref.ShipSails.SailsColor);
-			}
-			//if( CheckAttribute(&characters[chrIdx],"ShipSails.gerald_name") ) // не наследуется при обмене кораблей, потому не в  ship.
-			if( CheckAttribute(shref,"ShipSails.gerald_name") ) // 1.2.3 герб теперь атрибут корабля, а не НПС
-			{
-				BI_objRetValue.geraldTex = "Ships\Gerald\" + shref.ShipSails.gerald_name + ".tga";
-			}
-			/*
-			switch(sti(Characters[chrIdx].nation))  // Не работает это :(
-			{
-				case ENGLAND:	
-					nationFileName = "ships\parus_" + sUpgrade + "_england.tga";		
-				break;
-				case FRANCE:	
-					nationFileName = "ships\parus_" + sUpgrade + "_france.tga";		
-				break;
-				case SPAIN:		
-					nationFileName = "ships\parus_" + sUpgrade + "_spain.tga";	
-				break;
-				case PIRATE:
-					nationFileName = "ships\parus_" + sUpgrade + "_pirate.tga";
-					//BI_objRetValue.normalTex = "ships\sail_Pirates.tga";
-				break;
-				case HOLLAND:	
-					nationFileName = "ships\parus_" + sUpgrade + "_holland.tga";	
-				break;
-			}
-			*/
-			
-			BI_objRetValue.maxSP = shref.sp;
-			// boal -->
-			if (CheckAttribute(shref, "EmblemedSails.normalTex")) // заднанный в типе парус
-		    {
-		        BI_objRetValue.normalTex = shref.EmblemedSails.normalTex;
-		        nationFileName           = shref.EmblemedSails.normalTex;
-		    }
-			if( CheckAttribute(&Characters[chrIdx],"Features.GeraldSails") && sti(Characters[chrIdx].Features.GeraldSails)==true) 
-			{
-				makearef(arEmbl,shref.GeraldSails);
-			} else {
-				makearef(arEmbl,shref.EmblemedSails);
-			} 
-			/*if (CheckAttribute(shref, "GeraldSails"))
-		    {
-		        makearef(arEmbl, shref.GeraldSails);  */
-				// boal <--
-			sq = GetAttributesNum(arEmbl);
-			for(i=0; i<sq; i++)
-			{
-				arSail = GetAttributeN(arEmbl,i);
-				attrName = GetAttributeName(arSail);
-				tmpStr = GetAttributeValue(arSail);
-				if( CheckAttribute(arSail,"hscale") ) {
-					BI_objRetValue.(attrName).hscale = arSail.hscale;
+				//if (CheckAttribute(&characters[chrIdx], "ShipSails.SailsColor"))
+				if (CheckAttribute(shref, "ShipSails.SailsColor")) // 1.2.3 цвет теперь атрибут корабля, а не НПС
+				{
+					BI_objRetValue.sailscolor = sti(shref.ShipSails.SailsColor);
 				}
-				if( CheckAttribute(arSail,"vscale") ) {
-					BI_objRetValue.(attrName).vscale = arSail.vscale;
+				//if( CheckAttribute(&characters[chrIdx],"ShipSails.gerald_name") ) // не наследуется при обмене кораблей, потому не в  ship.
+				if( CheckAttribute(shref,"ShipSails.gerald_name") ) // 1.2.3 герб теперь атрибут корабля, а не НПС
+				{
+					BI_objRetValue.geraldTex = "Ships\Gerald\" + shref.ShipSails.gerald_name + ".tga";
 				}
-				if(tmpStr=="1") {
-					//BI_objRetValue.(attrName).Gerald = nationFileName;  
-					BI_objRetValue.(attrName) = nationFileName;
+				/*
+				switch(sti(Characters[chrIdx].nation))  // Не работает это :(
+				{
+					case ENGLAND:	
+						nationFileName = "ships\parus_" + sUpgrade + "_england.tga";		
+					break;
+					case FRANCE:	
+						nationFileName = "ships\parus_" + sUpgrade + "_france.tga";		
+					break;
+					case SPAIN:		
+						nationFileName = "ships\parus_" + sUpgrade + "_spain.tga";	
+					break;
+					case PIRATE:
+						nationFileName = "ships\parus_" + sUpgrade + "_pirate.tga";
+						//BI_objRetValue.normalTex = "ships\sail_Pirates.tga";
+					break;
+					case HOLLAND:	
+						nationFileName = "ships\parus_" + sUpgrade + "_holland.tga";	
+					break;
+				}
+				*/
+				
+				BI_objRetValue.maxSP = shref.sp;
+				// boal -->
+				if (CheckAttribute(shref, "EmblemedSails.normalTex")) // заднанный в типе парус
+				{
+					BI_objRetValue.normalTex = shref.EmblemedSails.normalTex;
+					nationFileName           = shref.EmblemedSails.normalTex;
+				}
+				if( CheckAttribute(&Characters[chrIdx],"Features.GeraldSails") && sti(Characters[chrIdx].Features.GeraldSails)==true) 
+				{
+					makearef(arEmbl,shref.GeraldSails);
 				} else {
-					BI_objRetValue.(attrName).Gerald = tmpStr;
+					makearef(arEmbl,shref.EmblemedSails);
+				} 
+				/*if (CheckAttribute(shref, "GeraldSails"))
+				{
+					makearef(arEmbl, shref.GeraldSails);  */
+					// boal <--
+				sq = GetAttributesNum(arEmbl);
+				for(i=0; i<sq; i++)
+				{
+					arSail = GetAttributeN(arEmbl,i);
+					attrName = GetAttributeName(arSail);
+					tmpStr = GetAttributeValue(arSail);
+					if( CheckAttribute(arSail,"hscale") ) {
+						BI_objRetValue.(attrName).hscale = arSail.hscale;
+					}
+					if( CheckAttribute(arSail,"vscale") ) {
+						BI_objRetValue.(attrName).vscale = arSail.vscale;
+					}
+					if(tmpStr=="1") {
+						//BI_objRetValue.(attrName).Gerald = nationFileName;  
+						BI_objRetValue.(attrName) = nationFileName;
+					} else {
+						BI_objRetValue.(attrName).Gerald = tmpStr;
+					}
+					//BI_objRetValue.(attrName).Gerald = "ships\chuckskull.tga"; // текстура герба (если не указана, то берется BI_objRetValue.geraldTex или BI_objRetValue.geraldTexPointer)
+					//BI_objRetValue.(attrName).hscale = 0.5; // масштаб в размере паруса (0.5 - герб занимает половину паруса)
+					//BI_objRetValue.(attrName).vscale = 0.5; // если нет vscale, то используется = scale
 				}
-				//BI_objRetValue.(attrName).Gerald = "ships\chuckskull.tga"; // текстура герба (если не указана, то берется BI_objRetValue.geraldTex или BI_objRetValue.geraldTexPointer)
-				//BI_objRetValue.(attrName).hscale = 0.5; // масштаб в размере паруса (0.5 - герб занимает половину паруса)
-				//BI_objRetValue.(attrName).vscale = 0.5; // если нет vscale, то используется = scale
+				//}
 			}
-			//}
+		}
+	}
+	else
+	{
+		if (chrIdx>=0)
+		{
+			st = GetCharacterShipType(GetCharacter(chrIdx));
+			if (st != SHIP_NOTUSED)
+			{
+				sUpgrade = "common";
+			
+				shref = GetRealShip(st); 
+			
+				iUpgrade = sti(shref.ship.upgrades.sails);  
+				switch(iUpgrade)
+				{
+					case 1:	sUpgrade = "common";	break; // LEO: --> Все корабли используют
+					case 2: sUpgrade = "pat";		break;
+					case 3:	sUpgrade = "silk";		break;
+					case 4: sUpgrade = "silkblack";	break; // Sea Boss
+					case 5:	sUpgrade = "usual_1";	break;
+					case 6:	sUpgrade = "usual_2";	break;
+					case 7:	sUpgrade = "usual_3";	break;
+					case 8:	sUpgrade = "usual_4";	break;
+					case 9:	sUpgrade = "usual_5";	break;
+					case 10:sUpgrade = "usual_6";	break;
+					case 11:sUpgrade = "usual_7";	break;
+					case 12:sUpgrade = "usual_8";	break;
+					case 13:sUpgrade = "usual_9";	break;
+					case 14:sUpgrade = "usual_10";	break;
+					case 15:sUpgrade = "usual_11";	break;
+					case 16:sUpgrade = "usual_12";	break;
+					case 17:sUpgrade = "usual_13";	break;
+					case 18:sUpgrade = "usual_14";	break;
+					case 19:sUpgrade = "usual_15";	break;
+					case 20:sUpgrade = "usual_16";	break;
+					case 21:sUpgrade = "usual_17";	break;
+					case 22:sUpgrade = "usual_18";	break;
+					case 23:sUpgrade = "usual_19";	break;
+					case 24:sUpgrade = "usual_20";	break;
+					case 25:sUpgrade = "usual_21";	break;
+					case 26:sUpgrade = "usual_22";	break;
+					case 27:sUpgrade = "usual_23";	break;
+					case 28:sUpgrade = "usual_24";	break;
+					case 29:sUpgrade = "usual_25";	break;
+					case 30:sUpgrade = "usual_26";	break;
+					case 31:sUpgrade = "usual_27";	break;
+					case 32:sUpgrade = "usual_28";	break;
+					case 33:sUpgrade = "usual_29";	break;
+					case 34:sUpgrade = "usual_30";	break; // LEO: <-- Все корабли используют
+					else sUpgrade = "silkblack";	break;
+				}
+				if (sUpgrade == "silkblack")
+				{
+					switch(rand(2))
+					{
+						case 0: sUpgrade = "common"; break;
+						case 1: sUpgrade = "pat"; break;
+						case 2: sUpgrade = "silk"; break;
+					}
+				}
+				nationFileName = "ships\parus_" + sUpgrade + ".tga";
+			
+				BI_objRetValue.normalTex = nationFileName;
+				BI_objRetValue.geraldTex = "";//"ships\gerald\chuckskull.tga";
+				BI_objRetValue.sailscolor = argb(255,255,255,255);  // белый парус
+			
+				//BI_objRetValue.geraldTexPointer = 0; // (IDirect3DTexture8*)
+				
+				//if (CheckAttribute(&characters[chrIdx], "ShipSails.SailsColor"))
+				if (CheckAttribute(shref, "ShipSails.SailsColor")) // 1.2.3 цвет теперь атрибут корабля, а не НПС
+				{
+					BI_objRetValue.sailscolor = sti(shref.ShipSails.SailsColor);
+				}
+				//if( CheckAttribute(&characters[chrIdx],"ShipSails.gerald_name") ) // не наследуется при обмене кораблей, потому не в  ship.
+				if( CheckAttribute(shref,"ShipSails.gerald_name") ) // 1.2.3 герб теперь атрибут корабля, а не НПС
+				{
+					BI_objRetValue.geraldTex = "Ships\Gerald\" + shref.ShipSails.gerald_name + ".tga";
+				}
+				/*
+				switch(sti(Characters[chrIdx].nation))  // Не работает это :(
+				{
+					case ENGLAND:	
+						nationFileName = "ships\parus_" + sUpgrade + "_england.tga";		
+					break;
+					case FRANCE:	
+						nationFileName = "ships\parus_" + sUpgrade + "_france.tga";		
+					break;
+					case SPAIN:		
+						nationFileName = "ships\parus_" + sUpgrade + "_spain.tga";	
+					break;
+					case PIRATE:
+						nationFileName = "ships\parus_" + sUpgrade + "_pirate.tga";
+						//BI_objRetValue.normalTex = "ships\sail_Pirates.tga";
+					break;
+					case HOLLAND:	
+						nationFileName = "ships\parus_" + sUpgrade + "_holland.tga";	
+					break;
+				}
+				*/
+				
+				BI_objRetValue.maxSP = shref.sp;
+				// boal -->
+				if (CheckAttribute(shref, "EmblemedSails.normalTex")) // заднанный в типе парус
+				{
+					BI_objRetValue.normalTex = shref.EmblemedSails.normalTex;
+					nationFileName           = shref.EmblemedSails.normalTex;
+				}
+				if( CheckAttribute(&Characters[chrIdx],"Features.GeraldSails") && sti(Characters[chrIdx].Features.GeraldSails)==true) 
+				{
+					makearef(arEmbl,shref.GeraldSails);
+				} else {
+					makearef(arEmbl,shref.EmblemedSails);
+				} 
+				/*if (CheckAttribute(shref, "GeraldSails"))
+				{
+					makearef(arEmbl, shref.GeraldSails);  */
+					// boal <--
+				sq = GetAttributesNum(arEmbl);
+				for(i=0; i<sq; i++)
+				{
+					arSail = GetAttributeN(arEmbl,i);
+					attrName = GetAttributeName(arSail);
+					tmpStr = GetAttributeValue(arSail);
+					if( CheckAttribute(arSail,"hscale") ) {
+						BI_objRetValue.(attrName).hscale = arSail.hscale;
+					}
+					if( CheckAttribute(arSail,"vscale") ) {
+						BI_objRetValue.(attrName).vscale = arSail.vscale;
+					}
+					if(tmpStr=="1") {
+						//BI_objRetValue.(attrName).Gerald = nationFileName;  
+						BI_objRetValue.(attrName) = nationFileName;
+					} else {
+						BI_objRetValue.(attrName).Gerald = tmpStr;
+					}
+					//BI_objRetValue.(attrName).Gerald = "ships\chuckskull.tga"; // текстура герба (если не указана, то берется BI_objRetValue.geraldTex или BI_objRetValue.geraldTexPointer)
+					//BI_objRetValue.(attrName).hscale = 0.5; // масштаб в размере паруса (0.5 - герб занимает половину паруса)
+					//BI_objRetValue.(attrName).vscale = 0.5; // если нет vscale, то используется = scale
+				}
+				//}
+			}
 		}
 	}
 	return &BI_objRetValue;
 }
-
 /* ref procGetRiggingData()
 {
 	int i,n;

@@ -734,6 +734,7 @@ void SaveStartGameParam()
     optref.StartGameParam.bHardcoreGame          = bHardcoreGame;
 	optref.StartGameParam.bPartitionSet          = bPartitionSet;
 	optref.StartGameParam.bSailorsWeight          = bSailorsWeight;
+	optref.StartGameParam.bNewSails         = bNewSails;
     optref.StartGameParam.bRechargePistolOnLine  = bRechargePistolOnLine;
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
 	optref.StartGameParam.iArcadeSails           = iArcadeSails;
@@ -769,6 +770,14 @@ void LoadStartGameParam()
 	if (CheckAttribute(optref, "StartGameParam.bPartitionSet"))
 	{
     	bPartitionSet = sti(optref.StartGameParam.bPartitionSet);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bSailorsWeight"))
+	{
+    	bSailorsWeight = sti(optref.StartGameParam.bSailorsWeight);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bNewSails"))
+	{
+    	bNewSails = sti(optref.StartGameParam.bNewSails);
     }
     if (CheckAttribute(optref, "StartGameParam.bRechargePistolOnLine"))
 	{

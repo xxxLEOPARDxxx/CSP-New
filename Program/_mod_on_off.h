@@ -68,6 +68,8 @@ bool    bHardcoreGame             = false;
 bool 	bPartitionSet 				= true;
 // вес матросов
 bool 	bSailorsWeight 				= true;
+// новые паруса
+bool 	bNewSails 				= true;
 // ћаркировка квестовых
 bool 	bQuestMark 					= false;
 //јбордаж стенка на стенку

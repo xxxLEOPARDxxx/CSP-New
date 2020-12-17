@@ -120,6 +120,14 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_CREWWEIGHT", 1, false);
     }
+	if (bNewSails)// 1 0
+    {
+    	CheckButton_SetState("CHECK_SAILS", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_SAILS", 1, false);
+    }
     if (bHardcoreGame)// 1 0
     {
     	CheckButton_SetState("CHECK_HARDCORE", 1, true);
@@ -208,6 +216,14 @@ void IProcessFrame()
 	else
 	{
 		bSailorsWeight = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_SAILS", 3, 1))
+	{
+		bNewSails = true;
+	}
+	else
+	{
+		bNewSails = false;
 	}
 	///
  	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_MARK", 3, 1))
@@ -689,6 +705,11 @@ void ShowInfo()
 		case "CHECK_CREWWEIGHT":
 			sHeader = XI_ConvertString("CrewWeight");
 			sText1 = GetRPGText("CrewWeight_hint");
+		break;
+		
+		case "CHECK_SAILS":
+			sHeader = XI_ConvertString("NewSails");
+			sText1 = GetRPGText("NewSails_hint");
 		break;
 		
 		case "CHECK_MARK":
