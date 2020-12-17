@@ -237,7 +237,7 @@ int LocationInitPortoBello(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortoBello_tavern";
 	locations[n].id.label = "Tavern";
-	locations[n].filespath.models = "locations\inside\tavern02\";
+	locations[n].filespath.models = "locations\inside\Tavern08\";
 	locations[n].image = "loading\inside\tavern.tga";
 	locations[n].habitues = 1;
 	//Town sack
@@ -249,18 +249,18 @@ int LocationInitPortoBello(int n)
 	locations[n].islandId = "Mein";
 	//Models
 	//Always
-	locations[n].models.always.tavern = "tavern02";
+	locations[n].models.always.tavern = "Tavern08";
 	locations[n].models.always.tavern.level = 65538;
-	locations[n].models.always.locators = "tavern02_locators";
-	locations[n].models.always.window = "tavern02_window";
+	locations[n].models.always.locators = "Tavern08_locators";
+	locations[n].models.always.window = "Tavern08_window";
 	locations[n].models.always.window.tech = "LocationWindows";
 	locations[n].models.always.window.level = 65539;
 	locations[n].models.always.back = "..\inside_back";
 	locations[n].models.always.back.level = 65529;
 	//Day
-	locations[n].models.day.charactersPatch = "tavern02_patch";
+	locations[n].models.day.charactersPatch = "Tavern08_patch";
 	//Night
-	locations[n].models.night.charactersPatch = "tavern02_patch";
+	locations[n].models.night.charactersPatch = "Tavern08_patch";
 	//Environment
 	locations[n].environment.weather = "true";
 	locations[n].environment.sea = "false";

@@ -241,7 +241,7 @@ int LocationInitCuracao(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Villemstad_tavern";
 	locations[n].id.label = "Tavern";	
-	locations[n].filespath.models = "locations\inside\tavern01\";
+	locations[n].filespath.models = "locations\inside\Tavern07\";
 	locations[n].image = "loading\inside\tavern.tga";
 	locations[n].habitues = 1;
 	//Town sack
@@ -253,18 +253,18 @@ int LocationInitCuracao(int n)
 	locations[n].islandId = "Curacao";
 	//Models
 	//Always
-	locations[n].models.always.tavern = "Tavern01";
+	locations[n].models.always.tavern = "Tavern07";
 	locations[n].models.always.tavern.level = 65538;
-	locations[n].models.always.locators = "Tavern01_locators";
-	locations[n].models.always.window = "tavern01_windows";
+	locations[n].models.always.locators = "Tavern07_locators";
+	locations[n].models.always.window = "Tavern07_windows";
 	locations[n].models.always.window.tech = "LocationWindows";
 	locations[n].models.always.window.level = 65539;
 	locations[n].models.always.back = "..\inside_back";
 	locations[n].models.always.window.level = 65529;
 	//Day
-	locations[n].models.day.charactersPatch = "tavern01_patch";
+	locations[n].models.day.charactersPatch = "Tavern07_patch";
 	//Night
-	locations[n].models.night.charactersPatch = "tavern01_patch";
+	locations[n].models.night.charactersPatch = "Tavern07_patch";
 	//Environment
 	locations[n].environment.weather = "true";
 	locations[n].environment.sea = "false";

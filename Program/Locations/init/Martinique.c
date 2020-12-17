@@ -1348,7 +1348,7 @@ int LocationInitMartinique(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  	locations[n].id = "LeFransua_tavern";
 	locations[n].id.label = "Tavern";
-	locations[n].filespath.models = "locations\inside\Tavern04\";
+	locations[n].filespath.models = "locations\inside\Tavern09\";
 	locations[n].image = "loading\inside\tavern.tga";
 	locations[n].habitues = 1;
 	//Town sack
@@ -1360,16 +1360,16 @@ int LocationInitMartinique(int n)
 	locations[n].islandId = "Martinique";
 	//Models
 	//Always
-	locations[n].models.always.tavern = "Tavern04";
-	locations[n].models.always.locators = "Tavern04_locators";
-	locations[n].models.always.window = "tavern04_window";
+	locations[n].models.always.tavern = "Tavern09";
+	locations[n].models.always.locators = "Tavern09_locators";
+	locations[n].models.always.window = "Tavern09_window";
 	locations[n].models.always.window.tech = "LocationWindows";
 	locations[n].models.always.window.level = 50;
 	locations[n].models.always.back = "..\inside_back";
 	//Day
-	locations[n].models.day.charactersPatch = "Tavern04_patch";
+	locations[n].models.day.charactersPatch = "Tavern09_patch";
 	//Night
-	locations[n].models.night.charactersPatch = "Tavern04_patch";
+	locations[n].models.night.charactersPatch = "Tavern09_patch";
 	//Environment
 	locations[n].environment.weather = "true";
 	locations[n].environment.sea = "false";

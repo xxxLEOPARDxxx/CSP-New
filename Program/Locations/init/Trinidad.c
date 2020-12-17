@@ -231,7 +231,7 @@ int LocationInitTrinidad(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortSpein_tavern";
 	locations[n].id.label = "Tavern";
-	locations[n].filespath.models = "locations\inside\tavern01\";
+	locations[n].filespath.models = "locations\inside\Tavern02\";
 	locations[n].image = "loading\inside\tavern.tga";
 	locations[n].habitues = 1;
 	//Town sack
@@ -243,18 +243,18 @@ int LocationInitTrinidad(int n)
  	locations[n].islandId = "Trinidad";
 	//Models
 	//Always
-	locations[n].models.always.tavern = "Tavern01";
+	locations[n].models.always.tavern = "Tavern02";
 	locations[n].models.always.tavern.level = 65538;
-	locations[n].models.always.locators = "Tavern01_locators";
-	locations[n].models.always.window = "tavern01_windows";
+	locations[n].models.always.locators = "Tavern02_locators";
+	locations[n].models.always.window = "Tavern02_windows";
 	locations[n].models.always.window.tech = "LocationWindows";
 	locations[n].models.always.window.level = 65539;
 	locations[n].models.always.back = "..\inside_back";
 	locations[n].models.always.window.level = 65529;
 	//Day
-	locations[n].models.day.charactersPatch = "tavern01_patch";
+	locations[n].models.day.charactersPatch = "Tavern02_patch";
 	//Night
-	locations[n].models.night.charactersPatch = "tavern01_patch";
+	locations[n].models.night.charactersPatch = "Tavern02_patch";
 	//Environment
 	locations[n].environment.weather = "true";
 	locations[n].environment.sea = "false";
