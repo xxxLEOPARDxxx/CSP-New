@@ -70,6 +70,8 @@ bool 	bPartitionSet 				= true;
 bool 	bSailorsWeight 				= true;
 // Маркировка квестовых
 bool 	bQuestMark 					= false;
+//Абордаж стенка на стенку
+bool   bBoardMode                   = false;
 // платный сайв-лоад
 //bool    bPayForSaveLoad           = true;
 

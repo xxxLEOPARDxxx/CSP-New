@@ -88,6 +88,10 @@ bool LoadLocation(ref loc)
 	int i;
 	bool res;
     int nLocConst = 0;
+	
+	// Lugger -->
+	GetBoardModeToLocation(loc);
+	// Lugger <--
 
 	//Time update==========================================================================
 	locTmpTime += 5;

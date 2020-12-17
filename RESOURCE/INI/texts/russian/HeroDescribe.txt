@@ -1364,17 +1364,19 @@ heroNameDat_53 {Альваресу}
 heroLastNameDat_53 {Ортего}
 
 heroFace_53 {492}
-heroModel_53 {PGG_Alvares}
+heroModel_53 {PGG_Alvares,PGG_Alvares_1,PGG_Alvares_2,PGG_Alvares_3,PGG_Alvares_4,PGG_Alvares_5}
 
 heroType_53 {Авантюрист}
 heroNation_53 {Англия}
 
 sex_53 {man}
-animation_53 {man2_ab}
+animation_53 {man}
 
 hero_53
 {
-
+Уже немолодой смотритель маяка, подавшийся в карибские корсары.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
 heroName_54 {Абрахам}
@@ -1551,17 +1553,19 @@ heroNameDat_61 {Страннику}
 heroLastnameDat_61 {}
 
 heroFace_61 {531}
-heroModel_61 {PGG_Vincento}
+heroModel_61 {PGG_Vincento,PGG_Vincento_1,PGG_Vincento_2,PGG_Vincento_3,PGG_Vincento_4,PGG_Vincento_5}
 
 heroType_61 {Инквизитор}
 heroNation_61 {Англия}
 
 sex_61 {man}
-animation_61 {man2_ab}
+animation_61 {man}
 
 hero_61
 {
 Об этом человеке ничего не известно. Даже то, как он появился на карибах.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
 heroName_62 {Изабелла}

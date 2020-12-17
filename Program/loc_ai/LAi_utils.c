@@ -766,8 +766,8 @@ void LAi_FadeDelay(float _delayTime, string sPath)
 	LAi_QuestFader.oldSaveState = InterfaceStates.Buttons.Save.enable;
 	InterfaceStates.Buttons.Save.enable = 0;
 }
+
 void FadeDelay()    // относится к методу выше.
-							
 {
 	LAi_FadeEndFadeIn();
 	LAi_FadeEndFadeOut();

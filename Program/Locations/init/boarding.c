@@ -3337,6 +3337,7 @@ int LocationInitBoarding(int n)
 
 	Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;	
+	Locations[n].CheckBoardMode = true;	
 	//Models
 	//Always
 	Locations[n].models.always.deckLowVSMedium = "deckLowVSMedium";
@@ -3368,6 +3369,7 @@ int LocationInitBoarding(int n)
 
 	Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;	
+	Locations[n].CheckBoardMode = true;	
 	//Models
 	//Always
 	Locations[n].models.always.deckLowVSBig = "deckLowVSBig";
@@ -3400,6 +3402,7 @@ int LocationInitBoarding(int n)
 
 	Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;	
+	Locations[n].CheckBoardMode = true;	
 	//Models	
 	//Always
 	Locations[n].models.always.deckMediumVSBig = "deckMediumVSBig";
@@ -3433,6 +3436,7 @@ int LocationInitBoarding(int n)
 
 	Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;
+	Locations[n].CheckBoardMode = true;	
 	//Models
 	//Always
 	Locations[n].models.always.l1 = "deckLineshipVSFrigate_part1";
@@ -3449,7 +3453,7 @@ int LocationInitBoarding(int n)
 	locations[n].environment.sea = "true";
 
 	Locations[n].boarding = "true";
-	Locations[n].boarding.locatorNum = 24; //14;
+	Locations[n].boarding.locatorNum = 48; //14;
 	Locations[n].boarding.nextdeck = "Boarding_Cargohold";
 	Locations[n].UpDeckType = true;
 

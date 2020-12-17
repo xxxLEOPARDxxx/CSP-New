@@ -206,6 +206,23 @@ void IReadVariableAfterInit()
 		nCannonsHUD = sti(InterfaceStates.CannonsHUD);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"CannonsHUD_CHECKBOX", 2, 1, nCannonsHUD );
+	
+	int nShowBoardMode = 0;
+	if( CheckAttribute(&InterfaceStates,"ShowBoardMode") ) {
+		nShowBattleMode = sti(InterfaceStates.ShowBoardMode);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"BOARD_MODE_CHECKBOX", 2, 1, nShowBoardMode );
+	
+	
+	if(bBoardMode)
+	{
+		CheckButton_SetState("BOARD_MODE_CHECKBOX", 1, true);
+	}
+	else
+	{
+		CheckButton_SetState("BOARD_MODE_CHECKBOX", 1, false);
+	}
+	
 }
 
 void SetControlsTabMode(int nMode)
@@ -387,6 +404,16 @@ void procCheckBoxChange()
 			InterfaceStates.CannonsHUD = bBtnState;
 		}
 	}
+	
+ 	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "BOARD_MODE_CHECKBOX", 3, 1))
+	{
+		bBoardMode = true;
+	}
+	else
+	{
+		bBoardMode = false;
+	}
+	
 }
 
 void procSlideChange()
@@ -972,6 +999,11 @@ void ShowInfo()
 		case "HMOUSE_SENSITIVITY_SLIDE":
 			sHeader = XI_ConvertString("Horizontal Mouse Sensitivity");
 			sText1 = XI_ConvertString("Horizontal Mouse Sensitivity_descr");
+		break;
+		
+		case "BOARD_MODE_CHECKBOX":
+			sHeader = XI_ConvertString("BOARD_MODE");
+			sText1 = XI_ConvertString("BOARD_MODE_descr");
 		break;
 
 		case "BATTLE_MODE_CHECKBOX":

@@ -1,5 +1,4 @@
 #include "_mod_on_off.h"
-#include "Korsar_Maxim_func.c"
 #include "events.h"
 #include "globals.c"
 #include "animals.c"
@@ -35,9 +34,9 @@
 #include "store\store.h"
 #include "interface\interface.c"
 #include "OnLoadReinit.c"
-// Created by Lugger -->
-#include "lugger\utils.c"
-// Created by Lugger <--
+// Addon things -->
+#include "Addons\utils.c"
+// Addon things <--
 //// {*} BUHO-CIC - ADDED CODE - CIC vars and routines.
 #include "BUHO_CIC.c"
 //// {*} BUHO END ADDITION
