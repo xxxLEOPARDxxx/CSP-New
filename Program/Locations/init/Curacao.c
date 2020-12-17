@@ -256,7 +256,7 @@ int LocationInitCuracao(int n)
 	locations[n].models.always.tavern = "Tavern07";
 	locations[n].models.always.tavern.level = 65538;
 	locations[n].models.always.locators = "Tavern07_locators";
-	locations[n].models.always.window = "Tavern07_windows";
+	locations[n].models.always.window = "Tavern07_window";
 	locations[n].models.always.window.tech = "LocationWindows";
 	locations[n].models.always.window.level = 65539;
 	locations[n].models.always.back = "..\inside_back";
