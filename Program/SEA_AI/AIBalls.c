@@ -107,7 +107,7 @@ void Ball_AddBall(aref aCharacter, float fX, float fY, float fZ, float fSpeedV0,
 
 	if (fCannons > 0.0 && RealShips[sti(aCharacter.ship.type)].BaseName != "fort") // fix
 	{
-		if (fCannons > rand(100))
+		if (fCannons > rand(100) && !IsEquipCharacterByArtefact(aCharacter, "talisman3"))
 		{
             fCannons = (rand(4) + 2.0*(1.65 - stf(aCharacter.TmpSkill.Cannons))) * 10;
 			SendMessage(&AISea, "laffff", AI_MESSAGE_CANNONS_BOOM_CHECK, aCharacter, fCannons, fx, fy, fz);  // fDamage2Cannons  там много делителей, потому много

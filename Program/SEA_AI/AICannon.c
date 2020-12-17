@@ -254,6 +254,7 @@ float Cannon_DamageEvent()
 		}
 	}
 
+	if(IsEquipCharacterByArtefact(aCharacter, "talisman3")) return 0.0;
 	ref	rCannon = GetCannonByType(sti(aCharacter.Ship.Cannons.Type));
 	
 	float fMaxCHP = stf(rCannon.hp);

@@ -520,11 +520,12 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	if(dmg > 0.0)
 	{
 		//Наносим повреждение
-		LAi_ApplyCharacterDamage(enemy, MakeInt(dmg + 0.5));
+		if(IsEquipCharacterByArtefact(attack, "talisman1"))	LAi_ApplyCharacterDamage(enemy, MakeInt(dmg+(dmg/10) + 0.5));	
+		else  LAi_ApplyCharacterDamage(enemy, MakeInt(dmg + 0.5));
 		//Проверим на смерть
 		LAi_CheckKillCharacter(enemy);
 		//проверим на отравление
-		MakePoisonAttackCheckSex(enemy, attack);
+		if(!IsEquipCharacterByArtefact(enemy, "talisman8")) MakePoisonAttackCheckSex(enemy, attack);
 	}
 	//Есть ли оружие у цели
 	bool isSetBalde = (CheckAttribute(enemy, "equip.blade"));//(SendMessage(enemy, "ls", MSG_CHARACTER_EX_MSG, "IsSetBalde") != 0);
@@ -660,7 +661,13 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	}
 	if(damage > 0.0)
 	{
-		LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5));	
+		if(IsEquipCharacterByArtefact(attack, "talisman1"))
+		{
+			if (rand(5)==0)	LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)*2);
+			else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)+25);
+		}
+		else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5));	
+		
 		//Проверим на смерть
 		LAi_CheckKillCharacter(enemy);
 	}

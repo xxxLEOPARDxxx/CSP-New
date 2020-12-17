@@ -564,6 +564,29 @@ void CreatPlantation(aref loc)
 		chr.dialog.filename = "Common_Soldier.c";
 		chr.dialog.currentnode = "first time";   
 		ChangeCharacterAddressGroup(chr, pchar.location, "soldiers", "soldier1");
+		
+		chr = GetCharacter(NPC_GenerateCharacter("GenChar_", sType, "man", "mushketer", sti(pchar.rank), iNation, 2, false));
+		chr.id = "GenChar_" + chr.index;	
+		chr.reputation = (1 + rand(44) + rand(44));// репа всем горожанам
+		chr.City = Colonies[iColony].id;
+        chr.CityType = "soldier";
+		chr.greeting = "soldier_common";
+		chr.MusketerDistance = 0;
+		LAi_SetLoginTime(chr, 6.0, 23.0); //а ночью будет беготня от патруля :)
+
+		LAi_SetPatrolType(chr);
+        if (sti(Colonies[iColony].HeroOwn) == true)
+		{
+			LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
+			chr.greeting = "pirat_guard";
+		}
+		else
+		{
+			LAi_group_MoveCharacter(chr, slai_group);
+		}
+		chr.dialog.filename = "Common_Soldier.c";
+		chr.dialog.currentnode = "first time";   
+		ChangeCharacterAddressGroup(chr, pchar.location, "soldiers", "soldier2");
 	}
 	// солдаты <--
 	// патруль -->

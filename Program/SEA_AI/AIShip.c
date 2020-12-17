@@ -3729,7 +3729,7 @@ void Ship_UpdateParameters()
 	{
 		float fWindAttack = 1.0 - abs(fWindDotShip);
 		
-		float fDamageMultiply = fStormProfessional * Bring2Range(0.25, 1.0, 0.0, 1.0, fWindAttack);
+		float fDamageMultiply = fStormProfessional * Bring2Range(0.25, 1.0, 0.0, 1.0, fWindAttack) * isEquippedArtefactUse(rCharacter, "talisman2", 1.0, 0.2);
 
 		// hull damage
 		float fDamageHP = (fBaseShipHP / 100.0) * 1.1;

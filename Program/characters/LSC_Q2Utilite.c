@@ -149,6 +149,8 @@ void RemoveAllCharacterItems(ref _ch, bool _removemoney)
 	RemoveCharacterEquip(_ch, PATENT_ITEM_TYPE);
 	RemoveCharacterEquip(_ch, CIRASS_ITEM_TYPE);
 	RemoveCharacterEquip(_ch, MAPS_ITEM_TYPE);
+	RemoveCharacterEquip(_ch, BACKPACK_ITEM_TYPE);
+	RemoveCharacterEquip(_ch, TALISMAN_ITEM_TYPE);
 	
 	//сносим все предметы, кроме квестовых -->
 	aref arItems;

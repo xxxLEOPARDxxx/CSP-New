@@ -80,6 +80,7 @@ void InitInterface_R(string iniName, ref pTrader)
 	SetEventHandler("ShowSpyglassEquipInfo", "ShowSpyglassEquipInfo", 0);
 	SetEventHandler("ShowCirassEquipInfo", "ShowCirassEquipInfo", 0);
 	SetEventHandler("ShowBackPackEquipInfo", "ShowBackPackEquipInfo", 0);
+	SetEventHandler("ShowTalismanEquipInfo", "ShowTalismanEquipInfo", 0);
 
 	SetFormatedText("STORECAPTION1", XI_ConvertString("titleItemsTrade"));
 
@@ -123,6 +124,7 @@ void IDoExit(int exitCode)
 	            EquipCharacterByItem(refCharacter, FindCharacterItemByGroup(refCharacter,BLADE_ITEM_TYPE));
 	            EquipCharacterByItem(refCharacter, FindCharacterItemByGroup(refCharacter,CIRASS_ITEM_TYPE)); // boal 08.10.04 броню офицерам
 				EquipCharacterByItem(refCharacter, FindCharacterItemByGroup(refCharacter,BACKPACK_ITEM_TYPE));
+				EquipCharacterByItem(refCharacter, FindCharacterItemByGroup(refCharacter,TALISMAN_ITEM_TYPE));
 	        }
 			if (CheckAttribute(refCharacter, "skill.Pistol") && GetCharacterSkill(refCharacter,"Pistol") > 0.1 )
 			{
@@ -158,6 +160,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("ShowSpyglassEquipInfo", "ShowSpyglassEquipInfo");
 	DelEventHandler("ShowCirassEquipInfo", "ShowCirassEquipInfo");
 	DelEventHandler("ShowBackPackEquipInfo", "ShowBackPackEquipInfo");
+	DelEventHandler("ShowTalismanEquipInfo", "ShowTalismanEquipInfo");
 	interfaceResultCommand = exitCode;
 	EndCancelInterface(true);
 
@@ -929,6 +932,7 @@ void ShowEquipWindow()
 	string sSpyglass = GetCharacterEquipByGroup(refCharacter, "spyglass");
 	string sCirass = GetCharacterEquipByGroup(refCharacter, "cirass");
 	string sBackPack = GetCharacterEquipByGroup(refCharacter, "BackPack");
+	string sTalisman = GetCharacterEquipByGroup(refCharacter, "talisman");
 		
 	if(CheckAttribute(refCharacter, "equip.blade") && refCharacter.equip.blade != "")
 	{
@@ -973,6 +977,15 @@ void ShowEquipWindow()
 	else
 	{
 		SetNewGroupPicture("EQUIP_BACKPACK_PIC", "none", "none");
+	}
+	
+	if(CheckAttribute(refCharacter, "equip.talisman") && refCharacter.equip.talisman != "")
+	{
+		SetNewGroupPicture("EQUIP_TALISMAN_PIC", Items[FindItem(sTalisman)].picTexture, "itm" + Items[FindItem(sTalisman)].picIndex);
+	}
+	else
+	{
+		SetNewGroupPicture("EQUIP_TALISMAN_PIC", "none", "none");
 	}
 	
 	SetFormatedText("EQUIP_CAPTION", XI_ConvertString("Equipment") + ": " + refCharacter.name + " " + refCharacter.lastname);	
@@ -1110,6 +1123,39 @@ void ShowBackPackEquipInfo()
 	LanguageCloseFile(idLngFile);
 }
 
+void ShowTalismanEquipInfo()
+{
+	if(!CheckAttribute(refCharacter, "equip.talisman"))
+	{
+		return;
+	}
+	if(refCharacter.equip.talisman == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(refCharacter, "talisman");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
 void ShowCirassEquipInfo()
 {
 	if(!CheckAttribute(refCharacter, "equip.cirass"))
@@ -1169,6 +1215,11 @@ void ClickBackPack()
 	ClickItem("BACKPACK");
 }
 
+void ClickTalisman()
+{
+	ClickItem("TALISMAN");
+}
+
 void ClickItem(string sItem)
 {
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BLADE_PIC", 5, 0);
@@ -1176,6 +1227,7 @@ void ClickItem(string sItem)
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_CIRASS_PIC", 5, 0);
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_SPYGLASS_PIC", 5, 0);
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BACKPACK_PIC", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_TALISMAN_PIC", 5, 0);
 
 	string sNode = "EQUIP_" + sItem + "_PIC";
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,sNode, 5, 1);

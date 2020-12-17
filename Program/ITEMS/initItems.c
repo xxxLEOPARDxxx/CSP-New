@@ -5992,6 +5992,105 @@ int InitItems()
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
 	n++;
+	//Обереги
+	
+	makeref(itm,Items[n]);
+	itm.id = "talisman1"; // Маска Кукулькана
+	itm.groupID = TALISMAN_ITEM_TYPE;
+	itm.name = "itmname_talisman1";
+	itm.describe = "itmdescr_talisman1";
+	itm.picIndex = 7;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 25000;
+	itm.Weight = 0.5;
+	itm.minlevel = 1;
+	itm.rare = 0.001;
+	itm.kind = "fighter";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "talisman2"; // Иона
+	itm.groupID = TALISMAN_ITEM_TYPE;
+	itm.name = "itmname_talisman2";
+	itm.describe = "itmdescr_talisman2";
+	itm.picIndex = 6;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 25000;
+	itm.Weight = 0.5;
+	itm.minlevel = 1;
+	itm.rare = 0.001;
+	itm.kind = "navigator";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "talisman3"; // Молот Тора
+	itm.groupID = TALISMAN_ITEM_TYPE;
+	itm.name = "itmname_talisman3";
+	itm.describe = "itmdescr_talisman3";
+	itm.picIndex = 1;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 25000;
+	itm.Weight = 0.5;
+	itm.minlevel = 1;
+	itm.rare = 0.001;
+	itm.kind = "cannoner";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "talisman4"; // Янычар
+	itm.groupID = TALISMAN_ITEM_TYPE;
+	itm.name = "itmname_talisman4";
+	itm.describe = "itmdescr_talisman4";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 25000;
+	itm.Weight = 0.5;
+	itm.minlevel = 1;
+	itm.rare = 0.001;
+	itm.kind = "boatswain";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "talisman6"; // Богиня
+	itm.groupID = TALISMAN_ITEM_TYPE;
+	itm.name = "itmname_talisman6";
+	itm.describe = "itmdescr_talisman6";
+	itm.picIndex = 5;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 25000;
+	itm.Weight = 0.5;
+	itm.minlevel = 1;
+	itm.rare = 0.001;
+	itm.kind = "doctor";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "talisman7"; // Скарабей
+	itm.groupID = TALISMAN_ITEM_TYPE;
+	itm.name = "itmname_talisman7";
+	itm.describe = "itmdescr_talisman7";
+	itm.picIndex = 3;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 25000;
+	itm.Weight = 0.5;
+	itm.minlevel = 1;
+	itm.rare = 0.001;
+	itm.kind = "carpenter";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "talisman8"; // Скорпион
+	itm.groupID = TALISMAN_ITEM_TYPE;
+	itm.name = "itmname_talisman8";
+	itm.describe = "itmdescr_talisman8";
+	itm.picIndex = 2;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 25000;
+	itm.Weight = 0.5;
+	itm.minlevel = 1;
+	itm.rare = 0.001;
+	itm.kind = "fighter";
+	n++;
 	
 	trace("Всего предметов (размерность массива) "+n);
 	trace("Всего заскриптованных предметов - " + iScriptItemCount);

@@ -240,7 +240,8 @@ void SetVariable()
 	}
 	else
 	{
-		SetNodeUsing("EQUIP_BUTTON" , false);
+		SetNodeUsing("EQUIP_BUTTON" , true);
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 	}
 }
 
@@ -340,6 +341,7 @@ void FillItemsSelected()
 	SetNodeUsing("ITEM_4", false);
 	SetNodeUsing("ITEM_5", false);
 	SetNodeUsing("ITEM_6", false);
+	SetNodeUsing("ITEM_7", false);
 	
     for (i = 0; i< TOTAL_ITEMS; i++)
 	{
@@ -395,6 +397,10 @@ void FillItemsSelected()
 					case BACKPACK_ITEM_TYPE:
 						SetNewGroupPicture("ITEM_6", Items[i].picTexture, "itm" + Items[i].picIndex);
 						SetNodeUsing("ITEM_6" , true);
+					break;
+					case TALISMAN_ITEM_TYPE:
+						SetNewGroupPicture("ITEM_7", Items[i].picTexture, "itm" + Items[i].picIndex);
+						SetNodeUsing("ITEM_7" , true);
 					break;
 				}
 			}

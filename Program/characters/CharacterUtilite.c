@@ -575,6 +575,7 @@ float GetSailRPD(ref _refCharacter) // процент ремонта парусов в день
 	{
 		repairSkill = repairSkill * 1.1;
 	}
+	if(IsEquipCharacterByArtefact(_refCharacter, "talisman7")) repairSkill = repairSkill * 1.5;
 	float damagePercent = 100.0 - GetSailPercent(_refCharacter);
 	if (damagePercent == 0.0) return 0.0;
 
@@ -589,6 +590,7 @@ float GetHullRPD(ref _refCharacter) // процент ремонта корпуса в день
 	{
 		repairSkill = repairSkill * 1.1;
 	}
+	if(IsEquipCharacterByArtefact(_refCharacter, "talisman7")) repairSkill = repairSkill * 1.5;
 	float damagePercent = 100.0 - GetHullPercent(_refCharacter);
 	if(damagePercent == 0.0) return 0.0;
 
@@ -2135,6 +2137,60 @@ bool IsEquipCharacterByItem(ref chref, string itemID)
 	return false;
 }
 
+bool IsEquipCharactersByItem(ref chref, string itemID)
+{
+	int 	iOfficer = -1;
+	ref 	rItem, sld;
+	string  sKind = "";
+	
+	if (IsMainCharacter(chref)) // ГГ и его офицеры 
+	{
+		if(IsEquipCharacterByItem(pchar, itemID)) return true;
+		rItem = ItemsFromID(itemID);
+		if(CheckAttribute(rItem, "kind")) 
+		{
+			sKind = rItem.kind;
+			if(sKind == "fighter")
+			{
+				for(int i = 1; i < 4; i++)
+				{		
+					iOfficer = GetOfficersIndex(pchar, i); 
+					if(iOfficer != -1)
+					{
+						if(IsEquipCharacterByItem(&characters[iOfficer], itemID)) return true;						
+					}
+				}	
+			}
+			else
+			{
+				iOfficer = sti(pchar.Fellows.Passengers.(sKind));
+				if(iOfficer != -1)
+				{
+					return IsEquipCharacterByItem(&characters[iOfficer], itemID);
+				}
+			}	
+			return false;
+		}	
+		else
+		{
+			for (int io = 0; io < GetNotQuestPassengersQuantity(chref); io++)
+			{
+				iOfficer = GetNotQuestPassenger(chref, io);
+				if(iOfficer != -1)
+				{
+					sld = GetCharacter(iOfficer);
+					if(isOfficerInShip(sld, true))
+					{
+						if(IsEquipCharacterByItem(sld, itemID)) return true;
+					}					
+				}
+			}
+			return false;
+		}	
+	}
+	return IsEquipCharacterByItem(chref, itemID);
+}
+
 // --> ugeen - проверяем, есть ли карта в атласе     18.06.09
 bool IsEquipCharacterByMap(ref chref, string itemID)
 {
@@ -2533,6 +2589,18 @@ void EnableEquip(ref chref, string equiping_group, bool enable)
 ///  репутация ГГ 06/06/06 boal new concept -->
 //изменить репутацию персонажа в зависимости от текущей репутации.
 //минус для плохого это рост в плюс
+bool IsEquipCharacterByArtefact(ref chref, string itemID)
+{
+	if (IsEquipCharactersByItem(chref, itemID)) return true;
+	return false;
+}
+
+float isEquippedArtefactUse(ref rChar, string sItem, float fOff, float fOn)
+{
+	if (IsEquipCharactersByItem(rChar, sItem)) return fOn;	
+	return fOff;
+}
+
 int ChangeCharacterReputationABS(ref chref, float incr)
 {
 	int curVal = REPUTATION_NEUTRAL;
