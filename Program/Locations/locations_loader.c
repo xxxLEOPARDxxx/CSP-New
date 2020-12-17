@@ -132,10 +132,6 @@ bool LoadLocation(ref loc)
 			break;
 		case "house":			// дом
 			nAmbient = amb_house;
-			if (makeint(environment.time) > 22.0 || makeint(environment.time) < 7.0)
-			{
-				res = false;
-			}
 			break;
 		case "tavern":			// таверна
 			nAmbient = amb_tavern;
@@ -717,7 +713,7 @@ bool LoadLocation(ref loc)
 			loc.Swimming = false;
 
 			// включаем эффект воды
-			Render.SeaEffect = true;
+			Render.SeaEffect = false;
 			// я не помню, тут 0.02 или 0.002 должно быть, если сильно колбасит - то надо уменьшить :)
 			Render.SeaEffectSize = 0.003;
 			Render.SeaEffectSpeed = 3.0;

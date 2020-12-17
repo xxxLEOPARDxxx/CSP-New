@@ -582,7 +582,11 @@ float Ship_MastDamage()
 		rCharacter.Tmp.SpeedRecall = 0; // чтоб пересчитался маневр
 		RefreshBattleInterface();
 	}
-
+	
+	// LEO: Общий дамаг по мачтам разделен на классы
+	if (nClass == 6 || nClass == 5) fDamage *= 1.8;
+	if (nClass == 4 || nClass == 3) fDamage *= 1.5;
+	if (nClass == 2 || nClass == 1) fDamage *= 1.3;
 	return fDamage;
 	//procMastFall
 }
