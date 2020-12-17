@@ -15,7 +15,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_culverine_8";
 	rCannon.caliber = 8;
 	rCannon.ReloadTime = 8;
-	rCannon.Cost = 1000;
+	rCannon.Cost = 400;
 	rCannon.Weight = 2;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -34,7 +34,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_culverine_12";
 	rCannon.caliber = 12;
 	rCannon.ReloadTime = 15;
-	rCannon.Cost = 1500;
+	rCannon.Cost = 600;
 	rCannon.Weight = 4;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -53,7 +53,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_culverine_16";
 	rCannon.caliber = 16;
 	rCannon.ReloadTime = 20;
-	rCannon.Cost = 3000;
+	rCannon.Cost = 800;
 	rCannon.Weight = 6;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -72,7 +72,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_culverine_16";
 	rCannon.caliber = 20;
 	rCannon.ReloadTime = 25;
-	rCannon.Cost = 3100;
+	rCannon.Cost = 1000;
 	rCannon.Weight = 7;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -91,7 +91,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_culverine_24";
 	rCannon.caliber = 24;
 	rCannon.ReloadTime = 30;
-	rCannon.Cost = 4000;
+	rCannon.Cost = 1200;
 	rCannon.Weight = 8;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -110,7 +110,7 @@ void InitCannons()
 	rCannon.picture = "cannons4";
 	rCannon.Sound = "cannon_fire_culverine_32";
 	rCannon.ReloadTime = 40;
-	rCannon.Cost = 6000;
+	rCannon.Cost = 1600;
 	rCannon.Weight = 10;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.45;
@@ -130,7 +130,7 @@ void InitCannons()
 	rCannon.picture = "cannons4";
 	rCannon.Sound = "cannon_fire_culverine_32";
 	rCannon.ReloadTime = 45;
-	rCannon.Cost = 6500;
+	rCannon.Cost = 1800;
 	rCannon.Weight = 11;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.45;
@@ -150,7 +150,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_cannon_8";
 	rCannon.caliber = 8;
 	rCannon.ReloadTime = 10;
-	rCannon.Cost = 1000;
+	rCannon.Cost = 400;
 	rCannon.Weight = 3;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -169,7 +169,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_cannon_12";
 	rCannon.caliber = 12;
 	rCannon.ReloadTime = 20;
-	rCannon.Cost = 1500;
+	rCannon.Cost = 600;
 	rCannon.Weight = 6;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -188,7 +188,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_cannon_16";
 	rCannon.caliber = 16;
 	rCannon.ReloadTime = 30;
-	rCannon.Cost = 3000;
+	rCannon.Cost = 800;
 	rCannon.Weight = 9;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -207,7 +207,7 @@ void InitCannons()
 	rCannon.Sound = "cannon_fire_cannon_16";
 	rCannon.caliber = 20;
 	rCannon.ReloadTime = 35;
-	rCannon.Cost = 3500;
+	rCannon.Cost = 1000;
 	rCannon.Weight = 10;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
@@ -227,7 +227,7 @@ void InitCannons()
 	rCannon.caliber = 24;
 	rCannon.ReloadTime = 40;
 	rCannon.Weight = 12;
-	rCannon.Cost = 4000;
+	rCannon.Cost = 1200;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.35;
 	rCannon.TimeSpeedMultiply = 1.0;
@@ -245,7 +245,7 @@ void InitCannons()
 	rCannon.picture = "cannons8";
 	rCannon.Sound = "cannon_fire_cannon_32";
 	rCannon.ReloadTime = 50;
-	rCannon.Cost = 6000;
+	rCannon.Cost = 1600;
 	rCannon.Weight = 15;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.45;
@@ -265,7 +265,7 @@ void InitCannons()
 	rCannon.picture = "cannons8";
 	rCannon.Sound = "cannon_fire_cannon_32";
 	rCannon.ReloadTime = 55;
-	rCannon.Cost = 6900;
+	rCannon.Cost = 1800;
 	rCannon.Weight = 17;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.45;
@@ -305,7 +305,7 @@ void InitCannons()
 	rCannon.picture = "cannons11";
 	rCannon.Sound = "cannon_fire_cannon_42";
 	rCannon.ReloadTime = 60;
-	rCannon.Cost = 8000;
+	rCannon.Cost = 2100;
 	rCannon.Weight = 18;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.45;
@@ -325,7 +325,7 @@ void InitCannons()
 	rCannon.picture = "cannons12";
 	rCannon.Sound = "cannon_fire_cannon_48";
 	rCannon.ReloadTime = 75;
-	rCannon.Cost = 10000;
+	rCannon.Cost = 2400;
 	rCannon.Weight = 24;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.45;
