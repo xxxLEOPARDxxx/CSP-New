@@ -78,7 +78,7 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 	if(_PriceType==PRICE_TYPE_BUY)
 	{
 		skillModify = 1.46 - _TradeSkill*0.019; // boal 20.01.2004
-		if(tradeType == TRADE_TYPE_CANNONS) skillModify *= 1.0;
+		if(tradeType == TRADE_TYPE_CANNONS) skillModify *= 1.3;
 		if(CheckOfficersPerk(chref,"AdvancedCommerce"))	{ skillModify -= 0.2; }
 		else
 		{
@@ -88,7 +88,7 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 	else
 	{
 		skillModify = 0.69 + _TradeSkill*0.019; // boal
-		if(tradeType == TRADE_TYPE_CANNONS) skillModify /= 1.0;
+		if(tradeType == TRADE_TYPE_CANNONS) skillModify /= 1.3;
 		if(CheckOfficersPerk(chref,"AdvancedCommerce"))	skillModify += 0.05;
 	}
 

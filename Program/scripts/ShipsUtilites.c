@@ -1788,9 +1788,9 @@ int GetShipBuyPrice(int iType, ref _shipyard)
 
 int GetSailRepairCost(int shipType, int repairPercent, ref _shipyard)
 {
-	float fConstanta = 2.0; 
-	float fSkillDepend = fConstanta + (SKILL_TO_OLD*1.5) - (GetSummonSkillFromNameToOld(pchar, SKILL_LEADERSHIP) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)); 
-	fSkillDepend *= 0.1 + (MOD_SKILL_ENEMY_RATE * 0.01); 
+	float fConstanta = 2.0;
+	float fSkillDepend = fConstanta + (SKILL_TO_OLD*1.5) - (GetSummonSkillFromNameToOld(pchar, SKILL_LEADERSHIP) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE));
+	fSkillDepend *= 0.1 + (MOD_SKILL_ENEMY_RATE * 0.01);
 	float SailRepairCoeff = 1.0 * fSkillDepend;
 	int shipPrice = GetShipPriceByType(shipType, _shipyard);
 	if(shipPrice<=0) return 0;
@@ -1802,9 +1802,9 @@ int GetSailRepairCost(int shipType, int repairPercent, ref _shipyard)
 
 int GetHullRepairCost(int shipType,int repairPercent, ref _shipyard)
 {
-	float fConstanta = 6.0; 
-	float fSkillDepend = fConstanta + (SKILL_TO_OLD*1.75) - (GetSummonSkillFromNameToOld(pchar, SKILL_LEADERSHIP) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)); 
-	fSkillDepend *= 0.1 + (MOD_SKILL_ENEMY_RATE * 0.01); 
+	float fConstanta = 4.0;
+	float fSkillDepend = fConstanta + (SKILL_TO_OLD*1.75) - (GetSummonSkillFromNameToOld(pchar, SKILL_LEADERSHIP) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE));
+	fSkillDepend *= 0.1 + (MOD_SKILL_ENEMY_RATE * 0.01);
 	float HullRepairCoeff = 1.0 * fSkillDepend;
 	int shipPrice = GetShipPriceByType(shipType, _shipyard);
 	if(shipPrice<=0) return 0;
