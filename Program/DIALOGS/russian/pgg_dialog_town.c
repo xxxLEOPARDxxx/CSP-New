@@ -1222,5 +1222,14 @@ void ProcessDialogEvent()
 		LAi_group_FightGroups(LAI_GROUP_PLAYER, "PGGTmp", true);
 		LAi_SetFightMode(pchar, true);
 		break;
+		
+	case "Exit_ShowParam":
+		NextDiag.CurrentNode = "Second Time";
+//		NPChar.quest.meeting = true;
+		DialogExit();
+
+		PChar.SystemInfo.OnlyShowCharacter = true;
+		LaunchCharacter(NPChar);
+		break;
 	}
 }
