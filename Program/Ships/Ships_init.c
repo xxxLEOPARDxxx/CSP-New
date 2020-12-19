@@ -10151,10 +10151,10 @@ void InitShips()
 	refShip.Weight						= Tonnes2CWT(4500);
 	refShip.Capacity        			= 6800								+ 120 * MOD_SKILL_ENEMY_RATE;
 	refShip.CannonsQuantity				= 112;
-	refShip.rcannon 							= 48;
-	refShip.lcannon 							= 48;
-	refShip.fcannon 							= 6;
-	refShip.bcannon 							= 10;
+	refShip.rcannon 							= 52;
+	refShip.lcannon 							= 52;
+	refShip.fcannon 							= 4;
+	refShip.bcannon 							= 4;
 	refShip.MaxCrew         				= 1200							+ 20 * MOD_SKILL_ENEMY_RATE;
 	refShip.MinCrew         				= 240;
 	refShip.SpeedRate				= 10.6									+ 0.1 * MOD_SKILL_ENEMY_RATE;

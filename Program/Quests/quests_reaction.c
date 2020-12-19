@@ -7962,7 +7962,7 @@ void QuestComplete(string sQuestName, string qname)
 			pchar.quest.CapBloodLine_firstEnterHome.function      = "CapBloodLine_firstEnterHome"; 
 			StartPictureAsVideo("Loading\finalbad2.tga", 1);
 			DoReloadCharacterToLocation("Plantation_S1", "goto", "goto1");
-			DoQuestFunctionDelay("FadeDelay", 0.1);
+			LAi_FadeEndFadeOut();
         break;
 		//homo
 		//-->работорговец

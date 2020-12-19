@@ -280,6 +280,7 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 			row = "tr" + n;
 			sGood = arItem.id;
 			ok = arItem.ItemType == "WEAPON" || arItem.ItemType == "SUPPORT";
+			if (CheckAttribute(arItem,"kind")) ok = true;
 			if(CheckAttribute(arItem,"mapSpecial"))
 			{
 				ok2 = false;

@@ -2798,16 +2798,17 @@ string  Get_My_Cabin_Pic()
 bool isShipInside(string _id)
 {
     bool   ret = false;
-
     if (_id == Get_My_Cabin() || _id == "My_Deck_Medium" || _id == "My_Campus" || _id == "My_Deck" || _id == "Deck_Near_Ship")
     {
         ret = true;
-        if (CheckAttribute(pchar, "GenQuest.DestroyPirate") && CheckAttribute(pchar, "GenQuest.CaptainId") && pchar.GenQuest.CaptainId == "MQPirate")
-	    {
-	        if (!CheckQuestAttribute("Munity", "Deads")) ret = false;
-	    }
+        if (CheckAttribute(pchar, "GenQuest.DestroyPirate") && CheckAttribute(pchar, "GenQuest.CaptainId"))
+		{
+			if (pchar.GenQuest.CaptainId == "MQPirate")
+			{
+				if (!CheckQuestAttribute("Munity", "Deads")) ret = false;
+			}
+		}
     }
-
     return ret;
 }
 void  Set_My_Cabin()

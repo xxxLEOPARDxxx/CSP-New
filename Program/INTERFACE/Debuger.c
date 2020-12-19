@@ -1448,10 +1448,10 @@ void CalculateInfoDataF32()
 	AddItems(mc, "bullet", 50);
 	AddItems(mc, "GunPowder", 50);
 	AddItems(mc, "cirass3", 1);
+	AddItems(mc, "talisman1", 1);
 	AddItems(mc, "talisman2", 1);
 	AddItems(mc, "talisman3", 1);
 	AddItems(mc, "talisman4", 1);
-	AddItems(mc, "talisman5", 1);
 	AddItems(mc, "talisman6", 1);
 	AddItems(mc, "talisman7", 1);
 	AddItems(mc, "talisman8", 1);

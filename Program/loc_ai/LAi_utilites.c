@@ -1419,25 +1419,31 @@ void CreateInsideResidenceEncounters(aref loc)
 	bool bOk;
 	if (CheckAttribute(loc, "MustSetReloadBack"))
 	{ //если заглушка
-		if (loc.id.label == "TownhallRoom" || loc.id.label == "Townhall")
+		if (CheckAttribute(loc, "id.label"))
 		{
-			bOk = CreateQuestResidenceNPC(loc);
-			if(!bOk) 
+			if (loc.id.label == "TownhallRoom" || loc.id.label == "Townhall")
 			{
-				CreateResidenceNpc(loc);
+				bOk = CreateQuestResidenceNPC(loc);
+				if(!bOk) 
+				{
+					CreateResidenceNpc(loc);
+				}
 			}
-		}	
+		}
 	}
 	else
 	{ //если статичная локация
-		if (loc.id.label == "TownhallRoom")
+		if (CheckAttribute(loc, "id.label"))
 		{
-			bOk = CreateQuestResidenceNPC(loc);
-			if(!bOk)
+			if (loc.id.label == "TownhallRoom")
 			{
-				CreateResidenceNpc(loc);
+				bOk = CreateQuestResidenceNPC(loc);
+				if(!bOk)
+				{
+					CreateResidenceNpc(loc);
+				}	
 			}	
-		}	
+		}
 	}
 }
 //относится к методу выше

@@ -535,16 +535,19 @@ int ReloadToLocation(int location_index, aref reload_data)
     		for (int a=0; a<Qty; a++)
     		{
     			arDis = GetAttributeN(arRld, a);
-                sName = arDis.go;
-    			if (findsubstr(sName, "Common" , 0) != -1)
-    			{
-                    if (CheckAttribute(arDis, "canEnter"))
+				if (CheckAttribute(arDis,"go"))
+				{
+					sName = arDis.go;
+					if (findsubstr(sName, "Common" , 0) != -1)
 					{
-						arDis.disable = false;
-						DeleteAttribute(arDis, "canEnter"); //автосъем флага на открытую дверь
+						if (CheckAttribute(arDis, "canEnter"))
+						{
+							arDis.disable = false;
+							DeleteAttribute(arDis, "canEnter"); //автосъем флага на открытую дверь
+						}
+						else arDis.disable = rand(1); 
 					}
-					else arDis.disable = rand(1); 
-    			}
+				}
     		}
     	}
     }

@@ -16,9 +16,9 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				link.l1 = "Уважаемый, я ищу один необычный корабль, шебеку 'Синяя Птица'. Ничего о ней не слышали? За любую информацию о ней я "+ GetSexPhrase("готов","готова") +" заплатить...";
 				link.l1.go = "BlueBird_1";
 			}
-			bOk = pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "weWon" || pchar.questTemp.BlueBird == "returnMoney" || pchar.questTemp.BlueBird == "over"; 
 			if(CheckAttribute(pchar, "questTemp.Headhunter"))
 			{
+				bOk = pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "weWon" || pchar.questTemp.BlueBird == "returnMoney" || pchar.questTemp.BlueBird == "over"; 
 	    		if (bOk && !CheckAttribute(pchar,"questTemp.BlueBird.speakWon"))
     			{
 		    		link.l1 = "А где Паскаль Вуазье?";

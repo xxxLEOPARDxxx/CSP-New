@@ -95,7 +95,7 @@ void SetEnergyToCharacter(ref _refCharacter)
 
 int GetCharacterMaxOfficersQty(ref _refCharacter)
 {
-    return GetCharacterSPECIAL(_refCharacter, SPECIAL_C)*2;
+    return GetCharacterSPECIAL(_refCharacter, SPECIAL_C)*2+makeint(GetCharacterSkill(_refCharacter, SKILL_LEADERSHIP)/50);
 }
 
 int AddCharacterExp(ref _refCharacter,int _exp)
