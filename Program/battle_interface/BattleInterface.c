@@ -44,7 +44,7 @@ bool bAbordage = false;
 bool bDefend=false;
 
 //speak interface
-//bool bCanSpeak = false;
+bool bCanSpeak = false;
 //bool bCanSneak = false;
 
 bool bEnableIslandSailTo = false;
@@ -510,10 +510,10 @@ ref BI_CommandEndChecking()
 		BI_retComValue = BI_COMMODE_NEUTRAL_SHIP_SELECT+BI_COMMODE_FRIEND_SHIP_SELECT+BI_COMMODE_ENEMY_SHIP_SELECT;
 	break;
 	//speak interface
-	/*case "BI_Speak":
+	case "BI_Speak":
 		BI_retComValue = BI_COMMODE_NEUTRAL_SHIP_SELECT+BI_COMMODE_FRIEND_SHIP_SELECT+BI_COMMODE_ENEMY_SHIP_SELECT;
-		BattleInterface.Commands.Speak.EffectRadius	= 300;
-	break;*/
+		BattleInterface.Commands.Speak.EffectRadius	= 500;
+	break;
 
 	/*case "BI_Sneak":
 		BI_retComValue = BI_COMMODE_ENEMY_TOWN;
@@ -790,6 +790,12 @@ void BI_LaunchCommand()
 	case "BI_UseItemAbilitie":
 		CompleteQuestName( BattleInterface.AbilityIcons.(alternativeCommand).quest, "");
 	break;
+	case "BI_Speak":
+		if(LAi_IsDead(GetCharacter(targetNum)) == false)
+		{
+			Sea_Speak(GetCharacter(targetNum), nMainCharacterIndex, -1);
+		}
+	break;
 	/*case "BI_Ability":
   		Event("evntSetUsingAbility","l", charIdx);
 	break;*/
@@ -903,10 +909,10 @@ void AddShipToInterface(int charIndex)
 			return;
 	}
 
-	/*if (myShip != true)
+	if (myShip != true)
 	{
 		bCanSpeak = true;
-	}*/
+	}
 	//заглушка, убирающая интерфейс разговоров в море.
 	//кому из аддонщиков будет интересно привести систему разговоров в норм - раскоментарьте
 	//а у нас поставили сроки жесткие, програмеры в отпуске, и я банально не успеваю все оттестить
@@ -1012,7 +1018,7 @@ void BI_SetPossibleCommands()
 		//speak interface
 		BattleInterface.Commands.ImmediateDeath.enable	= bBettaTestMode; // boal cheat
 		BattleInterface.Commands.InstantBoarding.enable	= bBettaTestMode; // boal cheat
-		//BattleInterface.Commands.Speak.enable			= bCanSpeak;
+		BattleInterface.Commands.Speak.enable			= bCanSpeak;
 		//BattleInterface.Commands.Sneak.enable			= bCanSneak;
 
 		BattleInterface.Commands.Moor.enable			= bCanEnterToLand;
@@ -1059,7 +1065,7 @@ void BI_SetPossibleCommands()
 		BattleInterface.Commands.Speed.enable			= false;
 		//BattleInterface.Commands.CCommand.enable		= false;
 		//BattleInterface.Commands.Ability.enable			= true;
-		//BattleInterface.Commands.Speak.enable			= false;
+		BattleInterface.Commands.Speak.enable			= false;
 		//BattleInterface.Commands.Sneak.enable			= false;
 		BattleInterface.Commands.ImmediateDeath.enable  = false; // boal
 		BattleInterface.Commands.InstantBoarding.enable  = false; // boal
@@ -1264,6 +1270,13 @@ void BI_InitializeCommands()
 	BattleInterface.Commands.SandbankManeuver.texNum	= BI_ICONS_TEXTURE_COMMAND;
 	BattleInterface.Commands.SandbankManeuver.event		= "BI_SandbankManeuver";
 	BattleInterface.Commands.SandbankManeuver.note	= GetConvertStr("SandbankManeuver", "AbilityDescribe.txt");
+	
+	//speak interface Philippe
+	BattleInterface.Commands.Speak.enable		= false;
+	BattleInterface.Commands.Speak.picNum		= 69;
+	BattleInterface.Commands.Speak.selPicNum	= 68;
+	BattleInterface.Commands.Speak.event		= "BI_Speak";
+	BattleInterface.Commands.Speak.note         = LanguageConvertString(idLngFile, "sea_Speak");
 
 	LanguageCloseFile(idLngFile);
 }
@@ -3082,9 +3095,9 @@ ref procCheckEnableShip()
 			BI_intRetValue = true;
 		break;
 
-		/*case "BI_Speak":
+		case "BI_Speak":
 			BI_intRetValue = true;
-		break;*/
+		break;
 		}
 	}
 

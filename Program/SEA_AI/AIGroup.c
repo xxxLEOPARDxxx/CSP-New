@@ -288,6 +288,20 @@ void Group_ChangeCharacter(string sGroupID, string sCharacterID)
 	Group_AddCharacter(sGroupID, sCharacterID);
 }
 
+void Group_Refresh_Engine_relations(string sGroupID)
+{
+	ref rGroup = Group_FindOrCreateGroup(sGroupID);
+	int iNum = Group_GetCharactersNumR(rGroup);
+	for (int i=0; i<iNum; i++)
+	{
+		int iCharacterIndex = Group_GetCharacterIndexR(rGroup, i);
+		if (iCharacterIndex < 0) continue;
+		if (sti(Characters[iCharacterIndex].Ship.Type) == SHIP_NOTUSED || LAi_IsDead(&Characters[iCharacterIndex])) continue;
+
+		ChangeCharacterShipGroup(&Characters[iCharacterIndex], sGroupID);   //forces a refresh of relations via group commander
+	}
+}
+
 // add new character to group
 void Group_AddCharacter(string sGroupID, string sCharacterID)
 {

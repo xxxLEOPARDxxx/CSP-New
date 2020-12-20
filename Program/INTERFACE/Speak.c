@@ -5,8 +5,6 @@
 #define TAX			3
 #define CAPTURE		4
 
-#define SPEAK_DEBUG	0
-
 string totalInfo = "";
 //#20171207-01 remove unused variables
 //string sMessageMode;
@@ -26,12 +24,10 @@ ref rSpeakCharacter;
 //#20171207-01 remove unused variables
 //int refEnemyCharacter;
 
-int iStringsQuantity = 5;
+int iStringsQuantity = 2;
 string sGlobalMode = "";
 //#20200329-03
-#define DSENC_SECONDS_TIMEOUT 8
 int nTimeout = 0;
-int DSENC_TIMEOUT = 90;
 
 void InitInterface_RIS(string iniName, aref chr, int whospeak, string sMode)
 {
@@ -66,8 +62,6 @@ void InitInterface_RIS(string iniName, aref chr, int whospeak, string sMode)
 	SetEventHandler("Trade","Trade",0);
 	SetEventHandler("FTChange","FTChange",0);
 	SetEventHandler("ShipGoFreeAsk","ShipGoFreeAsk",0);
-	//#20200329-03
-	SetEventHandler("frame","IProcessFrame",0);
 
 	string sText = "";
 	int iColor = argb(255,255,255,255);
@@ -76,12 +70,12 @@ void InitInterface_RIS(string iniName, aref chr, int whospeak, string sMode)
 	SendMessage(&GameInterface,"lsle",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 0,&sText);
 	sText = " " + XI_ConvertString("Speak_Trade");
 	SendMessage(&GameInterface,"lsle",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 0,&sText);
+	/*
 	sText = " " + XI_ConvertString("Speak_ransom");
-	SendMessage(&GameInterface,"lsle",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 0,&sText);
-	sText = " " + XI_ConvertString("Speak_capture");
 	SendMessage(&GameInterface,"lsle",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 0,&sText);
 	sText = " " + XI_ConvertString("Speak_tax");
 	SendMessage(&GameInterface,"lsle",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 0,&sText);
+	*/
 	sText = " " + XI_ConvertString("Speak_cancel");
 	SendMessage(&GameInterface,"lsle",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 0,&sText);
 
@@ -108,17 +102,11 @@ void InitInterface_RIS(string iniName, aref chr, int whospeak, string sMode)
 	SetDefaultColorsForAnswers();
 	SetSelectedColorsForAnswers(0);
 
-	SetNewPicture("PORTRAIT_PICTURE", "interfaces\portraits\128\face_" + rSpeakCharacter.FaceId + ".tga");
-	SetNewPicture("PLAYER_PORTRAIT_PICTURE", "interfaces\portraits\128\face_" + pchar.FaceId + ".tga");
+	SetNewPicture("PORTRAIT_PICTURE", "interfaces\portraits\128\face_" + rSpeakCharacter.FaceId + ".tga.tx");
+	SetNewPicture("PLAYER_PORTRAIT_PICTURE", "interfaces\portraits\128\face_" + pchar.FaceId + ".tga.tx");
 
 	sText = XI_ConvertString("ChooseSpeakAnswers");
 	SetFormatedText("HELP", stext);
-	DSENC_TIMEOUT = GetFPS() * DSENC_SECONDS_TIMEOUT;
-}
-//#20200329-03
-void IProcessFrame() //Interface screens cannot use event delay
-{
-    nTimeout++;
 }
 
 void ProcessCancelExit()
@@ -149,17 +137,17 @@ void IDoExit(int exitCode, bool bCode)
 		if (iFlag == NEUTRAL)
 		{
 			AnalizeSituations(rSpeakCharacter);
-            if (SPEAK_DEBUG) trace("etape neutre speak");
+            if (bBettaTestMode) trace("etape neutre speak");
 		}
 		if (iFlag == TAX)
 		{
 			AnalizeSituationsTax(rSpeakCharacter);
-			if (SPEAK_DEBUG) trace("etape taxe speak");
+			if (bBettaTestMode) trace("etape taxe speak");
 		}
 		if (iFlag == ENEMY)
 		{
 			AnalizeSituationsEnemy();
-			if (SPEAK_DEBUG) trace("etape ennemi speak");
+			if (bBettaTestMode) trace("etape ennemi speak");
 		}
 	}
 	pchar.speakchr = rSpeakCharacter.id;
@@ -172,7 +160,6 @@ void ProcCommand()
 	string nodName = GetEventData();
 
 	//#20200329-03
-	if(nTimeout < DSENC_TIMEOUT) return;
 	switch(nodName)
 	{
 		case "B_CANCEL":
@@ -186,14 +173,14 @@ void ProcCommand()
 			if(comName=="activate" || comName=="click" || comName=="dblclick")
 			{
 				RecognizeAnswer();
-				if (SPEAK_DEBUG) trace("etape reconansw speak");
+				if (bBettaTestMode) trace("etape reconansw speak");
 			}
 		break;
 		case "RANSOM_ANSWERS":
 			if(comName=="activate" || comName=="click")
 			{
 				RecognizeRansomAnswer();
-				if (SPEAK_DEBUG) trace("etape reconrans speak");
+				if (bBettaTestMode) trace("etape reconrans speak");
 			}
 		break;
 	}
@@ -214,12 +201,12 @@ void CalculateInfoData()
 		if (iRelation == RELATION_ENEMY)
 		{
 			totalinfo = XI_ConvertString("Speak_1");
-			if (SPEAK_DEBUG) trace("etape relenn speak");
+			if (bBettaTestMode) trace("etape relenn speak");
 		}
 		if (iRelation == RELATION_FRIEND)
 		{
 			totalinfo = XI_ConvertString("Speak_2");
-			if (SPEAK_DEBUG) trace("etape relami speak");
+			if (bBettaTestMode) trace("etape relami speak");
 
 			if(CheckAttribute(rSpeakCharacter, "issmuggler"))
 			{
@@ -229,7 +216,7 @@ void CalculateInfoData()
 		if (iRelation == RELATION_NEUTRAL)
 		{
 			totalinfo = XI_ConvertString("Speak_3");
-			if (SPEAK_DEBUG) trace("etape relneutre speak");
+			if (bBettaTestMode) trace("etape relneutre speak");
 			if(CheckAttribute(rSpeakCharacter, "issmuggler"))
 			{
 				totalinfo = XI_ConvertString("Speak_smg");
@@ -239,7 +226,7 @@ void CalculateInfoData()
 	else
 	{
 		totalinfo = XI_ConvertString("Speak_23");
-		if (SPEAK_DEBUG) trace("etape speak_23 speak");
+		if (bBettaTestMode) trace("etape speak_23 speak");
 	}
 }
 
@@ -334,15 +321,23 @@ void ProcessShowMainMenu()
 
 void AskForRansom()
 {
-	if (SPEAK_DEBUG) trace("etape demande_ranc speak");
+	if (bBettaTestMode) trace("etape demande_ranc speak");
 	string sText = "";
 	string sAnswerText = "";
 	SetFormatedText("RANSOM_ANSWERS", sAnswerText);
 
-	if (!isRansom)
-	{
-		isRansom = CalculateForRansom(rSpeakCharacter);
-	}
+	int iEnemyLeadership = sti(rSpeakCharacter.skill.leadership);
+	int iEnemyRank = sti(rSpeakCharacter.rank);
+	int iOurLeadership = GetSummonSkillFromName(pchar, SKILL_LEADERSHIP);
+
+	ref refOwnShip = GetRealShip(sti(pchar.ship.type));
+	int iShipClass = sti(refOwnShip.Class);
+	
+	ref refEnemyShip = GetRealShip(sti(rSpeakCharacter.ship.type));
+	int iShipClass1 = sti(refEnemyShip.Class);
+
+	if (iShipClass > iShipClass1) isRansom = true;
+	else isRansom = false;
 
 	SetNodeUsing("ANSWERS", false);
 	SetNodeUsing("RANSOM_ANSWERS", true);
@@ -352,7 +347,7 @@ void AskForRansom()
 	if(isRansom == true)
 	{
 		sText = XI_ConvertString("Speak_7");
-		sText = sText + FormatMoneyString(CalculateSumm(rSpeakCharacter));
+		sText = sText + CalculateSumm(rSpeakCharacter)*10 + " пиастров.";
 		sText = sText + "\n" + XI_ConvertString("Speak_8");
 
 		sAnswerText = " " + XI_ConvertString("Yes");
@@ -386,7 +381,7 @@ void AskForRansom()
 
 void DisAgreeRansom()
 {
-	if (SPEAK_DEBUG) trace("etape 1 speak");
+	if (bBettaTestMode) trace("etape 1 speak");
 	iStringsQuantity = 5;
 	SetNodeUsing("ANSWERS", true);
 	SetNodeUsing("RANSOM_ANSWERS", false);
@@ -407,11 +402,11 @@ void DisAgreeRansom()
 
 void AgreeRansom()
 {
-	if (SPEAK_DEBUG) trace("etape 2 speak");
+	if (bBettaTestMode) trace("etape 2 speak");
 
 	int iSumm = CalculateSumm(rSpeakCharacter);
 
-	iStringsQuantity = 5;
+	iStringsQuantity = 4;
 	SetNodeUsing("ANSWERS", true);
 	SetNodeUsing("RANSOM_ANSWERS", false);
 	SetCurrentNode("ANSWERS");
@@ -470,7 +465,7 @@ void OkCapture()
 
 void AskForTax()
 {
-	if (SPEAK_DEBUG) trace("etape demande_taxe speak");
+	if (bBettaTestMode) trace("etape demande_taxe speak");
 
 	sGlobalMode = "tax";
 	string sText = XI_ConvertString("Speak_23");
@@ -482,10 +477,10 @@ void AskForTax()
 	ref refOwnShip = GetRealShip(sti(pchar.ship.type));
 	int iShipClass = sti(refOwnShip.Class);
 
-	int iTax = sti(pchar.rank) * 10 + iEnemyRank * 10 + (SHIP_CLASS_7 - iShipClass)*100;
+	int iTax = sti(pchar.rank) * 10 + iEnemyRank * 10 + (7 - iShipClass)*100;
 
 	string sNation = GetNationNameByType(sti(rSpeakCharacter.nation));
-	if (SPEAK_DEBUG) trace("etape 4 speak");
+	if (bBettaTestMode) trace("etape 4 speak");
 
 	if(CheckAttribute(pchar, "bounty."+sNation+".money"))
 	{
@@ -497,7 +492,7 @@ void AskForTax()
 	SetNodeUsing("ANSWERS", false);
 	SetNodeUsing("RANSOM_ANSWERS", true);
 
-	sText = sText + FormatMoneyString(iTax);
+	sText = sText + iTax + " пиастров";
 
 	SetFormatedText("INFO_TEXT",sText);
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"INFO_TEXT",5);
@@ -529,7 +524,7 @@ void AskForTax()
 
 void OkTax()
 {
-	if (SPEAK_DEBUG) trace("etape 5 speak");
+	if (bBettaTestMode) trace("etape 5 speak");
 	int iEnemyLeadership = sti(rSpeakCharacter.skill.leadership);
 	int iEnemyRank = sti(rSpeakCharacter.rank);
 	int iOurLeadership = GetSummonSkillFromName(pchar, SKILL_LEADERSHIP);
@@ -537,7 +532,7 @@ void OkTax()
 	ref refOwnShip = GetRealShip(sti(pchar.ship.type));
 	int iShipClass = sti(refOwnShip.Class);
 
-	int iTax = sti(pchar.rank) * 10 + iEnemyRank * 10 + (SHIP_CLASS_7 - iShipClass) * 100;
+	int iTax = sti(pchar.rank) * 10 + iEnemyRank * 10 + (7 - iShipClass) * 100;
 
 	string sNation = GetNationNameByType(sti(rSpeakCharacter.nation));
 
@@ -552,7 +547,7 @@ void OkTax()
 	characters[GetCharacterIndex(sTarget)].speak.tax = 1;
 
 	iFlag = TAX;
-	if (SPEAK_DEBUG) trace("etape 5 speak");
+	if (bBettaTestMode) trace("etape 5 speak");
 	ShipGoFreeAsk();// Philippe
 	DisAgreeRansom();
 	//AgreeRansom();
@@ -597,64 +592,33 @@ void FTChange()
 void SetSelectedColorsForAnswers(int iStep)
 {
 	int iColor = argb(255,255,255,128);
-
-	if(CheckAttribute(rSpeakCharacter, "speak.capture"))
-	{
-		iColor = argb(255,128,128,128);
-		for(int i = 0; i <= iStringsQuantity - 1; i++)
-		{
-			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,i,iColor);
-		}
-		return;
-	}
-
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,iStep,iColor);
 
 	int iRelation = GetRelation(sti(rSpeakCharacter.index), nMainCharacterIndex);
-	if(iRelation != RELATION_ENEMY && iStep == 4)
+	if(iRelation != RELATION_ENEMY && iStep == 0)
 	{
-		iColor = argb(255,192,192,192);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,4,iColor);
+		iColor = argb(255,255,255,128);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,0,iColor);
+	}
+	if(iRelation != RELATION_ENEMY && iStep == 1)
+	{
+		iColor = argb(255,255,255,128);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,1,iColor);
+	}
+	if(iStep == 2)
+	{
+		iColor = argb(255,255,255,128);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,2,iColor);
 	}
 	if(iRelation == RELATION_ENEMY && iStep == 0)
 	{
-		iColor = argb(255,192,192,192);
+		iColor = argb(255,128,128,128);
 		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,0,iColor);
 	}
 	if(iRelation == RELATION_ENEMY && iStep == 1)
 	{
-		iColor = argb(255,192,192,192);
+		iColor = argb(255,128,128,128);
 		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,1,iColor);
-	}
-	if(iRelation != RELATION_ENEMY && iStep == 2)
-	{
-		iColor = argb(255,192,192,192);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,2,iColor);
-	}
-	if(iRelation != RELATION_ENEMY && iStep == 3)
-	{
-		iColor = argb(255,192,192,192);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,3,iColor);
-	}
-	if(CheckAttribute(rSpeakCharacter, "speak.news") && iStep == 0)
-	{
-		iColor = argb(255,192,192,192);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,0,iColor);
-	}
-	if(CheckAttribute(rSpeakCharacter, "speak.ransom.taked") && iStep == 2)
-	{
-		iColor = argb(255,192,192,192);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,2,iColor);
-	}
-	if(CheckAttribute(rSpeakCharacter, "speak.ransom") && iStep == 1)
-	{
-		iColor = argb(255,192,192,192);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,1,iColor);
-	}
-	if(CheckAttribute(rSpeakCharacter, "speak.ransom") && iStep == 3)
-	{
-		iColor = argb(255,192,192,192);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,3,iColor);
 	}
 }
 
@@ -662,22 +626,17 @@ void SetDefaultColorsForAnswers()
 {
 	int iColor = argb(255,255,255,255);
 
-	if(CheckAttribute(rSpeakCharacter, "speak.capture"))
-	{
-		iColor = argb(255,128,128,128);
-	}
 	for(int i = 0; i <= iStringsQuantity; i++)
 	{
 		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,i,iColor);
 	}
 	int iRelation = GetRelation(sti(rSpeakCharacter.index), nMainCharacterIndex);
-	if(iRelation != RELATION_ENEMY)
+	if(iRelation == RELATION_ENEMY)
 	{
-		iColor = argb(255,128,128,128);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,4,iColor);
-		iColor = argb(255,128,128,128);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,2,iColor);
-		iColor = argb(255,128,128,128);
+		iColor = argb(255,80,80,80)
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,0,iColor);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,1,iColor);
+		/*iColor = argb(255,128,128,128);
 		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,3,iColor);
 	}
 	else
@@ -685,7 +644,7 @@ void SetDefaultColorsForAnswers()
 		iColor = argb(255,128,128,128);
 		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,0,iColor);
 		iColor = argb(255,128,128,128);
-		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,1,iColor);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,1,iColor);*/
 	}
 	if(CheckAttribute(rSpeakCharacter, "speak.news"))
 	{
@@ -704,7 +663,7 @@ void SetDefaultColorsForAnswers()
 		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,3,iColor);
 	}
 	iColor = argb(255,255,255,255);
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,5,iColor);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ANSWERS", 8,4,iColor);
 }
 
 void RecognizeAnswer()
@@ -713,7 +672,7 @@ void RecognizeAnswer()
 	switch(iStep)
 	{
 		case 0:
-			if (SPEAK_DEBUG) trace("case_0");
+			if (bBettaTestMode) trace("case_0");
 			if(!CheckAttribute(rSpeakCharacter, "speak.capture"))
 			{
 				if(!CheckAttribute(rSpeakCharacter, "speak.news"))
@@ -721,13 +680,13 @@ void RecognizeAnswer()
 					if(GetRelation(sti(rSpeakCharacter.index), nMainCharacterIndex) != RELATION_ENEMY)
 					{
 						CalculateNews();
-						if (SPEAK_DEBUG) trace("etape recoansw1 speak");
+						if (bBettaTestMode) trace("etape recoansw1 speak");
 					}
 				}
 			}
 		break;
 		case 1:
-			if (SPEAK_DEBUG) trace("case_1");
+			if (bBettaTestMode) trace("case_1");
 			if(!CheckAttribute(rSpeakCharacter, "speak.capture"))
 			{
 				if(!CheckAttribute(rSpeakCharacter, "speak.ransom"))
@@ -735,13 +694,13 @@ void RecognizeAnswer()
 					if(GetRelation(sti(rSpeakCharacter.index), nMainCharacterIndex) != RELATION_ENEMY)
 					{
 						Trade();
-						if (SPEAK_DEBUG) trace("etape recoansw2 speak");
+						if (bBettaTestMode) trace("etape recoansw2 speak");
 					}
 				}
 			}
 		break;
-		case 2:
-			if (SPEAK_DEBUG) trace("case_2");
+		/*case 2:
+			if (bBettaTestMode) trace("case_2");
 			if(!CheckAttribute(rSpeakCharacter, "speak.capture"))
 			{
 				if(!CheckAttribute(rSpeakCharacter, "speak.ransom.taked"))
@@ -750,42 +709,27 @@ void RecognizeAnswer()
 					if(GetRelation(sti(rSpeakCharacter.index), nMainCharacterIndex) == RELATION_ENEMY)
 					{
 						AskForRansom();
-						if (SPEAK_DEBUG) trace("etape recoansw3 speak");
+						if (bBettaTestMode) trace("etape recoansw3 speak");
 					}
 				}
 			}
 		break;
 		case 3:
-			if (SPEAK_DEBUG) trace("case_3");
-			if(!CheckAttribute(rSpeakCharacter, "speak.capture"))
-			{
-				if(GetRelation(sti(rSpeakCharacter.index), nMainCharacterIndex) == RELATION_ENEMY)
-				{
-					AskForCapture();
-					if (SPEAK_DEBUG) trace("etape recoansw4 speak");
-				}
-			}
-		break;
-		case 4:
-			if (SPEAK_DEBUG) trace("case_4");
+			if (bBettaTestMode) trace("case_3");
 			if(GetRelation(sti(rSpeakCharacter.index), nMainCharacterIndex) == RELATION_ENEMY)
 			{
 				AskForTax();
-				if (SPEAK_DEBUG) trace("etape recoansw5 speak");
+				if (bBettaTestMode) trace("etape recoansw5 speak");
 			}
 		break;
-		case 5:
-			if (SPEAK_DEBUG) trace("case_5");
+		*/
+		case 2:
+			if (bBettaTestMode) trace("case_2");
 			if(!CheckAttribute(rSpeakCharacter, "speak.capture"))
 			{
 				ProcessCancelExit();
 				//ShipGoFreeAsk();// Philippe
-				if (SPEAK_DEBUG) trace("etape recoansw6 speak");
-			}
-			else
-			{
-				OkCapture();
-				if (SPEAK_DEBUG) trace("etape recoansw7 speak");
+				if (bBettaTestMode) trace("etape recoansw6 speak");
 			}
 		break;
     }
@@ -824,17 +768,17 @@ void RecognizeRansomAnswer()
 				if(iStringsQuantity == 1)
 				{
 					DisAgreeRansom();
-					if (SPEAK_DEBUG) trace("etape 7 speak");
+					if (bBettaTestMode) trace("etape 7 speak");
 				}
 				else
 				{
 					AgreeRansom();
-					if (SPEAK_DEBUG) trace("etape 8 speak");
+					if (bBettaTestMode) trace("etape 8 speak");
 				}
 			break;
 			case 1:
 				DisAgreeRansom();
-				if (SPEAK_DEBUG) trace("etape 9 speak");
+				if (bBettaTestMode) trace("etape 9 speak");
 			break;
 		}
 	}
@@ -846,17 +790,17 @@ void RecognizeRansomAnswer()
 				if(iStringsQuantity == 1)
 				{
 					DisAgreeRansom();
-					if (SPEAK_DEBUG) trace("etape 10 speak");
+					if (bBettaTestMode) trace("etape 10 speak");
 				}
 				else
 				{
 					OkTax();
-					if (SPEAK_DEBUG) trace("etape 11 speak");
+					if (bBettaTestMode) trace("etape 11 speak");
 				}
 			break;
 			case 1:
 				DisAgreeRansom();
-				if (SPEAK_DEBUG) trace("etape 12 speak");
+				if (bBettaTestMode) trace("etape 12 speak");
 			break;
 		}
 	}

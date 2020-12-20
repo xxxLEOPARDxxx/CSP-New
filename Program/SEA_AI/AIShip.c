@@ -504,6 +504,13 @@ float Ship_MastDamage()
 	float z = GetEventData();
 	float fDamage = GetEventData();
 	aref rCharacter = GetEventData();
+	
+	ref rCannon = GetCannonByType(sti(AIBalls.CurrentBallCannonType));
+	int nCaliber = sti(rCannon.caliber);
+	int	iBallType = sti(AIBalls.CurrentBallType);
+	int iShipType = sti(rCharacter.ship.type);
+	ref rBaseShip = GetRealShip(iShipType);
+	int nClass = sti(rBaseShip.Class);
 
 	switch (iDamageType)
 	{
@@ -519,12 +526,7 @@ float Ship_MastDamage()
 		    //#20171230-01 Mast damage mod
             //int iBallCharacterIndex = GetEventData();  //Passed in message, but not needed as AIBalls has needed info
             //ref rBallCharacter = GetCharacter(iBallCharacterIndex);
-            ref rCannon = GetCannonByType(sti(AIBalls.CurrentBallCannonType));
-            int nCaliber = sti(rCannon.caliber);
-            int	iBallType = sti(AIBalls.CurrentBallType);
-            int iShipType = sti(rCharacter.ship.type);
-            ref rBaseShip = GetRealShip(iShipType);
-            int nClass = sti(rBaseShip.Class);
+            
             float nDirect = 0.35; //Glancing
             int nKni = nCaliber;
             if(iBallType == GOOD_KNIPPELS)
@@ -584,6 +586,8 @@ float Ship_MastDamage()
 	}
 	
 	// LEO: Общий дамаг по мачтам разделен на классы
+	string sShip = rBaseShip.BaseName;
+	if (sShip == "PRINCE" || sShip == "OXFORD" || sShip == "RESOLUTION" || sShip == "MORDAUNT") return fDamage*0.8;
 	if (nClass == 6 || nClass == 5) fDamage *= 1.8;
 	if (nClass == 4 || nClass == 3) fDamage *= 1.5;
 	if (nClass == 2 || nClass == 1) fDamage *= 1.3;
@@ -1193,6 +1197,13 @@ void Ship_CheckSituation()
 		    }
 		}
 		nTaskTarg = sti(rCharacter.SeaAI.Task.Target);
+		if(aiTask == AITASK_RUNAWAY)
+		{
+			if(CheckForSpeak(iCharIdx) == true)
+			{
+				Sea_Speak(rCharacter, iCharIdx, -1); //Offer money to get away
+			}
+		}
 	    /*if (rCharacter.SeaAI.Task == AITASK_ABORDAGE && rCharacter.SeaAI.Task.Target == "")
 	    {
 	        Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), nMainCharacterIndex);
@@ -4445,4 +4456,730 @@ void EmptyFantom_DropGoodsToSea(ref rChar, int iFantomType)
 		AISeaGoods_AddGood_Special(rChar, "unknown_boat", "lo_boat", 1500.0, 1);
 	}
 	SendMessage(&AISea, "la", AI_MESSAGE_CHARACTER_DEAD, rChar);
+}
+
+bool Ship_CheckMorale(int chridx, bool checkNow)
+{
+	return true;
+	ref rCharacter = GetCharacter(chridx);
+	if(CheckAttribute(rCharacter,"surrendered")) return false; // NK surrender 05-04-20
+	//if(IsCompanion(&rCharacter)) return false;  //Skip companions (and mainchar??)
+
+	if (!CheckAttribute(rCharacter,"ship.type")) {
+		trace("missing ship type for character: " + rCharacter.id + ", index: " + chridx);
+		return false; //
+	}
+	if(rCharacter.ship.type == SHIP_FORT) return false;
+
+	if (!checkNow) {
+		//check occasionally
+		int timecheck = CHANGE_MORALE_EVERY
+		if(chridx == GetMainCharacterIndex()) {
+			timecheck *= 50 //seem to get ~50 mainchar ticks per NPC tick
+		}
+		int timesincelast = 0;
+		if(CheckAttribute(rCharacter,"seatime.timesincelast"))
+		{	timesincelast = sti(rCharacter.seatime.timesincelast); }
+		if(timesincelast < timecheck)
+		{ //increment one and skip; this is to do this once every CHANGE_MORALE_EVERY seconds
+			rCharacter.seatime.timesincelast = timesincelast+1;
+			return false;
+		}
+		rCharacter.seatime.timesincelast = 0; //reset counter
+	}
+	//if (AISHIPDEBUG)	trace("************************************** CHECK MORALE FOR " + rCharacter.ship.name);
+
+	//#20191022-02
+	rCharacter.seatime.surmargin = SURR_MARGIN;
+	if(!CheckAttribute(rCharacter,"Ship.Crew.Morale")) { rCharacter.Ship.Crew.Morale = 45; }
+	if(!CheckAttribute(rCharacter,"seatime.basecrewmorale")) { rCharacter.seatime.basecrewmorale = rCharacter.Ship.Crew.Morale; }
+
+	int CrewQuantity = GetCrewQuantity(rCharacter);
+	if(!CheckAttribute(rCharacter,"seatime.basecrewquantity")) { rCharacter.seatime.basecrewquantity = CrewQuantity; }
+
+	int basemorale = sti(rCharacter.seatime.basecrewmorale);
+
+	float fMaxTempMorale = (MORALE_MAX + basemorale)/2.0;  //how much can morale increase if things are going well
+
+	float tempmorale = stf(rCharacter.ship.crew.morale); if(CheckAttribute(rCharacter,"seatime.tempmorale")) tempmorale = stf(rCharacter.seatime.tempmorale); //i.e. a float morale
+	rCharacter.seatime.tempmorale = tempmorale;
+
+	float enemydistance = DIST_NOSHIP;
+	//#20190703-01
+	aref rSituation;
+    makearef(rSituation, rCharacter.SeaAI.Update.Situation);
+
+    int targetidx = sti(rSituation.MinEnemyIndex);
+    enemydistance = stf(rSituation.MinEnemyDistance); // finds nearest hostile ship
+    float fdist;
+    int frndidx = sti(rSituation.MinFriendIndex);
+    fdist = stf(rSituation.MinFriendDistance);
+
+	int currenttime = GetSeaTime();
+	int lasthit = -1; if(CheckAttribute(rCharacter,"seatime.lasthit")) lasthit = sti(rCharacter.seatime.lasthit); //last time we were hit
+	int lastfired = -1; if(CheckAttribute(rCharacter,"seatime.lastfired")) lastfired = sti(rCharacter.seatime.lastfired); // last time we fired or reloaded
+
+	//if (AISHIPDEBUG)	trace("Checking morale for the " + rCharacter.ship.name + ", time is " + currenttime + ", current morale is " + tempmorale + ", lht " + lasthit + ", lft " + lastfired);
+
+	//Adjust Morale for dead crew
+	if(CheckAttribute(rCharacter,"seatime.lastcrew"))
+	{
+		//Boyer fix for game crash after captain mission #20170318-44
+		if (sti(rCharacter.seatime.basecrewquantity)  != 0) //Skip if basecrew zero
+			tempmorale = tempmorale - (stf(rCharacter.seatime.lastcrew) - makefloat(CrewQuantity)) / stf(rCharacter.seatime.basecrewquantity) / CREW_PCT_FOR_MORALE;
+		DeleteAttribute(rCharacter,"seatime.lastcrew");
+		//if (AISHIPDEBUG)		trace("subtract morale for crew dmg, morale is: " + tempmorale);
+	}
+	//Adjust Morale for damaged ship
+	if(CheckAttribute(rCharacter,"seatime.lastHP"))
+	{
+		//Boyer fix #20170318-44 for game crash after captain mission divide by zero error
+		if (makefloat(GetCharacterShipHP(rCharacter)) != 0.0) //Skip if ShipHP is zero...would be dead anyway
+			tempmorale = tempmorale - (stf(rCharacter.seatime.lastHP) - makefloat(rCharacter.Ship.HP)) / makefloat(GetCharacterShipHP(rCharacter)) / CREW_PCT_FOR_HPDAM;
+		DeleteAttribute(rCharacter,"seatime.lastHP");
+		//if (AISHIPDEBUG)		trace("subtract morale for ship dmg, morale is: " + tempmorale);
+	}
+	//Adjust Morale for being in combat
+	float combatlevel = COMBATLEVEL_NONE;
+	if(enemydistance <= RANGE_TO_ENEMY) combatlevel = COMBATLEVEL_ENEMYHERE;
+	if(lastfired != -1) { if((currenttime - lastfired) < TIME_SINCE_GUNS) combatlevel = COMBATLEVEL_GUNS; }
+	if(lasthit != -1) { if((currenttime - lasthit) < TIME_SINCE_HIT) combatlevel = COMBATLEVEL_HIT; }
+
+	//if (AISHIPDEBUG)	trace("Current combatlevel is " + combatlevel);
+
+	if(combatlevel == COMBATLEVEL_NONE)
+	{
+		// return to baseline when not in combat
+		if(makeint(tempmorale) != basemorale)
+		{
+			//if (AISHIPDEBUG)			trace("Out of combat, return morale to base");
+			if(tempmorale > basemorale) tempmorale -= MORALE_AMT_COMEBACK;
+			else tempmorale += MORALE_AMT_COMEBACK;
+		}
+	}
+	else
+	{
+		//morale auto decreases to: ~80 (with ENEMYHERE), ~62 (with COMBATLEVEL_GUNS), ~16 when COMBATLEVEL_HIT.  More than that requires crew loss
+		if(tempmorale > 5.0 / combatlevel)
+		{
+			//if (AISHIPDEBUG)			trace("In combat, subtract morale:" + retmin(COMBATLEVEL_HIT*CHANGE_MORALE_EVERY, combatlevel*2.5));
+			tempmorale -= retmin(COMBATLEVEL_HIT*CHANGE_MORALE_EVERY, combatlevel*2.5);
+		}
+	}
+	if(CheckAttribute(rCharacter,"seatime.enemydead"))
+	{
+		//if (AISHIPDEBUG)		trace("Adding Morale enemydead= " + rCharacter.seatime.enemydead);
+		tempmorale += stf(rCharacter.seatime.enemydead);
+		DeleteAttribute(rCharacter,"seatime.enemydead"); // 04-09-22 fix
+	}
+	//if a more powerful fleet gain morale (up to base)
+	float strengthrat = FindPowerRatio(chridx);
+
+	if (strengthrat < 0.6 && fdist < enemydistance && combatlevel != COMBATLEVEL_NONE)
+	{ //stronger and with friends, so recover morale (probably winning)
+		//if (AISHIPDEBUG)		trace("Adding Morale for " + rCharacter.ship.name + " being in a position of power");
+		if(tempmorale < fMaxTempMorale) tempmorale += COMBATLEVEL_ENEMYHERE*2.5;
+	}
+	if(tempmorale > MORALE_MAX) tempmorale = MORALE_MAX;
+	if(tempmorale < MORALE_MIN) tempmorale = MORALE_MIN;
+
+	//if (AISHIPDEBUG)	trace("Morale for " + rCharacter.ship.name + " is " + tempmorale + ", change " + (tempmorale - makefloat(sti(rCharacter.seatime.tempmorale))));
+
+	//rCharacter.ship.crew.morale = makeint(tempmorale);
+	rCharacter.seatime.tempmorale = tempmorale;
+
+	//Calculate Morale at which we consider surrender
+	float surmorale;
+	rCharacter.seatime.surmorale = 0.0;  //default, no surrender chance
+
+	if(IsCompanion(rCharacter) || targetidx == -1 || lasthit == -1 || CheckAttribute(rCharacter, "cannotsurrender")) {
+		//No surrender
+		//if (AISHIPDEBUG)		Trace("****** Surrender Disabled ******");
+		return false;
+	}
+	float ftmult = 1.0;
+	//#20191022-02
+	float surrMarg = SURR_MARGIN;
+	//#20200309-01
+	/*
+	if(CheckAttribute(rCharacter,"EncType"))
+	{
+		switch(rCharacter.EncType)
+		{
+			case "trade": ftmult = 1.5; surrMarg += 2.0; break; //ftmult was 2.0 and surrMarg was 2.5 //#20200307-03
+			//#20191021-01
+			case "pirate": ftmult = 0.85; surrMarg += 1.0; break; // ftmult was 0.75
+		}
+	}
+	*/
+	//Encounter type mod
+	if(CheckAttribute(rCharacter,"EncType") && rCharacter.EncType == "trade") {
+        ftmult *= 1.5; surrMarg += 2.0; //ftmult was 2.0 and surrMarg was 2.5 //#20200307-03
+	}
+	//Nation mod
+	int nCharNat = sti(rCharacter.Nation);
+	switch(nCharNat) {
+        case PIRATE:
+            int nOtherNation = sti(pchar.nation);
+            int nLastBallChar = -1;
+            if(CheckAttribute(rCharacter, "ship.LastBallCharacter"))
+                nLastBallChar = sti(rCharacter.ship.LastBallCharacter);
+            if(nLastBallChar > -1)
+                nOtherNation = sti(Characters[nLastBallChar].nation);
+            if(nOtherNation == PIRATE)
+                ftmult *= 0.85; surrMarg *= 1.0; break;
+            else
+                ftmult *= 0.35; surrMarg *= 1.5; break;
+        break;
+        case SPAIN:
+            ftmult *= 0.15;
+        break;
+        case HOLLAND:
+            ftmult *= 0.85;
+        break;
+	}
+	//Ship class mod
+	int nShip = GetCharacterShipType(rCharacter);
+	if (nShip != SHIP_NOTUSED) {
+        int nClass = 7;
+        if(CheckAttribute(RealShips[nShip], "class"))
+            nClass = sti(RealShips[nShip].Class);
+        switch(nClass) {
+            case 5:
+                ftmult *= 0.85; surrMarg *= 0.75; break;
+            break;
+            case 4:
+                ftmult *= 0.65; surrMarg *= 0.55; break;
+            break;
+            case 3:
+                ftmult *= 0.45; surrMarg *= 0.35; break;
+            break;
+            case 2:
+                ftmult *= 0.25; surrMarg *= 0.15; break;
+            break;
+            case 1:
+                ftmult = 0.0; surrMarg = 0.0; break;
+            break;
+        }
+	}
+	//NPC Rank mod
+	int nRank = sti(pchar.rank);
+	if (nRank > 10) {
+        float fRnk = Bring2Range(1.0, 0.5, 10.0, 50.0, stf(pchar.rank));
+        ftmult *= fRnk;
+	}
+	rCharacter.seatime.surmargin = surrMarg; //This only affects likely to flee
+	float mrlmod = Bring2Range(SURR_MRL_SCL_MAX, SURR_MRL_SCL_MIN, 0.1, 1.4, stf(rCharacter.TmpSkill.Leadership)+ AIShip_isPerksUse(rCharacter.TmpPerks.IronWill, 0.0, 0.4));
+	ref pch = GetMainCharacter();
+
+	surmorale = SURR_MAX_MORALE * mrlmod * ftmult;
+
+	//if (AISHIPDEBUG) Trace("SURR MORALE: base SurenderMorale = " + surmorale);
+
+	if (enemydistance > 1600.0) {
+        //#20200307-03
+        DeleteAttribute(rCharacter, "seatime.thinkSurr");
+        return false;				// LDH don't surrender if enemy not on radar
+	}
+	float HPp = GetHullPercent(rCharacter);
+
+	//if(HPp > 40.0 && fdist <= enemydistance) return false; // if friend closer than enemy, no surrender.
+	//#20191021-01
+	//if (AISHIPDEBUG)	Trace("SURR MORALE: Check: HPp = " + HPp + ", fdist " + fdist + ", enemydist " + enemydistance + ", stren " + strengthrat);
+    if (HPp > 40.0 && fdist <= enemydistance && strengthrat < 0.8) return false;
+
+	if(HPp < 40.0)
+	{
+		//if (AISHIPDEBUG)		Trace("SURR: hull damage: HPp: " + HPp + ", Bring2Range(6.0, 1.0, 0.1, sqrt(40.0), sqrt(HPp)): " + Bring2Range(6.0, 1.0, 0.1, 6.325, sqrt(HPp)));
+        //#20180921-01 remove sqrt(40.0) = 6.325
+		surmorale *= Bring2Range(6.0, 1.0, 0.1, 6.325, sqrt(HPp)); //how broken are we? x6 change at really broken, x0.5 at 40%
+		if (fdist < enemydistance - 200.0) {
+			//if (AISHIPDEBUG)			Trace("SURR: friend close to help");
+			surmorale *= 0.5; //is a friend close to help?
+		}
+	}
+	//if (AISHIPDEBUG)	Trace("SURR MORALE: After Damage Mod: SurenderMorale = " + surmorale);
+
+	//Whose got strong (local) power?
+	if(strengthrat > 1.0) // they're stronger
+	{
+	    //if (AISHIPDEBUG)        Trace("SURR MORALE: Enemy Stronger strengthrat = " + strengthrat);
+		float SP = GetSailPercent(rCharacter);
+		//#20180921-01 remove sqrt(50.0) = 7.071
+		if(SP < 40.0) surmorale *= Bring2Range(5.0, 1.0, 0.1, 7.071, sqrt(SP)); //panic if can't get away
+	}
+	else
+	{ // we're stronger
+		surmorale *= 0.3;
+	}
+	//if (AISHIPDEBUG)	Trace("SURR MORALE: After local Strength Mod: SurenderMorale = " + surmorale);
+
+	//if (AISHIPDEBUG)	Trace("SURR: GetDistDeltaToNearestEnemy(chridx) " + GetDistDeltaToNearestEnemy(chridx));
+
+	if (GetDistDeltaToNearestEnemy(chridx) > 1.0) {
+		//seem to be escaping, so unlikely to surrender
+		surmorale *= 0.1;
+	}
+	//if (AISHIPDEBUG)	Trace("SURR: surmorale after escaping modifier surmorale, tempmorale" + surmorale + ", " + tempmorale);
+
+	rCharacter.seatime.surmorale = surmorale;
+
+	if(tempmorale > surmorale)
+	{
+		// put ship back in group and do group's task.
+		//ref rGroup = Group_FindOrCreateGroup(Ship_GetGroupID(rCharacter));
+		//if(CheckAttribute(rGroup,"task") && rGroup.task != AITASK_RUNAWAY && CheckAttribute(rCharacter,"SeaAI.task") && rCharacter.SeaAI.task != rGroup.task) { Ship_SetTaskGroupTask(SECONDARY_TASK, chridx); }
+
+		//if (AISHIPDEBUG)		trace("*** Ship_Checkmorale surmorale:" + surmorale + " is less than " + tempmorale + " so keep fighting");
+        //#20200307-03
+        if(CheckAttribute(rCharacter, "seatime.thinkSurr")) {
+            int nSur = sti(rCharacter.seatime.thinkSurr);
+            if(nSur <= 1)
+                DeleteAttribute(rCharacter, "seatime.thinkSurr");
+            else
+                rCharacter.seatime.thinkSurr = nSur - 1;
+        }
+		return false;
+	} //#20200307-03
+	else {
+        if(CheckAttribute(rCharacter, "seatime.thinkSurr"))
+            rCharacter.seatime.thinkSurr = sti(rCharacter.seatime.thinkSurr) + 1;
+        else
+            rCharacter.seatime.thinkSurr = 1;
+	}
+	return true;  //chance to surrender
+}
+
+float GetDistDeltaToNearestEnemy(int idx) {
+	float fDistDelta = 0.0;
+	ref chr = GetCharacter(idx);
+	float fEnemyDistance = 0.0;
+	//#20190703-01
+	aref rSituation;
+    makearef(rSituation, chr.SeaAI.Update.Situation);
+	int iClosestIdx = sti(rSituation.MinEnemyIndex);
+	fEnemyDistance = stf(rSituation.MinEnemyDistance);
+	if (iClosestIdx == -1) { return 0; }
+	float fNow = GetSeaTime();
+
+	if (CheckAttribute(chr, "seatime.nearestenemy.id") && iClosestIdx == sti(chr.seatime.nearestenemy.id))
+	{
+		//same enemy is closest, return distance change.
+		float fTimeDelta = fNow - stf(chr.seatime.nearestenemy.lastcheck)
+//trace("fTimeDelta:" + fTimeDelta);
+		if (fTimeDelta > 1)
+		{
+			//calc distance
+			fDistDelta = (fEnemyDistance - stf(chr.seatime.nearestenemy.dist))/fTimeDelta;
+		}
+		else
+		{
+			//timespan too short
+			return stf(chr.seatime.nearestenemy.LastDelta);
+		}
+	}
+	chr.seatime.nearestenemy.id = iClosestIdx;
+	chr.seatime.nearestenemy.dist = fEnemyDistance;
+	chr.seatime.nearestenemy.lastcheck = GetSeaTime();
+	chr.seatime.nearestenemy.LastDelta = fDistDelta;
+	return fDistDelta;
+}
+
+
+bool Ship_CheckMoraleFail(int chridx, float fSurrMult)
+{
+	// start surrender checking, also used for ransome checking
+	ref rCharacter = GetCharacter(chridx);
+	//if (AISHIPDEBUG)	trace("*** Ship_CheckMoraleFail chridx:" + rCharacter.ship.id + ", fSurrMult " + fSurrMult);
+
+	if(!CheckAttribute(rCharacter,"seatime.tempmorale")) {
+		//do a morale calc
+		Ship_CheckMorale(chridx, true);
+	}
+	float tempmorale = rCharacter.seatime.tempmorale;
+
+	if (!CheckAttribute(rCharacter, "seatime.surmorale")) {
+		//if (AISHIPDEBUG)  trace("*** Ship_CheckMoraleFail missing rCharacter.seatime.surmorale");
+		return false;
+	}
+	float surmorale = stf(rCharacter.seatime.surmorale) * fSurrMult;
+
+	if(tempmorale < surmorale)
+	{
+		//if (AISHIPDEBUG)		trace("*** Ship_CheckMoraleFail tempmorale:" + tempmorale + " is less than adjusted surmorale:" + surmorale + " so failed morale check");
+		return true;
+	}
+	//if (AISHIPDEBUG)	trace("*** Ship_CheckMoraleFail tempmorale:" + tempmorale + " is greater than adjusted surmorale:" + surmorale + " so morale ok");
+	return false;
+}
+
+bool CheckCanSurrender(ref chr)
+{
+	if(CheckAttribute(chr, "cannotsurrender"))
+	{
+		//if (AISHIPDEBUG)  trace("CheckCanSurrender: No Surrender! chr.cannotsurrender exists");
+		return false;
+	}
+	if(CheckAttribute(chr, "DontRansackCaptain"))
+	{
+		//if (AISHIPDEBUG)  trace("CheckCanSurrender: No Surrender! chr.DontRansackCaptain exists");
+		return false;
+	}
+	if (!CheckAttribute(chr,"Ship.Type") || sti(chr.Ship.Type) < 0 || sti(chr.Ship.Type) ==SHIP_NOTUSED)
+	{
+		//if (AISHIPDEBUG)  trace("CheckCanSurrender: No Surrender! invalid ship type");
+		return false;
+	}
+	//conditions when ship will never surrender
+	if (GetPrisonerQty() > PRISONER_MAX)
+	{
+		//if (AISHIPDEBUG) trace("CheckCanSurrender: No Surrender!GetPrisonerQty() > PRISONER_MAX");
+		return false;
+	}
+	if (sti(pchar.rank) < (sti(chr.rank) - MOD_SKILL_ENEMY_RATE / 2))
+	{
+		//if (AISHIPDEBUG) trace("CheckCanSurrender: No Surrender!sti(pchar.rank) < (sti(chr.rank) - MOD_SKILL_ENEMY_RATE / 2)");
+		return false;
+	}
+	if (GetCharacterShipClass(chr) == 1)
+	{
+		//if (AISHIPDEBUG) trace("CheckCanSurrender: No Surrender! Enemy ship is class 1, they don't surrender");
+		return false;
+	}
+	return true;
+}
+
+void AddKillMorale(ref rKillerCharacter, ref rDead) {
+	ref schr;
+	int iDeadCharacterIndex = GetCharacterIndex(rDead.id);
+	float tmped = 0;
+	//if (AISHIPDEBUG) trace("AddKillMorale: rKillerCharacter.id" + rKillerCharacter.id + ", rDead.id" + rDead.id);
+	if(rKillerCharacter.id != rDead.id) {
+		if(CheckAttribute(rKillerCharacter,"seatime.enemydead")) tmped = stf(rKillerCharacter.seatime.enemydead);
+		float origed = makefloat(GetCharacterShipClass(rKillerCharacter)) / makefloat(GetCharacterShipClass(rDead)) * CLASS_SCALAR_FOR_MORALE;
+		tmped += origed;
+		rKillerCharacter.seatime.enemydead = tmped;
+	}
+	int iDeadChNation = sti(rDead.nation);
+	for(int s = 0; s < iNumShips; s++)
+	{
+		if(Ships[s] < 0 || Ships[s] == iDeadCharacterIndex) continue; // KK
+		//if (AISHIPDEBUG) trace("AddKillMorale: Ships[s]" + Ships[s]);
+		schr = GetCharacter(Ships[s]);
+		bool bOldEnemy = CheckAttribute(rDead, "surrendered") && GetNationRelation2Character(iDeadChNation,Ships[s]) == RELATION_ENEMY;
+		if(SeaAI_GetRelation(iDeadCharacterIndex, Ships[s]) == RELATION_ENEMY || bOldEnemy)
+		{
+			tmped = 0;
+			if(CheckAttribute(schr,"seatime.enemydead")) tmped = stf(schr.seatime.enemydead);
+			tmped += origed * CLASS_SCALAR_FOR_MORALE_ORIG_TO_OTHER + makefloat(GetCharacterShipClass(schr)) / makefloat(GetCharacterShipClass(rDead)) * CLASS_SCALAR_FOR_MORALE_OTHER;
+			schr.seatime.enemydead = tmped;
+		}
+	}
+}
+
+int GetSeaTime()
+{
+	ref pchar = GetMainCharacter();
+	if(!CheckAttribute(pchar,"seatime")) return 0;
+	return sti(pchar.seatime);
+}
+
+float FindPowerRatio(int idx)
+{
+    //if (AISHIPDEBUG) trace("FindPowerRatio(idx=" + idx + ")");
+	ref chr = GetCharacter(idx);
+
+	//to reduce load do this every three ticks, otherwise return last value.
+	if (CheckAttribute(chr,"seatime.lastPowercheck.val"))
+	{
+		//we can return last val if needed
+		int iPowercheckdelay = sti(chr.seatime.lastPowercheck);
+
+		if(iPowercheckdelay < 3)
+		{
+			chr.seatime.lastPowercheck = iPowercheckdelay + 1;
+			return stf(chr.seatime.lastPowercheck.val);
+		}
+	}
+	//haven't got previous value, or time to recalc:
+	chr.seatime.lastPowercheck = 0; //reset counter
+
+	//#20190703-01
+	//int sidx = sti(chr.curshipnum); // change to array 05-06-27
+
+	float epower;
+	float fpower;
+
+    SendMessage(&AISea, "lale", AI_MESSAGE_GROUP_GET_POWERREL, chr, RELATION_ENEMY, &epower);
+    SendMessage(&AISea, "lale", AI_MESSAGE_GROUP_GET_POWERREL, chr, RELATION_FRIEND, &fpower);
+
+	if(epower < 0.5) epower = 1.0;
+	if(fpower < 0.5) fpower = 1.0;
+
+	float fResult = epower / fpower;
+    //if (AISHIPDEBUG)    trace("FindPowerRatio " + chr.ship.name + ": " + fResult);
+
+	chr.seatime.lastPowercheck.val = fResult; //Fix missing .val
+	return fResult;
+}
+
+bool Ship_Check_Surrender(int chridx, float fSurrMult)
+{
+	// start surrender checking, also used for ransom checking
+	//#20200307-03
+	int nSurr = surrenderenabled;
+	if(fSurrMult > 0.0) {
+	    switch(nSurr) {
+	        case 1: //occasional surrender
+                fSurrMult -= frand(0.15);
+                fSurrMult += frand(0.1);
+            break;
+            case 2: //rare surrender
+                fSurrMult -= frand(0.25);
+                fSurrMult += frand(0.15);
+            break;
+            case 3://very rare surrender
+                fSurrMult -= frand(0.25);
+                fSurrMult -= frand(0.25);
+            break;
+        }
+	}
+	//if (AISHIPDEBUG)	trace("*** Ship_Check_Surrender chridx:" + Characters[chridx].ship.name + ", fSurrMult " + fSurrMult);
+
+	ref rCharacter = GetCharacter(chridx);
+
+	if(!CheckAttribute(rCharacter,"seatime.tempmorale")) {
+		//do a morale calc
+		if (!Ship_CheckMorale(chridx, true)) return false;  //Boyer fix for when Ship_CheckMorale does not set .seatime.tempmorale #20170318-45
+	}
+	float tempmorale = rCharacter.seatime.tempmorale;
+	//#20200307-03
+	if(tempmorale < 0.05) {
+	    switch(nSurr) {
+	        case 1: //occasional surrender
+                tempmorale += frand(0.15);
+            break;
+            case 2: //rare surrender
+                tempmorale += frand(0.25);
+                tempmorale += frand(0.25);
+            break;
+            case 3://very rare surrender
+                tempmorale += frand(0.5);
+                tempmorale += frand(0.5);
+            break;
+        }
+	}
+	if (!CheckAttribute(rCharacter, "seatime.surmorale") || stf(rCharacter.seatime.surmorale) < 0.01) {
+		return false;
+	}
+	float surmorale = stf(rCharacter.seatime.surmorale) * fSurrMult;
+    //#20200307-03
+	if(surmorale < tempmorale) return false;
+
+	int nThink = 25;
+	if(CheckAttribute(rCharacter, "seatime.thinkSurr"))
+        nThink = sti(rCharacter.seatime.thinkSurr);
+    nThink = nThink % 50;
+    switch(nSurr) {
+        case 1: //occasional surrender
+            if(rand(nThink) > 20) return false;
+        break;
+        case 2: //rare surrender
+            if(rand(nThink) > 10) return false;
+        break;
+        case 3://very rare surrender
+            if(rand(nThink) > 5) return false;
+        break;
+    }
+	//if (AISHIPDEBUG)	trace("*** Ship_Checkmorale surmorale:" + surmorale + " is greater than " + tempmorale + " so maybe surrender");
+
+	float surch;
+	surch = Bring2Range(0.75, 0.01, 0.01, surmorale, tempmorale);
+
+	//if (AISHIPDEBUG) Trace("SURR: Initial surch = " + surch);
+
+	//ref echr = GetCharacter(targetidx);
+
+	surch *= SURR_GLOBAL_SCL; // LDH
+
+	//if (AISHIPDEBUG)	Trace("SURR: surch after global modifier = " + surch);
+
+	if (surch < 0.1) return false;  //just don't surrender if less then 10% chance
+
+	//use random surrender chance
+	float fRoll = frnd();
+	//if (AISHIPDEBUG)	Trace("SURR: surrender roll: fRoll=" + fRoll + ", surch=" + surch);
+	if(fRoll < surch)
+	{
+		//if (AISHIPDEBUG)		Trace("Morale fail");
+		return true;
+	}
+	return false;
+}
+
+void Ship_Surrender(int chridx)
+{
+	//if (AISHIPDEBUG)	trace("SURR: Ship_Surrender begin idx: " + chridx);
+	ref chr = GetCharacter(chridx);
+	int pchridx = GetMainCharacterIndex();
+	string chid = chr.id;
+
+	if (CheckAttribute(chr, "surrendered") || CheckAttribute(chr, "cannotsurrender")) {
+		//if (AISHIPDEBUG)		trace("trying to surrender again.  But will only surrender once");
+		return;
+	}
+	//if (AISHIPDEBUG)	trace("SURR: " + chid + " is surrendering.  Ship nation: " + sti(chr.nation) );
+
+	int nRel = SeaAI_GetRelation(chridx, pchridx);
+	//set surrendered
+	chr.surrendered = true;
+	chr.surrendered.seatime = GetSeaTime();
+
+	// Set ship to take no actions
+	Ship_SetTaskDrift(PRIMARY_TASK, chridx);
+	Ship_SetTaskDrift(SECONDARY_TASK, chridx);
+
+	//Raise White Flag
+	Ship_FlagRefresh(chr);
+
+	//set flag to increase morale for enemies of surrendered ships
+	AddKillMorale(chr, chr);
+
+	//forget that you were shot
+	chr.Ship.LastBallCharacter = -1;
+
+	// Alert that ship has surrendered
+	if (nRel == RELATION_ENEMY) {
+		Log_SetStringToLog(xiStr("MSG_sea_10") + chr.ship.name + xiStr("MSG_sea_11"));
+		PlaySound("interface\notebook.wav");
+		PlaySound("abordage\abordage_wining.wav");
+	} else {
+		Log_SetStringToLog(xiStr("MSG_sea_10") + chr.ship.name + xiStr("MSG_sea_12"));
+	}
+	Ship_Neutral(chridx, "SURR_GROUP");
+	//if (AISHIPDEBUG)	Trace("SURR: Ship_Surrender complete");
+}
+
+void Ship_Neutral(int chridx, string sGroup)
+{
+	//if (AISHIPDEBUG) Trace("Ship_Neutral: Ship_Neutral begin idx: " + chridx);
+	ref chr = GetCharacter(chridx);
+	string chid = chr.id;
+
+	//remember old relations
+	if(CheckAttribute(chr,"relation")) {
+		chr.oldrelation = "";
+		aref arRel; makearef(arRel, chr.relation);
+		aref arOldRel; makearef(arOldRel, chr.oldrelation);
+		CopyAttributes(arOldRel, arRel);
+	}
+	//string sTemp1 = "" + iCharacterIndex2;
+	//Characters[iCharacterIndex1].relation.(sTemp1) = iRelationType;
+
+	//forget that you were shot
+	chr.Ship.LastBallCharacter = -1;
+
+	//*** Fix group membership as neutral ship changes group.
+	int i;
+	ref rGroup = Group_FindOrCreateGroup(sGroup);
+	Group_SetType(sGroup, "trade");
+
+	ref pchar = GetMainCharacter();
+	int pchridx = GetMainCharacterIndex();
+	ref schr;
+	string ogroup = Ship_GetGroupID(&chr);
+
+	int cmdridx = Group_GetGroupCommanderIndex(ogroup);
+	if (cmdridx < 0) return;
+	ref cmdr = GetCharacter(cmdridx);
+
+	bool cmdrchange = cmdridx == chridx;
+
+	ref rOGroup = Group_GetGroupByID(ogroup);
+	bool firstchar = Group_GetCharacterIndexR(rOGroup, 0) == chridx;  // was this char the commander?
+	//#20180914-03
+	int og_ships = Group_GetLiveCharactersNum(ogroup); //Group_GetCharactersNumR(rOGroup);
+
+	if (cmdrchange) {
+		//set new commander if group commander surrenders
+		if (og_ships > 1) {
+			cmdridx = Group_GetCharacterIndexR(rOGroup, firstchar);  //if was the commander, get the second ship in group
+			cmdr = GetCharacter(cmdridx);
+			DeleteAttribute(cmdr,"relation.UseOtherCharacter");
+			Group_SetGroupCommander(ogroup, cmdr.id); //set new commander
+			Group_Refresh_Engine_relations(ogroup);
+		} else {
+		    Group_SetAddress(ogroup, "None", "", "");
+			Group_DeleteGroup(ogroup); // KK
+		}
+	}
+	//#20180914-03
+    if(og_ships < 2 && ogroup == "PGGQuestE") {
+        DeleteAttribute(PChar, "Quest.PGGQuest1_GroupDead.win_condition.l1.Group");
+        PChar.Quest.PGGQuest1_GroupDead.win_condition.l1 = "Ship_capture";
+        PChar.Quest.PGGQuest1_GroupDead.win_condition.l1.character = chridx;
+    }
+	//Remove ship from old group
+	//if (AISHIPDEBUG) trace("Ship_Neutral: setting up character group: ogroup="+ ogroup);
+
+	Group_DelCharacter(ogroup, chid);
+
+	Event(SHIP_UPDATE_PARAMETERS, "lf", chridx, 1.0);		// Parameters
+
+	DeleteAttribute(chr,"relation.UseOtherCharacter");
+	Group_ChangeCharacter(sGroup, chid);
+	Group_SetGroupCommander(sGroup, chid);
+	ChangeCharacterShipGroup(chr, sGroup); //forces a engine group boss refresh for this char
+	Group_DeleteAtEnd(sGroup);
+
+	//if (AISHIPDEBUG) Trace("Ship_Neutral: group change done");
+	//#20190728-01
+    bool bHasOld = false;
+    if(CheckAttribute(chr, "surrendered")) {
+        bHasOld = true;
+        int bOlSurr = sti(chr.surrendered);
+        int nOldTime = sti(chr.surrendered.seatime);
+        DeleteAttribute(chr, "surrendered");
+    }
+	//Set ship neutral to their enemies
+	for (i = 0; i < iNumShips; i++) {
+		//if (ships[i] == -1 || ships[i] == chridx) continue;
+		if (ships[i] == -1) continue;
+		schr = GetCharacter(ships[i]);
+		//if (AISHIPDEBUG) trace("Ship_Neutral: chr.id: " + chr.id + ", schr.id " + schr.id);
+		if (chr.id == schr.id) continue;
+
+		if(GetRelation(chridx, ships[i]) == RELATION_ENEMY || GetNationRelation2Character(sti(schr.nation),chridx) == RELATION_ENEMY)
+		{
+			//if (AISHIPDEBUG) trace("Ship_Neutral: Set relation between: chr.id: " + chr.id + " and schr.id " + schr.id + " to neutral");
+			SetCharacterRelationBoth(chridx, ships[i], RELATION_NEUTRAL);
+		}
+	}
+	//set ships neutral to forts
+	if (CheckAttribute(pchar, "seaAI.update.forts")) {
+		aref fortattr; makearef(fortattr, PChar.seaAI.update.forts);
+		int iFortidx;
+		int num = GetAttributesNum(fortattr);
+		for (i = 0; i < num; i++)
+		{
+		    string fortstr = "l" + i;
+			iFortidx = sti(fortattr.(fortstr).idx);
+			//#20181116-03
+			if(GetRelation(nMainCharacterIndex, iFortidx) == RELATION_ENEMY) continue;
+			if(GetRelation(chridx, iFortidx)  == RELATION_ENEMY)
+			{
+			    //if (AISHIPDEBUG) trace("Ship_Neutral: Set relation between: " + chridx + " and fort:" + iFortidx + " to neutral");
+				SetCharacterRelationBoth(chridx, iFortidx, RELATION_NEUTRAL);
+			}
+		}
+	}
+	//#20190728-01
+	if(bHasOld) {
+        chr.surrendered = bOlSurr;
+        chr.surrendered.seatime = nOldTime;
+    }
+	NationUpdate();
+    DoQuestCheckDelay("NationUpdate", 0.9);
+
+	//if (AISHIPDEBUG) Trace("Ship_Neutral: Ship_Neutral complete");
 }

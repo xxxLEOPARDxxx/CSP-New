@@ -210,6 +210,9 @@ void InitInterfaceTables()
 
 	Interfaces[INTERFACE_LEAVE_BATTLE].SectionName = "interface\LeaveBattle.c";
 	Interfaces[INTERFACE_LEAVE_BATTLE].IniFile = "INTERFACES\LeaveBattle.ini";
+	
+	Interfaces[INTERFACE_SPEAK].SectionName = "interface\Speak.c";  // Philippe
+	Interfaces[INTERFACE_SPEAK].IniFile = "INTERFACES\Speak.ini";
 
 	//Interfaces[INTERFACE_ABOUT].SectionName = "interface\about.c";
 	//Interfaces[INTERFACE_ABOUT].IniFile = "INTERFACES\about.ini";

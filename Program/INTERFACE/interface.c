@@ -928,6 +928,20 @@ void ISTART_SelCharacter()
 	//Start_InterfaceDoExit();
 }
 
+void LaunchSpeakInterface(aref chr, int whospeak, string sMode)
+{
+trace("LaunchSpeakInterface, chr.id:" + chr.id + ", whospeak: " + whospeak + ",sMode:" + sMode);
+	if(procInterfacePrepare(INTERFACE_SPEAK))
+	{
+		nPrevInterface = -1;
+		//pchar.speakchr = chr.id;
+		//pchar.whospeak = whospeak;
+		CurrentInterface = INTERFACE_SPEAK;
+
+		InitInterface_RIS(Interfaces[CurrentInterface].IniFile, chr, whospeak, sMode);
+	}
+}
+
 /*
 void ISTART_SelNation()
 {

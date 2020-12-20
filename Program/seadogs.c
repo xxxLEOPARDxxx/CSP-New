@@ -603,24 +603,19 @@ void InterfaceDoExit()
 			SetEventHandler("frame","NewGame",1);
 			InterfaceStates.doUnFreeze = false;
 		break;
-		/*case RC_INTERFACE_SPEAK_EXIT_AND_CAPTURE:
+		case RC_INTERFACE_SPEAK_EXIT_AND_CAPTURE:
 			string sTargetChr = pchar.speakchr;
-
 			pchar.abordage = 1;
-
 			Sea_AbordageStartNow(SHIP_ABORDAGE, GetCharacterIndex(sTargetChr), true, true);
-
-
 			SetTimeScale(1.0);
 			TimeScaleCounter = 0;
 			DelPerkFromActiveList("TimeSpeed"); //boal
-
 			pchar.speakchr = 0;
 			pchar.whospeak = 0;
 		break;
 		case RC_INTERFACE_SPEAK_EXIT_AND_TRADE:
 			LaunchStore(SHIP_STORE);
-		break;  */
+		break;
 		case RC_INTERFACE_TO_CHAR:
 			pchar = GetMainCharacter();
 			LaunchCharacter(pchar);

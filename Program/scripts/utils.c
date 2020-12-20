@@ -22,6 +22,7 @@
 #include "scripts\CompanionTravel.c" // Warship 17.07.08 Методы для свободного плавания компаньонов
 #include "scripts\GameModeCondition.c" // Warship. Обраобтка прерывания, выполняющегося в каждом фрейме
 #include "scripts\GenQuests_common.c" // Ugeen 12.01.10 общие функции для генераторов
+#include "scripts\seaspeak.c" //Philippe
 
 #define MAN 0
 #define WOMAN 1

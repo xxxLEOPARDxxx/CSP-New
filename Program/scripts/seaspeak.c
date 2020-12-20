@@ -120,7 +120,7 @@ bool CheckForSpeak(int iCharacterIndex)
 					//trace("etape 5 seaspeak")
 					//#20200307-03
 					int nTimes = 15;
-					int nSurr = sti(InterfaceStates.SurrenderEnabled);
+					int nSurr = SurrenderEnabled;
                     if(nSurr > 1)
                         nTimes *= nSurr;
 					if(CheckAttribute(chr, "seatime.thinkSurr") && sti(chr.seatime.thinkSurr) > nSurr)
