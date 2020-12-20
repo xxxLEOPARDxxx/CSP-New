@@ -490,7 +490,7 @@ void WM_SetParameterData()
 		//}
 		BattleInterface.wm_sign.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 
-		BattleInterface.wm_sign.shiptexturename		= "battle_interface\ship_icons2.tga.tx";
+		BattleInterface.wm_sign.shiptexturename		= "battle_interface\ship_icons2.dds";
 		BattleInterface.wm_sign.shipcolor				= argb(255,128,128,128);
 		BattleInterface.wm_sign.shipoffset				= "-12,-15";
 		BattleInterface.wm_sign.shipiconsize			= "64,64";
