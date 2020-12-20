@@ -7963,6 +7963,7 @@ void QuestComplete(string sQuestName, string qname)
 			StartPictureAsVideo("Loading\finalbad2.tga", 1);
 			DoReloadCharacterToLocation("Plantation_S1", "goto", "goto1");
 			LAi_FadeEndFadeOut();
+			InterfaceStates.Buttons.Save.enable = true;
         break;
 		//homo
 		//-->работорговец
