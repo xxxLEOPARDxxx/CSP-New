@@ -63,7 +63,7 @@ void InitInterface_R(string iniName, ref pStore)
 
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
-	CreateString(true,"ShipName","",FONT_NORMAL,COLOR_MONEY, 405,113,SCRIPT_ALIGN_CENTER,1.0);
+	CreateString(true,"ShipName","",FONT_NORMAL,COLOR_MONEY, 405,110,SCRIPT_ALIGN_CENTER,1.0);
 
     SetShipWeight();
 	SetDescription();

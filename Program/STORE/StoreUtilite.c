@@ -1,6 +1,9 @@
 #define PRICE_TYPE_BUY	0
 #define PRICE_TYPE_SELL	1
 
+#define CONTRA_SELL		1
+#define CONTRA_BUY		2
+
 #event_handler("NextDay","StoreDayUpdateStart");
 #event_handler("EvStoreDayUpdate","StoreDayUpdate");
 
@@ -39,6 +42,17 @@ int GetStoreGoodsQuantity(ref _refStore,int _Goods)
 		q = sti(_refStore.Goods.(tmpstr).Quantity);
 	return q;
 }
+
+int GetContrabandGoods(ref _refStore, int _Goods)
+{
+	string tmpstr = Goods[_Goods].name;
+	if( CheckAttribute(_refStore,"Goods."+tmpstr+".canbecontraband") )
+	{
+		return sti(_refStore.Goods.(tmpstr).canbecontraband); // 1 or 2
+	}
+	return 0;	
+}
+
 int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int _qty)
 {
 	float _TradeSkill = GetSummonSkillFromNameToOld(chref,SKILL_COMMERCE); // 0..10.0
@@ -66,7 +80,7 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 			tradeModify = 2.4 + stf(refGoods.RndPriceModify); //2.4
 			break;
 		case TRADE_TYPE_AMMUNITION:
-			//return basePrice; делаю все тоже, что и для нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
+			//return basePrice; делаю все тоже, что и длz нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
 			tradeModify = 0.85 + stf(refGoods.RndPriceModify);
 			break;  
 		case TRADE_TYPE_CANNONS:
@@ -210,7 +224,7 @@ void StoreDayUpdateStart()
 	storeDayUpdateCnt = 0;
 	PostEvent("EvStoreDayUpdate", 30);
 
-	Event("EvSituationsUpdate", "l", 0);   // вызов размазаных вычислений на НехтДай
+	Event("EvSituationsUpdate", "l", 0);   // вызов размазаных вычислений на Нехт?ай
 }
 
 void StoreDayUpdate()
@@ -237,7 +251,7 @@ void UpdateStore(ref pStore)
 		tmpstr = Goods[i].name;
 		if (!CheckAttribute(gref,tmpstr) ) continue;		
 		makearef(curref, gref.(tmpstr));
-        // пересмотр системы 24.01.08. Новая - "круги на воде"
+        // пересмотр системы 24.01.08. Нова§ - "круги на воде"
         oldQty = sti(curref.Quantity);
         delta = makeint((oldQty - sti(curref.Norm))/7);
         curref.Quantity = oldQty - delta + (rand(2) - 1)*rand(sti(sti(curref.Norm)/100));
@@ -259,7 +273,7 @@ void UpdateStore(ref pStore)
 		}	
         
 		if (abs(rateInc - 1) < 0.015 )
-		{  // нормализация время от времени
+		{  // нормализаци§ врем§ от времени
 		    curref.RndPriceModify = curref.NormPriceModify;
 		}
 		else
@@ -452,8 +466,8 @@ string GetGoodsNameAlt(int idx)
 
     return ret;
 }
-// запоминаем цены в ГГ
-void SetPriceListByStoreMan(ref rchar)   //rchar - это колония
+// запоминаем цены в vv
+void SetPriceListByStoreMan(ref rchar)   //rchar - это колони§
 {
     ref refStore, nulChr;
     string attr1, sGoods;
@@ -523,7 +537,7 @@ void SetNull2StoreMan(ref rchar)
         }
     }
 }
-// делим колво товара - остаток для грабежа rchar - это колония
+// делим колво товара - остаток дл§ грабежа rchar - это колони§
 void SetNull2StoreManPart(ref rchar, float part)
 {
     ref refStore;
@@ -550,7 +564,7 @@ void SetNull2Deposit(string _city)
 {
     if (CheckAttribute(Pchar, "quest.Deposits." + _city))
     {
-        Log_Info("Все вклады у ростовщика в городе " + GetCityName(_city) + " пропали.");
+        Log_Info("Dсе вклады у ростовщика в городе " + GetCityName(_city) + " пропали.");
         DeleteAttribute(Pchar, "quest.Deposits." + _city);
     }
 }

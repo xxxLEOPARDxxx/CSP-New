@@ -2407,6 +2407,19 @@ string GetCurShip()
 	else return "1000";
 }
 
+void LaunchContrabandTrade(ref ContraTrader, int storeNum)
+{
+	if(storeNum<0)	return;
+	if(storeNum>STORE_QUANTITY-1)	return;
+	gStoreNum=storeNum;
+	if(procInterfacePrepare(INTERFACE_CONTRATRADE))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_CONTRATRADE;
+		InitInterface_RR(Interfaces[CurrentInterface].IniFile, ContraTrader, &stores[storeNum]);
+	}
+}
+
 string GetStringTime(float time)
 {
 	int hour = makeint(time);

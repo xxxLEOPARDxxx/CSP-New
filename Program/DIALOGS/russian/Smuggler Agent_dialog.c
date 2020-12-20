@@ -53,7 +53,8 @@ void ProcessDialogEvent()
 			PlaceSmugglersOnShore(Pchar.quest.contraband.CurrentPlace);
 			Pchar.quest.Contraband.active = true;
 			pchar.GenQuest.Contraband.GuardNation = npchar.nation;
-
+			pchar.GenQuest.Contraband.SmugglerId  = npchar.id;
+			SetAllContraGoods(&Stores[sti(Pchar.GenQuest.Contraband.StoreIdx)], npchar);
 			ReOpenQuestHeader("Gen_Contraband");
             if (GetIslandByCityName(npchar.city) == "Mein")
             {

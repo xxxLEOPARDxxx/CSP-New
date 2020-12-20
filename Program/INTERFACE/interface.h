@@ -1,4 +1,4 @@
-#define INTERFACE_QUANTITY				55
+#define INTERFACE_QUANTITY				57
 
 #define INTERFACE_STORE					0
 #define INTERFACE_SHIPYARD				1
@@ -60,6 +60,7 @@
 #define INTERFACE_MAPVIEW				53 // Интерфейс атласа карт 
 #define INTERFACE_STORAGE				54 // Интерфейс склада
 #define INTERFACE_SPEAK                 55  // Philippe, ajout
+#define INTERFACE_CONTRATRADE			56 // €нтерфейс торговли с контрабандистами
 // <-- Ugeen
 
 #define RC_INTERFACE_DO_NOTHING			-1
@@ -146,6 +147,7 @@
 // Ugeen -->
 #define RC_INTERFACE_MAPVIEW					45079   // Интерфейс атласа карт 
 #define RC_INTERFACE_STORAGE_EXIT				45080   // Интерфейс склада
+#define RC_INTERFACE_CONTRATRADE				45082   // €нтерфейс торговли с контрабандистами
 // <-- Ugeen
 
 #define MAX_SAVE_STORE_BLOCKS	160

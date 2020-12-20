@@ -213,6 +213,9 @@ void InitInterfaceTables()
 	
 	Interfaces[INTERFACE_SPEAK].SectionName = "interface\Speak.c";  // Philippe
 	Interfaces[INTERFACE_SPEAK].IniFile = "INTERFACES\Speak.ini";
+	
+	Interfaces[INTERFACE_CONTRATRADE].SectionName = "interface\contraband.c";
+	Interfaces[INTERFACE_CONTRATRADE].IniFile = "INTERFACES\contraband.ini";
 
 	//Interfaces[INTERFACE_ABOUT].SectionName = "interface\about.c";
 	//Interfaces[INTERFACE_ABOUT].IniFile = "INTERFACES\about.ini";

@@ -10,6 +10,123 @@ int ChangeContrabandRelation(ref pchar, int _val)
 }
 
 // работа с контрабандой
+//Jason -- > функция выберет из рандомного интервала в массиве товаров контрабандный товар в текущем магазине, первый в интервале. Если такового не окажется, то вернет -1.
+int SelectContrabandGoods(ref _refCharacter)
+{
+	int i;
+	int curStoreIdx = GetCharacterCurrentStore(_refCharacter); 
+	if(curStoreIdx>=0)
+	{
+		for(i=rand(30); i<31; i++)
+		{
+			if (GetStoreGoodsType(&Stores[curStoreIdx],i) == TRADE_TYPE_CONTRABAND_NAME) return i;
+			else return -1;
+		}
+	}
+}
+//<-- выбор рандомного контрабандного товара
+
+void SetContraGoods(ref _refCharacter, int _Goods, int _Quantity)
+{
+	string goodsName = Goods[_Goods].name;
+	_refCharacter.Goods.(goodsName) = _Quantity;
+}
+
+void AddContraGoods(ref _refCharacter, int _Goods, int _Quantity)
+{
+	string goodsName = Goods[_Goods].name;
+	if(CheckAttribute(_refCharacter,"Goods."+goodsName))
+	{
+		_refCharacter.Goods.(goodsName) = sti(_refCharacter.Goods.(goodsName)) + _Quantity;
+	}
+	else
+	{
+		_refCharacter.Goods.(goodsName) = _Quantity;
+	}
+}
+
+void RemoveContraGoods(ref _refCharacter, int _Goods, int _Quantity)
+{
+	int    curQuantity;
+	string goodsName = Goods[_Goods].name;
+
+	curQuantity = sti( _refCharacter.Goods.(goodsName));
+	if (curQuantity >= _Quantity)
+	{
+		_refCharacter.Goods.(goodsName) = curQuantity - _Quantity;
+	}
+	else
+	{
+		_refCharacter.Goods.(goodsName) = 0;
+	}
+}
+
+int GetContraGoodsQuantity(ref _refCharacter, int _Goods)
+{
+	string tmpstr = Goods[_Goods].name;
+	int q = 0;
+	if( CheckAttribute(_refCharacter,"Goods."+tmpstr) )
+		q = sti(_refCharacter.Goods.(tmpstr));
+	return q;
+}
+
+// установить агенту контриков товары, опираясь на наличие контрабандного товара в соответсвующем магазине
+void SetAllContraGoods(ref _refStore, ref _refCharacter)
+{
+    string 	tmpstr;
+	int		qty;
+	
+	for (int i = 0; i < GOODS_QUANTITY; i++)
+	{
+		tmpstr = Goods[i].name;
+		if( CheckAttribute(_refStore,"Goods."+tmpstr+".canbecontraband") )		
+		{
+			qty = sti(_refStore.Goods.(tmpstr).Quantity);	
+			if(sti(_refStore.Goods.(tmpstr).canbecontraband) == CONTRA_SELL)  	// можем продать товар  контрикам
+			{
+				SetContraGoods(_refCharacter, i, 0);
+			}
+			if(sti(_refStore.Goods.(tmpstr).canbecontraband) == CONTRA_BUY)		// можем купить товар у контриков
+			{
+				SetContraGoods(_refCharacter, i, makeint(qty/4) + rand(200));
+			}
+		}
+	}
+}
+
+void RemoveAllContraGoods(ref _refCharacter)
+{
+	DeleteAttribute(_refCharacter,"Goods");
+}
+
+int FindContrabandGoods(ref _refCharacter)
+{
+	int i, j = 0;
+	int curStoreIdx = GetCharacterCurrentStore(_refCharacter);
+	if(curStoreIdx >= 0)
+	{
+		_refCharacter.FindContrabandGoods.StoreIdx = curStoreIdx;
+		for(i=0; i<GOODS_QUANTITY; i++)
+		{
+			if( GetStoreGoodsType(&Stores[curStoreIdx],i) == TRADE_TYPE_CONTRABAND_NAME || GetContrabandGoods(&Stores[curStoreIdx],i) == CONTRA_SELL )
+			{
+				if( GetSquadronGoods(_refCharacter,i) > 0 )
+				{
+					_refCharacter.FindContrabandGoods.GoodsIdx = i;
+					j++;
+				}	
+			}
+		}
+		if(j == 0)
+		{
+			DeleteAttribute(_refCharacter,"FindContrabandGoods");
+			return -1;
+		}
+	}
+	return j;	
+}
+
+// работа с контрабандой
 int FindFirstContrabandGoods(ref _refCharacter)
 {
 	int i;
@@ -315,4 +432,124 @@ void StopCoastalGuardPursuit()
 void SelectCoastalGuardShip(ref rCharacter)
 {
 	SetShipHunter(rCharacter);
+}
+
+int GetContrabandGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int _qty)
+{
+	float _TradeSkill = GetSummonSkillFromNameToOld(chref,SKILL_COMMERCE); // 0..10.0
+	aref refGoods;
+	string tmpstr = Goods[_Goods].name;
+	int basePrice = MakeInt(Goods[_Goods].Cost);
+	if (!CheckAttribute(_refStore,"Goods."+tmpstr) ) return 0;
+	makearef(refGoods,_refStore.Goods.(tmpstr));
+ 	int tradeType = MakeInt(refGoods.TradeType);
+	int Type;
+	if (CheckAttribute(refGoods,"Type"))
+	{
+		Type = MakeInt(refGoods.Type);	
+	}
+
+	float tradeModify 	= 1.0;
+	float priceModify   = 1.0;
+	float costModify	= 1.0;
+	
+	ref mc = GetMainCharacter();
+	
+	switch (tradeType)
+	{
+		case TRADE_TYPE_NORMAL:
+			tradeModify = 1.00 + stf(refGoods.RndPriceModify); 
+			break;
+		case TRADE_TYPE_EXPORT:
+			tradeModify = 0.80 + stf(refGoods.RndPriceModify); 
+			break;
+		case TRADE_TYPE_IMPORT:
+			tradeModify = 1.20 + stf(refGoods.RndPriceModify); 
+			break;
+		case TRADE_TYPE_CONTRABAND:
+			tradeModify = 1.00 + stf(refGoods.RndPriceModify); 
+			break;
+		case TRADE_TYPE_AMMUNITION:
+			tradeModify = 1.00 + stf(refGoods.RndPriceModify);
+			break;  
+		case TRADE_TYPE_CANNONS:
+			tradeModify = 1.00 + stf(refGoods.RndPriceModify); 
+			break;	
+	}
+
+	float skillModify;
+	float cModify = 1.0;
+
+	if(_PriceType == PRICE_TYPE_BUY) // цена покупки товара игроком
+	{
+		skillModify = 1.325 - _TradeSkill * 0.005; 
+		if(tradeType == TRADE_TYPE_CANNONS) cModify = 2.0 - MOD_SKILL_ENEMY_RATE/20.0;
+		if(CheckCharacterPerk(chref,"HT2"))
+		{
+			if(CheckOfficersPerk(chref,"ProfessionalCommerce"))	{ skillModify -= 0.20; }
+			else
+			{
+				if(CheckOfficersPerk(chref,"BasicCommerce"))	{ skillModify -= 0.15; }
+				else skillModify -= 0.05;
+			}						
+		}
+		else
+		{
+			if(CheckOfficersPerk(chref,"ProfessionalCommerce"))	{ skillModify -= 0.15; }
+			else
+			{
+				if(CheckOfficersPerk(chref,"BasicCommerce"))	{ skillModify -= 0.10; }
+			}				
+		}
+				
+		costModify = 1.05;
+	}
+	else	// цена продажи товара игроком
+	{
+		skillModify = 0.675 + _TradeSkill * 0.005; 
+		if(tradeType == TRADE_TYPE_CANNONS) cModify = 2.0 - MOD_SKILL_ENEMY_RATE/20.0;
+		if(CheckCharacterPerk(chref,"HT2"))
+		{
+			if(CheckOfficersPerk(chref,"ProfessionalCommerce"))	skillModify += 0.20;
+			else
+			{
+				if(CheckOfficersPerk(chref,"AdvancedCommerce"))	{ skillModify += 0.15; }
+				else skillModify += 0.05;
+			}				
+		}
+		else
+		{
+			if(CheckOfficersPerk(chref,"ProfessionalCommerce"))	skillModify += 0.15;
+			else
+			{
+				if(CheckOfficersPerk(chref,"AdvancedCommerce"))	{ skillModify += 0.10; }
+			}		
+		}
+		costModify = 0.85;
+	}
+
+	// boal 23.01.2004 -->
+	if (MakeInt(basePrice * tradeModify * skillModify * costModify + 0.5) < 1) return 1;
+	// boal 23.01.2004 <--
+	
+	switch (Type)
+	{
+		case TRADE_TYPE_NORMAL			:
+			priceModify = 1.0;
+			break;
+		case TRADE_TYPE_AMMUNITION		:
+			priceModify = 1.0;
+			break;
+		case TRADE_TYPE_EXPORT			:
+			priceModify = 2.0;
+			break;
+		case TRADE_TYPE_IMPORT			:
+			priceModify = 3.0;
+			break;
+		case TRADE_TYPE_CANNONS 		:
+			priceModify = 1.0;
+			break;
+	}
+	
+    return MakeInt(priceModify * basePrice * tradeModify * skillModify * _qty * costModify * cModify + 0.5);
 }

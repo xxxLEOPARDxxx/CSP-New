@@ -587,10 +587,10 @@ float Ship_MastDamage()
 	
 	// LEO: Общий дамаг по мачтам разделен на классы
 	string sShip = rBaseShip.BaseName;
-	if (sShip == "PRINCE" || sShip == "OXFORD" || sShip == "RESOLUTION" || sShip == "MORDAUNT") return fDamage*0.8;
+	if (sShip == "PRINCE" || sShip == "OXFORD" || sShip == "RESOLUTION" || sShip == "MORDAUNT") return fDamage*1.2;
 	if (nClass == 6 || nClass == 5) fDamage *= 1.8;
-	if (nClass == 4 || nClass == 3) fDamage *= 1.5;
-	if (nClass == 2 || nClass == 1) fDamage *= 1.3;
+	if (nClass == 4 || nClass == 3) fDamage *= 1.6;
+	if (nClass == 2 || nClass == 1) fDamage *= 1.4;
 	return fDamage;
 	//procMastFall
 }

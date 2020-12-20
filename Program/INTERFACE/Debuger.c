@@ -585,8 +585,8 @@ void CalculateInfoDataF6()
 	ChangeCrewExp(mc, "Soldiers", 100);
 
 	SetCharacterGoods(mc, GOOD_BALLS, 2000);
-	SetCharacterGoods(mc, GOOD_GRAPES, 700);
-	SetCharacterGoods(mc, GOOD_KNIPPELS, 700);
+	SetCharacterGoods(mc, GOOD_GRAPES, 2000);
+	SetCharacterGoods(mc, GOOD_KNIPPELS, 2000);
 	SetCharacterGoods(mc, GOOD_BOMBS, 2000);;
 	SetCharacterGoods(mc, GOOD_FOOD, 2000);
 	SetCharacterGoods(mc, GOOD_POWDER, 3000);
