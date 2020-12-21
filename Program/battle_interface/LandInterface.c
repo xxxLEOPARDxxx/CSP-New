@@ -730,7 +730,14 @@ void BLI_SetObjectData()
 			{
 				objLandInterface.textinfo.villagename.text = XI_ConvertString("Colony:") + LanguageConvertString(nFile, locations[nLoc].fastreload + " Town");
 			}
-			objLandInterface.textinfo.locationname.text = LanguageConvertString(nFile, locations[nLoc].id.label);
+			if (!CheckAttribute(&locations[nLoc],"id.label"))
+			{
+				objLandInterface.textinfo.locationname.text = "";
+			}
+			else
+			{
+				objLandInterface.textinfo.locationname.text = LanguageConvertString(nFile, locations[nLoc].id.label);
+			}
 			LanguageCloseFile( nFile );
 		}
 	}

@@ -91,8 +91,8 @@ void AddToTable()
 	{
         row = "tr" + n;
 		sGood = Goods[i].name;
-		makearef(refGoods,refContraChar.Goods.(sGood));
-        
+		makearef(refGoods,refStore.Goods.(sGood));
+        tradeType = MakeInt(refGoods.TradeType);
 		sShipQ = GetCargoGoods(refCharacter, i);
 		sStoreQ = GetContraGoodsQuantity(refContraChar, i);
 
@@ -109,13 +109,33 @@ void AddToTable()
 
 		GameInterface.TABLE_LIST.(row).td6.str = sStoreQ;
 		iColor = argb(255,255,255,255);
-		if(GetContrabandGoods(refStore, i) == 1)
+		switch(tradeType)
 		{
-			iColor = argb(255,196,196,255);
-		}
-		else
-		{
-			iColor = argb(255,196,255,196);
+			case TRADE_TYPE_NORMAL:
+				iColor = argb(255,255,255,255);
+			break;
+			case TRADE_TYPE_EXPORT:
+				iColor = argb(255,196,255,196);
+			break;
+			case TRADE_TYPE_IMPORT:
+				iColor = argb(255,196,196,255);
+			break;
+			case TRADE_TYPE_CONTRABAND:
+				iColor = argb(255,255,196,196);
+			break;
+			case TRADE_TYPE_CANNONS:
+				iColor = argb(255,255,159,0);
+			break;
+			case TRADE_TYPE_AMMUNITION:
+			    if (refStore.Colony == "none")
+				{
+					iColor = argb(255,196,196,196);
+				}
+				else
+				{
+					iColor = argb(255,255,255,255);
+				}
+			break;
 		}
 
         GameInterface.TABLE_LIST.(row).td4.icon.group = "GOODS";
@@ -128,8 +148,8 @@ void AddToTable()
 		GameInterface.TABLE_LIST.(row).index = i;
 		GameInterface.TABLE_LIST.(row).td4.color = iColor;
 
-		GameInterface.TABLE_LIST.(row).td5.str = GetContrabandGoodsPrice(refStore, i, PRICE_TYPE_SELL, pchar, 1);
-		GameInterface.TABLE_LIST.(row).td3.str = GetContrabandGoodsPrice(refStore, i, PRICE_TYPE_BUY, pchar, 1);
+		GameInterface.TABLE_LIST.(row).td5.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, pchar, 1);
+		GameInterface.TABLE_LIST.(row).td3.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_BUY, pchar, 1);
 		n++;
 	}
 	NextFrameRefreshTable();
@@ -221,11 +241,11 @@ void ShowGoodsInfo(int iGoodIndex)
 	SetFormatedText("QTY_INFO_SHIP_QTY", its(iShipQty));
 	BuyOrSell = 0;
 	
-	iStorePrice = GetContrabandGoodsPrice(refStore, iGoodIndex, PRICE_TYPE_SELL, pchar, 1);
+	iStorePrice = GetStoreGoodsPrice(refStore, iGoodIndex, PRICE_TYPE_SELL, pchar, 1);
 		
     SetFormatedText("QTY_INFO_STORE_PRICE",XI_ConvertString("Price buy") + NewStr() + its(iStorePrice));
 
-	iShipPrice = GetContrabandGoodsPrice(refStore, iGoodIndex, PRICE_TYPE_BUY, pchar, 1);
+	iShipPrice = GetStoreGoodsPrice(refStore, iGoodIndex, PRICE_TYPE_BUY, pchar, 1);
 	SetFormatedText("QTY_INFO_SHIP_PRICE", XI_ConvertString("Price sell") + NewStr() + its(iShipPrice));
 	
 	ShowFoodInfo();

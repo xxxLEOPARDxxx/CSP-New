@@ -505,9 +505,6 @@ float Ship_MastDamage()
 	float fDamage = GetEventData();
 	aref rCharacter = GetEventData();
 	
-	ref rCannon = GetCannonByType(sti(AIBalls.CurrentBallCannonType));
-	int nCaliber = sti(rCannon.caliber);
-	int	iBallType = sti(AIBalls.CurrentBallType);
 	int iShipType = sti(rCharacter.ship.type);
 	ref rBaseShip = GetRealShip(iShipType);
 	int nClass = sti(rBaseShip.Class);
@@ -526,7 +523,9 @@ float Ship_MastDamage()
 		    //#20171230-01 Mast damage mod
             //int iBallCharacterIndex = GetEventData();  //Passed in message, but not needed as AIBalls has needed info
             //ref rBallCharacter = GetCharacter(iBallCharacterIndex);
-            
+           	ref rCannon = GetCannonByType(sti(AIBalls.CurrentBallCannonType));
+			int	iBallType = sti(AIBalls.CurrentBallType);
+			int nCaliber = sti(rCannon.caliber);
             float nDirect = 0.35; //Glancing
             int nKni = nCaliber;
             if(iBallType == GOOD_KNIPPELS)
@@ -1894,11 +1893,14 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 		}
 		else
 		{ // не узнал
-			if (sti(pchar.questTemp.stels.sea) != GetDataDay())
+			if (CheckAttribute(pchar,"questTemp.stels"))
 			{
-				AddCharacterExpToSkill(mChar, SKILL_SNEAK, (iCompan * 200 / iClass));
-		    ChangeCrewExp(mChar, "Sailors", 0.5);
-				pchar.questTemp.stels.sea = GetDataDay();
+				if (sti(pchar.questTemp.stels.sea) != GetDataDay())
+				{
+					AddCharacterExpToSkill(mChar, SKILL_SNEAK, (iCompan * 200 / iClass));
+				ChangeCrewExp(mChar, "Sailors", 0.5);
+					pchar.questTemp.stels.sea = GetDataDay();
+				}
 			}
 		}
 	}
