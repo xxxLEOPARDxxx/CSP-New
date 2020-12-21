@@ -502,7 +502,7 @@ type = normal
 start_time = 3165
 end_time = 3186
 
-speed = 1.2
+speed = 2.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -513,7 +513,7 @@ type = normal
 start_time = 3186
 end_time = 3210
 
-speed = 1.2
+speed = 2.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -524,7 +524,7 @@ type = normal
 start_time = 3210
 end_time = 3232
 
-speed = 1.2
+speed = 2.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -535,7 +535,7 @@ type = normal
 start_time = 3186
 end_time = 3210
 
-speed = 1.2
+speed = 2.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -546,7 +546,7 @@ type = normal
 start_time = 3186
 end_time = 3210
 
-speed = 1.1
+speed = 2.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -557,7 +557,7 @@ type = normal
 start_time = 3165
 end_time = 3186
 
-speed = 1.2
+speed = 2.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -568,7 +568,7 @@ type = normal
 start_time = 3165
 end_time = 3186
 
-speed = 0.7
+speed = 1.4
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -579,7 +579,7 @@ type = normal
 start_time = 3210
 end_time = 3232
 
-speed = 1.2
+speed = 2.4
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -588,7 +588,7 @@ event = "SndAlliace_manhit", 3176, normal
 ;ÂÛÑÒÐÅË
 
 [Shot]
-speed = 1.
+speed = 2.
 type = normal
 start_time = 3120
 end_time = 3144
@@ -1110,7 +1110,7 @@ type = normal
 start_time = 2966
 end_time = 2992
 
-speed = 1.7
+speed = 3.4
 loop = false
 
 data = "Blend time", "0.1"		; sec
@@ -1126,7 +1126,7 @@ event = "Blade to hand", 2975, normal
 type = normal
 start_time = 3898
 end_time = 3933
-speed = 1.5
+speed = 3.0
 loop = false
 
 data = "Blend time", "0.2"		; sec
