@@ -1064,34 +1064,44 @@ void Ship_OnBortReloaded()
 	}
 	if (sBort == "cannonl") { aCharacter.Tmp.BortsReloaded.cannonl = true; }
 	if (sBort == "cannonr") { aCharacter.Tmp.BortsReloaded.cannonr = true; }
+	if (sBort == "cannonf") { aCharacter.Tmp.BortsReloaded.cannonf = true; }
+	if (sBort == "cannonb") { aCharacter.Tmp.BortsReloaded.cannonb = true; }
 }
 
 void Ship_BortReloadEvent()
 {
-	aref aCharacter = GetEventData();
-	
-	if (sti(aCharacter.Tmp.BortsReloaded.Event))
-	{
-		bool bLeft = sti(aCharacter.Tmp.BortsReloaded.cannonl) == true;
-		bool bRight = sti(aCharacter.Tmp.BortsReloaded.cannonr) == true;
+    aref aCharacter = GetEventData();
+    
+    if (sti(aCharacter.Tmp.BortsReloaded.Event))
+    {
+        bool bLeft = false;
+        bool bRight = false;
+        bool bFront = false;
+        bool bBack = false;
+        if (CheckAttribute(aCharacter,"Tmp.BortsReloaded.cannonl")) bLeft = sti(aCharacter.Tmp.BortsReloaded.cannonl) == true;
+        if (CheckAttribute(aCharacter,"Tmp.BortsReloaded.cannonr")) bRight = sti(aCharacter.Tmp.BortsReloaded.cannonr) == true;
+        if (CheckAttribute(aCharacter,"Tmp.BortsReloaded.cannonf")) bFront = sti(aCharacter.Tmp.BortsReloaded.cannonf) == true;
+        if (CheckAttribute(aCharacter,"Tmp.BortsReloaded.cannonb")) bBack = sti(aCharacter.Tmp.BortsReloaded.cannonb) == true;
 
-		if (bLeft && bRight)
-		{
-			//Ship_PlaySound3D(aCharacter, "bortreloaded_all", 1.0);
-			// типа перезарядка двух бортов PlaySound("interface\_GunReady.wav");
-			PlaySound("bortreloaded_all");
-		}
-		else
-		{
-		    //Boyer change #20170327-01  Sound to use aliases changes
-			//if (bLeft)  { PlaySound("interface\_GunReadyL.wav"); }
-			//if (bRight) { PlaySound("interface\_GunReadyR.wav"); }
-			if (bLeft)  { PlaySound("interface\_GunReadyL.wav"); }
-			if (bRight) { PlaySound("interface\_GunReadyR.wav"); }
-		}
-	}
+        if (bLeft && bRight && bFront && bBack)
+        {
+            //Ship_PlaySound3D(aCharacter, "bortreloaded_all", 1.0);
+            // типа перезарядка двух бортов PlaySound("interface\_GunReady.wav");
+            PlaySound("interface\_GunReady.wav");
+        }
+        else
+        {
+            //Boyer change #20170327-01  Sound to use aliases changes
+            //if (bLeft)  { PlaySound("interface\_GunReadyL.wav"); }
+            //if (bRight) { PlaySound("interface\_GunReadyR.wav"); }
+            if (bLeft)  { PlaySound("interface\_GunReadyL.wav"); }
+            if (bRight) { PlaySound("interface\_GunReadyR.wav"); }
+            if (bFront) { PlaySound("interface\_Gun_FB_Ready.wav"); }
+            if (bBack) { PlaySound("interface\_Gun_FB_Ready.wav"); }
+        }
+    }
 
-	Ship_ClearBortsReloadedEvent(aCharacter);
+    Ship_ClearBortsReloadedEvent(aCharacter);
 }
 
 void Ship_ClearBortsReloadedEvent(aref aCharacter)
@@ -1099,6 +1109,8 @@ void Ship_ClearBortsReloadedEvent(aref aCharacter)
 	aCharacter.Tmp.BortsReloaded.Event = false;
 	aCharacter.Tmp.BortsReloaded.cannonl = false; 
 	aCharacter.Tmp.BortsReloaded.cannonr = false; 
+	aCharacter.Tmp.BortsReloaded.cannonf = false; 
+	aCharacter.Tmp.BortsReloaded.cannonb = false; 
 }
 
 void Ship_ChangeChargeEvent() // нигде не используется???

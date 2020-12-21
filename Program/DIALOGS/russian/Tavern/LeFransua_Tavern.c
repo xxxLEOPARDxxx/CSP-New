@@ -143,14 +143,14 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				pchar.questTemp.Headhunter = "barmen_wait";
 				break;
 			}
-			if (sti(Pchar.Rank) > 12)
+			/* if (sti(Pchar.Rank) > 12)
 			{
 				dialog.text = "Гм... Извините, но я уже нашел человека для выполнения этой работы. Так что не обессудьте, капитан.";
 				link.l1 = "Ясно. Значит, не судьба. Прощайте.";
 				link.l1.go = "exit";
 				pchar.questTemp.Headhunter = "end_quest";
 				break;
-			}
+			} */
 			dialog.text = "Вы очень вовремя! Мне нужен именно так"+ GetSexPhrase("ой","ая") +" капитан, как вы. Позвольте мне рассказать суть проблемы, а потом уже перейдем непосредственно к заданию.";
 			link.l1 = "Слушаю вас внимательно, "+ npchar.name +".";
 			link.l1.go = "barmen_history";

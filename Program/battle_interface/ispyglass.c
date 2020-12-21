@@ -358,7 +358,7 @@ void FillISpyGlassParameters()
 	{
 		// objISpyGlass.shipsign.ship.texture = "battle_interface\ship_icons2.tga";
 		// objISpyGlass.shipsign.ship.pos = RecalculateHIconScaled(28)+","+(ntop+RecalculateVIconScaled(10)) + "," + RecalculateHIconScaled(92)+","+(ntop+RecalculateVIconScaled(74));
-		objISpyGlass.shipsign.ship.texture = "battle_interface\ship_icons2.tga";
+		objISpyGlass.shipsign.ship.texture = "battle_interface\ship_icons2.dds";
 		objISpyGlass.shipsign.ship.pos = RecalculateHIconScaled(10)+","+(ntop+RecalculateVIconScaled(0)) + "," + RecalculateHIconScaled(100)+","+(ntop+RecalculateVIconScaled(90));
 		objISpyGlass.shipsign.ship.uv = "0,0,0.125,0.125";//"0,0,0.125,0.25";
 		// objISpyGlass.shipsign.back.texture = "battle_interface\shipbackicon.tga";
@@ -383,8 +383,8 @@ void FillISpyGlassParameters()
 	}
 	else
 	{
-		objISpyGlass.shipsign.ship.texture = "battle_interface\ship_icons2.tga";
-		objISpyGlass.shipsign.ship.pos = RecalculateHIconScaled(28)+","+(ntop+RecalculateVIconScaled(10)) + "," + RecalculateHIconScaled(92)+","+(ntop+RecalculateVIconScaled(74));
+		objISpyGlass.shipsign.ship.texture = "battle_interface\ship_icons2.dds";
+		objISpyGlass.shipsign.ship.pos = RecalculateHIconScaled(28)+","+(ntop+RecalculateVIconScaled(16)) + "," + RecalculateHIconScaled(92)+","+(ntop+RecalculateVIconScaled(80));
 		objISpyGlass.shipsign.ship.uv = "0,0,0.125,0.125";//"0,0,0.125,0.25";
 		objISpyGlass.shipsign.back.texture = "battle_interface\shipbackicon.tga";
 		objISpyGlass.shipsign.back.pos = RecalculateHIconScaled(7)+","+(ntop+RecalculateVIconScaled(-5)) + "," + RecalculateHIconScaled(135)+","+(nbottom+RecalculateVIconScaled(-5));
