@@ -1833,39 +1833,31 @@ void GameOver(string sName)
 	InitSound();
 	SetEventHandler(EVENT_END_VIDEO,"LaunchMainMenu_afterVideo",0);
 	FadeOutMusic(3);
-	PlayStereoOGG("music_ship_dead");
+	// PlayStereoOGG("music_ship_dead");
 	switch(sName)
 	{
 		case "sea":
-			/*nSelect = rand(1);
-			sFileName = "skeleton_on_beach";
-			switch(nSelect)
-			{
-				case 0: sFileName = "skeleton_on_beach"; break;
-				case 1: sFileName = "undersea"; break;
-			}
-			StartPostVideo(sFileName,1);   */
-			StartPictureAsVideo( "loading\seadeath.tga.tx", 3.5 );
+			StartPictureAsVideo( "loading\seadeath.tga.tx", 4 );
 			PlayStereoOGG("music_ship_dead");
 		break;
 		case "boarding":
-			StartPictureAsVideo( "loading\seadeath.tga.tx", 3.5 );
+			StartPictureAsVideo( "loading\seadeath.tga.tx", 4 );
 			PlayStereoOGG("music_ship_dead");
 		break;
 		case "land":
-			StartPictureAsVideo( "loading\death.tga.tx", 3.5 );
+			StartPictureAsVideo( "loading\death.tga.tx", 4 );
 			PlayStereoOGG("music_death");
 		break;
 		case "mutiny":
-			StartPictureAsVideo( "loading\finalbad2.tga.tx", 3.5 );
+			StartPictureAsVideo( "loading\finalbad2.tga.tx", 4 );
 			PlayStereoOGG("music_death");
 		break;
 		case "town":
-			StartPictureAsVideo( "loading\finalbad1.tga.tx", 3.5 );
+			StartPictureAsVideo( "loading\finalbad1.tga.tx", 4 );
 			PlayStereoOGG("music_death");
 		break;
 		case "blood":
-			StartPictureAsVideo( "loading\finalbad2.tga.tx", 3.5 );
+			StartPictureAsVideo( "loading\finalbad2.tga.tx", 4 );
 			PlayStereoOGG("music_death");
 		break;
 	}

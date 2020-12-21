@@ -1192,7 +1192,7 @@ void StartPictureAsVideo( string picname, float time )
 	InterfaceStates.GameOverPicture = picname;
 	PostEvent( "DoInfoShower", 1, "sl", "Game Over Picture", true );
 	SetEventHandler("PictureAsVideoBreak","PictureAsVideoBreak",0);
-	PostEvent( "PictureAsVideoBreak", makeint(time * 1000) );
+	PostEvent( "PictureAsVideoBreak", makeint(time * 3000) );
 }
 void PictureAsVideoBreak()
 {
