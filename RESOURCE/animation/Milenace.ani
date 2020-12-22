@@ -396,7 +396,7 @@ data = "Turn speed", "4.0"
 	start_time = 476
 	end_time = 492
 	
-	speed = 1.5
+	speed = 4.5
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -407,7 +407,7 @@ data = "Turn speed", "4.0"
 	start_time = 476
 	end_time = 492
 	
-	speed = 1.5
+	speed = 4.5
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -418,7 +418,7 @@ data = "Turn speed", "4.0"
 	start_time = 493
 	end_time = 512
 	
-	speed = 1.5
+	speed = 4.5
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -710,8 +710,8 @@ loop = true
 	start_time = 403
 	end_time = 423
 	
-	data = "Blend time", "0.3"		; sec
-	data = "Walk speed", "4.0"		; m/sec
+	data = "Blend time", "0.2"		; sec
+	data = "Walk speed", "5.5"		; m/sec
 	data = "Turn speed", "5.5"		; rad/sec
 	
 	event = "LStep", 407, normal
@@ -872,8 +872,8 @@ type = normal
 	start_time = 1359
 	end_time = 1379
 	
-	data = "Blend time", "0.3"		; sec
-	data = "Walk speed", "5.0"		; m/sec
+	data = "Blend time", "0.2"		; sec
+	data = "Walk speed", "5.5"		; m/sec
 	data = "Turn speed", "5.5"		; rad/sec
 	
 	event = "LStep", 1363, normal

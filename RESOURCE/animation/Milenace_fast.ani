@@ -1,5 +1,6 @@
 
-animation = jessika.an
+animation = Milenace.an
+
 
 data = "Turn speed", "4.0"
 
@@ -14,7 +15,7 @@ data = "Turn speed", "4.0"
 	start_time = 2
 	end_time = 18
 	
-	speed = 1.5
+	speed = 1.1
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -31,7 +32,7 @@ data = "Turn speed", "4.0"
 	start_time = 2
 	end_time = 18
 	
-	speed = 1.5
+	speed = 1.1
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -47,7 +48,7 @@ data = "Turn speed", "4.0"
 	start_time = 19
 	end_time = 35
 	
-	speed = 1.5
+	speed = 1.1
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -57,7 +58,7 @@ data = "Turn speed", "4.0"
 	event = "Attack", 24, normal			;slash
 	event = "SndAlliace_W_attack_thrust2", 19, normal
 	event = "Resact", 27, normal
-	
+
 ;SLASH
 	[attack_force_1]
 	type = normal
@@ -129,7 +130,7 @@ data = "Turn speed", "4.0"
 	start_time = 125
 	end_time = 168
 	
-	speed = 1.5
+	speed = 1.2
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -147,7 +148,7 @@ data = "Turn speed", "4.0"
 	start_time = 170
 	end_time = 206
 	
-	speed = 1.5
+	speed = 1.25
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -157,7 +158,7 @@ data = "Turn speed", "4.0"
 	event = "Attack", 186, normal			;slash
 	event = "SndAlliace_W_attack_break", 180, normal
 	event = "Resact", 190, normal
-
+	
 ;PARRY
 	[parry_1]
 	type = normal
@@ -395,7 +396,7 @@ data = "Turn speed", "4.0"
 	start_time = 476
 	end_time = 492
 	
-	speed = 3.0
+	speed = 6.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -406,7 +407,7 @@ data = "Turn speed", "4.0"
 	start_time = 476
 	end_time = 492
 	
-	speed = 3.0
+	speed = 6.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -417,7 +418,7 @@ data = "Turn speed", "4.0"
 	start_time = 493
 	end_time = 512
 	
-	speed = 3.0
+	speed = 6.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -450,7 +451,7 @@ data = "Turn speed", "4.0"
 	type = normal
 	start_time = 539
 	end_time = 570
-	speed = 1.5
+	speed = 3.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_W_manhit", 539, normal			
@@ -461,7 +462,7 @@ data = "Turn speed", "4.0"
 	start_time = 608
 	end_time = 644
 	
-	speed = 1.5
+	speed = 3.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -473,7 +474,7 @@ data = "Turn speed", "4.0"
 	start_time = 571
 	end_time = 607
 	
-	speed = 1.5
+	speed = 3.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -483,7 +484,7 @@ data = "Turn speed", "4.0"
 ;¬€—“–≈?
 
 	[Shot]
-speed = 2.
+speed = 4.0
 type = normal
 	start_time = 693
 	end_time = 755
@@ -514,7 +515,7 @@ type = normal
 	
 	event = "RStep", 834, normal
 	event = "LStep", 839, normal
-	event = "SndAlliace_W_death1", 823, normal
+	event = "SndAlliace_W_fight_death1", 823, normal
 
 
 
@@ -532,7 +533,7 @@ type = normal
 	
 	
 	event = "LStep", 907, normal
-	event = "SndAlliace_death2", 894, normal
+	event = "SndAlliace_W_fight_death2", 894, normal
 	
 	
 	
@@ -549,7 +550,7 @@ type = normal
 	data = "Angle", "330.0"
 	
 	
-	event = "SndAlliace_W_death1", 1014, normal
+	event = "SndAlliace_W_fight_death3", 1014, normal
 
 
 	[death_3]
@@ -567,7 +568,7 @@ type = normal
 	
 
 	event = "RStep", 1090, normal
-	event = "SndAlliace_W_death2", 1071, normal
+	event = "SndAlliace_W_fight_death4", 1071, normal
 
 
 
@@ -584,7 +585,7 @@ type = normal
 	data = "Angle", "330.0"
 	
 	
-	event = "SndAlliace_W_death1", 1014, normal
+	event = "SndAlliace_W_fight_death3", 1014, normal
 	
 
 ; ƒ≈…—“¬»ﬂ ?¡Œ≈¬Œ… —“Œ… ≈ (IDLES)
@@ -709,8 +710,8 @@ loop = true
 	start_time = 403
 	end_time = 423
 	
-	data = "Blend time", "0.3"		; sec
-	data = "Walk speed", "4.0"		; m/sec
+	data = "Blend time", "0.2"		; sec
+	data = "Walk speed", "5.5"		; m/sec
 	data = "Turn speed", "5.5"		; rad/sec
 	
 	event = "LStep", 407, normal
@@ -746,30 +747,6 @@ loop = true
 	data = "Blend time", "0.02"	; sec
 	event = "SndAlliace_W_recoil", 757, normal
 
-;—ÏÂ˘ÂÌËÂ ‚ÎÂ‚?(A) 	
-[straif_weapon_left]
-	start_time = 2550
-	end_time = 2570
-	data = "Blend time", "0.1"		; sec
-	event = "LStep", 2556, normal
-	event = "RStep", 2565, normal
-	speed = 2.0
-	loop = false
-	type = normal
-	event = "SndAlliace_recoil", 2559, normal
-	
-;—ÏÂ˘ÂÌËÂ ‚Ô‡‚Ó (D) 
-[straif_weapon_right]
-	start_time = 2570
-	end_time = 2588
-	data = "Blend time", "0.1"		; sec
-	event = "LStep", 2585, normal
-	event = "RStep", 2576, normal
-	speed = 1.8
-	loop = false
-	type =reverse
-	event = "SndAlliace_recoil", 2580, normal
-
 
 ;===================================================================================
 ; Ã»–Õ€≈ ¿Õ»Ã¿÷»»
@@ -784,7 +761,7 @@ loop = true
 	loop = true
 	type = normal
 	start_time = 1454
-	end_time = 1481
+	end_time = 1482
 	
 	data = "Blend time", "0.4"		; sec
 	data = "Walk speed", "1.3"		; m/sec
@@ -895,8 +872,8 @@ type = normal
 	start_time = 1359
 	end_time = 1379
 	
-	data = "Blend time", "0.3"		; sec
-	data = "Walk speed", "5.0"		; m/sec
+	data = "Blend time", "0.2"		; sec
+	data = "Walk speed", "5.5"		; m/sec
 	data = "Turn speed", "5.5"		; rad/sec
 	
 	event = "LStep", 1363, normal
@@ -1022,7 +999,7 @@ type = normal
 	start_time = 781
 	end_time = 801
 	
-	speed = 2.
+	speed = 2.6
 	loop = false
 	
 	data = "Blend time", "0.1"		; sec
@@ -1039,7 +1016,7 @@ type = normal
 	type = normal
 	start_time = 802
 	end_time = 822 
-	speed = 2.
+	speed = 1.8
 	loop = false
 	
 	data = "Blend time", "0.1"		; sec
@@ -1053,10 +1030,10 @@ type = normal
 ; —Ã≈–“»
 
 	[death_citizen_1]
-speed = 1.0
+speed = 1.1
 type = normal
 	start_time = 1740
-	end_time = 1807
+	end_time = 1815
 	
 	loop = false
 	
@@ -1064,15 +1041,15 @@ type = normal
 	data = "Probability", "1.0"
 	data = "Angle", "340.0"
 	
-	event = "SndAlliace_W_death1", 894, normal
+	event = "Death sound", 1758, normal
 	
 	
 	
 	[death_citizen_2]
-speed = 1.0
+speed = 1.1
 type = normal
 	start_time = 1816
-	end_time = 1851
+	end_time = 1858
 	
 	loop = false
 	
@@ -1081,14 +1058,14 @@ type = normal
 	data = "Angle", "340.0"
 	
 
-	event = "SndAlliace_W_death2", 894, normal
+	event = "Death sound", 1834, normal
 	
 		
 	[death_citizen_3]
-speed = 1.0
+speed = 1.1
 type = normal
 	start_time = 1740
-	end_time = 1805
+	end_time = 1815
 	
 	loop = false
 	
@@ -1096,14 +1073,14 @@ type = normal
 	data = "Probability", "1.0"
 	data = "Angle", "340.0"
 	
-	event = "SndAlliace_W_death1", 894, normal
+	event = "Death sound", 1758, normal
 	
 	
 	[death_citizen_4]
-speed = 1.0
+speed = 1.1
 type = normal
 	start_time = 1816
-	end_time = 1850
+	end_time = 1858
 	
 	loop = false
 	
@@ -1112,7 +1089,7 @@ type = normal
 	data = "Angle", "340.0"
 	
 
-	event = "SndAlliace_W_death2", 894, normal
+	event = "Death sound", 1834, normal
 	
 
 
@@ -1255,14 +1232,6 @@ type = normal
 ;	\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ;	¿Õ»Ã¿÷»» ƒ»¿ÀŒ√Œ¬
 
-	[dialog_stay1]
-speed = 1.
-type = normal
-	start_time = 1484
-	end_time = 1524
-	data = "Blend time", "0.1"		; sec
-	loop = false
-
 	[dialog_stay2]
 speed = 1.
 type = normal
@@ -1296,89 +1265,145 @@ type = normal
 	loop = false
 
 
-[jump]
-start_time = 2589
-end_time = 2615
+[strafe_left]
+start_time = 2510
+end_time = 2521
 	data = "Blend time", "0.1"		; sec
-	speed = 1.1
+	speed = 2.5
 	loop = false
 	type = normal
 
-event = "Jump pause", 2601 , normal
 
-;	\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+[strafe_right]
+start_time = 2522
+end_time = 2532
+	data = "Blend time", "0.1"		; sec
+	speed = 2.5
+	loop = false
+	type = normal
+
+[straif_weapon_left]
+start_time = 2533
+end_time = 2550
+	data = "Blend time", "0.1"		; sec
+	event = "LStep", 2541, normal
+	event = "RStep", 2547, normal
+        speed = 1.8
+	loop = false
+	type = normal
+
+[straif_weapon_right]
+start_time = 2551
+end_time = 2569
+	data = "Blend time", "0.1"		; sec
+	event = "LStep", 2559, normal
+	event = "RStep", 2563, normal
+	speed = 1.8
+	loop = false
+	type = normal
+
+;////////////////////////////////////////////////////////////
+
+[swim]
+start_time = 3567
+end_time = 3610
+
+speed = 1.9
+
+data = "Blend time", "0.4"          ; sec
+data = "Walk speed", "1.2"          ; m/sec
+data = "Turn speed", "5.5"          ; rad/sec
+
+event = "swim", 3612, normal
+
+[jump]
+start_time = 3612
+end_time = 3639
+	data = "Blend time", "0.1"		; sec
+	speed = 1.2
+	loop = true
+	type = normal
+
+event = "Jump pause", 3621 , normal
+
+;\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ;	¿Õ»Ã¿÷»» —»ƒ≈Õ»?
+;\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 [Sit_Look_Around]
 speed = 2.
 loop = true
 type = normal
-	start_time = 2729
-	end_time = 2803
+	start_time = 2655
+	end_time = 2729
 	data = "Blend time", "0.3"		; sec
 
 [Sit_Lower_head]
 speed = 1.
 loop = true
 type = normal
-	start_time = 3070
-	end_time = 3173
+	start_time = 3001
+	end_time = 3101
 	data = "Blend time", "0.3"		; sec
 
 [Sit_Idle01]
 speed = 2.
 loop = true
 type = normal
-	start_time = 2663
-	end_time = 2703
+	start_time = 2589
+	end_time = 2639
 	data = "Blend time", "0.3"		; sec
 
 [Sit_Idle02]
 speed = 1.
 loop = true
 type = normal
-	start_time = 2663
-	end_time = 2703
+	start_time = 2725
+	end_time = 3000
+	data = "Blend time", "0.3"		; sec
+
+[Sit_Idle03]
+speed = 2.
+loop = true
+type = normal
+	start_time = 2589
+	end_time = 2639
+	data = "Blend time", "0.3"		; sec
+
+[Sit_Idle04]
+speed = 1.
+loop = true
+type = normal
+	start_time = 2725
+	end_time = 3000
+	data = "Blend time", "0.3"		; sec
+
+[Sit_Idle05]
+speed = 2.
+loop = true
+type = normal
+	start_time = 2589
+	end_time = 2639
+	data = "Blend time", "0.3"		; sec
+
+[Sit_Idle06]
+speed = 1.
+loop = true
+type = normal
+	start_time = 2725
+	end_time = 3000
 	data = "Blend time", "0.3"		; sec
 
 [Sit_Death]
 speed = 1.
 type = normal
-	start_time = 2714
-	end_time = 2728
+	start_time = 2640
+	end_time = 2654
 	data = "Blend time", "0.1"		; sec
 	data = "Probability", "1.0"
 	data = "Angle", "340.0"
 
 loop = false
 
-event = "Death sound", 3194, normal
+event = "Death sound", 2640, normal
 
-[swim]
-start_time = 2617
-end_time = 2661
-
-speed = 1.4
-
-data = "Blend time", "0.4"          ; sec
-data = "Walk speed", "2.0"          ; m/sec
-data = "Turn speed", "5.5"          ; rad/sec
-
-event = "swim", 2618, normal
-
-[fall]
-start_time = 2589
-end_time = 2615
-	data = "Blend time", "0.1"		; sec
-	speed = 1.1
-	loop = false
-	type = normal
-
-event = "Jump pause", 2601 , normal
-
-[death_p]
-speed = 1
-type = normal
-	start_time = 1807
-	end_time = 1807
-		

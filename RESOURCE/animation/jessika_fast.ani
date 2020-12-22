@@ -395,7 +395,7 @@ data = "Turn speed", "4.0"
 	start_time = 476
 	end_time = 492
 	
-	speed = 3.0
+	speed = 5.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -406,7 +406,7 @@ data = "Turn speed", "4.0"
 	start_time = 476
 	end_time = 492
 	
-	speed = 3.0
+	speed = 5.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -417,7 +417,7 @@ data = "Turn speed", "4.0"
 	start_time = 493
 	end_time = 512
 	
-	speed = 3.0
+	speed = 5.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -428,7 +428,7 @@ data = "Turn speed", "4.0"
 	start_time = 493
 	end_time = 512
 	
-	speed = 3.0
+	speed = 5.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -439,7 +439,7 @@ data = "Turn speed", "4.0"
 	start_time = 645
 	end_time = 660
 	
-	speed = 1.2
+	speed = 2.4
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -450,7 +450,7 @@ data = "Turn speed", "4.0"
 	type = normal
 	start_time = 539
 	end_time = 570
-	speed = 1.5
+	speed = 3.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_W_manhit", 539, normal			
@@ -461,7 +461,7 @@ data = "Turn speed", "4.0"
 	start_time = 608
 	end_time = 644
 	
-	speed = 1.5
+	speed = 3.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -473,7 +473,7 @@ data = "Turn speed", "4.0"
 	start_time = 571
 	end_time = 607
 	
-	speed = 1.5
+	speed = 3.0
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -483,7 +483,7 @@ data = "Turn speed", "4.0"
 ;ÂÛÑÒÐÅ?
 
 	[Shot]
-speed = 2.
+speed = 4.
 type = normal
 	start_time = 693
 	end_time = 755
@@ -1022,7 +1022,7 @@ type = normal
 	start_time = 781
 	end_time = 801
 	
-	speed = 2.
+	speed = 3.
 	loop = false
 	
 	data = "Blend time", "0.1"		; sec
@@ -1039,7 +1039,7 @@ type = normal
 	type = normal
 	start_time = 802
 	end_time = 822 
-	speed = 2.
+	speed = 3.
 	loop = false
 	
 	data = "Blend time", "0.1"		; sec

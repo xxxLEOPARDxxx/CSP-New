@@ -497,6 +497,12 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 		if (_chref.model.animation == "man") _chref.model.animation = "man_fast";
 		// if (_chref.model.animation == "man_A") _chref.model.animation = "man_A_fast";
 		if (_chref.model.animation == "man2_ab") _chref.model.animation = "man2_ab_fast";
+		if (_chref.model.animation == "Jessika") _chref.model.animation = "Jessika_fast";
+		if (_chref.model.animation == "YokiDias") _chref.model.animation = "YokiDias_fast";
+		if (_chref.model.animation == "Milenace") _chref.model.animation = "Milenace_fast";
+		if (_chref.model.animation == "Danielle") _chref.model.animation = "Danielle_fast";
+		if (_chref.model.animation == "Giant") _chref.model.animation = "Giant_fast";
+		if (_chref.model.animation == "Moscovit") _chref.model.animation = "Moscovit_fast";
 	}
 	// boal 05.05.04 разделение по группам -->
 	if (isSelfTypeSkill(_skill))
@@ -2295,6 +2301,20 @@ void initNewMainCharacter()
     	pchar.quest.Tut_start.function                  = "Tut_StartGame";
         Pchar.questTemp.CapBloodLine = false;
     }
+	if (startHeroType == 68)
+	{
+		// SetCharacterPerk(pchar, "Grus");
+		SetCharacterPerk(pchar, "HardHitter");
+		SetCharacterPerk(pchar, "HPPlusFixed");
+		// SetCharacterPerk(pchar, "EnergyPlusFixed");
+	}
+	if (startHeroType == 70)
+	{
+		SetCharacterPerk(pchar, "Grus");
+		// SetCharacterPerk(pchar, "HardHitter");
+		// SetCharacterPerk(pchar, "HPPlusFixed");
+		SetCharacterPerk(pchar, "EnergyPlusFixed");
+	}
 	
 	// Warship Для разных квестов
 	// Важно: функция MaryCelesteInit() должна быть тут, а не в initStartState2Character()
@@ -2356,7 +2376,7 @@ void initMainCharacterItem()
 					pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
 				break;
 				case PIRATE:
-					SetCharacterPerk(pchar, "HPPlus");
+					SetCharacterPerk(pchar, "HPPlusFixed");
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
@@ -2547,7 +2567,7 @@ void initMainCharacterItem()
 					SetCharacterPerk(pchar, "Gunman");
 				break;
 				case PIRATE:
-					SetCharacterPerk(pchar, "EnergyPlus");
+					SetCharacterPerk(pchar, "EnergyPlusFixed");
 					GiveItem2Character(pchar, "map_part1");
 				break;
 				case SPAIN:

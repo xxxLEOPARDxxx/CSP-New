@@ -502,7 +502,7 @@ type = normal
 start_time = 3165
 end_time = 3186
 
-speed = 1.2
+speed = 4.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -513,7 +513,7 @@ type = normal
 start_time = 3186
 end_time = 3210
 
-speed = 1.2
+speed = 4.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -524,7 +524,7 @@ type = normal
 start_time = 3210
 end_time = 3232
 
-speed = 1.2
+speed = 4.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -535,7 +535,7 @@ type = normal
 start_time = 3186
 end_time = 3210
 
-speed = 1.2
+speed = 4.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -1724,7 +1724,7 @@ end_time = 3858
 data = "Blend time", "0.1"		; sec
 event = "LStep", 3850, normal
 event = "RStep", 3854, normal
-speed = 1.3
+speed = 1.0
 loop = false
 type = normal
 
@@ -1735,7 +1735,7 @@ end_time = 3858
 data = "Blend time", "0.1"		; sec
 event = "LStep", 3850, normal
 event = "RStep", 3854, normal
-speed = 1.3
+speed = 1.0
 loop = false
 type = normal
 
