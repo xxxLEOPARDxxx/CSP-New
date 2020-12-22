@@ -663,7 +663,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	{
 		if(IsEquipCharacterByArtefact(attack, "talisman1"))
 		{
-			if (rand(5)==0)	LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)*2);
+			if (rand(5)==0)	{LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)*2); Log_Info("Критический выстрел");}
 			else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)+25);
 		}
 		else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5));	
