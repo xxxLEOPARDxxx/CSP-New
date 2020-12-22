@@ -433,9 +433,9 @@ void ProcessDialogEvent()
 		
 		// Warship. Автозакупка товаров -->
 		case "TransferGoods":
-/* 		здесь убираю условие	ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
 			
-			if(sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok) */
+			if(sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
 				dialog.text = LinkRandPhrase("...Уже сделал. Нужно только определьться, на борт какого корабля доставлять товары.",
 					"Ваш казначей уже это сделал. Давайте определимся с кораблем, на который будут доставлены товары.",
@@ -536,8 +536,8 @@ void ProcessDialogEvent()
 		// <-- Автозакупка товаров
 
 		case "trade_1":
-          /* здесь убираю условие  ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
-		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok) */
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
 			    NextDiag.CurrentNode = NextDiag.TempNode;
 			    DialogExit();

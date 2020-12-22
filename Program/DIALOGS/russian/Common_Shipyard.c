@@ -374,8 +374,8 @@ void ProcessDialogEvent()
 			DialogExit();		
 		break;
 		case "shipyard":
-    /*  здесь убираю условие          ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
-		    if (sti(Pchar.Ship.Type) == SHIP_NOTUSED || ok) */
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+		    if (sti(Pchar.Ship.Type) == SHIP_NOTUSED || ok)
 			{
 			    NextDiag.CurrentNode = NextDiag.TempNode;
 				DialogExit();
@@ -396,8 +396,8 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Cannons":
-       /*  ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
-		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok) */
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
 			    NextDiag.CurrentNode = NextDiag.TempNode;
 				DialogExit();
@@ -418,8 +418,8 @@ void ProcessDialogEvent()
 		break;
 		
 		case "SailsGerald":
-      /*  ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
-		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok) */
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
 			    dialog.text = "Сменить цвет парусов стоит " +
 				              FindRussianMoneyString(GetSailsTuningPrice(Pchar, npchar, SAILSCOLOR_PRICE_RATE))+
