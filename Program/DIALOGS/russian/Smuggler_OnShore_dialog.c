@@ -26,50 +26,53 @@ void ProcessDialogEvent()
 			Diag.TempNode = "first time";
 			if(CheckAttribute(PChar, "quest.Contraband.active"))
 			{
-				if (GetCompanionQuantity(pchar) > 1 && GetBaseHeroNation() != PIRATE)
+				if (!CheckCharacterPerk(pchar, "UnlimitedContra")) 
 				{
-					dialog.text = NPCStringReactionRepeat("Слушай, тебе же в таверне ясно сказали, чтобы ты приходил"+ GetSexPhrase("","а") +" с одним кораблем. Проваливай и избавляйся от своей эскадры.", 
-						"Ш"+ GetSexPhrase("ел","ла") +" бы ты отсюда. А то сами тебя патрулю сдадим.", 
-						"Давай-давай, садись в шлюпку и уматывай.",
-						"Как же ты меня утомил"+ GetSexPhrase("","а") +"...", "block", 1, npchar, Dialog.CurrentNode);
-					link.l1 = HeroStringReactionRepeat("Хорошо-хорошо, сейчас вернусь на флагмане.", 
-						"Да не ругайся, только сбегаю в портовое управление, сдам лишние корабли, и сразу назад.",
-						"Эх-х, не удалось схитрить...", 
-						"Да, я настырн"+ GetSexPhrase("ый","ая") +"!", npchar, Dialog.CurrentNode);
-					link.l1.go = DialogGoNodeRepeat("exit", "", "", "", npchar, Dialog.CurrentNode);	
-					break;
-				}
-		//редкостная хрень, но по-другому не работает-класс корабля ГГ считается отдельно от компаньонов, и всё тут
-			int iClass, ipClass;
-			ipClass = 4-sti(RealShips[sti(pchar.ship.type)].Class);
-			iClass = 3;//т.к. не пройдет по числу кораблей в любом случае
-		if (GetBaseHeroNation() == PIRATE)
-		{
-			ipClass = sti(ipClass)-1;
-			int iChIdx;
-			// поиск старшего класса компаньонов
-			for (i=0; i<COMPANION_MAX; i++)
-			{
-				iChIdx = GetCompanionIndex(GetMainCharacter(), i);
-				if (iChIdx>=0)
-				{
-					sld = GetCharacter(iChIdx);
-					iClass = GetCharacterShipClass(sld);
-				}
-			}
-		}
-			if (sti(ipClass) > 0 || 3 - sti(iClass) > 0)
-			{
-					dialog.text = NPCStringReactionRepeat("Тебе что, не говорили, чтобы ты не являл"+ GetSexPhrase("ся","ась") +" на таком приметном корыте? Ты бы еще парочку мановаров с собой прихватил"+ GetSexPhrase("","а") +". Проваливай и приходи на меньшем корабле.", 
-						"Ш"+ GetSexPhrase("ел","ла") +" бы ты отсюда. А то сами тебя патрулю сдадим.", 
-						"Давай-давай, садись в шлюпку и уматывай.",
-						"Как же ты меня утомил"+ GetSexPhrase("","a") +"...", "block", 1, npchar, Dialog.CurrentNode);
-					link.l1 = HeroStringReactionRepeat("Хорошо-хорошо, пош"+ GetSexPhrase("ел","ла") +" кораблик менять.", 
-						"Не злись, я мигом - одна нога тут, другая там.",
-						"Эх-х, не удалось схитрить...", 
-						"Да, я настырн"+ GetSexPhrase("ый","ая") +"!", npchar, Dialog.CurrentNode);
+					if (GetCompanionQuantity(pchar) > 1 && GetBaseHeroNation() != PIRATE)
+					{
+						dialog.text = NPCStringReactionRepeat("Слушай, тебе же в таверне ясно сказали, чтобы ты приходил"+ GetSexPhrase("","а") +" с одним кораблем. Проваливай и избавляйся от своей эскадры.", 
+							"Ш"+ GetSexPhrase("ел","ла") +" бы ты отсюда. А то сами тебя патрулю сдадим.", 
+							"Давай-давай, садись в шлюпку и уматывай.",
+							"Как же ты меня утомил"+ GetSexPhrase("","а") +"...", "block", 1, npchar, Dialog.CurrentNode);
+						link.l1 = HeroStringReactionRepeat("Хорошо-хорошо, сейчас вернусь на флагмане.", 
+							"Да не ругайся, только сбегаю в портовое управление, сдам лишние корабли, и сразу назад.",
+							"Эх-х, не удалось схитрить...", 
+							"Да, я настырн"+ GetSexPhrase("ый","ая") +"!", npchar, Dialog.CurrentNode);
 						link.l1.go = DialogGoNodeRepeat("exit", "", "", "", npchar, Dialog.CurrentNode);	
-					break;
+						break;
+					}
+				//редкостная хрень, но по-другому не работает-класс корабля ГГ считается отдельно от компаньонов, и всё тут
+					int iClass, ipClass;
+					ipClass = 4-sti(RealShips[sti(pchar.ship.type)].Class);
+					iClass = 3;//т.к. не пройдет по числу кораблей в любом случае
+					if (GetBaseHeroNation() == PIRATE)
+					{
+						ipClass = sti(ipClass)-1;
+						int iChIdx;
+						// поиск старшего класса компаньонов
+						for (i=0; i<COMPANION_MAX; i++)
+						{
+							iChIdx = GetCompanionIndex(GetMainCharacter(), i);
+							if (iChIdx>=0)
+							{
+								sld = GetCharacter(iChIdx);
+								iClass = GetCharacterShipClass(sld);
+							}
+						}
+					}
+					if (sti(ipClass) > 0 || 3 - sti(iClass) > 0)
+					{
+						dialog.text = NPCStringReactionRepeat("Тебе что, не говорили, чтобы ты не являл"+ GetSexPhrase("ся","ась") +" на таком приметном корыте? Ты бы еще парочку мановаров с собой прихватил"+ GetSexPhrase("","а") +". Проваливай и приходи на меньшем корабле.", 
+							"Ш"+ GetSexPhrase("ел","ла") +" бы ты отсюда. А то сами тебя патрулю сдадим.", 
+							"Давай-давай, садись в шлюпку и уматывай.",
+							"Как же ты меня утомил"+ GetSexPhrase("","a") +"...", "block", 1, npchar, Dialog.CurrentNode);
+						link.l1 = HeroStringReactionRepeat("Хорошо-хорошо, пош"+ GetSexPhrase("ел","ла") +" кораблик менять.", 
+							"Не злись, я мигом - одна нога тут, другая там.",
+							"Эх-х, не удалось схитрить...", 
+							"Да, я настырн"+ GetSexPhrase("ый","ая") +"!", npchar, Dialog.CurrentNode);
+							link.l1.go = DialogGoNodeRepeat("exit", "", "", "", npchar, Dialog.CurrentNode);	
+						break;
+					}
 				}
 				Dialog.snd = "voice\SMSH\SMSH001";
 				dialog.Text = RandPhraseSimple("Эй, что ты тут забыл"+ GetSexPhrase("","а") +", "+ GetSexPhrase("приятель","подруга") +"?",
@@ -180,10 +183,12 @@ void ProcessDialogEvent()
 					else
 					{
 						dialog.Text = "Слушай, проваливай отсюда! Сорвешь сделку - мы выпустим тебе кишки!";
-						Link.l1 = RandPhraseSimple("Ты смеешь мне угрожать, собака?", "Ты подавишься своими словами, каналья!");
-						Link.l1.go = "Exit_fight";
-						Link.l2 = "Да ладно, я знаю, что такое бизнес. До встречи.";
-						Link.l2.go = "Exit";
+						Link.l1 = "Я думаю, мне ещё есть, что продать.";
+						Link.l1.go = "Exchange1";
+						Link.l2 = RandPhraseSimple("Ты смеешь мне угрожать, собака?", "Ты подавишься своими словами, каналья!");
+						Link.l2.go = "Exit_fight";
+						Link.l3 = "Да ладно, я знаю, что такое бизнес. До встречи.";
+						Link.l3.go = "Exit";
 					}
 				}
 			}
@@ -317,7 +322,7 @@ void ProcessDialogEvent()
             {
 				dialog.Text = "Ну, и чего ты здесь делаешь? У тебя же ничего нет, что можно продать! Все, что лежит у тебя в трюме, можно купить в городе!";
 				Link.l1 = "Не повезло.";
-				Link.l1.go = "NoGoods";
+				Link.l1.go = "Exit";
 			}
 			else
 			{
@@ -359,9 +364,8 @@ void ProcessDialogEvent()
 			NPChar.quest.meeting = NPC_Meeting;
 			Diag.CurrentNode = Diag.TempNode;		 
 			DialogExit();
-			
 			LaunchContrabandTrade(CharacterFromId(pchar.GenQuest.Contraband.SmugglerId),  sti(pchar.FindContrabandGoods.StoreIdx));	
-		break;				
+		break;
 		
 		case "Finish_exit":
             // таможня на суше

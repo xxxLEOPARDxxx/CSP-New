@@ -144,6 +144,14 @@ int FindFirstContrabandGoods(ref _refCharacter)
 					return i;
 				}
 			}
+			if( GetStoreGoodsType(&Stores[curStoreIdx],i) == TRADE_TYPE_CANNONS_NAME )
+			{
+				if( GetSquadronGoods(_refCharacter,i)>0 )
+				{
+					_refCharacter.FindContrabandGoods.GoodsIdx = i;
+					return i;
+				}
+			}
 		}
 		DeleteAttribute(_refCharacter,"FindContrabandGoods");
 		return -1;
