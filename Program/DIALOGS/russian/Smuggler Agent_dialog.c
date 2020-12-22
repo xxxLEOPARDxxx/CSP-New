@@ -511,6 +511,51 @@ void ProcessDialogEvent()
 		break;
 
 		case "Meeting_3":
+			if (CheckCharacterPerk(pchar, "UnlimitedContra")) 
+			{
+				if (npchar.quest.trade_date != lastspeak_date)
+    			{
+                    npchar.quest.trade_date = lastspeak_date;
+                    
+                    if (ChangeContrabandRelation(pchar, 0) > 5)
+                    {
+                        Pchar.quest.contraband.CurrentPlace = SelectSmugglingLocation();
+						Pchar.quest.contraband.City = NPChar.city;
+                        if (Pchar.quest.contraband.CurrentPlace != "None")//boal fix
+                        {
+                            if (ChangeContrabandRelation(pchar, 0) >= 70)
+                            {
+                                Dialog.Text = "Я знаю, с тобой можно иметь дело. Мы будем ждать тебя в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+                            }
+                            else
+                            {
+            				    Dialog.Text = "Хм... Возможно, покупатель и найдется. Мы будем ждать вас в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+            				}
+            				Link.l1 = "Хорошо. До встречи.";
+            				Link.l1.go = "Smuggling_exit";
+        				}
+        				else
+        				{   //boal fix
+                            Dialog.Text = "Сегодня сделок больше не будет. Приходи завтра.";
+            				Link.l1 = "Хорошо.";
+            				Link.l1.go = "Exit";
+        				}
+    				}
+    				else
+    				{
+                        Dialog.Text = "И после всего ты думаешь, что кто-то захочет работать с тобой? Радуйся, что мы еще не послали наемных убийц за твоей головой. Убирайся!";
+        				Link.l1 = "Эх... значит не судьба мне стать контрабандистом.";
+        				Link.l1.go = "Exit";
+    				}
+				}
+				else
+				{
+                    Dialog.Text = "Сегодня сделок больше не будет. Приходи завтра.";
+    				Link.l1 = "Хорошо.";
+    				Link.l1.go = "Exit";
+				}
+				break;
+			}
 			if (GetCompanionQuantity(pchar) > 1 && GetBaseHeroNation() != PIRATE)
 			{
 				dialog.text = NPCStringReactionRepeat("Сначала избавься от своей эскадры. Она слишком приметная. Мы не можем так рисковать. Приходи на одном корабле, и чтоб он был не больше брига или галеона.", 

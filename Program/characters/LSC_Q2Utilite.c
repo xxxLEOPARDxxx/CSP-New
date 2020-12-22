@@ -47,6 +47,7 @@ void SelAllPerksToChar(ref _ch, bool _isOfficer)
 	_ch.perks.list.HPPlusFixed = "1";
 	_ch.perks.list.EnergyPlusFixed = "1";
 	_ch.perks.list.Trustworthy = "1";
+	_ch.perks.list.UnlimitedContra = "1";
 	_ch.perks.list.ShipEscape = "1";
 	
 	_ch.perks.list.FlagPir = "1";

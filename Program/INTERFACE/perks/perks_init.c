@@ -119,6 +119,11 @@ void extrnInitPerks()
 	ChrPerksList.list.Trustworthy.BaseType = "self";
 	ChrPerksList.list.Trustworthy.PlayerOnly = true;
 	
+	ChrPerksList.list.UnlimitedContra.descr = "perkUnlimitedContra";
+	ChrPerksList.list.UnlimitedContra.condition.AdvancedCommerce = true;
+	ChrPerksList.list.UnlimitedContra.BaseType = "self";
+	ChrPerksList.list.UnlimitedContra.PlayerOnly = true;
+	
 	/////////////////////////  ÊÎĞÀÁÅËÜÍÛÅ /////////////////////////////////////
     /////////////////////////////////////////////////////////////
 	/// Ïåğêè äëÿ ÃÃ

@@ -976,7 +976,7 @@ data = "Turn speed", "5.5"
 	end_time = 269
 	speed = 1.1
 	data = "Blend time", "0.4"		; sec
-	data = "Walk speed", "0.8"		; m/sec
+	data = "Walk speed", "1.8"		; m/sec
 	data = "Turn speed", "5.5"		; rad/sec
 	event = "swim", 245, normal
 

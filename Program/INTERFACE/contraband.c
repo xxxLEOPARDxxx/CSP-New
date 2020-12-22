@@ -149,7 +149,9 @@ void AddToTable()
 		GameInterface.TABLE_LIST.(row).td4.color = iColor;
 		GameInterface.TABLE_LIST.(row).td4.scale = 0.9;
 
-		GameInterface.TABLE_LIST.(row).td5.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, pchar, 1);
+		if (tradeType == TRADE_TYPE_CANNONS) GameInterface.TABLE_LIST.(row).td5.str = makeint(GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, pchar, 1)*2.13);
+		else GameInterface.TABLE_LIST.(row).td5.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, pchar, 1);
+		
 		GameInterface.TABLE_LIST.(row).td3.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_BUY, pchar, 1);
 		n++;
 	}
@@ -241,8 +243,9 @@ void ShowGoodsInfo(int iGoodIndex)
 	SetFormatedText("QTY_INFO_STORE_QTY", its(iStoreQty));
 	SetFormatedText("QTY_INFO_SHIP_QTY", its(iShipQty));
 	BuyOrSell = 0;
-	
-	iStorePrice = GetStoreGoodsPrice(refStore, iGoodIndex, PRICE_TYPE_SELL, pchar, 1);
+    int tradeType = MakeInt(refStore.Goods.(GoodName).TradeType);
+	if (tradeType == TRADE_TYPE_CANNONS) iStorePrice = makeint(GetStoreGoodsPrice(refStore, iGoodIndex, PRICE_TYPE_SELL, pchar, 1)*2.13);
+	else iStorePrice = GetStoreGoodsPrice(refStore, iGoodIndex, PRICE_TYPE_SELL, pchar, 1);
 		
     SetFormatedText("QTY_INFO_STORE_PRICE",XI_ConvertString("Price buy") + NewStr() + its(iStorePrice));
 

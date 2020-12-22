@@ -1462,6 +1462,17 @@ void ChoosePerk()
 			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.68;
     	}
 		Table_UpdateWindow("PERK_TABLE_NEED");
+		if (perkName == "UnlimitedContra")
+		{
+			string S1 = SKILL_LEADERSHIP;
+			string S2 = SKILL_COMMERCE;
+			int skillN = sti(pchar.Skill.(S1));
+			int skillN1 = sti(pchar.Skill.(S2));
+			if (skillN<50 || skillN1<50)
+			{
+				ok = false;
+			}
+		}
 	}
 	else
 	{
@@ -1482,7 +1493,6 @@ void ChoosePerk()
  	    SetNodeUsing("PERK_ON", false);
  	    SetNewGroupPicture("PERK_PICTURE", "PERK_DISABLE", perkName);
  	}
- 	
     SetSelectable("PERK_ACCEPT", ok);
     SetNodeUsing("PERK_TABLE_NEED", showCondition);
 	SetCurrentNode("PERK_CANCEL");
