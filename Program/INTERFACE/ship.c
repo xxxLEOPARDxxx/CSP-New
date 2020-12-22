@@ -154,52 +154,52 @@ void ProcessCommandExecute()
 		case "CANNONS_LEFT_F":
 			if(comName=="click")
 			{
-				ChangeCannonNum("cannonf", -1);
+				ChangeCannonNum("fcannon", -1);
 			}
 		break;
 		case "CANNONS_RIGHT_F":
 			if(comName=="click")
 			{
-    			ChangeCannonNum("cannonf", 1);
+    			ChangeCannonNum("fcannon", 1);
 			}
 		break;
 
 		case "CANNONS_LEFT_B":
 			if(comName=="click")
 			{
-                ChangeCannonNum("cannonb", -1);
+                ChangeCannonNum("bcannon", -1);
 			}
 		break;
 		case "CANNONS_RIGHT_B":
 			if(comName=="click")
 			{
-                ChangeCannonNum("cannonb", 1);
+                ChangeCannonNum("bcannon", 1);
 			}
 		break;
 
 		case "CANNONS_LEFT_R":
 			if(comName=="click")
 			{
-                ChangeCannonNum("cannonr", -1);
+                ChangeCannonNum("rcannon", -1);
 			}
 		break;
 		case "CANNONS_RIGHT_R":
 			if(comName=="click")
 			{
-                ChangeCannonNum("cannonr", 1);
+                ChangeCannonNum("rcannon", 1);
 			}
 		break;
 
 		case "CANNONS_LEFT_L":
 			if(comName=="click")
 			{
-                ChangeCannonNum("cannonl", -1);
+                ChangeCannonNum("lcannon", -1);
 			}
 		break;
 		case "CANNONS_RIGHT_L":
 			if(comName=="click")
 			{
-                ChangeCannonNum("cannonl", 1);
+                ChangeCannonNum("lcannon", 1);
 			}
 		break;
 		/////  пушки <--
@@ -1141,10 +1141,10 @@ void CannonsMenuRefresh()
 	    SetNewGroupPicture("CANNONS_PIC", "GOODS", Goods[idx].Name);
 		SetFormatedText("CANNONS_TEXT", XI_ConvertString(Goods[idx].Name));
 
-		SetFormatedText("CANNONS_QTY_F", its(GetBortCannonsQty(xi_refCharacter, "cannonf")));
-		SetFormatedText("CANNONS_QTY_B", its(GetBortCannonsQty(xi_refCharacter, "cannonb")));
-		SetFormatedText("CANNONS_QTY_R", its(GetBortCannonsQty(xi_refCharacter, "cannonr")));
-		SetFormatedText("CANNONS_QTY_L", its(GetBortCannonsQty(xi_refCharacter, "cannonl")));
+		SetFormatedText("CANNONS_QTY_F", its(GetBortCannonsQty(xi_refCharacter, "fcannon")));
+		SetFormatedText("CANNONS_QTY_B", its(GetBortCannonsQty(xi_refCharacter, "bcannon")));
+		SetFormatedText("CANNONS_QTY_R", its(GetBortCannonsQty(xi_refCharacter, "rcannon")));
+		SetFormatedText("CANNONS_QTY_L", its(GetBortCannonsQty(xi_refCharacter, "lcannon")));
 		/// всего GetCannonsNum(xi_refCharacter)
 	}
 	else
@@ -1267,10 +1267,10 @@ void SetCannonsToBort(ref chr, string sBort, int iQty)
 
 void CanonsRemoveAll()
 {
-    SetCannonsToBort(xi_refCharacter, "cannonf", 0);
-    SetCannonsToBort(xi_refCharacter, "cannonb", 0);
-    SetCannonsToBort(xi_refCharacter, "cannonr", 0);
-    SetCannonsToBort(xi_refCharacter, "cannonl", 0);
+    SetCannonsToBort(xi_refCharacter, "fcannon", 0);
+    SetCannonsToBort(xi_refCharacter, "bcannon", 0);
+    SetCannonsToBort(xi_refCharacter, "rcannon", 0);
+    SetCannonsToBort(xi_refCharacter, "lcannon", 0);
     OnShipScrollChange();
     CannonsMenuRefresh();
 }
@@ -1311,10 +1311,10 @@ void CanonsSetAll(ref chr)
 	// сначала все убрать
     if (GetCannonsNum(chr) > 0)
     {
-		SetCannonsToBort(chr, "cannonf", 0);
-	    SetCannonsToBort(chr, "cannonb", 0);
-	    SetCannonsToBort(chr, "cannonr", 0);
-	    SetCannonsToBort(chr, "cannonl", 0);
+		SetCannonsToBort(chr, "fcannon", 0);
+	    SetCannonsToBort(chr, "bcannon", 0);
+	    SetCannonsToBort(chr, "rcannon", 0);
+	    SetCannonsToBort(chr, "lcannon", 0);
     }
     //новый калибр назначить
     if (CurTable == "CANNONS_TABLE" && CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index"))
@@ -1330,29 +1330,29 @@ void CanonsSetAll(ref chr)
     {
     	qty = GetCargoGoods(chr, idx);
 
-    	rb = GetBortCannonsMaxQty(chr, "cannonr");
+    	rb = GetBortCannonsMaxQty(chr, "rcannon");
 
     	if (rb  > (qty / 2)) rb = qty / 2;
     	qty = qty - rb;
     	if (qty < 0) qty = 0;
 
-    	lb = GetBortCannonsMaxQty(chr, "cannonl");
+    	lb = GetBortCannonsMaxQty(chr, "lcannon");
     	if (lb > qty) lb = qty;
     	qty = qty - lb;
     	if (qty < 0) qty = 0;
 
-    	bb = GetBortCannonsMaxQty(chr, "cannonb");
+    	bb = GetBortCannonsMaxQty(chr, "bcannon");
     	if (bb > qty) bb = qty;
     	qty = qty - bb;
     	if (qty < 0) qty = 0;
 
-    	fb = GetBortCannonsMaxQty(chr, "cannonf");
+    	fb = GetBortCannonsMaxQty(chr, "fcannon");
     	if (fb > qty) fb = qty;
 
-    	SetCannonsToBort(chr, "cannonf", fb);
-	    SetCannonsToBort(chr, "cannonb", bb);
-	    SetCannonsToBort(chr, "cannonr", rb);
-	    SetCannonsToBort(chr, "cannonl", lb);
+    	SetCannonsToBort(chr, "fcannon", fb);
+	    SetCannonsToBort(chr, "bcannon", bb);
+	    SetCannonsToBort(chr, "rcannon", rb);
+	    SetCannonsToBort(chr, "lcannon", lb);
     }
     // рефреш
     OnShipScrollChange();

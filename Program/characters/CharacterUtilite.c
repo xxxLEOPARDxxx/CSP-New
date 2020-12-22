@@ -379,7 +379,7 @@ int GetIntactCannonQuantity(ref refCharacter)
 	if(nShipType==SHIP_NOTUSED) return 0;
 	ref refBaseShip = GetRealShip(nShipType);
 
-	int canQ = GetBortIntactCannonsNum(refCharacter, "cannonf", sti(refBaseShip.fcannon)) + GetBortIntactCannonsNum(refCharacter, "cannonb", sti(refBaseShip.bcannon)) + GetBortIntactCannonsNum(refCharacter, "cannonl", sti(refBaseShip.lcannon)) + GetBortIntactCannonsNum(refCharacter, "cannonr", sti(refBaseShip.rcannon));
+	int canQ = GetBortIntactCannonsNum(refCharacter, "fcannon", sti(refBaseShip.fcannon)) + GetBortIntactCannonsNum(refCharacter, "bcannon", sti(refBaseShip.bcannon)) + GetBortIntactCannonsNum(refCharacter, "lcannon", sti(refBaseShip.lcannon)) + GetBortIntactCannonsNum(refCharacter, "rcannon", sti(refBaseShip.rcannon));
 	return canQ;
 }
 
@@ -1336,11 +1336,11 @@ void SetBaseShipData(ref refCharacter)
 		refShip.Pos.y = 0;
 		refShip.Pos.z = 0;
 		refShip.Ang = "";
-		refShip.Cannons.Borts = "";
+		/* refShip.Cannons.Borts = "";
 		if (CheckAttribute(refShip, "Cannons.Borts.cannonf.damages")) { DeleteAttribute(refShip, "Cannons.Borts.cannonf.damages"); }
 		if (CheckAttribute(refShip, "Cannons.Borts.cannonb.damages")) { DeleteAttribute(refShip, "Cannons.Borts.cannonb.damages"); }
 		if (CheckAttribute(refShip, "Cannons.Borts.cannonl.damages")) { DeleteAttribute(refShip, "Cannons.Borts.cannonl.damages"); }
-		if (CheckAttribute(refShip, "Cannons.Borts.cannonr.damages")) { DeleteAttribute(refShip, "Cannons.Borts.cannonr.damages"); }
+		if (CheckAttribute(refShip, "Cannons.Borts.cannonr.damages")) { DeleteAttribute(refShip, "Cannons.Borts.cannonr.damages"); } */
 
 		refShip.Cannons.Charge.Type = GOOD_BALLS;
 

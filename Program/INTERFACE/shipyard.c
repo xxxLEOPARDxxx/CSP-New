@@ -648,10 +648,10 @@ void CannonsMenuRefresh()
 	    SetNewGroupPicture("CANNONS_PIC", "GOODS", Goods[idx].Name);
 		SetFormatedText("CANNONS_TEXT", XI_ConvertString(Goods[idx].Name));
 
-		SetFormatedText("CANNONS_QTY_F", its(GetBortCannonsQty(rChr, "cannonf")));
-		SetFormatedText("CANNONS_QTY_B", its(GetBortCannonsQty(rChr, "cannonb")));
-		SetFormatedText("CANNONS_QTY_R", its(GetBortCannonsQty(rChr, "cannonr")));
-		SetFormatedText("CANNONS_QTY_L", its(GetBortCannonsQty(rChr, "cannonl")));
+		SetFormatedText("CANNONS_QTY_F", its(GetBortCannonsQty(rChr, "fcannon")));
+		SetFormatedText("CANNONS_QTY_B", its(GetBortCannonsQty(rChr, "bcannon")));
+		SetFormatedText("CANNONS_QTY_R", its(GetBortCannonsQty(rChr, "rcannon")));
+		SetFormatedText("CANNONS_QTY_L", its(GetBortCannonsQty(rChr, "lcannon")));
 		/// всего GetCannonsNum(xi_refCharacter)
 	}
 	else

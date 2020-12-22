@@ -1245,7 +1245,7 @@ int GetCannonsNum(aref chr)
 		return 0;
 	}
     ref refBaseShip = GetRealShip(nShipType);
-	int iCannons = GetBortIntactCannonsNum(chr, "cannonf", sti(refBaseShip.fcannon)) + GetBortIntactCannonsNum(chr, "cannonb", sti(refBaseShip.bcannon)) + GetBortIntactCannonsNum(chr, "cannonl", sti(refBaseShip.lcannon)) + GetBortIntactCannonsNum(chr, "cannonr", sti(refBaseShip.rcannon));
+	int iCannons = GetBortIntactCannonsNum(chr, "fcannon", sti(refBaseShip.fcannon)) + GetBortIntactCannonsNum(chr, "bcannon", sti(refBaseShip.bcannon)) + GetBortIntactCannonsNum(chr, "lcannon", sti(refBaseShip.lcannon)) + GetBortIntactCannonsNum(chr, "rcannon", sti(refBaseShip.rcannon));
 	return iCannons;
 }
 
