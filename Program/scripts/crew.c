@@ -430,7 +430,7 @@ void Partition_SetValue(string state) // state = "before" || "after" - для сравн
 	{
 		loc = &locations[FindLocation(Pchar.SystemInfo.CabinType)];
 		
-		for (i = 1; i <= 4; i++)
+		for (i = 1; i <= 5; i++)
 		{
 			sTemp = "box" + i;
 			if (CheckAttribute(loc, sTemp + ".money"))
