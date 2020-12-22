@@ -678,6 +678,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private10.items.sculMa3 = 2;
 	locations[n].private10.items.cirass5 = 1;
 	locations[n].private10.items.spyglass5 = 1;
+	locations[n].private10.items.BackPack5 = 1;
 	locations[n].private10.items.topor2 = 1;
 	locations[n].private10.items.pistol4 = 1;
 	locations[n].private10.items.pistol5 = 1;

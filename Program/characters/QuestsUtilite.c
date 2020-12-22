@@ -330,6 +330,11 @@ void FillAboardCabinBox(ref _location, ref _npchar)
         // кладем супер хрень
         _location.box1.items.indian11 = 1;
         _location.box1.money = 66666;
+		//Добавить Иону
+		if (!CheckAttribute(pchar , "questTemp.IonaGathered"))
+		{
+			 _location.box1.items.talisman2 = 1;
+		}
         /*if (CheckAttribute(PChar, "GenQuest.GhostShip.TakeShotgun"))
         {
             DeleteAttribute(PChar, "GenQuest.GhostShip.TakeShotgun");
@@ -548,6 +553,8 @@ void FillAboardCabinBox(ref _location, ref _npchar)
         DeleteAttribute(_location, "box1");
         _location.box1.money = 103;
 		_location.box1.items.mushket2x2 = 1;
+		//Пернатый Змей
+		_location.box1.items.talisman1 = 1;
         ok = false;
 	}
 	//работорговец, 2 эпизод
@@ -643,6 +650,14 @@ void FillAboardCabinBox(ref _location, ref _npchar)
         _location.box1.items.jewelry14 = rand(50);
 		_location.box1.items.jewelry15 = rand(10);
 		_location.box1.items.jewelry18 = rand(100);
+        ok = false;
+	}
+	//Молот Тора + всякое на Нормандии
+	if (_npchar.id == "zpqCaptain")
+	{
+        DeleteAttribute(_location, "box1");
+        _location.box1.money = 25000;
+		_location.box1.items.talisman3 = 1;
         ok = false;
 	}
 	

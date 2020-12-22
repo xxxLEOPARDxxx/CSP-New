@@ -282,7 +282,7 @@ void AddToTable()
 
         GameInterface.TABLE_LIST.(row).td4.icon.group = "GOODS";
 		GameInterface.TABLE_LIST.(row).td4.icon.image = sGood;
-		GameInterface.TABLE_LIST.(row).td4.icon.offset = "5, 0";
+		GameInterface.TABLE_LIST.(row).td4.icon.offset = "0, 0";
 		GameInterface.TABLE_LIST.(row).td4.icon.width = 32;
 		GameInterface.TABLE_LIST.(row).td4.icon.height = 32;
 		GameInterface.TABLE_LIST.(row).td4.textoffset = "25,0";

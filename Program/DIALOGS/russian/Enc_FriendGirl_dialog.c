@@ -121,8 +121,8 @@ void ProcessDialogEvent()
 		case "CitizenNotBlade ":
 		    npchar.chr_ai.type.checkFight = 999999.0;
             NextDiag.TempNode = "FackYou";
-            dialog.text = DLG_TEXT_BASE[15];
-			Link.l1 = DLG_TEXT_BASE[16];
+            dialog.text = "Не хочу разговаривать с "+ GetSexPhrase("таким бездушным болваном","такой бездушной девкой") +". Проваливай отсюда!";
+			Link.l1 = "Хех, стерва...";
 			Link.l1.go = "exit";
 		break;
 		case "FackYou":

@@ -3263,6 +3263,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.watchBoxes = true;
 	sld.standUp.exitDisable = true;   //залочить выход в случае драки
 	sld.watchBoxes.exitDisable = true; //залочить выход в случае драки
+	TakeNItems(sld, "key_mechanic", 1);
 	//sld.talker = true; //начать диалог
 	LAi_SetHuberType(sld);
 	LAi_RemoveLoginTime(sld);
@@ -3904,6 +3905,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.dialog.currentnode   = "First time";
 	sld.cityTape = "mechanic"; //тип нпс
 	sld.greeting = "Gr_Master";
+	TakeNItems(sld, "talisman7", 1);
 	LAi_RemoveLoginTime(sld);
 	LAi_SetOwnerType(sld);
 	LAi_group_MoveCharacter(sld, "TmpEnemy");

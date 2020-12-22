@@ -495,7 +495,7 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 	if (CheckCharacterPerk(_chref, "AgileMan"))
 	{
 		if (_chref.model.animation == "man") _chref.model.animation = "man_fast";
-		if (_chref.model.animation == "man_A") _chref.model.animation = "man_A_fast";
+		// if (_chref.model.animation == "man_A") _chref.model.animation = "man_A_fast";
 		if (_chref.model.animation == "man2_ab") _chref.model.animation = "man2_ab_fast";
 	}
 	// boal 05.05.04 разделение по группам -->

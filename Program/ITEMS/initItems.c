@@ -2839,6 +2839,18 @@ int InitItems()
 	itm.price = 0;
 	itm.ItemType = "QUESTITEMS";
 	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "key_mechanic";
+	itm.name = "itmname_Key_Mechanic";
+	itm.describe = "itmdescr_Key_Mechanic";
+	itm.model = "keygrand";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_15";
+	itm.Weight = 0.0;
+	itm.price = 0;
+	itm.ItemType = "QUESTITEMS";
+	n++;
 
 	makeref(itm,Items[n]);  //ключ от сундука по штурму Панамы
 	itm.id = "keyPanama";

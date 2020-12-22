@@ -2693,6 +2693,8 @@ void QuestComplete(string sQuestName, string qname)
 			TakeNItems(sld, "jewelry2", 14+rand(5));
 			TakeNItems(sld, "jewelry3", 18+rand(5));
 			TakeNItems(sld, "jewelry4", 16+rand(5));
+			//Скорпион
+			TakeNItems(sld, "talisman8", 1);
 			GiveItem2Character(sld, "icollection");
 			GiveItem2Character(sld, "spyglass4");
 			ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto1");

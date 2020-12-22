@@ -1533,6 +1533,12 @@ itmdescr_Key3
 Ключ для сложных замков.
 }
 
+itmname_Key_Mechanic {Сложный ключ}
+itmdescr_Key_Mechanic
+{
+Какой-то замысловатый с виду ключ. От чего он - неизвестно. Но лучше непременно взять его с собой.
+}
+
 itmname_keyPanama	{Ключ от сундука}
 itmname_keyPanama_LSC	{Ключ адмирала}
 itmdescr_keyPanama

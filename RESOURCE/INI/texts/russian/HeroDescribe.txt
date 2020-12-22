@@ -269,7 +269,7 @@ heroType_8 {Корсар}
 heroNation_8 {Англия}
 
 sex_8 {woman}
-animation_8 {beatrice_ab}
+animation_8 {YokoDias}
 
 hero_8
 {
@@ -396,7 +396,7 @@ heroType_13 {Авантюрист}
 heroNation_13 {Франция}
 
 sex_13 {man}
-animation_13 {man_A}
+animation_13 {man}
 
 hero_13
 {
@@ -422,7 +422,7 @@ heroType_14 {Инквизитор}
 heroNation_14 {Голландия}
 
 sex_14 {man}
-animation_14 {man_A}
+animation_14 {man}
 
 hero_14
 {
@@ -447,7 +447,7 @@ heroType_15 {Корсар}
 heroNation_15 {Англия}
 
 sex_15 {woman}
-animation_15 {beatrice_ab}
+animation_15 {YokoDias}
 
 hero_15
 {
@@ -522,7 +522,7 @@ heroType_18 {Инквизитор}
 heroNation_18 {Испания}
 
 sex_18 {man}
-animation_18 {man_A}
+animation_18 {man}
 
 hero_18
 {
@@ -1030,101 +1030,107 @@ hero_38
 - Имеет все виды кирас.
 }
 
-;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================
+heroName_39 {Весёлый}
+heroLastname_39 {Роджер}
 
-heroName_39 {Натаниэль}
-heroLastname_39 {Хаук}
+heroNameGen_39 {Весёлого}
+heroLastnameGen_39 {Роджера}
 
-heroNameGen_39 {Натаниэля}
-heroLastnameGen_39 {Хаука}
+heroNameDat_39 {Весёлому}
+heroLastNameDat_39 {Роджеру}
 
-heroNameDat_39 {Натаниэлу}
-heroLastNameDat_39 {Хауку}
+heroFace_39 {511}
+heroModel_39 {PGG_Skeletcap,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
 
-heroFace_39 {528}
-heroModel_39 {PGG_Blaze}
-
-heroType_39 {Торговец}
-heroNation_39 {Англия}
+heroType_39 {Корсар}
+heroNation_39 {Пират}
 
 sex_39 {man}
-animation_39 {man2_ab}
+animation_39 {man}
 
 hero_39
 {
-Тот самый Натаниэль Хаук.
+Роджер Весёлый - широко известный капитан по прозвищу "Мёртвая Голова". Многие завистники и злопыхатели в один голос твердят, что Роджер, мол, чересчур засиделся среди нас и даже зажился. На что никогда не унывающий Весёлый отвечает: "Есть что сказать? Подкрепи сталью свои жалкие тезисы, если не трус!" И очередного обидчика выносят, а Роджер продолжает кутить напропалую, изредка позируя заезжему портретисту... Категорически утверждает, что именно с него рисовали знаменитую эмблему пиратов. Нешапочно знаком со всеми выдающимися корсарами.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
-heroName_40 {Мари}
-heroLastname_40 {Брэдфорд}
+heroName_40 {Альварес}
+heroLastname_40 {Ортего}
 
-heroNameGen_40 {Мари}
-heroLastnameGen_40 {Брэдфорд}
+heroNameGen_40 {Альвареса}
+heroLastnameGen_40 {Ортего}
 
-heroNameDat_40 {Мари}
-heroLastNameDat_40 {Брэдфорд}
+heroNameDat_40 {Альваресу}
+heroLastNameDat_40 {Ортего}
 
-heroFace_40 {534}
-heroModel_40 {PGG_Jessik8}
+heroFace_40 {492}
+heroModel_40 {PGG_Alvares,PGG_Alvares_1,PGG_Alvares_2,PGG_Alvares_3,PGG_Alvares_4,PGG_Alvares_5}
 
-heroType_40 {Корсар}
-heroNation_40 {Голландия}
+heroType_40 {Авантюрист}
+heroNation_40 {Англия}
 
-sex_40 {woman}
-animation_40 {Jessika}
+sex_40 {man}
+animation_40 {man}
 
 hero_40
 {
-Сестра Джессики Брэдфорд.
+Уже немолодой смотритель маяка, подавшийся в карибские корсары.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
-heroName_41 {Элизабет}
-heroLastname_41 {Суонн}
+heroName_41 {Шарп}
+heroLastname_41 {}
 
-heroNameGen_41 {Элизабет}
-heroLastnameGen_41 {Суонн}
+heroNameGen_41 {Шарп}
+heroLastnameGen_41 {}
 
-heroNameDat_41 {Элизабет}
-heroLastNameDat_41 {Суонн}
+heroNameDat_41 {Шарп}
+heroLastNameDat_41 {}
 
-heroFace_41 {504}
-heroModel_41 {PGG_Daniell7}
+heroFace_41 {541}
+heroModel_41 {PGG_Sharp_0,PGG_Sharp_1,PGG_Sharp_2,PGG_Sharp_3,PGG_Sharp_4,PGG_Sharp_5}
 
 heroType_41 {Авантюрист}
 heroNation_41 {Англия}
 
-sex_41 {woman}
-animation_41 {Danielle}
+sex_41 {man}
+animation_41 {man}
 
 hero_41
 {
-Очаровательная, но оттого не менее коварная дочь губернатора Ямайки. Покинула отчий дом не по своей воле, но так сложилось, что горько-солёные брызги моря она предпочла приторной сладости изысканных лакомств. Элизабет умеет не только страстно любить - она умеет и бесстрастно убивать.
+Легендарный капитан Шарп.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
-heroName_42 {Весёлый}
-heroLastname_42 {Роджер}
+heroName_42 {Странник}
+heroLastname_42 {}
 
-heroNameGen_42 {Весёлого}
-heroLastnameGen_42 {Роджера}
+heroNameGen_42 {Странника}
+heroLastnameGen_42 {}
 
-heroNameDat_42 {Весёлому}
-heroLastNameDat_42 {Роджеру}
+heroNameDat_42 {Страннику}
+heroLastnameDat_42 {}
 
-heroFace_42 {511}
-heroModel_42 {PGG_Skeletcap,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
+heroFace_42 {531}
+heroModel_42 {PGG_Vincento,PGG_Vincento_1,PGG_Vincento_2,PGG_Vincento_3,PGG_Vincento_4,PGG_Vincento_5}
 
-heroType_42 {Корсар}
-heroNation_42 {Пират}
+heroType_42 {Инквизитор}
+heroNation_42 {Англия}
 
 sex_42 {man}
 animation_42 {man}
 
 hero_42
 {
-Роджер Весёлый - широко известный капитан по прозвищу "Мёртвая Голова". Многие завистники и злопыхатели в один голос твердят, что Роджер, мол, чересчур засиделся среди нас и даже зажился. На что никогда не унывающий Весёлый отвечает: "Есть что сказать? Подкрепи сталью свои жалкие тезисы, если не трус!" И очередного обидчика выносят, а Роджер продолжает кутить напропалую, изредка позируя заезжему портретисту... Категорически утверждает, что именно с него рисовали знаменитую эмблему пиратов. Нешапочно знаком со всеми выдающимися корсарами.
+Об этом человеке ничего не известно. Даже то, как он появился на карибах.
 - В совершенстве умеет пользоваться мушкетом.
 - Имеет все виды кирас.
 }
+
+;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================
 
 heroName_43 {Норд}
 heroLastname_43 {}
@@ -1142,7 +1148,7 @@ heroType_43 {Корсар}
 heroNation_43 {Пират}
 
 sex_43 {man}
-animation_43 {man_A}
+animation_43 {man}
 
 hero_43
 {
@@ -1166,7 +1172,7 @@ heroType_44 {Корсар}
 heroNation_44 {Франция}
 
 sex_44 {woman}
-animation_44 {Milenace_ab}
+animation_44 {Milenace}
 
 hero_44
 {
@@ -1235,7 +1241,7 @@ heroType_47 {Корсар}
 heroNation_47 {Береговое братство}
 
 sex_47 {man}
-animation_47 {man_A}
+animation_47 {man}
 
 hero_47
 {
@@ -1312,27 +1318,27 @@ hero_50
 Одноногий Норман (Вариант 2).
 }
 
-heroName_51 {Злой}
-heroLastname_51 {Скелет}
+heroName_51 {Чарли}
+heroLastname_51 {Книппель}
 
-heroNameGen_51 {Злого}
-heroLastnameGen_51 {Скелета}
+heroNameGen_51 {Чарли}
+heroLastnameGen_51 {Книппеля}
 
-heroNameDat_51 {Злому}
-heroLastNameDat_51 {Скелету}
+heroNameDat_51 {Чарли}
+heroLastNameDat_51 {Книппелю}
 
-heroFace_51 {525}
-heroModel_51 {PGG_Giant}
+heroFace_51 {498}
+heroModel_51 {PGG_Kneepel}
 
 heroType_51 {Корсар}
 heroNation_51 {Пират}
 
 sex_51 {man}
-animation_51 {Giant}
+animation_51 {man2_ab}
 
 hero_51
 {
-Предводитель скелетообразных )
+Опытный канонир и давний знакомый Ричарда Флитвуда. В рукопашном бою он неважен, но вморском ему нет равных!
 }
 
 heroName_52 {Даниэль}
@@ -1358,29 +1364,27 @@ hero_52
 Та самая Даниэль Хаук.
 }
 
-heroName_53 {Альварес}
-heroLastname_53 {Ортего}
+heroName_53 {Мари}
+heroLastname_53 {Брэдфорд}
 
-heroNameGen_53 {Альвареса}
-heroLastnameGen_53 {Ортего}
+heroNameGen_53 {Мари}
+heroLastnameGen_53 {Брэдфорд}
 
-heroNameDat_53 {Альваресу}
-heroLastNameDat_53 {Ортего}
+heroNameDat_53 {Мари}
+heroLastNameDat_53 {Брэдфорд}
 
-heroFace_53 {492}
-heroModel_53 {PGG_Alvares,PGG_Alvares_1,PGG_Alvares_2,PGG_Alvares_3,PGG_Alvares_4,PGG_Alvares_5}
+heroFace_53 {534}
+heroModel_53 {PGG_Jessik8}
 
-heroType_53 {Авантюрист}
-heroNation_53 {Англия}
+heroType_53 {Корсар}
+heroNation_53 {Голландия}
 
-sex_53 {man}
-animation_53 {man}
+sex_53 {woman}
+animation_53 {Jessika}
 
 hero_53
 {
-Уже немолодой смотритель маяка, подавшийся в карибские корсары.
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
+Сестра Джессики Брэдфорд.
 }
 
 heroName_54 {Абрахам}
@@ -1452,29 +1456,27 @@ hero_56
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_57 {Шарп}
-heroLastname_57 {}
+heroName_57 {Элизабет}
+heroLastname_57 {Суонн}
 
-heroNameGen_57 {Шарп}
-heroLastnameGen_57 {}
+heroNameGen_57 {Элизабет}
+heroLastnameGen_57 {Суонн}
 
-heroNameDat_57 {Шарп}
-heroLastNameDat_57 {}
+heroNameDat_57 {Элизабет}
+heroLastNameDat_57 {Суонн}
 
-heroFace_57 {541}
-heroModel_57 {PGG_Sharp_0,PGG_Sharp_1,PGG_Sharp_2,PGG_Sharp_3,PGG_Sharp_4,PGG_Sharp_5}
+heroFace_57 {504}
+heroModel_57 {PGG_Daniell7}
 
 heroType_57 {Авантюрист}
 heroNation_57 {Англия}
 
-sex_57 {man}
-animation_57 {man}
+sex_57 {woman}
+animation_57 {Danielle}
 
 hero_57
 {
-Легендарный капитан Шарп.
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
+Очаровательная, но оттого не менее коварная дочь губернатора Ямайки. Покинула отчий дом не по своей воле, но так сложилось, что горько-солёные брызги моря она предпочла приторной сладости изысканных лакомств. Элизабет умеет не только страстно любить - она умеет и бесстрастно убивать.
 }
 
 heroName_58 {Лоренс}
@@ -1493,7 +1495,7 @@ heroType_58 {Корсар}
 heroNation_58 {Англия}
 
 sex_58 {man}
-animation_58 {man_A}
+animation_58 {man}
 
 hero_58
 {
@@ -1548,29 +1550,27 @@ hero_60
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_61 {Странник}
-heroLastname_61 {}
+heroName_61 {Натаниэль}
+heroLastname_61 {Хаук}
 
-heroNameGen_61 {Странника}
-heroLastnameGen_61 {}
+heroNameGen_61 {Натаниэля}
+heroLastnameGen_61 {Хаука}
 
-heroNameDat_61 {Страннику}
-heroLastnameDat_61 {}
+heroNameDat_61 {Натаниэлу}
+heroLastNameDat_61 {Хауку}
 
-heroFace_61 {531}
-heroModel_61 {PGG_Vincento,PGG_Vincento_1,PGG_Vincento_2,PGG_Vincento_3,PGG_Vincento_4,PGG_Vincento_5}
+heroFace_61 {528}
+heroModel_61 {PGG_Blaze}
 
-heroType_61 {Инквизитор}
+heroType_61 {Торговец}
 heroNation_61 {Англия}
 
 sex_61 {man}
-animation_61 {man}
+animation_61 {man2_ab}
 
 hero_61
 {
-Об этом человеке ничего не известно. Даже то, как он появился на карибах.
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
+Тот самый Натаниэль Хаук.
 }
 
 heroName_62 {Изабелла}
@@ -1659,7 +1659,7 @@ heroType_65 {Авантюрист}
 heroNation_65 {Англия}
 
 sex_65 {woman}
-animation_65 {Milenace_ab}
+animation_65 {Milenace}
 
 hero_65
 {
@@ -1752,34 +1752,34 @@ heroType_69 {Корсар}
 heroNation_69 {Франция}
 
 sex_69 {woman}
-animation_69 {Milenace_ab}
+animation_69 {Milenace}
 
 hero_69
 {
 Бывшая Французская дворянка, ставшая в последствии знаменитой  корсаркой на Карибском Архипелаге
 }
 
-heroName_70 {Чарли}
-heroLastname_70 {Книппель}
+heroName_70 {Злой}
+heroLastname_70 {Скелет}
 
-heroNameGen_70 {Чарли}
-heroLastnameGen_70 {Книппеля}
+heroNameGen_70 {Злого}
+heroLastnameGen_70 {Скелета}
 
-heroNameDat_70 {Чарли}
-heroLastNameDat_70 {Книппелю}
+heroNameDat_70 {Злому}
+heroLastNameDat_70 {Скелету}
 
-heroFace_70 {498}
-heroModel_70 {PGG_Kneepel}
+heroFace_70 {525}
+heroModel_70 {PGG_Giant}
 
 heroType_70 {Корсар}
 heroNation_70 {Пират}
 
 sex_70 {man}
-animation_70 {man2_ab}
+animation_70 {Giant}
 
 hero_70
 {
-Опытный канонир и давний знакомый Ричарда Флитвуда. В рукопашном бою он неважен, но вморском ему нет равных!
+Предводитель скелетообразных )
 }
 
 ;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================

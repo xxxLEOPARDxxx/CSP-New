@@ -140,13 +140,14 @@ void AddToTable()
 
         GameInterface.TABLE_LIST.(row).td4.icon.group = "GOODS";
 		GameInterface.TABLE_LIST.(row).td4.icon.image = sGood;
-		GameInterface.TABLE_LIST.(row).td4.icon.offset = "5, 0";
+		GameInterface.TABLE_LIST.(row).td4.icon.offset = "0, 0";
 		GameInterface.TABLE_LIST.(row).td4.icon.width = 20;
 		GameInterface.TABLE_LIST.(row).td4.icon.height = 20;
 		GameInterface.TABLE_LIST.(row).td4.textoffset = "20,0";
 		GameInterface.TABLE_LIST.(row).td4.str = XI_ConvertString(sGood);
 		GameInterface.TABLE_LIST.(row).index = i;
 		GameInterface.TABLE_LIST.(row).td4.color = iColor;
+		GameInterface.TABLE_LIST.(row).td4.scale = 0.9;
 
 		GameInterface.TABLE_LIST.(row).td5.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, pchar, 1);
 		GameInterface.TABLE_LIST.(row).td3.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_BUY, pchar, 1);

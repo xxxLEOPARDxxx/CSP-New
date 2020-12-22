@@ -751,6 +751,11 @@ void ProcessDialogEvent()
 			dialog.text = "Я заперт в этой камере, а ключ конвоиры унесли адмиралу. Это был его приказ начальнику тюрьмы. Мне не вырваться из этой клетки.";
 			link.l1 = "Адмирала больше нет, я разделал"+ GetSexPhrase("ся","ась") +" с ним. Но никакого ключа не находил"+ GetSexPhrase("","а") +"... Я вернусь и поищу!";
 			link.l1.go = "inPrison_3";
+			if (CheckCharacterItem(pchar, "key_mechanic"))
+			{
+				link.l2 = "Адмирала больше нет, я разделал"+ GetSexPhrase("ся","ась") +" с ним. При нём был вот этот ключ. Тот?";
+				link.l2.go = "inPrison_3_alt";
+			}
 		break;
 		case "inPrison_3":
 			dialog.text = "Поздно, "+ GetSexPhrase("друг мой","" + pchar.name + "") +". Буря набирает силу.";
@@ -785,6 +790,59 @@ void ProcessDialogEvent()
 			LAi_CharacterDisableDialog(npchar);
 			AddQuestRecord("ISS_MainLine", "67");
 			AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("ся","ась"));
+			AddDialogExitQuestFunction("LSC_BigStormIsBegin");
+		break;
+		case "inPrison_3_alt":
+			dialog.text = "Тот самый. Давайте его сюда, скорее.";
+			link.l1 = "Держите. Что дальше?";
+			link.l1.go = "inPrison_4_alt";
+		break;
+		case "inPrison_4_alt":
+			dialog.text = "Отправляйтесь ко второй мачте 'Фернадо Диффиндура', оттуда до корабля уже рукой подать. Я успел использовать лебедку до ареста и растащил корабли, окружающие корвет. Теперь вы с легкостью оторветесь от Города.\nШторм набирает силу, боюсь, что сейчас вам придется нелегко... При выходе из 'Тартаруса', вы должны четко представлять себе, куда направиться - направо отсюда. Иначе в этом хаосе вы погибнете. Я еще раз повторю, что вы должны двигаться по направлению ко второй мачте 'Фернандо Диффиндура'.";
+			link.l1 = "Я понял"+ GetSexPhrase("","а") +", спасибо вам.";
+			link.l1.go = "inPrison_5_alt";
+		break;
+		case "inPrison_5_alt":
+			dialog.text = "Я буду следом за вами. Надеюсь, не потонем.";
+			link.l1 = "Я тоже... Я тоже...";
+			link.l1.go = "exit";
+			chrDisableReloadToLocation = false;
+			LAi_CharacterDisableDialog(npchar);
+			AddQuestRecord("ISS_MainLine", "71");
+			AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("","а"));
+			//офицер
+			ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic", "Mechanic", "man", "man", 30, SPAIN, -1, true));
+			sld.name = "Хенрик";
+			sld.lastname = "Ведекер";
+			sld.greeting = "Gr_questOfficer";
+			sld.Dialog.Filename = "Enc_Officer_dialog.c";
+			sld.quest.meeting = true;
+			SetSelfSkill(sld, 10, 10, 10, 10, 99);
+			SetShipSkill(sld, 50, 50, 50, 50, 100, 100, 50, 100, 50);
+			SetSPECIAL(sld, 6, 10, 9, 10, 10, 8, 10);
+			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+			SetCharacterPerk(sld, "BasicBattleState");
+			SetCharacterPerk(sld, "AdvancedBattleState");
+			SetCharacterPerk(sld, "ShipDefenseProfessional");
+			SetCharacterPerk(sld, "LightRepair");
+			SetCharacterPerk(sld, "InstantRepair");
+			SetCharacterPerk(sld, "ShipTurnRateUp");
+			SetCharacterPerk(sld, "ShipSpeedUp");
+			SetCharacterPerk(sld, "StormProfessional");
+			SetCharacterPerk(sld, "Turn180");
+			SetCharacterPerk(sld, "SailingProfessional");
+			SetCharacterPerk(sld, "Carpenter");
+			SetCharacterPerk(sld, "Builder");
+			SetCharacterPerk(sld, "WindCatcher");
+			SetCharacterPerk(sld, "SailsMan");
+			SetCharacterPerk(sld, "Doctor1");
+			SetCharacterPerk(sld, "Doctor2");
+			TakeNItems(sld, "talisman7", 1);
+			sld.quest.OfficerPrice = sti(pchar.rank)*350;
+			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
+			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+			sld.loyality = MAX_LOYALITY;
+			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			AddDialogExitQuestFunction("LSC_BigStormIsBegin");
 		break;
 	}
