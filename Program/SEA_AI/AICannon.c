@@ -279,7 +279,8 @@ float Cannon_DamageEvent()
 
 	return fCurDamage;
 }
-//#20181002-01
+
+/* //#20181002-01
 void ResetCannonsToBort(ref chr, string sBort, int maxQty, int hasQty)
 {
 	int     i;
@@ -300,9 +301,9 @@ void ResetCannonsToBort(ref chr, string sBort, int maxQty, int hasQty)
             DeleteAttribute(chr, "Ship.Cannons.Borts." + sBort + ".damages." + attr));
         }
 	}
-}
+} */
 
-int GetBortIntactCannonsNum(ref rCharacter, string sBort, int iNumCannonsOnBort)
+/* int GetBortIntactCannonsNum(ref rCharacter, string sBort, int iNumCannonsOnBort)
 {
 	string sBort_real = sBort;
 
@@ -336,5 +337,39 @@ int GetBortIntactCannonsNum(ref rCharacter, string sBort, int iNumCannonsOnBort)
 		if (fDamage < 1.0) { iNumIntactCannons++; }
 	}
 
+	return iNumIntactCannons;
+} */
+
+int GetBortIntactCannonsNum(ref rCharacter, string sBort, int iNumCannonsOnBort)
+{
+	string sBort_real = sBort;
+	float fDamage;
+
+	if(sBort == "rcannon") sBort_real = "cannonr";
+	if(sBort == "lcannon") sBort_real = "cannonl";
+	if(sBort == "fcannon") sBort_real = "cannonf";
+	if(sBort == "bcannon") sBort_real = "cannonb";
+	
+	if (!CheckAttribute(rCharacter, "Ship.Cannons.Borts." + sBort_real + ".damages") ||
+	    !CheckAttribute(rCharacter, "Ship.Cannons.Borts." + sBort + ".damages")) return iNumCannonsOnBort;
+				
+	aref arDamages;
+	if(CheckAttribute(rCharacter, "Ship.Cannons.Borts." + sBort_real + ".damages"))
+	{
+		makearef(arDamages, rCharacter.Ship.Cannons.Borts.(sBort_real).damages);
+	}
+	else
+	{
+		makearef(arDamages, rCharacter.Ship.Cannons.Borts.(sBort).damages);
+	}	
+	
+	int iNumIntactCannons = 0;
+	for (int i=0; i<iNumCannonsOnBort; i++)
+	{
+		fDamage = stf(GetAttributeValue(GetAttributeN(arDamages, i)));
+		if (fDamage < 1.0) { iNumIntactCannons++; }
+	}
+	int iNumRealCannons = iNumIntactCannons;
+	
 	return iNumIntactCannons;
 }
