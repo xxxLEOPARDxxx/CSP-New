@@ -2304,16 +2304,13 @@ void initNewMainCharacter()
     }
 	if (startHeroType == 68)
 	{
-		// SetCharacterPerk(pchar, "Grus");
 		SetCharacterPerk(pchar, "HardHitter");
-		SetCharacterPerk(pchar, "HPPlusFixed");
-		// SetCharacterPerk(pchar, "EnergyPlusFixed");
+		SetCharacterPerk(pchar, "Sliding");
+		SetCharacterPerk(pchar, "Medic");
 	}
 	if (startHeroType == 70)
 	{
 		SetCharacterPerk(pchar, "Grus");
-		// SetCharacterPerk(pchar, "HardHitter");
-		// SetCharacterPerk(pchar, "HPPlusFixed");
 		SetCharacterPerk(pchar, "EnergyPlusFixed");
 	}
 	
@@ -2377,7 +2374,8 @@ void initMainCharacterItem()
 					pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
 				break;
 				case PIRATE:
-					SetCharacterPerk(pchar, "HPPlusFixed");
+					SetCharacterPerk(pchar, "Sliding");
+					SetCharacterPerk(pchar, "Medic");
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
