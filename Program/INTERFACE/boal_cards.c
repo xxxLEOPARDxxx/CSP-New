@@ -76,13 +76,13 @@ void InitInterface(string iniName)
 
         case 1000 :
             money_s = "silver";
-            SetNewPicture("SCROLLPICT", "interfaces\card_sukno.tga.tx");
+            SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
             iExpRate = 3;
         break;
 
         case 5000 :
             money_s = "gold";
-            SetNewPicture("SCROLLPICT", "interfaces\card_sukno.tga.tx");
+            SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
             iExpRate = 6;
         break;
     }

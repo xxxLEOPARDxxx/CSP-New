@@ -46,7 +46,8 @@ void XI_SetQuestData(bool qtitle)
 	curQuestTop = 0;
 	
 	SetNodeUsing("QUEST_TITLE",qtitle);
-	SetNodeUsing("QUEST_TEXT",!qtitle);
+	if (!InterfaceStates.AltFont) SetNodeUsing("QUEST_TEXT",!qtitle);
+	else SetNodeUsing("QUEST_TEXT_ALT",!qtitle);
 	SetNodeUsing("QUESTSCROLL",true);
 	
 	ShowButtons();
@@ -57,7 +58,8 @@ void XI_SetQuestData(bool qtitle)
 	}
 	else
 	{
-		SetCurrentNode("QUEST_TEXT");
+		if (!InterfaceStates.AltFont) SetCurrentNode("QUEST_TEXT");
+		else SetCurrentNode("QUEST_TEXT_ALT");
 	}
 }
 
@@ -69,7 +71,8 @@ void ShowButtons()
 void HideQuests()
 {
 	SetNodeUsing("QUEST_TITLE",false);
-	SetNodeUsing("QUEST_TEXT",false);
+	if (!InterfaceStates.AltFont) SetNodeUsing("QUEST_TEXT",false);
+	else SetNodeUsing("QUEST_TEXT_ALT",false);
 	SetNodeUsing("QUESTSCROLL",false);
 }
 
@@ -107,10 +110,21 @@ void HideStoreBook()
 
 void ProcessCancelExit()
 {
-	if( GetSelectable("QUEST_TEXT") )
+	if (!InterfaceStates.AltFont)
 	{
-		XI_SetQuestData(true);
-		return;
+		if( GetSelectable("QUEST_TEXT") )
+		{
+			XI_SetQuestData(true);
+			return;
+		}
+	}
+	else
+	{
+		if( GetSelectable("QUEST_TEXT_ALT") )
+		{
+			XI_SetQuestData(true);
+			return;
+		}
 	}
 	IDoExit(RC_INTERFACE_ANY_EXIT);
 }
@@ -148,8 +162,17 @@ void SetQTextShow(aref pA,int qnum)
 	aref arTopic = GetAttributeN(pA, qnum);
 	DeleteQuestHeaderColor(GetAttributeName(arTopic));
 	// boal <--
-	SendMessage(&GameInterface,"lsal",MSG_INTERFACE_INIT_QTEXT_SHOW,"QUEST_TEXT",pA,qnum);
-	SetCurrentNode("QUEST_TEXT");
+	if (!InterfaceStates.AltFont)
+	{
+		SendMessage(&GameInterface,"lsal",MSG_INTERFACE_INIT_QTEXT_SHOW,"QUEST_TEXT",pA,qnum);
+		SetCurrentNode("QUEST_TEXT");
+	}
+	else
+	{
+		SendMessage(&GameInterface,"lsal",MSG_INTERFACE_INIT_QTEXT_SHOW,"QUEST_TEXT_ALT",pA,qnum);
+		SetCurrentNode("QUEST_TEXT_ALT");
+	}
+	
 }
 
 void BackToTitle()
@@ -164,7 +187,8 @@ void XI_QuestActivate()
 	makearef(pA,pchar.TmpQuestInfo);
 	XI_SetQuestData(false);
 	SetQTextShow(pA,aq);
-	SetCurrentNode("QUEST_TEXT");
+	if (!InterfaceStates.AltFont) SetCurrentNode("QUEST_TEXT_ALT");
+	else SetCurrentNode("QUEST_TEXT");
 }
 
 void XI_SetScroller(float pos)
@@ -230,7 +254,8 @@ void ProcScrollPosChange()
 	}
 	else
 	{
-		SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT", 1,newPos);
+		if (!InterfaceStates.AltFont) SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT_ALT", 1,newPos);
+		else SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT", 1,newPos);
 	}
 }
 
@@ -240,7 +265,8 @@ void ProcScrollChange()
 	if(changeNum==0) return;
 	string controlNode = "";
 	if( GetSelectable("QUEST_TITLE") ) controlNode = "QUEST_TITLE";
-	if( GetSelectable("QUEST_TEXT") ) controlNode = "QUEST_TEXT";
+	if (!InterfaceStates.AltFont) {if( GetSelectable("QUEST_TEXT") ) controlNode = "QUEST_TEXT";}
+	else {if( GetSelectable("QUEST_TEXT_ALT") ) controlNode = "QUEST_TEXT_ALT";}
 
 	if(controlNode!="")
 	{

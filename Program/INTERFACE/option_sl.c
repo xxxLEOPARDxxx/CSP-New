@@ -153,6 +153,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.DeadBoxText = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"AltFont") ) {
+		optref.cameramode.AltFont = sti(InterfaceStates.AltFont);
+	} else {
+		optref.cameramode.AltFont = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -279,6 +285,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.DeadBoxText = optref.cameramode.DeadBoxText;
 	} else {
 		InterfaceStates.DeadBoxText = false;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.AltFont") ) {
+		InterfaceStates.AltFont = optref.cameramode.AltFont;
+	} else {
+		InterfaceStates.AltFont = false;
 	}
 
 

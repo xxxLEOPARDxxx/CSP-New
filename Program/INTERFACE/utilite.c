@@ -669,7 +669,7 @@ void CloseTooltip()
 	}
 }
 
-string GetMoralePicture(float fMoraleValue)
+/* string GetMoralePicture(float fMoraleValue)
 {
 	if( fMoraleValue >= 75.0 ) {return "interfaces\flags\flag_1_64.tga.tx";}
 	if( fMoraleValue >= 50.0 ) {return "interfaces\flags\flag_2_64.tga.tx";}
@@ -683,7 +683,7 @@ string GetExperiencePicture(float fExpValue)
 	if( fExpValue >= 50.0 ) {return "interfaces\stars\Yellow_star2.tga.tx";}
 	if( fExpValue >= 25.0 ) {return "interfaces\stars\Yellow_star3.tga.tx";}
 	return "interfaces\stars\Yellow_star4.tga.tx";
-}
+} */
 
 string GetMoraleGroupPicture(float fMoraleValue)
 {
@@ -732,6 +732,7 @@ void SaveStartGameParam()
     optref.StartGameParam.PlayerProfile    = GameInterface.PROFILE_NAME.str;//PlayerProfile.name;
     optref.StartGameParam.MOD_SKILL_ENEMY_RATE   = MOD_SKILL_ENEMY_RATE;
 	optref.StartGameParam.MOD_DEAD_CLEAR_TIME   = MOD_DEAD_CLEAR_TIME;
+	optref.StartGameParam.MainChAnim   = MainChAnim;
     optref.StartGameParam.bHardcoreGame          = bHardcoreGame;
 	optref.StartGameParam.bPartitionSet          = bPartitionSet;
 	optref.StartGameParam.bSailorsWeight         = bSailorsWeight;
@@ -769,6 +770,10 @@ void LoadStartGameParam()
 	if (CheckAttribute(optref, "StartGameParam.MOD_DEAD_CLEAR_TIME"))
 	{
     	MOD_DEAD_CLEAR_TIME = sti(optref.StartGameParam.MOD_DEAD_CLEAR_TIME);
+    }
+	if (CheckAttribute(optref, "StartGameParam.MainChAnim"))
+	{
+    	MainChAnim = sti(optref.StartGameParam.MainChAnim);
     }
     if (CheckAttribute(optref, "StartGameParam.bHardcoreGame"))
 	{

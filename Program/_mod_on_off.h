@@ -94,6 +94,7 @@ int MOD_OFFICERS_RATE   = 3;
 // Killed body clear
 #define MOD_DEAD_CLEAR           "On"
 int MOD_DEAD_CLEAR_TIME = 100; // in sec.
+string MainChAnim = "";
 
 #define CHAR_ITEMS_WEIGHT        70
 

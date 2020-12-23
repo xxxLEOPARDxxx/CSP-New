@@ -473,7 +473,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].islandId = "Mein";
 	locations[n].islandIdAreal = "Tenotchitlan";
 	locations[n].gotoFire = true; //локаторы teleport вспыхивают и ранят
-	// locations[n].changeAnimation = "man"; //сменить анимацию на обычную
+	locations[n].changeAnimation = MainChAnim; //сменить анимацию на обычную
 	//Models
 	//Always
 	locations[n].models.always.Tenochtitlan = "Tenochtitlan";
@@ -599,17 +599,13 @@ int LocationInitTenotchitlan(int n)
 	locations[n].reload.l43.emerge = "reload3";
 	//---------- подводные храмы ----------
 	locations[n].reload.l44.name = "reloadU1_back";
-	// locations[n].reload.l44.go = "Temple_Underwater_right";
-	// locations[n].reload.l44.emerge = "reload1";
-	locations[n].reload.l44.go = "Temple_great";
-	locations[n].reload.l44.emerge = "reload9";
+	locations[n].reload.l44.go = "Temple_Underwater_right";
+	locations[n].reload.l44.emerge = "reload1";
 	locations[n].reload.l44.autoreload = "1";
 	locations[n].locators_radius.reload.reloadU1_back = 3.0;
 	locations[n].reload.l45.name = "reloadU2_back";
-	// locations[n].reload.l45.go = "Temple_Underwater_left";
-	// locations[n].reload.l45.emerge = "reload1";
-	locations[n].reload.l45.go = "Temple_great";
-	locations[n].reload.l45.emerge = "reload10";
+	locations[n].reload.l45.go = "Temple_Underwater_left";
+	locations[n].reload.l45.emerge = "reload1";
 	locations[n].reload.l45.autoreload = "1";
 	locations[n].locators_radius.reload.reloadU2_back = 3.0;
 
@@ -926,7 +922,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].image = "loading\outside\TempleInside.tga.tx";
 	//Sound
 	locations[n].type = "teno_inside";
-	// locations[n].changeAnimation = "man"; //сменить анимацию на обычную
+	locations[n].changeAnimation = MainChAnim; //сменить анимацию на обычную
 	locations[n].greatTemple = true;
 	//Models
 	//Always
@@ -971,16 +967,16 @@ int LocationInitTenotchitlan(int n)
 	locations[n].reload.l8.emerge = "reloadTemple39";
 
 	locations[n].reload.l9.name = "reload9";
-	// locations[n].reload.l9.go = "Temple_Underwater_right";
-	// locations[n].reload.l9.emerge = "reload2";
-	locations[n].reload.l9.go = "Tenochtitlan";
-	locations[n].reload.l9.emerge = "reloadU1";
+	locations[n].reload.l9.go = "Temple_Underwater_right";
+	locations[n].reload.l9.emerge = "reload2";
+	//locations[n].reload.l9.go = "Tenochtitlan";
+	//locations[n].reload.l9.emerge = "reloadU1";
 	locations[n].reload.l9.autoreload = "1";
 	locations[n].reload.l10.name = "reload10";
-	// locations[n].reload.l10.go = "Temple_Underwater_left";
-	// locations[n].reload.l10.emerge = "reload2";
-	locations[n].reload.l10.go = "Tenochtitlan";
-	locations[n].reload.l10.emerge = "reloadU2";
+	locations[n].reload.l10.go = "Temple_Underwater_left";
+	locations[n].reload.l10.emerge = "reload2";
+	//locations[n].reload.l10.go = "Tenochtitlan";
+	//locations[n].reload.l10.emerge = "reloadU2";
 	locations[n].reload.l10.autoreload = "1";
 
 	locations[n].locators_radius.reload.reload9 = 1.2;
@@ -1093,7 +1089,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].image = "loading\outside\TempleInside.tga.tx";
 	//Sound	
 	locations[n].type = "underwater";
-	// locations[n].changeAnimation = "swim"; //сменить анимацию на плавание
+	locations[n].changeAnimation = MainChAnim+"_swim"; //сменить анимацию на плавание
 	//Models
 	//Always
 	Locations[n].filespath.models = "Locations\TenochtitlanInside\TempleUnderwater\";
@@ -1137,7 +1133,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].image = "loading\outside\TempleInside.tga.tx";
 	//Sound	
 	locations[n].type = "underwater";
-	// locations[n].changeAnimation = "swim"; //сменить анимацию на плавание
+	locations[n].changeAnimation = MainChAnim+"_swim"; //сменить анимацию на плавание
 	//Models
 	//Always
 	Locations[n].filespath.models = "Locations\TenochtitlanInside\TempleUnderwater\";

@@ -219,6 +219,12 @@ void IReadVariableAfterInit()
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"DEADBOXTEXT_CHECKBOX", 2, 1, nDeadBoxText );
 	
+	int nAltFont = 0;
+	if( CheckAttribute(&InterfaceStates,"AltFont") ) {
+		nAltFont = sti(InterfaceStates.AltFont);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 1, nAltFont );
+	
 	
 	if(bBoardMode)
 	{
@@ -415,6 +421,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.DeadBoxText = bBtnState;
+		}
+	}
+	
+	if( sNodName == "ALTFONT_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.AltFont = bBtnState;
 		}
 	}
 	
@@ -1067,6 +1080,11 @@ void ShowInfo()
 		case "DEADBOXTEXT_CHECKBOX":
 			sHeader = XI_ConvertString("DeadBoxText_title");
 			sText1 = XI_ConvertString("DeadBoxText_desc");
+		break;
+		
+		case "ALTFONT_CHECKBOX":
+			sHeader = XI_ConvertString("AltFont_title");
+			sText1 = XI_ConvertString("AltFont_desc");
 		break;
 		
 		//#20171223-01 Camera perspective option

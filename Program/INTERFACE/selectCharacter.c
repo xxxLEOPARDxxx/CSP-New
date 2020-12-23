@@ -844,6 +844,7 @@ void SetVariable(bool _init)
     SelectNation(sti(NullCharacter.HeroParam.nation));
     totalInfo = LanguageConvertString(idLngFile, "hero_" + startHeroType);
     totalInfoChar = LanguageConvertString(idLngFile, NullCharacter.HeroParam.HeroType);
+	MainChAnim = LanguageConvertString(idLngFile, "animation_" + startHeroType);
     SetInfoText();
     SetInfoChar();
     LanguageCloseFile(idLngFile);
