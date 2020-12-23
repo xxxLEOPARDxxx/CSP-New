@@ -642,16 +642,29 @@ bool LAi_CreateEncounters(ref location)
 			if(num <= 1) return false;
 			if (num <= 2) num = 2;
 			iRank = 2 + rand(3); //ранг каторжан
-			model[0] = "citiz_5";
-			model[1] = "shipowner_11";
-			model[2] = "barmen_1";
-			model[3] = "barmen_9";
-			model[4] = "citiz_11";
-			model[5] = "officer_10";
-			model[6] = "shipowner_10";
-			model[7] = "trader_13";
-			model[8] = "pirate_1";
-			model[9] = "pirate_8";
+            model[0] = "prizon_1";
+            model[1] = "prizon_2";
+            model[2] = "prizon_3";
+            model[3] = "prizon_4";
+            model[4] = "prizon_5";
+            model[5] = "prizon_6";
+            model[6] = "prizon_7";
+            model[7] = "prizon_8";
+            model[8] = "pirate_1";
+            model[9] = "prison_5";
+            model[10] = "pirate_1";
+            model[11] = "pirate_11";
+            model[12] = "pirate_12";
+            model[13] = "pirate_13";
+            model[14] = "pirate_14";
+            model[15] = "pirate_15";
+            model[16] = "pirate_16";
+            model[17] = "pirate_21";
+            model[18] = "pirate_25";
+            model[19] = "PKM_rab_1";
+            model[20] = "PKM_rab_2";
+            model[21] = "PKM_rab_3";
+            model[22] = "PKM_rab_4";
 
 			i = 0;
 			pchar.GenQuest.Convict.ConvictQty = num;
@@ -662,11 +675,13 @@ bool LAi_CreateEncounters(ref location)
 			while(i < num)
 			// for(i=0;i < num; i++) // LEO
 			{
-				iMassive = rand(9);
-				
+				iMassive = rand(22);
+				string sAnime;
 				if(model[iMassive] != "")
 				{
-					chr = GetCharacter(NPC_GenerateCharacter("Convict_" + i, model[iMassive], "man", "man", iRank, PIRATE, -1, true));
+					sAnime = "man2"
+                    if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAnime = "man";
+					chr = GetCharacter(NPC_GenerateCharacter("Convict_" + i, model[iMassive], "man", sAnime, iRank, PIRATE, -1, true));
 					SetFantomParamFromRank(chr, iRank, true);
 					locator = GetAttributeName(GetAttributeN(grp, i));
 					// locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
@@ -677,7 +692,7 @@ bool LAi_CreateEncounters(ref location)
 					chr.city = sCity;
 					LAi_SetImmortal(chr, true); // До поры нельзя убить
 					LAi_SetActorTypeNoGroup(chr);
-						
+				    
 					if(i == 0)
 					{
 						LAi_ActorDialog(chr, pchar, "", -1, 0.0);

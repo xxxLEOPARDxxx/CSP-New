@@ -1303,7 +1303,7 @@ string LAi_GetBoardingMushketerModel(ref rCharacter)
 	if (CheckAttribute(rCharacter, "Ship.Mode") && rCharacter.Ship.Mode == "Pirate") iNation = PIRATE;
 	if(iNation == PIRATE)
 	{
-		model = "mushketer_" + (rand(4)+1);
+		model = GetPirateMushketerModel();
 	}
 	else
 	{

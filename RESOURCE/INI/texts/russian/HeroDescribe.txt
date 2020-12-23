@@ -162,7 +162,7 @@ heroNameDat_4 {Барту}
 heroLastNameDat_4 {Португальцу}
 
 heroFace_4 {289}
-heroModel_4 {Port_0,Port_1,Port_2,Port_3,Port_4,Port_5,Port_6,Port_7,Port_8}
+heroModel_4 {PGG_Port_0,PGG_Port_1,PGG_Port_2,PGG_Port_3,PGG_Port_4,PGG_Port_5,PGG_Port_6,PGG_Port_7,PGG_Port_8}
 
 heroType_4 {Корсар}
 heroNation_4 {Береговое братство}
@@ -1045,8 +1045,8 @@ heroModel_39 {PGG_Skeletcap,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_
 heroType_39 {Корсар}
 heroNation_39 {Пират}
 
-sex_39 {man}
-animation_39 {man}
+sex_39 {skeleton}
+animation_39 {skeleton}
 
 hero_39
 {
@@ -1217,12 +1217,12 @@ heroModel_46 {PGG_Meriman_2}
 heroType_46 {Корсар}
 heroNation_46 {Пират}
 
-sex_46 {man}
+sex_46 {skeleton}
 animation_46 {man2_ab}
 
 hero_46
 {
-Представитель скелетообразных..
+Скрывался под обликом простого Голландского ученого, но после получения нефритового черепа Юм Симиля, он раскрыл свой истинный облик.
 }
 
 heroName_47 {Элихио}
@@ -1556,7 +1556,7 @@ heroLastname_61 {Хаук}
 heroNameGen_61 {Натаниэля}
 heroLastnameGen_61 {Хаука}
 
-heroNameDat_61 {Натаниэлу}
+heroNameDat_61 {Натаниэлю}
 heroLastNameDat_61 {Хауку}
 
 heroFace_61 {528}
@@ -1734,7 +1734,6 @@ animation_68 {Moscovit}
 hero_68
 {
 Русский купец, попавший на карибы волею судьбы. Человек крепкого ума и телосложения. Отлично справляется с тяжелым оружием. (Особенно с оглоблей)
-Больше масса, крепче здоровье. С таким телосложением и силой можно пробивать почти любые блоки противника, заставляя врага дизориентироваться.
 }
 
 heroName_69 {Милен}
@@ -1757,17 +1756,17 @@ animation_69 {Milenace}
 
 hero_69
 {
-Бывшая Французская дворянка, ставшая в последствии знаменитой  корсаркой на Карибском Архипелаге
+Бывшая Французская дворянка, ставшая в последствии знаменитой корсаркой на Карибском Архипелаге
 }
 
-heroName_70 {Злой}
-heroLastname_70 {Скелет}
+heroName_70 {Альберто}
+heroLastname_70 {Каскос}
 
-heroNameGen_70 {Злого}
-heroLastnameGen_70 {Скелета}
+heroNameGen_70 {Альберто}
+heroLastnameGen_70 {Каскоса}
 
-heroNameDat_70 {Злому}
-heroLastNameDat_70 {Скелету}
+heroNameDat_70 {Альберто}
+heroLastNameDat_70 {Каскосу}
 
 heroFace_70 {525}
 heroModel_70 {PGG_Giant}
@@ -1775,13 +1774,12 @@ heroModel_70 {PGG_Giant}
 heroType_70 {Корсар}
 heroNation_70 {Пират}
 
-sex_70 {man}
+sex_70 {skeleton}
 animation_70 {Giant}
 
 hero_70
 {
-Предводитель скелетообразных.
-Может переносить больше веса, при этом не запыхиваясь размахивать саблей.
+Бывший испанский солдат, участвовавший в походе Кортеса на Теночтитлан, однако после одной из неудачных атак, его схватили ацтеки, и за свой рост и силу, его принесли в жертву богам, после чего превратили его в скелета.
 }
 
 ;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================

@@ -1584,7 +1584,7 @@ void PQ8_controlShore48(string qName)
         }	
         for (i=1; i<=iTemp; i++) //мушкетеры ГГ
         {
-            sld = GetCharacter(NPC_GenerateCharacter("MHmush_"+i, "mushketer_"+(rand(4)+1), "man", "mushketer", sti(pchar.rank), PIRATE, -1, false));
+            sld = GetCharacter(NPC_GenerateCharacter("MHmush_"+i, GetPirateMushketerModel(), "man", "mushketer", sti(pchar.rank), PIRATE, -1, false));
             LAi_SetWarriorType(sld);
 			TakeNItems(sld,"potion1", rand(2)+1);
 			LAi_warrior_DialogEnable(sld, false);
@@ -1604,7 +1604,7 @@ void PQ8_controlShore48(string qName)
 		}
         for (i=1; i<=iTemp; i++) //мушкетеры Соукинса
         {
-            sld = GetCharacter(NPC_GenerateCharacter("RSmush_"+i, "mushketer_"+(rand(4)+1), "man", "mushketer", 25, PIRATE, -1, false));
+            sld = GetCharacter(NPC_GenerateCharacter("RSmush_"+i, GetPirateMushketerModel(), "man", "mushketer", 25, PIRATE, -1, false));
             LAi_SetWarriorType(sld);
 			LAi_warrior_DialogEnable(sld, false);
 			TakeNItems(sld,"potion1", rand(2)+1);

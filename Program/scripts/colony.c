@@ -699,7 +699,7 @@ void TWN_FightInTown()
 					if (sti(Pchar.GenQuestFort.TownCrew) < 1) break;
 					if(natEsc == PIRATE)
 					{
-						sModel = "mushketer_" + (rand(4)+1);
+						sModel = GetPirateMushketerModel();
 					}
 					else
 					{
@@ -737,7 +737,7 @@ void TWN_FightInTown()
 						if (sti(Pchar.GenQuestFort.PlayerCrew) < 1) break;
 						if(sti(pchar.nation) == PIRATE)
 						{
-							sModel = "mushketer_" + (rand(4)+1);
+							sModel = GetPirateMushketerModel();
 						}
 						else
 						{

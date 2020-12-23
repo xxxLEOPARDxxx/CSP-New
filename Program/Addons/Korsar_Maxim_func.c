@@ -19,7 +19,7 @@ string GetPggTavernGreeting(ref rChar)
     }
 }
 
-/// Korsar Maxim --> (Выдача рандомного оружия по качеству (бедное, нормальное, хорошее и отличное))
+/// Korsar Maxim - (Выдача рандомного оружия по качеству (бедное, нормальное, хорошее и отличное))
 string GiveRandomBladeByType(string sType)
 {
 	switch(sType)
@@ -88,4 +88,13 @@ string GiveRandomBladeByType(string sType)
 	
 	return blade;
 }
-/// Korsar Maxim <--
+
+//Korsar Maxim - быстрое пополнение массива мушкетерских моделей. (Дабы не копатся в разных файлах)
+string GetPirateMushketerModel()
+{
+    string sModel;
+	
+	sModel = "mushketer_" + (rand(24) + 1);
+	
+    return sModel;
+}

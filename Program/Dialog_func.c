@@ -14,7 +14,7 @@ void Set_inDialog_Attributes()
 	ref The_Character_is;
 
 	The_Character_is = GetMainCharacter();
-    if (!CheckAttribute(The_Character_is, "sex") || The_Character_is.sex == "man")
+    if (!CheckAttribute(The_Character_is, "sex") || The_Character_is.sex == "man" || The_Character_is.sex == "skeleton")
 	{
 		Address_Form.Spa = "סוםüמנ";
 		Address_Form.Fra = "לוסüו";

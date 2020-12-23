@@ -348,7 +348,7 @@ void CreateCitizens(aref loc)
 		{
 			if(iNation == PIRATE)
 			{
-                sType = "mushketer_" + (rand(4)+1);
+                sType = GetPirateMushketerModel();
 			}
 			else
 			{
@@ -952,7 +952,7 @@ void CreateBrothels(aref loc)
 				//	horse[num] = "";
 				//	qty++;
 				//}
-					SetFoodToCharacter(sld, 3, 20);
+				SetFoodToCharacter(sld, 3, 20);
 			}
 		}
 	}

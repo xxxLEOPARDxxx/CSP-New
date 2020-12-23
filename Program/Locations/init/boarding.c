@@ -3353,7 +3353,7 @@ int LocationInitBoarding(int n)
 	locations[n].environment.sea = "true";
 
 	Locations[n].boarding = "true";
-	Locations[n].boarding.locatorNum = 14;
+	Locations[n].boarding.locatorNum = 11;
 	//Locations[n].boarding.nextdeck = "Boarding_InsideDeck";
 	Locations[n].boarding.nextdeck = "Boarding_Cargohold";
 	Locations[n].UpDeckType = true;
@@ -3385,7 +3385,7 @@ int LocationInitBoarding(int n)
 	locations[n].environment.sea = "true";
 
 	Locations[n].boarding = "true";
-	Locations[n].boarding.locatorNum = 19;
+	Locations[n].boarding.locatorNum = 12;
 	//Locations[n].boarding.nextdeck = "Boarding_InsideDeck";
 	Locations[n].boarding.nextdeck = "Boarding_Cargohold";
 	Locations[n].UpDeckType = true;
@@ -3418,7 +3418,7 @@ int LocationInitBoarding(int n)
 	locations[n].environment.sea = "true";
 
 	Locations[n].boarding = "true";
-	Locations[n].boarding.locatorNum = 24;
+	Locations[n].boarding.locatorNum = 13;
 	//Locations[n].boarding.nextdeck = "Boarding_InsideDeck";
 	Locations[n].boarding.nextdeck = "Boarding_Cargohold";
 	Locations[n].UpDeckType = true;
