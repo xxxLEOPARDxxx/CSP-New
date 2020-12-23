@@ -482,13 +482,13 @@ void FillBoxForTreasureSuper(ref item)
 				break;
 				case 8:
         			//itmName = "cirass5";
-        			itmName = "cirass4";
+        			itmName = "cirass3";
 				break;
 				case 9:
         			itmName = "indian11";
 				break;
 				case 10:
-        			itmName = "cirass3";
+        			itmName = "cirass4";
         			/*if (GetCharacterItem(Pchar, "cirass5") > 0)
         			{
                         itmName = "";

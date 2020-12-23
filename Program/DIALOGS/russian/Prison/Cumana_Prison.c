@@ -190,7 +190,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			EquipCharacterbyItem(npchar, "blade20");
 			npchar.SaveItemsForDead  = true;
 			npchar.DontClearDead = true;
-			npchar.cirassId = Items_FindItemIdx("cirass3");
+			npchar.cirassId = Items_FindItemIdx("cirass4");
 
 			chrDisableReloadToLocation = true;
 

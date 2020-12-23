@@ -2456,6 +2456,12 @@ void ProcessDialogEvent()
 			AddQuestRecord("SeekDoubleMushket", "3");
 			CloseQuestHeader("SeekDoubleMushket");
 			AddMoneyToCharacter(pchar, -sti(Npchar.quest.OfficerPrice.add));
+			npchar.perks.list.Gunman = "1";
+			GiveItem2Character(npchar, "mushket2x2");
+			EquipCharacterbyItem(Npchar, "mushket2x2");
+			AddItems(npchar, "bullet", 50);
+			AddItems(npchar, "GunPowder", 50);
+			npchar.IsMushketer = true;
 			npchar.model = "MusketeerEnglish_2";
 			npchar.model.animation = "mushketer";
 			npchar.MusketerDistance = 5;

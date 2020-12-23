@@ -119,7 +119,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             pchar.GenQuestBox.LaVega_townhall.box1.items.jewelry10 = Rand(7)+1;
             pchar.GenQuestBox.LaVega_townhall.box1.items.jewelry14 = Rand(7)+1;
             pchar.GenQuestBox.LaVega_townhall.box1.items.jewelry17 = Rand(7)+1;
-            pchar.GenQuestBox.LaVega_townhall.box1.items.cirass4 = 1;
+            pchar.GenQuestBox.LaVega_townhall.box1.items.cirass3 = 1;
 			locations[FindLocation("LaVega_townhall")].models.day.charactersPatch = "SmallResidence_BoxPatch";
 			sld = characterFromId("Edward Mansfield");
 			sld.Default.Crew.Quantity    = 1700;

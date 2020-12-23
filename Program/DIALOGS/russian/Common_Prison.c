@@ -1350,7 +1350,7 @@ string GenQuestPrison_GenerateBlade() // клинки и другое
 			itemID = GetGeneratedItem("blade31"); 
 		break;
 		case 3:
-			itemID = "cirass4"; 
+			itemID = "cirass3"; 
 		break;
 		case 4:
 			itemID = GetGeneratedItem("blade21"); 
@@ -1365,7 +1365,7 @@ string GenQuestPrison_GenerateBlade() // клинки и другое
 			itemID = GetGeneratedItem("blade34"); 
 		break;
 		case 8:
-			itemID = "cirass3"; 
+			itemID = "cirass4"; 
 		break;	
 		
 	}

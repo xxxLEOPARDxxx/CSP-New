@@ -151,7 +151,7 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			GiveItem2Character(pchar, "blade22");
 			GiveItem2Character(pchar, "pistol5");
-			GiveItem2Character(pchar, "cirass3");
+			GiveItem2Character(pchar, "cirass4");
 			GiveItem2Character(pchar, "topor2");
 			pchar.questTemp.Sharp.SeekSpy = "over";
             AddQuestRecord("SharpPearl_SeekSpy", "5");

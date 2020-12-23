@@ -605,7 +605,7 @@ void ProcessDialogEvent()
 			link.l1.go = "exit_over";
 			NextDiag.TempNode = "good_all";
  			pchar.GenQuestRandItem.Shore36 = true;
-			pchar.GenQuestRandItem.Shore36.randitem2 = "cirass4";
+			pchar.GenQuestRandItem.Shore36.randitem2 = "cirass3";
 			ReOpenQuestHeader("QuestionsMessages");
 			AddQuestRecord("QuestionsMessages", "5");
 			AddQuestUserData("QuestionsMessages", "sName", GetFullName(npchar));

@@ -1447,7 +1447,7 @@ void CalculateInfoDataF32()
 	
 	AddItems(mc, "bullet", 50);
 	AddItems(mc, "GunPowder", 50);
-	AddItems(mc, "cirass3", 1);
+	AddItems(mc, "cirass4", 1);
 	AddItems(mc, "talisman1", 1);
 	AddItems(mc, "talisman2", 1);
 	AddItems(mc, "talisman3", 1);
@@ -1459,7 +1459,7 @@ void CalculateInfoDataF32()
 	EquipCharacterbyItem(mc, "spyglass3");
 	EquipCharacterbyItem(mc, "pistol5");
  	EquipCharacterbyItem(mc, sEquipItem);
- 	EquipCharacterbyItem(mc, "cirass3");
+ 	EquipCharacterbyItem(mc, "cirass4");
  	
  	SetHalfPerksToChar(mc, false);
  	

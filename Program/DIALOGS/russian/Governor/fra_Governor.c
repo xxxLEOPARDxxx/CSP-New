@@ -384,7 +384,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			sld.items.indian12 = 1;
 			sld.items.jewelry2 = 20;
 			sld.greeting = "Gr_MiddPirate";
-			GiveItem2Character(sld, "cirass4");
+			GiveItem2Character(sld, "cirass3");
 			FreeSitLocator("Tortuga_tavern", "sit3");
             LAi_SetSitType(sld);
             ChangeCharacterAddressGroup(sld, "Tortuga_tavern", "sit", "sit3");

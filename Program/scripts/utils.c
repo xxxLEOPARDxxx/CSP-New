@@ -254,7 +254,7 @@ void GiveItemToTrader(aref ch)
 	irand = rand(15);
     if (irand == 1 && rank >= 8) AddItems(ch, "cirass2", 1);
 	irand = rand(20);
-    if (irand == 1 && rank >= 12) AddItems(ch, "cirass4", 1);
+    if (irand == 1 && rank >= 12) AddItems(ch, "cirass3", 1);
 
     if(rank >= 7)
 	{

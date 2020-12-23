@@ -423,7 +423,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			TakeNItems(pchar, "blade28", 1);
 			TakeNItems(pchar, "mushket", 1);
 			TakeNItems(pchar, "spyglass5", 1);
-			TakeNItems(pchar, "cirass3", 1);
+			TakeNItems(pchar, "cirass4", 1);
 			TakeNItems(pchar, "indian11", 1);
 		break;
 		

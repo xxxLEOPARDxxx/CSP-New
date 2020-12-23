@@ -2302,17 +2302,17 @@ void initNewMainCharacter()
     	pchar.quest.Tut_start.function                  = "Tut_StartGame";
         Pchar.questTemp.CapBloodLine = false;
     }
-	if (startHeroType == 68)
+	/* if (startHeroType == 68) // Московит
 	{
 		SetCharacterPerk(pchar, "HardHitter");
 		SetCharacterPerk(pchar, "Sliding");
 		SetCharacterPerk(pchar, "Medic");
 	}
-	if (startHeroType == 70)
+	if (startHeroType == 70) // Злой скелет
 	{
 		SetCharacterPerk(pchar, "Grus");
 		SetCharacterPerk(pchar, "EnergyPlusFixed");
-	}
+	} */
 	
 	// Warship Для разных квестов
 	// Важно: функция MaryCelesteInit() должна быть тут, а не в initStartState2Character()

@@ -651,7 +651,7 @@ int LocationInitLostShipsCity(int n)
 
 	locations[n].private9.key = "key3";
 	locations[n].private9.items.suit_3 = 1;
-	locations[n].private9.items.cirass3 = 7;
+	locations[n].private9.items.cirass4 = 7;
 	locations[n].private9.items.spyglass3 = 3;
 	locations[n].private9.items.jewelry3 = 13;
 	locations[n].private9.items.blade24 = 5;

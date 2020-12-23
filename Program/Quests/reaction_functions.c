@@ -8195,7 +8195,7 @@ void Slavetrader_EscapeSlaveInShore(string qName)
 			sld.lastname = "";
 			FantomMakeCoolFighter(sld, 35, 100, 100, "topor2", "pistol3", 80);
 	sld.SaveItemsForDead = true; // сохранять на трупе вещи
-			sld.cirassId = Items_FindItemIdx("cirass4");
+			sld.cirassId = Items_FindItemIdx("cirass3");
 			sld.DontClearDead = true;
 	LAi_SetWarriorType(sld);
     LAi_group_MoveCharacter(sld, "EnemyFight");

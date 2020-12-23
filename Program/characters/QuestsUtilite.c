@@ -439,7 +439,7 @@ void FillAboardCabinBox(ref _location, ref _npchar)
         _location.box1.items.icollection = 1;
         _location.box1.items.map_cuba = 1;
         _location.box1.items.jewelry4 = 25;
-        _location.box1.items.cirass3 = 1;
+        _location.box1.items.cirass4 = 1;
         ok = false;
 	}
     // квест №7, испанка , выручаем Пардаля, сундук кэпа флибустьеров
@@ -453,8 +453,8 @@ void FillAboardCabinBox(ref _location, ref _npchar)
         _location.box1.items.potion2 = 10;
         _location.box1.items.potionwine = 1;
         _location.box1.items.jewelry4 = 25;
-        _location.box1.items.cirass3 = 1;
-		_location.box1.items.cirass4 = 1;
+        _location.box1.items.cirass4 = 1;
+		_location.box1.items.cirass3 = 1;
         ok = false;
 	}
     // квест №8, испанка , защищаем Куману, сундук кэпа флибустьеров

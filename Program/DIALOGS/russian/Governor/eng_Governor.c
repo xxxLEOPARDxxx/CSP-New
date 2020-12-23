@@ -643,7 +643,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             pchar.GenQuestBox.FortOrange_townhall.box1.items.jewelry10 = Rand(5)+1;
             pchar.GenQuestBox.FortOrange_townhall.box1.items.jewelry14 = Rand(5)+1;
             pchar.GenQuestBox.FortOrange_townhall.box1.items.jewelry17 = Rand(5)+1;
-            pchar.GenQuestBox.FortOrange_townhall.box1.items.cirass4 = 1;
+            pchar.GenQuestBox.FortOrange_townhall.box1.items.cirass3 = 1;
 			locations[FindLocation("FortOrange_townhall")].models.day.charactersPatch = "SmallResidence_BoxPatch";
 			pchar.questTemp.State = "AttackFortOrange_GoToFort";
             SetQuestHeader("Eng_Line_5_AttackFortOrange");

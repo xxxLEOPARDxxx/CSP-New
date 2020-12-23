@@ -808,7 +808,7 @@ int LocationInitJamaica(int n)
 	locations[n].private2.money = 100000;
 	locations[n].private2.items.blade30 = 1; // Нобиль
 	locations[n].private2.items.blade14 = 1; 
-	locations[n].private2.items.cirass3 = 3; // Синяя кираса
+	locations[n].private2.items.cirass4 = 3; // Синяя кираса
 	locations[n].private2.items.pistol4 = 1;
 	locations[n].private2.items.suit_1 = 1; // Обноски
 	locations[n].private2.items.suit_2 = 1;

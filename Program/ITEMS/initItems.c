@@ -5834,7 +5834,7 @@ int InitItems()
 	itm.describe = "itmdescr_cirass1";
 	itm.folder = "items";
 	itm.model = "1";
-	itm.picIndex = 14;
+	itm.picIndex = 10;
 	itm.picTexture = "ITEMS_8";
 	itm.price = 7000;
 	// boal 19.01.2004 -->
@@ -5883,11 +5883,11 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "cirass4"; // Голландская кираса
+	itm.id = "cirass3"; // Голландская кираса
 	itm.groupID = CIRASS_ITEM_TYPE;
 	itm.Clothes = false;
-	itm.name = "itmname_cirass4";
-	itm.describe = "itmdescr_cirass4";
+	itm.name = "itmname_cirass3";
+	itm.describe = "itmdescr_cirass3";
 	itm.folder = "items";
 	itm.model = "3";
 	itm.picIndex = 12;
@@ -5907,11 +5907,11 @@ int InitItems()
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "cirass3"; // Испанская кираса
+	itm.id = "cirass4"; // Испанская кираса
 	itm.groupID = CIRASS_ITEM_TYPE;
 	itm.Clothes = false;
-	itm.name = "itmname_cirass3";
-	itm.describe = "itmdescr_cirass3";
+	itm.name = "itmname_cirass4";
+	itm.describe = "itmdescr_cirass4";
 	itm.folder = "items";
 	itm.model = "4";
 	itm.picIndex = 13;
@@ -5938,7 +5938,7 @@ int InitItems()
 	itm.describe = "itmdescr_cirass5";
 	itm.folder = "items";
 	itm.model = "5";
-	itm.picIndex = 10;
+	itm.picIndex = 14;
 	itm.picTexture = "ITEMS_8";
 	itm.price = 30000;
 	// boal 19.01.2004 -->
