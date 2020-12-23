@@ -774,7 +774,11 @@ void BLI_SetObjectData()
 		objLandInterface.imageslist.textinfoback2.pos = off;
 	}
 
-
+	objLandInterface.textinfo.deadboxinfo.font = "interface_button";
+	objLandInterface.textinfo.deadboxinfo.scale = 1.3 * fHtRatio;
+	objLandInterface.textinfo.deadboxinfo.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
+	objLandInterface.textinfo.deadboxinfo.pos.y = RecalculateVIcon(makeint(140 * fHtRatio));
+	objLandInterface.textinfo.deadboxinfo.refreshable = true;
 	//Charge info
 	/*objLandInterface.textinfo.chargetext.font = "interface_button";
 	objLandInterface.textinfo.chargetext.scale = 1.5 * fHtRatio;
@@ -861,7 +865,7 @@ void RefreshChargeTime()
 	else
 	{
 		//charge/hp info
-		/*objLandInterface.textinfo.chargetext.text = chr_ai.charge;
+		/*
 		objLandInterface.textinfo.hptext.text = makeint(chr.chr_ai.hp) + "/" +  makeint(chr.chr_ai.hp_max);*/
 		ref chr = &Characters[nMainCharacterIndex];
 		aref chr_ai;
@@ -885,6 +889,15 @@ void RefreshChargeTime()
 			if(InterfaceStates.HUDStyleLand) DrawCharacterHPEx(makefloat(0.42/makefloat(gunchm)*makefloat(gunch)),0.1);
 			else DrawCharacterHPExx(makefloat(0.35/makefloat(gunchm)*makefloat(gunch)),0.1);
 		}
+	}
+	if (InterfaceStates.DeadBoxText)
+	{
+		i = Dead_FindCloseBody();
+		if (i != -1)
+		{
+			objLandInterface.textinfo.deadboxinfo.text = "Есть труп для обыска";
+		}
+		else objLandInterface.textinfo.deadboxinfo.text = "";
 	}
 }
 

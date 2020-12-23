@@ -209,9 +209,15 @@ void IReadVariableAfterInit()
 	
 	int nShowBoardMode = 0;
 	if( CheckAttribute(&InterfaceStates,"ShowBoardMode") ) {
-		nShowBattleMode = sti(InterfaceStates.ShowBoardMode);
+		nShowBoardMode = sti(InterfaceStates.ShowBoardMode);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"BOARD_MODE_CHECKBOX", 2, 1, nShowBoardMode );
+	
+	int nDeadBoxText = 0;
+	if( CheckAttribute(&InterfaceStates,"DeadBoxText") ) {
+		nDeadBoxText = sti(InterfaceStates.DeadBoxText);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"DEADBOXTEXT_CHECKBOX", 2, 1, nDeadBoxText );
 	
 	
 	if(bBoardMode)
@@ -402,6 +408,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.CannonsHUD = bBtnState;
+		}
+	}
+	
+	if( sNodName == "DEADBOXTEXT_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.DeadBoxText = bBtnState;
 		}
 	}
 	
@@ -1049,6 +1062,11 @@ void ShowInfo()
 		case "CannonsHUD_CHECKBOX":
 			sHeader = XI_ConvertString("CannonsHUD_title");
 			sText1 = XI_ConvertString("CannonsHUD_desc");
+		break;
+		
+		case "DEADBOXTEXT_CHECKBOX":
+			sHeader = XI_ConvertString("DeadBoxText_title");
+			sText1 = XI_ConvertString("DeadBoxText_desc");
 		break;
 		
 		//#20171223-01 Camera perspective option

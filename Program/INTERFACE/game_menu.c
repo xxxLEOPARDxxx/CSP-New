@@ -52,6 +52,8 @@ void InitInterface_gm(string iniName)
 		SetSelectable("MB_SAVE", false);
 	}
 
+	string text4 = "Стартовые условия";
+    SetFormatedText("STARTINFO_TITLE", text4);
 	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum());
 	string text = "Дозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nНе ограничивать пиратские квесты: "+bNoPirateRestrictions+"\nСнижение порога корабельных перков: "+bHigherShipRate;
 	SetFormatedText("STARTINFO_TEXT", text);
@@ -65,6 +67,7 @@ void InitInterface_gm(string iniName)
 	SetFormatedText("STARTINFO_TEXT2", text2);
 	SetFormatedText("COPYRIGHTS_TEXT", PROVIDER_TXT);
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga.tx");
+	
 
 	if(LAi_IsBoardingProcess())	SetSelectable("MB_RESUME",false);
 

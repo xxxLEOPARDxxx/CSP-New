@@ -147,6 +147,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.CannonsHUD = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"DeadBoxText") ) {
+		optref.cameramode.DeadBoxText = sti(InterfaceStates.DeadBoxText);
+	} else {
+		optref.cameramode.DeadBoxText = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -268,6 +274,13 @@ void SetCurentOptions(ref optref)
 	} else {
 		InterfaceStates.CannonsHUD = false;
 	}
+	
+	if( CheckAttribute(optref,"cameramode.DeadBoxText") ) {
+		InterfaceStates.DeadBoxText = optref.cameramode.DeadBoxText;
+	} else {
+		InterfaceStates.DeadBoxText = false;
+	}
+
 
 	// mouse
 	if( CheckAttribute(optref,"cameramode.InvertCameras") ) {
