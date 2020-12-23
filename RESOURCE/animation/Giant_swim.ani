@@ -767,6 +767,30 @@ data = "Blend time", "0.4"		; sec
 
 data = "Probability", "0.2"
 
+[fight stand_7]
+loop = true
+type = normal
+start_time = 3384
+end_time = 3422
+
+speed = 1.2
+
+data = "Blend time", "0.4"		; sec
+
+data = "Probability", "0.05"
+
+
+[fight stand_8]
+loop = true
+type = normal
+start_time = 3422
+end_time = 3456
+
+speed = 1.2
+
+data = "Blend time", "0.4"		; sec
+
+data = "Probability", "0.2"
 
 
 ; ÁÎÅÂÛÅ ÏÅĞÅÌÅÙÅÍÈß
@@ -1710,7 +1734,15 @@ data = "Blend time", "0.3"		; sec
 ;event = "BodyFall", 2806, normal
 ;event = "Death sound", 2734, normal
 
+;—ïğûãèâàíèå
+[fall]
+start_time = 126
+end_time = 162
 
+speed = 1.3
+loop = false
+
+event = "Jump pause", 139 , normal
 ;Ëåæàíèå
      [Lay_1]
 speed = 1.

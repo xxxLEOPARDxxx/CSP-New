@@ -134,13 +134,6 @@ void ProcessDialogEvent()
 		break;
 
 	case "Second time":
-	if (loadedLocation.type == "tavern" && Npchar.questTemp.FallGenShipBack == "yes")
-	{
-	Dialog.text = "Я не хочу иметь с тобой общих дел! Отвали от меня!";
-	link.l1 = "...."
-	link.l1.go = "Exit";
-	break;
-	}
 		if (CheckAttribute(NPChar, "PGGAi.location.town.back") && CheckAttribute(pchar, "questTemp.PGGContra.Know"))
 		{
 			Dialog.text = "Слушай, проваливай отсюда! Сорвешь мне сделку, и я тебе зенки поганые выдавлю!";
