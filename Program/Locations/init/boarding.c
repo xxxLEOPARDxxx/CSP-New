@@ -3453,7 +3453,7 @@ int LocationInitBoarding(int n)
 	locations[n].environment.sea = "true";
 
 	Locations[n].boarding = "true";
-	Locations[n].boarding.locatorNum = 48; //14;
+	Locations[n].boarding.locatorNum = 24; //14;
 	Locations[n].boarding.nextdeck = "Boarding_Cargohold";
 	Locations[n].UpDeckType = true;
 

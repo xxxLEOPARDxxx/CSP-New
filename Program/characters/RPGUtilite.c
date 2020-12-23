@@ -120,7 +120,8 @@ int GetFreePoints_SelfRate(ref _chref)
 
 int GetFreePoints_ShipRate(ref _chref)
 {
-    return 40 - GetCharacterSPECIALSimple(_chref, SPECIAL_I);
+	if (bHigherShipRate) return 30 - GetCharacterSPECIALSimple(_chref, SPECIAL_I);
+    else return 40 - GetCharacterSPECIALSimple(_chref, SPECIAL_I);
 }
 /////////////////////////////////////////////////////////////////////////
 

@@ -30,7 +30,7 @@ void InitShips()
 		refShip.Height.Balls.Y		= 3.0;		refShip.Height.Balls.DY		= 1.0;
 
         refship.WindAgainstSpeed   = 1.0;//boal
-		refship.CabinType          = "Cabin_Low"; // потом припишем слово My_ и будет каютой для ГГ
+		refship.CabinType          = "Cabin_Small"; // потом припишем слово My_ и будет каютой для ГГ
         refShip.AbordageLocation			= "BOARDING_Low_DECK";
         refship.DeckType          = "Low";
         
@@ -365,7 +365,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.6;
 	refship.TurnDependWeight			= 0.2;
 	refship.WindAgainstSpeed   = 9.0;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 
 	refship.InertiaAccelerationX	= 10.0;	refship.InertiaBrakingX		= 10.0;
@@ -580,7 +580,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.6;
 	refship.TurnDependWeight			= 0.2;
 	refship.WindAgainstSpeed   = 10.0;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	
 	refship.InertiaAccelerationX	= 10.0;	refship.InertiaBrakingX		= 10.0;
@@ -717,7 +717,7 @@ void InitShips()
 	refship.SubSeaDependWeight	= 0.6;
 	refship.TurnDependWeight	= 0.3;
 	refship.WindAgainstSpeed   	= 3.3;//boal
-	refship.CabinType          	= "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          	= "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	
 	refShip.Flags.Mast1.Flag1 = FLAG_SPECIAL;
@@ -797,7 +797,7 @@ void InitShips()
 	refShip.SubSeaDependWeight = 0.5;
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 8.0;//boal	
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	
 	refShip.GeraldSails.rey_a2	= 1;
@@ -941,7 +941,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.3;
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 8.0;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 
 	refShip.Height.Bombs.Y				= 2.0;	refShip.Height.Bombs.DY		= 1.0;
@@ -1461,7 +1461,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.2;
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 7.5;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	
 	refship.InertiaAccelerationX	= 8.0;	refship.InertiaBrakingX		= 8.0;
@@ -1668,7 +1668,7 @@ void InitShips()
 	refship.SubSeaDependWeight = 0.3;
 	refship.TurnDependWeight = 0.4;
 	refship.WindAgainstSpeed   = 9.2;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	
 	refship.InertiaAccelerationX	= 0.2;	refship.InertiaBrakingX		= 2.0;
@@ -1812,7 +1812,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.2;
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 7.5;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	
 	refShip.InertiaAccelerationX	= 0.2;	refShip.InertiaBrakingX		= 2.0;
@@ -2110,7 +2110,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.3;
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 6.6;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 
 	refShip.Flags.Mast0.Flag1 = FLAG_ENSIGN;
@@ -2189,7 +2189,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.6;
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 3.3;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
@@ -2419,7 +2419,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.6;
 	refship.TurnDependWeight			= 0.3;
 	refship.WindAgainstSpeed   = 9.1;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 
 	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
@@ -2650,7 +2650,7 @@ void InitShips()
 	refship.SubSeaDependWeight = 0.3;
 	refship.TurnDependWeight = 0.3;
 	refship.WindAgainstSpeed = 4.3;//boal
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 
 	refship.InertiaAccelerationX = 0.2; refship.InertiaBrakingX = 2.0;
@@ -9519,7 +9519,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.6;
 	refship.TurnDependWeight			= 0.2;
 	refship.WindAgainstSpeed   			= 11.0								+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refship.CabinType          			= "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          			= "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	
 	refship.InertiaAccelerationX	= 10.0;	refship.InertiaBrakingX		= 10.0;
@@ -9565,7 +9565,7 @@ void InitShips()
 	refShip.Price          		= 150500;
 	refShip.HP             			= 2500							+ 50 * MOD_SKILL_ENEMY_RATE;
 	refShip.SP             			= 100;
-	refship.CabinType          	= "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          	= "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Medium";
 	refship.Type.Merchant		= false;
 	refship.Type.War			= true;
@@ -9637,7 +9637,7 @@ void InitShips()
 	refShip.Price          		= 167500;
 	refShip.HP             			= 2800							+ 50 * MOD_SKILL_ENEMY_RATE;
 	refShip.SP             			= 100;
-	refship.CabinType          = "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Medium";
 	refship.Type.Merchant		= false;
 	refship.Type.War			= true;
@@ -9709,7 +9709,7 @@ void InitShips()
 	refShip.Price          		= 170500;
 	refShip.HP             			= 3200							+ 50 * MOD_SKILL_ENEMY_RATE;
 	refShip.SP             			= 100;
-	refship.CabinType          	= "Cabin_Low"; // boal 28.03.05
+	refship.CabinType          	= "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Medium";
 	refship.Type.Merchant		= false;
 	refship.Type.War			= true;

@@ -284,6 +284,9 @@ void BlueBird_seaBattle(string qName)
 	sld.dialog.filename = "Quest\ForAll_dialog.c";
 	sld.dialog.currentnode = "BlueBirdCapitain";
 	sld.greeting = "CapSinkShip";
+	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	sld.HeroModel = "QuestCaptain,QuestCaptain_1,QuestCaptain_2,QuestCaptain_3,QuestCaptain_4,QuestCaptain_5,QuestCaptain,QuestCaptain,QuestCaptain";
+	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	FantomMakeCoolFighter(sld, 30, 70, 70, "blade34", "pistol6", 100);
 	FantomMakeCoolSailor(sld, SHIP_XebekVML, "Синяя Птица", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
 	DeleteAttribute(sld, "SinkTenPercent");
@@ -3395,6 +3398,9 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.name = "Джон";
 	sld.lastname = "Уоркман";
 	sld.rank = 30;
+	//Korsar Maxim - Прописка всех моделей для кирас. (Увы, но моделям на основе драгуна можно только 1.3.2 кирасы) -->
+	sld.HeroModel = "Dragoon_1,Dragoon_2,Dragoon_3,Dragoon_4,Dragoon_5,Dragoon_6,Dragoon_1,Dragoon_1,Dragoon_1";
+	//Korsar Maxim - Прописка всех моделей для кирас. (Увы, но моделям на основе драгуна можно только 1.3.2 кирасы) <--
 	sld.city = "LostShipsCity";
 	sld.location	= "SanAugustineResidence";
 	sld.location.group = "goto";
@@ -3897,6 +3903,9 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.name = "Хенрик";
 	sld.lastname = "Ведекер";
 	sld.rank = 5;
+	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	sld.HeroModel = "Mechanic,Mechanic_1,Mechanic_2,Mechanic_3,Mechanic_4,Mechanic_5,Mechanic,Mechanic,Mechanic";
+	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.city = "LostShipsCity";
 	sld.location	= "SanGabrielMechanic";
 	sld.location.group = "barmen";
@@ -9590,6 +9599,9 @@ void Create_Ja(string qName)//cоздаем Птицу с Джа
 	sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "Ja_talk";
 	sld.greeting = "CapSinkShip";
+	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	sld.HeroModel = "QuestCaptain,QuestCaptain_1,QuestCaptain_2,QuestCaptain_3,QuestCaptain_4,QuestCaptain_5,QuestCaptain,QuestCaptain,QuestCaptain";
+	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	FantomMakeCoolFighter(sld, 35, 75, 75, "blade14", "pistol6", 100);
 	FantomMakeCoolSailor(sld, SHIP_XebekVML, "Синяя Птица", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
 	DeleteAttribute(sld, "SinkTenPercent");

@@ -53,6 +53,16 @@ void InitInterface_gm(string iniName)
 	}
 
 	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum());
+	string text = "Дозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nНе ограничивать пиратские квесты: "+bNoPirateRestrictions+"\nСнижение порога корабельных перков: "+bHigherShipRate;
+	SetFormatedText("STARTINFO_TEXT", text);
+	string text3;
+	if (pchar.BaseNation == ENGLAND) text3 = "Англия";
+	if (pchar.BaseNation == FRANCE) text3 = "Франция";
+	if (pchar.BaseNation == HOLLAND) text3 = "Голландия";
+	if (pchar.BaseNation == SPAIN) text3 = "Испания";
+	if (pchar.BaseNation == PIRATE) text3 = "Пират";
+	string text2 = "Сложность: "+GetLevelComplexity(MOD_SKILL_ENEMY_RATE)+"\nНация: "+text3+"\nСкорость набора опыта: "+MOD_EXP_RATE+" / 24\nКоличество абордажников: "+MOD_OFFICERS_RATE+"\nВремя исчезновения трупов: "+MOD_DEAD_CLEAR_TIME+"\nЧастота событий: "+iEncountersRate+"\nРежим плавания: "+iArcadeSails;
+	SetFormatedText("STARTINFO_TEXT2", text2);
 	SetFormatedText("COPYRIGHTS_TEXT", PROVIDER_TXT);
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga.tx");
 

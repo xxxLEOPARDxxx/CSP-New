@@ -125,7 +125,7 @@ void ProcessDialogEvent()
 					link.l1 = "Ну и ладно.";
 					link.l1.go = "Exit";
 
-					if (Pchar.BaseNation == PIRATE)
+					if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions)
 					{
 						if(!CheckAttribute(PChar, "questTemp.pirateStartQuest"))
 						{

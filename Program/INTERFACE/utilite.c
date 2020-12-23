@@ -731,10 +731,13 @@ void SaveStartGameParam()
 
     optref.StartGameParam.PlayerProfile    = GameInterface.PROFILE_NAME.str;//PlayerProfile.name;
     optref.StartGameParam.MOD_SKILL_ENEMY_RATE   = MOD_SKILL_ENEMY_RATE;
+	optref.StartGameParam.MOD_DEAD_CLEAR_TIME   = MOD_DEAD_CLEAR_TIME;
     optref.StartGameParam.bHardcoreGame          = bHardcoreGame;
 	optref.StartGameParam.bPartitionSet          = bPartitionSet;
-	optref.StartGameParam.bSailorsWeight          = bSailorsWeight;
-	optref.StartGameParam.bNewSails         = bNewSails;
+	optref.StartGameParam.bSailorsWeight         = bSailorsWeight;
+	optref.StartGameParam.bNewSails         	 = bNewSails;
+	optref.StartGameParam.bNoPirateRestrictions  = bNoPirateRestrictions;
+	optref.StartGameParam.bHigherShipRate  		 = bHigherShipRate;
     optref.StartGameParam.bRechargePistolOnLine  = bRechargePistolOnLine;
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
 	optref.StartGameParam.iArcadeSails           = iArcadeSails;
@@ -763,6 +766,10 @@ void LoadStartGameParam()
 	{
     	MOD_SKILL_ENEMY_RATE = sti(optref.StartGameParam.MOD_SKILL_ENEMY_RATE);
     }
+	if (CheckAttribute(optref, "StartGameParam.MOD_DEAD_CLEAR_TIME"))
+	{
+    	MOD_DEAD_CLEAR_TIME = sti(optref.StartGameParam.MOD_DEAD_CLEAR_TIME);
+    }
     if (CheckAttribute(optref, "StartGameParam.bHardcoreGame"))
 	{
     	bHardcoreGame = sti(optref.StartGameParam.bHardcoreGame);
@@ -778,6 +785,14 @@ void LoadStartGameParam()
 	if (CheckAttribute(optref, "StartGameParam.bNewSails"))
 	{
     	bNewSails = sti(optref.StartGameParam.bNewSails);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bNoPirateRestrictions"))
+	{
+    	bNoPirateRestrictions = sti(optref.StartGameParam.bNoPirateRestrictions);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bHigherShipRate"))
+	{
+    	bHigherShipRate = sti(optref.StartGameParam.bHigherShipRate);
     }
     if (CheckAttribute(optref, "StartGameParam.bRechargePistolOnLine"))
 	{

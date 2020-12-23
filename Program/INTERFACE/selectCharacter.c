@@ -42,6 +42,10 @@ void InitInterface(string iniName)
 	MOD_OFFICERS_RATE = 3;
 	GameInterface.nodes.OFF_SLIDE.value = 0.5;
     SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"OFF_SLIDE", 0, 0.5);
+	
+	MOD_DEAD_CLEAR_TIME = 100;
+	GameInterface.nodes.DEAD_SLIDE.value = 0.5;
+    SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"DEAD_SLIDE", 0, 0.5);
 
     if (startHeroType < 1) startHeroType = 1; // fix
     if (startHeroType > sti(GetNewMainCharacterParam("hero_qty"))) startHeroType = sti(GetNewMainCharacterParam("hero_qty")); // fix
@@ -128,6 +132,22 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_SAILS", 1, false);
     }
+	if (bNoPirateRestrictions)// 1 0
+    {
+    	CheckButton_SetState("CHECK_NOPIRATE", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_NOPIRATE", 1, false);
+    }
+	if (bHigherShipRate)// 1 0
+    {
+    	CheckButton_SetState("CHECK_LOWERSHIP", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_LOWERSHIP", 1, false);
+    }
     if (bHardcoreGame)// 1 0
     {
     	CheckButton_SetState("CHECK_HARDCORE", 1, true);
@@ -149,6 +169,7 @@ void SetByDefault()
 void IProcessFrame()
 {
 	TmpI_ShowOffAmount();
+	TmpI_ShowDeadAmount();
 	if(GetCurrentNode() == "PROFILE_NAME")
 	{
 		if(!CheckAttribute(&characters[GetCharacterIndex(sCharacterName)], "profile.name"))
@@ -224,6 +245,22 @@ void IProcessFrame()
 	else
 	{
 		bNewSails = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_NOPIRATE", 3, 1))
+	{
+		bNoPirateRestrictions = true;
+	}
+	else
+	{
+		bNoPirateRestrictions = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_LOWERSHIP", 3, 1))
+	{
+		bHigherShipRate = true;
+	}
+	else
+	{
+		bHigherShipRate = false;
 	}
 	///
  	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_MARK", 3, 1))
@@ -349,6 +386,13 @@ void ProcessCommandExecute()
 			if(comName=="click" || comName=="leftstep" || comName=="speedleft" || comName=="rightstep" || comName=="speedright" || comName=="deactivate" || comName=="rclick")
 			{
 				TmpI_ShowOffAmount();
+			}
+		break;
+		
+		case "DEAD_SLIDE":
+			if(comName=="click" || comName=="leftstep" || comName=="speedleft" || comName=="rightstep" || comName=="speedright" || comName=="deactivate" || comName=="rclick")
+			{
+				TmpI_ShowDeadAmount();
 			}
 		break;
 
@@ -614,6 +658,9 @@ void IDoExit(int exitCode, bool bCode)
 		MOD_OFFICERS_RATE = makeint(10 - 7.0 * (1.0 - stf(GameInterface.nodes.OFF_SLIDE.value)));  // 0т 3 до 10
 		trace("MOD_OFFICERS_RATE = " + MOD_OFFICERS_RATE);
 		
+		MOD_DEAD_CLEAR_TIME = makeint(500 - 400.0 * (1.0 - stf(GameInterface.nodes.DEAD_SLIDE.value)));  // 0т 100 до 500
+		trace("MOD_DEAD_CLEAR_TIME = " + MOD_DEAD_CLEAR_TIME);
+		
 		interfaceResultCommand = exitCode;
 		EndCancelInterface(bCode);
 	}
@@ -712,6 +759,16 @@ void ShowInfo()
 			sText1 = GetRPGText("NewSails_hint");
 		break;
 		
+		case "CHECK_NOPIRATE":
+			sHeader = XI_ConvertString("NoPirate");
+			sText1 = GetRPGText("NoPirate_hint");
+		break;
+		
+		case "CHECK_LOWERSHIP":
+			sHeader = XI_ConvertString("LowerShip");
+			sText1 = GetRPGText("LowerShip_hint");
+		break;
+		
 		case "CHECK_MARK":
 			sHeader = XI_ConvertString("QuestMark");
 			sText1 = GetRPGText("QuestMark_desc");
@@ -725,6 +782,11 @@ void ShowInfo()
 		case "OFF_SLIDE":
 			sHeader = GetRPGText("OFF_SLIDE");
 			sText1 = GetRPGText("OFF_SLIDE_desc");
+		break;
+		
+		case "DEAD_SLIDE":
+			sHeader = GetRPGText("DEAD_SLIDE");
+			sText1 = GetRPGText("DEAD_SLIDE_desc");
 		break;
 	}
 	//sHeader = XI_ConvertString("Nation");
@@ -906,4 +968,8 @@ void TmpI_ShowLevelComplexity()
 void TmpI_ShowOffAmount()
 {
     SetFormatedText("OFF_COUNT", "" + makeint(10 - 7.0 * (1.0 - stf(GameInterface.nodes.OFF_SLIDE.value))));
+}
+void TmpI_ShowDeadAmount()
+{
+    SetFormatedText("DEAD_COUNT", "" + makeint(500 - 400.0 * (1.0 - stf(GameInterface.nodes.DEAD_SLIDE.value))));
 }

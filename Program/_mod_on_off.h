@@ -71,6 +71,10 @@ bool 	bPartitionSet 				= true;
 bool 	bSailorsWeight 				= true;
 // новые паруса
 bool 	bNewSails 				= true;
+// нет пиратам
+bool 	bNoPirateRestrictions	= true;
+// -10 корабельного порога
+bool 	bHigherShipRate	= true;
 // ћаркировка квестовых
 bool 	bQuestMark 					= false;
 //јбордаж стенка на стенку
@@ -89,7 +93,7 @@ int MOD_SKILL_ENEMY_RATE   = 5; // 1- easy; 2; 3; 4;  5-medium; 6; 7; 8; 9;  10 
 int MOD_OFFICERS_RATE   = 3;
 // Killed body clear
 #define MOD_DEAD_CLEAR           "On"
-#define MOD_DEAD_CLEAR_TIME      100 // in sec.
+int MOD_DEAD_CLEAR_TIME = 100; // in sec.
 
 #define CHAR_ITEMS_WEIGHT        70
 

@@ -26,7 +26,7 @@ void ProcessDialogEvent()
 			}
 
 
-					if (Pchar.BaseNation == PIRATE)
+					if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions)
 					{
 						if(!CheckAttribute(PChar, "questTemp.pirateStartQuest"))
 						{

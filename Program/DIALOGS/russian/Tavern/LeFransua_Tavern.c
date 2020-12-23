@@ -23,65 +23,70 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			//-->ОЗГ
 			if(CheckAttribute(pchar, "questTemp.Headhunter"))
 			{
-	    		if (pchar.questTemp.Headhunter == "vector_barmen" && Pchar.BaseNation == PIRATE)
-	    		{
-	    			link.l1 = "Добрый день. Меня прислал ваш друг, из контрабандистов. Он сказал, что вы ищете человека для выполнения какого-то задания.";
-	    			link.l1.go = "Barmen_check";
-	    			break;
-	    		}
+	    		if (pchar.questTemp.Headhunter == "vector_barmen")
+				{
+					if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions)
+					{
+						link.l1 = "Добрый день. Меня прислал ваш друг, из контрабандистов. Он сказал, что вы ищете человека для выполнения какого-то задания.";
+						link.l1.go = "Barmen_check";
+						break;
+					}
+				}
 
-			
-			if (npchar.city == "LeFransua" && Pchar.BaseNation == PIRATE && pchar.questTemp.Headhunter == "barmen_wait")
-			{
-				link.l1 = "Добрый день, " + npchar.name + ". Это опять я. Что вы скажете по поводу вашего задания?";
-				link.l1.go = "Barmen_check";
-				break;
-			}
-			if (pchar.questTemp.Headhunter == "hunt_carlos_yes")
-			{
-				link.l1 = "Добрый день, " + npchar.name + ". У меня хорошие новости. Карлос Кассир уничтожен.";
-				link.l1.go = "Endtaskhunt_1";
-			}
-			if(pchar.questTemp.Headhunter == "next_task_2" && GetQuestPastDayParam("pchar.questTemp.Headhunter_next_task_2") > 9)
-			{
-				link.l1 = "Добрый день, " + npchar.name + ". Я приш"+ GetSexPhrase("ел","ла") +", как мы и договаривались. Раздобыли какую-нибудь полезную информацию?";
-				link.l1.go = "Givetaskhunt_2";
-			}			
-			if (pchar.questTemp.Headhunter == "hunt_houm_yes")
-			{
-				link.l1 = "Добрый день, " + npchar.name + ". Мне удалось отправить Ганнибала Холма на корм рыбам, хоть это было и непросто.";
-				link.l1.go = "Endtaskhunt_2";
-			}
-			if(pchar.questTemp.Headhunter == "next_task_3" && GetQuestPastDayParam("pchar.questTemp.Headhunter_next_task_3") > 14)
-			{
-				link.l1 = "Здравствуйте, " + npchar.name + ". Надеюсь, я вовремя?";
-				link.l1.go = "Givetaskhunt_3";
-			}
-			if (pchar.questTemp.Headhunter == "hunt_rat_yes1")
-			{
-				link.l1 = "Я прибыл"+ GetSexPhrase("","а") +" с хорошими новостями, " + npchar.name + ". Мне удалось выманить Крысу. Я абордировал"+ GetSexPhrase("","а") +" его корабль, а самого его отправил"+ GetSexPhrase("","а") +" к Дэви Джонсу.";
-				link.l1.go = "Endtaskhunt_3";
-			}
-			if (pchar.questTemp.Headhunter == "hunt_rat_yes2")
-			{
-				link.l1 = "Я прибыл"+ GetSexPhrase("","а") +" с хорошими новостями, " + npchar.name + ". Мне удалось выманить Крысу. Я отправил"+ GetSexPhrase("","а") +" его к Дэви Джонсу вместе с его кораблем.";
-				link.l1.go = "Endtaskhunt_3";
-			}
-			if(pchar.questTemp.Headhunter == "next_task_4" && GetQuestPastDayParam("pchar.questTemp.Headhunter_next_task_4") > 17)
-			{
-				link.l1 = "Приветствую вас, " + npchar.name + ". Вот и я. Какие новости?";
-				link.l1.go = "Givetaskhunt_4";
-			}
-			if (pchar.questTemp.Headhunter == "hunt_halen_yes")
-			{
-				link.l1 = "Мартин ван  Хален больше не будет тревожить покой жителей Ле Франсуа, " + npchar.name + ".";
-				link.l1.go = "Endtaskhunt_4";
-			}
-			if(pchar.questTemp.Headhunter == "hunt_ja_yes")
-			{
-				link.l1 = "Добрый день, " + npchar.name + ". Сегодня он действительно добрый. С бандой Джа Престона покончено навсегда.";
-				link.l1.go = "Endtaskhunt_5";
-			}
+				if (npchar.city == "LeFransua" && pchar.questTemp.Headhunter == "barmen_wait")
+				{
+					if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions)
+					{
+						link.l1 = "Добрый день, " + npchar.name + ". Это опять я. Что вы скажете по поводу вашего задания?";
+						link.l1.go = "Barmen_check";
+						break;
+					}
+				}
+				if (pchar.questTemp.Headhunter == "hunt_carlos_yes")
+				{
+					link.l1 = "Добрый день, " + npchar.name + ". У меня хорошие новости. Карлос Кассир уничтожен.";
+					link.l1.go = "Endtaskhunt_1";
+				}
+				if(pchar.questTemp.Headhunter == "next_task_2" && GetQuestPastDayParam("pchar.questTemp.Headhunter_next_task_2") > 9)
+				{
+					link.l1 = "Добрый день, " + npchar.name + ". Я приш"+ GetSexPhrase("ел","ла") +", как мы и договаривались. Раздобыли какую-нибудь полезную информацию?";
+					link.l1.go = "Givetaskhunt_2";
+				}			
+				if (pchar.questTemp.Headhunter == "hunt_houm_yes")
+				{
+					link.l1 = "Добрый день, " + npchar.name + ". Мне удалось отправить Ганнибала Холма на корм рыбам, хоть это было и непросто.";
+					link.l1.go = "Endtaskhunt_2";
+				}
+				if(pchar.questTemp.Headhunter == "next_task_3" && GetQuestPastDayParam("pchar.questTemp.Headhunter_next_task_3") > 14)
+				{
+					link.l1 = "Здравствуйте, " + npchar.name + ". Надеюсь, я вовремя?";
+					link.l1.go = "Givetaskhunt_3";
+				}
+				if (pchar.questTemp.Headhunter == "hunt_rat_yes1")
+				{
+					link.l1 = "Я прибыл"+ GetSexPhrase("","а") +" с хорошими новостями, " + npchar.name + ". Мне удалось выманить Крысу. Я абордировал"+ GetSexPhrase("","а") +" его корабль, а самого его отправил"+ GetSexPhrase("","а") +" к Дэви Джонсу.";
+					link.l1.go = "Endtaskhunt_3";
+				}
+				if (pchar.questTemp.Headhunter == "hunt_rat_yes2")
+				{
+					link.l1 = "Я прибыл"+ GetSexPhrase("","а") +" с хорошими новостями, " + npchar.name + ". Мне удалось выманить Крысу. Я отправил"+ GetSexPhrase("","а") +" его к Дэви Джонсу вместе с его кораблем.";
+					link.l1.go = "Endtaskhunt_3";
+				}
+				if(pchar.questTemp.Headhunter == "next_task_4" && GetQuestPastDayParam("pchar.questTemp.Headhunter_next_task_4") > 17)
+				{
+					link.l1 = "Приветствую вас, " + npchar.name + ". Вот и я. Какие новости?";
+					link.l1.go = "Givetaskhunt_4";
+				}
+				if (pchar.questTemp.Headhunter == "hunt_halen_yes")
+				{
+					link.l1 = "Мартин ван  Хален больше не будет тревожить покой жителей Ле Франсуа, " + npchar.name + ".";
+					link.l1.go = "Endtaskhunt_4";
+				}
+				if(pchar.questTemp.Headhunter == "hunt_ja_yes")
+				{
+					link.l1 = "Добрый день, " + npchar.name + ". Сегодня он действительно добрый. С бандой Джа Престона покончено навсегда.";
+					link.l1.go = "Endtaskhunt_5";
+				}
 			}
 		break;
 		//пиратка, квест №2, черная метка для Лоу
