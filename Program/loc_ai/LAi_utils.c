@@ -335,7 +335,7 @@ void LAi_ApplyCharacterDamage(aref chr, int dmg)
 	bool bloodSize = false;
 	if (damage > 30.0) bloodSize = true;
 	float fRange = 1.0 + frand(0.6);
-	if(CheckAttribute(chr,"model.animation") && chr.model.animation != "skeleton")
+	if(CheckAttribute(chr, "model.animation") && CheckAttribute(chr, "sex") && chr.model.animation != "skeleton" && chr.sex != "skeleton")
 	{
 		LaunchBlood(chr, fRange, bloodSize);
 	}	
@@ -1084,10 +1084,17 @@ void Dead_LaunchCharacterItemChange(ref chref)
 
 void MakePoisonAttack(aref attack, aref enemy)
 {
+	if(enemy.sex == "skeleton" || CheckAttribute(enemy, "PoisonImmune"))
+	{
+		if (enemy.index == GetMainCharacterIndex()) Log_SetStringToLog("¬ас безуспешно попытались отравить.");
+		else Log_SetStringToLog("ѕерсонаж " + GetFullName(enemy) + " неу€звим к отравлению.");
+		return;
+	}
+	
 	if (!CheckAttribute(enemy, "chr_ai.poison"))
 	{
 		if (enemy.index == GetMainCharacterIndex()) Log_SetStringToLog(XI_ConvertString("You've been poisoned"));
-		else Log_SetStringToLog(GetFullName(enemy) + XI_ConvertString("is poisoned"));
+		else Log_SetStringToLog("ѕерсонаж " + GetFullName(enemy) + " отравлен.");
 	}
 	//ќтравл€ем персонажа
 	float poison = 0.0;
