@@ -646,6 +646,10 @@ void CreateModel(int iChar, string sType, int iSex)
 			sBody = "pirate";
 			iNumber = rand(24)+1;
 		break;
+		case "sailor":
+			sBody = "shipowner";
+			iNumber = rand(9)+20;
+		break;
 		case "trader":
 			sBody = "trader";
 			iNumber = rand(15)+1;

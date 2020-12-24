@@ -87,6 +87,46 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
                                  "Всего хорошего.");
 		link.l2.go = "exit";
 	break;
+	
+	///////////////////////////////////////////---слухи матросов---////////////////////////////////////////////
+	case "rumours_sailor":	
+		NextDiag.CurrentNode = "rumours";
+
+		if (!CheckAttribute(NPChar, "quest.repeat.rumours_citizen") || NPChar.quest.repeat.rumours_citizen != 2) srum = SelectRumourEx("sailor", NPChar);
+        else srum = NO_RUMOUR_TEXT[rand(SIMPLE_RUMOUR_NUM - 1)]; // fix
+        if (RumourHasInformation(srum))
+        {
+            posrep1 = RandPhraseSimple(" Такие вот дела...", " Возможно, вас это позабавит.");
+            posrep2 = " А у вас, капитан, есть какие-нибудь известия для нашей колонии?";
+            answ1 = RandPhraseSimple(RandSwear() + "Интересные вещи ты рассказываешь, "+GetFullName(NPChar)+".",
+"Тогда расскажи мне еще...");
+            answ2 = RandPhraseSimple(RandSwear() + "Это очень интересно! Вот что еще хотел"+ GetSexPhrase("","а") +" спросить...","Еще вопрос.");
+            answ3 = RandPhraseSimple("Чего только не случается на свете. Мне жаль, но никаких новостей у меня нет. ","Я немного спешу, так что как-нибудь в другой раз.");
+            answ4 = "";
+        }
+        else
+        {
+            posrep1 = " У нас вообще редко что-либо происходит. Но если же произойдет что-то необычное, то все об этом только и говорят.";
+            posrep2 = " Так что новостей никаких. Но может " + GetAddress_Form(NPChar) + " капитан что-то знает?";
+            answ1 = RandPhraseSimple("Тогда расскажи-ка мне лучше...",RandSwear() + "Ты ничего не знаешь! Ладно, вот что еще хотел"+ GetSexPhrase("","а") +" спросить...");
+            answ2 = RandPhraseSimple("Говоришь, не знаешь, ладно, скажи мне тогда...","Да, не сильно ты мне помог"+NPCharSexPhrase(NPChar, "","ла")+", но, может, ты знаешь что-то еще?");
+            answ3 = RandPhraseSimple("Не думаю, что знаю что-то что, могло бы вас заинтересовать.","Я с удовольствием что-нибудь расскажу, но как-нибудь в другой раз.");
+            answ4 = "";
+        }
+		Dialog.Text = NPCStringReactionRepeat(srum,
+            srum+posrep1,
+            srum+posrep2,
+            RandPhraseSimple("К сожалению, больше я ничего не знаю, позвольте мне идти.","Вы утомили меня своими расспросами, прошу меня простить, но меня ждут дела."),"block", 1, npchar, Dialog.CurrentNode);
+        link.l1 = HeroStringReactionRepeat(answ1,
+            answ2,
+            answ3,
+            answ4,
+            npchar, Dialog.CurrentNode);
+		link.l1.go = "question";
+		link.l2 = RandPhraseSimple("Спасибо, долж"+ GetSexPhrase("ен","на") +" откланяться.","Всего хорошего.");
+		link.l2.go = "exit";
+	break;
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	case "rumours_habitue":
 		Dialog.Text = LinkRandPhrase("Ну... И-ик! ","Эх, какой ром! ","Н-да... ")+SelectRumourEx("habitue", NPChar);

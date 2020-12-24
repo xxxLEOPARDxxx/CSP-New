@@ -33,7 +33,7 @@ void CreateCitizens(aref loc)
 		return;
 	}
 
-	int iCitizensQuantity, iModel;
+	int iCitizensQuantity, iModel, iSailorQty;
 	ref chr;
 	int iChar, i, iSex;
 	bool bOk;
@@ -73,7 +73,41 @@ void CreateCitizens(aref loc)
 	if (checkAttribute(loc, "citizens") || loc.type == "church")
 	{
 		iCitizensQuantity = rand(8) + 6;
+		if(loc.type == "town") iSailorQty = rand(2)+2;
+		
 		if (loc.type == "church")  iCitizensQuantity = rand(6) + 2;
+
+        if(iNation != PIRATE || sti(Colonies[iColony].HeroOwn) == true)//колония
+		{
+			for(i=0; i<iSailorQty; i++)//матросы
+			{
+      	      iSex = MAN;
+				sType = "sailor";
+				iChar = NPC_GeneratePhantomCharacter("sailor", iNation, iSex, 2);
+				chr = &characters[iChar];
+				SetNPCModelUniq(chr, sType, iSex);
+				chr.City = Colonies[iColony].id;
+				chr.CityType = "citizen";
+				LAi_SetLoginTime(chr, 6.0, 21.99);
+				LAi_SetCitizenType(chr);
+				GiveItem2Character(chr, RandPhraseSimple("blade3","blade5"));
+				EquipCharacterbyItem(chr, RandPhraseSimple("blade3","blade5"));
+				if (sti(Colonies[iColony].HeroOwn) == true) LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
+				else LAi_group_MoveCharacter(chr, slai_group);
+				PlaceCharacter(chr, "goto", "random_free");
+				chr.dialog.filename    = "Sailor.c";
+				chr.dialog.currentnode = "first time";
+				chr.greeting = "pirat_common";
+				if (rand(5) == 1) //нанимаются в команду
+				{
+					chr.quest.crew = "true";
+					chr.quest.crew.qty = 5+rand(15);
+					chr.quest.crew.type = rand(2);
+					chr.quest.crew.money = (1+rand(1))*100+rand(50);
+					chr.talker = rand(9);
+				}
+			}
+		}
 
 		for(i=0; i<iCitizensQuantity; i++)
 		{
@@ -96,16 +130,6 @@ void CreateCitizens(aref loc)
 			
 			chr.City = Colonies[iColony].id;
 			chr.CityType = "citizen";
-   			/* to_do
-			if(!CheckAttribute(chr, "quest.questflag") && iNation != PIRATE)
-			{
-				int isQuest = rand(15);
-				if(isQuest == 1)
-				{
-					chr.quest.questflag = GeneratePassengerQuest(chr, 0, "", 0, rand(1), 0, 0);
-				}
-			}
-			*/
 			LAi_SetLoginTime(chr, 6.0, 21.99);
 			
 			if (sti(chr.nation) == PIRATE && sti(Colonies[iColony].HeroOwn) != true)
@@ -522,10 +546,12 @@ void CreateHabitues(aref loc)
 			{
                 if (CheckFreeLocator(loc.id, "sit_base" + i, -1))
 				{
-					iChar = NPC_GeneratePhantomCharacter("citizen", iNation, MAN, 1);
+					string sType = RandPhraseSimple("citizen","sailor");
+					if (Colonies[iColony].nation == PIRATE) sType = RandPhraseSimple("pirate","sailor");
+					iChar = NPC_GeneratePhantomCharacter(sType, iNation, MAN, 1);
 
 					chr = &characters[iChar];
-					SetNPCModelUniq(chr, "citizen", MAN);
+					SetNPCModelUniq(chr, sType, MAN);
 					
 					chr.City = Colonies[iColony].id;
 					chr.CityType = "citizen";
