@@ -2177,7 +2177,7 @@ void initNewMainCharacter()
 	AddQuestRecordInfo("Tutorial_Sharp", "1");
 	AddQuestRecordInfo("Tutorial_Fight_Info", "1");
 	//Boyer add from GOF for quizzes
-	AddQuestRecordInfo("Tutorial_Nautical_Quizzes", "1");
+	AddQuestRecordInfo("Tutorial_ChangeLog", "1");
 
 	ReloadProgressUpdate();
 
