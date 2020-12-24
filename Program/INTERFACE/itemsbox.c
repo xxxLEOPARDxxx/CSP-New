@@ -11,6 +11,7 @@ int nCurScrollNum = 0;
 int iCharCapacity, iCharQty, iStoreQty, iCurGoodsIdx;
 float fCharWeight, fStoreWeight, fWeight;
 bool bShowChangeWin = false;
+bool DelLogin = false;
 int  BuyOrSell = 0;
 string sChrId, sFaceID;
 ref refCharacter;
@@ -457,6 +458,17 @@ void IDoExit(int exitCode)
 	DelEventHandler("eTabControlPress", "procTabChange"); // Событие смены закладки
 
 	interfaceResultCommand = exitCode;
+	
+	string sInterfaceType = sGetInterfaceType();
+	if (sInterfaceType == INTERFACETYPE_DEADMAN)
+	{
+		if (DelLogin)
+		{
+			Log_Info("Должен удалиться");
+			Dead_DelLoginedCharacter(refToChar);
+		}		
+	}
+	
 	EndCancelInterface(true);
 	
 	LAi_SetPlayerType(PChar); // Возвращаем тип игрока
@@ -755,6 +767,7 @@ void AddToTable(ref rChar)
 	bool ok;
 	bool ok1 = false;
 	n = 1;
+	int iRightQtyTotal=0;
 	
 	// Warship fix 31.05.09 - слетала текущая полоска + кнопочки забрать/отдать все
 	// Садо-мазо получилось еще то
@@ -799,6 +812,7 @@ void AddToTable(ref rChar)
 	
 	iLeftQty  = GetCharacterFreeItem(refCharacter, "Gold");
 	iRightQty = GetCharacterFreeItem(rChar, "Gold");
+	if (iRightQty>0) iRightQtyTotal += 1;
 	
 	// Фикс - должно быть всегда, иначе у нищих офов слетает стрелочки
 	//if(iLeftQty > 0 || iRightQty > 0)
@@ -845,6 +859,7 @@ void AddToTable(ref rChar)
 		// Проверка на экипировку
 		iLeftQty  = GetCharacterFreeItem(refCharacter, sItem);
 		iRightQty = GetCharacterFreeItem(rChar, sItem);
+		if (iRightQty>0) iRightQtyTotal += 1;
 		
 		if (iLeftQty > 0 || iRightQty > 0)
 		{
@@ -901,6 +916,7 @@ void AddToTable(ref rChar)
 		// Проверка на экипировку
 		iLeftQty  = GetCharacterFreeItem(refCharacter, sItem);
 		iRightQty = GetCharacterFreeItem(rChar, sItem);
+		if (iRightQty>0) iRightQtyTotal += 1;
 		
 		if (iLeftQty > 0 || iRightQty > 0)
 		{
@@ -961,6 +977,15 @@ void AddToTable(ref rChar)
 	
 	Table_UpdateWindow("TABLE_LIST");
 	SetEventHandler("frame", "RefreshTableByFrameEvent", 0);
+	string sInterfaceType = sGetInterfaceType();
+	if (sInterfaceType == INTERFACETYPE_DEADMAN)
+	{
+		if (iRightQtyTotal == 0)
+		{
+			DelLogin = true;
+			Log_Info("Количество предметов у трупа: "+iRightQtyTotal);
+		}
+	}	
 }
 
 void RefreshTableByFrameEvent()
