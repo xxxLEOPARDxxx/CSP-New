@@ -713,7 +713,7 @@ bool LoadLocation(ref loc)
 			loc.Swimming = false;
 
 			// включаем эффект воды
-			Render.SeaEffect = false;
+			Render.SeaEffect = true;
 			// € не помню, тут 0.02 или 0.002 должно быть, если сильно колбасит - то надо уменьшить :)
 			Render.SeaEffectSize = 0.003;
 			Render.SeaEffectSpeed = 3.0;

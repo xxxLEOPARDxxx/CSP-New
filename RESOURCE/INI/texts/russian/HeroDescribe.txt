@@ -87,7 +87,7 @@ heroNameDat_1 {Питеру}
 heroLastNameDat_1 {Бладу}
 
 heroFace_1 {221}
-heroModel_1 {Blad_0,Blad_1,Blad_2,Blad_3,Blad_4,Blad_5,Blad_6,Blad_7,Blad_8}
+heroModel_1 {PGG_Blad_0,PGG_Blad_1,PGG_Blad_2,PGG_Blad_3,PGG_Blad_4,PGG_Blad_5,PGG_Blad_6,PGG_Blad_7,PGG_Blad_8}
 
 heroType_1 {Корсар}
 heroNation_1 {Англия}
@@ -112,7 +112,7 @@ heroNameDat_2 {Мишелю}
 heroLastNameDat_2 {де Граммону}
 
 heroFace_2 {215}
-heroModel_2  {Resc_0,Resc_1,Resc_2,Resc_3,Resc_4,Resc_5,Resc_6,Resc_7,Resc_8}
+heroModel_2  {PGG_Resc_0,PGG_Resc_1,PGG_Resc_2,PGG_Resc_3,PGG_Resc_4,PGG_Resc_5,PGG_Resc_6,PGG_Resc_7,PGG_Resc_8}
 
 heroType_2 {Авантюрист} 
 heroNation_2 {Франция}
@@ -137,7 +137,7 @@ heroNameDat_3 {Вильяму}
 heroLastNameDat_3 {Патерсону}
 
 heroFace_3 {214}
-heroModel_3 {Pat_0,Pat_1,Pat_2,Pat_3,Pat_4,Pat_5,Pat_6,Pat_7,Pat_8}
+heroModel_3 {PGG_Pat_0,PGG_Pat_1,PGG_Pat_2,PGG_Pat_3,PGG_Pat_4,PGG_Pat_5,PGG_Pat_6,PGG_Pat_7,PGG_Pat_8}
 
 heroType_3 {Торговец}
 heroNation_3 {Голландия}
@@ -1040,7 +1040,7 @@ heroNameDat_39 {Весёлому}
 heroLastNameDat_39 {Роджеру}
 
 heroFace_39 {511}
-heroModel_39 {PGG_Skeletcap,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
+heroModel_39 {PGG_Skeletcap_0,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
 
 heroType_39 {Корсар}
 heroNation_39 {Пират}
@@ -1065,7 +1065,7 @@ heroNameDat_40 {Альваресу}
 heroLastNameDat_40 {Ортего}
 
 heroFace_40 {492}
-heroModel_40 {PGG_Alvares,PGG_Alvares_1,PGG_Alvares_2,PGG_Alvares_3,PGG_Alvares_4,PGG_Alvares_5}
+heroModel_40 {PGG_Alvares_0,PGG_Alvares_1,PGG_Alvares_2,PGG_Alvares_3,PGG_Alvares_4,PGG_Alvares_5}
 
 heroType_40 {Авантюрист}
 heroNation_40 {Англия}
@@ -1115,7 +1115,7 @@ heroNameDat_42 {Страннику}
 heroLastnameDat_42 {}
 
 heroFace_42 {531}
-heroModel_42 {PGG_Vincento,PGG_Vincento_1,PGG_Vincento_2,PGG_Vincento_3,PGG_Vincento_4,PGG_Vincento_5}
+heroModel_42 {PGG_Vincento_0,PGG_Vincento_1,PGG_Vincento_2,PGG_Vincento_3,PGG_Vincento_4,PGG_Vincento_5}
 
 heroType_42 {Инквизитор}
 heroNation_42 {Англия}
@@ -1189,7 +1189,7 @@ heroNameDat_45 {Призрак}
 heroLastNameDat_45 {Джессики}
 
 heroFace_45 {527}
-heroModel_45 {PGG_Ghost_1}
+heroModel_45 {PGG_Ghost_0,PGG_Ghost_1,PGG_Ghost_2,PGG_Ghost_3,PGG_Ghost_4,PGG_Ghost_5}
 
 heroType_45 {Корсар}
 heroNation_45 {Пират}
@@ -1200,6 +1200,8 @@ animation_45 {Jessika}
 hero_45
 {
 Призрак Джесс. Очень хороший компаньон по отпугиванию в подземелье скелетов))
+
+- Имеет все виды кирас.
 }
 
 heroName_46 {Ужасный}
@@ -1374,7 +1376,7 @@ heroNameDat_53 {Мари}
 heroLastNameDat_53 {Брэдфорд}
 
 heroFace_53 {534}
-heroModel_53 {PGG_Jessik8}
+heroModel_53 {PGG_MaryBred_0,PGG_MaryBred_1,PGG_MaryBred_2,PGG_MaryBred_3,PGG_MaryBred_4,PGG_MaryBred_5}
 
 heroType_53 {Корсар}
 heroNation_53 {Голландия}
@@ -1385,6 +1387,8 @@ animation_53 {Jessika}
 hero_53
 {
 Сестра Джессики Брэдфорд.
+
+- Имеет все виды кирас.
 }
 
 heroName_54 {Абрахам}

@@ -749,13 +749,13 @@ void ProcessDialogEvent()
 		break;
 		case "inPrison_2":
 			dialog.text = "Я заперт в этой камере, а ключ конвоиры унесли адмиралу. Это был его приказ начальнику тюрьмы. Мне не вырваться из этой клетки.";
-			link.l1 = "Адмирала больше нет, я разделал"+ GetSexPhrase("ся","ась") +" с ним. Но никакого ключа не находил"+ GetSexPhrase("","а") +"... Я вернусь и поищу!";
-			link.l1.go = "inPrison_3";
 			if (CheckCharacterItem(pchar, "key_mechanic"))
 			{
-				link.l2 = "Адмирала больше нет, я разделал"+ GetSexPhrase("ся","ась") +" с ним. При нём был вот этот ключ. Тот?";
-				link.l2.go = "inPrison_3_alt";
+				link.l1 = "Адмирала больше нет, я разделал"+ GetSexPhrase("ся","ась") +" с ним. При нём был вот этот ключ. Тот?";
+				link.l1.go = "inPrison_3_alt";
 			}
+			link.l2 = "Адмирала больше нет, я разделал"+ GetSexPhrase("ся","ась") +" с ним. Но никакого ключа не находил"+ GetSexPhrase("","а") +"... Я вернусь и поищу!";
+			link.l2.go = "inPrison_3";
 		break;
 		case "inPrison_3":
 			dialog.text = "Поздно, "+ GetSexPhrase("друг мой","" + pchar.name + "") +". Буря набирает силу.";
@@ -794,6 +794,7 @@ void ProcessDialogEvent()
 		break;
 		case "inPrison_3_alt":
 			dialog.text = "Тот самый. Давайте его сюда, скорее.";
+			TakeItemFromCharacter(pchar, "key_mechanic");
 			link.l1 = "Держите. Что дальше?";
 			link.l1.go = "inPrison_4_alt";
 		break;

@@ -499,7 +499,7 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 		// if (_chref.model.animation == "man_A") _chref.model.animation = "man_A_fast";
 		if (_chref.model.animation == "man2_ab") _chref.model.animation = "man2_ab_fast";
 		if (_chref.model.animation == "Jessika") _chref.model.animation = "Jessika_fast";
-		if (_chref.model.animation == "YokiDias") _chref.model.animation = "YokiDias_fast";
+		if (_chref.model.animation == "YokoDias") _chref.model.animation = "YokoDias_fast";
 		if (_chref.model.animation == "Milenace") _chref.model.animation = "Milenace_fast";
 		if (_chref.model.animation == "Danielle") _chref.model.animation = "Danielle_fast";
 		if (_chref.model.animation == "Giant") _chref.model.animation = "Giant_fast";
