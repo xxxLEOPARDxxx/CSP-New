@@ -2457,13 +2457,16 @@ void ProcessDialogEvent()
 			CloseQuestHeader("SeekDoubleMushket");
 			AddMoneyToCharacter(pchar, -sti(Npchar.quest.OfficerPrice.add));
 			npchar.perks.list.Gunman = "1";
-			GiveItem2Character(npchar, "mushket2x2");
-			EquipCharacterbyItem(Npchar, "mushket2x2");
 			AddItems(npchar, "bullet", 50);
 			AddItems(npchar, "GunPowder", 50);
 			npchar.IsMushketer = true;
+			Npchar.CanTakeMushket = true;
 			npchar.model = "MusketeerEnglish_2";
 			npchar.model.animation = "mushketer";
+			GiveItem2Character(npchar, "mushket2x2");
+			npchar.IsMushketer.LastGunID = -1;
+			npchar.equip.gun = "mushket2x2";
+			npchar.IsMushketer.MushketID = "mushket2x2";
 			npchar.MusketerDistance = 5;
 			npchar.greeting = "Gr_questOfficer";
 			npchar.Dialog.Filename = "Enc_Officer_dialog.c";

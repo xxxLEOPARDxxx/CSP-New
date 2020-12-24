@@ -185,6 +185,7 @@ void ProcessDialogEvent()
 
 		case "exit_hire":
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
+			npchar.CanTakeMushket = true;
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;

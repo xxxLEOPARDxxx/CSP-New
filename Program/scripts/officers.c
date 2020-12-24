@@ -689,3 +689,46 @@ void LandEnc_OfficerFired()
     DeleteAttribute(sld, "Payment"); // признак офицера для +1 предметов  
 	DeleteAttribute(Pchar, "questTemp.FiringOfficerIDX");
 }
+
+bool SetOfficerToMushketer(ref rCharacter, string sMushket, bool _ToMushketer) 
+{
+	int iItem;
+	string sLastGun = "";
+	
+	if(_ToMushketer && sMushket != "") // Делаем мушкетером
+	{
+		iItem = GetItemIndex(sMushket);
+		if(iItem == -1) return false;
+		sLastGun = GetCharacterEquipByGroup(rCharacter, GUN_ITEM_TYPE);
+		rCharacter.DefaultAnimation = rCharacter.model.Animation;
+		rCharacter.IsMushketer = true; // Ставим флаг "мушкетер"
+		rCharacter.IsMushketer.MushketID = sMushket; // Запомним, какой мушкет надели
+		rCharacter.IsMushketer.LastGunID = sLastGun; // Запомним ID предыдущего пистоля
+		rCharacter.model = rCharacter.model + "_mush";
+		rCharacter.model.animation = "mushketer"; // Сменим анимацию
+		Characters_RefreshModel(rCharacter); // Обновим модель. Важно: обновлять модель нужно ДО экипировки мушкетом
+		EquipCharacterByItem(rCharacter, sMushket); // Экипируем мушкет
+		rCharacter.Equip.TempGunID = sLastGun; // Пистоль оставляем экипированным, но в другой группе
+		if (!CheckAttribute(rCharacter, "MusketerDistance")) rCharacter.MusketerDistance = 10.0;
+		rCharacter.isMusketer = true;
+		rCharacter.isMusketer.weapon = true;
+		LAi_SetOfficerType(rCharacter);
+	}
+	else // Делаем обычным фехтовальщиком
+	{
+		rCharacter.model = FindStringBeforeChar(rCharacter.model, "_mush"); // Вернем модель и анимацию
+		rCharacter.model.Animation = rCharacter.DefaultAnimation;
+		Characters_RefreshModel(rCharacter);
+		RemoveCharacterEquip(rCharacter, GUN_ITEM_TYPE); // cнимем мушкет
+		if(rCharacter.IsMushketer.LastGunID != "" && GetCharacterItem(rCharacter, rCharacter.IsMushketer.LastGunID) > 0)
+		{
+			EquipCharacterByItem(rCharacter, rCharacter.IsMushketer.LastGunID); // Оденем прошлый пистоль
+		}
+		DeleteAttribute(rCharacter, "IsMushketer");
+		DeleteAttribute(rCharacter, "Equip.TempGunID");
+		DeleteAttribute(rCharacter, "MusketerDistance");
+		DeleteAttribute(rCharacter, "isMusketer");
+		LAi_SetOfficerType(rCharacter);
+	}
+	return true;
+}

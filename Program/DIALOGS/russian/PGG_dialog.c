@@ -257,6 +257,7 @@ void ProcessDialogEvent()
 			break;
 		}
 		pchar.questTemp.HiringOfficerIDX = NPChar.index;
+		if (NPChar.model.animation == "man") Npchar.CanTakeMushket = true;
 		AddMoneyToCharacter(pchar, -(makeint(NPChar.Quest.Officer.Price)));
 		AddDialogExitQuestFunction("PGG_BecomeHiredOfficer");
 		NPChar.loyality = MakeInt(PGG_ChangeRelation2MainCharacter(NPChar, 0)*0.3)

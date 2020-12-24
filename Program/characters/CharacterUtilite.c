@@ -2009,6 +2009,7 @@ string FindCharacterItemByGroup(ref chref, string groupID)
 	ref refItm;
     float  maxBladeValue, curBladeValue;
     string resultItemId;
+   if (CheckAttribute(chref, "CanTakeMushket") && CheckAttribute(chref, "IsMushketer")) return ""; // мушкеты не выбираем
     // boal 17.06.05 офицерам даем кулаки -->
 	if (groupID == BLADE_ITEM_TYPE && IsOfficer(chref) && IsEquipCharacterByItem(chref, "unarmed") && !CheckAttribute(chref, "isMusketer"))
 	{

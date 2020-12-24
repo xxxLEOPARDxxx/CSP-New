@@ -38,39 +38,9 @@ void LAi_type_officer_Init(aref chr)
 	{
      	LAi_tmpl_SetFollow(chr, pchar, -1.0);
 	}
-	//Установим анимацию персонажу
-	bool isMusk = false;
-	string sAni = strcut(chr.model.animation, 0, 8);
-	if (sAni == "mushketer")
-        isMusk = true;
-	if (isMusk && !CheckAttribute(chr, "isMusketer.weapon") && chr.index != getmaincharacterindex() && !isOfficer(chr))
+	if (chr.model.animation == "mushketer" && !CheckAttribute(chr, "CanTakeMushket") && !CheckAttribute(chr, "isMusketer.weapon"))
 	{
-        while (FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE) != "")
-        {
-            TakeItemFromCharacter(chr, FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE));
-        }
-        while (FindCharacterItemByGroup(chr, GUN_ITEM_TYPE) != "")
-        {             
-            TakeItemFromCharacter(chr, FindCharacterItemByGroup(chr, GUN_ITEM_TYPE));
-        }		
-		GiveItem2Character(chr, "unarmed");
-		EquipCharacterbyItem(chr, "unarmed");
-		if (chr.model == "quest_mush_1" || chr.model == "quest_mush_2")
-		{
-		GiveItem2Character(chr, "mushket");
-		EquipCharacterbyItem(chr, "mushket");
-		}
-		else
-		{
-		GiveItem2Character(chr, "mushket2x2");
-		EquipCharacterbyItem(chr, "mushket2x2");
-		}
-		chr.items.bullet = 100;
-		chr.items.GunPowder = 100; // 21.03.09 Warship fix Раздадим порох
-		chr.isMusketer = true;
-		if (!CheckAttribute(chr, "MusketerDistance"))
-			chr.MusketerDistance = 5.0 + frand(10.0);
-		chr.isMusketer.weapon = true;
+		LAi_NPC_MushketerEquip(chr);
 	}
 	else
 	{

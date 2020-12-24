@@ -817,8 +817,10 @@ void EquipPress()
             ShowMapWindow();
 		}
 		else
-		{
-			if(HasSubStr(itmRef.id, "Mushket") && (pchar.sex != "woman") ) // Пытаемся одеть мушкет... на тетку не оденеться, нет анимации
+		{	bool bCanmakeMushketer = (IsMainCharacter(xi_refCharacter)) || (CheckAttribute(xi_refCharacter, "CanTakeMushket"))
+			if(HasSubStr(itmRef.id, "Mushket") && bCanmakeMushketer)
+			{
+				if (IsMainCharacter(xi_refCharacter)) // ГГ
 			{
 				if(!CheckAttribute(PChar, "IsMushketer")) // Не мушкетер. Делаем мушкетером
 				{
@@ -831,13 +833,14 @@ void EquipPress()
 			}
 			else
 			{
-				if(IsEquipCharacterByItem(xi_refCharacter, itmRef.id))
-				{
-					RemoveCharacterEquip(xi_refCharacter, itmGroup);
-				}
-				else
-				{
-					EquipCharacterByItem(xi_refCharacter, itmRef.id);
+					if(!CheckAttribute(xi_refCharacter, "IsMushketer")) // Не мушкетер. Делаем мушкетером
+					{
+						SetOfficerToMushketer(xi_refCharacter, itmRef.id, true);
+					}
+					else // Мушкетер. Делаем обычным фехтовальщиком
+					{
+						SetOfficerToMushketer(xi_refCharacter, itmRef.id, false);
+					}
 				}
 			}
 			FillItemsSelected();
