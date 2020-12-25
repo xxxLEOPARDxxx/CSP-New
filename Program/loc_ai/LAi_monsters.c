@@ -725,11 +725,8 @@ bool LAi_CreateEncounters(ref location)
 					// Dolphin (Корсары: История Пирата)
 		//------------------ Индейцы в джунглях (С небольшими апгрейдами от Korsar Maxim и LEO) ----------------------
 		case 5:
-			LAi_group_SetRelation("Jungle_indians", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
-			if (rand(10) > 5) return false;
-			// if (rand(10) > 10) return false;
-			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); // LEO
-			// num = makeint(15+rand(5)); //кол-во человек в банде
+			if(rand(10) > 5 || location.type == "seashore" || location.type == "mayak") return false;
+			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp));
 			if (num <= 0 ) num = 2; //если локаторов меньше четырех
 			str = "Indian"+ location.index + "_";
 			//--> генерим ранг 

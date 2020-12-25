@@ -169,72 +169,29 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
     	}
 	}
 	// Сдача в плен <--
-/*	
-	// --> ugeen  Мушкетный залп
-	float mShipClassCoeff, eShipClassCoeff;
-	int   mCrewShot = 0;
-	int	  eCrewShot = 0;
-	int	  mDamage	= 0;
-	int   eDamage   = 0;	
-	if (CheckOfficersPerk(mchr, "MusketsShoot") && IsFort == false) // для ГГ
-	{
-		int OffQty = GetOfficersQuantity(mchr); 
-		if (OffQty < 0) OffQty = 1;
-		
-		mShipClassCoeff = (eclass - mclass) * 0.15;
-		if(isMCAttack) 		mCrewShot = makeint(mcrew / 5); 
-		else 				mCrewShot = makeint(mcrew / 4);
-		
-		mDamage = makeint((rand(mCrewShot - OffQty) + OffQty) * (1 + mShipClassCoeff ) );
-		
-//		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек команды противника.");
-//       	PlaySound("INTERFACE\_musketshot.wav");
-	}
-	if (CheckOfficersPerk(echr, "MusketsShoot") && IsFort == false) // для противника
-	{
-		eShipClassCoeff = (mclass - eclass) * 0.15;
 
-		if(isMCAttack)		eCrewShot = makeint(ecrew / 4);
-		else				eCrewShot = makeint(ecrew / 5);
-
-		eDamage = makeint( (rand(makeint(eCrewShot/5)) + eCrewShot * 0.8) + (1 + eShipClassCoeff ) );
-		
-//		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек нашей команды.");
-//        	Statistic_AddValue(mchr, "DeadCrewBoard", ecrewBak);
-//		Statistic_AddValue(mchr, "Sailors_dead", ecrewBak);
-//        	PlaySound("INTERFACE\_musketshot.wav");
-	}
-	// <-- ugeen Мушкетный залп
-*/	
 	// MusketsShoot --> 
 	float tmpDefence;
     if (CheckOfficersPerk(mchr, "MusketsShoot") && IsFort == false)
     {
         tmpDefence   = MakeFloat(GetSummonSkillFromName(echr, SKILL_DEFENCE)) / SKILL_MAX;
-		//aw013 ecrewBak = makeint(ecrew * 0.25); 
 		ecrewBak = makeint(mcrew * 0.25);//aw013 
-		//aw013	if (ecrewBak > mcrew) ecrewBak = mcrew; 
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0); 
 		if (ecrewBak > ecrew) ecrewBak = ecrew;//aw013 
-		PlaySound("INTERFACE\_musketshot.wav"); 
+		PlaySound("INTERFACE\_musketshot_" + rand(3) + ".wav");
 		ecrew = ecrew - ecrewBak; 
 		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек команды противника."); 
-											   
 	} 
 	if (CheckOfficersPerk(echr, "MusketsShoot") && IsFort == false) 
 	{ 
 		tmpDefence  = MakeFloat(GetSummonSkillFromName(mchr, SKILL_DEFENCE)) / SKILL_MAX; 
-		//aw013 ecrewBak = makeint(mcrew * 0.25); 
 		ecrewBak = makeint(ecrew * 0.25);//aw013 
-		//aw013	if (ecrewBak > ecrew) ecrewBak = ecrew; 
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0); 
 		if (ecrewBak > mcrew) ecrewBak = mcrew;//aw013 
-		PlaySound("INTERFACE\_musketshot.wav"); 
+		PlaySound("INTERFACE\_musketshot_" + rand(3) + ".wav");
 		mcrew = mcrew - ecrewBak; 
 		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек нашей команды."); 
 		Statistic_AddValue(mchr, "DeadCrewBoard", ecrewBak); 
-													 
-											   
     }
     // MusketsShoot <--
     

@@ -1,6 +1,8 @@
 /// BOAL меню предметов
 #include "interface\character_all.h"
 
+int nCurScrollOfficerNum;
+
 void InitInterface(string iniName)
 {
     InterfaceStack.SelectMenu_node = "LaunchItems"; // запоминаем, что звать по Ф2
@@ -9,6 +11,7 @@ void InitInterface(string iniName)
 	xi_refCharacter = pchar;
 	
 	FillCharactersScroll();
+	FillPassengerScroll();
 	
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
@@ -18,6 +21,13 @@ void InitInterface(string iniName)
     SetEventHandler("frame","ProcessFrame",1);
     SetEventHandler("ShowInfoWindow","ShowInfoWindow",0);
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
+	
+	SetEventHandler("ExitOfficerMenu","ExitOfficerMenu",0);
+	SetEventHandler("OfficerChange","OfficerChange",0);
+	SetEventHandler("acceptaddofficer","AcceptAddOfficer",0);
+	SetEventHandler("ExitRemoveOfficerMenu","ExitRemoveOfficerMenu",0);
+	SetEventHandler("AcceptRemoveOfficer","AcceptRemoveOfficer",0);
+	
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
 	SetEventHandler("eTabControlPress","procTabChange",0);
 	SetEventHandler("ExitMapWindow","ExitMapWindow",0);
@@ -30,6 +40,308 @@ void InitInterface(string iniName)
     SetVariable();
     SetNewGroupPicture("Weight_PIC", "ICONS_CHAR", "weight");
     SetNewGroupPicture("Money_PIC", "ICONS_CHAR", "Money");
+}
+
+void FillPassengerScroll()
+{
+	int i, howWork;
+	string faceName;
+	string attributeName;
+	string PsgAttrName;
+	int _curCharIdx;
+	ref _refCurChar;
+	aref pRef, pRef2;
+	bool  ok;
+	
+	DeleteAttribute(&GameInterface, "PASSENGERSLIST");
+
+	nCurScrollOfficerNum = -1;
+	GameInterface.PASSENGERSLIST.current = 0;
+	makearef(pRef,pchar.Fellows.Passengers);
+
+	int nListSize = GetPassengersQuantity(pchar);
+	int nListSizeFree = GetFreePassengersQuantity(pchar);
+
+	GameInterface.PASSENGERSLIST.NotUsed = 6;
+	GameInterface.PASSENGERSLIST.ListSize = nListSizeFree + 2;
+
+	GameInterface.PASSENGERSLIST.ImagesGroup.t0 = "EMPTYFACE";
+
+	FillFaceList("PASSENGERSLIST.ImagesGroup", pchar, 2); // passengers
+
+	GameInterface.PASSENGERSLIST.BadTex1 = 0;
+	GameInterface.PASSENGERSLIST.BadPic1 = "emptyface";
+
+	int m = 0;
+	for(i=0; i<nListSize; i++)
+	{
+		attributeName = "pic" + (m+1);
+		PsgAttrName = "id"+(i+1);
+		makearef(pRef2,GameInterface.PASSENGERSLIST.(attributeName));
+
+		_curCharIdx = sti(pRef.(PsgAttrName));
+
+		if (_curCharIdx!=-1)
+		{
+			ok = CheckAttribute(&characters[_curCharIdx], "prisoned") && sti(characters[_curCharIdx].prisoned) == true;
+			if (!ok && GetRemovable(&characters[_curCharIdx]))
+			{
+                // совместители должностей -->
+                howWork = 1;
+                if (CheckCharacterPerk(&characters[_curCharIdx], "ByWorker"))
+                {
+                    howWork = 2;
+                }
+                if (CheckCharacterPerk(&characters[_curCharIdx], "ByWorker2"))
+                {
+                    howWork = 3;
+                }
+                ok = !CheckAttribute(&characters[_curCharIdx], "isfree") || sti(characters[_curCharIdx].isfree) < howWork;
+                PsgAttrName = GetOfficerTypeByNum(nCurScrollNum);
+				// совместители должностей <--
+				if (ok && !CheckAttribute(&characters[_curCharIdx], PsgAttrName))
+				{
+					GameInterface.PASSENGERSLIST.(attributeName).character = _curCharIdx;
+					GameInterface.PASSENGERSLIST.(attributeName).img1 = GetFacePicName(GetCharacter(_curCharIdx));
+					GameInterface.PASSENGERSLIST.(attributeName).tex1 = FindFaceGroupNum("PASSENGERSLIST.ImagesGroup","FACE128_"+Characters[_curCharIdx].FaceID);
+					m++;
+				}
+			}
+		}
+	}
+	GameInterface.PASSENGERSLIST.ListSize = m + 2; // не знаю зачем, но для совместимости с "было"
+}
+
+void ExitOfficerMenu()
+{
+	XI_WindowShow("OFFICERS_WINDOW", false);
+	XI_WindowDisable("OFFICERS_WINDOW", true);
+	XI_WindowDisable("MAIN_WINDOW", false);
+
+	SetCurrentNode("CHARACTERS_SCROLL");
+}
+
+void OfficerChange()
+{
+    string attributeName = "pic" + (nCurScrollNum+1);
+
+	if(GameInterface.CHARACTERS_SCROLL.(attributeName).character != "0")
+	{
+		int iCharacter = sti(GameInterface.CHARACTERS_SCROLL.(attributeName).character);
+		xi_refCharacter = &characters[iCharacter];
+		if (isOfficerInShip(xi_refCharacter, true) && xi_refCharacter.id != pchar.id)
+		{
+			XI_WindowShow("REMOVE_OFFICER_WINDOW", true);
+			XI_WindowDisable("REMOVE_OFFICER_WINDOW", false);
+			XI_WindowDisable("MAIN_WINDOW", true);
+
+			SetCurrentNode("REMOVE_CANCEL_OFFICER");
+		}
+	}
+	else
+	{
+	    //Boyer mod
+	    //if (nCurScrollNum <= 9 && nCurScrollNum != 0)
+	    if (nCurScrollNum <= 6 + MAX_NUM_FIGHTERS && nCurScrollNum != 0)
+		{
+			FillPassengerScroll();
+		    SendMessage(&GameInterface,"lsl",MSG_INTERFACE_SCROLL_CHANGE,"PASSENGERSLIST",-1);
+		    SetCurrentNode("PASSENGERSLIST");
+			ProcessFrame();
+			SetOfficersSkills();
+
+			XI_WindowShow("OFFICERS_WINDOW", true);
+			XI_WindowDisable("OFFICERS_WINDOW", false);
+			XI_WindowDisable("MAIN_WINDOW", true);
+		}
+	}
+}
+
+void SetOfficersSkills()
+{
+	string sCharacter = "pic"+(sti(GameInterface.PASSENGERSLIST.current)+1);
+	if (checkAttribute(GameInterface, "PASSENGERSLIST."+sCharacter))
+	{
+		if (checkAttribute(GameInterface, "PASSENGERSLIST."+sCharacter + ".character"))
+		{
+			sCharacter = GameInterface.PASSENGERSLIST.(sCharacter).character;
+			ref otherchr = &characters[sti(sCharacter)];
+	        SetSPECIALMiniTable("TABLE_SMALLSKILL", otherchr);
+	        SetOTHERMiniTable("TABLE_SMALLOTHER", otherchr);
+	        SetFormatedText("OFFICER_NAME", GetFullName(otherchr));
+	        SetSelectable("ACCEPT_ADD_OFFICER", true);
+        }
+        else
+        {
+            Table_Clear("TABLE_SMALLSKILL", false, true, true);
+            Table_Clear("TABLE_SMALLOTHER", false, true, true);
+            SetFormatedText("OFFICER_NAME", "");
+            SetSelectable("ACCEPT_ADD_OFFICER", false);
+        }
+	}
+	else
+    {
+        Table_Clear("TABLE_SMALLSKILL", false, true, true);
+        Table_Clear("TABLE_SMALLOTHER", false, true, true);
+        SetFormatedText("OFFICER_NAME", "");
+        SetSelectable("ACCEPT_ADD_OFFICER", false);
+    }
+}
+
+void AcceptAddOfficer()
+{
+	int iCurrentNode = nCurScrollNum;
+	bool bNeedFollow = false;
+	bool bOk;
+	
+	string attributeName2 = "pic"+(nCurScrollOfficerNum+1);
+
+    if (checkAttribute(GameInterface, "PASSENGERSLIST."+attributeName2 + ".character"))
+    {
+		int iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
+
+		if (!CheckAttribute(&characters[iChar], "isfree"))
+		{
+			characters[iChar].isfree = 1;
+		}
+		else
+		{
+		    characters[iChar].isfree = sti(characters[iChar].isfree) + 1; // совместители
+		}
+		bOk = (Characters[iChar].location != pchar.location);  // ниже локация перебивается на ГГ
+		switch (nCurScrollNum)
+		{
+			case 1:
+				pchar.Fellows.Passengers.navigator = iChar;
+			break;
+
+			case 2:
+				pchar.Fellows.Passengers.boatswain = iChar;
+			break;
+
+			case 3:
+				pchar.Fellows.Passengers.cannoner = iChar;
+			break;
+
+			case 4:
+				pchar.Fellows.Passengers.doctor = iChar;
+			break;
+
+			case 5:
+				pchar.Fellows.Passengers.treasurer = iChar;
+			break;
+
+			case 6:
+				pchar.Fellows.Passengers.carpenter = iChar;
+			break;
+
+			//Boyer mod
+									  
+					   
+		 
+
+			//default:
+				SetOfficersIndex(pchar, nCurScrollNum - 6, iChar);
+				bNeedFollow = true;
+			break;
+			//End Boyer add
+		  
+									  
+					   
+		 
+		}
+        attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
+    	characters[iChar].(attributeName2) = true; // совместитель дожности
+    	//SetCharacterTask_FollowCharacter(&Characters[iChar], PChar);
+    	if (bNeedFollow) // только для офов
+    	{
+													
+	    	//if (Characters[iChar].location.group == "sit")
+	    	//{// найм прямо в таверне
+	    	//if (bOk && IsEntity(loadedLocation) && !CheckAttribute(loadedLocation, "DisableOfficers"))
+	    	if (IsEntity(loadedLocation) && loadedLocation.type == "tavern")
+	    	{   //  пусть всегда будут появляться
+	    	    PlaceCharacter(&Characters[iChar], "goto", "random_must_be_near");
+	    	}
+	    	LAi_tmpl_SetFollow(&Characters[iChar], GetMainCharacter(), -1.0);
+    	}
+		FillCharactersScroll();
+		GameInterface.CHARACTERS_SCROLL.current = iCurrentNode;
+	}
+	ExitOfficerMenu();
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_SCROLL_CHANGE,"CHARACTERS_SCROLL",-1);
+	ProcessFrame();
+	SetVariable();
+}
+
+void ExitRemoveOfficerMenu()
+{
+	XI_WindowShow("REMOVE_OFFICER_WINDOW", false);
+	XI_WindowDisable("REMOVE_OFFICER_WINDOW", true);
+	XI_WindowDisable("MAIN_WINDOW", false);
+
+	SetCurrentNode("CHARACTERS_SCROLL");
+}
+
+void AcceptRemoveOfficer()
+{
+    int iCurrentNode = nCurScrollNum;
+	string attributeName2 = "pic"+(nCurScrollNum+1);
+
+	int iChar = sti(GameInterface.CHARACTERS_SCROLL.(attributeName2).character);
+
+    characters[iChar].isfree = sti(characters[iChar].isfree) - 1; // совместители
+	if (sti(characters[iChar].isfree) <= 0)
+	{
+		DeleteAttribute(&characters[iChar], "isfree");
+	}
+
+	switch (nCurScrollNum)
+	{
+		case 1:
+			pchar.Fellows.Passengers.navigator = -1;
+		break;
+
+		case 2:
+			pchar.Fellows.Passengers.boatswain = -1;
+		break;
+
+		case 3:
+			pchar.Fellows.Passengers.cannoner = -1;
+		break;
+
+		case 4:
+			pchar.Fellows.Passengers.doctor = -1;
+		break;
+
+		case 5:
+			pchar.Fellows.Passengers.treasurer = -1;
+		break;
+
+		case 6:
+			pchar.Fellows.Passengers.carpenter = -1;
+		break;
+
+		//Boyer mod
+														  
+		
+
+		//default:
+			RemoveOfficersIndex(pchar, GetOfficersIndex(pchar, nCurScrollNum - 6));
+		break;
+
+		//End Boyer mod
+														  
+		
+	}
+    attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
+    DeleteAttribute(&characters[iChar], attributeName2); // совместитель дожности
+    
+	FillCharactersScroll();
+	GameInterface.CHARACTERS_SCROLL.current = iCurrentNode;
+	ExitRemoveOfficerMenu();
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_SCROLL_CHANGE,"CHARACTERS_SCROLL",-1);
+	SetVariable();
 }
 
 void ProcessExitCancel()
@@ -45,6 +357,13 @@ void IDoExit(int exitCode)
     DelEventHandler("frame","ProcessFrame");
     DelEventHandler("ShowInfoWindow","ShowInfoWindow");
 	DelEventHandler("MouseRClickUp","HideInfoWindow");
+	
+	DelEventHandler("ExitOfficerMenu","ExitOfficerMenu");
+	DelEventHandler("OfficerChange","OfficerChange");
+	DelEventHandler("acceptaddofficer","AcceptAddOfficer");
+	DelEventHandler("ExitRemoveOfficerMenu","ExitRemoveOfficerMenu");
+	DelEventHandler("AcceptRemoveOfficer","AcceptRemoveOfficer");
+	
 	DelEventHandler("TableSelectChange", "TableSelectChange");
 	DelEventHandler("eTabControlPress","procTabChange");
 	DelEventHandler("ExitMapWindow","ExitMapWindow");
@@ -202,6 +521,12 @@ void ProcessFrame()
 	{
 		nCurScrollNum = sti(GameInterface.CHARACTERS_SCROLL.current);
 		SetButtonsState();
+		return;
+	}
+	if (sti(GameInterface.PASSENGERSLIST.current)!= nCurScrollOfficerNum && GetCurrentNode() == "PASSENGERSLIST")
+	{
+		nCurScrollOfficerNum = sti(GameInterface.PASSENGERSLIST.current);
+		SetOfficersSkills();
 		return;
 	}
 }
@@ -536,7 +861,7 @@ void TableSelectChange()
 void SetItemInfo()
 {
 	int iGoodIndex = sti(GameInterface.(CurTable).(CurRow).index);
-	
+
 	SetFormatedText("INFO_TEXT", GetItemDescribe(iGoodIndex));
 	SetNewGroupPicture("INFO_PIC", Items[iGoodIndex].picTexture, "itm" + Items[iGoodIndex].picIndex);
 	SetNodeUsing("INFO_TEXT", true);
@@ -653,16 +978,15 @@ bool ThisItemCanBeEquip( aref arItem )
 	}
 	if (arItem.groupID == GUN_ITEM_TYPE) 
 	{
+		if (!IsMainCharacter(xi_refCharacter) && !CheckAttribute(xi_refCharacter, "CanTakeMushket")) 
+		{
+			return false;
+		}	
 		if (!CheckAttribute(arItem,"chargeQ") )
 		{
 			return false;
 		}
 		int chrgQ = sti(arItem.chargeQ);
-	
-		if (chrgQ >= 2 && !IsCharacterPerkOn(xi_refCharacter,"Gunman") )
-		{
-			return false;
-		}
 	
 		if (chrgQ >= 4 && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") )
 		{
@@ -699,17 +1023,20 @@ bool ThisItemCanBeEquip( aref arItem )
 	    }
 		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 	}
-	if(CheckAttribute(PChar, "IsMushketer"))
+	if (IsMainCharacter(xi_refCharacter) || CheckAttribute(xi_refCharacter, "CanTakeMushket"))
 	{
-		if(arItem.ID == PChar.IsMushketer.MushketID)
+		if(CheckAttribute(xi_refCharacter, "IsMushketer"))
 		{
-			SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Remove that"));
-			return true;
-		}
+			if(arItem.ID == xi_refCharacter.IsMushketer.MushketID)
+			{
+				SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Remove that"));
+				return true;
+			}
 		
-		if(arItem.groupID == BLADE_ITEM_TYPE || arItem.groupID == SPYGLASS_ITEM_TYPE || arItem.groupID == GUN_ITEM_TYPE || arItem.groupID == CIRASS_ITEM_TYPE)
-		{
-			return false;
+			if(arItem.groupID == BLADE_ITEM_TYPE || arItem.groupID == SPYGLASS_ITEM_TYPE || arItem.groupID == GUN_ITEM_TYPE || arItem.groupID == CIRASS_ITEM_TYPE)
+			{
+				return false;
+			}
 		}
 	}
 	return true;
@@ -817,22 +1144,23 @@ void EquipPress()
             ShowMapWindow();
 		}
 		else
-		{	bool bCanmakeMushketer = (IsMainCharacter(xi_refCharacter)) || (CheckAttribute(xi_refCharacter, "CanTakeMushket"))
+		{
+			bool bCanmakeMushketer = (IsMainCharacter(xi_refCharacter)) || (CheckAttribute(xi_refCharacter, "CanTakeMushket"))
 			if(HasSubStr(itmRef.id, "Mushket") && bCanmakeMushketer)
 			{
 				if (IsMainCharacter(xi_refCharacter)) // ГГ
-			{
-				if(!CheckAttribute(PChar, "IsMushketer")) // Не мушкетер. Делаем мушкетером
 				{
-					SetMainCharacterToMushketer(itmRef.id, true);
+					if(!CheckAttribute(PChar, "IsMushketer")) // Не мушкетер. Делаем мушкетером
+					{
+						SetMainCharacterToMushketer(itmRef.id, true);
+					}
+					else // Мушкетер. Делаем обычным фехтовальщиком
+					{
+						SetMainCharacterToMushketer("", false);
+					}
 				}
-				else // Мушкетер. Делаем обычным фехтовальщиком
+				else
 				{
-					SetMainCharacterToMushketer("", false);
-				}
-			}
-			else
-			{
 					if(!CheckAttribute(xi_refCharacter, "IsMushketer")) // Не мушкетер. Делаем мушкетером
 					{
 						SetOfficerToMushketer(xi_refCharacter, itmRef.id, true);
@@ -843,9 +1171,21 @@ void EquipPress()
 					}
 				}
 			}
+			else
+			{
+				if(IsEquipCharacterByItem(xi_refCharacter, itmRef.id))
+				{
+					RemoveCharacterEquip(xi_refCharacter, itmGroup);
+				}
+				else
+				{
+					EquipCharacterByItem(xi_refCharacter, itmRef.id);
+				}
+			}
 			FillItemsSelected();
 			SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 			SetSelectable("EQUIP_BUTTON",ThisItemCanBeEquip(&Items[iGoodIndex]));
+			SetItemInfo();
 		}
 	}
 } 
