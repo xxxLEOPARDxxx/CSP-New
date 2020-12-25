@@ -355,6 +355,13 @@ float LAi_GunCalcDamage(aref attack, aref enemy)
 	{
 		dmg = dmg * (4.0 + MOD_SKILL_ENEMY_RATE) / 10.0;
 	}
+	if(CheckCharacterPerk(attack, "Buccaneer"))  
+	{
+		if(CheckAttribute(enemy, "chr_ai.energy"))
+		{
+			enemy.chr_ai.energy = (stf(enemy.chr_ai.energy) * 0.65); //fix
+		}
+	}
 	return dmg;
 }
 
@@ -401,11 +408,13 @@ float LAi_GunReloadSpeed(aref chr)
 	//”чт£м абилити
 	if(IsCharacterPerkOn(chr, "GunProfessional"))
 	{
-		charge_dlt = charge_dlt*1.25;
+		if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.4;
+		else charge_dlt = charge_dlt*1.25;
 	}else{
 		if(IsCharacterPerkOn(chr, "Gunman"))
 		{
-			charge_dlt = charge_dlt*1.1;
+			if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.25;
+			else charge_dlt = charge_dlt*1.1;
 		}
 	}
 	return charge_dlt;

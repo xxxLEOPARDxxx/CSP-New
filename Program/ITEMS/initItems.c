@@ -33,8 +33,8 @@ int InitItems()
 	itm.model = "1";
 	itm.picIndex = 10;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 100;
-	itm.Weight = 0.3;
+	itm.price = 300;
+	itm.Weight = 0.6;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
 	itm.Solder_o.max = 6;
@@ -50,7 +50,7 @@ int InitItems()
 	itm.Food.tex = 3;
 	itm.Food.pic = 4;
 	itm.Food.selpic = 12;
-	itm.Food.energy = 7.5;
+	itm.Food.energy = 6.0;
 	itm.Food.energy.speed = 25.0;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
@@ -65,8 +65,8 @@ int InitItems()
 	itm.model = "1";
 	itm.picIndex = 6;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 150;
-	itm.Weight = 1.0;
+	itm.price = 600;
+	itm.Weight = 1.2;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
 	itm.Solder_o.max = 6;
@@ -82,7 +82,7 @@ int InitItems()
 	itm.Food.tex = 3;
 	itm.Food.pic = 0;
 	itm.Food.selpic = 8;
-	itm.Food.energy = 12.5;
+	itm.Food.energy = 12.0;
 	itm.Food.energy.speed = 15.0;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
@@ -97,8 +97,8 @@ int InitItems()
 	itm.model = "1";
 	itm.picIndex = 7;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 150;
-	itm.Weight = 1.0;
+	itm.price = 900;
+	itm.Weight = 1.8;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
 	itm.Solder_o.max = 6;
@@ -114,7 +114,7 @@ int InitItems()
 	itm.Food.tex = 3;
 	itm.Food.pic = 1;
 	itm.Food.selpic = 9;
-	itm.Food.energy = 15.0;
+	itm.Food.energy = 18.0;
 	itm.Food.energy.speed = 15.0;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
@@ -129,8 +129,8 @@ int InitItems()
 	itm.model = "fish" + (rand(6)+1);
 	itm.picIndex = 8;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 200;
-	itm.Weight = 1.5;
+	itm.price = 1200;
+	itm.Weight = 2.4;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
 	itm.Solder_o.max = 6;
@@ -146,7 +146,7 @@ int InitItems()
 	itm.Food.tex = 3;
 	itm.Food.pic = 2;
 	itm.Food.selpic = 10;
-	itm.Food.energy = 20.0;
+	itm.Food.energy = 24.0;
 	itm.Food.energy.speed = 10.0;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
@@ -161,8 +161,8 @@ int InitItems()
 	itm.model = "Meat";
 	itm.picIndex = 9;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 250;
-	itm.Weight = 2.0;
+	itm.price = 1500;
+	itm.Weight = 3.0;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
 	itm.Solder_o.max = 6;
@@ -178,7 +178,7 @@ int InitItems()
 	itm.Food.tex = 3;
 	itm.Food.pic = 3;
 	itm.Food.selpic = 11;
-	itm.Food.energy = 25.0;
+	itm.Food.energy = 30.0;
 	itm.Food.energy.speed = 5.0;
 	itm.minlevel = 0;
 	itm.rare = 0.3;

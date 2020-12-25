@@ -349,8 +349,14 @@ void extrnInitPerks()
 	ChrPerksList.list.Energaiser.descr = "perkEnergaiser";
 	ChrPerksList.list.Energaiser.Hiden = true;
 
+
 	// скрытый перк дает бонус в 5% к базовой скорости корабля при наличии всех карт
 	ChrPerksList.list.MapMaker.descr = "perkMapMaker";
 	ChrPerksList.list.MapMaker.PlayerOnly = true;
 	ChrPerksList.list.MapMaker.Hiden = true;
+	
+	// скрытый перк буканьеров. Даёт ошеломление при выстрелах и увеличивает скорость перезарядки примерно на 15%
+	ChrPerksList.list.Buccaneer.descr = "perkBuccaneer";
+	ChrPerksList.list.Buccaneer.PlayerOnly = true;
+	ChrPerksList.list.Buccaneer.Hiden = true;
 }

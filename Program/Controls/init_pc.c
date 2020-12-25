@@ -584,11 +584,11 @@ void ExternControlsInit(bool bFirst, bool standart)
 		//MapControlToGroup("TmpChrTurn2","FightModeControls");
 
 		//CI_CreateAndSetControls( "FightModeControls", "ChrBlockBase", CI_GetKeyCode("VK_SPACE"), 0, true );   //0
-		CI_CreateAndSetControls( "FightModeControls", "ChrBlock", CI_GetKeyCode("VK_SPACE"), 0, true );
+		CI_CreateAndSetControls( "FightModeControls", "ChrBlock", CI_GetKeyCode("VK_RBUTTON"), 0, true );
 		CI_CreateAndSetControls( "FightModeControls", "ChrAltAttackBase", CI_GetKeyCode("VK_LBUTTON"), 0, true );   //2
 		CI_CreateAndSetControls( "FightModeControls", "ChrAltAttackBaseA", CI_GetKeyCode("KEY_B"), 0, true );   //2
-		CI_CreateAndSetControls( "FightModeControls", "ChrAttackBreakBase", CI_GetKeyCode("VK_MBUTTON"), 0, true ); //ChrAttackRoundBase
-		CI_CreateAndSetControls( "FightModeControls", "ChrAttackBase", CI_GetKeyCode("VK_RBUTTON"), 0, true );   //1
+		CI_CreateAndSetControls( "FightModeControls", "ChrAttackBreakBase", CI_GetKeyCode("VK_SPACE"), 0, true ); //ChrAttackRoundBase
+		CI_CreateAndSetControls( "FightModeControls", "ChrAttackBase", CI_GetKeyCode("KEY_X"), 0, true );   //1
 
 		//MapControlToGroup("ChrBlockBase","BattleInterfaceControls");
 		//CI_CreateAndSetControls( "FightModeControls", "BIFastCommand", CI_GetKeyCode("VK_F3"), 0, true ); //VK_F3
