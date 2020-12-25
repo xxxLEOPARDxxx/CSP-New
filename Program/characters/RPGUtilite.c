@@ -2271,7 +2271,7 @@ void initNewMainCharacter()
 		ChangeCrewExp(pchar, "Soldiers", 50);
 		SetCharacterGoods(pchar, GOOD_SAILCLOTH, 20 + rand(50));
 		SetCharacterGoods(pchar, GOOD_PLANKS, 20 + rand(50));
-		SetCharacterGoods(pchar, GOOD_RUM, 150 + rand(200));
+		SetCharacterGoods(pchar, GOOD_RUM, 50 + rand(100));
 	}
 	else
 	{
@@ -2283,7 +2283,7 @@ void initNewMainCharacter()
 		ChangeCrewExp(pchar, "Cannoners", 50);
 		ChangeCrewExp(pchar, "Soldiers", 50);
 		SetCharacterGoods(pchar, GOOD_SLAVES, 10 + rand(20));
-		SetCharacterGoods(pchar, GOOD_RUM, 150 + rand(200));
+		SetCharacterGoods(pchar, GOOD_RUM, 50 + rand(100));
 	}
 	// коцаем корабль
 	pchar.ship.HP = sti(pchar.ship.HP) - makeint(sti(pchar.ship.HP)*0.05) * (MOD_SKILL_ENEMY_RATE);
@@ -2333,6 +2333,8 @@ void initMainCharacterItem()
 	switch (ch.HeroParam.HeroType)
 	{
         case "Master":
+			SetCharacterPerk(pchar, "Tireless");
+			SetCharacterPerk(pchar, "HardHitter");
             TakenItems(Pchar, "potion1", rand(10));
             TakenItems(Pchar, "potion2", rand(5));
             TakenItems(Pchar, "indian12", 1);
@@ -2340,7 +2342,6 @@ void initMainCharacterItem()
 			switch (sti(ch.nation))
 			{
 				case ENGLAND:
-					SetCharacterPerk(pchar, "HardHitter");
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
@@ -2353,14 +2354,12 @@ void initMainCharacterItem()
 					pchar.money = 1500/MOD_SKILL_ENEMY_RATE;
 				break;
 				case FRANCE:
-					SetCharacterPerk(pchar, "Rush");
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 					pchar.money = 500/MOD_SKILL_ENEMY_RATE;
 				break;
 				case HOLLAND:
-					SetCharacterPerk(pchar, "Grus");
 					itemID = GetGeneratedItem("topor1");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
@@ -2374,8 +2373,6 @@ void initMainCharacterItem()
 					pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
 				break;
 				case PIRATE:
-					SetCharacterPerk(pchar, "Sliding");
-					SetCharacterPerk(pchar, "Medic");
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
@@ -2386,7 +2383,6 @@ void initMainCharacterItem()
 					AddItems(Pchar, "GunPowder", 5);
 				break;
 				case SPAIN:
-					SetCharacterPerk(pchar, "Ciras");
 					AddItems(Pchar, "cirass1", 1);
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
@@ -2444,6 +2440,8 @@ void initMainCharacterItem()
 	    break;
 
 	    case "Corsair":
+			SetCharacterPerk(pchar, "CriticalHit");
+			SetCharacterPerk(pchar, "BasicDefense");
 			itemID = GetGeneratedItem("Spyglass" + rand(3));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
@@ -2460,31 +2458,28 @@ void initMainCharacterItem()
 			switch (sti(ch.nation))
 			{
 				case ENGLAND:
-					SetCharacterPerk(pchar, "Rush");
 					pchar.money = 500/MOD_SKILL_ENEMY_RATE;
 				break;
 				case FRANCE:
-					SetCharacterPerk(pchar, "Gunman");
 					TakeNItems(Pchar, "bullet", 10);
 					AddItems(Pchar, "GunPowder", 10);
 					pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
 				break;
 				case HOLLAND:
-					SetCharacterPerk(pchar, "BladeDancer");
 					pchar.money = 500/MOD_SKILL_ENEMY_RATE;
 				break;
 				case PIRATE:
-					SetCharacterPerk(pchar, "CriticalHit");
 					GiveItem2Character(Pchar, "Map_part1");
 				break;
 				case SPAIN:
-					SetCharacterPerk(pchar, "EnergyPlus");
 					pchar.money = 2000/MOD_SKILL_ENEMY_RATE;
 				break;
 			}
 	    break;
 
 	    case "Adventurer":
+			SetCharacterPerk(pchar, "Gunman");
+			SetCharacterPerk(pchar, "Trustworthy");
 			GiveItem2Character(Pchar, "Map_bad");
 			itemID = GetGeneratedItem("pistol" + rand(3));
             GiveItem2Character(Pchar, itemID);
@@ -2503,13 +2498,11 @@ void initMainCharacterItem()
 			switch (sti(ch.nation))
 			{
 				case ENGLAND:
-					SetCharacterPerk(pchar, "SharedExperience");
 					itemID = GetGeneratedItem("blade7");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 				break;
 				case FRANCE:
-					SetCharacterPerk(pchar, "ShipEscape");
 					itemID = GetGeneratedItem("blade12");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
@@ -2517,13 +2510,11 @@ void initMainCharacterItem()
 					AddItems(Pchar, "GunPowder", 10);
 				break;
 				case HOLLAND:
-					SetCharacterPerk(pchar, "IronWill");
 					itemID = GetGeneratedItem("blade3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 				break;
 				case PIRATE:
-					SetCharacterPerk(pchar, "Grus");
 					itemID = GetGeneratedItem("blade1");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
@@ -2531,7 +2522,6 @@ void initMainCharacterItem()
 					AddItems(Pchar, "GunPowder", 10);
 				break;
 				case SPAIN:
-					SetCharacterPerk(pchar, "Medic");
 					itemID = GetGeneratedItem("blade18");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
@@ -2540,39 +2530,19 @@ void initMainCharacterItem()
 	    break;
 
 	    case "Inquisitor":
+			SetCharacterPerk(pchar, "Gunman");
+			SetCharacterPerk(pchar, "GunProfessional");
 			itemID = GetGeneratedItem("blade" + rand(9));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			itemID = GetGeneratedItem("pistol" + rand(3));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
-			TakeNItems(Pchar, "bullet", 10);
-			AddItems(Pchar, "GunPowder", 10);
-            TakenItems(Pchar, "jewelry4", 1);
-            TakenItems(Pchar, "Totem_6", 1);
-            TakenItems(Pchar, "indian15", 1);
+			TakeNItems(Pchar, "bullet", 100);
+			AddItems(Pchar, "GunPowder", 100);
 			TakenItems(Pchar, "potion1", rand(10));
 			pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
             TakenItems(Pchar, "Food1", rand(6)+4);
-			switch (sti(ch.nation))
-			{
-				case ENGLAND:
-					SetCharacterPerk(pchar, "Tireless");
-				break;
-				case FRANCE:
-					SetCharacterPerk(pchar, "BladeDancer");
-				break;
-				case HOLLAND:
-					SetCharacterPerk(pchar, "Gunman");
-				break;
-				case PIRATE:
-					SetCharacterPerk(pchar, "EnergyPlusFixed");
-					GiveItem2Character(pchar, "map_part1");
-				break;
-				case SPAIN:
-					SetCharacterPerk(pchar, "Ciras");
-				break;
-			}
 	    break;
 
 	    case "SecretAgent":
@@ -2707,11 +2677,11 @@ string GetNewMainCharacterType(int _startHeroType)
     	    ret = "Merchant";
 	    break;
 
-	    case "Мастер":
+	    case "Рубака":
     	    ret = "Master";
 	    break;
 
-	    case "Корсар":
+	    case "Фехтовальщик":
             ret = "Corsair";
 	    break;
 
@@ -2719,7 +2689,7 @@ string GetNewMainCharacterType(int _startHeroType)
             ret = "Adventurer";
 	    break;
 
-	    case "Инквизитор":
+	    case "Буканьер":
             ret = "Inquisitor";
 	    break;
 
