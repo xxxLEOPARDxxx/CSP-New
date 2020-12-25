@@ -292,7 +292,7 @@ heroLastNameDat_9 {Уоферу}
 heroFace_9 {512}
 heroModel_9 {PGG_Uof_0,PGG_Uof_1,PGG_Uof_2,PGG_Uof_3,PGG_Uof_4,PGG_Uof_5,PGG_Uof_6,PGG_Uof_7,PGG_Uof_8}
 
-heroType_9 {Инквизитор}
+heroType_9 {Буканьер}
 heroNation_9 {Голландия}
 
 sex_9 {man}
@@ -420,7 +420,7 @@ heroLastNameDat_14 {ван Бергу}
 heroFace_14 {502}
 heroModel_14 {PGG_ShBerg_0,PGG_ShBerg_1,PGG_ShBerg_2,PGG_ShBerg_3,PGG_ShBerg_4,PGG_ShBerg_5,PGG_ShBerg_6,PGG_ShBerg_7,PGG_ShBerg_8}
 
-heroType_14 {Инквизитор}
+heroType_14 {Буканьер}
 heroNation_14 {Голландия}
 
 sex_14 {man}
@@ -520,7 +520,7 @@ heroLastNameDat_18 {Монтойа}
 heroFace_18 {503}
 heroModel_18 {PGG_Montoia_0,PGG_Montoia_1,PGG_Montoia_2,PGG_Montoia_3,PGG_Montoia_4,PGG_Montoia_5,PGG_Montoia_6,PGG_Montoia_7,PGG_Montoia_8}
 
-heroType_18 {Инквизитор}
+heroType_18 {Буканьер}
 heroNation_18 {Испания}
 
 sex_18 {man}
@@ -844,7 +844,7 @@ heroLastNameDat_31 {}
 heroFace_31 {524}
 heroModel_31 {PGG_Fox_0,PGG_Fox_1,PGG_Fox_2,PGG_Fox_3,PGG_Fox_4,PGG_Fox_5}
 
-heroType_31 {Инквизитор}
+heroType_31 {Буканьер}
 heroNation_31 {Англия}
 
 sex_31 {man}
@@ -869,7 +869,7 @@ heroLastNameDat_32 {де Бенуа}
 heroFace_32 {523}
 heroModel_32 {PGG_Alex_blade_0,PGG_Alex_blade_1,PGG_Alex_blade_2,PGG_Alex_blade_3,PGG_Alex_blade_4,PGG_Alex_blade_5}
 
-heroType_32 {Инквизитор}
+heroType_32 {Буканьер}
 heroNation_32 {Франция}
 
 sex_32 {man}
@@ -1119,7 +1119,7 @@ heroLastnameDat_42 {}
 heroFace_42 {531}
 heroModel_42 {PGG_Vincento_0,PGG_Vincento_1,PGG_Vincento_2,PGG_Vincento_3,PGG_Vincento_4,PGG_Vincento_5}
 
-heroType_42 {Инквизитор}
+heroType_42 {Буканьер}
 heroNation_42 {Англия}
 
 sex_42 {man}
@@ -1775,7 +1775,7 @@ heroNameDat_70 {Альберто}
 heroLastNameDat_70 {Каскосу}
 
 heroFace_70 {525}
-heroModel_70 {PGG_Giant}
+heroModel_70 {PGG_Giant_0,PGG_Giant_1,PGG_Giant_2,PGG_Giant_3,PGG_Giant_4,PGG_Giant_5}
 
 heroType_70 {Фехтовальщик}
 heroNation_70 {Пират}
@@ -1786,6 +1786,7 @@ animation_70 {Giant}
 hero_70
 {
 Бывший испанский солдат, участвовавший в походе Кортеса на Теночтитлан, однако после одной из неудачных атак, его схватили ацтеки, и за свой рост и силу, его принесли в жертву богам, после чего превратили его в скелета.
+- Имеет все виды кирас.
 }
 
 ;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================

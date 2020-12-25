@@ -5090,11 +5090,11 @@ void LSC_BigStormIsBegin()
 				locations[i].reload.(sTemp).disable = true; 
 			}
 			DeleteAttribute(&locations[i], "reload.l2.disable"); //откроем выход из ГПК
-			locations[i].locators_radius.reload.reload2_back = 16.0;
+			locations[i].locators_radius.reload.reload2_back = 20.0;
 			pchar.location.from_sea = "LostShipsCity_town";
 			//второй патч ГПК
-			locations[i].models.day.charactersPatch = "LostShipsCity_patch_end";
-			locations[i].models.night.charactersPatch = "LostShipsCity_patch_end";	
+			//locations[i].models.day.charactersPatch = "LostShipsCity_patch_end";
+			//locations[i].models.night.charactersPatch = "LostShipsCity_patch_end";	
 			//погода
 			DeleteAttribute(&locations[i], "alwaysStorm");	
 			DeleteAttribute(&locations[i], "QuestlockWeather");
@@ -5105,7 +5105,7 @@ void LSC_BigStormIsBegin()
 			locations[i].tornado = true;
 			//#20181023-02
 			if(MOD_SKILL_ENEMY_RATE==1)
-                locations[i].showLocatorGrp = "reload";
+                //locations[i].showLocatorGrp = "reload";
 			break;
 		}
 	}

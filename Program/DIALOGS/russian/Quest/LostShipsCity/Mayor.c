@@ -743,6 +743,7 @@ void ProcessDialogEvent()
 		break;
 		case "fightTalking_3":
 			LAi_LocationFightDisable(loadedLocation, false);
+			npchar.SaveItemsForDead = true;
 			LAi_SetWarriorTypeNoGroup(NPChar);
 			//LAi_group_Attack(NPChar, Pchar);
 			AddDialogExitQuestFunction("LSC_figtInResidence");

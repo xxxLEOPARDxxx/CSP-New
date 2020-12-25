@@ -2199,46 +2199,26 @@ void initNewMainCharacter()
 	SetSPECIAL(ch, 4,4,4,4,4,4,4); //фикс для любителей стирать тип ГГ в файле - была дыра
 	switch (ch.HeroParam.HeroType)
 	{
-        case "Master":
-    	    SetSPECIAL(ch, 10,5,10,6,7,6,6); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
+        case "Master":	//Рубака
+    	    SetSPECIAL(ch, 10,5,10,4,7,8,6); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	    break; 
 
-        case "Merchant":
+        case "Merchant":	//Торговец
     	    SetSPECIAL(ch, 8,6,5,9,9,3,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	    break;
 
-	    case "Corsair":
-         	SetSPECIAL(ch, 9,8,9,3,6,10,5); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
-         	// НЗГ -->
-         	i = 0;
-         	while (i < 2)// две награды
-         	{
-	         	iTmp  = rand(MAX_NATIONS-1);
-	         	sTemp = "reputation." + NationShortName(iTmp) + "hunter";
-	         	if (iTmp != PIRATE && iTmp != sti(ch.nation) && sti(ch.(sTemp)) == -5)
-	         	{
-					/*if (MOD_BETTATESTMODE == "On")
-					{
-						ch.(sTemp) = (7 + rand(8));
-					}
-					else
-					{ */
-						ch.(sTemp) = (1 + rand(5));
-					//}
-		    	    i++;
-	    	    }
-    	    }
-         	// НЗГ <--
+	    case "Corsair":	//Фехтовальщик
+         	SetSPECIAL(ch, 9,3,9,3,10,10,6); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	    break;
-	    case "Adventurer":
-    	    SetSPECIAL(ch, 8,10,5,6,8,5,8); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
+	    case "Adventurer":	//Авантюрист
+    	    SetSPECIAL(ch, 7,8,7,8,8,5,7); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	    break;
 
-		case "Inquisitor":
-    	    SetSPECIAL(ch, 8,6,7,10,7,6,6); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)   
+		case "Inquisitor":	//Буканьер
+    	    SetSPECIAL(ch, 8,10,7,6,7,6,6); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)   
 	    break;
 
-	    case "SecretAgent":
+	    case "SecretAgent":	//Тайный агент
     	    SetSPECIAL(ch, 7,7,6,10,6,7,7); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	    break;
 
