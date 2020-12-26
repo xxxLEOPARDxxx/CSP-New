@@ -416,6 +416,7 @@ void FaceMaker(aref rCharacter)
 		case "horse08": 		rCharacter.FaceId = 167; break;
 
 		case "PotCMobCap": 		rCharacter.FaceId = 510; break;
+		case "Chard3b":			rCharacter.FaceId = 1510; break; //Волверстон
 		
 	}
 }

@@ -122,6 +122,16 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 	}
 	if (kAttackDmg > 0)  // оптимизация boal
 	{
+		if (attack.model.animation == "mushketer")
+		{
+			string at = RecalculateMushketHitsType(attack);
+			Log_Info(at);
+			if (at != "")
+			{
+				if (at == "break" && attackType == at) kAttackDmg += 1.5;
+				if (at == "force" && attackType == at) kAttackDmg += 1.0;
+			}
+		}
 		//Результирующий демедж
 		float dmg = bladeDmg * kAttackDmg; // *kArcadeDmg * kSkillDmg
 		if(CheckCharacterPerk(attack, "HardHitter"))  
@@ -153,6 +163,19 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 		return dmg;
 	}
 	return 0.0;
+}
+
+string RecalculateMushketHitsType(aref attack)
+{
+	if (IsEquipCharacterByItem(attack, "mushket") || IsEquipCharacterByItem(attack, "mushket2"))
+	{
+		return "break";
+	}
+	if (IsEquipCharacterByItem(attack, "mushket_SeaCarbine"))
+	{
+		return "force";
+	}
+	return "";
 }
 
 //Расчитать полученный опыт при ударе саблей

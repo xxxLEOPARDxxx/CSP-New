@@ -73,40 +73,42 @@ void CreateCitizens(aref loc)
 	if (checkAttribute(loc, "citizens") || loc.type == "church")
 	{
 		iCitizensQuantity = rand(8) + 6;
-		if(loc.type == "town") iSailorQty = rand(2)+2;
+		
+       if(loc.type == "town")   iSailorQty = rand(2)+2;		
+	   else iSailorQty = 0;
 		
 		if (loc.type == "church")  iCitizensQuantity = rand(6) + 2;
 
         if(iNation != PIRATE || sti(Colonies[iColony].HeroOwn) == true)//колония
 		{
-			for(i=0; i<iSailorQty; i++)//матросы
-			{
-      	      iSex = MAN;
-				sType = "sailor";
-				iChar = NPC_GeneratePhantomCharacter("sailor", iNation, iSex, 2);
-				chr = &characters[iChar];
-				SetNPCModelUniq(chr, sType, iSex);
-				chr.City = Colonies[iColony].id;
-				chr.CityType = "citizen";
-				LAi_SetLoginTime(chr, 6.0, 21.99);
-				LAi_SetCitizenType(chr);
-				GiveItem2Character(chr, RandPhraseSimple("blade3","blade5"));
-				EquipCharacterbyItem(chr, RandPhraseSimple("blade3","blade5"));
-				if (sti(Colonies[iColony].HeroOwn) == true) LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
-				else LAi_group_MoveCharacter(chr, slai_group);
-				PlaceCharacter(chr, "goto", "random_free");
-				chr.dialog.filename    = "Sailor.c";
-				chr.dialog.currentnode = "first time";
-				chr.greeting = "pirat_common";
-				if (rand(5) == 1) //нанимаются в команду
+				for(i=0; i<iSailorQty; i++)//матросы
 				{
-					chr.quest.crew = "true";
-					chr.quest.crew.qty = 5+rand(15);
-					chr.quest.crew.type = rand(2);
-					chr.quest.crew.money = (1+rand(1))*100+rand(50);
-					chr.talker = rand(9);
+    	   	        iSex = MAN;
+					sType = "sailor";
+					iChar = NPC_GeneratePhantomCharacter("sailor", iNation, iSex, 2);
+					chr = &characters[iChar];
+					SetNPCModelUniq(chr, sType, iSex);
+					chr.City = Colonies[iColony].id;
+					chr.CityType = "citizen";
+					LAi_SetLoginTime(chr, 6.0, 21.99);
+					LAi_SetCitizenType(chr);
+					GiveItem2Character(chr, RandPhraseSimple("blade3","blade5"));
+					EquipCharacterbyItem(chr, RandPhraseSimple("blade3","blade5"));
+					if (sti(Colonies[iColony].HeroOwn) == true) LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
+					else LAi_group_MoveCharacter(chr, slai_group);
+					PlaceCharacter(chr, "goto", "random_free");
+					chr.dialog.filename    = "Sailor.c";
+					chr.dialog.currentnode = "first time";
+					chr.greeting = "pirat_common";
+					if (rand(5) == 1) //нанимаются в команду
+					{
+						chr.quest.crew = "true";
+						chr.quest.crew.qty = 5+rand(15);
+						chr.quest.crew.type = rand(2);
+						chr.quest.crew.money = (1+rand(1))*100+rand(50);
+						chr.talker = rand(9);
+					}
 				}
-			}
 		}
 
 		for(i=0; i<iCitizensQuantity; i++)
@@ -187,23 +189,6 @@ void CreateCitizens(aref loc)
 				chr.dialog.filename    = "Common_citizen.c";
 			}
 			chr.dialog.currentnode = "first time";
-			/*if(chr.sex == "man")
-			{
-				chr.dialog.currentnode = SelectTutorial();
-				if(chr.dialog.currentnode != "First Time")
-				{
-					chr.tutorial.link = chr.dialog.currentnode;
-					chr.quest.questflag.model = "";
-  					if(sti(InterfaceStates.EnabledQuestsMarks) == 1 && LAi_IsCapturedLocation == false)
-					{
-						if(sti(InterfaceStates.EnabledQuestsMarks) == 1)
-						{
-							chr.quest.questflag.model = "questionmarkI";
-							chr.quest.questflag.technique = GetTechNameForSign();
-						}
-					}
-				}
-			}  */
 
 			if(sti(chr.nation) == PIRATE && sti(Colonies[iColony].HeroOwn) != true)
 			{

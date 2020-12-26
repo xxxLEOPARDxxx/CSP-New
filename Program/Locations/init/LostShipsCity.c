@@ -572,6 +572,14 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l73.autoreload = "0";
 	locations[n].reload.l73.label = "VelascoShipInside1 cabin";
 	locations[n].reload.l73.close_for_night = 1;
+	
+	//////////// проход на корабль внешнего кольца ///////////
+	locations[n].reload.l74.name = "reload_ring";
+	locations[n].reload.l74.go = "ExternalRingInside";
+	locations[n].reload.l74.emerge = "reload1";
+	locations[n].reload.l74.autoreload = "0";
+	locations[n].reload.l74.disable = 1;  //закрыто до поры
+	locations[n].locators_radius.reload.reload_ring = 2.5;
 
 	//ключи для сундуков и предметы внутри
 	locations[n].private1.key = "key3";		//внутри резиденции в трюме
@@ -2366,6 +2374,197 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private3.items.jewelry15 = 15;
 	locations[n].private3.items.jewelry5 = 35;
 	locations[n].private2.items.map_hisp = 1;
+	n = n + 1;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	//  вестова¤ корабельна¤ палуба корабл¤ внешнего кольца LSC
+	//////////////////////////////////////////////////////////////////////////////////////////////
+	
+	Locations[n].id = "ExternalRingDeck";
+	Locations[n].id.label = "Boarding deck";
+	Locations[n].image = "loading\Quarter_" + rand(1) + ".tga";
+	//Sound
+	Locations[n].type = "LostShipsCity";
+	Locations[n].lockCamAngle = 0.4;
+	//Models	
+	//Always
+	Locations[n].filespath.models = "locations\decks\deck03";
+	Locations[n].models.always.deck03 = "deck03";
+	Locations[n].models.always.locators = "deck03_locators";
+
+	Locations[n].models.always.plan3 = "LostShipsCity_plan3";
+	Locations[n].models.always.plan3.tech = "LocationWindows";
+	Locations[n].models.always.plan3.level = 65532;
+	
+	Locations[n].models.always.alpha = "deck03_alpha";
+	
+	//Day
+	locations[n].models.day.charactersPatch = "deck03_patch";
+	Locations[n].models.day.fonar = "deck03_fonars";	
+	//Night
+	locations[n].models.night.charactersPatch = "deck03_patch";
+	Locations[n].models.night.fonar = "deck03_fonars";	
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "true"; 
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "ExternalRingInside";
+	locations[n].reload.l1.emerge = "reload2";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "My_Deck";
+
+	locations[n].reload.l2.name = "reload2";
+	locations[n].reload.l2.go = "ExternalRingCabin1";
+	locations[n].reload.l2.emerge = "reload1";
+	locations[n].reload.l2.autoreload = "0";
+	locations[n].reload.l2.label = "cabine";
+
+	locations[n].private1.items.GunPowder = 25;
+	
+	locations[n].private2.items.blade12 = 1;
+	locations[n].private2.items.mushket1 = 1;
+	locations[n].private2.items.bullet = 25;
+	
+	locations[n].private3.items.potion5 = 50;
+	
+	locations[n].private4.items.potion2 = 8;
+	
+	locations[n].locators_radius.item.item1 = 1.3;
+	
+	n = n + 1;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// вестова¤ локаци¤ корабл¤ внешнего кольца - клон инсайда ѕлуто
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "ExternalRingInside";
+	locations[n].id.label = "";
+	locations[n].filespath.models = "locations\LostShipsCityInsides\PlutoStoreSmall";
+	locations[n].image = "loading\InsideLSC.tga";
+	//Town sack
+	locations[n].townsack = "LostShipsCity";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "LSC_inside";
+	locations[n].islandId = "LostShipsCity";
+	//Models
+	//Always	
+	Locations[n].models.always.inside = "PlutoStoreSmall";	
+	Locations[n].models.always.inside.level = 65538;
+	Locations[n].models.always.seabed = "PlutoStoreSmall_sb";
+	Locations[n].models.always.outdoor = "PlutoStoreSmall_outdoor";		
+	Locations[n].models.always.reflect = "PlutoStoreSmall_reflect";
+	Locations[n].models.always.reflect.level = 65531;
+	Locations[n].models.always.reflect.sea_reflection = 1;	
+	Locations[n].models.always.windows = "PlutoStoreSmall_windows";
+	Locations[n].models.always.windows.tech = "LocationWindows";
+	Locations[n].models.always.windows.level = 65539;	
+	Locations[n].models.always.sails = "PlutoStoreSmall_sails";
+	Locations[n].models.always.sails.tech = "LocationWindows";
+	Locations[n].models.always.sails.level = 65534;	
+	Locations[n].models.always.plan1 = "Plan1";
+	Locations[n].models.always.plan1.tech = "LocationWindows";
+	Locations[n].models.always.plan1.level = 65533;
+	Locations[n].models.always.plan1.sea_reflection = 1;	
+	Locations[n].models.always.plan2 = "Plan2";
+	Locations[n].models.always.plan2.tech = "LocationWindows";
+	Locations[n].models.always.plan2.level = 65532;	
+	Locations[n].models.always.locators = "ExternalRingInside_locators";	
+	Locations[n].models.always.grassPatch = "PlutoStoreSmall_grass";
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	//Day
+	locations[n].models.day.charactersPatch = "PlutoStoreSmall_patch_day";
+	locations[n].models.day.fonarday = "PlutoStoreSmall_fd";	
+	//Night
+	locations[n].models.night.charactersPatch = "PlutoStoreSmall_patch_day";	
+	Locations[n].models.night.fonarnight = "PlutoStoreSmall_fn";
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "true";
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "LostShipsCity_town";
+	locations[n].reload.l1.emerge = "reload_ring";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "LSC Town";
+
+	locations[n].reload.l2.name = "reload2";
+	locations[n].reload.l2.go = "ExternalRingDeck";
+	locations[n].reload.l2.emerge = "reload1";
+	locations[n].reload.l2.autoreload = "0";
+	locations[n].reload.l2.label = "LSC Town";
+
+	// схроны
+	locations[n].private1.items.Mineral1 = 3;
+	locations[n].private1.items.Mineral3 = 10;
+	locations[n].private1.items.Mineral5 = 1;
+
+	locations[n].private2.items.Mineral11 = 1;
+	
+	locations[n].private4.items.potionrum = 40; // 40 бутылок рома
+	
+	locations[n].private6.items.potionwine = 20; // 20 бутылок вина
+	
+	locations[n].private7.items.indian11 = 1;
+	
+	locations[n].private9.items.cirass1 = 1;
+	
+	locations[n].private10.items.jewelry15 = 3;
+	locations[n].private10.items.jewelry19 = 1;
+	
+	locations[n].private11.items.jewelry1 = 2;
+	
+	n = n + 1;
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//  вестова¤ каюта на корабле внешнего кольца - каюта Ћv
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+  	Locations[n].id = "ExternalRingCabin1"; 
+    locations[n].id.label = "cabine";
+	locations[n].filespath.models = "locations\inside\cabinFDM\";
+	locations[n].image = "loading\Capdeck_" + rand(1) + ".tga";
+	//Sound
+	locations[n].type = "LSC_inside";
+	locations[n].islandId = "LostShipsCity";
+	//Models
+	//Always
+	locations[n].models.always.cabinFDM = "cabinFDM";
+	locations[n].models.always.cabinFDM.level = 65538;
+	locations[n].models.always.locators = "ExternalRingCabin_locators";
+
+	locations[n].models.always.window = "cabinFDM_window";
+	Locations[n].models.always.window.tech = "LocationWindows";
+	locations[n].models.always.window.level = 65539;
+	//Day
+	locations[n].models.day.charactersPatch = "cabinFDM_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "cabinFDM_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "true";
+	
+    Locations[n].reload.l1.name = "reload1";
+	Locations[n].reload.l1.go = "ExternalRingDeck";
+	Locations[n].reload.l1.emerge = "reload2";
+	Locations[n].reload.l1.label = "Boarding deck";
+	locations[n].environment.weather.rain = false;
+	
+	locations[n].private1.money = 144;
+	locations[n].private1.items.map_maine_2 = 1;
+	
+	locations[n].private2.items.jewelry10 = 1;
+	locations[n].private2.items.jewelry15 = 1;
+	locations[n].private2.items.indian5 = 1;
+	
+	locations[n].private3.items.totem_8 = 1;
+	locations[n].private3.items.potionwine = 2;
+	locations[n].private3.items.potion2 = 1;;
+	
+	locations[n].private4.items.pistol6 = 1;
+	locations[n].private4.items.bullet = 10;
+	
+	locations[n].locators_radius.item.item1 = 1.0;
+	
 	n = n + 1;
 
 	return n;

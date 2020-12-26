@@ -1000,8 +1000,26 @@ bool ThisItemCanBeEquip( aref arItem )
 			return false;
 		}
 		
+		if(arItem.id == "mushket_Shtuzer" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
+		{
+			return false;
+		}
+		if(arItem.id == "mushket2" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
+		{
+			return false;
+		}
+		if(arItem.id == "mushket_drob" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
+		{
+			return false;
+		}
+		
 		// Нельзя экипировать мушкет в непредназначенных для этого локациях (Таверна)
-		if(HasSubStr(arItem.id, "mushket") && !CanEquipMushketOnLocation(PChar.Location))
+		if(HasSubStr(arItem.id, "mushket") && !CanEquipMushketOnLocation(xi_refCharacter.Location))
+		{
+			return false;
+		}
+		
+		if (IsMainCharacter(xi_refCharacter) && !IsPCharHaveMushketerModel())
 		{
 			return false;
 		}
@@ -1039,6 +1057,7 @@ bool ThisItemCanBeEquip( aref arItem )
 			}
 		}
 	}
+	if (arItem.groupID == CIRASS_ITEM_TYPE && xi_refCharacter.model == "Protocusto") return false;
 	return true;
 }
 
@@ -1145,41 +1164,53 @@ void EquipPress()
 		}
 		else
 		{
-			bool bCanmakeMushketer = (IsMainCharacter(xi_refCharacter)) || (CheckAttribute(xi_refCharacter, "CanTakeMushket"))
-			if(HasSubStr(itmRef.id, "Mushket") && bCanmakeMushketer)
+			if (itmGroup == SPECIAL_ITEM_TYPE) // Jason, спецпредметы
 			{
-				if (IsMainCharacter(xi_refCharacter)) // ГГ
+				if (itmRef.id == "RingCapBook") // СЖ пинаса 'Санта-Люсия' и дневник Колхауна
 				{
-					if(!CheckAttribute(PChar, "IsMushketer")) // Не мушкетер. Делаем мушкетером
-					{
-						SetMainCharacterToMushketer(itmRef.id, true);
-					}
-					else // Мушкетер. Делаем обычным фехтовальщиком
-					{
-						SetMainCharacterToMushketer("", false);
-					}
-				}
-				else
-				{
-					if(!CheckAttribute(xi_refCharacter, "IsMushketer")) // Не мушкетер. Делаем мушкетером
-					{
-						SetOfficerToMushketer(xi_refCharacter, itmRef.id, true);
-					}
-					else // Мушкетер. Делаем обычным фехтовальщиком
-					{
-						SetOfficerToMushketer(xi_refCharacter, itmRef.id, false);
-					}
+					RemoveItems(pchar, itmRef.id, 1);
+					AddQuestRecord("RingCapBook", "1");
+					pchar.questTemp.LSC.Ring.ReadCapBook = "true";
 				}
 			}
 			else
 			{
-				if(IsEquipCharacterByItem(xi_refCharacter, itmRef.id))
+				bool bCanmakeMushketer = (IsMainCharacter(xi_refCharacter)) || (CheckAttribute(xi_refCharacter, "CanTakeMushket"))
+				if(HasSubStr(itmRef.id, "Mushket") && bCanmakeMushketer)
 				{
-					RemoveCharacterEquip(xi_refCharacter, itmGroup);
+					if (IsMainCharacter(xi_refCharacter)) // ГГ
+					{
+						if(!CheckAttribute(PChar, "IsMushketer")) // Не мушкетер. Делаем мушкетером
+						{
+							SetMainCharacterToMushketer(itmRef.id, true);
+						}
+						else // Мушкетер. Делаем обычным фехтовальщиком
+						{
+							SetMainCharacterToMushketer("", false);
+						}
+					}
+					else
+					{
+						if(!CheckAttribute(xi_refCharacter, "IsMushketer")) // Не мушкетер. Делаем мушкетером
+						{
+							SetOfficerToMushketer(xi_refCharacter, itmRef.id, true);
+						}
+						else // Мушкетер. Делаем обычным фехтовальщиком
+						{
+							SetOfficerToMushketer(xi_refCharacter, itmRef.id, false);
+						}
+					}
 				}
 				else
 				{
-					EquipCharacterByItem(xi_refCharacter, itmRef.id);
+					if(IsEquipCharacterByItem(xi_refCharacter, itmRef.id))
+					{
+						RemoveCharacterEquip(xi_refCharacter, itmGroup);
+					}
+					else
+					{
+						EquipCharacterByItem(xi_refCharacter, itmRef.id);
+					}
 				}
 			}
 			FillItemsSelected();

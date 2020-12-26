@@ -3285,11 +3285,6 @@ bool CanEquipMushketOnLocation(string LocationID)
 		return false;
 	}
 	
-	if(!IsPCharHaveMushketerModel())
-	{
-		return false;
-	}
-	
 	return true;
 }
 

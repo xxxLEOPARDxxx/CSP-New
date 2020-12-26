@@ -812,7 +812,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("ISS_MainLine", "71");
 			AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("","а"));
 			//офицер
-			ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic", "Mechanic", "man", "man", 30, SPAIN, -1, true));
+			ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "Mechanic", "man", "man", 30, SPAIN, -1, true));
 			sld.name = "Хенрик";
 			sld.lastname = "Ведекер";
 			sld.greeting = "Gr_questOfficer";

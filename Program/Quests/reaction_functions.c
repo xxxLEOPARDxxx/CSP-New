@@ -3275,7 +3275,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	SaveCurrentNpcQuestDateParam(sld, "location");
 
 	// миллиционер №1
-	sld = GetCharacter(NPC_GenerateCharacter("Ment_1", "officer_13", "man", "man", 30, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Ment_1", "officer_25", "man", "man", 30, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 30, 80, 80, "blade21", "pistol4", 100);
 	sld.name = "Жан";
 	sld.lastname = "Бурди";
@@ -3515,7 +3515,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	SaveCurrentNpcQuestDateParam(sld, "location");
 
 	// внешний горожанин Тристан Борчер
-	sld = GetCharacter(NPC_GenerateCharacter("TristanBorcher", "shipowner_13", "man", "man", 10, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("TristanBorcher", "soldier_free_1", "man", "man", 10, PIRATE, -1, false));
 	sld.name = "Тристан";
 	sld.lastname = "Борчер";
 	sld.rank = 10;
@@ -4054,7 +4054,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_group_MoveCharacter(sld, "PearlGroup_1");
 	SaveCurrentNpcQuestDateParam(sld, "location"); //главе клана сделаем перемещения
 	// нарвал №1
-	sld = GetCharacter(NPC_GenerateCharacter("Narval_1", "officer_18", "man", "man", 20, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Narval_1", "officer_24", "man", "man", 20, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 25, 60, 60, "blade21", "pistol6", 10);
 	sld.name = "Фриц";
 	sld.lastname = "Холт";
@@ -4069,7 +4069,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_1");
 	// нарвал №2
-	sld = GetCharacter(NPC_GenerateCharacter("Narval_2", "officer_12", "man", "man", 20, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Narval_2", "officer_26", "man", "man", 20, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 26, 80, 80, "blade34", "pistol3", 150);
 	sld.name = "Роджер";
 	sld.lastname = "Адин";
@@ -4099,7 +4099,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_1");
 	// нарвал №4
-	sld = GetCharacter(NPC_GenerateCharacter("Narval_4", "pirate_7", "man", "man", 25, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Narval_4", "pirate_17", "man", "man", 25, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 25, 85, 85, "blade33", "pistol6", 150);
 	sld.name = "Жери";
 	sld.lastname = "Гразид";
@@ -4114,7 +4114,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_1");
 	// нарвал №5
-	sld = GetCharacter(NPC_GenerateCharacter("Narval_5", "pirate_3", "man", "man", 20, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Narval_5", "pirate_13", "man", "man", 20, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 27, 80, 80, "topor2", "pistol3", 100);
 	sld.name = "Милон";
 	sld.lastname = "Бержи";
@@ -4129,7 +4129,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_1");
 	// нарвал №6
-	sld = GetCharacter(NPC_GenerateCharacter("Narval_6", "pirate_4", "man", "man", 22, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Narval_6", "pirate_14", "man", "man", 22, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 22, 65, 65, "blade22", "pistol6", 10);
 	sld.name = "Милон";
 	sld.lastname = "Бержи";
@@ -4144,7 +4144,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_1");
 	// нарвал №7
-	sld = GetCharacter(NPC_GenerateCharacter("Narval_7", "officer_14", "man", "man", 25, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Narval_7", "officer_44", "man", "man", 25, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 25, 85, 85, "blade23", "pistol4", 150);
 	sld.name = "Милон";
 	sld.lastname = "Бержи";
@@ -4161,7 +4161,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 
 	//------------------- Клан Каспер -------------------
 	// каспер главарь
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_head", "shipowner_7", "man", "man", 35, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_head", "shipowner_24", "man", "man", 35, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 35, 100, 100, "blade28", "pistol5", 200);
 	sld.name = "Каспер";
 	sld.lastname = "Лонгмэн";
@@ -4178,7 +4178,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//SaveCurrentNpcQuestDateParam(sld, "location"); //главе клана сделаем перемещения
 	//каспер №1
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_1", "pirate_9", "man", "man", 25, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_1", "pirate_19", "man", "man", 25, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 25, 80, 80, "topor2", "pistol3", 100);
 	sld.name = "Денис";
 	sld.lastname = "Хопфер";
@@ -4194,7 +4194,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetImmortal(sld, true);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//каспер №2
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_2", "pirate_8", "man", "man", 21, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_2", "pirate_18", "man", "man", 21, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 21, 80, 80, "blade26", "pistol6", 120);
 	sld.name = "Фошер";
 	sld.lastname = "Хехт";
@@ -4210,7 +4210,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//каспер №3
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_3", "pirate_10", "man", "man", 25, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_3", "pirate_20", "man", "man", 25, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 27, 80, 80, "blade34", "pistol4", 150);
 	sld.name = "Серж";
 	sld.lastname = "Шамбон";
@@ -4226,7 +4226,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//каспер №4
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_4", "pirate_2", "man", "man", 25, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_4", "pirate_12", "man", "man", 25, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 25, 80, 80, "blade23", "pistol3", 100);
 	sld.name = "Фелипе";
 	sld.lastname = "Армас";
@@ -4242,7 +4242,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//каспер №5
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_5", "officer_10", "man", "man", 25, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_5", "officer_20", "man", "man", 25, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 27, 80, 80, "topor2", "pistol3", 130);
 	sld.name = "Фелипе";
 	sld.lastname = "Армас";
@@ -4258,7 +4258,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//каспер №6
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_6", "officer_1", "man", "man", 29, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_6", "officer_2", "man", "man", 29, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 29, 80, 80, "blade25", "pistol4", 100);
 	sld.name = "Хуан";
 	sld.lastname = "Кобо";
@@ -4274,7 +4274,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//каспер №7
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_7", "officer_2", "man", "man", 25, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_7", "officer_4", "man", "man", 25, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 25, 80, 80, "blade34", "pistol6", 150);
 	sld.name = "Тагель";
 	sld.lastname = "Эдо";
@@ -4290,7 +4290,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//каспер №8
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_8", "officer_17", "man", "man", 30, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_8", "officer_34", "man", "man", 30, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 30, 80, 80, "blade26", "pistol4", 150);
 	sld.name = "Зенон";
 	sld.lastname = "Баррио";
@@ -4306,7 +4306,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	//каспер №9
-	sld = GetCharacter(NPC_GenerateCharacter("Casper_9", "officer_5", "man", "man", 30, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Casper_9", "officer_10", "man", "man", 30, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 30, 80, 80, "blade28", "pistol6", 150);
 	sld.name = "Мигель";
 	sld.lastname = "Батис";
@@ -4353,6 +4353,30 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetImmortal(sld, true);
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
+	
+    //Квестовые горожане из ККС
+	
+	// внешний горожанин Ришард Шамбон - контрабандист (Квест "Тайна Санта-Люсии")
+	sld = GetCharacter(NPC_GenerateCharacter("LSC_Rishard", "Shambone", "man", "man", 17, PIRATE, -1, false));
+	SetFantomParamFromRank(sld, 17, true);
+	sld.name = "Ришард";
+	sld.lastname = "Шамбон";
+	sld.city = "LostShipsCity";
+	sld.location	= "LostShipsCity_town";
+	sld.location.group = "goto";
+	sld.location.locator = "goto08_1"; 
+	sld.location.baseShip = "08"; //базовый корабль в ГПК - Глория
+	sld.location.baseLocator = sld.location.locator; 
+	sld.location.baseShip.going = true; //перемещаться между кораблями в городе	
+	sld.location.hours = 4; //передвижения через .. часов
+	sld.dialog.filename   = "Quest\LostShipsCity\Rishard.c";
+	sld.dialog.currentnode   = "First time";
+	sld.cityTape = "citizen"; //тип нпс
+	sld.greeting = "pirat_quest";
+	LAi_SetLoginTime(sld, 6.0, 21.99);
+	LAi_SetLSCoutType(sld);
+	LAi_group_MoveCharacter(sld, "TmpEnemy");
+	SaveCurrentNpcQuestDateParam(sld, "location");
 }
 
 //снять шторм
@@ -4642,14 +4666,17 @@ void LCS_EndScriptInterception()
 	pchar.quest.LCS_EndScriptInterception_2.win_condition.l1.location = pchar.location;
 	pchar.quest.LCS_EndScriptInterception_2.function = "LCS_EndScriptInterception_2";
 	if (pchar.questTemp.LSC == "InterceptionOk")
+	{
 		AddQuestRecord("ISS_MainLine", "22");
 		AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("как полный кретин","как полная дура"));
 		AddQuestUserData("ISS_MainLine", "sSex1", GetSexPhrase("","а"));
+	}
 	else
+	{
 		AddQuestRecord("ISS_MainLine", "20");
 		AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("ся","ась"));
 		AddQuestUserData("ISS_MainLine", "sSex1", GetSexPhrase("","а"));
-
+	}
 }
 
 void LCS_EndScriptInterception_2(string qName)
@@ -5944,7 +5971,6 @@ void CapGobartAttack(string qName)
     if(numdead == 2)
     {
         sld = characterFromID("CapGobart");
-        //LAi_group_MoveCharacter(sld, "TmpEnemy");
         LAi_SetWarriorTypeNoGroup(sld);
         LAi_group_Attack(sld, Pchar);
     }
@@ -5980,12 +6006,10 @@ void CapBloodLineInit(string qName)
     LAi_SetImmortal(Pchar, false);
     DeleteAttribute(Pchar, "items");
     DeleteAttribute(Pchar, "equip");
-								   
+	
     DeleteAttribute(Pchar, "ship");
     DeleteAttribute(Pchar, "ShipSails.gerald_name");
     Pchar.ship.type = SHIP_NOTUSED;
-    /*GiveItem2Character(Pchar, "unarmed");
-    EquipCharacterByItem(Pchar, "unarmed");*/
     Pchar.money = 0;
     // Cтид
     sld = &characters[GetCharacterIndex("Bridgetown_Mayor")];
@@ -6025,7 +6049,6 @@ void CapBloodLine_firstEnterHome(string qName)
 
 void CapBloodLine_q1(string qName)
 {
-
     ref sld;
     LAi_LocationFightDisable(loadedLocation, true);
     LAi_SetFightMode(Pchar, false);
@@ -6034,8 +6057,8 @@ void CapBloodLine_q1(string qName)
     bDisableFastReload = true; // закрыть переходы.
     Pchar.questTemp.CapBUnarmed = true; //ГГ сабля не положена
 
-    //Бишоп на плантациях                              //off_eng_1
-   	sld = GetCharacter(NPC_GenerateCharacter("Bishop", "trader_2", "man", "man", 1, ENGLAND, 3, false));
+    //Бишоп на плантациях
+   	sld = GetCharacter(NPC_GenerateCharacter("Bishop", "off_eng_1", "man", "man", 1, ENGLAND, 3, false));
     sld.name 	= "Полковник";
     sld.lastname 	= "Бишоп";
     sld.Dialog.CurrentNode = "First Bishop";
@@ -6064,6 +6087,7 @@ void CapBloodLine_q1(string qName)
 	sTemp = GetNationNameByType(ENGLAND) + "_citizens";
 	LAi_group_MoveCharacter(sld, sTemp);
     ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseS1_3");
+	
     //Оружейник
 	sld = GetCharacter(NPC_GenerateCharacter("Griffin", "shipowner_11", "man", "man", 10, ENGLAND, 3, false));
 	sld.name = "Эд";
@@ -6074,6 +6098,7 @@ void CapBloodLine_q1(string qName)
     LAi_SetOwnerType(sld);
     LAi_group_MoveCharacter(sld, sTemp);
 	ChangeCharacterAddressGroup(sld, "CommonFlamHouse", "goto","goto1");
+	
 	LAi_SetImmortal(sld, true);
     //Рыбак
 	sld = GetCharacter(NPC_GenerateCharacter("Hells", "shipowner_9", "man", "man", 10, PIRATE, 3, false));
@@ -6088,6 +6113,7 @@ void CapBloodLine_q1(string qName)
     TakeItemFromCharacter(sld, "spyglass3");
     LAi_SetOwnerTypeNoGroup(sld);
 	ChangeCharacterAddressGroup(sld, "CommonRoom_MH2", "goto","goto4");
+	
 	//Контра
 	sld = GetCharacter(NPC_GenerateCharacter("Quest_Smuggler", "Pirate_4", "man", "man", 10, ENGLAND, 3, false));
     sld.dialog.filename = "Quest\CapBloodLine\Bishop.c";
@@ -6106,13 +6132,14 @@ void CapBloodLine_q1(string qName)
     LAi_SetCitizenType(sld);
     LAi_SetSitTypeNoGroup(sld);
     ChangeCharacterAddressGroup(sld, "Bridgetown_tavern", "sit","sit_base"+(1+i));
- //==============//Волверстон//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Volverston", "officer_3", "man", "man", 12, ENGLAND, -1, false)); 
+	
+    //==============//Волверстон//==============
+   	sld = GetCharacter(NPC_GenerateCharacter("Volverston", "Chard3a", "man", "man", 12, ENGLAND, -1, false)); 
     sld.name 	= "Волверстон";
     sld.lastname 	= "";
     sld.Dialog.CurrentNode = "First time";
     sld.dialog.filename = "Quest\CapBloodLine\Bishop.c";
-    sld.greeting = "Gr_Officer";
+    sld.greeting = "Gr_questOfficer";
    	sTemp = GetNationNameByType(ENGLAND) + "_citizens";
     LAi_group_MoveCharacter(sld, sTemp);
     LAi_SetCitizenType(sld);
@@ -6141,6 +6168,7 @@ void CapBloodLine_q1(string qName)
     SetFantomHP(sld);
    	LAi_SetImmortal(sld, true);
 	ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseF2_1");
+	
     //==============//Натаниэль   Хагторп//==============
    	sld = GetCharacter(NPC_GenerateCharacter("Hugtorp", "officer_16", "man", "man", 10, ENGLAND, -1, false));
     sld.name 	= "Натаниэль";
@@ -6207,9 +6235,8 @@ void CapBloodLine_q1(string qName)
    	LAi_SetImmortal(sld, true);
 	ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseF1_1");
 	
-	
     //==============//Нед Огл//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Ogl", "Chard3a", "man", "man", 10, ENGLAND, -1, false)); 
+   	sld = GetCharacter(NPC_GenerateCharacter("Ogl", "Chard3b", "man", "man", 10, ENGLAND, -1, false)); 
     sld.name 	= "Нед";
     sld.lastname 	= "Огл";
     sld.Dialog.CurrentNode = "First time";
@@ -6262,7 +6289,6 @@ void CapBloodLine_q1(string qName)
     pchar.quest.CapBloodLine_q1_1.win_condition.l1          = "location";
     pchar.quest.CapBloodLine_q1_1.win_condition.l1.location = "Bridgetown_town";
     pchar.quest.CapBloodLine_q1_1.function                  = "_PrepareBridgeTown";
-
 }
 
 void ChangePIRATES()
@@ -9676,3 +9702,79 @@ void Pascal_Escape()
 	AddSimpleRumourCity("А, судар"+ GetSexPhrase("ь","ыня") +"! Вы же ещё не знаете главной новости! Бывший владелец местного магазина - Паскаль Вуазье сбежал! Оказывается, он скупал все товары, что местные пираты добывали с торговых судов. Для этого дела у него целый пакгауз отведён был. А когда торгаши прознали и наняли охотников за его головой - спешно всё продал и подался в бега, ха-ха-ха. Вот делов-то было! почитай неделю без рому сидели, пока этот пройдоха Бенджамин Франклин дело к своим рукам не прибрал.\n"+
 		"Да что толку - торгаш с него никудышный - всё никак не найдёт простофилю, который бы согласился склад прежнего хозяина арендовать... В политику бы ему - там таким ушлым самое место, хе-хе...","Pirates", 30, 3, "");
 }
+
+//ККС
+
+// --> тайна Санта-Люсии
+void LSC_RingOver(string qName) // чистка квеста
+{
+	sld = characterFromId("LSC_Rishard");
+	sld.dialog.currentnode = "First time";
+	ChangeCharacterAddressGroup(sld, "FleuronTavern", "sit", "sit2");
+	LAi_SetSitType(sld);
+	LAi_group_MoveCharacter(sld, "LSC_CITIZEN");
+	if (!CheckAttribute(sld, "quest.ring_final")) AddQuestRecord("LSC_Ring", "2");
+	CloseQuestHeader("LSC_Ring");
+	CloseQuestHeader("RingCapBook");
+}
+
+void LSC_RingStart(string qName) // готовы
+{
+	sld = characterFromId("LSC_Rishard");
+	sld.dialog.currentnode = "ring_10";
+	LAi_RemoveLoginTime(sld);
+	ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "quest", "ring");
+	LAi_SetStayType(sld);
+	LAi_group_MoveCharacter(sld, "TMP_FRIEND");
+}
+
+void LSC_RingEnter(string qName) // входим
+{
+	pchar.quest.LSC_Ring_Over.over = "yes"; //снять прерывание
+	SetLaunchFrameFormParam("Прошел час..."+ NewStr() +"Вы добрались до разбитого корабля", "", 0, 6);//табличка
+	LaunchFrameForm();
+	WaitDate("", 0, 0, 0, 1, 10); //крутим время
+	RecalculateJumpTable();
+	DoQuestFunctionDelay("LSC_RingReload", 5.5);
+}
+
+void LSC_RingReload(string qName) // телепорт
+{
+	DoQuestReloadToLocation("ExternalRingInside", "reload", "reload1", "LSC_RingEnterInside");
+}
+
+void LSC_RingRishardTalk(string node) // говорилка Ришарда
+{
+	sld = characterFromId("LSC_Rishard");
+	sld.dialog.currentnode = node;
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
+}
+
+void LSC_RingDeleteItemsBoxes(string qName)
+{
+	ref loc;
+	aref arBox;
+	string sName;
+	for(int i=0; i<MAX_LOCATIONS; i++)
+	{				
+		loc = &locations[i];
+		if (loc.id == "ExternalRingDeck" || loc.id == "ExternalRingInside" || loc.id == "ExternalRingCabin1")
+		{	
+			for(int n=1; n<=MAX_HANDLED_BOXES; n++)
+			{
+				sName = "private" + n;
+				if (CheckAttribute(loc, sName))
+				{					
+					makearef(arBox, loc.(sName));
+					DeleteAttribute(arBox, "items");
+					arBox.items = "";
+				}
+				else break;
+			}
+		}
+	}
+	pchar.GenQuestBox.ExternalRingInside = true;
+	pchar.GenQuestBox.ExternalRingInside.box1.items.jewelry5 = 1;
+}
+// <-- тайна Санта-Люсии

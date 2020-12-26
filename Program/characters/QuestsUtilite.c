@@ -2786,3 +2786,12 @@ bool CheckChit()
 	*/
     return false;
 }
+
+//личные боевые навыки, нужны для экспы после сухопутных боев
+void AddComplexSelfExpToScill(int l, int m, int h, int p)
+{
+	AddCharacterExpToSkill(pchar, "FencingLight", l);//легкое оружие
+	AddCharacterExpToSkill(pchar, "Fencing", m);//среднее оружие
+	AddCharacterExpToSkill(pchar, "FencingHeavy", h);//тяжелое оружие
+	AddCharacterExpToSkill(pchar, "Pistol", p); //пистоли
+}

@@ -1994,9 +1994,9 @@ int InitItems()
 	itm.Weight = 13;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
-	itm.chargespeed = 10;
-	itm.dmg_min = 85.0;
-	itm.dmg_max = 270.0;
+	itm.chargespeed = 25;
+	itm.dmg_min = 120.0;
+	itm.dmg_max = 220.0;
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
@@ -2006,8 +2006,8 @@ int InitItems()
 	makeref(itm,Items[n]);
 	itm.id = "mushket2"; //мушкетон двуствольный 
 	itm.groupID = GUN_ITEM_TYPE;
-	itm.name = "itmname_Mushket";
-	itm.describe = "itmdescr_Mushket";
+	itm.name = "itmname_Mushket2";
+	itm.describe = "itmdescr_Mushket2";
 	itm.folder = "items";
 	itm.model = "DBMusket";
 	itm.picIndex = 10;
@@ -2017,10 +2017,10 @@ int InitItems()
 	itm.Weight = 16;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 2;
-	itm.chargespeed = 13;
-	itm.dmg_min = 100.0;
-	itm.dmg_max = 200.0;
-	itm.accuracy = 50;
+	itm.chargespeed = 20;
+	itm.dmg_min = 140.0;
+	itm.dmg_max = 240.0;
+	itm.accuracy = 90;
 	itm.minlevel = 10;
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
@@ -2041,7 +2041,7 @@ int InitItems()
 	itm.Weight = 12;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
-	itm.chargespeed = 8;
+	itm.chargespeed = 30;
 	itm.dmg_min = 60.0;
 	itm.dmg_max = 180.0;
 	itm.accuracy = 100;
@@ -2065,7 +2065,7 @@ int InitItems()
 	itm.Weight = 10;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
-	itm.chargespeed = 6;
+	itm.chargespeed = 16;
 	itm.dmg_min = 40.0;
 	itm.dmg_max = 170.0;
 	itm.accuracy = 75;
@@ -2088,10 +2088,10 @@ int InitItems()
 	itm.Weight = 14;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
-	itm.chargespeed = 17;
-	itm.dmg_min = 95.0;
-	itm.dmg_max = 370.0;
-	itm.accuracy = 65;
+	itm.chargespeed = 40;
+	itm.dmg_min = 150.0;
+	itm.dmg_max = 290.0;
+	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
@@ -2112,9 +2112,9 @@ int InitItems()
 	itm.Weight = 11;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
-	itm.chargespeed = 9;
-	itm.dmg_min = 80.0;
-	itm.dmg_max = 190.0;
+	itm.chargespeed = 30;
+	itm.dmg_min = 140.0;
+	itm.dmg_max = 240.0;
 	itm.accuracy = 70;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
@@ -2136,10 +2136,10 @@ int InitItems()
 	itm.Weight = 11;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 3;
-	itm.chargespeed = 8;
-	itm.dmg_min = 60.0;
-	itm.dmg_max = 140.0;
-	itm.accuracy = 60;
+	itm.chargespeed = 16;
+	itm.dmg_min = 70.0;
+	itm.dmg_max = 120.0;
+	itm.accuracy = 70;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
@@ -2160,10 +2160,10 @@ int InitItems()
 	itm.Weight = 11;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
-	itm.chargespeed = 9;
-	itm.dmg_min = 75.0;
-	itm.dmg_max = 225.0;
-	itm.accuracy = 75;
+	itm.chargespeed = 20;
+	itm.dmg_min = 135.0;
+	itm.dmg_max = 235.0;
+	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
@@ -2184,9 +2184,9 @@ int InitItems()
 	itm.Weight = 10;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
-	itm.chargespeed = 24;
-	itm.dmg_min = 150.0;
-	itm.dmg_max = 350.0;
+	itm.chargespeed = 40;
+	itm.dmg_min = 200.0;
+	itm.dmg_max = 300.0;
 	itm.accuracy = 100;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
@@ -2753,6 +2753,19 @@ int InitItems()
 	n++;
 	
 	makeref(itm,Items[n]);
+	itm.id = "RingCapBook";
+	itm.groupID		= SPECIAL_ITEM_TYPE;
+	itm.name = "itmname_ringcapbook";
+	itm.describe = "itmdescr_ringcapbook";
+    itm.model = "OpenBook";
+	itm.picIndex = 9;
+	itm.picTexture = "ITEMS_1";
+	itm.price = 0;
+	itm.Weight = 1.0;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+	
+	makeref(itm,Items[n]);
 	itm.id = "MayorsRing";
 	itm.name = "itmname_MayorsRing";
 	itm.describe = "itmdescr_MayorsRing";
@@ -2958,7 +2971,6 @@ int InitItems()
 	itm.shown = 1;
 	itm.price = 25000;
 	//ложим в храм
-	itm.shown = 1; 
 	itm.startLocation = "Temple_round";
 	itm.startLocator = "item1";
 	// boal 19.01.2004 -->

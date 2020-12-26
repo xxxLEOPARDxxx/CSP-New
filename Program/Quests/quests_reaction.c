@@ -4,7 +4,7 @@ void QuestComplete(string sQuestName, string qname)
 	// boal -->
 	ref sld, npchar;
 	aref arOldMapPos, arAll, arPass;
-	int     iTemp, i, ShipType, Rank; // нужно для вычислений любых целых (нации)
+	int     iTemp, i, ShipType, Rank, iRank; // нужно для вычислений любых целых (нации)
     float locx, locy, locz, fTemp;
 	string  attrName, Model, Blade, Gun, sTemp, sQuestTown, sQuestTitle; // любые строки для вычислений
 	bool   bOk;
@@ -8089,6 +8089,142 @@ void QuestComplete(string sQuestName, string qname)
 		case "IndianInJungleClearGroup":
 			LAi_group_SetRelation("Jungle_indians", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
 		break;
+		
+// --> тайна Санта-Люсии
+		case "LSC_RingTalkLook": // смотрим на кольцо
+			LAi_SetPlayerType(pchar);
+			LSC_RingRishardTalk("ring_13");
+        break;
+		
+		case "LSC_RingEnterInside": // входим в трюм разбитого корабля
+			chrDisableReloadToLocation = true;//закрыть локацию
+			LocatorReloadEnterDisable("ExternalRingInside", "reload1", true);
+			// ставим крабикусов
+			iRank = 25+MOD_SKILL_ENEMY_RATE*2;
+			iTemp = 150+MOD_SKILL_ENEMY_RATE*30+sti(pchar.rank)*5;
+			LAi_group_Register("EnemyCrab");
+			for (i=1; i<=10; i++)
+			{
+				sld = GetCharacter(NPC_GenerateCharacter("CrabInside_"+i, "crabBig", "crab", "crabBig", iRank, PIRATE, -1, false));
+				sld.name = "Гигантский краб";
+				sld.lastname = "";
+				DeleteAttribute(sld, "items");
+				GiveItem2Character(sld, "unarmed");
+				EquipCharacterbyItem(sld, "unarmed");
+				sld.SaveItemsForDead = true;
+				sld.animal = true;
+				LAi_SetHP(sld, iTemp, iTemp);
+				SetCharacterPerk(sld, "BasicDefense");
+				SetCharacterPerk(sld, "AdvancedDefense");
+				SetCharacterPerk(sld, "CriticalHit");
+				LAi_SetWarriorType(sld);
+				ChangeCharacterAddressGroup(sld, "ExternalRingInside", "goto", "goto"+i);
+				LAi_warrior_SetStay(sld, true);
+				LAi_warrior_DialogEnable(sld, false);
+				LAi_group_MoveCharacter(sld, "EnemyCrab");
+			}
+			LAi_group_SetRelation("EnemyCrab", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_SetLookRadius("EnemyCrab", 13.0);
+			LAi_group_SetHearRadius("EnemyCrab", 5.0);
+			LAi_group_SetSayRadius("EnemyCrab", 8.0);
+			LAi_group_SetCheck("EnemyCrab", "LSC_RingInsideCrabsDead");
+			LAi_SetFightMode(pchar, true);
+        break;
+		
+		case "LSC_RingInsideCrabsDead": // перебили крабов
+			PlayStereoOGG("music_LostShipsCity");
+			LAi_group_Delete("EnemyCrab");
+			sld = characterFromId("LSC_Rishard");
+			ChangeCharacterAddressGroup(sld, "ExternalRingInside", "reload", "reload1");
+			LSC_RingRishardTalk("ring_15");
+			AddComplexSelfExpToScill(150, 150, 150, 150);
+        break;
+		
+		case "LSC_RingDialog": // активатор диалогов
+			sld = characterFromId("LSC_Rishard");
+			LSC_RingRishardTalk(sld.quest.diagnode);
+        break;
+		
+		case "LSC_RingEnterDeck": // входим на палубу разбитого корабля
+			chrDisableReloadToLocation = true;//закрыть локацию
+			// ставим крабикусов
+			iRank = 25+MOD_SKILL_ENEMY_RATE*2;
+			iTemp = 150+MOD_SKILL_ENEMY_RATE*30+sti(pchar.rank)*5;
+			for (i=1; i<=6; i++)
+			{
+				sld = GetCharacter(NPC_GenerateCharacter("CrabDeck_"+i, "crabBig", "crab", "crabBig", iRank, PIRATE, -1, false));
+				sld.name = "Гигантский краб";
+				sld.lastname = "";
+				DeleteAttribute(sld, "items");
+				GiveItem2Character(sld, "unarmed");
+				EquipCharacterbyItem(sld, "unarmed");
+				sld.SaveItemsForDead = true;
+				sld.animal = true;
+				LAi_SetHP(sld, iTemp, iTemp);
+				SetCharacterPerk(sld, "BasicDefense");
+				SetCharacterPerk(sld, "AdvancedDefense");
+				SetCharacterPerk(sld, "CriticalHit");
+				ChangeCharacterAddressGroup(sld, "ExternalRingDeck", "goto", "goto"+i);
+				LAi_SetWarriorType(sld);
+				LAi_warrior_SetStay(sld, true);
+				LAi_warrior_DialogEnable(sld, false);
+				LAi_group_MoveCharacter(sld, "EnemyCrab");
+			}
+			LAi_group_SetRelation("EnemyCrab", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_SetLookRadius("EnemyCrab", 15.0);
+			LAi_group_SetHearRadius("EnemyCrab", 6.0);
+			LAi_group_SetSayRadius("EnemyCrab", 12.0);
+			LAi_group_SetCheck("EnemyCrab", "LSC_RingDeckCrabsDead");
+			LSC_RingRishardTalk("ring_22");
+        break;
+		
+		case "LSC_RingDeckCrabsDead": // перебили крабов
+			PlayStereoOGG("music_LostShipsCity");
+			chrDisableReloadToLocation = false;
+			LocatorReloadEnterDisable("ExternalRingDeck", "reload2", true);
+			LAi_group_Delete("EnemyCrab");
+			LSC_RingRishardTalk("ring_24");
+			AddComplexSelfExpToScill(150, 150, 150, 150);
+        break;
+		
+		case "LSC_RingEnterCabin": // вошли в каюту
+			chrDisableReloadToLocation = true;
+			sld = characterFromId("LSC_Rishard");
+			sld.quest.diagnode = "ring_31";
+			LAi_SetActorType(sld);
+			LAi_ActorGoToLocator(sld, "goto", "goto1", "LSC_RingDialog", -1);
+        break;
+		
+		case "LSC_RingSetToBarman": // 
+			sld = characterFromId("LSC_Rishard");
+			LAi_SetBarmanType(sld);
+        break;
+		
+		case "LSC_RingFinalStage": // 
+			sld = characterFromId("LSC_Rishard");
+			sld.quest.ring_final = true;
+			LAi_SetActorType(sld);
+			LAi_SetImmortal(sld, false);
+			LAi_ActorRunToLocator(sld, "reload", "reload1", "", 7.0);
+			DoQuestFunctionDelay("LSC_RingOver", 7.0); // закрываем квест
+			SetFunctionTimerCondition("LSC_RingDeleteItemsBoxes", 0, 0, 2, false); // через 2 дня боксы опустеют
+        break;
+		
+		case "LSC_RingFindGold": // нашли золото 
+			PlaySound("Ambient\LAND\door_001.wav");
+			PlaySound("Ambient\LAND\door_004.wav");
+			PlaySound("Types\warrior03.wav");
+			PlaySound("Types\warrior04.wav");
+			SetLaunchFrameFormParam("Вы отыскали нужный ящик"+ NewStr() +"Золото капитана 'Санта-Люсии' найдено!", "", 0, 6);//табличка
+			LaunchFrameForm();
+			WaitDate("", 0, 0, 0, 2, 10); //крутим время
+			RecalculateJumpTable();
+			sld = characterFromId("LSC_Rishard");
+			sld.quest.diagnode = "ring_46";
+			DoQuestCheckDelay("LSC_RingDialog", 6.0);
+        break;
+		// <-- тайна Санта-Люсии	
+	
 	}   
 }
 

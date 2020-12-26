@@ -145,10 +145,10 @@ void SeaAI_SwapShipsAttributes(ref refMyCharacter, ref refEnemyCharacter, bool S
 	
 	if(SetShipNum)
 	{
-		if (CheckAttribute(refMyCharacter, "curshipnum")) 
+		if (CheckAttribute(refMyCharacter,"curshipnum")) 
 		{
 			curshipnum = sti(refMyCharacter.curshipnum);
-			if (CheckAttribute(refEnemyCharacter."curshipnum"))
+			if (CheckAttribute(refEnemyCharacter,"curshipnum"))
 			{
 				refMyCharacter.curshipnum = refEnemyCharacter.curshipnum;
 				Ships[sti(refMyCharacter.curshipnum)] = iMyCharacterIndex;		
@@ -158,11 +158,11 @@ void SeaAI_SwapShipsAttributes(ref refMyCharacter, ref refEnemyCharacter, bool S
 		}
 		else
 		{
-			if (CheckAttribute(refEnemyCharacter."curshipnum"))
+			if (CheckAttribute(refEnemyCharacter,"curshipnum"))
 			{
 				refMyCharacter.curshipnum = sti(refEnemyCharacter.curshipnum);
 				Ships[sti(refMyCharacter.curshipnum)] = sti(refMyCharacter.curshipnum);
-				DeleteAttribute(refEnemyCharacter, "curshipnum");
+				DeleteAttribute(refEnemyCharacter,"curshipnum");
 			}				
 		}
 	}
@@ -171,11 +171,11 @@ void SeaAI_SwapShipsAttributes(ref refMyCharacter, ref refEnemyCharacter, bool S
 		if (CheckAttribute(refMyCharacter, "curshipnum") && CheckAttribute(refEnemyCharacter, "curshipnum")) 
 		{
 			curshipnum = sti(refMyCharacter.curshipnum);
-			if (CheckAttribute(refEnemyCharacter."curshipnum"))
+			if (CheckAttribute(refEnemyCharacter,"curshipnum"))
 			{
 				refMyCharacter.curshipnum = refEnemyCharacter.curshipnum;
 				Ships[sti(refMyCharacter.curshipnum)] = iMyCharacterIndex;		
-				DeleteAttribute(refEnemyCharacter, "curshipnum");
+				DeleteAttribute(refEnemyCharacter,"curshipnum");
 			}
 		}	
 	}	
