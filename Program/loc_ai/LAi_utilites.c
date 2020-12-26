@@ -537,17 +537,23 @@ void CreateHabitues(aref loc)
 			int iChar;
 			int i, n, k;
 			string sTemp;
-
+/// ---> Navarra			
+			string locatorName;
+			string sType;
+/// <--- Navarra
 			slai_group = GetNationNameByType(iNation)  + "_citizens";
 
             arrayNPCModelHow = 0;
 			// сажаем пьянь, на козырные места под ГГ
-			for (i = 1; i <=4; i++)
+/// ---> Navarra
+///			for (i = 1; i <=4; i++)
+			for (i = 1; i <=10; i++)
+/// <--- Navarra		
 			{
                 if (CheckFreeLocator(loc.id, "sit_base" + i, -1))
 				{
-					string sType = RandPhraseSimple("citizen","sailor");
 					if (Colonies[iColony].nation == PIRATE) sType = RandPhraseSimple("pirate","sailor");
+					else sType = RandPhraseSimple("citizen","sailor");
 					iChar = NPC_GeneratePhantomCharacter(sType, iNation, MAN, 1);
 
 					chr = &characters[iChar];
@@ -587,6 +593,14 @@ void CreateHabitues(aref loc)
 					sTemp = PlaceCharacter(chr, "sit", "random_free");
 					ReSitCharacterOnFree(chr, loc.id, sTemp);
 					LAi_group_MoveCharacter(chr, slai_group);
+/// ---> Navarra
+				///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
+					{	LAi_SetGroundSitType(chr);	}
+				///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
+					{	LAi_SetBarmanType(chr);		}
+/// <--- Navarra
 				}
 				else
 				{
@@ -606,6 +620,14 @@ void CreateHabitues(aref loc)
 				ReSitCharacterOnFree(chr, loc.id, sTemp);
 
 				LAi_SetSitType(chr);
+/// ---> Navarra
+				///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
+					{	LAi_SetGroundSitType(chr);	}
+				///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
+					{	LAi_SetBarmanType(chr);		}
+/// <--- Navarra		
 				LAi_group_MoveCharacter(chr, slai_group);
 				chr.Name = "Дипломат";
 				chr.LastName = "";
@@ -628,6 +650,14 @@ void CreateHabitues(aref loc)
 				ReSitCharacterOnFree(chr, loc.id, sTemp);
 
 				LAi_SetSitType(chr);
+/// ---> Navarra
+				///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
+					{	LAi_SetGroundSitType(chr);	}
+				///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
+					{	LAi_SetBarmanType(chr);		}
+/// <--- Navarra
 				// без группы
 				chr.dialog.filename = "Enc_Officer_dialog.c";
 				chr.dialog.currentnode = "first time";
@@ -653,6 +683,14 @@ void CreateHabitues(aref loc)
 				ReSitCharacterOnFree(chr, loc.id, sTemp);
 
 				LAi_SetSitType(chr);
+/// ---> Navarra
+				///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
+					{	LAi_SetGroundSitType(chr);	}
+				///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
+					{	LAi_SetBarmanType(chr);		}
+/// <--- Navarra
 				LAi_group_MoveCharacter(chr, slai_group);
 				chr.dialog.filename = "Enc_Treasure_dialog.c";
 				chr.dialog.currentnode = "first time";
@@ -689,6 +727,14 @@ void CreateHabitues(aref loc)
 
 					LAi_SetLoginTime(chr, 0.0 + rand(6), 24.0 - rand(10));
 					LAi_SetSitType(chr);
+/// ---> Navarra				
+				///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
+					{	LAi_SetGroundSitType(chr);	}
+				///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
+					if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
+					{	LAi_SetBarmanType(chr);		}
+/// <--- Navarra		
 					if (sti(Colonies[iColony].HeroOwn) == true)
 					{
 						LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
