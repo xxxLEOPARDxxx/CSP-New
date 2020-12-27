@@ -125,7 +125,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 		if (attack.model.animation == "mushketer")
 		{
 			string at = RecalculateMushketHitsType(attack);
-			Log_Info(at);
+			//Log_Info(at);
 			if (at != "")
 			{
 				if (at == "break" && attackType == at) kAttackDmg += 1.5;

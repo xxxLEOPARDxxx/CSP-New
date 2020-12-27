@@ -2282,17 +2282,6 @@ void initNewMainCharacter()
     	pchar.quest.Tut_start.function                  = "Tut_StartGame";
         Pchar.questTemp.CapBloodLine = false;
     }
-	/* if (startHeroType == 68) // Московит
-	{
-		SetCharacterPerk(pchar, "HardHitter");
-		SetCharacterPerk(pchar, "Sliding");
-		SetCharacterPerk(pchar, "Medic");
-	}
-	if (startHeroType == 70) // Злой скелет
-	{
-		SetCharacterPerk(pchar, "Grus");
-		SetCharacterPerk(pchar, "EnergyPlusFixed");
-	} */
 	
 	// Warship Для разных квестов
 	// Важно: функция MaryCelesteInit() должна быть тут, а не в initStartState2Character()
@@ -2343,7 +2332,7 @@ void initMainCharacterItem()
 					itemID = GetGeneratedItem("topor1");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					itemID = GetGeneratedItem("pistol" + rand(3));
+					itemID = GetGeneratedItem("pistol" +  (rand(3)+1));
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 					TakeNItems(Pchar, "bullet", 5);
@@ -2356,7 +2345,7 @@ void initMainCharacterItem()
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					itemID = GetGeneratedItem("pistol" + rand(3));
+					itemID = GetGeneratedItem("pistol" + (rand(3)+1));
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 					TakeNItems(Pchar, "bullet", 5);
@@ -2425,10 +2414,10 @@ void initMainCharacterItem()
 			itemID = GetGeneratedItem("Spyglass" + rand(3));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" + rand(3));
+			itemID = GetGeneratedItem("pistol" +  (rand(3)+1));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("blade" + rand(10));
+			itemID = GetGeneratedItem("blade" + (rand(9)+1);
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 10);
@@ -2461,7 +2450,7 @@ void initMainCharacterItem()
 			SetCharacterPerk(pchar, "Gunman");
 			SetCharacterPerk(pchar, "Trustworthy");
 			GiveItem2Character(Pchar, "Map_bad");
-			itemID = GetGeneratedItem("pistol" + rand(3));
+			itemID = GetGeneratedItem("pistol" +  (rand(3)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 10);
@@ -2513,10 +2502,10 @@ void initMainCharacterItem()
 			SetCharacterPerk(pchar, "Buccaneer");
 			SetCharacterPerk(pchar, "Gunman");
 			SetCharacterPerk(pchar, "GunProfessional");
-			itemID = GetGeneratedItem("blade" + rand(9));
+			itemID = GetGeneratedItem("blade" + (rand(8)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" + rand(3));
+			itemID = GetGeneratedItem("pistol" +  (rand(3)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 100);
@@ -2528,6 +2517,10 @@ void initMainCharacterItem()
 
 	    case "SecretAgent":
 			TakenItems(Pchar, "Food1", rand(6)+4);
+			TakenItems(Pchar, "jewelry15", 1);
+			TakenItems(Pchar, "Totem_2", 1);
+			TakenItems(Pchar, "indian5", 1);
+			TakenItems(Pchar, "indian17", 1);
 			switch (sti(ch.nation))
 			{
 				case ENGLAND:
@@ -2540,10 +2533,6 @@ void initMainCharacterItem()
 					GiveItem2Character(Pchar, "patent_hol");
 				break;
 				case PIRATE:
-					TakenItems(Pchar, "jewelry15", 1);
-					TakenItems(Pchar, "Totem_2", 1);
-					TakenItems(Pchar, "indian5", 1);
-					TakenItems(Pchar, "indian17", 1);
 					SetCharacterPerk(pchar, "FlagEng");
 					SetCharacterPerk(pchar, "FlagFra");
 					SetCharacterPerk(pchar, "FlagSpa");

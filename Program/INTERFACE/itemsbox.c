@@ -464,7 +464,7 @@ void IDoExit(int exitCode)
 	{
 		if (DelLogin)
 		{
-			Log_Info("Должен удалиться");
+			//Log_Info("Должен удалиться");
 			Dead_DelLoginedCharacter(refToChar);
 		}		
 	}
@@ -983,7 +983,7 @@ void AddToTable(ref rChar)
 		if (iRightQtyTotal == 0)
 		{
 			DelLogin = true;
-			Log_Info("Количество предметов у трупа: "+iRightQtyTotal);
+			//Log_Info("Количество предметов у трупа: "+iRightQtyTotal);
 		}
 	}	
 }

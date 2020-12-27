@@ -1,6 +1,5 @@
 // boal 25/04/04 общий диалог церковь
 #include "DIALOGS\russian\Rumours\Common_rumours.c"  //homo 25/06/06
-												 
 void ProcessDialogEvent()
 {
 	ref NPChar, sld;
