@@ -2670,13 +2670,8 @@ void ShipTakenFree(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacte
 
 void Ship_PlayVictory(string sSound, int iSoundTime)
 {
-	//#20180920-05
-    if(CheckAttribute(pchar, "vicID")) {
-        iVicSoundTime += iSoundTime;
-        return;
-    }
-	FadeOutMusic(3); // 3000
-	pchar.vicID = PlayStereoOgg(sSound);
+	FadeOutMusic(3); // boal 3000
+	PlayStereoOgg(sSound);
 
 	iVicSoundTime = iSoundTime;
 }
@@ -3340,14 +3335,11 @@ void Ship_CheckMainCharacter()
 	bool bMakeCurrentUpdate = bUpdatePosMode;
 	if( iVicSoundTime<=0 && sti(rCharacter.Ship.POS.Mode) != iPrevShipPOSMode ) {
 		bMakeCurrentUpdate = true;
-		//Boyer change #20170328-01
-		iVicSoundTime = 0;
 	}
 	if( bMakeCurrentUpdate )
 	{
 		switch (sti(rCharacter.Ship.POS.Mode))
 		{
-		    //#20170530-01
             seaAlarmed = false;
 			case SHIP_SAIL:
 				if (!Whr_IsStorm()) 
@@ -3355,26 +3347,11 @@ void Ship_CheckMainCharacter()
 					seaAlarmed = false;
 					if (iPrevShipPOSMode == SHIP_WAR)
 					{
-					    //#20180823-03
-					    //SetMusic("music_spokplavanie");
                    		Ship_PlayVictory("music_ship_victory", 12000);
-						//PlayStereoOGG("music_ship_victory");
 					} // fix boal
-					else {
-                        //#20180920-05
-                        if(CheckAttribute(pchar, "vicID")) {
-                            StopSound(sti(pchar.vicID), SOUNDS_FADE_TIME);
-                            DeleteAttribute(pchar, "vicID");
-                        }
-                        //FadeOutMusic(3);
-                        //PlayStereoOGG(sSeaStartMusicName)
-						{
-							FadeOutMusic(3); //fix
-							if(Whr_IsDay()) SetMusic("music_sea_day");
-							else SetMusic("music_sea_night");
-						}
-                        //Sound_OnSeaAlarm555(false, bUpdatePosMode);
-					}
+					FadeOutMusic(3); //fix
+					if(Whr_IsDay()) SetMusic("music_sea_day");
+					else SetMusic("music_sea_night");
 				}
 				else
 				{ 
@@ -3383,12 +3360,9 @@ void Ship_CheckMainCharacter()
 				}
 			break;
 			case SHIP_WAR:
-				//#20180920-05
 				FadeOutMusic(500); // fix
-				//PlayStereoOGG("music_sea_battle");
 				seaAlarmed = true;
 				SetMusic("music_sea_battle");
-				//Sound_OnSeaAlarm555(true, bUpdatePosMode);
 			break;
 		}
 
