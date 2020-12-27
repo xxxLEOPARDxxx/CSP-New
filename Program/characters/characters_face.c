@@ -241,16 +241,16 @@ void FaceMaker(aref rCharacter)
 		case "shipowner_17":	rCharacter.FaceId = 106; break;
 		case "shipowner_18":	rCharacter.FaceId = 106; break;
 		case "shipowner_19":	rCharacter.FaceId = 106; break;
-		case "shipowner_20":	rCharacter.FaceId = 463; break;
-		case "shipowner_21":	rCharacter.FaceId = 464; break;
-		case "shipowner_22":	rCharacter.FaceId = 465; break;
-		case "shipowner_23":	rCharacter.FaceId = 466; break;
+		case "shipowner_20":	rCharacter.FaceId = 472; break;
+		case "shipowner_21":	rCharacter.FaceId = 471; break;
+		case "shipowner_22":	rCharacter.FaceId = 470; break;
+		case "shipowner_23":	rCharacter.FaceId = 469; break;
 		case "shipowner_24":	rCharacter.FaceId = 467; break;
-		case "shipowner_25":	rCharacter.FaceId = 468; break;
-		case "shipowner_26":	rCharacter.FaceId = 469; break;
-		case "shipowner_27":	rCharacter.FaceId = 470; break;
-		case "shipowner_28":	rCharacter.FaceId = 471; break;
-		case "shipowner_29":	rCharacter.FaceId = 472; break;
+		case "shipowner_25":	rCharacter.FaceId = 467; break;
+		case "shipowner_26":	rCharacter.FaceId = 466; break;
+		case "shipowner_27":	rCharacter.FaceId = 465; break;
+		case "shipowner_28":	rCharacter.FaceId = 464; break;
+		case "shipowner_29":	rCharacter.FaceId = 463; break;
 		// <-- Команда абордажа ИГРОКА
 		case "smuggler_boss":	rCharacter.FaceId = 107; break;
 		

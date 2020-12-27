@@ -101,6 +101,7 @@ void ProcessDialogEvent()
 			Link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, -sti(Pchar.GenQuest.TreasureMoney));
 			GiveItem2Character(pchar, "map_full");
+			AddMoneyToCharacter(NPChar, sti(Pchar.GenQuest.TreasureMoney));
 			//Items_FindItem("map_full", &item);
 			//FillMapForTreasure(item);
 			Diag.TempNode = "Temp_treasure";
@@ -121,6 +122,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Temp_treasure_1":
+			NPChar.SaveItemsForDead = true;
             dialog.Text = "А ты кто? И-ик... Я тя не знаю и уже не хочу знать.";
 			Link.l1 = "Ну и не надо!";
 			Link.l1.go = "exit";
