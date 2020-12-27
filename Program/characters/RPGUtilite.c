@@ -2500,8 +2500,8 @@ void initMainCharacterItem()
 
 	    case "Inquisitor":
 			SetCharacterPerk(pchar, "Buccaneer");
-			SetCharacterPerk(pchar, "Gunman");
-			SetCharacterPerk(pchar, "GunProfessional");
+			// SetCharacterPerk(pchar, "Gunman");
+			// SetCharacterPerk(pchar, "GunProfessional");
 			itemID = GetGeneratedItem("blade" + rand(8));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
