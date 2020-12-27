@@ -2332,7 +2332,7 @@ void initMainCharacterItem()
 					itemID = GetGeneratedItem("topor1");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					itemID = GetGeneratedItem("pistol" +  (rand(3)+1));
+					itemID = GetGeneratedItem("pistol" +  rand(3));
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 					TakeNItems(Pchar, "bullet", 5);
@@ -2345,7 +2345,7 @@ void initMainCharacterItem()
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					itemID = GetGeneratedItem("pistol" + (rand(3)+1));
+					itemID = GetGeneratedItem("pistol" + rand(3));
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 					TakeNItems(Pchar, "bullet", 5);
@@ -2414,10 +2414,10 @@ void initMainCharacterItem()
 			itemID = GetGeneratedItem("Spyglass" + rand(3));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" +  (rand(3)+1));
+			itemID = GetGeneratedItem("pistol" + rand(3));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("blade" + (rand(9)+1);
+			itemID = GetGeneratedItem("blade" + rand(9));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 10);
@@ -2450,7 +2450,7 @@ void initMainCharacterItem()
 			SetCharacterPerk(pchar, "Gunman");
 			SetCharacterPerk(pchar, "Trustworthy");
 			GiveItem2Character(Pchar, "Map_bad");
-			itemID = GetGeneratedItem("pistol" +  (rand(3)+1));
+			itemID = GetGeneratedItem("pistol" + rand(3));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 10);
@@ -2502,10 +2502,10 @@ void initMainCharacterItem()
 			SetCharacterPerk(pchar, "Buccaneer");
 			SetCharacterPerk(pchar, "Gunman");
 			SetCharacterPerk(pchar, "GunProfessional");
-			itemID = GetGeneratedItem("blade" + (rand(8)+1));
+			itemID = GetGeneratedItem("blade" + rand(8));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" +  (rand(3)+1));
+			itemID = GetGeneratedItem("pistol" +  rand(3));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 100);
