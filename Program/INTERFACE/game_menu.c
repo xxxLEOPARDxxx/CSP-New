@@ -63,7 +63,7 @@ void InitInterface_gm(string iniName)
 	if (pchar.BaseNation == HOLLAND) text3 = "Голландия";
 	if (pchar.BaseNation == SPAIN) text3 = "Испания";
 	if (pchar.BaseNation == PIRATE) text3 = "Пират";
-	string text2 = "Сложность: "+GetLevelComplexity(MOD_SKILL_ENEMY_RATE)+"\nНация: "+text3+"\nСкорость набора опыта: "+MOD_EXP_RATE+" / 24\nКоличество абордажников: "+MOD_OFFICERS_RATE+"\nВремя исчезновения трупов: "+MOD_DEAD_CLEAR_TIME+"\nЧастота событий: "+iEncountersRate+"\nРежим плавания: "+iArcadeSails;
+	string text2 = "Сложность: "+GetLevelComplexity(MOD_SKILL_ENEMY_RATE)+"\nНация: "+text3+"\nСкорость набора опыта: "+MOD_EXP_RATE+" / 105\nКоличество абордажников: "+MOD_OFFICERS_RATE+"\nВремя исчезновения трупов: "+MOD_DEAD_CLEAR_TIME+"\nЧастота событий: "+iEncountersRate+"\nРежим плавания: "+iArcadeSails;
 	SetFormatedText("STARTINFO_TEXT2", text2);
 	SetFormatedText("COPYRIGHTS_TEXT", PROVIDER_TXT);
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga.tx");

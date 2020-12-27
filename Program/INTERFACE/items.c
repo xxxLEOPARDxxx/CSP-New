@@ -987,7 +987,12 @@ bool ThisItemCanBeEquip( aref arItem )
 			return false;
 		}
 		int chrgQ = sti(arItem.chargeQ);
-	
+		
+		if (chrgQ == 2 && !IsCharacterPerkOn(xi_refCharacter,"Gunman") )
+		{
+			return false;
+		}
+		
 		if (chrgQ >= 4 && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") )
 		{
 			return false;
@@ -1019,7 +1024,7 @@ bool ThisItemCanBeEquip( aref arItem )
 			return false;
 		}
 		
-		if (IsMainCharacter(xi_refCharacter) && !IsPCharHaveMushketerModel())
+		if (HasSubStr(arItem.id, "mushket") && IsMainCharacter(xi_refCharacter) && !IsPCharHaveMushketerModel())
 		{
 			return false;
 		}
