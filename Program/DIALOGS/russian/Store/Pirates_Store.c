@@ -25,6 +25,15 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 	    			link.l1.go = "BlueBird_3";
     			}
 			}
+			if(!CheckAttribute(pchar, "questTemp.Headhunter"))
+			{
+				bOk = pchar.questTemp.BlueBird == "weWon" || pchar.questTemp.BlueBird == "returnMoney" || pchar.questTemp.BlueBird == "over"; 
+	    		if (bOk && !CheckAttribute(pchar,"questTemp.BlueBird.speakWon"))
+    			{
+		    		link.l1 = "А где Паскаль Вуазье?";
+	    			link.l1.go = "BlueBird_3";
+    			}
+			}
 		break;
 		case "BlueBird_1":
 			dialog.text = NPCStringReactionRepeat("Я ничего не знаю об этом корабле. Если это все, что вы хотели, то уходите.", 

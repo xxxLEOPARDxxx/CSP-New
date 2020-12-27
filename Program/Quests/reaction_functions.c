@@ -347,7 +347,7 @@ void BlueBird_seaBattle(string qName)
 void BlueBird_over(string qName)
 {
 	pchar.quest.BlueBird_DieHard1.over = "yes";
-	//pchar.quest.BlueBird_DieHard2.over = "yes";
+	pchar.quest.BlueBird_DieHard2.over = "yes";
 	AddQuestRecord("Xebeca_BlueBird", "7");
 	pchar.questTemp.BlueBird = "weWon";
 	// Вуазье сбежал, ставим другого торгаша  <-- ugeen

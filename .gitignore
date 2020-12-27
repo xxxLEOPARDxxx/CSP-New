@@ -72,7 +72,7 @@
 *.lnk
 
 # Папки
-*Fix_INTERFACE/
+*Fix_PRE/
 *Fix_INTERFACE2/
 *SAVE/
 # *RESOURCE/animation/

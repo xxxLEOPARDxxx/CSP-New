@@ -23,7 +23,7 @@ data = "Dist", "2,5"	; m
 data = "Ang", "10"	; grd
 
 event = "Attack", 3080, normal			;slash
-event = "SndAlliace_attack_break", 3077, normal
+event = "SndAlliace_attack_thrust2", 3077, normal
 event = "Resact", 3080, normal
 
 
@@ -225,7 +225,7 @@ data = "Dist", "2.5"	; m
 data = "Ang", "10"	; grd
 
 event = "Attack", 3014, normal			;slash
-event = "SndAlliace_attack_thrust2", 3012, normal
+event = "SndAlliace_attack_break", 3012, normal
 event = "Resact", 3014, normal
 
 [attack_break_2]
