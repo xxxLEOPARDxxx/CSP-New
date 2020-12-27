@@ -2301,7 +2301,7 @@ void initMainCharacterItem()
     //trace("initMainCharacterItem "  + ch.HeroParam.HeroType);
 	switch (ch.HeroParam.HeroType)
 	{
-        case "Master":
+        case "Master":	// Рубака
 			SetCharacterPerk(pchar, "Tireless");
 			SetCharacterPerk(pchar, "HardHitter");
             TakenItems(Pchar, "potion1", rand(10));
@@ -2361,7 +2361,7 @@ void initMainCharacterItem()
 			}
 	    break;
 
-        case "Merchant":
+        case "Merchant":	// Торговец
 			SetCharacterPerk(pchar, "BasicCommerce");
 			SetCharacterPerk(pchar, "AdvancedCommerce");
 			itemID = GetGeneratedItem("blade1");
@@ -2408,7 +2408,7 @@ void initMainCharacterItem()
 			}
 	    break;
 
-	    case "Corsair":
+	    case "Corsair":	// Фехтовальщик
 			SetCharacterPerk(pchar, "CriticalHit");
 			SetCharacterPerk(pchar, "BasicDefense");
 			itemID = GetGeneratedItem("Spyglass" + rand(3));
@@ -2446,7 +2446,7 @@ void initMainCharacterItem()
 			}
 	    break;
 
-	    case "Adventurer":
+	    case "Adventurer":	// Авантюрист
 			SetCharacterPerk(pchar, "Gunman");
 			SetCharacterPerk(pchar, "Trustworthy");
 			GiveItem2Character(Pchar, "Map_bad");
@@ -2498,7 +2498,7 @@ void initMainCharacterItem()
 			}
 	    break;
 
-	    case "Inquisitor":
+	    case "Inquisitor":	// Буканьер
 			SetCharacterPerk(pchar, "Buccaneer");
 			// SetCharacterPerk(pchar, "Gunman");
 			// SetCharacterPerk(pchar, "GunProfessional");
@@ -2515,7 +2515,7 @@ void initMainCharacterItem()
             TakenItems(Pchar, "Food1", rand(6)+4);
 	    break;
 
-	    case "SecretAgent":
+	    case "SecretAgent":	// Тайный агент
 			TakenItems(Pchar, "Food1", rand(6)+4);
 			TakenItems(Pchar, "jewelry15", 1);
 			TakenItems(Pchar, "Totem_2", 1);
