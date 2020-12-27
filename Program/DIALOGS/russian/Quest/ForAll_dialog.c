@@ -218,8 +218,8 @@ void ProcessDialogEvent()
 			link.l1.go = "GiveKeyMan_7";
 		break;
 		case "GiveKeyMan_7":
-			npchar.quest.price = makeint((sti(pchar.money)/4*3)/1000)*1000;
-			if (sti(npchar.quest.price) > 10000)
+			npchar.quest.price = makeint((6666 * ((sti(pchar.rank))/2)*MOD_SKILL_ENEMY_RATE*(100-(GetCharacterSkill(pchar, SKILL_LEADERSHIP)/2)))/100);
+			if (sti(pchar.money) >= npchar.quest.price)
 			{
 				dialog.text = "М-м... хорошо! Я хочу за этот ключ " + FindRussianMoneyString(sti(npchar.quest.price)) + ".";
 				link.l1 = "Каррамба, неплохая цена!";
@@ -240,9 +240,9 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "GiveKeyMan_NoMoney";
 		break;
 		case "GiveKeyMan_NoMoney":
-			if (sti(pchar.money) >= 20000)
+			npchar.quest.price = makeint((6666 * ((sti(pchar.rank))/2)*MOD_SKILL_ENEMY_RATE*(100-(GetCharacterSkill(pchar, SKILL_LEADERSHIP)/2)))/100);
+			if (sti(pchar.money) >= npchar.quest.price)
 			{
-				npchar.quest.price = makeint((sti(pchar.money)/5*4)/1000)*1000;
 				dialog.text = "Ну вот, уже лучше, как говорится... Давай вернемся к нашему разговору о ключе. В общем, я готов его тебе сделать, предположим, за " + FindRussianMoneyString(sti(npchar.quest.price)) + ".";
 				link.l1 = "Хе-хе, неплохо!!";
 				link.l1.go = "GiveKeyMan_10";

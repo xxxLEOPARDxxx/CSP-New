@@ -11,7 +11,7 @@
 #define VERSION_WWW     "http://buccaneersreef.com"
 #define BI_COMPARE_HEIGHT 900
 // Show special message for test game statment
-#define MOD_BETTATESTMODE			"On"  // On -DEV version; Test - TST ver; Off
+#define MOD_BETTATESTMODE			"Off"  // On -DEV version; Test - TST ver; Off
 
 // глобальная строковая переменная
 string sGlobalTemp;

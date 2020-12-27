@@ -2423,7 +2423,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private1.items.GunPowder = 25;
 	
 	locations[n].private2.items.blade12 = 1;
-	locations[n].private2.items.mushket1 = 1;
+	locations[n].private2.items.mushket2 = 1;
 	locations[n].private2.items.bullet = 25;
 	
 	locations[n].private3.items.potion5 = 50;
@@ -2495,9 +2495,9 @@ int LocationInitLostShipsCity(int n)
 	locations[n].reload.l2.label = "LSC Town";
 
 	// схроны
-	locations[n].private1.items.Mineral1 = 3;
-	locations[n].private1.items.Mineral3 = 10;
-	locations[n].private1.items.Mineral5 = 1;
+	locations[n].private1.items.food3 = 25;
+	locations[n].private1.items.food1 = 10;
+	locations[n].private1.items.food2 = 30;
 
 	locations[n].private2.items.Mineral11 = 1;
 	
@@ -2505,14 +2505,15 @@ int LocationInitLostShipsCity(int n)
 	
 	locations[n].private6.items.potionwine = 20; // 20 бутылок вина
 	
-	locations[n].private7.items.indian11 = 1;
+	locations[n].private7.items.indian20 = 1;
 	
 	locations[n].private9.items.cirass1 = 1;
+	locations[n].private9.items.blade21 = 1;
 	
-	locations[n].private10.items.jewelry15 = 3;
-	locations[n].private10.items.jewelry19 = 1;
+	locations[n].private10.items.jewelry15 = 30;
+	locations[n].private10.items.jewelry19 = 10;
 	
-	locations[n].private11.items.jewelry1 = 2;
+	locations[n].private11.items.jewelry1 = 20;
 	
 	n = n + 1;
 	
@@ -2552,13 +2553,13 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private1.money = 144;
 	locations[n].private1.items.map_maine_2 = 1;
 	
-	locations[n].private2.items.jewelry10 = 1;
-	locations[n].private2.items.jewelry15 = 1;
+	locations[n].private2.items.jewelry10 = 10;
+	locations[n].private2.items.jewelry15 = 10;
 	locations[n].private2.items.indian5 = 1;
 	
 	locations[n].private3.items.totem_8 = 1;
 	locations[n].private3.items.potionwine = 2;
-	locations[n].private3.items.potion2 = 1;;
+	locations[n].private3.items.potion1 = 6;;
 	
 	locations[n].private4.items.pistol6 = 1;
 	locations[n].private4.items.bullet = 10;
