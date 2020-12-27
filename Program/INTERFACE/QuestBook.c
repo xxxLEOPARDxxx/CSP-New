@@ -187,8 +187,8 @@ void XI_QuestActivate()
 	makearef(pA,pchar.TmpQuestInfo);
 	XI_SetQuestData(false);
 	SetQTextShow(pA,aq);
-	if (!InterfaceStates.AltFont) SetCurrentNode("QUEST_TEXT_ALT");
-	else SetCurrentNode("QUEST_TEXT");
+	if (!InterfaceStates.AltFont) SetCurrentNode("QUEST_TEXT");
+	else SetCurrentNode("QUEST_TEXT_ALT");
 }
 
 void XI_SetScroller(float pos)
@@ -254,8 +254,8 @@ void ProcScrollPosChange()
 	}
 	else
 	{
-		if (!InterfaceStates.AltFont) SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT_ALT", 1,newPos);
-		else SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT", 1,newPos);
+		if (!InterfaceStates.AltFont) SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT", 1,newPos);
+		else SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT_ALT", 1,newPos);
 	}
 }
 
