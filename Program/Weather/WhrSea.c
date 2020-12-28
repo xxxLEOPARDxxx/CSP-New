@@ -37,13 +37,13 @@ void WhrCreateSeaEnvironment()
 	{
 		/*if(CheckAttribute(&locations[FindLocation(sLocation)], "fastreload"))
 		{*/
-			Sea.LodScale = 32.0;
-			Sea.MaxVertices = 1000;
-			Sea.MaxIndices = 1300;
+			/*Sea.LodScale = 0.5;
+			Sea.MaxVertices = 32000;
+			Sea.MaxIndices = 33200;
 			Sea.MaxWaveDistance = 10.0;
 			Sea.MaxDim = 65536;
 			Sea.MinDim = 64;
-			Sea.GridStep = GridStepPC*5.0;
+			Sea.GridStep = 0.07;//GridStepPC*5.0;*/
 			if (CheckAttribute(aCurWeather, "Storm") && sti(aCurWeather.Storm) == true)
 			{
 				fMaxSeaHeight = 2.0;
@@ -52,12 +52,13 @@ void WhrCreateSeaEnvironment()
             {
 				fMaxSeaHeight = 0.5;
 			}
-			FogDensity = 20.0;
-			FogSeaDensity = 20.0;
-
-			Sea.Sea2.LodScale = 2.0;
-			Sea.Sea2.GridStep = 0.15;
-			Sea.Sea2.BumpScale = 0.3;
+			//FogDensity = 20.0;
+			//FogSeaDensity = 20.0;
+/*
+			Sea.Sea2.LodScale = 0.5;
+			Sea.Sea2.GridStep = 0.07;
+			Sea.Sea2.BumpScale = 0.3;*/
+            SetSeaSettings();
 		/*}
 		else
 		{
