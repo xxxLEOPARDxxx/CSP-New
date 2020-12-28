@@ -242,10 +242,8 @@ data = "Turn speed", "5.5"
 	
 	event = "Attack", 180, normal			;slash
 	event = "SndAlliace_attack_slash1", 168, normal
-	
-			
-;PARRY 
-	;[parry_1]
+
+[parry_1]
 	type = normal
 	start_time = 810
 	end_time = 912	
@@ -305,7 +303,7 @@ data = "Turn speed", "5.5"
 	;event = "Resact", 6840, normal
 	
 
-;РЕАКЦИЯ НА ПОПАДАНИЕ В БЛОК
+;РЕАКЦИ?НА ПОПАДАНИ??БЛОК
 	[block_hit]
 	type = normal
 	start_time = 36
@@ -316,7 +314,7 @@ data = "Turn speed", "5.5"
 	event = "SndAlliace_BlockHit", 36, normal
 		
 	
-;РЕАКЦИЯ НА ПРОБИВАНИЕ БЛОКА
+;РЕАКЦИ?НА ПРОБИВАНИЕ БЛОК?
 	[block_break]
 	type = normal
 	start_time = 36
@@ -327,7 +325,7 @@ data = "Turn speed", "5.5"
 	event = "SndAlliace_BlockBreak", 36, normal
 	
 	
-;РЕАКЦИИ
+;РЕАКЦИ?
 
 	[hit_attack_1]
 	type = pingpong
@@ -392,7 +390,7 @@ data = "Turn speed", "5.5"
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_manhit", 99, normal		
 	
-;ВЫСТРЕЛ 
+;ВЫСТРЕ?
 
 	[Shot]
 	start_time = 190
@@ -460,7 +458,7 @@ data = "Turn speed", "5.5"
 	event = "SndAlliace_N_fight_death4", 400, normal
 
 
-; ДЕЙСТВИЯ В БОЕВОЙ СТОЙКЕ (IDLES)
+; ДЕЙСТВИЯ ?БОЕВОЙ СТОЙКЕ (IDLES)
 
     [fight stand_1]
     loop = true
@@ -536,9 +534,9 @@ data = "Turn speed", "5.5"
 	
 	
 
-; БОЕВЫЕ ПЕРЕМЕЩЕНИЯ
+; БОЕВЫЕ ПЕРЕМЕЩЕНИ?
 
-;Ходьба вперёд с клинком в руке
+;Ходьба вперёд ?клинко??руке
     [fight walk]
     start_time = 225
     end_time = 251
@@ -551,7 +549,7 @@ data = "Turn speed", "5.5"
     event = "RStep", 245, normal
     event = "LStep", 233, normal
 
-;Ходьба назад с клинком в руке
+;Ходьба наза??клинко??руке
    	[fight back walk]
     start_time = 225
     end_time = 251
@@ -565,7 +563,7 @@ data = "Turn speed", "5.5"
     event = "LStep", 233, normal
 
 
-;Бег вперёд с клинком в руке
+;Бе?вперёд ?клинко??руке
 	[fight run]
 	speed = 1.7
     start_time = 305
@@ -579,7 +577,7 @@ data = "Turn speed", "5.5"
     event = "LStep", 322, normal
     
 
-;Бег назад с клинком в руке
+;Бе?наза??клинко??руке
    	[fight back run]
     speed = 2.2
     start_time = 305
@@ -593,7 +591,7 @@ data = "Turn speed", "5.5"
     event = "LStep", 322, normal
 
 
-;Отскок назад
+;Отскок наза?
 	[Recoil]
 	type = normal
 	start_time = 375
@@ -610,7 +608,7 @@ data = "Turn speed", "5.5"
 ;===================================================================================
 
 
-; ПЕРЕМЕЩЕНИЯ
+; ПЕРЕМЕЩЕНИ?
 
 ;Ходьба вперёд
 	[walk]
@@ -628,7 +626,7 @@ data = "Turn speed", "5.5"
     event = "LStep", 233, normal
 	
 
-;Ходьба назад
+;Ходьба наза?
 	[back walk]
 	speed = 1.0
 	loop = true
@@ -658,7 +656,7 @@ data = "Turn speed", "5.5"
 	data = "Turn speed", "5.5"		; rad/sec
 	
 
-;Идти вниз по лестнице задом наперед
+;Идти вниз по лестнице задо?напере?
 	[back stairs down]
 	loop = true
 	start_time = 255
@@ -672,7 +670,7 @@ data = "Turn speed", "5.5"
 	data = "Turn speed", "5.5"		; rad/sec
 
 
-;Идти вверх по лестнице
+;Идти ввер?по лестнице
 	[stairs up]
 	loop = true
 	type = normal
@@ -687,7 +685,7 @@ data = "Turn speed", "5.5"
 	data = "Turn speed", "5.5"		; rad/sec
 	
 
-;Идти вверх по лестнице задом наперед
+;Идти ввер?по лестнице задо?напере?
 	[back stairs up]
 	loop = true
 	start_time = 280
@@ -701,7 +699,7 @@ data = "Turn speed", "5.5"
 	data = "Turn speed", "5.5"		; rad/sec
 	
 
-;Бег вперёд
+;Бе?вперёд
 	[run]
 	speed = 1.2
 	loop = true
@@ -716,7 +714,7 @@ data = "Turn speed", "5.5"
     event = "LStep", 322, normal
 		
 
-;Бег назад
+;Бе?наза?
 	[back run]
 	speed = 1.4
 	loop = true
@@ -731,7 +729,7 @@ data = "Turn speed", "5.5"
     event = "LStep", 322, normal
 		
 
-;Бег по лестнице вверх  
+;Бе?по лестнице ввер? 
 	[run stairs up]
 	speed = 2
 	loop = true
@@ -745,7 +743,7 @@ data = "Turn speed", "5.5"
 	event = "LStep", 285, normal
 	event = "RStep", 293, normal
 
-;Бег по лестнице вниз
+;Бе?по лестнице вниз
 
 	[run stairs down]
 	speed = 1.7
@@ -760,7 +758,7 @@ data = "Turn speed", "5.5"
 	data = "Turn speed", "5.5"		; rad/sec
 
 	
-; Бег по лестнице вверх задом наперед
+; Бе?по лестнице ввер?задо?напере?
 
 	[back run stairs up]
 	loop = true
@@ -774,7 +772,7 @@ data = "Turn speed", "5.5"
 	data = "Walk speed", "-0.6"		; m/sec
 	data = "Turn speed", "5.5"		; rad/sec
 
-; Бег по лестнице вниз задом наперед
+; Бе?по лестнице вниз задо?напере?
 	
 	[back run stairs down]
 	loop = true
@@ -789,7 +787,7 @@ data = "Turn speed", "5.5"
 	data = "Turn speed", "5.5"		; rad/sec	
 	
 	
-;Разворот влево
+;Разворот влев?
 	[turn left]
 	start_time = 50
 	end_time = 94
@@ -809,7 +807,7 @@ data = "Turn speed", "5.5"
 	data = "Turn speed", "5.5"		; rad/sec
 
 
-;Выхватить саблю
+;Выхватит?сабл?
 	[Normal to fight]
 	start_time = 450
 	end_time = 460
@@ -822,7 +820,7 @@ data = "Turn speed", "5.5"
 	event = "Blade to hand", 96, normal
 	;event = "SndAlliace_sword_out", 5164, normal
 
-;Убрать саблю
+;Убрать сабл?
 	[Fight to normal]
 	start_time = 450
 	end_time = 460
@@ -865,7 +863,7 @@ data = "Turn speed", "5.5"
 	event = "SndAlliace_citizen_death1", 428, normal
 	
 	
-; РЕАКЦИЯ НА ПОРАЖЕНИЕ нет такой анимации
+; РЕАКЦИ?НА ПОРАЖЕНИ?не?тако?анимации
 
 	[HitNoFight]
 	type = pingpong
@@ -878,7 +876,7 @@ data = "Turn speed", "5.5"
 		
 	
 	
-; ДЕЙСТВИЯ ВО ВРЕМЯ СТОЯНИЯ (IDLES)
+; ДЕЙСТВИЯ ВО ВРЕМ?СТОЯНИ?(IDLES)
 
 	[idle_1]
 	start_time = 50
@@ -999,7 +997,7 @@ data = "Turn speed", "5.5"
 	data = "Probability", "0.5"
 
 
-; диалоги с разговором анимацией рта
+; диалог??разговором анимацие?рт?
 
 	[dialog_stay9]
 	start_time = 50
