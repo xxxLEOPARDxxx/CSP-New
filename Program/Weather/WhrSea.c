@@ -33,17 +33,17 @@ void WhrCreateSeaEnvironment()
 	float FogDensity = 1.0;
 	float FogSeaDensity = 1.0;
 
-	if (FindLocation(sLocation) != -1)
+	if (FindLocation(sLocation) != -1 && !bCabinStarted)
 	{
 		/*if(CheckAttribute(&locations[FindLocation(sLocation)], "fastreload"))
 		{*/
-			/*Sea.LodScale = 0.5;
+			Sea.LodScale = 0.5;
 			Sea.MaxVertices = 32000;
 			Sea.MaxIndices = 33200;
 			Sea.MaxWaveDistance = 10.0;
 			Sea.MaxDim = 65536;
-			Sea.MinDim = 64;
-			Sea.GridStep = 0.07;//GridStepPC*5.0;*/
+			Sea.MinDim = 128;
+			Sea.GridStep = 0.07;//GridStepPC*5.0;
 			if (CheckAttribute(aCurWeather, "Storm") && sti(aCurWeather.Storm) == true)
 			{
 				fMaxSeaHeight = 2.0;
@@ -52,13 +52,13 @@ void WhrCreateSeaEnvironment()
             {
 				fMaxSeaHeight = 0.5;
 			}
-			//FogDensity = 20.0;
-			//FogSeaDensity = 20.0;
-/*
+			/*FogDensity = 20.0;
+			FogSeaDensity = 20.0;*/
+
 			Sea.Sea2.LodScale = 0.5;
 			Sea.Sea2.GridStep = 0.07;
-			Sea.Sea2.BumpScale = 0.3;*/
-            SetSeaSettings();
+			Sea.Sea2.BumpScale = 0.3;
+            //SetSeaSettings();
 		/*}
 		else
 		{

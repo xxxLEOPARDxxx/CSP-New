@@ -7534,7 +7534,7 @@ void RestoreBridgetown()
 {
         ref rColony;
         Pchar.questTemp.CapBloodLine = false;
-        Pchar.model="Blad_0"; // 21.03.09 Warship fix Корректная замена модели
+        Pchar.model="PGG_Blad_0"; // 21.03.09 Warship fix Корректная замена модели
         //Губернатор
         ref sld = &characters[GetCharacterIndex("Bridgetown_Mayor")];
         sld.Dialog.Filename = "Common_Mayor.c";

@@ -1086,7 +1086,6 @@ bool CheckChit()
 	}
     return false;
 }
-
 int counter = 0;
 void ProcessControls()
 {
