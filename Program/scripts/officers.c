@@ -496,11 +496,12 @@ void SetOfficerParam(ref Npchar, int _type)
 	Npchar.quest.SneakModify       = 0;
 	Npchar.quest.PistolModify      = 0;
 
-	SetRandSPECIAL(Npchar);
+	// SetRandSPECIAL(Npchar);   //  вот это нафиг
 	Npchar.quest.officertype_2 = ""; //mercen_";
     switch(_type)
 	{
 		case 0:
+		    SetRandSPECIAL_K(Npchar);  // вот сюда методы  под каждого типа оффов
 			Npchar.quest.officertype = "boatswain";
 			Npchar.quest.officertype_2 = RandPhraseSimple("Могу и доктором побыть, если припрет. ", "Еще умею матросов беречь, кости им вправлять, когда подранят. ");
 			Npchar.quest.LeadershipModify     = frandSmall(2.0);
@@ -514,6 +515,7 @@ void SetOfficerParam(ref Npchar, int _type)
 		break;
 
 		case 1:
+		    SetRandSPECIAL_K(Npchar);
 			Npchar.quest.officertype = "cannoner";
 			Npchar.quest.AccuracyModify      = frandSmall(2.0) + 2;
 			Npchar.quest.CannonsModify       = frandSmall(2.0) + 2;
@@ -524,6 +526,7 @@ void SetOfficerParam(ref Npchar, int _type)
 		break;
 
 		case 2:
+		    SetRandSPECIAL_K(Npchar); 
 			Npchar.quest.officertype_2 = RandPhraseSimple("Могу и корабль починить помочь. ", "Еще умею с пилой и рубанком обращаться. ");
 			Npchar.quest.officertype = "treasurer";
 			Npchar.quest.RepairModify        = frandSmall(2.0) + 3;
@@ -535,6 +538,7 @@ void SetOfficerParam(ref Npchar, int _type)
 		break;
 
 		case 3:
+		    SetRandSPECIAL_K(Npchar);
 			Npchar.quest.officertype_2 = RandPhraseSimple("Еще поверхностно медицину знаю. ", "Врачем, конечно, не считаюсь, но подскажу и в этом. ");
 			Npchar.quest.officertype = "navigator";
 			Npchar.quest.SailingModify        = frandSmall(2.0) + 2;
@@ -545,6 +549,7 @@ void SetOfficerParam(ref Npchar, int _type)
 		break;
 
         case 4:
+		    SetRandSPECIAL_F(Npchar);
 			Npchar.quest.officertype = "fighter";
 			Npchar.quest.FencingModify         = frandSmall(2.0) + 2;
 			Npchar.quest.PistolModify          = frandSmall(2.0) + 2;
@@ -554,6 +559,7 @@ void SetOfficerParam(ref Npchar, int _type)
 		break;
         // не при делах -->
         case 5:
+		    SetRandSPECIAL(Npchar);
 			//Npchar.quest.officertype = OFFIC_TYPE_FIRSTMATE;
 			Npchar.quest.LeadershipModify     = frandSmall(3.0) + 2;
 			Npchar.quest.SailingModify        = frandSmall(1.0) + 1;
@@ -564,12 +570,14 @@ void SetOfficerParam(ref Npchar, int _type)
 		break;
 
 		case 6:
+		    SetRandSPECIAL(Npchar);
 			//Npchar.quest.officertype = OFFIC_TYPE_DOCTOR;
 			Npchar.quest.DefenseModify       = Rand(3) + 3;
 			Npchar.quest.SneakModify         = Rand(3);
 		break;
 		// не при делах
 		case 7:
+		      SetRandSPECIAL(Npchar);
 			//Npchar.quest.officertype = OFFIC_TYPE_CARPENTER;
 			Npchar.quest.RepairModify         = Rand(3) + 3;
 			Npchar.quest.SneakModify          = Rand(3);

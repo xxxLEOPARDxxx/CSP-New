@@ -475,6 +475,7 @@ float LAi_GunReloadSpeed(aref chr)
 //#20200522-01
 void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, bool isBlocked, bool blockSave)
 {
+	if(IsCharacterPerkOn(enemy, "Fencer") && rand(9)==1)  {Log_Info("Избежал удара!"); return;}
 	//Если неубиваемый, то нетрогаем его
 	if(CheckAttribute(enemy, "chr_ai.immortal"))
 	{
@@ -488,16 +489,46 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	float critical = 0.0;
 	if(IsCharacterPerkOn(attack, "SwordplayProfessional"))
 	{
-		if(rand(100) <= 15)
+		if(IsCharacterPerkOn(attack, "Fencer"))
 		{
-			critical = 1.0;//LAi_GetCharacterMaxHP(enemy)*0.30;
+			if(rand(100) <= 20)
+			{
+				critical = 1.0;//LAi_GetCharacterMaxHP(enemy)*0.30;
+			}
+		}
+		else
+		{
+			if(rand(100) <= 15)
+			{
+				critical = 1.0;//LAi_GetCharacterMaxHP(enemy)*0.30;
+			}
 		}
 	}else{
 		if(IsCharacterPerkOn(attack, "CriticalHit"))
 		{
-			if(rand(100) <= 5)
+			if(IsCharacterPerkOn(attack, "Fencer"))
 			{
-				critical = 1.0;//LAi_GetCharacterMaxHP(enemy)*0.20;
+				if(rand(100) <= 10)
+				{
+					critical = 1.0;//LAi_GetCharacterMaxHP(enemy)*0.20;
+				}
+			}
+			else
+			{
+				if(rand(100) <= 5)
+				{
+					critical = 1.0;//LAi_GetCharacterMaxHP(enemy)*0.20;
+				}
+			}
+		}
+		else
+		{
+			if(IsCharacterPerkOn(attack, "Fencer"))
+			{
+				if(rand(100) <= 5)
+				{
+					critical = 1.0;//LAi_GetCharacterMaxHP(enemy)*0.20;
+				}
 			}
 		}
 	}
@@ -551,9 +582,18 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	}
 	if(dmg > 0.0)
 	{
+		
 		//Наносим повреждение
-		if(IsEquipCharacterByArtefact(attack, "talisman1"))	LAi_ApplyCharacterDamage(enemy, MakeInt(dmg+(dmg/10) + 0.5));	
-		else  LAi_ApplyCharacterDamage(enemy, MakeInt(dmg + 0.5));
+		if(!IsCharacterPerkOn(attack, "Grunt"))
+		{
+			if(IsEquipCharacterByArtefact(attack, "talisman1"))	LAi_ApplyCharacterDamage(enemy, MakeInt(dmg+(dmg/10) + 0.5));	
+			else  LAi_ApplyCharacterDamage(enemy, MakeInt(dmg + 0.5));
+		}
+		else
+		{
+			if(IsEquipCharacterByArtefact(attack, "talisman1"))	LAi_ApplyCharacterDamage(enemy, MakeInt(dmg+(dmg/10)+(dmg*0.15) + 0.5));	
+			else  LAi_ApplyCharacterDamage(enemy, MakeInt(dmg+(dmg*0.15) + 0.5));
+		}
 		//Проверим на смерть
 		LAi_CheckKillCharacter(enemy);
 		//проверим на отравление

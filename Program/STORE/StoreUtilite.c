@@ -129,6 +129,7 @@ float GetStoreGoodsRndPriceModify(ref _refStore, int _Goods, int _PriceType, ref
     if(_PriceType==PRICE_TYPE_BUY)
 	{
 		skillModify = 1.46 - _TradeSkill*0.019;
+		if(CheckOfficersPerk(chref,"Trader"))	{ skillModify -= 0.05; }
 		if(CheckOfficersPerk(chref,"AdvancedCommerce"))	{ skillModify -= 0.2; }
 		else
 		{

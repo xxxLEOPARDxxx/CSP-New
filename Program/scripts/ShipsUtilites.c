@@ -1748,6 +1748,7 @@ int GetShipSellPrice(ref _chr, ref _shipyard)
 
 	float nCommerce   = GetSummonSkillFromNameToOld(GetMainCharacter(), SKILL_COMMERCE) + 0.001;
 
+	if(CheckOfficersPerk(pchar,"Trader")) { nCommerce += 2; }
 	if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ nCommerce += 4; }
 	else
 	{
@@ -1776,6 +1777,7 @@ int GetShipBuyPrice(int iType, ref _shipyard)
 	// boal учет скилов торговли 22.01.2004 -->
 	float nCommerce   = GetSummonSkillFromNameToOld(GetMainCharacter(), SKILL_COMMERCE);
 
+	if(CheckOfficersPerk(pchar,"Trader")) { nCommerce += 2; }
     if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ nCommerce += 4; }
 	else
 	{

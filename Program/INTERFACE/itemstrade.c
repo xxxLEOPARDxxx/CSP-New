@@ -886,7 +886,9 @@ int GetTradeItemPrice(int itmIdx, int tradeType)
 		if(CheckAttribute(&Items[itmIdx],"groupID"))
 		{
 			if(Items[itmIdx].groupID == BLADE_ITEM_TYPE || Items[itmIdx].groupID == GUN_ITEM_TYPE) skillModify *= 10.0;
-		}	
+		}
+		if(CheckOfficersPerk(pchar,"Trader")) { skillModify -= 0.05; }
+		
 		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ skillModify -= 0.2; }
 		else
 		{
@@ -897,6 +899,7 @@ int GetTradeItemPrice(int itmIdx, int tradeType)
 	{
 		skillModify = 0.75 + skillDelta*0.019;
 		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	skillModify += 0.05;
+		if(CheckOfficersPerk(pchar,"Trader")) { skillModify += 0.05; }
 	}
 
 	return makeint(makefloat(itmprice)*skillModify);

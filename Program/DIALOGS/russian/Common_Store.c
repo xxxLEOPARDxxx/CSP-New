@@ -895,13 +895,14 @@ void ProcessDialogEvent()
     						else
     						{
     							iQuantityGoods = iQuantityGoods - rand(makeint(iQuantityGoods/3)) - 10;
-    							iMoney = makeint((iQuantityGoods * sti(Goods[iTradeGoods].Weight) / sti(Goods[iTradeGoods].Units)) * (4+rand(3) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5);
-
+								if(CheckOfficersPerk(pchar,"Trader")) iMoney = makeint((iQuantityGoods * sti(Goods[iTradeGoods].Weight) / sti(Goods[iTradeGoods].Units)) * (5+rand(5) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5);
+								else iMoney = makeint((iQuantityGoods * sti(Goods[iTradeGoods].Weight) / sti(Goods[iTradeGoods].Units)) * (4+rand(3) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5);
     							pchar.CargoQuest.iTradeGoods = iTradeGoods;
     							pchar.CargoQuest.iQuantityGoods = iQuantityGoods;
     							pchar.CargoQuest.iMoney = iMoney;
     							pchar.CargoQuest.iTradeNation = iTradeNation;
-    							pchar.CargoQuest.iDaysExpired = 35 + rand(5);
+    							if(CheckOfficersPerk(pchar,"Trader")) pchar.CargoQuest.iDaysExpired = 18 + rand(6);
+								else pchar.CargoQuest.iDaysExpired = 12 + rand(5);
     							
     							pchar.CargoQuest.iTradeColony = Characters[storeMan].city;
     							pchar.CargoQuest.iTradeIsland = GetIslandByCityName(Characters[storeMan].city);

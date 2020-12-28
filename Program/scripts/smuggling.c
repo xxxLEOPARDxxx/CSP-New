@@ -494,7 +494,7 @@ int GetContrabandGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref
 		if(tradeType == TRADE_TYPE_CANNONS) cModify = 2.0 - MOD_SKILL_ENEMY_RATE/20.0;
 		if(CheckCharacterPerk(chref,"HT2"))
 		{
-			if(CheckOfficersPerk(chref,"ProfessionalCommerce"))	{ skillModify -= 0.20; }
+			if(CheckOfficersPerk(chref,"AdvancedCommerce"))	{ skillModify -= 0.20; }
 			else
 			{
 				if(CheckOfficersPerk(chref,"BasicCommerce"))	{ skillModify -= 0.15; }
@@ -503,7 +503,8 @@ int GetContrabandGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref
 		}
 		else
 		{
-			if(CheckOfficersPerk(chref,"ProfessionalCommerce"))	{ skillModify -= 0.15; }
+			if(CheckOfficersPerk(chref,"Trader"))	{ skillModify -= 0.05; }
+			if(CheckOfficersPerk(chref,"AdvancedCommerce"))	{ skillModify -= 0.20; }
 			else
 			{
 				if(CheckOfficersPerk(chref,"BasicCommerce"))	{ skillModify -= 0.10; }
@@ -518,19 +519,20 @@ int GetContrabandGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref
 		if(tradeType == TRADE_TYPE_CANNONS) cModify = 2.0 - MOD_SKILL_ENEMY_RATE/20.0;
 		if(CheckCharacterPerk(chref,"HT2"))
 		{
-			if(CheckOfficersPerk(chref,"ProfessionalCommerce"))	skillModify += 0.20;
+			if(CheckOfficersPerk(chref,"AdvancedCommerce"))	skillModify += 0.20;
 			else
 			{
-				if(CheckOfficersPerk(chref,"AdvancedCommerce"))	{ skillModify += 0.15; }
+				if(CheckOfficersPerk(chref,"BasicCommerce"))	{ skillModify += 0.15; }
 				else skillModify += 0.05;
 			}				
 		}
 		else
 		{
-			if(CheckOfficersPerk(chref,"ProfessionalCommerce"))	skillModify += 0.15;
+			if(CheckOfficersPerk(chref,"Trader"))	{ skillModify += 0.05; }
+			if(CheckOfficersPerk(chref,"AdvancedCommerce"))	skillModify += 0.20;
 			else
 			{
-				if(CheckOfficersPerk(chref,"AdvancedCommerce"))	{ skillModify += 0.10; }
+				if(CheckOfficersPerk(chref,"BasicCommerce"))	{ skillModify += 0.10; }
 			}		
 		}
 		costModify = 0.85;

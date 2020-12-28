@@ -55,6 +55,10 @@ float GetCharacterMaxEnergyValue(ref _refCharacter)
 	{
   		ret = ret + 45;
 	}
+	if (CheckCharacterPerk(_refCharacter, "Grunt"))
+	{
+  		ret = ret + 30;
+	}
 	return ret;
 }
 
@@ -73,6 +77,10 @@ float GetCharacterMaxEnergyABSValue(ref _refCharacter)
 	if (CheckCharacterPerk(_refCharacter, "EnergyPlusFixed"))
 	{
   		ret = ret + 45;
+	}
+	if (CheckCharacterPerk(_refCharacter, "Grunt"))
+	{
+  		ret = ret + 30;
 	}
 	return ret;
 }
@@ -160,15 +168,39 @@ void SetSPECIAL(ref _refCharacter, int _s, int _p, int _e, int _c, int _i, int _
     _refCharacter.SPECIAL.Luck       = _l;
 }
 
-void SetRandSPECIAL(ref _refCharacter)
+void SetRandSPECIAL(ref _refCharacter)  // Для всех 
 {
     SetSPECIAL(_refCharacter,
-               (3 + rand(7)),
-               (3 + rand(7)),
-               (3 + rand(7)),
+               (4 + rand(6)),
+               (2 + rand(8)),
+               (4 + rand(6)),
                (2 + rand(8)),
                (4 + rand(6)),
                (4 + rand(6)),
+               (2 + rand(8)));
+}
+ 
+void SetRandSPECIAL_F(ref _refCharacter)  // для абордажников
+{
+    SetSPECIAL(_refCharacter,
+               (6 + rand(4)),
+               (2 + rand(6)),
+               (6 + rand(4)),
+               (2 + rand(6)),
+               (4 + rand(4)),
+               (6 + rand(4)),
+               (2 + rand(8)));
+}
+
+void SetRandSPECIAL_K(ref _refCharacter)  // для штурманов-казначеев
+{
+    SetSPECIAL(_refCharacter,
+               (4 + rand(4)),
+               (4 + rand(6)),
+               (4 + rand(4)),
+               (4 + rand(6)),
+               (4 + rand(6)),
+               (4 + rand(4)),
                (2 + rand(8)));
 }
 
@@ -581,6 +613,10 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 			SetEnergyToCharacter(_chref);
 		}
 		if (CheckCharacterPerk(_chref, "EnergyPlusFixed"))
+		{
+			SetEnergyToCharacter(_chref);
+		}
+		if (CheckCharacterPerk(_chref, "Grunt"))
 		{
 			SetEnergyToCharacter(_chref);
 		}
@@ -1369,6 +1405,7 @@ int GetMaxItemsWeight(ref _chref)
     {
         int iBonus = 0;
         if (IsCharacterPerkOn(_chref, "Grus")) iBonus = 30;
+		if (IsCharacterPerkOn(_chref, "Trader")) iBonus = 35;
 		// Lugger -->
 	        if(CheckAttribute(_chref, "equip.backpack"))
 	        {
@@ -2302,8 +2339,9 @@ void initMainCharacterItem()
 	switch (ch.HeroParam.HeroType)
 	{
         case "Master":	// Рубака
-			SetCharacterPerk(pchar, "Tireless");
-			SetCharacterPerk(pchar, "HardHitter");
+			// SetCharacterPerk(pchar, "Tireless");
+			// SetCharacterPerk(pchar, "HardHitter");
+			SetCharacterPerk(pchar, "Grunt");
             TakenItems(Pchar, "potion1", rand(10));
             TakenItems(Pchar, "potion2", rand(5));
             TakenItems(Pchar, "indian12", 1);
@@ -2362,8 +2400,9 @@ void initMainCharacterItem()
 	    break;
 
         case "Merchant":	// Торговец
-			SetCharacterPerk(pchar, "BasicCommerce");
-			SetCharacterPerk(pchar, "AdvancedCommerce");
+			// SetCharacterPerk(pchar, "BasicCommerce");
+			// SetCharacterPerk(pchar, "AdvancedCommerce");
+			SetCharacterPerk(pchar, "Trader");
 			itemID = GetGeneratedItem("blade1");
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
@@ -2409,8 +2448,9 @@ void initMainCharacterItem()
 	    break;
 
 	    case "Corsair":	// Фехтовальщик
-			SetCharacterPerk(pchar, "CriticalHit");
-			SetCharacterPerk(pchar, "BasicDefense");
+			// SetCharacterPerk(pchar, "CriticalHit");
+			// SetCharacterPerk(pchar, "BasicDefense");
+			SetCharacterPerk(pchar, "Fencer");
 			itemID = GetGeneratedItem("Spyglass" + rand(3));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
@@ -2499,9 +2539,9 @@ void initMainCharacterItem()
 	    break;
 
 	    case "Inquisitor":	// Буканьер
-			SetCharacterPerk(pchar, "Buccaneer");
 			// SetCharacterPerk(pchar, "Gunman");
 			// SetCharacterPerk(pchar, "GunProfessional");
+			SetCharacterPerk(pchar, "Buccaneer");
 			itemID = GetGeneratedItem("blade" + rand(8));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);

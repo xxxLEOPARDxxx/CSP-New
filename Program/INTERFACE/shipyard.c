@@ -686,6 +686,7 @@ int GetBuyPrice(int iType)
 	// boal учет скилов торговли 22.01.2004 -->
 	float nCommerce   = GetSummonSkillFromNameToOld(GetMainCharacter(), SKILL_COMMERCE);
 
+	if(CheckOfficersPerk(pchar,"Trader")) { nCommerce += 2; }
     if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ nCommerce += 4; }
 	else
 	{
@@ -705,6 +706,7 @@ int GetSellPrice(ref _chr)
 
 	float nCommerce   = GetSummonSkillFromNameToOld(GetMainCharacter(), SKILL_COMMERCE) + 0.001;
 
+	if(CheckOfficersPerk(pchar,"Trader")) { nCommerce += 2; }
 	if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ nCommerce += 4; }
 	else
 	{

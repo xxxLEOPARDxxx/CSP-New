@@ -359,4 +359,29 @@ void extrnInitPerks()
 	ChrPerksList.list.Buccaneer.descr = "perkBuccaneer";
 	ChrPerksList.list.Buccaneer.PlayerOnly = true;
 	ChrPerksList.list.Buccaneer.Hiden = true;
+	
+	// скрытый перк торговца. Даёт ещё больший буст к торговле вкупе с
+	ChrPerksList.list.Trader.descr = "perkBuccaneer";
+	ChrPerksList.list.Trader.PlayerOnly = true;
+	ChrPerksList.list.Trader.Hiden = true;
+	
+	// скрытый перк фехтовальщика. Даёт 10% шанс избежать урона и пассивные стакающиеся 5% крита
+	ChrPerksList.list.Fencer.descr = "perkBuccaneer";
+	ChrPerksList.list.Fencer.PlayerOnly = true;
+	ChrPerksList.list.Fencer.Hiden = true;
+	
+	// скрытый перк рубаки. Даёт пассивно +30 энергии и 15% к наносимому урону
+	ChrPerksList.list.Grunt.descr = "perkBuccaneer";
+	ChrPerksList.list.Grunt.PlayerOnly = true;
+	ChrPerksList.list.Grunt.Hiden = true;
+	
+	// скрытый перк авантюриста. Даёт удачу
+	ChrPerksList.list.Adventurer.descr = "perkBuccaneer";
+	ChrPerksList.list.Adventurer.PlayerOnly = true;
+	ChrPerksList.list.Adventurer.Hiden = true;
+	
+	// скрытый перк агента. Даёт усиление навыков скрытности
+	ChrPerksList.list.Agent.descr = "perkBuccaneer";
+	ChrPerksList.list.Agent.PlayerOnly = true;
+	ChrPerksList.list.Agent.Hiden = true;
 }
