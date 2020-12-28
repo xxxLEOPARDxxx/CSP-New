@@ -3340,7 +3340,6 @@ void Ship_CheckMainCharacter()
 	{
 		switch (sti(rCharacter.Ship.POS.Mode))
 		{
-            seaAlarmed = false;
 			case SHIP_SAIL:
 				if (!Whr_IsStorm()) 
 				{ 
@@ -3360,7 +3359,7 @@ void Ship_CheckMainCharacter()
 				}
 			break;
 			case SHIP_WAR:
-				FadeOutMusic(500); // fix
+				FadeOutMusic(3); // fix
 				seaAlarmed = true;
 				SetMusic("music_sea_battle");
 			break;
