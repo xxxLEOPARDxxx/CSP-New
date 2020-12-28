@@ -72,8 +72,7 @@
 *.lnk
 
 # Папки
-*Fix_PRE/
-*Fix_INTERFACE2/
+*CSP2.0_fix/
 *SAVE/
 # *RESOURCE/animation/
 *RESOURCE/foam/

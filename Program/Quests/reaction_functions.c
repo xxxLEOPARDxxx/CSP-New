@@ -6058,7 +6058,7 @@ void CapBloodLine_q1(string qName)
     Pchar.questTemp.CapBUnarmed = true; //ГГ сабля не положена
 
     //Бишоп на плантациях
-   	sld = GetCharacter(NPC_GenerateCharacter("Bishop", "off_eng_1", "man", "man", 1, ENGLAND, 3, false));
+   	sld = GetCharacter(NPC_GenerateCharacter("Bishop", "trader_2", "man", "man", 1, ENGLAND, 3, false));
     sld.name 	= "Полковник";
     sld.lastname 	= "Бишоп";
     sld.Dialog.CurrentNode = "First Bishop";
@@ -6134,7 +6134,7 @@ void CapBloodLine_q1(string qName)
     ChangeCharacterAddressGroup(sld, "Bridgetown_tavern", "sit","sit_base"+(1+i));
 	
     //==============//Волверстон//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Volverston", "Chard3a", "man", "man", 12, ENGLAND, -1, false)); 
+   	sld = GetCharacter(NPC_GenerateCharacter("Volverston", "officer_3", "man", "man", 12, ENGLAND, -1, false)); 
     sld.name 	= "Волверстон";
     sld.lastname 	= "";
     sld.Dialog.CurrentNode = "First time";
@@ -6236,7 +6236,7 @@ void CapBloodLine_q1(string qName)
 	ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseF1_1");
 	
     //==============//Нед Огл//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Ogl", "Chard3b", "man", "man", 10, ENGLAND, -1, false)); 
+   	sld = GetCharacter(NPC_GenerateCharacter("Ogl", "Chard3a", "man", "man", 10, ENGLAND, -1, false)); 
     sld.name 	= "Нед";
     sld.lastname 	= "Огл";
     sld.Dialog.CurrentNode = "First time";
