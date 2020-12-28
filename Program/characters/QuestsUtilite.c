@@ -2774,18 +2774,16 @@ void SetOpenDoorCommonLoc(string City, string locationId)
     }
 }
 
-bool CheckChit()
+/* bool CheckChit()
 {
-	/*
 	if (bBettaTestMode) return false;
 	if (sti(pchar.Ship.Type) == SHIP_NOTUSED) return false;
-	if (43 - (GetCharacterSPECIALSimple(pchar, SPECIAL_S) + GetCharacterSPECIALSimple(pchar, SPECIAL_P) + GetCharacterSPECIALSimple(pchar, SPECIAL_E) + GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I) + GetCharacterSPECIALSimple(pchar, SPECIAL_A) + GetCharacterSPECIALSimple(pchar, SPECIAL_L)) < 0 || sti(pchar.rank) > 55 || LAi_GetCharacterMaxHP(pchar) > 565 || 30 - (stf(RealShips[sti(Pchar.Ship.Type)].SpeedRate)) < 0 || 16000 - sti(RealShips[sti(Pchar.Ship.Type)].HP) < 0)
+	if (51 - (GetCharacterSPECIALSimple(pchar, SPECIAL_S) + GetCharacterSPECIALSimple(pchar, SPECIAL_P) + GetCharacterSPECIALSimple(pchar, SPECIAL_E) + GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I) + GetCharacterSPECIALSimple(pchar, SPECIAL_A) + GetCharacterSPECIALSimple(pchar, SPECIAL_L)) < 0 || sti(pchar.rank) > 55 || LAi_GetCharacterMaxHP(pchar) > 565 || 30 - (stf(RealShips[sti(Pchar.Ship.Type)].SpeedRate)) < 0 || 30000 - sti(RealShips[sti(Pchar.Ship.Type)].HP) < 0)
 	{
 			return true;
 	}
-	*/
     return false;
-}
+} */
 
 //личные боевые навыки, нужны для экспы после сухопутных боев
 void AddComplexSelfExpToScill(int l, int m, int h, int p)
