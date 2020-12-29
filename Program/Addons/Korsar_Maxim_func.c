@@ -19,7 +19,7 @@ string GetPggTavernGreeting(ref rChar)
     }
 }
 
-/// Korsar Maxim - (Выдача рандомного оружия по качеству (бедное, нормальное, хорошее и отличное))
+/// Korsar Maxim - (Выдача рандомного оружия по качеству (бедное, нормальное, хорошее, отличное и индейское))
 string GiveRandomBladeByType(string sType)
 {
 	switch(sType)
@@ -82,6 +82,15 @@ string GiveRandomBladeByType(string sType)
 			case 8: blade = "blade13"; break;
 			case 9: blade = "blade20"; break;
 			case 10: blade = "blade33"; break;
+	    }
+	break;	
+	
+	case "indian":
+		switch(rand(2))
+	    {
+			case 0: blade = "blade_01"; break;
+			case 1: blade = "blade_02"; break;
+			case 2: blade = "topor_05"; break;
 	    }
 	break;
 	}

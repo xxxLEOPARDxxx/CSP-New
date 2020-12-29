@@ -765,8 +765,12 @@ bool LAi_CreateEncounters(ref location)
 				{
 					chr.name = "Главный каннибал";
 					chr.lastname = "";
-					_Blade = GiveRandomBladeByType("ordinary");
+					
+					if(rand(3) == 1) _Blade = "topor_01";
+					else _Blade = GiveRandomBladeByType("good");
+					
 					chr.SaveItemsForDead  = true; 
+					chr.DontClearDead = true;
 					TakeNItems(chr, "jewelry11", (rand(34)+1));
 			        TakeNItems(chr, "jewelry12", (rand(49)+1));
 					TakeNItems(chr, "Food1", (rand(14)+1));
@@ -776,7 +780,7 @@ bool LAi_CreateEncounters(ref location)
 				{
 					chr.name = "Каннибал";
 					chr.lastname = "";
-					_Blade = GiveRandomBladeByType("Poor");
+					_Blade = GiveRandomBladeByType("indian");
 				}
                 
 				_Blade = GetGeneratedItem(_Blade);

@@ -2390,7 +2390,6 @@ void initMainCharacterItem()
 					AddItems(Pchar, "GunPowder", 5);
 				break;
 				case SPAIN:
-					AddItems(Pchar, "cirass1", 1);
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);

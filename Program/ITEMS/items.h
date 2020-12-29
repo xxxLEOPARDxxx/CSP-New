@@ -28,7 +28,7 @@
 
 // indexes for items` array
 #define TOTAL_ITEMS				1000 // Warship 08.05.09 - Новая система предметов
-#define ITEMS_QUANTITY			  254  // не забываем менять номер
+#define ITEMS_QUANTITY			  258  // не забываем менять номер
 #define MAX_BUTTONS               64
 #define RANDITEMS_QUANTITY    	  45
 #define BUTTON_ACTIVATION_TIME	  1000
@@ -40,4 +40,5 @@
 #define MAPS_IN_ATLAS			  25 // ugeen 21.06.09  -не забываем увеличивать при появлении новых карт 	
 
 object Items[TOTAL_ITEMS];
+object Items2[ITEMS_QUANTITY];
 object RandItems[RANDITEMS_QUANTITY];

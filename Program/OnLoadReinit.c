@@ -10,7 +10,7 @@ void onLoadReInit()
 	int nGoodsSize = GetArraySize(&Goods);
 	int nEncounterSize = GetArraySize(&EncountersTypes);
 	int nSailSize = GetArraySize(&SailsColors);
-	int nItemSize = GetArraySize(&Items);
+	int nItemSize = GetArraySize(&Items2);
 	int nStoreSize = GetArraySize(&Stores);
 	int nShipSize = GetArraySize(&ShipsTypes);
 	int nWeatherSize = GetArraySize(&Weathers);
@@ -61,6 +61,18 @@ void onLoadReInit()
 	if (nRandItemSize != RANDITEMS_QUANTITY){
 		SetArraySize(&RandItems, RANDITEMS_QUANTITY);
 		bInitItems = true;
+	}
+	if (bInitItems || (nItemSize != ITEMS_QUANTITY))
+	{
+		SetArraySize(&Items2,ITEMS_QUANTITY);
+		SetArraySize(&itemModels,ITEMS_QUANTITY);
+		if(LoadSegment("items\initItems.c"))
+		{
+			InitItems();
+			ReloadProgressUpdate();
+			//UnloadSegment("items\initItems.c");
+			GenerateGenerableItems();
+		}
 	}
 	if(nShipSize  != SHIP_TYPES_QUANTITY_WITH_FORT){
 		reinit = true;
