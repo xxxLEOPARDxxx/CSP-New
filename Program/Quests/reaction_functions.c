@@ -5992,7 +5992,7 @@ void Blood_StartGame_End(string qName)
 	LAi_QuestFader.oldSaveState = InterfaceStates.Buttons.Save.enable;
 	InterfaceStates.Buttons.Save.enable = 0;
 
-    Pchar.model="blood_bomj";
+    Pchar.model="PGG_Blad_6";
 	DoQuestFunctionDelay("CapBloodLineInit", 0.1);
 }
 
