@@ -961,26 +961,19 @@ void PGG_TavernCheckIsPGGHere()
 //посадить или убрать ПГГ из таверны.
 void PGG_PlaceCharacter2Tavern(ref chr, bool _bSet)
 {
+	int n = 0;
+	string sTemp;
+
 	if (_bSet)
 	{
-	if (chr.model.animation == "man")
-	{
-	PlaceCharacter(chr, "sit", "random_free");
-	LAi_SetSitType(chr);
-	if(findsubstr(chr.location.locator, "sit_ground_" , 0) != -1)
-	{
-	LAi_SetGroundSitType(chr);
-	}
-	if(findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
-{	
-LAi_SetBarmanType(chr);		
-}
-	}
-		else
-	{
-		sTemp = PlaceCharacter(chr, "goto", "random_free");
-		LAi_SetWarriorType(chr);
-	}
+		sTemp = PlaceCharacter(chr, "sit", "random_free");
+		n = 0;
+		while (findsubstr(sTemp, "sit_front" , 0) != -1 && n < 50)
+		{    // чтоб не занимали место напротив
+			sTemp = PlaceCharacter(chr, "sit", "random_free");
+			n++;
+		}
+		LAi_SetSitType(chr);
 	}
 	else
 	{

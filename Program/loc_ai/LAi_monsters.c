@@ -750,7 +750,7 @@ bool LAi_CreateEncounters(ref location)
 			while(i < num)
 			{
 				
-				if(i == 0 && rand(6) == 1) chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_boss", "man", "man", iRank*1.5, PIRATE, 1, false)); //Korsar Maxim - с шансом 1 на 7 встреч, первый индиан может быть главой каннибалов
+				if(i == 0 && rand(6) == 1) chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_boss", "man", "man", iRank*2, PIRATE, 1, false)); //Korsar Maxim - с шансом 1 на 7 встреч, первый индиан может быть главой каннибалов
 				else chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_"+(rand(5)+1), "man", "man", iRank, PIRATE, 1, false));
 				SetFantomParamFromRank(chr, iRank, false);
 				//Получим локатор для логина
@@ -768,6 +768,10 @@ bool LAi_CreateEncounters(ref location)
 					
 					if(rand(3) == 1) _Blade = "topor_01";
 					else _Blade = GiveRandomBladeByType("good");
+					
+					int iHP = (150+MOD_SKILL_ENEMY_RATE*30+sti(pchar.rank)*5)*0.75;
+					
+					LAi_SetHP(chr, iHP, iHP);
 					
 					chr.SaveItemsForDead  = true; 
 					chr.DontClearDead = true;

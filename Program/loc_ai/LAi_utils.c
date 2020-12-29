@@ -881,12 +881,14 @@ void Dead_AddLoginedCharacter(aref chr)
 			for(value = 0; value < ITEMS_QUANTITY; value++)
 			{
 				itemID = Items[value].ID;
-				
-				if(IsGenerableItem(itemID) && CheckCharacterItem(chr, itemID))
+				if(!CheckAttribute(Items[value], "DontDrop"))
 				{
-					count = GetCharacterItem(chr, itemID);
-					RemoveItems(chr, itemID, count); // Забираетм обычные
-					GenerateAndAddItems(chr, itemID, count); // Даем сгенеренные
+	    			if(IsGenerableItem(itemID) && CheckCharacterItem(chr, itemID))
+	    			{
+	    				count = GetCharacterItem(chr, itemID);
+	    				RemoveItems(chr, itemID, count); // Забираетм обычные
+	    				GenerateAndAddItems(chr, itemID, count); // Даем сгенеренные
+		    		}
 				}
 			}
 	    }
@@ -913,7 +915,7 @@ void Dead_AddLoginedCharacter(aref chr)
 					if(rand(MOD_SKILL_ENEMY_RATE + 5) == 1 && chr.equip.blade != "unarmed") // 20% for 3+2=5
 					{
 						rItem = ItemsFromID(chr.equip.blade);
-						if(CheckAttribute(rItem,"quality") && rItem.quality != "excellent") // ugeen --> на обычных трупах топовое оружие не даем !!!
+						if(CheckAttribute(rItem,"quality") && rItem.quality != "excellent" && !CheckAttribute(rItem, "DontDrop")) // ugeen --> на обычных трупах топовое оружие не даем !!!
 						{	// Даем трупу сгенеренное оружие
 							if(rItem.quality == "poor")
 							{
@@ -927,7 +929,11 @@ void Dead_AddLoginedCharacter(aref chr)
 							{
 								AddItems(chref, GetGeneratedItem(chr.equip.blade), 1); 
 							}
-						}	
+						}
+                        if(HasSubStr(rItem.id, "blade_01") || HasSubStr(rItem.id, "blade_02") || HasSubStr(rItem.id, "topor_01") || HasSubStr(rItem.id, "topor_05"))	
+						{
+                            RemoveItems(chref, rItem, 100);
+						}						
 					}
 				}
 				if(CheckAttribute(chr, "equip.gun"))
@@ -1082,7 +1088,7 @@ void Dead_LaunchCharacterItemChange(ref chref)
 
 // boal dead can be searched 14.12.2003 <--
 
-void MakePoisonAttack(aref attack, aref enemy)
+void MakePoisonAttack(aref attack, aref enemy, int iQuantity)
 {
 	if(enemy.sex == "skeleton" || CheckAttribute(enemy, "PoisonImmune"))
 	{
@@ -1103,15 +1109,46 @@ void MakePoisonAttack(aref attack, aref enemy)
 		poison = stf(enemy.chr_ai.poison);
 		if(poison < 1.0) poison = 1.0;
 	}
-	enemy.chr_ai.poison = poison + 30 + rand(20);
+	enemy.chr_ai.poison = poison + 30 + rand(20) + iQuantity;
 }
 
 void MakePoisonAttackCheckSex(aref attacked, aref enemy)
 {
-	if (enemy.sex == "skeleton" || enemy.sex == "crab")
+	if (enemy.sex == "skeleton" || enemy.sex == "crab" || HasSubStr(enemy.model, "Canib_"))
 	{
-		if (rand(1000) < 150) MakePoisonAttack(enemy, attacked);
+		if (rand(1000) < 150) MakePoisonAttack(enemy, attacked, 30 + rand(20));
 	}
+	
+	// Lugger --> травла от клинка.
+	
+	if(CheckAttribute(enemy, "equip.blade"))
+	{
+		string sBlade = enemy.equip.blade;
+		ref rBlade = ItemsFromID(sBlade);
+		
+		if(CheckAttribute(rBlade, "poison"))
+		{
+			if(attacked.sex == "skeleton" || attacked.sex == "crab" || CheckAttribute(enemy, "PoisonImmune"))
+			{
+				return;
+			}
+			else
+			{
+				if (rand(100) < 15)
+				{
+					if(CheckAttribute(rBlade, "poison.quantity"))
+					{
+						int iQuantity = sti(rBlade.poison.quantity);
+						MakePoisonAttack(enemy, attacked, iQuantity);	
+						
+						rBlade.poison.quantity = 30 + rand(20) + rand(20);
+					}
+				}
+			}
+		}
+	}
+	
+	// Lugger <--
 }
 
 string LAi_FindFreeRandomLocator(string group)
@@ -1195,9 +1232,6 @@ void LAi_Explosion(ref chr, int damage)
 	CreateParticleSystemX("fort_fire", x, y, z, x, y, z, 5);
 	
 	PlayStereoSound("Sea Battles\cannon_fire_03.wav");
-	
-//	if(chr.sex == "woman") 	PlayStereoSound("People Fight\Peace_woman_death_02.wav");
-//	else 					PlayStereoSound("People Fight\Damage_NPC_01.wav");
 
 	int num = FindNearCharacters(chr, 3.0, -1.0, -1.0, 0.001, false, true);
 
@@ -1224,8 +1258,4 @@ void LAi_Explosion(ref chr, int damage)
 			}
 		}
 	}	
-
-//	LAi_ApplyCharacterDamage(chr, damage);	
-
-//	if (sti(LAi_GetCharacterHP(chr)) < damage + 1) Lai_KillCharacter(chr);
 }

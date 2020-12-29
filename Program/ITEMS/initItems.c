@@ -1858,7 +1858,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "FencingLight";
 	itm.ItemType = "WEAPON";
-	itm.quality = "poor";
+	itm.quality = "excellent";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 10;
 	// Флаг "генерить цену"
@@ -1895,7 +1895,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "Fencing";
 	itm.ItemType = "WEAPON";
-	itm.quality = "poor";
+	itm.quality = "excellent";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 10;
 	// Флаг "генерить цену"
@@ -1932,7 +1932,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "Fencing";
 	itm.ItemType = "WEAPON";
-	itm.quality = "poor";
+	itm.quality = "excellent";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 10;
 	itm.Generation.dmg_min.min = 13.0;
@@ -1968,7 +1968,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "FencingHeavy";
 	itm.ItemType = "WEAPON";
-	itm.quality = "good";
+	itm.quality = "excellent";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 15;
 	itm.Generation.dmg_min.min = 38.0;

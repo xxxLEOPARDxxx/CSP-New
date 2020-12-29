@@ -1150,6 +1150,7 @@ float SpeedBySkill(aref refCharacter)
 	//fTRFromSKill = fTRFromSKill * fSpeedByHullUpgrade * fSpeedBySailsUpgrade;
     float fSpeedPerk = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "ShipSpeedUp"), 1.0, 1.15);   //slib
     fSpeedPerk = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SailingProfessional"), fSpeedPerk, 1.20);
+	fSpeedPerk =  AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SeaWolf"), fSpeedPerk, fSpeedPerk+0.05);
     
 	return fTRFromSKill*fSpeedPerk;
 }
@@ -1231,6 +1232,7 @@ float TurnBySkill(aref refCharacter)
 	
     float fSpeedPerk = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "ShipTurnRateUp"), 1.0, 1.15);   //slib
     fSpeedPerk = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SailingProfessional"), fSpeedPerk, 1.20);
+	fSpeedPerk =  AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SeaWolf"), fSpeedPerk, fSpeedPerk+0.05);
     float fFastTurn180 = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "Turn180"), 1.0, 4.0);
     
 	return fTRFromSKill*fSpeedPerk*fFastTurn180;

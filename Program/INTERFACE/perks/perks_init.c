@@ -384,4 +384,9 @@ void extrnInitPerks()
 	ChrPerksList.list.Agent.descr = "perkBuccaneer";
 	ChrPerksList.list.Agent.PlayerOnly = true;
 	ChrPerksList.list.Agent.Hiden = true;
+	
+	// скрытый перк агента. Даёт усиление навыков скрытности
+	ChrPerksList.list.SeaWolf.descr = "perkBuccaneer";
+	ChrPerksList.list.SeaWolf.PlayerOnly = true;
+	ChrPerksList.list.SeaWolf.Hiden = true;
 }

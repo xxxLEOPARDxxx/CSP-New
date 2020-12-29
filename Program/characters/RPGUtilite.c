@@ -2258,6 +2258,10 @@ void initNewMainCharacter()
 	    case "SecretAgent":	//Тайный агент
     	    SetSPECIAL(ch, 7,7,6,10,6,7,7); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	    break;
+		
+		case "SeaWolf":	//Морской Волк
+    	    SetSPECIAL(ch, 6,8,6,9,8,7,6); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
+	    break;
 
 	}
 	ch.skill.freeskill   = 0;
@@ -2584,6 +2588,23 @@ void initMainCharacterItem()
 				break;
 			}
 	    break;
+		
+		case "SeaWolf":	// Морской Волк
+			// SetCharacterPerk(pchar, "Gunman");
+			// SetCharacterPerk(pchar, "GunProfessional");
+			SetCharacterPerk(pchar, "SeaWolf");
+			itemID = GetGeneratedItem("blade" + rand(8));
+            GiveItem2Character(Pchar, itemID);
+            EquipCharacterbyItem(Pchar, itemID);
+			itemID = GetGeneratedItem("pistol" +  rand(2));
+            GiveItem2Character(Pchar, itemID);
+            EquipCharacterbyItem(Pchar, itemID);
+			TakeNItems(Pchar, "bullet", 10);
+			AddItems(Pchar, "GunPowder", 10);
+			TakenItems(Pchar, "potion1", rand(8));
+			pchar.money = 2000/MOD_SKILL_ENEMY_RATE;
+            TakenItems(Pchar, "Food1", rand(6)+4);
+	    break;
 	}
 }
 int GetNewMainCharacterFace()
@@ -2706,6 +2727,10 @@ string GetNewMainCharacterType(int _startHeroType)
 
 	    case "Тайный агент":
             ret = "SecretAgent";
+	    break;
+		
+		case "Морской Волк":
+            ret = "SeaWolf";
 	    break;
 	}
     return ret;

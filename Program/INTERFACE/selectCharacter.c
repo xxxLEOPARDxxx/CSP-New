@@ -862,7 +862,7 @@ string GetCharacterType(string type, int direction)
     	    }
     	    else
     	    {
-    	        type = "SecretAgent";
+    	        type = "SeaWolf";
     	    }
 	    break;
 
@@ -913,11 +913,22 @@ string GetCharacterType(string type, int direction)
 	    case "SecretAgent":
             if (direction > 0)
             {
-    	    	type = "Master";
+    	    	type = "SeaWolf";
     	    }
     	    else
     	    {
     	        type = "Inquisitor";
+    	    }
+	    break;
+		
+		case "SeaWolf":
+            if (direction > 0)
+            {
+    	    	type = "Master";
+    	    }
+    	    else
+    	    {
+    	        type = "SecretAgent";
     	    }
 	    break;
 	}

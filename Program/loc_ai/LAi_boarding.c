@@ -159,7 +159,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 			EndBattleLandInterface();
             //¬ыгружаемс€ в интерфейс
             
-			ChangeCrewExp(pchar, "Soldiers", 1);
+			ChangeCrewExp(pchar, "Soldiers", AIShip_isPerksUse(CheckOfficersPerk(pchar, "SeaWolf"),1, 2));
 			LaunchRansackMain(pchar, echr, "crew"); 
 			// на деле параметры LaunchRansackMain не важны совсем - все определе€тес€ от реалий - жив кэп и сколько у него матросов - их и обрабатываем
 			// но они используютс€ в сообщени€х  crew - это сдалс€ сразу
@@ -246,7 +246,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 		    
 		if(boarding_location_type == BRDLT_SHIP)
 		{
-            ChangeCrewExp(pchar, "Soldiers", 1);
+            ChangeCrewExp(pchar, "Soldiers", AIShip_isPerksUse(CheckOfficersPerk(pchar, "SeaWolf"),1, 2));
             SendMessage(&Particles,"l", PS_CLEAR_CAPTURED); // повторное удаление партиклов, фикс огней в море.
 			LaunchRansackMain(GetMainCharacter(), echr, "captain");	  // на деле параметры LaunchRansackMain не важны совсем - все определе€тес€ от реалий
             LAi_boarding_process = false;
@@ -256,7 +256,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 		{
 			if (boarding_location_type == BRDLT_FORT)
 			{
-                ChangeCrewExp(pchar, "Soldiers", 1);
+                ChangeCrewExp(pchar, "Soldiers", AIShip_isPerksUse(CheckOfficersPerk(pchar, "SeaWolf"),1, 2));
                 SendMessage(&Particles,"l", PS_CLEAR_CAPTURED); // повторное удаление партиклов, фикс огней в море.
 				Event(FORT_CAPTURED, "l", sti(echr.index));
 				echr.Ship.Crew.Quantity = 10 + rand(350); // рабы (остатки выживших)
@@ -755,7 +755,7 @@ void LAi_ReloadEndFade()
 			// START MOD Code by Stone-D : 27/07/2003
 			if (bCaptanSurrender)
 			{
-				ChangeCrewExp(pchar, "Soldiers", 4);
+				ChangeCrewExp(pchar, "Soldiers", AIShip_isPerksUse(CheckOfficersPerk(pchar, "SeaWolf"), 4, 8));
 				LAi_SetCurHPMax(boarding_enemy);  // нужно, чтоб был живой!!!
 				SetCrewQuantity(boarding_enemy, MakeInt(boarding_enemy_base_crew*(rand(20)*0.01))); // раз кэп живой, то можно раненых воскресить
 				LaunchRansackMain(pchar, boarding_enemy, "captain"); //капитан в плен
@@ -766,7 +766,7 @@ void LAi_ReloadEndFade()
 			// END MOD Code by Stone-D : 27/07/2003
 			if(boarding_location_type == BRDLT_SHIP)
 			{       
-				ChangeCrewExp(pchar, "Soldiers", 5);
+				ChangeCrewExp(pchar, "Soldiers", AIShip_isPerksUse(CheckOfficersPerk(pchar, "SeaWolf"),5, 10));
 				// нельз€ это делать до формы, критерий будет "" LAi_SetCurHP(boarding_enemy, 0.0); // умер, чтоб на форме обмена не жил
 				LaunchRansackMain(pchar, boarding_enemy, ""); //не сдалс€
 				LAi_boarding_process = false;	 
@@ -775,7 +775,7 @@ void LAi_ReloadEndFade()
 			}
 			if(boarding_location_type == BRDLT_FORT)
 			{
-				ChangeCrewExp(pchar, "Soldiers", 7);
+				ChangeCrewExp(pchar, "Soldiers", AIShip_isPerksUse(CheckOfficersPerk(pchar, "SeaWolf"),7, 14));
 				Event(FORT_CAPTURED, "l", sti(boarding_enemy.index));
 				boarding_enemy.Ship.Crew.Quantity = 10 + rand(350); // рабы (остатки выживших)
 				LaunchFortCapture(boarding_enemy);
@@ -979,7 +979,7 @@ void LAi_SetBoardingActors(string locID)
 		//ставим своих мушкетеров -->
 		if (CheckOfficersPerk(mchr, "MusketsShoot") && !CheckAttribute(boarding_enemy, "GenQuest.CrewSkelMode"))
 		{
-			if (!IsFort) iQty = 4;
+			if (!IsFort) iQty = 7;
 			else iQty = 3;
 			for(i=1; i<=iQty; i++)
 			{
@@ -1098,7 +1098,7 @@ void LAi_SetBoardingActors(string locID)
 	{
 		if (!CheckAttribute(&Locations[locIndex], "CabinType") && !CheckAttribute(boarding_enemy, "GenQuest.CrewSkelMode"))
 		{
-			if (!IsFort) iQty = 4;
+			if (!IsFort) iQty = 7;
 			else iQty = 3;	
 			for(i=1; i<=iQty; i++)
 			{

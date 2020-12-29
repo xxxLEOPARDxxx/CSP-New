@@ -34,12 +34,12 @@ void Ship_BortFire()
         if (bortName == "cannonr" || bortName == "cannonl")
         {
             AddCharacterExpToSkill(rCharacter, "Cannons", 3);
-            ChangeCrewExp(rCharacter, "Cannoners", 0.28);
+            ChangeCrewExp(rCharacter, "Cannoners", AIShip_isPerksUse(CheckCharacterPerk(rCharacter, "SeaWolf"), 0.28, 0.56));
         }
         else
         {
             AddCharacterExpToSkill(rCharacter, "Cannons", 1);
-            ChangeCrewExp(rCharacter, "Cannoners", 0.1);
+            ChangeCrewExp(rCharacter, "Cannoners", AIShip_isPerksUse(CheckCharacterPerk(rCharacter, "SeaWolf"), 0.1, 0.2));
         }
         //AddCharacterExpToSkill(rCharacter, "Accuracy", 1);
     }
@@ -47,11 +47,11 @@ void Ship_BortFire()
     {
     	if (bortName == "cannonr" || bortName == "cannonl")
         {
-            ChangeCrewExp(rCharacter, "Cannoners", 0.08);
+            ChangeCrewExp(rCharacter, "Cannoners", AIShip_isPerksUse(CheckCharacterPerk(rCharacter, "SeaWolf"), 0.08, 0.16));
         }
         else
         {
-            ChangeCrewExp(rCharacter, "Cannoners", 0.03);
+            ChangeCrewExp(rCharacter, "Cannoners", AIShip_isPerksUse(CheckCharacterPerk(rCharacter, "SeaWolf"), 0.03, 0.06));
         }
     }
     // boal <--
