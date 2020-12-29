@@ -329,14 +329,38 @@ void ProcessDialogEvent()
 		break;
 		//============================== ноды на разборки при распознавании =========================
 		case "PegYou":
+		if (IsCharacterPerkOn(pchar, "Adventurer") || IsCharacterPerkOn(pchar, "Agent"))
+		{
+			dialog.text = RandPhraseSimple("Сдается мне, что это обман... Давай-ка пройдем в комендатуру, "+ GetSexPhrase("голубчик","голубушка") +", там разберемся...", "Хм, что-то подсказывает мне, что ты не "+ GetSexPhrase("тот","та") +", за кого себя выдаешь... Немедленно сдайте оружие, " + GetAddress_Form(npchar) + ", и следуйте за мной для дальнейшего разбирательства!");
+			link.l1 = RandPhraseSimple("Почему вы мне не верите?", "С чего такие выводы?");
+			switch (rand(3))
+			{
+				case 0: link.l1.go = "NotPegYou"; break;
+				else link.l1.go = "PegYou_2"; break;
+			}
+		}
+		else
+		{
 			dialog.text = RandPhraseSimple("Сдается мне, что это обман... Давай-ка пройдем в комендатуру, "+ GetSexPhrase("голубчик","голубушка") +", там разберемся...", "Хм, что-то подсказывает мне, что ты не "+ GetSexPhrase("тот","та") +", за кого себя выдаешь... Немедленно сдайте оружие, " + GetAddress_Form(npchar) + ", и следуйте за мной для дальнейшего разбирательства!");
 			link.l1 = RandPhraseSimple("Как бы не так!", "После дождичка, в четверг...");
 			link.l1.go = "fight";
-			if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
-			{
-				AddCharacterExpToSkill(pchar, SKILL_SNEAK, 40);
-				pchar.questTemp.stels.landSolder = GetDataDay();
-			}
+			
+		}
+		if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
+		{
+			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 40);
+			pchar.questTemp.stels.landSolder = GetDataDay();
+		}
+		break;
+		case "PegYou_2":
+		dialog.text = RandPhraseSimple("Вам не запудрить мне голову! Сдавайте оружие!", "Ну точно шпион... Сдавайтесь немедленно!");
+		link.l1 = RandPhraseSimple("Как бы не так!", "После дождичка, в четверг...");
+		link.l1.go = "fight";
+		if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
+		{
+			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 40);
+			pchar.questTemp.stels.landSolder = GetDataDay();
+		}
 		break;
 		case "NotPegYou":
 			dialog.text = RandPhraseSimple("А-а-а, вижу... Все в порядке, вы можете идти, " + GetAddress_Form(pchar) + ".", "Что-то я немного подустал в карауле... Все в порядке, " + GetAddress_Form(pchar) + ", прошу прощения.");

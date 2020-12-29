@@ -132,6 +132,10 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 				if (at == "force" && attackType == at) kAttackDmg += 1.0;
 			}
 		}
+		if(CheckCharacterPerk(attack, "Agent"))  
+		{
+			if (attackType == "feintc") kAttackDmg *= 2;
+		}
 		//Результирующий демедж
 		float dmg = bladeDmg * kAttackDmg; // *kArcadeDmg * kSkillDmg
 		if(CheckCharacterPerk(attack, "HardHitter"))  
@@ -532,7 +536,10 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			}
 		}
 	}
-
+	if(IsCharacterPerkOn(attack, "Agent") && attackType == "feint")
+	{
+		if (rand(2)==0) critical = 1.0;
+	}
 	float kDmg = 1.0;
 	if(IsCharacterPerkOn(attack, "Rush"))
 	{

@@ -872,17 +872,35 @@ void ProcessDialogEvent()
 				break;
 
 				case 3:
-					if (GetSummonSkillFromName(pchar, SKILL_SNEAK) > rand(110))
+					if (!IsCharacterPerkOn(pchar, "Adventurer"))
 					{
-					dialog.text = "...И тогда я схв-схватил его шпагу за л-лезвие и...";
-						link.l1 = "... а она мне и говорит...";
-						link.l1.go = "sit_2";
+						if (GetSummonSkillFromName(pchar, SKILL_SNEAK) > rand(110))
+						{
+						dialog.text = "...И тогда я схв-схватил его шпагу за л-лезвие и...";
+							link.l1 = "... а она мне и говорит...";
+							link.l1.go = "sit_2";
+						}
+						else
+						{
+							dialog.text = "...И тогда я схв-схватил его шпагу за л-лезвие и...";
+							link.l1 = "... и-ик! А она мне и г-говорит...";
+						link.l1.go = "sit_case_4_exit";
+						}
 					}
 					else
 					{
+						if (GetSummonSkillFromName(pchar, SKILL_SNEAK) > rand(110))
+						{
 						dialog.text = "...И тогда я схв-схватил его шпагу за л-лезвие и...";
-						link.l1 = "... и-ик! А она мне и г-говорит...";
-					link.l1.go = "sit_case_4_exit";
+							link.l1 = "Стоять, а ну чего удумал!";
+							link.l1.go = "sit_case_6";
+						}
+						else
+						{
+							dialog.text = "...И тогда я схв-схватил его шпагу за л-лезвие и...";
+							link.l1 = "... и-ик! А она мне и г-говорит...";
+						link.l1.go = "sit_2";
+						}
 					}
 				break;
 
@@ -930,6 +948,19 @@ void ProcessDialogEvent()
 			Diag.CurrentNode = Diag.TempNode;
 			DialogExit();
 			AddDialogExitQuest("fighting");
+		break;
+		
+		case "sit_case_6": // откуп
+			dialog.text = "Чего-чего?";
+			link.l1 = "Ты меня обокрасть решил, значит? А шпагой в грудь не хочешь?";
+			link.l1.go = "sit_case_61";
+		break;
+		
+		case "sit_case_61": // откуп
+			dialog.text = "Нет-нет, мне не нужно проблем! Возьмите 1000 пиастров и оставьте меня в покое, прошу вас.";
+			AddMoneyToCharacter(pchar, 1000);
+			link.l1 = "Так и быть, ладно. Прощаю на этот раз.";
+			link.l1.go = "exit_sit";
 		break;
 
 		case "sit_case_4_exit":

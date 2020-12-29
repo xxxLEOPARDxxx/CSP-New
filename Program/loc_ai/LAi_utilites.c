@@ -657,46 +657,93 @@ void CreateHabitues(aref loc)
 				}
 			}
 			// офицеры <--
-			if (rand(15) == 3 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
-			{ // карты кладов
-                iChar = NPC_GeneratePhantomCharacter("pirate", iNation, MAN, 1);
-				chr = &characters[iChar];
-				SetNPCModelUniq(chr, "pirate", MAN);
-				chr.City = Colonies[iColony].id;
-				chr.CityType = "citizen";
-				sTemp = PlaceCharacter(chr, "sit", "random_free"); // может не быть вовсе, если все места заняты
-				ReSitCharacterOnFree(chr, loc.id, sTemp);
+			if (!IsCharacterPerkOn(pchar, "Adventurer"))
+			{
+				if (rand(15) == 3 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
+				{ // карты кладов
+					iChar = NPC_GeneratePhantomCharacter("pirate", iNation, MAN, 1);
+					chr = &characters[iChar];
+					SetNPCModelUniq(chr, "pirate", MAN);
+					chr.City = Colonies[iColony].id;
+					chr.CityType = "citizen";
+					sTemp = PlaceCharacter(chr, "sit", "random_free"); // может не быть вовсе, если все места заняты
+					ReSitCharacterOnFree(chr, loc.id, sTemp);
 
-				LAi_SetSitType(chr);
-/// ---> Navarra
-				///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
-					if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
-					{	LAi_SetGroundSitType(chr);	}
-				///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
-					if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
-					{	LAi_SetBarmanType(chr);		}
-/// <--- Navarra
-				LAi_group_MoveCharacter(chr, slai_group);
-				chr.dialog.filename = "Enc_Treasure_dialog.c";
-				chr.dialog.currentnode = "first time";
-				chr.greeting = "Gr_Smuggler Agent";
-				
-		        if (GetCharacterItem(pchar, "map_full") == 0) // нет карты - генерим, если купит
-		        {
-		            aref item;
-		            Items_FindItem("map_full", &item);
-					FillMapForTreasure(item);
-					pchar.GenQuest.TreasureMoney = 5000 + rand(60)*500;
-		        }
-          		if (sti(Colonies[iColony].HeroOwn) == true)
-				{
-					LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
-				}
-				else
-				{
+					LAi_SetSitType(chr);
+	/// ---> Navarra
+					///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
+						if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
+						{	LAi_SetGroundSitType(chr);	}
+					///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
+						if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
+						{	LAi_SetBarmanType(chr);		}
+	/// <--- Navarra
 					LAi_group_MoveCharacter(chr, slai_group);
+					chr.dialog.filename = "Enc_Treasure_dialog.c";
+					chr.dialog.currentnode = "first time";
+					chr.greeting = "Gr_Smuggler Agent";
+					
+					if (GetCharacterItem(pchar, "map_full") == 0) // нет карты - генерим, если купит
+					{
+						aref item;
+						Items_FindItem("map_full", &item);
+						FillMapForTreasure(item);
+						pchar.GenQuest.TreasureMoney = 5000 + rand(60)*500;
+					}
+					if (sti(Colonies[iColony].HeroOwn) == true)
+					{
+						LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
+					}
+					else
+					{
+						LAi_group_MoveCharacter(chr, slai_group);
+					}
 				}
 			}
+			if (IsCharacterPerkOn(pchar, "Adventurer"))
+			{
+				if (rand(9) == 0 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
+				{ // карты кладов
+					iChar = NPC_GeneratePhantomCharacter("pirate", iNation, MAN, 1);
+					chr = &characters[iChar];
+					SetNPCModelUniq(chr, "pirate", MAN);
+					chr.City = Colonies[iColony].id;
+					chr.CityType = "citizen";
+					sTemp = PlaceCharacter(chr, "sit", "random_free"); // может не быть вовсе, если все места заняты
+					ReSitCharacterOnFree(chr, loc.id, sTemp);
+
+					LAi_SetSitType(chr);
+	/// ---> Navarra
+					///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
+						if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
+						{	LAi_SetGroundSitType(chr);	}
+					///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
+						if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
+						{	LAi_SetBarmanType(chr);		}
+	/// <--- Navarra
+					LAi_group_MoveCharacter(chr, slai_group);
+					chr.dialog.filename = "Enc_Treasure_dialog.c";
+					chr.dialog.currentnode = "first time";
+					chr.greeting = "Gr_Smuggler Agent";
+					
+					if (GetCharacterItem(pchar, "map_full") == 0) // нет карты - генерим, если купит
+					{
+						aref item1;
+						Items_FindItem("map_full", &item1);
+						FillMapForTreasure(item1);
+						pchar.GenQuest.TreasureMoney = 5000 + rand(60)*500;
+					}
+					if (sti(Colonies[iColony].HeroOwn) == true)
+					{
+						LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
+					}
+					else
+					{
+						LAi_group_MoveCharacter(chr, slai_group);
+					}
+				}
+			}
+			
 			else
 			{
 				iCitizensQuantity = rand(3) - 1 ; // простая пьянь для антуражу

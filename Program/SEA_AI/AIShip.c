@@ -1307,7 +1307,7 @@ void Ship_CheckSituation()
 				{
 					// fire ship
 					Ship_SetExplosion(rCharacter, rShipObject); //boal 27.09.05
-					Log_Info("" + XI_ConvertString(rShip.BaseName) + " '" + rCharacter.Ship.Name + "' " + GetShipSexWord(rShip.BaseName, xiStr("MSG_AIShip_1"), xiStr("MSG_AIShip_2")) + xiStr("MSG_AIShip_3"));
+					Log_Info("" + XI_ConvertString(rShip.BaseName) + " '" + rCharacter.Ship.Name + "' " + GetShipSexWord(rShip.BaseName, "взорвал", "взорвала") + " крюйт камеру.");
 					return;
 				}
 				//Trace("test1 rCharacter2Brander = " + rCharacter2Brander.index);
@@ -1842,8 +1842,7 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 	bool    bViewFlag = false;
 	int     iNationToChange = sti(mChar.nation);  // было
 
-    int nCharNation = sti(rCharacter.nation);
-	if (nCharNation == PIRATE) return;
+    if (sti(rCharacter.nation) == PIRATE) return;
     iCompan = GetCompanionQuantity(mChar);
     iClass  = 7;
 	// поиск мин.  те старшего класса
@@ -1856,7 +1855,7 @@ void Ship_CheckFlagEnemy(ref rCharacter)
             if (GetCharacterShipClass(chref) < iClass) iClass = GetCharacterShipClass(chref);
 		}
 	}
-    if (GetNationRelation(GetBaseHeroNation(), nCharNation) == RELATION_ENEMY && GetDaysContinueNationLicence(nCharNation) == -1) // проверка грамот
+    if (GetNationRelation(GetBaseHeroNation(), sti(rCharacter.nation)) == RELATION_ENEMY && GetDaysContinueNationLicence(sti(rCharacter.nation)) == -1) // проверка грамот
     {
         // to_do ch.CheckLicence    = true; // Проверять наличие торговой лицензии при распознании,нужно фортам и сторожевикам
 		iNationToChange = GetBaseHeroNation();
@@ -1864,7 +1863,7 @@ void Ship_CheckFlagEnemy(ref rCharacter)
     }
     if (!bViewFlag)
     {
-        if (ChangeCharacterHunterScore(mChar, NationShortName(nCharNation) + "hunter", 0) > (8 + rand( (iClass-1)*(6-iCompan) ) ))
+        if (ChangeCharacterHunterScore(mChar, NationShortName(sti(rCharacter.nation)) + "hunter", 0) > (8 + rand( (iClass-1)*(9-iCompan) ) ))
         {
             bViewFlag       = true;
             iNationToChange = PIRATE;
@@ -1875,7 +1874,7 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 
 		fSneak  = stf(mChar.TmpSkill.Sneak); // 0.01..1.0
 		int rep = sti(abs(REPUTATION_NEUTRAL - sti(mChar.reputation)) * 0.75);
-		if ((rand(10) + rand(10) + rand(rep)) > (fSneak * 10 * iClass * (9-iCompan)))
+		if ((rand(100) + rand(20) + rand(rep)) > (fSneak * 10 * iClass * (9-iCompan)))
 		{
 			/*mChar.nation = iNationToChange;  // to_do ролик флага сделать
 			Ship_FlagRefresh(PChar); //флаг на лету
@@ -1885,6 +1884,7 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 			Log_Info("Сойти за друга не удалось - "+ NationNamePeople(sti(rCharacter.nation)) + " распознали в нас врага.");
 			SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
 			DoQuestCheckDelay(NationShortName(iNationToChange) + "_flag_rise", 0.1); // применение нац отношений флага
+			if (!CheckAttribute(pchar,"questTemp.stels.sea")) pchar.questTemp.stels.sea = GetDataDay()-1;
 			if (sti(pchar.questTemp.stels.sea) != GetDataDay())
 			{
 				AddCharacterExpToSkill(mChar, SKILL_SNEAK, 50);
@@ -1893,14 +1893,12 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 		}
 		else
 		{ // не узнал
-			if (CheckAttribute(pchar,"questTemp.stels"))
+			if (!CheckAttribute(pchar,"questTemp.stels.sea")) pchar.questTemp.stels.sea = GetDataDay()-1;
+			if (sti(pchar.questTemp.stels.sea) != GetDataDay())
 			{
-				if (sti(pchar.questTemp.stels.sea) != GetDataDay())
-				{
-					AddCharacterExpToSkill(mChar, SKILL_SNEAK, (iCompan * 200 / iClass));
-				ChangeCrewExp(mChar, "Sailors", 0.5);
-					pchar.questTemp.stels.sea = GetDataDay();
-				}
+				AddCharacterExpToSkill(mChar, SKILL_SNEAK, (iCompan * 200 / iClass));
+			ChangeCrewExp(mChar, "Sailors", 0.5);
+				pchar.questTemp.stels.sea = GetDataDay();
 			}
 		}
 	}

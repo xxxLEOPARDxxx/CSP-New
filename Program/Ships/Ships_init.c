@@ -1150,7 +1150,7 @@ void InitShips()
 	refship.Rocking.y = 0.5;
 	refship.Rocking.az = 0.15;
 
-	refship.WaterLine = -1.0;
+	refship.WaterLine = 0.0;
 	refship.SpeedDependWeight = 0.3;
 	refship.SubSeaDependWeight = 1.3;
 	refship.TurnDependWeight = 0.3;
@@ -7824,7 +7824,7 @@ void InitShips()
 	refship.Rocking.y = 0.5;
 	refship.Rocking.az = 0.035;
 	
-	refship.WaterLine							= 1.6;
+	refship.WaterLine							= 0.5;
 
 	refship.SpeedDependWeight			= 0.35;
 	refship.SubSeaDependWeight			= 2.0;
@@ -10099,7 +10099,7 @@ void InitShips()
 	refship.Rocking.y = 0.3;
 	refship.Rocking.az = 0.02	;
 
-	refship.WaterLine							= 0.5;
+	refship.WaterLine							= 0.0;
 	refship.SpeedDependWeight			= 0.45;
 	refship.SubSeaDependWeight			= 1.8;
 	refship.TurnDependWeight			= 0.45;

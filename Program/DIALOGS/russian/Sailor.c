@@ -27,6 +27,23 @@ void ProcessDialogEvent()
 	switch(Dialog.CurrentNode)
 	{
 		case "First time":
+		    //Korsar Maxim - античит
+		    if (CheckChit() == true)
+            {
+			dialog.text = RandPhraseSimple(RandPhraseSimple("Вот уж не думал, что встречу Бога еще на этом свете... Хотя это как посмотреть: если прищуриться, то видно отражение мошенника на мониторе. Проваливай!","У-у-у, кого я вижу! Да это же ломовых дел мастер! А мне тут ломать нечего, убирайся, не то стражу кликну!"), RandPhraseSimple("Скажи, мил человек, только честно: тебе хочется поиграть, или всенепременно выиграть? Хотя честности от тебя дождешься не раньше, чем наш губернатор обедню петухом пропоет... Скатертью дорога, ломщик!","Фу ты, ну ты, никак сам губернатор Калифорнии пожаловал! Ой, нет, это же Терминатор...нет! Не Терминатор, а махинатор, ха-ха-ха! Проваливай, клоун."));
+            link.l1 = LinkRandPhrase("Эх, не дают читерам жить спокойно. Даже отсюда гонят.","Ты чего взъелся? Я лишь чуть-чуть игру ломанул... ладно-ладно, ухожу.","Хех! А мне говорили - против лома нет приема...");
+            link.l1.go = "exit";
+			break;
+            }
+		    // (Korsar Maxim) - линейка капитана Блада 
+            if (Pchar.questTemp.CapBloodLine == true)
+            {
+                dialog.Text = "Здравствуйте, доктор.";
+                Link.l1 = "И вам не хворать.";
+				Link.l1.go = "exit";
+				break;
+    		}
+			
 			if (npchar.quest.meeting == "0")
 			{
 				if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && CheckAttribute(npchar, "quest.crew"))//найм в команду
@@ -158,6 +175,26 @@ void ProcessDialogEvent()
 
 		case "Exit":
 			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+		break;
+		
+		//Korsar Maxim - спайчекинг
+		case "SeekSpy_Checking":
+			dialog.text = "Да, я подтверждаю, " + NPCharSexPhrase(&characters[sti(pchar.GenQuest.SeekSpy.BaseIdx)], "он действительно местный житель.", "она действительно местная жительница.");
+			link.l1 = RandPhraseSimple("Я понял"+ GetSexPhrase("","а") +". Спасибо за помощь.", "Все ясно. Спасибо за помощь.");
+			link.l1.go = "SeekSpy_Checking_1";
+		break;
+		
+		case "SeekSpy_Checking_1":
+			switch (pchar.GenQuest.SeekSpy.Type)
+			{
+				case "guardian": LAi_SetGuardianTypeNoGroup(npchar); break;
+				case "patrol":   LAi_SetPatrolTypeNoGroup(npchar);   break;
+				case "citizen":  LAi_SetCitizenTypeNoGroup(npchar);  break;
+				case "merchant": LAi_SetMerchantTypeNoGroup(npchar); break;
+			}
+			LAi_SetCitizenTypeNoGroup(&characters[sti(pchar.GenQuest.SeekSpy.BaseIdx)]);
+			NextDiag.CurrentNode = "First Time";
 			DialogExit();
 		break;
 	}

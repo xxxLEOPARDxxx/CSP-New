@@ -55,7 +55,7 @@ void InitInterface_gm(string iniName)
 	string text4 = "Стартовые условия";
     SetFormatedText("STARTINFO_TITLE", text4);
 	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum());
-	string text = "Дозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nНе ограничивать пиратские квесты: "+bNoPirateRestrictions+"\nСнижение порога корабельных перков: "+bHigherShipRate;
+	string text = "Анимация персонажа: "+pchar.model.animation+"\nДозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nНе ограничивать пиратские квесты: "+bNoPirateRestrictions+"\nСнижение порога корабельных перков: "+bHigherShipRate;
 	SetFormatedText("STARTINFO_TEXT", text);
 	string text3;
 	if (pchar.BaseNation == ENGLAND) text3 = "Англия";
@@ -63,7 +63,14 @@ void InitInterface_gm(string iniName)
 	if (pchar.BaseNation == HOLLAND) text3 = "Голландия";
 	if (pchar.BaseNation == SPAIN) text3 = "Испания";
 	if (pchar.BaseNation == PIRATE) text3 = "Пират";
-	string text2 = "Сложность: "+GetLevelComplexity(MOD_SKILL_ENEMY_RATE)+"\nНация: "+text3+"\nСкорость набора опыта: "+MOD_EXP_RATE+" / 105\nКоличество абордажников: "+MOD_OFFICERS_RATE+"\nВремя исчезновения трупов: "+MOD_DEAD_CLEAR_TIME+"\nЧастота событий: "+iEncountersRate+"\nРежим плавания: "+iArcadeSails;
+	string text5;
+	if (IsCharacterPerkOn(pchar, "Grunt")) text5 = "Рубака";
+	if (IsCharacterPerkOn(pchar, "Trader")) text5 = "Торговец";
+	if (IsCharacterPerkOn(pchar, "Fencer")) text5 = "Фехтовальщик";
+	if (IsCharacterPerkOn(pchar, "Adventurer")) text5 = "Авантюрист";
+	if (IsCharacterPerkOn(pchar, "Buccaneer")) text5 = "Буканьер";
+	if (IsCharacterPerkOn(pchar, "Agent")) text5 = "Тайный Агент";
+	string text2 = "Характер: "+text5+"\nСложность: "+GetLevelComplexity(MOD_SKILL_ENEMY_RATE)+"\nНация: "+text3+"\nСкорость набора опыта: "+MOD_EXP_RATE+" / 105\nКоличество абордажников: "+MOD_OFFICERS_RATE+"\nВремя исчезновения трупов: "+MOD_DEAD_CLEAR_TIME+"\nЧастота событий: "+iEncountersRate+"\nРежим плавания: "+iArcadeSails;
 	SetFormatedText("STARTINFO_TEXT2", text2);
 	SetFormatedText("COPYRIGHTS_TEXT", PROVIDER_TXT);
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga.tx");

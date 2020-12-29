@@ -2487,8 +2487,9 @@ void initMainCharacterItem()
 	    break;
 
 	    case "Adventurer":	// Авантюрист
-			SetCharacterPerk(pchar, "Gunman");
-			SetCharacterPerk(pchar, "Trustworthy");
+			//SetCharacterPerk(pchar, "Gunman");
+			//SetCharacterPerk(pchar, "Trustworthy");
+			SetCharacterPerk(pchar, "Adventurer");
 			GiveItem2Character(Pchar, "Map_bad");
 			itemID = GetGeneratedItem("pistol" + rand(3));
             GiveItem2Character(Pchar, itemID);
@@ -2556,6 +2557,7 @@ void initMainCharacterItem()
 	    break;
 
 	    case "SecretAgent":	// Тайный агент
+			SetCharacterPerk(pchar, "Agent");
 			TakenItems(Pchar, "Food1", rand(6)+4);
 			TakenItems(Pchar, "jewelry15", 1);
 			TakenItems(Pchar, "Totem_2", 1);
