@@ -801,28 +801,7 @@ void Survive_In_Sea_Go2Land()
 	int 	n, i, idx;
     int 	storeArray[30];
     int 	howStore = 0;
-    string sPerk;
-
-    //Boyer change #20170507-01
-    switch(sti(pchar.nation))
-    {
-        case PIRATE:
-            sPerk = "FlagPir";
-            break;
-        case ENGLAND:
-            sPerk = "FlagEng";
-        break;
-        case SPAIN:
-            sPerk = "FlagSpa";
-        break;
-        case FRANCE:
-            sPerk = "FlagFra";
-        break;
-        case HOLLAND:
-            sPerk = "FlagHol";
-        break;
-    }
-
+    
     // трем всех офов и компаньонов, не квестовых
     iDay = GetPassengersQuantity(pchar);
     i = 0;
@@ -858,9 +837,7 @@ void Survive_In_Sea_Go2Land()
 			}
 		}
 	}
-
-	//#20170629-01 Dialog/follow bug in Passenger quest
-    DeleteAttribute(pchar, "tempDlgInterruptPass"));
+	
 	DeleteAttribute(pchar, "ship");
 	pchar.ship.name = "";
 	pchar.ship.type = SHIP_NOTUSED;
@@ -875,27 +852,7 @@ void Survive_In_Sea_Go2Land()
   		if (sti(colonies[n].nation) == PIRATE) continue;
   		if (colonies[n].from_sea == "") continue; // необитайки
   		if (!CheckAttribute(&Colonies[n], "islandLable") || Colonies[n].islandLable == "Mein") continue; // только острова
-
-  		//Boyer fix...give the character a chance by checking if they can even enter nearby colony
-  		//#20170507-01
-        switch(sti(colonies[n].nation))
-        {
-            case ENGLAND:
-                sPerk = "FlagEng";
-            break;
-            case SPAIN:
-                sPerk = "FlagSpa";
-            break;
-            case FRANCE:
-                sPerk = "FlagFra";
-            break;
-            case HOLLAND:
-                sPerk = "FlagHol";
-            break;
-        }
-        if(!CheckCharacterPerk(pchar, sPerk)) continue;
-        //End Boyer fix
-
+  		
         storeArray[howStore] = n;
    		howStore++;
     }
@@ -903,10 +860,6 @@ void Survive_In_Sea_Go2Land()
     makeref(ch,colonies[storeArray[rand(howStore-1)]]);
     setWDMPointXZ(ch.from_sea);
     pchar.location = ch.from_sea; // это порт, ниже ищем бухту
-    //Boyer change #20170507-01
-    pchar.nation = ch.nation;
-    //#20190421-04
-    DoQuestCheckDelay(NationShortName(sti(pchar.nation)) + "_flag_rise", 0.1);
 
     // нулим предметы в каюте
     ref loc;
@@ -943,11 +896,10 @@ void Survive_In_Sea_Go2Land()
     
     pchar.Health.Damg = stf(pchar.chr_ai.hp_max)*40;
 	// дает лог в + и - AddCharacterHealth(pchar, -30);
-	Log_Info("О чудо! Я жив"+ GetSexPhrase("","а") +"!");
+	Log_Info("О чудо! Я жив!");
 	if (sti(PChar.GenQuest.GhostShip.KillMe) <= 1)
 	{
 		AddQuestRecord("GhostShipQuest", "Survive_1");
-		AddQuestUserData("GhostShipQuest", "sSex", GetSexPhrase("","а"));
 	}
 	else
 	{
@@ -963,8 +915,6 @@ void Survive_In_Sea_Go2Land()
 	sGlobalTemp = "afterFDsink";
 	bDisableMapEnter           = false;   // мир, был бой с ЛГ
 	
-	AddSimpleRumourTip(RandPhraseSimple("Слыхал я, " + GetAddress_Form(pchar) + ", что и вас настигло это проклятье морей. Я о корабле-призраке толкую... Да-а, этот 'Голландец' сколько уж лет воды бороздит, а управы-то на него и нету - не сыскал никто. Вечное заклятье, стало быть... А вот поговаривают, что в какой-то глухой деревушке западного мейна, вроде, индеец живёт - чуть ли не родственник самого проклятого капитана!.. И чего только люди не выдумают, чтоб языки почесать...",
-		"Эх, капитан, угораздило же вас подвернуться на пути этого демона, что моряки 'Летучим Голландцем' прозвали. И ведь не знаешь, печалиться или радоваться - ведь немногие после такой встречи живы остались... А вот презабавную байку я слыхал, что где-то на западе, в джунглях, живёт человек, который, якобы, секрет этого призрака знает и грозится в одиночку всех его демонов упокоить... Хе-хе, шаман какой, или очередной самозванец - не иначе."), 60, 4, "habitue", "");
 	SetLaunchFrameFormParam("Прошло " + iDay + " дней." + NewStr() +
 	                        "Остров " + GetConvertStr(ch.islandLable, "LocLables.txt")+","+ NewStr() +
 							"" + GetConvertStr(pchar.location, "LocLables.txt") + ".",

@@ -75,7 +75,7 @@ void wdmShipEncounter(float dltTime, float playerShipX, float playerShipZ, float
 		trace("pchar.worldmap.shipcounter = " + pchar.worldmap.shipcounter);
 		numShips = 0;
 	}
-	if(numShips < 40)
+	if(numShips < 8)
 	{
 		//Вероятности появления
 		wdmTimeOfLastMerchant = wdmTimeOfLastMerchant + dltTime*WDM_MERCHANTS_RATE*1000.0*iEncountersRate;

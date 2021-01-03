@@ -161,20 +161,12 @@ void ProcessDialogEvent()
 
         
 		case "ShowParam_exit":
-			//#20170629-01 Dialog/follow bug in Passenger quest
-            if(CheckAttribute(pchar, "tempDlgInterruptPass")) {
-                Dialog.text = "...";
-                link.l1 = "..."; // No dialog, interrupted "..."
-                link.l1.go = "exit";
-            }
-            else {
-                Diag.CurrentNode = "OnceAgain";
-                NPChar.quest.meeting = true;
-                DialogExit();
-
-                PChar.SystemInfo.OnlyShowCharacter = true;
-                LaunchCharacter(NPChar);
-            }
+			Diag.CurrentNode = "OnceAgain";
+			NPChar.quest.meeting = true;
+			DialogExit();
+			
+			PChar.SystemInfo.OnlyShowCharacter = true;
+            LaunchCharacter(NPChar);
 		break;
 		
 		case "exit":

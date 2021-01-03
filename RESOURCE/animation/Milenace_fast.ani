@@ -999,7 +999,7 @@ type = normal
 	start_time = 781
 	end_time = 801
 	
-	speed = 2.6
+	speed = 4.0
 	loop = false
 	
 	data = "Blend time", "0.1"		; sec
@@ -1016,7 +1016,7 @@ type = normal
 	type = normal
 	start_time = 802
 	end_time = 822 
-	speed = 1.8
+	speed = 2.6
 	loop = false
 	
 	data = "Blend time", "0.1"		; sec

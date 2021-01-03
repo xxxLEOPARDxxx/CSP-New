@@ -470,6 +470,16 @@ loop = true
 data = "Blend time", "0.2"		; sec
 event = "Resact", 3163, normal	
 
+[block_axe]
+type = normal
+start_time = 3163
+end_time = 3164
+
+speed = 1.2
+loop = true
+
+data = "Blend time", "0.2"		; sec
+event = "Resact", 3163, normal	
 
 ;ĞÅÀÊÖÈß ÍÀ ÏÎÏÀÄÀÍÈÅ Â ÁËÎÊ
 [block_hit]

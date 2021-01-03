@@ -762,6 +762,7 @@ void ProcessDialogEvent()
 		
 		case "Node_209":
 			LAi_LocationDisableMonstersGen(pchar.location, false);
+			pchar.GenQuest.EncGirl.price = 1100*(rand(4)+5) + 200 * sti(pchar.rank);
 			sGems = makeint(sti(pchar.GenQuest.EncGirl.price))/100;
 			TakeNItems(pchar, "jewelry17", sGems);
 			sTemp = LAi_FindNearestFreeLocator2Pchar("reload");

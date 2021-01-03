@@ -26,8 +26,8 @@ void GenerateIslandShips(string sIslandID)
 					float fChecker = frand(1.0);
 					bool FortDefender = false;
 
-					int defendersCount = 4; 
-					iShipsQuantity = makeint(fChecker * 4.0) + defendersCount;
+					int defendersCount = MOD_DEFENDERS_RATE; 
+					iShipsQuantity = defendersCount;
 					ref FortChref = GetFortCommander(colonies[i].id); 
 					if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
 					{ 

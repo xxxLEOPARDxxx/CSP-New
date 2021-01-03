@@ -59,6 +59,10 @@ float GetCharacterMaxEnergyValue(ref _refCharacter)
 	{
   		ret = ret + 30;
 	}
+	if(CheckAttribute(_refCharacter, "bonusEnergy"))
+	{
+		ret = ret + stf(_refCharacter.bonusEnergy);
+	}
 	return ret;
 }
 
@@ -84,6 +88,20 @@ float GetCharacterMaxEnergyABSValue(ref _refCharacter)
 	}
 	return ret;
 }
+
+//Korsar Maxim --> добавляем и убираем бонусную энергию для перса
+void AddBonusEnergyToCharacter(ref _refCharacter, int iEnrg)
+{
+	_refCharacter.bonusEnergy = iEnrg;
+	SetEnergyToCharacter(_refCharacter);
+}
+
+void RemoveBonusEnergyFromCharacter(ref _refCharacter)
+{
+	DeleteAttribute(_refCharacter, "bonusEnergy");
+	SetEnergyToCharacter(_refCharacter);
+}
+//Korsar Maxim <-- добавляем и убираем бонусную энергию для перса
 
 void SetEnergyToCharacter(ref _refCharacter)
 {
@@ -276,20 +294,46 @@ int GetCharacterSPECIALSimple(ref _refCharacter, string skillName)
     {
         skillN = skillN + GetHealthNum(_refCharacter) - 6; // max -5
     }
-    // boal учет вещей -->
-    /*if (IsCompanion(_refCharacter) || IsOfficer(_refCharacter))
-    {
-        // бронзовый крест +1 удача
-        //skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "jewelry9", 1);
 
-    	// нельзя :(  Иначе рекурсия без выхода
-    	if (GetItemsWeight(_refCharacter) > GetMaxItemsWeight(_refCharacter))
-    	{
-  	        skillN -=2;
-    	}
-    	// boal учет перегруза 19.01.2004 <--
-	} */
-	// boal <--
+	if(skillName == SPECIAL_S)
+	{
+
+	}
+	
+	if(skillName == SPECIAL_P)
+	{
+		
+	}
+	
+	if(skillName == SPECIAL_E)
+	{
+		if(IsEquipCharacterByItem(_refCharacter, "cirass1")) skillN = skillN - 1;
+		if(IsEquipCharacterByItem(_refCharacter, "cirass2")) skillN = skillN - 1;
+		if(IsEquipCharacterByItem(_refCharacter, "cirass3")) skillN = skillN - 1;
+		if(IsEquipCharacterByItem(_refCharacter, "cirass4")) skillN = skillN - 1;
+	}
+	
+	if(skillName == SPECIAL_C)
+	{
+		
+	}
+	
+	if(skillName == SPECIAL_I)
+	{
+		
+	}
+	
+	if(skillName == SPECIAL_A)
+	{
+		if(IsEquipCharacterByItem(_refCharacter, "cirass1")) skillN = skillN - 2;
+		if(IsEquipCharacterByItem(_refCharacter, "cirass2")) skillN = skillN - 1;
+	}
+
+	if(skillName == SPECIAL_L)
+	{
+		
+	}
+	
 	if (skillN <= 1) skillN = 1;
 	if( skillN > SPECIAL_MAX ) skillN = SPECIAL_MAX;
 
@@ -617,6 +661,10 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 			SetEnergyToCharacter(_chref);
 		}
 		if (CheckCharacterPerk(_chref, "Grunt"))
+		{
+			SetEnergyToCharacter(_chref);
+		}
+		if (CheckAttribute(_chref, "bonusEnergy"))
 		{
 			SetEnergyToCharacter(_chref);
 		}
@@ -1054,6 +1102,34 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 
         //statue1  +3 ремонт
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_REPAIR, STATUE1, 30);
+		
+		if(IsEquipCharacterByItem(_refCharacter, "cirass1"))
+		{
+			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass1", -5);
+		}
+		
+		if(IsEquipCharacterByItem(_refCharacter, "cirass2"))
+		{
+			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass2", -5);
+		}	
+
+		if(IsEquipCharacterByItem(_refCharacter, "cirass3"))
+		{
+			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass3", -10);
+			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "cirass3", 5);
+		}
+
+		if(IsEquipCharacterByItem(_refCharacter, "cirass4"))
+		{
+			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass4", -15);
+			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "cirass4", 7);
+		}
+
+		if(IsEquipCharacterByItem(_refCharacter, "cirass5"))
+		{
+			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass5", -20);
+			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "cirass5", 10);
+		}
 	
 		// Warship 25.10.08 Новый учет одежды
 		skillN += SetCharacterSkillBySuit(_refCharacter, skillName);
@@ -2271,8 +2347,8 @@ void initNewMainCharacter()
 	if (sti(ch.nation) != PIRATE || startHeroType == 1) SetCharacterPerk(pchar, "FlagPir");
 	else
 	{
-		SetCharacterPerk(pchar, "Gunman");
-		SetCharacterPerk(pchar, "LongRangeGrappling");
+/* 		SetCharacterPerk(pchar, "Gunman");
+		SetCharacterPerk(pchar, "LongRangeGrappling"); */
 		//pchar.reputation.spahunter = 20+rand(5);
 	} 
 	SetCharacterPerk(pchar, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
@@ -2281,7 +2357,7 @@ void initNewMainCharacter()
     SetEnergyToCharacter(pchar);
     initMainCharacterItem();
     DeleteAttribute(pchar, "Ship");
-    	if (sti(ch.nation) != PIRATE)
+    if (sti(ch.nation) != PIRATE)
 	{
 		pchar.Ship.Type = GenerateShipExt((SHIP_BERMSLOOP + rand(11)), 0, pchar);
 		SetBaseShipData(pchar);
@@ -2374,7 +2450,7 @@ void initMainCharacterItem()
 					itemID = GetGeneratedItem("topor1");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					itemID = GetGeneratedItem("pistol" +  rand(3));
+					itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 					TakeNItems(Pchar, "bullet", 5);
@@ -2387,7 +2463,7 @@ void initMainCharacterItem()
 					itemID = GetGeneratedItem("topor3");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					itemID = GetGeneratedItem("pistol" + rand(3));
+					itemID = GetGeneratedItem("pistol" + (rand(2)+1));
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
 					TakeNItems(Pchar, "bullet", 5);
@@ -2410,7 +2486,7 @@ void initMainCharacterItem()
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			TakenItems(Pchar, "potion1", rand(10));
-			TakenItems(Pchar, "Food1", rand(6)+4);
+			TakenItems(Pchar, "Food1", (rand(6)+4));
 			switch (sti(ch.nation))
 			{
 				case ENGLAND:
@@ -2454,13 +2530,13 @@ void initMainCharacterItem()
 			// SetCharacterPerk(pchar, "CriticalHit");
 			// SetCharacterPerk(pchar, "BasicDefense");
 			SetCharacterPerk(pchar, "Fencer");
-			itemID = GetGeneratedItem("Spyglass" + rand(3));
+			itemID = GetGeneratedItem("Spyglass" + (rand(2)+1));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" + rand(3));
+			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("blade" + rand(9));
+			itemID = GetGeneratedItem("blade" + (rand(8)+1));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 10);
@@ -2494,7 +2570,7 @@ void initMainCharacterItem()
 			//SetCharacterPerk(pchar, "Trustworthy");
 			SetCharacterPerk(pchar, "Adventurer");
 			GiveItem2Character(Pchar, "Map_bad");
-			itemID = GetGeneratedItem("pistol" + rand(3));
+			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 10);
@@ -2546,10 +2622,10 @@ void initMainCharacterItem()
 			// SetCharacterPerk(pchar, "Gunman");
 			// SetCharacterPerk(pchar, "GunProfessional");
 			SetCharacterPerk(pchar, "Buccaneer");
-			itemID = GetGeneratedItem("blade" + rand(8));
+			itemID = GetGeneratedItem("blade" + (rand(7)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" +  rand(3));
+			itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 100);
@@ -2593,10 +2669,10 @@ void initMainCharacterItem()
 			// SetCharacterPerk(pchar, "Gunman");
 			// SetCharacterPerk(pchar, "GunProfessional");
 			SetCharacterPerk(pchar, "SeaWolf");
-			itemID = GetGeneratedItem("blade" + rand(8));
+			itemID = GetGeneratedItem("blade" + (rand(7)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" +  rand(2));
+			itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 10);

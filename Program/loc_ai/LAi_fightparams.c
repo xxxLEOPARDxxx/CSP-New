@@ -63,7 +63,9 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 			if(isBlocked && blockSave)
 			{
 				kAttackDmg = 0.0;
-			}else{
+			}
+			else
+			{
 				kAttackDmg = 0.7;
 			}
 			break;
@@ -71,7 +73,9 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 			if(isBlocked && blockSave)
 			{
 				kAttackDmg = 0.0;
-			}else{
+			}
+			else
+			{
 				kAttackDmg = 1.0;
 			}
 			break;
@@ -79,7 +83,9 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 			if(isBlocked && blockSave)
 			{
 				kAttackDmg = 0.0;
-			}else{
+			}
+			else
+			{
 				kAttackDmg = 0.6;
 			}
 			if(CheckCharacterPerk(attack, "BladeDancer"))
@@ -91,13 +97,17 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 			if(isBlocked)
 			{
 				//#20200510-03
-                if(blockSave) {
+                if(blockSave) 
+				{
                     kAttackDmg = 1.0;
                 }
-				else {
+				else 
+				{
                     kAttackDmg = 2.0;
 				}
-			}else{
+			}
+			else
+			{
 				kAttackDmg = 3.0;
 			}
 		break;
@@ -106,7 +116,9 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 			if(isBlocked && blockSave)
 			{
 				kAttackDmg = 0.0;
-			}else{
+			}
+			else
+			{
 				kAttackDmg = 0.8;
 			}
 		break;
@@ -115,7 +127,9 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 			if(isBlocked && blockSave)
 			{
 				kAttackDmg = 0.0;
-			}else{
+			}
+			else
+			{
 				kAttackDmg = 0.5;
 			}
 		break;
@@ -562,9 +576,19 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			noExp = true;
 		}
 	}
-	if(isBlocked || CheckAttribute(enemy, "cirassId"))// если кираса или блок, то критикал невозможен
+	if (isBlocked)
 	{
 		critical = 0;
+	}
+	if(CheckAttribute(enemy, "cirassId") && critical > 0.0)// если кираса или блок, то критикал невозможен
+	{
+		string cirassId = enemy.cirassId;
+		if (cirassId == "cirass1" && rand(9)<4) critical = 0.0;
+		if (cirassId == "cirass2" && rand(9)<6) critical = 0.0;
+		if (cirassId == "cirass3" && rand(1)==0) critical = 0.0;
+		if (cirassId == "cirass4" && rand(4)>0) critical = 0.0;
+		if (cirassId == "cirass5") critical = 0.0;
+		Log_Info("Критический удар был предотвращен!");
 	}
 	if(critical > 0.0)
 	{
@@ -585,7 +609,15 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	dmg = dmg *(1 + critical);//dmg + critical;
 	if(CheckAttribute(enemy, "cirassId"))
 	{
-		dmg = dmg * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel));
+		switch (attackType)
+		{
+			case "fast": dmg = dmg * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel.fast)); break;
+			case "force": dmg = dmg * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel.force)); break;
+			case "round": dmg = dmg * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel.round)); break;
+			case "break": dmg = dmg * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel.break)); break;
+			case "feint": dmg = dmg * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel.feint)); break;
+		}
+		
 	}
 	if(dmg > 0.0)
 	{
@@ -604,7 +636,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		//Проверим на смерть
 		LAi_CheckKillCharacter(enemy);
 		//проверим на отравление
-		if(!IsEquipCharacterByArtefact(enemy, "talisman8")) MakePoisonAttackCheckSex(enemy, attack);
+		MakePoisonAttackCheckSex(enemy, attack);
 	}
 	//Есть ли оружие у цели
 	bool isSetBalde = (CheckAttribute(enemy, "equip.blade"));//(SendMessage(enemy, "ls", MSG_CHARACTER_EX_MSG, "IsSetBalde") != 0);
@@ -737,6 +769,11 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 				noExp = true;
 			}
 		}
+	}
+	if(CheckAttribute(enemy, "cirassId"))
+	{
+		damage = damage * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel));
+		Log_Info("Урон от выстрела был снижен кирасой");
 	}
 	if(damage > 0.0)
 	{

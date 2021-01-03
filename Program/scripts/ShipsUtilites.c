@@ -2017,13 +2017,20 @@ int GetShipPriceByTTH(int iType, ref rChar)
 	int hp_price = 1;
 	switch(shipClass)
 	{
-		case 7: hp_price = 5; break;
+		/* case 7: hp_price = 5; break;
 		case 6: hp_price = 10; break;
 		case 5: hp_price = 20; break;
 		case 4: hp_price = 30; break;
 		case 3: hp_price = 40; break;
 		case 2: hp_price = 50; break;
-		case 1: hp_price = 60; break;
+		case 1: hp_price = 60; break; */	// CSP 2.0.0
+		case 7: hp_price = 1; break;
+		case 6: hp_price = 3; break;
+		case 5: hp_price = 5; break;
+		case 4: hp_price = 8; break;
+		case 3: hp_price = 10; break;
+		case 2: hp_price = 12; break;
+		case 1: hp_price = 15; break;
 	}
 	int SummHP = sti(rRealShip.HP) * hp_price;
  
@@ -2031,13 +2038,20 @@ int GetShipPriceByTTH(int iType, ref rChar)
 	int capacity_price = 1;
 	switch(shipClass)
 	{
-		case 7: capacity_price = 5; break;
+		/* case 7: capacity_price = 5; break;
 		case 6: capacity_price = 10; break;
 		case 5: capacity_price = 20; break;
 		case 4: capacity_price = 30; break;
 		case 3: capacity_price = 40; break;
 		case 2: capacity_price = 50; break;
-		case 1: capacity_price = 60; break;
+		case 1: capacity_price = 60; break; */	// CSP 2.0.0
+		case 7: capacity_price = 1; break;
+		case 6: capacity_price = 3; break;
+		case 5: capacity_price = 5; break;
+		case 4: capacity_price = 8; break;
+		case 3: capacity_price = 10; break;
+		case 2: capacity_price = 12; break;
+		case 1: capacity_price = 15; break;
 	}
 	int SummCapacity = sti(rRealShip.Capacity) * capacity_price;
  
@@ -2045,13 +2059,20 @@ int GetShipPriceByTTH(int iType, ref rChar)
 	int crew_price = 1;
 	switch(shipClass)
 	{
-		case 7: crew_price = 5; break;
+		/* case 7: crew_price = 5; break;
 		case 6: crew_price = 40; break;
 		case 5: crew_price = 60; break;
 		case 4: crew_price = 80; break;
 		case 3: crew_price = 120; break;
 		case 2: crew_price = 140; break;
-		case 1: crew_price = 160; break;
+		case 1: crew_price = 160; break; */	// CSP 2.0.0
+		case 7: crew_price = 2; break;
+		case 6: crew_price = 10; break;
+		case 5: crew_price = 15; break;
+		case 4: crew_price = 20; break;
+		case 3: crew_price = 30; break;
+		case 2: crew_price = 35; break;
+		case 1: crew_price = 40; break;
 	}
 	int SummCrew = sti(rRealShip.MaxCrew) * crew_price;
  
@@ -2059,7 +2080,7 @@ int GetShipPriceByTTH(int iType, ref rChar)
 	int caliber_price = 5000;
 	switch(sti(rRealShip.MaxCaliber))
 	{
-		case 8: caliber_price = 5000; break;
+		/* case 8: caliber_price = 5000; break;
 		case 12: caliber_price = 10000; break;
 		case 16: caliber_price = 30000; break;
 		case 20: caliber_price = 45000; break;
@@ -2067,7 +2088,16 @@ int GetShipPriceByTTH(int iType, ref rChar)
 		case 32: caliber_price = 120000; break;
 		case 36: caliber_price = 200000; break;
 		case 42: caliber_price = 300000; break;
-		case 48: caliber_price = 600000; break;
+		case 48: caliber_price = 600000; break; */	// CSP 2.0.0
+		case 8: caliber_price = 1250; break;
+		case 12: caliber_price = 2500; break;
+		case 16: caliber_price = 7500; break;
+		case 20: caliber_price = 11250; break;
+		case 24: caliber_price = 15000; break;
+		case 32: caliber_price = 30000; break;
+		case 36: caliber_price = 40000; break;
+		case 42: caliber_price = 75000; break;
+		case 48: caliber_price = 150000; break;
 	}
 	int SummMaxCaliber = caliber_price;
 	
@@ -2104,13 +2134,20 @@ int GetShipPriceByTTH(int iType, ref rChar)
 	int was_price = 10;
 	switch(shipClass)
 	{
-		case 7: was_price = 50; break;
+		/* case 7: was_price = 50; break;
 		case 6: was_price = 1000; break;
 		case 5: was_price = 2500; break;
 		case 4: was_price = 20000; break;
 		case 3: was_price = 50000; break;
 		case 2: was_price = 100000; break;
-		case 1: was_price = 200000; break;
+		case 1: was_price = 200000; break; */	// CSP 2.0.0
+		case 7: was_price = 12; break;
+		case 6: was_price = 250; break;
+		case 5: was_price = 625; break;
+		case 4: was_price = 5000; break;
+		case 3: was_price = 12500; break;
+		case 2: was_price = 25000; break;
+		case 1: was_price = 50000; break;
 	}
 	int SummWAS = stf(rRealShip.WindAgainstSpeed) * was_price;
  
@@ -2118,13 +2155,20 @@ int GetShipPriceByTTH(int iType, ref rChar)
 	int speed_price = 10;
 	switch(shipClass)
 	{
-		case 7: speed_price = 30; break;
+		/* case 7: speed_price = 30; break;
 		case 6: speed_price = 200; break;
 		case 5: speed_price = 400; break;
 		case 4: speed_price = 1000; break;
 		case 3: speed_price = 5000; break;
 		case 2: speed_price = 10000; break;
-		case 1: speed_price = 20000; break;
+		case 1: speed_price = 20000; break; */	// CSP 2.0.0
+		case 7: speed_price = 8; break;
+		case 6: speed_price = 50; break;
+		case 5: speed_price = 100; break;
+		case 4: speed_price = 250; break;
+		case 3: speed_price = 1250; break;
+		case 2: speed_price = 2500; break;
+		case 1: speed_price = 5000; break;
 	}
 	int SummSpeed = stf(rRealShip.SpeedRate) * speed_price;
  
@@ -2132,13 +2176,20 @@ int GetShipPriceByTTH(int iType, ref rChar)
 	int turn_price = 10;
 	switch(shipClass)
 	{
-		case 7: turn_price = 10; break;
+		/* case 7: turn_price = 10; break;
 		case 6: turn_price = 50; break;
 		case 5: turn_price = 200; break;
 		case 4: turn_price = 500; break;
 		case 3: turn_price = 3000; break;
 		case 2: turn_price = 6000; break;
-		case 1: turn_price = 12000; break;
+		case 1: turn_price = 12000; break; */	// CSP 2.0.0
+		case 7: turn_price = 2; break;
+		case 6: turn_price = 12; break;
+		case 5: turn_price = 50; break;
+		case 4: turn_price = 125; break;
+		case 3: turn_price = 750; break;
+		case 2: turn_price = 1500; break;
+		case 1: turn_price = 3000; break;
 	}
 	int SummTurn = stf(rRealShip.TurnRate) * turn_price;
  

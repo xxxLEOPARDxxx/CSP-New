@@ -46,6 +46,10 @@ void InitInterface(string iniName)
 	MOD_DEAD_CLEAR_TIME = 100;
 	GameInterface.nodes.DEAD_SLIDE.value = 0.5;
     SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"DEAD_SLIDE", 0, 0.5);
+	
+	MOD_DEFENDERS_RATE = 4;
+	GameInterface.nodes.DEFENDERS_SLIDE.value = 0.5;
+    SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"DEFENDERS_SLIDE", 0, 0.5);
 
     if (startHeroType < 1) startHeroType = 1; // fix
     if (startHeroType > sti(GetNewMainCharacterParam("hero_qty"))) startHeroType = sti(GetNewMainCharacterParam("hero_qty")); // fix
@@ -170,6 +174,7 @@ void IProcessFrame()
 {
 	TmpI_ShowOffAmount();
 	TmpI_ShowDeadAmount();
+	TmpI_ShowDefendersAmount();
 	if(GetCurrentNode() == "PROFILE_NAME")
 	{
 		if(!CheckAttribute(&characters[GetCharacterIndex(sCharacterName)], "profile.name"))
@@ -393,6 +398,13 @@ void ProcessCommandExecute()
 			if(comName=="click" || comName=="leftstep" || comName=="speedleft" || comName=="rightstep" || comName=="speedright" || comName=="deactivate" || comName=="rclick")
 			{
 				TmpI_ShowDeadAmount();
+			}
+		break;
+		
+		case "DEFENDERS_SLIDE":
+			if(comName=="click" || comName=="leftstep" || comName=="speedleft" || comName=="rightstep" || comName=="speedright" || comName=="deactivate" || comName=="rclick")
+			{
+				TmpI_ShowDefendersAmount();
 			}
 		break;
 
@@ -661,6 +673,9 @@ void IDoExit(int exitCode, bool bCode)
 		MOD_DEAD_CLEAR_TIME = makeint(500 - 400.0 * (1.0 - stf(GameInterface.nodes.DEAD_SLIDE.value)));  // 0т 100 до 500
 		trace("MOD_DEAD_CLEAR_TIME = " + MOD_DEAD_CLEAR_TIME);
 		
+		MOD_DEFENDERS_RATE = makeint(5 - 5.0 * (1.0 - stf(GameInterface.nodes.DEFENDERS_SLIDE.value)));  // 0т 0 до 5
+		trace("MOD_DEFENDERS_RATE_RATE = " + MOD_DEFENDERS_RATE);
+		
 		interfaceResultCommand = exitCode;
 		EndCancelInterface(bCode);
 	}
@@ -787,6 +802,11 @@ void ShowInfo()
 		case "DEAD_SLIDE":
 			sHeader = GetRPGText("DEAD_SLIDE");
 			sText1 = GetRPGText("DEAD_SLIDE_desc");
+		break;
+		
+		case "DEFENDERS_SLIDE":
+			sHeader = GetRPGText("DEFENDERS_SLIDE");
+			sText1 = GetRPGText("DEFENDERS_SLIDE_desc");
 		break;
 	}
 	//sHeader = XI_ConvertString("Nation");
@@ -984,4 +1004,8 @@ void TmpI_ShowOffAmount()
 void TmpI_ShowDeadAmount()
 {
     SetFormatedText("DEAD_COUNT", "" + makeint(500 - 400.0 * (1.0 - stf(GameInterface.nodes.DEAD_SLIDE.value))));
+}
+void TmpI_ShowDefendersAmount()
+{
+    SetFormatedText("DEFENDERS_COUNT", "" + makeint(5 - 5.0 * (1.0 - stf(GameInterface.nodes.DEFENDERS_SLIDE.value))));
 }

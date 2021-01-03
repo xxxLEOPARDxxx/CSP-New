@@ -891,11 +891,11 @@ string GetItemDescribe(int iGoodIndex)
 	if (CheckAttribute(arItm, "groupID"))
 	{
 		//aw013 -->
-		if(arItm.groupID == CIRASS_ITEM_TYPE) 
+		/*if(arItm.groupID == CIRASS_ITEM_TYPE) 
 		{ 
 			float fItmShield = stf(arItm.CirassLevel) * 100.0;
 			describeStr += "Защита " + FloatToString(fItmShield, 2) + " проц." + newStr();
-		} 
+		}*/
 		//aw013 <--
 		
 		if(arItm.groupID == GUN_ITEM_TYPE)

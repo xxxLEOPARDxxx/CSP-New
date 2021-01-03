@@ -66,13 +66,12 @@ void onLoadReInit()
 	{
 		SetArraySize(&Items2,ITEMS_QUANTITY);
 		SetArraySize(&itemModels,ITEMS_QUANTITY);
-		if(LoadSegment("items\initItems.c"))
+		/*if(LoadSegment("items\initItems.c"))
 		{
 			InitItems();
 			ReloadProgressUpdate();
 			//UnloadSegment("items\initItems.c");
-			GenerateGenerableItems();
-		}
+		}*/
 	}
 	if(nShipSize  != SHIP_TYPES_QUANTITY_WITH_FORT){
 		reinit = true;

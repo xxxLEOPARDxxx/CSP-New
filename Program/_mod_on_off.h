@@ -2,7 +2,7 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2  "
-#define VERSION_NUMBER2       "Corsairs Ship Pack 2.0.0"
+#define VERSION_NUMBER2       "Corsairs Ship Pack 2.0.1"
 #define VERSION_NUMBER3       ""
 #define PROVIDER_TXT            "LEOPARD's team - MaelStrom edition"
 #define VERSION_NUM      99910  // текущий номер
@@ -90,7 +90,10 @@ int MOD_EXP_RATE           = 10; // это база... + (сложность)
 //  complexity of fantom skill
 int MOD_SKILL_ENEMY_RATE   = 5; // 1- easy; 2; 3; 4;  5-medium; 6; 7; 8; 9;  10 - hard (please, do not set more 10 or less 1 it mays crash game
 #define MOD_Complexity_1_DMG  3.0
+//officers count
 int MOD_OFFICERS_RATE   = 3;
+//количество кораблей охраны
+int MOD_DEFENDERS_RATE   = 4;
 // Killed body clear
 #define MOD_DEAD_CLEAR           "On"
 int MOD_DEAD_CLEAR_TIME = 100; // in sec.

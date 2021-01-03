@@ -193,12 +193,10 @@ bool LAi_CreateEncounters(ref location)
 	if(CheckAttribute(location, "onUninhabitedIsland") || CheckAttribute(location, "deadlocked")) 
 	{
 		iRand = rand(1) + 6;
-		// iRand = rand(1); // LEO
 	}	
 	else
 	{	
-		iRand = rand(5);		
-		// iRand = rand(1); // LEO
+		iRand = rand(5);	
 	}	
 	switch (iRand)
 	{
@@ -729,30 +727,23 @@ bool LAi_CreateEncounters(ref location)
 			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp));
 			if (num <= 0 ) num = 2; //если локаторов меньше четырех
 			str = "Indian"+ location.index + "_";
-			//--> генерим ранг 
-			if (sti(pchar.rank) > 6) 
+			iRank = sti(pchar.rank);
+			
+			
+			int iScl = 10+2*sti(pchar.rank);//казуалам зеленый свет на начало игры
+			if (sti(pchar.rank) > 3) iRank = sti(pchar.rank);
+			else 
 			{
-				if (sti(pchar.rank) > 20) iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*2.5/num);
-				else iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*1.6/num);
+				iRank = 1;
+				num = 2;
 			}
-			else  
-			{	//казуалам зеленый свет на начало игры
-				if (sti(pchar.rank) > 3) iRank = sti(pchar.rank);
-				else 
-				{
-					iRank = 1;
-					num = 2;
-				}
-			}	
-			//<-- генерим ранг 
 			
 			i = 0;
 			while(i < num)
 			{
-				
-				if(i == 0 && rand(6) == 1) chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_boss", "man", "man", iRank*2, PIRATE, 1, false)); //Korsar Maxim - с шансом 1 на 7 встреч, первый индиан может быть главой каннибалов
-				else chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_"+(rand(5)+1), "man", "man", iRank, PIRATE, 1, false));
-				SetFantomParamFromRank(chr, iRank, false);
+				if(i == 0 && rand(6) == 1) chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_boss", "man", "man", iRank+12, PIRATE, 1, true)); //Korsar Maxim - с шансом 1 на 7 встреч, первый индиан может быть главой каннибалов
+				else chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_"+(rand(5)+1), "man", "man", iRank+6, PIRATE, 1, true));
+				SetFantomParamFromRank(chr, iRank, true);
 				//Получим локатор для логина
 				locator = GetAttributeName(GetAttributeN(grp, 1));
 				
@@ -760,15 +751,22 @@ bool LAi_CreateEncounters(ref location)
 				
 				DeleteAttribute(chr, "equip");
 				DeleteAttribute(chr, "items");
+				DeleteAttribute(chr, "perks.list");
 				
 				if(chr.model == "Canib_boss") //Korsar Maxim - Глава каннибалов круче своих по экипировке
 				{
-					chr.name = "Главный каннибал";
+					chr.name = "касик";
 					chr.lastname = "";
 					
-					if(rand(3) == 1) _Blade = "topor_01";
-					else _Blade = GiveRandomBladeByType("good");
-					
+					if(rand(3) == 1) 
+					{
+						_Blade = "topor_01";
+					}
+					else 
+					{
+						_Blade = GiveRandomBladeByType("good");
+					}
+
 					int iHP = (150+MOD_SKILL_ENEMY_RATE*30+sti(pchar.rank)*5)*0.75;
 					
 					LAi_SetHP(chr, iHP, iHP);
@@ -777,19 +775,51 @@ bool LAi_CreateEncounters(ref location)
 					chr.DontClearDead = true;
 					TakeNItems(chr, "jewelry11", (rand(34)+1));
 			        TakeNItems(chr, "jewelry12", (rand(49)+1));
+					
+					iRand = rand(4);
+					if(iRand == 0) TakeNItems(chr, "jewelry1", (rand(24)+1));
+					if(iRand == 1) TakeNItems(chr, "jewelry2", (rand(24)+1));
+					if(iRand == 2) TakeNItems(chr, "jewelry3", (rand(24)+1));
+					if(iRand == 3) TakeNItems(chr, "jewelry4", (rand(24)+1));
+					if(iRand == 4) TakeNItems(chr, "jewelry5", (rand(24)+1));
+					
+					
+					iRand = rand(25);
+					if(iRand == 5) TakeNItems(chr, "indian18", (rand(24)+1));
+					if(iRand == 10) TakeNItems(chr, "indian19", (rand(24)+1));
+					if(iRand == 15) TakeNItems(chr, "indian20", (rand(24)+1));
+					if(iRand == 20) TakeNItems(chr, "indian21", (rand(24)+1));
+					if(iRand == 25) TakeNItems(chr, "indian22", (rand(24)+1));
+
 					TakeNItems(chr, "Food1", (rand(14)+1));
 					TakeNItems(chr, "potion5", (rand(9)+1));
+					TakeNItems(chr, "potion1", 7);
+					TakeNItems(chr, "potion2", 7);
+					FantomMakeCoolFighter(chr, iScl*0.80, iScl*2.55, iScl*0.35, _Blade, "", 300);
+					DeleteAttribute(chr, "perks.list");
+					AddBonusEnergyToCharacter(chr, 200);
+					SetCharacterPerk(chr, "BasicDefense");
+                    SetCharacterPerk(chr, "Tireless");
+                    SetCharacterPerk(chr, "HardHitter");
+                    SetCharacterPerk(chr, "CriticalHit");
+                    SetCharacterPerk(chr, "SwordplayProfessional");
+                    SetCharacterPerk(chr, "Sliding");
 				}
 				else 
 				{
-					chr.name = "Каннибал";
+					chr.name = "Калинаго";
 					chr.lastname = "";
 					_Blade = GiveRandomBladeByType("indian");
+					FantomMakeCoolFighter(chr, iScl*0.55, iScl*1.90, iScl*0.25, _Blade, "", 150);
+					AddBonusEnergyToCharacter(chr, 30);
+					DeleteAttribute(chr, "perks.list");
+					SetCharacterPerk(chr, "BasicDefense");
+					SetCharacterPerk(chr, "AdvancedDefense");
+                    SetCharacterPerk(chr, "Tireless");
+                    SetCharacterPerk(chr, "CriticalHit");
+					SetCharacterPerk(chr, "HardHitter");
 				}
-                
-				_Blade = GetGeneratedItem(_Blade);
-                GiveItem2Character(chr, _Blade);
-                EquipCharacterbyItem(chr, _Blade);
+				DeleteAttribute(chr, "items.spyglass3");
 				
 				ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 				LAi_SetWarriorTypeNoGroup(chr);
@@ -799,6 +829,7 @@ bool LAi_CreateEncounters(ref location)
 			}
 			
 			LAi_group_SetRelation("Jungle_indians", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("Jungle_indians", LAI_GROUP_PLAYER, true);
 			LAi_group_SetCheck("Jungle_indians", "IndianInJungleClearGroup");
 			//Log_TestInfo("Враждебные индейцы: Сгенерился энкаунтер");//Korsar Maxim - раскомментировать, если не уверены, работает ли энкаунтер.
 		break;

@@ -1897,7 +1897,7 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 			if (sti(pchar.questTemp.stels.sea) != GetDataDay())
 			{
 				AddCharacterExpToSkill(mChar, SKILL_SNEAK, (iCompan * 200 / iClass));
-				ChangeCrewExp(mChar, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(mChar, "SeaWolf"), 0.5, 1));
+				ChangeCrewExp(mChar, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(mChar, "SeaWolf"), 0.5, 1.0));
 				pchar.questTemp.stels.sea = GetDataDay();
 			}
 		}
@@ -2352,7 +2352,7 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 		    {
 			    case KILL_BY_TOUCH:
 	                AddCharacterExpToSkill(rKillerCharacter, "Sailing", stf(rKillerBaseShip.Class) / fBaseClass * 90);
-	                ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 1, 2));
+	                ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 1.0, 2.0));
 	                // boal statistic info 17.12.2003 -->
 	                Statistic_AddValue(rKillerCharacter, "KillShip_" + rBaseShip.Class, 1);
 	                // boal statistic info 17.12.2003 <--
@@ -2361,8 +2361,8 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 			        AddCharacterExpToSkill(rKillerCharacter, "Accuracy", stf(rKillerBaseShip.Class) / fBaseClass * 35);
 			        AddCharacterExpToSkill(rKillerCharacter, "Sailing", stf(rKillerBaseShip.Class) / fBaseClass * 65);
 			        AddCharacterExpToSkill(rKillerCharacter, "Cannons", stf(rKillerBaseShip.Class) / fBaseClass * 40);
-			        ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 1, 2));
-			        ChangeCrewExp(rKillerCharacter, "Cannoners", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 2, 4));
+			        ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 1.0, 2.0));
+			        ChangeCrewExp(rKillerCharacter, "Cannoners", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 2.0, 4.0));
 			        // boal statistic info 17.12.2003 -->
 	                Statistic_AddValue(rKillerCharacter, "KillShip_" + rBaseShip.Class, 1);
 	                // boal statistic info 17.12.2003 <--
@@ -2379,7 +2379,7 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 			        AddCharacterExpToSkill(rKillerCharacter, "Sailing", stf(rKillerBaseShip.Class) / fBaseClass * 70);
 			        AddCharacterExpToSkill(rKillerCharacter, SKILL_FORTUNE, stf(rKillerBaseShip.Class) / fBaseClass * 10);
 			        AddCharacterExpToSkill(rKillerCharacter, "Defence", stf(rKillerBaseShip.Class) / fBaseClass * 60);
-			        ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 0.5, 1));
+			        ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 0.5, 1.0));
 					// в лаи_бординг ChangeCrewExp(rKillerCharacter, "Soldiers", 4);
 			        // boal statistic info 17.12.2003 -->
 	                Statistic_AddValue(rKillerCharacter, "KillAbordShip_" + rBaseShip.Class, 1);
@@ -2596,7 +2596,7 @@ void ShipTaken(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInd
         Statistic_AddValue(rKillerCharacter, NationShortName(sti(rDead.nation))+"_AbordShip", 1);
         // boal statistic info 17.12.2003 <--
         
-        ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 0.5, 1));
+        ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 0.5, 1.0));
 		// в лаи_бординг ChangeCrewExp(rKillerCharacter, "Soldiers", 5); // to_do перенести на форму захвата
 	}
 	if (iDeadCharacterIndex != GetMainCharacterIndex())
@@ -2644,7 +2644,7 @@ void ShipTakenFree(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacte
         Statistic_AddValue(rKillerCharacter, NationShortName(sti(rDead.nation))+"_AbordShipFree", 1);
         Statistic_AddValue(rKillerCharacter, "AbordShipFree", 1); // отпущено
         
-        ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 0.5, 1));
+        ChangeCrewExp(rKillerCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rKillerCharacter, "SeaWolf"), 0.5, 1.0));
 		// в лаи_бординг ChangeCrewExp(rKillerCharacter, "Soldiers", 5); // to_do перенести на форму захвата
 		if(!CheckAttribute(rDead,"Situation"))
 		{
@@ -2791,7 +2791,7 @@ void Ship_HullHitEvent()
             AddCharacterExpToSkill(rBallCharacter, "Sailing", 15);
             AddCharacterExpToSkill(rBallCharacter, "Cannons", 15);
             ChangeCrewExp(rBallCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rBallCharacter, "SeaWolf"), 0.05, 0.1));
-			ChangeCrewExp(rBallCharacter, "Cannoners", AIShip_isPerksUse(CheckCharacterPerk(rBallCharacter, "SeaWolf"), 0.5, 1));
+			ChangeCrewExp(rBallCharacter, "Cannoners", AIShip_isPerksUse(CheckCharacterPerk(rBallCharacter, "SeaWolf"), 0.5, 1.0));
         }
         // boal <--
 	}
@@ -3749,7 +3749,7 @@ void Ship_UpdateParameters()
             if (IsCompanion(rCharacter))
             {
                AddCharacterExpToSkill(rCharacter, "Sailing", fExp);
-               ChangeCrewExp(rCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rCharacter, "SeaWolf"), 0.5, 1));
+               ChangeCrewExp(rCharacter, "Sailors", AIShip_isPerksUse(CheckCharacterPerk(rCharacter, "SeaWolf"), 0.5, 1.0));
             }
             // boal <--
         }

@@ -354,18 +354,9 @@ void ProcessDialogEvent()
 		break;*/
 		
 		case "Cards_begin_go":
-            // анлим игры в день SetNPCQuestDate(npchar, "Card_date_begin");
-			//#20170629-01 Dialog/follow bug in Passenger quest
-            if(CheckAttribute(pchar, "tempDlgInterruptPass")) {
-                Dialog.text = "...";
-                link.l1 = "..."; // No dialog, interrupted "..."
-                link.l1.go = "exit";
-            }
-            else {
                 Diag.CurrentNode = Diag.TempNode;
                 DialogExit();
                 LaunchCardsGame();
-            }
 		break;
 	    // карты <--
 	    // КОСТИ -->
@@ -504,17 +495,10 @@ void ProcessDialogEvent()
 
 		case "Dice_begin_go":
             // анлим игры в день SetNPCQuestDate(npchar, "Dice_date_begin");
-			//#20170629-01 Dialog/follow bug in Passenger quest
-            if(CheckAttribute(pchar, "tempDlgInterruptPass")) {
-                Dialog.text = "...";
-                link.l1 = "..."; // No dialog, interrupted "..."
-                link.l1.go = "exit";
-            }
-            else {
+
                 Diag.CurrentNode = Diag.TempNode;
                 DialogExit();
                 LaunchDiceGame();
-            }
 		break;
 	    // КОСТИ <--
 	    // homo 01/08/06 to_del
