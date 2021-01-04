@@ -96,7 +96,7 @@ bool MerchantPrepare(int Mnation)
     }
     
      // goods
-    switch (rand(12))
+    switch (rand(12 + makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/5)))
     {
         case 0 :
             MerPrm.QuestGoodsIdx = GOOD_SILVER;
@@ -136,6 +136,12 @@ bool MerchantPrepare(int Mnation)
         break;
         case 12 :
             MerPrm.QuestGoodsIdx = GOOD_PAPRIKA;
+        break;
+		case 13 :
+            MerPrm.QuestGoodsIdx = GOOD_SILVER;
+        break;
+		case 14 :
+            MerPrm.QuestGoodsIdx = GOOD_GOLD;
         break;
 
     }

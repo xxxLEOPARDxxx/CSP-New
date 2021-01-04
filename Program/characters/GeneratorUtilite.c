@@ -13,6 +13,20 @@ void SetFantomParamFromRank(ref NPchar, int  rank, bool setEquip)
     {
 	    LAi_NPC_Equip(NPchar, sti(NPchar.rank), true, true);
     }
+	if (IsCharacterPerkOn(NPchar, "Ciras") && rand(4)==0)
+	{
+		string cirnum;
+		switch (rand(4))
+		{
+			case 0: cirnum = "cirass1"; break;
+			case 1: cirnum = "cirass1"; break;
+			case 2: cirnum = "cirass2"; break;
+			case 3: cirnum = "cirass3"; break;
+			case 4: cirnum = "cirass4"; break;
+		}
+		NPchar.cirassId = cirnum;
+		Log_TestInfo("Персонаж "+NPchar.name+" из "+NPchar.City+" получил кирасу "+cirnum);
+	}
 }
 
 // расчитать скилы заданного ранга, типа как от ГГ в будущем (ранг у НПС будет приблизительно, зависит от сложности)

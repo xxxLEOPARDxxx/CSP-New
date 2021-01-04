@@ -2732,7 +2732,7 @@ void Set_TreasureBarrel()
 	makearef(trBarrel, nulChr.GenQuest.Barrel);
 	int irand;
 
-	if(GetSummonSkillFromName(pchar, "Fortune") > drand(200))
+	if(GetSummonSkillFromName(pchar, "Fortune") > (drand(200)-(GetCharacterSPECIALSimple(pchar, SPECIAL_L)*5)))
 	{
 		irand = drand(20);
 		if(irand == 1) trBarrel.items.jewelry1 = rand(18) + 27;
@@ -2815,7 +2815,7 @@ void Set_TreasureBarrel()
 		if(rand(1) == 0) trBarrel.items.mineral9 = rand(8) + 2;
 		if(rand(1) == 0) trBarrel.items.mineral10 = rand(16) + 6;
 	}	
-	trBarrel.items.gold = drand(5000) + 5000;	
+	trBarrel.items.gold = drand(5000) + 5000;
 	LaunchItemsBarrel(&trBarrel);
 }
 //=====================================================================================================================================
@@ -3690,7 +3690,7 @@ void CaptainComission_ExitFromLoc(string qName)
 int CaptainComission_GetVictimShipGoods()
 {
 	int iGoodIdx;
-	switch (rand(7))
+	switch (rand(7 + makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/5)))
     {
         case 0 :
             iGoodIdx = GOOD_SANDAL;
@@ -3715,7 +3715,13 @@ int CaptainComission_GetVictimShipGoods()
         break;
         case 7 :
             iGoodIdx = GOOD_SILVER;
-        break;		
+        break;
+		case 8 :
+            iGoodIdx = GOOD_SILVER;
+        break;	
+		case 9 :
+            iGoodIdx = GOOD_GOLD;
+        break;	
     }
 	return iGoodIdx;
 }

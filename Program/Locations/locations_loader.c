@@ -135,10 +135,10 @@ bool LoadLocation(ref loc)
 			break;
 		case "tavern":			// таверна
 			nAmbient = amb_tavern;
-			if (makeint(environment.time) > 22.0 || makeint(environment.time) < 7.0)
+			/* if (makeint(environment.time) > 22.0 || makeint(environment.time) < 7.0)
 			{
 				res = false;
-			}
+			} */
 			break;
 		case "shop":			// магазин
 			nAmbient = amb_shop;

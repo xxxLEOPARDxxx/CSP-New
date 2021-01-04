@@ -1398,6 +1398,20 @@ int NPC_GenerateCharacter(string _id, string _model, string _sex, string _ani, i
      	DeleteAttribute(ch, "LifeDay");
 	}
 	SetFoodToCharacter(ch, 5, 50);
+	if (IsCharacterPerkOn(ch, "Ciras") && rand(4)==0)
+	{
+		string cirnum;
+		switch (rand(4))
+		{
+			case 0: cirnum = "cirass1"; break;
+			case 1: cirnum = "cirass1"; break;
+			case 2: cirnum = "cirass2"; break;
+			case 3: cirnum = "cirass3"; break;
+			case 4: cirnum = "cirass4"; break;
+		}
+		ch.cirassId = cirnum;
+		Log_TestInfo("Персонаж "+ch.name+" из "+ch.City+" получил кирасу "+cirnum);
+	}
 	return  iChar;
 }
 // сгенерим разового фантома - нашего моряка (в  форме, если патент)

@@ -132,12 +132,13 @@ void FillMapForTreasure(ref item)
 
     // генерим клад
     DeleteAttribute(item, "BoxTreasure");
-    FillBoxForTreasure(item, rand(3));
+	if (GetCharacterSPECIALSimple(pchar, SPECIAL_L) > rand(10)) FillBoxForTreasure(item, rand(1));
+    else FillBoxForTreasure(item, rand(3));
     FillBoxForTreasureAddition(item);
 
     if (!CheckAttribute(Pchar, "GenQuest.TreasureBuild"))
     {
-        if (rand(15) == 1) item.MapTypeIdx = -1;
+        if (rand(12+GetCharacterSPECIALSimple(pchar, SPECIAL_L)) == 1) item.MapTypeIdx = -1;
     }
     else
     {// из кусочков даем супер вещи
@@ -148,6 +149,7 @@ void FillMapForTreasure(ref item)
             item.MapBoxId   = GetBoxForTreasure(item.MapIslId, item.MapLocId);
        } */
        FillBoxForTreasureSuper(item);
+	   if (GetCharacterSPECIALSimple(pchar, SPECIAL_L) > rand(10)) FillBoxForTreasureSuper(item);
     }
     DeleteAttribute(Pchar, "GenQuest.TreasureBuild"); //сборный
 

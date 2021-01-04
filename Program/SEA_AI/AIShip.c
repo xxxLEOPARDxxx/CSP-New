@@ -150,18 +150,13 @@ void Sea_ClearCheckFlag()
     if (bSeaActive)
     {
 		int i;
-		
 		for (i=0; i<iNumShips; i++)
 		{
-			//Boyer fix
-			if(sti(Ships[i]) >= 0 && sti(Ships[i]) < TOTAL_CHARACTERS) {
 			if (!CheckAttribute(&Characters[Ships[i]], "DontCheckFlag"))
 			{
 			    DeleteAttribute(&Characters[Ships[i]], "CheckFlagYet"); // флаг распознования врага
 			    DeleteAttribute(&Characters[Ships[i]], "CheckFlagDate");
 			}
-			}
-
 		}
 		// фортам трем
 		for (i=0; i<MAX_COLONIES; i++)
@@ -1874,7 +1869,10 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 
 		fSneak  = stf(mChar.TmpSkill.Sneak); // 0.01..1.0
 		int rep = sti(abs(REPUTATION_NEUTRAL - sti(mChar.reputation)) * 0.75);
-		if ((rand(100) + rand(20) + rand(rep)) > (fSneak * 10 * iClass * (9-iCompan)))
+		int losechance = rand(100) + rand(20) + rand(rep);
+		int winchance = makeint(fSneak * 10 * iClass * (9-iCompan));
+		Log_TestInfo("Требуется: "+losechance+"/Текущее значение: "+winchance);
+		if (losechance > winchance)
 		{
 			/*mChar.nation = iNationToChange;  // to_do ролик флага сделать
 			Ship_FlagRefresh(PChar); //флаг на лету

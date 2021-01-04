@@ -659,7 +659,7 @@ void CreateHabitues(aref loc)
 			// офицеры <--
 			if (!IsCharacterPerkOn(pchar, "Adventurer"))
 			{
-				if (rand(15) == 3 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
+				if (rand(16 - makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/3)) == 3 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
 				{ // карты кладов
 					iChar = NPC_GeneratePhantomCharacter("pirate", iNation, MAN, 1);
 					chr = &characters[iChar];
@@ -702,7 +702,7 @@ void CreateHabitues(aref loc)
 			}
 			if (IsCharacterPerkOn(pchar, "Adventurer"))
 			{
-				if (rand(9) == 0 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
+				if (rand(10 - makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/3)) == 0 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
 				{ // карты кладов
 					iChar = NPC_GeneratePhantomCharacter("pirate", iNation, MAN, 1);
 					chr = &characters[iChar];
