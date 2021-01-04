@@ -987,7 +987,7 @@ void LAi_SetBoardingActors(string locID)
 					case 4: cirnum = "cirass4"; break;
 				}
 				chr.cirassId = cirnum;
-				Log_TestInfo("Персонаж "+chr.name+" из "+chr.City+" получил кирасу "+cirnum);
+				// Log_TestInfo("Персонаж "+chr.name+" из "+chr.City+" получил кирасу "+cirnum);
 			}
 		}
 		//ставим своих мушкетеров -->
@@ -1118,7 +1118,7 @@ void LAi_SetBoardingActors(string locID)
 				case 4: cirnum1 = "cirass4"; break;
 			}
 			chr.cirassId = cirnum1;
-			Log_TestInfo("Персонаж "+chr.name+" из "+chr.City+" получил кирасу "+cirnum1);
+			// Log_TestInfo("Персонаж "+chr.name+" из "+chr.City+" получил кирасу "+cirnum1);
 		}
 	}
 	//ставим вражеских мушкетеров -->
