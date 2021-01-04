@@ -612,6 +612,7 @@ void LAi_NPC_EquipPerk(ref chr, string kind)
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 5)
 			{
 				chr.perks.list.HardHitter = "1";
+				chr.perks.list.Ciras = "1";
 			}
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 6)
 			{
@@ -634,10 +635,6 @@ void LAi_NPC_EquipPerk(ref chr, string kind)
 				chr.perks.list.GunProfessional = "1";
 			}
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 11)
-			{
-				chr.perks.list.Ciras = "1";
-			}
-			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 12)
 			{
 				chr.perks.list.Grus = "1";
 			}
