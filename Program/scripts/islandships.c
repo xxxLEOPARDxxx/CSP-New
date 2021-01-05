@@ -8,6 +8,8 @@ void GenerateIslandShips(string sIslandID)
 	int iShipsQuantity;
 	int iChar;
 	int iType = 0;
+	
+	int defendersCount = MOD_DEFENDERS_RATE;
 
 	int MainDefenderChar = -1;
 
@@ -18,25 +20,27 @@ void GenerateIslandShips(string sIslandID)
 		{
 			if (colonies[i].nation != "none" && !CheckAttribute(&colonies[i], "HasNoFort") && !CheckAttribute(&colonies[i], "DontSetShipInPort"))
 			{
-				if (!CheckAttribute(&colonies[i], "GenShipDate") || GetNpcQuestPastDayParam(&colonies[i], "GenShipDate") > 0)
+				bool FortDefender;
+				ref FortChref = GetFortCommander(colonies[i].id);
+				if (!CheckAttribute(&colonies[i], "AlreadyGen")) //охрана
 				{
-                    SaveCurrentNpcQuestDateParam(&colonies[i], "GenShipDate"); // дата заполнения
-                    
+                    //SaveCurrentNpcQuestDateParam(&colonies[i], "GenShipDate"); // дата заполнения
 					iNation = sti(Colonies[i].nation);
-					float fChecker = frand(1.0);
-					bool FortDefender = false;
+					
+					FortDefender = false;
 
-					int defendersCount = MOD_DEFENDERS_RATE; 
-					iShipsQuantity = defendersCount;
-					ref FortChref = GetFortCommander(colonies[i].id); 
+					if (defendersCount == 0) continue;
+					iShipsQuantity = rand(3)+defendersCount;
 					if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
-					{ 
+					{
 						iShipsQuantity = 0; 
+						continue;
 					}
+					colonies[i].AlreadyGen = true;
 						
 					while (iShipsQuantity > 0)
 					{
-						if(defendersCount > 0) iChar = GenerateCharacter(iNation, DEFENDER_FORT, "soldier", MAN, -1, WARRIOR); 
+						if(defendersCount > 0) iChar = GenerateCharacter(iNation, DEFENDER_FORT, "soldier", MAN, 1, WARRIOR); 
 						else iChar = GenerateCharacter(iNation, WITH_SHIP, "soldier", MAN, -1, WARRIOR); //-1 - это 1 день
 						if(defendersCount > 0) FortDefender = true; 
 						else FortDefender = false;
@@ -45,22 +49,17 @@ void GenerateIslandShips(string sIslandID)
 
 						PlaceCharacterShip(iChar, iNation, sIslandID, i, FortDefender, MainDefenderChar);
 
-                            characters[iChar].IslandShips = Colonies[i].id; // номер города, чтоб тереть по захвату города to_do
-							if (iNation == PIRATE)
-							{ // нащ город
-								characters[iChar].AlwaysFriend        = true;
-								SetCharacterRelationBoth(iChar, GetMainCharacterIndex(), RELATION_FRIEND);
-							}
-							iType = rand(1);
-							if(iType == 0)
-							{
-								characters[iChar].Ship.Mode = "war";
-							}
-							else
-							{
-								characters[iChar].Ship.Mode = "trade";
-							}
+						characters[iChar].IslandShips = Colonies[i].id; // номер города, чтоб тереть по захвату города to_do
+						if (iNation == PIRATE)
+						{ // нащ город
+							characters[iChar].AlwaysFriend        = true;
+							SetCharacterRelationBoth(iChar, GetMainCharacterIndex(), RELATION_FRIEND);
+						}
+						characters[iChar].Ship.Mode = "war";
+						
 						if(defendersCount > 0) characters[iChar].Ship.Mode = "war";
+						else characters[iChar].Ship.Mode = "trade";
+						
 						if (rand(4) == 1 || GetCharacterShipClass(&characters[iChar]) == 1) SetRandGeraldSail(&characters[iChar], sti(characters[iChar].Nation));
 						characters[iChar].AlwaysSandbankManeuver = true;  // тупым запрет тонуть об берег
 						characters[iChar].AnalizeShips = true; //анализить вражеские корабли
@@ -72,6 +71,48 @@ void GenerateIslandShips(string sIslandID)
 						Fantom_SetUpgrade(&characters[iChar], characters[iChar].Ship.Mode);
 						iShipsQuantity = iShipsQuantity - 1;
 						if(defendersCount > 0) defendersCount = defendersCount - 1;
+					}
+				}
+				if (!CheckAttribute(&colonies[i], "GenShipDate") || GetNpcQuestPastDayParam(&colonies[i], "GenShipDate") > 0) //торгаши
+				{
+                    SaveCurrentNpcQuestDateParam(&colonies[i], "GenShipDate"); // дата заполнения
+					iNation = sti(Colonies[i].nation);
+					
+					FortDefender = false;
+
+					if (defendersCount == 0) continue;
+					iShipsQuantity = 3-rand(3);
+					if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
+					{
+						iShipsQuantity = 0; 
+						continue;
+					}
+						
+					while (iShipsQuantity > 0)
+					{
+						iChar = GenerateCharacter(iNation, WITH_SHIP, "soldier", MAN, -1, WARRIOR); //-1 - это 1 день
+						FortDefender = false;
+						
+						PlaceCharacterShip(iChar, iNation, sIslandID, i, FortDefender, MainDefenderChar);
+
+						characters[iChar].IslandShips = Colonies[i].id; // номер города, чтоб тереть по захвату города to_do
+						if (iNation == PIRATE)
+						{ // нащ город
+							characters[iChar].AlwaysFriend        = true;
+							SetCharacterRelationBoth(iChar, GetMainCharacterIndex(), RELATION_FRIEND);
+						}
+						characters[iChar].Ship.Mode = "trade";
+
+						if (rand(4) == 1 || GetCharacterShipClass(&characters[iChar]) == 1) SetRandGeraldSail(&characters[iChar], sti(characters[iChar].Nation));
+						characters[iChar].AlwaysSandbankManeuver = true;  // тупым запрет тонуть об берег
+						characters[iChar].AnalizeShips = true; //анализить вражеские корабли
+						characters[iChar].location.from_sea = colonies[i].from_sea;
+						SetCaptanModelByEncType(&characters[iChar], characters[iChar].Ship.Mode); // boal
+						Fantom_SetCannons(&characters[iChar], characters[iChar].Ship.Mode);
+						Fantom_SetBalls(&characters[iChar], characters[iChar].Ship.Mode);
+						Fantom_SetGoods(&characters[iChar], characters[iChar].Ship.Mode);
+						Fantom_SetUpgrade(&characters[iChar], characters[iChar].Ship.Mode);
+						iShipsQuantity = iShipsQuantity - 1;
 					}
 				}
 			}
@@ -130,10 +171,10 @@ void PlaceCharacterShip(int iChar, int iNation, string sIslandID, int iColonyIdx
 		Group_SetTaskNone(sGroup);
 	}
 
-	if (sti(characters[iChar].nation) != PIRATE && GetNationRelation2Character(iNation, nMainCharacterIndex) == RELATION_ENEMY)
+	/*if (sti(characters[iChar].nation) != PIRATE && GetNationRelation2Character(iNation, nMainCharacterIndex) == RELATION_ENEMY)
 	{
 		Group_SetTaskAttack(sGroup, PLAYER_GROUP);
-	}
+	}*/
 }
 // очистить порт
 void ClearIslandShips(string _city)

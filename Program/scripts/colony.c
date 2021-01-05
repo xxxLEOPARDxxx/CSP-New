@@ -958,6 +958,7 @@ void TWN_ExitForPay() // мэр дает откуп - табличка прибыли
 	    AddMoneyToCharacter(pchar, (20 + rand(10)) * nBooty);
 	}
 	LaunchColonyCapture(rColony);
+	DeleteAttribute(rColony, "AlreadyGen");
 }
 
 //Для любой страны захват форта
@@ -1438,6 +1439,7 @@ void TWN_End_Siege_Any(string city)
         AddQuestRecord("Gen_CityCapture", "t6");
         makeref(rColony, Colonies[FindColony(city)]);
         DeleteAttribute(rColony, "DontSetShipInPort"); //возвращаем жизнь
+		DeleteAttribute(rColony, "AlreadyGen");
 	}
 	else
 	{
@@ -1561,6 +1563,7 @@ void TWN_Enemy_Any(string city)
 	Log_Info("Наш город " + GetCityName(city) + " захвачен.");
 	makeref(rColony, Colonies[FindColony(city)]);
     DeleteAttribute(rColony, "DontSetShipInPort"); //возвращаем жизнь
+	DeleteAttribute(rColony, "AlreadyGen");
 }
 
 void TWN_RealeseForMoney(string city, bool _agent)
@@ -1581,6 +1584,7 @@ void TWN_RealeseForMoney(string city, bool _agent)
 	makeref(rColony, Colonies[FindColony(city)]);
 	rColony.isBought = true;
 	DeleteAttribute(rColony, "DontSetShipInPort"); //возвращаем жизнь
+	DeleteAttribute(rColony, "AlreadyGen");
 	
 	if (_agent)
 	{

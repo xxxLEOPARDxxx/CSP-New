@@ -777,6 +777,7 @@ void SiegeClear(string tmp)
         makearef(aData, NullCharacter.Siege);
         makeref(rColony, Colonies[FindColony(aData.Colony)]);
         DeleteAttribute(rColony, "DontSetShipInPort"); //возвращаем жизнь
+		DeleteAttribute(rColony, "AlreadyGen");
         DeleteAttribute(rColony, "Siege"); //снимаем осаду
         if (CheckAttribute(PChar, "quest.Union_with_Escadra")) Pchar.quest.Union_with_Escadra.over = "yes";
         if (CheckAttribute(PChar, "quest.BattleOfTheColony")) Pchar.quest.BattleOfTheColony.over = "yes";

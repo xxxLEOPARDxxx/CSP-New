@@ -547,8 +547,8 @@ ref LAi_CreateFantomCharacterEx(string model, string ani, string group, string l
 			case 3: cirnum = "cirass3"; break;
 			case 4: cirnum = "cirass4"; break;
 		}
-		chr.cirassId = cirnum;
-		// Log_TestInfo("Персонаж "+chr.name+" из "+chr.City+" получил кирасу "+cirnum);
+		chr.cirassId = Items_FindItemIdx(cirnum);
+		Log_TestInfo("Персонаж "+chr.name+" получил кирасу "+cirnum);
 	}
 	return chr;
 }

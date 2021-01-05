@@ -170,6 +170,15 @@ void Fort_Login(int iIslandIndex)
 
 			if (bFortRessurect) // восстановили
 			{
+				int iTest;
+				iTest = FindColony(rCharacter.City);
+				ref rColony;
+				if (iTest != -1)
+				{
+					rColony = GetColonyByIndex(iTest);
+					DeleteAttribute(rColony,"AlreadyGen");
+					Group_FreeAllDead();
+				}
 				SetFortCharacterCaptured(rCharacter, false);
 				iFortMode = FORT_NORMAL;
 				rCharacter.Ship.Crew.Quantity = 900 + rand(600);

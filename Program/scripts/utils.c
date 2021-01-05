@@ -1409,8 +1409,8 @@ int NPC_GenerateCharacter(string _id, string _model, string _sex, string _ani, i
 			case 3: cirnum = "cirass3"; break;
 			case 4: cirnum = "cirass4"; break;
 		}
-		ch.cirassId = cirnum;
-		// Log_TestInfo("Персонаж "+ch.name+" из "+ch.City+" получил кирасу "+cirnum);
+		ch.cirassId = Items_FindItemIdx(cirnum);
+		Log_TestInfo("Персонаж "+ch.name+" получил кирасу "+cirnum);
 	}
 	return  iChar;
 }

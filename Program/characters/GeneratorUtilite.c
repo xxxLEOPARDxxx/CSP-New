@@ -24,8 +24,8 @@ void SetFantomParamFromRank(ref NPchar, int  rank, bool setEquip)
 			case 3: cirnum = "cirass3"; break;
 			case 4: cirnum = "cirass4"; break;
 		}
-		NPchar.cirassId = cirnum;
-		// Log_TestInfo("Персонаж "+NPchar.name+" из "+NPchar.City+" получил кирасу "+cirnum);
+		NPchar.cirassId = Items_FindItemIdx(cirnum);
+		Log_TestInfo("Персонаж "+NPchar.name+" получил кирасу "+cirnum);
 	}
 }
 
