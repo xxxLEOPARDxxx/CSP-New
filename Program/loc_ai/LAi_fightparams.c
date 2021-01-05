@@ -343,7 +343,7 @@ float LAi_GunCalcProbability(aref attack, float kDist)
 	pmin = pmin + 0.3*aSkill;
 
 	//Вероятность попадания в текущей позиции
-	float p = pmin + (1.0 - pmin)*(kDist/0.9);
+	float p = pmin + (1.0 - pmin)*(kDist/0.9)+(GetCharacterSPECIALSimple(attack, SPECIAL_P)*0.01);
  	//Учесть абилити
 	if(IsCharacterPerkOn(attack, "GunProfessional"))
 	{
@@ -755,7 +755,23 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	//Вероятность поподания
 	float p = LAi_GunCalcProbability(attack, kDist);
 	//Если промахнулись, то выйдем
-	if(rand(10000) > p*10000) return;	  
+	if(rand(10000) > p*10000)
+	{
+		if(sti(attack.index) == GetMainCharacterIndex())
+		{
+			string missed = "";
+			switch (rand(4))
+			{
+				case 0: missed = "Промах!"; PlaySound("Kopcapkz\Voices\RoflPhase\PromahBleyat.wav"); break;
+				case 1: missed = "Мазила!"; PlaySound("Kopcapkz\Voices\RoflPhase\JebannyMazila.wav"); break;
+				case 2: missed = "Целься лучше!"; PlaySound("Kopcapkz\Voices\RoflPhase\CelsyaLuchshe.wav"); break;
+				case 3: missed = "Да прицелься уже!"; PlaySound("Kopcapkz\Voices\RoflPhase\DaPricelsyaUje.wav"); break;
+				case 4: missed = "Не попал!"; PlaySound("Kopcapkz\Voices\RoflPhase\NepopalKretin.wav"); break;
+			}
+			Log_Info(missed);
+		}
+		return;
+	}		  
 	// boal брон работает всегда, а не токо в блоке 23.05.2004 -->
 	if(CheckAttribute(enemy, "cirassId"))
 	{

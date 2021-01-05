@@ -1869,7 +1869,7 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 
 		fSneak  = stf(mChar.TmpSkill.Sneak); // 0.01..1.0
 		int rep = sti(abs(REPUTATION_NEUTRAL - sti(mChar.reputation)) * 0.75);
-		int losechance = rand(100) + rand(20) + rand(rep);
+		int losechance = rand(100) + rand(20) + rand(rep) - GetCharacterSPECIALSimple(pchar, SPECIAL_L)*2;
 		int winchance = makeint(fSneak * 10 * iClass * (9-iCompan));
 		Log_TestInfo("Требуется: "+losechance+"/Текущее значение: "+winchance);
 		if (losechance > winchance)

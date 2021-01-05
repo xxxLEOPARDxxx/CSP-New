@@ -10,7 +10,7 @@ int Play3DSound(string name, float x, float y, float z)
 {
 	InitSound();
 	//Trace("Play3DSound : "+name);
-	return SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_3D, VOLUME_FX, false, false, false, 0, x, y, z);
+	return SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY, name, SOUND_WAV_3D, VOLUME_FX, false, false, false, 0, x, y, z);
 }
 
 int Play3DSoundRet(string name, float x, float y, float z)
@@ -24,7 +24,7 @@ int Play3DSoundCached(string name, float x, float y, float z)
 {
 	InitSound();
 	//Trace("Play3DSoundCached : "+name);
-	return SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_3D, VOLUME_FX, false, false, true, 0, x, y, z);
+	return SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY, name, SOUND_WAV_3D, VOLUME_FX, false, false, true, 0, x, y, z);
 }
 
 int Play3DSoundComplex(string name, float x, float y, float z, bool bLooped, bool bCached)
@@ -37,21 +37,21 @@ int PlayStereoSound(string name)
 {
 	InitSound();
 	//Trace("PlayStereoSound : "+name);
-	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_STEREO, VOLUME_FX, false, false, false);
+	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_FX, false, false, false);
 }
 
 int PlayStereoSoundLooped(string name)
 {
 	InitSound();
 	//Trace("PlayStereoSoundLooped : "+name);
-	return SendMessage(Sound,"lsllll",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_STEREO, VOLUME_FX, false, true, false);
+	return SendMessage(Sound,"lsllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_FX, false, true, false);
 }
 
 int PlayStereoSoundLooped_JustCache(string name)
 {
 	InitSound();
 	//Trace("PlayStereoSoundLooped : "+name);
-	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_STEREO, VOLUME_FX, true, true, false);
+	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_FX, true, true, false);
 }
 
 int PlayStereoOGG(string name)
@@ -449,7 +449,7 @@ void SetStaticSounds (ref loc)
    		}
 
 		//trace("Create 3D Sound <"+locatorType+ "> for locator <"+locatorName+ "> into pos:("+locator.x+","+locator.y+","+locator.z+")" );
-		SendMessage(Sound, "lsllllllfff", MSG_SOUND_PLAY_NORET, locatorType, SOUND_WAV_3D, VOLUME_FX, 0, 1, 0, 0, stf(locator.x), stf(locator.y), stf(locator.z));
+		SendMessage(Sound, "lsllllllfff", MSG_SOUND_PLAY, locatorType, SOUND_WAV_3D, VOLUME_FX, 0, 1, 0, 0, stf(locator.x), stf(locator.y), stf(locator.z));
 	}
 	
 }
