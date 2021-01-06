@@ -57,7 +57,8 @@ string GetLocationForTreasure(string island)
 
 	makearef(arDest, NullCharacter.TravelMap.Islands.(island).Treasure);
 	iNum = GetAttributesNum(arDest);
-    iNum = rand(iNum-1);
+	if (iNum == 0) iNum=iNum;
+    else iNum = rand(iNum-1);
     
     arImt = GetAttributeN(arDest, iNum);
 	return GetAttributeName(arImt);
@@ -71,7 +72,8 @@ string GetBoxForTreasure(string island, string location)
 
 	makearef(arDest, NullCharacter.TravelMap.Islands.(island).Treasure.(location));
 	iNum = GetAttributesNum(arDest);
-    iNum = rand(iNum-1);
+	if (iNum == 0) iNum=iNum;
+    else iNum = rand(iNum-1);
     
     arImt = GetAttributeN(arDest, iNum);
 	return GetAttributeValue(arImt);  // тут не атрибут, а значеие

@@ -2220,7 +2220,7 @@ void EncGirl_AddPassenger(string qName)
 	AddPassenger(pchar, sld, false);
 	SetCharacterRemovable(sld, false);		
 	LAi_type_actor_Reset(sld); 
-	ChangeCharacterAddress(sld, "none", ""); 
+	ChangeCharacterAddress(sld, "none", "");
 }
 
 void EncGirl_DialogAtShore(string qName)
@@ -2306,8 +2306,13 @@ void EncGirl_DeliveBack(string qName)
 void EncGirl_GenerateChest(ref chref)
 {
 	pchar.GenQuest.EncGirl.Treasure.Island = GetArealByCityName(chref.city);
+	Log_TestInfo(pchar.GenQuest.EncGirl.Treasure.Island);
 	pchar.GenQuest.EncGirl.Treasure.Location = GetLocationForTreasure(pchar.GenQuest.EncGirl.Treasure.Island);
+	pchar.GenQuest.TreasureEncGirl = pchar.GenQuest.EncGirl.Treasure.Location;
+	Log_TestInfo(pchar.GenQuest.EncGirl.Treasure.Location);
 	pchar.GenQuest.EncGirl.Treasure.Locator = GetBoxForTreasure(pchar.GenQuest.EncGirl.Treasure.Island, pchar.GenQuest.EncGirl.Treasure.Location);
+	pchar.GenQuest.TreasureEncGirlBox = pchar.GenQuest.EncGirl.Treasure.Locator;
+	Log_TestInfo(pchar.GenQuest.EncGirl.Treasure.Locator);
 
 	pchar.quest.EncGirl_FindTreasure.win_condition.l1 = "location";
 	pchar.quest.EncGirl_FindTreasure.win_condition.l1.location = pchar.GenQuest.EncGirl.Treasure.Location;
@@ -2353,11 +2358,54 @@ void EncGirl_GirlFollow()
 void EncGirl_MeetRapers(string qName)
 {
 	ref sld;
+	int iRank;
+	string model[25], sAreal, sCity;
+	int iMassive;
+	
+	if (sti(pchar.rank) > 1) 
+	{
+		if (sti(pchar.rank) > 20) iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*2.5/3);
+		else iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*1.6/3);
+	}
+	else iRank = sti(pchar.rank);
+
+	model[0] = "pirate_1";
+	model[1] = "pirate_2";
+	model[2] = "pirate_3";
+	model[3] = "pirate_4";
+	model[4] = "pirate_5";
+	model[5] = "pirate_6";
+	model[6] = "pirate_7";
+	model[7] = "pirate_8";
+	model[8] = "pirate_9";
+	model[9] = "pirate_10";
+	model[10] = "pirate_11";
+	model[11] = "pirate_12";
+	model[12] = "pirate_13";
+	model[13] = "pirate_14";
+	model[14] = "pirate_15";
+	model[15] = "pirate_16";
+	model[16] = "pirate_17";
+	model[17] = "pirate_18";
+	model[18] = "pirate_19";
+	model[19] = "pirate_20";
+	model[20] = "pirate_21";
+	model[21] = "pirate_22";
+	model[22] = "pirate_23";
+	model[23] = "pirate_24";
+	model[24] = "pirate_25";
+	
 	for(i = 1; i <= 3; i++)
 	{
-		if (GetCharacterIndex("GangMan_" + i) == -1) continue;
-		sld = CharacterFromID("GangMan_" + i);
+		iMassive = rand(24);
+		sld = GetCharacter(NPC_GenerateCharacter("GangMan_" + i, model[iMassive], "man", "man", iRank, PIRATE, 1, true));
+		SetFantomParamFromRank(sld, iRank, true);
+		
+		sAreal = GiveArealByLocation(sld.location);
+		sCity = GetCityNameByIsland(sAreal);
+		sld.city = sCity;
 		LAi_SetImmortal(sld, false);
+		LAi_SetActorType(sld);
 		LAi_type_actor_Reset(sld);
 		sld.dialog.filename = "Enc_Rapers_dialog.c";
 		sld.dialog.currentnode = "Node_8";
@@ -2404,8 +2452,8 @@ void EncGirl_GenerateLeatherBag(string qName)
 
 void EncGirl_RapersChest(string qName)
 {
-	ref location = &Locations[FindLocation(pchar.GenQuest.EncGirl.Treasure.Location)];
-	string boxId = pchar.GenQuest.EncGirl.Treasure.Locator;
+	ref location = &Locations[FindLocation(pchar.GenQuest.TreasureEncGirl)];
+	string boxId = pchar.GenQuest.TreasureEncGirlBox;
 	aref boxItems;
 	
 	makearef(boxItems, location.(boxId).items);
@@ -2459,7 +2507,7 @@ void EncGirl_RapersAfter(string qName)
 	pchar.quest.EncGirl_TreasureLose.function = "EncGirl_TreasureLose";
 
 	pchar.quest.EncGirl_RapersTreasure.win_condition.l1 = "location";
-	pchar.quest.EncGirl_RapersTreasure.win_condition.l1.location = pchar.GenQuest.EncGirl.Treasure.Location;
+	pchar.quest.EncGirl_RapersTreasure.win_condition.l1.location = pchar.GenQuest.TreasureEncGirl;
 	pchar.quest.EncGirl_RapersTreasure.function = "EncGirl_RapersChest";
 }
 

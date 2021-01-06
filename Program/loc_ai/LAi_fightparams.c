@@ -762,11 +762,11 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 			string missed = "";
 			switch (rand(4))
 			{
-				case 0: missed = "Промах!"; PlaySound("Kopcapkz\Voices\RoflPhase\PromahBleyat.wav"); break;
-				case 1: missed = "Мазила!"; PlaySound("Kopcapkz\Voices\RoflPhase\JebannyMazila.wav"); break;
-				case 2: missed = "Целься лучше!"; PlaySound("Kopcapkz\Voices\RoflPhase\CelsyaLuchshe.wav"); break;
-				case 3: missed = "Да прицелься уже!"; PlaySound("Kopcapkz\Voices\RoflPhase\DaPricelsyaUje.wav"); break;
-				case 4: missed = "Не попал!"; PlaySound("Kopcapkz\Voices\RoflPhase\NepopalKretin.wav"); break;
+				case 0: missed = "Промах!"; break;
+				case 1: missed = "Мазила!"; break;
+				case 2: missed = "Целься лучше!"; break;
+				case 3: missed = "Да прицелься уже!"; break;
+				case 4: missed = "Не попал!"; break;
 			}
 			Log_Info(missed);
 		}

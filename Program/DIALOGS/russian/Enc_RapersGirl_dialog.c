@@ -822,13 +822,26 @@ void ProcessDialogEvent()
 			pchar.quest.EncGirl_DeliveBack.function = "EncGirl_DeliveBack";		
 			Diag.CurrentNode = Diag.TempNode;
 			AddDialogExitQuestFunction("EncGirl_GirlFollow");
-			DialogExit();		
+			DialogExit();
+			AddDialogExitQuest("pchar_back_to_player");	
 		break;
 		
 		case "Node_224":
-			dialog.text = "Капитан, вы обещали проводить меня в таверну поселения " + XI_ConvertString("Colony" + pchar.GenQuest.EncGirl.city) + ".";
-			link.l1 = RandPhraseSimple("Помню я, помню.","Не волнуйся - провожу.");
-			link.l1.go = "exit";
+			chrDisableReloadToLocation = false;
+			if (PChar.sex != "woman")
+			{
+				dialog.text = "Здесь слишком людно. Давайте пройдём в комнату, мне нужно вам кое-что рассказать.";
+				link.l1 = LinkRandPhrase("Я и так для тебя много сделал, так что прощай.","Не стоит злоупотреблять моим расположением. До свидания, дорогуша.","Мне твои россказни малоинтересны. Дальше разберёшься сама.");
+				link.l1.go = "Node_226";
+				link.l2 = "Хм, ну хорошо. Сейчас возьму ключи у бармена.";
+				link.l2.go = "Node_227";
+			}
+			else
+			{
+				dialog.text = "Большое спасибо за вашу помощь, милая девушка. Я никогда не забуду вашей доброты.";
+				link.l1 = "Да ладно тебе. Лучше будь осторожнее впредь.";
+				link.l1.go = "Node_226_1";
+			}
 		break;
 		
 		case "Node_225":
@@ -1209,17 +1222,13 @@ void ProcessDialogEvent()
 		
 		case "Node_260":		
 			chrDisableReloadToLocation = false;
-			if(rand(1) == 0)
+			if(rand(2) > 0)
 			{
 				dialog.text = RandPhraseSimple("Спасибо вам, "+ GetSexPhrase("каптан","девушка") +", ещё раз. Уж и не знаю, как благодарить.","Большое вам спасибо, "+ GetSexPhrase("капитан","девушка") +". Даже не представляю, что бы я делала, не подоспей вы ко времени.");
 				link.l1 = RandPhraseSimple("Впредь будет тебе наука. Ну, счастливо оставаться...","В следующий раз будешь осторожнее... Ну, иди домой, меня дела ждут.");
 				link.l1.go = "Node_1End";
 				link.l2 = "Разве можно быть такой беспечной? Чего тебя одну в джунгли понесло?";
 				link.l2.go = "Node_13";
-				
-				pchar.quest.LandEnc_RapersBadExit.win_condition.l1 = "ExitFromLocation";
-				pchar.quest.LandEnc_RapersBadExit.win_condition.l1.location = pchar.location;
-				pchar.quest.LandEnc_RapersBadExit.win_condition = "LandEnc_RapersBadExit";
 			}
 			else
 			{
