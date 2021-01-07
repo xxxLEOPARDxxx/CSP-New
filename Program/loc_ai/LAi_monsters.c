@@ -144,7 +144,7 @@ bool LAi_CreateEncounters(ref location)
 	//Можем ли генерить
 	if(CheckAttribute(location, "DisableEncounters")) return false;
 	if(!CheckAttribute(location, "locators.encdetector") || !CheckNPCQuestDate(location, "Enc_date") || bDisableLandEncounters) return false;
-	if (CheckAttribute(location, "fastreload")) return false; //отсекаем локации exitTown у пиратских городов
+	if (CheckAttribute(location, "fastreload") && !HasSubStr(location.id, "exitTown")) return false; //отсекаем локации exitTown у пиратских городов
     //boal 02.09.06 пауза случаек на один раз -->
 	if (CheckAttribute(pchar, "GenQuest.Enc2Pause"))
 	{

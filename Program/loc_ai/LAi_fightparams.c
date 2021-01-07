@@ -580,21 +580,54 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	{
 		critical = 0;
 	}
-	if(CheckAttribute(enemy, "cirassId") && critical > 0.0)// если кираса или блок, то критикал невозможен
+	bool cirign = false;
+	if (CheckAttribute(enemy, "cirassId"))
+	{
+		if (HasSubStr(attack.equip.blade, "topor") && rand(2)==0 && !blockSave)
+		{
+			cirign = true;
+			Log_TestInfo("топор");
+			if(sti(attack.index) == GetMainCharacterIndex())
+			{
+				Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
+			}
+			if(sti(enemy.index) == GetMainCharacterIndex())
+			{
+				Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+			}
+		}
+		if (!HasSubStr(attack.equip.blade, "topor") && LAi_GetBladeFencingType(attack) == "FencingHeavy" && rand(4)==0 && !blockSave)
+		{
+			cirign = true;
+			Log_TestInfo("тяж");
+			if(sti(attack.index) == GetMainCharacterIndex())
+			{
+				Log_Info("Ваша атака игнорирует сопротивления кирасы.");
+			}
+			if(sti(enemy.index) == GetMainCharacterIndex())
+			{
+				Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+			}
+		}
+	}
+	if(CheckAttribute(enemy, "cirassId") && !cirign && critical > 0.0)// если кираса или блок, то критикал невозможен
 	{
 		string cirassId = enemy.cirassId;
-		if (cirassId == "cirass1" && rand(9)<4) critical = 0.0;
-		if (cirassId == "cirass2" && rand(9)<6) critical = 0.0;
-		if (cirassId == "cirass3" && rand(1)==0) critical = 0.0;
-		if (cirassId == "cirass4" && rand(4)>0) critical = 0.0;
-		if (cirassId == "cirass5") critical = 0.0;
-		if(sti(enemy.index) == GetMainCharacterIndex())
+		if (Items[sti(enemy.cirassId)].id == "cirass1" && rand(9)<4) critical = 0.0;
+		if (Items[sti(enemy.cirassId)].id == "cirass2" && rand(9)<6) critical = 0.0;
+		if (Items[sti(enemy.cirassId)].id == "cirass3" && rand(1)==0) critical = 0.0;
+		if (Items[sti(enemy.cirassId)].id == "cirass4" && rand(4)>0) critical = 0.0;
+		if (Items[sti(enemy.cirassId)].id == "cirass5") critical = 0.0;
+		if (critical == 0.0)
 		{
-			Log_Info("Критический удар был предотвращен!");
-		}
-		else
-		{
-			Log_TestInfo("Критический удар по "+enemy.Name+" был предотвращен!");
+			if(sti(enemy.index) == GetMainCharacterIndex())
+			{
+				Log_Info("Критический удар был предотвращен!");
+			}
+			else
+			{
+				Log_TestInfo("Критический удар по "+enemy.Name+" был предотвращен!");
+			}
 		}
 	}
 	if(critical > 0.0)
@@ -615,7 +648,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	// ГПК 1.2.3
 	dmg = dmg*kDmg;
 	dmg = dmg *(1 + critical);//dmg + critical;
-	if(CheckAttribute(enemy, "cirassId"))
+	if(CheckAttribute(enemy, "cirassId") && !cirign)
 	{
 		switch (attackType)
 		{

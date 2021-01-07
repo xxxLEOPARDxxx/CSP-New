@@ -83,6 +83,7 @@ void SetCamShuttle(ref loc) // boal вынес в метод
 bool LoadLocation(ref loc)
 {
 	//trace("LoadLocation(ref loc) " + loc.id);
+	if (loc.id == "Cartahena_ExitTown") loc.fastreload = "Cartahena";
 	PostEvent(EVENT_LOCATION_LOAD,0);
 
 	int i;

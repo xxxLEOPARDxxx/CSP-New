@@ -575,7 +575,7 @@ int LocationInitCartahena(int n)
 	// Выход из города
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cartahena_ExitTown";
-	locations[n].fastreload = "Villemstad";
+	locations[n].fastreload = "Cartahena";
 	locations[n].id.label = "Cartahena";
 	locations[n].image = "loading\Gate" + rand(1) + ".tga";
 	//Town sack
