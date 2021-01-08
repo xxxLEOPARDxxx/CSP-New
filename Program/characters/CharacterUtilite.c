@@ -3569,3 +3569,32 @@ void CharacterCheckEquipAll(ref refCharacter)
 		EquipCharacterByItem(refCharacter, FindCharacterItemByGroup(refCharacter,GUN_ITEM_TYPE));
 	}
 }
+
+// dolphin смена мушкета
+#event_handler("Event_SwapWeapon", "SwapWeapon");
+void SwapWeapon()
+{
+	SetMainCharacterToMushketer(pchar.mushket, true);
+	PostEvent("Event_SwapWeapon2", 100);
+}
+
+#event_handler("Event_SwapWeapon3", "SwapWeapon3");
+void SwapWeapon3()
+{
+	SetMainCharacterToMushketer(pchar.mushket, false);
+	PostEvent("Event_SwapWeapon2", 100);
+}
+
+#event_handler("Event_SwapWeapon2", "SwapWeaponFight");
+void SwapWeaponFight()
+{
+	LAi_SetPlayerType(pchar);
+	LAi_SetFightMode(pchar, true);
+	PostEvent("Event_SwapWeapon4", 2000);
+}
+
+#event_handler("Event_SwapWeapon4", "SwapWeaponFight2");
+void SwapWeaponFight2()
+{
+	pchar.mushket.timer = false;
+}

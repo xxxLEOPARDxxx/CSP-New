@@ -760,7 +760,7 @@ void OnLoad()
 	DeleteAttribute(&IBoardingStatus,"");
 	
 	//Boyer add
-	onLoadReInit();
+	//onLoadReInit();
 	//Boyer change #20170418-01
 	restoreQuestItems();
 	//End Boyer add
@@ -1403,6 +1403,21 @@ void ProcessControls()
 				DeleteAttribute(pchar, "SkipEshipIndex");// boal
 			}
 		break;
+		
+		case "MushketHotkey":
+			if (!CheckAttribute(pchar,"mushket")) break;
+			if (!CheckCharacterItem(pchar, pchar.mushket)) break;
+			if(LAi_CheckFightMode(pchar))
+			{
+				if (pchar.mushket.timer) break;
+				pchar.mushket.timer = true;
+				LAi_SetFightMode(pchar, false);
+				LAi_SetActorType(pchar);
+				if(pchar.model.animation != "mushketer") PostEvent("Event_SwapWeapon", 1400);
+				else PostEvent("Event_SwapWeapon3", 800);
+			}
+		break;
+		
 		case "Map_Best":
 		//	if (bBettaTestMode) LaunchPaperMapScreen();
 			if(CheckCharacterItem(PChar, "Map_Best") || bBettaTestMode) LaunchBestMapScreen();
@@ -1951,11 +1966,19 @@ bool CheckSaveGameEnabled()
 		int idxLoadLoc = FindLoadedLocation();
 	    if (idxLoadLoc != -1 )
 	    {
-	        if (Locations[idxLoadLoc].id == "Ship_deck" || Locations[idxLoadLoc].id == "Deck_Near_Ship") // сайв на палубе глюкавый
+	        if (Locations[idxLoadLoc].id == "Ship_deck" || Locations[idxLoadLoc].id == "Deck_Near_Ship" ) // сайв на палубе глюкавый
 	        {
 	            TmpBool = false;
 	        }
+			string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
+			if (sNation != "none")
+			{
+				int i = sti(sNation);
+				bool bTmpBool = (GetNationRelation2MainCharacter(i) == RELATION_ENEMY) || GetRelation2BaseNation(i) == RELATION_ENEMY;
+				if (HasSubStr(Locations[idxLoadLoc].id, "_Town") && bTmpBool) TmpBool = false;
+			}
 	    }
+		
 	}
     return TmpBool;
 }

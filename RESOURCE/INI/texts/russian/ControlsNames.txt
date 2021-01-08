@@ -268,6 +268,19 @@ BOAL_ActivateRush
 Включить режим 'Берсерк'
 
 }
+
+MushketHotkey
+{
+Переключить мушкет / сабля + пистолет
+
+}
+
+ChrJump
+{
+"Прыжок"
+
+}
+
 BOAL_DeadSearch
 {
 Обыск трупа

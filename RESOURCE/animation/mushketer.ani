@@ -570,7 +570,7 @@ data = "Turn speed", "5.5"
     end_time = 324
 
     data = "Blend time", "0.2"		; sec
-    data = "Walk speed", "4.0"		; m/sec
+    data = "Walk speed", "5.5"		; m/sec
     data = "Turn speed", "5.5"		; rad/sec
 
     event = "RStep", 312, normal

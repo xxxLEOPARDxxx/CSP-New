@@ -1187,6 +1187,7 @@ void EquipPress()
 					{
 						if(!CheckAttribute(PChar, "IsMushketer")) // Не мушкетер. Делаем мушкетером
 						{
+							pchar.mushket = itmRef.id;
 							SetMainCharacterToMushketer(itmRef.id, true);
 						}
 						else // Мушкетер. Делаем обычным фехтовальщиком

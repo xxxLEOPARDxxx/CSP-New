@@ -109,7 +109,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "PrimaryLand", "ChrAction", CI_GetKeyCode("VK_LBUTTON"), 0, true );
 		CI_CreateAndSetControls( "PrimaryLand", "ChrForward", CI_GetKeyCode("KEY_W"), 0, true );
 		CI_CreateAndSetControls( "PrimaryLand", "ChrForward2", CI_GetKeyCode("VK_RBUTTON"), 0, true ); // втора€ команда
-		//CI_CreateAndSetControls( "PrimaryLand", "ChrJump", CI_GetKeyCode("KEY_T"), 0, true );
+		CI_CreateAndSetControls( "PrimaryLand", "ChrJump", CI_GetKeyCode("KEY_T"), 0, true );
 		MapControlToGroup("ChrForward","FightModeControls");
 		MapControlToGroup("ChrForward","BattleInterfaceControls");
 		CI_CreateAndSetControls( "PrimaryLand", "ChrBackward", CI_GetKeyCode("KEY_S"), 0, true );
@@ -139,6 +139,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 		MapControlToGroup("BOAL_DeadSearch","FightModeControls");
 		
 		CI_CreateAndSetControls( "FightModeControls", "BOAL_ActivateRush", CI_GetKeyCode("KEY_F"), 0, true ); // boal €рость на суше
+		CI_CreateAndSetControls( "FightModeControls", "MushketHotkey", CI_GetKeyCode("KEY_U"), 0, true); // ћушкет
 		// boal <--
 		
 		//Jonathan A 2009-08-19 -->
@@ -527,7 +528,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "PrimaryLand", "ChrAction", CI_GetKeyCode("VK_SPACE"), 0, true );
 		CI_CreateAndSetControls( "PrimaryLand", "ChrForward", CI_GetKeyCode("KEY_W"), 0, true );
 		CI_CreateAndSetControls( "PrimaryLand", "ChrForward2", CI_GetKeyCode("VK_RBUTTON"), 0, true ); // втора€ команда
-		//CI_CreateAndSetControls( "PrimaryLand", "ChrJump", CI_GetKeyCode("KEY_T"), 0, true );
+		CI_CreateAndSetControls( "PrimaryLand", "ChrJump", CI_GetKeyCode("KEY_T"), 0, true );
 		MapControlToGroup("ChrForward","FightModeControls");
 		MapControlToGroup("ChrForward","BattleInterfaceControls");
 		CI_CreateAndSetControls( "PrimaryLand", "ChrBackward", CI_GetKeyCode("KEY_S"), 0, true );
@@ -558,6 +559,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 		MapControlToGroup("BOAL_DeadSearch","FightModeControls");
 
 		CI_CreateAndSetControls( "FightModeControls", "BOAL_ActivateRush", CI_GetKeyCode("KEY_F"), 0, true ); // boal €рость на суше
+		CI_CreateAndSetControls( "FightModeControls", "MushketHotkey", CI_GetKeyCode("KEY_U"), 0, true); // ћушкет
 		// boal <--
 		
 		//Jonathan A 2009-08-19 -->

@@ -273,9 +273,10 @@ void CreateWeatherEnvironment()
 	int iCurLocation;
 	int iTestWeather;
 	bool bQuestlockWeather;
+    float fGetTime = GetTime();
 
 	bQuestlockWeather = false;
-	sunIsShine = true; 
+	sunIsShine = true;
 
 	if(CheckAttribute(pchar, "location"))
 	{
@@ -290,25 +291,27 @@ void CreateWeatherEnvironment()
 			{
 				bWhrTornado = 1;
 			}
-			//малый шторм в локациях
 			if(CheckAttribute(&locations[iCurLocation], "alwaysStorm"))
 			{
-				if (GetTime() >= 6.0 && GetTime() < 10.0) locations[iCurLocation].QuestlockWeather = "Storm01_add";
-				if (GetTime() >= 10.0 && GetTime() < 18.0) locations[iCurLocation].QuestlockWeather = "Storm02_add";
-				if (GetTime() >= 18.0 && GetTime() < 22.0) locations[iCurLocation].QuestlockWeather = "Storm03_add";
-				if (GetTime() >= 22.0 && GetTime() <= 23.99) locations[iCurLocation].QuestlockWeather = "Storm04_add";
-				if (GetTime() >= 0 && GetTime() < 6.0) locations[iCurLocation].QuestlockWeather = "Storm04_add";
+				if (fGetTime >= 6.0 && fGetTime < 10.0) locations[iCurLocation].QuestlockWeather = "Storm01_add";
+				else { if (fGetTime >= 10.0 && fGetTime < 18.0) locations[iCurLocation].QuestlockWeather = "Storm02_add";
+				else { if (fGetTime >= 18.0 && fGetTime < 22.0) locations[iCurLocation].QuestlockWeather = "Storm03_add";
+				else { locations[iCurLocation].QuestlockWeather = "Storm04_add";
+				}}}
 				if (CheckAttribute(&locations[iCurLocation], "alwaysStorm.WaveHeigh")) locations[iCurLocation].MaxWaveHeigh = 2.5; //установим уровень воды
 			}
-			//большой шторм в локациях
-			if(CheckAttribute(&locations[iCurLocation], "alwaysStorm_2"))
-			{
-				if (GetTime() >= 6.0 && GetTime() < 10.0) locations[iCurLocation].QuestlockWeather = "Storm01";
-				if (GetTime() >= 10.0 && GetTime() < 18.0) locations[iCurLocation].QuestlockWeather = "Storm02";
-				if (GetTime() >= 18.0 && GetTime() < 22.0) locations[iCurLocation].QuestlockWeather = "Storm03";
-				if (GetTime() >= 22.0 && GetTime() <= 23.99) locations[iCurLocation].QuestlockWeather = "Storm04";
-				if (GetTime() >= 0 && GetTime() < 6.0) locations[iCurLocation].QuestlockWeather = "Storm04";
-				if (CheckAttribute(&locations[iCurLocation], "alwaysStorm_2.WaveHeigh")) locations[iCurLocation].MaxWaveHeigh = 40.0; //установим уровень воды
+			else 
+			{ 
+				if(CheckAttribute(&locations[iCurLocation], "alwaysStorm_2")) //COAS escape
+                {
+					WeatherParams.Storm = "1";
+                    if (fGetTime >= 6.0 && fGetTime < 10.0) locations[iCurLocation].QuestlockWeather = "Storm01";
+                    else { if (fGetTime >= 10.0 && fGetTime < 18.0) locations[iCurLocation].QuestlockWeather = "Storm02";
+                    else { if (fGetTime >= 18.0 && fGetTime < 22.0) locations[iCurLocation].QuestlockWeather = "Storm03";
+                    else { locations[iCurLocation].QuestlockWeather = "Storm04";
+                    }}}
+                    if (CheckAttribute(&locations[iCurLocation], "alwaysStorm_2.WaveHeigh")) locations[iCurLocation].MaxWaveHeigh = 28.0; //40.0;
+                }
 			}
 			if(CheckAttribute(&locations[iCurLocation], "QuestlockWeather"))
 			{
@@ -319,13 +322,13 @@ void CreateWeatherEnvironment()
 					bQuestlockWeather = true;
 					if (CheckAttribute(&locations[iCurLocation], "lockWeather") && locations[iCurLocation].lockWeather == "Inside")
 					{
-						sunIsShine = false; //выключить солнце
+						sunIsShine = false;
 					}
 				}
 			}
 		}
 		else
-		{		
+		{
 			iCurLocation = FindIsland(pchar.location);
 			if(iCurLocation != -1)
 			{
@@ -339,11 +342,11 @@ void CreateWeatherEnvironment()
 				}
 				if(CheckAttribute(&Islands[iCurLocation], "alwaysStorm"))
 				{
-					if (GetTime() >= 6.0 && GetTime() < 10.0) Islands[iCurLocation].QuestlockWeather = "Storm01";
-					if (GetTime() >= 10.0 && GetTime() < 18.0) Islands[iCurLocation].QuestlockWeather = "Storm02";
-					if (GetTime() >= 18.0 && GetTime() < 22.0) Islands[iCurLocation].QuestlockWeather = "Storm03";
-					if (GetTime() >= 22.0 && GetTime() <= 23.99) Islands[iCurLocation].QuestlockWeather = "Storm04";
-					if (GetTime() >= 0 && GetTime() < 6.0) Islands[iCurLocation].QuestlockWeather = "Storm04";
+					if (fGetTime >= 6.0 && fGetTime < 10.0) Islands[iCurLocation].QuestlockWeather = "Storm01";
+					else { if (fGetTime >= 10.0 && fGetTime < 18.0) Islands[iCurLocation].QuestlockWeather = "Storm02";
+					else { if (fGetTime >= 18.0 && fGetTime < 22.0) Islands[iCurLocation].QuestlockWeather = "Storm03";
+					else { Islands[iCurLocation].QuestlockWeather = "Storm04";
+					}}}
 				}
 				if(CheckAttribute(&Islands[iCurLocation], "QuestlockWeather"))
 				{
