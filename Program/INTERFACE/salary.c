@@ -162,7 +162,7 @@ void CalculateInfoData()
 	// перенес расчет в CharacterUtilite int nCommerce   = GetSummonSkillFromName(mchref,SKILL_COMMERCE);
 
 	nPaymentQ = 0;
-	for(i=0; i<COMPANION_MAX; i++)
+	/* for(i=0; i<COMPANION_MAX; i++)
 	{
 		cn = GetCompanionIndex(mchref,i);
 		if( cn>=0 )//&& GetRemovable(&Characters[cn]) )
@@ -174,7 +174,7 @@ void CalculateInfoData()
 			    nPaymentQ += GetSalaryForShip(chref);
 			}
 		}
-	}
+	} */
 
 	if( CheckAttribute(mchref,"CrewPayment") )
     {

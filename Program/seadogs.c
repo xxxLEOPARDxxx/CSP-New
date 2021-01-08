@@ -1970,12 +1970,15 @@ bool CheckSaveGameEnabled()
 	        {
 	            TmpBool = false;
 	        }
-			string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
-			if (sNation != "none")
+			if (CheckAttribute(Locations[idxLoadLoc],"fastreload"))
 			{
-				int i = sti(sNation);
-				bool bTmpBool = (GetNationRelation2MainCharacter(i) == RELATION_ENEMY) || GetRelation2BaseNation(i) == RELATION_ENEMY;
-				if (HasSubStr(Locations[idxLoadLoc].id, "_Town") && bTmpBool) TmpBool = false;
+				string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
+				if (sNation != "none")
+				{
+					int i = sti(sNation);
+					bool bTmpBool = (GetNationRelation2MainCharacter(i) == RELATION_ENEMY) || GetRelation2BaseNation(i) == RELATION_ENEMY;
+					if (HasSubStr(Locations[idxLoadLoc].id, "_Town") && bTmpBool) TmpBool = false;
+				}
 			}
 	    }
 		

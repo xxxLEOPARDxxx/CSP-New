@@ -50,7 +50,6 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			dialog.text = "Есть один человек, который с этим Зивертом в паре ходил. Но что-то у них не склеилось - то ли Зиверт его за бортом оставил, то ли наоборот. Оба они - одного поля ягоды, иначе, наверное, и не сошлись бы.\nЭтот малый теперь таверну в Порто Белло держит, Роландо Пицарро зовут, или просто - Лис. Он может знать места стоянок. Ну и, кроме того - ищи этот бриг в море, ты его ни с кем не спутаешь. Только будь осторож"+ GetSexPhrase("ен","на") +" - он действительно псих...";
 			link.l1 = "Ясно. Ну что ж, спасибо тебе, Бартоломью.";
 			link.l1.go = "exit";
-			SetMushketCapitainInWorld();
 			pchar.questTemp.mushket2x2_stid = true;
 			SaveCurrentQuestDateParam("questTemp.mushket2x2_stid");
 			AddQuestRecord("SeekDoubleMushket", "2_2");

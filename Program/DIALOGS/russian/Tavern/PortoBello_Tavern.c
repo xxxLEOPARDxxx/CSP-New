@@ -110,8 +110,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = "Спасибо, Лис! Немедленно выдвигаюсь.";
 			link.l1.go = "exit";
 			AddQuestRecord("SeekDoubleMushket", "4");
-			AddQuestUserData("SeekDoubleMushket", "sShore", XI_ConvertString(pchar.questTemp.Mushket.Shore));
-			DeleteAttribute(pchar, "pchar.questTemp.Mushket.Shore");
+			SetMushketCapitainInWorld();
+
 		break;
 		
 		case "Mushket_late":
@@ -144,3 +144,77 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод
 }
 
+void SetMushketCapitainInWorld()
+{
+	//создаем кэпов
+	int Rank = sti(pchar.rank) + 15;
+	if (Rank > 30) Rank = 30;
+	ref sld = GetCharacter(NPC_GenerateCharacter("MushketCap", "officer_17", "man", "man", Rank, PIRATE, -1, true));
+	sld.name = "Альберт";
+	sld.lastname = "Зиверт";
+ 	SetCaptanModelByEncType(sld, "pirate");
+	FantomMakeCoolSailor(sld, SHIP_BRIGQEEN, "Стрела", CANNON_TYPE_CULVERINE_LBS24, 100, 100, 100);
+	FantomMakeCoolFighter(sld, 20, 50, 50, "blade34", "pistol2", 50);
+	sld.Ship.Mode = "pirate";	
+	DeleteAttribute(sld, "SinkTenPercent");
+	DeleteAttribute(sld, "SaveItemsForDead");
+	DeleteAttribute(sld, "DontClearDead");
+	DeleteAttribute(sld, "AboardToFinalDeck");
+	DeleteAttribute(sld, "SinkTenPercent");
+	DeleteAttribute(sld, "DontRansackCaptain");
+	sld.AlwaysSandbankManeuver = true;
+	sld.AnalizeShips = true;  //анализировать вражеские корабли при выборе таска
+	sld.DontRansackCaptain = true; //не сдаваться
+	sld.WatchFort = true; //видеть форты
+	SetCharacterPerk(sld, "FastReload");
+	SetCharacterPerk(sld, "HullDamageUp");
+	SetCharacterPerk(sld, "SailsDamageUp");
+	SetCharacterPerk(sld, "CrewDamageUp");
+	SetCharacterPerk(sld, "CriticalShoot");
+	SetCharacterPerk(sld, "LongRangeShoot");
+	SetCharacterPerk(sld, "CannonProfessional");
+	SetCharacterPerk(sld, "ShipDefenseProfessional");
+	SetCharacterPerk(sld, "ShipTurnRateUp");
+	SetCharacterPerk(sld, "ShipTurnRateUp");
+	SetCharacterPerk(sld, "StormProfessional");
+	SetCharacterPerk(sld, "SwordplayProfessional");
+	SetCharacterPerk(sld, "AdvancedDefense");
+	SetCharacterPerk(sld, "CriticalHit");
+	SetCharacterPerk(sld, "MusketsShoot");
+	SetCharacterPerk(sld, "Sliding");
+	SetCharacterPerk(sld, "Tireless");
+	SetCharacterPerk(sld, "HardHitter");
+	SetCharacterPerk(sld, "GunProfessional");
+	//в морскую группу кэпа
+	string sGroup = "MushketCapShip";
+	Group_FindOrCreateGroup(sGroup);
+	Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+	Group_LockTask(sGroup);
+	Group_AddCharacter(sGroup, sld.id);
+	Group_SetGroupCommander(sGroup, sld.id);
+	SetRandGeraldSail(sld, sti(sld.Nation)); 
+	sld.quest = "InMap"; //личный флаг искомого кэпа
+	sld.city = "Shore47"; //определим колонию, из бухты которой с мушкетом выйдет
+	sld.cityShore = GetIslandRandomShoreId(GetArealByCityName(sld.city));
+	sld.quest.targetCity = SelectAnyColony(sld.city); //определим колонию, в бухту которой он придет
+	sld.quest.targetShore = "Shore58";
+	pchar.questTemp.Mushket.Shore = GetIslandRandomShoreId(GetArealByCityName(sld.quest.targetCity));
+	Log_TestInfo("Кэп с мушкетом вышел из: " + sld.city + " и направился в: " + sld.quest.targetShore);
+	//==> на карту
+	sld.mapEnc.type = "trade";
+	//выбор типа кораблика на карте
+	sld.mapEnc.worldMapShip = "quest_ship";
+	sld.mapEnc.Name = "Бриг 'Стрела'";
+	int daysQty = GetMaxDaysFromIsland2Island(GetArealByCityName(sld.quest.targetCity), GetArealByCityName(sld.city))+5; //дней доехать даем с запасом
+	Map_CreateTrader(sld.cityShore, sld.quest.targetShore, sld.id, daysQty);
+	//заносим Id кэпа в базу нпс-кэпов
+	sTemp = sld.id;
+	NullCharacter.capitainBase.(sTemp).quest = "mushket"; //идентификатор квеста
+	NullCharacter.capitainBase.(sTemp).questGiver = "none"; //запомним Id квестодателя для затирки в случае чего
+	NullCharacter.capitainBase.(sTemp).Tilte1 = "SeekDoubleMushket"; //заголовок квестбука
+	NullCharacter.capitainBase.(sTemp).Tilte2 = "SeekDoubleMushket"; //имя квеста в квестбуке
+	NullCharacter.capitainBase.(sTemp).checkTime = daysQty + 5;
+    NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
+}
