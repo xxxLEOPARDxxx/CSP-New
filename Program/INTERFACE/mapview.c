@@ -130,7 +130,7 @@ void FillMapsTable()
 				GameInterface.TABLE_MAPS.(row).index = GetItemIndex(arItem.id);				
 				GameInterface.TABLE_MAPS.(row).td1.icon.group = arItem.picTexture;
 				GameInterface.TABLE_MAPS.(row).td1.icon.image = "itm" + arItem.picIndex;
-				GameInterface.TABLE_MAPS.(row).td1.icon.offset = "0, 0";
+				GameInterface.TABLE_MAPS.(row).td1.icon.offset = "-2, -1";
 				GameInterface.TABLE_MAPS.(row).td1.icon.width = 20;
 				GameInterface.TABLE_MAPS.(row).td1.icon.height = 20;
 				GameInterface.TABLE_MAPS.(row).td1.textoffset = "20,0";

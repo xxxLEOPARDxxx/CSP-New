@@ -140,6 +140,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 		
 		CI_CreateAndSetControls( "FightModeControls", "BOAL_ActivateRush", CI_GetKeyCode("KEY_F"), 0, true ); // boal €рость на суше
 		CI_CreateAndSetControls( "FightModeControls", "MushketHotkey", CI_GetKeyCode("KEY_U"), 0, true); // ћушкет
+		CI_CreateAndSetControls("PrimaryLand", "csmRunLootCollector", CI_GetKeyCode("VK_A_TILDA"), 0, true);
 		// boal <--
 		
 		//Jonathan A 2009-08-19 -->
@@ -559,6 +560,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 		MapControlToGroup("BOAL_DeadSearch","FightModeControls");
 
 		CI_CreateAndSetControls( "FightModeControls", "BOAL_ActivateRush", CI_GetKeyCode("KEY_F"), 0, true ); // boal €рость на суше
+		CI_CreateAndSetControls("PrimaryLand", "csmRunLootCollector", CI_GetKeyCode("VK_A_TILDA"), 0, true);
 		CI_CreateAndSetControls( "FightModeControls", "MushketHotkey", CI_GetKeyCode("KEY_U"), 0, true); // ћушкет
 		// boal <--
 		

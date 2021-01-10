@@ -171,7 +171,33 @@ void InitInterface_RS(string iniName, ref itemsRef, string faceID)
 	SetEventHandler("frame","ProcessFrame",1);
 	SetEventHandler("eTabControlPress", "procTabChange", 0); // Событие смены закладки
 
-	SetFormatedText("STORECAPTION1", XI_ConvertString(sGetInterfaceTypeStr("titleExchangeItems", "titleItemsBox", "titleDeadItems","titleBarrel")));
+	if (csmCA(pchar, "CSM.LootCollector.Run"))
+		SetFormatedText("STORECAPTION1", "Вот вся добыча на данный момент, кэп!"));
+	else
+		SetFormatedText("STORECAPTION1", XI_ConvertString(sGetInterfaceTypeStr("titleExchangeItems", "titleItemsBox", "titleDeadItems","titleBarrel")));
+
+	if (csmCA(pchar, "CSM.LootCollector.Run") && !csmCA(pchar, "CSM.LootCollector.Tutor"))
+	{
+		string sHeader, sText1, sText2, sText3;
+
+		// 2do: потом добавить -->
+		string sPicture = "none";
+		string sGroup = "none";
+		string sGroupPicture = "none";
+		// <--
+
+		sHeader = "Новая система лута при абордаже";
+		sText1 = "Более не нужно заглядывать в каждый угол или карман!\n\n" +
+				 "Все вещи из сундуков и с трупов будут собраны здесь.\n" +
+				 "В капитанских каютах процесс обыска остался прежним.\n\n" +
+				 "Эту опцию можно выключить в меню 'Прочее', #55.";
+		sText2 = "Запуск сундука с добычей доступен в любой момент после окончания боя\n" +
+				 "Горячая клавиша по умолчанию: 'тильда', она же 'ё'\n" +
+				 "Можно переназначить в настройках игры.";
+		sText3 = "Нажмите правую кнопку мыши, чтобы убрать это сообщение";
+		
+		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,255,130), sText3, argb(255,175,255,175), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+	}
 	
 	CreateString(true, "TabCaption1", "Все предметы", FONT_NORMAL, COLOR_NORMAL, 230, 525, SCRIPT_ALIGN_CENTER, 0.8);
 	CreateString(true, "TabCaption2", "Предметы героя", FONT_NORMAL, COLOR_NORMAL, 348, 525, SCRIPT_ALIGN_CENTER, 0.8);
@@ -205,7 +231,10 @@ void InterfaceInitButtons(ref _refCharacter)
 		break;
 		
 		case INTERFACETYPE_CHEST:
-		
+			if (csmCA(pchar, "CSM.LootCollector.Run"))
+			{
+				SetNodeUsing("GETALL_BUTTON", true);
+			}
 		break;
 		
 		case INTERFACETYPE_BARREL:
@@ -472,6 +501,24 @@ void IDoExit(int exitCode)
 	EndCancelInterface(true);
 	
 	LAi_SetPlayerType(PChar); // Возвращаем тип игрока
+	
+	// CSM -->
+	if (csmCA(pchar, "CSM.LootCollector.Run"))
+	{
+		csmHideLootCollectorBox(false);
+
+		if (!csmCA(pchar, "CSM.LootCollector.Tutor"))
+		{
+			pchar.CSM.LootCollector.Tutor = true;
+			ClearAllLogStrings();
+			Log_Info("Клавиша запуска сундука с добычей: тильда, она же русская 'Ё'");
+			Log_Info("Можно изменить на другую в настройках игры");
+			PlaySound("interface\notebook.wav");
+		}
+	}
+
+	csmDA(pchar, "CSM.LootCollector.Run");
+	// CSM <--
 }
 
 void ProcCommand()

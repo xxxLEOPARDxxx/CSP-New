@@ -558,6 +558,9 @@ void LAi_ReloadBoarding()
 		LAi_boarding_process = false;
 		return;
 	}
+	
+	csmHideLootCollectorBox(true);
+	
 	//Установить хендлеры для обработки
 	SetEventHandler("FaderEvent_StartFade", "LAi_ReloadStartFade", 0);
 	SetEventHandler("FaderEvent_EndFade", "LAi_ReloadEndFade", 0);
@@ -805,6 +808,13 @@ void LAi_EnableReload()
 		//Log_Testinfo("Выключить шума абордажа " + abordageSoundID);
 	}
 	Surrendered = CheckForSurrender(GetMainCharacter(), boarding_enemy, 2); // проверка сдачи в плен, перед каютой 2 - второй учет метода
+	
+	if (csmCA(pchar, "CSM.LootCollector.Enable") && loadedLocation.type != "boarding_cabine")
+	{
+		pchar.CSM.LootCollector.CanBeRun = true;
+		csmLootCollector();
+	}
+	PostEvent("csmEvent_RefreshReload", 100);
     //#20171218-01 Re-enable fast action for cabin enter during boarding
     BattleInterface.LAi_ActivateReload = true;
 	SetEventHandler("Control Activation","LAi_ActivateReload",1);
@@ -1391,3 +1401,22 @@ string ChooseShipUpDeck(ref _mchar, ref _enemy)
     return sLoc;
 }
 // boal 03/12/05 <--
+// CSM -->
+#event_handler("csmEvent_RefreshReload", "csmRefreshReload");
+void csmRefreshReload()
+{
+	if (!LAi_IsBoardingProcess() || !IsEntity(&loadedLocation))
+	{
+		csmDA(pchar, "CSM.LootCollector.CanBeRun");
+		return;
+	}
+
+	if (loadedLocation.type == "boarding_cabine" && csmCA(pchar, "CSM.LootCollector.Enable"))
+		csmDA(pchar, "CSM.LootCollector.CanBeRun");
+
+	if (g_ActiveActionName == "" || g_ActiveActionName == "Nothing")
+		Log_SetActiveAction("Reload");
+
+	PostEvent("csmEvent_RefreshReload", 250);
+}
+// CSM <--

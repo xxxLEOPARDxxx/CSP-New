@@ -537,6 +537,7 @@ void TWN_FightInTown()
     snCity = sld.City;
     if (loadedLocation.type == "residence")
     {
+		csmDA(pchar, "CSM.LootCollector.CanBeRun");
 		// вернем живых на корабль -->
 		SetCrewBackAfterBattle();
         
@@ -841,6 +842,11 @@ void TWN_FightInTown_OpenNext()
 	i = sti(Pchar.GenQuestFort.PlayerCrew_Start) - i; // выжившие с бонусом
 	SetCrewQuantityOverMax(Pchar, i);
 	// вернем живых на корабль <--
+	if (csmCA(pchar, "CSM.LootCollector.Enable") && loadedLocation.type != "residence")
+	{
+		pchar.CSM.LootCollector.CanBeRun = true;
+		csmLootCollector();
+	}
 }
 
 void TWN_Residence_Captured_Any()

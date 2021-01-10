@@ -2153,7 +2153,7 @@ bool IsEquipCharactersByItem(ref chref, string itemID)
 			sKind = rItem.kind;
 			if(sKind == "fighter")
 			{
-				for(int i = 1; i < 4; i++)
+				for(int i = 1; i < MAX_NUM_FIGHTERS; i++)
 				{		
 					iOfficer = GetOfficersIndex(pchar, i); 
 					if(iOfficer != -1)

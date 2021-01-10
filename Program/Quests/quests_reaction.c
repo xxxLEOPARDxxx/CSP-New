@@ -2090,8 +2090,8 @@ void QuestComplete(string sQuestName, string qname)
 					//--> генерим ранг 
 					if (sti(pchar.rank) > 6) 
 					{
-						if (sti(pchar.rank) > 20) Rank = sti(pchar.rank) + MOD_SKILL_ENEMY_RATE + 5);
-						else Rank = sti(pchar.rank) + MOD_SKILL_ENEMY_RATE);
+						if (sti(pchar.rank) > 20) Rank = sti(pchar.rank) + MOD_SKILL_ENEMY_RATE + 10);
+						else Rank = sti(pchar.rank) + MOD_SKILL_ENEMY_RATE + 5);
 					}
 					else  
 					{	//казуалам зеленый свет на начало игры
@@ -2103,11 +2103,23 @@ void QuestComplete(string sQuestName, string qname)
 						}
 					}	
 					//<-- генерим ранг 
-					sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "man", "man", Rank, PIRATE, 0, true));
+					sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "spy", "spy", Rank, PIRATE, 0, true));
 					sld.dialog.filename = "MayorQuests_dialog.c";
 					sld.dialog.currentnode = "SeekSpy_house";
 					sld.greeting = "cit_common"; 
-					SetFantomParamFromRank(sld, Rank, true);
+					sld.money =  5000 + rand(10000);
+			        sld.SaveItemsForDead  = true; 
+					AddBonusEnergyToCharacter(sld, 30);
+					FantomMakeCoolFighter(sld, Rank + 0.25, 20+rand(60), 30, "blade12", "pistol3", 70);
+					DeleteAttribute(sld, "perks.list");
+					DeleteAttribute(sld, "items.spyglass3")
+					SetCharacterPerk(sld, "BasicDefense");
+					SetCharacterPerk(sld, "CriticalHit");
+					SetCharacterPerk(sld, "HardHitter");
+					SetCharacterPerk(sld, "Energaiser");
+					SetCharacterPerk(sld, "Ciras");
+					SetCharacterPerk(sld, "Gunman");
+                    SetCharacterPerk(sld, "Tireless");
 					PlaceCharacter(sld, "goto", "random");
 					LAi_SetCitizenType(sld);
 					//LAi_ActorDialog(sld, pchar, "", -1, 0); 

@@ -1,5 +1,7 @@
 // 11.08.05 Boal Модуль для новой РПГ системы S.P.E.C.I.A.L
 // метод для совместимости с .ИНИ файлом (секция SKILLCHANGER)
+#include "scripts\Pusher.c"
+#include "scripts\Utils2.c"
 
 // порог ранга
 int GetCharacterRankRate(ref _refCharacter)
@@ -568,6 +570,14 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 				float nphp = LAi_GetCharacterMaxHP(_chref) + GetCharacterAddHPValue(_chref);
 				LAi_SetHP(_chref,nphp+60,nphp+60);
 			}
+	}
+	if (CheckCharacterPerk(_chref, "Buldozer"))
+	{
+		SM_PusherSwitch();
+	}
+	if (CheckCharacterPerk(_chref, "AboardCollector"))
+	{
+		pchar.CSM.LootCollector.Enable = true;
 	}
 	if (CheckCharacterPerk(_chref, "AgileMan"))
 	{
@@ -2419,8 +2429,6 @@ void initMainCharacterItem()
 	switch (ch.HeroParam.HeroType)
 	{
         case "Master":	// Рубака
-			// SetCharacterPerk(pchar, "Tireless");
-			// SetCharacterPerk(pchar, "HardHitter");
 			SetCharacterPerk(pchar, "Grunt");
             TakenItems(Pchar, "potion1", rand(10));
             TakenItems(Pchar, "potion2", rand(5));
@@ -2479,8 +2487,6 @@ void initMainCharacterItem()
 	    break;
 
         case "Merchant":	// Торговец
-			// SetCharacterPerk(pchar, "BasicCommerce");
-			// SetCharacterPerk(pchar, "AdvancedCommerce");
 			SetCharacterPerk(pchar, "Trader");
 			itemID = GetGeneratedItem("blade1");
             GiveItem2Character(Pchar, itemID);
@@ -2527,8 +2533,6 @@ void initMainCharacterItem()
 	    break;
 
 	    case "Corsair":	// Фехтовальщик
-			// SetCharacterPerk(pchar, "CriticalHit");
-			// SetCharacterPerk(pchar, "BasicDefense");
 			SetCharacterPerk(pchar, "Fencer");
 			itemID = GetGeneratedItem("Spyglass" + (rand(2)+1));
 			GiveItem2Character(Pchar, itemID);
@@ -2566,10 +2570,10 @@ void initMainCharacterItem()
 	    break;
 
 	    case "Adventurer":	// Авантюрист
-			//SetCharacterPerk(pchar, "Gunman");
-			//SetCharacterPerk(pchar, "Trustworthy");
 			SetCharacterPerk(pchar, "Adventurer");
-			GiveItem2Character(Pchar, "Map_bad");
+			itemID = GetGeneratedItem("blade" + (rand(7)+1));
+            GiveItem2Character(Pchar, itemID);
+            EquipCharacterbyItem(Pchar, itemID);
 			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
@@ -2619,8 +2623,6 @@ void initMainCharacterItem()
 	    break;
 
 	    case "Inquisitor":	// Буканьер
-			// SetCharacterPerk(pchar, "Gunman");
-			// SetCharacterPerk(pchar, "GunProfessional");
 			SetCharacterPerk(pchar, "Buccaneer");
 			itemID = GetGeneratedItem("blade" + (rand(7)+1));
             GiveItem2Character(Pchar, itemID);
@@ -2637,6 +2639,9 @@ void initMainCharacterItem()
 
 	    case "SecretAgent":	// Тайный агент
 			SetCharacterPerk(pchar, "Agent");
+			itemID = GetGeneratedItem("blade" + (rand(7)+1));
+            GiveItem2Character(Pchar, itemID);
+            EquipCharacterbyItem(Pchar, itemID);
 			TakenItems(Pchar, "Food1", rand(6)+4);
 			TakenItems(Pchar, "jewelry15", 1);
 			TakenItems(Pchar, "Totem_2", 1);
@@ -2666,8 +2671,6 @@ void initMainCharacterItem()
 	    break;
 		
 		case "SeaWolf":	// Морской Волк
-			// SetCharacterPerk(pchar, "Gunman");
-			// SetCharacterPerk(pchar, "GunProfessional");
 			SetCharacterPerk(pchar, "SeaWolf");
 			itemID = GetGeneratedItem("blade" + (rand(7)+1));
             GiveItem2Character(Pchar, itemID);

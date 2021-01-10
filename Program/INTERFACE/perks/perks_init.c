@@ -77,6 +77,10 @@ void extrnInitPerks()
 	ChrPerksList.list.AgileMan.BaseType = "self";
 	ChrPerksList.list.AgileMan.PlayerOnly = true;
 	
+	ChrPerksList.list.Buldozer.descr = "perkBuldozer";
+	ChrPerksList.list.Buldozer.BaseType = "self";
+	ChrPerksList.list.Buldozer.PlayerOnly = true;
+	
 	ChrPerksList.list.Gunman.descr = "perkGunman";
 	ChrPerksList.list.Gunman.BaseType = "self";
 
@@ -123,6 +127,16 @@ void extrnInitPerks()
 	ChrPerksList.list.UnlimitedContra.condition.AdvancedCommerce = true;
 	ChrPerksList.list.UnlimitedContra.BaseType = "self";
 	ChrPerksList.list.UnlimitedContra.PlayerOnly = true;
+	
+	ChrPerksList.list.AboardCollector.descr = "perkAboardCollector";
+	ChrPerksList.list.AboardCollector.condition.Trustworthy = true;
+	ChrPerksList.list.AboardCollector.condition.GrapplingProfessional = true;
+	ChrPerksList.list.AboardCollector.condition.FlagEng = true;
+	ChrPerksList.list.AboardCollector.condition.FlagFra = true;
+	ChrPerksList.list.AboardCollector.condition.FlagHol = true;
+	ChrPerksList.list.AboardCollector.condition.FlagSpa = true;
+	ChrPerksList.list.AboardCollector.BaseType = "self";
+	ChrPerksList.list.AboardCollector.PlayerOnly = true;
 	
 	/////////////////////////   Œ–¿¡≈À‹Õ€≈ /////////////////////////////////////
     /////////////////////////////////////////////////////////////

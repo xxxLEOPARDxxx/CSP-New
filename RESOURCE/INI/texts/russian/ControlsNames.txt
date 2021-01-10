@@ -269,6 +269,12 @@ BOAL_ActivateRush
 
 }
 
+csmRunLootCollector
+{
+Открыть сундук (перк Стервятник, абордажи и осады)
+
+}
+
 MushketHotkey
 {
 Переключить мушкет / сабля + пистолет

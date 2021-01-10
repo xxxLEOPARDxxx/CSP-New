@@ -1104,7 +1104,7 @@ void Dead_LaunchCharacterItemChange(ref chref)
 
 void MakePoisonAttack(aref attack, aref enemy, int iQuantity)
 {
-	if(enemy.sex == "skeleton" || CheckAttribute(enemy, "PoisonImmune"))
+	if(enemy.sex == "skeleton" || CheckAttribute(enemy, "PoisonImmune") || IsEquipCharacterByArtefact(enemy, "talisman8"))
 	{
 		if (enemy.index == GetMainCharacterIndex()) Log_SetStringToLog("¬ас безуспешно попытались отравить.");
 		else Log_SetStringToLog("ѕерсонаж " + GetFullName(enemy) + " неу€звим к отравлению.");

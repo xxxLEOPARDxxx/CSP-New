@@ -1635,8 +1635,16 @@ void ProcessDialogEvent()
                     {
                         //отсекаем возможность дать квест пирата в Панаме
 						if (npchar.city == "Panama") i = rand(2);							
-						else i = dRand(4);
-                    }
+						else {  i = dRand(4);
+						       //if  (IsCharacterPerkOn(pchar,"Trader"))                       i = dRand(4); 
+                        	   //if  (IsCharacterPerkOn(pchar,"Adventurer"))	                 i = dRand(4);			
+						       if ((IsCharacterPerkOn(pchar,"Grunt")) && dRand(2) >= 1)      i = dRand(1);  
+							   if ((IsCharacterPerkOn(pchar,"Fencer")) && dRand(2) >= 1)     i = dRand(1);
+							   if ((IsCharacterPerkOn(pchar,"Buccaneer")) && dRand(2) >= 1)  i = dRand(2);
+							   if ((IsCharacterPerkOn(pchar,"Agent")) && dRand(2) >= 1)      i = dRand(1)+2;
+							   if ((IsCharacterPerkOn(pchar,"SeaWolf")) && dRand(2) >= 1)    i = 4;        //WW
+							 }
+                    }         
                     // boal <--
 					switch (i)
 					{					
@@ -2173,7 +2181,8 @@ void ProcessDialogEvent()
 		    link.l2.go = "All_disagree";
 		break;
 		case "SeekSpy_agree":
-			if (rand(1))
+			//(rand(1))
+			if  (IsCharacterPerkOn(pchar, "Fencer") || IsCharacterPerkOn(pchar, "Grunt") || (GetCharacterSPECIALSimple(PChar, SPECIAL_E)>= 8) )   //WW 
 			{   //шпион в одной из общих локаций common
 				pchar.GenQuest.SeekSpy.Location = GetSpyLocation(npchar); //определяем локацию
 				Log_QuestInfo(pchar.GenQuest.SeekSpy.Location); //чит

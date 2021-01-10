@@ -818,6 +818,9 @@ void OnLoad()
 	//#20190327-01
 	if(!CheckAttribute(pchar, "camEye"))
         pchar.camEye = 0;
+		
+	SM_PusherOnLoad();
+	
 	if(seadogs_saveFrom == "location")
 	{
 		ref mainchar;
@@ -1215,6 +1218,9 @@ void ProcessControls()
 	        }
             return;
             break;
+			case "csmRunLootCollector":
+				csmLootCollector();
+			break;
             case "BOAL_ActivateRush":  // boal KEY_F
                 if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
                 {

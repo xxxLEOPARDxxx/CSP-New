@@ -17,9 +17,13 @@ info
     heroType_Х        - тип героя (влияет на стартовые параметры)
         значения только: Corsair, Merchant, Adventurer
 			или (для русской версии)
-			Корсар,
+			Фехтовальщик,
 			Торговец,
 			Авантюрист
+			Тайный агент
+			Буканьер
+			Морской Волк
+			Рубака
     heroNation_Х      - стартовая нация героя (нейтральные отношения)
         значения только: ENGLAND, FRANCE, SPAIN, HOLLAND
             или (для русской версии)
@@ -101,7 +105,7 @@ heroLastNameDat_1 {Бладу}
 heroFace_1 {221}
 heroModel_1 {PGG_Blad_0,PGG_Blad_1,PGG_Blad_2,PGG_Blad_3,PGG_Blad_4,PGG_Blad_5,PGG_Blad_6,PGG_Blad_7,PGG_Blad_8}
 
-heroType_1 {Фехтовальщик}
+heroType_1 {Авантюрист}
 heroNation_1 {Англия}
 
 sex_1 {man}
@@ -126,7 +130,7 @@ heroLastNameDat_2 {де Граммону}
 heroFace_2 {215}
 heroModel_2  {PGG_Resc_0,PGG_Resc_1,PGG_Resc_2,PGG_Resc_3,PGG_Resc_4,PGG_Resc_5,PGG_Resc_6,PGG_Resc_7,PGG_Resc_8}
 
-heroType_2 {Авантюрист} 
+heroType_2 {Морской Волк} 
 heroNation_2 {Франция}
 
 sex_2 {man}
@@ -176,7 +180,7 @@ heroLastNameDat_4 {Португальцу}
 heroFace_4 {289}
 heroModel_4 {PGG_Port_0,PGG_Port_1,PGG_Port_2,PGG_Port_3,PGG_Port_4,PGG_Port_5,PGG_Port_6,PGG_Port_7,PGG_Port_8}
 
-heroType_4 {Фехтовальщик}
+heroType_4 {Рубака}
 heroNation_4 {Береговое братство}
 
 sex_4 {man}
@@ -353,7 +357,7 @@ heroLastNameDat_11 {Баллантре}
 heroFace_11 {500}
 heroModel_11  {PGG_Ballantre_0,PGG_Ballantre_1,PGG_Ballantre_2,PGG_Ballantre_3,PGG_Ballantre_4,PGG_Ballantre_5,PGG_Ballantre_6,PGG_Ballantre_7,PGG_Ballantre_7}
 
-heroType_11 {Торговец}
+heroType_11 {Морской Волк}
 heroNation_11 {Франция}
 
 sex_11 {man}
@@ -455,7 +459,7 @@ heroLastNameDat_15 {}
 heroFace_15 {505}
 heroModel_15 {PGG_Victori_0,PGG_Victori_1,PGG_Victori_2,PGG_Victori_3,PGG_Victori_4,PGG_Victori_5,PGG_Victori_6,PGG_Victori_7,PGG_Victori_8}
 
-heroType_15 {Фехтовальщик}
+heroType_15 {Морской Волк}
 heroNation_15 {Англия}
 
 sex_15 {woman}
@@ -480,7 +484,7 @@ heroLastNameDat_16 {}
 heroFace_16 {506}
 heroModel_16 {PGG_Anamaria_0,PGG_Anamaria_1,PGG_Anamaria_2,PGG_Anamaria_3,PGG_Anamaria_4,PGG_Anamaria_5,PGG_Anamaria_6,PGG_Anamaria_7,PGG_Anamaria_8}
 
-heroType_16 {Фехтовальщик}
+heroType_16 {Морской Волк}
 heroNation_16 {Англия}
 
 sex_16 {woman}
@@ -580,7 +584,7 @@ heroLastNameDat_20 {Блэк}
 heroFace_20 {489}
 heroModel_20 {PGG_Black_0,PGG_Black_0,PGG_Black_0,PGG_Black_0,PGG_Black_1,PGG_Black_1}
 
-heroType_20 {Фехтовальщик}
+heroType_20 {Рубака}
 heroNation_20 {Испания}
 
 sex_20 {man}
@@ -605,7 +609,7 @@ heroLastNameDat_21 {Диаз}
 heroFace_21 {509}
 heroModel_21 {PGG_YokoDias_0,PGG_YokoDias_1,PGG_YokoDias_2,PGG_YokoDias_3,PGG_YokoDias_4,PGG_YokoDias_5,PGG_YokoDias_6,PGG_YokoDias_7,PGG_YokoDias_8}
 
-heroType_21 {Фехтовальщик}
+heroType_21 {Тайный агент}
 heroNation_21 {Англия}
 
 sex_21 {woman}
@@ -654,7 +658,7 @@ heroLastNameDat_23 {Истерлингу}
 heroFace_23 {216}
 heroModel_23 {PGG_Isterling_0,PGG_Isterling_1,PGG_Isterling_2,PGG_Isterling_3,PGG_Isterling_4,PGG_Isterling_5}
 
-heroType_23 {Рубака}
+heroType_23 {Авантюрист}
 heroNation_23 {Англия}
 
 sex_23 {man}
@@ -679,7 +683,7 @@ heroLastNameDat_24 {Бэрроуз}
 heroFace_24 {529}
 heroModel_24 {PGG_Barrows_0,PGG_Barrows_1,PGG_Barrows_2,PGG_Barrows_3,PGG_Barrows_4,PGG_Barrows_5}
 
-heroType_24 {Фехтовальщик}
+heroType_24 {Рубака}
 heroNation_24 {Пират}
 
 sex_24 {man}
@@ -754,7 +758,7 @@ heroLastNameDat_27 {Тич}
 heroFace_27 {540}
 heroModel_27 {PGG_Tich_0,PGG_Tich_1,PGG_Tich_2,PGG_Tich_3,PGG_Tich_4,PGG_Tich_5}
 
-heroType_27 {Фехтовальщик}
+heroType_27 {Морской Волк}
 heroNation_27 {Пират}
 
 sex_27 {man}
@@ -779,7 +783,7 @@ heroLastNameDat_28 {Чарду}
 heroFace_28 {211}
 heroModel_28 {PGG_Chard_0,PGG_Chard_1,PGG_Chard_2,PGG_Chard_3,PGG_Chard_4,PGG_Chard_5}
 
-heroType_28 {Фехтовальщик}
+heroType_28 {Морской Волк}
 heroNation_28 {Англия}
 
 sex_28 {man}
@@ -829,7 +833,7 @@ heroLastNameDat_30 {Флитвуду}
 heroFace_30 {485}
 heroModel_30 {PGG_Fleetwood_0,PGG_Fleetwood_1,PGG_Fleetwood_2,PGG_Fleetwood_3,PGG_Fleetwood_4,PGG_Fleetwood_5}
 
-heroType_30 {Авантюрист}
+heroType_30 {Морской Волк}
 heroNation_30 {Франция}
 
 sex_30 {man}
@@ -904,7 +908,7 @@ heroLastnameDat_33 {Деллюку}
 heroFace_33 {481}
 heroModel_33 {PGG_DeLuck_0,PGG_DeLuck_1,PGG_DeLuck_2,PGG_DeLuck_3,PGG_DeLuck_4,PGG_DeLuck_5}
 
-heroType_33 {Фехтовальщик}
+heroType_33 {Буканьер}
 heroNation_33 {Голл}
 
 sex_33 {man}
@@ -979,7 +983,7 @@ heroLastNameDat_36 {Дюрану}
 heroFace_36 {497}
 heroModel_36 {PGG_Claude_Durand_0,PGG_Claude_Durand_1,PGG_Claude_Durand_2,PGG_Claude_Durand_3,PGG_Claude_Durand_4,PGG_Claude_Durand_5}
 
-heroType_36 {Авантюрист}
+heroType_36 {Буканьер}
 heroNation_36 {Голландия}
 
 sex_36 {man}
@@ -1029,7 +1033,7 @@ heroLastNameDat_61 {Воробью}
 heroFace_38 {514}
 heroModel_38 {PGG_Blad_vorob_0,PGG_Blad_vorob_1,PGG_Blad_vorob_2,PGG_Blad_vorob_3,PGG_Blad_vorob_4,PGG_Blad_vorob_5,PGG_Blad_vorob_0,PGG_Blad_vorob_0,PGG_Blad_vorob_0}
 
-heroType_38 {Фехтовальщик}
+heroType_38 {Авантюрист}
 heroNation_38 {Англия}
 
 sex_38 {man}
@@ -1054,7 +1058,7 @@ heroLastNameDat_39 {Роджеру}
 heroFace_39 {511}
 heroModel_39 {PGG_Skeletcap_0,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
 
-heroType_39 {Фехтовальщик}
+heroType_39 {Рубака}
 heroNation_39 {Пират}
 
 sex_39 {skeleton}
@@ -1129,7 +1133,7 @@ heroLastnameDat_42 {}
 heroFace_42 {531}
 heroModel_42 {PGG_Vincento_0,PGG_Vincento_1,PGG_Vincento_2,PGG_Vincento_3,PGG_Vincento_4,PGG_Vincento_5}
 
-heroType_42 {Буканьер}
+heroType_42 {Тайный агент}
 heroNation_42 {Англия}
 
 sex_42 {man}
@@ -1141,8 +1145,6 @@ hero_42
 - В совершенстве умеет пользоваться мушкетом.
 - Имеет все виды кирас.
 }
-
-;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================
 
 heroName_43 {Норд}
 heroLastname_43 {}
@@ -1156,7 +1158,7 @@ heroLastNameDat_43 {}
 heroFace_43 {526}
 heroModel_43 {PGG_Beltro1_GPK}
 
-heroType_43 {Фехтовальщик}
+heroType_43 {Рубака}
 heroNation_43 {Пират}
 
 sex_43 {man}
@@ -1251,7 +1253,7 @@ heroLastNameDat_47 {}
 heroFace_47 {535}
 heroModel_47 {PGG_Lejitos_GPK}
 
-heroType_47 {Фехтовальщик}
+heroType_47 {Рубака}
 heroNation_47 {Береговое братство}
 
 sex_47 {man}
@@ -1275,7 +1277,7 @@ heroLastNameDat_48 {Тёрнеру}
 heroFace_48 {520}
 heroModel_48 {PGG_Will}
 
-heroType_48 {Авантюрист}
+heroType_48 {Фехтовальщик}
 heroNation_48 {Англия}
 
 sex_48 {man}
@@ -1298,7 +1300,7 @@ heroLastNameDat_49 {Розенкрафту}
 heroFace_49 {496}
 heroModel_49 {PGG_Rozencraft}
 
-heroType_49 {Фехтовальщик}
+heroType_49 {Морской Волк}
 heroNation_49 {Испания}
 
 sex_49 {man}
@@ -1344,7 +1346,7 @@ heroLastNameDat_51 {Книппелю}
 heroFace_51 {498}
 heroModel_51 {PGG_Kneepel}
 
-heroType_51 {Фехтовальщик}
+heroType_51 {Морской Волк}
 heroNation_51 {Пират}
 
 sex_51 {man}
@@ -1367,7 +1369,7 @@ heroLastNameDat_52 {Хаук}
 heroFace_52 {491}
 heroModel_52 {PGG_Danny}
 
-heroType_52 {Фехтовальщик}
+heroType_52 {Тайный агент}
 heroNation_52 {Пират}
 
 sex_52 {woman}
@@ -1507,7 +1509,7 @@ heroLastNameDat_58 {Белтропу}
 heroFace_58 {536}
 heroModel_58 {PGG_Baltrop_GPK}
 
-heroType_58 {Фехтовальщик}
+heroType_58 {Рубака}
 heroNation_58 {Англия}
 
 sex_58 {man}
@@ -1601,7 +1603,7 @@ heroLastNameDat_62 {Кортес}
 heroFace_62 {513}
 heroModel_62 {PGG_Daniell3}
 
-heroType_62 {Авантюрист}
+heroType_62 {Фехтовальщик}
 heroNation_62 {Испания}
 
 sex_62 {woman}
@@ -1624,7 +1626,7 @@ heroLastnameDat_63 {Диас}
 heroFace_63 {518}
 heroModel_63 {PGG_Daniell1}
 
-heroType_63 {Авантюрист}
+heroType_63 {Фехтовальщик}
 heroNation_63 {Испания}
 
 sex_63 {woman}
@@ -1671,7 +1673,7 @@ heroLastNameDat_65 {МакАртур}
 heroFace_65 {488}
 heroModel_65 {PGG_Rumba}
 
-heroType_65 {Авантюрист}
+heroType_65 {Фехтовальщик}
 heroNation_65 {Англия}
 
 sex_65 {woman}
@@ -1741,7 +1743,7 @@ heroLastNameDat_68 {Московиту}
 heroFace_68 {532}
 heroModel_68 {PGG_Moscovit}
 
-heroType_68 {Фехтовальщик}
+heroType_68 {Рубака}
 heroNation_68 {Англия}
 
 sex_68 {man}
@@ -1787,7 +1789,7 @@ heroLastNameDat_70 {Каскосу}
 heroFace_70 {525}
 heroModel_70 {PGG_Giant_0,PGG_Giant_1,PGG_Giant_2,PGG_Giant_3,PGG_Giant_4,PGG_Giant_5}
 
-heroType_70 {Фехтовальщик}
+heroType_70 {Рубака}
 heroNation_70 {Пират}
 
 sex_70 {skeleton}
