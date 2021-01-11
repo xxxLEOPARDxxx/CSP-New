@@ -333,7 +333,7 @@ void ProcessDialogEvent()
 		{
 			dialog.text = RandPhraseSimple("Сдается мне, что это обман... Давай-ка пройдем в комендатуру, "+ GetSexPhrase("голубчик","голубушка") +", там разберемся...", "Хм, что-то подсказывает мне, что ты не "+ GetSexPhrase("тот","та") +", за кого себя выдаешь... Немедленно сдайте оружие, " + GetAddress_Form(npchar) + ", и следуйте за мной для дальнейшего разбирательства!");
 			link.l1 = RandPhraseSimple("Почему вы мне не верите?", "С чего такие выводы?");
-			switch (rand(3))
+			switch (rand(1))
 			{
 				case 0: link.l1.go = "NotPegYou"; break;
 				else link.l1.go = "PegYou_2"; break;

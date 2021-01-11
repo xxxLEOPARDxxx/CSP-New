@@ -457,7 +457,7 @@ void FillBoxForTreasureSuper(ref item)
 		itmName = "";
 		while (itmName == "" && i < 15)
 		{
-            switch (rand(19))
+            switch (rand(20))
 			{
                 case 0:
                 	itmName = GetGeneratedItem("blade13");
@@ -525,6 +525,9 @@ void FillBoxForTreasureSuper(ref item)
 					break;
 				case 19:
 					itmName = "talisman8";
+					break;
+				case 20:
+					itmName = "talisman1";
 					break;
 			}
 			/*if (itmName == "idol" && CheckAttribute(pchar, "QuestTemp.IdolUseYet"))

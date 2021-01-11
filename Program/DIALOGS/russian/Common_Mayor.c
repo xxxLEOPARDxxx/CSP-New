@@ -1420,7 +1420,8 @@ void ProcessDialogEvent()
 							dialog.text = RandPhraseSimple("Итак, что скажете? Вы сумели уничтожить указанного бандита? " + GetFullName(arName) + " наконец убит?", "Скажите мне только одно - " + GetFullName(arName) + " жив или мертв?");
 							link.l1 = "Он мертв, " + GetAddress_FormToNPC(NPChar) + ".";
 							link.l1.go = "All_Execute";		
-							AddCharacterExpToSkill(PChar, "Leadership", 50);
+							AddCharacterExpToSkill(PChar, "Leadership", 60);
+							AddCharacterExpToSkill(PChar, "Sneak", 20);
 						break;
 					}
 				}
@@ -1446,7 +1447,8 @@ void ProcessDialogEvent()
 							dialog.text = RandPhraseSimple("Вы сумели разыскать лазутчика?", "Скажите, вражеский агент вами найден?");
 							link.l1 = "Да, я наш"+ GetSexPhrase("ел","ла") +" его в одном из домов города, где он прятался, и убил"+ GetSexPhrase("","а") +".";
 							link.l1.go = "All_Execute";		
-							AddCharacterExpToSkill(PChar, "Leadership", 50);
+							AddCharacterExpToSkill(PChar, "Leadership", 60);
+							AddCharacterExpToSkill(PChar, "Sneak", 20);
 						break;
 						case "FoundSpy":
 							dialog.text = RandPhraseSimple("Так, капитан, полагаю, что человек рядом с вами и есть тот, кого мы искали?", "Ага, судя по всему, человека рядом с вами я могу смело отправлять за решетку. Это и есть вражеский агент, которого мы ищем?");
@@ -1460,7 +1462,8 @@ void ProcessDialogEvent()
 							LocatorReloadEnterDisable(sTemp, "gate_back", false);
 							LocatorReloadEnterDisable(sTemp, "reload1_back", false);
 							LocatorReloadEnterDisable(sTemp, "reload2_back", false);
-							AddCharacterExpToSkill(PChar, "Leadership", 70);
+							AddCharacterExpToSkill(PChar, "Leadership", 60);
+							AddCharacterExpToSkill(PChar, "Sneak", 20);
 						break;
 					}
 				}
@@ -1559,6 +1562,7 @@ void ProcessDialogEvent()
 							link.l1.go = "All_Execute";	
 							AddCharacterExpToSkill(PChar, "Leadership", 50);
 							AddCharacterExpToSkill(PChar, SKILL_FORTUNE, 50);
+							AddCharacterExpToSkill(PChar, SKILL_SNEAK, 50);
 							//здесь снимаем торговцев
 							for (i=0; i<5; i++)
 							{
@@ -1604,6 +1608,7 @@ void ProcessDialogEvent()
 //navy -->
 			//занят ПГГ
 			i = CheckAvailableTaskForNPC(NPChar, PGG_TASK_WORKONMAYOR);
+			if  (GetCharacterSPECIALSimple(PChar, SPECIAL_C) >= rand(11))   i = -1;       //WW   харизма героя перебивает работу у ПГГ
 			if (i != -1)
 			{
 				dialog.text = "Увы, на сегодня у меня заданий больше нет. Последнее выполнил " + GetFullName(&Characters[i])
@@ -1616,7 +1621,7 @@ void ProcessDialogEvent()
 			if (!CheckAttribute(npchar, "work_date") || GetNpcQuestPastDayParam(npchar, "work_date") > 2 || bBettaTestMode)
     		{	
 				SaveCurrentNpcQuestDateParam(npchar, "work_date");
-				if (rand(5) > 4 && !bBettaTestMode)
+				if (rand(10) > 9 && !bBettaTestMode)             // WW     с 20% до 10%   просто посылание  уменьшил
 				{
 					dialog.text = LinkRandPhrase("Сейчас у меня нет работы для таких, как вы. Зайдите завтра, что ли...", 
 						"Никакого поручения для вас у меня сегодня нет. Заходите позже, через день-другой.", 
@@ -1635,14 +1640,14 @@ void ProcessDialogEvent()
                     {
                         //отсекаем возможность дать квест пирата в Панаме
 						if (npchar.city == "Panama") i = rand(2);							
-						else {  i = dRand(4);
+						else {  i = dRand(4);                                                //   0-5  случайный квест
 						       //if  (IsCharacterPerkOn(pchar,"Trader"))                       i = dRand(4); 
                         	   //if  (IsCharacterPerkOn(pchar,"Adventurer"))	                 i = dRand(4);			
-						       if ((IsCharacterPerkOn(pchar,"Grunt")) && dRand(2) >= 1)      i = dRand(1);  
-							   if ((IsCharacterPerkOn(pchar,"Fencer")) && dRand(2) >= 1)     i = dRand(1);
-							   if ((IsCharacterPerkOn(pchar,"Buccaneer")) && dRand(2) >= 1)  i = dRand(2);
-							   if ((IsCharacterPerkOn(pchar,"Agent")) && dRand(2) >= 1)      i = dRand(1)+2;
-							   if ((IsCharacterPerkOn(pchar,"SeaWolf")) && dRand(2) >= 1)    i = 4;        //WW
+						       if ((IsCharacterPerkOn(pchar,"Grunt")) && dRand(3) >= 1)      i = dRand(1);  
+							   if ((IsCharacterPerkOn(pchar,"Fencer")) && dRand(3) >= 1)     i = dRand(1);    // банда или лазутчик
+							   if ((IsCharacterPerkOn(pchar,"Buccaneer")) && dRand(3) >= 1)  i = dRand(2);
+							   if ((IsCharacterPerkOn(pchar,"Agent")) && dRand(3) >= 1)      i = dRand(1)+2;  //  в чужой город  или контриков
+							   if ((IsCharacterPerkOn(pchar,"SeaWolf")) && dRand(3) >= 1)    i = 4;        //WW   на пирата
 							 }
                     }         
                     // boal <--

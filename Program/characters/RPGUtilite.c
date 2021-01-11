@@ -560,6 +560,22 @@ void AddCharacterSkillDontClearExp(ref _chref, string _skill, int _addValue)
 
 void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 {
+	if (_chref == pchar)
+	{
+		float P = makefloat(GetCharacterSPECIALSimple(_chref, SPECIAL_P)*10);
+		//Enemy ship	
+		worldMap.enemyshipViewDistMin = 60.0+P;		//Растояние на котором корабль начинает исчезать
+		worldMap.enemyshipViewDistMax = 120.0+P;		//Растояние на котором корабль исчезает полностью
+		worldMap.enemyshipBrnDistMin = 80.0+P;		//Минимальное растояние на котором рожается корабль
+		worldMap.enemyshipBrnDistMax = 130.0+P;		//Максимальное растояние на котором рожается корабль
+		//storm
+		worldMap.stormViewDistMin = 90.0+P;			//Растояние на котором шторм начинает исчезать
+		worldMap.stormViewDistMax = 180.0+P;			//Растояние на котором шторм исчезает полностью
+		worldMap.stormDistKill = 190.0+P;				//Расстояние на котором убиваем шторм
+		worldMap.stormBrnDistMin = 100.0+P;			//Минимальное растояние на котором рожается шторм
+		worldMap.stormBrnDistMax = 140.0+P;			//Максимальное растояние на котором рожается шторм
+	}
+	
     // трем кэш
     CheckAttribute(_chref, "BakSkill." + _skill);
 	if (CheckCharacterPerk(_chref, "HPPlusFixed"))

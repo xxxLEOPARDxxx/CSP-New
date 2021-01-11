@@ -1,85 +1,29 @@
-#define OVERLOOK_LOYALTY_SPAN 5
-//#20180119-02
-#define OFFICER_GOALONG_COUNT 15
+// BOAL полностью переделано под нужны ВМЛ
 
+// -> ugeen 27.01.09 - лочим лояльность квестовых офф-ов (всегда максимальная)
 void OfficersReaction(string alignment)
 {
 	int iPassenger;
 	int i, cn;
-	int majorityResult = 0;
 	ref sld;
-	int iOverlook = 1; //Boyer mod for occasionally overlooking in cases of good loyalty #20170318-66
-    int tempRep;
-
-	majorityResult = DetermineMajorityReaction(alignment);
-	//Trace("LOYALTY_MOD: majorityResult: " + majorityResult);
-
-	//#20170318-66 Modified by J. Boyer to fix reducing loyalty even with main character Hero status among other high-status characters
+	
 	for (int io = 0; io<GetPassengersQuantity(pchar); io++)
 	{   // любой пассажир у кого есть пристрастие может свалить если наши дела ему не по душе
-
 		iPassenger = GetPassenger(pchar, io);
 		if (iPassenger != -1)
 		{
-		    //#20180119-02
-		    if(!CheckAttribute(&characters[iPassenger], "loyaltyCount"))
-                characters[iPassenger].loyaltyCount = 0;
-			//Trace("LOYALTY_MOD: before image >>>");
-			//TraceCharacter(characters[iPassenger]);
-			if (CheckAttribute(characters[iPassenger], "loyality"))
+			sld = GetCharacter(iPassenger);
+			if (CheckAttribute(sld, "loyality") && !CheckAttribute(sld, "OfficerWantToGo.DontGo"))
 			{
-				if (isOfficerNeutral(&characters[iPassenger]))
+				if (sld.alignment == alignment)
 				{
-					characters[iPassenger].loyality = makeint(characters[iPassenger].loyality) + majorityResult;
-					//#20180119-02
-					if(majorityResult != 0) {
-					    characters[iPassenger].loyaltyCount = sti(characters[iPassenger].loyaltyCount) + 1;
-                        if(characters[iPassenger].loyaltyCount > OFFICER_GOALONG_COUNT) {
-                            characters[iPassenger].loyaltyCount = 0;
-                            tempRep = sti(characters[iPassenger].reputation);
-                            if(alignment=="good" && tempRep < REPUTATION_MAX)
-                                characters[iPassenger].reputation = tempRep + 1;
-                            else {
-                                if(alignment=="bad" && tempRep > REPUTATION_MIN)
-                                characters[iPassenger].reputation = tempRep - 1;
-                            }
-                        }
-					}
+					sld.loyality = makeint(sld.loyality) + 1;
 				}
 				else
 				{
-					if (getOfficerAlignment(&characters[iPassenger]) == alignment)
-					{
-						characters[iPassenger].loyality = makeint(characters[iPassenger].loyality) + 1;
-					}
-					else
-					{
-						//Boyer mod to give chance to overlook discrepant action #20170318-66
-						//Extremely loyal are more likely to overlook, but chance is never zero
-						iOverlook = rand(MAX_LOYALITY) + OVERLOOK_LOYALTY_SPAN;
-						//Trace("LOYALTY_MOD: iOverlook = " + iOverlook + " > .loyality " + characters[iPassenger].loyality + "?");
-						//#20180119-02
-						if (iOverlook > makeint(characters[iPassenger].loyality)) {
-							characters[iPassenger].loyality = makeint(characters[iPassenger].loyality) - 1;
-						}
-                        else {
-                            characters[iPassenger].loyaltyCount = sti(characters[iPassenger].loyaltyCount) + 1;
-                            if(characters[iPassenger].loyaltyCount > OFFICER_GOALONG_COUNT) {
-                                characters[iPassenger].loyaltyCount = 0;
-                                tempRep = sti(characters[iPassenger].reputation);
-                                if(alignment=="good" && tempRep < REPUTATION_MAX)
-                                    characters[iPassenger].reputation = tempRep + 1;
-                                else {
-                                    if(alignment=="bad" && tempRep > REPUTATION_MIN)
-                                    characters[iPassenger].reputation = tempRep - 1;
-                                }
-                            }
-                        }
-					}
+					sld.loyality = makeint(sld.loyality) - 1;
 				}
 			}
-			//Trace("LOYALTY_MOD: after image <<<");
-			//TraceCharacter(&characters[iPassenger]);
 		}
 	}
 	for (i=1; i<COMPANION_MAX; i++)
@@ -87,65 +31,33 @@ void OfficersReaction(string alignment)
 		cn = GetCompanionIndex(pchar, i);
 		if(cn!=-1)
 		{
-		    sld = GetCharacter(cn);
-		    //#20180119-02
-		    if(!CheckAttribute(sld, "loyaltyCount"))
-                sld.loyaltyCount = 0;
-			//Trace("LOYALTY_MOD: before image >>>");
-			//TraceCharacter(sld);
-			if (CheckAttribute(sld, "loyality"))
+			sld = GetCharacter(cn);
+			if (CheckAttribute(sld, "loyality") && !CheckAttribute(sld, "OfficerWantToGo.DontGo"))
 			{
-				if (isOfficerNeutral(&sld))
+				if (sld.alignment == alignment)
 				{
-					sld.loyality = makeint(sld.loyality) + majorityResult;
-					if (CheckAttribute(sld, "PGGAi")) PGG_ChangeRelation2MainCharacter(sld, majorityResult); //navy
+					sld.loyality = makeint(sld.loyality) + 1;
+					if (CheckAttribute(sld, "PGGAi")) PGG_ChangeRelation2MainCharacter(sld, 1); //navy
 				}
 				else
 				{
-					if (getOfficerAlignment(&sld) == alignment)
-					{
-						sld.loyality = makeint(sld.loyality) + 1;// специально не делаю приведение к 0 и мах. потому чтоб был запас минусов для проверок
-						if (CheckAttribute(sld, "PGGAi")) PGG_ChangeRelation2MainCharacter(sld, 1); //navy
-					}
-					else
-					{
-						//Boyer mod to give chance to overlook discrepant action #20170318-66
-						//Extremely loyal are more likely to overlook, but chance is never zero
-						iOverlook = rand(MAX_LOYALITY) + OVERLOOK_LOYALTY_SPAN;
-						//Trace("LOYALTY_MOD: iOverlook = " + iOverlook + " > .loyality " + sld.loyality + "?");
-						//#20180119-02
-						if (iOverlook > makeint(sld.loyality)) {
-							sld.loyality = makeint(sld.loyality) - 1;
-							if (CheckAttribute(sld, "PGGAi")) PGG_ChangeRelation2MainCharacter(sld, -1); //navy
-						}
-						else {
-                            sld.loyaltyCount = sti(sld.loyaltyCount) + 1;
-                            if(sld.loyaltyCount > OFFICER_GOALONG_COUNT) {
-                                sld.loyaltyCount = 0;
-                                tempRep = sti(sld.reputation);
-                                if(alignment=="good" && tempRep < REPUTATION_MAX)
-                                    sld.reputation = tempRep + 1;
-                                else {
-                                    if(alignment=="bad" && tempRep > REPUTATION_MIN)
-                                    sld.reputation = tempRep - 1;
-                                }
-                            }
-                        }
-					}
+					sld.loyality = makeint(sld.loyality) - 1;
+					// специально не далею приведение к 0 и мах. потому чтоб был запас минусов для проверок
+					if (CheckAttribute(sld, "PGGAi")) PGG_ChangeRelation2MainCharacter(sld, -1); //navy
 				}
-			}
-			//Trace("LOYALTY_MOD: after image <<<");
-			//TraceCharacter(&sld);
+			}									
 		}
 	}
 }
+//-> ugeen
 
 void ChangeOfficersLoyality(string alignment, int iLoyality)
 { // aliggnment types : "bad" , "good" , "bad_all" , "good_all"
-								   
+
 	int iPassenger;
 	int i, cn;
 	ref sld;
+	
 	for (int io = 0; io<GetPassengersQuantity(pchar); io++)
 	{   // любой пассажир у кого есть пристрастие может свалить если наши дела ему не по душе	
 		iPassenger = GetPassenger(pchar, io);
@@ -220,112 +132,17 @@ void ChangeOfficersLoyality(string alignment, int iLoyality)
 	}	
 }
 
-
-// STEELRAT [7 JUN 2010] -->
-// return true in case officer is considered regular sailor
-bool isOfficerNeutral(ref _officer)
-{
-    int rep = REPUTATION_NEUTRAL;  // 45 = neutral as default setting in case officer has no rep
-	if (CheckAttribute(_officer, "reputation")) rep = sti(_officer.reputation); // retrieve value if officer has rep
-	if (rep > 40 && rep < 51) return true;
-	return false;
-}
-
-// simply returning officers alignment. In case attribute is missing, it is derived from offs reputation
-string getOfficerAlignment(ref _officer)
-{
-	if (CheckAttribute(_officer, "alignment")) return _officer.alignment;
-    int rep = REPUTATION_NEUTRAL;  // 45 = neutral as default setting in case officer has no rep
-	string _alignment = "";
-	if (CheckAttribute(_officer, "reputation")) rep = sti(_officer.reputation); // retrieve value if officer has rep
-	if (rep > 41) _alignment = "good";
-	else _alignment = "bad";
-	return _alignment;
-}
-
-// determine how majority of your officers react on your last action,
-// excluding quest offs, regular sailors, prisoners, quest passengers, convoy captains
-// return 0 = officers opinion on par, -1 = majority against captain, +1 = majority for captain
-int DetermineMajorityReaction(string action)
-{
-	int iP, iC;
-	int _vote = 0;
-	ref companion;
-	int iOverlook = 1; //Boyer mod for occasionally overlooking in cases of good loyalty #20170318-66
-
-	//Trace("LOYALTY_MOD: action: " + action);
-
-	// loop over passenger list
-	for (int io = 0; io<GetPassengersQuantity(pchar); io++)
-	{
-		iP = GetPassenger(pchar, io);
-		if (iP != -1)
-		{
-			if (CheckAttribute(characters[iP], "loyality"))
-			{
-				if (!isOfficerNeutral(&characters[iP]))
-				{
-					if (getOfficerAlignment(&characters[iP]) == action) _vote++;
-					{
-						//Boyer mod to give chance to overlook discrepant action #20170318-66
-						//Extremely loyal are more likely to overlook, but chance is never zero
-						iOverlook = rand(MAX_LOYALITY) + OVERLOOK_LOYALTY_SPAN;
-						//Trace("LOYALTY_MOD: iOverlook = " + iOverlook + " > .loyality " + characters[iP].loyality + "?");
-						if(iOverlook > makeint(characters[iP].loyality)) _vote--;
-					}
-				}
-			}
-		}
-	}
-
-	// loop over companion list
-	for (int i=1; i<COMPANION_MAX; i++)
-	{
-		iC = GetCompanionIndex(pchar, i);
-		if(iC != -1)
-		{
-			companion = GetCharacter(iC);
-			if (CheckAttribute(companion, "loyality"))
-			{
-				if (!isOfficerNeutral(&companion))
-				{
-					if (getOfficerAlignment(&companion) == action) _vote++;
-					else {
-						//Boyer mod to give chance to overlook discrepant action #20170318-66
-						//Extremely loyal are more likely to overlook, but chance is never zero
-						iOverlook = rand(MAX_LOYALITY) + OVERLOOK_LOYALTY_SPAN;
-						//Trace("LOYALTY_MOD: iOverlook = " + iOverlook + " > .loyality " + companion.loyality + "?");
-						if(iOverlook > makeint(companion.loyality)) _vote--;
-					}
-				}
-			}
-		}
-	}
-	//Trace("LOYALTY_MOD: value of vote: " + _vote);
-	// determine result: 0 = officers opinion on par, -1 = majority against captain, +1 = majority for captain
-	if (_vote < 0) return -1;
-	if (_vote < 0) return 0;
-	else if (_vote > 0) return 1;
-	return 0;
-}
-
-/*
-void TraceCharacter(ref _char)
-{
-	Trace("LOYALTY_MOD: id:" + _char.id + ", index: " + _char.index + ", name: " + _char.name + ", lastname: " + _char.lastname + ", reputation: " + _char.reputation + ", loyalty: " + _char.loyality + ", alignment: " + getOfficerAlignment(_char) + ", prisoner: " + _char.prisoned);
-}
-*/
-// STEELRAT [7 JUN 2010] <--
-
+// результат реакции - действия офа - диалог
 void OfficersReactionResult()
 {
 	int iPassenger;
 	int i;
 	ref sld;
-
+	
 	if (LAi_IsCapturedLocation) return;
 	if (chrDisableReloadToLocation) return; // идет некий другой квест с запретом выхода
 	if (CheckAttribute(Pchar,"questTemp.MunityOfficerIDX") && Pchar.questTemp.MunityOfficerIDX.begin == "1") return;
+	
 	for (i = 0; i<GetPassengersQuantity(pchar); i++)
 	{   // любой пассажир у кого есть пристрастие может свалить если наши дела ему не по душе
 		iPassenger = GetPassenger(pchar, i);
@@ -345,21 +162,21 @@ void OfficersReactionResult()
 					    	sld.greeting = "Gr_Officer_Fired";
 					    }
 						DeleteAttribute(sld, "quest.officertype");
-
+	
 						LAi_SetActorType(sld);
 						LAi_ActorDialog(sld, pchar, "", 2.0, 0);
 						//SetActorDialogAny2Pchar(sld.id, "pchar_back_to_player", 0.0, 0.0);
 			    		//LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 2.0);
 			    		chrDisableReloadToLocation = true;
 			    		DoQuestCheckDelay("OpenTheDoors", 5.0);
-						break;
+						break; 
 					}
 				}
 			}
 		}
 	}
 	if (chrDisableReloadToLocation) return; // уже увольняется
-
+	
 	if (CheckNPCQuestDate(pchar, "OfficerWantToGo") && rand(1) == 1) // только раз в день
 	{
 		SetNPCQuestDate(pchar, "OfficerWantToGo");
@@ -377,14 +194,14 @@ void OfficersReactionResult()
 						{
 							sld.dialog.currentnode = "WantToGo";
 		                    sld.greeting           = "Gr_Officer_Salary";
-
+		
 							LAi_SetActorType(sld);
 							LAi_ActorDialog(sld, pchar, "", 2.0, 0);
 							//SetActorDialogAny2Pchar(sld.id, "pchar_back_to_player", 0.0, 0.0);
 				    		//LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 2.0);
 				    		chrDisableReloadToLocation = true;
 				    		DoQuestCheckDelay("OpenTheDoors", 5.0);
-							break;
+							break; 
 						}
 					}
 				}

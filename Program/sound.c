@@ -399,6 +399,11 @@ void SetSchemeForLocation (ref loc)
 				SetMusicAlarm("music_LostShipsCity");
 			break;
 			
+			case "underwater":
+				SetSoundScheme("underwater");
+				SetMusicAlarm("music_underwater");
+			break;
+			
 			case "teno":
 				SetWeatherScheme("land");
 				SetMusicAlarm("music_teno");
@@ -569,36 +574,6 @@ void SetMusic(string name)
 	musicName = name;
 }
 
-// Jason однократное исполнение трека dlc
-void SetMusicOnce(string name)
-{
-	if (pchar.location == "UnderWater") return; //не играть музон под водой
-	InitSound();
-	
-	if (name == musicName)
-	{
-		SendMessage(Sound, "lll", MSG_SOUND_RESUME, musicID, SOUNDS_FADE_TIME);
-		return;
-	}
-
-	if (oldMusicID >= 0)
-	{
-		SendMessage(Sound, "ll", MSG_SOUND_RELEASE, oldMusicID);
-		oldMusicID = -1;
-	}
-
-	if (musicID >= 0)
-	{
-		SendMessage(Sound, "lll", MSG_SOUND_STOP, musicID, MUSIC_CHANGE_TIME);
-		oldMusicID = musicID;
-	}
-	musicID = SendMessage(Sound, "lslllllllf", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, false, false, false, 0, MUSIC_CHANGE_TIME, 1.0);
-	SendMessage(Sound, "lll", MSG_SOUND_RESUME, musicID, MUSIC_CHANGE_TIME);
-	
-	oldMusicName = musicName;
-	musicName = name;
-}
-
 void FadeOutMusic(int _time)
 {
     //#20180920-05
@@ -680,41 +655,6 @@ void SetBattleMusicAlarm(string name)
     battleMusicScheme = name;
 }
 //End Boyer add
-
-/* void SetMusicAlarm(string name)
-{
-	if (alarmed == 0 && seaAlarmed==false)
-	{
-		SetMusic(name);
-	}
-	else
-	{
-  		if (loadedLocation.type == "x_jungle" || loadedLocation.type == "x_seashore" || loadedLocation.id.label == "Maze") SetMusic("music_teno"); // калеуче
-		else
-		{
-			if (loadedLocation.id.label == "Alcove")
-			{
-				if (loadedLocation.type == "Alcove") SetMusic("music_alcove");
-				else SetMusic("music_alcove_1");
-			}
-		else
-		{
-			if (loadedLocation.id == "shore67" || loadedLocation.id == "IslaDeVieques_HouseEntrance" || loadedLocation.id == "Shore_mask") SetMusic("music_q_battle");
-		else
-		{
-  		SetMusic("music_bitva");
-		if (LAi_boarding_process != 0)
-		{
-			if (!CheckAttribute(loadedLocation, "CabinType"))
-			{
-				boardM = 1; // потом сбросим звук и схему
-			}
-		}
-	}
-}
-}
-}
-} */
 
 void SetMusicAlarm(string name)
 {

@@ -574,7 +574,7 @@ void CalculateInfoDataF6()
 	SetRandShipSkill(mc, 100, 100);
 	mc.rank = 50;
 	LAi_SetHP(mc, 650.0, 650.0);
-	mc.Ship.Type = GenerateShipExt(SHIP_PRINCE, true, mc);
+	mc.Ship.Type = GenerateShipExt(SHIP_SOPHIE, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_ARABELLA, true, mc);
 	SetBaseShipData(mc);
 	mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS48;

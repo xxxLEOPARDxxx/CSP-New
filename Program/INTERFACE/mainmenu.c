@@ -270,7 +270,7 @@ void MainMenu_CreateShip()
 	//int
 	iChar = GenerateCharacter(rand(4), WITHOUT_SHIP, "citizen", MAN, 0, WARRIOR);   //PIRATE
 	ref	rCharacter = &characters[iChar];
-	int nChoosedBaseShipType = 3 + rand(104);
+	int nChoosedBaseShipType = 3 + rand(130);
 	rCharacter.ship.type = GenerateShip(nChoosedBaseShipType, false);
 	SetBaseShipData( rCharacter );
 	ref refBaseShip = GetRealShip( sti(rCharacter.ship.type) );

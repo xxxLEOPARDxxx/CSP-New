@@ -198,15 +198,59 @@ void ProcessDialogEvent()
 	            Link.l6 = "Начать захват ближайшего города.";
 	    		Link.l6.go = "TalkSelf_TownAttack";
 	        }
-	        
+	        if (pchar.location != Get_My_Cabin() && Pchar.questTemp.CapBloodLine == false && !CheckAttribute(pchar, "DisableChangeFlagMode"))
+			{
+				Link.l7 = "Отдать приказ на смену флага.";
+				Link.l7.go = "TalkSelf_ChangeFlag";
+			}
 	        if(!bDisableMapEnter && Pchar.questTemp.CapBloodLine == false && PChar.location != "Deck_Near_Ship" && findsubstr(PChar.location, "_shipyard" , 0) == -1 && PChar.location != "CommonPackhouse_2" && !CheckAttribute(pchar,"GenQuest.CannotWait")) // 21.03.09 Warship fix Во время линейки Блада отдыхать нельзя
 	        {
-	        	Link.l7 = "Мне не мешало бы отдохнуть...";
-	    		Link.l7.go = "TalkSelf_StartWait";
+	        	Link.l8 = "Мне не мешало бы отдохнуть...";
+	    		Link.l8.go = "TalkSelf_StartWait";
 	    	}
-	        
 			Link.l10 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
 			Link.l10.go = "exit";
+		break;
+		
+		case "TalkSelf_ChangeFlag":
+			Dialog.Text = "Какой флаг мне необходим на данный момент? Его смена займёт 1 час.";
+			if (IsCharacterPerkOn(pchar,"FlagPir") && sti(pchar.nation) != 4) {Link.l1 = "Поднять пиратский флаг."; Link.l1.go = "TalkSelf_ChangeFlagPir";}
+			if (IsCharacterPerkOn(pchar,"FlagEng") && sti(pchar.nation) != 0) {Link.l2 = "Поднять английский флаг."; Link.l2.go = "TalkSelf_ChangeFlagEng";}
+			if (IsCharacterPerkOn(pchar,"FlagFra") && sti(pchar.nation) != 1) {Link.l3 = "Поднять французский флаг."; Link.l3.go = "TalkSelf_ChangeFlagFra";}
+			if (IsCharacterPerkOn(pchar,"FlagSpa") && sti(pchar.nation) != 2) {Link.l4 = "Поднять испанский флаг."; Link.l4.go = "TalkSelf_ChangeFlagSpa";}
+			if (IsCharacterPerkOn(pchar,"FlagHol") && sti(pchar.nation) != 3) {Link.l5 = "Поднять голландский флаг."; Link.l5.go = "TalkSelf_ChangeFlagHol";}
+			Link.l6 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
+			Link.l6.go = "exit";
+		break;
+		
+		case "TalkSelf_ChangeFlagPir":
+			Log_Info("Выбран пиратский флаг");
+			FlagsProcess1(4);
+			DialogExit_Self();
+		break;
+		
+		case "TalkSelf_ChangeFlagEng":
+			Log_Info("Выбран английский флаг");
+			FlagsProcess1(0);
+			DialogExit_Self();
+		break;
+		
+		case "TalkSelf_ChangeFlagFra":
+			Log_Info("Выбран французский флаг");
+			FlagsProcess1(1);
+			DialogExit_Self();
+		break;
+		
+		case "TalkSelf_ChangeFlagSpa":
+			Log_Info("Выбран испанский флаг");
+			FlagsProcess1(2);
+			DialogExit_Self();
+		break;
+		
+		case "TalkSelf_ChangeFlagHol":
+			Log_Info("Выбран пиратский флаг");
+			FlagsProcess1(3);
+			DialogExit_Self();
 		break;
 		
 		case "TalkSelf_StartWait":
@@ -447,3 +491,73 @@ void  DialogExit_Self()
     DialogExit();
 	locCameraSleep(false); //boal
 }
+
+
+void FlagsProcess1(int nation)
+{
+	// boal 04.04.2004 -->
+	bool bTmpBool = true;
+	int i, cn;
+	ref chref;
+	
+
+	Sea_ClearCheckFlag(); // сбросить всем в море проверку смотрения на флаг.
+	DoQuestFunctionDelay("FreeChangeFlagMode", 15.0); // ролик + запас
+	
+	switch (nation)
+	{
+    	case ENGLAND:	EnglandProcess();	break;
+    	case FRANCE:	FranceProcess();	break;
+    	case SPAIN:		SpainProcess();		break;
+    	case PIRATE:	PirateProcess();	break;
+    	case HOLLAND:	HollandProcess();	break;
+	}
+}
+
+void PirateProcess()
+{
+	pchar.DisableChangeFlagMode = true;
+    //DoQuestCheckDelay("pir_flag_rise", 1.0);
+    PChar.GenQuest.VideoAVI        = "Pirate";
+    PChar.GenQuest.VideoAfterQuest = "pir_flag_rise";
+	
+    DoQuestCheckDelay("PostVideo_Start", 0); WasteTime(1);
+}
+
+void EnglandProcess()
+{
+	pchar.DisableChangeFlagMode = true;
+    //DoQuestCheckDelay("eng_flag_rise", 1.0);
+    PChar.GenQuest.VideoAVI        = "England";
+    PChar.GenQuest.VideoAfterQuest = "eng_flag_rise";
+
+    DoQuestCheckDelay("PostVideo_Start", 0); WasteTime(1);
+}
+
+void FranceProcess()
+{
+	pchar.DisableChangeFlagMode = true;
+    PChar.GenQuest.VideoAVI        = "France";
+    PChar.GenQuest.VideoAfterQuest = "fra_flag_rise";
+	
+    DoQuestCheckDelay("PostVideo_Start", 0); WasteTime(1);
+}
+
+void SpainProcess()
+{
+	pchar.DisableChangeFlagMode = true;
+    PChar.GenQuest.VideoAVI        = "Spain";
+    PChar.GenQuest.VideoAfterQuest = "spa_flag_rise";
+
+    DoQuestCheckDelay("PostVideo_Start", 0); WasteTime(1);
+}
+
+void HollandProcess()
+{
+	pchar.DisableChangeFlagMode = true;
+    PChar.GenQuest.VideoAVI        = "Holland";
+    PChar.GenQuest.VideoAfterQuest = "hol_flag_rise";
+
+    DoQuestCheckDelay("PostVideo_Start", 0); WasteTime(1);
+}
+

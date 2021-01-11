@@ -70,8 +70,13 @@ void ProcessDialogEvent()
 				{
 					dialog.text = RandPhraseSimple("Вражеский агент близ " + XI_ConvertString("Colony" + npchar.city + "Gen") + "! Взять е"+ GetSexPhrase("го","е") +"!!", "Смотрите-ка, " + NationNamePeople(sti(pchar.nation))+ " разгуливают чуть ли не в " + XI_ConvertString("Colony" + npchar.city + "Dat") + "! Немедленно схватить!!!");
 				}
-				link.l1 = RandPhraseSimple("Попробуйте, здесь мы в одиночестве...", "Хех, здесь вам помощи ждать неоткуда.");
-				link.l1.go = "exit_fight"; 				
+				link.l2 = RandPhraseSimple("Попробуйте, здесь мы в одиночестве...", "Хех, здесь вам помощи ждать неоткуда.");
+				link.l2.go = "exit_fight"; 		
+				if (IsCharacterPerkOn(pchar, "Adventurer") || IsCharacterPerkOn(pchar, "Agent"))
+				{
+					link.l1 = RandPhraseSimple("Вы обознались, сэр! Я законопослушный гражданини.", "С чего такая агрессия? Может я просто прогуляться вышел?");
+					link.l1.go = "CheckPeg";
+				}					
 			}
 			else
 			{				
@@ -83,6 +88,32 @@ void ProcessDialogEvent()
 				"Великолепно. Что лично я могу для вас сделать?");
 				Link.l1.go = "Node_2";
 			}
+		break;
+		
+		case "CheckPeg":
+		switch (rand(1))
+		{
+			case 0: 
+				dialog.text = RandPhraseSimple("А-а-а, вижу... Все в порядке, вы можете идти, " + GetAddress_Form(pchar) + ".", "Что-то я немного подустал в патруле... Все в порядке, " + GetAddress_Form(pchar) + ", прошу прощения.");
+				link.l1 = "Так-то!";
+				link.l1.go = "exit_noFight";
+				if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
+				{
+					AddCharacterExpToSkill(pchar, SKILL_SNEAK, 80);
+					pchar.questTemp.stels.landSolder = GetDataDay();
+				}
+				break;
+			case 1: 
+				dialog.text = RandPhraseSimple("Вам не запудрить мне голову! Сдавайте оружие!", "Ну точно шпион... Сдавайтесь немедленно!");
+				link.l1 = RandPhraseSimple("Как бы не так!", "После дождичка, в четверг...");
+				link.l1.go = "exit_fight";
+				if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
+				{
+					AddCharacterExpToSkill(pchar, SKILL_SNEAK, 40);
+					pchar.questTemp.stels.landSolder = GetDataDay();
+				}
+				break;
+		}
 		break;
 		
 		case "Node_2":

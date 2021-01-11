@@ -154,7 +154,7 @@ float Cannon_GetRechargeTime()
 		//Boyer remove reload speed boost for enemies
 		if (sti(aCharacter.index) != GetMainCharacterIndex())
 		{
-		   fReloadTime -= MOD_SKILL_ENEMY_RATE; // -10c на невозможном
+		   fReloadTime -= MOD_SKILL_ENEMY_RATE/2; // -10c на невозможном
 		}
 		// boal <--
 		float crewQty  = GetCrewQuantity(aCharacter);

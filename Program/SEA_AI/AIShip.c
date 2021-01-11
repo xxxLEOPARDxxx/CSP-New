@@ -1203,13 +1203,6 @@ void Ship_CheckSituation()
 		    }
 		}
 		nTaskTarg = sti(rCharacter.SeaAI.Task.Target);
-		if(aiTask == AITASK_RUNAWAY)
-		{
-			if(CheckForSpeak(iCharIdx) == true)
-			{
-				Sea_Speak(rCharacter, iCharIdx, -1); //Offer money to get away
-			}
-		}
 	    /*if (rCharacter.SeaAI.Task == AITASK_ABORDAGE && rCharacter.SeaAI.Task.Target == "")
 	    {
 	        Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), nMainCharacterIndex);
@@ -1392,7 +1385,7 @@ void Ship_CheckSituation()
                 if(iNewBallType >= 0)
                     fAmmoRat = makefloat(GetCargoGoods(rCharacter, iNewBallType)) / fIShipCn;
             }
-            if(bStartRunaway || iNewBallType < 0 || fAmmoRat < RA_AMMO_DET || fCannonRat < RA_CANNON_RATIO || fPowderRat < RA_POWDER_DET) {
+            if(bStartRunaway) {
                 //if (iNewBallType < 0 || iShipCannonsNum < (sti(rShip.CannonsQuantity) / 10))
                 //{
                 if(nTaskTarg == 0) {
