@@ -349,7 +349,8 @@ void SetSchemeForLocation (ref loc)
 				}
 				if (iColony != -1)
 				{
-					SetMusicAlarm("music_shore");
+					if (Whr_IsDay()) SetMusicAlarm(NationShortName(sti(Colonies[iColony].nation)) + "_music_day");
+					else SetMusicAlarm(NationShortName(sti(Colonies[iColony].nation)) + "_music_night");
 				}
 				else
 				{

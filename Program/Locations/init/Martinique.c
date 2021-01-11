@@ -763,7 +763,7 @@ int LocationInitMartinique(int n)
 
 	locations[n].reload.l2.name = "reload2";
 	locations[n].reload.l2.go = "FortFrance_town";
-	locations[n].reload.l2.emerge = "houseH11";
+	locations[n].reload.l2.emerge = "houseH3";
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "";
 	n = n + 1;

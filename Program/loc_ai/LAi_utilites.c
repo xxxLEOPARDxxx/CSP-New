@@ -100,13 +100,14 @@ void CreateCitizens(aref loc)
 					chr.dialog.filename    = "Sailor.c";
 					chr.dialog.currentnode = "first time";
 					chr.greeting = "pirat_common";
-					if (rand(5) == 1) //нанимаются в команду
+					if (rand(40) <= 10+GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP)) //WW нанимаются в команду в 20%-40% случаев от авторитета 
 					{
 						chr.quest.crew = "true";
-						chr.quest.crew.qty = 5+rand(15);
+						chr.quest.crew.qty = 10+rand(14)+(GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP) * 6); //WW   10-24 + 6-60 = 16-84    от авторитета   
 						chr.quest.crew.type = rand(2);
-						chr.quest.crew.money = (1+rand(1))*100+rand(50);
+						chr.quest.crew.money = (60+rand(2))*20+rand(80);   // WW  60-180
 						chr.talker = rand(9);
+						
 					}
 				}
 		}

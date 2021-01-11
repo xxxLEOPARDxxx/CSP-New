@@ -93,7 +93,7 @@ int LocationInitPortoBello(int n)
 
 	locations[n].reload.l41.name = "reload41_back";
 	locations[n].reload.l41.go = "PortoBello_tavern";
-	locations[n].reload.l41.emerge = "reload4";
+	locations[n].reload.l41.emerge = "reload1";
 	locations[n].reload.l41.autoreload = "0";
 	locations[n].reload.l41.label = "Tavern";
 

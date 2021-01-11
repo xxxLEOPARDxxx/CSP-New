@@ -304,7 +304,7 @@ void PlaceSmugglersOnShore(string LocationId)
 	player.GenQuest.Smugglers_Group = "Smugglers_1";
     LAi_group_Register(player.GenQuest.Smugglers_Group);
     
-	for (i = 1; i <= 3; i++)
+	for (i = 1; i <= 3+makeint(MOD_SKILL_ENEMY_RATE/2); i++)
     {
         Model = "pirate_" + (rand(9)+1);
 		Smuggler = GetCharacter(NPC_GenerateCharacter("Rand_Smug0" + i, Model, "man", "man", 5, PIRATE, 4, true)); // 4 дня, потом сами пропадут
@@ -316,7 +316,19 @@ void PlaceSmugglersOnShore(string LocationId)
 		Smuggler.Dialog.CurrentNode = "First time";
 		Smuggler.greeting = "Gr_Smuggler_OnShore";
 		LAi_group_MoveCharacter(Smuggler, player.GenQuest.Smugglers_Group);
-		ChangeCharacterAddressGroup(Smuggler, LocationID, "Smugglers", "Smuggler0" + i);
+		if (i < 3) ChangeCharacterAddressGroup(Smuggler, LocationID, "Smugglers", "Smuggler0" + i);
+		else
+		{
+			int rando = rand(3);
+			switch (rando)
+			{
+				case 0: rando = 1; break;
+				case 1: rando = 1; break;
+				case 2: rando = 2; break;
+				case 3: rando = 3; break;
+			}
+			ChangeCharacterAddressGroup(Smuggler, LocationID, "Smugglers", "Smuggler0"+rando);
+		}		
     }
 	
 	AddGeometryToLocation(LocationID, "smg");
