@@ -1849,10 +1849,10 @@ int LocationInitJamaica(int n)
 	locations[n].environment.sea = "false";
 	//Reload map
 	locations[n].reload.l1.name = "reload1_back";
-	locations[n].reload.l1.go = "FortOrange_bank";
-	locations[n].reload.l1.emerge = "reload2";
+	locations[n].reload.l1.go = "FortOrange_town";
+	locations[n].reload.l1.emerge = "reload7";
 	locations[n].reload.l1.autoreload = "0";
-	locations[n].reload.l1.label = "Bank";
+	locations[n].reload.l1.label = "Street";
 	LAi_LocationFightDisable(&locations[n], true);
 	
 	locations[n].reload.l2.name = "reload1_back";

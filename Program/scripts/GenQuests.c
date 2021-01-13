@@ -505,8 +505,8 @@ void Church_GenQuest2_GenerateBandits(string sQuest)
 		SetFantomParamFromRank(rChar, iGenRank, true);
 		sGenlocator = GetAttributeName(GetAttributeN(arGenAll, 1)); 
 		ChangeCharacterAddressGroup(rChar, location.id, encGenGroup, sGenlocator);
-		ChangeCharacterAddressGroup(rChar, location.id, "goto", "goto" + (i + 1));
-		PlaceCharacter(rChar, sLocGroup, pchar.location);
+		// ChangeCharacterAddressGroup(rChar, location.id, "goto", "goto" + (i + 1));
+		PlaceCharacter(rChar, "encdetector", "random_must_be_near");
 		LAi_SetGuardianType(rChar);
 		rChar.Dialog.FileName = "GenQuests_Dialog.c";
 		LAi_SetImmortal(rChar, true);

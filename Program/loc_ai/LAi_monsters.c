@@ -681,8 +681,8 @@ bool LAi_CreateEncounters(ref location)
                     if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAnime = "man";
 					chr = GetCharacter(NPC_GenerateCharacter("Convict_" + i, model[iMassive], "man", sAnime, iRank, PIRATE, -1, true));
 					SetFantomParamFromRank(chr, iRank, true);
-					locator = GetAttributeName(GetAttributeN(grp, i));
-					// locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
+					// locator = GetAttributeName(GetAttributeN(grp, i));
+					locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
 					ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 					chr.dialog.filename = "GenQuests_Dialog.c";
 					chr.dialog.currentnode = "First time";
