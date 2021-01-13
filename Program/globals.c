@@ -48,6 +48,7 @@ int iRealDay = 0;
 int iGrassQuality = 0; //0 full, 1 middle, 2 low, 3 off
 
 int iEncountersRate = 1;   // работает на карте и будет работать для скорости смены отношений и тп
+int iEncountersCountRate = 1;   // работает на карте и будет работать для скорости смены отношений и тп
 int	iArcadeSails = 1;   // GetRSRollSpeed
 
 #define KVL_MODS_FILE "Mods_On_Off_File.txt" // Warship. Глоб. файл для включения/выключения всяких фич игры

@@ -110,7 +110,14 @@ void DailyRatsEatGoodsUpdate(ref chref)
     int iGoods = GOOD_POWDER + rand(GOOD_OIL - GOOD_POWDER);
     int iQuantity = GetCargoGoods(chref, iGoods);
     int iSeaGoods = LanguageOpenFile("ShipEatGood.txt");
-    if (iQuantity > 60 && rand(4) != 2) // шанс не жрать, если весь спектр
+	int qty = 30;
+	int randv = 4;
+	if(IsCharacterPerkOn(chref, "Trader"))
+	{
+		qty = 60;
+		randv = 1;
+	}
+    if (iQuantity > qty && rand(randv) != 0) // шанс не жрать, если весь спектр
     {
         float fSkill = GetSummonSkillFromNameToOld(chref, SKILL_REPAIR) + GetSummonSkillFromNameToOld(chref,SKILL_FORTUNE);
         

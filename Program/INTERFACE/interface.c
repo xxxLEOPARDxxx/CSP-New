@@ -136,6 +136,16 @@ void LaunchStorage(int storageNum) // интерфейс склада
 
 // <-- ugeen
 
+void LaunchCreateNotice()
+{
+	if(procInterfacePrepare(INTERFACE_CREATENOTICE))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_CREATENOTICE;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
 // boal -->
 void LaunchAboutScreen()
 {	

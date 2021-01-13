@@ -69,20 +69,26 @@ void FillTable()
 	n = 1;
 	// шапка -->
     GameInterface.TABLE_HERO.select = 0;
-    GameInterface.TABLE_HERO.hr.td1.str = "ID";
-    GameInterface.TABLE_HERO.hr.td1.scale = 0.8;
-    GameInterface.TABLE_HERO.hr.td2.str = "Name";
-    GameInterface.TABLE_HERO.hr.td2.scale = 0.85;
-	GameInterface.TABLE_HERO.hr.td3.str = "Rank";
-	GameInterface.TABLE_HERO.hr.td3.scale = 0.8;
-	GameInterface.TABLE_HERO).hr.td4.str = "Nation";
-	GameInterface.TABLE_HERO.hr.td4.scale = 0.8;
-	GameInterface.TABLE_HERO.hr.td5.str = "Ship";
-	GameInterface.TABLE_HERO.hr.td5.scale = 0.8;
-	GameInterface.TABLE_HERO.hr.td6.str = "Present Location";
-	GameInterface.TABLE_HERO).hr.td6.scale = 0.8;
-	GameInterface.TABLE_HERO.hr.td7.str = "Destination";
-	GameInterface.TABLE_HERO.hr.td7.scale = 0.8;
+    GameInterface.TABLE_HERO.hr.td1.str = "Фото";
+    GameInterface.TABLE_HERO.hr.td1.scale = 1.0;
+    GameInterface.TABLE_HERO.hr.td2.str = "Имя";
+    GameInterface.TABLE_HERO.hr.td2.scale = 1.0;
+	GameInterface.TABLE_HERO.hr.td3.str = "Ранг";
+	GameInterface.TABLE_HERO.hr.td3.scale = 1.0;
+	GameInterface.TABLE_HERO.hr.td4.str = "Нация";
+	GameInterface.TABLE_HERO.hr.td4.scale = 1.0;
+	GameInterface.TABLE_HERO.hr.td5.str = "Корабль";
+	GameInterface.TABLE_HERO.hr.td5.scale = 1.0;
+	GameInterface.TABLE_HERO.hr.td6.str = "Местоположение";
+	GameInterface.TABLE_HERO.hr.td6.scale = 1.0;
+	GameInterface.TABLE_HERO.hr.td7.str = "Пункт назначения";
+	GameInterface.TABLE_HERO.hr.td7.scale = 1.0;
+	GameInterface.TABLE_HERO.hr.td8.str = "Репутация";
+	GameInterface.TABLE_HERO.hr.td8.scale = 1.0;
+	GameInterface.TABLE_HERO.hr.td9.str = "Отношение";
+	GameInterface.TABLE_HERO.hr.td9.scale = 1.0;
+	GameInterface.TABLE_HERO.hr.td10.str = "Пиастры";
+	GameInterface.TABLE_HERO.hr.td10.scale = 1.0;
 
 	for (i = 1; i <= PsHeroQty; i++)
 	{
@@ -96,28 +102,45 @@ void FillTable()
 		row = "tr" + n;
 		GameInterface.TABLE_HERO.(row).td1.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chr.faceId + ".tga";
 		GameInterface.TABLE_HERO.(row).td1.icon.uv = "0,0,1,1";
-	    GameInterface.TABLE_HERO.(row).td1.str = chr.id;
+	    GameInterface.TABLE_HERO.(row).td1.icon.width = 40;
+    	GameInterface.TABLE_HERO.(row).td1.icon.height = 40;
+    	GameInterface.TABLE_HERO.(row).td1.icon.offset = "-2, -1";
+	    // GameInterface.TABLE_HERO.(row).td1.str = chr.id;
 	    GameInterface.TABLE_HERO.(row).td1.scale = 0.8;
 	    GameInterface.TABLE_HERO.(row).td2.str = GetFullName(chr);
 	    GameInterface.TABLE_HERO.(row).td2.scale = 0.8;
 	    GameInterface.TABLE_HERO.(row).td3.str = chr.rank;
-	    GameInterface.TABLE_HERO.(row).td3.scale = 0.8;
-	    GameInterface.TABLE_HERO.(row).td4.str = Nations[sti(chr.nation)].name;
+	    GameInterface.TABLE_HERO.(row).td3.scale = 1.0;
+	    GameInterface.TABLE_HERO.(row).td4.str = XI_ConvertString(Nations[sti(chr.nation)].name);
 	    GameInterface.TABLE_HERO.(row).td4.scale = 0.8;
 	    if (GetCharacterShipType(chr) != SHIP_NOTUSED)
 	    {
-	    	GameInterface.TABLE_HERO.(row).td5.str = RealShips[GetCharacterShipType(chr)].BaseName;
+	    	GameInterface.TABLE_HERO.(row).td5.str = XI_ConvertString(RealShips[GetCharacterShipType(chr)].BaseName);
 	    	GameInterface.TABLE_HERO.(row).td5.scale = 0.8;
 	    }
-	    GameInterface.TABLE_HERO.(row).td6.str = chr.PGGAi.location + " - "+ XI_ConvertString("Colony" + chr.PGGAi.location.town + "Gen");
-	    
-	    
+		else
+		{
+			GameInterface.TABLE_HERO.(row).td5.str = "Нет корабля";
+	    	GameInterface.TABLE_HERO.(row).td5.scale = 0.8;
+		}
+	    GameInterface.TABLE_HERO.(row).td6.str = XI_ConvertString("Colony"+chr.PGGAi.location.town);
 	    GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
 	    if (CheckAttribute(chr, "PGGAi.task.target"))
 	    {
-	    	GameInterface.TABLE_HERO.(row).td7.str = chr.PGGAi.task.target;
+	    	GameInterface.TABLE_HERO.(row).td7.str = XI_ConvertString("Colony"+chr.PGGAi.task.target);
 	    	GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
 	    }
+		else
+		{
+			GameInterface.TABLE_HERO.(row).td7.str = "Находится в колонии";
+			GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
+		}
+		GameInterface.TABLE_HERO.(row).td8.str = ""+makeint(chr.reputation);
+		GameInterface.TABLE_HERO.(row).td8.scale = 0.8;
+		GameInterface.TABLE_HERO.(row).td9.str = ""+PGG_ChangeRelation2MainCharacter(chr, 0);
+		GameInterface.TABLE_HERO.(row).td9.scale = 0.8;
+		GameInterface.TABLE_HERO.(row).td10.str = ""+chr.Money;
+		GameInterface.TABLE_HERO.(row).td10.scale = 0.8;
 	    n++;
 	}
 	Table_UpdateWindow("TABLE_HERO");

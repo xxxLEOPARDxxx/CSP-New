@@ -741,6 +741,7 @@ void SaveStartGameParam()
 	optref.StartGameParam.bHigherShipRate  		 = bHigherShipRate;
     optref.StartGameParam.bRechargePistolOnLine  = bRechargePistolOnLine;
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
+	optref.StartGameParam.iEncountersCountRate   = iEncountersCountRate;
 	optref.StartGameParam.iArcadeSails           = iArcadeSails;
     // иначе сброс галки может быть optref.StartGameParam.bWorldAlivePause       = bWorldAlivePause;
 
@@ -806,6 +807,10 @@ void LoadStartGameParam()
     if (CheckAttribute(optref, "StartGameParam.iEncountersRate"))
 	{
     	iEncountersRate = sti(optref.StartGameParam.iEncountersRate);
+    }
+	if (CheckAttribute(optref, "StartGameParam.iEncountersCountRate"))
+	{
+    	iEncountersCountRate = sti(optref.StartGameParam.iEncountersCountRate);
     }
     if (CheckAttribute(optref, "StartGameParam.iArcadeSails"))
 	{

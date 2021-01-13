@@ -388,6 +388,39 @@ void ReloadEndFade()
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 	PostEvent("LoadSceneSound", 500);
 	ReloadProgressEnd();
+	if (InterfaceStates.NoInt)
+	{
+		if (bSeaActive && !bAbordageStarted)
+		{
+			DeleteBattleInterface();
+		}
+		else
+		{
+			EndBattleLandInterface();
+		}
+	}
+	else
+	{
+		if (bSeaActive && !bAbordageStarted)
+		{
+			if (!IsEntity(BattleInterface))
+			{
+				InitBattleInterface();
+				StartBattleInterface();
+				RefreshBattleInterface();
+			}
+		}
+		else
+		{
+			if (!IsEntity(worldMap))
+			{
+				if (!bLandInterfaceStart)
+				{
+					StartBattleLandInterface();
+				}
+			}
+		}
+	}
 }
 
 string FindEmergeLocator(ref rObject, string emerge_str)

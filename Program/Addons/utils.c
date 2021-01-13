@@ -21,14 +21,14 @@ void SetFoodToCharacter(ref chr, int iQuantity, int iFoodQuantity)
 		
 		switch(f)
 		{
-			case 1: d = 2; break;
-			case 2: d = 4; break;
-			case 3: d = 6; break;
-			case 4: d = 8; break;
-			case 5: d = 10; break;
+			case 1: d = 12; break;
+			case 2: d = 14; break;
+			case 3: d = 16; break;
+			case 4: d = 18; break;
+			case 5: d = 20; break;
 		}
 		
-		iSum = iFoodQuantity / d;	
+		iSum = makeint(iFoodQuantity / d)+1;
 		TakeNItems(chr, sFood, iSum);
 	}
 }

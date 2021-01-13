@@ -884,6 +884,39 @@ void OnLoad()
         Sound_OnSeaAlarm555(seaAlarmed, true);
 	
 	iCalculateSaveLoadCount("Load");
+	if (InterfaceStates.NoInt)
+	{
+		if (bSeaActive && !bAbordageStarted)
+		{
+			DeleteBattleInterface();
+		}
+		else
+		{
+			EndBattleLandInterface();
+		}
+	}
+	else
+	{
+		if (bSeaActive && !bAbordageStarted)
+		{
+			if (!IsEntity(BattleInterface))
+			{
+				InitBattleInterface();
+				StartBattleInterface();
+				RefreshBattleInterface();
+			}
+		}
+		else
+		{
+			if (!IsEntity(worldMap))
+			{
+				if (!bLandInterfaceStart)
+				{
+					StartBattleLandInterface();
+				}
+			}
+		}
+	}
 }
 
 void NewGame()
@@ -1415,6 +1448,7 @@ void ProcessControls()
 			if (!CheckCharacterItem(pchar, pchar.mushket)) break;
 			if(LAi_CheckFightMode(pchar))
 			{
+				if (!CheckAttribute(pchar,"mushket.timer")) pchar.mushket.timer = false;
 				if (pchar.mushket.timer) break;
 				pchar.mushket.timer = true;
 				LAi_SetFightMode(pchar, false);
@@ -1763,6 +1797,9 @@ void ProcessControls()
 			}
 		break;
         // boal <--
+		case "CreateNotice":
+			LaunchCreateNotice();
+		break;
 	}
 }
 
@@ -1978,12 +2015,15 @@ bool CheckSaveGameEnabled()
 	        }
 			if (CheckAttribute(Locations[idxLoadLoc],"fastreload"))
 			{
-				string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
-				if (sNation != "none")
+				if (Pchar.questTemp.CapBloodLine == false)
 				{
-					int i = sti(sNation);
-					bool bTmpBool = (GetNationRelation2MainCharacter(i) == RELATION_ENEMY) || GetRelation2BaseNation(i) == RELATION_ENEMY;
-					if (HasSubStr(Locations[idxLoadLoc].id, "_Town") && bTmpBool) TmpBool = false;
+					string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
+					if (sNation != "none")
+					{
+						int i = sti(sNation);
+						bool bTmpBool = (GetNationRelation2MainCharacter(i) == RELATION_ENEMY) || GetRelation2BaseNation(i) == RELATION_ENEMY;
+						if (HasSubStr(Locations[idxLoadLoc].id, "_Town") && bTmpBool) TmpBool = false;
+					}
 				}
 			}
 	    }

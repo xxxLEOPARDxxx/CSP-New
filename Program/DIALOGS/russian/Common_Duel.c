@@ -55,14 +55,14 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			break
 		}
 		//может отказаться.
-		if (rand(100) < 30)
+		if (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))         //WW  
 		{
 			Dialog.Text = RandPhraseSimple("Дуэль?!!! Проваливай, ты не стоишь потраченного времени.", "Дуэль? Слишком много чести! Сгинь!");
 			link.l1 = RandPhraseSimple("Ну-ну...", "Я могу и подождать...");
 			link.l1.go = "exit";
 /**/
 			//можно дать возможность драться полюбому :)			
-			if (rand(100) < 30)
+			if (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))    //WW
 			{
 				link.l1 = RandPhraseSimple("Ну, это мы сейчас посмотрим!!!", "Да что ты говоришь?! Сейчас я увижу цвет твоей крови!");
 				link.l1.go = "fight_right_now";
@@ -187,7 +187,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		link.l1.go = "fight_right_now";
 		link.l2 = "Нет, я решил"+ GetSexPhrase("","а") +" принести тебе извинения. Был"+ GetSexPhrase("","а") +" неправ, вспылил"+ GetSexPhrase("","а") +".";
 		link.l2.go = "change_mind";
-		if (rand(100) < 20)
+		if (24 <= GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))  //WW  если сила+реакци+выносливость более 24 100% драка
 		{
 			Dialog.Text = RandPhraseSimple("Слушай, я тут подумал и понял, что был неправ. Приношу свои извинения", 
 				"Черт! Это все ром!!! Прости, "+ GetSexPhrase("брат","сестра") +"!");
@@ -212,7 +212,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		DialogExit();
 		break;
 
-	case "fight_right_now_1":	
+	case "fight_right_now_1":	                  //WW  ?????
 		PChar.questTemp.duel.enemy = NPChar.id;
 		PChar.questTemp.duel.enemyQty = rand(2) + 1;
 		AddDialogExitQuestFunction("Duel_Prepare_Fight");

@@ -6,6 +6,7 @@ int iShipCapacity;
 int iTotalSpace;
 float fShipWeight, fStoreWeight;
 int iMaxGoodsStore = 50000;
+bool nocheck = true;
 
 bool bShowChangeWin = false;
 int  BuyOrSell = 0; // 1-buy -1 sell
@@ -361,6 +362,7 @@ void AddToTable()
 		n++;
 	}
 	NextFrameRefreshTable();
+	nocheck = false;
 }
 
 void NextFrameRefreshTable()
@@ -372,6 +374,7 @@ void RefreshTableByFrameEvent()
 {
 	DelEventHandler("frame", "RefreshTableByFrameEvent");
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"TABLE_LIST", 0 );
+	if(!nocheck) DoChange();
 }
 
 void OnTableClick()
@@ -501,6 +504,14 @@ void CS_TableSelectChange()
 	SetShipWeight();
 	SetVariable();
     ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(sRow).index));
+}
+
+void DoChange()
+{
+	AddToTable();
+	string row = "tr"+sti(GameInterface.TABLE_LIST.select);
+	if (row != "tr0") ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(row).index));
+	nocheck = true;
 }
 
 void FillShipsScroll()
@@ -744,6 +755,7 @@ void ShowFoodInfo()
 //// {*} BUHO-FIST - ADDED CODE - Checkboxes processing function.
 void ProcessFilter(string sButton)
 {
+	nocheck = false;
 	switch (sButton)
 	{
 	case "CB_SHIP":

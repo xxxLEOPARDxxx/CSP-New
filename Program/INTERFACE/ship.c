@@ -461,7 +461,7 @@ void OnShipScrollChange()
 	SetNodeUsing("CREW_PARTITION", false);
 	if (iShip != SHIP_NOTUSED)
 	{
-        xi_refCharacter.ship.sp = CalculateShipSP(xi_refCharacter);
+        // xi_refCharacter.ship.sp = CalculateShipSP(xi_refCharacter);
 		// оптимизация скилов -->
 	    DelBakSkillAttr(xi_refCharacter);
 	    ClearCharacterExpRate(xi_refCharacter);

@@ -1,4 +1,4 @@
-#define INTERFACE_QUANTITY				57
+#define INTERFACE_QUANTITY				58
 
 #define INTERFACE_STORE					0
 #define INTERFACE_SHIPYARD				1
@@ -61,6 +61,7 @@
 #define INTERFACE_STORAGE				54 // Интерфейс склада
 #define INTERFACE_SPEAK                 55  // Philippe, ajout
 #define INTERFACE_CONTRATRADE			56 // €нтерфейс торговли с контрабандистами
+#define	INTERFACE_CREATENOTICE			57
 // <-- Ugeen
 
 #define RC_INTERFACE_DO_NOTHING			-1

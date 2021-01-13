@@ -1454,12 +1454,13 @@ void ChoosePerk()
             }
 			GameInterface.PERK_TABLE_NEED.(row).td1.icon.group  = icoGroup;
 			GameInterface.PERK_TABLE_NEED.(row).td1.icon.image  = perkCond;
-			GameInterface.PERK_TABLE_NEED.(row).td1.icon.width  = 24;
-		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.height = 24;
+			GameInterface.PERK_TABLE_NEED.(row).td1.icon.width  = 32;
+		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.height = 32;
 		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.offset = "-2, -1";
 
 			GameInterface.PERK_TABLE_NEED.(row).td2.str = GetConvertStr(perkCond, "AbilityDescribe.txt");
-			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.68;
+			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.8;
+		    GameInterface.PERK_TABLE_NEED.(row).td2.textoffset = "10, -1";
     	}
 		Table_UpdateWindow("PERK_TABLE_NEED");
 		if (perkName == "UnlimitedContra")

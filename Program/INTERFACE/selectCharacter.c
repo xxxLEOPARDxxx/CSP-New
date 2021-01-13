@@ -95,6 +95,7 @@ void InitInterface(string iniName)
 void SetByDefault()
 {
     CheckButton_SetState("CHECK_ENCOUNTERS", iEncountersRate, true);
+	CheckButton_SetState("CHECK_COUNT_ENCOUNTERS", iEncountersCountRate, true);
 
 	if (iArcadeSails == 1)// 1 0
     {
@@ -199,6 +200,18 @@ void IProcessFrame()
 	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_ENCOUNTERS", 3, 3))
 	{
 		iEncountersRate = 3;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_COUNT_ENCOUNTERS", 3, 1))
+	{
+		iEncountersCountRate = 1;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_COUNT_ENCOUNTERS", 3, 2))
+	{
+		iEncountersCountRate = 2;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_COUNT_ENCOUNTERS", 3, 3))
+	{
+		iEncountersCountRate = 3;
 	}
 	////
 	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_ARCADESAIL", 3, 1))
@@ -742,6 +755,11 @@ void ShowInfo()
 		case "CHECK_ENCOUNTERS":
 			sHeader = XI_ConvertString("EncountersRate");
 			sText1 = GetRPGText("EncountersRate_desc");
+		break;
+		
+		case "CHECK_COUNT_ENCOUNTERS":
+			sHeader = XI_ConvertString("EncountersRateCount");
+			sText1 = GetRPGText("EncountersRateCount_desc");
 		break;
 
 		case "CHECK_ARCADESAIL":

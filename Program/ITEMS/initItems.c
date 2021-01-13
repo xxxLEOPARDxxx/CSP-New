@@ -33,7 +33,7 @@ int InitItems()
 	itm.model = "1";
 	itm.picIndex = 10;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 300;
+	itm.price = 100;
 	itm.Weight = 0.6;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
@@ -65,7 +65,7 @@ int InitItems()
 	itm.model = "1";
 	itm.picIndex = 6;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 600;
+	itm.price = 200;
 	itm.Weight = 1.2;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
@@ -97,7 +97,7 @@ int InitItems()
 	itm.model = "1";
 	itm.picIndex = 7;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 900;
+	itm.price = 300;
 	itm.Weight = 1.8;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
@@ -129,7 +129,7 @@ int InitItems()
 	itm.model = "fish" + (rand(6)+1);
 	itm.picIndex = 8;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 1200;
+	itm.price = 400;
 	itm.Weight = 2.4;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;
@@ -161,7 +161,7 @@ int InitItems()
 	itm.model = "Meat";
 	itm.picIndex = 9;
 	itm.picTexture = "ITEMS_15";
-	itm.price = 1500;
+	itm.price = 500;
 	itm.Weight = 3.0;
 	itm.Solder_o.rare = 0.3;
 	itm.Solder_o.min = 2;

@@ -124,17 +124,14 @@ void extrnInitPerks()
 	ChrPerksList.list.Trustworthy.PlayerOnly = true;
 	
 	ChrPerksList.list.UnlimitedContra.descr = "perkUnlimitedContra";
-	ChrPerksList.list.UnlimitedContra.condition.AdvancedCommerce = true;
+	ChrPerksList.list.UnlimitedContra.condition.Trustworthy = true;
+	ChrPerksList.list.UnlimitedContra.condition.AboardCollector = true;
 	ChrPerksList.list.UnlimitedContra.BaseType = "self";
 	ChrPerksList.list.UnlimitedContra.PlayerOnly = true;
 	
 	ChrPerksList.list.AboardCollector.descr = "perkAboardCollector";
-	ChrPerksList.list.AboardCollector.condition.Trustworthy = true;
+	ChrPerksList.list.AboardCollector.condition.Grus = true;
 	ChrPerksList.list.AboardCollector.condition.GrapplingProfessional = true;
-	ChrPerksList.list.AboardCollector.condition.FlagEng = true;
-	ChrPerksList.list.AboardCollector.condition.FlagFra = true;
-	ChrPerksList.list.AboardCollector.condition.FlagHol = true;
-	ChrPerksList.list.AboardCollector.condition.FlagSpa = true;
 	ChrPerksList.list.AboardCollector.BaseType = "self";
 	ChrPerksList.list.AboardCollector.PlayerOnly = true;
 	

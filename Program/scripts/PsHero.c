@@ -59,10 +59,33 @@ void InitPsHeros()
 			ch.PGGAi.location = "land";   // где суша-море
 			ch.PGGAi.location.town = PGG_FindRandomTownByNation(sti(ch.nation));
 			//navy <--
-			SetFantomParamFromRank(ch, 1 + rand(5), true); //генерим статы TO_DO на отдельно специал и эмулятор скилов
+			SetFantomParamFromRank_PPG(ch, 1 + rand(5), true); //WW  генерим статы TO_DO на отдельно специал и эмулятор скилов
 			trace("PGG " + GetFullName(ch) + " starting rank " + sti(ch.rank));
 			SetCharacterPerk(ch, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии
 			ch.Money = 8000 + rand(1000)*10; // чтоб быстрее корабли купили
+			k = rand(15);
+			if (k != 0) sname = "Totem_"+k;
+			if (sname != "") GiveItem2Character(ch, sname);
+			
+			if (rand(1) == 0)
+			{
+				ch.Ship.Type = GenerateShipExt((SHIP_BERMSLOOP + rand(11)), 0, ch);
+				SetBaseShipData(ch);
+				ch.Ship.Name = RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple("Быстрый вепрь", "Боевой тигр"), "Транспортер"), "Антилопа"), "Экстра"), "Молния"), "Дельфин"), "Загадочный"), "Ужасный");
+				SetCrewQuantity(ch, GetMinCrewQuantity(ch));
+				ChangeCrewExp(ch, "Sailors", 50);
+				ChangeCrewExp(ch, "Cannoners", 50);
+				ChangeCrewExp(ch, "Soldiers", 50);
+				SetCharacterGoods(ch, GOOD_SAILCLOTH, 20 + rand(50));
+				SetCharacterGoods(ch, GOOD_PLANKS, 20 + rand(50));
+				SetCharacterGoods(ch, GOOD_RUM, 50 + rand(100));
+				ch.ship.HP = sti(ch.ship.HP) - makeint(sti(ch.ship.HP)*0.05) * makeint(MOD_SKILL_ENEMY_RATE/2);
+				
+			}
+			else
+			{
+				ch.Money += ch.Money;
+			}
 	    }
 	}
 	//нормальное отношение всех ко всем.
@@ -1782,6 +1805,7 @@ void PGG_Q1EndClear(string qName)
 {
 	ref chr = CharacterFromID(PChar.GenQuest.PGG_Quest.PGGid);
 
+	DeleteAttribute(&Locations[FindLocation(PChar.GenQuest.PGG_Quest.Island.Shore)],"disableencounters");
 	chr.Dialog.CurrentNode = "Second Time";
 	chr.PGGAi.IsPGG = true;
 	chr.RebirthPhantom = true;
@@ -1914,7 +1938,7 @@ void PGG_Q1FightOnShore()
 		LAi_SetImmortal(chr, true);
 		LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER);
 
-		iRnd = 9 - rand(MakeInt(MOD_SKILL_ENEMY_RATE/2));
+		iRnd = 5+rand(10);
 		PChar.GenQuest.PGG_Quest.GrpID.Qty = iRnd;
 		PChar.GenQuestFort.FarLocator = false;
 		for (i = 1; i < iRnd; i++)
@@ -1925,7 +1949,7 @@ void PGG_Q1FightOnShore()
 	}
 
 	//enemy
-	iRnd = 10 + rand(MakeInt(MOD_SKILL_ENEMY_RATE/2));
+	iRnd = 10 + rand(10)+(MakeInt(MOD_SKILL_ENEMY_RATE));
 	Pchar.GenQuestFort.FarLocator = true;
 	sLoc = LAi_FindNPCLocator("officers");	
 	for (i = 1; i < iRnd; i++)
@@ -1966,6 +1990,7 @@ void PGG_Q1AfterShoreFight()
 		chrDisableReloadToLocation = false;
 		SetCharacterGoods(PChar, sti(PChar.GenQuest.PGG_Quest.Goods), sti(PChar.GenQuest.PGG_Quest.Goods.Taken));
 	}
+	DeleteAttribute(loadedLocation,"disableencounters");
 }
 
 void PGG_AddMoneyToCharacter(ref chr, int iMoney)

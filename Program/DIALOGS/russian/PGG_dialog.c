@@ -287,7 +287,7 @@ void ProcessDialogEvent()
 			break;
 		}
 		//разница в один класс.. нефиг халявить
-		if (GetCharacterShipClass(NPChar) < GetCharacterShipClass(PChar)-1)
+		if (GetCharacterShipClass(NPChar) < GetCharacterShipClass(PChar)-1 || GetCharacterShipClass(PChar) >= 6)
 		{
 			Dialog.Text = RandPhraseSimple("Плавать с тобой!?? Подрасти сначала!", "Не думаю, что мне это интересно!");
 			link.l1 = RandPhraseSimple("Ну, как хочешь...", "Что ж, счастливо оставаться.");
@@ -933,6 +933,7 @@ void ProcessDialogEvent()
 		break;
 
 	case "Quest_1_Time2Late":
+		DeleteAttribute(&Locations[FindLocation(PChar.GenQuest.PGG_Quest.Island.Shore)],"DisableEncounters");
 		chrDisableReloadToLocation = false;
 
 		//перенес сюда.. х.з. вроде будет лучше (Баг Изгоя.)

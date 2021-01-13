@@ -1417,6 +1417,7 @@ void SortItems(ref NPChar)
     {
         curItem = GetAttributeN(arFromChar, i);
         attr = GetAttributeValue(curItem);
+		if (attr == "") continue;
         if (attr != "") //патенты клинит
         {
         	NPChar.Items.(attr) = sti(rObj.Items.(attr));

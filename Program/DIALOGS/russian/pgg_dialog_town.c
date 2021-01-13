@@ -291,7 +291,7 @@ void ProcessDialogEvent()
 			break;
 		}
 		//разница в один класс.. нефиг халявить
-		if (GetCharacterShipClass(NPChar) < GetCharacterShipClass(PChar)-1)
+		if (GetCharacterShipClass(NPChar) < GetCharacterShipClass(PChar)-1 || GetCharacterShipClass(PChar) >= 6)
 		{
 			Dialog.Text = RandPhraseSimple("Плавать с тобой!?? Подрасти сначала!", "Не думаю, что мне это интересно!");
 			link.l1 = RandPhraseSimple("Ну, как хочешь...", "Что ж, счастливо оставаться.");
@@ -473,14 +473,17 @@ void ProcessDialogEvent()
 			}
 		break;
 		case 1:
-		if (PGG_IsQuestAvaible() && !CheckAttribute(pchar, "GenQuest.PGG_Quest") && pchar.questTemp.CapInLandStop != true && pchar.questTemp.CanGenSB == true)
-					{
-		Dialog.Text = "Боюсь, это невозможно. На моем корабле был поднят бунт...";
-		link.l1 = "Купи новый, найми команду и в путь.(смеется)";
-		link.l1.go = "HelpBackShip2";
-		link.l2 = "Тогда счастливо оставаться!";
-		link.l2.go = "exit_gen";
-					}
+			if (PGG_IsQuestAvaible() && !CheckAttribute(pchar, "GenQuest.PGG_Quest") && sti(NPChar.Ship.Type) == SHIP_NOTUSED)
+			{
+				Dialog.Text = "Боюсь, это невозможно. На моем корабле был поднят бунт...";
+				if (FindFreeRandomOfficer() > 0)
+				{
+					link.l3 = RandPhraseSimple("Не хочешь пойти офицером ко мне на корабль?", "Пожалуй, такой офицер, как ты, мне бы не помешал. Что скажешь?");
+					link.l3.go = "officer";
+				}
+				link.l3 = RandPhraseSimple("Жаль... Ну, может вскоре повезет больше.", "Вот это дела... Ну, мне пора, прощай.");
+				link.l3.go = "exit";
+			}
 		else
 		{
 		Dialog.Text = RandPhraseSimple("Что еще за дела?.. Не видишь мы кушаем!.. Ик..", "... Чего и вам советуем!");
@@ -940,6 +943,7 @@ void ProcessDialogEvent()
 		break;
 
 	case "Quest_1_Time2Late":
+		DeleteAttribute(&Locations[FindLocation(PChar.GenQuest.PGG_Quest.Island.Shore)],"DisableEncounters");
 		chrDisableReloadToLocation = false;
 
 		//перенес сюда.. х.з. вроде будет лучше (Баг Изгоя.)

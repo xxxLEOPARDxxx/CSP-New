@@ -130,7 +130,9 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "PrimaryLand", "BOAL_UsePotion", CI_GetKeyCode("KEY_C"), 0, true ); // Warship 13.06.09 Дефолтом перевесил на "C"
 		MapControlToGroup("BOAL_UsePotion","FightModeControls");
 		CI_CreateAndSetControls( "PrimaryLand", "UseFood", CI_GetKeyCode("KEY_Z"), 0, true );
-		MapControlToGroup("UseFood","FightModeControls");									
+		MapControlToGroup("UseFood","FightModeControls");
+		CI_CreateAndSetControls( "PrimaryLand", "CreateNotice", CI_GetKeyCode("KEY_I"), 0, true );
+		MapControlToGroup("CreateNotice","FightModeControls");		
 		// Warship 13.06.09 Выпить противоядие
 		CI_CreateAndSetControls("PrimaryLand", "UseAntidote", CI_GetKeyCode("KEY_V"), 0, true);
 		MapControlToGroup("UseAntidote", "FightModeControls");
@@ -551,7 +553,9 @@ void ExternControlsInit(bool bFirst, bool standart)
 		MapControlToGroup("BOAL_UsePotion","FightModeControls");
 		
 		CI_CreateAndSetControls( "PrimaryLand", "UseFood", CI_GetKeyCode("KEY_Z"), 0, true );
-		MapControlToGroup("UseFood","FightModeControls");																			  
+		MapControlToGroup("UseFood","FightModeControls");
+		CI_CreateAndSetControls( "PrimaryLand", "CreateNotice", CI_GetKeyCode("KEY_I"), 0, true );
+		MapControlToGroup("CreateNotice","FightModeControls");	
 		// Warship 13.06.09 Выпить противоядие
 		CI_CreateAndSetControls("PrimaryLand", "UseAntidote", CI_GetKeyCode("KEY_V"), 0, true);
 		MapControlToGroup("UseAntidote", "FightModeControls");

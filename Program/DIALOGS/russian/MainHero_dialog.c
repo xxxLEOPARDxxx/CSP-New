@@ -133,7 +133,8 @@ void ProcessDialogEvent()
 //navy <--
 	        Dialog.Text = RandPhraseSimple("Хм... Что бы мне сейчас хотелось сделать?", "Чем бы заняться?");
 		//Boyer add
-		if (!bDisableMapEnter) {
+		if(!bDisableMapEnter && !CheckAttribute(pchar,"GenQuest.CannotWait") && CheckSaveGameEnabled() == true) // 21.03.09 Warship fix Во время линейки Блада отдыхать нельзя
+	    {
 			Link.l4 = "Подождать 2 часа.";
 	    		Link.l4.go = "TalkSelf_WasteTime";
 		}
@@ -198,7 +199,7 @@ void ProcessDialogEvent()
 	            Link.l6 = "Начать захват ближайшего города.";
 	    		Link.l6.go = "TalkSelf_TownAttack";
 	        }
-	        if (pchar.location != Get_My_Cabin() && Pchar.questTemp.CapBloodLine == false && !CheckAttribute(pchar, "DisableChangeFlagMode"))
+	        if (pchar.location != Get_My_Cabin() && Pchar.questTemp.CapBloodLine == false && !CheckAttribute(pchar, "DisableChangeFlagMode") && sti(pchar.questTemp.stels.sea) != GetDataDay() && CheckSaveGameEnabled() == true)
 			{
 				Link.l7 = "Отдать приказ на смену флага.";
 				Link.l7.go = "TalkSelf_ChangeFlag";

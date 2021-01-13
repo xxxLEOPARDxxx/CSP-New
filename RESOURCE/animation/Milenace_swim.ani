@@ -1251,6 +1251,14 @@ type = normal
 
 ;	\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ;	¿Õ»Ã¿÷»» ƒ»¿ÀŒ√Œ¬
+; ?ªºéùvª óìùˇ =====================================================================
+[dialog_stay1]
+	speed = 1.
+	type = normal
+	start_time = 2448
+	end_time = 2506
+	data = "Blend time", "0.1"		; sec
+	loop = false
 
 	[dialog_stay2]
 speed = 1.
@@ -1284,6 +1292,126 @@ type = normal
 	data = "Blend time", "0.1"		; sec
 	loop = false
 
+[dialog_stay6]
+	speed = 1.
+	type = normal
+	start_time = 2448
+	end_time = 2506
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+[dialog_stay7]
+	speed = 1.
+	type = normal
+	start_time = 1484
+	end_time = 1530
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+[dialog_stay8]
+	speed = 1.
+	type = normal
+	start_time = 1525
+	end_time = 1612
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+[dialog_stay9]
+	speed = 1.
+	type = normal
+	start_time = 1613
+	end_time = 1672
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+[dialog_stay10]
+	speed = 1.
+	type = normal
+	start_time = 1673
+	end_time = 1734
+	data = "Blend time", "0.1"		; sec
+	loop = false
+	
+[dialog_stay11]
+	speed = 1.
+	type = normal
+	start_time = 2448
+	end_time = 2506
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+[dialog_stay12]
+	speed = 1.
+	type = normal
+	start_time = 1484
+	end_time = 1530
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+[dialog_stay13]
+	speed = 1.
+	type = normal
+	start_time = 1525
+	end_time = 1612
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+[dialog_stay14]
+	speed = 1.
+	type = normal
+	start_time = 1613
+	end_time = 1672
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+[dialog_stay15]
+	speed = 1.
+	type = normal
+	start_time = 1673
+	end_time = 1734
+	data = "Blend time", "0.1"		; sec
+	loop = false
+
+
+; ?ªºéùvª óª?ˇ =====================================================================
+[Sit_Dialog0]
+	speed = 2.
+	loop = true
+	type = normal
+	start_time = 2655
+	end_time = 2730
+	data = "Blend time", "0.3"		; sec
+	data = "Probability", "1.0"
+
+[Sit_Dialog1]
+	speed = 1.0
+	loop = true
+	type = normal
+	start_time = 3001
+	end_time = 3101
+	data = "Blend time", "0.3"		; sec
+	data = "Probability", "1.0"
+
+[Sit_Dialog2]
+	speed = 2.
+	loop = true
+	type = normal
+	start_time = 2589
+	end_time = 2639
+	data = "Blend time", "0.3"		; sec
+	data = "Probability", "1.0"
+
+;´ºæéºì†º ¨û?óìù †çª†ó?çº =================================================
+[knicksen]
+	speed = 1.
+	type = normal
+	start_time = 1484
+	end_time = 1530
+	data = "Blend time", "0.1"		; sec
+	data = "Turn speed", "1.0"		; rad/sec
+	loop = false
+	event = "LStep", 2448, normal
+	event = "RStep", 2448, normal
 
 [strafe_left]
 start_time = 2510

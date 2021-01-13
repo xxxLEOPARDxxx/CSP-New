@@ -159,6 +159,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.AltFont = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"NoInt") ) {
+		optref.cameramode.NoInt = sti(InterfaceStates.NoInt);
+	} else {
+		optref.cameramode.NoInt = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -291,6 +297,11 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.AltFont = optref.cameramode.AltFont;
 	} else {
 		InterfaceStates.AltFont = false;
+	}
+	if( CheckAttribute(optref,"cameramode.NoInt") ) {
+		InterfaceStates.NoInt = optref.cameramode.NoInt;
+	} else {
+		InterfaceStates.NoInt = false;
 	}
 
 

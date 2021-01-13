@@ -30,7 +30,7 @@ void LAi_type_citizen_Init(aref chr)
 
 //Процессирование типа персонажа
 void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
-{	
+{
 	int idx, i;
 	int trg = -1;
 	float time;
@@ -54,8 +54,26 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 			time = stf(chr.chr_ai.type.notalk) - dltTime;
 			int num = FindNearCharacters(chr, 3.0, -1.0, -1.0, 0.001, true, true);	
 			//--> eddy. если квестовый ситизен, задача которого поговорить с ГГ
+			
+			if (CheckAttribute(chr, "talker")) 
+			{
+				if(bQuestMark)
+				{
+					chr.quest.questflag.model = "exclamationmarkY";
+					chr.quest.questflag.technique = "RandItem"; 
+				}
+			}
+			else
+			{
+				if(bQuestMark)
+				{
+					chr.quest.questflag.model = "";
+					chr.quest.questflag.technique = ""; 
+				}
+			}
+			
 			if (CheckAttribute(chr, "talker") && time < 10.0) 
-			{	
+			{
 				for(i = 0; i < num; i++)
 				{						
 					idx = sti(chrFindNearCharacters[i].index);
@@ -71,6 +89,7 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 					}
 				}		
 			}
+			
 			//<-- если квестовый ситизен, задача которого поговорить с ГГ
 			//--> проверяем не врагов, но дерущихся. 			
 			if (stf(chr.chr_ai.type.checkFight) < 0.0)

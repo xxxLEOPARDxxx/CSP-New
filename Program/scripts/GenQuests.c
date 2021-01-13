@@ -483,9 +483,9 @@ void Church_GenQuest2_GenerateBandits(string sQuest)
 	aref arGenAll;
 	makearef(arGenAll, location.(sGenTemp));
 	
-	int iBanditsCount = GetAttributesNum(arGenAll); //кол-во человек в банде
-	if (iBanditsCount <= 0) iBanditsCount = 1;
-	if (iBanditsCount >= 4) iBanditsCount = 3 + rand(1);	// „аще всего так и бывает
+	int iBanditsCount = LAi_CalculateRaidersQuantity(GetAttributesNum(arGenAll)); //кол-во человек в банде
+	// if (iBanditsCount <= 0) iBanditsCount = 1;
+	// if (iBanditsCount >= 4) iBanditsCount = 3 + rand(1);	// „аще всего так и бывает
 	
 	iGenRank = GetCoffDiff(sti(PChar.rank), 1000);
 	if (iGenRank < MOD_SKILL_ENEMY_RATE) iGenRank = MOD_SKILL_ENEMY_RATE;
@@ -503,9 +503,9 @@ void Church_GenQuest2_GenerateBandits(string sQuest)
 			rChar.DontClearDead = true;
 		}
 		SetFantomParamFromRank(rChar, iGenRank, true);
-//		sGenlocator = GetAttributeName(GetAttributeN(arGenAll, i)); 
-//		ChangeCharacterAddressGroup(rChar, location.id, encGenGroup, sGenlocator);
-//		ChangeCharacterAddressGroup(rChar, location.id, "goto", "goto" + (i + 1));
+		sGenlocator = GetAttributeName(GetAttributeN(arGenAll, 1)); 
+		ChangeCharacterAddressGroup(rChar, location.id, encGenGroup, sGenlocator);
+		ChangeCharacterAddressGroup(rChar, location.id, "goto", "goto" + (i + 1));
 		PlaceCharacter(rChar, sLocGroup, pchar.location);
 		LAi_SetGuardianType(rChar);
 		rChar.Dialog.FileName = "GenQuests_Dialog.c";

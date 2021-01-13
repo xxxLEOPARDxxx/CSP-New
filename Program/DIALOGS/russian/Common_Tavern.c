@@ -510,12 +510,59 @@ void ProcessDialogEvent()
 					}
 				}
 			}
+			
+			link.l14 = "Ты случайно не владеешь информацией, как там дела у моих коллег на море?";
+			link.l14.go = "PGGInfo";
 
 			link.l15 = "Спасибо, ничего. До свидания.";
 			link.l15.go = "exit";
 		break;
 		
 		//-------------------------------------------
+		case "PGGInfo":
+			int rep = pchar.reputation;
+			int repcheck = 40;
+			if (IsCharacterPerkOn(pchar, "Adventurer"))
+			{
+				repcheck = 10;
+			}
+			
+			if (rep <= repcheck)
+			{
+				dialog.text = "Знать-то может и знаю, но человеку с твоей репутацией такие сведения доверять нельзя. Так что проваливай с такими вопросами куда подальше, кэп!";
+				link.l1 = "Ну и ладно, обойдусь!";
+				link.l1.go = "exit";
+			}
+			else
+			{
+				int cost = 4000 + makeint(500 * sti(PChar.rank) * MOD_SKILL_ENEMY_RATE/2);
+				if (IsCharacterPerkOn(pchar, "Agent"))
+				{
+					cost = makeint(cost/2);
+				}
+				dialog.text = "Хм, ну что ж, может что-то и знаю... Но это будет недёшево, кэп. Я попрошу с тебя за это "+cost+" и ни пиастром меньше! Устраивает?";
+				if (sti(pchar.money) >= cost)
+				{
+					link.l1 = "Хорошо, вот твои деньги. Теперь говори что знаешь.";
+					link.l1.go = "PGGInfo_2";
+				}
+				link.l2 = "Пожалуй как-нибудь потом.";
+				link.l2.go = "exit";
+			}
+		break;
+		
+		case "PGGInfo_2":
+			int cost1 = 4000 + makeint(500 * sti(PChar.rank) * MOD_SKILL_ENEMY_RATE/2);
+			if (IsCharacterPerkOn(pchar, "Agent"))
+			{
+				cost1 = makeint(cost1/2);
+			}
+			AddMoneyToCharacter(pchar, -cost1);
+			AddDialogExitQuestFunction("OpenPGGInformation");
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+		break;
+		
 		case "pirateStartQuest_Tavern":
 			dialog.text = "Ну, ты наш"+ GetSexPhrase("ел","ла") +" у кого спросить! В соседнем поселении у пиратов такие дела решаются очень просто.";
 			link.l1 = "Был"+ GetSexPhrase("","а") +"  я там. Сейчас у них ничего нет, а ждать я не могу - очень выгодная сделка срывается. У меня времени всего пару дней, потом уж и не нужно будет.";

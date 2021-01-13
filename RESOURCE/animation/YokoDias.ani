@@ -1265,7 +1265,7 @@ data = "Turn speed", "5.5"
 	end_time = 1734
 	data = "Blend time", "0.1"		; sec
 	loop = false
-	
+
 [dialog_stay6]
 	speed = 1.
 	type = normal

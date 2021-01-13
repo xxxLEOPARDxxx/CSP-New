@@ -107,6 +107,39 @@ void ProcessExit()
 
 void IDoExit(int exitCode)
 {
+	if (InterfaceStates.NoInt)
+	{
+		if (bSeaActive && !bAbordageStarted)
+		{
+			DeleteBattleInterface();
+		}
+		else
+		{
+			EndBattleLandInterface();
+		}
+	}
+	else
+	{
+		if (bSeaActive && !bAbordageStarted)
+		{
+			if (!IsEntity(BattleInterface))
+			{
+				InitBattleInterface();
+				StartBattleInterface();
+				RefreshBattleInterface();
+			}
+		}
+		else
+		{
+			if (!IsEntity(worldMap))
+			{
+				if (!bLandInterfaceStart)
+				{
+					StartBattleLandInterface();
+				}
+			}
+		}
+	}
 	DelEventHandler("evntKeyChoose","procKeyChoose");
 	DelEventHandler("eSlideChange","procSlideChange");
 	DelEventHandler("CheckButtonChange","procCheckBoxChange");
@@ -134,6 +167,7 @@ void IDoExit(int exitCode)
         BattleInterface.ShifInfoVisible = InterfaceStates.enabledshipmarks;
         BattleInterface.battleborder.used = InterfaceStates.ShowBattleMode;
 	}
+	
 }
 
 void IReadVariableBeforeInit()
@@ -224,6 +258,12 @@ void IReadVariableAfterInit()
 		nAltFont = sti(InterfaceStates.AltFont);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 1, nAltFont );
+	
+	int nNoInt = 0;
+	if( CheckAttribute(&InterfaceStates,"NoInt") ) {
+		nNoInt = sti(InterfaceStates.NoInt);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"NOINT_CHECKBOX", 2, 1, nNoInt );
 	
 	
 	if(bBoardMode)
@@ -428,6 +468,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.AltFont = bBtnState;
+		}
+	}
+	
+	if( sNodName == "NOINT_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.NoInt = bBtnState;
 		}
 	}
 	
@@ -1085,6 +1132,11 @@ void ShowInfo()
 		case "ALTFONT_CHECKBOX":
 			sHeader = XI_ConvertString("AltFont_title");
 			sText1 = XI_ConvertString("AltFont_desc");
+		break;
+		
+		case "NOINT_CHECKBOX":
+			sHeader = XI_ConvertString("NoInt_title");
+			sText1 = XI_ConvertString("NoInt_desc");
 		break;
 		
 		//#20171223-01 Camera perspective option

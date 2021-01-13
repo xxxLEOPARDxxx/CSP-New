@@ -99,6 +99,8 @@ void InitInterfaceTables()
 	//Interfaces[INTERFACE_PASSENGERS].IniFile = "INTERFACES\passengers.ini";
 	Interfaces[INTERFACE_CHARACTER_SELECT].SectionName = "interface\selectCharacter.c";
 	Interfaces[INTERFACE_CHARACTER_SELECT].IniFile = "INTERFACES\selectCharacter.ini";
+	Interfaces[INTERFACE_CREATENOTICE].SectionName = "interface\CreateNotice.c";
+	Interfaces[INTERFACE_CREATENOTICE].IniFile = "INTERFACES\CreateNotice.ini";
 	//Interfaces[INTERFACE_NATION_SELECT].SectionName = "interface\selectNation.c";
 	//Interfaces[INTERFACE_NATION_SELECT].IniFile = "INTERFACES\selectNation.ini";
 	Interfaces[INTERFACE_QUESTBOOK].SectionName = "interface\questbook.c";

@@ -9,7 +9,7 @@ bool isGoldFleet = false;
 void GoldFleet()
 {
     ref sld, chref;
-    int iChar = NPC_GenerateCharacter("Head_of_Gold_Squadron", "off_spa_2", "man", "man", 5, SPAIN, 31, true));
+    int iChar = NPC_GenerateCharacter("Head_of_Gold_Squadron", "off_spa_2", "man", "man", 5, SPAIN, 31, true);
     makeref(chref, Characters[iChar]);
     chref.ship.type = GenerateShipExt(SHIP_LINESHIP, 1, chref);
 	SetBaseShipData(chref);
@@ -50,7 +50,7 @@ void GoldFleet()
 
     for(int k = 1; k <=(nfreg + ngal) ; k++)
 	{
-		iChar = NPC_GenerateCharacter("GoldCap_"+k, "off_spa_2", "man", "man", 5, SPAIN, 31, true));
+		iChar = NPC_GenerateCharacter("GoldCap_"+k, "off_spa_2", "man", "man", 5, SPAIN, 31, true);
         makeref(sld, Characters[iChar]);
         if (k <= nfreg)
         {
@@ -107,8 +107,6 @@ void GoldFleet()
 	pchar.quest.(sQuest).win_condition = "KillHeadGoldFleet";
     pchar.quest.(sQuest).function= "KillHeadGoldFleet";
 }
-
-
 
 void KillHeadGoldFleet(string temp)
 {
@@ -223,10 +221,10 @@ void RouteGoldFleet()
 
 void GoldfleetInHavana(string temp)
 {
-         string sQuest = "CheckHavanaGoldFleet";
-         pchar.quest.(sQuest).win_condition.l1 = "MapEnter";
-         pchar.quest.(sQuest).win_condition = "LeaveGoldleet";
-         pchar.quest.(sQuest).function = "LeaveGoldleet";
+	 string sQuest = "CheckHavanaGoldFleet";
+	 pchar.quest.(sQuest).win_condition.l1 = "MapEnter";
+	 pchar.quest.(sQuest).win_condition = "LeaveGoldleet";
+	 pchar.quest.(sQuest).function = "LeaveGoldleet";
 }
 
 void EndOfGoldFleet(string temp)

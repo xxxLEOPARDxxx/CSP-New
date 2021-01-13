@@ -1724,20 +1724,23 @@ bool TakeNItems(ref _refCharacter, string itemName, int n)
 	{
 		if(arItm.ID != "Gold") // Warship. Для нового интерфейса обмена - проверка на золото
 		{
-			if(sti(_refCharacter.index) == GetMainCharacterIndex() && IsEntity(_refCharacter))
+			if(CheckAttribute(_refCharacter, "index"))
 			{
-				if(n > 0)
+				if(sti(_refCharacter.index) == GetMainCharacterIndex() && IsEntity(_refCharacter))
 				{
-					Log_Info(XI_ConvertString("You take item"));
-					AddMsgToCharacter(_refCharacter, MSGICON_GETITEM);
+					if(n > 0)
+					{
+						Log_Info(XI_ConvertString("You take item"));
+						AddMsgToCharacter(_refCharacter, MSGICON_GETITEM);
+					}
+					
+					if(n < 0)
+					{
+						Log_Info(XI_ConvertString("You give item"));
+					}
+					
+					PlayStereoSound("interface\important_item.wav");
 				}
-				
-				if(n < 0)
-				{
-					Log_Info(XI_ConvertString("You give item"));
-				}
-				
-				PlayStereoSound("interface\important_item.wav");
 			}
 			
 			// Warship 08.05.09 - Не ясная мне логика. И и ИЛИ в одном выражении не поддерживаются скриптовым двигом

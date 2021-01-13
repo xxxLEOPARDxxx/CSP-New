@@ -721,7 +721,7 @@ bool LAi_CreateEncounters(ref location)
 		break
 		
 					// Dolphin (Корсары: История Пирата)
-		//------------------ Индейцы в джунглях (С небольшими апгрейдами от Korsar Maxim и LEO) ----------------------
+		//------------------ Индейцы в джунглях (С небольшими апгрейдами от Korsar Maxim, Zik' и LEO) ----------------------
 		case 5:
 			if(rand(10) > 5 || location.type == "seashore" || location.type == "mayak") return false;
 			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp));

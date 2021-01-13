@@ -200,6 +200,17 @@ void SetRandSPECIAL(ref _refCharacter)  // Для всех
                (2 + rand(8)));
 }
  
+ void SetRandSPECIAL_PGG(ref _refCharacter)  //WW для ПГГ
+ {
+    SetSPECIAL(_refCharacter,
+               (6 + rand(4)),
+               (4 + rand(6)),
+               (6 + rand(4)),
+               (4 + rand(6)),
+               (6 + rand(4)),
+               (6 + rand(4)),
+               (4 + rand(6)));
+}
 void SetRandSPECIAL_F(ref _refCharacter)  // для абордажников
 {
     SetSPECIAL(_refCharacter,
@@ -606,6 +617,8 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 		if (_chref.model.animation == "Danielle") _chref.model.animation = "Danielle_fast";
 		if (_chref.model.animation == "Giant") _chref.model.animation = "Giant_fast";
 		if (_chref.model.animation == "Moscovit") _chref.model.animation = "Moscovit_fast";
+		if (_chref.model.animation == "Chani") _chref.model.animation = "Chani_fast";
+		if (_chref.model.animation == "skeleton") _chref.model.animation = "skeleton_fast";
 	}
 	// boal 05.05.04 разделение по группам -->
 	if (isSelfTypeSkill(_skill))
