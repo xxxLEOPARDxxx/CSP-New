@@ -107,7 +107,7 @@ void ProcessExit()
 
 void IDoExit(int exitCode)
 {
-	if (InterfaceStates.NoInt)
+	/*if (InterfaceStates.NoInt)
 	{
 		if (bSeaActive && !bAbordageStarted)
 		{
@@ -139,7 +139,7 @@ void IDoExit(int exitCode)
 				}
 			}
 		}
-	}
+	}*/
 	DelEventHandler("evntKeyChoose","procKeyChoose");
 	DelEventHandler("eSlideChange","procSlideChange");
 	DelEventHandler("CheckButtonChange","procCheckBoxChange");

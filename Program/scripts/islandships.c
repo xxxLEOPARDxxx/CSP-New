@@ -69,6 +69,12 @@ void GenerateIslandShips(string sIslandID)
 						Fantom_SetBalls(&characters[iChar], characters[iChar].Ship.Mode);
 						Fantom_SetGoods(&characters[iChar], characters[iChar].Ship.Mode);
 						Fantom_SetUpgrade(&characters[iChar], characters[iChar].Ship.Mode);
+						if(defendersCount > 0)
+						{
+							SelAllPerksToNotPChar(&characters[iChar]);
+							SetSelfSkill(&characters[iChar], 100, 100, 100, 100, 100);
+							SetShipSkill(&characters[iChar], 100, 100, 100, 100, 100, 100, 100, 100, 100);
+						}
 						iShipsQuantity = iShipsQuantity - 1;
 						if(defendersCount > 0) defendersCount = defendersCount - 1;
 					}

@@ -886,7 +886,6 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 	rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon = 0; //счетчик попыток смены боеприпасов при полном боезапаса, для фикса неубегаек
 	// boal <--
 	rCharacter.Ship.SeaAI.Init.FollowDistance = makefloat(180 + rand(120)); // было 300, делаю рандом для разнообразия поведения компаньонов и следования в группе
-																		
 	//#20180208-01 Add flexibility to AI ship
     rCharacter.Ship.SeaAI.Init.WindC = 2.0;
     rCharacter.Ship.SeaAI.Init.FortC = 2.75;
@@ -1286,7 +1285,6 @@ void Ship_CheckSituation()
 			// boal potc -->
 			case AITASK_BRANDER:
 				ref rCharacter2Brander = GetCharacter(nTaskTarg);
-														   
 				float fBranderDistance = 45.0 + (7.0 - stf(rShip.Class)) * 15.0;
 				//#20180524-01 Remove unneeded sqrt
 				fBranderDistance *= fBranderDistance;
@@ -1593,7 +1591,6 @@ void Ship_CheckSituation()
 								{
 									iCharactersNum1 =  Group_GetLiveCharactersNum(rCharacter.SeaAI.Group.Name);
 									iCharactersNum2 =  Group_GetLiveCharactersNum(characters[GetMainCharacterIndex()].SeaAI.Group.Name);
-																																
 									if (CheckAttribute(rCharacter, "AnalizeShips") && stf(rCharacter.ship.hp) < (stf(pchar.ship.hp) / 2))
 							        {
 										//Boyer fix for divide by zero #20170318-41
@@ -2205,7 +2202,7 @@ void Ship_ApplyCrewHitpoints(ref rOurCharacter, float fCrewHP)
 	float fDamage = fCrewHP * fMultiply; 
 
 	float fNewCrewQuantity = stf(rOurCharacter.Ship.Crew.Quantity) - fDamage;
-	float f5Percent = stf(rBaseShip.MinCrew) * 0.25; // boal fix неубиваемые 25% команды- было 0.05;
+	float f5Percent = stf(rBaseShip.MinCrew) * 1.0; //WW boal fix неубиваемые 25% команды- было 0.05;
 	// boal  check skill -->
 	if (fNewCrewQuantity >= f5Percent && IsCompanion(rOurCharacter))
 	{

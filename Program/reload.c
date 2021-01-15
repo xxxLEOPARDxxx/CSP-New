@@ -388,7 +388,7 @@ void ReloadEndFade()
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 	PostEvent("LoadSceneSound", 500);
 	ReloadProgressEnd();
-	if (InterfaceStates.NoInt)
+	/*if (InterfaceStates.NoInt)
 	{
 		if (bSeaActive && !bAbordageStarted)
 		{
@@ -420,7 +420,7 @@ void ReloadEndFade()
 				}
 			}
 		}
-	}
+	}*/
 }
 
 string FindEmergeLocator(ref rObject, string emerge_str)

@@ -142,7 +142,7 @@ void ProcessDialogEvent()
 	        if (!bDisableMapEnter && pchar.location == Get_My_Cabin())
 	        {
 	        	// Для отдыха теперь есть отдельный интерфейс
-	            /*if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 10.0)
+	            if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 10.0)
 	    		{
 	    			link.l1 = "Отдыхать до утра.";
 	    			link.l1.go = "TalkSelf_room_day";
@@ -153,7 +153,7 @@ void ProcessDialogEvent()
 	    			link.l1.go = "TalkSelf_room_night";
 	    			link.l2 = "Отдыхать до следующего утра.";
 					link.l2.go = "TalkSelf_room_day";
-	    		}*/
+	    		}
 				//navy --> 13.02.08
 				if (!bDisableMapEnter && GetCompanionQuantity(PChar) > 1)
 				{

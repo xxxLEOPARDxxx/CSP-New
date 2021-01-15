@@ -24,6 +24,68 @@ void SetRandShipSkill(ref _ch, int _min, int _max)
 	_ch.skill.Defence = _min + rand(iDelta);
 }
 
+void SelAllPerksToNotPChar(ref _ch)
+{
+	_ch.perks.list.BasicDefense = "1";
+	_ch.perks.list.AdvancedDefense = "1";
+	_ch.perks.list.CriticalHit = "1";
+	_ch.perks.list.Ciras = "1";
+	_ch.perks.list.SwordplayProfessional = "1";
+	_ch.perks.list.Grus = "1";
+	_ch.perks.list.Rush = "1";
+	_ch.perks.list.Tireless = "1";
+	_ch.perks.list.HardHitter = "1";
+	_ch.perks.list.BladeDancer = "1";
+	_ch.perks.list.Sliding = "1";
+	_ch.perks.list.Gunman = "1";
+	_ch.perks.list.GunProfessional = "1";
+	_ch.perks.list.IronWill = "1";
+	_ch.perks.list.Medic = "1";
+	_ch.perks.list.HPPlus = "1";
+	_ch.perks.list.EnergyPlus = "1";
+	_ch.perks.list.Trustworthy = "1";
+	_ch.perks.list.ShipEscape = "1";
+	
+	_ch.perks.list.FlagPir = "1";
+	_ch.perks.list.FlagEng = "1";
+	_ch.perks.list.FlagFra = "1";
+	_ch.perks.list.FlagSpa = "1";
+	_ch.perks.list.FlagHol = "1";
+	_ch.perks.list.FastReload = "1";
+	_ch.perks.list.ImmediateReload = "1";
+	_ch.perks.list.HullDamageUp = "1";
+	_ch.perks.list.SailsDamageUp = "1";
+	_ch.perks.list.CrewDamageUp = "1";
+	_ch.perks.list.CriticalShoot = "1";
+	_ch.perks.list.LongRangeShoot = "1";
+	_ch.perks.list.CannonProfessional = "1";
+	_ch.perks.list.LongRangeGrappling = "1";
+	_ch.perks.list.MusketsShoot = "1";
+	_ch.perks.list.GrapplingProfessional = "1";
+	_ch.perks.list.BasicBattleState = "1";
+	_ch.perks.list.AdvancedBattleState = "1";
+	_ch.perks.list.ShipDefenseProfessional = "1";
+	_ch.perks.list.LightRepair = "1";
+	_ch.perks.list.InstantRepair = "1";
+	_ch.perks.list.ShipSpeedUp = "1";
+	_ch.perks.list.ShipTurnRateUp = "1";
+	_ch.perks.list.StormProfessional = "1";
+	_ch.perks.list.Turn180 = "1";
+	_ch.perks.list.SailingProfessional = "1";
+	_ch.perks.list.Brander = "1";
+	_ch.perks.list.Troopers = "1";
+	_ch.perks.list.BasicCommerce = "1";
+	_ch.perks.list.AdvancedCommerce = "1";
+	_ch.perks.list.Carpenter = "1";
+	_ch.perks.list.Builder = "1";
+	_ch.perks.list.WindCatcher = "1";
+	_ch.perks.list.SailsMan = "1";
+	_ch.perks.list.Doctor1 = "1";
+	_ch.perks.list.Doctor2 = "1";
+	_ch.perks.list.ByWorker = "1";
+	_ch.perks.list.ByWorker2 = "1";
+}
+
 // Установить персу все перки
 void SelAllPerksToChar(ref _ch, bool _isOfficer)
 {

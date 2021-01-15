@@ -884,7 +884,7 @@ void OnLoad()
         Sound_OnSeaAlarm555(seaAlarmed, true);
 	
 	iCalculateSaveLoadCount("Load");
-	if (InterfaceStates.NoInt)
+	/*if (InterfaceStates.NoInt)
 	{
 		if (bSeaActive && !bAbordageStarted)
 		{
@@ -916,7 +916,7 @@ void OnLoad()
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void NewGame()
@@ -1800,6 +1800,9 @@ void ProcessControls()
 		case "CreateNotice":
 			LaunchCreateNotice();
 		break;
+		case "InterfaceDisabler":
+			ChangeShowIntarface();
+		break;
 	}
 }
 
@@ -2018,7 +2021,7 @@ bool CheckSaveGameEnabled()
 				if (Pchar.questTemp.CapBloodLine == false)
 				{
 					string sNation = Colonies[FindColony(loadedLocation.fastreload)].nation;
-					if (sNation != "none")
+					if (sNation != "none" && sNation != "4")
 					{
 						int i = sti(sNation);
 						bool bTmpBool = (GetNationRelation2MainCharacter(i) == RELATION_ENEMY) || GetRelation2BaseNation(i) == RELATION_ENEMY;

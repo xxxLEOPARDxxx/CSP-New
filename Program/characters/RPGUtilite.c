@@ -1520,7 +1520,7 @@ int GetMaxItemsWeight(ref _chref)
     {
         int iBonus = 0;
         if (IsCharacterPerkOn(_chref, "Grus")) iBonus = 30;
-		if (IsCharacterPerkOn(_chref, "Trader")) iBonus = 35;
+		if (IsCharacterPerkOn(_chref, "Trader")) iBonus += 35;
 		// Lugger -->
 	        if(CheckAttribute(_chref, "equip.backpack"))
 	        {

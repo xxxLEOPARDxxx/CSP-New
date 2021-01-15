@@ -420,6 +420,12 @@ void ExternControlsInit(bool bFirst, bool standart)
 		MapControlToGroup("ShipCamera_Backward", "NetShipControls");
 		MapControlToGroup("DeckCamera_Forward", "NetShipControls");
 		MapControlToGroup("DeckCamera_Backward", "NetShipControls");
+		
+		CI_CreateAndSetControls( "PrimaryLand", "InterfaceDisabler", CI_GetKeyCode("VK_NUMPAD5"), 0, true );
+		MapControlToGroup("InterfaceDisabler","Sailing1Pers");
+		MapControlToGroup("InterfaceDisabler","Sailing3Pers");
+		MapControlToGroup("InterfaceDisabler","FightModeControls");
+		MapControlToGroup("InterfaceDisabler","BattleInterfaceControls");
 	}
 	if (!standart)
 	{
@@ -847,6 +853,12 @@ void ExternControlsInit(bool bFirst, bool standart)
 		MapControlToGroup("ShipCamera_Backward", "NetShipControls");
 		MapControlToGroup("DeckCamera_Forward", "NetShipControls");
 		MapControlToGroup("DeckCamera_Backward", "NetShipControls");
+		
+		CI_CreateAndSetControls( "PrimaryLand", "InterfaceDisabler", CI_GetKeyCode("VK_NUMPAD5"), 0, true );
+		MapControlToGroup("InterfaceDisabler","Sailing1Pers");
+		MapControlToGroup("InterfaceDisabler","Sailing3Pers");
+		MapControlToGroup("InterfaceDisabler","FightModeControls");
+		MapControlToGroup("InterfaceDisabler","BattleInterfaceControls");
 	}
 }
 

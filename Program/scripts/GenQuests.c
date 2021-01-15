@@ -5307,6 +5307,7 @@ void ShipWreck_SetShipNew()
 	//chr.ship.type = SHIP_NOTUSED;
 	chr.LifeDay = 0;
 		
+	LAi_SetPlayerType(pchar);
 	RemovePassenger(pchar, sld);
 	sld.AlwaysFriend = true;
 	sld.Abordage.Enable = false; //нельзя брать на абордаж

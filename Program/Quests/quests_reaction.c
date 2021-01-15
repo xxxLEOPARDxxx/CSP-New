@@ -2103,11 +2103,12 @@ void QuestComplete(string sQuestName, string qname)
 						}
 					}	
 					//<-- генерим ранг 
-					sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "spy", "spy", Rank, PIRATE, 0, true));
+					// sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "spy", "spy", Rank, PIRATE, 0, true)); // LEO: Убрал от бугуртов недовольных - Gregg :)
+					sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "man", "man", Rank, PIRATE, 0, true));
 					sld.dialog.filename = "MayorQuests_dialog.c";
 					sld.dialog.currentnode = "SeekSpy_house";
 					sld.greeting = "cit_common"; 
-					sld.money =  5000 + rand(10000);
+					sld.money =  1000 + rand(5000);
 			        sld.SaveItemsForDead  = true; 
 					AddBonusEnergyToCharacter(sld, 30);
 					FantomMakeCoolFighter(sld, Rank + 0.25, 20+rand(60), 30, "blade12", "pistol3", 70);
