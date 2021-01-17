@@ -5125,8 +5125,8 @@ void LSC_BigStormIsBegin()
 			locations[i].locators_radius.reload.reload2_back = 20.0;
 			pchar.location.from_sea = "LostShipsCity_town";
 			//второй патч ГПК
-			//locations[i].models.day.charactersPatch = "LostShipsCity_patch_end";
-			//locations[i].models.night.charactersPatch = "LostShipsCity_patch_end";	
+			locations[i].models.day.charactersPatch = "LostShipsCity_patch_end";
+			locations[i].models.night.charactersPatch = "LostShipsCity_patch_end";	
 			//погода
 			DeleteAttribute(&locations[i], "alwaysStorm");	
 			DeleteAttribute(&locations[i], "QuestlockWeather");

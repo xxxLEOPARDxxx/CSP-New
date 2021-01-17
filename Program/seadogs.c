@@ -1453,7 +1453,8 @@ void ProcessControls()
 				pchar.mushket.timer = true;
 				LAi_SetFightMode(pchar, false);
 				LAi_SetActorType(pchar);
-				if(pchar.model.animation != "mushketer") PostEvent("Event_SwapWeapon", 1400);
+				if(pchar.model.animation == "man_fast") PostEvent("Event_SwapWeapon", 1400);
+				if(pchar.model.animation == "man") PostEvent("Event_SwapWeapon", 1800);
 				else PostEvent("Event_SwapWeapon3", 800);
 			}
 		break;

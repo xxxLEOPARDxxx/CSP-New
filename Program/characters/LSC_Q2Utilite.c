@@ -774,7 +774,9 @@ void QuestActions()
 				LAi_SetActorType(sld);
 				LAi_group_MoveCharacter(sld, "EnemyFight");
 				ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "reload", "reload55");
-				LAi_ActorGoToLocator(sld, "quest", "target", "LSC_casperIsGone", -1.0);
+				LAi_ActorGoToLocator(sld, "reload", "reload65", "LSC_casperIsGone", -1.0);
+				sld.talker = 11;
+				LAi_Character_CanDialog(sld, pchar)
 				pchar.questTemp.LSC.Armo.casperIdx = sld.index; //запомним индекс, пригодится на выходе
 				//таймер на проверку, убит ли каспер
 				pchar.quest.LSC_checkCasperDead.win_condition.l1               = "Location_Type";
@@ -2536,14 +2538,14 @@ void LSC_CasperIsHelp()
 	sld.MusketerDistance = 0;
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
-	ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "quest", "mushketer1");
+	ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "reload", "reload55");
 
 	sld = GetCharacter(NPC_GenerateCharacter("CasperMush_2", "Mushketer_4", "man", "mushketer", 30, PIRATE, -1, false));
 	SetCharacterPerk(sld, "GunProfessional");
 	sld.MusketerDistance = 0;
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
-	ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "quest", "mushketer2");
+	ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "reload", "reload55");
 	//дополнительно, на всякий случай
 	//LAi_group_SetRelation("PearlGroup_2", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 	//LAi_group_FightGroups("PearlGroup_2", LAI_GROUP_PLAYER, true);
