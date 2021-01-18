@@ -1999,42 +1999,6 @@ void SetEnemyCrewToKilled()
 	OnShipScrollChange();
 }
 
-//Boyer add flag perk for enemy captain if ship sunk or captured
-void FlagPerkForCapturedShip(ref refChar) {
-	//Trace("FlagPerkForCapturedShip.nation = " + refChar.nation);
-	string sMessage = "";
-	string sPerk = "";
-
-	if(!CheckAttribute(refChar, "nation")) return;
-	switch(sti(refChar.nation))
-	{
-		case PIRATE:
-			sMessage = xiStr("NewFlagPirate");
-			sPerk = "FlagPir";
-		break;
-		case ENGLAND:
-			sMessage = xiStr("NewFlagEngland");
-			sPerk = "FlagEng";
-		break;
-		case SPAIN:
-			sMessage = xiStr("NewFlagSpain");
-			sPerk = "FlagSpa";
-		break;
-		case FRANCE:
-			sMessage = xiStr("NewFlagFrance");
-			sPerk = "FlagFra";
-		break;
-		case HOLLAND:
-			sMessage = xiStr("NewFlagHolland");
-			sPerk = "FlagHol";
-		break;
-	}
-	if(!CheckCharacterPerk(pchar, sPerk)) {
-		SetCharacterPerk(pchar, sPerk);
-		Log_SetStringToLog(sMessage);
-	}
-}
-//End Boyer add
 void SetEnemyCrewToFree()
 {
 	ExitCaptureCrewWindow();

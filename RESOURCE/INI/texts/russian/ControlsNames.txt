@@ -281,6 +281,12 @@ MushketHotkey
 
 }
 
+PusherHotkey
+{
+Активировать "Громилу"
+
+}
+
 ChrJump
 {
 "Прыжок"

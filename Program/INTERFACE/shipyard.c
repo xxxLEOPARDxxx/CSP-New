@@ -20,6 +20,18 @@ bool  bShipyardOnTop, bEmptySlot;
 int RepairHull, RepairSail;
 int timeHull, timeRig, timePaint;
 
+//// {*} BUHO-FIST - ADDED CODE - Fist state variable
+#define FIS_ALL		0		// Normal
+#define FIS_1		1		// C1
+#define FIS_2		2		// C2
+#define FIS_3		3		// C3
+#define FIS_4		4		// C4
+#define FIS_5		5		// C5
+#define FIS_6		6		// C6
+#define FIS_7		7		// C7
+int FIS_FilterState = FIS_ALL;
+//// {*} BUHO END ADDITION
+
 void InitInterface_R(string iniName, ref _shipyarder)
 {
 	GameInterface.title = "titleShipyard";
@@ -158,6 +170,10 @@ void ProcessCommandExecute()
 			{
 			    ShowMessageInfo2();
 			}
+		break;
+		
+		case "CLASS_ALL":
+			if (comName == "click")ProcessFilter(); 
 		break;
 
 		case "MSG_OK":
@@ -752,12 +768,13 @@ void FillShipyardTable()
 	ref    refBaseShip;
 	string sShip;
 	string row;
+	int k = 0;
 
 	makearef(arDest, refNPCShipyard.shipyard);
 	iNum = GetAttributesNum(arDest);
 	for (i = 0; i < iNum; i++)
 	{
-        row = "tr" + (i+1);
+        row = "tr" + (k+1);
 
 		arImt = GetAttributeN(arDest, i);
 		//Log_Info(GetAttributeName(arImt));
@@ -767,8 +784,20 @@ void FillShipyardTable()
     	iShip = sti(refNPCShipyard.Ship.Type);
     	refBaseShip = GetRealShip(iShip);
 		sShip = refBaseShip.BaseName;
-		//
+		
 		GameInterface.TABLE_SHIPYARD.(row).sShipId = sAttr;
+		
+		int nClass = sti(refBaseShip.Class);
+		if (FIS_FilterState != FIS_ALL)
+		{
+			if (sti(FIS_FilterState) != nClass)
+			{
+				DeleteAttribute(&GameInterface,"TABLE_SHIPYARD.row");
+				continue;
+			}
+		}
+		k++;
+		
         GameInterface.TABLE_SHIPYARD.(row).td1.icon.texture = "interfaces\\ships\\" + sShip + ".tga.tx";
 		GameInterface.TABLE_SHIPYARD.(row).td1.icon.uv = "0,0,1,1";
 		GameInterface.TABLE_SHIPYARD.(row).td1.icon.width = 46;
@@ -786,6 +815,58 @@ void FillShipyardTable()
     }
 
 	Table_UpdateWindow("TABLE_SHIPYARD");
+}
+
+void ProcessFilter()
+{
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CLASS_ALL", 3, 1))
+	{
+		FIS_FilterState = FIS_ALL;
+		FillShipyardTable();
+		return;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CLASS_ALL", 3, 2))
+	{
+		FIS_FilterState = FIS_7;
+		FillShipyardTable();
+		return;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CLASS_ALL", 3, 3))
+	{
+		FIS_FilterState = FIS_6;
+		FillShipyardTable();
+		return;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CLASS_ALL", 3, 4))
+	{
+		FIS_FilterState = FIS_5;
+		FillShipyardTable();
+		return;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CLASS_ALL", 3, 5))
+	{
+		FIS_FilterState = FIS_4;
+		FillShipyardTable();
+		return;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CLASS_ALL", 3, 6))
+	{
+		FIS_FilterState = FIS_3;
+		FillShipyardTable();
+		return;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CLASS_ALL", 3, 7))
+	{
+		FIS_FilterState = FIS_2;
+		FillShipyardTable();
+		return;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CLASS_ALL", 3, 8))
+	{
+		FIS_FilterState = FIS_1;
+		FillShipyardTable();
+		return;
+	}
 }
 
 void SetButtionsAccess()

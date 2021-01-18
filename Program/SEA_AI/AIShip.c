@@ -1153,18 +1153,19 @@ void Ship_CheckSituation()
 {
     //#20181101-01
     int oldRel, newRel;
-    ref		rShip;
+	ref		rShip;
 	aref	rSituation;
-
+	
 	aref	rCharacter = GetEventData();
 	aref	rShipObject = GetEventData();
-
+	
 	if (sti(rCharacter.index) == nMainCharacterIndex) { return; }
 	if (LAi_IsDead(rCharacter) || sti(rCharacter.ship.type) == SHIP_NOTUSED) { return; }  // super fix boal
-
-	//#20180126-02
+	
+	//Log_Testinfo("Ship_CheckSituation " + rCharacter.id);
+	
 	int iCharIdx = sti(rCharacter.index);
-	int aiTask = AITASK_NONE;
+	int aiTask = AITASK_NONE;						  
 	if (CheckAttribute(rCharacter, "SeaAI.Task"))
     {
          aiTask = sti(rCharacter.SeaAI.Task);
@@ -1184,27 +1185,19 @@ void Ship_CheckSituation()
 	// boal fix AI fMinEnemyDistance - не сбрасывается :( 23.05.05
 	if (nLastBallChar != -1 && LAi_IsDead(GetCharacter(nLastBallChar)))
 	{
-        rCharacter.Ship.LastBallCharacter = -1;
+		rCharacter.Ship.LastBallCharacter = -1;
 	}
-	//#20180925-01
     int nTaskTarg = 0;
 	if (CheckAttribute(rCharacter, "SeaAI.Task.Target"))
 	{
 		if (rCharacter.SeaAI.Task.Target != "" && LAi_IsDead(GetCharacter(sti(rCharacter.SeaAI.Task.Target))))
-		{
-		    //#20180126-02 Task target dead update
-		    if(IsCompanion(rCharacter)) {
-                Ship_SetTaskDefend(SECONDARY_TASK,iCharIdx,nMainCharacterIndex);
-                aiTask = AITASK_DEFEND;
-		    }
-		    else {
-                rCharacter.SeaAI.Task.Target = "";
-		    }
-		}
+	    {
+	        rCharacter.SeaAI.Task.Target = "";
+	    }
 		nTaskTarg = sti(rCharacter.SeaAI.Task.Target);
 	    /*if (rCharacter.SeaAI.Task == AITASK_ABORDAGE && rCharacter.SeaAI.Task.Target == "")
 	    {
-	        Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), nMainCharacterIndex);
+	        Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), nMainCharacterIndex);  // это фикс зависшего абордажа
 	    } */
     }
 	// <--
@@ -1214,86 +1207,137 @@ void Ship_CheckSituation()
     if (Ship_AutoAbordage(rCharacter, fMinEnemyDistance)) { return; }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
+	// ugeen ->  проверка на возможность выбросить белый флаг // комменчу нафик ибо толком не работает - 27.11.17
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//if(!CheckAttribute(rCharacter,"surrendered") && Ship_CheckSurrendered(rCharacter)) Ship_SetSurrendered(rCharacter);
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	// Warship 08.07.09 Запрет спуска парусов
 	if(CheckAttribute(rCharacter, "CanDropSails") && !sti(rCharacter.CanDropSails)) //  && Ship_GetSailState(rCharacter) < 1.0 // Так работает через раз
 	{
 		Ship_SetSailState(sti(rCharacter.index), 1.0);
 	}
-	// check for enought quantity of balls
+		
+	// check for enought quantity of balls 
 	int iShipCannonsNum  = GetCannonsNum(rCharacter);//sti(rShip.CannonsQuantity);
 	int iCurrentBallType = sti(rCharacter.Ship.Cannons.Charge.Type);
 	bool bBalls, bKnippels, bBombs, bGrapes;
 	bBalls = true; bKnippels = true; bBombs = true; bGrapes = true;
-	if (GetCargoGoods(rCharacter,GOOD_BALLS)    < iShipCannonsNum) { bBalls    = false; }
-	if (GetCargoGoods(rCharacter,GOOD_BOMBS)    < iShipCannonsNum) { bBombs    = false; }
-	if (GetCargoGoods(rCharacter,GOOD_KNIPPELS) < iShipCannonsNum) { bKnippels = false; }
-	if (GetCargoGoods(rCharacter,GOOD_GRAPES)   < iShipCannonsNum) { bGrapes   = false; }
+	// boal -->
+	if (CheckAttribute(rCharacter, "ShipCannonChargeType")) // офам приказ, чем палить все время
+	{
+	    if (GetCargoGoods(rCharacter, sti(rCharacter.ShipCannonChargeType))    < iShipCannonsNum)
+	    {
+	        DeleteAttribute(rCharacter, "ShipCannonChargeType"); // следующий проход решит на что менять заряд
+	    }
+	}
+	else
+	{
+        if (GetCargoGoods(rCharacter,GOOD_BALLS)    < iShipCannonsNum) { bBalls    = false; }
+		if (GetCargoGoods(rCharacter,GOOD_BOMBS)    < iShipCannonsNum) { bBombs    = false; }
+		if (GetCargoGoods(rCharacter,GOOD_KNIPPELS) < iShipCannonsNum) { bKnippels = false; }
+		if (GetCargoGoods(rCharacter,GOOD_GRAPES)   < iShipCannonsNum) { bGrapes   = false; }
 
-	int iNewBallType = iCurrentBallType;
-    oldRel = GetRelation(iCharIdx, GetMainCharacterIndex());
-    //#20190612-02
-    bool bStartRunaway = false;
-	if(CheckAttribute(rCharacter, "Ship.Cannons.borts.cannonr.ChargeRatio"))
+		int iNewBallType = iCurrentBallType;
+		if( !CheckAttribute(rCharacter,"BOAL_ReadyCharge"))
+	    {
+	        rCharacter.BOAL_ReadyCharge = "1";
+	    }
+	    if (rCharacter.BOAL_ReadyCharge == "0")
+	    {
+	        iNewBallType = Ship_FindOtherBallType(rCharacter, fMinEnemyDistance, bBalls, bBombs, bGrapes, bKnippels);
+	        rCharacter.BOAL_ReadyCharge = "1";
+	    	if (iNewBallType >= 0 && iNewBallType != iCurrentBallType)
+		    {
+		   	   Ship_ChangeCharge(rCharacter, iNewBallType);
+		    }
+	    }
+	    else
+	    {
+	        ref rCannon = GetCannonByType(sti(rCharacter.Ship.Cannons.Type));
+		    float range = stf(rCannon.FireRange);
+		    if ((fMinEnemyDistance > (range*0.9)) && bBalls) // из зоны ушли
+	        {
+	           iNewBallType = GOOD_BALLS;
+	           if (iNewBallType != iCurrentBallType)
+	           {
+	               Ship_ChangeCharge(rCharacter, iNewBallType);
+	           }
+	        }
+	    }
+    }
+    // выбор снаряда <--
+    // сбособ второй, модифицированный от к3, но по тестам старый вмл милее и оптимальнее
+	/*if(CheckAttribute(rCharacter, "Ship.Cannons.borts.cannonr.ChargeRatio"))
 	{
 		float fRightChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonr.ChargeRatio);
 		float fLeftChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonl.ChargeRatio);
-
+		
+		float fFrontChargeRatio = 1.0;
+		float fBackChargeRatio = 1.0;
+		
+		if (CheckAttribute(rCharacter, "Ship.Cannons.borts.cannonf.ChargeRatio"))
+		{
+			fFrontChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonf.ChargeRatio);
+			fBackChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonb.ChargeRatio);
+		}
+		
 		if (!CheckAttribute(rCharacter, "Sea_AI.cannon.charge"))
 		{
-			if (fRightChargeRatio != 1.0 && fLeftChargeRatio != 1.0)
+			if (fRightChargeRatio <= 0.3 || fLeftChargeRatio <= 0.3 || fBackChargeRatio <=0.3 || fFrontChargeRatio <=0.3)
 			{
 				iNewBallType = Ship_FindOtherBallType(rCharacter, fMinEnemyDistance, bBalls, bBombs, bGrapes, bKnippels);
+				rCharacter.Sea_AI.cannon.charge = iNewBallType;
 			}
-			rCharacter.Sea_AI.cannon.charge = iNewBallType;
 		}
 		else
 		{
+			// делаем проверку на хрень типа:
+			// корабль сделал выстрел
+			// зарядился
+			// но ситуация изменилась, и он не может достать выстрелом никого
+			// причем эта проверка не позволит персу 
+			// постоянно перезаряжать пушки
+			// ибо при анализе ситуации 
+			// заряд может и не измениться
 			if(!CheckAttribute(rCharacter, "Sea_AI.cannon.charge.lasttime"))
 			{
 				rCharacter.Sea_AI.cannon.charge.lasttime = 0;
 			}
-			if (fRightChargeRatio == 1.0 && fLeftChargeRatio == 1.0)
+			if (fRightChargeRatio == 1.0 && fLeftChargeRatio == 1.0 && fBackChargeRatio == 1.0 && fFrontChargeRatio == 1.0)
 			{
 				rCharacter.Sea_AI.cannon.charge.lasttime = sti(rCharacter.Sea_AI.cannon.charge.lasttime) + 1;
 			}
-			if(sti(rCharacter.Sea_AI.cannon.charge.lasttime) > 15)
+			//int iCannonTime = sti(Cannons[sti(rCharacter.Ship.Cannons.Type)].ReloadTime) / 2;
+			if(sti(rCharacter.Sea_AI.cannon.charge.lasttime) > 20)
 			{
 				iNewBallType = Ship_FindOtherBallType(rCharacter, fMinEnemyDistance, bBalls, bBombs, bGrapes, bKnippels);
 				rCharacter.Sea_AI.cannon.charge = iNewBallType;
-				rCharacter.Sea_AI.cannon.charge.lasttime = 0;
-				rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon = sti(rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon) + 1;
 			}
 		}
-        //#20190612-02
-        if (iNewBallType >= 0)
-        {
-            if(iNewBallType != iCurrentBallType)
-                Ship_ChangeCharge(rCharacter, iNewBallType);
-        }
-        else {
-            bStartRunaway = true;
-        }
-	}
+        if (iNewBallType >= 0 && iNewBallType != iCurrentBallType) 
+		{
+			Ship_ChangeCharge(rCharacter, iNewBallType);
+		}
+	} */
 	bool bIsCompanion = IsCompanion(rCharacter);
-    //#20190113-06
-	bool bFortSanctuary = CheckAttribute(rCharacter, "SeaAI.fortSanctuary");
+	
 	// check some tasks
 	if (CheckAttribute(rCharacter, "SeaAI.Task") && CheckAttribute(rCharacter, "SeaAI.Task.Target"))
 	{
-		switch (aiTask)
+		switch (sti(rCharacter.SeaAI.Task))
 		{
 			// boal potc -->
 			case AITASK_BRANDER:
-				ref rCharacter2Brander = GetCharacter(nTaskTarg);
-				float fBranderDistance = 45.0 + (7.0 - stf(rShip.Class)) * 15.0;
-				//#20180524-01 Remove unneeded sqrt
-				fBranderDistance *= fBranderDistance;
-				fDistance = Ship_GetDistance2DRel(rCharacter, rCharacter2Brander);
+				ref rCharacter2Brander = GetCharacter(sti(rCharacter.SeaAI.Task.Target));
+				ref rBaseShip = GetRealShip(sti(rCharacter.Ship.Type));
+				float fBranderDistance = 45.0 + (7.0 - stf(rBaseShip.Class)) * 15.0; // просьба масс
+				fDistance = Ship_GetDistance2D(rCharacter, rCharacter2Brander); // boal 21.01.2004
 				if (fBranderDistance > fDistance)
 				{
 					// fire ship
 					Ship_SetExplosion(rCharacter, rShipObject); //boal 27.09.05
-					Log_Info("" + XI_ConvertString(rShip.BaseName) + " '" + rCharacter.Ship.Name + "' " + GetShipSexWord(rShip.BaseName, "взорвал", "взорвала") + " крюйт камеру.");
+					Log_Info("" + XI_ConvertString(rBaseShip.BaseName) + " '" + rCharacter.Ship.Name + "' " + GetShipSexWord(rBaseShip.BaseName, "взорвал", "взорвала") + " крюйт камеру.");
 					return;
 				}
 				//Trace("test1 rCharacter2Brander = " + rCharacter2Brander.index);
@@ -1303,44 +1347,32 @@ void Ship_CheckSituation()
 				//Log_SetStringToLog("Дистанция: " + Ship_GetDistance2D(rCharacter, &characters[sti(rCharacter.SeaAI.Task.Target)]) + "   Атаки: " + rCharacter.Ship.SeaAI.Init.AttackDistance);
 				//-->> если есть цель для Атаки, то оптимизируем оптимальное расстояние для стрельбы	
 				//только при полном боекомплекте на первом такте ожидания
-				if (CheckAttribute(rCharacter, "Sea_AI.cannon.charge.lasttime") && sti(rCharacter.Sea_AI.cannon.charge.lasttime) == 1)
+				if (CheckAttribute(rCharacter, "Sea_AI.cannon.charge.lasttime") && sti(rCharacter.Sea_AI.cannon.charge.lasttime) == 1) 
 				{
 					if (sti(rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon) == 2 || sti(rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon) == 5)
 					{
-						rCharacter.Ship.SeaAI.Init.AttackDistance = 50;
-						Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nTaskTarg);
+						rCharacter.Ship.SeaAI.Init.AttackDistance = 50; //отрезаем неубегаек
+						Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.SeaAI.Task.Target));
 					}
 					else
 					{
-						float fAttackDist = Ship_GetDistance2D(rCharacter, &characters[nTaskTarg]);
-						 //#20180126-01
-						if (fAttackDist < 500.0)
+						float fAttackDist = Ship_GetDistance2D(rCharacter, &characters[sti(rCharacter.SeaAI.Task.Target)]);
+						if (fAttackDist < 500)
 						{
 							rCharacter.Ship.SeaAI.Init.AttackDistance = fAttackDist;
-							Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nTaskTarg);
-						}
+							Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.SeaAI.Task.Target));
+						}	
 					}
 				}
 			break;
             // абордаж сам отработает
 		}
 	}
-	// boal AI  -->
-	//#20190113-06
-    if(bFortSanctuary) {
-        if(!CheckAttribute(rCharacter, "SeaAI.hitInSanctuary")) {
-            //Not hit...continue to wait
-            Ship_SetTaskDrift(SECONDARY_TASK, iCharIdx);
-            return;
-        }
-        else {
-            DeleteAttribute(rCharacter, "SeaAI.hitInSanctuary");
-        }
-        //Else, continue and reconsider options
-    }
-    if (!bIsCompanion) //fix 171204
+	// boal AI компа -->
+    if (!bIsCompanion) //fix 171204 boal Не нужно наших с толку сбивать
     {
-		if(CheckAttribute(rCharacter, "fortDefender") && sti(rCharacter.fortDefender) == 1)
+        string sGroupID = Ship_GetGroupID(rCharacter);
+        if(CheckAttribute(rCharacter, "fortDefender") && sti(rCharacter.fortDefender) == 1)
 		{
 			if(sti(rCharacter.SeaAI.Task) == AITASK_NONE)
 			{
@@ -1363,61 +1395,35 @@ void Ship_CheckSituation()
 			}
 			return;
 		}
-        string sGroupID = Ship_GetGroupID(rCharacter);
-        bool chkAmmo = false;
-	    if(aiTask == AITASK_ATTACK || aiTask == AITASK_DEFEND)
-            chkAmmo = true;
-		if (chkAmmo && CheckAttribute(rCharacter, "SeaAI.Task.Target"))
+		if (CheckAttribute(rCharacter, "SeaAI.Task.Target"))
 		{
-	        //trace("rCharacter.SeaAI.Task.Target:" + rCharacter.SeaAI.Task.Target);
-		    //#20190612-02
-            float fCannonRat = 0.0;
-            float fPowderRat = 1.0;
-            float fAmmoRat = 1.0;
-            float fIShipCn = makefloat(iShipCannonsNum);
-            if(sti(rShip.CannonsQuantity) > 0) {
-                fCannonRat = fIShipCn / stf(rShip.CannonsQuantity);
-            }
-            if(iShipCannonsNum > 0) {
-                fPowderRat = makefloat(GetCargoGoods(rCharacter, GOOD_POWDER)) / fIShipCn;
-                if(iNewBallType >= 0)
-                    fAmmoRat = makefloat(GetCargoGoods(rCharacter, iNewBallType)) / fIShipCn;
-            }
-            if(bStartRunaway) {
-                //if (iNewBallType < 0 || iShipCannonsNum < (sti(rShip.CannonsQuantity) / 10))
-                //{
-                if(nTaskTarg == 0) {
-                    if(nLastBallChar >= 0)
-                        nTaskTarg = nLastBallChar;
-                    if(nTaskTarg < 0)
-                        nTaskTarg = 0;
-                }
-                Ship_SetTaskRunaway(SECONDARY_TASK,iCharIdx, nTaskTarg);
-                //#20191012-03
-                if(!CheckAttribute(rCharacter, "SinkTenPercent"))
-                    return;
-            }
+	        if (iNewBallType < 0 || iShipCannonsNum < (sti(rShip.CannonsQuantity) / 10))
+			{
+				// maybe we can abordage???
+				Ship_SetTaskRunaway(SECONDARY_TASK,sti(rCharacter.index), sti(rCharacter.SeaAI.Task.Target));
+				return;
+			}
 		}
-		if (GetNationRelation2MainCharacter(sti(rCharacter.nation)) == RELATION_ENEMY)
+		if (GetNationRelation2MainCharacter(sti(rCharacter.nation)) == RELATION_ENEMY) // враг Гл героя
 	    {
             if (CheckAttribute(rCharacter, "AlwaysFriend"))
 	        {
-	            SetCharacterRelationBoth(iCharIdx, GetMainCharacterIndex(), RELATION_FRIEND);
+	            SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_FRIEND);
 	        }
 	        else
 	        {
 				//--> eddy. анализим форт. проверяем наличие форта, враждебность и залоченный таск
-				if (CheckAttribute(rCharacter, "WatchFort") && bIsFortAtIsland && GetRelation(iCharIdx, iFortCommander) == RELATION_ENEMY && !CheckAttribute(rCharacter, "ShipTaskLock"))
+				if (CheckAttribute(rCharacter, "WatchFort") && bIsFortAtIsland && GetRelation(sti(rCharacter.index), iFortCommander) == RELATION_ENEMY && !CheckAttribute(rCharacter, "ShipTaskLock"))
 				{
 					if (sti(rCharacter.Tmp.fWatchFort) >= sti(rCharacter.Tmp.fWatchFort.Qty))
-					{
-						rCharacter.Tmp.fWatchFort = 0;
+					{					
+						rCharacter.Tmp.fWatchFort = 0; //сброс счетчика оптимизации
 						//проверяем расстояние до форта и наличие флага 'следить за фортом'
 						if (GetDistance2D(stf(rCharacter.Ship.Pos.x), stf(rCharacter.Ship.Pos.z), fFort_x, fFort_z) < 1000)
 						{
-							Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, iFortCommander);
-							rCharacter.Tmp.fWatchFort.Qty = 200;
-
+							Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), iFortCommander);
+							rCharacter.Tmp.fWatchFort.Qty = 200; //не лочим таск, но увеличиваем паузу срабатывания
+							//Log_SetStringToLog("Я ("+rCharacter.id+") ухожу от форта."); 
 						}
 					}
 					else
@@ -1434,102 +1440,93 @@ void Ship_CheckSituation()
 			        int   MinCrewQuantity = GetMinCrewQuantity(rCharacter);
 					int   iCharactersNum1, iCharactersNum2;
 
-                    if ( GetRelation(iCharIdx, GetMainCharacterIndex()) != RELATION_ENEMY)
+					if (GetRelation(sti(rCharacter.index), GetMainCharacterIndex()) != RELATION_ENEMY)
 					{
-						SetCharacterRelationBoth(iCharIdx, GetMainCharacterIndex(), RELATION_ENEMY);
+						SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
 				        Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
-				        NationUpdate();
+				        UpdateRelations();
 				        DoQuestCheckDelay("NationUpdate", 0.9);
 			        }
-                    if (nLastBallChar != -1 && !CheckAttribute(rCharacter, "Ship_SetTaskAbordage") && !CheckAttribute(rCharacter, "ShipTaskLock")) // нет приказа на абордаж
+                    if (sti(rCharacter.Ship.LastBallCharacter) != -1 && !CheckAttribute(rCharacter, "Ship_SetTaskAbordage") && !CheckAttribute(rCharacter, "ShipTaskLock")) // нет приказа на абордаж
                     {
 						if (!CheckAttribute(rCharacter, "SeaAI.Task") || sti(rCharacter.SeaAI.Task) == AITASK_NONE)
 				        {
 							//кэп без таска, такое маловероятно. но тем не менее...
 							if (CheckAttribute(rCharacter, "AnalizeShips"))
-							{
+							{									
 								//проверим, стоит ли атаковать
-								if (stf(rCharacter.ship.hp) < (stf(characters[nLastBallChar].ship.hp) / 2))
+								if (stf(rCharacter.ship.hp) < (stf(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.hp) / 2))
 								{
-									Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, nLastBallChar);
+									Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 								}
 								else
 								{
-									Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nLastBallChar);
-								}
+									Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
+								}							
 							}
 							else
 							{	//кэп без атрибута проверки кораблей - всегда в атаке
-								Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nLastBallChar);
-							}
+								Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
+							}									        
 						}
 				        else
 				        {
-							if ((SailsPercent > 50) && (HPPercent > 30) && sti(rCharacter.SeaAI.Task) != AITASK_RUNAWAY)
+							if ((SailsPercent > 50) && (HPPercent > 30) && sti(rCharacter.SeaAI.Task) != AITASK_RUNAWAY) // не убегает уже
 					        {
 								//корабль в хорошем состоянии, таск не ранэвей. здесь тоже проверим при наличии атрибута анализа кораблей
 								if (CheckAttribute(rCharacter, "AnalizeShips"))
-								{
+								{									
 									// Warship fix Должно быть здесь
-									iCharactersNum1 =  Group_GetLiveCharactersNum(rCharacter.SeaAI.Group.Name);
-									if(nLastBallChar == iFortCommander)
-                                            iCharactersNum2 = 2;
-										else
-                                            iCharactersNum2 =  Group_GetLiveCharactersNum(characters[nLastBallChar].SeaAI.Group.Name);
-									if (stf(rCharacter.ship.hp) < (stf(characters[nLastBallChar].ship.hp) / 2))
+										iCharactersNum1 =  Group_GetLiveCharactersNum(rCharacter.SeaAI.Group.Name);
+										iCharactersNum2 =  Group_GetLiveCharactersNum(characters[sti(rCharacter.Ship.LastBallCharacter)].SeaAI.Group.Name);	
+									
+									if(stf(rCharacter.ship.hp) < (stf(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.hp) / 2))
 									{
-										//Boyer fix for divide by zero #20170318-41
-                                        if (iCharactersNum2 == 0)
-                                            iCharactersNum2 = 1;
-                                        if ((iCharactersNum1 / iCharactersNum2) >= 2.2)
+										if ((iCharactersNum1 / iCharactersNum2) >= 2.2 && iCharactersNum2 > 0) 
 										{
-											Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nLastBallChar);
+											Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 										}
 										else
 										{
-											Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, nLastBallChar);
+											Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 										}
 									}
 									else
 									{	//если есть шанс победить, то проверяем еще и количественное соотношение групп. не лезть на крупные эскадры
-										//Boyer fix for divide by zero #20170318-41
-                                        if (iCharactersNum1 == 0)
-                                            iCharactersNum1 = 1;
-                                        if ((iCharactersNum2 / iCharactersNum1) >= 2.0 && sti(rShip.Class) > sti(RealShips[sti(characters[nLastBallChar].ship.type)].Class))
+										if((iCharactersNum2 / iCharactersNum1) >= 2.0 && sti(RealShips[sti(rCharacter.ship.type)].Class) > sti(RealShips[sti(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.type)].Class))
 										{
-											Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, nLastBallChar);
+											Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 										}
 										else
 										{
-											Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nLastBallChar);
+											Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 										}
 									}
 								}
 								else
 								{	//кэп без атрибута проверки кораблей - всегда в атаке
-									Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nLastBallChar);
+									Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 								}
-					        }
+					        }  
 					        else
 					        {
 						        // смертники!!!
 						        if (HPPercent < 15)
 						        {
-						            //#20191208-01
-                                    if (nLastBallChar != iFortCommander && rand(20) == 1)
+						            if (rand(20) == 1)// очень часто плохо - убивает все вокруг
 						            {
-						                Ship_SetTaskBrander(SECONDARY_TASK, iCharIdx, nLastBallChar);
+						                Ship_SetTaskBrander(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 						            }
 						        }
 						        else
 						        {
-									if ((HPPercent < 30) || (CrewQuantity <= (2*MinCrewQuantity)))//  || SailsPercent < 35)
+						        	if ((HPPercent < 30) || (CrewQuantity <= (2*MinCrewQuantity)))// убрано, по тестам Дира || SailsPercent < 35)
 							        {
-							            Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, nLastBallChar);
+							            Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 							        }
 									else
 									{	//eddy. здесь смотрим Runaway. проверяем атрибут анализа шипов и анализим, стоит ли атаковать
-										if (CheckAttribute(rCharacter, "AnalizeShips") && stf(rCharacter.ship.hp) > (stf(characters[nLastBallChar].ship.hp) / 2))
+										if (CheckAttribute(rCharacter, "AnalizeShips") && stf(rCharacter.ship.hp) > (stf(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.hp) / 2))
 										{
 											//может только что ушел от форта? 
 											if (sti(rCharacter.Tmp.fWatchFort.Qty) == 200)
@@ -1537,43 +1534,36 @@ void Ship_CheckSituation()
 												//тогда Runaway меняем за один такт до проверки форта
 												if (sti(rCharacter.Tmp.fWatchFort) >= 199)
 												{
-													if (nLastBallChar == iFortCommander)
-													{
-														Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, GetMainCharacterIndex());
+													if (sti(rCharacter.Ship.LastBallCharacter) == iFortCommander)
+													{	//только не на форткоммандера, комикадзе не делаем
+														Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
 													}
 													else
 													{
-														Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nLastBallChar);
+														Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 													}
 												}
 											}
 											else
 											{	//форт тут ни при чем
-												if (nLastBallChar == iFortCommander)
-												{
-													Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, GetMainCharacterIndex());
+												if (sti(rCharacter.Ship.LastBallCharacter) == iFortCommander)
+												{	//только не на форткоммандера, комикадзе не делаем
+													Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
 												}
 												else
 												{
 													iCharactersNum1 =  Group_GetLiveCharactersNum(rCharacter.SeaAI.Group.Name);
-													//#20191208-01
-														if(nLastBallChar == iFortCommander)
-                                                            iCharactersNum2 = 2;
-                                                        else
-                                                            iCharactersNum2 =  Group_GetLiveCharactersNum(characters[nLastBallChar].SeaAI.Group.Name);
-													//Boyer fix for divide by zero #20170318-41
-                                                    if (iCharactersNum1 == 0)
-                                                        iCharactersNum1 = 1;
-                                                    if ((iCharactersNum2 / iCharactersNum1) >= 2.0 && sti(rShip.Class) > sti(RealShips[sti(characters[nLastBallChar].ship.type)].Class))
+													iCharactersNum2 =  Group_GetLiveCharactersNum(characters[sti(rCharacter.Ship.LastBallCharacter)].SeaAI.Group.Name);	
+													if ((iCharactersNum2 / iCharactersNum1) >= 2.0 && sti(RealShips[sti(rCharacter.ship.type)].Class) > sti(RealShips[sti(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.type)].Class))
 													{
-														Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, nLastBallChar);
+														Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 													}
 													else
 													{
-														Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, nLastBallChar);
+														Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 													}
 												}
-											}
+											}		
 										}
 									}
 						        }
@@ -1581,42 +1571,37 @@ void Ship_CheckSituation()
 				        }
 			        }
 			        else
-			        {
+			        {   
 						// если плывет мимо и нет rCharacter.Ship.LastBallCharacter (никто по нему не стрелял)
-						if (!CheckAttribute(rCharacter, "ShipTaskLock"))
+                        if (!CheckAttribute(rCharacter, "ShipTaskLock"))
 						{
-							if (!CheckAttribute(rCharacter, "SeaAI.Task.Target") || nTaskTarg < 1)
+				            if (!CheckAttribute(rCharacter, "SeaAI.Task.Target") || sti(rCharacter.SeaAI.Task.Target) == -1)
 					        {
 								if (CheckAttribute(rCharacter, "SeaAI.Task") && sti(rCharacter.SeaAI.Task) != AITASK_RUNAWAY)
 								{
-									iCharactersNum1 =  Group_GetLiveCharactersNum(rCharacter.SeaAI.Group.Name);
-									iCharactersNum2 =  Group_GetLiveCharactersNum(characters[GetMainCharacterIndex()].SeaAI.Group.Name);
+									//праздношатающийся кэп, проверяем атрибут анализа шипов. если атрибут есть и противник крут - валим.
 									if (CheckAttribute(rCharacter, "AnalizeShips") && stf(rCharacter.ship.hp) < (stf(pchar.ship.hp) / 2))
-							        {
-										//Boyer fix for divide by zero #20170318-41
-                                        if (iCharactersNum2 == 0)
-                                            iCharactersNum2 = 1;
-                                        if ((iCharactersNum1 / iCharactersNum2) >= 2.2)
+							        {									
+										iCharactersNum1 =  Group_GetLiveCharactersNum(rCharacter.SeaAI.Group.Name);
+										iCharactersNum2 =  Group_GetLiveCharactersNum(characters[GetMainCharacterIndex()].SeaAI.Group.Name);	
+										if ((iCharactersNum1 / iCharactersNum2) >= 2.2) 
 										{
-											Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, GetMainCharacterIndex()));
+											Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex()));
 										}
 										else
 										{
-											Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, GetMainCharacterIndex());
-										}
+											Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
+										}		
 									}
 									else
-									{
-										//Boyer fix for divide by zero #20170318-41
-                                        if (iCharactersNum1 == 0)
-                                            iCharactersNum1 = 1;
-                                        if ((iCharactersNum2 / iCharactersNum1) >= 2.0 && sti(rShip.Class) > sti(RealShips[sti(pchar.ship.type)].Class))
-										{ 	//если есть шанс победить - атакуем
-											Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, GetMainCharacterIndex());
+									{	//если есть шанс победить - атакуем
+										Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
+										{
+											Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
 										}
 										else
 										{
-											Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, GetMainCharacterIndex());
+											Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
 										}
 									}
 								}
@@ -1624,7 +1609,7 @@ void Ship_CheckSituation()
 								{	//eddy. а то ранэвей у нас как залоченный таск
 						        	if (CheckAttribute(rCharacter, "AnalizeShips") && (HPPercent > 60) && (SailsPercent > 70) && stf(rCharacter.ship.hp) > (stf(pchar.ship.hp) / 2))
 							        {
-							            Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, GetMainCharacterIndex());
+							            Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
 							        }
 								}
 					        }
@@ -1667,31 +1652,29 @@ void Ship_CheckSituation()
 	        // boal 030804 узнал на днях, что можно это все делать оин раз и оно ПОМНИТ!!!  но тогда нужно ИД проверять, тк перекрываем выше
 	        if (CheckAttribute(rCharacter, "AlwaysEnemy"))
 	        {
-	            SetCharacterRelationBoth(iCharIdx, GetMainCharacterIndex(), RELATION_ENEMY);
-	            Ship_SetTaskAttack(SECONDARY_TASK, iCharIdx, GetMainCharacterIndex());
+	            SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
+	            Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
 	        }
 	        else
 	        {
                 if (CheckAttribute(rCharacter, "AlwaysFriend"))
 		        {
-		            SetCharacterRelationBoth(iCharIdx, GetMainCharacterIndex(), RELATION_FRIEND);
+		            SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_FRIEND);
 		        }
 		        else
 		        {
 					// фикс отношений
-					if (sti(rCharacter.nation) != PIRATE || bBettaTestMode)//boal 030804
+			        if (sti(rCharacter.nation) != PIRATE || bBettaTestMode)//boal 030804 нужно чтоб при тесте флаг с пиратами мирил
 			        {
-	                    SetCharacterRelationBoth(iCharIdx, GetMainCharacterIndex(), GetNationRelation2MainCharacter(sti(rCharacter.nation)));
+	                    SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), GetNationRelation2MainCharacter(sti(rCharacter.nation)));
 						// проверка на ложный флаг -->
 						if (!CheckAttribute(rCharacter, "CheckFlagYet"))
 						{
 	                        if (!CheckAttribute(rCharacter, "CheckFlagDate") || GetNpcQuestPastDayParam(rCharacter, "CheckFlagDate") > 1)
 	                        {
-								//#20180524-01 Remove unneeded sqrt
-                                float minMapEnter = MIN_ENEMY_DISTANCE_TO_DISABLE_MAP_ENTER * MIN_ENEMY_DISTANCE_TO_DISABLE_MAP_ENTER;
-								if (Ship_GetDistance2DRel(GetMainCharacter(), rCharacter) < minMapEnter)
+								if (Ship_GetDistance2D(GetMainCharacter(), rCharacter) < MIN_ENEMY_DISTANCE_TO_DISABLE_MAP_ENTER)
 							    {
-							        rCharacter.CheckFlagYet = true;
+							        rCharacter.CheckFlagYet = true; // все, проверил
 							        Ship_CheckFlagEnemy(rCharacter);
 							        SaveCurrentNpcQuestDateParam(rCharacter, "CheckFlagDate");
 							    }
@@ -1701,10 +1684,10 @@ void Ship_CheckSituation()
 						// --> eddy. квест мэра. АИ разыскиваемого пирата
 						if (rCharacter.id == "MQPirate")
 						{
-							//#20180524-01 Remove unneeded sqrt, was 150, now 150^2
-							if (Ship_GetDistance2DRel(GetMainCharacter(), rCharacter) < 22500 && !CheckAttribute(pchar, "GenQuest.DestroyPirate.WasFirstDeside"))
+							//попытка обстрела до разговора, если ГГ слаб
+							if (Ship_GetDistance2D(GetMainCharacter(), rCharacter) < 150 && !CheckAttribute(pchar, "GenQuest.DestroyPirate.WasFirstDeside"))
 							{
-								pchar.GenQuest.DestroyPirate.WasFirstDeside = true;
+								pchar.GenQuest.DestroyPirate.WasFirstDeside = true; //кэп принял решение об атаке сразу
 								bool fight, shipHealth, shipClass, shipCrew, bFort;
 								fight = false;
 								bFort = false;
@@ -1718,10 +1701,9 @@ void Ship_CheckSituation()
 								//Log_TestInfo("Sea.MaxSeaHeight " + Sea.MaxSeaHeight);
 								if (bIsFortAtIsland) //т.к. пират, то форт враждебен всегда, не проверяем
 								{
-								    //#20180524-01 Remove unneeded sqrt, was 1000, now 1000^2
-									if (GetDistance2DRel(stf(rCharacter.Ship.Pos.x), stf(rCharacter.Ship.Pos.z), fFort_x, fFort_z) < 1000000)
+									if (GetDistance2D(stf(rCharacter.Ship.Pos.x), stf(rCharacter.Ship.Pos.z), fFort_x, fFort_z) < 1000)
 									{
-										bFort = true;
+										bFort = true; //форт рядом!!
 									}
 								}
 								//смотрим состояние парусов и корпуса (0..1)
@@ -1730,15 +1712,14 @@ void Ship_CheckSituation()
 									shipHealth = true;
 								}
 								//смотрим класс корабля
-								if ((sti(rShip.Class) - sti(RealShips[sti(pchar.ship.type)].Class)) <= 1)
+								if ((sti(RealShips[sti(rCharacter.ship.type)].Class) - sti(RealShips[sti(pchar.ship.type)].Class)) <= 1)
 								{
 									shipClass = true;
 								}
-								int nPCharCrew = GetCrewQuantity(pchar);
-								int nRCharCrew = GetCrewQuantity(rCharacter);
-								if ((nPCharCrew / GetMaxCrewQuantity(pchar)) < 0.4 || GetCrewExp(pchar, "Soldiers") < 20 || GetCharacterCrewMorale(pchar) < 20)
+								//смотрим кол-во команды на судне, мораль и опыт солдат
+								if ((GetCrewQuantity(pchar) / GetMaxCrewQuantity(pchar)) < 0.4 || GetCrewExp(pchar, "Soldiers") < 20 || GetCharacterCrewMorale(pchar) < 20)
 								{
-									if ((nPCharCrew / nRCharCrew) < 1.34) shipCrew = true;
+									if ((GetCrewQuantity(pchar) / GetCrewQuantity(rCharacter)) < 1.34) shipCrew = true;
 								}
 								//анализим наши шансы с учетом компаньонов ГГ
 								iQty = GetCompanionQuantity(pchar);
@@ -1750,8 +1731,7 @@ void Ship_CheckSituation()
 								{
 									if (shipClass && shipCrew || shipHealth) fight = true;
 								}
-								//Boyer fix for expanded companions
-								if (iQty >= 3)
+								if (iQty == 3)
 								{
 									if (shipClass && shipCrew && shipHealth) fight = true;
 								}
@@ -1761,59 +1741,66 @@ void Ship_CheckSituation()
 									{
 										rCharacter.nation = PIRATE;
 										Ship_NationAgressivePatent(rCharacter);
-										Ship_FlagRefresh(characterFromId("MQPirate"));
+										Ship_FlagRefresh(characterFromId("MQPirate")); //флаг на лету
 									}
-									Ship_SetTaskAbordage(SECONDARY_TASK, iCharIdx, nMainCharacterIndex);
+									Ship_SetTaskAbordage(SECONDARY_TASK, sti(rCharacter.index), nMainCharacterIndex);
 								}
-								pchar.GenQuest.DestroyPirate.shipState = shipCrew + shipClass + shipHealth;
-								pchar.GenQuest.DestroyPirate.fortPlace = bFort;
+								pchar.GenQuest.DestroyPirate.shipState = shipCrew + shipClass + shipHealth; //в диалоге нужно чтобы не считать дважды
+								pchar.GenQuest.DestroyPirate.fortPlace = bFort; //в зоне ли форта, для диалога на палубе
 								Log_QuestInfo("Оценка команды (нет-да/0-1): " + shipCrew);
 								Log_QuestInfo("Оценка корабля (нет-да/0-1): " + shipClass);
 								Log_QuestInfo("Оценка состояния корабля (нет-да/0-1): " + shipHealth);
 								Log_QuestInfo("В зоне попадания форта (нет-да/0-1): " + bFort);
 							}
-							//#20180524-01 Remove unneeded sqrt, was 30, now 30^2
-							if (Ship_GetDistance2DRel(GetMainCharacter(), rCharacter) < 900 && CheckAttribute(pchar, "GenQuest.DestroyPirate.WasFirstDeside") && !CheckAttribute(pchar, "GenQuest.DestroyPirate.FastAbordage"))
+							//попытка абордажа, если ГГ подошел на близкое расстояние. это для хитрых геймеров :)
+							if (Ship_GetDistance2D(GetMainCharacter(), rCharacter) < 30 && CheckAttribute(pchar, "GenQuest.DestroyPirate.WasFirstDeside") && !CheckAttribute(pchar, "GenQuest.DestroyPirate.FastAbordage"))
 							{
-								pchar.GenQuest.DestroyPirate.FastAbordage = true;
-								if ((nPCharCrew / nRCharCrew) < 1.6)
+								pchar.GenQuest.DestroyPirate.FastAbordage = true; //проверили абордаж
+								if ((GetCrewQuantity(pchar) / GetCrewQuantity(rCharacter)) < 1.6) //один критерий, остальные не важны
 								{
 	                                if (sti(rCharacter.nation) != PIRATE)
 									{
 										rCharacter.nation = PIRATE;
 										Ship_NationAgressivePatent(rCharacter);
-										Ship_FlagRefresh(characterFromId("MQPirate"));
+										Ship_FlagRefresh(characterFromId("MQPirate")); //флаг на лету
 									}
-									Ship_SetTaskAbordage(SECONDARY_TASK, iCharIdx, nMainCharacterIndex);
+									Ship_SetTaskAbordage(SECONDARY_TASK, sti(rCharacter.index), nMainCharacterIndex);
 								}
 								else
 								{
-									Ship_SetTaskRunaway(SECONDARY_TASK, iCharIdx, nMainCharacterIndex);
+									Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), nMainCharacterIndex); //сваливаем
 								}
 							}
 						}
-						// <-- eddy. квест мэра
+
 			        }
 			        else
 			        {
-			            SetCharacterRelationBoth(iCharIdx, GetMainCharacterIndex(), RELATION_ENEMY);
+			            SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);//на море пираты нападают всегда
 			        }
 		        }
 	        }
 	        // fix на нападение при условии, что нация дружеская, а с НПС мы все равно враждуем <--
-            //#20181031-02
-            newRel = GetRelation(iCharIdx, GetMainCharacterIndex());
-			if (newRel == RELATION_ENEMY)
+
+	        if (GetRelation(GetMainCharacterIndex(), sti(rCharacter.index)) == RELATION_ENEMY)
 	        {
 	            Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
-	            //#20181101-01
-                if(oldRel != newRel)
-                    UpdateRelations();
+	            UpdateRelations(); // перенес от ниже, тк исходим из того, что изначально все друзья все равно
 	        }
-	        //UpdateRelations();  // to_do
+	        //UpdateRelations();  // to_do это тонкое место, это тормоз, но рефрешить нужно
 	    }
 	    // AI компа <--
     }
+    /*else // наши компаньоны
+    {
+        // boal fix 23.05.05
+    	if (rMyCharacter.SystemInfo.NoneOfEnimy == true)
+    	{
+            fMinEnemyDistance = 1000.0;
+    	}
+        rCharacter.SystemInfo.GlobalMinEnemyDistance    = fMinEnemyDistance;  
+    } */
+    // boal фикс выхода на карту
 }
 
 // проверка флага НПС у ГГ, мож он пират?
@@ -2317,6 +2304,9 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 	ref rDead, rKillerCharacter, rBaseShip, rKillerBaseShip;
 	
 	rDead = GetCharacter(iDeadCharacterIndex);
+	
+	FlagPerkForCapturedShip(rDead);
+	
 	if (!CheckAttribute(rDead, "Ship.Type")) // fix
     {
         if (MOD_BETTATESTMODE == "On") Log_Info("Error: ShipDead Нет корабля у iDeadCharacterIndex = "+iDeadCharacterIndex);
@@ -5155,4 +5145,40 @@ void Ship_Neutral(int chridx, string sGroup)
     DoQuestCheckDelay("NationUpdate", 0.9);
 
 	//if (AISHIPDEBUG) Trace("Ship_Neutral: Ship_Neutral complete");
+}
+
+
+void FlagPerkForCapturedShip(ref refChar) {
+	//Trace("FlagPerkForCapturedShip.nation = " + refChar.nation);
+	string sMessage = "";
+	string sPerk = "";
+
+	if(!CheckAttribute(refChar, "nation")) return;
+	switch(sti(refChar.nation))
+	{
+		case PIRATE:
+			sMessage = xiStr("NewFlagPirate");
+			sPerk = "FlagPir";
+		break;
+		case ENGLAND:
+			sMessage = xiStr("NewFlagEngland");
+			sPerk = "FlagEng";
+		break;
+		case SPAIN:
+			sMessage = xiStr("NewFlagSpain");
+			sPerk = "FlagSpa";
+		break;
+		case FRANCE:
+			sMessage = xiStr("NewFlagFrance");
+			sPerk = "FlagFra";
+		break;
+		case HOLLAND:
+			sMessage = xiStr("NewFlagHolland");
+			sPerk = "FlagHol";
+		break;
+	}
+	if(!CheckCharacterPerk(pchar, sPerk)) {
+		SetCharacterPerk(pchar, sPerk);
+		Log_SetStringToLog(sMessage);
+	}
 }

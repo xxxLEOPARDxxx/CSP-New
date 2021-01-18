@@ -106,11 +106,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			
 		case "Mushket_stid_paymoney":
 			AddMoneyToCharacter(Pchar, -100000);
+			SetMushketCapitainInWorld();
 			dialog.text = "О-о, у меня появил"+ GetSexPhrase("ся щедрый приятель","ась щедрая приятельница") +"! Я даже стал подумывать - не продешевил ли я! Ну, да ладно - чего не сделаешь ради бескорыстной дружбы... Теперь слушай: он на днях отправился в бухту под названием " + XI_ConvertString(pchar.questTemp.Mushket.Shore) + ".\nДолго он там не будет - разгрузится и уйдет, так что поторопись. Догнать его ты не сможешь, но застать там долж"+ GetSexPhrase("ен","на") +" еще успеть. Правда, если будешь лететь быстрее ветра, хе-хе... Если нет, то придется потом искать само"+ GetSexPhrase("му","й") +". Я и рад буду тебе помочь, в знак нашей дружбы, но он мне свои маршруты не докладывает.";
 			link.l1 = "Спасибо, Лис! Немедленно выдвигаюсь.";
 			link.l1.go = "exit";
 			AddQuestRecord("SeekDoubleMushket", "4");
-			SetMushketCapitainInWorld();
 
 		break;
 		
@@ -198,7 +198,7 @@ void SetMushketCapitainInWorld()
 	sld.cityShore = GetIslandRandomShoreId(GetArealByCityName(sld.city));
 	sld.quest.targetCity = SelectAnyColony(sld.city); //определим колонию, в бухту которой он придет
 	sld.quest.targetShore = "Shore58";
-	pchar.questTemp.Mushket.Shore = GetIslandRandomShoreId(GetArealByCityName(sld.quest.targetCity));
+	pchar.questTemp.Mushket.Shore = sld.city;
 	Log_TestInfo("Кэп с мушкетом вышел из: " + sld.city + " и направился в: " + sld.quest.targetShore);
 	//==> на карту
 	sld.mapEnc.type = "trade";
@@ -206,7 +206,7 @@ void SetMushketCapitainInWorld()
 	sld.mapEnc.worldMapShip = "quest_ship";
 	sld.mapEnc.Name = "Бриг 'Стрела'";
 	int daysQty = GetMaxDaysFromIsland2Island(GetArealByCityName(sld.quest.targetCity), GetArealByCityName(sld.city))+5; //дней доехать даем с запасом
-	Map_CreateTrader(sld.cityShore, sld.quest.targetShore, sld.id, daysQty);
+	Map_CreateTrader(sld.city, sld.quest.targetShore, sld.id, daysQty);
 	//заносим Id кэпа в базу нпс-кэпов
 	sTemp = sld.id;
 	NullCharacter.capitainBase.(sTemp).quest = "mushket"; //идентификатор квеста

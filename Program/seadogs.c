@@ -1459,6 +1459,21 @@ void ProcessControls()
 			}
 		break;
 		
+		case "PusherHotkey":
+			if (!CheckCharacterPerk(pchar, "Buldozer")) break;
+			
+			if (!CheckAttribute(pchar,"CSM.CrowdPusher"))
+			{
+				Log_Info("''Громила'' активирован.");
+				SM_PusherEnable();
+			}			
+			else
+			{
+				Log_Info("''Громила'' деактивирован.");
+				SM_PusherDisable();
+			}
+		break;
+		
 		case "Map_Best":
 		//	if (bBettaTestMode) LaunchPaperMapScreen();
 			if(CheckCharacterItem(PChar, "Map_Best") || bBettaTestMode) LaunchBestMapScreen();
