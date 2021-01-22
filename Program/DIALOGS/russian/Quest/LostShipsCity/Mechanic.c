@@ -373,7 +373,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("ISS_MainLine", "42");
 			pchar.Ship.Type = GenerateShipExt(SHIP_CORVETTE_QUEST, false, pchar);
 			SetBaseShipData(pchar);
-			pchar.Ship.name = "Пёс войны";
+			pchar.Ship.name = "Чёрная Жемчужина";
 			pchar.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
 			SetCharacterGoods(pchar, GOOD_BALLS, 0);
 			SetCharacterGoods(pchar, GOOD_GRAPES, 0);

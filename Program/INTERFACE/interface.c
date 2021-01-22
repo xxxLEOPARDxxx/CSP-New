@@ -827,38 +827,6 @@ void LaunchTransferMain(ref _refMy,ref _refEnemy, string newCurNod)
 	}
 }
 
-/*
-void LaunchTransferGoods(ref _refMy,ref _refOther)
-{
-	if(procInterfacePrepare(INTERFACE_TRANSFER_GOODS))
-	{
-		nPrevInterface = CurrentInterface;
-		CurrentInterface = INTERFACE_TRANSFER_GOODS;
-		InitInterface_RR(Interfaces[CurrentInterface].IniFile,_refMy,_refOther);
-	}
-}
-
-void LaunchTransferCharacter(ref _refMy,ref _refEnemy)
-{
-	if(procInterfacePrepare(INTERFACE_TRANSFER_CHARACTER))
-	{
-		nPrevInterface = CurrentInterface;
-		CurrentInterface = INTERFACE_TRANSFER_CHARACTER;
-		InitInterface_RR(Interfaces[CurrentInterface].IniFile,_refMy,_refEnemy);
-	}
-}
-
-void LaunchTransferCrew(ref _refMy,ref _refEnemy)
-{
-	if(procInterfacePrepare(INTERFACE_TRANSFER_CREW))
-	{
-		nPrevInterface = CurrentInterface;
-		CurrentInterface = INTERFACE_TRANSFER_CREW;
-		InitInterface_RR(Interfaces[CurrentInterface].IniFile,_refMy,_refEnemy);
-	}
-}
-*/
-
 void LaunchQuestBook()
 {
 	if(procInterfacePrepare(INTERFACE_QUESTBOOK))
@@ -952,21 +920,6 @@ trace("LaunchSpeakInterface, chr.id:" + chr.id + ", whospeak: " + whospeak + ",s
 	}
 }
 
-/*
-void ISTART_SelNation()
-{
-	DelEventHandler(EVENT_END_VIDEO,"ISTART_SelNation");
-	ISetSoundEvents();
-	nPrevInterface = -1;
-     CurrentInterface = INTERFACE_NATION_SELECT;
-     LoadSegment(Interfaces[CurrentInterface].SectionName);
-     InitInterface(Interfaces[CurrentInterface].IniFile);
-	//SetMainCharacterIndex(0);
-	//interfaceResultCommand = RC_INTERFACE_CHARACTER_SELECT_EXIT;
-	//Start_InterfaceDoExit();
-}
-*/
-
 void EndOkInterface()
 {
     UnloadSegment(Interfaces[CurrentInterface].SectionName);
@@ -1003,120 +956,14 @@ void EndCancelInterface(bool bYesRelease)
 	bGamePadChangeEnable = false;
 	switch(interfaceResultCommand)
 	{
-		/*
-		case RC_INTERFACE_RANSACK_JOIN_EXIT: 
-			refObj1 = GetMyCharacterRef(); 
-			refObj2 = GetEnemyCharacterRef(); 
-		break;
 
-		case RC_INTERFACE_RANSACK_CREW_EXIT: 
-			refObj1 = GetMyCharacterRef(); 
-			refObj2 = GetEnemyCharacterRef(); 
-		break;
-
-		case RC_INTERFACE_RANSACK_CAPTAIN_EXIT: 
-			refObj1 = GetMyCharacterRef(); 
-			refObj2 = GetEnemyCharacterRef(); 
-		break;
-		
-
-		case RC_INTERFACE_TRANSFER_START_GOODS: 
-			refObj1 = GetMyCharacterRef(); 
-			refObj2 = GetEnemyCharacterRef(); 
-			ICurNode = GetCurrentNode(); 
-		break;
-
-		case RC_INTERFACE_TRANSFER_START_CHARACTERS: 
-			refObj1 = GetMyCharacterRef(); 
-			refObj2 = GetEnemyCharacterRef(); 
-			ICurNode = GetCurrentNode(); 
-		break;
-
-		case RC_INTERFACE_TRANSFER_START_CREW: 
-			refObj1 = GetMyCharacterRef(); 
-			refObj2 = GetEnemyCharacterRef(); 
-			ICurNode = GetCurrentNode(); 
-		break;
-
-		case RC_INTERFACE_TRANSFER_MAIN_RETURN: 
-			refObj1 = GetMyCharacterRef(); 
-			refObj2 = GetEnemyCharacterRef(); 
-		break;
-        */
-		/*
-		case RC_INTERFACE_CHARACTER_SELECT_EXIT:
-			DeleteEntities();
-			ClearEvents();
-			SetEventHandler("frame","NewGame",1);
-			InterfaceStates.doUnFreeze = false;
-		break;
-		*/
 	}
 	InterfaceStates.doUnFreeze = bYesRelease;
    UnloadSegment(Interfaces[CurrentInterface].SectionName);
 	IDeleteSoundEvents();
 	switch(interfaceResultCommand)
 	{
-		/*
-		case RC_INTERFACE_RANSACK_JOIN_EXIT: 
-			InterfaceStates.Launched=false; 
-			LaunchRansackCrew(refObj1,refObj2); 
-			return; 
-		break;
-		
-		case RC_INTERFACE_RANSACK_CREW_EXIT: 
-			if (!CheckAttribute(refObj2, "cannotsurrender"))
-			{
-				InterfaceStates.Launched=false; 
-				LaunchRansackCaptain(refObj1,refObj2); 
-				return; 
-			}
-			else
-			{
-				InterfaceStates.Launched=false; 
-				LaunchRansackMain(refObj1,refObj2,""); 
-				return;
-			}
-		break;
 
-		case RC_INTERFACE_RANSACK_CAPTAIN_EXIT: 
-			InterfaceStates.Launched=false; 
-			LaunchRansackMain(refObj1,refObj2,""); 
-			return; 
-		break;
-		*/
-		
-		/*
-		case RC_INTERFACE_TRANSFER_START_GOODS: 
-			InterfaceStates.Launched=false; 
-			LaunchTransferGoods(&Characters[sti(refObj1.index)],&Characters[sti(refObj2.index)]); 
-			return; 
-		break;
-
-		case RC_INTERFACE_TRANSFER_START_CHARACTERS: 
-			InterfaceStates.Launched=false; 
-			LaunchTransferCharacter(refObj1,refObj2); 
-			return; 
-		break;
-
-		case RC_INTERFACE_TRANSFER_START_CREW: 
-			InterfaceStates.Launched=false; 
-			LaunchTransferCrew(refObj1,refObj2); 
-			return; 
-		break;
-		
-		case RC_INTERFACE_TRANSFER_MAIN_RETURN:
-			if(nPrevInterface==INTERFACE_RANSACK_MAIN)
-			{
-				InterfaceStates.Launched=false; LaunchRansackMain(refObj1,refObj2,ICurNode);
-			}
-			else
-			{
-				InterfaceStates.Launched=false; LaunchTransferMain(refObj1,refObj2,ICurNode);
-			}
-			return;
-		break;
-		*/
 	}
 	
     Start_InterfaceDoExit();
@@ -1146,15 +993,6 @@ bool PopInterface()
 	InterfaceStack.size = sti(InterfaceStack.size)-1;
 	string StackSlot = "Slot"+InterfaceStack.size;
 	CurrentInterface = sti(InterfaceStack.(StackSlot).index);
-	/*switch(CurrentInterface)
-	{
-	case INTERFACE_STORE:
-		break;
-	case INTERFACE_RANSACK_MAIN:
-		break;
-	case INTERFACE_TRANSFER_MAIN:
-		break;
-	} */
 	DeleteAttribute(&InterfaceStack,StackSlot);
 	return true;
 }
@@ -1361,56 +1199,6 @@ bool procEnableInterfaceLaunch(int _interfaceCode)
 	return true;
 }
 
-/*
-bool bRunHelpChooser = false;
-void RunHelpChooser()
-{
-	string chooserName = "";
-	if(bSeaActive && !bAbordageStarted)	chooserName = "sea_interface";
-	else if( IsEntity(worldMap) )	chooserName = "world_map";
-	else if( DialogRun )	chooserName = "Dialog_window";
-	else chooserName = "land_interface";
-
-	if(chooserName=="")
-	{
-		LaunchHelpScreen("");
-		return;
-	}
-
-	DeleteEntitiesByType("HELPCHOOSER");
-	SetEventHandler("EventEndHelpChooser","ProcEndHelpChooser",0);
-	object objHelpChooser;
-	CreateEntity(&objHelpChooser,"HELPCHOOSER");
-	if( !IsEntity(&objHelpChooser) )
-	{
-		Event("EventEndHelpChooser","s","");
-		return;
-	}
-	if( !SendMessage(&objHelpChooser,"ls",MSG_HELPCHOOSER_START,chooserName) )
-	{
-		Event("EventEndHelpChooser","s","");
-	}
-	bRunHelpChooser = true;
-	EngineLayersOffOn(false);
-	InterfaceStates.Launched=true;
-	LayerAddObject("iExecute",&objHelpChooser,10000);
-	LayerAddObject("iRealize",&objHelpChooser,10000);
-}
-*/
-
-/*
-void ProcEndHelpChooser()
-{
-	string HelpSectionName = GetEventData();
-	DelEventHandler("EventEndHelpChooser","ProcEndHelpChooser");
-	DeleteEntitiesByType("HELPCHOOSER");
-	//bRunHelpChooser = false;
-	InterfaceStates.Launched=false;
-	if(HelpSectionName!="")	LaunchHelpScreen(HelpSectionName);
-	else EngineLayersOffOn(true);
-}
-*/
-
 void ReturnToMainMenu()
 {
 	/*if(sti(InterfaceStates.Buttons.Resume.enable)==true)
@@ -1584,19 +1372,6 @@ void ReloadAfterFortCapture()
 		string sColony = Locations[FindLocation(sToLocation)].fastreload;
 		SetTownCapturedState(sColony,true);
 		Log_TestInfo("ReloadAfterFortCapture");
-		/*  //to_do boal
-		int iColony = FindColony(sColony);
-		if(sti(Colonies[iColony].capture_flag) == 1)
-		{
-			SetTownCapturedState(sColony,false);
-			//SetLocationCapturedState(sToLocation,false);
-		}
-		else
-		{
-			SetTownCapturedState(sColony,true);
-			//SetLocationCapturedState(sToLocation,true);
-		}
-		*/
 		Go2LocationAfterAbordage();
 		pchar.location.from_sea = sToLocation;
 		// boal -->
@@ -1960,11 +1735,6 @@ void ProcBreakInterface()
 		sti(InterfaceStates.Launched)==true )
 	{
 		if( CurrentInterface == INTERFACE_RANSACK_MAIN || CurrentInterface == INTERFACE_FORTCAPTURE)
-			/*
-			CurrentInterface==INTERFACE_TRANSFER_GOODS ||
-			CurrentInterface==INTERFACE_TRANSFER_CHARACTER ||
-			CurrentInterface==INTERFACE_TRANSFER_CREW )
-			*/
 		{
 			return;
 		}
@@ -2115,27 +1885,6 @@ void SetSkillShowEx(aref xi_refCharacter, string skillName, int skillVal, int sk
 		sReal, its(skillTempVal), FONT_BOLD_NUMBERS,(iX+37),iY, SetAlphaIntoColor(COLOR_NORMAL,GetAlphaFromSkill(skillTempVal)),0, 
 		SCRIPT_ALIGN_RIGHT, true, 0.7, 420);
 }
-
-/*int GetAlphaFromSkill(int nskill)
-{
-	switch(nskill)
-	{
-	case 0:		return 75;	break;
-	case 1:		return 90;	break;
-	case 2:		return 105;	break;
-	case 3:		return 120;	break;
-	case 4:		return 135;	break;
-	case 5:		return 150;	break;
-	case 6:		return 165;	break;
-	case 7:		return 180;	break;
-	case 8:		return 195;	break;
-	case 9:		return 210;	break;
-	case 10:		return 225;	break;
-	case 11:		return 240;	break;
-	case 12:		return 255;	break;
-	}
-	return 0;
-}  */
 
 int GetAlphaFromSkill(int nskill)
 {

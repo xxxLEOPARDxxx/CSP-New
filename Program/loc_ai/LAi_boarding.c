@@ -175,7 +175,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
     if (CheckOfficersPerk(mchr, "MusketsShoot") && IsFort == false)
     {
         tmpDefence   = MakeFloat(GetSummonSkillFromName(echr, SKILL_DEFENCE)) / SKILL_MAX;
-		ecrewBak = makeint(mcrew * 0.25);//aw013 
+		ecrewBak = makeint(mcrew * 0.25 * AIShip_isPerksUse(CheckOfficersPerk(mchr, "EmergentSurgeon"), 1.0, 0.75));//aw013 
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0); 
 		if (ecrewBak > ecrew) ecrewBak = ecrew;//aw013 
 		PlaySound("INTERFACE\_musketshot_" + rand(3) + ".wav");
@@ -185,7 +185,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 	if (CheckOfficersPerk(echr, "MusketsShoot") && IsFort == false) 
 	{ 
 		tmpDefence  = MakeFloat(GetSummonSkillFromName(mchr, SKILL_DEFENCE)) / SKILL_MAX; 
-		ecrewBak = makeint(ecrew * 0.25);//aw013 
+		ecrewBak = makeint(ecrew * 0.25 * AIShip_isPerksUse(CheckOfficersPerk(echr, "EmergentSurgeon"), 1.0, 0.75));//aw013 
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0); 
 		if (ecrewBak > mcrew) ecrewBak = mcrew;//aw013 
 		PlaySound("INTERFACE\_musketshot_" + rand(3) + ".wav");
@@ -661,7 +661,7 @@ void LAi_ReloadEndFade()
 		// boal 22.01.2004 -->
 		ref mchar       = GetMainCharacter();
 		float fDefenceSkill = 0.9 + MakeFloat(GetSummonSkillFromName(mchar, SKILL_DEFENCE)) / SKILL_MAX;
-		int deadCrew    = makeint((boarding_player_base_crew - crew) / fDefenceSkill + 0.3); // бонус выжившим
+		int deadCrew    = makeint((boarding_player_base_crew - crew) / fDefenceSkill + 0.3 + AIShip_isPerksUse(CheckOfficersPerk(mchar, "EmergentSurgeon"), 0.0, 0.9)); // бонус выжившим
 		int deadCrewWOMedic = makeint(boarding_player_base_crew - crew); // без бонуса
 		float leaderSkill = GetSummonSkillFromNameToOld(mchar, SKILL_LEADERSHIP);
 		int iTemp;
@@ -1194,7 +1194,13 @@ string LAi_GetBoardingModel(ref rCharacter, ref ani)
         model = GetRandSkelModel();
 		ani = "man";
 		return model;
-    }		
+    }	
+	if (CheckAttribute(rCharacter, "GenQuest.CrewSkelModeClassic"))
+    {
+        model = GetRandSkelModelClassic();
+		ani = "man";
+		return model;
+    }	
     if (CheckAttribute(rCharacter, "OZG") == true)
     {
         model = "OZG_" + (rand(8) + 1);

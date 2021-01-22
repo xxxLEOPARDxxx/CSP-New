@@ -259,7 +259,7 @@ void GetBaseShipParam_ToUpgrade(ref shTo, string param)
 	string sAttr = "Bonus_"+param;
 	int iRealShipType = sti(shTo.basetype);
 	string sParam =	GetBaseShipParamFromType(iRealShipType, param);
-	float paramValue = 1.1 * frandSmall(stf(sParam)/5.0);
+	float paramValue = stf(sParam)/10*3;
 	if(CheckAttribute(shTo, sAttr))
 	{
 		shTo.(param) = stf(shTo.(param)) - stf(shTo.(sAttr));

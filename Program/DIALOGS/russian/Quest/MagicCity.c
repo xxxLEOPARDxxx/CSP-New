@@ -743,7 +743,7 @@ void SetDanielleInWorld()
 	sld.dialog.filename   = "Quest\MagicCity.c";
 	sld.dialog.currentnode   = "DanAbordage";
 	sld.greeting = "";
-	sld.GenQuest.CrewSkelMode = true; //команда - скелеты 
+	sld.GenQuest.CrewSkelModeClassic = true; //команда - скелеты 
 	FantomMakeCoolSailor(sld, SHIP_FRIGATEQUEEN, " оролева", CANNON_TYPE_CANNON_LBS32, 90, 90, 90);
 	sld.Ship.Mode = "pirate";	
 

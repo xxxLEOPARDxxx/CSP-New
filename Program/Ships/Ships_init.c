@@ -109,6 +109,7 @@ void InitShips()
 	refShip.Price									= 100;
 	refShip.HP										= 100;
 	refShip.SP										= 100;
+	refShip.MastMultiplier							= 1.6;
 	refship.CanEncounter					= false;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= false;
@@ -148,6 +149,7 @@ void InitShips()
 	refShip.Price								= 5000;
 	refShip.HP										= 100;
 	refShip.SP										= 100;
+	refShip.MastMultiplier							= 1.6;
 	refship.CanEncounter						= true;
 	refship.Type.Merchant						= true;
 	refship.Type.War							= true;
@@ -213,6 +215,7 @@ void InitShips()
 	refShip.Price								= 12000;
 	refShip.HP										= 100;
 	refShip.SP										= 100;
+	refShip.MastMultiplier							= 1.6;
 	refship.CanEncounter						= false;
 	refship.Type.Merchant						= false;
 	refship.Type.War							= false;
@@ -279,6 +282,7 @@ void InitShips()
 	refShip.Price								= 22000;
 	refShip.HP										= 210;
 	refShip.SP										= 100;
+	refShip.MastMultiplier							= 1.6;
 	refship.CanEncounter						= false;
 	refship.Type.Merchant						= true;
 	refship.Type.War							= false;
@@ -349,6 +353,7 @@ void InitShips()
 	refShip.Price           			= 56000;
 	refShip.HP              				= 700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -418,6 +423,7 @@ void InitShips()
 	refShip.Price           			= 48000;
 	refShip.HP              				= 1750;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.EmblemedSails.normalTex = "ships\sail_Empress.tga";
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
@@ -492,6 +498,7 @@ void InitShips()
 	refShip.Price           			= 50000;
 	refShip.HP              				= 800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -561,6 +568,7 @@ void InitShips()
 	refShip.Price           			= 45000;
 	refShip.HP              				= 600;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -634,6 +642,7 @@ void InitShips()
 	refShip.Price           			= 55000;
 	refShip.HP              				= 850;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -703,6 +712,7 @@ void InitShips()
 	refShip.Price           			= 87000;
 	refShip.HP              				= 1150;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -780,6 +790,7 @@ void InitShips()
 	refShip.Price           			= 77000;
 	refShip.HP              				= 1500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -854,6 +865,7 @@ void InitShips()
 	refShip.Price           			= 71000;
 	refShip.HP              				= 1800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -923,6 +935,7 @@ void InitShips()
 	refShip.Price           			= 95000;
 	refShip.HP              				= 900;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -996,6 +1009,7 @@ void InitShips()
 	refShip.Price           			= 108000;
 	refShip.HP              				= 1450;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
@@ -1069,6 +1083,7 @@ void InitShips()
 	refShip.Price           			= 110000;
 	refShip.HP              				= 1700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -1141,6 +1156,7 @@ void InitShips()
 	refShip.Price 				= 88000;
 	refShip.HP 						= 1450;
 	refShip.SP 						= 100;
+	refShip.MastMultiplier			= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant 					= true;
 	refship.Type.War 						= true;
@@ -1218,6 +1234,7 @@ void InitShips()
 	refShip.Price           			= 105000;
 	refShip.HP              				= 2100;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= false;
@@ -1290,6 +1307,7 @@ void InitShips()
 	refShip.Price           			= 80000;
 	refShip.HP              				= 1500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= false;
@@ -1363,6 +1381,7 @@ void InitShips()
 	refShip.Price           			= 196000;
 	refShip.HP              				= 2300;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -1443,6 +1462,7 @@ void InitShips()
 	refShip.Price           			= 178000;
 	refShip.HP              				= 1550;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -1516,6 +1536,7 @@ void InitShips()
 	refShip.Price           			= 205000;
 	refShip.HP              			= 1100;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -1585,6 +1606,7 @@ void InitShips()
 	refShip.Price           			= 170000;
 	refShip.HP              				= 1850;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= false;
@@ -1654,6 +1676,7 @@ void InitShips()
 	refShip.Price           			= 215000;
 	refShip.HP              				= 2400;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -1723,6 +1746,7 @@ void InitShips()
 	refShip.Price          		= 191000;
 	refShip.HP             			= 1800;
 	refShip.SP             			= 100;
+	refShip.MastMultiplier			= 1.6;
 	refship.CabinType          = "New_Cabin1"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	refship.CanEncounter		= true;
@@ -1797,6 +1821,7 @@ void InitShips()
 	refShip.Price           			= 195000;
 	refShip.HP              				= 1700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -1867,6 +1892,7 @@ void InitShips()
 	refShip.Price           			= 195000;
 	refShip.HP              				= 2150;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -1942,6 +1968,7 @@ void InitShips()
 	refShip.Price           			= 200000;
 	refShip.HP              				= 2550;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -2019,6 +2046,7 @@ void InitShips()
 	refShip.Price           			= 185000;
 	refShip.HP              				= 2000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -2093,6 +2121,7 @@ void InitShips()
 	refShip.Price           			= 162000;
 	refShip.HP              				= 2300;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -2172,6 +2201,7 @@ void InitShips()
 	refShip.Price           			= 135000;
 	refShip.HP              				= 2700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -2249,6 +2279,7 @@ void InitShips()
 	refShip.Price           			= 148000;
 	refShip.HP              				= 3000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -2323,6 +2354,7 @@ void InitShips()
 	refShip.Price           			= 107000;
 	refShip.HP              				= 2400;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -2402,6 +2434,7 @@ void InitShips()
 	refShip.Price           			= 117000;
 	refShip.HP              				= 2300;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -2479,6 +2512,7 @@ void InitShips()
 	refShip.Price           			= 131000;
 	refShip.HP              				= 2550;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -2556,6 +2590,7 @@ void InitShips()
 	refShip.Price           	= 118000;
 	refShip.HP              		= 2700;
 	refShip.SP              		= 100;
+	refShip.MastMultiplier			= 1.6;
 	refship.CanEncounter		= true;
 	refship.Type.Merchant		= true;
 	refship.Type.War			= true;
@@ -2633,6 +2668,7 @@ void InitShips()
 	refShip.Price = 							132000;
 	refShip.HP = 									2800;
 	refShip.SP = 									100;
+	refShip.MastMultiplier = 						1.6;
 	refship.CanEncounter = 						true;
 	refship.Type.Merchant = 					false;
 	refship.Type.War = 							true;
@@ -2707,6 +2743,7 @@ void InitShips()
 	refShip.Price           			= 100000;
 	refShip.HP              				= 3100;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= false;
@@ -2782,6 +2819,7 @@ void InitShips()
 	refShip.Price           			= 239000;
 	refShip.HP              				= 3600;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -2846,6 +2884,7 @@ void InitShips()
 	refShip.Price           			= 230000;
 	refShip.HP              				= 3800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -2924,6 +2963,7 @@ void InitShips()
 	refShip.Price           			= 206000;
 	refShip.HP              				= 2400;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -3002,6 +3042,7 @@ void InitShips()
 	refShip.Price           			= 244000;
 	refShip.HP              				= 2700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -3071,6 +3112,7 @@ void InitShips()
 	refShip.Price           			= 159000;
 	refShip.HP              				= 3000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -3145,6 +3187,7 @@ void InitShips()
 	refShip.Price           			= 192000;
 	refShip.HP              				= 3750;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -3226,6 +3269,7 @@ void InitShips()
 	refShip.Price           			= 227000;
 	refShip.HP              				= 2800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -3300,6 +3344,7 @@ void InitShips()
 	refShip.Price          				= 247000;
 	refShip.HP             					= 3800;
 	refShip.SP             					= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CabinType          			= "New_Cabin2";
 	refship.DeckType           			= "Medium";
 	refship.CanEncounter				= true;
@@ -3373,6 +3418,7 @@ void InitShips()
 	refShip.Price           			= 272000;
 	refShip.HP              				= 2300;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= false;
@@ -3446,6 +3492,7 @@ void InitShips()
     refShip.Price           			= 130000;
     refShip.HP              				= 4000;
     refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
     refShip.CanEncounter                    = true;
     refShip.Type.Merchant					= false;
     refShip.Type.War						= true;
@@ -3529,6 +3576,7 @@ void InitShips()
 	refShip.Price           			= 333000;
 	refShip.HP              				= 3500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -3605,6 +3653,7 @@ void InitShips()
 	refShip.Price           			= 317000;
 	refShip.HP              				= 2700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -3674,6 +3723,7 @@ void InitShips()
 	refShip.Price           			= 290000;
 	refShip.HP              				= 4500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -3747,6 +3797,7 @@ void InitShips()
 	refShip.Price           			= 279000;
 	refShip.HP              				= 4000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -3820,6 +3871,7 @@ void InitShips()
 	refShip.Price           			= 320000;
 	refShip.HP              				= 2000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= false;
@@ -3890,6 +3942,7 @@ void InitShips()
 	refShip.Price           			= 350000;
 	refShip.HP              				= 2700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= false;
@@ -3963,6 +4016,7 @@ void InitShips()
 	refShip.Price           			= 115000;
 	refShip.HP              				= 4950;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -4045,6 +4099,7 @@ void InitShips()
 	refShip.Price           	= 220000;
 	refShip.HP              		= 5000;
 	refShip.SP              		= 100;
+	refShip.MastMultiplier			= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -4120,6 +4175,7 @@ void InitShips()
 	refShip.Price           			= 275000;
 	refShip.HP              				= 5500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -4191,6 +4247,7 @@ void InitShips()
 	refShip.Price          				= 295000;
 	refShip.HP             				= 4600;
 	refShip.SP             				= 100;
+	refShip.MastMultiplier				= 1.6;
 
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
@@ -4262,6 +4319,7 @@ void InitShips()
 	refShip.Price           	= 305000;
 	refShip.HP              		= 7000;
 	refShip.SP              		= 100;
+	refShip.MastMultiplier			= 1.6;
 	refship.CanEncounter 		= true;
 	refship.Type.Merchant		= true;
 	refship.Type.War			= true;
@@ -4339,6 +4397,7 @@ void InitShips()
 	refShip.Price           			= 287000;
 	refShip.HP              				= 4200;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -4416,6 +4475,7 @@ void InitShips()
 	refShip.Price           			= 308000;
 	refShip.HP              				= 4450;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -4494,6 +4554,7 @@ void InitShips()
 	refShip.Price           			= 324000;
 	refShip.HP              				= 4700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -4574,6 +4635,7 @@ void InitShips()
 	refShip.Price           			= 365000;
 	refShip.HP              				= 4800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -4648,6 +4710,7 @@ void InitShips()
 	refShip.Price           			= 358000;
 	refShip.HP              				= 4000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -4722,6 +4785,7 @@ void InitShips()
     refShip.Price           			= 135000;
     refShip.HP              				= 4800;
     refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
     refShip.CanEncounter                	= true;
     refShip.Type.Merchant					= false;
     refShip.Type.War						= true;
@@ -4802,6 +4866,7 @@ void InitShips()
 	refShip.Price           			= 370000;
 	refShip.HP              				= 5800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -4877,6 +4942,7 @@ void InitShips()
 	refShip.Price           			= 340000;
 	refShip.HP              				= 5000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -4954,6 +5020,7 @@ void InitShips()
 	refShip.Price           		= 380000;
 	refShip.HP              			= 6500;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter			= true;
 	refship.Type.Merchant			= false;
 	refship.Type.War				= true;
@@ -5031,6 +5098,7 @@ void InitShips()
 	refShip.Price           			= 365000;
 	refShip.HP              				= 6200;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -5110,6 +5178,7 @@ void InitShips()
 	refShip.Price           			= 384000;
 	refShip.HP              				= 7800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter 					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -5187,6 +5256,7 @@ void InitShips()
 	refShip.Price           			= 404000;
 	refShip.HP              				= 5600;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter 				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -5259,6 +5329,7 @@ void InitShips()
 	refShip.Price           			= 364000;
 	refShip.HP              				= 6300;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter 				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -5333,6 +5404,7 @@ void InitShips()
 	refShip.Price           			= 390000;
 	refShip.HP              				= 6300;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -5411,6 +5483,7 @@ void InitShips()
 	refShip.Price           			= 725000;
 	refShip.HP              				= 7000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -5483,6 +5556,7 @@ void InitShips()
 	refShip.Price           			= 680000;
 	refShip.HP              				= 5000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -5566,6 +5640,7 @@ void InitShips()
 	refShip.Price           			= 600000;
 	refShip.HP              				= 6500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -5640,6 +5715,7 @@ void InitShips()
 	refShip.Price 				= 615000;
 	refShip.HP 						= 5150;
 	refShip.SP  					= 100;
+	refShip.MastMultiplier			= 1.6;
 	refship.CanEncounter		= true;
 	refship.Type.Merchant 		= false;
 	refship.Type.War 			= true;
@@ -5716,6 +5792,7 @@ void InitShips()
 	refShip.Price 						= 810000;
 	refShip.HP 								= 5600;
 	refShip.SP 								= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -5792,6 +5869,7 @@ void InitShips()
 	refShip.Price           			= 736000;
 	refShip.HP              				= 5400;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -5866,6 +5944,7 @@ void InitShips()
 	refShip.Price           			= 710000;
 	refShip.HP              				= 6000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -5940,6 +6019,7 @@ void InitShips()
 	refShip.Price           			= 760000;
 	refShip.HP              				= 5800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -6014,6 +6094,7 @@ void InitShips()
 	refShip.Price           			= 740000;
 	refShip.HP              				= 5000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -6088,6 +6169,7 @@ void InitShips()
 	refShip.Price           			= 700000;
 	refShip.HP              				= 5800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -6162,6 +6244,7 @@ void InitShips()
 	refShip.Price           			= 661000;
 	refShip.HP              				= 5400;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -6247,6 +6330,7 @@ void InitShips()
 	refShip.Price           			= 814000;
 	refShip.HP              				= 4900;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -6321,6 +6405,7 @@ void InitShips()
 	refShip.Price           			= 690000;
 	refShip.HP              				= 7200;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -6392,6 +6477,7 @@ void InitShips()
 	refShip.Price           		= 850000;
 	refShip.HP              			= 7000;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter			= true;
 	refship.Type.Merchant			= true;
 	refship.Type.War				= true;
@@ -6465,6 +6551,7 @@ void InitShips()
 	refShip.Price           			= 585000;
 	refShip.HP              				= 6000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -6539,6 +6626,7 @@ void InitShips()
 	refShip.Price           			= 861000;
 	refShip.HP              				= 7000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -6619,6 +6707,7 @@ void InitShips()
 	refShip.Price           			= 750000;
 	refShip.HP              				= 6400;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -6690,6 +6779,7 @@ void InitShips()
 	refShip.Price           			= 890000;
 	refShip.HP              				= 7500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -6761,6 +6851,7 @@ void InitShips()
 	refShip.Price           			= 870000;
 	refShip.HP              				= 6500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
 	refship.Type.War						= true;
@@ -6830,6 +6921,7 @@ void InitShips()
 	refShip.Price           			= 745000;
 	refShip.HP              				= 6800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;	
@@ -6900,6 +6992,7 @@ void InitShips()
 	refShip.Price           			= 870000;
 	refShip.HP              				= 7000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -6972,6 +7065,7 @@ void InitShips()
 	refShip.Price           			= 860000;
 	refShip.HP              				= 8800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -7055,6 +7149,7 @@ void InitShips()
 	refShip.Price           			= 825000;
 	refShip.HP              				= 8500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -7137,6 +7232,7 @@ void InitShips()
 	refShip.Price 								= 920000;
 	refShip.HP 										= 7700;
 	refShip.SP 										= 100;
+	refShip.MastMultiplier							= 1.6;
 	refship.CanEncounter						= true;
 	refship.Type.Merchant 						= false;
 	refship.Type.War 							= true;
@@ -7213,6 +7309,7 @@ void InitShips()
 	refShip.Price           			= 256000;
 	refShip.HP              				= 7000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -7287,6 +7384,7 @@ void InitShips()
 	refShip.Price           		= 1445000;
 	refShip.HP              			= 7000;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter			= true;
 	refship.Type.Merchant			= false;
 	refship.Type.War				= true;
@@ -7359,6 +7457,7 @@ void InitShips()
 	refShip.Price           			= 1400000;
 	refShip.HP              				= 9900;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -7433,6 +7532,7 @@ void InitShips()
 	refShip.Price           		= 1570000;
 	refShip.HP              			= 8200;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter			= true;
 	refship.Type.Merchant			= false;
 	refship.Type.War				= true;
@@ -7509,6 +7609,7 @@ void InitShips()
 	refShip.Price           		= 1590000;
 	refShip.HP              			= 9900;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter			= true;
 	refship.Type.Merchant			= true;
 	refship.Type.War				= true;
@@ -7580,6 +7681,7 @@ void InitShips()
 	refShip.Price           			= 1500000;
 	refShip.HP              				= 11500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -7652,6 +7754,7 @@ void InitShips()
 	refShip.Price           			= 1600000;
 	refShip.HP              				= 10000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -7728,6 +7831,7 @@ void InitShips()
 	refShip.Price           			= 1658000;
 	refShip.HP              				= 8900;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -7811,6 +7915,7 @@ void InitShips()
 	refShip.Price           			= 1830000;
 	refShip.HP              				= 9000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -7888,6 +7993,7 @@ void InitShips()
 	refShip.Price           			= 2480000;
 	refShip.HP              				= 6000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;
@@ -7968,6 +8074,7 @@ void InitShips()
 	refShip.Price           			= 1550000;
 	refShip.HP              				= 8200;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8044,6 +8151,7 @@ void InitShips()
 	refShip.Price           			= 1652000;
 	refShip.HP              				= 9000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8115,6 +8223,7 @@ void InitShips()
 	refShip.Price           			= 1700000;
 	refShip.HP              				= 7000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8189,6 +8298,7 @@ void InitShips()
 	refShip.Price           			= 1635000;
 	refShip.HP              				= 11500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8268,6 +8378,7 @@ void InitShips()
 	refShip.Price           			= 1750000;
 	refShip.HP              				= 10000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8343,6 +8454,7 @@ void InitShips()
 	refShip.Price           		= 1850000;
 	refShip.HP              			= 11000;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter			= true;
 	refship.Type.Merchant			= false;
 	refship.Type.War				= true;
@@ -8420,6 +8532,7 @@ void InitShips()
 	refShip.Price           			= 2500000;
 	refShip.HP              				= 12000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8504,6 +8617,7 @@ void InitShips()
 	refShip.Price           		= 2565000;
 	refShip.HP              			= 15000;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter			= true;
 	refship.Type.Merchant			= false;
 	refship.Type.War				= true;
@@ -8580,6 +8694,7 @@ void InitShips()
 	refShip.Price           			= 2620000;
 	refShip.HP              				= 8500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8662,6 +8777,7 @@ void InitShips()
 	refShip.Price           			= 2450000;
 	refShip.HP              				= 11000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8745,6 +8861,7 @@ void InitShips()
 	refShip.Price           			= 2400000;
 	refShip.HP              				= 10000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8817,6 +8934,7 @@ void InitShips()
 	refShip.Price           			= 2520000;
 	refShip.HP              				= 12000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8895,6 +9013,7 @@ void InitShips()
 	refShip.Price           			= 2620000;
 	refShip.HP              				= 13000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8969,6 +9088,7 @@ void InitShips()
 	refShip.Price           			= 2730000;
 	refShip.HP              			= 17000;
 	refShip.SP              			= 100;
+	refShip.MastMultiplier				= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9043,6 +9163,7 @@ void InitShips()
 	refShip.Price           			= 2660000;
 	refShip.HP              				= 16000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9114,6 +9235,7 @@ void InitShips()
 	refShip.Price           			= 2760000;
 	refShip.HP              				= 15000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9189,6 +9311,7 @@ void InitShips()
 	refShip.Price           			= 2850000;
 	refShip.HP              				= 12000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9265,6 +9388,7 @@ void InitShips()
 	refShip.Price           			= 2700000;
 	refShip.HP              				= 10500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9346,6 +9470,7 @@ void InitShips()
 	refShip.Price           			= 2800000;
 	refShip.HP              				= 14000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9422,6 +9547,7 @@ void InitShips()
 	refShip.Price           			= 2890000;
 	refShip.HP              				= 13000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9484,19 +9610,20 @@ void InitShips()
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber      			= 16;
 	refShip.Weight						= Tonnes2CWT(145);
-	refShip.Capacity        			= 990								+ 31 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity        			= 990;
 	refShip.CannonsQuantity				= 12;
 	refShip.rcannon 							= 4;
 	refShip.lcannon 							= 4;
 	refShip.fcannon 							= 2;
 	refShip.bcannon 							= 2;
-	refShip.MaxCrew         				= 96							+ 3 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew         				= 96;
 	refShip.MinCrew         				= 18;
-	refShip.SpeedRate       		= 17.5									+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate        		= 60									+ 1.2 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate       		= 17.5;
+	refShip.TurnRate        		= 60;
 	refShip.Price           			= 50000;
-	refShip.HP              				= 1100							+ 40 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP              				= 1100;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.3;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
 	refship.QuestShip					= true;
@@ -9516,7 +9643,7 @@ void InitShips()
 	refship.SpeedDependWeight			= 0.2;
 	refship.SubSeaDependWeight			= 0.6;
 	refship.TurnDependWeight			= 0.2;
-	refship.WindAgainstSpeed   			= 11.0								+ 0.1 * MOD_SKILL_ENEMY_RATE;
+	refship.WindAgainstSpeed   			= 11.0;
 	refship.CabinType          			= "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Low";
 	
@@ -9550,19 +9677,20 @@ void InitShips()
 	refShip.Cannon  			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber  		= 16;
 	refShip.Weight				= Tonnes2CWT(380);
-	refShip.Capacity   			= 1800								+ 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity   			= 1800;
 	refShip.CannonsQuantity		= 22;
 	refShip.rcannon 					= 8;
 	refShip.lcannon 					= 8;
 	refShip.fcannon 					= 4;
 	refShip.bcannon 					= 2;
-	refShip.MaxCrew        			= 180							+ 4 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew        			= 180;
 	refShip.MinCrew        			= 36;
-	refShip.SpeedRate      	= 17.5									+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate       	= 55									+ 1.0 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate      	= 17.5;
+	refShip.TurnRate       	= 55;
 	refShip.Price          		= 150500;
-	refShip.HP             			= 2500							+ 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP             			= 2500;
 	refShip.SP             			= 100;
+	refShip.MastMultiplier			= 1.3;
 	refship.CabinType          	= "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Medium";
 	refship.Type.Merchant		= false;
@@ -9622,19 +9750,20 @@ void InitShips()
 	refShip.Cannon  			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber  		= 16;
 	refShip.Weight				= Tonnes2CWT(350);
-	refShip.Capacity   			= 2000								+ 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity   			= 2000;
 	refShip.CannonsQuantity		= 24;
 	refShip.rcannon 					= 10;
 	refShip.lcannon 					= 10;
 	refShip.fcannon 					= 2;
 	refShip.bcannon 					= 2;
-	refShip.MaxCrew        			= 200							+ 4 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew        			= 200;
 	refShip.MinCrew        			= 45;
-	refShip.SpeedRate      	= 16.5									+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate       	= 45									+ 1.0 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate      	= 16.5;
+	refShip.TurnRate       	= 45;
 	refShip.Price          		= 167500;
-	refShip.HP             			= 2800							+ 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP             			= 2800;
 	refShip.SP             			= 100;
+	refShip.MastMultiplier			= 1.3;
 	refship.CabinType          = "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Medium";
 	refship.Type.Merchant		= false;
@@ -9694,19 +9823,20 @@ void InitShips()
 	refShip.Cannon  			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber  		= 16;
 	refShip.Weight				= Tonnes2CWT(400);
-	refShip.Capacity   			= 2100								+ 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity   			= 2100;
 	refShip.CannonsQuantity		= 24;
 	refShip.rcannon 					= 10;
 	refShip.lcannon 					= 10;
 	refShip.fcannon 					= 2;
 	refShip.bcannon 					= 2;
-	refShip.MaxCrew        			= 210							+ 4 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew        			= 210;
 	refShip.MinCrew        			= 42;
-	refShip.SpeedRate      	= 15									+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate       	= 45									+ 1.0 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate      	= 15;
+	refShip.TurnRate       	= 45;
 	refShip.Price          		= 170500;
-	refShip.HP             			= 3200							+ 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP             			= 3200;
 	refShip.SP             			= 100;
+	refShip.MastMultiplier			= 1.3;
 	refship.CabinType          	= "Cabin_Small"; // boal 28.03.05
 	refship.DeckType           			= "Medium";
 	refship.Type.Merchant		= false;
@@ -9766,19 +9896,20 @@ void InitShips()
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber      			= 24;
 	refShip.Weight						= Tonnes2CWT(680);
-	refShip.Capacity        			= 2700								+ 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity        			= 2700;
 	refShip.CannonsQuantity				= 40;
 	refShip.rcannon 							= 18;
 	refShip.lcannon 							= 18;
 	refShip.fcannon 							= 2;
 	refShip.bcannon 							= 2;
-	refShip.MaxCrew         				= 250							+ 7 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew         				= 250;
 	refShip.MinCrew         				= 50;
-	refShip.SpeedRate				= 18									+ 0.2 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate        		= 60									+ 0.7 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate				= 18;
+	refShip.TurnRate        		= 60;
 	refShip.Price           			= 1150000;
-	refShip.HP              				= 3800							+ 70 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP              				= 3800;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.3;
 	refship.EmblemedSails.normalTex 	= "ships\parus_common_torn1.tga";
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9845,19 +9976,20 @@ void InitShips()
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber      			= 32;
 	refShip.Weight						= Tonnes2CWT(1050);
-	refShip.Capacity        			= 3700						 + 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity        			= 3700;
 	refShip.CannonsQuantity				= 52;
 	refShip.rcannon 							= 22;
 	refShip.lcannon 							= 22;
 	refShip.fcannon 							= 4;
 	refShip.bcannon 							= 4;
-	refShip.MaxCrew         				= 350					 + 7 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew         				= 350;
 	refShip.MinCrew         				= 70;
-	refShip.SpeedRate       		= 16							 + 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate        		= 42							 + 0.8 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate       		= 16;
+	refShip.TurnRate        		= 42;
 	refShip.Price           			= 1850000;
-	refShip.HP              				= 6000					 + 150 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP              				= 6000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.3;
 	refship.EmblemedSails.normalTex 	= "ships\sail_Arabella.tga";
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9922,19 +10054,20 @@ void InitShips()
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber      			= 32;
 	refShip.Weight						= Tonnes2CWT(950);
-	refShip.Capacity        			= 3200								+ 50 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity        			= 3200;
 	refShip.CannonsQuantity				= 52;
-	refShip.rcannon 							= 22;
-	refShip.lcannon 							= 22;
+	refShip.rcannon 							= 20;
+	refShip.lcannon 							= 20;
 	refShip.fcannon 							= 6;
 	refShip.bcannon 							= 6;
-	refShip.MaxCrew         				= 300							+ 7 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew         				= 300;
 	refShip.MinCrew         				= 60;
-	refShip.SpeedRate       		= 17									+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate        		= 45									+ 0.8 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate       		= 17;
+	refShip.TurnRate        		= 45;
 	refShip.Price           			= 1270000;
-	refShip.HP              				= 5500							+ 150 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP              				= 5500;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.3;
 	refship.EmblemedSails.normalTex 	= "ships\parus_common_torn2.tga";
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -9997,19 +10130,20 @@ void InitShips()
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber      			= 42;
 	refShip.Weight						= Tonnes2CWT(1800);
-	refShip.Capacity        			= 5200								+ 50 * MOD_SKILL_ENEMY_RATE;
-	refShip.CannonsQuantity				= 52;
-	refShip.rcannon 							= 23;
-	refShip.lcannon 							= 23;
+	refShip.Capacity        			= 5200;
+	refShip.CannonsQuantity				= 60;
+	refShip.rcannon 							= 27;
+	refShip.lcannon 							= 27;
 	refShip.fcannon 							= 6;
 	refShip.bcannon 							= 0;
-	refShip.MaxCrew         				= 444							+ 7 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew         				= 444;
 	refShip.MinCrew         				= 88;
-	refShip.SpeedRate				= 15									+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate        		= 40									+ 0.8 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate				= 15;
+	refShip.TurnRate        		= 40;
 	refShip.Price           			= 2890000;
-	refShip.HP              				= 7700							+ 150 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP              				= 7700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.3;
 	refship.EmblemedSails.normalTex 	= "ships\parus_common_torn.tga";
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -10072,19 +10206,20 @@ void InitShips()
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber      			= 42;
 	refShip.Weight						= Tonnes2CWT(3200);
-	refShip.Capacity        			= 5750								+ 75 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity        			= 5750;
 	refShip.CannonsQuantity				= 106;
 	refShip.rcannon 							= 46;
 	refShip.lcannon 							= 46;
 	refShip.fcannon 							= 6;
 	refShip.bcannon 							= 8;
-	refShip.MaxCrew         				= 800							+ 10 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew         				= 800;
 	refShip.MinCrew         				= 160;
-	refShip.SpeedRate				= 13									+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate        		= 32									+ 0.5 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate				= 13;
+	refShip.TurnRate        		= 32;
 	refShip.Price           			= 3000000;
-	refShip.HP              				= 10700							+ 130 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP              				= 10700;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.3;
 	refship.CanEncounter = false;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -10147,19 +10282,20 @@ void InitShips()
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber      			= 42;
 	refShip.Weight						= Tonnes2CWT(4500);
-	refShip.Capacity        			= 6800								+ 120 * MOD_SKILL_ENEMY_RATE;
+	refShip.Capacity        			= 6800;
 	refShip.CannonsQuantity				= 112;
 	refShip.rcannon 							= 52;
 	refShip.lcannon 							= 52;
 	refShip.fcannon 							= 4;
 	refShip.bcannon 							= 4;
-	refShip.MaxCrew         				= 1200							+ 20 * MOD_SKILL_ENEMY_RATE;
+	refShip.MaxCrew         				= 1200;
 	refShip.MinCrew         				= 240;
-	refShip.SpeedRate				= 10.6									+ 0.1 * MOD_SKILL_ENEMY_RATE;
-	refShip.TurnRate        		= 29									+ 0.5 * MOD_SKILL_ENEMY_RATE;
+	refShip.SpeedRate				= 10.6;
+	refShip.TurnRate        		= 29;
 	refShip.Price           			= 3950000;
-	refShip.HP              				= 18000							+ 200 * MOD_SKILL_ENEMY_RATE;
+	refShip.HP              				= 18000;
 	refShip.SP              				= 100;
+	refShip.MastMultiplier					= 1.3;
 	refship.EmblemedSails.normalTex 	= "ships\parus_SoleyRu.tga";
 
 	refship.CanEncounter = false;
@@ -10239,6 +10375,7 @@ void InitShips()
 	refShip.Price									= 120000;
 	refShip.HP										= 60000;
 	refShip.SP										= 100;
+	refShip.MastMultiplier							= 1.6;
 	refShip.buildtime = 240;
 
 	refShip.CanEncounter	= false;

@@ -806,7 +806,15 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 			Log_Info(missed);
 		}
 		return;
-	}		  
+	}
+	if(CheckCharacterPerk(enemy, "Buccaneer"))  
+	{
+		if (rand(2)==0)
+		{
+			Log_Info("Уклонился от выстрела!")
+			return;
+		}		
+	}
 	// boal брон работает всегда, а не токо в блоке 23.05.2004 -->
 	if(CheckAttribute(enemy, "cirassId"))
 	{

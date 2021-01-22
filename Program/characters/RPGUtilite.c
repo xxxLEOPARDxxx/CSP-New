@@ -19,7 +19,7 @@ int GetCharacterRankRateCur(ref _refCharacter)
 // прирост НР
 int GetCharacterAddHPValue(ref _refCharacter)
 {
-    int ret = makeint(2 + GetCharacterSPECIALSimple(_refCharacter, SPECIAL_E) * 0.55 + 0.5);
+    int ret = makeint(2 + GetCharacterSPECIAL(_refCharacter, SPECIAL_E) * 0.55 + 0.5);
 
 	if (CheckCharacterPerk(_refCharacter, "HPPlus"))
 	{

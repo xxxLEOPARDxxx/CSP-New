@@ -134,7 +134,7 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 	GameInterface.TABLE_LIST.hr.td4.scale = 0.9;
 	GameInterface.TABLE_LIST.hr.td5.str = "Вес";
 	GameInterface.TABLE_LIST.hr.td5.scale = 0.9;
-	GameInterface.TABLE_LIST.hr.td6.str = "Пачка\n/Вес";
+	GameInterface.TABLE_LIST.hr.td6.str = "Пачка/Вес";
 	GameInterface.TABLE_LIST.hr.td6.scale = 0.85;
 	GameInterface.TABLE_LIST.select = 0;
 	OnShipScrollChange();

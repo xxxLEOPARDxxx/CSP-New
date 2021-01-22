@@ -419,15 +419,18 @@ void ChangeQTY_EDIT()
 		    {
 		        GameInterface.qty_edit.str = makeint(sti(pchar.money) / iPriceSailor);
 		    }
-			QtyMax = GetCargoFreeSpace(refCharacter);
-			if(QtyMax > 0)
+			if (bSailorsWeight)
 			{
-				if(sti(GameInterface.qty_edit.str) >= QtyMax)
+				QtyMax = GetCargoFreeSpace(refCharacter);
+				if(QtyMax > 0)
 				{
-					GameInterface.qty_edit.str = QtyMax;
+					if(sti(GameInterface.qty_edit.str) >= QtyMax)
+					{
+						GameInterface.qty_edit.str = QtyMax;
+					}
 				}
+				else GameInterface.qty_edit.str = 0;
 			}
-			else GameInterface.qty_edit.str = 0;
 		    // проверка на колво доступное <--
 
 			SetFormatedText("QTY_TypeOperation", "Нанять");

@@ -750,16 +750,16 @@ void  GhostShipOnMap()
     {
 		rRealShip.EmblemedSails.normalTex =  "ships\parus_common_torn.tga";
 
-		rRealShip.MaxCaliber = 32;
-	    rRealShip.Cannon     = CANNON_TYPE_CANNON_LBS32;
-	    rRealShip.HP         = 7500;
+		rRealShip.MaxCaliber = 42;
+	    rRealShip.Cannon     = CANNON_TYPE_CANNON_LBS42;
+	    rRealShip.HP         = 7700;
 	    rRealShip.WindAgainstSpeed = 3.0;
-		rRealShip.TurnRate   = 45.0;
+		rRealShip.TurnRate   = 40.0;
 	
         SetBaseShipData(sld);
         DeleteAttribute(rRealShip, "ShipSails.SailsColor");  // белый парус
 
-        sld.ship.Cannons.Type = CANNON_TYPE_CULVERINE_LBS32;
+        sld.ship.Cannons.Type = CANNON_TYPE_CULVERINE_LBS36;
 
         Character_SetAbordageEnable(sld, true);
     }

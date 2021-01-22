@@ -574,8 +574,16 @@ void CalculateInfoDataF6()
 	SetRandShipSkill(mc, 100, 100);
 	mc.rank = 50;
 	LAi_SetHP(mc, 650.0, 650.0);
-	mc.Ship.Type = GenerateShipExt(SHIP_PRINCE, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_LUGGERQUEST, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_XebekVML, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_BRIGQEEN, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_BRIGSW, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_ARABELLA, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_FRIGATEQUEEN, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_FLYINGDUTCHMAN, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_SANTISIMA, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_SOLEYRU, true, mc);
+	mc.Ship.Type = GenerateShipExt(SHIP_PRINCE, true, mc);
 	SetBaseShipData(mc);
 	mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS48;
 	SetCrewQuantityFull(mc);

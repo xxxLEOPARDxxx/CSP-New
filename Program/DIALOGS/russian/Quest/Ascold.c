@@ -792,7 +792,9 @@ void ProcessDialogEvent()
             LAi_SetImmortal(sld, false);
             LAi_SetWarriorType(sld);
 			LAi_warrior_SetStay(sld, true);
-			LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+			LAi_group_MoveCharacter(sld, "EnemyFight");
+            LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+            LAi_group_FightGroups("EnemyFight", LAI_GROUP_PLAYER, true);
 		break;
 
  		case "Step_60":

@@ -16,6 +16,7 @@ void SetTuningShipStates(ref chr)
 	if(rand(iRand) == 0) SetShipMaxCaliberTuning(chr, true);	//увеличение калибра
 	if(rand(iRand) == 0) SetShipCapacityTuning(chr, true);		//увеличение трюма
 	if(rand(iRand) == 0) SetShipSpeedRateTuning(chr, true);		//увеличение скорости
+	if(rand(iRand) == 0) SetShipMastMultiplierTuning(chr, true);//увеличение прочности мачт
 	if(rand(iRand) == 0) SetShipMaxCrewTuning(chr, true);		//увеличение команды
 	if(rand(iRand) == 0) SetShipTurnRateTuning(chr, true);		//увеличение маневренности
 	if(rand(iRand) == 0) SetShipHPTuning(chr, true);			//увеличение ’ѕ
@@ -37,13 +38,14 @@ void SetTuningShipStatesRandom(ref chr, int iRand)
 	if(rand(iRand) == 0) SetShipMaxCaliberTuning(chr, true);	//увеличение калибра
 	if(rand(iRand) == 0) SetShipCapacityTuning(chr, true);		//увеличение трюма
 	if(rand(iRand) == 0) SetShipSpeedRateTuning(chr, true);		//увеличение скорости
+	if(rand(iRand) == 0) SetShipMastMultiplierTuning(chr, true);//увеличение прочности мачт
 	if(rand(iRand) == 0) SetShipMaxCrewTuning(chr, true);		//увеличение команды
 	if(rand(iRand) == 0) SetShipTurnRateTuning(chr, true);		//увеличение маневренности
 	if(rand(iRand) == 0) SetShipHPTuning(chr, true);			//увеличение ’ѕ
 }
 
 //установка назначенных "отбермуженных" статов дл€ корабл€
-void SetTuningStates2Ship(ref chr, bool MaxCaliber, bool Capacity, bool SpeedRate, bool MaxCrew, bool TurnRate, bool HP)
+void SetTuningStates2Ship(ref chr, bool MaxCaliber, bool Capacity, bool SpeedRate, bool MaxCrew, bool TurnRate, bool HP, bool MastMulti)
 {
 	int iType = GetCharacterShipType(chr);
 	if(iType == SHIP_NOTUSED)
@@ -54,6 +56,7 @@ void SetTuningStates2Ship(ref chr, bool MaxCaliber, bool Capacity, bool SpeedRat
 	if(MaxCaliber)	SetShipMaxCaliberTuning(chr, MaxCaliber);		//увеличение калибра
 	if(Capacity)	SetShipCapacityTuning(chr, Capacity);			//увеличение трюма
 	if(SpeedRate)	SetShipSpeedRateTuning(chr, SpeedRate);			//увеличение скорости
+	if(MastMulti)	SetShipMastMultiplierTuning(chr, MastMulti);	//увеличение прочности мачт
 	if(MaxCrew)		SetShipMaxCrewTuning(chr, MaxCrew);				//увеличение команды
 	if(TurnRate)	SetShipTurnRateTuning(chr, TurnRate);			//увеличение маневренности
 	if(HP)			SetShipHPTuning(chr, HP);						//увеличение ’ѕ
@@ -71,23 +74,53 @@ void SetShipMaxCaliberTuning(ref chr, bool isSet)
 			int iCaliber = sti(rShip.MaxCaliber);
 			switch(iCaliber)
 			{
-				case 12: iCaliber = 0; break;
-				case 16: iCaliber = 1; break;
-				case 20: iCaliber = 2; break;
-				case 24: iCaliber = 3; break;
-				case 32: iCaliber = 4; break;
-				case 36: iCaliber = 5; break;
+				case 8:
+					iCaliber = 0;
+				break;
+				case 12:
+					iCaliber = 1;
+				break;
+				case 16:
+					iCaliber = 2;
+				break;
+				case 20:
+					iCaliber = 3;
+				break;
+				case 24:
+					iCaliber = 4;
+				break;
+				case 32:
+					iCaliber = 5;
+				break;
+				case 36:
+					iCaliber = 6;
+				break;
 			}
 			iCaliber = iCaliber + 1;
 			if(iCaliber > 5) iCaliber = 5;
 			switch(iCaliber)
 			{
-				case 0: iCaliber = 12; break;
-				case 1: iCaliber = 16; break;
-				case 2: iCaliber = 20; break;
-				case 3: iCaliber = 24; break;
-				case 4: iCaliber = 32; break;
-				case 5: iCaliber = 36; break;
+				case 0:
+					iCaliber = 8;
+				break;
+				case 1:
+					iCaliber = 12;
+				break;
+				case 2:
+					iCaliber = 16;
+				break;
+				case 3:
+					iCaliber = 20;
+				break;
+				case 4:
+					iCaliber = 24;
+				break;
+				case 5:
+					iCaliber = 32;
+				break;
+				case 6:
+					iCaliber = 36;
+				break;
 			}
 			rShip.MaxCaliber = iCaliber;
 			rShip.Tuning.Cannon = true;
@@ -121,6 +154,21 @@ void SetShipSpeedRateTuning(ref chr, bool isSet)
 		{
 			rShip.SpeedRate = (stf(rShip.SpeedRate) + stf(rShip.SpeedRate)/5.0);
 			rShip.Tuning.SpeedRate = true;
+		}
+	}
+}
+
+//прочность мачт
+void SetShipMastMultiplierTuning(ref chr, bool isSet)
+{
+	ref rShip = &RealShips[sti(chr.ship.type)];
+
+	if(!CheckAttribute(rShip, "Tuning.MastMultiplier"))
+	{
+		if(isSet)
+		{
+			rShip.MastMultiplier        = stf(rShip.MastMultiplier) - 0.3;
+			rShip.Tuning.MastMultiplier = true;
 		}
 	}
 }

@@ -436,6 +436,20 @@ string GetRandSkelModel()
     return emodel;
 }
 
+string GetRandSkelModelClassic()
+{
+	string emodel = "mummy";
+
+	switch (rand(3))
+    {
+        case 0: emodel = "Skel1";   break;
+        case 1: emodel = "Skel2";   break;
+        case 2: emodel = "Skel3";   break;
+        case 3: emodel = "Skel4";   break;
+    }
+    return emodel;
+}
+
 // boal 22.04.04 выбор модели зависимо от типа
 void SetCaptanModelByEncType(ref Chref, string sFantomType)
 {

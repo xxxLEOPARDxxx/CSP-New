@@ -62,6 +62,8 @@ void WorldSituationsUpdate()
 {
 	int iStep = GetEventData();
 	float dayRandom;
+	float dayRandom1;
+	float dayRandom2;
 
 	// boal -->
 	/*if (bQuestCheckProcessFreeze)   // если в квесте, то откладываем
@@ -84,6 +86,14 @@ void WorldSituationsUpdate()
 			dayRandom = Random();
 			PChar.DayRandom = dayRandom;
 			Log_TestInfo("dayRandom == " + dayRandom);
+			
+			dayRandom1 = Random();
+			PChar.DayRandom1 = dayRandom1;
+			Log_TestInfo("dayRandom1 == " + dayRandom1);
+			
+			dayRandom2 = Random();
+			PChar.DayRandom2 = dayRandom2;
+			Log_TestInfo("dayRandom2 == " + dayRandom2);
 		break;
 		
 		case 1:

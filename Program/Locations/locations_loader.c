@@ -84,6 +84,13 @@ bool LoadLocation(ref loc)
 {
 	//trace("LoadLocation(ref loc) " + loc.id);
 	if (loc.id == "Cartahena_ExitTown") loc.fastreload = "Cartahena";
+	if (loc.id == "Temple_great" || loc.id == "Tenochtitlan")
+	{
+		if (CheckAttribute(pchar,"ismushketer"))
+		{
+			SetMainCharacterToMushketer("", false);
+		}
+	}
 	PostEvent(EVENT_LOCATION_LOAD,0);
 
 	int i;

@@ -5,6 +5,7 @@ void ProcessDialogEvent()
 	int i;
 	string sGroup;
 	bool bOk, bOk1;
+	int iMoney;
 	
 	DeleteAttribute(&Dialog,"Links");
 
@@ -23,7 +24,8 @@ void ProcessDialogEvent()
 
 		case "exit_Robbed":
 			ChangeCharacterReputation(pchar, -1);
-			int iMoney = makeint(makeint(Pchar.money)/20)*10;
+			//int iMoney = makeint(makeint(Pchar.money)/20)*10;
+			iMoney = sti(NPChar.moneyfee);
 			AddMoneyToCharacter(pchar, -iMoney);
 			AddMoneyToCharacter(npchar, iMoney);
 			npchar.SaveItemsForDead   = true; // сохранять на трупе вещи
@@ -126,13 +128,24 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Node_2":
+			iMoney = 100*MOD_SKILL_ENEMY_RATE*sti(NPChar.EncQty)+makeint(100 * sti(PChar.rank))+makeint(100 * sti(NPChar.rank)*sti(NPChar.EncQty));
+			NPChar.moneyfee = iMoney;
 			dialog.text = LinkRandPhrase(LinkRandPhrase("Не прикидывайся простофилей! Выкладывай своё золото, тогда, может, и отпущу!",
 				"Ты что, о дорожных издержках не слышал"+ GetSexPhrase("","а") +"? Не расстанешься со своим золотом - расстанешься с головой!",
 				"Хех, это обыкновенное дорожное приключение, которое будет стоить тебе кошелька... это, если я не рассержусь."),
 				RandPhraseSimple("Всё очень просто - ты добровольно отдаёшь нам золото и уходишь, или ты остаёшься здесь, а мы уходим с твоим золотом, но второй вариант тебе вряд ли понравится, хе-хе.",
 				"А ты будто не смекаешь. Кошель отвязывай! если не хочешь, чтобы я его с твоего трупа снимал!"),
 				"Поясняю, раз ты так"+ GetSexPhrase("ой","ая") +" непонятлив"+ GetSexPhrase("ый","ая") +" - выкладывай все деньги, если жить хочешь!");
-			Link.l1 = "Проклятье! Мерзавец! У меня с собой только " + makeint(makeint(Pchar.money)/20)*10 + " пиастров.";
+				dialog.text = dialog.text+ "\nДумаю ты не обеднеешь, отдав "+iMoney+" пиастров. Примерно по "+makeint(iMoney/sti(NPChar.EncQty))+" на брата.";
+			//Link.l1 = "Проклятье! Мерзавец! У меня с собой только " + makeint(makeint(Pchar.money)/20)*10 + " пиастров.";
+			if(sti(pchar.money) >= sti(NPChar.moneyfee))
+			{
+				Link.l1 = "Проклятье! Мерзавец! Забирай свои деньги!";
+			}
+			else
+			{
+				Link.l1 = "У меня нет столько денег.";
+			}
 			Link.l1.go = "CheckMoney";
 			Link.l2 = LinkRandPhrase(LinkRandPhrase("Денег захотел? Так подойди и возьми, а я погляжу, сколько пенсов ты стоишь.",
 				"Да как ты посмел, невежа! Придется дать тебе урок хороших манер!",
@@ -212,7 +225,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "CheckMoney":
-			if(makeint(makeint(Pchar.money)/20)*10 >= makeint(Pchar.rank)*100)
+			if(sti(pchar.money) >= sti(NPChar.moneyfee))
 			{
 				Diag.TempNode = "OnceAgain";
 				dialog.text = LinkRandPhrase(RandPhraseSimple("Хорошо! Давай их сюда и проваливай!",

@@ -1055,10 +1055,19 @@ bool ThisItemCanBeEquip( aref arItem )
 				SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Remove that"));
 				return true;
 			}
-		
-			if(arItem.groupID == BLADE_ITEM_TYPE || arItem.groupID == SPYGLASS_ITEM_TYPE || arItem.groupID == GUN_ITEM_TYPE || arItem.groupID == CIRASS_ITEM_TYPE)
+			if (xi_refCharacter.id == "OffMushketer" || xi_refCharacter.id == "OfMush1" || xi_refCharacter.id == "OfMush2")
 			{
-				return false;
+				if(arItem.groupID == BLADE_ITEM_TYPE || arItem.groupID == SPYGLASS_ITEM_TYPE || arItem.groupID == GUN_ITEM_TYPE)
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if(arItem.groupID == BLADE_ITEM_TYPE || arItem.groupID == SPYGLASS_ITEM_TYPE || arItem.groupID == GUN_ITEM_TYPE || arItem.groupID == CIRASS_ITEM_TYPE)
+				{
+					return false;
+				}
 			}
 		}
 	}

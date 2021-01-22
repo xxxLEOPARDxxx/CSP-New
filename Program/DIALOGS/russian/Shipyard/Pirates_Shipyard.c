@@ -11,6 +11,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		//int   shipPrice     = sti(RealShips[sti(Pchar.Ship.Type)].Price);
 		int   	shipCapacity  = sti(RealShips[sti(Pchar.Ship.Type)].Capacity);
 		float 	shipSpeedRate = stf(RealShips[sti(Pchar.Ship.Type)].SpeedRate);
+		float 	MastMulti     = stf(RealShips[sti(Pchar.Ship.Type)].MastMultiplier);
 		int   	shipMaxCrew   = sti(RealShips[sti(Pchar.Ship.Type)].MaxCrew);
 		int   	shipHP        = sti(RealShips[sti(Pchar.Ship.Type)].HP);
 		float 	shipTurnRate  = stf(RealShips[sti(Pchar.Ship.Type)].TurnRate);
@@ -51,6 +52,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 	    int	 SpeedRateMatherial2 = makeint(5 * (7-shipClass) * fQuestShip);
 	    int	 SpeedRateMatherial3 = sundukSum;
 		int  SpeedRateWorkPrice  = makeint((100 * shipSpeedRate * MOD_SKILL_ENEMY_RATE + 4000 * ((7-shipClass) * MOD_SKILL_ENEMY_RATE)) * fQuestShip);
+		
+		int  MastMultiplierMatherial1 = makeint((shipHP * 25/1000 + 70 * (7-shipClass)) * fQuestShip);
+	    int	 MastMultiplierMatherial2 = makeint(5 * (7-shipClass) * fQuestShip);
+	    int	 MastMultiplierMatherial3 = sundukSum;
+		int  MastMultiplierMatherialWorkPrice  = makeint((100 * MastMulti * MOD_SKILL_ENEMY_RATE + 4000 * ((7-shipClass) * MOD_SKILL_ENEMY_RATE)) * fQuestShip);
 	    
 	    int  MaxCrewMatherial1 = makeint((shipMaxCrew * 6/10 + 50 * (7-shipClass)) * fQuestShip);
 	    int	 MaxCrewMatherial2 = makeint((6 * (7-shipClass)+3) * fQuestShip);
@@ -120,6 +126,12 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		SpeedRateMatherial3 = SpeedRateMatherial3 * discount;
 		if (SpeedRateMatherial3 < 1) SpeedRateMatherial3 = 1;
 	    SpeedRateWorkPrice  = SpeedRateWorkPrice * discount;
+		
+		MastMultiplierMatherial1 = MastMultiplierMatherial1 * discount;
+	    MastMultiplierMatherial2 = MastMultiplierMatherial2 * discount;
+		MastMultiplierMatherial3 = MastMultiplierMatherial3 * discount;
+		if (MastMultiplierMatherial3 < 1) MastMultiplierMatherial3 = 1;
+	    MastMultiplierMatherialWorkPrice  = MastMultiplierMatherialWorkPrice * discount;
 
 	    MaxCrewMatherial1 = MaxCrewMatherial1 * discount;
 	    MaxCrewMatherial2 = MaxCrewMatherial2 * discount;
@@ -393,6 +405,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                     {
     			        Link.l3 = "Увеличить скорость.";
     			        Link.l3.go = "ship_tunning_SpeedRate";
+    			    }
+					if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.MastMultiplier"))
+                    {
+    			        Link.l3 = "Увеличить прочность мачт.";
+    			        Link.l3.go = "ship_tunning_MastMultiplier";
     			    }
     			    if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.TurnRate"))
                     {
@@ -1135,6 +1152,121 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddQuestRecord("ShipTuning", "End");
 			CloseQuestHeader("ShipTuning");
 		break;
+		////////////////////////////////////////// MastMultiplier ////////////////////////////////////////////////////
+		case "ship_tunning_MastMultiplier":
+			s1 = "Давайте посмотрим, что можно сделать. Сейчас прочность мачт вашего корабля " + MastMulti;
+			
+			s1 = s1 + ". Для укрепления мачт мне понадобится: досок - "+ MastMultiplierMatherial1 + ".";
+			s1 = s1 + " Я стар, и не собираюсь вечно гнить в этой дыре, поэтому за работу возьму: сундуков с золотом - "+ MastMultiplierMatherial3 + ", хороших бронзовых крестов - "+ MastMultiplierMatherial2 + ", плюс - " + MastMultiplierMatherialWorkPrice + " пиастров на рабочие расходы. Вроде бы всё. Ах да - и деньги вперед.";
+
+            dialog.Text = s1;
+			Link.l1 = "Годится. Я принимаю условия. Всё оговоренное будет доставлено.";
+			Link.l1.go = "ship_tunning_MastMultiplier_start";
+			Link.l2 = "Нет. Меня это не устраивает.";
+			Link.l2.go = "ship_tunning_not_now";
+			if (!CheckAttribute(NPChar, "Discount"))
+			{
+			    Link.l3 = "А почему так дорого? Нельзя ли снизить расценки?";
+				Link.l3.go = "Discount_1";
+			}
+
+		break;
+		
+		case "ship_tunning_MastMultiplier_start":
+		    amount = SpeedRateWorkPrice;
+		    if(makeint(Pchar.money) >= amount)
+			{
+				AddMoneyToCharacter(Pchar, -amount);
+			    NPChar.Tuning.Money  = amount;
+			    NPChar.Tuning.Matherial1 = MastMultiplierMatherial1; // GOOD_SAILCLOTH
+			    NPChar.Tuning.Matherial2 = MastMultiplierMatherial2; //  GOOD_SILK
+			    NPChar.Tuning.Matherial3 = MastMultiplierMatherial3;
+			    NPChar.Tuning.ShipType       = Pchar.Ship.Type;
+			    NPChar.Tuning.ShipName       = RealShips[sti(Pchar.Ship.Type)].BaseName;
+			    DeleteAttribute(NPChar, "Discount");
+			
+				NextDiag.TempNode = "ship_tunning_MastMultiplier_again";
+                dialog.text = "Вот и славно. Жду материал и мои драгоценности.";
+			    link.l1 = "Побежал"+ GetSexPhrase("","а") +" за ними...";
+			    link.l1.go = "Exit";
+			    
+			    ReOpenQuestHeader("ShipTuning");
+			    AddQuestRecord("ShipTuning", "t1");
+				AddQuestUserData("ShipTuning", "sText", "За свою работу по укреплению мачт корабля " + XI_ConvertString(RealShips[sti(Pchar.Ship.Type)].BaseName) +
+				" мастер-корабел требует: досок - " + NPChar.Tuning.Matherial1 + ", крестиков - "+ NPChar.Tuning.Matherial2+ ", сундуков с золотом - " + NPChar.Tuning.Matherial3 + ". В качестве задатка было уплачено " + NPChar.Tuning.Money + " золотых. Видимо, старик без ума от драгоценностей. Что ж - у каждого свои слабости...");
+			}
+			else
+			{
+				NextDiag.TempNode = "ship_tunning_not_now";
+                dialog.text = "Не вижу задатка...";
+				link.l1 = "Я позже зайду.";
+				link.l1.go = "Exit";								
+			}
+		break;
+		
+		case "ship_tunning_MastMultiplier_again":
+		    if (sti(NPChar.Tuning.ShipType) == sti(Pchar.Ship.Type) && NPChar.Tuning.ShipName      == RealShips[sti(Pchar.Ship.Type)].BaseName)
+		    {
+                NextDiag.TempNode = "ship_tunning_MastMultiplier_again";
+				dialog.Text = "Работа ждет. Принес"+ GetSexPhrase("","ла") +", что я просил?";
+			    Link.l1 = "Да. Кое-что удалось достать.";
+			    Link.l1.go = "ship_tunning_MastMultiplier_again_2";
+			    Link.l2 = "Нет. Еще добываю.";
+			    Link.l2.go = "Exit";
+			}
+			else
+			{
+			    DeleteAttribute(NPChar, "Tuning");
+                NextDiag.TempNode = "ship_tunning_again";
+			    dialog.Text = "Сдается мне, судар"+ GetSexPhrase("ь","ыня") +", что вы поменяли корабль со времени нашего уговора. Придеться все заново расчитывать...";
+			    Link.l1 = "Было дело. Обидно, что задаток пропал...";
+			    Link.l1.go = "Exit";
+			    
+			    AddQuestRecord("ShipTuning", "Lose");
+			    CloseQuestHeader("ShipTuning");
+			}
+		break;
+		
+		case "ship_tunning_MastMultiplier_again_2":
+		    checkMatherial(Pchar, NPChar, GOOD_PLANKS, "jewelry9", "chest");
+		    
+		    if(sti(NPChar.Tuning.Matherial2) < 1 && sti(NPChar.Tuning.Matherial1) < 1 && sti(NPChar.Tuning.Matherial3) < 1)
+			{
+				DeleteAttribute(NPChar, "Tuning");
+                NextDiag.TempNode = "ship_tunning_again";
+                dialog.text = "Все привез"+ GetSexPhrase("","ла") +". Молодец! Начинаю работу...";
+			    link.l1 = "Жду.";
+			    link.l1.go = "ship_tunning_MastMultiplier_complite";
+			}
+			else
+			{
+				NextDiag.TempNode = "ship_tunning_TurnRate_again";
+				dialog.Text = "Тебе осталось привезти: досок - "+ sti(NPChar.Tuning.Matherial1) + ", крестиков - "+ sti(NPChar.Tuning.Matherial2) + ", сундуков - "+ sti(NPChar.Tuning.Matherial3) + ".";
+				link.l1 = "Хорошо.";
+				link.l1.go = "Exit";
+
+                AddQuestRecord("ShipTuning", "t1");
+				AddQuestUserData("ShipTuning", "sText",  "Мне осталось довезти: досок - "+ sti(NPChar.Tuning.Matherial1) + ", крестиков - "+ sti(NPChar.Tuning.Matherial2) + ", сундуков - "+ sti(NPChar.Tuning.Matherial3) + ".");
+			}
+		break;
+		
+		case "ship_tunning_MastMultiplier_complite":
+		    AddTimeToCurrent(6, 30);
+		    shTo = &RealShips[sti(Pchar.Ship.Type)];
+		    DeleteAttribute(NPChar, "Tuning");
+		    // изменим
+			shTo.MastMultiplier        = stf(shTo.MastMultiplier) - 0.3;
+	
+	        shTo.Tuning.MastMultiplier = true;
+	        // finish <--
+            NextDiag.TempNode = "ship_tunning_again";
+			dialog.Text = "... Вроде бы все... Можешь ловить своими мачтами книппели безо всяких опасений. Проверяй!";
+			Link.l1 = "Спасибо! Проверю обязательно.";
+			Link.l1.go = "Exit";
+			
+			AddQuestRecord("ShipTuning", "End");
+			CloseQuestHeader("ShipTuning");
+		break;
 		////////////////////////////////////////// MaxCrew ////////////////////////////////////////////////////
 		case "ship_tunning_MaxCrew":
 			s1 = "Давайте посмотрим, что можно сделать. Сейчас максимальный экипаж вашего судна с учетом перегруза  " + shipMaxCrew + " человек.";
@@ -1482,7 +1614,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 	        shTo.Tuning.HP = true;
 	        // finish <--
             NextDiag.TempNode = "ship_tunning_again";
-			if(RealShips[sti(Pchar.Ship.Type)].BaseType == SHIP_FLYINGDUTCHMAN) // ЛГ
+			if(shTo.BaseName == "Flyingdutchman") // ЛГ
 			{
 				dialog.text = "Да уж... сколько кораблей я повидал на своём веку, но такой грязи и затхлости в капитанской каюте не видывал еще никогда. Ты бы почаще там убирал"+ GetSexPhrase("ся","ась") +" что ли! Впрочем, мы перестроили каюту и укрепили корпус - пару прямых попаданий выдержит точно.";
 				Link.l1 = "Спасибо! Проверю обязательно.";

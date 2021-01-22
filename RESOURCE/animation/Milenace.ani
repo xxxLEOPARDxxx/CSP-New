@@ -1208,6 +1208,17 @@ type = normal
 	data = "Probability", "0.1"
 
 
+;ğóêè â áîêè
+[idle_11]
+	speed = 1.
+	loop = false
+	type = normal
+	start_time = 2379
+	end_time = 2449
+	data = "Blend time", "0.4"		; sec
+	data = "Probability", "0.1"
+
+
 
 ;	\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ;	ÀÍÈÌÀÖÈÈ ÄÈÀËÎÃÎÂ

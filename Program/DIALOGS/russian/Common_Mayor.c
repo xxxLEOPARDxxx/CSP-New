@@ -1608,7 +1608,7 @@ void ProcessDialogEvent()
 //navy -->
 			//занят ПГГ
 			i = CheckAvailableTaskForNPC(NPChar, PGG_TASK_WORKONMAYOR);
-			if  (GetCharacterSPECIALSimple(PChar, SPECIAL_C) >= rand(11))   i = -1;       //WW   харизма героя перебивает работу у ПГГ
+			if  (GetCharacterSPECIALSimple(PChar, SPECIAL_C) >= dRand(11))   i = -1;       //WW   харизма героя перебивает работу у ПГГ
 			if (i != -1)
 			{
 				dialog.text = "Увы, на сегодня у меня заданий больше нет. Последнее выполнил " + GetFullName(&Characters[i])
@@ -1643,11 +1643,11 @@ void ProcessDialogEvent()
 						else {  i = dRand(4);                                                //   0-5  случайный квест
 						       //if  (IsCharacterPerkOn(pchar,"Trader"))                       i = dRand(4); 
                         	   //if  (IsCharacterPerkOn(pchar,"Adventurer"))	                 i = dRand(4);			
-						       if ((IsCharacterPerkOn(pchar,"Grunt")) && dRand(3) >= 1)      i = dRand(1);  
-							   if ((IsCharacterPerkOn(pchar,"Fencer")) && dRand(3) >= 1)     i = dRand(1);    // банда или лазутчик
-							   if ((IsCharacterPerkOn(pchar,"Buccaneer")) && dRand(3) >= 1)  i = dRand(2);
-							   if ((IsCharacterPerkOn(pchar,"Agent")) && dRand(3) >= 1)      i = dRand(1)+2;  //  в чужой город  или контриков
-							   if ((IsCharacterPerkOn(pchar,"SeaWolf")) && dRand(3) >= 1)    i = 4;        //WW   на пирата
+						       if ((IsCharacterPerkOn(pchar,"Grunt")) && dRand1(3) >= 1)      i = dRand2(1);  
+							   if ((IsCharacterPerkOn(pchar,"Fencer")) && dRand1(3) >= 1)     i = dRand2(1);    // банда или лазутчик
+							   if ((IsCharacterPerkOn(pchar,"Buccaneer")) && dRand1(3) >= 1)  i = dRand2(2);
+							   if ((IsCharacterPerkOn(pchar,"Agent")) && dRand1(3) >= 1)      i = dRand2(1)+2;  //  в чужой город  или контриков
+							   if ((IsCharacterPerkOn(pchar,"SeaWolf")) && dRand1(3) >= 1)    i = 4;        //WW   на пирата
 							 }
                     }         
                     // boal <--
@@ -2187,7 +2187,7 @@ void ProcessDialogEvent()
 		break;
 		case "SeekSpy_agree":
 			//(rand(1))
-			if  (rand(50) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))     //WW 
+			if  (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))     //WW 
 			if  (IsCharacterPerkOn(pchar, "Fencer") || IsCharacterPerkOn(pchar, "Grunt") )   //WW 
 			{   //шпион в одной из общих локаций common
 				pchar.GenQuest.SeekSpy.Location = GetSpyLocation(npchar); //определяем локацию

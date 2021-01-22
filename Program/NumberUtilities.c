@@ -35,13 +35,51 @@ int dRand(int _max)
 	if(CheckAttribute(PChar, "dayRandom"))
 	{
 		dayRandom = stf(PChar.dayRandom);
-		return MakeInt(dayRandom * _max + 1.0 / (_max + 1)); // 1.0 / (_max + 1) - для округления, иначе _max не выпадет никогда
+		// Log_Info(""+dayRandom);
+		// Log_Info(""+MakeInt(dayRandom * (_max+1)));
+		return MakeInt(dayRandom * (_max+1)); // 1.0 / (_max + 1) - для округления, иначе _max не выпадет никогда
 	}
 	
 	dayRandom = Random();
 	PChar.dayRandom = dayRandom;
 	
-	return MakeInt(dayRandom * _max + 1.0 / (_max + 1));
+	return MakeInt(dayRandom * (_max+1));
+}
+
+int dRand1(int _max1)
+{
+	float dayRandom1;
+	
+	if(CheckAttribute(PChar, "dayRandom1"))
+	{
+		dayRandom1 = stf(PChar.dayRandom1);
+		// Log_Info(""+dayRandom1);
+		// Log_Info(""+MakeInt(dayRandom1 * (_max1+1)));
+		return MakeInt(dayRandom1 * (_max1+1)); // 1.0 / (_max + 1) - для округления, иначе _max не выпадет никогда
+	}
+	
+	dayRandom1 = Random();
+	PChar.dayRandom1 = dayRandom1;
+	
+	return MakeInt(dayRandom1 * (_max1+1));
+}
+
+int dRand2(int _max2)
+{
+	float dayRandom2;
+	
+	if(CheckAttribute(PChar, "dayRandom2"))
+	{
+		dayRandom2 = stf(PChar.dayRandom2);
+		// Log_Info(""+dayRandom2);
+		// Log_Info(""+MakeInt(dayRandom2 * (_max2+1)));
+		return MakeInt(dayRandom2 * (_max2+1)); // 1.0 / (_max + 1) - для округления, иначе _max не выпадет никогда
+	}
+	
+	dayRandom2 = Random();
+	PChar.dayRandom2 = dayRandom2;
+	
+	return MakeInt(dayRandom2 * (_max2+1));
 }
 // <-- Warship 30.07.09
 

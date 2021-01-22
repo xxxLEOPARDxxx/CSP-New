@@ -2464,6 +2464,9 @@ void ProcessDialogEvent()
 			npchar.IsMushketer = true;
 			Npchar.CanTakeMushket = true;
 			npchar.model = "MusketeerEnglish_2";
+			//Korsar Maxim - Прописка всех моделей для кирас. -->
+        	npchar.HeroModel = "MusketeerEnglish_2,MusketeerEnglish_2_1,MusketeerEnglish_2_2,MusketeerEnglish_2_3,MusketeerEnglish_2_4,MusketeerEnglish_2_5,MusketeerEnglish_2,MusketeerEnglish_2,MusketeerEnglish_2";
+	        //Korsar Maxim - Прописка всех моделей для кирас. <--
 			npchar.model.animation = "mushketer";
 			GiveItem2Character(npchar, "mushket2x2");
 			npchar.IsMushketer.LastGunID = -1;

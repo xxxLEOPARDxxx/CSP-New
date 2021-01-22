@@ -608,16 +608,16 @@ void SetShipOTHERTable(string _tabName, ref _chr)
 		
     GameInterface.(_tabName).select = 0;
 	GameInterface.(_tabName).hr.td1.str = "";
-	for (i=1; i<=9; i++)
+	for (i=1; i<=10; i++)
 	{
 	    row = "tr" + i;
 
-	    GameInterface.(_tabName).(row).td1.icon.width = 23;
-    	GameInterface.(_tabName).(row).td1.icon.height = 23;
-    	GameInterface.(_tabName).(row).td1.icon.offset = "2, 2";
+	    GameInterface.(_tabName).(row).td1.icon.width = 24;
+    	GameInterface.(_tabName).(row).td1.icon.height = 24;
+    	GameInterface.(_tabName).(row).td1.icon.offset = "2, 1";
 		GameInterface.(_tabName).(row).td2.align = "left";
 		GameInterface.(_tabName).(row).td2.scale = 0.8;
-		GameInterface.(_tabName).(row).td2.textoffset = "-5,0";
+		GameInterface.(_tabName).(row).td2.textoffset = "0,0";
 		GameInterface.(_tabName).(row).td3.align = "right";
 		GameInterface.(_tabName).(row).td3.scale = 0.8;
 	}
@@ -632,7 +632,7 @@ void SetShipOTHERTable(string _tabName, ref _chr)
 	}
 	else 
 	{
-		GameInterface.(_tabName).tr1.td3.color = argb(255,128,255,255);
+		GameInterface.(_tabName).tr1.td3.color = argb(255,128,200,225);
 	}
 
 	GameInterface.(_tabName).tr2.UserData.ID = "Sails";
@@ -641,126 +641,140 @@ void SetShipOTHERTable(string _tabName, ref _chr)
 	GameInterface.(_tabName).tr2.td2.str = XI_ConvertString("Sails");
 	GameInterface.(_tabName).tr2.td3.str = sti(_chr.ship.sp) + " / " + sti(refBaseShip.sp);
 
-    GameInterface.(_tabName).tr3.UserData.ID = "Speed";
+	GameInterface.(_tabName).tr3.UserData.ID = "MastHP";
 	GameInterface.(_tabName).tr3.td1.icon.group = "ICONS_CHAR";
-    GameInterface.(_tabName).tr3.td1.icon.image = "Speed";
-	GameInterface.(_tabName).tr3.td2.str = XI_ConvertString("Speed");
-	if (IsCompanion(_chr))
-	{
-		GameInterface.(_tabName).tr3.td3.str = FloatToString(FindShipSpeed(_chr),2) + " / " + FloatToString(stf(refBaseShip.SpeedRate),2);
-	}
-	else
-	{
-	    GameInterface.(_tabName).tr3.td3.str = FloatToString(stf(refBaseShip.SpeedRate),2);
-	}
-	if (!CheckAttribute(&RealShips[iShip], "Tuning.SpeedRate")) 
+    GameInterface.(_tabName).tr3.td1.icon.image = "MastHP";
+	GameInterface.(_tabName).tr3.td2.str = XI_ConvertString("MastHP");
+	GameInterface.(_tabName).tr3.td3.str = FloatToString(stf(refBaseShip.MastMultiplier),2);
+	if (!CheckAttribute(&RealShips[iShip], "Tuning.MastMultiplier")) 
 	{
 		GameInterface.(_tabName).tr3.td3.color = argb(255,255,255,255);
 	}
-	else
+	else 
 	{
-		GameInterface.(_tabName).tr3.td3.color = argb(255,128,255,255);
-	}	
-	
+		GameInterface.(_tabName).tr3.td3.color = argb(255,128,200,225);
+	}
 
-    GameInterface.(_tabName).tr4.UserData.ID = "Maneuver";
+    GameInterface.(_tabName).tr4.UserData.ID = "Speed";
 	GameInterface.(_tabName).tr4.td1.icon.group = "ICONS_CHAR";
-    GameInterface.(_tabName).tr4.td1.icon.image = "Maneuver";
-	GameInterface.(_tabName).tr4.td2.str = XI_ConvertString("Maneuver");
+    GameInterface.(_tabName).tr4.td1.icon.image = "Speed";
+	GameInterface.(_tabName).tr4.td2.str = XI_ConvertString("Speed");
 	if (IsCompanion(_chr))
 	{
-  		GameInterface.(_tabName).tr4.td3.str = FloatToString((stf(refBaseShip.turnrate) * FindShipTurnRate(_chr)), 2) + " / " + FloatToString(stf(refBaseShip.TurnRate),2);
+		GameInterface.(_tabName).tr4.td3.str = FloatToString(FindShipSpeed(_chr),2) + " / " + FloatToString(stf(refBaseShip.SpeedRate),2);
 	}
 	else
 	{
-	    GameInterface.(_tabName).tr4.td3.str = FloatToString(stf(refBaseShip.TurnRate),2);
+	    GameInterface.(_tabName).tr4.td3.str = FloatToString(stf(refBaseShip.SpeedRate),2);
 	}
-	if (!CheckAttribute(&RealShips[iShip], "Tuning.TurnRate")) 
+	if (!CheckAttribute(&RealShips[iShip], "Tuning.SpeedRate")) 
 	{
 		GameInterface.(_tabName).tr4.td3.color = argb(255,255,255,255);
 	}
 	else
 	{
-		GameInterface.(_tabName).tr4.td3.color = argb(255,128,255,255);
-	}
+		GameInterface.(_tabName).tr4.td3.color = argb(255,128,200,225);
+	}	
+	
 
-	GameInterface.(_tabName).tr5.UserData.ID = "AgainstWind";
+    GameInterface.(_tabName).tr5.UserData.ID = "Maneuver";
 	GameInterface.(_tabName).tr5.td1.icon.group = "ICONS_CHAR";
-    GameInterface.(_tabName).tr5.td1.icon.image = "AgainstWind";
-	GameInterface.(_tabName).tr5.td2.str = XI_ConvertString("AgainstWind");
-	GameInterface.(_tabName).tr5.td3.str = FloatToString(stf(refBaseShip.WindAgainstSpeed),2);
-	if (!CheckAttribute(&RealShips[iShip], "Tuning.WindAgainst")) 
+    GameInterface.(_tabName).tr5.td1.icon.image = "Maneuver";
+	GameInterface.(_tabName).tr5.td2.str = XI_ConvertString("Maneuver");
+	if (IsCompanion(_chr))
+	{
+  		GameInterface.(_tabName).tr5.td3.str = FloatToString((stf(refBaseShip.turnrate) * FindShipTurnRate(_chr)), 2) + " / " + FloatToString(stf(refBaseShip.TurnRate),2);
+	}
+	else
+	{
+	    GameInterface.(_tabName).tr5.td3.str = FloatToString(stf(refBaseShip.TurnRate),2);
+	}
+	if (!CheckAttribute(&RealShips[iShip], "Tuning.TurnRate")) 
 	{
 		GameInterface.(_tabName).tr5.td3.color = argb(255,255,255,255);
 	}
 	else
 	{
-		GameInterface.(_tabName).tr5.td3.color = argb(255,128,255,255);
+		GameInterface.(_tabName).tr5.td3.color = argb(255,128,200,225);
 	}
-	
-	
-	RecalculateCargoLoad(_chr);
-	GameInterface.(_tabName).tr6.UserData.ID = "Capacity";
+
+	GameInterface.(_tabName).tr6.UserData.ID = "AgainstWind";
 	GameInterface.(_tabName).tr6.td1.icon.group = "ICONS_CHAR";
-    GameInterface.(_tabName).tr6.td1.icon.image = "Capacity";
-	GameInterface.(_tabName).tr6.td2.str = XI_ConvertString("Capacity");
-	GameInterface.(_tabName).tr6.td3.str = GetCargoLoad(_chr) + " / " + GetCargoMaxSpace(_chr);
-	if (!CheckAttribute(&RealShips[iShip], "Tuning.Capacity")) 
+    GameInterface.(_tabName).tr6.td1.icon.image = "AgainstWind";
+	GameInterface.(_tabName).tr6.td2.str = XI_ConvertString("AgainstWind");
+	GameInterface.(_tabName).tr6.td3.str = FloatToString(stf(refBaseShip.WindAgainstSpeed),2);
+	if (!CheckAttribute(&RealShips[iShip], "Tuning.WindAgainst")) 
 	{
 		GameInterface.(_tabName).tr6.td3.color = argb(255,255,255,255);
 	}
 	else
 	{
-		GameInterface.(_tabName).tr6.td3.color = argb(255,128,255,255);
+		GameInterface.(_tabName).tr6.td3.color = argb(255,128,200,225);
 	}
 	
-	GameInterface.(_tabName).tr7.UserData.ID = "Crew";
+	
+	RecalculateCargoLoad(_chr);
+	GameInterface.(_tabName).tr7.UserData.ID = "Capacity";
 	GameInterface.(_tabName).tr7.td1.icon.group = "ICONS_CHAR";
-    GameInterface.(_tabName).tr7.td1.icon.image = "Crew";
-	GameInterface.(_tabName).tr7.td2.str = XI_ConvertString("Crew");
-	GameInterface.(_tabName).tr7.td3.str = GetCrewQuantity(_chr) + " : "+ sti(refBaseShip.MinCrew) +" / " + sti(refBaseShip.OptCrew);	
-	if (!CheckAttribute(&RealShips[iShip], "Tuning.MaxCrew")) 
+    GameInterface.(_tabName).tr7.td1.icon.image = "Capacity";
+	GameInterface.(_tabName).tr7.td2.str = XI_ConvertString("Capacity");
+	GameInterface.(_tabName).tr7.td3.str = GetCargoLoad(_chr) + " / " + GetCargoMaxSpace(_chr);
+	if (!CheckAttribute(&RealShips[iShip], "Tuning.Capacity")) 
 	{
 		GameInterface.(_tabName).tr7.td3.color = argb(255,255,255,255);
 	}
 	else
 	{
-		GameInterface.(_tabName).tr7.td3.color = argb(255,128,255,255);
+		GameInterface.(_tabName).tr7.td3.color = argb(255,128,200,225);
 	}
 	
-	GameInterface.(_tabName).tr8.UserData.ID = "sCannons";
+	GameInterface.(_tabName).tr8.UserData.ID = "Crew";
 	GameInterface.(_tabName).tr8.td1.icon.group = "ICONS_CHAR";
-    GameInterface.(_tabName).tr8.td1.icon.image = "Caliber";
-	GameInterface.(_tabName).tr8.td2.str = XI_ConvertString("sCannons"); //XI_ConvertString("Caliber");
-	GameInterface.(_tabName).tr8.td3.str = XI_ConvertString("caliber" + refBaseShip.MaxCaliber) + " / " + sti(refBaseShip.CannonsQuantity);
-	
-	if (!CheckAttribute(&RealShips[iShip], "Tuning.Cannon")) 
+    GameInterface.(_tabName).tr8.td1.icon.image = "Crew";
+	GameInterface.(_tabName).tr8.td2.str = XI_ConvertString("Crew");
+	GameInterface.(_tabName).tr8.td3.str = GetCrewQuantity(_chr) + " : "+ sti(refBaseShip.MinCrew) +" / " + sti(refBaseShip.OptCrew);	
+	if (!CheckAttribute(&RealShips[iShip], "Tuning.MaxCrew")) 
 	{
 		GameInterface.(_tabName).tr8.td3.color = argb(255,255,255,255);
 	}
 	else
 	{
-		GameInterface.(_tabName).tr8.td3.color = argb(255,128,255,255);
+		GameInterface.(_tabName).tr8.td3.color = argb(255,128,200,225);
+	}
+	
+	GameInterface.(_tabName).tr9.UserData.ID = "sCannons";
+	GameInterface.(_tabName).tr9.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr9.td1.icon.image = "Caliber";
+	GameInterface.(_tabName).tr9.td2.str = XI_ConvertString("sCannons"); //XI_ConvertString("Caliber");
+	GameInterface.(_tabName).tr9.td3.str = XI_ConvertString("caliber" + refBaseShip.MaxCaliber) + " / " + sti(refBaseShip.CannonsQuantity);
+	
+	if (!CheckAttribute(&RealShips[iShip], "Tuning.Cannon")) 
+	{
+		GameInterface.(_tabName).tr9.td3.color = argb(255,255,255,255);
+	}
+	else
+	{
+		GameInterface.(_tabName).tr9.td3.color = argb(255,128,200,225);
 	}
 		
-	GameInterface.(_tabName).tr9.UserData.ID = "CannonType";
-	GameInterface.(_tabName).tr9.td1.icon.group = "ICONS_CHAR";
-    GameInterface.(_tabName).tr9.td1.icon.image = "Cannons";
-	GameInterface.(_tabName).tr9.td2.str = XI_ConvertString(GetCannonType(sti(_chr.Ship.Cannons.Type)) + "s2");
+	GameInterface.(_tabName).tr10.UserData.ID = "CannonType";
+	GameInterface.(_tabName).tr10.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr10.td1.icon.image = "Cannons";
+	GameInterface.(_tabName).tr10.td2.str = XI_ConvertString(GetCannonType(sti(_chr.Ship.Cannons.Type)) + "s2");
 	if (sti(_chr.Ship.Cannons.Type) != CANNON_TYPE_NONECANNON)
 	{
 		if(GetCannonsNum(_chr) > 0)
 		{
-		GameInterface.(_tabName).tr9.td3.str = XI_ConvertString("caliber" + GetCannonCaliber(sti(_chr.Ship.Cannons.Type))) + " / " + GetCannonsNum(_chr);
+		GameInterface.(_tabName).tr10.td3.str = XI_ConvertString("caliber" + GetCannonCaliber(sti(_chr.Ship.Cannons.Type))) + " / " + GetCannonsNum(_chr);
 	}
 	else
 	{
-			GameInterface.(_tabName).tr9.td3.str = GetCannonsNum(_chr);
+			GameInterface.(_tabName).tr10.td3.str = GetCannonsNum(_chr);
 		}	
 	}
 	else
 	{
-	    GameInterface.(_tabName).tr9.td3.str = "";
+	    GameInterface.(_tabName).tr10.td3.str = "";
 	}
 	// прорисовка
 	Table_UpdateWindow(_tabName);
@@ -801,8 +815,7 @@ void SetRumShipInfo(ref _character, String _node)
 	String text;
 	
 	SetFormatedText(_node, "");
-	
-								
+
 	if(sti(_character.ship.type) != SHIP_NOTUSED)
 	{
 		text = "Рому на корабле на ";

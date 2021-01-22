@@ -2196,13 +2196,16 @@ void OfficerGirlInit()
     ref sld;
     
     // Бывшая Данька. АйДи не меняю, т.к. нужно сменить просто модель и анимацию
-    sld = GetCharacter(NPC_GenerateCharacter("Daniel", "YokoDias", "woman", "YokoDias", 15, PIRATE, -1, false));
+    sld = GetCharacter(NPC_GenerateCharacter("Daniel", "PGG_YokoDias_0", "woman", "YokoDias", 15, PIRATE, -1, false));
 	sld.name 	= "Йоко";
 	sld.lastname = "Диаз";
 	sld.loyality = 12;
 	sld.rank 	= 17;
     sld.reputation = 70; // good девочка
 	sld.alignment = "good";
+	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	sld.HeroModel = "PGG_YokoDias_0,PGG_YokoDias_1,PGG_YokoDias_2,PGG_YokoDias_3,PGG_YokoDias_4,PGG_YokoDias_5,PGG_YokoDias_6,PGG_YokoDias_7,PGG_YokoDias_8";
+	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	GiveItem2Character(sld, "blade15");
 	TakeNItems(sld,"potion2", Rand(4)+1);
 	sld.equip.blade = "blade15";
@@ -2299,6 +2302,9 @@ void OfficerMushketerInit()
 	sld.greeting = "Gr_Officer";
 	sld.loyality = 18;
 	sld.rank = 15;
+	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	sld.HeroModel = "quest_mush_2,quest_mush_2_1,quest_mush_2_2,quest_mush_2_3,quest_mush_2_4,quest_mush_2_5,quest_mush_2,quest_mush_2,quest_mush_2";
+	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.reputation = 20; 
 	sld.alignment = "bad";
 	LAi_SetHP(sld, 180, 180);
@@ -2336,6 +2342,9 @@ void OfficerMushketerInit()
 	sld.loyality = 13;
 	sld.rank = 18;
 	sld.reputation = 75; 
+	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	sld.HeroModel = "quest_mush_1,quest_mush_1_1,quest_mush_1_2,quest_mush_1_3,quest_mush_1_4,quest_mush_1_5,quest_mush_1,quest_mush_1,quest_mush_1";
+	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.alignment = "good";
 	LAi_SetHP(sld, 210, 210);
 	sld.Dialog.Filename = "Enc_OfficerMush.c";

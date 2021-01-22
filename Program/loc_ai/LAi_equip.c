@@ -388,7 +388,7 @@ void LAi_NPC_EquipPerk(ref chr, string kind)
 		break;
     } 
 
-	NumPerks[PERK_TEMPLATE_SHIPDEFENCE] = 3;
+	NumPerks[PERK_TEMPLATE_SHIPDEFENCE] = 4;
 	NumPerks[PERK_TEMPLATE_REPAIR]      = 4;
 	NumPerks[PERK_TEMPLATE_CANNONS]     = 8;
 	NumPerks[PERK_TEMPLATE_COMMERCE]    = 2;
@@ -441,6 +441,10 @@ void LAi_NPC_EquipPerk(ref chr, string kind)
 			{	
 				chr.perks.list.BasicBattleState = "1";			
 			}
+			if (PerkTemplates[PERK_TEMPLATE_SHIPDEFENCE] == 4)
+			{	
+				chr.perks.list.EmergentSurgeon = "1";			
+			}
 		}
 		else
 		{
@@ -463,6 +467,10 @@ void LAi_NPC_EquipPerk(ref chr, string kind)
 			if (rand(2) == 1)
 			{
 				chr.perks.list.Doctor2 = "1";
+			}
+			if (rand(4) == 1)
+			{
+				chr.perks.list.EmergentSurgeon = "1";
 			}
 		}
 	}

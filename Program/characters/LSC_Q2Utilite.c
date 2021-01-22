@@ -82,6 +82,7 @@ void SelAllPerksToNotPChar(ref _ch)
 	_ch.perks.list.SailsMan = "1";
 	_ch.perks.list.Doctor1 = "1";
 	_ch.perks.list.Doctor2 = "1";
+	_ch.perks.list.EmergentSurgeon = "1";
 	_ch.perks.list.ByWorker = "1";
 	_ch.perks.list.ByWorker2 = "1";
 }
@@ -151,6 +152,7 @@ void SelAllPerksToChar(ref _ch, bool _isOfficer)
 	_ch.perks.list.SailsMan = "1";
 	_ch.perks.list.Doctor1 = "1";
 	_ch.perks.list.Doctor2 = "1";
+	_ch.perks.list.EmergentSurgeon = "1";
 	
 	if(_isOfficer) // У офов есть доп. перки
 	{

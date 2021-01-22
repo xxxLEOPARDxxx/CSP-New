@@ -275,11 +275,22 @@ void GiveItemToTrader(aref ch)
         if(irand == 2) GenerateAndAddItems(ch, "blade18", 1);
 	}
 	
-	// boal gun bullet -->
-	AddItems(ch, "bullet", Rand(20) + 10);
-    // boal <--
-    
-    AddItems(ch, "GunPowder", Rand(10) + 5); // Warship. Порох
+
+	if (IsPCharHaveTreasurer())
+	{
+		// boal gun bullet -->
+		AddItems(ch, "bullet", Rand(20) + 30);
+		// boal <--
+		AddItems(ch, "GunPowder", Rand(10) + 25); // Warship. Порох
+	}
+	else
+	{
+		// boal gun bullet -->
+		AddItems(ch, "bullet", Rand(20) + 10);
+		// boal <--
+		AddItems(ch, "GunPowder", Rand(10) + 5); // Warship. Порох
+	}
+
 
     irand = rand(4);
     if(irand == 1) AddItems(ch, "pistol1", Rand(2) + 1);
@@ -330,69 +341,136 @@ void GiveItemToTrader(aref ch)
 	{ 
 		TakeNItems(ch, "BackPack4", 1);
 	}
-	string sFood = "Food1";
-	int iFoodQty = rand(3)+2;
-	for(int f=1; f <= iFoodQty; f++)
+	if (IsPCharHaveTreasurer())
 	{
-		sFood = "Food" + f;
-		switch(f)
+		string sFood = "Food1";
+		int iFoodQty = rand(3)+2;
+		for(int f=1; f <= iFoodQty; f++)
 		{
-			case 1: 
-				TakeNItems(ch, sFood, rand(10)+rand(5)+4);
-			break;
-			
-			case 2: 
-				TakeNItems(ch, sFood, rand(10)+rand(5)+4);
-			break;
-			
-			case 3: 
-				if(rand(1) == 1)
-				{
-					TakeNItems(ch, sFood, rand(8)+3);
-				}
-			break;
-			
-			case 4: 
-				if(rand(2) == 1)
-				{
-					TakeNItems(ch, sFood, rand(6)+2);
-				}
-			break;
-			
-			case 5: 
-				if(rand(4) == 1)
-				{
-					TakeNItems(ch, sFood, rand(3)+1);
-				}
-			break;
+			sFood = "Food" + f;
+			switch(f)
+			{
+				case 1: 
+					TakeNItems(ch, sFood, rand(13)+rand(5)+6);
+				break;
+				
+				case 2: 
+					TakeNItems(ch, sFood, rand(13)+rand(5)+6);
+				break;
+				
+				case 3: 
+					if(rand(1) == 1)
+					{
+						TakeNItems(ch, sFood, rand(11)+5);
+					}
+				break;
+				
+				case 4: 
+					if(rand(2) == 1)
+					{
+						TakeNItems(ch, sFood, rand(9)+4);
+					}
+				break;
+				
+				case 5: 
+					if(rand(4) == 1)
+					{
+						TakeNItems(ch, sFood, rand(6)+3);
+					}
+				break;
+			}
+		}
+		AddItems(ch, "potion1", Rand(11) + 3);
+		irand = rand(5);
+		if(irand == 1)
+		{
+			AddItems(ch,"potion2", Rand(6) + 3);
+		}
+		
+		irand = rand(3);
+		if(irand == 1)
+		{
+			AddItems(ch, "potion3", Rand(6) + 3);
+		}
+		
+		irand = rand(6);
+		if(irand == 1)
+		{
+			AddItems(ch, "potion4", Rand(4) + 3);
+		}
+		
+		irand = rand(2);
+		if(irand == 1)
+		{
+			AddItems(ch, "potion5", Rand(8) + 3);
 		}
 	}
-	// Lugger <--
+	else
+	{
+		string ssFood = "Food1";
+		int iiFoodQty = rand(3)+2;
+		for(int z=1; z <= iiFoodQty; z++)
+		{
+			ssFood = "Food" + z;
+			switch(z)
+			{
+				case 1: 
+					TakeNItems(ch, ssFood, rand(10)+rand(5)+4);
+				break;
+				
+				case 2: 
+					TakeNItems(ch, ssFood, rand(10)+rand(5)+4);
+				break;
+				
+				case 3: 
+					if(rand(1) == 1)
+					{
+						TakeNItems(ch, ssFood, rand(8)+3);
+					}
+				break;
+				
+				case 4: 
+					if(rand(2) == 1)
+					{
+						TakeNItems(ch, ssFood, rand(6)+2);
+					}
+				break;
+				
+				case 5: 
+					if(rand(4) == 1)
+					{
+						TakeNItems(ch, ssFood, rand(3)+1);
+					}
+				break;
+			}
+		}
+		AddItems(ch, "potion1", Rand(8) + 1);
+		irand = rand(7);
+		if(irand == 1)
+		{
+			AddItems(ch,"potion2", Rand(3) + 1);
+		}
+		
+		irand = rand(5);
+		if(irand == 1)
+		{
+			AddItems(ch, "potion3", Rand(3) + 1);
+		}
+		
+		irand = rand(8);
+		if(irand == 1)
+		{
+			AddItems(ch, "potion4", Rand(1) + 1);
+		}
+		
+		irand = rand(3);
+		if(irand == 1)
+		{
+			AddItems(ch, "potion5", Rand(5) + 1);
+		}
+	}
 
-    AddItems(ch, "potion1", Rand(8) + 1);
-    irand = rand(7);
-    if(irand == 1)
-    {
-	    AddItems(ch,"potion2", Rand(3) + 1);
-	}
-	
-	irand = rand(5);
-    if(irand == 1)
-    {
-	    AddItems(ch, "potion3", Rand(3) + 1);
-	}
-	
-	irand = rand(8);
-	if(irand == 1)
-    {
-	    AddItems(ch, "potion4", Rand(1) + 1);
-	}
-	
-	irand = rand(3);
-	if(irand == 1)
-    {
-        AddItems(ch, "potion5", Rand(5) + 1);
-    }
+	// Lugger <--
 
 	irand = rand(9);
 	if(irand == 1) AddItems(ch, "jewelry1", Rand(4) + 1);

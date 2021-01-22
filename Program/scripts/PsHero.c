@@ -1573,19 +1573,23 @@ void PGG_Q1PGGDead(string qName)
 
 			if (CheckAttribute(chr, "PGGAi.ActiveQuest"))
 			{
-				AddQuestRecord("Gen_PGGQuest1", "q1_PGGDeadNoShips");
+				if (chr.sex != "woman")AddQuestRecord("Gen_PGGQuest1", "q1_PGGDeadNoShips");
+				else AddQuestRecord("Gen_PGGQuest1woman", "q1_PGGDeadNoShips");
 			}
 			else
 			{
-				AddQuestRecord("Gen_PGGQuest1", "q1_PGGDeadNoShips_1");
+				if (chr.sex != "woman")AddQuestRecord("Gen_PGGQuest1", "q1_PGGDeadNoShips_1");
+				else AddQuestRecord("Gen_PGGQuest1woman", "q1_PGGDeadNoShips_1");
 			}
 			PChar.Quest.PGGQuest1_CheckStartState.Over = "yes"; //fix doors
 		}
 		else
 		{
-			AddQuestRecord("Gen_PGGQuest1", "q1_PGGDeadShips");
+			if (chr.sex != "woman")AddQuestRecord("Gen_PGGQuest1", "q1_PGGDeadShips");
+			else AddQuestRecord("Gen_PGGQuest1woman", "q1_PGGDeadShips");
 		}
-		AddQuestUserData("Gen_PGGQuest1", "sPsName", GetFullName(chr));
+		if (chr.sex != "woman")AddQuestUserData("Gen_PGGQuest1", "sPsName", GetFullName(chr));
+		else AddQuestUserData("Gen_PGGQuest1woman", "sPsName", GetFullName(chr));
 
 		PChar.Quest.PGGQuest1_GroupDead.Over = "yes";
 		PChar.Quest.PGGQuest1_Time2Late.Over = "yes";
@@ -1596,11 +1600,17 @@ void PGG_Q1PGGDead(string qName)
 	else
 	{
 		PChar.GenQuest.PGG_Quest.PGGid.Dead = 1;
-		AddQuestRecord("Gen_PGGQuest1", "q1_PGGDead");
-		AddQuestUserData("Gen_PGGQuest1", "sPsName", GetFullName(chr));
+		if (chr.sex != "woman")AddQuestRecord("Gen_PGGQuest1", "q1_PGGDead");
+		else AddQuestRecord("Gen_PGGQuest1woman", "q1_PGGDead");
+		if (chr.sex != "woman")AddQuestUserData("Gen_PGGQuest1", "sPsName", GetFullName(chr));
+		else AddQuestUserData("Gen_PGGQuest1woman", "sPsName", GetFullName(chr));
 	}
 	DeleteAttribute(chr, "PGGAi.ActiveQuest");
-	CloseQuestHeader("Gen_PGGQuest1");
+	PChar.Quest.PGGQuest1_GroupDead.Over = "yes";
+	PChar.Quest.PGGQuest1_Time2Late.Over = "yes";
+	PChar.Quest.PGGQuest1_Time2Fight.Over = "yes";
+	if (chr.sex != "woman")CloseQuestHeader("Gen_PGGQuest1");
+	else CloseQuestHeader("Gen_PGGQuest1woman");
 }
 
 void PGG_Q1CheckStartState(string qName)

@@ -347,6 +347,11 @@ void extrnInitPerks()
     ChrPerksList.list.Doctor2.BaseType = "ship";
 	ChrPerksList.list.Doctor2.OfficerType = "doctor";
 	
+	ChrPerksList.list.EmergentSurgeon.descr = "perkEmergentSurgeon";
+	ChrPerksList.list.EmergentSurgeon.condition.Doctor2 = true;
+    ChrPerksList.list.EmergentSurgeon.BaseType = "ship";
+	ChrPerksList.list.EmergentSurgeon.OfficerType = "doctor";
+	
 	/////////////////////////////////////////////////////////////
 	/// Перки для контрабанды
 	/////////////////////////////////////////////////////////////

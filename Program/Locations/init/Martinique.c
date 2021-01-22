@@ -215,6 +215,96 @@ int LocationInitMartinique(int n)
 	locations[n].reload.l27.emerge = "reload1";
 	locations[n].reload.l27.autoreload = "0";
 	locations[n].reload.l27.label = "House";
+
+	locations[n].reload.l28.name = "houseK1";
+	locations[n].reload.l28.go = "CommonRoom_MH7";
+	locations[n].reload.l28.emerge = "reload1";
+	locations[n].reload.l28.autoreload = "0";
+	locations[n].reload.l28.label = "House";
+
+	locations[n].reload.l29.name = "houseK2";
+	locations[n].reload.l29.go = "CommonRoom_MH5";
+	locations[n].reload.l29.emerge = "reload1";
+	locations[n].reload.l29.autoreload = "0";
+	locations[n].reload.l29.label = "House";
+
+	locations[n].reload.l30.name = "houseK3";
+	locations[n].reload.l30.go = "CommonRoom_MH2";
+	locations[n].reload.l30.emerge = "reload1";
+	locations[n].reload.l30.autoreload = "0";
+	locations[n].reload.l30.label = "House";
+
+	locations[n].reload.l31.name = "houseK4";
+	locations[n].reload.l31.go = "CommonRoom_MH7";
+	locations[n].reload.l31.emerge = "reload1";
+	locations[n].reload.l31.autoreload = "0";
+	locations[n].reload.l31.label = "House";
+
+	locations[n].reload.l32.name = "houseK5";
+	locations[n].reload.l32.go = "CommonRoom_MH5";
+	locations[n].reload.l32.emerge = "reload1";
+	locations[n].reload.l32.autoreload = "0";
+	locations[n].reload.l32.label = "House";
+
+	locations[n].reload.l33.name = "houseK6";
+	locations[n].reload.l33.go = "CommonRoom_MH2";
+	locations[n].reload.l33.emerge = "reload1";
+	locations[n].reload.l33.autoreload = "0";
+	locations[n].reload.l33.label = "House";
+
+	locations[n].reload.l34.name = "houseK7";
+	locations[n].reload.l34.go = "CommonRoom_MH9";
+	locations[n].reload.l34.emerge = "reload1";
+	locations[n].reload.l34.autoreload = "0";
+	locations[n].reload.l34.label = "House";
+
+	locations[n].reload.l35.name = "houseK8";
+	locations[n].reload.l35.go = "CommonRoom_MH9";
+	locations[n].reload.l35.emerge = "reload1";
+	locations[n].reload.l35.autoreload = "0";
+	locations[n].reload.l35.label = "House";
+
+	locations[n].reload.l36.name = "houseK9";
+	locations[n].reload.l36.go = "CommonRoom_MH7";
+	locations[n].reload.l36.emerge = "reload1";
+	locations[n].reload.l36.autoreload = "0";
+	locations[n].reload.l36.label = "House";
+
+	locations[n].reload.l37.name = "houseK10";
+	locations[n].reload.l37.go = "CommonRoom_MH5";
+	locations[n].reload.l37.emerge = "reload1";
+	locations[n].reload.l37.autoreload = "0";
+	locations[n].reload.l37.label = "House";
+
+	locations[n].reload.l38.name = "houseK11";
+	locations[n].reload.l38.go = "CommonRoom_MH2";
+	locations[n].reload.l38.emerge = "reload1";
+	locations[n].reload.l38.autoreload = "0";
+	locations[n].reload.l38.label = "House";
+
+	locations[n].reload.l39.name = "houseK12";
+	locations[n].reload.l39.go = "CommonRoom_MH7";
+	locations[n].reload.l39.emerge = "reload1";
+	locations[n].reload.l39.autoreload = "0";
+	locations[n].reload.l39.label = "House";
+
+	locations[n].reload.l40.name = "houseK13";
+	locations[n].reload.l40.go = "CommonRoom_MH5";
+	locations[n].reload.l40.emerge = "reload1";
+	locations[n].reload.l40.autoreload = "0";
+	locations[n].reload.l40.label = "House";
+
+	locations[n].reload.l41.name = "houseK14";
+	locations[n].reload.l41.go = "CommonRoom_MH9";
+	locations[n].reload.l41.emerge = "reload1";
+	locations[n].reload.l41.autoreload = "0";
+	locations[n].reload.l41.label = "House";
+
+	locations[n].reload.l42.name = "houseK15";
+	locations[n].reload.l42.go = "CommonRoom_MH9";
+	locations[n].reload.l42.emerge = "reload1";
+	locations[n].reload.l42.autoreload = "0";
+	locations[n].reload.l42.label = "House";
 	n = n + 1;
 
   	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
