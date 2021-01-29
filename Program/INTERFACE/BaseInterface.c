@@ -77,6 +77,33 @@ void InitInterfaceTables()
 {
 	SetArraySize(&Interfaces,INTERFACE_QUANTITY+3);
 
+// Lugger -->
+	// Colony Land Guard
+	Interfaces[INTERFACE_COLONY_LAND_GUARD].SectionName = "interface\ColonyLandGuard.c";
+	Interfaces[INTERFACE_COLONY_LAND_GUARD].IniFile = "INTERFACES\ColonyLandGuard.ini";
+	// Colony Guardiang
+	Interfaces[INTERFACE_COLONYGUARDING].SectionName = "interface\ColonyGuardiang.c";
+	Interfaces[INTERFACE_COLONYGUARDING].IniFile = "INTERFACES\ColonyGuardiang.ini";
+	// Store House
+	Interfaces[INTERFACE_STOREHOUSE].SectionName = "interface\StoreHouse.c";
+	Interfaces[INTERFACE_STOREHOUSE].IniFile = "INTERFACES\StoreHouse.ini";
+	// Plantation Interface
+	Interfaces[INTERFACE_PLANTATION].SectionName = "interface\Plantation.c";
+	Interfaces[INTERFACE_PLANTATION].IniFile = "INTERFACES\Plantation.ini";
+	// Colony Interface
+	Interfaces[INTERFACE_COLONY].SectionName = "interface\Colony.c";
+	Interfaces[INTERFACE_COLONY].IniFile = "INTERFACES\Colony.ini";
+	// Attack Colony And Mine Message
+	Interfaces[INTERFACE_ATTACK_MESSAGE].SectionName = "interface\AttackMessage.c";
+	Interfaces[INTERFACE_ATTACK_MESSAGE].IniFile = "INTERFACES\AttackMessage.ini";
+	// Gold, Silver and Iron Mines
+	Interfaces[INTERFACE_MINES].SectionName = "interface\Mines.c";
+	Interfaces[INTERFACE_MINES].IniFile = "INTERFACES\Mines.ini";
+	// Goods Transfer For Colony Building
+	Interfaces[INTERFACE_COLONYBUILDING].SectionName = "interface\ColonyBuilding.c";
+	Interfaces[INTERFACE_COLONYBUILDING].IniFile = "INTERFACES\ColonyBuilding.ini";
+	// Lugger <--
+	
 	Interfaces[INTERFACE_CANNONS].SectionName = "interface\cannons.c";
 	Interfaces[INTERFACE_CANNONS].IniFile = "INTERFACES\cannons.ini";
 	Interfaces[INTERFACE_STORE].SectionName = "interface\store.c";
@@ -245,4 +272,11 @@ void InitInterfaceTables()
 	Interfaces[INTERFACE_STORAGE].SectionName = "interface\storage.c";
 	Interfaces[INTERFACE_STORAGE].IniFile = "INTERFACES\storage.ini";
 	// ugeen <--
+	
+	//New abilities -->  
+	
+	//Взлом замков
+	Interfaces[INTERFACE_LOCKPICK].SectionName = "interface\lockpicking.c";
+    Interfaces[INTERFACE_LOCKPICK].IniFile = "INTERFACES\lockpicking.ini";
+	
 }

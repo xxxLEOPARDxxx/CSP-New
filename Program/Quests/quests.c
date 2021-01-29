@@ -1971,19 +1971,22 @@ int TransferGoods_StartTransfer(ref rChar, string sColony) // rChar - кому будет
 		iNeedGoodsQty = sti(PChar.TransferGoods.(characterId).(sGood)); // Сколько нужно ВСЕГО данного товара (не докупить!)
 			
 		if(iCurGoodQty == iNeedGoodsQty) continue; // ничего не нужно 
-			
-		if(iCurGoodQty > iNeedGoodsQty) // продаем
+		
+		if (!CheckAttribute(pchar,"SellRestriction"))
 		{
-			if(CheckAttribute(rStore, "goods." + sGood + ".tradetype"))
-			{	
-				if(rStore.goods.(sGood).tradetype == TRADE_TYPE_CONTRABAND || rStore.goods.(sGood).tradetype == TRADE_TYPE_CANNONS) continue;
-			}	
-			iNeedGood = iCurGoodQty - iNeedGoodsQty; // Столько нужно продать
-			iCost = GetStoreGoodsPrice(rStore, i, 1, PChar, 1)*iNeedGood/sti(rGood.Units); // Цена товара для продажи
-			RemoveCharacterGoodsSelf(rChar, i, iNeedGood); // Забираем только у этого перса
-			AddStoreGoods(rStore, i, iNeedGood); // Прибавляем товар в магаз
-			iMoneyQty+=iCost;
-			buyGoodsWeight -= iNeedGood;
+			if(iCurGoodQty > iNeedGoodsQty) // продаем
+			{
+				if(CheckAttribute(rStore, "goods." + sGood + ".tradetype"))
+				{	
+					if(rStore.goods.(sGood).tradetype == TRADE_TYPE_CONTRABAND || rStore.goods.(sGood).tradetype == TRADE_TYPE_CANNONS) continue;
+				}	
+				iNeedGood = iCurGoodQty - iNeedGoodsQty; // Столько нужно продать
+				iCost = GetStoreGoodsPrice(rStore, i, 1, PChar, 1)*iNeedGood/sti(rGood.Units); // Цена товара для продажи
+				RemoveCharacterGoodsSelf(rChar, i, iNeedGood); // Забираем только у этого перса
+				AddStoreGoods(rStore, i, iNeedGood); // Прибавляем товар в магаз
+				iMoneyQty+=iCost;
+				buyGoodsWeight -= iNeedGood;
+			}
 		}
 			
 		if(iCurGoodQty < iNeedGoodsQty) // докупаем
@@ -2007,6 +2010,48 @@ int TransferGoods_StartTransfer(ref rChar, string sColony) // rChar - кому будет
 		}
 	}
 	
+	if (CheckAttribute(pchar,"BuyPersonal"))
+	{
+		int 	iOfficer = -1;
+		int 	qty = 0;
+		string itemname = "";
+		for(int z = 0; z < 6 + MAX_NUM_FIGHTERS; z++)
+		{
+			if (z == 0) iOfficer = GetMainCharacterIndex();
+			else iOfficer = GetOfficersIndex(pchar, z); 
+			if(iOfficer != -1)
+			{
+				if (CheckAttribute(&characters[iOfficer],"fighter") || z == 0)
+				{
+					if (characters[iOfficer].sex != "woman") Log_Info(characters[iOfficer].Name+" "+characters[iOfficer].LastName+" получил комплект расходников.");
+					else Log_Info(characters[iOfficer].Name+" "+characters[iOfficer].LastName+" получила комплект расходников.");
+					for (int j = 0; j < 9; j++)
+					{
+						switch (j)
+						{
+							case 0: itemname = "bullet"; qty = 10; break;
+							case 1: itemname = "GunPowder"; qty = 10; break;
+							case 2: itemname = "Food1"; qty = rand(3)+1; break;
+							case 3: itemname = "Food2"; qty = rand(2)+1; break;
+							case 4: itemname = "Food3"; qty = rand(1)+1; break;
+							case 5: itemname = "potion1"; qty = rand(3)+1; break;
+							case 6: itemname = "potion2"; qty = rand(1)+1; break;
+							case 7: itemname = "potion3"; qty = rand(1)+1; break;
+							case 8: itemname = "potion4"; qty = rand(1)+1; break;
+							case 9: itemname = "potion5"; qty = rand(1)+1; break;
+						}
+						iCost = GetTradeItemPrice1(Items_FindItemIdx(itemname), PRICE_TYPE_BUY)*qty
+						if(sti(PChar.Money) >= iCost)
+						{
+							iMoneyQty -= iCost;		
+							TakeNItems(&characters[iOfficer], itemname, qty);
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	if(iMoneyQty != 0) // Если хоть что-то продали или купили
 	{
 		AddmoneyToCharacter(PChar, iMoneyQty);
@@ -2016,3 +2061,39 @@ int TransferGoods_StartTransfer(ref rChar, string sColony) // rChar - кому будет
 	return buyGoodsWeight;
 }
 // Warship <--
+int GetTradeItemPrice1(int itmIdx, int tradeType)
+{
+	int itmprice = 0;
+	if(itmIdx<0 || itmIdx>TOTAL_ITEMS) return 0;
+
+	if(CheckAttribute(&Items[itmIdx],"price"))
+	{
+		itmprice = sti(Items[itmIdx].price);
+	}
+
+	float skillDelta = GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE);
+	float skillModify;
+	if(tradeType == PRICE_TYPE_BUY)
+	{
+		skillModify = 1.4 - skillDelta*0.019;
+		if(CheckAttribute(&Items[itmIdx],"groupID"))
+		{
+			if(Items[itmIdx].groupID == BLADE_ITEM_TYPE || Items[itmIdx].groupID == GUN_ITEM_TYPE) skillModify *= 10.0;
+		}
+		if(CheckOfficersPerk(pchar,"Trader")) { skillModify -= 0.05; }
+		
+		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ skillModify -= 0.2; }
+		else
+		{
+			if(CheckOfficersPerk(pchar,"BasicCommerce"))	{ skillModify -= 0.1; }
+		}
+	}
+	else
+	{
+		skillModify = 0.75 + skillDelta*0.019;
+		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	skillModify += 0.05;
+		if(CheckOfficersPerk(pchar,"Trader")) { skillModify += 0.05; }
+	}
+
+	return makeint(makefloat(itmprice)*skillModify);
+}

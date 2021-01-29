@@ -536,7 +536,7 @@ void ProcessDialogEvent()
 		// <-- Автозакупка товаров
 
 		case "trade_1":
-			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea) || (Pchar.location == "Caiman_Store");
 		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
 			    NextDiag.CurrentNode = NextDiag.TempNode;

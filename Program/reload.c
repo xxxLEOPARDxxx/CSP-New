@@ -140,6 +140,7 @@ int Reload(aref reload_group, string locator_name, string current_location)
 	for(int i = 0; i < num; i++)
 	{
 		reload_locator_ref = GetAttributeN(reload_group, i);
+		if(!CheckAttribute(reload_locator_ref, "name")) { continue; }
 		if(locator_name == reload_locator_ref.name) break;
 	}
 	if(i == num)

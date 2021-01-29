@@ -739,6 +739,8 @@ void SaveStartGameParam()
 	optref.StartGameParam.bNewSails         	 = bNewSails;
 	optref.StartGameParam.bNoPirateRestrictions  = bNoPirateRestrictions;
 	optref.StartGameParam.bHigherShipRate  		 = bHigherShipRate;
+	optref.StartGameParam.bHigherSelfRate  		 = bHigherSelfRate;
+	optref.StartGameParam.bPortPermission  		 = bPortPermission;
     optref.StartGameParam.bRechargePistolOnLine  = bRechargePistolOnLine;
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
 	optref.StartGameParam.iEncountersCountRate   = iEncountersCountRate;
@@ -799,6 +801,14 @@ void LoadStartGameParam()
 	if (CheckAttribute(optref, "StartGameParam.bHigherShipRate"))
 	{
     	bHigherShipRate = sti(optref.StartGameParam.bHigherShipRate);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bHigherSelfRate"))
+	{
+    	bHigherSelfRate = sti(optref.StartGameParam.bHigherSelfRate);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bPortPermission"))
+	{
+    	bPortPermission = sti(optref.StartGameParam.bPortPermission);
     }
     if (CheckAttribute(optref, "StartGameParam.bRechargePistolOnLine"))
 	{

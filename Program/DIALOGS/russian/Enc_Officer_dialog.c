@@ -16,6 +16,23 @@ void ProcessDialogEvent()
 	string attr, attrLoc;
 	int    iTemp, iTax, iFortValue;
 	
+	bool bGoldMine = false;
+	bool bSilverMine = false;
+	bool bIronMine = false;
+	
+	if(CheckAttribute(PChar, "ColonyBuilding.GoldMine.BuildingTime"))
+	{
+		bGoldMine = PChar.ColonyBuilding.GoldMine == true && PChar.ColonyBuilding.GoldMine.BuildingTime == false;
+	}	
+	if(CheckAttribute(PChar, "ColonyBuilding.SilverMine.BuildingTime"))
+	{
+		bSilverMine = PChar.ColonyBuilding.SilverMine == true && PChar.ColonyBuilding.SilverMine.BuildingTime == false;
+	}	
+	if(CheckAttribute(PChar, "ColonyBuilding.IronMine.BuildingTime"))
+	{
+		bIronMine = PChar.ColonyBuilding.IronMine == true && PChar.ColonyBuilding.IronMine.BuildingTime == false;
+	}
+	
 	switch(Dialog.CurrentNode)
 	{
         case "First time":
@@ -117,15 +134,72 @@ void ProcessDialogEvent()
                         sld = GetColonyByIndex(iTemp);
                         if (sti(sld.HeroOwn) == true && !CheckAttribute(sld, "OfficerIdx"))
                         {
-                            NPChar.ColonyIdx = iTemp;
-							Link.l7 = "Я назначаю тебя наместником этого города!";
-                            Link.l7.go = "Gover_Hire";
+							if(Locations[FindLocation(PChar.location)].islandId != "Caiman")
+							{
+								NPChar.ColonyIdx = iTemp;
+								Link.l7 = "Я назначаю тебя наместником этого города!";
+								Link.l7.go = "Gover_Hire";
+							}
                         }
                     }
                 }
             }
-            Link.l9 = "Ничего. Вольно.";
-            Link.l9.go = "Exit";
+            if(PChar.ColonyBuilding.Stage != "0" && PChar.ColonyBuilding.Hovernor == "")
+			{
+				if(CheckAttribute(&Locations[FindLocation(PChar.location)], "islandId"))
+				{
+					if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
+					{
+						Link.l8 = "Я хочу назначить тебя управляющим колонии ''" + PChar.ColonyBuilding.ColonyName + "'', которую мы построили на острове Кайман.";
+						Link.l8.go = "ColonyBuilding_Hovernor_1";
+					}
+				}	
+			}
+            
+			if(PChar.ColonyBuilding.Stage == "3" && PChar.Colony.Guardians.Hovernor == "")
+			{
+				if(CheckAttribute(&Locations[FindLocation(PChar.location)], "islandId"))
+				{
+					if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
+					{
+						Link.l9 = "Я хочу назначить тебя управляющим охранной базы, которую мы построили для укрепления обороны нашей колонии ''" + PChar.ColonyBuilding.ColonyName + "''.";
+						Link.l9.go = "ColonyGuarding_Hovernor_1";
+					}
+				}	
+			}
+            
+			if(bGoldMine || bSilverMine || bIronMine)
+			{
+				if(PChar.Mines.Commander == "")
+				{
+					if(CheckAttribute(&Locations[FindLocation(PChar.location)], "islandId"))
+					{
+						if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
+						{
+							Link.l10 = "Я хочу назначить тебя управляющим рудников, которые находяться на этом острове.";
+							Link.l10.go = "MinesCommander_Hire";
+						}
+					}	
+				}
+			}
+            	
+			if(PChar.ColonyBuilding.Plantation == true && PChar.ColonyBuilding.Plantation.BuildingTime == false)
+			{
+				if(PChar.Plantation.Commander == "")
+				{
+					if(CheckAttribute(&Locations[FindLocation(PChar.location)], "islandId"))
+					{
+						if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
+						{
+							Link.l11 = "Я хочу назначить тебя управляющим плантации, которая находиться недалеко от колонии ''" + PChar.ColonyBuilding.ColonyName + "'' и ей принадлежит.";
+							Link.l11.go = "PlantationCommander_Hire";
+						}
+					}	
+				}
+			}
+            	
+            Link.l12 = "Ничего. Вольно.";
+            Link.l12.go = "Exit";
         break;
 
 		case "TransferGoodsEnable":
@@ -1403,6 +1477,603 @@ void ProcessDialogEvent()
 				Diag.TempNode = "CompanionTravel_ToSquadron_2";
 				NPChar.DeckDialogNode = "CompanionTravel_ToSquadron_2";
 			}
+		break;
+		
+		//////////////////////////////    офицер-наместник <--
+        
+        
+	        // COLONY BUILDING
+		case "ColonyBuilding_Hovernor_1":
+			dialog.Text = "Почту за честь быть управляющим вашей колонии!";
+			Link.l1 = "Следи за порядком и процветанием города. Тебе предстоит очень многое контролировать. Я буду время от времени наведываться сюда.";
+			Link.l1.go = "ColonyBuilding_Hovernor_2";
+			Link.l2 = "Я передумал.";
+			Link.l2.go = "Exit";
+			Diag.TempNode = "Hired";
+		break;
+	
+	        case "ColonyBuilding_Hovernor_2":
+			CheckForReleaseOfficer(sti(NPChar.index));
+			RemovePassenger(pchar, NPChar);
+			PChar.ColonyBuilding.Hovernor = NPChar.id;
+			Diag.CurrentNode = "ColonyBuilding_Hovernor";
+			Diag.TempNode = "ColonyBuilding_Hovernor";
+			
+			LAi_Fade("", "");
+			ChangeCharacterAddressGroup(NPChar, "Caiman_townhall", "sit", "sit1");
+			LAi_SetHuberType(NPChar);
+			
+			//PChar.quest.SetHovernorToColonyResidence.win_condition.l1 = "ExitFromLocation";
+			//PChar.quest.SetHovernorToColonyResidence.win_condition.l1.location = PChar.location;
+			//PChar.quest.SetHovernorToColonyResidence.win_condition = "SetHovernorToColonyResidence";
+			
+			DialogExit();
+	        break;
+	
+		case "ColonyBuilding_Hovernor":
+			if(PChar.ColonyBuilding.AutoPurchaseFirst == true && PChar.ColonyBuilding.Store.BuildingTime == false && PChar.ColonyBuilding.AutoPurchaseFirst.Disable != true)
+			{
+				dialog.Text = "Здравствуйте, капитан. Недавно в нашей колонии открылся магазин и я хочу Вам рассказать о некоторых преимуществах этого важного здания.";
+				Link.l1 = "Продолжай.";
+				Link.l1.go = "ColonyBuilding_AutoStore_1";
+				break;
+			}
+			
+			dialog.Text = "Здравствуйте, капитан " + PChar.name + " " + PChar.lastname + ". Чем могу служить?";
+			Link.l1 = "Я хочу знать текущие дела колонии.";
+			Link.l1.go = "ColonyBuilding_Hovernor_3";
+			Link.l2 = "Я хочу снять тебя с занимаемой должности, " + NPChar.name + ".";
+			Link.l2.go = "ColonyBuilding_Hovernor_4";
+			Link.l3 = "Решил проведать тебя, " + NPChar.name + ".";
+			Link.l3.go = "Exit";
+			Diag.TempNode = "ColonyBuilding_Hovernor";
+		break;
+	
+		case "ColonyBuilding_Hovernor_3":
+			dialog.Text = "Хм... О каких именно делах вы хотите осведомиться?";
+			Link.l1 = "Меня интересует вопрос о состоянии колонии и её финансовых возможностях.";
+			Link.l1.go = "ColonyBuilding_Hovernor_3_1";
+			Link.l2 = "Меня интересует вопрос о боевой готовности гарнизона и здоровья жителей.";
+			Link.l2.go = "ColonyBuilding_Hovernor_3_2";
+			Link.l3 = "Я хочу переименовать колонию и пересмотреть внешний вид солдат.";
+			Link.l3.go = "ColonyBuilding_Hovernor_3_3";
+			Link.l4 = "Извини, " + NPChar.name + ", мне необходимо откланяться.";
+			Link.l4.go = "Exit";
+			
+		break;
+
+		case "ColonyBuilding_AutoStore_1":
+			PChar.ColonyBuilding.AutoPurchaseFirst.Disable = true;
+			dialog.Text = "При действующем магазине вы можете обеспечить автоматическую закупку товаров первой необходимости, чтобы живущие в колонии горожане и охраняющий колонию гарнизон могли своевременно получать медикаменты и провиант \n Обратитесь к нашему торговцу, если вас это заинтересовало.";
+			Link.l1 = "Интересно. Давай поговорим о другом.";
+			Link.l1.go = "ColonyBuilding_Hovernor_3";
+		break;
+		
+		case "ColonyBuilding_Hovernor_3_1":
+			Diag.TempNode = "ColonyBuilding_Hovernor";
+			DialogExit();
+			LaunchColony();
+		break;
+
+		case "ColonyBuilding_Hovernor_3_2":
+			Diag.TempNode = "ColonyBuilding_Hovernor";
+			DialogExit();
+			LaunchColonyLandGuard();
+		break;
+
+		case "ColonyBuilding_Hovernor_3_3":
+			Diag.TempNode = "ColonyBuilding_Hovernor";
+			DialogExit();
+			LaunchColonyBuilding(true, false);
+		break;
+
+		case "ColonyBuilding_Hovernor_4":
+			dialog.Text = "Вы уверены?";
+			Link.l1 = "Да.";
+			Link.l1.go = "ColonyBuilding_Hovernor_5";
+			Link.l2 = "Нет, я передумал.";
+			Link.l2.go = "Exit";
+		break;
+		
+		case "ColonyBuilding_Hovernor_5":
+			PChar.ColonyBuilding.Hovernor = "";
+			dialog.Text = "Замечательно! Быть сухопутной крысой не мой удел.";
+			Link.l1 = "Вот и славно.";
+			Link.l1.go = "exit_hire";
+			Diag.TempNode = "Hired";
+		break;
+
+		case "ColonyBuilding_Expidition_End":
+			Diag.CurrentNode = "ColonyBuilding_Hovernor";
+			dialog.Text = "Здравствуйте, капитан " + PChar.name + " " + PChar.lastname + ". У меня для вас новость. Недавно закончилась проводимая нами экспедиция. На острове были найдены очень плодотворные земли, а главное - залежи руды.";
+			Link.l1 = "Хм, что ж, хорошо. До встречи.";
+			Link.l1.go = "exit";
+		break;
+	
+		case "ColonyBuilding_Mines_End":
+			PChar.ColonyBuilding.MineMessage = true;
+			Diag.CurrentNode = "ColonyBuilding_Hovernor";
+			dialog.Text = "Здравствуйте, капитан " + PChar.name + " " + PChar.lastname + ". У меня для вас новость. Закончилось строительство рудников. Теперь вам необходимо назначить начальника рудников. С ним вы будете решать все дела, связанные с этим ремеслом.";
+			Link.l1 = "Хм, что ж, хорошо. До встречи.";
+			Link.l1.go = "exit";
+		break;
+	
+		case "ColonyBuilding_Plantation_End":
+			Diag.CurrentNode = "ColonyBuilding_Hovernor";
+			dialog.Text = "Здравствуйте, капитан " + PChar.name + " " + PChar.lastname + ". У меня для вас новость. Закончилось строительство плантации. Теперь вам необходимо назначить начальника плантации. С ним вы будете решать все дела, связанные с этим ремеслом.";
+			Link.l1 = "Хм, что ж, хорошо. До встречи.";
+			Link.l1.go = "exit";
+		break;
+        
+        	// Начальник рудников
+		case "MinesCommander_1":
+			dialog.Text = "Здравствуйте, капитан " + PChar.name + " " + PChar.lastname + ". Чем могу служить?";
+			Link.l1 = "Я хочу знать текущие дела рудников.";
+			Link.l1.go = "MinesCommander_2";
+			Link.l2 = "Я хочу снять тебя с занимаемой должности, " + NPChar.name + ".";
+			Link.l2.go = "MinesCommander_Remove";
+			Link.l3 = "Решил проведать тебя, " + NPChar.name + ".";
+			Link.l3.go = "Exit";
+			Diag.TempNode = "MinesCommander_1";
+		break;
+		
+		case "MinesCommander_2":
+			Diag.TempNode = "MinesCommander_1";
+			DialogExit();
+			LaunchMines();
+		break;
+		
+		case "MinesCommander_Remove":
+			dialog.Text = "Вы уверены?";
+			Link.l1 = "Да.";
+			Link.l1.go = "MinesCommander_Removed";
+			Link.l2 = "Нет, я передумал.";
+			Link.l2.go = "Exit";
+			Diag.TempNode = "MinesCommander_1";
+		break;
+		
+		case "MinesCommander_Removed":
+			PChar.Mines.Commander = "";
+			dialog.Text = "Замечательно! Быть сухопутной крысой не мой удел.";
+			Link.l1 = "Вот и славно.";
+			Link.l1.go = "exit_hire";
+			Diag.TempNode = "Hired";
+		break;
+		
+		case "MinesCommander_Hire":
+			dialog.Text = "Что ж. Постараюсь оправдать ваши ожидания.";
+			Link.l1 = "Вот и славно. Приступай к своим обязанностям.";
+			Link.l1.go = "MinesCommander_Hired";
+			Link.l2 = "Я передумал.";
+			Link.l2.go = "Exit";
+			Diag.TempNode = "Hired";
+		break;
+		
+		case "MinesCommander_Hired":
+			CheckForReleaseOfficer(sti(NPChar.index));
+			RemovePassenger(pchar, NPChar);
+			
+			LAi_Fade("", "");
+			ChangeCharacterAddressGroup(NPChar, "Caiman_Mines_Comendant_House", "barmen", "stay");
+			
+			LAi_SetStayType(NPChar);
+			PChar.Mines.Commander = NPChar.id;
+			Diag.CurrentNode = "MinesCommander_1";
+			Diag.TempNode = "MinesCommander_1";
+			 
+			//PChar.quest.SetCommanderToMinesOffice.win_condition.l1 = "ExitFromLocation";
+			//PChar.quest.SetCommanderToMinesOffice.win_condition.l1.location = PChar.location;
+			//PChar.quest.SetCommanderToMinesOffice.win_condition = "SetCommanderToMinesOffice";
+			
+			DialogExit();
+		break;
+		
+        	// Начальник плантации
+		case "PlantationCommander_1":
+			dialog.Text = "Здравствуйте, капитан " + PChar.name + " " + PChar.lastname + ". Чем могу служить?";
+			Link.l1 = "Я хочу знать текущие дела плантации.";
+			Link.l1.go = "PlantationCommander_2";
+			Link.l2 = "Я хочу снять тебя с занимаемой должности, " + NPChar.name + ".";
+			Link.l2.go = "PlantationCommander_Remove";
+			Link.l3 = "Решил проведать тебя, " + NPChar.name + ".";
+			Link.l3.go = "Exit";
+			Diag.TempNode = "PlantationCommander_1";
+		break;
+		
+		case "PlantationCommander_2":
+			DialogExit();
+			LaunchPlantation();
+			Diag.TempNode = "PlantationCommander_1";
+		break;
+		
+		case "PlantationCommander_Remove":
+			dialog.Text = "Вы уверены?";
+			Link.l1 = "Да.";
+			Link.l1.go = "PlantationCommander_Removed";
+			Link.l2 = "Нет, я передумал.";
+			Link.l2.go = "Exit";
+			Diag.TempNode = "PlantationCommander_1";
+		break;
+		
+		case "PlantationCommander_Removed":
+			PChar.Plantation.Commander = "";
+			dialog.Text = "Замечательно! Быть сухопутной крысой не мой удел.";
+			Link.l1 = "Вот и славно.";
+			Link.l1.go = "exit_hire";
+			Diag.TempNode = "Hired";
+		break;
+		
+		case "PlantationCommander_Hire":
+			dialog.Text = "Что ж. Постараюсь оправдать ваши ожидания.";
+			Link.l1 = "Вот и славно. Приступай к своим обязанностям.";
+			Link.l1.go = "PlantationCommander_Hired";
+			Link.l2 = "Я передумал.";
+			Link.l2.go = "Exit";
+			Diag.TempNode = "Hired";
+		break;
+		
+		case "PlantationCommander_Hired":
+			CheckForReleaseOfficer(sti(NPChar.index));
+			RemovePassenger(pchar, NPChar);
+			PChar.Plantation.Commander = NPChar.id;
+			Diag.CurrentNode = "PlantationCommander_1";
+			Diag.TempNode = "PlantationCommander_1";
+			 
+			LAi_Fade("", "");
+			ChangeCharacterAddressGroup(NPChar, "CaimanPlantationOffice", "goto", "goto1");
+			LAi_SetStayType(NPChar);
+			
+			//PChar.quest.SetCommanderToPlantationOffice.win_condition.l1 = "ExitFromLocation";
+			//PChar.quest.SetCommanderToPlantationOffice.win_condition.l1.location = PChar.location;
+			//PChar.quest.SetCommanderToPlantationOffice.win_condition = "SetCommanderToPlantationOffice";
+			
+			DialogExit();
+		break;
+		
+	        // Помошник по охране - начальник гарнизона
+		case "ColonyGuarding_Hovernor_1":
+			dialog.Text = "Хм... Пожалуй, я смогу справиться с поставленной задачей.";
+			Link.l1 = "Конечно справишься, иначе... Э-э-э... Можешь приступать!";
+			Link.l1.go = "ColonyGuarding_Hovernor_2";
+			Link.l2 = "Я передумал.";
+			Link.l2.go = "Exit";
+			Diag.TempNode = "Hired";
+		break;
+	
+	        case "ColonyGuarding_Hovernor_2":
+			CheckForReleaseOfficer(sti(NPChar.index));
+			RemovePassenger(pchar, NPChar);
+			PChar.Colony.Guardians.Hovernor = NPChar.id;
+			
+			LAi_Fade("", "");
+			ChangeCharacterAddressGroup(NPChar, "LandGuardingHeadHouse", "goto", "goto3");
+			LAi_SetStayType(NPChar);
+			
+			Diag.CurrentNode = "ColonyGuarding_Hovernor";
+			Diag.TempNode = "ColonyGuarding_Hovernor";
+			DialogExit();
+	        break;
+	
+		case "ColonyGuarding_Hovernor":
+			dialog.Text = "Здравствуйте, капитан " + PChar.name + " " + PChar.lastname + ". Чем могу служить?";
+			Link.l1 = "Я хочу знать текущие состояние защиты.";
+			Link.l1.go = "ColonyGuarding_Hovernor_3";
+			Link.l2 = "Я хочу снять тебя с занимаемой должности, " + NPChar.name + ".";
+			Link.l2.go = "ColonyGuarding_Hovernor_4";
+			Link.l3 = "Я хочу поговорить о найме команды для гарнизона, охраняющего нашу колонию.";
+			Link.l3.go = "ColonyGuarding_Hovernor_AutoCrewHire_1";
+			Link.l4 = "Решил проведать тебя, " + NPChar.name + ".";
+			Link.l4.go = "Exit";
+			Diag.TempNode = "ColonyGuarding_Hovernor";
+		break;
+	
+		case "ColonyGuarding_Hovernor_3":
+			dialog.Text = "Хм... О каких именно делах вы хотите осведомиться?";
+			Link.l1 = "Меня интересует вопрос о береговой линии.";
+			Link.l1.go = "ColonyGuarding_Hovernor_3_1";
+			Link.l2 = "Меня интересует вопрос о боевой готовности гарнизона и здоровья жителей.";
+			Link.l2.go = "ColonyGuarding_Hovernor_3_2";
+			Link.l3 = "Меня интересует вопрос о готовности охраны береговой линии.";
+			Link.l3.go = "ColonyGuarding_Hovernor_3_3";
+			Link.l4 = "Извини, " + NPChar.name + ", мне необходимо откланяться.";
+			Link.l4.go = "Exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_3_1":
+		    	CheckDeadColonyGuard();
+			Diag.TempNode = "ColonyGuarding_Hovernor";
+			DialogExit();
+			LaunchColonyGuardiang();
+		break;
+
+		case "ColonyGuarding_Hovernor_3_2":
+			Diag.TempNode = "ColonyGuarding_Hovernor";
+			DialogExit();
+			LaunchColonyLandGuard();
+		break;
+
+		case "ColonyGuarding_Hovernor_3_3":
+			CheckDeadColonyGuard();
+			
+			if(GetColonyGuardsShipsQuantity() < 1)
+			{
+				dialog.Text = "Капитан, на данный момент в эскадре нет ни одного корабля...";
+				Link.l1 = "Ах да, я и забыл...";
+				Link.l1.go = "exit";
+				PChar.Colony.Guardians.BaseComplete = false;
+				break;
+			}
+		
+			string sBaseComplete = "";
+			
+			if(PChar.Colony.Guardians.BaseComplete == true)
+			{
+				sBaseComplete = "корабли еженедельно проходят полную комплектацию и всегда готовы к бою. На данный момент сумма, которая необходима для этого, составляет " + GetCostForBaseCompletationAllGuards() + " пиастров.";
+			}
+			else
+			{
+				sBaseComplete = "комплектация кораблей береговой линии не производится. Но, имеется возможность каждую неделю проводить осмотр кораблей и проводить их полную комплектацию, чтобы в любой момент дать отпор мерзавцам.";
+			}
+			
+			dialog.Text = "Хм... В данный момент " + sBaseComplete;
+			
+			if(PChar.Colony.Guardians.BaseComplete == true)
+			{
+				Link.l1 = "Думаю, пока стоит приостановить еженедельную комплектацию. Казна не резиновая...";
+				Link.l1.go = "ColonyGuarding_Hovernor_3_3_3";
+			}
+			else
+			{
+				if(PChar.Colony.Guardians.BaseComplete.First == true)
+				{
+					Link.l1 = "Расскажите подробнее об этом.";
+					Link.l1.go = "ColonyGuarding_Hovernor_3_3_1";
+				}
+				else
+				{
+					Link.l1 = "Думаю, стоит возобновить еженедельную комлектацию охраны береговой линии.";
+					Link.l1.go = "ColonyGuarding_Hovernor_3_3_2";
+				}
+			}
+			
+			Link.l2 = "Извините, меня ждут дела.";
+			Link.l2.go = "Exit";
+			Diag.CurrentNode = "ColonyGuarding_Hovernor";
+		break;
+
+		case "ColonyGuarding_Hovernor_3_3_1":
+			PChar.Colony.Guardians.BaseComplete.First = false;
+			dialog.Text = "Каждую неделю будет проводиться осмотр кораблей охраны береговой линии, и те корабли, которые в данный момент будут охранять её, будут дополнены недостающими боеприпасами и товарами первой необходимости, кроме того будет восполнена и команда \n Но чтобы всё это работало, необходимо будет идти на некоторые траты, которые зависят от комплектуемых кораблей. Например, на данный момент будет необходимо выплачивать из казны колонии по " + GetCostForBaseCompletationAllGuards() + " пиастров в неделю. Если же данная сумма будет отсутвовать, то, к сожалению, комплектовать будет не на что. Что скажете?";
+			Link.l1 = "Полезное дело. Я даю разрешение на своевременный расход средств из казны колонии.";
+			Link.l1.go = "ColonyGuarding_Hovernor_3_3_2";
+			Link.l2 = "Пожалуй, пока обойдёмся без этого.";
+			Link.l2.go = "Exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_3_3_2":
+			PChar.Colony.Guardians.BaseComplete = true;
+			Diag.TempNode = "ColonyGuarding_Hovernor";
+			DialogExit();
+		break;
+
+		case "ColonyGuarding_Hovernor_3_3_3":
+			PChar.Colony.Guardians.BaseComplete = false;
+			Diag.TempNode = "ColonyGuarding_Hovernor";
+			DialogExit();
+		break;
+
+		case "ColonyGuarding_Hovernor_4":
+			dialog.Text = "Вы уверены?";
+			Link.l1 = "Да.";
+			Link.l1.go = "ColonyGuarding_Hovernor_5";
+			Link.l2 = "Нет, я передумал.";
+			Link.l2.go = "Exit";
+		break;
+		
+		case "ColonyGuarding_Hovernor_5":
+			PChar.Colony.Guardians.Hovernor = "";
+			dialog.Text = "Замечательно! Быть сухопутной крысой не мой удел.";
+			Link.l1 = "Вот и славно.";
+			Link.l1.go = "exit_hire";
+			Diag.TempNode = "Hired";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_1":
+			dialog.Text = "Хорошо, капитан. Чем могу быть полезен в этом вопросе?";
+			Link.l1 = "Хотелось бы подробнее узнать о такой возможности.";
+			Link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Info";
+			Link.l2 = "Я хочу узнать цены, которые требуются для обеспечивания найма.";
+			Link.l2.go = "ColonyGuarding_Hovernor_AutoCrewHire_Costs";
+			Link.l3 = "Необходимо пересмотреть объекты, на которых обеспечивается найм гарнизона.";
+			Link.l3.go = "ColonyGuarding_Hovernor_AutoCrewHire_Set";
+			Link.l4 = "Нет, я передумал.";
+			Link.l4.go = "exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Info":
+			dialog.Text = "Я могу самостоятельно нанимать команду для гарнизона, чтобы наша колония и постройки, ей принадлежащие, всегда смогли бы дать отпор врагу и усмирить взбунтовавшиеся жителей и рабов. \n Но, как вы понимаете, это будет стоить гораздо больших расходов, чем обычный найм в тавернах архипелага. Каждый раз гарнизон будет доукомплектовываться с учётом текущей комплектации гарнизонов. \n Найм гарнизона можно производить на все объекты - а это наша колония, плантация и рудники. \n Каждый раз в казне колонии должна быть сумма, позволяющая провести найм гарнизона на определённый объект. Если такой суммы в казне не окажется, то найма, соответственно, не произойдёт.";
+			Link.l1 = "Спасибо за информацию, " + NPChar.name + ".";
+			Link.l1.go = "ColonyGuarding_Hovernor";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Costs":
+			dialog.Text = "Цена обеспечения найма каких объектов вас интересует?";
+			
+			if(PChar.ColonyBuilding.Stage != "0")
+			{
+				Link.l1 = "Колония.";
+				Link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Colony";
+			}
+			if(PChar.Mines.GoldMine == true || PChar.Mines.SilverMine == true || PChar.Mines.IronMine == true)
+			{
+				Link.l2 = "Рудники.";
+				Link.l2.go = "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Mines";
+			}
+			if(PChar.ColonyBuilding.Plantation == true && PChar.ColonyBuilding.Plantation.BuildingTime == false)
+			{
+				Link.l3 = "Плантация.";
+				Link.l3.go = "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Plantation";
+			}
+			
+			Link.l4 = "Извини, мне надо идти.";
+			Link.l4.go = "exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Colony":
+			dialog.Text = "На данный момент цена обеспечения найма гарнизона колонии - с учётом укоплекнованности гарнизона: " + ColonyGuardingGetCostForObject("Colony", false) + " золотых; для полного заполнения без учёта укоплекнованности: " + ColonyGuardingGetCostForObject("Colony", true) + " золотых.";
+			Link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
+			Link.l1.go = "ColonyGuarding_Hovernor";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Mines":
+			dialog.Text = "На данный момент цена обеспечения найма гарнизона рудников - с учётом укоплекнованности гарнизона: " + ColonyGuardingGetCostForObject("Mines", false) + " золотых; для полного заполнения без учёта укоплекнованности: " + ColonyGuardingGetCostForObject("Mines", true) + " золотых.";
+			Link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
+			Link.l1.go = "ColonyGuarding_Hovernor";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Plantation":
+			dialog.Text = "На данный момент цена обеспечения найма гарнизона плантации - с учётом укоплекнованности гарнизона: " + ColonyGuardingGetCostForObject("Plantation", false) + " золотых; для полного заполнения без учёта укоплекнованности: " + ColonyGuardingGetCostForObject("Plantation", true) + " золотых.";
+			Link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
+			Link.l1.go = "ColonyGuarding_Hovernor";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Set":
+			dialog.Text = ColonyGuardingAutoCrewHireGetWork();
+			
+			if(PChar.ColonyBuilding.Stage != "0")
+			{
+				if(PChar.Colony.Guardians.Colony.AutoCrewHire == false)
+				{
+					Link.l1 = "Я хочу воспользоваться возможностью найма гарнизона для охраны колонии.";
+					Link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Colony_1";
+				}
+				else
+				{
+					Link.l1 = "Я хочу приостановить найм гарнизона для охраны колонии.";
+					Link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Colony_1";
+				}
+			}
+			
+			if(PChar.Mines.GoldMine == true || PChar.Mines.SilverMine == true || PChar.Mines.IronMine == true)
+			{
+				if(PChar.Colony.Guardians.Mines.AutoCrewHire == false)
+				{
+					Link.l2 = "Я хочу воспользоваться возможностью найма гарнизона для охраны рудников.";
+					Link.l2.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Mines_1";
+				}
+				else
+				{
+					Link.l2 = "Я хочу приостановить найм гарнизона для охраны рудников.";
+					Link.l2.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Mines_1";
+				}
+			}
+			
+			if(PChar.ColonyBuilding.Plantation == true && PChar.ColonyBuilding.Plantation.BuildingTime == false)
+			{
+				if(PChar.Colony.Guardians.Plantation.AutoCrewHire == false)
+				{
+					Link.l3 = "Я хочу воспользоваться возможностью найма гарнизона для охраны плантации.";
+					Link.l3.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Plantation_1";
+				}
+				else
+				{
+					Link.l3 = "Я хочу приостановить найм гарнизона для охраны плантации.";
+					Link.l3.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Plantation_1";
+				}
+			}
+			
+			Link.l4 = "Извини, мне надо идти.";
+			Link.l4.go = "exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Colony_1":
+			dialog.text = "Вы уверены, капитан?";
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Colony_2";
+			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал.", "Эээ... Нет, не уверен.");
+			link.l2.go = "exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Colony_2":
+			PChar.Colony.Guardians.Colony.AutoCrewHire = true;
+			dialog.text = "Хорошо, капитан! С сегодняшнего дня займусь этим вопросом.";
+			link.l1 = "Вот и славно.";
+			link.l1.go = "exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Mines_1":
+			dialog.text = "Вы уверены, капитан?";
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Mines_2";
+			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал.", "Эээ... Нет, не уверен.");
+			link.l2.go = "exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Mines_2":
+			PChar.Colony.Guardians.Mines.AutoCrewHire = true;
+			dialog.text = "Хорошо, капитан! С сегодняшнего дня займусь этим вопросом.";
+			link.l1 = "Вот и славно.";
+			link.l1.go = "exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Plantation_1":
+			dialog.text = "Вы уверены, капитан?";
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Plantation_2";
+			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал.", "Эээ... Нет, не уверен.");
+			link.l2.go = "exit";
+		break;
+
+		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Plantation_2":
+			PChar.Colony.Guardians.Plantation.AutoCrewHire = true;
+			dialog.text = "Хорошо, капитан! С сегодняшнего дня займусь этим вопросом.";
+			link.l1 = "Вот и славно.";
+			link.l1.go = "exit";
+		break;
+		
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Colony_1":
+			dialog.text = "Вы действительно хотите приостановить найм команды для гарнизона колонии?";
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Colony_2";
+			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал..", "Эээ... Нет, не уверен.");
+			link.l2.go = "exit";
+		break;
+		
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Colony_2":
+			PChar.Colony.Guardians.Colony.AutoCrewHire = false;
+			dialog.text = "Как пожелаете, капитан.";
+			link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
+			link.l1.go = "exit";
+		break;
+		
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Mines_1":
+			dialog.text = "Вы действительно хотите приостановить найм команды для гарнизона рудников?";
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Mines_2";
+			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал..", "Эээ... Нет, не уверен.");
+			link.l2.go = "exit";
+		break;
+		
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Mines_2":
+			PChar.Colony.Guardians.Mines.AutoCrewHire = false;
+			dialog.text = "Как пожелаете, капитан.";
+			link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
+			link.l1.go = "exit";
+		break;
+		
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Plantation_1":
+			dialog.text = "Вы действительно хотите приостановить найм команды для гарнизона плантации?";
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Plantation_2";
+			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал..", "Эээ... Нет, не уверен.");
+			link.l2.go = "exit";
+		break;
+		
+		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Plantation_2":
+			PChar.Colony.Guardians.Plantation.AutoCrewHire = false;
+			dialog.text = "Как пожелаете, капитан.";
+			link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
+			link.l1.go = "exit";
 		break;
 		// <-- Самостоятельное плавание компаньона
 	}

@@ -97,7 +97,7 @@ void SetShipMaxCaliberTuning(ref chr, bool isSet)
 				break;
 			}
 			iCaliber = iCaliber + 1;
-			if(iCaliber > 5) iCaliber = 5;
+			if(iCaliber > 6) iCaliber = 6;
 			switch(iCaliber)
 			{
 				case 0:

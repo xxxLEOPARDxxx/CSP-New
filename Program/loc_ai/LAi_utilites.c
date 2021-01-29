@@ -7,6 +7,12 @@ int    arrayNPCModelHow; // для рандомизации моделей в одной локации
 // создаем горожан в локацию + солдаты, фантомы-многодневки (живут 48ч) переработка boal 13.05.06
 void CreateCitizens(aref loc)
 {
+	if(CheckAttribute(pchar, "Arrive.EnemyPort")) //Korsar Maxim - если есть этот аттрибут, то через секунду сработает скрипт для агра стражи на игрока.
+	{
+		DoQuestFunctionDelay("SetPortAlarm", 1.0);
+		DeleteAttribute(pchar, "Arrive.EnemyPort");
+	}
+	
 	if (loc.type != "town" && loc.type != "church" && loc.type != "residence") return; //городской генератор не должен отрабатывать везде
 	if(LAi_IsCapturedLocation) // fix нефиг грузить, когда город трупов или боевка
 	{
@@ -81,35 +87,34 @@ void CreateCitizens(aref loc)
 
         if(iNation != PIRATE || sti(Colonies[iColony].HeroOwn) == true)//колония
 		{
-				for(i=0; i<iSailorQty; i++)//матросы
+			for(i=0; i<iSailorQty; i++)//матросы
+			{
+    	   	    iSex = MAN;
+				sType = "sailor";
+				iChar = NPC_GeneratePhantomCharacter("sailor", iNation, iSex, 2);
+				chr = &characters[iChar];
+				SetNPCModelUniq(chr, sType, iSex);
+				chr.City = Colonies[iColony].id;
+				chr.CityType = "citizen";
+				LAi_SetLoginTime(chr, 6.0, 21.99);
+				LAi_SetCitizenType(chr);
+				GiveItem2Character(chr, RandPhraseSimple("blade3","blade5"));
+				EquipCharacterbyItem(chr, RandPhraseSimple("blade3","blade5"));
+				if (sti(Colonies[iColony].HeroOwn) == true) LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
+				else LAi_group_MoveCharacter(chr, slai_group);
+				PlaceCharacter(chr, "goto", "random_free");
+				chr.dialog.filename    = "Sailor.c";
+				chr.dialog.currentnode = "first time";
+				chr.greeting = "pirat_common";
+				if (rand(40) <= 10+GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP)) //WW нанимаются в команду в 20%-40% случаев от авторитета 
 				{
-    	   	        iSex = MAN;
-					sType = "sailor";
-					iChar = NPC_GeneratePhantomCharacter("sailor", iNation, iSex, 2);
-					chr = &characters[iChar];
-					SetNPCModelUniq(chr, sType, iSex);
-					chr.City = Colonies[iColony].id;
-					chr.CityType = "citizen";
-					LAi_SetLoginTime(chr, 6.0, 21.99);
-					LAi_SetCitizenType(chr);
-					GiveItem2Character(chr, RandPhraseSimple("blade3","blade5"));
-					EquipCharacterbyItem(chr, RandPhraseSimple("blade3","blade5"));
-					if (sti(Colonies[iColony].HeroOwn) == true) LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
-					else LAi_group_MoveCharacter(chr, slai_group);
-					PlaceCharacter(chr, "goto", "random_free");
-					chr.dialog.filename    = "Sailor.c";
-					chr.dialog.currentnode = "first time";
-					chr.greeting = "pirat_common";
-					if (rand(40) <= 10+GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP)) //WW нанимаются в команду в 20%-40% случаев от авторитета 
-					{
-						chr.quest.crew = "true";
-						chr.quest.crew.qty = 10+rand(14)+(GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP) * 6); //WW   10-24 + 6-60 = 16-84    от авторитета   
-						chr.quest.crew.type = rand(2);
-						chr.quest.crew.money = 60+rand(2)*20+rand(80);   // WW  60-180
-						chr.talker = rand(9);
-						
-					}
+					chr.quest.crew = "true";
+					chr.quest.crew.qty = 10+rand(14)+(GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP) * 6); //WW   10-24 + 6-60 = 16-84    от авторитета   
+					chr.quest.crew.type = rand(2);
+					chr.quest.crew.money = 60+rand(2)*20+rand(80);   // WW  60-180
+					chr.talker = rand(9);
 				}
+			}
 		}
 
 		for(i=0; i<iCitizensQuantity; i++)

@@ -135,7 +135,7 @@ void ProcessDialogEvent()
 				Link.l1 = pcharrepphrase("Вот-вот, я плачу - ты делаешь.",
                                         "Нужно воспользоваться услугами верфи.");
 				Link.l1.go = "Shipyard";
-				if (GetNationRelation2MainCharacter(sti(NPChar.nation)) != RELATION_ENEMY) 
+				if (GetNationRelation2MainCharacter(sti(NPChar.nation)) != RELATION_ENEMY || NPChar.city == "Caiman") 
 				{
 					link.l11 = "Мне нужны орудия на корабль.";
 					link.l11.go = "Cannons";

@@ -143,7 +143,8 @@ int CalculateExperienceFromRank(int _Rank)
 
 int GetFreePoints_SelfRate(ref _chref)
 {
-    return 40 - GetCharacterSPECIALSimple(_chref, SPECIAL_I);
+	if (bHigherSelfRate) return 30 - GetCharacterSPECIALSimple(_chref, SPECIAL_I);
+    else return 40 - GetCharacterSPECIALSimple(_chref, SPECIAL_I);
 }
 
 int GetFreePoints_ShipRate(ref _chref)
@@ -2659,8 +2660,10 @@ void initMainCharacterItem()
 			itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
-			TakeNItems(Pchar, "bullet", 100);
-			AddItems(Pchar, "GunPowder", 100);
+			itemID = GetGeneratedItem("mushket_drob");
+            GiveItem2Character(Pchar, itemID);
+			TakeNItems(Pchar, "bullet", 30);
+			AddItems(Pchar, "GunPowder", 30);
 			TakenItems(Pchar, "potion1", rand(10));
 			pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
             TakenItems(Pchar, "Food1", rand(6)+4);

@@ -652,7 +652,7 @@ void InitColonies()
 		colonies[n].map.y = 1852;
 		colonies[n].colonylevel = 0;
 		colonies[n].StoreNum   = Pirates_STORE; // заглушка
-		colonies[n].from_sea   = "";
+		colonies[n].from_sea   = "Caiman_Town";
 		colonies[n].HasNoFort = true;
 
 	/////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2  "
-#define VERSION_NUMBER2       "Corsairs Ship Pack 2.0.2"
+#define VERSION_NUMBER2       "Corsairs Ship Pack 2.1.0b"
 #define VERSION_NUMBER3       ""
 #define PROVIDER_TXT            "LEOPARD's team - MaelStrom edition"
 #define VERSION_NUM      99910  // текущий номер
@@ -59,28 +59,42 @@ bool startGameWeather = false;
 int iScriptVersion = 8675309;       //54128  --  15650
 
 // Генератор фантомов - альтернатива
-bool    bNewFantomGenerator       = true;  // резерв "новый фехт"
-bool    bRechargePistolOnLine  = true;  // пистолеты перезаряжаются без сабли
+bool    bNewFantomGenerator       	= true;  // резерв "новый фехт"
+bool    bRechargePistolOnLine  		= true;  // пистолеты перезаряжаются без сабли
 // упрощение невозможного
-bool    bNewCodeOn                = false;  // упрощение абордажа
+bool    bNewCodeOn                	= false;  // упрощение абордажа
 // нет сайвов, токо в церкви есть
-bool    bHardcoreGame             = false;
+bool    bHardcoreGame             	= false;
 // раздел добычи
 bool 	bPartitionSet 				= true;
 // вес матросов
 bool 	bSailorsWeight 				= true;
 // новые паруса
-bool 	bNewSails 				= true;
+bool 	bNewSails 					= true;
 // нет пиратам
-bool 	bNoPirateRestrictions	= true;
+bool 	bNoPirateRestrictions		= true;
 // -10 корабельного порога
-bool 	bHigherShipRate	= true;
+bool 	bHigherShipRate				= true;
 // Маркировка квестовых
 bool 	bQuestMark 					= false;
+// -10 личного порога
+bool 	bHigherSelfRate 			= true;
+// Сбор денег за швартовку
+bool 	bPortPermission 			= false;
 //Абордаж стенка на стенку
 bool   bBoardMode                   = false;
 // платный сайв-лоад
 //bool    bPayForSaveLoad           = true;
+
+// Lugger: Режим дополнения -->
+bool bAddonMode = true;
+bool bAddonLine = true;
+bool bNationLines = true;
+bool bEnglandOrPirates = false;
+bool bDisableQuestInterface = false;
+bool bDisableOfficers = false;
+bool bSanJuanIsDamned = false;
+// Lugger: Режим дополнения <--
 
 ///////////////////////////////////////////////////
 //          complexity

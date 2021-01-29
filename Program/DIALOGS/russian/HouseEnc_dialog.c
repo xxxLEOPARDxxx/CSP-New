@@ -132,9 +132,18 @@ void ProcessDialogEvent()
 			link.l1.go = "exit_setOwner";
 		break;
 		case "Man_FackYou":
-			dialog.text = LinkRandPhrase("Да ты "+ GetSexPhrase("вор, милейший! Стража, держи его","воровка! Стража, держи ее") +"!!!", "Вот это да! Чуть я загляделся, а ты сразу в сундук с головой! Держи "+ GetSexPhrase("вора","воровку") +"!!!", "Стража! Грабят!!! Держи "+ GetSexPhrase("вора","воровку") +"!!!");
-			link.l1 = "А-ать, дьявол!!!";
-			link.l1.go = "fight";
+			if(!CheckCharacterPerk(pchar, "Grunt") && pchar.reputation > 30)  
+			{
+				dialog.text = LinkRandPhrase("Да ты "+ GetSexPhrase("вор, милейший! Стража, держи его","воровка! Стража, держи ее") +"!!!", "Вот это да! Чуть я загляделся, а ты сразу в сундук с головой! Держи "+ GetSexPhrase("вора","воровку") +"!!!", "Стража! Грабят!!! Держи "+ GetSexPhrase("вора","воровку") +"!!!");
+				link.l1 = "А-ать, дьявол!!!";
+				link.l1.go = "fight";
+			}
+			if(CheckCharacterPerk(pchar, "Grunt") || pchar.reputation <= 30)
+			{
+				dialog.text = LinkRandPhrase("Да ты "+ GetSexPhrase("вор, милейший! Стража, держи его","воровка! Стража, держи ее") +"!!!", "Вот это да! Чуть я загляделся, а ты сразу в сундук с головой! Держи "+ GetSexPhrase("вора","воровку") +"!!!", "Стража! Грабят!!! Держи "+ GetSexPhrase("вора","воровку") +"!!!");
+				link.l1 = "А ну молчать! Пасть порву, моргала выколю! Всю жизнь... на лекарства работать будешь!";
+				link.l1.go = "nofight";
+			}
 		break;
 		// --------------------------------- баба ---------------------------------
 		case "HouseWoman":
@@ -198,11 +207,20 @@ void ProcessDialogEvent()
 			link.l1.go = "exit_setOwner";
 		break;
 		case "Woman_FackYou":
-			dialog.text = "Ах, вот, значит, как?! Я вас пустила в дом как гост"+ GetSexPhrase("я","ью") +", а вы по сундуками шарить вздумали?! Стража-а-а!!!";
-			link.l1 = "Заткнись, дура...";
-			link.l1.go = "exit_setOwner";
-			LAi_group_Attack(NPChar, Pchar);
-			if (rand(3) != 1) SetNationRelation2MainCharacter(sti(npchar.nation), RELATION_ENEMY);
+			if(!CheckCharacterPerk(pchar, "Grunt") && pchar.reputation > 30)  
+			{
+				dialog.text = "Ах, вот, значит, как?! Я вас пустила в дом как гост"+ GetSexPhrase("я","ью") +", а вы по сундуками шарить вздумали?! Стража-а-а!!!";
+				link.l1 = "Заткнись, дура...";
+				link.l1.go = "exit_setOwner";
+				LAi_group_Attack(NPChar, Pchar);
+				if (rand(3) != 1) SetNationRelation2MainCharacter(sti(npchar.nation), RELATION_ENEMY);
+			}
+			if(CheckCharacterPerk(pchar, "Grunt") || pchar.reputation <= 30)
+			{
+				dialog.text = "Ах, вот, значит, как?! Я вас пустила в дом как гост"+ GetSexPhrase("я","ью") +", а вы по сундуками шарить вздумали?! Стража-а-а!!!";
+				link.l1 = "А ну молчать! Пасть порву, моргала выколю! Всю жизнь... на лекарства работать будешь!";
+				link.l1.go = "nofight";
+			}
 		break;
 		case "HouseWoman_2":
 			dialog.text = "Сколько я тебя просила по-хорошему убраться из дома! Ну, хватит... Помогите! Стража!!!";
@@ -316,6 +334,10 @@ void ProcessDialogEvent()
 			//ставим таймер на возврат close_for_night
 			SetTimerFunction("ShipyardsMap_returnCFN", 0, 0, 2);
 		break;
-
+		case "nofight":
+			dialog.text = "Хорошо-хорошо, мне не нужны проблемы! Бери что пожелаешь, только не трогай!";
+			link.l1 = "С вашего позволения, хе-хе!";
+			link.l1.go = "exit_setOwner";
+		break;
 	}
 }

@@ -2132,13 +2132,13 @@ int InitItems()
 	itm.picIndex = 14;
 	itm.picTexture = "CSP_GUNS2";
 	// boal 19.01.2004 -->
-	itm.price = 13000;
+	itm.price = 5000;
 	itm.Weight = 11;
 	// boal 19.01.2004 <--
-	itm.chargeQ = 3;
-	itm.chargespeed = 16;
-	itm.dmg_min = 70.0;
-	itm.dmg_max = 120.0;
+	itm.chargeQ = 1;
+	itm.chargespeed = 24;
+	itm.dmg_min = 60.0;
+	itm.dmg_max = 110.0;
 	itm.accuracy = 70;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
@@ -2219,13 +2219,50 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Chest";
+	itm.groupID = SPECIAL_ITEM_TYPE;
 	itm.name = "itmname_chest";
 	itm.describe = "itmdescr_chest";
 	itm.model = "stat1";
 	itm.picIndex = 1;
 	itm.picTexture = "ITEMS_4";
-	itm.price = 15000; // квест ростовщика и клады
-	itm.Weight = 15; // boal
+	itm.price = 15000;
+	itm.Weight = 15;
+	n++;	
+	
+	makeref(itm,Items[n]);
+	itm.id = "Chest_ammo";
+	itm.groupID = SPECIAL_ITEM_TYPE;
+	itm.name = "itmname_chest_ammo";
+	itm.describe = "itmdescr_chest_ammo";
+	itm.model = "stat1";
+	itm.picIndex = 5;
+	itm.picTexture = "ITEMS_14";
+	itm.price = 1500;
+	itm.Weight = 9;
+	n++;	
+	
+	makeref(itm,Items[n]);
+	itm.id = "Chest_treasure";
+	itm.groupID = SPECIAL_ITEM_TYPE;
+	itm.name = "itmname_chest_treasure";
+	itm.describe = "itmdescr_chest_treasure";
+	itm.model = "stat1";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_14";
+	itm.price = 1500; 
+	itm.Weight = 10;
+	n++;	
+	
+	makeref(itm,Items[n]);
+	itm.id = "Chest_quest";
+	itm.groupID = SPECIAL_ITEM_TYPE;
+	itm.name = "itmname_chest_quest";
+	itm.describe = "itmdescr_chest_quest";
+	itm.model = "stat1";
+	itm.picIndex = 6;
+	itm.picTexture = "ITEMS_14";
+	itm.price = 1500;
+	itm.Weight = 5;
 	n++;
 
 	makeref(itm,Items[n]);
@@ -4929,6 +4966,24 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.minlevel =0;
 	itm.rare = 0.3;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;	
+	
+	makeref(itm,Items[n]); //Korsar Maxim - Отмычка для взлома
+	itm.id = "Lockpick";
+	itm.name = "itmname_Lockpick";
+	itm.describe = "itmdescr_Lockpick";
+	itm.model = "pursel";
+	itm.picIndex = 3;
+	itm.picTexture = "ITEMS_14";
+	//itm.shown = 0;
+	// boal 19.01.2004 -->
+	itm.Weight = 0.1;
+	itm.price = 15;
+	// boal 19.01.2004 <--
+	itm.minlevel =0;
+	itm.rare = 0.2;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
 	n++;

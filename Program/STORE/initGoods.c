@@ -305,6 +305,22 @@ void InitGoods()
 	Goods[GOOD_GOLD].canbecontraband	= 0;
 	Goods[GOOD_GOLD].Norm          = 1500; 
 	
+	Goods[GOOD_IRON].Name		    = "Iron";
+	Goods[GOOD_IRON].Weight	    	= 2;
+	Goods[GOOD_IRON].Cost	        = 115;
+	Goods[GOOD_IRON].Units	    = 1;
+	Goods[GOOD_IRON].AfraidWater = 0;
+	Goods[GOOD_IRON].canbecontraband	= 0;
+	Goods[GOOD_GOLD].Norm          = 2500; 
+	
+	Goods[GOOD_TOOLS].Name		    = "Tools";
+	Goods[GOOD_TOOLS].Weight	    = 2;
+	Goods[GOOD_TOOLS].Cost		    = 40;
+	Goods[GOOD_TOOLS].Units	    	= 1;
+	Goods[GOOD_TOOLS].AfraidWater = 0;
+	Goods[GOOD_TOOLS].canbecontraband	= 0;
+	Goods[GOOD_GOLD].Norm          = 500; 
+	
 	Goods[GOOD_WEAPON].Name	  	    = "Weapon";
 	Goods[GOOD_WEAPON].Weight	    = 1;
 	Goods[GOOD_WEAPON].Cost	        = 120;

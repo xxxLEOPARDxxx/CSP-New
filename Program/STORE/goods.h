@@ -1,4 +1,4 @@
-#define GOODS_QUANTITY  51
+#define GOODS_QUANTITY  53
 
 #define GOOD_BALLS	    0
 #define GOOD_GRAPES	    1
@@ -56,6 +56,9 @@
 #define GOOD_CULVERINE_32 	48
 #define GOOD_CULVERINE_36 	49
 #define GOOD_CANNON_48   	50
+
+#define GOOD_IRON	51
+#define GOOD_TOOLS	52
 
 object  Goods[GOODS_QUANTITY];
 

@@ -643,8 +643,8 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 			case "SHARK":
 				iCannonDiff = rand(5);  // 84, 82, 80, 78, 76, 74
 			break;
-			case "INTREPIDE":
-				iCannonDiff = rand(5);  // 90, 88, 86, 84, 82, 80
+			case "ZEVENPROVINCIEN":
+				iCannonDiff = rand(5);  // 92, 90, 88, 86, 84, 82
 			break;
 			case "FR_TRINITY":
 				iCannonDiff = rand(5);  // 96, 94, 92, 90, 88, 86
@@ -850,6 +850,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.2 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (40 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "XebekVML")
 	{
@@ -859,6 +860,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "BrigQeen")
 	{
@@ -867,6 +869,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "BrigSW")
 	{
@@ -875,6 +878,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "Corvette_quest")
 	{
@@ -884,6 +888,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.7 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (70 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "ArabellaShip")
 	{
@@ -892,6 +897,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "FrigateQueen")
 	{
@@ -900,6 +906,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "Flyingdutchman")
 	{
@@ -908,6 +915,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "Santisima")
 	{
@@ -916,6 +924,7 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.5 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (130 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "SoleyRu")
 	{
@@ -924,7 +933,9 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.5 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (200 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
 	}
+	rRealShip.MaxCrew = makeint(sti(rRealShip.OptCrew) * 1.25 + 0.5); // ןונודנףח
 }
 
 int CreateBaseShip(int iBaseType)

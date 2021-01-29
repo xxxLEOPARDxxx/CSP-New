@@ -1412,15 +1412,6 @@ void ProcessDialogEvent()
 		//<--------------------------- инфа по базе квествых кэпов
 
 		case "ShipStock_1":
-		    //#20171114-01 Remove portman ship limitation
-            //if (sti(NPChar.Portman) >= 5) //Boyer change from 3 to 5 like GOF
-			//{
-            //    dialog.text = DLG_TEXT_BASE[143];
-    		//	Link.l1 = DLG_TEXT_BASE[144];
-    		//	Link.l1.go = "exit";
-			//}
-            //else
-            //{
     			ok = (sFrom_sea == "") || (Pchar.location.from_sea == sFrom_sea);
 			    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 				{
@@ -1428,14 +1419,15 @@ void ProcessDialogEvent()
 	    			for(i=1; i<COMPANION_MAX; i++)
 	                {
 	        	        cn = GetCompanionIndex(PChar, i);
-	        	        if( cn >0 )
-	        	        {
-	        		        chref = GetCharacter(cn);
+	        	        if(cn > 0)
+	            	    {
+	            		    chref = GetCharacter(cn);
 	                        if (!GetRemovable(chref)) continue;
-
-	        		        attrL = "l"+i;
-	        		        Link.(attrL)    = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'.";
-	        		        Link.(attrL).go = "ShipStockMan_" + i;
+						    if(RealShips[sti(chref.Ship.Type)].BaseName != SHIP_SOLEYRU) continue; //Отрубаем хитрость на получение Солея
+    
+	            		    attrL = "l"+i;
+	            		    Link.(attrL)    = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'.";
+    	        		    Link.(attrL).go = "ShipStockMan_" + i;
 	        		    }
 	        	    }
 	    			Link.l9 = "Спасибо, не нужно.";
@@ -1447,7 +1439,6 @@ void ProcessDialogEvent()
 	    			Link.l1 = "Да, я просто хотел"+ GetSexPhrase("","а") +" узнать о возможности стоянки.";
 	    			Link.l1.go = "exit";
 				}
-			//}
 		break;
 		case "ShipStockMan_1":
             NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 1);
@@ -1641,7 +1632,6 @@ void ProcessDialogEvent()
 		case "ShipStock_2":
             chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
 			NPChar.MoneyForShip = GetPortManPriceExt(NPChar, chref);
-//            		NPChar.MoneyForShip =  GetPortManPrice(sti(RealShips[sti(chref.Ship.Type)].Price), NPChar);
 			dialog.Text = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "', класс " + RealShips[sti(chref.Ship.Type)].Class +
                      ", стоимость стоянки " + FindRussianMoneyString(sti(NPChar.MoneyForShip)) + " в месяц, оплата за месяц вперед.";
 			Link.l1 = "Да. Это меня устраивает.";
@@ -3683,7 +3673,7 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 				}
 			break;	
 			
-			case SHIP_INTREPIDE:
+			case SHIP_ZEVENPROVINCIEN:
 				temp = rand(3);
 				
 				if(temp == 0)
@@ -4537,7 +4527,7 @@ void BurntShipQuest_FillStartParams(ref _npchar)
             	}
             break;	
             
-            case SHIP_INTREPIDE:
+            case SHIP_ZEVENPROVINCIEN:
             	temp = rand(2);
             	
             	if(temp == 0)

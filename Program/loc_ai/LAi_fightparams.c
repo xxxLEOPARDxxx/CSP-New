@@ -807,9 +807,9 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 		}
 		return;
 	}
-	if(CheckCharacterPerk(enemy, "Buccaneer"))  
+	if(CheckCharacterPerk(enemy, "AgileMan"))  
 	{
-		if (rand(2)==0)
+		if (rand(3)==0)
 		{
 			Log_Info("”клонилс€ от выстрела!")
 			return;

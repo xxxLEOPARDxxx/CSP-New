@@ -284,48 +284,98 @@ void Sea_LandLoad()
 {	
 	string sColony = Sea_FindNearColony(); // boal
 	int iColony = FindColony(sColony);
-	if(iColony != -1)
+	if(bPortPermission && FindColony(Sea_FindNearColony()) != -1 && sti(Colonies[FindColony(Sea_FindNearColony())].nation) != PIRATE && colonies[FindColony(Sea_FindNearColony())].nation != "none" && colonies[FindColony(Sea_FindNearColony())].id != "FortOrange" && colonies[FindColony(Sea_FindNearColony())].id != "LostShipsCity" && pchar.questTemp.sbormoney != Sea_FindNearColony() && sti(pchar.money) < ((sti(GetCharacterShipHP(pchar)) + (sti(GetCrewQuantity(pchar)) * 10) + sti(GetCargoMaxSpace(pchar)))/5))
 	{
-		if (CheckAttribute(pchar, "ship.crew.disease"))  // to_do
+		Log_Info("Недостаточно денег на оплату портового сбора. Вход невозможен.")
+		Log_Info("Вам необходимо еще "+ (sti((sti(GetCharacterShipHP(pchar)) + (sti(GetCrewQuantity(pchar)) * 10) + sti(GetCargoMaxSpace(pchar)))/5) - sti(pchar.money)) +" пиастров.")
+	}
+	else
+	{
+		if(iColony != -1)
 		{
-			if (pchar.ship.crew.disease == "1")
+			if (CheckAttribute(pchar, "ship.crew.disease"))  // to_do
 			{
-				if (Colonies[iColony].disease != "1" && sti(Colonies[iColony].nation) != PIRATE)
+				if (pchar.ship.crew.disease == "1")
 				{
-					LaunchDiseaseAlert(DISEASE_ON_SHIP);
+					if (Colonies[iColony].disease != "1" && sti(Colonies[iColony].nation) != PIRATE)
+					{
+						LaunchDiseaseAlert(DISEASE_ON_SHIP);
+						return;
+					}
+				}
+			}
+			if(CheckAttribute(&Colonies[iColony], "disease.time"))
+			{
+				if(sti(Colonies[iColony].disease.time > 0))
+				{
+					LaunchDiseaseAlert(DISEASE_ON_COLONY);  // to_do
 					return;
 				}
 			}
 		}
-		if(CheckAttribute(&Colonies[iColony], "disease.time"))
-		{
-			if(sti(Colonies[iColony].disease.time > 0))
-			{
-				LaunchDiseaseAlert(DISEASE_ON_COLONY);  // to_do
-				return;
-			}
-		}
-	}
-	pchar.CheckEnemyCompanionType = "Sea_LandLoad"; // откуда вход
-    if (!CheckEnemyCompanionDistance2GoAway(true)) return; // && !bBettaTestMode  табличка выхода из боя
+		pchar.CheckEnemyCompanionType = "Sea_LandLoad"; // откуда вход
+   	    if (!CheckEnemyCompanionDistance2GoAway(true)) return; // && !bBettaTestMode  табличка выхода из боя
     
-	bSeaReloadStarted = true;
-	PauseAllSounds();
-	//ResetSoundScheme();
-	ResetSound(); // new
+		bSeaReloadStarted = true;
+		PauseAllSounds();
+		//ResetSoundScheme();
+		ResetSound(); // new
 
-	if (bSeaActive == false) return;
-	if (bCanEnterToLand == true)
-	{
-	     //#20190717-01
-        resetGroupRel();
-		LayerFreeze("realize", false);
-		LayerFreeze("execute", false);
-		Reload(arIslandReload, sIslandLocator, sIslandID);
-		ReleaseMapEncounters();
-		EmptyAllFantomShips(); // boal
-		DeleteAttribute(pchar, "CheckStateOk"); // проверка протектором
-		Group_FreeAllDead();
+		if (bSeaActive == false) return;
+		if (bCanEnterToLand == true)
+		{
+		    //#20190717-01
+        	resetGroupRel();
+			LayerFreeze("realize", false);
+			LayerFreeze("execute", false);
+			Reload(arIslandReload, sIslandLocator, sIslandID);
+			ReleaseMapEncounters();
+			EmptyAllFantomShips(); // boal
+			DeleteAttribute(pchar, "CheckStateOk"); // проверка протектором
+			Group_FreeAllDead();
+		}
+	
+		// Портовый сбор во время причаливания в город (Rasteador)
+		// Начало ---->
+		if (bPortPermission)
+		{
+			int sbormoney
+			if(iColony != -1 && sti(Colonies[iColony].nation) != PIRATE && colonies[iColony].nation != "none" && colonies[iColony].id != "FortOrange" && colonies[iColony].id != "LostShipsCity") // Не берем сбор на необитайках, в пиратских колониях, в ГПК и в Форт Оранже
+			{
+				if(pchar.questTemp.sbormoney != Sea_FindNearColony())
+				{
+					if(GetNationRelation(sti(Colonies[iColony].nation), sti(pchar.nation)) == RELATION_ENEMY) //Korsar Maxim -  доработка портового сбора.
+					{
+						if(!CheckAttribute(pchar, "Arrive.EnemyPort")) pchar.Arrive.EnemyPort = true; //При причаливании во враждебный город дается аттрибут на вражду.
+	/* 					LAi_group_FightGroups(GetNationNameByType(sti(Colonies[iColony].nation)) + "_citizens", LAI_GROUP_PLAYER, true);
+						SetNationRelation2MainCharacter(sti(Colonies[iColony].nation), RELATION_ENEMY);
+						Log_Info("Тревога!! Враг в порту!!"); */
+						return;
+					}
+					
+					sbormoney = (sti(GetCharacterShipHP(pchar)) + (sti(GetCrewQuantity(pchar)) * 10) + sti(GetCargoMaxSpace(pchar)))/5; // Сбор зависит от прочности корпуса, количества матросов и размера трюма
+					Log_Info("Оплачен портовый сбор в размере "+ sbormoney +" пиастров");
+					pchar.money = sti(pchar.money) - sbormoney;
+					
+					if(GetNationRelation(sti(Colonies[iColony].nation), sti(pchar.nation)) != RELATION_ENEMY)
+					{
+						if(GetDaysContinueNationLicence(sti(Colonies[iColony].nation)) < 2) //Korsar Maxim -  доработка портового сбора. Если причалил успешно, то условный портовик дает пропуск на два дня.
+						{
+							TakeNationLicence(sti(Colonies[iColony].nation));
+							GiveNationLicence(sti(Colonies[iColony].nation), 2);
+							Log_Info("Получен пропуск в город на два дня.");
+						}
+					}
+				
+					pchar.questTemp.taxescount = sti(pchar.questTemp.taxescount) + 1;
+				
+					// Не дадим брать сбор несколько раз подряд
+					// До тех пор, пока не причалим в другой город или не выйдем на глобалку
+					pchar.questTemp.sbormoney = Sea_FindNearColony();
+				}
+			}
+			// Конец <----
+		}
 	}
 }
 

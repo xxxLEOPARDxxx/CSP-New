@@ -48,6 +48,17 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		
+		case "Trade_exit":
+            if (CheckNPCQuestDate(npchar, "Item_date"))
+			{
+				SetNPCQuestDate(npchar, "Item_date");
+				GiveItemToSmuggler(npchar);
+			}
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			LaunchItemsTrade(npchar);
+		break;
+		
 		case "Smuggling_exit":
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			PlaceSmugglersOnShore(Pchar.quest.contraband.CurrentPlace);
@@ -165,13 +176,16 @@ void ProcessDialogEvent()
 				}
 				// <-- Церковный генератор №2
 				
-			////////////////////////////////////////////////////////	
-			//zagolski. начальный квест пирата
-			if(CheckAttribute(pchar, "questTemp.pirateStartQuest") && pchar.questTemp.pirateStartQuest == "2" && GetArealByCityName(npchar.city) == pchar.questTemp.pirateStartQuest.Areal && npchar.city != pchar.questTemp.pirateStartQuest.City)
-			{
-				link.l4 = "Слушай, мне позарез нужна сотня другая рабов. Уже и не знаю, к кому обращаться.";
-				link.l4.go = "pirateStartQuest_Smuggler";
-			}
+		    	////////////////////////////////////////////////////////	
+		    	//zagolski. начальный квест пирата
+		    	if(CheckAttribute(pchar, "questTemp.pirateStartQuest") && pchar.questTemp.pirateStartQuest == "2" && GetArealByCityName(npchar.city) == pchar.questTemp.pirateStartQuest.Areal && npchar.city != pchar.questTemp.pirateStartQuest.City)
+		    	{
+			    	link.l4 = "Слушай, мне позарез нужна сотня другая рабов. Уже и не знаю, к кому обращаться.";
+			    	link.l4.go = "pirateStartQuest_Smuggler";
+			    }
+			
+				Link.l17 = "(Негромко) Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
+				Link.l17.go = "Trade";
 				
 				Link.l7 = "Ничего. До встречи.";
 				Link.l7.go = "Exit";				
@@ -370,6 +384,9 @@ void ProcessDialogEvent()
 				link.l4 = "Слушай, мне позарез нужна сотня другая рабов. Уже и не знаю, к кому обращаться.";
 				link.l4.go = "pirateStartQuest_Smuggler";
 			}
+
+            Link.l17 = "(Негромко)Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
+		    Link.l17.go = "Trade";
 
 			Link.l5 = "Ничем. Удачи!";
 			Link.l5.go = "Exit";				
@@ -679,6 +696,15 @@ void ProcessDialogEvent()
 				}
 			}
 		break;
+		
+		case "Trade":
+			Dialog.Text = "(Негромко) Хмм... Да, это так. Желаете что-то сейчас купить?";
+			Link.l1 = "Да, покажите ваши товары.";
+			Link.l1.go = "Trade_exit";
+			Link.l2 = "Нет, просто интересно стало.";
+			Link.l2.go = "Exit";
+		break;
+		
 ////////////////////////////////////////////////////////////////////////////////
 //	Корсарское метро
 ////////////////////////////////////////////////////////////////////////////////

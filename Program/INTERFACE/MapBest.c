@@ -27,6 +27,7 @@
 #define T_TYPE_CONTRABAND_NAME	"contraband"
 #define T_TYPE_AGGRESSIVE_NAME  "aggressive"
 
+int colonyindex = -1;
 ///espkk. utils -->
 //cuz the game doesn't use built-in language mechanism
 #define LANG_FILE "activemap"
@@ -305,6 +306,7 @@ void SelectRColony()
 	fMouseX = (fMouseX - fOffsetX) * stf(GameInterface.MAP.scale.x);
 	fMouseY = (fMouseY - fOffsetY) * stf(GameInterface.MAP.scale.y);
 
+
 	//Check if clicked on colony
 	string sColony;
 	for(int i = 0; i < MAX_COLONIES; i++)
@@ -326,11 +328,61 @@ void SelectRColony()
 								XI_WindowDisable("MAIN_WINDOW", true);
 								XI_WindowDisable("INFO_WINDOW", false);
 								XI_WindowShow("INFO_WINDOW", true);
+								colonyindex = i;
 								ShowColonyInfo(i);
 							}
 						}
 					}
 				}
+			}
+		}
+	}
+	Log_Info(fMouseX+"/"+fMouseY);
+	if (bBettaTestMode)
+	{
+		if (fMouseX >= 69.0 && fMouseX <= 155.0 && fMouseY >= 1275.0 && fMouseY <= 1380.0)
+		{
+			setCharacterShipLocation(pchar, "Shore53");
+			setWDMPointXZ("Shore53");
+			DoQuestReloadToLocation("Tenochtitlan", "reload", "reload1", "");
+		}
+		if (fMouseX >= 1775.0 && fMouseX <= 1853.0 && fMouseY >= 1240.0 && fMouseY <= 1352.0)
+		{
+			setCharacterShipLocation(pchar, "Shore27");
+			setWDMPointXZ("Shore27");
+			DoQuestReloadToLocation("Shore27", "reload", "reload1", "");
+		}
+		if (fMouseX >= 1436.0 && fMouseX <= 1534.0 && fMouseY >= 50.0 && fMouseY <= 143.0)
+		{
+			setCharacterShipLocation(pchar, "Shore56");
+			setWDMPointXZ("Shore56");
+			DoQuestReloadToLocation("Shore56", "reload", "reload1", "");
+		}
+		if (fMouseX >= 2.0 && fMouseX <= 77.0 && fMouseY >= 1051.0 && fMouseY <= 1194.0)
+		{
+			setCharacterShipLocation(pchar, "Shore9");
+			setWDMPointXZ("Shore9");
+			DoQuestReloadToLocation("Pearl_town_1", "reload", "reload1", "");
+		}
+		if (fMouseX >= 215.0 && fMouseX <= 351.0 && fMouseY >= 1765.0 && fMouseY <= 1912.0)
+		{
+			setCharacterShipLocation(pchar, "Shore55");
+			setWDMPointXZ("Shore55");
+			DoQuestReloadToLocation("Pearl_town_2", "reload", "reload1", "");
+		}
+		if (fMouseX >= 515.0 && fMouseX <= 617.0 && fMouseY >= 610.0 && fMouseY <= 722.0)
+		{
+			if (PChar.ColonyBuilding.Stage == "0" || PChar.ColonyBuilding.Stage == "1")
+			{
+				setCharacterShipLocation(pchar, "Shore17");
+				setWDMPointXZ("Shore17");
+				DoQuestReloadToLocation("Shore17", "reload", "reload1", "");
+			}
+			if (PChar.ColonyBuilding.Stage == "2" || PChar.ColonyBuilding.Stage == "3")
+			{
+				setCharacterShipLocation(pchar, "Caiman_Town");
+				setWDMPointXZ("Shore17");
+				DoQuestReloadToLocation("Caiman_Town", "reload", "reload1", "");
 			}
 		}
 	}
@@ -341,6 +393,12 @@ void HideRColony()
 	XI_WindowDisable("MAIN_WINDOW", false);
 	XI_WindowDisable("INFO_WINDOW", true);
 	XI_WindowShow("INFO_WINDOW", false);
+	if (bBettaTestMode && colonyindex != -1)
+	{
+		setCharacterShipLocation(pchar, colonies[colonyindex].from_sea));
+		setWDMPointXZ(colonies[colonyindex].from_sea);
+		DoQuestReloadToLocation(colonies[colonyindex].from_sea, "reload", "reload1", "");
+	}
 }
 
 void ShowColonyInfo(int iColony)

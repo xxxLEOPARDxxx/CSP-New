@@ -74,7 +74,7 @@ void InitInterface(string iniName)
     
     npchar = GetCharacter(sti(pchar.GenQuest.Dice.npcharIdx));
     
-    switch (iRate)
+  /*  switch (iRate)
     {
         case 50 :
             money_s = "silver";
@@ -97,7 +97,50 @@ void InitInterface(string iniName)
             SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
             iExpRate = 8;
         break;
-    }
+    } */
+	
+	if (iRate <= 99)            //WW  прокачка фортуны  от суммы ставки
+         {   money_s = "silver";  
+            iExpRate = 1;
+	     } 		
+       if (iRate > 100)
+         {    money_s = "silver";
+            iExpRate = 2;          
+          } 
+		
+		 if (iRate > 250)
+          {   money_s = "silver";
+            iExpRate = 3;
+          } 
+		
+		  if (iRate > 500)
+         {   money_s = "silver";
+            iExpRate = 4;
+         } 
+
+           if (iRate > 1000)
+         {    money_s = "gold";
+            iExpRate = 5;
+         } 
+
+            if (iRate > 2000)
+         {    money_s = "silver";
+            SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
+            iExpRate = 6;
+         } 
+		
+		  if (iRate > 5000)
+         {    money_s = "silver";
+            SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
+            iExpRate = 8;
+         } 
+
+           if (iRate > 10000)
+         {    money_s = "gold";
+            SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
+            iExpRate = 10;
+         } 
+		 
     if (money_s == "gold")
     {
         smxy = sgxy;

@@ -34,6 +34,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 	    			link.l1.go = "BlueBird_3";
     			}
 			}
+			if (bBettaTestMode)
+			{
+				link.l5 = "АРЕНДА СКЛАДА";
+				link.l5.go = "storage_rent1";
+			}
 		break;
 		case "BlueBird_1":
 			dialog.text = NPCStringReactionRepeat("Я ничего не знаю об этом корабле. Если это все, что вы хотели, то уходите.", 

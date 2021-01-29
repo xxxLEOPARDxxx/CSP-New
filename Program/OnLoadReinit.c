@@ -10,7 +10,7 @@ void onLoadReInit()
 	int nGoodsSize = GetArraySize(&Goods);
 	int nEncounterSize = GetArraySize(&EncountersTypes);
 	int nSailSize = GetArraySize(&SailsColors);
-	int nItemSize = GetArraySize(&Items2);
+	int nItemSize = GetArraySize(&Items);
 	int nStoreSize = GetArraySize(&Stores);
 	int nShipSize = GetArraySize(&ShipsTypes);
 	int nWeatherSize = GetArraySize(&Weathers);
@@ -64,7 +64,7 @@ void onLoadReInit()
 	}
 	if (bInitItems || (nItemSize != ITEMS_QUANTITY))
 	{
-		SetArraySize(&Items2,ITEMS_QUANTITY);
+		SetArraySize(&Items,ITEMS_QUANTITY);
 		SetArraySize(&itemModels,ITEMS_QUANTITY);
 		/*if(LoadSegment("items\initItems.c"))
 		{

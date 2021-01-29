@@ -365,5 +365,35 @@ int CreateJamaicaCharacters(int n)
 	ch.greeting = "Gr_Smuggler Agent";
 	n = n + 1;
 	
+		makeref(ch,Characters[n]);			// Архитектор
+	ch.id		= "Builder";
+	ch.model	= "Mechanic";
+	ch.sex = "man";
+	ch.City = "PortRoyal";
+	ch.location	= "BuilderHouse";
+	ch.location.group = "sit";
+	ch.location.locator = "sit1";
+	ch.Dialog.Filename = "Common_Builder.c";
+	ch.Dialog.CurrentNode = "Hi1";
+	ch.greeting = "Gr_Master";
+	ch.nation = ENGLAND;
+	ch.quest.type = "";
+	ch.watchBoxes = true;
+	ch.NotRemoved = true;
+	GiveItem2Character(ch, GUN_COMMON);
+	GiveItem2Character(ch, "topor4");
+	ch.equip.blade = "topor4";
+	ch.equip.gun = GUN_COMMON;
+	SetRandSPECIAL(ch);
+    	SetSelfSkill(ch, 30, 30, 70, 50, 30);
+    	SetShipSkill(ch, 30, 50, 30, 30, 40, 70, 30, 25, 70)
+	ch.standUp = true; //вставать и нападать на врага
+	ch.NotCitizenBlade = true;
+	LAi_SetHuberType(ch);
+	LAi_RemoveLoginTime(ch);
+	LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
+	LAi_SetImmortal(ch, true);
+	n = n + 1;
+	
 	return n;
 }

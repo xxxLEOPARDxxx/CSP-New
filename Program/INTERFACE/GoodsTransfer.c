@@ -2,6 +2,7 @@
 
 int iCurGoodIndex;
 int iCurCompanion = 0;
+bool g_bToolTipStarted = false;
 
 void InitInterface(string iniName)
 {
@@ -54,7 +55,18 @@ void InitInterface(string iniName)
 	SetEventHandler("ShowItemsWindow", "ShowItemsWindow", 0);
 	SetEventHandler("exitCancel", "ProcessCancelExit", 0);
 	SetEventHandler("ievnt_command", "ProcCommand", 0);
+	SetEventHandler("ShowInfo","ShowInfo",0);
+	SetEventHandler("MouseRClickUP","HideInfo",0);
 	SetEventHandler("evntDoPostExit", "DoPostExit", 0);
+}
+
+void HideInfo()
+{
+	if( g_bToolTipStarted ) {
+		g_bToolTipStarted = false;
+		CloseTooltip();
+		SetCurrentNode("OK_BUTTON");
+	}
 }
 
 void SetCheckButtonsStates()
@@ -64,10 +76,28 @@ void SetCheckButtonsStates()
 	if(CheckAttribute(PChar, "TransferGoods." + companionId + ".BuyContraband"))
 	{
 		CheckButton_SetState("CHECK_BUYCONTRABAND", 1, true);
-}
+	}
 	else
 	{
 		CheckButton_SetState("CHECK_BUYCONTRABAND", 1, false);
+	}
+	
+	if(CheckAttribute(PChar, "BuyPersonal"))
+	{
+		CheckButton_SetState("BUY_PERSONAL", 1, true);
+	}
+	else
+	{
+		CheckButton_SetState("BUY_PERSONAL", 1, false);
+	}
+	
+	if(CheckAttribute(PChar, "SellRestriction"))
+	{
+		CheckButton_SetState("RESTRICT_SELL", 1, true);
+	}
+	else
+	{
+		CheckButton_SetState("RESTRICT_SELL", 1, false);
 	}
 }
 
@@ -226,15 +256,36 @@ void ProcessCancelExit()
 	IDoExit(RC_INTERFACE_GOODS_TRANSFER);
 }
 
+void ShowInfo()
+{
+	g_bToolTipStarted = true;
+	string sHeader = "TEST";
+	string sNode = GetCurrentNode();
+
+	string sText1, sText2, sText3, sPicture, sGroup, sGroupPicture;
+	sPicture = "none";
+	sGroup = "none";
+	sGroupPicture = "none";
+
+	sHeader = XI_ConvertString("BuyPersonal");
+	sText1 = "Закупать боеприпасы (по 10 пуль и пороха), еду (варьируемо, но не менее 3 единиц случайной еды) и лечилки (варьируемо, не менее 3 малых) всем активным абордажникам и ГГ";
+			
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+}
+
 void IDoExit(int exitCode)
 {
 	SetContrabandBuyFromCheckBox();
+	SetBuyPersonal();
+	SetSellRestriction();
 	
 	DelEventHandler("exitCancel", "ProcessCancelExit");
 	DelEventHandler("ievnt_command", "ProcCommand");
 	DelEventHandler("evntDoPostExit", "DoPostExit");
 	DelEventHandler("UnShowTGWindow", "UnShowTGWindow");
 	DelEventHandler("ShowItemsWindow", "ShowItemsWindow");
+	DelEventHandler("MouseRClickUP","HideInfo");
+	DelEventHandler("ShowInfo","ShowInfo");
 
 	interfaceResultCommand = exitCode;
 	EndCancelInterface(true);
@@ -358,6 +409,30 @@ void SetContrabandBuyFromCheckBox()
 	else
 	{
 		DeleteAttribute(PChar, "TransferGoods." + companionId + ".BuyContraband");
+	}
+}
+
+void SetBuyPersonal()
+{
+ 	if(SendMessage(&GameInterface, "lsll", MSG_INTERFACE_MSG_TO_NODE, "BUY_PERSONAL", 3, 1))
+	{
+		PChar.BuyPersonal = true;
+	}
+	else
+	{
+		DeleteAttribute(PChar, "BuyPersonal");
+	}
+}
+
+void SetSellRestriction()
+{
+ 	if(SendMessage(&GameInterface, "lsll", MSG_INTERFACE_MSG_TO_NODE, "RESTRICT_SELL", 3, 1))
+	{
+		PChar.SellRestriction = true;
+	}
+	else
+	{
+		DeleteAttribute(PChar, "SellRestriction");
 	}
 }
 

@@ -255,6 +255,15 @@ void LAi_CharacterPostLogin(ref location)
 		CreatTenochtitlan(location);
 		CreatTenochtitlanInside(location);
 		CreatDesMoines(location);
+		
+		// Lugger -->
+		CreateCaimanCitizens(location);
+		CreateCaimanGuardingBase(location);
+		CreateCaimanMinesCitizens(location);
+		CreateCaimanPlantationCitizens(location);
+		CreateCaimanShoreSlaves(location);
+		// Lugger <--
+		
 		//Расставляем квестовых энкоунтеров
 		LAi_CreateEncounters(location); //eddy. монстры не нужны здесь
 		/// ОЗГи

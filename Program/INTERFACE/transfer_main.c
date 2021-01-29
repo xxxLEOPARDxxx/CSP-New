@@ -125,17 +125,17 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
     SetFormatedText("Money_TEXT", MakeMoneyShow(sti(pchar.Money), MONEY_SIGN,MONEY_DELIVER));
 
     GameInterface.TABLE_LIST.hr.td1.str = "Кол-во";
-	GameInterface.TABLE_LIST.hr.td1.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td1.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td2.str = "Вес";
-	GameInterface.TABLE_LIST.hr.td2.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td2.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td3.str = "Товары";
-	GameInterface.TABLE_LIST.hr.td3.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td3.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td4.str = "Кол-во";
-	GameInterface.TABLE_LIST.hr.td4.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td4.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td5.str = "Вес";
-	GameInterface.TABLE_LIST.hr.td5.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td5.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td6.str = "Пачка/Вес";
-	GameInterface.TABLE_LIST.hr.td6.scale = 0.85;
+	GameInterface.TABLE_LIST.hr.td6.scale = 0.8;
 	GameInterface.TABLE_LIST.select = 0;
 	OnShipScrollChange();
 	sMessageMode = "";

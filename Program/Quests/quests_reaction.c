@@ -1,6 +1,9 @@
 
 void QuestComplete(string sQuestName, string qname)
 {
+	// Lugger -->
+	int iBuild = rand(3) + 3;
+	// Lugger <--
 	// boal -->
 	ref sld, npchar;
 	aref arOldMapPos, arAll, arPass;
@@ -3881,7 +3884,7 @@ void QuestComplete(string sQuestName, string qname)
                         Blade = "blade28";
                     break;
                     case 7:
-                        ShipType = SHIP_INTREPIDE;
+                        ShipType = SHIP_ZEVENPROVINCIEN;
                         Model = "off_spa_1";
                         Rank = 39;
                         Blade = "blade32";
@@ -4665,7 +4668,7 @@ void QuestComplete(string sQuestName, string qname)
                         Blade = "topor2";
                     break;
                     case 6:
-                        ShipType = SHIP_INTREPIDE;
+                        ShipType = SHIP_ZEVENPROVINCIEN;
                         Model = "off_spa_2";
                         Rank = 32;
                         Blade = "topor2";
@@ -4802,7 +4805,7 @@ void QuestComplete(string sQuestName, string qname)
                         Blade = "blade28";
                     break;
                     case 8:
-                        ShipType = SHIP_INTREPIDE;
+                        ShipType = SHIP_ZEVENPROVINCIEN;
                         Model = "off_spa_1";
                         Rank = 39;
                         Blade = "blade32";
@@ -7980,6 +7983,852 @@ void QuestComplete(string sQuestName, string qname)
 			LAi_FadeEndFadeOut();
 			InterfaceStates.Buttons.Save.enable = true;
         break;
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// ПОСТРОЙКА КОЛОНИИ - НАЧАЛО
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		case "ColonyBuilding":
+			SetQuestHeader("ColonyBuilding");
+			AddQuestRecord("ColonyBuilding", "1");
+			string sArchitecorName = Characters[GetCharacterIndex("Builder")].name + " " + Characters[GetCharacterIndex("Builder")].lastname;
+			AddQuestUserData("ColonyBuilding", "sArchitecorName", sArchitecorName);
+			
+			Locations[FindLocation("PortRoyal_town")].reload.l23.disable = true;
+			
+			PChar.ColonyBuilding.Stage.FirstStage = "0";
+			PChar.ColonyBuilding.Action = true;
+			
+			PChar.quest.ColonyBuildingTerks_1.win_condition.l1 = "location";
+			PChar.quest.ColonyBuildingTerks_1.win_condition.l1.location = "Shore57";
+			PChar.quest.ColonyBuildingTerks_1.win_condition = "ColonyBuildingTerks_1";
+			PChar.quest.ColonyBuildingDominica_1.win_condition.l1 = "location";
+			PChar.quest.ColonyBuildingDominica_1.win_condition.l1.location = "Shore27";
+			PChar.quest.ColonyBuildingDominica_1.win_condition = "ColonyBuildingDominica_1";
+			PChar.quest.ColonyBuildingCayman_1.win_condition.l1 = "location";
+			PChar.quest.ColonyBuildingCayman_1.win_condition.l1.location = "Shore17";
+			PChar.quest.ColonyBuildingCayman_1.win_condition = "ColonyBuildingCayman_1";
+			
+			PChar.quest.ColonyBuilding_6.win_condition.l1 = "ExitFromLocation";
+			PChar.quest.ColonyBuilding_6.win_condition.l1.location = PChar.location;
+			PChar.quest.ColonyBuilding_6.win_condition = "ColonyBuilding_6";
+			
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+			SetCharacterRemovable(&Characters[GetCharacterIndex("Builder")], false);
+			AddPassenger(PChar, &Characters[GetCharacterIndex("Builder")], 0);
+		break;
+		
+		case "ColonyBuildingTerks":
+			AddQuestRecord("ColonyBuilding", "2");
+			EndQuestMovie();
+			InterfaceStates.Buttons.Save.enable = true;
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyBuilding_8";
+			LAi_SetStayType(CharacterFromID("Builder"));
+			PChar.quest.ColonyBuilding_5.win_condition.l1 = "ExitFromLocation";
+			PChar.quest.ColonyBuilding_5.win_condition.l1.location = PChar.location;
+			PChar.quest.ColonyBuilding_5.win_condition = "ColonyBuilding_4";
+		break;
+		
+		case "ColonyBuildingDominica":
+			AddQuestRecord("ColonyBuilding", "11");
+			EndQuestMovie();
+			InterfaceStates.Buttons.Save.enable = true;
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyBuilding_8";
+			LAi_SetStayType(&Characters[GetCharacterIndex("Builder")]);
+			PChar.quest.ColonyBuilding_5.win_condition.l1 = "ExitFromLocation";
+			PChar.quest.ColonyBuilding_5.win_condition.l1.location = PChar.location;
+			PChar.quest.ColonyBuilding_5.win_condition = "ColonyBuilding_4";
+		break;
+		
+		case "ColonyBuildingTerks_1":
+			StartQuestMovie(true, false, true);
+			ChangeCharacterAddressGroup(&Characters[GetCharacterIndex("Builder")], "Shore57", "goto", "goto2");
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyBuilding_Terks";
+			LAi_SetActorType(&Characters[GetCharacterIndex("Builder")]);
+			LAi_ActorDialog(&Characters[GetCharacterIndex("Builder")], PChar, "", 20.0, 1.0);
+		break;
+		
+		case "ColonyBuildingDominica_1":
+			StartQuestMovie(true, false, true);
+			ChangeCharacterAddressGroup(&Characters[GetCharacterIndex("Builder")], "Shore27", "encdetector", "enc01");
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyBuilding_Dominica";
+			LAi_SetActorType(&Characters[GetCharacterIndex("Builder")]);
+			LAi_ActorDialog(&Characters[GetCharacterIndex("Builder")], PChar, "", 20.0, 1.0);
+		break;
+		
+		case "ColonyBuildingCayman_1":
+			StartQuestMovie(true, false, true);
+			ChangeCharacterAddressGroup(&Characters[GetCharacterIndex("Builder")], "Shore17", "goto", "goto13");
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyBuilding_2";
+			LAi_SetActorType(&Characters[GetCharacterIndex("Builder")]);
+			LAi_ActorDialog(&Characters[GetCharacterIndex("Builder")], PChar, "", 20.0, 1.0);
+			AddQuestRecord("ColonyBuilding", "3");
+		break;
+	
+		case "ColonyBuildingCayman":
+			EndQuestMovie();
+			InterfaceStates.Buttons.Save.enable = true;
+			AddQuestRecord("ColonyBuilding", "4");
+			PChar.ColonyBuilding.Stage.FirstStage = "1";
+			PChar.quest.ColonyBuildingDominica_1.over = "yes";
+			PChar.quest.ColonyBuildingTerks_1.over = "yes";
+			
+			PChar.BuildingColony.Blocks = 500;
+			PChar.BuildingColony.Planks = 1000;
+			PChar.BuildingColony.Mahogany = 500;
+			PChar.BuildingColony.Ebony = 250;
+			PChar.BuildingColony.Slaves = 200;
+			PChar.BuildingColony.Food = 400;
+			
+			LAi_SetStayType(&Characters[GetCharacterIndex("Builder")]);
+			//LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER_OWN);
+			RemovePassenger(PChar, &Characters[GetCharacterIndex("Builder")]);
+		break;
+	
+		case "ColonyBuildingCayman_2":
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyBuilding_4";
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 5.0, 1.0);
+		break;
+	
+		case "ColonyBuilding_1":
+			AddQuestRecord("ColonyBuilding", "5");
+			PChar.ColonyBuilding.Stage.FirstStage = "2";
+			int iColonyBuildingTime = sti(PChar.BuildingColony.ColonyTime);
+            		SetTimerCondition("ColonyBuilding_2", 0, 0, iColonyBuildingTime, false);
+			LAi_SetCitizenType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+			LAi_Fade("", "");
+			PChar.ColonyBuilding.SlavesInShore.CurShore = "Shore17";
+			CreateCaimanShoreSlaves(&Locations[FindLocation(PChar.location)]);
+		break;
+	
+		case "ColonyBuilding_2":
+			CreateSmallColonyCaiman();
+			
+			PChar.ColonyBuilding.Stage.FirstStage = "3";
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyBuilding_7";
+			PlayStereoSound("notebook");
+			Log_SetStringToLog("Время строительства колонии на острове Кайман должно подойти к концу. Стоит навестить место работы.");
+			
+			PChar.quest.ColonyBuilding_2_1.win_condition.l1 = "location";
+			PChar.quest.ColonyBuilding_2_1.win_condition.l1.location = "Shore17";
+			PChar.quest.ColonyBuilding_2_1.win_condition = "ColonyBuilding_2_1";
+		break;
+	
+		case "ColonyBuilding_2_1":
+			chrDisableReloadToLocation = true;
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 15.0, 1.0);
+		break;
+	
+		case "ColonyBuilding_3":
+			chrDisableReloadToLocation = false;
+			bDisableCharacterMenu = true;
+			bDisableQuestInterface = true;
+			
+			AddQuestRecord("ColonyBuilding", "6");
+			PChar.ColonyBuilding.Stage.FirstStage = "end";
+			PChar.ColonyBuilding.Action = false;
+			
+			LAi_SetCitizenType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+			
+			PChar.quest.ColonyBuilding_4.win_condition.l1 = "ExitFromLocation";
+			PChar.quest.ColonyBuilding_4.win_condition.l1.location = PChar.location;
+			PChar.quest.ColonyBuilding_4.win_condition = "ColonyBuilding_4";
+			
+			PChar.ColonyBuilding.SlavesInShore.CurShore = "none";
+			DeleteAllFantomCharactersFromLocation(&Locations[FindLocation(PChar.location)]);
+			
+			LAi_SetActorType(PChar);
+            		DoQuestCheckDelay("ColonyBuilding_EnterName", 2.5);
+            		
+		break;
+		
+		case "ColonyBuilding_EnterName":
+			PChar.ColonyBuilding.FirstBuild = true;
+			LaunchColonyBuilding(true, false);
+			
+			bDisableCharacterMenu = false;
+			bDisableQuestInterface = false;
+			LAi_SetPlayerType(PChar);
+		break;
+		
+		case "ColonyBuilding_4":
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "First time";
+			ChangeCharacterAddressGroup(&Characters[GetCharacterIndex("Builder")], "Caiman_town", "goto", "goto5");
+			LAi_SetCitizenType(&Characters[GetCharacterIndex("Builder")]);
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+		break;
+		
+		case "ColonyBuilding_5":
+			ChangeCharacterAddress(&Characters[GetCharacterIndex("Builder")], "None", "");
+		break;
+		
+		case "ColonyBuilding_6":
+			LAi_SetCitizenType(&Characters[GetCharacterIndex("Builder")]);
+			ChangeCharacterAddress(&Characters[GetCharacterIndex("Builder")], "None", "");
+		break;
+		
+// Colony Modification
+		case "ColonyModification":
+			AddQuestRecord("ColonyBuilding", "7");
+			AddQuestUserData("ColonyBuilding", "sColonyName", PChar.ColonyBuilding.ColonyName);
+			
+			PChar.ColonyBuilding.Stage.SecondStage = "0";
+			PChar.ColonyBuilding.Action = true;
+			
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorGoToLocation(CharacterFromID("Builder"), "reload", "reload1", "none", "", "", "", -1);
+	
+			PChar.quest.ColonyModification_1.win_condition.l1 = "location";
+			PChar.quest.ColonyModification_1.win_condition.l1.location = "Shore17";
+			PChar.quest.ColonyModification_1.win_condition = "ColonyModification_1";
+		break;
+	
+		case "ColonyModification_1":
+			PChar.ColonyBuilding.Stage.SecondStage = "1";
+			PChar.BuildingColony.Blocks = 1000;
+			PChar.BuildingColony.Planks = 2000;
+			PChar.BuildingColony.Mahogany = 750;
+			PChar.BuildingColony.Ebony = 500;
+			PChar.BuildingColony.Slaves = 600;
+			PChar.BuildingColony.Food = 1500;
+			LAi_SetCitizenType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+			ChangeCharacterAddressGroup(CharacterFromID("Builder"), "Shore17", "goto", "goto13");
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyModification_1";
+		break;
+	
+		case "ColonyModification_1_1":
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyModification_3";
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 5.0, 1.0);
+		break;
+	
+		case "ColonyModification_2":
+			AddQuestRecord("ColonyBuilding", "9");
+			PChar.ColonyBuilding.Stage.SecondStage = "2";
+			LAi_SetCitizenType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+			int iColonyModificationTime = sti(PChar.BuildingColony.ColonyModification);
+            		SetTimerCondition("ColonyModification_3", 0, 0, iColonyModificationTime, false);
+			LAi_Fade("", "");
+			PChar.ColonyBuilding.SlavesInShore.CurShore = "Shore17";
+			CreateCaimanShoreSlaves(&Locations[FindLocation(PChar.location)]);
+		break;
+	
+		case "ColonyModification_3":
+			PChar.ColonyBuilding.Stage.SecondStage = "3";
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyModification_4";
+			ChangeCharacterAddressGroup(CharacterFromID("Builder"), "Caiman_town", "goto", "goto8");
+			PlayStereoSound("notebook");
+			Log_SetStringToLog("Время расширения колонии ''" + PChar.ColonyBuilding.ColonyName + "'' должно подойти к концу.");
+			
+			CreateModificyColonyCaiman();
+			
+			PChar.ColonyBuilding.SlavesInShore.CurShore = "none";
+			PChar.quest.ColonyModification_6.win_condition.l1 = "location";
+			PChar.quest.ColonyModification_6.win_condition.l1.location = "Caiman_town";
+			PChar.quest.ColonyModification_6.win_condition = "ColonyModification_6";
+		break;
+	
+		case "ColonyModification_4":
+			EndQuestMovie();
+			AddQuestRecord("ColonyBuilding", "10");
+			AddQuestUserData("ColonyBuilding", "sColonyName", PChar.ColonyBuilding.ColonyName);
+			PChar.ColonyBuilding.Stage.SecondStage = "end";
+			PChar.ColonyBuilding.Action = false;
+
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "First time";
+			LAi_SetCitizenType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+			chrDisableReloadToLocation = false;
+		break;
+		
+		case "ColonyModification_5":
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "First time";
+		break;
+		
+		case "ColonyModification_6":
+			chrDisableReloadToLocation = true;
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyModification_4";
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 25.0, 1.0);
+		break;
+		
+		case "ColonyModification_7":
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyModification_2";
+			LAi_SetActorType(PChar);
+			LAi_ActorWaitDialog(PChar, CharacterFromID("Builder"));
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 5.0, 1.0);
+		break;
+		
+// Set Hovernor
+		case "SetHovernorToColonyResidence":
+			LAi_SetHuberType(CharacterFromID(PChar.ColonyBuilding.Hovernor));
+		break;
+		
+// Colony Fort Building
+		case "ColonyFortBuilding_1":
+			AddQuestRecord("ColonyBuilding", "12");
+			PChar.quest.ColonyFortBuilding_2.win_condition.l1 = "ExitFromLocation";
+			PChar.quest.ColonyFortBuilding_2.win_condition.l1.location = PChar.location;
+			PChar.quest.ColonyFortBuilding_2.win_condition = "ColonyFortBuilding_2";
+			PChar.quest.ColonyFortBuilding_3.win_condition.l1 = "location";
+			PChar.quest.ColonyFortBuilding_3.win_condition.l1.location = "Shore16";
+			PChar.quest.ColonyFortBuilding_3.win_condition = "ColonyFortBuilding_3";
+			
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorRunToLocation(CharacterFromID("Builder"), "reload", "gate_back", "none", "", "", "", -1);
+		break;
+
+		case "ColonyFortBuilding_1_1":
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyFortBuilding_4";
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 5.0, 1.0);
+		break;
+	
+		case "ColonyFortBuilding_2":
+			ChangeCharacterAddress(CharacterFromID("Builder"), "None", "");
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "First time";
+		break;
+
+		case "ColonyFortBuilding_3":
+			PChar.BuildingColony.Blocks = 2500;
+			PChar.BuildingColony.Planks = 1500;
+			PChar.BuildingColony.Mahogany = 300;
+			PChar.BuildingColony.Ebony = 200;
+			PChar.BuildingColony.Slaves = 500;
+			PChar.BuildingColony.Food = 1000;
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyFortBuilding_3";
+			ChangeCharacterAddressGroup(CharacterFromID("Builder"), "Shore16", "goto", "goto8");
+			LAi_SetCitizenType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+		break;
+
+		case "ColonyFortBuilding_4":
+			AddQuestRecord("ColonyBuilding", "13");
+		break;
+
+		case "ColonyFortBuilding_5":
+			AddQuestRecord("ColonyBuilding", "14");
+			
+			LAi_SetCitizenType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+			
+			int iColonyFortTime = sti(PChar.BuildingColony.ColonyFort);
+            		SetTimerCondition("ColonyFortBuilding_6", 0, 0, iColonyFortTime, false);
+            		
+			LAi_Fade("", "");
+			PChar.ColonyBuilding.SlavesInShore.CurShore = "Shore16";
+			CreateCaimanShoreSlaves(&Locations[FindLocation(PChar.location)]);
+		break;
+		
+		case "ColonyFortBuilding_6":
+			PlayStereoSound("notebook");
+			Log_SetStringToLog("Время строительства охранной базы близ колонии ''" + PChar.ColonyBuilding.ColonyName + "'' должно подойти к концу.");
+			CreateFortInCaiman();
+			ChangeCharacterAddressGroup(CharacterFromID("Builder"), "LandGuardingPort", "goto", "goto1");
+			LAi_SetStayType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+			Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyFortBuilding_6";
+			PChar.ColonyBuilding.Stage = "3";
+			
+			PChar.ColonyBuilding.SlavesInShore.CurShore = "LandGuardingPort";
+			PChar.quest.ColonyFortBuilding_6_1.win_condition.l1 = "location";
+			PChar.quest.ColonyFortBuilding_6_1.win_condition.l1.location = "LandGuardingPort";
+			PChar.quest.ColonyFortBuilding_6_1.win_condition = "ColonyFortBuilding_6_1";
+		break;
+
+		case "ColonyFortBuilding_6_1":
+			chrDisableReloadToLocation = true;
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 5.0, 1.0);
+		break;
+
+		case "ColonyFortBuilding_7":
+			chrDisableReloadToLocation = false;
+			AddQuestRecord("ColonyBuilding", "15");
+			CloseQuestHeader("ColonyBuilding");
+			
+			LAi_Fade("", "");
+			PChar.ColonyBuilding.SlavesInShore.CurShore = "None";
+			DeleteAllFantomCharactersFromLocation(&Locations[FindLocation(PChar.location)]);
+			
+			LAi_SetActorType(CharacterFromID("Builder"));
+			LAi_ActorRunToLocation(CharacterFromID("Builder"), "reload", "reload1_back", "none", "", "", "", -1);
+			
+			PChar.quest.ColonyFortBuilding_8.win_condition.l1 = "ExitFromLocation";
+			PChar.quest.ColonyFortBuilding_8.win_condition.l1.location = PChar.location;
+			PChar.quest.ColonyFortBuilding_8.win_condition = "ColonyFortBuilding_8";
+		break;
+
+		case "ColonyFortBuilding_8":
+			Locations[FindLocation("PortRoyal_town")].reload.l23.disable = false;
+			ChangeCharacterAddressGroup(CharacterFromID("Builder"), "BuilderHouse", "sit", "sit1");
+			LAi_SetHuberType(CharacterFromID("Builder"));
+			LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], "ENGLAND_CITIZENS");
+		break;
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// ПОСТРОЙКА КОЛОНИИ - КОНЕЦ
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// ПОСТРОЙКА ЗДАНИЙ В КОЛОНИИ - НАЧАЛО
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		case "Store_build":
+			iBuild = rand(2) + 1;
+            		SetTimerCondition("Store_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "Store_build_1":
+			Log_SetStringToLog("Магазин открыт.");
+			ChangeColonyMorale(5, false);
+			PChar.ColonyBuilding.Store.BuildingTime = false;
+			PChar.ColonyBuilding.Store = true;
+			ChangeCharacterAddressGroup(CharacterFromID("Caiman_trader"), "Caiman_store", "barmen", "stay");
+			Locations[FindLocation("Caiman_town")].reload.l6.disable = false; 
+			
+		break;
+		
+		case "Shipyard_build":
+			iBuild = rand(2) + 1;
+            		SetTimerCondition("Shipyard_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "Shipyard_build_1":
+			Log_SetStringToLog("Верфь открыта.");
+			ChangeColonyMorale(5, false);
+			PChar.ColonyBuilding.Shipyard.BuildingTime = false;
+			PChar.ColonyBuilding.Shipyard = true;
+			Locations[FindLocation("Caiman_town")].reload.l5.disable = false; 
+			ChangeCharacterAddressGroup(CharacterFromID("Caiman_shipyarder"), "Caiman_shipyard", "sit", "sit1");
+		break;
+		
+		case "Tavern_build":
+			iBuild = rand(2) + 1;
+            		SetTimerCondition("Tavern_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "Tavern_build_1":
+			Log_SetStringToLog("Таверна открыта.");
+			ChangeColonyMorale(10, false);
+			PChar.ColonyBuilding.Tavern.BuildingTime = false;
+			PChar.ColonyBuilding.Tavern = true;
+			Locations[FindLocation("Caiman_town")].reload.l4.disable = false; 
+			Locations[FindLocation("Caiman_town")].reload.l41.disable = false; 
+			Locations[FindLocation("Caiman_tavern")].habitues = 1; 
+			ChangeCharacterAddressGroup(CharacterFromID("Caiman_tavernkeeper"), "Caiman_Tavern", "barmen", "stay");
+			ChangeCharacterAddressGroup(CharacterFromID("Caiman_waitress"), "Caiman_Tavern", "waitress", "barmen");
+		break;
+		
+		case "Church_build":
+			iBuild = rand(2) + 1;
+            		SetTimerCondition("Church_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "Church_build_1":
+			Log_SetStringToLog("Церковь открыта.");
+			ChangeColonyMorale(20, false);
+			PChar.ColonyBuilding.Church.BuildingTime = false;
+			PChar.ColonyBuilding.Church = true;
+			Locations[FindLocation("Caiman_town")].reload.l7.disable = false;
+			Locations[FindLocation("Caiman_town")].reload.l71.disable = false; 
+			ChangeCharacterAddressGroup(CharacterFromID("Caiman_Priest"), "Caiman_church", "barmen", "stay");
+		break;
+		
+		case "Bank_build":
+			iBuild = rand(2) + 1;
+            		SetTimerCondition("Bank_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "Bank_build_1":
+			Log_SetStringToLog("Дом ростовщика открыт.");
+			ChangeColonyMorale(10, false);
+			PChar.ColonyBuilding.Bank.BuildingTime = false;
+			PChar.ColonyBuilding.Bank = true;
+			Locations[FindLocation("Caiman_town")].reload.l8.disable = false;
+			ChangeCharacterAddressGroup(CharacterFromID("Caiman_usurer"), "Caiman_bank", "barmen", "stay");
+		break;
+		
+		case "HeadPort_build":
+			iBuild = rand(2) + 1;
+            		SetTimerCondition("HeadPort_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "HeadPort_build_1":
+			Log_SetStringToLog("Портовое управление открыто.");
+			ChangeColonyMorale(10, false);
+			PChar.ColonyBuilding.HeadPort.BuildingTime = false;
+			PChar.ColonyBuilding.HeadPort = true;
+			Locations[FindLocation("Caiman_town")].reload.l10.disable = false;
+			ChangeCharacterAddressGroup(CharacterFromID("Caiman_PortMan"), "Caiman_PortOffice", "sit", "sit1");
+		break;
+		
+		case "Expidition_build":
+			iBuild = rand(3) + 2;
+            		SetTimerCondition("Expidition_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "Expidition_build_1":
+			if(GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != -1 && GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != nMainCharacterIndex)
+			{
+				Characters[GetCharacterIndex(PChar.ColonyBuilding.Hovernor)].Dialog.CurrentNode = "ColonyBuilding_Expidition_End";
+			}
+			
+			Log_SetStringToLog("Экспедиции проведены.");
+			PChar.ColonyBuilding.Expidition.BuildingTime = false;
+			PChar.ColonyBuilding.Expidition = true;
+		break;
+		
+		case "Plantation_build":
+			iBuild = rand(5) + 20;
+            		SetTimerCondition("Plantation_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "Plantation_build_1":
+			if(GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != -1 && GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != nMainCharacterIndex)
+			{
+				Characters[GetCharacterIndex(PChar.ColonyBuilding.Hovernor)].Dialog.CurrentNode = "ColonyBuilding_Plantation_End";
+			}
+			CreatePlantationInCaiman();
+			
+			Log_SetStringToLog("Плантация построена.");
+			PChar.ColonyBuilding.Plantation.BuildingTime = false;
+		break;
+		
+		case "Plantation_resize":
+			iBuild = rand(5) + 10;
+            		SetTimerCondition("Plantation_resize_1", 0, 0, iBuild, false);
+		break;
+		
+		case "Plantation_resize_1":
+			Log_SetStringToLog("Плантация расширена.");
+			PChar.Plantation.Size.Resize.BuildingTime = false;
+			PChar.ColonyBuilding.Plantation.Resize.BuildingTime = false;
+			PChar.Plantation.Size = 2;
+			PChar.Plantation.Slaves.MaxQuantity = 500;
+			PChar.Plantation.Guardians.MaxQuantity = 500;
+			PChar.Plantation.Food.MaxQuantity = 8000;
+			PChar.Plantation.Medicament.MaxQuantity = 4500;
+			PChar.Plantation.Items.MaxQuantity = 550;
+			PChar.Plantation.Sugar.MaxQuantity = 10000;
+		break;
+		
+		case "StoreHouse_build":
+			iBuild = rand(2) + 2;
+            		SetTimerCondition("StoreHouse_build_1", 0, 0, iBuild, false);
+		break;
+		
+		case "StoreHouse_build_1":
+			Log_SetStringToLog("Склад построен.");
+			PChar.ColonyBuilding.StoreHouse.BuildingTime = false;
+			PChar.ColonyBuilding.StoreHouse = true;
+			
+			if(PChar.ColonyBuilding.Stage == "1")
+			{
+				Locations[FindLocation("Caiman_town")].reload.l11.label = "Caiman Store House";
+				Locations[FindLocation("Caiman_town")].reload.l11.disable = false;
+				Locations[FindLocation("Caiman_StoreHouse")].reload.l1.emerge = "reload4";
+			}
+			else
+			{
+				Locations[FindLocation("Caiman_town")].reload.l11.label = "Caiman Store House";
+				Locations[FindLocation("Caiman_town")].reload.l11.disable = false;
+				Locations[FindLocation("Caiman_StoreHouse")].reload.l1.emerge = Locations[FindLocation("Caiman_town")].reload.l11.name;
+				
+				if(Locations[FindLocation("Caiman_StoreHouse")].reload.l1.emerge == "")
+				{
+					Locations[FindLocation("Caiman_StoreHouse")].reload.l1.emerge = "houseS1";
+				}
+			}
+		break;
+		
+		case "GoldMine_build":
+			iBuild = rand(5) + 12;
+            		SetTimerCondition("GoldMine_build_1", 0, 0, iBuild, false);
+            		PChar.Mines.Defence.Block = true;
+		break;
+		
+		case "GoldMine_build_1":
+			if(GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != -1 && GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != nMainCharacterIndex && PChar.ColonyBuilding.MineMessage == false)
+			{
+				Characters[GetCharacterIndex(PChar.ColonyBuilding.Hovernor)].Dialog.CurrentNode = "ColonyBuilding_Mines_End";
+			}
+			
+			Log_SetStringToLog("Золотой рудник построен.");
+			PChar.Mines.GoldMine = true;
+			PChar.ColonyBuilding.GoldMine = true;
+			PChar.Mines.GoldMine.BuildingTime = false;
+			PChar.ColonyBuilding.GoldMine.BuildingTime = false;
+			CreateMinesInCaiman();
+            		PChar.Mines.Defence.Block = false;
+		break;
+		
+		case "SilverMine_build":
+			iBuild = rand(5) + 10;
+            		SetTimerCondition("SilverMine_build_1", 0, 0, iBuild, false);
+            		PChar.Mines.Defence.Block = true;
+		break;
+		
+		case "SilverMine_build_1":
+			if(GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != -1 && GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != nMainCharacterIndex && PChar.ColonyBuilding.MineMessage == false)
+			{
+				Characters[GetCharacterIndex(PChar.ColonyBuilding.Hovernor)].Dialog.CurrentNode = "ColonyBuilding_Mines_End";
+			}
+			
+			Log_SetStringToLog("Серебрянный рудник построен.");
+			PChar.Mines.SilverMine = true;
+			PChar.Mines.SilverMine.BuildingTime = false;
+			PChar.ColonyBuilding.SilverMine.BuildingTime = false;
+			PChar.ColonyBuilding.SilverMine = true;
+			CreateMinesInCaiman();
+            		PChar.Mines.Defence.Block = false;
+		break;
+		
+		case "IronMine_build":
+			iBuild = rand(5) + 5;
+            		SetTimerCondition("IronMine_build_1", 0, 0, iBuild, false);
+            		PChar.Mines.Defence.Block = true;
+		break;
+		
+		case "IronMine_build_1":
+			if(GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != -1 && GetCharacterIndex(PChar.ColonyBuilding.Hovernor) != nMainCharacterIndex && PChar.ColonyBuilding.MineMessage == false)
+			{
+				Characters[GetCharacterIndex(PChar.ColonyBuilding.Hovernor)].Dialog.CurrentNode = "ColonyBuilding_Mines_End";
+			}
+			Log_SetStringToLog("Железный рудник построен.");
+			PChar.Mines.IronMine = true;
+			PChar.Mines.IronMine.BuildingTime = false;
+			PChar.ColonyBuilding.IronMine.BuildingTime = false;
+			PChar.ColonyBuilding.IronMine = true;
+			CreateMinesInCaiman();
+            		PChar.Mines.Defence.Block = false;
+		break;
+		
+		case "GoldMine_resize":
+			iBuild = rand(2) + 7;
+            		SetTimerCondition("GoldMine_resize_1", 0, 0, iBuild, false);
+            		PChar.Mines.Defence.Block = true;
+		break;
+		
+		case "GoldMine_resize_1":
+			Log_SetStringToLog("Золотой рудник расширен.");
+			PChar.ColonyBuilding.GoldMine.Resize.BuildingTime = false;
+			PChar.ColonyBuilding.GoldMine.Resize = true;
+			PChar.Mines.GoldQuantity.Max = 5000;
+			PChar.Mines.FoodQuantity.Max = sti(PChar.Mines.FoodQuantity.Max) + 1000;
+			PChar.Mines.MedicamentQuantity.Max = sti(PChar.Mines.MedicamentQuantity.Max) + 1000;
+			PChar.Mines.MaxSlavesQuantity = sti(PChar.Mines.MaxSlavesQuantity) + 100;
+			PChar.Mines.MaxGuardiansQuantity = sti(PChar.Mines.MaxGuardiansQuantity) + 100;
+            		PChar.Mines.Defence.Block = false;
+		break;
+		
+		case "SilverMine_resize":
+			iBuild = rand(2) + 5;
+            		SetTimerCondition("SilverMine_resize_1", 0, 0, iBuild, false);
+            		PChar.Mines.Defence.Block = true;
+		break;
+		
+		case "SilverMine_resize_1":
+			Log_SetStringToLog("Серебрянный рудник расширен.");
+			PChar.ColonyBuilding.SilverMine.Resize.BuildingTime = false;
+			PChar.ColonyBuilding.SilverMine.Resize = true;
+			PChar.Mines.FoodQuantity.Max = sti(PChar.Mines.FoodQuantity.Max) + 1000;
+			PChar.Mines.MedicamentQuantity.Max = sti(PChar.Mines.MedicamentQuantity.Max) + 1000;
+			PChar.Mines.SilverQuantity.Max = 7500;
+			PChar.Mines.MaxSlavesQuantity = sti(PChar.Mines.MaxSlavesQuantity) + 100;
+			PChar.Mines.MaxGuardiansQuantity = sti(PChar.Mines.MaxGuardiansQuantity) + 100;
+            		PChar.Mines.Defence.Block = false;
+		break;
+		
+		case "IronMine_resize":
+			iBuild = rand(2) + 3;
+            		SetTimerCondition("IronMine_resize_1", 0, 0, iBuild, false);
+            		PChar.Mines.Defence.Block = true;
+		break;
+		
+		case "IronMine_resize_1":
+			Log_SetStringToLog("Железный рудник расширен.");
+			PChar.ColonyBuilding.IronMine.Resize.BuildingTime = false;
+			PChar.ColonyBuilding.IronMine.Resize = true;
+			PChar.Mines.FoodQuantity.Max = sti(PChar.Mines.FoodQuantity.Max) + 1000;
+			PChar.Mines.MedicamentQuantity.Max = sti(PChar.Mines.MedicamentQuantity.Max) + 1000;
+			PChar.Mines.IronQuantity.Max = 10000;
+			PChar.Mines.MaxSlavesQuantity = sti(PChar.Mines.MaxSlavesQuantity) + 100;
+			PChar.Mines.MaxGuardiansQuantity = sti(PChar.Mines.MaxGuardiansQuantity) + 100;
+            		PChar.Mines.Defence.Block = false;
+		break;
+		
+		case "StoreHouse_resize":
+			iBuild = rand(3) + 2;
+            		SetTimerCondition("StoreHouse_resize_1", 0, 0, iBuild, false);
+		break;
+		
+		case "StoreHouse_resize_1":
+			Log_SetStringToLog("Склад расширен.");
+			Stores[STORE_HOUSE].max_weight = sti(Stores[STORE_HOUSE].max_resize_weight);
+			PChar.ColonyBuilding.StoreHouse.Resize.BuildingTime = false;
+			PChar.ColonyBuilding.StoreHouse.Resize = true;
+		break;
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// ПОСТРОЙКА ЗДАНИЙ В КОЛОНИИ - КОНЕЦ
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// ЖИЗНЬ В КОЛОНИИ - НАЧАЛО
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		case "SetCommanderToMinesOffice":
+			LAi_SetStayType(CharacterFromID(PChar.Mines.Commander));
+		break;
+
+		/*
+                        PChar.quest.LiveOfTheColonyUptade_1.over = "yes";
+                        PChar.quest.LiveOfTheColonyUptade_2.over = "yes";
+                        PChar.quest.LiveOfTheColonyUptade_3.over = "yes";
+                        PChar.quest.LiveOfTheColonyUptade_4.over = "yes";
+                */
+                
+		case "LiveOfTheColonyUptade_1":
+			SetTimerCondition("LiveOfTheColonyUptade_2", 0, 0, 0, false);
+		break;  
+		
+		case "LiveOfTheColonyUptade_2":
+			SetTimerCondition("LiveOfTheColonyUptade_3", 0, 0, 7, false);
+		break;  
+		
+		case "LiveOfTheColonyUptade_3":
+			LiveOfTheColonyUptade();
+			SetTimerCondition("LiveOfTheColonyUptade_4", 0, 0, 1, false);
+		break;
+		
+		case "LiveOfTheColonyUptade_4":
+			SetTimerCondition("LiveOfTheColonyUptade_3", 0, 0, 6, false);
+		break;
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// ЖИЗНЬ В КОЛОНИИ - КОНЕЦ
+		////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// НАПАДЕНИЯ НА КОЛОНИЮ - НАЧАЛО
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		case "CheckDefenceColonyUptade_1":
+			SetTimerCondition("CheckDefenceColonyUptade_2", 0, 0, 0, false);
+		break;  
+		
+		case "CheckDefenceColonyUptade_2":
+			SetTimerCondition("CheckDefenceColonyUptade_3", 0, 0, 40, false);
+		break;  
+		
+		case "CheckDefenceColonyUptade_3":
+			CheckDefenceColony();
+			SetTimerCondition("CheckDefenceColonyUptade_4", 0, 0, 38, false);
+		break;
+		
+		case "CheckDefenceColonyUptade_4":
+			SetTimerCondition("CheckDefenceColonyUptade_3", 0, 0, 2, false);
+		break;
+		
+		case "ClearMutinyColony":
+			ClearMutinyColony("");
+		break;
+		
+		case "ClearLandDefenceColony":
+			ClearLandDefenceColony("");
+		break;
+		
+		case "ColonyNotSetDead":
+			PChar.ColonyBuilding.Defence.DeadInTown = false;
+			
+			if(CheckAttribute(&Locations[FindLocation("Caiman_town")], "hidden_effects"))
+			{
+				DeleteAttribute(&Locations[FindLocation("Caiman_town")], "hidden_effects");
+			}
+			if(CheckAttribute(&Locations[FindLocation("Caiman_ExitTown")], "hidden_effects"))
+			{
+				DeleteAttribute(&Locations[FindLocation("Caiman_ExitTown")], "hidden_effects");
+			}
+		break;
+		
+		case "MinesNotSetDead":
+			PChar.Mines.Defence.DeadInTown = false;
+		break;
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// НАПАДЕНИЯ НА КОЛОНИЮ - КОНЕЦ
+		////////////////////////////////////////////////////////////////////////////////////////////////
+
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// ПЛАНТАЦИЯ - НАЧАЛО
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		case "SetCommanderToPlantationOffice":
+			LAi_SetStayType(CharacterFromID(PChar.Plantation.Commander));
+		break;
+		
+		case "PlantationUptade1":
+			SetTimerCondition("PlantationUptade2", 0, 0, 0, false);
+		break;  
+		
+		case "PlantationUptade2":
+			SetTimerCondition("PlantationUptade3", 0, 0, 14, false);
+		break;  
+		
+		case "PlantationUptade3":
+			UptadeLivedInPlantation();
+			SetTimerCondition("PlantationUptade4", 0, 0, 1, false);
+		break;
+		
+		case "PlantationUptade4":
+			SetTimerCondition("PlantationUptade3", 0, 0, 13, false);
+		break;
+
+		case "PlantationUptade5":
+			PChar.Plantation.Defence.Block = false;
+			Log_TestInfo("Запрет на мятежи на плантации снят.");
+		break;
+
+		case "PlantationNotSetDead":
+			PChar.Plantation.Defence.DeadInTown = false;
+		break;
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// ПЛАНТАЦИЯ - КОНЕЦ
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// РУДНИКИ - НАЧАЛО
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		case "MinesUptade1":
+			SetTimerCondition("MinesUptade2", 0, 0, 0, false);
+		break;  
+		
+		case "MinesUptade2":
+			SetTimerCondition("MinesUptade3", 0, 0, 14, false);
+		break;  
+		
+		case "MinesUptade3":
+			UptadeLivedInMines();
+			SetTimerCondition("MinesUptade4", 0, 0, 1, false);
+		break;
+		
+		case "MinesUptade4":
+			SetTimerCondition("MinesUptade3", 0, 0, 13, false);
+		break;
+
+		case "MinesUptade5":
+			PChar.Mines.Defence.Block = false;
+			Log_TestInfo("Запрет на нападения на рудники снят.");
+		break;
+
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// РУДНИКИ - КОНЕЦ
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		//homo
 		//-->работорговец
 		case "Slavetrader_findTortugaRat"://охрана Гонтьера

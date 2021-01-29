@@ -761,10 +761,11 @@ void CalculateInfoDataF8()
 	// Статистика по читам
 	// Statistic_AddValue(PChar, "Cheats.F9", 1);
 
-string descF9 = "обновление массива островов & локаций & колоний & кораблей";
+//string descF9 = "обновление массива островов & локаций & колоний & кораблей";
+string descF9 = "Выдача материалов для постройки колонии";
 void CalculateInfoDataF9()
 {
-    ShipsInit();
+    /* ShipsInit();
     IslandsInit();
     LocationInit();
     ColoniesInit();
@@ -772,7 +773,28 @@ void CalculateInfoDataF9()
     totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
     SetFormatedText("INFO_TEXT",totalInfo);
 
-    return;
+    return; */
+	
+	SetCharacterGoods(pchar, GOOD_BALLS, 2000);
+	SetCharacterGoods(pchar, GOOD_GRAPES, 2000);
+	SetCharacterGoods(pchar, GOOD_KNIPPELS, 2000);
+	SetCharacterGoods(pchar, GOOD_BOMBS, 2000);;
+	SetCharacterGoods(pchar, GOOD_FOOD, 6000);
+	SetCharacterGoods(pchar, GOOD_POWDER, 3000);
+	SetCharacterGoods(pchar, GOOD_SLAVES, 1000);
+	SetCharacterGoods(pchar, GOOD_BRICK, 2500);
+	SetCharacterGoods(pchar, GOOD_MAHOGANY, 1500);
+	SetCharacterGoods(pchar, GOOD_EBONY, 1500);
+	SetCharacterGoods(pchar, GOOD_PLANKS, 3000);
+	SetCharacterGoods(pchar, GOOD_TOOLS, 1500);
+	SetCharacterGoods(pchar, GOOD_MEDICAMENT, 1000);
+	
+	totalInfo = totalInfo + NewStr() + NewStr() +
+                "Команда отработала успешно!";
+    SetFormatedText("INFO_TEXT",totalInfo);
+    
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F19", 1);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1056,8 +1078,8 @@ void CalculateInfoDataF17()
 	Statistic_AddValue(PChar, "Cheats.F17", 1);
 }
 
-string descF18 = "ChangeShowIntarface - для скринов без надписей";
-
+//string descF18 = "ChangeShowIntarface - для скринов без надписей";
+string descF18 = "Нанять 10 офицеров";
 void CalculateInfoDataF18()
 {
 	idLngFile = LanguageOpenFile("ItemsDescribe.txt");
@@ -1072,8 +1094,47 @@ void CalculateInfoDataF18()
         Weathers[iCurWeatherNum].Wind.Speed.Min = 9.9;
     	Weathers[iCurWeatherNum].Wind.Speed.Max = 10.1;
 	} */
-	ChangeShowIntarface();
-    // <
+	//ChangeShowIntarface();
+    //
+	for(i=1; i<11; i++)
+    {
+		ref sld = GetCharacter(NPC_GenerateCharacter("DebugOfficer_"+i, "pirate_"+i, "man", "man", 30, PIRATE, -1, true));
+		sld.greeting = "Gr_questOfficer";
+		sld.Dialog.Filename = "Enc_Officer_dialog.c";
+		sld.quest.meeting = true;
+		SetSelfSkill(sld, 100, 100, 100, 100, 100);
+		SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100);
+		SetSPECIAL(sld, 6, 10, 9, 10, 10, 8, 10);
+		SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+		SetCharacterPerk(sld, "BasicBattleState");
+		SetCharacterPerk(sld, "AdvancedBattleState");
+		SetCharacterPerk(sld, "ShipDefenseProfessional");
+		SetCharacterPerk(sld, "LightRepair");
+		SetCharacterPerk(sld, "InstantRepair");
+		SetCharacterPerk(sld, "ShipTurnRateUp");
+		SetCharacterPerk(sld, "ShipSpeedUp");
+		SetCharacterPerk(sld, "StormProfessional");
+		SetCharacterPerk(sld, "Turn180");
+		SetCharacterPerk(sld, "SailingProfessional");
+		SetCharacterPerk(sld, "Carpenter");
+		SetCharacterPerk(sld, "Builder");
+		SetCharacterPerk(sld, "WindCatcher");
+		SetCharacterPerk(sld, "SailsMan");
+		SetCharacterPerk(sld, "Doctor1");
+		SetCharacterPerk(sld, "Doctor2");
+		sld.quest.OfficerPrice = sti(pchar.rank)*100;
+		Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
+		sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+		sld.loyality = MAX_LOYALITY;
+		AddPassenger(pchar, sld, false);
+		sld.location = "None";
+		sld.Dialog.CurrentNode = "hired";
+		sld.Payment = true;
+		sld.DontClearDead = true;
+		DeleteAttribute(Pchar, "questTemp.HiringOfficerIDX");
+		DeleteAttribute(sld, "LifeDay")
+		SaveCurrentNpcQuestDateParam(sld, "HiredDate"); // дата найма
+	}
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
@@ -1134,12 +1195,9 @@ void CalculateInfoDataF21()
 	//locCameraRotateAroundHero(0.0, 1.0, 0.0, 0.0, 0.01, 5.0, 0.0, 150);
 	//locCameraRotateAroundHero(0.0, 1.0, 0.0, -0.03, 0.03, 7.0, 0.0, 225);
 	//locCameraFlyToPosition(stf(Camera.pos.x), stf(Camera.pos.y), stf(Camera.pos.z), stf(Camera.pos.x), stf(Camera.pos.y) + 30, stf(Camera.pos.z), 0.9, -1);
-	locCameraFlyToPosition(stf(Camera.pos.x), stf(Camera.pos.y), stf(Camera.pos.z), stf(Camera.pos.x), stf(Camera.pos.y) + 35, stf(Camera.pos.z), 0.05, -1);
-	//locCameraLockNearHero(-5.0, 2.0, -5.0, 200, true);
-	
-																			  
-												   
-					   
+	// locCameraFlyToPosition(stf(Camera.pos.x), stf(Camera.pos.y), stf(Camera.pos.z), stf(Camera.pos.x), stf(Camera.pos.y) + 35, stf(Camera.pos.z), 0.05, -1);
+	locCameraLockNearHero(-5.0, 2.0, -5.0, 200, true);
+
     // <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";

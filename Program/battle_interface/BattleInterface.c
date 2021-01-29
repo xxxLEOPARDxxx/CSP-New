@@ -1507,7 +1507,7 @@ void SetShipPictureDataByShipTypeName(string sType)
 	case "bellona":				BI_intNRetValue[0] = 2+7*32;	BI_intNRetValue[1] = 2+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Линкор 1-го класса
 	case "linearship":			BI_intNRetValue[0] = 4+7*32;	BI_intNRetValue[1] = 4+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Тяж. Лин. Корабль
 	case "shark":				BI_intNRetValue[0] = 6+7*32;	BI_intNRetValue[1] = 6+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Тяж. Лин. Корабль
-	case "intrepide":			BI_intNRetValue[0] = 8+7*32;	BI_intNRetValue[1] = 8+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Лег. Мановар
+	case "Zevenprovincien":		BI_intNRetValue[0] = 8+7*32;	BI_intNRetValue[1] = 8+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Лег. Мановар
 	case "fr_trinity":			BI_intNRetValue[0] = 10+7*32;	BI_intNRetValue[1] = 10+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Воен. Мановар
 	case "manowar_fast":		BI_intNRetValue[0] = 12+7*32;	BI_intNRetValue[1] = 12+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Фра. Мановар
 	case "battlemanowar":		BI_intNRetValue[0] = 14+7*32;	BI_intNRetValue[1] = 14+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Анг. Мановар
@@ -3241,6 +3241,13 @@ ref BI_GetLandData()
 	int g_LocLngFileID = LanguageOpenFile("LocLables.txt");
 	if( CheckAttribute(arLoc,"label") ) {
 		arLoc.labelLoc = LanguageConvertString(g_LocLngFileID,arLoc.label);
+		string sColonyName = PChar.ColonyBuilding.ColonyName;
+		
+		if(arLoc.label == "Caiman Port")
+		{
+			arLoc.labelLoc = "порт " + sColonyName;
+		}
+		
 		if( arLoc.labelLoc == "" ) {
 			Trace("Warning! Language: string <"+arLoc.label+"> hav`t translation into file <LocLables.txt>");
 		}

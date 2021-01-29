@@ -589,6 +589,11 @@ void InterfaceDoExit()
 			LaunchControlsScreen();
 			break;
 			*/
+			
+		case RC_INTERFACE_LOCKPICK: //New Abilities - взлом сундука
+			LaunchLockPicking();
+		break;
+			
 		case RC_INTERFACE_DO_CREDITS:
 		    LaunchAboutScreen();
 		break;
@@ -989,6 +994,13 @@ void NewGame_continue()
 
 	ActivateTimeEvents();
 
+	ReloadProgressUpdate();
+
+	GenerateColonyVariable();
+	ReloadProgressUpdate();
+	InitPlantation();
+	ReloadProgressUpdate();
+	SetStartColonyGuarding();
 	ReloadProgressUpdate();
 
 	//LoadMainCharacterInFirstLocation(sTeleportLocName, sTeleportLocator, sTeleportLocName);

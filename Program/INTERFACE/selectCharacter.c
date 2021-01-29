@@ -169,6 +169,22 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_MARK", 1, false);
     }
+	if (bHigherSelfRate)// 1 0
+    {
+    	CheckButton_SetState("CHECK_LOWERSELF", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_LOWERSELF", 1, false);
+    }
+	if (bPortPermission)// 1 0
+    {
+    	CheckButton_SetState("CHECK_PORTPERM", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_PORTPERM", 1, false);
+    }
 }
 
 void IProcessFrame()
@@ -288,6 +304,22 @@ void IProcessFrame()
 	else
 	{
 		bQuestMark = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_LOWERSELF", 3, 1))
+	{
+		bHigherSelfRate = true;
+	}
+	else
+	{
+		bHigherSelfRate = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_PORTPERM", 3, 1))
+	{
+		bPortPermission = true;
+	}
+	else
+	{
+		bPortPermission = false;
 	}
 }
 
@@ -805,6 +837,16 @@ void ShowInfo()
 		case "CHECK_MARK":
 			sHeader = XI_ConvertString("QuestMark");
 			sText1 = GetRPGText("QuestMark_desc");
+		break;
+		
+		case "CHECK_PORTPERM":
+			sHeader = XI_ConvertString("PortPerm");
+			sText1 = GetRPGText("PortPerm_hint");
+		break;
+		
+		case "CHECK_LOWERSELF":
+			sHeader = XI_ConvertString("LowerSelf");
+			sText1 = GetRPGText("LowerSelf_hint");
 		break;
 		
 		case "EXP_SLIDE":

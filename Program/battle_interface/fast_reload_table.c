@@ -34,6 +34,17 @@
 #define FRP_TOWN_EXIT		13
 #define FRT_TOWN_EXIT		0
 
+#define FRP_STORE_HOUSE		14
+#define FRT_STORE_HOUSE		0
+
+#define FRP_MINE_HOUSE		15
+#define FRT_MINE_HOUSE		0
+
+#define FRP_PLANT_HOUSE		16
+#define FRT_PLANT_HOUSE		0
+
+#define FRP_FORT_HOUSE		17
+#define FRT_FORT_HOUSE		0
 
 
 
@@ -1178,6 +1189,52 @@ void initFastReloadTable()
 	curTable.l6.pic = FRP_CHURCH;
 	curTable.l6.tex = FRT_CHURCH;
 	curTable.l6.location = "GloriaChurch";
+	
+	makearef(curTable,objFastReloadTable.table.Caiman);
+	// store
+	curTable.l1.pic = FRP_STORE;
+	curTable.l1.tex = FRT_STORE;
+	curTable.l1.location = "Caiman_store";
+	// shipyard
+	curTable.l2.pic = FRP_SHIPYARD;
+	curTable.l2.tex = FRT_SHIPYARD;
+	curTable.l2.location = "Caiman_shipyard";
+	// tavern
+	curTable.l3.pic = FRP_TAVERN;
+	curTable.l3.tex = FRT_TAVERN;
+	curTable.l3.location = "Caiman_tavern";
+	// residence
+	curTable.l4.pic = FRP_RESIDENCE;
+	curTable.l4.tex = FRT_RESIDENCE;
+	curTable.l4.location = "Caiman_townhall";
+	// usurer
+	curTable.l5.pic = FRP_USURER;
+	curTable.l5.tex = FRT_USURER;
+	curTable.l5.location = "Caiman_bank";
+	// chucrh
+	curTable.l6.pic = FRP_CHURCH;
+	curTable.l6.tex = FRT_CHURCH;
+	curTable.l6.location = "Caiman_church";
+	//порт оффис
+	curTable.l7.pic = FRP_PORT_OFFICE;
+	curTable.l7.tex = FRT_PORT_OFFICE;
+	curTable.l7.location = "Caiman_PortOffice";
+	//склад
+	curTable.l8.pic = FRP_STORE_HOUSE;
+	curTable.l8.tex = FRT_STORE_HOUSE;
+	curTable.l8.location = "Caiman_StoreHouse";
+	
+	curTable.l9.pic = FRP_PLANT_HOUSE;
+	curTable.l9.tex = FRT_PLANT_HOUSE;
+	curTable.l9.location = "CaimanPlantationOffice";
+	
+	curTable.l10.pic = FRP_FORT_HOUSE;
+	curTable.l10.tex = FRT_FORT_HOUSE;
+	curTable.l10.location = "LandGuardingHeadHouse";
+	
+	curTable.l11.pic = FRP_MINE_HOUSE;
+	curTable.l11.tex = FRT_MINE_HOUSE;
+	curTable.l11.location = "Caiman_Mines_Comendant_House";
 }
 
 void InitTownTable()
@@ -1406,4 +1463,12 @@ void InitTownTable()
 	objTownStateTable.towns.t28.crew.data.year = 1;
 	objTownStateTable.towns.t28.crew.data.month = 1;
 	objTownStateTable.towns.t28.crew.data.day = 1;
+	
+	objTownStateTable.towns.t29.name = "Caiman";
+	objTownStateTable.towns.t29.captured = false;
+	objTownStateTable.towns.t29.crew.quantity = 200 + Rand(300);
+	objTownStateTable.towns.t29.crew.morale = MORALE_NORMAL - 20 + Rand(40);
+	objTownStateTable.towns.t29.crew.data.year = 1;
+	objTownStateTable.towns.t29.crew.data.month = 1;
+	objTownStateTable.towns.t29.crew.data.day = 1;
 }

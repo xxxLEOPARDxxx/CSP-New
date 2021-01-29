@@ -1000,7 +1000,7 @@ bool ThisItemCanBeEquip( aref arItem )
 		if(arItem.id == "mushket2x2") return false; // Мушкет квестового офа
 		
 		// Для мушкетов нужен соответствующий перк
-		if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman"))
+		if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman") && !HasSubStr(arItem.id, "mushket_drob"))
 		{
 			return false;
 		}
@@ -1010,10 +1010,6 @@ bool ThisItemCanBeEquip( aref arItem )
 			return false;
 		}
 		if(arItem.id == "mushket2" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
-		{
-			return false;
-		}
-		if(arItem.id == "mushket_drob" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
 		{
 			return false;
 		}

@@ -9783,3 +9783,32 @@ void LSC_RingDeleteItemsBoxes(string qName)
 	pchar.GenQuestBox.ExternalRingInside.box1.items.jewelry5 = 1;
 }
 // <-- тайна Санта-Люсии
+
+
+//Korsar Maxim --> мой код
+void SetPortAlarm(string qName) //Тревога в городе, если причалил под вражеским флагом
+{
+	Log_Info("Тревога!! Враг в городе!!");
+	
+	string sCity = FindStringBeforeChar(PChar.location, "_town");
+	
+	int iNation = GetCityNation(sCity);
+	
+	string sNation = GetNationNameByType(iNation);
+	
+	LAi_group_FightGroups(GetNationNameByType(iNation)+"_citizens", LAI_GROUP_PLAYER, false);
+	if (rand(3) != 1) SetNationRelation2MainCharacter(iNation, RELATION_ENEMY);
+}
+//Korsar Maxim <-- мой код
+
+//Korsar Maxim - LEO и Gregg, эти места для вашего квестового (И не только) кода!
+// || || || || || ||
+// \/ \/ \/ \/ \/ \/
+ 
+//LEO -->
+
+//LEO <--
+
+//Gregg -->
+
+//Gregg <--

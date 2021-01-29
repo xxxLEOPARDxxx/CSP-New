@@ -6169,7 +6169,7 @@ void InitShips()
 	refShip.Price           			= 700000;
 	refShip.HP              				= 5800;
 	refShip.SP              				= 100;
-	refShip.MastMultiplier					= 1.6;
+	refShip.MastMultiplier					= 1.5;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
@@ -7309,7 +7309,7 @@ void InitShips()
 	refShip.Price           			= 256000;
 	refShip.HP              				= 7000;
 	refShip.SP              				= 100;
-	refShip.MastMultiplier					= 1.6;
+	refShip.MastMultiplier					= 1.5;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8223,7 +8223,7 @@ void InitShips()
 	refShip.Price           			= 1700000;
 	refShip.HP              				= 7000;
 	refShip.SP              				= 100;
-	refShip.MastMultiplier					= 1.6;
+	refShip.MastMultiplier					= 1.5;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -8912,21 +8912,21 @@ void InitShips()
 	refship.nation.spain	= true;
 
 	///////////////////////////////////////////////////////////////////////////
-	/// Intrepide			Лег. Мановар
+	/// Zevenprovincien			Лег. Мановар
 	///////////////////////////////////////////////////////////////////////////
-	makeref(refShip,ShipsTypes[SHIP_INTREPIDE]);
-	refShip.Name            			= "Intrepide";
+	makeref(refShip,ShipsTypes[SHIP_ZEVENPROVINCIEN]);
+	refShip.Name            			= "Zevenprovincien";
 	refship.Soundtype					= "lineship";
 	refShip.Class						= 1;
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
 	refShip.MaxCaliber      			= 42;
-	refShip.Weight						= Tonnes2CWT(2000);
+	refShip.Weight						= Tonnes2CWT(2800);
 	refShip.Capacity        			= 5800;
-	refShip.CannonsQuantity						= 90;
-	refShip.rcannon 							= 45;
-	refShip.lcannon 							= 45;
-	refShip.fcannon 							= 0;
-	refShip.bcannon 							= 0;
+	refShip.CannonsQuantity						= 92;
+	refShip.rcannon 							= 43;
+	refShip.lcannon 							= 43;
+	refShip.fcannon 							= 2;
+	refShip.bcannon 							= 4;
 	refShip.MaxCrew         				= 650;
 	refShip.MinCrew         				= 130;
 	refShip.SpeedRate				= 11;
@@ -8945,7 +8945,7 @@ void InitShips()
 
 	refship.Rocking.y = 0.5;
 	refship.Rocking.az = 0.035;
-		
+
 	refship.WaterLine					= 0.0;
 
 	refship.SpeedDependWeight			= 0.3;
@@ -9311,7 +9311,7 @@ void InitShips()
 	refShip.Price           			= 2850000;
 	refShip.HP              				= 12000;
 	refShip.SP              				= 100;
-	refShip.MastMultiplier					= 1.6;
+	refShip.MastMultiplier					= 1.5;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
@@ -10131,11 +10131,11 @@ void InitShips()
 	refShip.MaxCaliber      			= 42;
 	refShip.Weight						= Tonnes2CWT(1800);
 	refShip.Capacity        			= 5200;
-	refShip.CannonsQuantity				= 60;
-	refShip.rcannon 							= 27;
-	refShip.lcannon 							= 27;
+	refShip.CannonsQuantity				= 66;
+	refShip.rcannon 							= 26;
+	refShip.lcannon 							= 26;
 	refShip.fcannon 							= 6;
-	refShip.bcannon 							= 0;
+	refShip.bcannon 							= 8;
 	refShip.MaxCrew         				= 444;
 	refShip.MinCrew         				= 88;
 	refShip.SpeedRate				= 15;
@@ -10165,7 +10165,8 @@ void InitShips()
 	refship.CabinType          = "CabineFDM"; // boal 28.03.05
 	refship.DeckType           = "Lineship";
 	
-	refShip.Flags.Mast1.Flag1 = FLAG_SPECIAL;
+	refShip.Flags.Mast1.Flag1 = FLAG_ENSIGN;
+	refShip.Flags.Mast2.Flag1 = FLAG_SPECIAL;
 	refShip.Flags.Mast3.Flag1 = FLAG_ENSIGN;
 	refShip.Flags.Mast4.Flag1 = FLAG_ENSIGN;
 	

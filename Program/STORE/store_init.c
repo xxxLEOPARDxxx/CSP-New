@@ -150,6 +150,18 @@ void StoreInit()
 	Stores[Beliz_STORE].Colony	= "Beliz";
 	Stores[Beliz_STORE].group	= "Beliz";
 	Stores[Beliz_STORE].StoreSize = "large";
+	
+	Stores[Caiman_STORE].Colony	= "Caiman";
+	Stores[Caiman_STORE].group	= "Caiman";
+	Stores[Caiman_STORE].StoreSize = "small";
+	
+	Stores[STORE_HOUSE].Colony	= "none";
+	Stores[STORE_HOUSE].group	= "none";
+	Stores[STORE_HOUSE].StoreSize 	= "small";
+	Stores[STORE_HOUSE].max_weight = 60000 + 1;
+	Stores[STORE_HOUSE].current_weight = 0;
+	Stores[STORE_HOUSE].max_resize_weight = 100000;
+	Stores[STORE_HOUSE].StoreHouse 	= true;
 
 	Stores[SHIP_STORE].Colony	= "none";
 	Stores[SHIP_STORE].group	= "none";

@@ -177,10 +177,10 @@ int LocationInitJamaica(int n)
 	locations[n].reload.l22.label = "House";
 
 	locations[n].reload.l23.name = "houseSp4";
-	locations[n].reload.l23.go = "CommonPirateHouse";
+	locations[n].reload.l23.go = "BuilderHouse";
 	locations[n].reload.l23.emerge = "reload1";
 	locations[n].reload.l23.autoreload = "0";
-	locations[n].reload.l23.label = "House";
+	locations[n].reload.l23.label = "BuilderHouse";
 
 	locations[n].reload.l24.name = "houseF1";
 	locations[n].reload.l24.go = "CommonRoom_MH3";
@@ -1861,6 +1861,47 @@ int LocationInitJamaica(int n)
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Ñhurch";
 	LAi_LocationFightDisable(&locations[n], true);
+	n = n + 1;
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "BuilderHouse";
+	locations[n].id.label = "BuilderHouse";
+	locations[n].image = "loading\inside\TwoFloorHouse.tga";
+	//locations[n].MustSetReloadBack = true;
+	//Town sack
+	locations[n].townsack = "";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "house";
+	locations[n].fastreload = "PortRoyal";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\inside\TwoFloorHouse";
+	locations[n].models.always.house = "TwoFloorHouse";
+	locations[n].models.always.house.level = 65538;
+	locations[n].models.day.locators = "TwoFloorHouse_locators";
+	locations[n].models.night.locators = "TwoFloorHouse_Nlocators";
+	locations[n].models.always.window = "TwoFloorHouse_windows";
+	locations[n].models.always.window.tech = "LocationWindows";
+	locations[n].models.always.window.level = 65539;
+
+	locations[n].models.always.back = "..\inside_back";
+	locations[n].models.always.back.level = 65529;
+	//Day
+	Locations[n].models.day.TwoFloorHouseRand= "TwoFloorHouse_rand";
+	locations[n].models.day.charactersPatch = "TwoFloorHouse_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "TwoFloorHouse_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "false";
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "PortRoyal_town";
+	locations[n].reload.l1.emerge = "houseSp4";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "Street";
+	locations[n].locators_radius.item.item1 = 0.8;
 	n = n + 1;
 	
 	return n;

@@ -940,7 +940,7 @@ string PGG_FindRandomTownByNation(int _nation)
 	n = 0;
 	for (i = 0; i < MAX_COLONIES; i++)
 	{
-		if (sti(Colonies[i].nation) == _nation && Colonies[i].from_sea != "" && Colonies[i].id != "LostShipsCity") //в сухопутных не будут. //18.06.07 fix ГПК
+		if (sti(Colonies[i].nation) == _nation && Colonies[i].from_sea != "" && Colonies[i].id != "LostShipsCity" && Colonies[i].id != "Caiman") //в сухопутных не будут. //18.06.07 fix ГПК
 		{
 			sTowns[n] = Colonies[i].id;
 			n++;

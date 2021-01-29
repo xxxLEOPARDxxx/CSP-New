@@ -589,6 +589,24 @@ bool CheckFastJump(string sFromLocation, string sToLocation)
 	while(bNoBreak && curLocName!=sToLocation)
 	{
 		bNoBreak = !GetNextLocationForPath(curLocName, sToLocation, &nextLocName, &reloadName);
+		if(CheckAttribute(loadedLocation,"islandId"))
+		{
+			if (loadedLocation.islandId == "Caiman")
+			{
+				if (CheckAttribute(PChar,"ColonyBuilding.Plantation"))
+				{
+					if (PChar.ColonyBuilding.Plantation == true && sToLocation == "CaimanPlantationOffice") return true;
+				}
+				if (CheckAttribute(PChar,"ColonyBuilding.Fort"))
+				{
+					if (PChar.ColonyBuilding.Fort == true && sToLocation == "LandGuardingHeadHouse") return true;
+				}
+				if (CheckAttribute(PChar,"ColonyBuilding.Mines"))
+				{
+					if (PChar.ColonyBuilding.Mines == true && sToLocation == "Caiman_Mines_Comendant_House") return true;
+				}
+			}
+		}
 		if(nextLocName=="" || reloadName=="") 
 		{
 			return false;

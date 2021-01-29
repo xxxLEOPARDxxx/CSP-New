@@ -1,4 +1,4 @@
-#define INTERFACE_QUANTITY				58
+#define INTERFACE_QUANTITY				68
 
 #define INTERFACE_STORE					0
 #define INTERFACE_SHIPYARD				1
@@ -63,6 +63,22 @@
 #define INTERFACE_CONTRATRADE			56 // €нтерфейс торговли с контрабандистами
 #define	INTERFACE_CREATENOTICE			57
 // <-- Ugeen
+
+// Lugger -->
+
+#define INTERFACE_COLONYBUILDING		58
+#define INTERFACE_MINES				59
+#define INTERFACE_ATTACK_MESSAGE		60
+#define INTERFACE_COLONY			61
+#define	INTERFACE_PLANTATION			62
+#define	INTERFACE_STOREHOUSE			63
+#define	INTERFACE_COLONYGUARDING		64
+#define	INTERFACE_ACADEMY			65
+#define	INTERFACE_COLONY_LAND_GUARD		66
+
+// Lugger <--
+
+#define INTERFACE_LOCKPICK				67 //New Abilities - взлом сундука
 
 #define RC_INTERFACE_DO_NOTHING			-1
 
@@ -150,6 +166,7 @@
 #define RC_INTERFACE_STORAGE_EXIT				45080   // Интерфейс склада
 #define RC_INTERFACE_CONTRATRADE				45082   // €нтерфейс торговли с контрабандистами
 // <-- Ugeen
+#define RC_INTERFACE_LOCKPICK					45083 //New Abilities - взлом сундука
 
 #define MAX_SAVE_STORE_BLOCKS	160
 

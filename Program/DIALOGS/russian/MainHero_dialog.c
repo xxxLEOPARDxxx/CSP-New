@@ -199,6 +199,7 @@ void ProcessDialogEvent()
 	            Link.l6 = "Начать захват ближайшего города.";
 	    		Link.l6.go = "TalkSelf_TownAttack";
 	        }
+			if (!CheckAttribute(pchar,"questTemp.stels.sea")) pchar.questTemp.stels.sea = GetDataDay();
 	        if (pchar.location != Get_My_Cabin() && Pchar.questTemp.CapBloodLine == false && !CheckAttribute(pchar, "DisableChangeFlagMode") && sti(pchar.questTemp.stels.sea) != GetDataDay() && CheckSaveGameEnabled() == true)
 			{
 				Link.l7 = "Отдать приказ на смену флага.";

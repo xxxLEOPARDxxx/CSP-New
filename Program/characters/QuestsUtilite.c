@@ -2245,13 +2245,14 @@ void OfficerGirlInit()
     SetFantomHP(sld);
 	LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
 	
-	sld = GetCharacter(NPC_GenerateCharacter("Beatrice", "Angellica", "woman", "Angellica", 15, PIRATE, -1, false));
-	sld.name 	= "Анжелика";
-	sld.lastname = "Шарп";
+	sld = GetCharacter(NPC_GenerateCharacter("Beatrice", "PGG_Rumba", "woman", "Angellica", 15, PIRATE, -1, false));
+	sld.name 	= "Элен";
+	sld.lastname = "МакАртур";
 	sld.loyality = 20;
 	sld.rank 	= 17;
     sld.reputation = 10; // good девочка
 	sld.alignment = "bad";
+	sld.HeroModel = "PGG_Rumba,PGG_Rumba_1,PGG_Rumba_2,PGG_Rumba_3,PGG_Rumba_4,PGG_Rumba_5,PGG_Rumba,PGG_Rumba,PGG_Rumba";
 	GiveItem2Character(sld, "blade12");
 	TakeNItems(sld,"potion2", Rand(4)+1);
 	sld.equip.blade = "blade12";

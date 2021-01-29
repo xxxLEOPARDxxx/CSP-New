@@ -220,7 +220,16 @@ void BLI_ExecuteCommand()
 				if(CheckAttribute(uiref,"locator")) {sTravelLocator=uiref.locator;}
 				if(CheckAttribute(uiref,"location"))
 				{
-					PlayerFastTravel(curLocIdx, uiref.location, sTravelLocator);
+					if(CheckAttribute(loadedLocation,"islandId"))
+					{
+						if (loadedLocation.islandId == "Caiman")
+						{
+							DoQuestReloadToLocation(uiref.location, "reload", "reload1", "");
+						}
+						else PlayerFastTravel(curLocIdx, uiref.location, sTravelLocator);
+					}
+					
+					else PlayerFastTravel(curLocIdx, uiref.location, sTravelLocator);
 				}
 			}
 		}
@@ -421,6 +430,10 @@ void BLI_SetObjectData()
 	objIconsNote.1x9 = LanguageConvertString(idLngFile, "go_brothel");
 	objIconsNote.1x10 = LanguageConvertString(idLngFile, "go_port");
 	objIconsNote.1x13 = LanguageConvertString(idLngFile, "go_townexit");
+	objIconsNote.1x14 = LanguageConvertString(idLngFile, "go_storehouse");
+	objIconsNote.1x15 = LanguageConvertString(idLngFile, "go_minehouse");
+	objIconsNote.1x16 = LanguageConvertString(idLngFile, "go_planthouse");
+	objIconsNote.1x17 = LanguageConvertString(idLngFile, "go_forthouse");
 	// список команд
 	objLandInterface.Commands.Cancel.enable		= false;
 	objLandInterface.Commands.Cancel.picNum		= 1;
@@ -660,7 +673,8 @@ void BLI_SetObjectData()
 	}
 
 	int nLoc = FindLoadedLocation();
-	if(nLoc >= 0) {
+	if(nLoc >= 0) 
+	{
 		int nFile = LanguageOpenFile("LocLables.txt");
 		if(nFile >= 0) {
 			objLandInterface.textinfo.islandname.font = "interface_button";
@@ -692,22 +706,50 @@ void BLI_SetObjectData()
 			objLandInterface.textinfo.locationname.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
 			objLandInterface.textinfo.locationname.pos.y = RecalculateVIcon(makeint(70 * fHtRatio));
 
-            if (!CheckAttribute(&locations[nLoc],"fastreload"))
+            string sCaimanName = PChar.ColonyBuilding.ColonyName;
+						
+			if (!CheckAttribute(&locations[nLoc],"fastreload"))
 			{
-			    objLandInterface.textinfo.villagename.text = "";
+				objLandInterface.textinfo.villagename.text = "";
+					
+				if(CheckAttribute(&Locations[nLoc], "islandId"))
+				{
+					if(Locations[nLoc].islandId == "Caiman") 
+					{
+						if(sCaimanName == "")
+						{
+							sCaimanName = "Кайман";
+						}
+						
+						if(PChar.ColonyBuilding.Stage != "0")
+						{
+							objLandInterface.textinfo.villagename.text = XI_ConvertString("Colony:") + sCaimanName;
+						}
+					}
+				}
 			}
 			else
 			{
 				objLandInterface.textinfo.villagename.text = XI_ConvertString("Colony:") + LanguageConvertString(nFile, locations[nLoc].fastreload + " Town");
+			
+				bool bCaiman = false;
+				if(CheckAttribute(&Locations[nLoc], "islandId"))
+				{
+					if(Locations[nLoc].islandId == "Caiman") bCaiman = true;
+				}
+			
+				if(locations[nLoc].fastreload == "Caiman" || locations[nLoc].fastreload == "CaimanSmall" || bCaiman)
+				{
+					if(sCaimanName == "")
+					{
+						sCaimanName = "Кайман";
+					}
+					
+					objLandInterface.textinfo.villagename.text = XI_ConvertString("Colony:") + sCaimanName;
+				}
 			}
-			if (!CheckAttribute(&locations[nLoc],"id.label"))
-			{
-				objLandInterface.textinfo.locationname.text = "";
-			}
-			else
-			{
-				objLandInterface.textinfo.locationname.text = LanguageConvertString(nFile, locations[nLoc].id.label);
-			}
+			
+			objLandInterface.textinfo.locationname.text = LanguageConvertString(nFile, locations[nLoc].id.label);
 			LanguageCloseFile( nFile );
 		}
 	}
@@ -1317,6 +1359,19 @@ bool SetReloadIcons()
 				objLandInterface.UserIcons.(fastLocName).name = "reload"+i;
 				objLandInterface.UserIcons.(fastLocName).location = curloc.location;
 				objLandInterface.UserIcons.(fastLocName).note = GetNodeForIcon(1+sti(curloc.tex), sti(curloc.pic));
+				if (Locations[idxloc].islandId == "Caiman")
+				{
+					if (objLandInterface.UserIcons.(fastLocName).note == "Дом управляющего плантацией")
+					{
+						objLandInterface.UserIcons.(fastLocName).pic = 29;
+						objLandInterface.UserIcons.(fastLocName).selpic = 13;
+					}
+					if (objLandInterface.UserIcons.(fastLocName).note == "Дом начальника охранной базы")
+					{
+						objLandInterface.UserIcons.(fastLocName).pic = 23;
+						objLandInterface.UserIcons.(fastLocName).selpic = 7;
+					}
+				}
 				bUse = true;
 			}
 		}

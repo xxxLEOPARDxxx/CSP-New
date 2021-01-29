@@ -750,13 +750,9 @@ void  GhostShipOnMap()
     {
 		rRealShip.EmblemedSails.normalTex =  "ships\parus_common_torn.tga";
 
-		rRealShip.MaxCaliber = 42;
-	    rRealShip.Cannon     = CANNON_TYPE_CANNON_LBS42;
-	    rRealShip.HP         = 7700;
-	    rRealShip.WindAgainstSpeed = 3.0;
-		rRealShip.TurnRate   = 40.0;
-	
-        SetBaseShipData(sld);
+		sld.Ship.Type = GenerateShipExt(SHIP_FLYINGDUTCHMAN, true, sld);
+		SetBaseShipData(sld);
+
         DeleteAttribute(rRealShip, "ShipSails.SailsColor");  // белый парус
 
         sld.ship.Cannons.Type = CANNON_TYPE_CULVERINE_LBS36;

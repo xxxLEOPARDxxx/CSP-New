@@ -41,7 +41,7 @@ void InitInterface_R(string iniName, ref pStore)
 
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
-	CreateString(true,"ShipName","",FONT_NORMAL,COLOR_MONEY, 405,105,SCRIPT_ALIGN_CENTER,1.0);
+	CreateString(true,"ShipName","",FONT_NORMAL,COLOR_MONEY, 405,108,SCRIPT_ALIGN_CENTER,1.0);
 
     SetShipWeight();
 	SetDescription();
@@ -56,6 +56,7 @@ void InitInterface_R(string iniName, ref pStore)
 
 	SetEventHandler("OnTableClick", "OnTableClick", 0);
 	SetEventHandler("MouseRClickUP","EndTooltip",0);
+	SetEventHandler("ShowHelpHint", "ShowHelpHint", 0);
 	SetEventHandler("ShowItemInfo", "ShowItemInfo", 0);
 	SetEventHandler("TableSelectChange", "CS_TableSelectChange", 0);
 	SetEventHandler("TransactionOK", "TransactionOK", 0);
@@ -99,6 +100,7 @@ void IDoExit(int exitCode)
 
 	DelEventHandler("OnTableClick", "OnTableClick");
 	DelEventHandler("MouseRClickUP","EndTooltip");
+	DelEventHandler("ShowHelpHint", "ShowHelpHint");
 	DelEventHandler("ShowItemInfo", "ShowItemInfo");
 	DelEventHandler("TableSelectChange", "CS_TableSelectChange");
 	DelEventHandler("frame","ProcessFrame");
@@ -236,10 +238,10 @@ void AddToTable()
 
         GameInterface.TABLE_LIST.(row).td3.icon.group = "GOODS";
 		GameInterface.TABLE_LIST.(row).td3.icon.image = sGood;
-		GameInterface.TABLE_LIST.(row).td3.icon.offset = "5, 0";
-		GameInterface.TABLE_LIST.(row).td3.icon.width = 32;
-		GameInterface.TABLE_LIST.(row).td3.icon.height = 32;
-		GameInterface.TABLE_LIST.(row).td3.textoffset = "25,0";
+		GameInterface.TABLE_LIST.(row).td3.icon.offset = "0, -1";
+		GameInterface.TABLE_LIST.(row).td3.icon.width = 20;
+		GameInterface.TABLE_LIST.(row).td3.icon.height = 20;
+		GameInterface.TABLE_LIST.(row).td3.textoffset = "20,0";
 		GameInterface.TABLE_LIST.(row).td3.str = XI_ConvertString(sGood);
 		GameInterface.TABLE_LIST.(row).index = i;
 		GameInterface.TABLE_LIST.(row).td3.color = iColor;
@@ -271,6 +273,31 @@ void OnTableClick()
 
 void ChangePosTable()
 {
+}
+
+void ShowHelpHint()
+{
+    string sHeader;
+	string sText1, sText2, sText3, sPicture, sGroup, sGroupPicture;
+	sPicture = "none";
+	sGroup = "none";
+	sGroupPicture = "none";
+	
+	if (!bShowChangeWin)
+	{// покажем помощь по работе с формой
+        sHeader = "»нтерфейс перегрузки на склад или со склада на корабль";
+		sText1 = "ƒвойной клик мыши или Enter по строкам таблицы вызывает форму перегрузки товара. "+ newStr() +
+		         "Shift + лево/право на строках таблицы автоматически вызывают форму с предустановленным количеством перегрузки на максимальное. "+ newStr() +
+				 "¬вод положительного количества с клавиатуры устанавливает перегрузку товара со склада, а отрицательного (с минусом) на склад."+ newStr() +
+				 "—трелки лево/право измен€ют количество по пачкам, а Shift + лево/право на максимально доступное. Ќажатие Enter на форме равносильно ќ , а Esc - ќтмена." + newStr() +
+				 "Ќаход€сь в режиме формы и мота€ список в таблице стрелкам вверх/вниз, можно просматривать описание товара под курсором таблицы.";
+				 
+        sText2 = "Ѕыстра€ перегрузка всего: стрелками вверх/вниз по списку, Shift + право, Enter";
+        
+        sText3 = "";
+        
+		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,192,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+	}
 }
 
 void EndTooltip()

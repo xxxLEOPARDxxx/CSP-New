@@ -7,6 +7,48 @@
 #event_handler("NextDay","StoreDayUpdateStart");
 #event_handler("EvStoreDayUpdate","StoreDayUpdate");
 
+// Lugger -->
+void SetStoreGoodsEdition(ref _refStore,int _Goods,int _Quantity, int iAddQuantity, bool bDelete)
+{
+	string tmpstr = Goods[_Goods].name;
+	_refStore.Goods.(tmpstr).Quantity = _Quantity;
+	
+	if(CheckAttribute(_refStore, "StoreHouse"))
+	{
+		int iWeight = GetGoodWeightByType(_Goods, iAddQuantity);
+		
+		/*
+		Log_TestInfo("Перегрузка со склада/на склад.");
+		Log_TestInfo("ТОВАР: " + Goods[_Goods].name + "; NUM: " + _Goods);
+		Log_TestInfo("КОЛ-ВО: " + iAddQuantity + "; ВЕС: " + iWeight);
+		Log_TestInfo("ЗАГРУЖЕНО ДО ЭТОГО: " + makeint(_refStore.current_weight) + ";");
+		*/
+		
+		if(bDelete)
+		{
+			_refStore.current_weight = makeint(_refStore.current_weight) - iWeight;
+		}
+		else
+		{
+			_refStore.current_weight = makeint(_refStore.current_weight) + iWeight;
+		}
+		
+		// Пределы, что не больше и не меньше
+		if(makeint(_refStore.current_weight) >= makeint(_refStore.max_weight))
+		{
+			_refStore.current_weight = makeint(_refStore.max_weight);
+		}
+		
+		if(makeint(_refStore.current_weight) < 0)
+		{
+			_refStore.current_weight = 0;
+		}
+		
+		//Log_TestInfo("ЗАГРУЖЕНО ПОСЛЕ ЭТОГО: " + makeint(_refStore.current_weight) + ";");
+	}
+}
+// Lugger <--
+
 void SetStoreGoods(ref _refStore,int _Goods,int _Quantity)
 {
 	string tmpstr = Goods[_Goods].name;
@@ -55,6 +97,11 @@ int GetContrabandGoods(ref _refStore, int _Goods)
 
 int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int _qty)
 {
+	if(CheckAttribute(_refStore, "StoreHouse"))
+	{
+		return 0;
+	}
+	
 	float _TradeSkill = GetSummonSkillFromNameToOld(chref,SKILL_COMMERCE); // 0..10.0
 	aref refGoods;
 	string tmpstr = Goods[_Goods].name;
@@ -115,6 +162,10 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 // обратное преобразование цены в RndPriceModify
 float GetStoreGoodsRndPriceModify(ref _refStore, int _Goods, int _PriceType, ref chref, int _price)
 {
+	if(CheckAttribute(_refStore, "StoreHouse"))
+	{
+		return 0.0;
+	}
     float skillModify;
 	float _TradeSkill = GetSummonSkillFromNameToOld(chref,SKILL_COMMERCE);
 	aref refGoods;
@@ -203,6 +254,13 @@ string GetStoreGoodsType(ref _refStore,int _Goods)
 
 bool GetStoreGoodsUsed(ref _refStore,int _Goods)
 {
+	if(CheckAttribute(_refStore, "StoreHouse"))
+	{
+		if(CheckAttribute(_refStore,"Goods."+tmpstr))
+		{
+			return true;
+		}
+	}
 	string tmpstr = Goods[_Goods].name;
 	if( !CheckAttribute(_refStore,"Goods."+tmpstr) ) return false;
 	if( sti(_refStore.Goods.(tmpstr).NotUsed)==true ) return false;
@@ -241,6 +299,10 @@ void StoreDayUpdate()
 
 void UpdateStore(ref pStore)
 {
+	if(CheckAttribute(pStore, "StoreHouse"))
+	{
+		return;
+	}
 	aref gref, curref;
 	makearef(gref, pStore.Goods);
 	int delta, oldQty;
@@ -467,8 +529,8 @@ string GetGoodsNameAlt(int idx)
 
     return ret;
 }
-// запоминаем цены в vv
-void SetPriceListByStoreMan(ref rchar)   //rchar - это колони§
+// запоминаем цены в ГГ
+void SetPriceListByStoreMan(ref rchar)   //rchar - это колония
 {
     ref refStore, nulChr;
     string attr1, sGoods;
@@ -482,6 +544,10 @@ void SetPriceListByStoreMan(ref rchar)   //rchar - это колони§
     {
         refStore = &stores[sti(rchar.StoreNum)];
 
+	if(CheckAttribute(refStore, "StoreHouse"))
+	{
+		return;
+	}
         attr1 = rchar.id; // ветка, где храним цены
         for (i = 0; i < GOODS_QUANTITY; i++)
         {

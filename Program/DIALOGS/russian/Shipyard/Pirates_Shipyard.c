@@ -454,6 +454,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				Link.l3 = "А почему так дорого? Нельзя ли как-то снизить расценки?";
 				Link.l3.go = "Discount_1";
 			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_cannon_all_complite";
+			}
 		break;
 		
 		case "ship_tunning_cannon_all_start":
@@ -636,6 +641,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				Link.l3 = "А почему так дорого? Нельзя ли как-то снизить расценки?";
 				Link.l3.go = "Discount_1";
 			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_c_quantity_complite";
+			}
 
 		break;
 		
@@ -760,6 +770,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			{
 			    Link.l3 = "А почему так дорого? Нельзя ли как-то снизить расценки?";
 				Link.l3.go = "Discount_1";
+			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_cannon_complite";
 			}
 		break;
 		
@@ -926,6 +941,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			    Link.l3 = "А почему так дорого? Нельзя ли снизить расценки?";
 				Link.l3.go = "Discount_1";
 			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_Capacity_complite";
+			}
 
 		break;
 		
@@ -1048,6 +1068,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			    Link.l3 = "А почему так дорого? Нельзя ли снизить расценки?";
 				Link.l3.go = "Discount_1";
 			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_SpeedRate_complite";
+			}
 
 		break;
 		
@@ -1169,6 +1194,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			    Link.l3 = "А почему так дорого? Нельзя ли снизить расценки?";
 				Link.l3.go = "Discount_1";
 			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_MastMultiplier_complite";
+			}
 
 		break;
 		
@@ -1283,7 +1313,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			    Link.l3 = "А почему так дорого? Нельзя ли снизить расценки?";
 				Link.l3.go = "Discount_1";
 			}
-
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_MaxCrew_complite";
+			}
 		break;
 		
 		case "ship_tunning_MaxCrew_start":
@@ -1396,6 +1430,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			{
 			    Link.l3 = "А почему так дорого? Нельзя ли снизить расценки?";
 				Link.l3.go = "Discount_1";
+			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_TurnRate_complite";
 			}
 
 		break;
@@ -1516,6 +1555,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			{
 			    Link.l3 = "А почему так дорого? Нельзя ли снизить расценки?";
 				Link.l3.go = "Discount_1";
+			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_HP_complite";
 			}
 
 		break;
@@ -1646,6 +1690,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			{
 			    Link.l3 = "А почему так дорого? Нельзя ли снизить расценки?";
 				Link.l3.go = "Discount_1";
+			}
+			if (bBettaTestMode)
+			{
+				Link.l4 = "КАЧАЙ НЕМЕДЛЕННО!";
+				Link.l4.go = "ship_tunning_WindAgainst_complite";
 			}
 		break;
 

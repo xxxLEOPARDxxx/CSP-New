@@ -200,6 +200,10 @@ void CreateCharacters()
 	ReloadProgressUpdate();
 	Trace("Story: " + n);
 	
+	n = CreateCaimanCharacters(n);
+	ReloadProgressUpdate();
+	Trace("Story: " + n);
+	
 	CreateOtherCharacters();
 	globalCharacters = n;
 	MAX_CHARACTERS = globalCharacters;

@@ -218,7 +218,7 @@ void GiveItemToTrader(aref ch)
 		}
 	}
 	//<-- дача карты ГПК в магазин Йоста 
-		
+	
 	// Warship Переделка - новая система генерации оружия
 	irand = rand(3);
     if(irand == 1) GenerateAndAddItems(ch, "blade5", Rand(2) + 1); // кинжал
@@ -276,21 +276,22 @@ void GiveItemToTrader(aref ch)
 	}
 	
 
-	if (IsPCharHaveTreasurer())
+	if(CheckOfficersPerk(pchar,"Trader"))
 	{
+		irand = rand(20) + 40;
 		// boal gun bullet -->
-		AddItems(ch, "bullet", Rand(20) + 30);
+		AddItems(ch, "bullet", irand);
 		// boal <--
-		AddItems(ch, "GunPowder", Rand(10) + 25); // Warship. Порох
+		AddItems(ch, "GunPowder", irand); // Warship. Порох
 	}
 	else
 	{
+		irand = rand(20) + 20;
 		// boal gun bullet -->
-		AddItems(ch, "bullet", Rand(20) + 10);
+		AddItems(ch, "bullet", irand);
 		// boal <--
-		AddItems(ch, "GunPowder", Rand(10) + 5); // Warship. Порох
+		AddItems(ch, "GunPowder", irand); // Warship. Порох
 	}
-
 
     irand = rand(4);
     if(irand == 1) AddItems(ch, "pistol1", Rand(2) + 1);
@@ -306,7 +307,7 @@ void GiveItemToTrader(aref ch)
 		irand = rand(7);
 		if(irand == 1) AddItems(ch, "pistol3", Rand(1) + 1);
 	}
-				
+	
     irand = rand(10);
     if(irand == 1) AddItems(ch, "spyglass1", 1);
 
@@ -314,8 +315,6 @@ void GiveItemToTrader(aref ch)
 	if(irand == 1 && rank >=3) AddItems(ch, "spyglass2", 1);
 	irand = rand(15);
 	if(irand == 1  && rank >=10) AddItems(ch, "spyglass3", 1);
-	//irand = rand(40);
-	//if(irand == 1 && rank >=13) AddItems(ch, "spyglass4", 1); //zagolski - красную убираем
 
 	// Lugger --> 
 	irand = rand(4);
@@ -341,7 +340,7 @@ void GiveItemToTrader(aref ch)
 	{ 
 		TakeNItems(ch, "BackPack4", 1);
 	}
-	if (IsPCharHaveTreasurer())
+	if(CheckOfficersPerk(pchar,"Trader"))
 	{
 		string sFood = "Food1";
 		int iFoodQty = rand(3)+2;
@@ -531,6 +530,113 @@ void GiveItemToTrader(aref ch)
 	if(rand(200) == 77 && !CheckMainHeroTotem("Totem_14")) AddItems(ch, "Totem_14", 1);
 }
 
+void GiveItemToSmuggler(aref ch) //Korsar Maxim - Торговля предметов с контриками
+{
+	int i, j, irand;
+	int rank = sti(PChar.rank);
+	
+	// Warship Переделка - новая система генерации оружия
+	irand = rand(5);
+    if(irand == 1) GenerateAndAddItems(ch, "blade6", Rand(2) + 1); // кинжал
+	irand = rand(5);
+    if(irand == 2) GenerateAndAddItems(ch, "blade2", Rand(2) + 1);
+	irand = rand(5);
+    if(irand == 2) GenerateAndAddItems(ch, "blade3", Rand(2) + 1);
+	irand = rand(5);
+    if(irand == 2) GenerateAndAddItems(ch, "blade4", 1);
+	irand = rand(6);
+    if(irand == 2) GenerateAndAddItems(ch, "blade5", 1);
+    if(irand == 4) GenerateAndAddItems(ch, "blade11", Rand(1) + 1);
+    if(irand == 6 && rank >= 2) GenerateAndAddItems(ch, "blade35", 1);
+
+    irand = rand(6);
+    if(irand == 1 && rank >= 3) GenerateAndAddItems(ch, "topor3", 1);
+    if(irand == 2 && rank >= 5) GenerateAndAddItems(ch, "blade12", 1);
+
+    irand = rand(8);
+    if(irand == 1 && rank >= 7) GenerateAndAddItems(ch, "topor1", 1);
+
+	if(rank >= 5)
+	{
+	    irand = rand(8);
+		if(irand == 1) GenerateAndAddItems(ch, "blade7", 1);
+		if(irand == 2) GenerateAndAddItems(ch, "blade8", Rand(1) + 1);
+		if(irand == 3) GenerateAndAddItems(ch, "blade10", Rand(1) + 1);
+		if(irand == 4) GenerateAndAddItems(ch, "blade9", Rand(1) + 1);
+	}
+	
+	irand = rand(20);
+    if (irand == 1 && rank >= 4) AddItems(ch, "cirass1", 1);
+	irand = rand(30);
+    if (irand == 1 && rank >= 8) AddItems(ch, "cirass2", 1);
+	irand = rand(40);
+    if (irand == 1 && rank >= 12) AddItems(ch, "cirass3", 1);
+
+    if(rank >= 7)
+	{
+		irand = rand(20);
+        if(irand == 1) GenerateAndAddItems(ch, "blade13", Rand(1) + 1);
+	}
+	
+	if(rank >= 10)
+	{
+		irand = rand(24);
+		if(irand == 1) GenerateAndAddItems(ch, "blade17", 1);
+	}
+
+	if(rank >= 13)
+	{
+		irand = rand(10);
+		if(irand == 1) GenerateAndAddItems(ch, "blade18", 1);
+        if(irand == 2) GenerateAndAddItems(ch, "blade19", 1);
+	}
+	
+	AddItems(ch, "bullet", Rand(20) + 10);
+	AddItems(ch, "GunPowder", Rand(10) + 5);
+	
+    AddItems(ch, "Lockpick", Rand(3) + 3); //Korsar Maxim - у Контрика всегда есть отмычки
+
+    irand = rand(4);
+    if(irand == 1) AddItems(ch, "pistol1", Rand(2) + 1);
+	
+	if(rank >= 2)
+	{
+		irand = rand(5);
+		if(irand == 1) AddItems(ch, "pistol2", Rand(1) + 1);
+	}
+	
+	if(rank >= 5)
+	{
+		irand = rand(7);
+		if(irand == 1) AddItems(ch, "pistol3", Rand(1) + 1);
+	}
+
+    AddItems(ch, "potion1", Rand(8) + 1);
+	irand = rand(7);
+	if(irand == 1)
+	{
+		AddItems(ch,"potion2", Rand(3) + 1);
+	}
+	
+	irand = rand(5);
+	if(irand == 1)
+	{
+		AddItems(ch, "potion3", Rand(3) + 1);
+	}
+	
+	irand = rand(8);
+	if(irand == 1)
+	{
+		AddItems(ch, "potion4", Rand(1) + 1);
+	}
+	
+	irand = rand(3);
+	if(irand == 1)
+	{
+		AddItems(ch, "potion5", Rand(5) + 1);
+	}
+}
+
 string PlaceCharacter(aref ch, string group, string location) //boal change
 {  // location = "random"  "random_free"  "random_must_be" -   random_must_be_near - должен быть, даже если все занято  random_must_be_near - рядом
 	float locx;
@@ -710,7 +816,7 @@ void CreateModel(int iChar, string sType, int iSex)
 	{
 		case "pofficer":
 			sBody = "officer";
-			iNumber = rand(63)+1;
+			iNumber = rand(69)+1;
 		break;
 		case "officer":
 			sBody = "off";

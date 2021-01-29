@@ -288,6 +288,99 @@ void LaunchSalaryScreen(string _tmp)
 	}
 }
 
+void LaunchStoreHouse(int storeNum)
+{
+  	if(storeNum < 0)	
+  	{
+  		return;
+  	}
+  		
+  	if(storeNum > STORE_QUANTITY - 1)
+  	{
+  		return;
+	}
+	
+	gStoreNum = storeNum;
+	
+	if(procInterfacePrepare(INTERFACE_STOREHOUSE))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_STOREHOUSE;
+		InitInterface_R(Interfaces[CurrentInterface].IniFile,&stores[storeNum]);
+	}
+}
+
+
+void LaunchPlantation()
+{
+	if(procInterfacePrepare(INTERFACE_PLANTATION))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_PLANTATION;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
+void LaunchColony()
+{
+	if(procInterfacePrepare(INTERFACE_COLONY))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_COLONY;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
+void LaunchAttackMessage()
+{
+	if(procInterfacePrepare(INTERFACE_ATTACK_MESSAGE))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_ATTACK_MESSAGE;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
+void LaunchMines()
+{
+	if(procInterfacePrepare(INTERFACE_MINES))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_MINES;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
+void LaunchColonyBuilding(bool bCreate, bool bArh)
+{
+	if(procInterfacePrepare(INTERFACE_COLONYBUILDING))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_COLONYBUILDING;
+		InitInterface_BB(Interfaces[CurrentInterface].IniFile, bCreate, bArh);
+	}
+}
+
+void LaunchColonyLandGuard()
+{
+	if(procInterfacePrepare(INTERFACE_COLONY_LAND_GUARD))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_COLONY_LAND_GUARD;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
+void LaunchColonyGuardiang()
+{
+	if(procInterfacePrepare(INTERFACE_COLONYGUARDING))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_COLONYGUARDING;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+// Lugger <--
 
 void LaunchNetMenu()
 {
@@ -759,6 +852,17 @@ void LaunchHireCrew()
 		nPrevInterface = -1;
 		CurrentInterface = INTERFACE_HIRECREW;
 		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
+//New Abilities - взлом сундука
+void LaunchLockPicking()
+{
+	if(procInterfacePrepare(INTERFACE_LOCKPICK))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_LOCKPICK;
+		InitInterface_GM(Interfaces[CurrentInterface].IniFile);
 	}
 }
 

@@ -63,5 +63,9 @@ go_duel {Дуэль}
 go_townexit {Выход из города}
 go_fort {Форт}
 go_prison {Тюрьма}
+go_storehouse {Склад}
+go_planthouse {Дом управляющего плантацией}
+go_forthouse {Дом начальника охранной базы}
+go_minehouse {Дом управляющего рудниками}
 
 worldmap_sea {Выход в море}

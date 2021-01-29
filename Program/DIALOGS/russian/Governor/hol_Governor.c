@@ -262,7 +262,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                 			sld = GetCharacter(chComp);
                     		iShip = sti(sld.ship.type);
                     		iBaseType = sti(RealShips[iShip].basetype);
-                            if (iBaseType == SHIP_MANOWAR || iBaseType == SHIP_INTREPIDE || iBaseType == SHIP_FR_TRINITY || iBaseType == SHIP_MANOWAR_FAST || iBaseType == SHIP_BATTLEMANOWAR || iBaseType == SHIP_MANOWAR_GUB || iBaseType == SHIP_PRINCE || iBaseType == SHIP_HMS_VICTORY || iBaseType == SHIP_SP_SANFELIPE)
+                            if (iBaseType == SHIP_MANOWAR || iBaseType == SHIP_ZEVENPROVINCIEN || iBaseType == SHIP_FR_TRINITY || iBaseType == SHIP_MANOWAR_FAST || iBaseType == SHIP_BATTLEMANOWAR || iBaseType == SHIP_MANOWAR_GUB || iBaseType == SHIP_PRINCE || iBaseType == SHIP_HMS_VICTORY || iBaseType == SHIP_SP_SANFELIPE)
                             {
                                 tempQty++;
                                 RemoveCharacterCompanion(pchar, sld);

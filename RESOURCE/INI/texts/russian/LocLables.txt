@@ -63,6 +63,7 @@ Tenotchitlan_town	{Теночтитлан}
 FortOrange_town {Форт Оранж}
 Estate {Имение Оглторпа, Англия}
 DesMoines {Дес-Мойнес}
+Caiman_town	{Кайман}
 
 
 Shore1	{мыс Бун}
@@ -144,6 +145,7 @@ Mayak8 {Маяк Санто-Доминго}
 Mayak9 {Маяк Сантьяго}
 Mayak10 {Маяк Гаваны}
 Mayak11 {Маяк Картахены}
+Mayak12 {Маяк Каймана}
 
 
 
@@ -274,6 +276,11 @@ Beliz Town {Белиз}
 Beliz Fort {форт Белиза}
 Beliz Port {порт Белиза}
 
+Caiman {Кайман}
+Caiman Town {Кайман}
+Caiman Fort {форт Каймана}
+Caiman Port {порт Каймана}
+
 Duel Field	{дуэльное поле}
 
 Boarding deck {верхняя палуба} 
@@ -316,6 +323,22 @@ Brothel Room {комната уединения}
 Village {Деревня}
 Plantation {Плантация}
 UnderWater {Под водой}
+BuilderHouse {Дом Архитектора}
+Canyon {Каньон}
+Mines2 {Рудники}
+CaimanSmall 	{Кайман}
+Caiman Mines {Рудники}
+Caiman Mines Exit {вход в рудники}
+Caiman Plantation {Плантация}
+Cayman Mines Office {дом управляющего рудниками}
+Caiman Plantation Office {дом управляющего плантацией}
+Caiman Store House {склад}
+packhouse {склад}
+Arena	{Арена}
+FencingTown {поселение Фехтовальщиков}
+Land Guarding Port {порт охранной базы}
+Land Guarding Fort {форт охранной базы}
+Land Guarding Head House {дом начальника охранной базы}
 
 Reefs	{Северные рифы}
 

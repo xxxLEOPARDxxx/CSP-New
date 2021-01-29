@@ -259,7 +259,7 @@ bool wdmCreateFollowShip(float kSpeed)
 	if(GenerateMapEncounter(WDM_ETYPE_FOLLOW, worldMap.island, &i1, &i2) == false) return false;
 	//Создаём энкоунтера
 	string encID = "";
-	bool res = wdmCreateFollowShipByIndex(kSpeed, i1, &encID, 5+rand(5)); //homo 07/10/06
+	bool res = wdmCreateFollowShipByIndex(kSpeed, i1, &encID, 2+rand(3)); //homo 07/10/06
 	//Очищаем массив энкоунтеров
 	ReleaseMapEncounters();
 	return res;
