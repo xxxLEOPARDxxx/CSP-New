@@ -1728,6 +1728,12 @@ void SetQuestAboardCabinDialog(ref refChar)
 		    LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
 		    return;
 		}
+		if (refChar.CaptanId == "Dozor_Ship" && PChar.Dozor == "18")//Дозорный
+		{
+			refChar.Dialog.FileName = "DamnedDestiny\Dozor\Characters.c";
+			refChar.Dialog.CurrentNode = "Justin_Butt_1";
+			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");
+		}
 		//генератор "Продажный патруль" 
 		if (refChar.CaptanId == "PirateCapt")
 		{

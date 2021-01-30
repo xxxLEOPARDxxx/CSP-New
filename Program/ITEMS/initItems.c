@@ -186,6 +186,68 @@ int InitItems()
 	itm.ItemType = "SUPPORT";
 	n++;
 	
+	//Gregg Дозор
+	
+	makeref(itm,Items[n]);
+	itm.id = "Dozor_Mekakhrom";
+	itm.name = "itmname_Dozor_Mekakhrom";
+	itm.describe = "itmdescr_Dozor_Mekakhrom";
+	itm.model = "";
+	itm.picIndex = 12;
+	itm.picTexture = "ITEMS_15";
+	itm.price = 0;
+	itm.Weight = 0.1;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	makeref(itm,Items[n]);
+	itm.id = "Dozor_Key";
+	itm.name = "itmname_Dozor_Key";
+	itm.describe = "itmdescr_Dozor_Key";
+	itm.model = "";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_15";
+	itm.price = 0;
+	itm.Weight = 0.1;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	makeref(itm,Items[n]);
+	itm.id = "Dozor_Storm";
+	itm.name = "itmname_Dozor_Storm";
+	itm.describe = "itmdescr_Dozor_Storm";
+	itm.model = "";
+	itm.picIndex = 15;
+	itm.picTexture = "ITEMS_15";
+	itm.price = 15000;
+	itm.Weight = 1.0;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	makeref(itm,Items[n]);
+	itm.id = "Dozor_HorseShoe";
+	itm.name = "itmname_Dozor_HorseShoe";
+	itm.describe = "itmdescr_Dozor_HorseShoe";
+	itm.model = "";
+	itm.picIndex = 14;
+	itm.picTexture = "ITEMS_15";
+	itm.price = 12500;
+	itm.Weight = 1.5;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	makeref(itm,Items[n]);
+	itm.id = "Dozor_Mirror";
+	itm.name = "itmname_Dozor_Mirror";
+	itm.describe = "itmdescr_Dozor_Mirror";
+	itm.model = "";
+	itm.picIndex = 13;
+	itm.picTexture = "ITEMS_15";
+	itm.price = 10000;
+	itm.Weight = 0.5;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+	
 	// Рюкзаки
     	makeref(itm,Items[n]);
 	itm.id = "BackPack1";

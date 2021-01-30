@@ -1173,6 +1173,11 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 	
 		// Warship 25.10.08 Новый учет одежды
 		skillN += SetCharacterSkillBySuit(_refCharacter, skillName);
+		
+		//Gregg Бусты от предметов Дозора
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Dozor_HorseShoe", 1);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SAILING, "Dozor_Storm", 1);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "Dozor_Mirror", 1);
 	
 		//navy --> действие алкоголя
 		if (CheckAttribute(_refCharacter, "chr_ai.drunk.skill." + skillName))

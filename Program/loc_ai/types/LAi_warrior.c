@@ -197,17 +197,20 @@ void LAi_type_warrior_CharacterUpdate(aref chr, float dltTime)
 				int num = FindNearCharacters(chr, 10.0, -1.0, 180.0, 0.01, true, true);
 				for(int i = 0; i < num; i++)
 				{
-					if(nMainCharacterIndex == sti(chrFindNearCharacters[i].index))
-					{					
-						//нашли ГГ, проверяем, не в сундуке ли.						
-						if (bMainCharacterInBox)
-						{
-							//Нападаем на новую цель
-							LAi_group_Attack(chr, Pchar);
-							if(rand(100) > 95)
+					if (CheckAttribute(&chrFindNearCharacters[i],"index"))
+					{
+						if(nMainCharacterIndex == sti(chrFindNearCharacters[i].index))
+						{					
+							//нашли ГГ, проверяем, не в сундуке ли.						
+							if (bMainCharacterInBox)
 							{
-								LAi_type_warrior_PlaySound(chr);
-							}	
+								//Нападаем на новую цель
+								LAi_group_Attack(chr, Pchar);
+								if(rand(100) > 95)
+								{
+									LAi_type_warrior_PlaySound(chr);
+								}	
+							}
 						}
 					}
 				}

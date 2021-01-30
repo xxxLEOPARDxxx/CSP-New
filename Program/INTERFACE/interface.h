@@ -1,4 +1,4 @@
-#define INTERFACE_QUANTITY				68
+#define INTERFACE_QUANTITY				69
 
 #define INTERFACE_STORE					0
 #define INTERFACE_SHIPYARD				1
@@ -75,10 +75,10 @@
 #define	INTERFACE_COLONYGUARDING		64
 #define	INTERFACE_ACADEMY			65
 #define	INTERFACE_COLONY_LAND_GUARD		66
-
+#define	INTERFACE_MEKAKHROM			67
 // Lugger <--
 
-#define INTERFACE_LOCKPICK				67 //New Abilities - взлом сундука
+#define INTERFACE_LOCKPICK				68 //New Abilities - взлом сундука
 
 #define RC_INTERFACE_DO_NOTHING			-1
 

@@ -380,6 +380,16 @@ void LaunchColonyGuardiang()
 		InitInterface(Interfaces[CurrentInterface].IniFile);
 	}
 }
+
+void LaunchMekakhrom()
+{
+	if(procInterfacePrepare(INTERFACE_MEKAKHROM))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_MEKAKHROM;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
 // Lugger <--
 
 void LaunchNetMenu()

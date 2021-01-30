@@ -84,6 +84,9 @@ void InitInterfaceTables()
 	// Colony Guardiang
 	Interfaces[INTERFACE_COLONYGUARDING].SectionName = "interface\ColonyGuardiang.c";
 	Interfaces[INTERFACE_COLONYGUARDING].IniFile = "INTERFACES\ColonyGuardiang.ini";
+	// Мекахром
+	Interfaces[INTERFACE_MEKAKHROM].SectionName = "interface\Mekakhrom.c";
+	Interfaces[INTERFACE_MEKAKHROM].IniFile = "INTERFACES\Mekakhrom.ini";
 	// Store House
 	Interfaces[INTERFACE_STOREHOUSE].SectionName = "interface\StoreHouse.c";
 	Interfaces[INTERFACE_STOREHOUSE].IniFile = "INTERFACES\StoreHouse.ini";

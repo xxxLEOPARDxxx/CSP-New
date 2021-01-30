@@ -50,6 +50,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                     link.l1 = "Послушай, голландцы с Кюрасао не часто у вас бывают?";
                     link.l1.go = "Step_S6_1";
                 break;
+				if(PChar.Dozor == "8")
+              	{
+                    link.l2 = "Отважный капитан напал на след Неуловимой Эскадры.";
+                    link.l2.go = "Dozor_1";
+              	}
             }
             // <== Проверяем поле состояния квестов.
         break;
@@ -220,7 +225,15 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			pchar.questTemp.Slavetrader = "wait1";//затычка
         break;
         
-        
+            // DOZOR -->
+		case "Dozor_1":
+			TakeNItems(PChar, "Dozor_Mekakhrom", 1);
+			dialog.text = "А-а! Так это ты, дозорный? Стало быть, отгадал уже три загадки, молодец! Вот тебе Мекахром с четвёртой загадкой. Удачи тебе справиться с ней, она чуток посложнее остальных будет.";
+			link.l1 = "Бывай.";
+			link.l1.go = "exit";
+			AddDialogExitQuestFunction("DozorTortugaTavernGetItem");
+		break;
+			// DOZOR <--
         
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

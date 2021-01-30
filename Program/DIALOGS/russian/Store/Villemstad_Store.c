@@ -11,6 +11,18 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = HeroStringReactionRepeat("Знаешь, " + NPChar.name + ", как-нибудь в следующий раз.", "Точно, забыл что-то...",
                       "Да уж, действительно в третий раз...", "Гм, не буду...", npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
+			
+				if(PChar.Dozor == "10")
+                {                		
+                	link.l2 = "Отважный капитан вступил в схватку с Неуловимой Эскадрой.";
+                	link.l2.go = "Dozor_1";
+                }
+                
+                if(PChar.Dozor == "11")
+                {                		
+                	link.l2 = "Я по поводу Дозора...";
+                	link.l2.go = "Dozor_7";
+                }
             // ==> Проверяем поле состояния квестов.
             if (pchar.questTemp.State == "Inquisition_toCuracao" || pchar.questTemp.State == "Inquisition_afterFrancisco")// квест №2 голл. линейки.
             {
@@ -130,6 +142,100 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     		link.l1 = "Прощайте, не буду вам мешать...";
     		link.l1.go = "exit";
  		break;
+		
+		// DOZOR -->
+		case "Dozor_1":
+			dialog.text = "А-а! В Дозор играете? И как вам нравится?";
+			link.l1 = "Просто великолепно!";
+			link.l1.go = "Dozor_2";
+			link.l2 = "Не восторг, конечно, но бывает интересно.";
+			link.l2.go = "Dozor_2";
+			link.l3 = "Этот Дозор - полная чушь!";
+			link.l3.go = "Dozor_2";
+		break;
+ 		
+		case "Dozor_2":
+			dialog.text = "А знаете, рассказывал мне как-то один капитан - он тоже в Дозор играл. Сначала они побывали в Порт-Рояле на Ямайке, затем сорвались на Эспаньолу, в испанский городок Санто-Доминго, потом побывали в Сан-Хуане, что на Пуэрто-Рико, после чего сорвались в английский Чарльстаун, остров Невис. \n Посетив после Невиса, английскую колонию Антигуа, они побывали на предпоследнем острове - Мартинике, в пиратском Ле-Франсуа. А вот последнее задание они разгадать не смогли, представляете? Им попалось очень недоступное задание.";
+			link.l1 = "Я бы предпочёл поскорее получить Мекахром, чем выслушивать подобные истории.";
+			link.l1.go = "Dozor_3";
+		break;
+ 		
+		case "Dozor_3":
+			dialog.text = "...(усмехается)... Эх, капитан, так вы не догадались? Я здесь вместо Мекахрома! И я только что рассказал вам следующую головоломку!";
+			link.l1 = "Следующую головоломку? Так этот бред и был моим следующим заданием?";
+			link.l1.go = "Dozor_4";
+		break;
+ 		
+		case "Dozor_4":
+			dialog.text = "Да. Я повторю задание. Слушайте внимательно. Сначала они побывали в Порт-Рояле на Ямайке, затем сорвались на Эспаньолу, в испанский городок Санто-Доминго, потом побывали в Сан-Хуане, что на Пуэрто-Рико, после чего сорвались в английский Чарльстаун, остров Невис. \n Посетив после Невиса, английскую колонию Антигуа, они побывали на предпоследнем острове - Мартинике, в пиратском Ле-Франсуа. А вот последнее задание они разгадать не смогли, представляете? Им попалось очень недоступное задание.";
+			link.l1 = "А подсказка? Где она?";
+			link.l1.go = "Dozor_5";
+		break;
+ 		
+		case "Dozor_5":
+			dialog.text = "А нет здесь никаких подсказок! Вы должны просто понять, куда плыть дальше.";
+			link.l1 = "Но хоть какой-нибудь совет вы мне можете дать?";
+			link.l1.go = "Dozor_6";
+		break;
+ 		
+		case "Dozor_6":
+			dialog.text = "Никаких советов, никаких подсказок. ''En el interior Del itinerario'', как говорят испанцы! Удачи! Как только разгадаете загадку, скажете мне ответ.";
+			link.l1 = "Договорились.";
+			link.l1.go = "exit";
+			AddDialogExitQuestFunction("DozorToVillemstadStoreGetTask");
+		break;
+ 		
+		case "Dozor_7":
+			dialog.text = "Ну что, капитан как успехи? Раздуплили головоломку?";
+			link.l1 = "Да, разгадал, и готов сказать правильный ответ.";
+			link.l1.go = "Dozor_8";
+			link.l2 = "Ещё не разгадал.";
+			link.l2.go = "exit";
+		break;
+ 		
+		case "Dozor_8":
+			dialog.text = "Итак, остров?";
+			Link.l1.edit = 1;
+			Link.l1 = "";
+			Link.l1.go = "Dozor_9";
+		break;
+ 		
+		case "Dozor_9":
+			string sString = GetStrSmallRegister(dialogEditStrings[1]);
+			
+			if(sString == "гваделупа" || sString == "остров гваделупа")
+			{
+				dialog.text = "А место назначения?";
+				Link.l1.edit = 1;
+				Link.l1 = "";
+				Link.l1.go = "Dozor_10";
+			}
+			else
+			{
+				dialog.text = "Неверно, капитан. Думайте дальше.";
+				link.l1 = "Аргх!";
+				link.l1.go = "exit";
+			}
+			
+		break;
+ 		
+		case "Dozor_10":
+			string sExString = GetStrSmallRegister(dialogEditStrings[1]);
+			if(sExString == "мыс недоступный")
+			{
+				dialog.text = "Верно, капитан! Ключевая фраза: ''Отважный капитан вступил в схватку с Неуловимой Эскадрой''.";
+				Link.l1 = "Спасибо и прощайте.";
+				Link.l1.go = "exit";
+				AddDialogExitQuestFunction("DozorToGuadeloupeShore");
+			}
+			else
+			{
+				dialog.text = "Нет, капитан, неверно. Попробуйте ещё раз.";
+				link.l1 = "Вот чёрт!";
+				link.l1.go = "exit";
+			}
+		break;
+ 		// <-- DOZOR
 
 	}
 	UnloadSegment(NPChar.FileDialog2);

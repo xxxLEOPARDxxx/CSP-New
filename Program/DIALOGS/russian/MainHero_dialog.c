@@ -137,6 +137,14 @@ void ProcessDialogEvent()
 	    {
 			Link.l4 = "Подождать 2 часа.";
 	    		Link.l4.go = "TalkSelf_WasteTime";
+				if(PChar.Dozor != "0" && PChar.Dozor != "END")
+				{
+					if(sti(PChar.Dozor.Riddle.CanInterface) == 1)
+					{
+							link.l4 = "Текущее задание мекахрома.";
+							link.l4.go = "Dozor_MekaKhrom";
+					}
+				}
 		}
 		//End Boyer add
 	        if (!bDisableMapEnter && pchar.location == Get_My_Cabin())
@@ -250,9 +258,16 @@ void ProcessDialogEvent()
 		break;
 		
 		case "TalkSelf_ChangeFlagHol":
-			Log_Info("Выбран пиратский флаг");
+			Log_Info("Выбран голландский флаг");
 			FlagsProcess1(3);
 			DialogExit_Self();
+		break;
+		
+		// Мекахром смотрим
+		case "Dozor_MekaKhrom":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit_Self();
+			LaunchMekakhrom();
 		break;
 		
 		case "TalkSelf_StartWait":

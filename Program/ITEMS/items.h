@@ -28,7 +28,7 @@
 
 // indexes for items` array
 #define TOTAL_ITEMS				1000 // Warship 08.05.09 - Ќова€ система предметов
-#define ITEMS_QUANTITY			  262  // не забываем мен€ть номер
+#define ITEMS_QUANTITY			  267  // не забываем мен€ть номер
 #define MAX_BUTTONS               64
 #define RANDITEMS_QUANTITY    	  45
 #define BUTTON_ACTIVATION_TIME	  1000

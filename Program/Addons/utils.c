@@ -4,6 +4,7 @@
 #include "Addons\ColonyGuarding.c"	// Организация охраны колонии в море
 #include "Addons\Plantation.c"		// Постройка и жизнь плантации
 #include "Addons\Mines.c"		// Постройка и жизнь рудников
+#include "Addons\Quests.c"		// Квесты
 
 
 /* PROGRAM/LUGGER/UTILS.C */
@@ -273,4 +274,46 @@ void CreateCaimanShoreSlaves(ref loc)
 	sld.firstLoc.timer = 1.0;
 	LAi_SetCarrierType(sld);
 	ChangeCharacterAddressGroup(sld, loc.id, "reload", "gate");*/
+}
+
+ref LocFromID(string sLocation)
+{
+	int iLocation = FindLocation(sLocation);
+	return &Locations[iLocation];
+}
+
+void SetQuestBoxItems(string sLocation, string sItem, int Qty)
+{
+	string sBox = "box1";
+	if(sItem == "SuccessPrice_Chest")
+	{
+		sBox = "box8";
+	}
+	
+	PChar.GenQuestBox.(sLocation) = true;
+	PChar.GenQuestBox.(sLocation).(sBox).items.(sItem) = Qty;
+	PChar.GenQuestBox.(sLocation).stay = true;
+}
+
+void ClearQuestBoxStay(string sLocation)
+{
+	if(!CheckAttribute(PChar, "GenQuestBox." + sLocation))
+	{
+		return;
+	}
+
+	DeleteAttribute(PChar, "GenQuestBox." + sLocation);
+}
+
+void SetDialogCharacter2Character(ref chr, ref achr, float fTime, bool bActor)
+{
+	LAi_SetActorType(achr);
+	
+	if(bActor)
+	{
+		LAi_SetActorType(chr);
+		LAi_ActorWaitDialog(chr, achr);
+	}
+	
+	LAi_ActorDialog(achr, chr, "", fTime, 1.0);
 }

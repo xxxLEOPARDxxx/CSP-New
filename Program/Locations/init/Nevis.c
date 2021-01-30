@@ -188,7 +188,7 @@ int LocationInitNevis(int n)
 	locations[n].reload.l28.label = "House";
 
 	locations[n].reload.l29.name = "houseH1";
-	locations[n].reload.l29.go = "CommonRoom_MH7";
+	locations[n].reload.l29.go = "HouseDozor";
 	locations[n].reload.l29.emerge = "reload1";
 	locations[n].reload.l29.autoreload = "0";
 	locations[n].reload.l29.label = "House";
@@ -1279,6 +1279,49 @@ int LocationInitNevis(int n)
 	locations[n].reload.l2.label = "Sea";
     locations[n].locators_radius.reload.boat = 9.0;
 	n = n + 1;
-	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// ÄÎÌ DOZOR
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "HouseDozor";
+	locations[n].id.label = "House";
+	locations[n].image = "loading\inside\mediumhouse10.tga";
+	//Town sack
+	locations[n].townsack = "Charles";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "house";
+	locations[n].fastreload = "Charles";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\inside\mediumhouse07";
+	locations[n].models.always.house = "mediumhouse07";
+	locations[n].models.always.house.level = 65538;
+	locations[n].models.day.locators = "mediumhouse07_locators";
+	locations[n].models.night.locators = "mediumhouse07_Nlocators";
+
+	Locations[n].models.always.mediumhouse07windows = "mediumhouse07_windows";
+	Locations[n].models.always.mediumhouse07windows.tech = "LocationWindows";
+	locations[n].models.always.mediumhouse07windows.level = 65539;
+	locations[n].models.always.tul = "mediumhouse07_tul";
+	Locations[n].models.always.tul.tech = "LocationWaterFall";
+	locations[n].models.always.tul.level = 180;
+
+	locations[n].models.always.back = "..\inside_back";
+	locations[n].models.always.back.level = 65529;
+	//Day
+	Locations[n].models.day.mediumhouse07rand= "mediumhouse07_rand";
+	locations[n].models.day.charactersPatch = "mediumhouse07_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "mediumhouse07_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "false";
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "Charles_town";
+	locations[n].reload.l1.emerge = "houseH1";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "Street";
+	n = n + 1;	   
 	return n;
 }
