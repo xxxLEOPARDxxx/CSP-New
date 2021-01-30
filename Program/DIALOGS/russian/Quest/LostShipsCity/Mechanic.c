@@ -843,6 +843,7 @@ void ProcessDialogEvent()
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
 			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 			sld.loyality = MAX_LOYALITY;
+			pchar.VedekerDiscount = true;
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			AddDialogExitQuestFunction("LSC_BigStormIsBegin");
 		break;

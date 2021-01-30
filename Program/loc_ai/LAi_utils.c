@@ -403,6 +403,12 @@ void LAi_CheckKillCharacter(aref chr)
 			}
 		}
 		LAi_Character_Dead_Process(chr);
+		
+		if(chr.id == "Mechanic1") 
+		{
+			DeleteAttribute(pchar, "VedekerDiscount");
+			Log_Info("Хенрик Ведекер погиб. Скидки колонии анулированы");
+		}
 	}
 }
 

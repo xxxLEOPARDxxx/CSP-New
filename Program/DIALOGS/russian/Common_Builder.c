@@ -18,17 +18,17 @@ void ProcessDialogEvent()
 	int iEbony = sti(PChar.BuildingColony.Ebony);
 	int iSlaves = sti(PChar.BuildingColony.Slaves);
 	int iFood = sti(PChar.BuildingColony.Food);
-			
+	
 	switch(Dialog.CurrentNode)
 	{
 		case "First time":
-			dialog.text = "Чем могу быть полезен, господин капитан " + sName + "?";
+			dialog.text = "Чем могу быть полезен, "+GetSexPhrase("господин","госпожа")+" капитан " + sName + "?";
 			if(PChar.ColonyBuilding.Stage != "3" && PChar.ColonyBuilding.Action != true)
 			{
-				link.l1 = "Пожалуй, я заинтересован в ваших услугах.";
+				link.l1 = "Пожалуй, я заинтересован"+GetSexPhrase("","а")+" в ваших услугах.";
 				link.l1.go = "Building";
 			}
-			link.l2 = "Просто хотел вас повидать.";
+			link.l2 = "Просто хотел"+GetSexPhrase("","а")+" вас повидать.";
 			link.l2.go = "exit";	
 			NextDiag.TempNode = "First time";
 		break;
@@ -51,19 +51,19 @@ void ProcessDialogEvent()
 			
 			if(PChar.ColonyBuilding.Stage == "0")
 			{
-				link.l1 = "Я хотел бы начать строительство колонии на одном из необитаемых островов.";
+				link.l1 = "Я хотел"+GetSexPhrase("","а")+" бы начать строительство колонии.";
 				link.l1.go = "ColonyBuilding";
 			}
 			
 			if(PChar.ColonyBuilding.Stage == "1")
 			{
-				link.l2 = "Я хотел бы расширить свою колонию, которая носит имя ''" + PChar.ColonyBuilding.ColonyName + "''.";
+				link.l2 = "Я хотел"+GetSexPhrase("","а")+" бы расширить свою колонию, которая носит имя ''" + PChar.ColonyBuilding.ColonyName + "''.";
 				link.l2.go = "ColonyModification";
 			}
 			
 			if(PChar.ColonyBuilding.Stage == "2")
 			{
-				link.l3 = "Я хотел бы укрепить свою колонию - возвести для её охраны форт.";
+				link.l3 = "Я хотел"+GetSexPhrase("","а")+" бы укрепить свою колонию - возвести для её охраны форт.";
 				link.l3.go = "ColonyFortBuildingNoNo";
 			}
 			
@@ -73,10 +73,20 @@ void ProcessDialogEvent()
 		break;
 
 		case "ColonyBuilding":
-			dialog.text = "Хм... Что же. Думаю, для начала нам необходимо осмотреть необитаемые острова для пригодности на постройку колонии. Кроме того, работа моя, конечно, не бесплатная, и оплата будет составлять "+(1500000*MOD_SKILL_ENEMY_RATE)+" пиастров. К тому же, с вами находится грамотный техник. Вместе с ним мы сможем существенно сократить затраты по деньгам, если, конечно, он мне поможет. Что скажете?";
-			if(sti(PChar.money) >= 1500000 * MOD_SKILL_ENEMY_RATE)
+	    	if(CheckAttribute(pchar, "VedekerDiscount"))//Скидка от Ведекера.
+	    	{
+				NPChar.NeedMoney = (1500000 * MOD_SKILL_ENEMY_RATE)/2;
+	    		dialog.text = "Хм... Что же. Думаю, для начала нам необходимо осмотреть необитаемые острова для пригодности на постройку колонии. Кроме того, работа моя, конечно, не бесплатная, и оплата будет составлять "+(1500000*MOD_SKILL_ENEMY_RATE)+" пиастров. К тому же, с вами находится грамотный техник. Вместе с ним мы сможем существенно сократить затраты по деньгам примерно до "+NPChar.NeedMoney+" пиастров, если, конечно, он мне поможет. Что скажете?";
+	    	}
+	    	else		
+	    	{
+				NPChar.NeedMoney = 1500000 * MOD_SKILL_ENEMY_RATE;
+		    	dialog.text = "Хм... Что же. Думаю, для начала нам необходимо осмотреть необитаемые острова для пригодности на постройку колонии. Кроме того, работа моя, конечно, не бесплатная, и оплата будет составлять "+(1500000*MOD_SKILL_ENEMY_RATE)+" пиастров. Что скажете?";
+		    }
+			
+			if(sti(PChar.money) >= sti(NPChar.NeedMoney))
 			{
-				link.l1 = "Я согласен.";
+				link.l1 = "Я соглас"+GetSexPhrase("ен","на")+".";
 				link.l1.go = "ColonyBuilding_1";
 			}
 			else
@@ -84,19 +94,20 @@ void ProcessDialogEvent()
 				link.l2 = "Пока я не располагаю такими деньгами.";
 				link.l2.go = "exit";
 			}
+			
 			link.l3 = "Извините, мне пора.";
 			link.l3.go = "exit";
 		break;
 
 		case "ColonyBuilding_1":
-			AddMoneyToCharacter(PChar, -1500000 * MOD_SKILL_ENEMY_RATE);
+			AddMoneyToCharacter(PChar, -sti(NPChar.NeedMoney));
 			dialog.text = "Тогда в кратчайшие сроки нам необходимо освидетельствовать необитаемые острова.";
 			link.l1 = "Постараюсь отплыть как можно быстрее!";
 			link.l1.go = "ColonyBuilding_exit";
 		break;
 
 		case "ColonyBuilding_2":
-			dialog.text = "Господин капитан. Тщательно обследовав этот остров, я пришёл к выводу, что это именно то место, где следует начинать постройку колонии. Разведчики обнаружили признаки неких месторождений, а это может быть экономически выгодным для колонии. К тому же, здесь наиболее плодородная почва из всех посещённых нами островов.";
+			dialog.text = ""+GetSexPhrase("Господин","Госпожа")+" капитан. Тщательно обследовав этот остров, я пришёл к выводу, что это именно то место, где следует начинать постройку колонии. Разведчики обнаружили признаки неких месторождений, а это может быть экономически выгодным для колонии. К тому же, здесь наиболее плодородная почва из всех посещённых нами островов.";
 			link.l1 = "Ты что, сухопутная крыса, думаешь, я там буду ананасы с кофе выращивать? Я корсар, а не земледелец!";
 			link.l1.go = "ColonyBuilding_2_1";
 		break;
@@ -134,7 +145,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{			
-				link.l1 = "Я бы хотел передать вам необходимые товары.";
+				link.l1 = "Я бы хотел"+GetSexPhrase("","а")+" передать вам необходимые товары.";
 				link.l1.go = "ColonyBuilding_5";
 				NextDiag.TempNode = "ColonyBuilding_4";
 			}
@@ -147,13 +158,13 @@ void ProcessDialogEvent()
 		break;
 
 		case "ColonyBuilding_6":
-			dialog.text = "А-а, это вы, господин капитан! Строительство идёт полным ходом!";
+			dialog.text = "А-а, это вы, "+GetSexPhrase("господин","госпожа")+" капитан! Строительство идёт полным ходом!";
 			link.l1 = "До встречи.";
 			link.l1.go = "exit";
 		break;
 
 		case "ColonyBuilding_7":
-			dialog.text = "Добрый день, господин капитан! С удовольствием вам сообщаю, что строительство вашей колонии завершено! Если вам снова понадобятся мои услуги, вы сможете найти меня в Вашем поселении.";
+			dialog.text = "Добрый день, "+GetSexPhrase("господин","госпожа")+" капитан! С удовольствием вам сообщаю, что строительство вашей колонии завершено! Если вам снова понадобятся мои услуги, вы сможете найти меня в Вашем поселении.";
 			link.l1 = "Отлично, господин " + NPChar.name + " " + NPChar.lastname + ". А теперь прошу меня извинить - дела ждут.";
 			link.l1.go = "exit";
 			NextDiag.TempNode = "ColonyBuilding_8";
@@ -210,7 +221,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{			
-				link.l1 = "Я бы хотел передать вам необходимые товары.";
+				link.l1 = "Я бы хотел"+GetSexPhrase("","а")+" передать вам необходимые товары.";
 				link.l1.go = "ColonyBuilding_5";
 				NextDiag.TempNode = "ColonyModification_3";
 			}
@@ -278,10 +289,19 @@ void ProcessDialogEvent()
 		break;
 
 		case "ColonyFortBuilding":
-			dialog.text = "Я с радостью помогу вам. Но это вам будет стоить немалых затрат. За свою работу я хочу получить "+(200000*MOD_SKILL_ENEMY_RATE)+" золотых.";
-			if(sti(PChar.money) >= 200000 * MOD_SKILL_ENEMY_RATE)
+			if(CheckAttribute(pchar, "VedekerDiscount"))
 			{
-				link.l1 = "Я согласен.";
+				NPChar.NeedMoney = (200000 * MOD_SKILL_ENEMY_RATE)/2;
+				dialog.text = "Я с радостью помогу вам. Но это вам будет стоить немалых затрат. За свою работу я хочу получить "+Sti(NPChar.NeedMoney)+" золотых.";
+			}
+			else
+			{
+				NPChar.NeedMoney = 200000 * MOD_SKILL_ENEMY_RATE;
+			    dialog.text = "Я с радостью помогу вам. Но это вам будет стоить немалых затрат. За свою работу я хочу получить "+Sti(NPChar.NeedMoney)+" золотых.";
+			}
+			if(sti(PChar.money) >= Sti(NPChar.NeedMoney))
+			{
+				link.l1 = "Я соглас"+GetSexPhrase("ен","на")+".";
 				link.l1.go = "ColonyFortBuilding_1";
 			}
 			else
@@ -307,7 +327,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "ColonyFortBuilding_3":
-			AddMoneyToCharacter(PChar, -200000 * MOD_SKILL_ENEMY_RATE);
+			AddMoneyToCharacter(PChar, -sti(NPChar.NeedMoney));
 			dialog.text = "Для строительства нам понадобяться следующие товары: Кирпичи - " + iBricks + " шт., доски - " + iPlanks + " шт., красное дерево - " + iMahogany + " шт., чёрное дерево - " + iEbony + " шт., провиант - " + iFood + " шт., и " + iSlaves + " рабов.";
 			link.l1 = "Постараюсь доставить все необходимое как можно скорее.";
 			link.l1.go = "ColonyFortBuilding_to_start_transfer_goods";
@@ -326,14 +346,14 @@ void ProcessDialogEvent()
 			}
 			else
 			{			
-				link.l1 = "Я бы хотел передать вам необходимые товары.";
+				link.l1 = "Я бы хотел"+GetSexPhrase("","а")+" передать вам необходимые товары.";
 				link.l1.go = "ColonyBuilding_5";
 				NextDiag.TempNode = "ColonyFortBuilding_4";
 			}
 		break;
 
 		case "ColonyFortBuilding_5":
-			dialog.text = "А-а, это вы, господин капитан! Строительство идёт полным ходом!";
+			dialog.text = "А-а, это вы, "+GetSexPhrase("господин","госпожа")+" капитан! Строительство идёт полным ходом!";
 			link.l1 = "До встречи.";
 			link.l1.go = "exit";
 		break;
@@ -380,7 +400,7 @@ void ProcessDialogEvent()
 			else
 			{
 				dialog.text = NPCharSexPhrase(NPChar, "Острожней на поворотах, приятель, когда бежишь с оружием в руках. Я ведь могу и занервничать...", "Мне не нравится, когда мужчины ходят передо мной с оружием на изготовку. Это меня пугает...");
-				link.l1 = RandPhraseSimple("Понял.", "Убираю.");
+				link.l1 = RandPhraseSimple("Понял"+GetSexPhrase("","а")+".", "Убираю.");
 			}
 			link.l1.go = "exit";
 		break;

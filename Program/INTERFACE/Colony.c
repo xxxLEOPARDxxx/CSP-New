@@ -2,12 +2,14 @@ int iColor = 0;
 // int iMoneyColor = argb(255,255,255,128);
 
 int iInfoBuildCount = 0;
-	    	
+
+int NeedMoney;
+
 void InitInterface(string iniName)
 {
 	GameInterface.title = "titleColony";
 
-    	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
+    SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
 	PChar.Colony.Interface.UpMenu = "NormalBuilds";
 	PChar.Colony.Interface.DownMenu = "ProBuilds";
@@ -393,6 +395,9 @@ void PlantationUp()
 	ref PChar = GetMainCharacter();
 	
 	int iMoney = sti(PChar.Plantation.ResizeMoney);
+	
+	if(CheckAttribute(pchar, "VedekerDiscount")) iMoney = iMoney/2;
+	
 	ChangeColonyMoney(-iMoney, false);
 	
 	PChar.ColonyBuilding.Plantation.Resize = true;
@@ -498,6 +503,9 @@ void ResizeMine(string sMine)
 	PChar.ColonyBuilding.(sMine).Size = "Big";
 	
 	int iMoney = sti(PChar.ColonyBuilding.(sMine).ResizeCost);
+	
+	if(CheckAttribute(pchar, "VedekerDiscount")) iMoney = sti(iMoney)/2;
+	
 	ChangeColonyMoney(-iMoney, false);
 	
 	if(sMine == "StoreHouse")
@@ -561,6 +569,8 @@ void OpenBuild(string sBuild)
 	}
 	
 	int iMoney = sti(PChar.ColonyBuilding.(sBuild).Cost);
+	
+	if(CheckAttribute(pchar, "VedekerDiscount")) iMoney = iMoney/2;
 	
 	ChangeColonyMoney(-iMoney, false);
 	string sQuest = sBuild + "_build";
@@ -679,7 +689,8 @@ void SelectBuildsMenu(string sMenu)
 		    	
 			if(PChar.ColonyBuilding.Store == false)
 			{
-				GameInterface.strings.StoreCost = "Цена: " + sti(PChar.ColonyBuilding.Store.Cost);
+				if(CheckAttribute(pchar, "VedekerDiscount")) GameInterface.strings.StoreCost = "Цена: " + sti(PChar.ColonyBuilding.Store.Cost)/2;
+				else GameInterface.strings.StoreCost = "Цена: " + sti(PChar.ColonyBuilding.Store.Cost);
 			}
 			else
 			{
@@ -692,7 +703,10 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
-				if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.Store.Cost))
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Store.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.Store.Cost;
+				
+				if(GetMyColonyMoney() < sti(NeedMoney))
 				{
 					SetSelectable("STORE_OPEN", false);
 				}
@@ -868,7 +882,8 @@ void SelectBuildsMenu(string sMenu)
 			
 			if(PChar.ColonyBuilding.Expidition == false)
 			{
-				CreateString(true,"ExpiditionCost", "Цена: " + sti(PChar.ColonyBuilding.Expidition.Cost), FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
+				if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"ExpiditionCost", "Цена: " + sti(PChar.ColonyBuilding.Expidition.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
+				else CreateString(true,"ExpiditionCost", "Цена: " + sti(PChar.ColonyBuilding.Expidition.Cost), FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
 			}
 			else
 			{
@@ -881,9 +896,12 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Expidition.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.Expidition.Cost;
+				
 				if(PChar.ColonyBuilding.Stage == "2" || PChar.ColonyBuilding.Stage == "3")
 				{
-					if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.Expidition.Cost))
+					if(GetMyColonyMoney() < sti(NeedMoney))
 					{
 						SetSelectable("EXPIDITION_OPEN", false);
 					}
@@ -928,7 +946,8 @@ void SelectBuildsMenu(string sMenu)
 			
 			if(PChar.ColonyBuilding.StoreHouse == false)
 			{
-				CreateString(true,"StoreHouseCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.Cost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+				if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"StoreHouseCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+				else CreateString(true,"StoreHouseCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.Cost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
 			}
 			else
 			{
@@ -941,7 +960,10 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
-				if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.StoreHouse.Cost))
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.StoreHouse.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.StoreHouse.Cost;
+				
+				if(GetMyColonyMoney() < sti(NeedMoney))
 				{
 					SetSelectable("STOREHOUSE_OPEN", false);
 				}
@@ -958,7 +980,8 @@ void SelectBuildsMenu(string sMenu)
 				
 				if(PChar.ColonyBuilding.StoreHouse.Resize == false)
 				{
-					CreateString(true,"StoreHouseResizeCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+					if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"StoreHouseResizeCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.ResizeCost)/2, FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+					else CreateString(true,"StoreHouseResizeCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
 				}
 				else
 				{
@@ -967,7 +990,10 @@ void SelectBuildsMenu(string sMenu)
 			
 				if(PChar.ColonyBuilding.Stage == "2" || PChar.ColonyBuilding.Stage == "3")
 				{
-					if(GetMyColonyMoney() >= sti(PChar.ColonyBuilding.StoreHouse.ResizeCost) && PChar.ColonyBuilding.StoreHouse.BuildingTime == false)
+					if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.StoreHouse.ResizeCost/2;
+					else NeedMoney = PChar.ColonyBuilding.StoreHouse.ResizeCost;
+					
+					if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.StoreHouse.BuildingTime == false)
 					{
 						SetSelectable("STOREHOUSE_RESIZE", true);
 					}
@@ -1018,7 +1044,8 @@ void SelectBuildsMenu(string sMenu)
 			
 			if(PChar.ColonyBuilding.Plantation == false)
 			{
-				CreateString(true,"PlantationCost", "Цена: " + sti(PChar.ColonyBuilding.Plantation.Cost), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+				if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"PlantationCost", "Цена: " + sti(PChar.ColonyBuilding.Plantation.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+				else CreateString(true,"PlantationCost", "Цена: " + sti(PChar.ColonyBuilding.Plantation.Cost), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
 			}
 			else
 			{
@@ -1031,9 +1058,12 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Plantation.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.Plantation.Cost;
+				
 				if(PChar.ColonyBuilding.Expidition == true && PChar.ColonyBuilding.Expidition.BuildingTime == false)
 				{
-					if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.Plantation.Cost))
+					if(GetMyColonyMoney() < sti(NeedMoney))
 					{
 						SetSelectable("PLANTATION_OPEN", false);
 					}
@@ -1056,14 +1086,18 @@ void SelectBuildsMenu(string sMenu)
 				
 				if(PChar.ColonyBuilding.Plantation.Resize == false && PChar.ColonyBuilding.Plantation.Resize.BuildingTime == false)
 				{
-					CreateString(true,"PlantationResizeCost", "Цена: " + sti(PChar.Plantation.ResizeMoney), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+					if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"PlantationResizeCost", "Цена: " + sti(PChar.Plantation.ResizeMoney)/2, FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+					else CreateString(true,"PlantationResizeCost", "Цена: " + sti(PChar.Plantation.ResizeMoney), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
 				}
 				else
 				{
 					GameInterface.strings.PlantationResizeCost = "";
 				}
 			
-				if(GetMyColonyMoney() >= sti(PChar.Plantation.ResizeMoney) && PChar.ColonyBuilding.Plantation.BuildingTime == false)
+			    if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.Plantation.ResizeMoney/2;
+				else NeedMoney = PChar.Plantation.ResizeMoney;
+			
+				if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.Plantation.BuildingTime == false)
 				{
 					SetSelectable("PLANTATION_RESIZE", true);
 				}
@@ -1126,7 +1160,7 @@ void SelectBuildsMenu(string sMenu)
 			GameInterface.strings.IronMineCost = "";
 			GameInterface.strings.IronMineResizeCost = "";
 			
-		    	GameInterface.strings.BankHeader = "Дом ростовщика";
+		    GameInterface.strings.BankHeader = "Дом ростовщика";
 			string sBankStatus = "";
 			
 			if(PChar.ColonyBuilding.Bank == false)
@@ -1144,7 +1178,8 @@ void SelectBuildsMenu(string sMenu)
 		    	
 			if(PChar.ColonyBuilding.Bank == false)
 			{
-				GameInterface.strings.BankCost = "Цена: " + sti(PChar.ColonyBuilding.Bank.Cost);
+				if(CheckAttribute(pchar, "VedekerDiscount")) GameInterface.strings.BankCost = "Цена: " + sti(PChar.ColonyBuilding.Bank.Cost)/2;
+				else GameInterface.strings.BankCost = "Цена: " + sti(PChar.ColonyBuilding.Bank.Cost);
 			}
 			else
 			{
@@ -1157,7 +1192,10 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
-				if(GetMyColonyMoney() > sti(PChar.ColonyBuilding.Bank.Cost) && sti(PChar.ColonyBuilding.Stage) > 1)
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Bank.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.Bank.Cost;
+				
+				if(GetMyColonyMoney() > sti(NeedMoney) && sti(PChar.ColonyBuilding.Stage) > 1)
 				{
 					SetSelectable("BANK_OPEN", true);
 				}
@@ -1187,7 +1225,8 @@ void SelectBuildsMenu(string sMenu)
 		    	
 			if(PChar.ColonyBuilding.Church == false)
 			{
-				GameInterface.strings.ChurchCost = "Цена: " + sti(PChar.ColonyBuilding.Church.Cost);
+				if(CheckAttribute(pchar, "VedekerDiscount")) GameInterface.strings.ChurchCost = "Цена: " + sti(PChar.ColonyBuilding.Church.Cost)/2;
+				else GameInterface.strings.ChurchCost = "Цена: " + sti(PChar.ColonyBuilding.Church.Cost);
 			}
 			else
 			{
@@ -1200,7 +1239,10 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
-				if(GetMyColonyMoney() > sti(PChar.ColonyBuilding.Church.Cost) && sti(PChar.ColonyBuilding.Stage) > 1)
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Church.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.Church.Cost;
+				
+				if(GetMyColonyMoney() > sti(NeedMoney) && sti(PChar.ColonyBuilding.Stage) > 1)
 				{
 					SetSelectable("CHURCH_OPEN", true);
 				}
@@ -1230,7 +1272,8 @@ void SelectBuildsMenu(string sMenu)
 		    	
 			if(PChar.ColonyBuilding.Headport == false)
 			{
-				GameInterface.strings.HeadportCost = "Цена: " + sti(PChar.ColonyBuilding.Headport.Cost);
+				if(CheckAttribute(pchar, "VedekerDiscount")) GameInterface.strings.HeadportCost = "Цена: " + sti(PChar.ColonyBuilding.Headport.Cost)/2;
+				else GameInterface.strings.HeadportCost = "Цена: " + sti(PChar.ColonyBuilding.Headport.Cost);
 			}
 			else
 			{
@@ -1243,7 +1286,10 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
-				if(GetMyColonyMoney() > sti(PChar.ColonyBuilding.Headport.Cost) && sti(PChar.ColonyBuilding.Stage) > 1)
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Headport.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.Headport.Cost;
+				
+				if(GetMyColonyMoney() > sti(NeedMoney) && sti(PChar.ColonyBuilding.Stage) > 1)
 				{
 					SetSelectable("HEADPORT_OPEN", true);
 				}
@@ -1331,7 +1377,8 @@ void SelectBuildsMenu(string sMenu)
 			
 			if(PChar.ColonyBuilding.GoldMine == false)
 			{
-				CreateString(true,"GoldMineCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.Cost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+				if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"GoldMineCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+				else CreateString(true,"GoldMineCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.Cost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
 			}
 			else
 			{
@@ -1344,9 +1391,12 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.GoldMine.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.GoldMine.Cost;
+				
 				if(PChar.ColonyBuilding.Expidition == true && PChar.ColonyBuilding.Expidition.BuildingTime == false)
 				{
-					if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.GoldMine.Cost) && PChar.ColonyBuilding.GoldMine.BuildingTime == false)
+					if(GetMyColonyMoney() < sti(NeedMoney) && PChar.ColonyBuilding.GoldMine.BuildingTime == false)
 					{
 						SetSelectable("GOLDMINE_OPEN", false);
 					}
@@ -1368,14 +1418,18 @@ void SelectBuildsMenu(string sMenu)
 				
 				if(PChar.ColonyBuilding.GoldMine.Resize == false)
 				{
-					CreateString(true,"GoldMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+					if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"GoldMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.ResizeCost)/2, FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+					else CreateString(true,"GoldMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
 				}
 				else
 				{
 					GameInterface.strings.GoldMineResizeCost = "";
 				}
 			
-				if(GetMyColonyMoney() >= sti(PChar.ColonyBuilding.GoldMine.ResizeCost) && PChar.ColonyBuilding.GoldMine.BuildingTime == false)
+			    if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.GoldMine.ResizeCost/2;
+				else NeedMoney = PChar.ColonyBuilding.GoldMine.ResizeCost;
+			
+				if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.GoldMine.BuildingTime == false)
 				{
 					SetSelectable("GOLDMINE_RESIZE", true);
 				}
@@ -1420,7 +1474,8 @@ void SelectBuildsMenu(string sMenu)
 			
 			if(PChar.ColonyBuilding.SilverMine == false)
 			{
-				CreateString(true,"SilverMineCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.Cost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+				if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"SilverMineCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+				else CreateString(true,"SilverMineCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.Cost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
 			}
 			else
 			{
@@ -1433,9 +1488,12 @@ void SelectBuildsMenu(string sMenu)
 			}	
 			else
 			{
+				if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.SilverMine.Cost/2;
+				else NeedMoney = PChar.ColonyBuilding.SilverMine.Cost;
+				
 				if(PChar.ColonyBuilding.Expidition == true && PChar.ColonyBuilding.Expidition.BuildingTime == false)
 				{
-					if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.SilverMine.Cost) && PChar.ColonyBuilding.SilverMine.BuildingTime == false)
+					if(GetMyColonyMoney() < sti(NeedMoney) && PChar.ColonyBuilding.SilverMine.BuildingTime == false)
 					{
 						SetSelectable("SILVERMINE_OPEN", false);
 					}
@@ -1457,14 +1515,18 @@ void SelectBuildsMenu(string sMenu)
 				
 				if(PChar.ColonyBuilding.SilverMine.Resize == false)
 				{
-					CreateString(true,"SilverMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+					if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"SilverMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.ResizeCost)/2, FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+					else CreateString(true,"SilverMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
 				}
 				else
 				{
 					GameInterface.strings.SilverMineResizeCost = "";
 				}
 			
-				if(GetMyColonyMoney() >= sti(PChar.ColonyBuilding.SilverMine.ResizeCost) && PChar.ColonyBuilding.SilverMine.BuildingTime == false)
+			    if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.SilverMine.ResizeCost/2;
+				else NeedMoney = PChar.ColonyBuilding.SilverMine.ResizeCost;
+			 
+				if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.SilverMine.BuildingTime == false)
 				{
 					SetSelectable("SILVERMINE_RESIZE", true);
 				}
@@ -1509,7 +1571,8 @@ void SelectBuildsMenu(string sMenu)
 			
 			if(PChar.ColonyBuilding.IronMine == false)
 			{
-				CreateString(true,"IronMineCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.Cost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+				if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"IronMineCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+				else CreateString(true,"IronMineCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.Cost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
 			}
 			else
 			{
@@ -1524,7 +1587,10 @@ void SelectBuildsMenu(string sMenu)
 			{
 				if(PChar.ColonyBuilding.Expidition == true && PChar.ColonyBuilding.Expidition.BuildingTime == false)
 				{
-					if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.IronMine.Cost) && PChar.ColonyBuilding.IronMine.BuildingTime == false)
+					if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.IronMine.Cost/2;
+					else NeedMoney = PChar.ColonyBuilding.IronMine.Cost;
+					
+					if(GetMyColonyMoney() < sti(NeedMoney) && PChar.ColonyBuilding.IronMine.BuildingTime == false)
 					{
 						SetSelectable("IRONMINE_OPEN", false);
 					}
@@ -1546,14 +1612,18 @@ void SelectBuildsMenu(string sMenu)
 				
 				if(PChar.ColonyBuilding.IronMine.Resize == false)
 				{
-					CreateString(true,"IronMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+					if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"IronMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.ResizeCost)/2, FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+					else CreateString(true,"IronMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
 				}
 				else
 				{
 					GameInterface.strings.IronMineResizeCost = "";
 				}
 			
-				if(GetMyColonyMoney() >= sti(PChar.ColonyBuilding.IronMine.ResizeCost) && PChar.ColonyBuilding.IronMine.BuildingTime == false)
+			    if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.IronMine.ResizeCost/2;
+				else NeedMoney = PChar.ColonyBuilding.IronMine.ResizeCost;
+			 
+				if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.IronMine.BuildingTime == false)
 				{
 					SetSelectable("IRONMINE_RESIZE", true);
 				}
@@ -2004,7 +2074,8 @@ void SetInformation()
 	
 	if(PChar.ColonyBuilding.Store == false)
 	{
-		CreateString(true,"StoreCost", "Цена: " + sti(PChar.ColonyBuilding.Store.Cost), FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"StoreCost", "Цена: " + sti(PChar.ColonyBuilding.Store.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"StoreCost", "Цена: " + sti(PChar.ColonyBuilding.Store.Cost), FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2017,7 +2088,10 @@ void SetInformation()
 	}	
 	else
 	{
-		if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.Store.Cost))
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Store.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.Store.Cost;
+		
+		if(GetMyColonyMoney() < sti(NeedMoney))
 		{
 			SetSelectable("STORE_OPEN", false);
 		}
@@ -2049,7 +2123,8 @@ void SetInformation()
 	
 	if(PChar.ColonyBuilding.Shipyard == false)
 	{
-		CreateString(true,"ShipyardCost", "Цена: " + sti(PChar.ColonyBuilding.Shipyard.Cost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"ShipyardCost", "Цена: " + sti(PChar.ColonyBuilding.Shipyard.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"ShipyardCost", "Цена: " + sti(PChar.ColonyBuilding.Shipyard.Cost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2068,7 +2143,10 @@ void SetInformation()
 		}
 		else
 		{
-			if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.Shipyard.Cost))
+			if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Shipyard.Cost/2;
+			else NeedMoney = PChar.ColonyBuilding.Shipyard.Cost;
+			
+			if(GetMyColonyMoney() < sti(NeedMoney))
 			{
 				SetSelectable("SHIPYARD_OPEN", false);
 			}
@@ -2101,7 +2179,8 @@ void SetInformation()
 	
 	if(PChar.ColonyBuilding.Tavern == false)
 	{
-		CreateString(true,"TavernCost", "Цена: " + sti(PChar.ColonyBuilding.Tavern.Cost), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"TavernCost", "Цена: " + sti(PChar.ColonyBuilding.Tavern.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"TavernCost", "Цена: " + sti(PChar.ColonyBuilding.Tavern.Cost), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2114,7 +2193,10 @@ void SetInformation()
 	}	
 	else
 	{
-		if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.Tavern.Cost))
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Tavern.Cost/2;
+		else NeedMoney PChar.ColonyBuilding.Tavern.Cost;
+		
+		if(GetMyColonyMoney() < sti(NeedMoney))
 		{
 			SetSelectable("TAVERN_OPEN", false);
 		}
@@ -2149,7 +2231,8 @@ void SetInformation()
 	
 	if(PChar.ColonyBuilding.Bank == false)
 	{
-		CreateString(true,"BankCost", "Цена: " + sti(PChar.ColonyBuilding.Bank.Cost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"BankCost", "Цена: " + sti(PChar.ColonyBuilding.Bank.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"BankCost", "Цена: " + sti(PChar.ColonyBuilding.Bank.Cost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2162,7 +2245,10 @@ void SetInformation()
 	}	
 	else
 	{
-		if(GetMyColonyMoney() > sti(PChar.ColonyBuilding.Bank.Cost) && sti(PChar.ColonyBuilding.Stage) > 1)
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Bank.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.Bank.Cost;
+		
+		if(GetMyColonyMoney() > sti(NeedMoney) && sti(PChar.ColonyBuilding.Stage) > 1)
 		{
 			SetSelectable("BANK_OPEN", true);
 		}
@@ -2194,7 +2280,8 @@ void SetInformation()
 	
 	if(PChar.ColonyBuilding.Church == false)
 	{
-		CreateString(true,"ChurchCost", "Цена: " + sti(PChar.ColonyBuilding.Church.Cost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"ChurchCost", "Цена: " + sti(PChar.ColonyBuilding.Church.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"ChurchCost", "Цена: " + sti(PChar.ColonyBuilding.Church.Cost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2207,7 +2294,10 @@ void SetInformation()
 	}	
 	else
 	{
-		if(GetMyColonyMoney() > sti(PChar.ColonyBuilding.Church.Cost) && sti(PChar.ColonyBuilding.Stage) > 1)
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Church.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.Church.Cost;
+		
+		if(GetMyColonyMoney() > sti(NeedMoney) && sti(PChar.ColonyBuilding.Stage) > 1)
 		{
 			SetSelectable("CHURCH_OPEN", true);
 		}
@@ -2239,7 +2329,8 @@ void SetInformation()
 	
 	if(PChar.ColonyBuilding.Headport == false)
 	{
-		CreateString(true,"HeadportCost", "Цена: " + sti(PChar.ColonyBuilding.Headport.Cost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"HeadportCost", "Цена: " + sti(PChar.ColonyBuilding.Headport.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"HeadportCost", "Цена: " + sti(PChar.ColonyBuilding.Headport.Cost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2252,7 +2343,10 @@ void SetInformation()
 	}	
 	else
 	{
-		if(GetMyColonyMoney() > sti(PChar.ColonyBuilding.Headport.Cost) && sti(PChar.ColonyBuilding.Stage) > 1)
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Headport.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.Headport.Cost;
+		
+		if(GetMyColonyMoney() > sti(NeedMoney) && sti(PChar.ColonyBuilding.Stage) > 1)
 		{
 			SetSelectable("HEADPORT_OPEN", true);
 		}
@@ -2282,7 +2376,8 @@ void SetExpiditionInformation()
 	
 	if(PChar.ColonyBuilding.Expidition == false)
 	{
-		CreateString(true,"ExpiditionCost", "Цена: " + sti(PChar.ColonyBuilding.Expidition.Cost), FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"ExpiditionCost", "Цена: " + sti(PChar.ColonyBuilding.Expidition.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"ExpiditionCost", "Цена: " + sti(PChar.ColonyBuilding.Expidition.Cost), FONT_NORMAL, COLOR_NORMAL, 355,238,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2295,9 +2390,12 @@ void SetExpiditionInformation()
 	}
 	else
 	{
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Expidition.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.Expidition.Cost;
+		
 		if(PChar.ColonyBuilding.Stage == "2" || PChar.ColonyBuilding.Stage == "3")
 		{
-			if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.Expidition.Cost))
+			if(GetMyColonyMoney() < sti(NeedMoney))
 			{
 				SetSelectable("EXPIDITION_OPEN", false);
 			}
@@ -2338,7 +2436,8 @@ void SetExpiditionInformation()
 	
 	if(PChar.ColonyBuilding.StoreHouse == false)
 	{
-		CreateString(true,"StoreHouseCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.Cost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"StoreHouseCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.Cost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"StoreHouseCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.Cost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2351,7 +2450,10 @@ void SetExpiditionInformation()
 	}	
 	else
 	{
-		if(sti(PChar.money) < sti(PChar.ColonyBuilding.StoreHouse.Cost))
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.StoreHouse.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.StoreHouse.Cost;
+		
+		if(sti(PChar.money) < sti(NeedMoney))
 		{
 			SetSelectable("STOREHOUSE_OPEN", false);
 		}
@@ -2368,16 +2470,20 @@ void SetExpiditionInformation()
 		
 		if(PChar.ColonyBuilding.StoreHouse.Resize == false)
 		{
-			CreateString(true,"StoreHouseResizeCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+			if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"StoreHouseResizeCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.ResizeCost)/2, FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
+			else CreateString(true,"StoreHouseResizeCost", "Цена: " + sti(PChar.ColonyBuilding.StoreHouse.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,238,SCRIPT_ALIGN_LEFT,1.0);
 		}
 		else
 		{
 			GameInterface.strings.StoreHouseResizeCost = "";
 		}
+		
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.StoreHouse.ResizeCost/2;
+		else NeedMoney = PChar.ColonyBuilding.StoreHouse.ResizeCost;
 	
 		if(PChar.ColonyBuilding.Stage == "2" || PChar.ColonyBuilding.Stage == "3")
 		{
-			if(GetMyColonyMoney() >= sti(PChar.ColonyBuilding.StoreHouse.ResizeCost) && PChar.ColonyBuilding.StoreHouse.BuildingTime == false)
+			if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.StoreHouse.BuildingTime == false)
 			{
 				SetSelectable("STOREHOUSE_RESIZE", true);
 			}
@@ -2416,7 +2522,8 @@ void SetExpiditionInformation()
 	
 	if(PChar.ColonyBuilding.Plantation == false)
 	{
-		CreateString(true,"PlantationCost", "Цена: " + sti(PChar.ColonyBuilding.Plantation.Cost), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"PlantationCost", "Цена: " + sti(PChar.ColonyBuilding.Plantation.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"PlantationCost", "Цена: " + sti(PChar.ColonyBuilding.Plantation.Cost), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2429,9 +2536,12 @@ void SetExpiditionInformation()
 	}	
 	else
 	{
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.Plantation.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.Plantation.Cost;
+		
 		if(PChar.ColonyBuilding.Expidition == true && PChar.ColonyBuilding.Expidition.BuildingTime == false)
 		{
-			if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.Plantation.Cost))
+			if(GetMyColonyMoney() < sti(NeedMoney))
 			{
 				SetSelectable("PLANTATION_OPEN", false);
 			}
@@ -2454,12 +2564,16 @@ void SetExpiditionInformation()
 		
 		if(PChar.ColonyBuilding.Plantation.Resize == false && PChar.ColonyBuilding.Plantation.Resize.BuildingTime == false)
 		{
-			CreateString(true,"PlantationResizeCost", "Цена: " + sti(PChar.Plantation.ResizeMoney), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+			if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"PlantationResizeCost", "Цена: " + sti(PChar.Plantation.ResizeMoney)/2, FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
+			else CreateString(true,"PlantationResizeCost", "Цена: " + sti(PChar.Plantation.ResizeMoney), FONT_NORMAL, COLOR_NORMAL, 645,238,SCRIPT_ALIGN_LEFT,1.0);
 		}
 		else
 		{
 			GameInterface.strings.PlantationResizeCost = "";
 		}
+		
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.Plantation.ResizeMoney/2;
+		else NeedMoney = PChar.Plantation.ResizeMoney;
 	
 		if(GetMyColonyMoney() >= sti(PChar.Plantation.ResizeMoney) && PChar.ColonyBuilding.Plantation.BuildingTime == false)
 		{
@@ -2508,7 +2622,8 @@ void SetMinesInformation()
 	
 	if(PChar.ColonyBuilding.GoldMine == false)
 	{
-		CreateString(true,"GoldMineCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.Cost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"GoldMineCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"GoldMineCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.Cost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2521,9 +2636,12 @@ void SetMinesInformation()
 	}	
 	else
 	{
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.GoldMine.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.GoldMine.Cost;
+		
 		if(PChar.ColonyBuilding.Expidition == true && PChar.ColonyBuilding.Expidition.BuildingTime == false)
 		{
-			if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.GoldMine.Cost) && PChar.ColonyBuilding.GoldMine.BuildingTime == false)
+			if(GetMyColonyMoney() < sti(NeedMoney) && PChar.ColonyBuilding.GoldMine.BuildingTime == false)
 			{
 				SetSelectable("GOLDMINE_OPEN", false);
 			}
@@ -2545,14 +2663,18 @@ void SetMinesInformation()
 		
 		if(PChar.ColonyBuilding.GoldMine.Resize == false)
 		{
-			CreateString(true,"GoldMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+			if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"GoldMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
+			else CreateString(true,"GoldMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.GoldMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 355,513,SCRIPT_ALIGN_LEFT,1.0);
 		}
 		else
 		{
 			GameInterface.strings.GoldMineResizeCost = "";
 		}
+		
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.GoldMine.ResizeCost/2;
+		else NeedMoney = PChar.ColonyBuilding.GoldMine.ResizeCost;
 	
-		if(GetMyColonyMoney() >= sti(PChar.ColonyBuilding.GoldMine.ResizeCost) && PChar.ColonyBuilding.GoldMine.BuildingTime == false)
+		if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.GoldMine.BuildingTime == false)
 		{
 			SetSelectable("GOLDMINE_RESIZE", true);
 		}
@@ -2593,7 +2715,8 @@ void SetMinesInformation()
 	
 	if(PChar.ColonyBuilding.SilverMine == false)
 	{
-		CreateString(true,"SilverMineCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.Cost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"SilverMineCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.Cost)/2, FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"SilverMineCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.Cost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2606,9 +2729,12 @@ void SetMinesInformation()
 	}	
 	else
 	{
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.SilverMine.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.SilverMine.Cost;
+		
 		if(PChar.ColonyBuilding.Expidition == true && PChar.ColonyBuilding.Expidition.BuildingTime == false)
 		{
-			if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.SilverMine.Cost) && PChar.ColonyBuilding.SilverMine.BuildingTime == false)
+			if(GetMyColonyMoney() < sti(NeedMoney) && PChar.ColonyBuilding.SilverMine.BuildingTime == false)
 			{
 				SetSelectable("SILVERMINE_OPEN", false);
 			}
@@ -2630,14 +2756,18 @@ void SetMinesInformation()
 		
 		if(PChar.ColonyBuilding.SilverMine.Resize == false)
 		{
-			CreateString(true,"SilverMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+			if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"SilverMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
+			else CreateString(true,"SilverMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.SilverMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 500,513,SCRIPT_ALIGN_LEFT,1.0);
 		}
 		else
 		{
 			GameInterface.strings.SilverMineResizeCost = "";
 		}
+		
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.SilverMine.ResizeCost/2;
+		else NeedMoney = PChar.ColonyBuilding.SilverMine.ResizeCost;
 	
-		if(GetMyColonyMoney() >= sti(PChar.ColonyBuilding.SilverMine.ResizeCost) && PChar.ColonyBuilding.SilverMine.BuildingTime == false)
+		if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.SilverMine.BuildingTime == false)
 		{
 			SetSelectable("SILVERMINE_RESIZE", true);
 		}
@@ -2678,7 +2808,8 @@ void SetMinesInformation()
 	
 	if(PChar.ColonyBuilding.IronMine == false)
 	{
-		CreateString(true,"IronMineCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.Cost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+		if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"IronMineCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.Cost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+		else CreateString(true,"IronMineCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.Cost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	else
 	{
@@ -2691,9 +2822,12 @@ void SetMinesInformation()
 	}	
 	else
 	{
+		if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.IronMine.Cost/2;
+		else NeedMoney = PChar.ColonyBuilding.IronMine.Cost;
+		
 		if(PChar.ColonyBuilding.Expidition == true && PChar.ColonyBuilding.Expidition.BuildingTime == false)
 		{
-			if(GetMyColonyMoney() < sti(PChar.ColonyBuilding.IronMine.Cost))
+			if(GetMyColonyMoney() < sti(NeedMoney))
 			{
 				SetSelectable("IRONMINE_OPEN", false);
 			}
@@ -2715,14 +2849,18 @@ void SetMinesInformation()
 		
 		if(PChar.ColonyBuilding.IronMine.Resize == false)
 		{
-			CreateString(true,"IronMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+			if(CheckAttribute(pchar, "VedekerDiscount")) CreateString(true,"IronMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
+			else CreateString(true,"IronMineResizeCost", "Цена: " + sti(PChar.ColonyBuilding.IronMine.ResizeCost), FONT_NORMAL, COLOR_NORMAL, 645,513,SCRIPT_ALIGN_LEFT,1.0);
 		}
 		else
 		{
 			GameInterface.strings.IronMineResizeCost = "";
 		}
 	
-		if(GetMyColonyMoney() >= sti(PChar.ColonyBuilding.IronMine.ResizeCost) && PChar.ColonyBuilding.IronMine.BuildingTime == false)
+	    if(CheckAttribute(pchar, "VedekerDiscount")) NeedMoney = PChar.ColonyBuilding.IronMine.ResizeCost/2;
+		else NeedMoney = PChar.ColonyBuilding.IronMine.ResizeCost;
+	
+		if(GetMyColonyMoney() >= sti(NeedMoney) && PChar.ColonyBuilding.IronMine.BuildingTime == false)
 		{
 			SetSelectable("IRONMINE_RESIZE", true);
 		}
@@ -3231,5 +3369,3 @@ string GetCurrentTexture()
 	
 	return "COLONY_BUILDINGS_1";
 }
-
-

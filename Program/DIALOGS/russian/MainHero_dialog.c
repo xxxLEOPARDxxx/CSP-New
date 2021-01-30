@@ -207,6 +207,40 @@ void ProcessDialogEvent()
 	            Link.l6 = "Начать захват ближайшего города.";
 	    		Link.l6.go = "TalkSelf_TownAttack";
 	        }
+			
+			if(PChar.ColonyBuilding.Stage != "0" && PChar.ColonyBuilding.Hovernor == "")
+			{
+				if(CheckAttribute(&Locations[FindLocation(PChar.location)], "islandId"))
+				{
+					if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
+					{
+						Link.l18 = "Хм... Необходимо как можно скорее назначить управляющего колонии ''" + PChar.ColonyBuilding.ColonyName + "''. Быть может, я и сам"+GetSexPhrase("","а")+" справлюсь?";
+						Link.l18.go = "ColonyBuilding_Hovernor_1";
+					}
+				}	
+			}
+					
+			if(PChar.ColonyBuilding.Hovernor == PChar.id)
+			{
+				if(CheckAttribute(&Locations[FindLocation(PChar.location)], "islandId"))
+				{
+					if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
+					{
+						Link.l19 = "Перейти к делам колонии.";
+						Link.l19.go = "ColonyBuilding_Hovernor";
+					}
+				}	
+			}
+			
+			if(PChar.Dozor != "0" && PChar.Dozor != "END")
+			{
+				if(sti(PChar.Dozor.Riddle.CanInterface) == 1)
+				{
+		    			link.l10 = "Текущее задание мекахрома.";
+		    			link.l10.go = "Dozor_MekaKhrom";
+				}
+			}
+			
 			if (!CheckAttribute(pchar,"questTemp.stels.sea")) pchar.questTemp.stels.sea = GetDataDay();
 	        if (pchar.location != Get_My_Cabin() && Pchar.questTemp.CapBloodLine == false && !CheckAttribute(pchar, "DisableChangeFlagMode") && sti(pchar.questTemp.stels.sea) != GetDataDay() && CheckSaveGameEnabled() == true)
 			{
@@ -500,6 +534,85 @@ void ProcessDialogEvent()
 			pchar.questTemp.Azzy = "Azzy_Freedom";
 			DialogExit();
 		break;	
+		
+		// Сами хотим колонией управлять.
+		case "ColonyBuilding_Hovernor_1":
+			dialog.Text = "Или же найти помошника?";
+			Link.l1 = "Пожалуй, я и сам"+GetSexPhrase("","а")+" справлюсь.";
+			Link.l1.go = "ColonyBuilding_Hovernor_2";
+			Link.l2 = "Я передумал.";
+			Link.l2.go = "Exit";
+		break;
+	        case "ColonyBuilding_Hovernor_2":
+		        bQuestDisableMapEnter = true;
+		        Log_SetStringToLog("Так как вы стали губернатором, теперь вы не можете покидать пределы острова.");
+		        
+			PChar.ColonyBuilding.Hovernor = PChar.id;
+			DialogExit_Self();
+	        break;
+	
+		case "ColonyBuilding_Hovernor":
+			dialog.Text = "Просмотреть текущее состояние дел колонии " + PChar.ColonyBuilding.ColonyName + ".";
+			Link.l1 = "Нужно детально изучить текущее состояние дел.";
+			Link.l1.go = "ColonyBuilding_Hovernor_3";
+			Link.l2 = "Что-то мне не по душе это сухопутная жизнь.";
+			Link.l2.go = "ColonyBuilding_Hovernor_4";
+			Link.l3 = "Ничего не предпринимать.";
+			Link.l3.go = "Exit";
+		break;
+	
+		case "ColonyBuilding_Hovernor_3":
+			dialog.Text = "Хм... О каких именно делах я хочу осведомиться?";
+			Link.l1 = "Состояния колонии и её финансовые возможности.";
+			Link.l1.go = "ColonyBuilding_Hovernor_3_1";
+			Link.l2 = "Боевая готовность гарнизона и здоровье жителей.";
+			Link.l2.go = "ColonyBuilding_Hovernor_3_2";
+			Link.l3 = "Название колонии и внешний вид солдат.";
+			Link.l3.go = "ColonyBuilding_Hovernor_3_3";
+			Link.l4 = "Ничего не предпринимать.";
+			Link.l4.go = "Exit";
+		break;
+
+		case "ColonyBuilding_Hovernor_3_1":
+			DialogExit_Self();
+			LaunchColony();
+		break;
+
+		case "ColonyBuilding_Hovernor_3_2":
+			DialogExit_Self();
+			LaunchColonyLandGuard();
+		break;
+
+		case "ColonyBuilding_Hovernor_3_3":
+			DialogExit_Self();
+			LaunchColonyBuilding(true, false);
+		break;
+
+		case "ColonyBuilding_Hovernor_4":
+			dialog.Text = "Уверен"+GetSexPhrase("","а")+" ли я, что не хочу управлять своей колонией?";
+			Link.l1 = "Да.";
+			Link.l1.go = "ColonyBuilding_Hovernor_5";
+			Link.l2 = "Нет, я передумал"+GetSexPhrase("","а")+". Моё призвание - губернатор!";
+			Link.l2.go = "Exit";
+		break;
+		
+		case "ColonyBuilding_Hovernor_5":
+			PChar.ColonyBuilding.Hovernor = "";
+		        bQuestDisableMapEnter = false;
+		        Log_SetStringToLog("Перестав быть губернатором вы вновь можете быть свободным капитаном!");
+			dialog.Text = "Замечательно! Быть сухопутной крысой не мой удел.";
+			Link.l1 = "...";
+			Link.l1.go = "exit";
+			NextDiag.TempNode = "TalkSelf_Main";
+		break;
+		
+		// Мекахром смотрим
+		case "Dozor_MekaKhrom":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit_Self();
+			LaunchMekakhrom();
+		break;
+		
 	}
 }
 
