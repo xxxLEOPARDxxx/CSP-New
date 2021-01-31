@@ -798,9 +798,9 @@ int LocationInitJamaica(int n)
 	locations[n].private1.items.blade27 = 1; // Рапира Моргана
 	locations[n].private1.items.blade13 = 1;
 	locations[n].private1.items.cirass5 = 1; // Красная кираса
-	locations[n].private2.items.pistol5 = 1; 
-	locations[n].private2.items.suit_1 = 1;
-	locations[n].private2.items.suit_2 = 1;
+	locations[n].private1.items.pistol5 = 1; 
+	locations[n].private1.items.suit_1 = 1;
+	locations[n].private1.items.suit_2 = 1;
 	locations[n].private1.items.suit_3 = 1; // Одежда дворнина
 	
 	locations[n].private2.key = "keyMorgan";

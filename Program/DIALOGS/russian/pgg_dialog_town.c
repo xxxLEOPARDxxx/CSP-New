@@ -215,7 +215,7 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			break;
 		}
-		//если отношение ниже 70, то в 70% случаев откажет...
+		//если отношение ниже 70, то в 70 процентов случаев откажет...
 		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70 && rand(100) < 70)
 		{
 			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет...", "Нет, это не по мне! Я не хочу быть офицером!");
@@ -299,7 +299,7 @@ void ProcessDialogEvent()
 			SaveCurrentNpcQuestDateParam(NPChar, "Companion_Talk");
 			break;
 		}
-		//если отношение ниже 70, то в 70% случаев откажет...
+		//если отношение ниже 70, то в 70 процентов случаев откажет...
 		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70 && rand(100) < 70)
 		{
 			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет...", "Нет, спасибо. Как нибудь сама.");

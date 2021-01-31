@@ -219,7 +219,7 @@ bool CheckChanceOfBetterShip(ref rChar, ref rTryChar)
 	//заглушка для квестовых кораблей с 48ф пушками. 22.09.05
 	if (sti(rChar.Ship.Cannons.Type) == CANNON_TYPE_CANNON_LBS48 || sti(rTryChar.Ship.Cannons.Type) == CANNON_TYPE_CANNON_LBS48) return false;
 
-	fChance = (stf(rShip.Class) / stf(rTryShip.Class)) * 0.3; //при равных классах база 30%
+	fChance = (stf(rShip.Class) / stf(rTryShip.Class)) * 0.3; //при равных классах база 30 процентов
 
 	//форс-мажор... тонем
 	if (GetHullPercent(rChar) < 10 && GetHullPercent(rTryChar) > 30)
@@ -227,7 +227,7 @@ bool CheckChanceOfBetterShip(ref rChar, ref rTryChar)
 		fChance += fChance * 3;
 	}
 
-	//пока взял примерно из опроса... в сумме 75% макс, может нужно будет добавить...
+	//пока взял примерно из опроса... в сумме 75 процентов макс, может нужно будет добавить...
 	if (sti(rShip.SpeedRate) < sti(rTryShip.SpeedRate))				fChance += 0.2;
 	if (sti(rShip.TurnRate) < sti(rTryShip.TurnRate))				fChance += 0.15;
 	if (sti(rShip.CannonsQuantity) < sti(rTryShip.CannonsQuantity)) fChance += 0.1;

@@ -77,11 +77,11 @@ ref procCheckCompanionBattleResult()
 		// сложность
 	if( nDifficult == 1 )
 	{
-		nCheck = nCheck * 60 / 100; // 60% от нормальной
+		nCheck = nCheck * 60 / 100; // 60  процентов от нормальной
 	}
 	if( nDifficult == 3 )
 	{
-		nCheck = nCheck * 120 / 100; // 120% от нормальной
+		nCheck = nCheck * 120 / 100; // 120 процентов от нормальной
 	}
 		// удача капитана
 	nDice = nDice + sti( chref.skill.Sneak ) * 2;

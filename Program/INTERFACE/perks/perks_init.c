@@ -366,12 +366,12 @@ void extrnInitPerks()
 	ChrPerksList.list.Energaiser.Hiden = true;
 
 
-	// скрытый перк дает бонус в 5% к базовой скорости корабля при наличии всех карт
+	// скрытый перк дает бонус в 5 процентов к базовой скорости корабля при наличии всех карт
 	ChrPerksList.list.MapMaker.descr = "perkMapMaker";
 	ChrPerksList.list.MapMaker.PlayerOnly = true;
 	ChrPerksList.list.MapMaker.Hiden = true;
 	
-	// скрытый перк буканьеров. Даёт ошеломление при выстрелах и увеличивает скорость перезарядки примерно на 15%
+	// скрытый перк буканьеров. Даёт ошеломление при выстрелах и увеличивает скорость перезарядки примерно на 15v
 	ChrPerksList.list.Buccaneer.descr = "perkBuccaneer";
 	ChrPerksList.list.Buccaneer.PlayerOnly = true;
 	ChrPerksList.list.Buccaneer.Hiden = true;
@@ -381,12 +381,12 @@ void extrnInitPerks()
 	ChrPerksList.list.Trader.PlayerOnly = true;
 	ChrPerksList.list.Trader.Hiden = true;
 	
-	// скрытый перк фехтовальщика. Даёт 10% шанс избежать урона и пассивные стакающиеся 5% крита
+	// скрытый перк фехтовальщика. Даёт 10 процентов шанс избежать урона и пассивные стакающиеся 5% крита
 	ChrPerksList.list.Fencer.descr = "perkBuccaneer";
 	ChrPerksList.list.Fencer.PlayerOnly = true;
 	ChrPerksList.list.Fencer.Hiden = true;
 	
-	// скрытый перк рубаки. Даёт пассивно +30 энергии и 15% к наносимому урону
+	// скрытый перк рубаки. Даёт пассивно +30 энергии и 15 процентов к наносимому урону
 	ChrPerksList.list.Grunt.descr = "perkBuccaneer";
 	ChrPerksList.list.Grunt.PlayerOnly = true;
 	ChrPerksList.list.Grunt.Hiden = true;

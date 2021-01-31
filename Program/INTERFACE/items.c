@@ -679,7 +679,7 @@ void FillItemsSelected()
 		sGood = Items[i].id;
 		
 		if (GetCharacterItem(xi_refCharacter, sGood) > 0)
-		{		
+		{	
 			/// экипировка
 			if (IsEquipCharacterByItem(xi_refCharacter, sGood))
 			{
@@ -1040,7 +1040,9 @@ bool ThisItemCanBeEquip( aref arItem )
 	    {
 		    return false;
 	    }
-		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
+		
+		if (HasSubStr(arItem.id, "chest")) SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#Взломать");
+		else SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 	}
 	if (IsMainCharacter(xi_refCharacter) || CheckAttribute(xi_refCharacter, "CanTakeMushket"))
 	{
@@ -1182,6 +1184,21 @@ void EquipPress()
 					AddQuestRecord("RingCapBook", "1");
 					pchar.questTemp.LSC.Ring.ReadCapBook = "true";
 				}
+				
+				if(HasSubStr(itmRef.id, "chest") && xi_refCharacter.id == pchar.id)
+	        	{
+					if(CheckCharacterItem(xi_refCharacter, "Lockpick"))
+					{
+	        	    	pchar.questTemp.lockpicking.ID = itmRef.id;
+	        		    IDoExit(RC_INTERFACE_LOCKPICK);
+						return;
+					}
+					else
+					{
+						Log_Info("Для взлома нужна отмычка.");
+						PlaySound("interface\knock.wav");
+					}
+	        	}
 			}
 			else
 			{

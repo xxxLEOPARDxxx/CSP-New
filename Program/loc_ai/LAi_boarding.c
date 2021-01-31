@@ -367,9 +367,9 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 
     Log_TestInfo("После приведения mcrew = "+mcrew+ " ecrew = "+ ecrew + " boarding_enemy_hp = "+ boarding_enemy_hp + " boarding_player_hp = "+boarding_player_hp);
 	//Jason: устанавливаем число тушек по разным палубам
-	// верхнюю палубу оставляем без изменений по количеству, но срезаем 15% HP у воинов противника, на нижних палубах будут добавочные враги, но это компенсация за разделенность сил противника относительно сил героя
-	inside_ecrew_1 = makeint(ecrew*0.3+0.5); // 30% - инсайд первого прохода
-	inside_ecrew_2 = makeint(ecrew*0.2+0.5); // 20% - инсайд второго прохода
+	// верхнюю палубу оставляем без изменений по количеству, но срезаем 15 процентов HP у воинов противника, на нижних палубах будут добавочные враги, но это компенсация за разделенность сил противника относительно сил героя
+	inside_ecrew_1 = makeint(ecrew*0.3+0.5); // 30 процентов - инсайд первого прохода
+	inside_ecrew_2 = makeint(ecrew*0.2+0.5); // 20 процентов - инсайд второго прохода
 	if (inside_ecrew_1 < 1) inside_ecrew_1 = 1;
 	if (inside_ecrew_2 < 1) inside_ecrew_2 = 1;
 	boarding_enemy_crew        = ecrew;

@@ -1478,6 +1478,10 @@ void ChoosePerk()
 	else
 	{
 	    showCondition = false;
+		if (perkName == "FlagEng" || perkName == "FlagFra" || perkName == "FlagSpa" || perkName == "FlagHol")
+		{
+			ok = false;
+		}
 	}
 	// проверка на необходимы перки <--
 	XI_WindowShow("PERK_WINDOW", true);

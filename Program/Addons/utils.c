@@ -5,8 +5,37 @@
 #include "Addons\Plantation.c"		// Постройка и жизнь плантации
 #include "Addons\Mines.c"		// Постройка и жизнь рудников
 #include "Addons\Quests.c"		// Квесты
+#include "Addons\GenerateQuests.c"	// Генерируемые квесты
 
-
+void SetDamnedDestinyVariable()
+{
+	GenerateColonyVariable();
+	ReloadProgressUpdate();
+	InitPlantation();
+	ReloadProgressUpdate();
+	SetStartColonyGuarding();
+	ReloadProgressUpdate();
+	
+	PChar.Dozor = "0";
+	PChar.Dozor.Riddle.CurType = 1;
+	PChar.Dozor.Riddle.CanInterface = 0;
+	DozorPrepare();
+	
+	PChar.GenerateShipWreck.Block = false;
+	PChar.GenerateShipWreck.ShipInMap = "";
+	PChar.GenerateShipWreck.State = "none";
+	PChar.GenerateShipWreck.MaxGoods = 500;
+	PChar.GenerateShipWreck.MaxGoods.Planks = 0;
+	PChar.GenerateShipWreck.MaxGoods.SailCloth = 0;
+	PChar.GenerateShipWreck.GoodsChange = false;
+	PChar.GenerateShipWreck.GoodsChange.Yes = false;
+	PChar.GenerateShipWreck.AddBandaShip = false;
+	PChar.GenerateShipWreck.ValodyaToMoney = false;
+	
+	PChar.GenerateQuestDuel.Block = false;
+	
+	ReloadProgressUpdate();
+}
 /* PROGRAM/LUGGER/UTILS.C */
 /////////////////////////////////////////////////////////////////////////////////
 // Раздача еды
@@ -316,4 +345,108 @@ void SetDialogCharacter2Character(ref chr, ref achr, float fTime, bool bActor)
 	}
 	
 	LAi_ActorDialog(achr, chr, "", fTime, 1.0);
+}
+
+void DeleteAllOfficersFromLocation()
+{
+	int iOfficer = 0;
+	if(GetOfficersQuantity(PChar) > 0)
+	{
+		for(int off=0; off <= MAX_NUM_FIGHTERS; off++)
+		{
+			iOfficer = GetOfficersIndex(PChar, off);
+			if(iOfficer != -1 && iOfficer != nMainCharacterIndex)
+			{
+				LogoffCharacter(&Characters[iOfficer]);
+			}
+		}
+	}
+}
+
+int FindShipFromClass(int iClass, string sType)
+{
+	if(sType == "none" || sType == "")
+	{
+		return 0;
+	}
+
+	int iShip = 0;
+	switch(sType)
+	{
+		case "Fast":
+			switch(iClass)
+			{
+				case 7: return SHIP_WAR_TARTANE; break;
+				case 6: return 3 + rand(11); break;
+				case 5: return 15 + rand(12); break;
+				case 4: return 28 + rand(23); break;
+				case 3: return 52 + rand(31); break;
+				case 2: return 84 + rand(20); break;
+				case 1: return 84 + rand(40); break;
+			}
+		break;
+		
+		case "Trader":
+			switch(iClass)
+			{
+				case 7: return SHIP_WAR_TARTANE; break;
+				case 6: return 3 + rand(11); break;
+				case 5: return 15 + rand(12); break;
+				case 4: return 28 + rand(23); break;
+				case 3: return 52 + rand(31); break;
+				case 2: return 84 + rand(20); break;
+				case 1: return 84 + rand(40); break;
+			}
+		break;
+		
+		case "All":
+			switch(iClass)
+			{
+				case 7: return SHIP_WAR_TARTANE; break;
+				case 6: return 3 + rand(11); break;
+				case 5: return 15 + rand(12); break;
+				case 4: return 28 + rand(23); break;
+				case 3: return 52 + rand(31); break;
+				case 2: return 84 + rand(20); break;
+				case 1: return 84 + rand(40); break;
+			}
+		break;
+	}
+	return 0;
+}
+
+int GetMastQuantityFromShip(ref chr)
+{
+	if(!CheckAttribute(chr, "ship")) { return 0; }
+	if(!CheckAttribute(chr, "ship.masts")) { return 0; }
+	if(sti(chr.Ship.Type) >= REAL_SHIPS_QUANTITY) { return 0; }
+	
+	aref ar;
+	makearef(ar, chr.ship.masts);
+	
+	return GetAttributesNum(ar);
+}
+
+void SetQuestFunction(string sQuest, string sFunction, string sType, string sName)
+{
+	switch(sType)
+	{
+		case "efl":
+			PChar.quest.(sQuest).win_condition.l1 = "ExitFromLocation";
+			PChar.quest.(sQuest).win_condition.l1.location = sName;
+			PChar.quest.(sQuest).function = sFunction;	
+		break;
+		
+		case "l":
+			PChar.quest.(sQuest).win_condition.l1 = "location";
+			PChar.quest.(sQuest).win_condition.l1.location = sName;
+			PChar.quest.(sQuest).function = sFunction;	
+		break;
+		
+		case "i":
+			PChar.quest.(sQuest).win_condition.l1 = "item";
+			PChar.quest.(sQuest).win_condition.l1.item = sName;
+			PChar.quest.(sQuest).function = sFunction;	
+		break;
+	}
 }

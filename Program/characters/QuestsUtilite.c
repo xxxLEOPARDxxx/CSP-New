@@ -732,7 +732,7 @@ void FantomMakeCoolSailor(ref _Character, int _ShipType, string _ShipName, int _
 	//_Character.skill.Defence  = GetCoffDiff((_Sailing+_Accuracy)/2, SKILL_MAX);
     
     _Character.DontRansackCaptain = true; //квестовые не сдаются
-    _Character.SinkTenPercent     = false; // не тонуть при 10%, не убегать в бою
+    _Character.SinkTenPercent     = false; // не тонуть при 10 процентах, не убегать в бою
     _Character.AboardToFinalDeck  = true; // абордаж всегда
 	_Character.DontClearDead      = true;
 	_Character.SaveItemsForDead   = true;
@@ -1416,8 +1416,8 @@ void SortItems(ref NPChar)
     for(i=0; i<iMax; i++)
     {
         curItem = GetAttributeN(arFromChar, i);
+		if (curItem == "") continue;
         attr = GetAttributeValue(curItem);
-		if (attr == "") continue;
         if (attr != "") //патенты клинит
         {
         	NPChar.Items.(attr) = sti(rObj.Items.(attr));
@@ -1732,6 +1732,12 @@ void SetQuestAboardCabinDialog(ref refChar)
 		{
 			refChar.Dialog.FileName = "DamnedDestiny\Dozor\Characters.c";
 			refChar.Dialog.CurrentNode = "Justin_Butt_1";
+			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");
+		}
+		if(refChar.CaptanId == PChar.GenerateShipWreck.CharacterID && PChar.GenerateShipWreck.State == "CanAbordage")//shipwreck
+		{
+			refChar.Dialog.Filename = "DamnedDestiny\ShipWreck_dialog.c";
+			refChar.Dialog.CurrentNode = "17";
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");
 		}
 		//генератор "Продажный патруль" 

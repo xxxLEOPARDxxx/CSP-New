@@ -300,8 +300,8 @@ void DozorTerksInGrot(string _tmp)
 	{
 		switch(i)
 		{
-			case 1: sLocator = "monster1"; sModel = "pirate_" + (rand(9)+1); break;
-			case 2: sLocator = "monster2"; sModel = "pirate_" + (rand(9)+1); break;
+			case 1: sLocator = "monster1"; sModel = "pirate_" + (rand(25)+1); break;
+			case 2: sLocator = "monster2"; sModel = "pirate_" + (rand(25)+1); break;
 			case 3: sLocator = "monster3"; sModel = "citiz_" + (rand(11)+1); break;
 		}
 	
@@ -538,8 +538,7 @@ void DozorToMartiniqueShore()
 	
 	int iRank = GetRank(PChar, 15) + MOD_SKILL_ENEMY_RATE;
 	ref sld = GetCharacter(NPC_GenerateCharacter("Dozor_Ship", "officer_4", "man", "man", iRank, PIRATE, -1, true));							
-	//SetCaptanModelByEncType(sld, "pirate");
-	FantomMakeCoolSailor(sld, SHIP_FLEUT, "Дозорный", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
+	FantomMakeCoolSailor(sld, SHIP_DERFFLINGER, "Дозорный", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
 	sld.name = "Джастин";
 	sld.lastname = "Батт";
 	sld.greeting = "Gr_UnpleasantCaptain";
@@ -552,6 +551,20 @@ void DozorToMartiniqueShore()
 	DeleteAttribute(sld, "AboardToFinalDeck");
 	DeleteAttribute(sld, "SinkTenPercent");
 	DeleteAttribute(sld, "DontRansackCaptain");
+	
+	//Korsar Maxim - фиксируем некоторые статы для флейта -->
+	realships[sti(sld.ship.type)].SpeedRate = realships[sti(sld.ship.type)].SpeedRate + 1.5; //Уведичиваем скорость
+	realships[sti(sld.ship.type)].TurnRate  = realships[sti(sld.ship.type)].TurnRate  + 5; //Увеличиваем маневренность
+	realships[sti(sld.ship.type)].HP = 3000; //Фиксируем ХП
+	realships[sti(sld.ship.type)].Capacity = 3000; //Фиксируем трюм
+	realships[sti(sld.ship.type)].MastMultiplier = 1.3; //Упрочняем мачты
+	
+	//Уменьшаем команду, как плату за предыдущие статы.
+	realships[sti(sld.ship.type)].MaxCrew = 200;
+	realships[sti(sld.ship.type)].MinCrew = 35;
+	realships[sti(sld.ship.type)].OptCrew = 150;
+	//Korsar Maxim - фиксируем некоторые статы для флейта <--
+	
 	sld.AlwaysSandbankManeuver = true;
 	sld.AnalizeShips = true;
 	sld.DontRansackCaptain = true;

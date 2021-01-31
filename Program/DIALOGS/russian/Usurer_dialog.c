@@ -1110,7 +1110,7 @@ void ProcessDialogEvent()
 		case "Interest_1":
 			//Pchar.Quest.Loans.(NPC_Area).Interest = 16 - makeint(Pchar.skill.commerce);
 			Dialog.snd = "voice\USDI\USDI020";
-			dialog.text = Pchar.Quest.Loans.(NPC_Area).Interest + "% в месяц. Основываясь на том, что я о вас знаю, я не могу предложить вам сейчас лучших условий."; 
+			dialog.text = Pchar.Quest.Loans.(NPC_Area).Interest + " процентов в месяц. Основываясь на том, что я о вас знаю, я не могу предложить вам сейчас лучших условий."; 
 			Link.l1 = "Меня это вполне устраивает. Осталось обговорить срок.";
 			Link.l1.go = "Period_1";
 			Link.l3 = "Думаю, мне лучше не влезать в долги. До свидания.";
@@ -1120,7 +1120,7 @@ void ProcessDialogEvent()
 		case "Interest_2":
 			//Pchar.Quest.Loans.(NPC_Area).Interest = 16 - makeint(Pchar.skill.commerce);
 			Dialog.snd = "voice\USDI\USDI020";
-			dialog.text = Pchar.Quest.Loans.(NPC_Area).Interest + "% в месяц. Основываясь на том, что я о вас знаю, я не могу предложить вам сейчас лучших условий."; 
+			dialog.text = Pchar.Quest.Loans.(NPC_Area).Interest + " процентов в месяц. Основываясь на том, что я о вас знаю, я не могу предложить вам сейчас лучших условий."; 
 			Link.l1 = "Меня это вполне устраивает. Осталось обговорить срок.";
 			Link.l1.go = "Period_2";
 			Link.l3 = "Думаю, мне лучше не влезать в долги. До свидания.";
@@ -1130,7 +1130,7 @@ void ProcessDialogEvent()
 		case "Interest_3":
 			//Pchar.Quest.Loans.(NPC_Area).Interest = 16 - makeint(Pchar.skill.commerce);
 			Dialog.snd = "voice\USDI\USDI020";
-			dialog.text = Pchar.Quest.Loans.(NPC_Area).Interest + "% в месяц. Основываясь на том, что я о вас знаю, я не могу предложить вам сейчас лучших условий."; 
+			dialog.text = Pchar.Quest.Loans.(NPC_Area).Interest + " процентов в месяц. Основываясь на том, что я о вас знаю, я не могу предложить вам сейчас лучших условий."; 
 			Link.l1 = "Меня это вполне устраивает. Осталось обговорить срок.";
 			Link.l1.go = "Period_3";
 			Link.l3 = "Думаю, мне лучше не влезать в долги. До свидания.";
@@ -1535,7 +1535,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "CapBloodUsurer_6":
-			dialog.text = "Он в городе, уверяю вас. Сегодня еще никто не отплывал. А вы в качестве премии получите 10%, то есть - 3000 пиастров. Что скажете?";
+			dialog.text = "Он в городе, уверяю вас. Сегодня еще никто не отплывал. А вы в качестве премии получите 10 процентов, то есть - 3000 пиастров. Что скажете?";
 			link.l1 = "Знаете, пожалуй, я вам помогу.";
 			link.l1.go = "CapBloodUsurer_7";
 			link.l2 = "На меня не рассчитывайте.";

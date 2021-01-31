@@ -11,7 +11,7 @@ int PsHeroQty = 0;
 #define PGG_TASK_WORKWITHCONTRA	"WorkWithContra"
 #define PGG_TASK_LOCKSERVICE	"LockService"
 
-//уменьшаю кач до 30% от СВМЛ... т.к. пока не ясно чего оно так быстро качается.
+//уменьшаю кач до 30 процентов от СВМЛ... т.к. пока не ясно чего оно так быстро качается.
 #define EXP_MODIFIER  0.25
 
 // Инизиализация ПГГ
@@ -410,7 +410,7 @@ void PGG_SelectTask(ref chr)
 	PGG_SetUpForTask(chr);
 	PGG_UpdateStats(chr, "Task");
 
-	//15% иначе офигеем от обилия слухов :)
+	//15 процентов иначе офигеем от обилия слухов :)
 	if (rand(100) < 15) 
 	{
 		PGG_AddRumour(chr, chr.PGGAi.Task);
@@ -503,7 +503,7 @@ void PGG_UpdateStats(ref chr, string sExpType)
 		}
 		else
 		{
-			//20% шанс на бой в море за день... для торговца.
+			//20 процентов шанс на бой в море за день... для торговца.
 			iRnd = 20;
 			//для остальных чаще, т.к. основной доход.
 			if (sHeroType != "Merchant")
@@ -681,7 +681,7 @@ void PGG_UpdateEquip(ref chr)
 		if (n != 0)
 		{
 			bOk = false;
-			//если корабль уже есть, то не всегда есть возможность его сменить, поэтому 5-50%%
+			//если корабль уже есть, то не всегда есть возможность его сменить, поэтому 5-50 процентов
 			if (!bShipNotUsed) 
 			{
 				if (rand(100) < makeint(10*MOD_SKILL_ENEMY_RATE/2)) bOk = true;

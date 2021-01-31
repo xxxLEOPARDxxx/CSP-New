@@ -1232,7 +1232,7 @@ void ClearCharacterExpRate(ref _chref)
         DeleteAttribute(_chref, "skill." + name + "_rate");
     }
 }
-// когда меняется порог кача, нужно сбросить очки, иначе будет по 120%
+// когда меняется порог кача, нужно сбросить очки, иначе будет по 120 процентов
 void RefreshCharacterSkillExpRate(ref _chref)
 {
     int    i;

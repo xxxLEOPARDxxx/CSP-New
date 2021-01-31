@@ -3178,7 +3178,7 @@ float GetRSRollSpeed(ref chref)
 	}
 	if(CheckOfficersPerk(chref, "SailsMan"))
 	{
-		fRollSpeed = fRollSpeed * 1.1; // 10%
+		fRollSpeed = fRollSpeed * 1.1; // 10 процентов
 	}
 	return fRollSpeed;
 }
@@ -3295,7 +3295,7 @@ bool CheckSuccesfullBoard(ref rBoarderChr, ref rSieger)
 	// skill = 1 -> k = 0.5; skill = 10 -> k = 2.0
 	float k = 0.333 + GetSummonSkillFromNameToOld(rBoarderChr, SKILL_SNEAK)*0.167;
 
-	// skill = 1 -> limit = 0.45 -> 0.2^0.5 (20%);   skill = 10 -> limit = 0.81 -> 0.9^2 (90%)
+	// skill = 1 -> limit = 0.45 -> 0.2^0.5 (20 percents);   skill = 10 -> limit = 0.81 -> 0.9^2 (90 percents)
 	float topLimit = 0.41 + GetSummonSkillFromNameToOld(rBoarderChr, SKILL_GRAPPLING)*0.04;
 
 	if( pow(rand(1000)/1000.0, k) < topLimit ) return true;

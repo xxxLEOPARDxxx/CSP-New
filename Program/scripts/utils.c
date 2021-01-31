@@ -816,7 +816,7 @@ void CreateModel(int iChar, string sType, int iSex)
 	{
 		case "pofficer":
 			sBody = "officer";
-			iNumber = rand(69)+1;
+			iNumber = rand(63)+1;
 		break;
 		case "officer":
 			sBody = "off";

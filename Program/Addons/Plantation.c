@@ -543,8 +543,8 @@ void BattleMutinyPlantation(string _tmp)
 		
 		if(PChar.ColonyBuilding.SoldiersType == "officer")
 		{
-			sModel = "officer_" + (rand(69) + 1);
-			if(bMusketeer) { sModel = "officer_" + (rand(69) + 1)+ "_mush"; sAni = "mushketer"; }
+			sModel = "officer_" + (rand(63) + 1);
+			if(bMusketeer) { sModel = "officer_" + (rand(63) + 1)+ "_mush"; sAni = "mushketer"; }
 		}
 		else
 		{

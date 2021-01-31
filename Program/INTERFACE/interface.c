@@ -148,16 +148,13 @@ void LaunchCreateNotice()
 
 // boal -->
 void LaunchAboutScreen()
-{	
-	SetEventHandler(EVENT_END_VIDEO,"LaunchMainMenu_afterVideo",0);
-	bMainMenuLaunchAfterVideo = true;
-	StartPostVideo("credits",1);	
-	/*if(procInterfacePrepare(INTERFACE_ABOUT))
+{		
+	if(procInterfacePrepare(INTERFACE_ABOUT))
 	{
 		nPrevInterface = -1;
 		CurrentInterface = INTERFACE_ABOUT;
 		InitInterface(Interfaces[CurrentInterface].IniFile);
-	}*/
+	}
 }
 
 void LaunchNationLegend()
@@ -390,6 +387,17 @@ void LaunchMekakhrom()
 		InitInterface(Interfaces[CurrentInterface].IniFile);
 	}
 }
+
+void LaunchQuicklyTrade()
+{
+	if(procInterfacePrepare(INTERFACE_QUICKLY_TRADER))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_QUICKLY_TRADER;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
 // Lugger <--
 
 void LaunchNetMenu()

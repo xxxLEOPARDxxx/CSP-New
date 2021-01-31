@@ -1423,7 +1423,7 @@ void ProcessDialogEvent()
 	            	    {
 	            		    chref = GetCharacter(cn);
 	                        if (!GetRemovable(chref)) continue;
-						    if(RealShips[sti(chref.Ship.Type)].BaseName != SHIP_SOLEYRU) continue; //Отрубаем хитрость на получение Солея
+						    if(RealShips[sti(chref.Ship.Type)].BaseName == SHIP_SOLEYRU) continue; //Отрубаем хитрость на получение Солея
     
 	            		    attrL = "l"+i;
 	            		    Link.(attrL)    = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'.";

@@ -16,7 +16,7 @@ Please follow these rules when editing settings:
 #define MAX_SHIPS_ON_SEA			40			// INT - original value is 32, DO NOT TOUCH THIS
 
 // Crew morale section
-#define CREW_PCT_FOR_MORALE			0.02		// FLOAT - morale decreases by 1 for each time crew decreases by this pct. (0.02 = 2%)
+#define CREW_PCT_FOR_MORALE			0.02		// FLOAT - morale decreases by 1 for each time crew decreases by this pct. (0.02 = 2 percents)
 
 #define CREW_PCT_FOR_HPDAM			0.02		// FLOAT - morale decreases by 1 for each time shiphp decreases by this pct.
 

@@ -695,6 +695,20 @@ void SetSailorDeck_Ships(ref Chref)
 
 		ChangeCharacterAddressGroup(Chref, "Deck_Near_Ship", "goto", "goto9");
 	}
+	int iQty = 5;
+	
+	if(CheckAttribute(Chref, "ShipWreck") && PChar.GenerateShipWreck.State == "BanditsInShip")
+	{
+		iQty = sti(PChar.GenerateShipWreck.ShipCrewQty) + 1;
+	}
+	
+	int iRank = GetRank(PChar, 2) + MOD_SKILL_ENEMY_RATE;
+	
+	if(!CheckAttribute(Chref, "ShipWreck"))
+	{
+		iRank = 10;
+	}
+	
 	if(CheckAttribute(pchar,"GenQuest.CaptainComission")) Rank = sti(pchar.rank) + rand(MOD_SKILL_ENEMY_RATE); // чтобы жизнь медом не казалась
     
     for (int i=1; i<5; i++)
@@ -719,6 +733,42 @@ void SetSailorDeck_Ships(ref Chref)
 	pchar.GenQuest.CaptainId = Chref.id; // boal заготовка для других квестов, обработка в диалоге
 	pchar.quest.Munity = ""; // закрыто для квестов на выход
 	//<-- eddy. квест мэра, закрываем выход с палубы
+	if(CheckAttribute(Chref, "ShipWreck") && PChar.GenerateShipWreck.State == "BanditsInShip")
+	{
+		iQty = sti(PChar.GenerateShipWreck.MyCrewQty);
+		for (i=1; i<=iQty; i++)
+		{
+			model = LAi_GetBoardingModel(PChar, &ani);
+			cn = NPC_GenerateCharacter("my_saylor_0" + i, model, "man", ani, iRank, sti(PChar.nation), 0, true);
+			sld = &Characters[cn];
+			LAi_SetWarriorType(sld);
+			LAi_warrior_DialogEnable(sld, false);
+			sld.name    = "Матрос";
+			sld.lastname = "";
+			sld.greeting = "pirat_guard";
+			ChangeCharacterAddressGroup(sld, "Deck_Near_Ship", "reload", "reload1");
+		}
+		
+		string sValodya = PChar.GenerateShipWreck.ValodyaID;
+		ref chr = CharacterFromID(sValodya);
+		ChangeCharacterAddressGroup(chr, "Deck_Near_Ship", "reload", "reload1");
+		
+		LAi_SetActorType(chr);
+		LAi_ActorFollow(chr, Chref, "", -1);
+			
+		ref dead = GetCharacter(NPC_GenerateCharacter("genchar_" + rand(32000), "citiz_1", "man", "man", 1, PIRATE, 0, true));
+		
+		ChangeCharacterAddressGroup(dead, "Deck_Near_Ship", "goto", "goto1");
+		
+		for(int b=0; b <= 4; b++)
+		{
+			LaunchBlood(dead, 5.0, true);
+		}
+		
+		LAi_SetActorType(dead);
+		LAi_ActorSetLayMode(dead);
+		ChangeCharacterAddress(dead, "None", "");
+	}
 }
 
 void DeleteNPCfromDeck()
@@ -836,11 +886,21 @@ void SetOfficersInCampus()
             offref = GetCharacter(cn);
             if (!CheckAttribute(offref,"prisoned") || sti(offref.prisoned) == false)
             {
-	            if (GetRemovable(offref) && !IsOfficer(offref))  // не боевики и квестовые
-	            {
-                    LAi_SetCitizenType(offref);
-					PlaceCharacter(offref, "goto", mchr.location);
-                }
+	            bool bWrick = CheckAttribute(offref, "ShipWrick") && !CheckAttribute(offref, "ShipWrickDel");
+				bool bOff = GetRemovable(offref) && !IsOfficer(offref);
+				if (bOff || bWrick)  // не боевики и квестовые
+				{
+					LAi_SetCitizenType(offref);
+				
+					if(bWrick)
+					{	
+						PlaceCharacter(offref, "rld", mchr.location);
+					}
+					else
+					{
+						PlaceCharacter(offref, "goto", mchr.location);
+					}
+				}
             }
         }
     }

@@ -214,7 +214,7 @@ void ProcessDialogEvent()
 			npchar.quest.proposition = "FackStreet_toRoom";
 			SetTimerFunction("StreetFack_null", 0, 0, 1);
 
-			int nChance = 40; //Base chance for possible kick is 40%
+			int nChance = 40; //Base chance for possible kick is 40 percents
 			nChance += (sti(pchar.rank) / 2);
             nChance += (GetSummonSkillFromName(pchar, SKILL_FORTUNE) / 5); //'Luck' improves chance
             nChance += (GetSummonSkillFromName(pchar, SKILL_LEADERSHIP) / 10); //'Authority' improves chance

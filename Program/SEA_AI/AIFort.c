@@ -329,7 +329,7 @@ float Fort_CannonDamage()
 	y = GetEventData();
 	z = GetEventData();
 	fDistance = GetEventData();	// distance to cannon
-	fDamage = GetEventData();	// current cannon damage 0.0% .. 100.0%
+	fDamage = GetEventData();	// current cannon damage 0.0 percents .. 100.0s percents
 
 	if (iBallCharacterIndex == iFortCharacterIndex) { return fDamage; }
 

@@ -262,6 +262,7 @@ void LAi_CharacterPostLogin(ref location)
 		CreateCaimanMinesCitizens(location);
 		CreateCaimanPlantationCitizens(location);
 		CreateCaimanShoreSlaves(location);
+		GenerateShipWreck(location);
 		// Lugger <--
 		
 		//Расставляем квестовых энкоунтеров

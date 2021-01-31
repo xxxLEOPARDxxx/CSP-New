@@ -1237,7 +1237,7 @@ void CompTurn()
 	{
     	if (sti(DiceState.Comp.Result.Type) == 8 && sti(DiceState.Hero.Result.Type) >= 2)
     	{
-            //перебросим всегда первую фишку (это 100% 1)
+            //перебросим всегда первую фишку (это 100 процентов 1)
             SetFormatedText("INFO_TEXT","Я переброшу один кубик...");
     		// for test
     		ClickCompDice(1);

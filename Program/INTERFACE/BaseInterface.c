@@ -77,7 +77,10 @@ void InitInterfaceTables()
 {
 	SetArraySize(&Interfaces,INTERFACE_QUANTITY+3);
 
-// Lugger -->
+	// Lugger -->
+	// Áûסענאÿ ןנמהאזא
+	Interfaces[INTERFACE_QUICKLY_TRADER].SectionName = "interface\QuicklyTrade.c";
+	Interfaces[INTERFACE_QUICKLY_TRADER].IniFile = "INTERFACES\QuicklyTrade.ini";
 	// Colony Land Guard
 	Interfaces[INTERFACE_COLONY_LAND_GUARD].SectionName = "interface\ColonyLandGuard.c";
 	Interfaces[INTERFACE_COLONY_LAND_GUARD].IniFile = "INTERFACES\ColonyLandGuard.ini";
@@ -249,8 +252,8 @@ void InitInterfaceTables()
 	Interfaces[INTERFACE_CONTRATRADE].SectionName = "interface\contraband.c";
 	Interfaces[INTERFACE_CONTRATRADE].IniFile = "INTERFACES\contraband.ini";
 
-	//Interfaces[INTERFACE_ABOUT].SectionName = "interface\about.c";
-	//Interfaces[INTERFACE_ABOUT].IniFile = "INTERFACES\about.ini";
+	Interfaces[INTERFACE_ABOUT].SectionName = "interface\about.c";
+	Interfaces[INTERFACE_ABOUT].IniFile = "INTERFACES\about.ini";
 	// boal <--
 	
 	// Warship -->

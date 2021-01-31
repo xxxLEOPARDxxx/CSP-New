@@ -186,6 +186,18 @@ int InitItems()
 	itm.ItemType = "SUPPORT";
 	n++;
 	
+	makeref(itm,Items[n]);
+	itm.id = "QuestDuelNotice";
+	itm.name = "itmname_QuestDuelNotice";
+	itm.describe = "itmdescr_QuestDuelNotice";
+	itm.model = "";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_12";
+	itm.price = 1;
+	itm.Weight = 0.1;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+	
 	//Gregg Дозор
 	
 	makeref(itm,Items[n]);

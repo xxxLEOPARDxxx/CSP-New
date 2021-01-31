@@ -3618,18 +3618,18 @@ void CaptainComission_GenerateQuestContinuation(string qName)
 	int DaysIsLeft = GetQuestPastDayParam("GenQuest.CaptainComission");
 	
 	pchar.quest.CaptainComission_TimeIsOver.over = "yes"; // снимаем таймер на опоздание
-	if(DaysIsLeft <= 5) // вариант A1 - 100%
+	if(DaysIsLeft <= 5) // вариант A1 - 100 процентов
 	{
 		pchar.GenQuest.CaptainComission.variant = "A1";
 	}
 	else
 	{
-		if(DaysIsLeft <= 10) // вариант A1 - 50 %  && A2 - 50%
+		if(DaysIsLeft <= 10) // вариант A1 - 50 процентов  && A2 - 50 процентов
 		{
 			if(rand(1) == 0) 	pchar.GenQuest.CaptainComission.variant = "A1";
 			else				pchar.GenQuest.CaptainComission.variant = "A2";
 		}
-		else // вариант A1 - 30 %, A2 - 30 %, A3 - 40 %
+		else // вариант A1 - 30 процентов, A2 - 30 процентов, A3 - 40 процентов
 		{
 			int iRnd = rand(9); 
 			if(iRnd < 3) pchar.GenQuest.CaptainComission.variant = "A1";

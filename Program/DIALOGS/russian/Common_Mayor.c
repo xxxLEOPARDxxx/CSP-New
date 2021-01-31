@@ -1621,7 +1621,7 @@ void ProcessDialogEvent()
 			if (!CheckAttribute(npchar, "work_date") || GetNpcQuestPastDayParam(npchar, "work_date") > 2 || bBettaTestMode)
     		{	
 				SaveCurrentNpcQuestDateParam(npchar, "work_date");
-				if (rand(10) > 9 && !bBettaTestMode)             // WW     с 20% до 10%   просто посылание  уменьшил
+				if (rand(10) > 9 && !bBettaTestMode)             // WW     с 20 процентов до 10 процентов   просто посылание  уменьшил
 				{
 					dialog.text = LinkRandPhrase("Сейчас у меня нет работы для таких, как вы. Зайдите завтра, что ли...", 
 						"Никакого поручения для вас у меня сегодня нет. Заходите позже, через день-другой.", 

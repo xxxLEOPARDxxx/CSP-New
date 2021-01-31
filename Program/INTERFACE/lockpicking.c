@@ -16,6 +16,7 @@ bool	LckPckngProcessBooster	 = true;
 
 bool firsttime;
 bool opened = false;
+bool broken = false;
 
 bool mousechangepos = true;
 string mpos;
@@ -97,7 +98,7 @@ void IProcessFrame()
 	float mouseposition;
 	int movsound;
 	
-	mouseposition = 600.0-(stf(GameInterface.mousepos.y));
+	if (CheckAttribute(GameInterface,"mousepos")) mouseposition = 600.0-(stf(GameInterface.mousepos.y));
 	
 	if(mouseposition > 600) mouseposition = 600;
 	if(mouseposition < 9) mouseposition = 9;
@@ -137,7 +138,7 @@ void IProcessFrame()
 		
 		if(mousechangepos == true)
 		{
-			ompos = GameInterface.mousepos.y;
+			if (CheckAttribute(GameInterface,"mousepos")) ompos = GameInterface.mousepos.y;
 			mousechangepos = false;
 		}
 	}
@@ -151,7 +152,7 @@ void IProcessFrame()
 		
 		if(XI_IsKeyPressed("control")) // Двигаем цилиндр, если нажата кнопка Ctrl
 		{
-			checkingstagenum = checkingstagenum + 1;
+			checkingstagenum = checkingstagenum + 4;
 			
 			if(cylinderstarted == false) // Звук начала поворота цилиндра
 			{
@@ -162,7 +163,7 @@ void IProcessFrame()
 		}
 		else // Если кнопка не нажата, то возвращаем в исходное положение
 		{
-			checkingstagenum = checkingstagenum - 1;
+			checkingstagenum = checkingstagenum - 4;
 			
 			if(cylinderstarted == true) // Звук начала поворота цилиндра
 			{
@@ -184,6 +185,11 @@ void IProcessFrame()
 					
 					randclicksound = rand(2)+1;
 					PlaySound("interface\lockpicking\cylstop\ui_lockpicking_cylinderstop_0"+ randclicksound +".wav");
+					if (rand(20)==0 && pickposition != 0)
+					{
+						broken = true;
+						IDoExit(RC_INTERFACE_DO_RESUME_GAME, true);
+					}
 				}
 				
 			}
@@ -217,7 +223,7 @@ void IProcessFrame()
 	
 	if(openingstarted == true)
 	{
-		openingcount = openingcount + 1;
+		openingcount = openingcount + 4;
 		
 		if(openingcount > 200)
 		{
@@ -312,7 +318,7 @@ void OpenChest()
 		if(rand(1) == 0)
 		{
 			nameitm[0] = RandPhraseSimple(RandPhraseSimple("blade5","pistol1"),RandPhraseSimple("pistol2","pistol3"));
-			itmq[0] = ;
+			itmq[0] = 0;
 			
 			if(pchar.rank >= 15 && rand(6) == 1)
 			{
@@ -591,6 +597,15 @@ void IDoExit(int exitCode, bool bClear)
 	    TakeNItems(pchar, "Lockpick", -1);
 	    PlaySound("interface\lockpicking\lockpick_breaks.wav"); // Звук поломки
 	    Log_info("А-а-ать, Черт! Отмычка сломалась!");
+	}
+	else
+	{
+		if(broken)
+		{
+			TakeNItems(pchar, "Lockpick", -1);
+			PlaySound("interface\lockpicking\lockpick_breaks.wav"); // Звук поломки
+			Log_info("А-а-ать, Черт! Отмычка сломалась во время взлома!");
+		}
 	}
 	
 	EndCancelInterface(bClear);

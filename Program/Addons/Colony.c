@@ -80,22 +80,22 @@ void GenerateColonyVariable()
 	PChar.ColonyBuilding.SilverMine.Resize.BuildingTime = false;
 	PChar.ColonyBuilding.IronMine.Resize.BuildingTime = false;
 	
-	PChar.ColonyBuilding.Expidition.Cost = (5000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.Plantation.Cost = (70000 * MOD_SKILL_ENEMY_RATE) + (rand(5000) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.StoreHouse.Cost = (10000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.StoreHouse.ResizeCost = (5000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.GoldMine.Cost = (30000 * MOD_SKILL_ENEMY_RATE) + (rand(10000) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.SilverMine.Cost = (25000 * MOD_SKILL_ENEMY_RATE) + (rand(5000) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.IronMine.Cost = (20000 * MOD_SKILL_ENEMY_RATE) + (rand(1500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.GoldMine.ResizeCost = (15000 * MOD_SKILL_ENEMY_RATE) + (rand(5000) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.SilverMine.ResizeCost = (10000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.IronMine.ResizeCost = (8500 * MOD_SKILL_ENEMY_RATE) + (rand(2000) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.Store.Cost = (15000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.Shipyard.Cost = (17500 * MOD_SKILL_ENEMY_RATE) + (rand(2850) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.Tavern.Cost = (15000 * MOD_SKILL_ENEMY_RATE) + (rand(500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.Church.Cost = (20000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.Bank.Cost = (20000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
-	PChar.ColonyBuilding.HeadPort.Cost = (12500 * MOD_SKILL_ENEMY_RATE) + (rand(2550) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.Expidition.Cost 		= (5000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.Plantation.Cost		= (70000 * MOD_SKILL_ENEMY_RATE) + (rand(5000) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.StoreHouse.Cost 		= (10000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.StoreHouse.ResizeCost 	= (5000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.GoldMine.Cost 			= (30000 * MOD_SKILL_ENEMY_RATE) + (rand(10000) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.SilverMine.Cost 		= (25000 * MOD_SKILL_ENEMY_RATE) + (rand(5000) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.IronMine.Cost 			= (20000 * MOD_SKILL_ENEMY_RATE) + (rand(1500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.GoldMine.ResizeCost 	= (15000 * MOD_SKILL_ENEMY_RATE) + (rand(5000) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.SilverMine.ResizeCost 	= (10000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.IronMine.ResizeCost 	= (8500 * MOD_SKILL_ENEMY_RATE) + (rand(2000) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.Store.Cost 			= (15000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.Shipyard.Cost 			= (17500 * MOD_SKILL_ENEMY_RATE) + (rand(2850) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.Tavern.Cost 			= (15000 * MOD_SKILL_ENEMY_RATE) + (rand(500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.Church.Cost 			= (20000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.Bank.Cost 				= (20000 * MOD_SKILL_ENEMY_RATE) + (rand(2500) * MOD_SKILL_ENEMY_RATE);
+	PChar.ColonyBuilding.HeadPort.Cost 			= (12500 * MOD_SKILL_ENEMY_RATE) + (rand(2550) * MOD_SKILL_ENEMY_RATE);
 	
 	PChar.BuildingColony.Blocks = 1000;
 	PChar.BuildingColony.Planks = 1000;
@@ -143,31 +143,31 @@ void GenerateColonyVariable()
 	PChar.ColonyBuilding.Architecture.Bank = 1;
 	PChar.ColonyBuilding.Architecture.Townhall = 1;
 	
-	PChar.ColonyBuilding.Architecture.Town.Cost.Type_1 = 100000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Town.Cost.Type_2 = 200000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Town.Cost.Type_3 = 150000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Town.Cost.Type_1 		= 100000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Town.Cost.Type_2 		= 200000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Town.Cost.Type_3 		= 150000 * MOD_SKILL_ENEMY_RATE;
 	
-	PChar.ColonyBuilding.Architecture.Store.Cost.Type_1 = 10000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Store.Cost.Type_2 = 15000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Store.Cost.Type_3 = 20000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Store.Cost.Type_4 = 17500 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Store.Cost.Type_1 	= 10000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Store.Cost.Type_2 	= 15000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Store.Cost.Type_3 	= 20000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Store.Cost.Type_4 	= 17500 * MOD_SKILL_ENEMY_RATE;
 	
-	PChar.ColonyBuilding.Architecture.Shipyard.Cost.Type_1 = 10000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Shipyard.Cost.Type_2 = 15000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Shipyard.Cost.Type_3 = 20000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Shipyard.Cost.Type_1 	= 10000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Shipyard.Cost.Type_2 	= 15000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Shipyard.Cost.Type_3 	= 20000 * MOD_SKILL_ENEMY_RATE;
 	
-	PChar.ColonyBuilding.Architecture.Tavern.Cost.Type_1 = 12500 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Tavern.Cost.Type_2 = 15000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Tavern.Cost.Type_3 = 20000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Tavern.Cost.Type_4 = 10000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Tavern.Cost.Type_1 	= 12500 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Tavern.Cost.Type_2 	= 15000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Tavern.Cost.Type_3 	= 20000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Tavern.Cost.Type_4 	= 10000 * MOD_SKILL_ENEMY_RATE;
 	
-	PChar.ColonyBuilding.Architecture.Bank.Cost.Type_1 = 20000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Bank.Cost.Type_2 = 25000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Bank.Cost.Type_1 		= 20000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Bank.Cost.Type_2 		= 25000 * MOD_SKILL_ENEMY_RATE;
 	
-	PChar.ColonyBuilding.Architecture.Townhall.Cost.Type_1 = 30000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Townhall.Cost.Type_2 = 20000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Townhall.Cost.Type_3 = 35000 * MOD_SKILL_ENEMY_RATE;
-	PChar.ColonyBuilding.Architecture.Townhall.Cost.Type_4 = 25000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Townhall.Cost.Type_1 	= 30000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Townhall.Cost.Type_2 	= 20000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Townhall.Cost.Type_3 	= 35000 * MOD_SKILL_ENEMY_RATE;
+	PChar.ColonyBuilding.Architecture.Townhall.Cost.Type_4 	= 25000 * MOD_SKILL_ENEMY_RATE;
 	
 	SetColonyMessageInfo("", "", "", PIRATE, 0, true, false);
 	InitMines();
@@ -759,9 +759,9 @@ void BattleMutinyColony(string _tmp)
 		
 		if(PChar.ColonyBuilding.SoldiersType == "officer")
 		{
-			sModel = "officer_" + (rand(69) + 1);
+			sModel = "officer_" + (rand(63) + 1);
 			
-			if(bMusketeer) { sModel = "officer_" + (rand(69) + 1)+ "_mush"; sAni = "mushketer"; }
+			if(bMusketeer) { sModel = "officer_" + (rand(63) + 1)+ "_mush"; sAni = "mushketer"; }
 		}
 		else
 		{
@@ -1182,9 +1182,9 @@ void BattleLandDefenceColony(string _tmp)
 		
 		if(PChar.ColonyBuilding.SoldiersType == "officer")
 		{
-			sModel = "officer_" + (rand(69) + 1);
+			sModel = "officer_" + (rand(63) + 1);
 			
-			if(bMusketeer) { sModel = "officer_" + (rand(69) + 1)+ "_mush"; sAni = "mushketer"; }
+			if(bMusketeer) { sModel = "officer_" + (rand(63) + 1)+ "_mush"; sAni = "mushketer"; }
 		}
 		else
 		{
@@ -1195,7 +1195,7 @@ void BattleLandDefenceColony(string _tmp)
 				
 				if(iEnemyNation == PIRATE)
 				{
-					sModel = "officer_" + (rand(69) + 1);
+					sModel = "officer_" + (rand(63) + 1);
 				}
 				
 				if(bMusketeer) { sModel = "Mushketer_" + (rand(4)+1); sAni = "mushketer"; }
@@ -1209,8 +1209,8 @@ void BattleLandDefenceColony(string _tmp)
 				if(iNation == iEnemyNation)
 				{
 					sAni = "man";
-					sModel = "officer_" + (rand(69) + 1);
-					if(bMusketeer) { sModel = "officer_" + (rand(69) + 1)+ "_mush"; sAni = "mushketer"; }
+					sModel = "officer_" + (rand(63) + 1);
+					if(bMusketeer) { sModel = "officer_" + (rand(63) + 1)+ "_mush"; sAni = "mushketer"; }
 				}
 			}
 		}

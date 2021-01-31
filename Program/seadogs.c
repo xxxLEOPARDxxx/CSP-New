@@ -995,13 +995,11 @@ void NewGame_continue()
 	ActivateTimeEvents();
 
 	ReloadProgressUpdate();
-
-	GenerateColonyVariable();
+	
+	SetDamnedDestinyVariable();
 	ReloadProgressUpdate();
-	InitPlantation();
-	ReloadProgressUpdate();
-	SetStartColonyGuarding();
-	ReloadProgressUpdate();
+	
+	pchar.questTemp.sbormoney = -1;
 
 	//LoadMainCharacterInFirstLocation(sTeleportLocName, sTeleportLocator, sTeleportLocName);
 	startGameWeather = true;

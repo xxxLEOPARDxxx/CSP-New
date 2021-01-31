@@ -954,6 +954,11 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 	} */
 	ReloadProgressUpdate();
 	
+	if(CheckAttribute(rCharacter, "ShipWreck"))
+	{
+		MakeSailDmg(GetCharacterIndex(rCharacter.id), 90);
+	}
+	
 	Ships[iNumShips] = iCharacterIndex;
 	rCharacter.curshipnum = iNumShips;
 	trace("AIShip  iNumShips : " + iNumShips + " ShipModelrList : " + ShipModelrList[iNumShips] + " ShipName : " + rCharacter.Ship.Name + " Ships = " + Ships[iNumShips]);
@@ -2191,7 +2196,7 @@ void Ship_ApplyCrewHitpoints(ref rOurCharacter, float fCrewHP)
 	float fDamage = fCrewHP * fMultiply; 
 
 	float fNewCrewQuantity = stf(rOurCharacter.Ship.Crew.Quantity) - fDamage;
-	float f5Percent = stf(rBaseShip.MinCrew) * 1.0; //WW boal fix неубиваемые 25% команды- было 0.05;
+	float f5Percent = stf(rBaseShip.MinCrew) * 1.0; //WW boal fix неубиваемые 25 процентов команды- было 0.05;
 	// boal  check skill -->
 	if (fNewCrewQuantity >= f5Percent && IsCompanion(rOurCharacter))
 	{
@@ -2307,8 +2312,6 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 	
 	rDead = GetCharacter(iDeadCharacterIndex);
 	
-	FlagPerkForCapturedShip(rDead);
-	
 	if (!CheckAttribute(rDead, "Ship.Type")) // fix
     {
         if (MOD_BETTATESTMODE == "On") Log_Info("Error: ShipDead Нет корабля у iDeadCharacterIndex = "+iDeadCharacterIndex);
@@ -2364,6 +2367,7 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 			        // boal statistic info 17.12.2003 -->
 	                Statistic_AddValue(rKillerCharacter, "KillAbordShip_" + rBaseShip.Class, 1);
 	                // boal statistic info 17.12.2003 <--
+					if (rKillerCharacter == pchar) FlagPerkForCapturedShip(rDead);
 			    break;
 		    }
 			if (iKillStatus != KILL_BY_SELF)
@@ -2373,7 +2377,7 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 
 	            // статистка по нации
 		    	Statistic_AddValue(rKillerCharacter, NationShortName(sti(rDead.nation))+"_KillShip", 1);
-		    	if (rand(8) < 3 && sti(rDead.nation) != PIRATE)  // 30% повышаем награду
+		    	if (rand(8) < 3 && sti(rDead.nation) != PIRATE)  // 30 процентов повышаем награду
 		    	{
 					ChangeCharacterHunterScore(rKillerCharacter, NationShortName(sti(rDead.nation)) + "hunter", 1+rand(1));
 				}
@@ -2589,7 +2593,7 @@ void ShipTaken(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInd
             Log_SetStringToLog(sSunkShipType + " '" + rDead.Ship.Name + "' " + "был захвачен!");
         }
 	}
-    if (rand(8) < 3 && !bDeadCompanion && sti(rDead.nation) != PIRATE)  // 30% повышаем награду
+    if (rand(8) < 3 && !bDeadCompanion && sti(rDead.nation) != PIRATE)  // 30 процентов повышаем награду
     {
         ChangeCharacterHunterScore(rKillerCharacter, NationShortName(sti(rDead.nation)) + "hunter", 1+rand(1));
     }
@@ -2639,7 +2643,7 @@ void ShipTakenFree(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacte
 
         Log_SetStringToLog(sSunkShipType + " '" + rDead.Ship.Name + "' " + "был захвачен, но отпущен после грабежа.");
 	}
-    if (rand(20) < 3 && sti(rDead.nation) != PIRATE)  // 14% повышаем награду
+    if (rand(20) < 3 && sti(rDead.nation) != PIRATE)  // 14 процентов повышаем награду
     {
         ChangeCharacterHunterScore(rKillerCharacter, NationShortName(sti(rDead.nation)) + "hunter", 1+rand(1));
     }
@@ -2709,8 +2713,8 @@ void Ship_HullHitEvent()
 
 	float fDistanceDamageMultiply = Bring2Range(1.2, 0.25, 0.0, stf(AIBalls.CurrentMaxBallDistance), stf(AIBalls.CurrentBallDistance));
 
-    if (sti(rBallCharacter.TmpPerks.CriticalShoot) && rand(19)==10) { bSeriousBoom = true; }		// +5%
-	if (sti(rBallCharacter.TmpPerks.CannonProfessional) && rand(9)==4) { bSeriousBoom = true; }		// +10%
+    if (sti(rBallCharacter.TmpPerks.CriticalShoot) && rand(19)==10) { bSeriousBoom = true; }		// +5 процентов
+	if (sti(rBallCharacter.TmpPerks.CannonProfessional) && rand(9)==4) { bSeriousBoom = true; }		// +10 процентов
 	
 	ref rBall = GetGoodByType(iBallType);
 	switch (iBallType)
@@ -2895,7 +2899,7 @@ void Ship_SetFantomData(ref rFantom)
 
 																									  
 
-	rFantom.ship.Crew.Quantity = iOptCrew - rand(makeint(iOptCrew / 3)) + makeint(iOptCrew / 5); //отп команды +-20%
+	rFantom.ship.Crew.Quantity = iOptCrew - rand(makeint(iOptCrew / 3)) + makeint(iOptCrew / 5); //отп команды +-20 процентов
 	
 	rFantom.Ship.HP = iBaseHP;
 	if (rand(3) == 2) 
@@ -3641,7 +3645,7 @@ void Ship_UpdateParameters()
 	float	fLoad = Clampf(GetCargoLoad(rCharacter) / stf(rShip.Capacity));
 	arCharShip.Immersion = (stf(rShip.SubSeaDependWeight) * fLoad); // это уровень погружения от веса
 
-	// do damage if ship hull < 10%, sinking
+	// do damage if ship hull < 10 процентов, sinking
 	float fBaseSailHP = stf(rShip.SP);
 	float fBaseShipHP = stf(rShip.HP);
 	float fCurHP = stf(arCharShip.HP);
@@ -4657,7 +4661,7 @@ bool Ship_CheckMorale(int chridx, bool checkNow)
 	{
 		//if (AISHIPDEBUG)		Trace("SURR: hull damage: HPp: " + HPp + ", Bring2Range(6.0, 1.0, 0.1, sqrt(40.0), sqrt(HPp)): " + Bring2Range(6.0, 1.0, 0.1, 6.325, sqrt(HPp)));
         //#20180921-01 remove sqrt(40.0) = 6.325
-		surmorale *= Bring2Range(6.0, 1.0, 0.1, 6.325, sqrt(HPp)); //how broken are we? x6 change at really broken, x0.5 at 40%
+		surmorale *= Bring2Range(6.0, 1.0, 0.1, 6.325, sqrt(HPp)); //how broken are we? x6 change at really broken, x0.5 at 40 percents
 		if (fdist < enemydistance - 200.0) {
 			//if (AISHIPDEBUG)			Trace("SURR: friend close to help");
 			surmorale *= 0.5; //is a friend close to help?
@@ -4969,7 +4973,7 @@ bool Ship_Check_Surrender(int chridx, float fSurrMult)
 
 	//if (AISHIPDEBUG)	Trace("SURR: surch after global modifier = " + surch);
 
-	if (surch < 0.1) return false;  //just don't surrender if less then 10% chance
+	if (surch < 0.1) return false;  //just don't surrender if less then 10 percent chance
 
 	//use random surrender chance
 	float fRoll = frnd();

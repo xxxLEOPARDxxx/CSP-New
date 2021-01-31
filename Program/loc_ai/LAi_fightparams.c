@@ -354,7 +354,7 @@ float LAi_GunCalcProbability(aref attack, float kDist)
 			p = p + 0.1;
 		}
 	}
-	// путь будет больше 1 - тогда 100% попал
+	// путь будет больше 1 - тогда 100 процентов попал
 	return p;
 }
 

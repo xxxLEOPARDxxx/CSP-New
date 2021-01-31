@@ -46,6 +46,10 @@ void CreateCitizens(aref loc)
 	string slai_group, locatorName, sType;
     slai_group = GetNationNameByType(iNation)  + "_citizens"; 
 
+	// Lugger -->
+	QuestDuelCheckPossibility(loc);
+	// Lugger <--
+
 	// нищие -->
 	if (loc.type == "town")
 	{
@@ -106,7 +110,7 @@ void CreateCitizens(aref loc)
 				chr.dialog.filename    = "Sailor.c";
 				chr.dialog.currentnode = "first time";
 				chr.greeting = "pirat_common";
-				if (rand(40) <= 10+GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP)) //WW нанимаются в команду в 20%-40% случаев от авторитета 
+				if (rand(40) <= 10+GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP)) //WW нанимаются в команду в 20-40 процентов случаев от авторитета 
 				{
 					chr.quest.crew = "true";
 					chr.quest.crew.qty = 10+rand(14)+(GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP) * 6); //WW   10-24 + 6-60 = 16-84    от авторитета   

@@ -74,6 +74,7 @@ void ProcCommand()
 	string comName = GetEventData();
 	string nodName = GetEventData();
 	
+	ref chr;
 	switch(nodName)
 	{
 	case "B_OK":
@@ -86,6 +87,18 @@ void ProcCommand()
 			// напасть
    			IDoExit(RC_INTERFACE_MAP_EXIT);
 			wdmReloadToSea();
+			if(CheckAttribute(PChar, "GenerateShipWreck.ShipInMap"))
+			{
+				if(GetCharacterIndex(PChar.GenerateShipWreck.ShipInMap) != -1)
+				{
+					chr = CharacterFromID(PChar.GenerateShipWreck.ShipInMap);
+					if(CheckAttribute(chr, "ShipWreck")) 
+					{ 
+						ShipWreckInSea(chr); 
+					}
+				}
+			}
+				
 		}
 		if(comName=="downstep")
 		{
@@ -178,6 +191,7 @@ void wdmRecalcReloadToSea()
                 if (iNumWarShips != -1)
                 {
 					sQuestSeaCharId = characters[iNumWarShips].id; // квестовый 
+					PChar.GenerateShipWreck.ShipInMap = sQuestSeaCharId;
 					if (CheckAttribute(&characters[iNumWarShips], "mapEnc.Name"))
 					{
 						totalInfo = totalInfo + characters[iNumWarShips].mapEnc.Name;

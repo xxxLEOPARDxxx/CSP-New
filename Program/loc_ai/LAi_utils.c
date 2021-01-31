@@ -932,7 +932,7 @@ void Dead_AddLoginedCharacter(aref chr)
     		    // вернем саблю и пистоль -->
     		    if(CheckAttribute(chr, "equip.blade"))
 				{
-					if(rand(MOD_SKILL_ENEMY_RATE + 5 - makeint(GetCharacterSPECIALSimple(mchr, SPECIAL_L)/3)) == 1 && chr.equip.blade != "unarmed") // 20% for 3+2=5
+					if(rand(MOD_SKILL_ENEMY_RATE + 5 - makeint(GetCharacterSPECIALSimple(mchr, SPECIAL_L)/3)) == 1 && chr.equip.blade != "unarmed") // 20 процентов for 3+2=5
 					{
 						rItem = ItemsFromID(chr.equip.blade);
 						if(CheckAttribute(rItem,"quality") && rItem.quality != "excellent" && !CheckAttribute(rItem, "DontDrop")) // ugeen --> на обычных трупах топовое оружие не даем !!!

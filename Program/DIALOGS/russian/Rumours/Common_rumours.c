@@ -585,7 +585,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
             {
                 if (CheckAttribute(pchar, "GenQuest.LoanChest.Money.Discount"))
 				{
-					Dialog.Text = "Все это хорошо, и я принимаю у вас золото. Однако, вы не уложились в отведенные вам сроки доставки. Поэтому я вынужден сократить размер вашего гонорара на " + pchar.GenQuest.LoanChest.Money.Discount + "%. Прошу прощения, но это обсуждению не подлежит. Извольте получить...";
+					Dialog.Text = "Все это хорошо, и я принимаю у вас золото. Однако, вы не уложились в отведенные вам сроки доставки. Поэтому я вынужден сократить размер вашего гонорара на " + pchar.GenQuest.LoanChest.Money.Discount + " процентов. Прошу прощения, но это обсуждению не подлежит. Извольте получить...";
 					link.l1 = "Спасибо!";
     				link.l1.go = "exit";
 					AddMoneyToCharacter(pchar, sti(pchar.GenQuest.LoanChest.Money)/100*sti(pchar.GenQuest.LoanChest.Money.Discount));

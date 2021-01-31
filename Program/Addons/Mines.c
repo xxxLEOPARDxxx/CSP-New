@@ -484,8 +484,8 @@ void BattleMutinyMines(string _tmp)
 		
 		if(PChar.ColonyBuilding.SoldiersType == "officer")
 		{
-			sModel = "officer_" + (rand(69) + 1);
-			if(bMusketeer) { sModel = "officer_" + (rand(69) + 1)+ "_mush"; sAni = "mushketer"; }
+			sModel = "officer_" + (rand(63) + 1);
+			if(bMusketeer) { sModel = "officer_" + (rand(63) + 1)+ "_mush"; sAni = "mushketer"; }
 		}
 		else
 		{
@@ -852,8 +852,8 @@ void BattleLandDefenceMines(string _tmp)
 		
 		if(PChar.ColonyBuilding.SoldiersType == "officer" || PChar.ColonyBuilding.SoldiersType == "pirate")
 		{
-			sModel = "officer_" + (rand(69) + 1);
-			if(bMusketeer) { sModel = "officer_" + (rand(69) + 1)+ "_mush"; sAni = "mushketer"; }
+			sModel = "officer_" + (rand(63) + 1);
+			if(bMusketeer) { sModel = "officer_" + (rand(63) + 1)+ "_mush"; sAni = "mushketer"; }
 		}
 		else
 		{
@@ -865,7 +865,7 @@ void BattleLandDefenceMines(string _tmp)
 				
 				if(iEnemyNation == PIRATE)
 				{
-					sModel = "officer_" + (rand(69) + 1);
+					sModel = "officer_" + (rand(63) + 1);
 				}
 				
 				if(bMusketeer) { sModel = "Mushketer_" + (rand(4)+1); sAni = "mushketer"; }
@@ -877,8 +877,8 @@ void BattleLandDefenceMines(string _tmp)
 				
 				if(iNation == iEnemyNation)
 				{
-					sModel = "officer_" + (rand(69) + 1);
-					if(bMusketeer) { sModel = "officer_" + (rand(69) + 1)+ "_mush"; sAni = "mushketer"; }
+					sModel = "officer_" + (rand(63) + 1);
+					if(bMusketeer) { sModel = "officer_" + (rand(63) + 1)+ "_mush"; sAni = "mushketer"; }
 				}
 			}
 		}

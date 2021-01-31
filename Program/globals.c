@@ -10,7 +10,7 @@ string savefile_info = "ver 1.0.7";
 #define SURR_MRL_SCL_MAX			1.0			// FLOAT - (no description)
 #define SURR_MRL_SCL_MIN			0.2			// FLOAT - (no description)
 #define SURR_GROUP				"surrendered"	// STRING - (no description)
-#define CREW_PCT_FOR_MORALE			0.02		// FLOAT - morale decreases by 1 for each time crew decreases by this pct. (0.02 = 2%)
+#define CREW_PCT_FOR_MORALE			0.02		// FLOAT - morale decreases by 1 for each time crew decreases by this pct. (0.02 = 2 percents)
 #define CREW_PCT_FOR_HPDAM			0.02		// FLOAT - morale decreases by 1 for each time shiphp decreases by this pct.
 #define COMBATLEVEL_NONE			0.0			// FLOAT - not in combat
 #define COMBATLEVEL_ENEMYHERE		0.06		// FLOAT - not in combat but enemy present.

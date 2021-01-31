@@ -137,6 +137,7 @@ void FillMapForTreasure(ref item)
 	if (GetCharacterSPECIALSimple(pchar, SPECIAL_L) > rand(10)) FillBoxForTreasure(item, rand(1));
     else FillBoxForTreasure(item, rand(3));
     FillBoxForTreasureAddition(item);
+	Xzibit(item);
 
     if (!CheckAttribute(Pchar, "GenQuest.TreasureBuild"))
     {
@@ -162,6 +163,17 @@ void FillMapForTreasure(ref item)
         Pchar.quest.SetTreasureFromMap.win_condition             = "SetTreasureFromMap";
     }
 }
+
+void Xzibit(ref item)
+{
+	switch (rand(2))
+	{
+		case 0: item.BoxTreasure.Chest_ammo = 1; break;
+		case 1: item.BoxTreasure.Chest_treasure = 1; break;
+		case 2: item.BoxTreasure.Chest_quest = 1; break;
+	}
+}
+
 void FillBoxForTreasure(ref item, int i)
 {
 	// определяем тип
@@ -564,7 +576,7 @@ void SetTreasureBoxFromMap()
         TraderHunterOnMap();
         if( CheckAttribute(Pchar,"location.from_sea") )
         {
-            if (rand(2) == 1) //33%
+            if (rand(2) == 1) //33 процента
             {
                 Pchar.quest.SetTreasureHunter.win_condition.l1          = "location";
                 Pchar.quest.SetTreasureHunter.win_condition.l1.location = Pchar.location.from_sea;
@@ -761,7 +773,7 @@ void  GhostShipOnMap()
     }
     else
     {
-        sld.ship.hp = 52000; // 13%
+        sld.ship.hp = 52000; // 13 процентов
     }
 
     SetCrewQuantityOverMax(sld, 666);
@@ -942,7 +954,7 @@ void GhostShipInit()
 	sld.AlwaysEnemy        = true;
 	sld.DontHitInStorm     = true; // не ломается в шторм
 	sld.DontRansackCaptain = true; //квестовые не сдаются
-	sld.SinkTenPercent     = false;  // не тонуть после 10% корпуса
+	sld.SinkTenPercent     = false;  // не тонуть после 10 процентах корпуса
 	sld.Abordage.Enable    = false; // запрет абордажа
 	sld.SaveItemsForDead   = true; // сохранять на трупе вещи
 	sld.cirassId           = Items_FindItemIdx("cirass5");  // предмета нет, но влияение есть

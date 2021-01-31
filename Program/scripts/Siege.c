@@ -326,8 +326,8 @@ int MakeSiegeSquadron(int ination)
         if (i == 1) SetRandGeraldSail(sld, sti(sld.Nation)); // homo Гербы
     }
     aData.iSquadronPower = sti(aData.iSquadronPower) - 19;
-    Log_TestInfo("Squadron Power: "+aData.iSquadronPower+"%%");
-    Log_TestInfo("Colony Power: "+sti(colonies[FindColony(aData.colony)].FortValue)+"%%");
+    Log_TestInfo("Сила эскадры: "+aData.iSquadronPower+" процентов");
+    Log_TestInfo("Сила колонии: "+sti(colonies[FindColony(aData.colony)].FortValue)+" процентов");
     
     Group_SetGroupCommander(sGroup, sCapId+ "1");
     ref rGroup = Group_GetGroupByID(sGroup);
