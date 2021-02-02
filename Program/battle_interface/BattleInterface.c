@@ -1344,7 +1344,9 @@ ref GetCurrentCharge()
 	BI_intNRetValue[6] = sti(pchar.ship.cargo.goods.sailcloth == 0);
 	BattleInterface.textinfo.Sailcloth.text = /* XI_convertString("Powder") + ": " + */ sti(pchar.ship.cargo.goods.sailcloth);
 	BI_intNRetValue[7] = sti(GetCannonsNum(pchar) == 0);
-	BattleInterface.textinfo.CannonsNum.text = GetBortCannonsQty(pchar, "cannonl") + "/" + GetBortCannonsMaxQty(pchar, "cannonl") + "    " + GetBortCannonsQty(pchar, "cannonr")+ "/" + GetBortCannonsMaxQty(pchar, "cannonr") + "      " + GetBortCannonsQty(pchar, "cannonb")+ "/" + GetBortCannonsMaxQty(pchar, "cannonb") + "         " + GetBortCannonsQty(pchar, "cannonf") + "/" + GetBortCannonsMaxQty(pchar, "cannonf");
+	int nShipType = sti(pchar.ship.type);
+    ref refBaseShip = GetRealShip(nShipType);
+	BattleInterface.textinfo.CannonsNum.text = GetBortIntactCannonsNum(pchar, "lcannon", sti(refBaseShip.lcannon)) + "/" + GetBortCannonsMaxQty(pchar, "lcannon") + "    " + GetBortIntactCannonsNum(pchar, "rcannon", sti(refBaseShip.rcannon))+ "/" + GetBortCannonsMaxQty(pchar, "rcannon") + "      " + GetBortIntactCannonsNum(pchar, "bcannon", sti(refBaseShip.bcannon))+ "/" + GetBortCannonsMaxQty(pchar, "bcannon") + "         " + GetBortIntactCannonsNum(pchar, "fcannon", sti(refBaseShip.fcannon)) + "/" + GetBortCannonsMaxQty(pchar, "fcannon");
 	//<---
 	return &BI_intNRetValue;
 }

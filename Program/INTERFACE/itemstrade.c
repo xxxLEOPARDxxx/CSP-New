@@ -82,6 +82,7 @@ void InitInterface_R(string iniName, ref pTrader)
 	SetEventHandler("ShowCirassEquipInfo", "ShowCirassEquipInfo", 0);
 	SetEventHandler("ShowBackPackEquipInfo", "ShowBackPackEquipInfo", 0);
 	SetEventHandler("ShowTalismanEquipInfo", "ShowTalismanEquipInfo", 0);
+	SetEventHandler("ShowPatentEquipInfo", "ShowPatentEquipInfo", 0);
 
 	SetFormatedText("STORECAPTION1", XI_ConvertString("titleItemsTrade"));
 
@@ -162,6 +163,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("ShowCirassEquipInfo", "ShowCirassEquipInfo");
 	DelEventHandler("ShowBackPackEquipInfo", "ShowBackPackEquipInfo");
 	DelEventHandler("ShowTalismanEquipInfo", "ShowTalismanEquipInfo");
+	DelEventHandler("ShowPatentEquipInfo", "ShowPatentEquipInfo");
 	interfaceResultCommand = exitCode;
 	EndCancelInterface(true);
 
@@ -945,6 +947,7 @@ void ShowEquipWindow()
 	string sCirass = GetCharacterEquipByGroup(refCharacter, "cirass");
 	string sBackPack = GetCharacterEquipByGroup(refCharacter, "BackPack");
 	string sTalisman = GetCharacterEquipByGroup(refCharacter, "talisman");
+	string sPatent = GetCharacterEquipByGroup(refCharacter, "patent");
 		
 	if(CheckAttribute(refCharacter, "equip.blade") && refCharacter.equip.blade != "")
 	{
@@ -998,6 +1001,15 @@ void ShowEquipWindow()
 	else
 	{
 		SetNewGroupPicture("EQUIP_TALISMAN_PIC", "none", "none");
+	}
+	
+	if(CheckAttribute(refCharacter, "equip.patent") && refCharacter.equip.patent != "")
+	{
+		SetNewGroupPicture("EQUIP_PATENT_PIC", Items[FindItem(sPatent)].picTexture, "itm" + Items[FindItem(sPatent)].picIndex);
+	}
+	else
+	{
+		SetNewGroupPicture("EQUIP_PATENT_PIC", "none", "none");
 	}
 	
 	SetFormatedText("EQUIP_CAPTION", XI_ConvertString("Equipment") + ": " + refCharacter.name + " " + refCharacter.lastname);	
@@ -1201,6 +1213,39 @@ void ShowCirassEquipInfo()
 	LanguageCloseFile(idLngFile);
 }
 
+void ShowPatentEquipInfo()
+{
+	if(!CheckAttribute(refCharacter, "equip.patent"))
+	{
+		return;
+	}
+	if(refCharacter.equip.patent == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(refCharacter, "patent");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
 
 void ClickSaber()
 {
@@ -1232,6 +1277,11 @@ void ClickTalisman()
 	ClickItem("TALISMAN");
 }
 
+void ClickPatent()
+{
+	ClickItem("PATENT");
+}
+
 void ClickItem(string sItem)
 {
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BLADE_PIC", 5, 0);
@@ -1240,6 +1290,7 @@ void ClickItem(string sItem)
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_SPYGLASS_PIC", 5, 0);
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BACKPACK_PIC", 5, 0);
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_TALISMAN_PIC", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_PATENT_PIC", 5, 0);
 
 	string sNode = "EQUIP_" + sItem + "_PIC";
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,sNode, 5, 1);

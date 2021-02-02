@@ -502,6 +502,14 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			return;
 		}
 	}
+	string fencing_type = LAi_GetBladeFencingType(attack);
+	int coeff = 0;
+	switch (fencing_type)
+	{
+		case "FencingLight": coeff = makeint(sti(attack.Skill.FencingLight)/20); break;
+		case "Fencing": coeff = makeint(sti(attack.Skill.Fencing)/20); break;
+		case "FencingHeavy": coeff = makeint(sti(attack.Skill.FencingHeavy)/20); break;
+	}
 	//Вычисляем повреждение
 	float dmg = LAi_CalcDamageForBlade(attack, enemy, attackType, isBlocked, blockSave);
 	float critical = 0.0;
@@ -576,37 +584,94 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			noExp = true;
 		}
 	}
+	if (fencing_type == "FencingLight" && !isBlocked && !blockSave && attackType == "force")
+	{
+		if (coeff != 0)
+		{	
+			if (HasSubStr(attack.equip.blade, "blade32") && rand(6-coeff)==0)
+			{
+				if(sti(attack.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Вы вызвали кровотечение.")
+				}
+				else
+				{
+					Log_Info("Вам нанесли кровоточащую рану.")
+				}
+				MakeBloodingAttack(enemy, attack, coeff);
+			}
+			else
+			{
+				if (coeff*2>rand(100))
+				{
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вы вызвали кровотечение.")
+					}
+					else
+					{
+						Log_Info("Вам нанесли кровоточащую рану.")
+					}
+					MakeBloodingAttack(enemy, attack, coeff);
+				}
+			}
+			
+		}
+
+	}
+	if (fencing_type == "Fencing" && isBlocked && blockSave)
+	{
+		if (coeff != 0)
+		{
+			if (coeff*3>rand(100))
+			{
+				if(sti(attack.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Вы пробили блок средним оружием.")
+				}
+				else
+				{
+					Log_Info("Ваш блок был пробит средним оружием.")
+				}
+				isBlocked = false;
+				blockSave = false;
+			} 
+		}
+	}
 	if (isBlocked)
 	{
 		critical = 0;
 	}
 	bool cirign = false;
-	if (CheckAttribute(enemy, "cirassId"))
+	if (coeff != 0)
 	{
-		if (HasSubStr(attack.equip.blade, "topor") && rand(2)==0 && !blockSave)
+		if (CheckAttribute(enemy, "cirassId"))
 		{
-			cirign = true;
-			Log_TestInfo("топор");
-			if(sti(attack.index) == GetMainCharacterIndex())
+			if (HasSubStr(attack.equip.blade, "topor") && rand(6-coeff)==0 && !blockSave)
 			{
-				Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
+				cirign = true;
+				Log_TestInfo("топор");
+				if(sti(attack.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
+				}
+				if(sti(enemy.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+				}
 			}
-			if(sti(enemy.index) == GetMainCharacterIndex())
+			if (!HasSubStr(attack.equip.blade, "topor") && fencing_type == "FencingHeavy" && rand(8-coeff)==0 && !blockSave)
 			{
-				Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
-			}
-		}
-		if (!HasSubStr(attack.equip.blade, "topor") && LAi_GetBladeFencingType(attack) == "FencingHeavy" && rand(4)==0 && !blockSave)
-		{
-			cirign = true;
-			Log_TestInfo("тяж");
-			if(sti(attack.index) == GetMainCharacterIndex())
-			{
-				Log_Info("Ваша атака игнорирует сопротивления кирасы.");
-			}
-			if(sti(enemy.index) == GetMainCharacterIndex())
-			{
-				Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+				cirign = true;
+				Log_TestInfo("тяж");
+				if(sti(attack.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
+				}
+				if(sti(enemy.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+				}
 			}
 		}
 	}

@@ -152,7 +152,7 @@ SantaCatalina_PearlCave_box1	{сундук рядом с каменным мостиком}
 SantaCatalina_PearlCave_box2	{сундук на большом камне}
 SantaCatalina_PearlCave_box3	{сундук рядом с веревкой, свисающей с потолка}
 
-Tenotchitlan_Cave	{в пещере на север от храма ацтеков}
+Tenotchitlan_Cave	{в пещере на север от храма Инков}
 Tenotchitlan_Cave_box1	{сундук рядом с каменным мостиком}
 Tenotchitlan_Cave_box2	{сундук на большом камне}
 Tenotchitlan_Cave_box3	{сундук рядом с веревкой, свисающей с потолка}

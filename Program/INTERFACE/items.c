@@ -668,6 +668,7 @@ void FillItemsSelected()
 	SetNodeUsing("ITEM_5", false);
 	SetNodeUsing("ITEM_6", false);
 	SetNodeUsing("ITEM_7", false);
+	SetNodeUsing("ITEM_8", false);
 	
     for (i = 0; i< TOTAL_ITEMS; i++)
 	{
@@ -727,6 +728,10 @@ void FillItemsSelected()
 					case TALISMAN_ITEM_TYPE:
 						SetNewGroupPicture("ITEM_7", Items[i].picTexture, "itm" + Items[i].picIndex);
 						SetNodeUsing("ITEM_7" , true);
+					break;
+					case PATENT_ITEM_TYPE:
+						SetNewGroupPicture("ITEM_8", Items[i].picTexture, "itm" + Items[i].picIndex);
+						SetNodeUsing("ITEM_8" , true);
 					break;
 				}
 			}

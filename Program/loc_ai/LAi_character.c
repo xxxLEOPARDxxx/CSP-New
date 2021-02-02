@@ -785,6 +785,30 @@ void LAi_AllCharactersUpdate(float dltTime)
 				if(sti(chr_ai.drunk) < 1) LAi_SetAlcoholNormal(chr);
 			}
 			//<--
+			if(CheckAttribute(chr_ai, "blooding"))
+			{
+				chr_ai.blooding = stf(chr_ai.blooding) - dltTime;
+				if(stf(chr_ai.blooding) <= 0.0)
+				{
+					DeleteAttribute(chr_ai, "blooding");
+					if(sti(chr.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Кровотечение прекратилось.")
+					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
+					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
+					}
+				}else{
+					hp = hp - dltTime*1.0; // -1 ХП в сек.
+					hp = hp - GetCharacterRegenHP(chr, false)*dltTime; // Если кровотечение, то отключаем реген. ХП (без учета бонусов от предметов)
+					if (!CheckAttribute(chr, "blooding.hp") || hp < sti(chr.blooding.hp)-1.0)
+					{
+						chr.blooding.hp = hp;
+						LAi_CharacterPlaySound(chr, "blooddrop");
+						LaunchBlood(chr, 1.6, true);
+						SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, hp, MakeFloat(MakeInt(chr.chr_ai.hp)), MakeFloat(MakeInt(chr.chr_ai.hp_max)));
+					}
+				}
+			}
 			if(LAi_IsImmortal(chr))
 			{
 				if(hp < oldhp) hp = oldhp;
@@ -907,4 +931,14 @@ void LAi_CharacterRestoreAy(aref chr)
 		DeleteAttribute(type, "ay");
 		CharacterTurnAy(chr, ay);
 	}
+}
+
+//Gregg
+float GetCharacterRegenHP(aref chr, bool useItms) // Новая функция расчета регенерации жизни (Rasteador) (ver. 0.3.0)
+{
+	float fMultiplier = LAi_GetCharacterMaxHP(chr)/450.0; // Скорость регенерации, в зависимости от макс. кол-ва ХП
+
+	if(fMultiplier > 2.0) fMultiplier = 2.0; // Лимит
+	
+	return fMultiplier;
 }

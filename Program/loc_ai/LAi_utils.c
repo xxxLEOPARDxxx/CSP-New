@@ -1279,3 +1279,22 @@ void LAi_Explosion(ref chr, int damage)
 		}
 	}	
 }
+
+//Gregg
+void MakeBloodingAttack(aref enemy, aref attacked, int coeff) // Кровоточащая атака
+{
+	float Blooding = 0.0;
+	if(CheckAttribute(enemy, "chr_ai.Blooding"))
+	{
+		Blooding = stf(enemy.chr_ai.Blooding);
+		if(Blooding < 1.0) Blooding = 1.0;
+	}
+	enemy.chr_ai.Blooding = Blooding + (coeff*2); // Продолжительность
+	
+	if(stf(enemy.chr_ai.Blooding) > 200.0) enemy.chr_ai.Blooding = 200.0; 
+
+	if (enemy.index == GetMainCharacterIndex())
+	{
+		AddCharacterHealth(pchar, -2.0); // Кровотечение портит здоровье
+	}
+}
