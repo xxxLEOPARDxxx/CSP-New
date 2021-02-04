@@ -79,7 +79,7 @@ void WorldSituationsUpdate()
 	{
 		case 0:
             DeleteAttribute(pchar, "SkipEshipIndex");// boal
-								 
+			
 			DailyEatCrewUpdate(); // boal
 			Log_QuestInfo("WorldSituationsUpdate DailyEatCrewUpdate");
 			
@@ -94,64 +94,65 @@ void WorldSituationsUpdate()
 			dayRandom2 = Random();
 			PChar.DayRandom2 = dayRandom2;
 			Log_TestInfo("dayRandom2 == " + dayRandom2);
+			
+			CheckOfficersHPMinus(); //Korsar Maxim - ежедневное обновление дней для выздоровления офов
 		break;
 		
 		case 1:
-            		SalaryNextDayUpdate();  // запрлата
+            SalaryNextDayUpdate();  // запрлата
 			Log_QuestInfo("WorldSituationsUpdate SalaryNextDayUpdate");
 		break;
 		
 		case 2:
 			// ушло в переходы локаций PGG_DailyUpdate(); // navy 
-								 
+			
 			ProcessDayRepair();
 		break;
 		
 		case 3:
 			//UpdateDisease();
-								 
+			
 			Group_FreeAllDead();
 		break;
 		
 		case 4:
-								 
+			
 			QuestActions(); //eddy
 		break;
 		
 		case 5:
 			//UpdateColonyProfit();  
-								 
+			
 			wdmEmptyAllOldEncounter();// homo чистка энкоутеров
 		break;
 		
 		case 6:
-								 
+			
 			UpdateCrewExp();  // изменение опыта команды
 		break;
 		
 		case 7:
-								 
+			
 			UpdateCrewInColonies(); // пересчет наемников в городах
 		break;
 		
 		case 8:
 			if(IsEntity(worldMap))
 			{
-									 
 				EmptyAllFantomCharacter(); // трем НПС
 				wdmEmptyAllDeadQuestEncounter();
 			}
 		break;
 		
 		case 9:
-								   
-            		UpdateFame();   // это теперь известность репутации
+			
+            UpdateFame();   // это теперь известность репутации
 			GenerateRumour() //homo 05/07/06
 		break;
 		
 		case 10:
 			//
-										   
+			
 		break;
 		break;
 	}
@@ -341,4 +342,38 @@ void SetQuestsCharacters()
 	sld.location.group = "goto";
 	sld.location.locator = "goto2";
 	LAi_group_MoveCharacter(sld, GetNationNameByType(iNation) + "_citizens");
+}
+
+//Korsar Maxim - выздоровление офицеров после потери сознания.
+void CheckOfficersHPMinus()
+{
+	ref sld;
+	int i, iOfficer;
+	
+	for(i = 1; i < 22; i++)  //Korsar Maxim - Нюанс: обновляются только офы на должностях. Пассажиры не считаются, но я уже дрыхнуть хочу, поэтому дальше не разбираюсь. (Кто реши это - сотрите этот месседж)
+	{
+		if (GetOfficersIndex(Pchar, i) != -1)
+		{
+			iOfficer = GetOfficersIndex(Pchar, i);
+			sld = GetCharacter(iOfficer);
+			CheckAttribute(sld, "HPminusDays") sld.HPminusDays = sti(sld.HPminusDays) + 1;
+			
+			if(CheckAttribute(sld,"HPminus"))
+			{
+				int ihpm = sti(sld.chr_ai.hp_max)+sti(sld.HPminus);
+			
+				if(CheckAttribute(sld, "HPminusDays") && CheckAttribute(sld, "HPminusDaysNeedtoRestore"))
+				{
+					if(sti(sld.HPminusDays) >= sti(sld.HPminusDaysNeedtoRestore))
+					{
+						DeleteAttribute(sld, "HPminusDays");
+						DeleteAttribute(sld, "HPminus");
+						DeleteAttribute(sld, "HPminusDaysNeedtoRestore");
+						LAi_SetHP(sld, ihpm, ihpm);
+						Log_Info("Офицер " + GetFullName(sld) + " выздоровел.");
+					}
+				}
+			}
+		}
+	}
 }

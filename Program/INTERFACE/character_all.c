@@ -486,21 +486,15 @@ void FillSkillTables()
 	    
         GameInterface.TABLE_SPECIAL.(row).UserData.ID = skillName;
 		GameInterface.TABLE_SPECIAL.(row).td1.fontidx = 0;
-		GameInterface.TABLE_SPECIAL.(row).td1.textoffset = "3,-3";
-		//GameInterface.TABLE_SPECIAL.(row).td1.align = "center";
-		//Boyer add .90 scale for first column
-		GameInterface.TABLE_SPECIAL.(row).td1.scale = 0.65;
+		GameInterface.TABLE_SPECIAL.(row).td1.textoffset = "3,-5";
+		GameInterface.TABLE_SPECIAL.(row).td1.scale = 0.75;
 		GameInterface.TABLE_SPECIAL.(row).td2.textoffset = "5,0";
-		GameInterface.TABLE_SPECIAL.(row).td2.scale = 0.75;
+		GameInterface.TABLE_SPECIAL.(row).td2.scale = 0.9;
 		GameInterface.TABLE_SPECIAL.(row).td2.align = "center";
 		GameInterface.TABLE_SPECIAL.(row).td3.align = "center";
-		//Boyer add .75 scale for third column
-		GameInterface.TABLE_SPECIAL.(row).td4.scale = 0.9;
+		GameInterface.TABLE_SPECIAL.(row).td4.scale = 0.8;
 		GameInterface.TABLE_SPECIAL.(row).td4.textoffset = "0,-1";
-		// GameInterface.TABLE_SPECIAL.(row).td4.scale = 0.90;
 		GameInterface.TABLE_SPECIAL.(row).td4.fontidx = 1;
-		// GameInterface.TABLE_SPECIAL.(row).td5.align = "center";
-		// GameInterface.TABLE_SPECIAL.(row).td5.textoffset = "0,0";
         
 		GameInterface.TABLE_SPECIAL.(row).td1.str = XI_ConvertString(skillName + "T");
 		GameInterface.TABLE_SPECIAL.(row).td2.str = XI_ConvertString(skillName);
@@ -542,15 +536,14 @@ void FillSkillTables()
     	GameInterface.TABLE_SKILL_1.(row).td1.icon.height = 20;
     	GameInterface.TABLE_SKILL_1.(row).td1.icon.offset = "0, 0";
 		GameInterface.TABLE_SKILL_1.(row).td2.align = "left";
-		GameInterface.TABLE_SKILL_1.(row).td2.scale = 0.75;
-		GameInterface.TABLE_SKILL_1.(row).td2.textoffset = "6,0";
+		GameInterface.TABLE_SKILL_1.(row).td2.scale = 0.85;
+		GameInterface.TABLE_SKILL_1.(row).td2.textoffset = "0,0";
+		GameInterface.TABLE_SKILL_1.(row).td3.scale = 0.85;
+		GameInterface.TABLE_SKILL_1.(row).td4.scale = 0.85;
 		GameInterface.TABLE_SKILL_1.(row).td5.fontidx = 0;
 		GameInterface.TABLE_SKILL_1.(row).td5.scale = 0.65;
 		GameInterface.TABLE_SKILL_1.(row).td5.align = "left";
 		GameInterface.TABLE_SKILL_1.(row).td5.textoffset = "-1,0";
-		GameInterface.TABLE_SKILL_1.(row).td3.scale = 0.75;
-		//Boyer change .75 scale for third column
-		GameInterface.TABLE_SKILL_1.(row).td4.scale = 0.85;
 
 		GameInterface.TABLE_SKILL_1.(row).td2.str = XI_ConvertString(skillName);
 		skillVal = GetSkillValue(xi_refCharacter, SKILL_TYPE, skillName);
@@ -600,16 +593,14 @@ void FillSkillTables()
     	GameInterface.TABLE_SKILL_2.(row).td1.icon.height = 20;
     	GameInterface.TABLE_SKILL_2.(row).td1.icon.offset = "0, 0";
 		GameInterface.TABLE_SKILL_2.(row).td2.align = "left";
-		GameInterface.TABLE_SKILL_2.(row).td2.scale = 0.75;
-		GameInterface.TABLE_SKILL_2.(row).td2.textoffset = "6,0";
+		GameInterface.TABLE_SKILL_2.(row).td2.scale = 0.85;
+		GameInterface.TABLE_SKILL_2.(row).td2.textoffset = "0,0";
+		GameInterface.TABLE_SKILL_2.(row).td3.scale = 0.85;
+		GameInterface.TABLE_SKILL_2.(row).td4.scale = 0.85;
 		GameInterface.TABLE_SKILL_2.(row).td5.fontidx = 0;
-		//Boyer change.60 scale for lastcolumn
 		GameInterface.TABLE_SKILL_2.(row).td5.scale = 0.65;
 		GameInterface.TABLE_SKILL_2.(row).td5.align = "left";
 		GameInterface.TABLE_SKILL_2.(row).td5.textoffset = "-1,0";
-		GameInterface.TABLE_SKILL_2.(row).td3.scale = 0.75;
-		//Boyer change .75 scale for third column
-		GameInterface.TABLE_SKILL_2.(row).td4.scale = 0.85;
 
 		GameInterface.TABLE_SKILL_2.(row).td2.str = XI_ConvertString(skillName);
 		skillVal = GetSkillValue(xi_refCharacter, SKILL_TYPE, skillName);
@@ -740,7 +731,7 @@ void FillSkillTables()
 	GameInterface.TABLE_OTHER.tr8.td2.str = XI_ConvertString("Title");
 	GameInterface.TABLE_OTHER.tr8.td2.align = "left";
 	GameInterface.TABLE_OTHER.tr8.td2.scale = 0.85;
-	//GameInterface.TABLE_OTHER.tr8.td2.textoffset = "3,0";
+	GameInterface.TABLE_OTHER.tr8.td2.textoffset = "3,0";
 
     DeleteAttribute(&GameInterface, "TABLE_OTHER.tr8.td3");
     GameInterface.TABLE_OTHER.tr8.td3.str = "";
@@ -1119,26 +1110,17 @@ void AcceptAddOfficer()
 			break;
 
 			//Boyer mod
-									  
-					   
-		 
-
 			//default:
 				SetOfficersIndex(pchar, nCurScrollNum - 6, iChar);
 				bNeedFollow = true;
 			break;
 			//End Boyer add
-		  
-									  
-					   
-		 
 		}
         attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
     	characters[iChar].(attributeName2) = true; // совместитель дожности
     	//SetCharacterTask_FollowCharacter(&Characters[iChar], PChar);
     	if (bNeedFollow) // только для офов
     	{
-													
 	    	//if (Characters[iChar].location.group == "sit")
 	    	//{// найм прямо в таверне
 	    	//if (bOk && IsEntity(loadedLocation) && !CheckAttribute(loadedLocation, "DisableOfficers"))
@@ -1204,18 +1186,11 @@ void AcceptRemoveOfficer()
 		case 6:
 			pchar.Fellows.Passengers.carpenter = -1;
 		break;
-
 		//Boyer mod
-														  
-		
-
 		//default:
 			RemoveOfficersIndex(pchar, GetOfficersIndex(pchar, nCurScrollNum - 6));
 		break;
-
 		//End Boyer mod
-														  
-		
 	}
     attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
     DeleteAttribute(&characters[iChar], attributeName2); // совместитель дожности
@@ -1382,9 +1357,7 @@ void FillPerksTable(string _type, bool _refresh)
 		    GameInterface.TABLE_PERKS.(row).td1.icon.offset = "-1, 0";
 
 			GameInterface.TABLE_PERKS.(row).td2.str = GetConvertStr(perkName, "AbilityDescribe.txt");
-			//GameInterface.TABLE_PERKS.(row).td2.textoffset = "0,-6";
-			// GameInterface.TABLE_PERKS.(row).td2.textshadow = false;
-			GameInterface.TABLE_PERKS.(row).td2.scale = 0.75;
+			GameInterface.TABLE_PERKS.(row).td2.scale = 0.8;
 			n++;
 		}
 	}
@@ -1419,7 +1392,6 @@ void ChoosePerk()
     SetVAligmentFormatedText("PERK_WINDOW_TEXT");
     
 	if (GameInterface.(CurTable).(CurRow).UserData.Type == "self")
-
     {
         SetFormatedText("PERK_TEXT_FREE", XI_ConvertString("Personal abilities") + ": " +xi_refCharacter.perks.FreePoints_self);
 		if (sti(xi_refCharacter.perks.FreePoints_self) <= 0) ok = false;

@@ -115,13 +115,13 @@ void FillPriceListTown(string _tabName)
     // шапка -->
     GameInterface.(_tabName).select = 0;
     GameInterface.(_tabName).hr.td1.str = "Нация";
-    GameInterface.(_tabName).hr.td1.scale = 0.77
+    GameInterface.(_tabName).hr.td1.scale = 0.8
 	GameInterface.(_tabName).hr.td2.str = "Город";
 	GameInterface.(_tabName).hr.td2.scale = 0.8;
 	GameInterface.(_tabName).hr.td3.str = "Локация";
-	GameInterface.(_tabName).hr.td3.scale = 0.7;
+	GameInterface.(_tabName).hr.td3.scale = 0.8;
 	GameInterface.(_tabName).hr.td4.str = "Актуальность";
-	GameInterface.(_tabName).hr.td4.scale = 0.7;
+	GameInterface.(_tabName).hr.td4.scale = 0.8;
     // <--
     nulChr = &NullCharacter;
     makearef(rootItems, nulChr.PriceList);  // тут живут ИД города и служ. инфа.
@@ -141,14 +141,14 @@ void FillPriceListTown(string _tabName)
 			GameInterface.(_tabName).(row).UserData.CityIDX = cn;
 			GameInterface.(_tabName).(row).td1.icon.group  = "NATIONS";
 			GameInterface.(_tabName).(row).td1.icon.image  = Nations[sti(rCity.nation)].Name;
-			GameInterface.(_tabName).(row).td1.icon.width  = 20;
-		    GameInterface.(_tabName).(row).td1.icon.height = 20;
-		    GameInterface.(_tabName).(row).td1.icon.offset = "3, 0";
+			GameInterface.(_tabName).(row).td1.icon.width  = 40;
+		    GameInterface.(_tabName).(row).td1.icon.height = 40;
+		    GameInterface.(_tabName).(row).td1.icon.offset = "-5, 0";
 			GameInterface.(_tabName).(row).td2.str = GetConvertStr(cityId + " Town", "LocLables.txt");
-			GameInterface.(_tabName).(row).td2.scale = 0.85;
+			GameInterface.(_tabName).(row).td2.scale = 0.8;
 			GameInterface.(_tabName).(row).td3.str = GetConvertStr(rCity.islandLable, "LocLables.txt");
 			GameInterface.(_tabName).(row).td3.scale = 0.8;
-			GameInterface.(_tabName).(row).td4.scale = 0.75;
+			GameInterface.(_tabName).(row).td4.scale = 0.8;
 			if (CheckAttribute(nulChr, "PriceList." + cityId + ".AltDate"))
 		    {
 		        GameInterface.(_tabName).(row).td4.str = nulChr.PriceList.(cityId).AltDate;
@@ -178,7 +178,7 @@ void FillPriceList(string _tabName, string  attr1)
     GameInterface.(_tabName).hr.td1.str = XI_ConvertString("Good name");
     GameInterface.(_tabName).hr.td1.scale = 0.8;
     GameInterface.(_tabName).hr.td2.str = "Тип";
-    GameInterface.(_tabName).hr.td2.scale = 0.85;
+    GameInterface.(_tabName).hr.td2.scale = 0.8;
 	GameInterface.(_tabName).hr.td3.str = XI_ConvertString("Price sell");
 	GameInterface.(_tabName).hr.td3.scale = 0.8;
 	GameInterface.(_tabName).hr.td4.str = XI_ConvertString("Price buy");

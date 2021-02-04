@@ -418,9 +418,9 @@ void UpgradeMainInterface()
 	int iSlavesColor = ColorQuantityGoods(GOOD_SLAVES, "Slaves");
 	int iFoodColor = ColorQuantityGoods(GOOD_FOOD, "Food");
 
-	CreateString(true,"OnChar","Имеется: ", FONT_CAPTION, COLOR_NORMAL, 160,47,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"Good","Товар: ", FONT_CAPTION, COLOR_NORMAL, 390,47,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"Need","Требуется: ", FONT_CAPTION, COLOR_NORMAL, 625,47,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"OnChar","Имеется: ", FONT_CAPTION, COLOR_NORMAL, 160,44,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Good","Товар: ", FONT_CAPTION, COLOR_NORMAL, 390,44,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Need","Требуется: ", FONT_CAPTION, COLOR_NORMAL, 625,44,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateImage("Blocks", "GOODS", "Brick", 310,73,400,163);
 	CreateImage("Planks", "GOODS", "Planks", 310,156,400,246);
@@ -629,11 +629,11 @@ void FoodRemoved()
 ////////////////////////////////////////////////////////////////////////////////////////
 void CreateColonyInfo()
 {
-	CreateString(true,"NameHeader","Название колонии", FONT_CAPTION, COLOR_NORMAL, 400,105,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"InName","Введите название колонии: ", FONT_CAPTION, COLOR_NORMAL, 410,150,SCRIPT_ALIGN_CENTER,1.2);
+	CreateString(true,"NameHeader","Название колонии", FONT_CAPTION, COLOR_NORMAL, 400,102,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"InName","Введите название колонии: ", FONT_CAPTION, COLOR_NORMAL, 410,160,SCRIPT_ALIGN_CENTER,1.0);
 	
-	CreateString(true,"CurName","Текущее название: ", FONT_CAPTION, COLOR_NORMAL, 405,220,SCRIPT_ALIGN_CENTER,1.2);
-	CreateString(true,"CurName2", PChar.ColonyBuilding.ColonyName, FONT_CAPTION, argb(255,255,255,128), 400,245,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"CurName","Текущее название: ", FONT_CAPTION, COLOR_NORMAL, 405,225,SCRIPT_ALIGN_CENTER,1.0);
+	CreateString(true,"CurName2", PChar.ColonyBuilding.ColonyName, FONT_CAPTION, argb(255,255,255,128), 400,240,SCRIPT_ALIGN_CENTER,1.5);
 	
 	GameInterface.COLONY_NAME.str = PChar.ColonyBuilding.ColonyName;
 	ColonyNameTemp();
@@ -643,7 +643,7 @@ void CreateColonyInfo()
 		SetNodeUsing("EXIT_BTN", false);
 	}
 	
-	CreateString(true,"NationHeader","Внешность солдат", FONT_CAPTION, COLOR_NORMAL, 400,280,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"NationHeader","Внешность солдат", FONT_CAPTION, COLOR_NORMAL, 400,276,SCRIPT_ALIGN_CENTER,1.5);
 	// CreateImage("NationHeader", "MAIN_ICONS", "skillborder", 233,276,566,310);
 	
 	int iNation = sti(PChar.nation);
@@ -764,8 +764,8 @@ void CheckSoldiersType(bool left)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void CreateArchitectureInfo()
 {
-	CreateString(true,"TownHeader","Город", FONT_CAPTION, COLOR_NORMAL, 175,112,SCRIPT_ALIGN_CENTER,1.0);
-	CreateString(true,"BuildingHeader","Главные здания", FONT_CAPTION, COLOR_NORMAL, 540,112,SCRIPT_ALIGN_CENTER,1.0);
+	CreateString(true,"TownHeader","Город", FONT_CAPTION, COLOR_NORMAL, 175,105,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"BuildingHeader","Главные здания", FONT_CAPTION, COLOR_NORMAL, 540,105,SCRIPT_ALIGN_CENTER,1.5);
 	
 	string sTownPicture = GetArchitecturePictureName(iCheckTownType, "Town");
 	SetNewGroupPicture("CHECK_TOWN_TYPE", "COLONY_ARCHITECTURE", sTownPicture);

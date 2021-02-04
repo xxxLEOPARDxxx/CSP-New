@@ -146,7 +146,7 @@ void ProcCommand()
 
 void SetPlanksInformation()
 {
-	CreateString(true,"PlanksHeader", "Доски", FONT_CAPTION, COLOR_NORMAL, 395,154,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"PlanksHeader", "Доски", FONT_CAPTION, COLOR_NORMAL, 395,149,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateImage("PlanksQuantity", "GOODS", "Planks", 490,180,590,280);
 	
@@ -159,7 +159,7 @@ void SetPlanksInformation()
 void SetSailClothInformation()
 {
 	// CreateImage("SailClothHeader", "MAIN_ICONS", "skillborder", 204,320,596,352);
-	CreateString(true,"SailClothHeader", "Парусина", FONT_CAPTION, COLOR_NORMAL, 395,318,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"SailClothHeader", "Парусина", FONT_CAPTION, COLOR_NORMAL, 395,314,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateImage("SailClothQuantity", "GOODS", "SailCloth", 490,350,590,450);
 	

@@ -1781,7 +1781,7 @@ int GetCharacterCurrentIsland(ref _refCharacter)
 string GetCharacterCurrentIslandId(ref _refCharacter)
 {
 	int curLocNum = FindLocation(_refCharacter.location);
-	if(curLocNum < 0) return -1;
+	if(curLocNum < 0) return "";
 	int CurIdx = GetIslandIdxByLocationIdx(curLocNum);
 	ref CurIsland = GetIslandByIndex(CurIdx);
 	return CurIsland.id;

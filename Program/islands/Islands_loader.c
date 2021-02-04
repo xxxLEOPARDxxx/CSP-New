@@ -93,8 +93,8 @@ void CheckIslandChange()
         float fadeOutTime = 0.5;
         SendMessage(&wdm_fader, "lfl", FADER_OUT, fadeOutTime, true);
         SendMessage(&wdm_fader, "l", FADER_STARTFRAME);
-        string imageName = "loading\sea.tga.tx";
-        SendMessage(&wdm_fader, "ls",FADER_PICTURE, imageName);
+        pchar.loadscreen = "loading\sea.tga.tx";
+        SendMessage(&wdm_fader, "ls",FADER_PICTURE, pchar.loadscreen);
 		//ChangeSeaMapNew(sNewIslandId);
 	}
 }

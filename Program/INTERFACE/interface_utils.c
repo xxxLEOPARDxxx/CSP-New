@@ -330,7 +330,7 @@ void SetOTHERMiniTable(string _tabName, ref _chr)
     GameInterface.(_tabName).tr3.td1.icon.image = "Reputation";
 	GameInterface.(_tabName).tr3.td2.str = XI_ConvertString("Reputation");
 	GameInterface.(_tabName).tr3.td3.str = XI_ConvertString(GetReputationName(sti(_chr.reputation)));
-	GameInterface.(_tabName).tr3.td3.scale = 0.65;
+	GameInterface.(_tabName).tr3.td3.scale = 0.8;
 	GameInterface.(_tabName).tr3.td3.textoffset = "0,-1";
 
     GameInterface.(_tabName).tr4.UserData.ID = "Loyality";
@@ -417,7 +417,7 @@ void SetSPECIALMiniTable(string _tabName, ref _chr)
 	    GameInterface.(_tabName).(row).(col).icon.image = skillName + " skill icon";
 	    GameInterface.(_tabName).(row).(col).icon.width = 30;
     	GameInterface.(_tabName).(row).(col).icon.height = 30;
-		GameInterface.(_tabName).(row).(col).icon.offset = "-3,0";
+		GameInterface.(_tabName).(row).(col).icon.offset = "0,0";
 	}
 	row = "tr4";
 	for (i=1; i<=7; i++)
@@ -460,7 +460,7 @@ void SetSPECIALMiniTable(string _tabName, ref _chr)
 	    GameInterface.(_tabName).(row).(col).icon.image = skillName + " skill icon";
 	    GameInterface.(_tabName).(row).(col).icon.width = 30;
     	GameInterface.(_tabName).(row).(col).icon.height = 30;
-		GameInterface.(_tabName).(row).(col).icon.offset = "-2,0";
+		GameInterface.(_tabName).(row).(col).icon.offset = "0,0";
 	}
 	row = "tr6";
 	for (i=1; i<=7; i++)
@@ -516,7 +516,7 @@ void SetCrewExpTable(ref _chr, string _tabName, string _bar1, string _bar2, stri
 		GameInterface.(_tabName).(row).td2.scale = 0.8;
 		GameInterface.(_tabName).(row).td2.textoffset = "3,0";
 		GameInterface.(_tabName).(row).td3.align = "right";
-		GameInterface.(_tabName).(row).td3.scale = 0.7;
+		GameInterface.(_tabName).(row).td3.scale = 0.8;
 		//GameInterface.(_tabName).(row).td3.textoffset = "0,1";
 	}
 	GameInterface.(_tabName).tr1.UserData.ID = "Sailors";

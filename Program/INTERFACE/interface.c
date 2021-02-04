@@ -1601,24 +1601,7 @@ void procInfoShow()
 			break;
 
 			case "game prepare":
-			    switch (rand(4))
-			    {
-			        case 0 :
-						objInfoList[nInfoIdx].picfilename = "loading\start_loading.tga";
-					break;
-					case 1 :
-						objInfoList[nInfoIdx].picfilename = "loading\seaStand_" + rand(9) + ".tga";
-					break;
-					case 2 :
-						objInfoList[nInfoIdx].picfilename = "loading\battle.tga";
-					break;
-					case 3 :
-						objInfoList[nInfoIdx].picfilename = "loading\shipcannon.tga";
-					break;
-					case 4 :
-						objInfoList[nInfoIdx].picfilename = "loading\rescue.tga";
-					break;
-				}
+				objInfoList[nInfoIdx].picfilename = "loading\start_loading.tga";
 			break;
 
 			case "MainMenuLaunch":

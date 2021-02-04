@@ -489,7 +489,7 @@ void Done(string sType)
 
 void SetGuardInformation()
 {
-	CreateString(true,"SoldiersHeader", "Гарнизон", FONT_CAPTION, COLOR_NORMAL, 395,63,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"SoldiersHeader", "Гарнизон", FONT_CAPTION, COLOR_NORMAL, 395,59,SCRIPT_ALIGN_CENTER,1.5);
 	CreateImage("SoldiersQuantity", "SHIP_STATE_ICONS", "Crew", 480,100,580,200);
 	
 	int iSoldiersQuantity = sti(PChar.ColonyBuilding.Soldiers);
@@ -505,7 +505,7 @@ void SetGuardInformation()
 void SetFoodInformation()
 {
 	// CreateImage("FoodHeader", "MAIN_ICONS", "skillborder", 204,230,596,262);
-	CreateString(true,"FoodHeader", "Провиант", FONT_CAPTION, COLOR_NORMAL, 395,233,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"FoodHeader", "Провиант", FONT_CAPTION, COLOR_NORMAL, 395,229,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateImage("FoodQuantity", "GOODS", "Food", 480,260,580,360);
 	
@@ -526,7 +526,7 @@ void SetFoodInformation()
 void SetMedicamentInformation()
 {
 	// CreateImage("MedicamentHeader", "MAIN_ICONS", "skillborder", 204,391,596,425);
-	CreateString(true,"MedicamentHeader", "Медикаменты", FONT_CAPTION, COLOR_NORMAL, 395,393,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"MedicamentHeader", "Медикаменты", FONT_CAPTION, COLOR_NORMAL, 395,389,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateImage("MedicamentQuantity", "GOODS", "Medicament", 480,420,580,520);
 	

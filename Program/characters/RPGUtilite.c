@@ -321,10 +321,10 @@ int GetCharacterSPECIALSimple(ref _refCharacter, string skillName)
 	
 	if(skillName == SPECIAL_E)
 	{
-		if(IsEquipCharacterByItem(_refCharacter, "cirass1")) skillN = skillN - 1;
+		/* if(IsEquipCharacterByItem(_refCharacter, "cirass1")) skillN = skillN - 1;
 		if(IsEquipCharacterByItem(_refCharacter, "cirass2")) skillN = skillN - 1;
 		if(IsEquipCharacterByItem(_refCharacter, "cirass3")) skillN = skillN - 1;
-		if(IsEquipCharacterByItem(_refCharacter, "cirass4")) skillN = skillN - 1;
+		if(IsEquipCharacterByItem(_refCharacter, "cirass4")) skillN = skillN - 1; */
 	}
 	
 	if(skillName == SPECIAL_C)
@@ -339,8 +339,8 @@ int GetCharacterSPECIALSimple(ref _refCharacter, string skillName)
 	
 	if(skillName == SPECIAL_A)
 	{
-		if(IsEquipCharacterByItem(_refCharacter, "cirass1")) skillN = skillN - 2;
-		if(IsEquipCharacterByItem(_refCharacter, "cirass2")) skillN = skillN - 1;
+		/* if(IsEquipCharacterByItem(_refCharacter, "cirass1")) skillN = skillN - 2;
+		if(IsEquipCharacterByItem(_refCharacter, "cirass2")) skillN = skillN - 1; */
 	}
 
 	if(skillName == SPECIAL_L)
@@ -1143,7 +1143,7 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
         //statue1  +3 ремонт
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_REPAIR, STATUE1, 30);
 		
-		if(IsEquipCharacterByItem(_refCharacter, "cirass1"))
+		/* if(IsEquipCharacterByItem(_refCharacter, "cirass1"))
 		{
 			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass1", -5);
 		}
@@ -1169,7 +1169,7 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 		{
 			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass5", -20);
 			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "cirass5", 10);
-		}
+		} */
 	
 		// Warship 25.10.08 Новый учет одежды
 		skillN += SetCharacterSkillBySuit(_refCharacter, skillName);

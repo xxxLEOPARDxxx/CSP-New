@@ -212,8 +212,8 @@ int IsCorrectNotice()
 
 void SetBaseInterfaceData()
 {
-	CreateString(true,"StringsHeader", "Содержимое: ", FONT_CAPTION, argb(255,255,255,156), 335,44,SCRIPT_ALIGN_CENTER,1.4);
-	CreateString(true,"Sbros_Done", "Вкл. / Выкл.", FONT_CAPTION, argb(255,255,255,156), 635,46,SCRIPT_ALIGN_CENTER,1.2);
+	CreateString(true,"StringsHeader", "Содержимое: ", FONT_CAPTION, argb(255,255,255,156), 335,40,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Sbros_Done", "Вкл. / Выкл.", FONT_CAPTION, argb(255,255,255,156), 635,44,SCRIPT_ALIGN_CENTER,1.2);
 	
 	string sNode;
 	for(int s=1; s <= 10; s++)
@@ -238,7 +238,7 @@ void SetNoticeTypeInfo()
 		sType = "Столбец";
 	}
 
-	CreateString(true,"NoticeTypeStr", sType, FONT_CAPTION, argb(255,255,255,255), 635,525,SCRIPT_ALIGN_CENTER,1.2);
+	CreateString(true,"NoticeTypeStr", sType, FONT_CAPTION, argb(255,255,255,255), 635,523,SCRIPT_ALIGN_CENTER,1.2);
 }
 
 void OffOnStrings(bool bOn)

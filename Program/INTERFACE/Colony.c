@@ -1788,7 +1788,7 @@ void SetPopulationInformation()
 		iColonyStatus = argb(255,128,255,128);
 	}
 	
-	CreateString(true,"PopulationHeader", "Население", FONT_CAPTION, COLOR_NORMAL, 160,43,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"PopulationHeader", "Население", FONT_CAPTION, COLOR_NORMAL, 160,39,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateString(true,"ColonyStatus", "Статус колонии: ", FONT_NORMAL, COLOR_NORMAL, 22,80,SCRIPT_ALIGN_LEFT, 1.0);
 	CreateString(true,"ColonyStatusContinue", sColonyStatus, FONT_NORMAL, iColonyStatus, 195,80,SCRIPT_ALIGN_LEFT, 1.0);
@@ -1884,7 +1884,7 @@ void SetNalogInformation()
 	}
 	
 	// CreateImage("NalogPicture", "MAIN_ICONS", "skillborder", 14,263,321,292);
-	CreateString(true,"NalogHeader", "Налог", FONT_CAPTION, COLOR_NORMAL, 160,261,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"NalogHeader", "Налог", FONT_CAPTION, COLOR_NORMAL, 160,257,SCRIPT_ALIGN_CENTER,1.5);
 
 	CreateString(true,"Nalog", "Текущий налог: ", FONT_NORMAL, COLOR_NORMAL, 30,300,SCRIPT_ALIGN_LEFT, 1.0);
 	CreateString(true,"NalogContinue", sNalog, FONT_NORMAL, iNalog, 195,300,SCRIPT_ALIGN_LEFT, 1.0);
@@ -1909,7 +1909,7 @@ void SetNalogInformation()
 		iNalogX = 135;
 	}
 	
-	CreateString(true,"NalogSelect", sSelectNalog, FONT_CAPTION, COLOR_NORMAL, iNalogX,332,SCRIPT_ALIGN_LEFT, 1.2);
+	CreateString(true,"NalogSelect", sSelectNalog, FONT_CAPTION, COLOR_NORMAL, iNalogX,329,SCRIPT_ALIGN_LEFT, 1.2);
 	
 	if(PChar.ColonyBuilding.Stage == "0" || PChar.ColonyBuilding.Stage == "1")
 	{
@@ -1982,7 +1982,7 @@ void SetMoneyInformation()
 	
 	//CreateImage("GoldIcon", "GOLD_ICON", "Gold", 251,442,315,506);
 	
-	CreateString(true,"GoldHeader", "Казна", FONT_CAPTION, COLOR_NORMAL, 160,407,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"GoldHeader", "Казна", FONT_CAPTION, COLOR_NORMAL, 160,403,SCRIPT_ALIGN_CENTER,1.5);
 	
 	GameInterface.MONEY_STRING.str = sti(PChar.ColonyBuilding.Money.Temp);
 	
@@ -2052,7 +2052,7 @@ void SetInformation()
 	SetNodeUsing("IRONMINE_RESIZE", false);
 
 
-	CreateString(true,"NormalBuildHeader", "Обычные постройки", FONT_CAPTION, COLOR_NORMAL, 560,43,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"NormalBuildHeader", "Обычные постройки", FONT_CAPTION, COLOR_NORMAL, 560,39,SCRIPT_ALIGN_CENTER,1.5);
 
 	CreateImage("StorePicture", GetCurrentTexture(), "Store", 350,110,485,210);
 	CreateString(true,"StoreHeader", "Магазин", FONT_CAPTION, COLOR_NORMAL, 410,87,SCRIPT_ALIGN_CENTER,1.0);
@@ -2209,7 +2209,7 @@ void SetInformation()
 	//-----------------------------------------------------------------------------------------------------------------
 	
 	// CreateImage("ProBuild", "MAIN_ICONS", "skillborder", 339,313,786,345);
-	CreateString(true,"ProBuildHeader", "Продвинутые постройки", FONT_CAPTION, COLOR_NORMAL, 563,302,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"ProBuildHeader", "Продвинутые постройки", FONT_CAPTION, COLOR_NORMAL, 563,298,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateImage("BankPicture", GetCurrentTexture(), "Bank", 350,385,485,485);
 	CreateString(true,"BankHeader", "Дом ростовщика", FONT_CAPTION, COLOR_NORMAL, 413,360,SCRIPT_ALIGN_CENTER,1.0);
@@ -3039,7 +3039,7 @@ void ShowTakeMoneyWindow()
 	
 	GameInterface.TAKE_MONEY_STRING.str = 0;
 	
-	CreateString(true,"TakeMoney_Header", "Пополнение казны", FONT_CAPTION, COLOR_NORMAL, 322,126,SCRIPT_ALIGN_LEFT, 1.5);
+	CreateString(true,"TakeMoney_Header", "Пополнение казны", FONT_CAPTION, COLOR_NORMAL, 322,122,SCRIPT_ALIGN_LEFT, 1.5);
 	CreateImage("TakeMoney_Image", "GOLD_ICON", "Gold", 470,180,550,260);
 	
 	CreateString(true,"TakeMoney_YouMoney", "Ваше золото: " + sti(PChar.money), FONT_NORMAL, argb(255,255,255,128), 280,200,SCRIPT_ALIGN_LEFT, 1.0);

@@ -678,8 +678,8 @@ void BLI_SetObjectData()
 		int nFile = LanguageOpenFile("LocLables.txt");
 		if(nFile >= 0) {
 			objLandInterface.textinfo.islandname.font = "interface_button";
-			objLandInterface.textinfo.islandname.scale = 1.5 * fHtRatio;
-			objLandInterface.textinfo.islandname.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
+			objLandInterface.textinfo.islandname.scale = 1.2 * fHtRatio;
+			objLandInterface.textinfo.islandname.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(130 * fHtRatio));
 			objLandInterface.textinfo.islandname.pos.y = RecalculateVIcon(makeint(10 * fHtRatio));
 			if (CheckAttribute(&locations[nLoc],"islandId"))
 			{
@@ -697,13 +697,13 @@ void BLI_SetObjectData()
 				objLandInterface.textinfo.islandname.text = "";//XI_convertString("Open Sea");
 			}
 			objLandInterface.textinfo.villagename.font = "interface_button";
-			objLandInterface.textinfo.villagename.scale = 1.5 * fHtRatio;
-			objLandInterface.textinfo.villagename.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
+			objLandInterface.textinfo.villagename.scale = 1.2 * fHtRatio;
+			objLandInterface.textinfo.villagename.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(130 * fHtRatio));
 			objLandInterface.textinfo.villagename.pos.y = RecalculateVIcon(makeint(40 * fHtRatio));
 
 			objLandInterface.textinfo.locationname.font = "interface_button";
-			objLandInterface.textinfo.locationname.scale = 1.5 * fHtRatio;
-			objLandInterface.textinfo.locationname.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
+			objLandInterface.textinfo.locationname.scale = 1.2 * fHtRatio;
+			objLandInterface.textinfo.locationname.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(130 * fHtRatio));
 			objLandInterface.textinfo.locationname.pos.y = RecalculateVIcon(makeint(70 * fHtRatio));
 
             string sCaimanName = PChar.ColonyBuilding.ColonyName;
@@ -754,8 +754,8 @@ void BLI_SetObjectData()
 		}
 	}
 	objLandInterface.textinfo.datatext.font = "interface_button";
-	objLandInterface.textinfo.datatext.scale = 1.5 * fHtRatio;
-	objLandInterface.textinfo.datatext.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
+	objLandInterface.textinfo.datatext.scale = 1.2 * fHtRatio;
+	objLandInterface.textinfo.datatext.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(130 * fHtRatio));
 	objLandInterface.textinfo.datatext.pos.y = RecalculateVIcon(makeint(100 * fHtRatio));
 	RefreshLandTime();
 	//objLandInterface.textinfo.datatext.text = XI_convertString("Date:") + GetQuestBookData(); //GetDataDay()+" "+XI_ConvertString("target_month_" + GetDataMonth())+" "+GetDataYear();
@@ -845,7 +845,7 @@ void BLI_SetObjectData()
 	objLandInterface.CommandList.CommandNoteFont = "interface_button";
 	objLandInterface.CommandList.CommandNoteColor = argb(255,255,255,255);
 	objLandInterface.CommandList.CommandNoteScale = 1.5 * fHtRatio;
-	objLandInterface.CommandList.CommandNoteOffset = RecalculateHIcon(0) + "," + RecalculateVIcon(makeint(-54 * fHtRatio));
+	objLandInterface.CommandList.CommandNoteOffset = RecalculateHIcon(0) + "," + RecalculateVIcon(makeint(-56 * fHtRatio));
 
 	objLandInterface.CommandList.UDArrow_Texture = "battle_interface\arrowly.tga.tx";
 	objLandInterface.CommandList.UDArrow_UV_Up = "0.0,1.0,1.0,0.0";

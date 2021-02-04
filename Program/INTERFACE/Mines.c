@@ -1070,9 +1070,9 @@ void MinesInfo()
 	}
 	
 	// HEADERS
-	CreateString(true,"GoldMineHeader", XI_ConvertString("GoldMineHeader"), FONT_CAPTION, COLOR_NORMAL, 140,40,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"SilverMineHeader", XI_ConvertString("SilverMineHeader"), FONT_CAPTION, COLOR_NORMAL, 400,40,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"IronMineHeader", XI_ConvertString("IronMineHeader"), FONT_CAPTION, COLOR_NORMAL, 665,40,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"GoldMineHeader", XI_ConvertString("GoldMineHeader"), FONT_CAPTION, COLOR_NORMAL, 140,35,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"SilverMineHeader", XI_ConvertString("SilverMineHeader"), FONT_CAPTION, COLOR_NORMAL, 400,35,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"IronMineHeader", XI_ConvertString("IronMineHeader"), FONT_CAPTION, COLOR_NORMAL, 665,35,SCRIPT_ALIGN_CENTER,1.5);
 	
 	int iGoldQuantity = sti(PChar.Mines.GoldQuantity);
 	int iSilverQuantity = sti(PChar.Mines.SilverQuantity);
@@ -1247,13 +1247,10 @@ void MinesInfo()
 		CreateString(true,"Iron_ShipCapacity", GetCargoFreeSpace(PChar) + "/" +  GetCargoMaxSpace(PChar), FONT_BOLD_NUMBERS, iIronSpaceColor, 630,170,SCRIPT_ALIGN_LEFT,1.0);
 	}
 	
-	
-	// CreateImage("MedicamentHeaderPicture", "MAIN_ICONS", "skillborder", 409,444,781,470);
-	// CreateImage("SlavesHeaderPicture", "MAIN_ICONS", "skillborder", 19,444,396,470);
-	CreateString(true,"GuardiansHeader", "Охранники", FONT_CAPTION, COLOR_NORMAL, 200,286,SCRIPT_ALIGN_CENTER,1.5);	
-	CreateString(true,"SlavesHeader", "Рабы", FONT_CAPTION, COLOR_NORMAL, 200,447,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"FoodHeader", "Провиант", FONT_CAPTION, COLOR_NORMAL, 590,286,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"MedicamentHeader", "Лекарства", FONT_CAPTION, COLOR_NORMAL, 590,447,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"GuardiansHeader", "Охранники", FONT_CAPTION, COLOR_NORMAL, 200,281,SCRIPT_ALIGN_CENTER,1.5);	
+	CreateString(true,"SlavesHeader", "Рабы", FONT_CAPTION, COLOR_NORMAL, 200,442,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"FoodHeader", "Провиант", FONT_CAPTION, COLOR_NORMAL, 590,281,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"MedicamentHeader", "Лекарства", FONT_CAPTION, COLOR_NORMAL, 590,442,SCRIPT_ALIGN_CENTER,1.5);
 
 	
 	if(PChar.Mines.GoldMine == true || PChar.Mines.SilverMine == true || PChar.Mines.IronMine == true)

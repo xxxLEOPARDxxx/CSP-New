@@ -40,7 +40,7 @@ void InitInterface_R(string iniName, ref pTrader)
 	GameInterface.TABLE_LIST.hr.td5.str = XI_ConvertString("Price buy");
 	GameInterface.TABLE_LIST.hr.td5.scale = 0.9;
 	GameInterface.TABLE_LIST.hr.td6.str = "Предметов торговца";//XI_ConvertString("In the store");
-	GameInterface.TABLE_LIST.hr.td6.scale = 0.8;
+	GameInterface.TABLE_LIST.hr.td6.scale = 0.9;
 	GameInterface.TABLE_LIST.hr.td7.str = "Вес";
 	GameInterface.TABLE_LIST.hr.td7.scale = 0.9;
 
@@ -48,7 +48,7 @@ void InitInterface_R(string iniName, ref pTrader)
 
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
-	CreateString(true,"CharName","",FONT_NORMAL,COLOR_MONEY, 405,110,SCRIPT_ALIGN_CENTER,1.0);
+	CreateString(true,"CharName","",FONT_NORMAL,COLOR_MONEY, 405,108,SCRIPT_ALIGN_CENTER,1.0);
 	SetCharWeight();
 	SetDescription();
 	FillCharacterInfo();

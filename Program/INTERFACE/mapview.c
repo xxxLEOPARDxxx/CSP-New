@@ -135,7 +135,7 @@ void FillMapsTable()
 				GameInterface.TABLE_MAPS.(row).td1.icon.height = 20;
 				GameInterface.TABLE_MAPS.(row).td1.textoffset = "20,0";
 				GameInterface.TABLE_MAPS.(row).td1.str = LanguageConvertString(idLngFile, arItem.name);
-				GameInterface.TABLE_MAPS.(row).td1.scale = 0.72;				
+				GameInterface.TABLE_MAPS.(row).td1.scale = 0.9;				
 				n++;							
 			}
 		}		

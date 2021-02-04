@@ -404,11 +404,44 @@ void LAi_CheckKillCharacter(aref chr)
 		}
 		LAi_Character_Dead_Process(chr);
 		
-		if(chr.id == "Mechanic1") 
+		//ККС - Jason: самовосстанавливающийся абордажник
+		if(CheckAttribute(chr, "HalfImmortal"))
+		{
+			if(!IsOfficer(chr)) return;
+			Dead_DelLoginedCharacter(chr);//не обыскивается
+			ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", chr.sex, chr.model.animation, 1, sti(chr.nation), -1, false));
+			ChangeAttributesFromCharacter(rOff, chr, true);
+			rOff.id = chr.id;
+			rOff.HalfImmortal = true;
+			int ihpm = sti(rOff.chr.chr_ai.hp_max)-40;
+			if (ihpm < 40) ihpm = 40;
+			LAi_SetHP(rOff, ihpm, ihpm); // штраф в НР
+			
+			 //Korsar Maxim --> доработка системы потери сознания.
+			if(!CheckAttribute(chr, "HPminusDays") && !CheckAttribute(chr, "HPminusDaysNeedtoRestore"))//Если теряет сознание без уже действующих "незаживших ран"
+			{
+		    	rOff.HPminusDays = 0;               //Для подчета дней, которые офицер уже прожил после потери сознания.
+		    	rOff.HPminus = 40;                  //Минус в ХП
+		        rOff.HPminusDaysNeedtoRestore = 10; //Количество дней для выздоровления
+			}
+			else //Если теряет сознание при одной "незвжившей ране" и более
+			{    
+			    rOff.HPminusDays = chr.HPminusDays;
+				if(ihpm > 40) rOff.HPminus = chr.HPminus + 40;
+				rOff.HPminusDaysNeedtoRestore = chr.HPminusDaysNeedtoRestore + 10;
+			}
+			 //Korsar Maxim <-- доработка потери сознания
+			 
+			LAi_SetCurHPMax(rOff);
+			AddPassenger(pchar, rOff, false);
+			Log_Info("Абордажник " + GetFullName(rOff) + " без сознания!");
+		}
+		
+/* 		if(chr.id == "Mechanic1") //Korsar Maxim - раньше Ведекер мог сдохнуть, но сейчас уже физически не может.
 		{
 			DeleteAttribute(pchar, "VedekerDiscount");
 			Log_Info("Хенрик Ведекер погиб. Скидки колонии анулированы");
-		}
+		} */
 	}
 }
 
@@ -1093,7 +1126,8 @@ void Dead_OpenBoxProcedure()
 void Dead_LaunchCharacterItemChange(ref chref)
 {
     //#20200217-02
-    if(CheckAttribute(pchar, "chr_ai.type.state") && pchar.chr_ai.type.state == "follow") {
+    if(CheckAttribute(pchar, "chr_ai.type.state") && pchar.chr_ai.type.state == "follow") 
+	{
          Log_SetStringToLog(xiStr("CantNow"));
          return;
     }
@@ -1136,7 +1170,7 @@ void MakePoisonAttackCheckSex(aref attacked, aref enemy)
 {
 	if (enemy.sex == "skeleton" || enemy.sex == "crab" || HasSubStr(enemy.model, "Canib_"))
 	{
-		if (rand(1000) < 150) MakePoisonAttack(enemy, attacked, 30 + rand(20));
+		if (rand(1000) < 150 && !IsOfficer(enemy)) MakePoisonAttack(enemy, attacked, 30 + rand(20));
 	}
 	
 	// Lugger --> травла от клинка.

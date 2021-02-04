@@ -122,7 +122,7 @@ void FillShipsScroll()
 	
 	string sNodeName = "SHIPS_SCROLL";
 	
-	int iNotUsed = 4;
+	int iNotUsed = 6;
 	
 	DeleteAttribute(&GameInterface, sNodeName);
 	GameInterface.(sNodeName).current = -1;
@@ -215,7 +215,7 @@ bool GetCompanionShipQuantity()
 	for(int i=0;i<COMPANION_MAX;i++)
 	{
 		cn = GetCompanionIndex(PChar, i);
-		if(cn != -1 && cn != 1)
+		if(cn!= -1 && cn != nMainCharacterIndex && !CheckAttribute(&Characters[cn], "PGGAi"))
 		{
 			iShipType = sti(characters[cn].ship.type);
 			if(iShipType != SHIP_NOTUSED)
@@ -414,6 +414,7 @@ void ProcCommand()
 			if(comName=="activate" || comName=="click")
 			{
 				CheckInstallInformation(true);
+				PostEvent("Event_SwapScrollShip", 400);
 			}
 		break;
 		
@@ -421,6 +422,7 @@ void ProcCommand()
 			if(comName=="activate" || comName=="click")
 			{
 				CheckInstallInformation(false);
+				PostEvent("Event_SwapScrollShip", 400);
 			}
 		break;
 		
@@ -430,6 +432,7 @@ void ProcCommand()
 			if(comName=="activate" || comName=="click")
 			{
 				SetInstallInformation(false);
+				PostEvent("Event_SwapScrollShip", 400);
 			}
 		break;
 		
@@ -487,6 +490,12 @@ void ProcCommand()
 			}
 		break;
 	}
+}
+
+#event_handler("Event_SwapScrollShip", "SwapScrollShip");
+void SwapScrollShip()
+{
+	SetInstallInformation(false);
 }
 
 void RepairShip(int iCharacter)
@@ -565,9 +574,9 @@ void RemoveGuardian(int iNum, int iCharacter)
 	GuardianInizialization(iCharacter, iNum, false);
 	
 	SetCharacterShipLocation(chr, "None");
-	SetGoodsInitNull(chr);
-	SetBaseShipData(chr);
-	SetCrewQuantity(chr, 0);
+	// SetGoodsInitNull(chr);
+	// SetBaseShipData(chr);
+	// SetCrewQuantity(chr, 0);
 	SetCompanionIndex(PChar, -1, iCharacter);
 
 	if(CheckAttribute(chr, "AlwaysFriend")) 	{ DeleteAttribute(chr, "AlwaysFriend"); }
@@ -625,8 +634,8 @@ void GuardianInizialization(int iCharacter, int iShip, bool bYes)
 		
 		PChar.Colony.Guardians.(sShip).Active = false;
 		
-		SetGoodsInitNull(chr);
-		SetBaseShipData(chr);
+		// SetGoodsInitNull(chr);
+		// SetBaseShipData(chr);
 	}
 	
 	SetNodeUsing(sNodeNot, false);
@@ -679,10 +688,10 @@ void InstallShip(int iGuardian, int iCharacter)
 
 void SetInformation()
 {
-	CreateString(true,"ShipHeaderOne","Нет корабля", FONT_CAPTION, COLOR_NORMAL, 190,40,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"ShipHeaderTwo","Нет корабля", FONT_CAPTION, COLOR_NORMAL, 190,322,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"ShipHeaderThree","Нет корабля", FONT_CAPTION, COLOR_NORMAL, 595,40,SCRIPT_ALIGN_CENTER,1.5);
-	CreateString(true,"ShipHeaderFour","Нет корабля", FONT_CAPTION, COLOR_NORMAL, 595,322,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"ShipHeaderOne","Нет корабля", FONT_CAPTION, COLOR_NORMAL, 190,35,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"ShipHeaderTwo","Нет корабля", FONT_CAPTION, COLOR_NORMAL, 190,317,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"ShipHeaderThree","Нет корабля", FONT_CAPTION, COLOR_NORMAL, 595,35,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"ShipHeaderFour","Нет корабля", FONT_CAPTION, COLOR_NORMAL, 595,317,SCRIPT_ALIGN_CENTER,1.5);
 	
 	//if(GetCompanionQuantity(PChar) >= 2)
     	//{
@@ -790,11 +799,8 @@ void SetShipInformationOne()
 		
 		GameInterface.strings.ShipHeaderOne = XI_ConvertString(sShipType) + " - " + sShipName;
 		
-		// CreateImage("BackgroundShipType1", "MAIN_ICONS", "skillborder", 18,76,160,106);
-		// CreateImage("BackgroundShipName1", "MAIN_ICONS", "skillborder", 18,243,160,272);
-		
 		// CreateString(true,"ShipName1", sShipName, FONT_CAPTION, COLOR_NORMAL, 90,80,SCRIPT_ALIGN_CENTER,1.0);
-		CreateString(true,"ShipType1", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 90,252,SCRIPT_ALIGN_CENTER,1.0);
+		CreateString(true,"ShipType1", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 90,249,SCRIPT_ALIGN_CENTER,1.0);
 		CreateString(true,"ShipClass1", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 140,220,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipHp1", "ICONS", "ship hull icon", 173,79,205,111);
@@ -826,7 +832,7 @@ void SetShipInformationOne()
 		SetSelectable("REPAIR_SHIP1", true);
 		SetSelectable("GUARD_YES_SHIP1", true);
 		
-		if(sti(PChar.Colony.Guardians.Ship2) != -1 || GetCompanionQuantity(PChar) >= 5)
+		if(sti(PChar.Colony.Guardians.Ship2) != -1 || GetCompanionQuantity(PChar) >= COMPANION_MAX)
 		{
 			SetSelectable("REMOVE_SHIP1", false);
 		}
@@ -914,11 +920,8 @@ void SetShipInformationTwo()
 		
 		GameInterface.strings.ShipHeaderTwo = XI_ConvertString(sShipType) + " - " + sShipName;
 		
-		// CreateImage("BackgroundShipType2", "MAIN_ICONS", "skillborder", 18,359,160,389);
-		// CreateImage("BackgroundShipName2", "MAIN_ICONS", "skillborder", 18,526,160,555);
-		
 		//CreateString(true,"ShipName2", sShipName, FONT_CAPTION, COLOR_NORMAL, 90,363,SCRIPT_ALIGN_CENTER,1.0);
-		CreateString(true,"ShipType2", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 90,535,SCRIPT_ALIGN_CENTER,1.0);
+		CreateString(true,"ShipType2", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 90,532,SCRIPT_ALIGN_CENTER,1.0);
 		CreateString(true,"ShipClass2", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 140,503,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipHp2", "ICONS", "ship hull icon", 173,362,205,394);
@@ -950,7 +953,7 @@ void SetShipInformationTwo()
 		SetSelectable("REPAIR_SHIP2", true);
 		SetSelectable("GUARD_YES_SHIP2", true);
 		
-		if(sti(PChar.Colony.Guardians.Ship3) != -1 || GetCompanionQuantity(PChar) >= 5)
+		if(sti(PChar.Colony.Guardians.Ship3) != -1 || GetCompanionQuantity(PChar) >= COMPANION_MAX)
 		{
 			SetSelectable("REMOVE_SHIP2", false);
 		}
@@ -1038,11 +1041,8 @@ void SetShipInformationThree()
 		
 		GameInterface.strings.ShipHeaderThree = XI_ConvertString(sShipType) + " - " + sShipName;
 		
-		// CreateImage("BackgroundShipType3", "MAIN_ICONS", "skillborder", 413,76,555,106);
-		// CreateImage("BackgroundShipName3", "MAIN_ICONS", "skillborder", 413,243,555,272);
-		
 		//CreateString(true,"ShipName3", sShipName, FONT_CAPTION, COLOR_NORMAL, 485,80,SCRIPT_ALIGN_CENTER,1.0);
-		CreateString(true,"ShipType3", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 485,252,SCRIPT_ALIGN_CENTER,1.0);
+		CreateString(true,"ShipType3", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 485,249,SCRIPT_ALIGN_CENTER,1.0);
 		CreateString(true,"ShipClass3", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 535,220,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipHp3", "ICONS", "ship hull icon", 568,79,600,111);
@@ -1074,7 +1074,7 @@ void SetShipInformationThree()
 		SetSelectable("REPAIR_SHIP3", true);
 		SetSelectable("GUARD_YES_SHIP3", true);
 		
-		if(sti(PChar.Colony.Guardians.Ship4) != -1 || GetCompanionQuantity(PChar) >= 5)
+		if(sti(PChar.Colony.Guardians.Ship4) != -1 || GetCompanionQuantity(PChar) >= COMPANION_MAX)
 		{
 			SetSelectable("REMOVE_SHIP3", false);
 		}
@@ -1162,11 +1162,8 @@ void SetShipInformationFour()
 		
 		GameInterface.strings.ShipHeaderFour = XI_ConvertString(sShipType) + " - " + sShipName;
 		
-		// CreateImage("BackgroundShipType4", "MAIN_ICONS", "skillborder", 413,359,555,389);
-		// CreateImage("BackgroundShipName4", "MAIN_ICONS", "skillborder", 413,526,555,555);
-		
 		//CreateString(true,"ShipName4", sShipName, FONT_CAPTION, COLOR_NORMAL, 485,363,SCRIPT_ALIGN_CENTER,1.0);
-		CreateString(true,"ShipType4", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 485,535,SCRIPT_ALIGN_CENTER,1.0);
+		CreateString(true,"ShipType4", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 485,532,SCRIPT_ALIGN_CENTER,1.0);
 		CreateString(true,"ShipClass4", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 535,503,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipHp4", "ICONS", "ship hull icon", 568,362,600,394);
@@ -1198,7 +1195,7 @@ void SetShipInformationFour()
 		SetSelectable("REPAIR_SHIP4", true);
 		SetSelectable("GUARD_YES_SHIP4", true);
 		
-		if(GetCompanionQuantity(PChar) >= 5)
+		if(GetCompanionQuantity(PChar) >= COMPANION_MAX)
 		{
 			SetSelectable("REMOVE_SHIP4", false);
 		}
@@ -1425,7 +1422,7 @@ void SetInstallFrame(bool bInstall, bool bContinue)
 		GameInterface.strings.ShipCannons4 = "";
 		GameInterface.strings.ShipCannonsQuantity4 = "";
 		
-		CreateString(true,"ShipInstallFrameHeader","Выбор корабля", FONT_CAPTION, COLOR_NORMAL, 395,83,SCRIPT_ALIGN_CENTER,1.5);
+		CreateString(true,"ShipInstallFrameHeader","Выбор корабля", FONT_CAPTION, COLOR_NORMAL, 395,78,SCRIPT_ALIGN_CENTER,1.5);
 		SetNodeUsing("FRAME_SHIP_INSTALL", true);
 		SetNodeUsing("INSTALL_OK", true);
 		SetNodeUsing("INSTALL_CANCEL", true);
@@ -1492,16 +1489,14 @@ void SetInstallInformation(bool bBool)
 		
 	int iCannon = sti(chr.Ship.Cannons.Type);
 	string sCannon = XI_ConvertString(GetCannonType(iCannon) + "s");
-	string sCaliber = XI_ConvertString("caliber" + GetCannonCaliber(iCannon));//GetCannonTypeCaliber(iCannonsType);
+	string sCaliber = GetCannonShip(iCannonsType) + " " + GetCannonCaliber(iCannon)+" фунтовые";//GetCannonTypeCaliber(iCannonsType);
+	if (iCannonsReal == 0) sCaliber = "Нет орудий";
 	
 	CreateImage("ShipTypeInstall", "SHIPS_" + sShipType, "ship", 116,284,306,474);
 		
-	// CreateImage("BackgroundShipTypeInstall", "MAIN_ICONS", "skillborder", 115,256,307,286);
-	// CreateImage("BackgroundShipNameInstall", "MAIN_ICONS", "skillborder", 115,473,307,502);
+	CreateString(true,"ShipNameInstall", sShipName, FONT_CAPTION, COLOR_NORMAL, 210,257,SCRIPT_ALIGN_CENTER,1.2);
 	
-	CreateString(true,"ShipNameInstall", sShipName, FONT_CAPTION, COLOR_NORMAL, 210,260,SCRIPT_ALIGN_CENTER,1.2);
-	
-	CreateString(true,"ShipTypeInstall", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 210,480,SCRIPT_ALIGN_CENTER,1.2);
+	CreateString(true,"ShipTypeInstall", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 210,477,SCRIPT_ALIGN_CENTER,1.2);
 	CreateString(true,"ShipClassInstall", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 280,450,SCRIPT_ALIGN_LEFT,1.0);
 	
 	CreateImage("ShipHpInstall", "ICONS", "ship hull icon", 330,259,362,291);
@@ -1530,7 +1525,7 @@ void SetInstallInformation(bool bBool)
 	
 	CreateImage("ShipCannonsTypeInstall", "ICONS", "cannons skill icon", 330,467,362,499);
 	CreateString(true,"ShipCannonsTypeInstall", sCannon, FONT_CAPTION, COLOR_NORMAL, 390,472,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"ShipCannonsTypeInstall1", sCaliber, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,472,SCRIPT_ALIGN_LEFT,0.9);
+	CreateString(true,"ShipCannonsTypeInstall1", sCaliber, FONT_CAPTION, COLOR_NORMAL, 525,470,SCRIPT_ALIGN_LEFT,1.3);
 }
 
 void InstallShipFrame()
@@ -1894,7 +1889,7 @@ void SetChangeFrame(bool bInstall, bool bContinue)
 		GameInterface.strings.ShipCannons4 = "";
 		GameInterface.strings.ShipCannonsQuantity4 = "";
 		
-		CreateString(true,"ShipChangeFrameHeader","Поменять флагман", FONT_CAPTION, COLOR_NORMAL, 395,133,SCRIPT_ALIGN_CENTER,1.5);
+		CreateString(true,"ShipChangeFrameHeader","Поменять флагман", FONT_CAPTION, COLOR_NORMAL, 395,129,SCRIPT_ALIGN_CENTER,1.5);
 		SetNodeUsing("FRAME_SHIP_CHANGE", true);
 		SetNodeUsing("CHANGE_OK", true);
 		SetNodeUsing("CHANGE_CANCEL", true);
@@ -1923,13 +1918,10 @@ void SetChangeInformation()
 	string sShipName = chr.Ship.name;
 
 	CreateImage("ShipTypeChange", "SHIPS_" + sShipType, "ship", 116,224,306,414);
-		
-	// CreateImage("BackgroundShipTypeChange", "MAIN_ICONS", "skillborder", 115,196,307,226);
-	// CreateImage("BackgroundShipNameChange", "MAIN_ICONS", "skillborder", 115,413,307,442);
+
+	CreateString(true,"ShipNameChange", sShipName, FONT_CAPTION, COLOR_NORMAL, 210,196,SCRIPT_ALIGN_CENTER,1.2);
 	
-	CreateString(true,"ShipNameChange", sShipName, FONT_CAPTION, COLOR_NORMAL, 210,200,SCRIPT_ALIGN_CENTER,1.2);
-	
-	CreateString(true,"ShipTypeChange", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 210,421,SCRIPT_ALIGN_CENTER,1.2);
+	CreateString(true,"ShipTypeChange", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 210,417,SCRIPT_ALIGN_CENTER,1.2);
 	CreateString(true,"ShipClassChange", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 280,390,SCRIPT_ALIGN_LEFT,1.0);
 	
 	string sShip = "Ship" + iChangeCount;
@@ -1943,12 +1935,9 @@ void SetChangeInformation()
 
 	CreateImage("ShipTypeChange2", "SHIPS_" + sShipType, "ship", 426,224,616,414);
 		
-	// CreateImage("BackgroundShipTypeChange2", "MAIN_ICONS", "skillborder", 425,196,617,226);
-	// CreateImage("BackgroundShipNameChange2", "MAIN_ICONS", "skillborder", 425,413,617,442);
+	CreateString(true,"ShipNameChange2", sShipName, FONT_CAPTION, COLOR_NORMAL, 520,196,SCRIPT_ALIGN_CENTER,1.2);
 	
-	CreateString(true,"ShipNameChange2", sShipName, FONT_CAPTION, COLOR_NORMAL, 520,200,SCRIPT_ALIGN_CENTER,1.2);
-	
-	CreateString(true,"ShipTypeChange2", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 520,421,SCRIPT_ALIGN_CENTER,1.2);
+	CreateString(true,"ShipTypeChange2", XI_ConvertString(sShipType), FONT_CAPTION, COLOR_NORMAL, 520,417,SCRIPT_ALIGN_CENTER,1.2);
 	CreateString(true,"ShipClassChange2", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 590,390,SCRIPT_ALIGN_LEFT,1.0);
 }
 

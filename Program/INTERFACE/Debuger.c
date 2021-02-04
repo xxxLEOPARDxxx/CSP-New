@@ -586,6 +586,7 @@ void CalculateInfoDataF6()
 	mc.Ship.Type = GenerateShipExt(SHIP_PRINCE, true, mc);
 	SetBaseShipData(mc);
 	mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS48;
+	// mc.Ship.Cannons.Type = CANNON_TYPE_CULVERINE_LBS32;
 	SetCrewQuantityFull(mc);
 	AddCrewMorale(mc, 100);
 	ChangeCrewExp(mc, "Sailors", 100);

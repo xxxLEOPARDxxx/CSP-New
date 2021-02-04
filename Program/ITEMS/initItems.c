@@ -1348,6 +1348,43 @@ int InitItems()
 	itm.Generation.Weight.max = 4.5;
 	n++;
 	
+	// Gregg Катар
+	makeref(itm,Items[n]);
+	itm.id = "katar";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_katar";
+	itm.describe = "itmdescr_katar";
+	itm.model = "katar";
+	itm.folder = "items";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_14";
+	// boal 19.01.2004 -->
+	itm.price = 50;
+	itm.Weight = 4.0 + fRandSmall(0.5); // 4.5;
+	// boal 19.01.2004 <--
+	itm.dmg_min = 35.0 + rand(5); // 6.0;
+	itm.dmg_max = 65.0 + rand(5); // 45.0;
+	itm.piercing = 50;
+	itm.minlevel = 0;
+	itm.rare = 0.1;
+	itm.block = 50;
+	itm.param.time = 0.05;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "Fencing";
+	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 1;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 35.0;
+	itm.Generation.dmg_min.max = 40.0;
+	itm.Generation.dmg_max.min = 65.0;
+	itm.Generation.dmg_max.max = 70.0;
+	itm.Generation.Weight.min = 4.0;
+	itm.Generation.Weight.max = 4.5;
+	n++;
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//													ОРУЖИЕ БОЛЬШОГО ВЕСА
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

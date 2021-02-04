@@ -812,11 +812,14 @@ void ProcessDialogEvent()
 			AddQuestRecord("ISS_MainLine", "71");
 			AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("","а"));
 			//офицер
-			ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "Mechanic", "man", "man", 30, SPAIN, -1, true));
+			ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "CCS_Mechanic", "man", "man", 30, SPAIN, -1, true));
 			sld.name = "Хенрик";
 			sld.lastname = "Ведекер";
 			sld.greeting = "Gr_questOfficer";
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
+			//Korsar Maxim - Прописка всех моделей для кирас. -->
+         	sld.HeroModel = "CCS_Mechanic,CCS_Mechanic_1,CCS_Mechanic_2,CCS_Mechanic_3,CCS_Mechanic_4,CCS_Mechanic_5,CCS_Mechanic,CCS_Mechanic,CCS_Mechanic";
+        	//Korsar Maxim - Прописка всех моделей для кирас. <--
 			sld.quest.meeting = true;
 			SetSelfSkill(sld, 10, 10, 10, 10, 99);
 			SetShipSkill(sld, 50, 50, 50, 50, 100, 100, 50, 100, 50);

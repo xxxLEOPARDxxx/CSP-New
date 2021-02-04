@@ -1018,7 +1018,7 @@ void GenerateShipWreck(aref loc)
 	switch(rand(1))
 	{
 		case 0: sModel = "officer_" + (rand(63)+1); break;
-		case 1: sModel = "citiz_" + (rand(24)+1); break;
+		case 1: sModel = "citiz_" + (rand(11)+1); break;
 	}
 	
 	PChar.GenerateShipWreck.ShipCrewQty = iCrewQty;

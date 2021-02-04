@@ -384,7 +384,7 @@ heroNameDat_12 {Диего}
 heroLastNameDat_12 {Эспиноза}
 
 heroFace_12 {499}
-heroModel_12 {PGG_Espinosa_0,PGG_Espinosa_1,PGG_Espinosa_2,PGG_Espinosa_3,PGG_Espinosa_4,PGG_Espinosa_5,PGG_Espinosa_6,PGG_Espinosa_7,PGG_Espinosa_7}
+heroModel_12 {PGG_Espinosa_0,PGG_Espinosa_1,PGG_Espinosa_2,PGG_Espinosa_3,PGG_Espinosa_4,PGG_Espinosa_5,PGG_Espinosa_6,PGG_Espinosa_7,PGG_Espinosa_8}
 
 heroType_12 {Тайный агент}
 heroNation_12 {Испания}

@@ -8,17 +8,17 @@ void InitInterface(string iniName)
 {
 	string sGood;
 	int i;
-	int X = 90;
-	int Y = 95;
+	int X = 50; //LEO: двигает всю таблицу по ширине
+	int Y = 120; //LEO: двигает столбец по высоте
 
 	GameInterface.title = "titleGoodsTransfer";
 
 	for(i = 0; i < GOODS_QUANTITY; i++)	// Картинки товаров
 	{
-		if(i == 6 || i == 12 || i == 18 || i == 24 || i == 30)	// Другой столбец
+		if(i == 5 || i == 10 || i == 15 || i == 20 || i == 25 || i == 30 || i == 35)	// Другой столбец
 		{
-			X += 123;
-			Y = 95;
+			X += 100;
+			Y = 120; //LEO: всю таблицу по высоте
 		}
 		
 		sGood = goods[i].name;
@@ -27,13 +27,13 @@ void InitInterface(string iniName)
 		if(HasSubStr(sGood, "Cannon") || HasSubStr(sGood, "Culverine")) continue;
 				
 		GameInterface.GOODS_ICONS.imagelist.(sGood).group = "GOODS";
-		GameInterface.GOODS_ICONS.imagelist.(sGood).width = 64;
-		GameInterface.GOODS_ICONS.imagelist.(sGood).height = 64;
+		GameInterface.GOODS_ICONS.imagelist.(sGood).width = 50;
+		GameInterface.GOODS_ICONS.imagelist.(sGood).height = 50;
 		GameInterface.GOODS_ICONS.imagelist.(sGood).x = X;
 		GameInterface.GOODS_ICONS.imagelist.(sGood).y = Y;
 		GameInterface.GOODS_ICONS.imagelist.(sGood).pic = sGood;
 		
-		Y += 82; // Интервал между картинками
+		Y += 80; // Интервал между картинками
 	}
 	
 	SendMessage(&GameInterface, "ls", MSG_INTERFACE_INIT, iniName);
@@ -46,10 +46,10 @@ void InitInterface(string iniName)
 		
 	SetCheckButtonsStates();
 	
-	CreateString(true, "CurCompanion", XI_ConvertString(GetShipTypeName(PChar)) + " '" + PChar.Ship.Name + "'", FONT_CAPTION, COLOR_NORMAL, 650, 568, SCRIPT_ALIGN_CENTER, 0.9);
+	CreateString(true, "CurCompanion", XI_ConvertString(GetShipTypeName(PChar)) + " '" + PChar.Ship.Name + "'", FONT_NORMAL, COLOR_NORMAL, 400, 12, SCRIPT_ALIGN_CENTER, 1.0);
 	
-	CreateString(true, "GameVersionInfo1", VERSION_NUMBER1, FONT_CAPTION, COLOR_NORMAL,150, 10, SCRIPT_ALIGN_CENTER, 0.8);
-	CreateString(true, "GameVersionInfo2", GetVerNum(), FONT_CAPTION, COLOR_NORMAL, 650, 10, SCRIPT_ALIGN_CENTER, 0.8);
+	// CreateString(true, "GameVersionInfo1", VERSION_NUMBER1, FONT_CAPTION, COLOR_NORMAL,150, 10, SCRIPT_ALIGN_CENTER, 0.8);
+	// CreateString(true, "GameVersionInfo2", GetVerNum(), FONT_CAPTION, COLOR_NORMAL, 650, 10, SCRIPT_ALIGN_CENTER, 0.8);
 	
 	SetEventHandler("UnShowTGWindow", "UnShowTGWindow", 0);
 	SetEventHandler("ShowItemsWindow", "ShowItemsWindow", 0);
@@ -115,7 +115,7 @@ void CreateGoodNamesStrings()
 		if(CheckAttribute(GameInterface, "GOODS_ICONS.imagelist." + sGood))
 		{
 			x = MakeInt(GameInterface.GOODS_ICONS.imagelist.(sGood).x);
-			y = MakeInt(GameInterface.GOODS_ICONS.imagelist.(sGood).y) - 40;
+			y = MakeInt(GameInterface.GOODS_ICONS.imagelist.(sGood).y) - 46;
 			
 			if(CheckAttribute(PChar, "TransferGoods." + companionId + "." + sGood))
 			{
@@ -127,8 +127,8 @@ void CreateGoodNamesStrings()
 			}
 			
 			// Строки
-			SendMessage(&GameInterface,"lslsssllllllfl",MSG_INTERFACE_MSG_TO_NODE, "GOODS_NAMES", 0, sGood, XI_ConvertString(sGood), FONT_CAPTION, X, Y, COLOR_NORMAL, COLOR_NORMAL, SCRIPT_ALIGN_CENTER, true, 1, 100);
-			SendMessage(&GameInterface,"lslsssllllllfl",MSG_INTERFACE_MSG_TO_NODE, "GOODS_NAMES", 0, "Transfer" + sGood, XI_ConvertString("BuyGoods") + buyCount, FONT_CAPTION, x, y + 60, COLOR_NORMAL, COLOR_NORMAL, SCRIPT_ALIGN_CENTER, true, 1, 100);
+			SendMessage(&GameInterface,"lslsssllllllfl",MSG_INTERFACE_MSG_TO_NODE, "GOODS_NAMES", 0, sGood, XI_ConvertString(sGood), FONT_NORMAL, X, Y, COLOR_NORMAL, COLOR_NORMAL, SCRIPT_ALIGN_CENTER, true, 0.8, 100);
+			SendMessage(&GameInterface,"lslsssllllllfl",MSG_INTERFACE_MSG_TO_NODE, "GOODS_NAMES", 0, "Transfer" + sGood, XI_ConvertString("BuyGoods") + buyCount, FONT_NORMAL, x, y + 12, COLOR_NORMAL, COLOR_NORMAL, SCRIPT_ALIGN_CENTER, true, 0.8, 100);
 		}
 	}
 }
@@ -165,13 +165,12 @@ void ShowItemsWindow()	// Принцип тот-же, что и в интерфейса отличной карты
 {
 	float fMouseX = stf(GameInterface.mousepos.x) - 6.0 + 5;
 	float fMouseY = stf(GameInterface.mousepos.y) - 50.0 + 5;
-
-	//определяем верхний левый угол картинки
-	float fOffsetX = stf(GameInterface.GOODS_ICONS.offset.x);
-	float fOffsetY = stf(GameInterface.GOODS_ICONS.offset.y);
-
-	fMouseX = fOffsetX + fMouseX * stf(GameInterface.GOODS_ICONS.scale.x);
-	fMouseY = fOffsetY + fMouseY * stf(GameInterface.GOODS_ICONS.scale.y);
+	
+	float fOffsetX, fOffsetY;
+	GetXYWindowOffset(&fOffsetX, &fOffsetY);
+	
+	fMouseX = (fMouseX - fOffsetX) * stf(GameInterface.GOODS_ICONS.scale.x);
+	fMouseY = (fMouseY - fOffsetY) * stf(GameInterface.GOODS_ICONS.scale.y);
 
 	string sGood;
 	for(int i=0; i<GOODS_QUANTITY; i++)

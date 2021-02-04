@@ -443,6 +443,134 @@ void ProcessDialogEvent()
 
 		//--------------------------- дача шебеки Синяя Птица --------------------------------
 		//капитан шебеки Синяя Птица
+		case "SharpCapitain":
+			dialog.text = "Какого черта ты творишь, "+ GetFullName(pchar) + "?";
+			link.l1 = "Ничего личного, просто бизнес. Мне предложили щедрую награду за прикрытие твоей лавочки.";
+			link.l1.go = "SharpCapitain_1";
+			link.l2 = "К черту разговоры, защищайся!";
+			link.l2.go = "SharpCapitain_fight";
+		break;
+		
+		case "SharpCapitain_1":
+			dialog.text = "Дьявол... Ты ничего не понимаешь, всего после нескольких ходок за жемчугом ты был" + GetSexPhrase("","а") + " бы в разы богаче чем от любой единоразовой платы твоего работодателя. Но теперь уже поздно, без информатора тартаны ловцов жемчуга навсегда утеряны для нас...";
+			link.l1 = "Забудь про жемчуг, эта мелочь не стоит твоего внимания. Я знаю о более прибыльных источниках заработка. Вступай ко мне в команду и будешь купаться в богатствах!";
+			link.l1.go = "SharpCapitain_2";
+			link.l2 = "К черту разговоры, защищайся!";
+			link.l2.go = "SharpCapitain_fight";
+		break;
+		
+		case "SharpCapitain_2":
+			dialog.text = "В моем текущем положении глупо было бы отказываться... Богатства, говоришь? Что же, я к вашим услугам, капитан!";
+			link.l1 = "Добро пожаловать в команду, корсар!";
+			link.l1.go = "Sharp_hired";
+		break;
+		
+		case "Sharp_hired":
+			bQuestDisableMapEnter = false;
+			characters[GetCharacterIndex("Sharp")].lifeDay = 0;
+			sld = GetCharacter(NPC_GenerateCharacter("Sharp", "Sharp", "man", "man", 30, PIRATE, -1, true));
+			FantomMakeCoolFighter(sld, 30, 70, 70, "blade25", "pistol6", 120);
+			sld.name = "Бартоломью";
+			sld.lastname = "Шарп";
+			sld.greeting = "Gr_Officer";
+			sld.rank = 20;
+			sld.Dialog.Filename = "Enc_Officer_dialog.c";
+			sld.quest.meeting = true;
+			sld.HoldEquip = true;
+			SetSelfSkill(sld, 30, 30, 30, 30, 30);
+			SetShipSkill(sld, 30, 50, 30, 35, 80, 35, 30, 35, 30);
+			SetSPECIAL(sld, 5, 5, 10, 4, 9, 10, 10);
+			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+			sld.quest.OfficerPrice = sti(pchar.rank)*500;
+			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
+			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+			sld.loyality = MAX_LOYALITY;
+			AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			QuestAboardCabinDialogNotBattle(); 
+            DialogExit();	
+		break;
+		
+		case "SharpCapitain_fight":
+			LAi_SetCurHPMax(npchar);
+			QuestAboardCabinDialogExitWithBattle(""); 
+            DialogExit();
+			AddDialogExitQuest("MainHeroFightModeOn");
+		break;	
+		
+		case "zpqCapitain":
+			dialog.text = "Я могу так продолжать хоть целый день. Отдавай деньги за порох, "+ GetFullName(pchar) + ", если хочешь жить.";
+			if(makeint(Pchar.money) >= 300000)
+			{
+				link.l1 = "Ну и здоровый же ты, как для малыша. Но и я не промах, так что просто так не сдамся. Предлагаю компромисс: я отдам тебе 300 000, но ты пойдешь ко мне на службу. Идет?";
+				link.l1.go = "zpqCapitain_1";
+			}
+			
+			link.l2 = "И не таких грозных видали! От меня ты только клинок меж ребер получишь!";
+			link.l2.go = "zpqCapitain_fight";
+		break;
+		
+		case "zpqCapitain_1":
+			dialog.text = "Справедливое предложение, капитан. Я к вашим услугам.";
+			AddMoneyToCharacter(Pchar, -300000);
+			link.l1 = "Добро пожаловать в команду, корсар!";
+			link.l1.go = "zpq_hired";
+		break;
+		
+		case "zpq_hired":
+			bQuestDisableMapEnter = false;
+			characters[GetCharacterIndex("zpqCaptain")].lifeDay = 0;
+			sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim", "man", "man", 30, PIRATE, -1, true));
+			FantomMakeCoolFighter(sld, 40, 105, 105, "blade23", "pistol3", 120);
+			sld.name 	= "Маленький";
+			sld.lastname = "Джимми";
+			sld.greeting = "Gr_Officer";
+
+			sld.rank = 30;
+			sld.id = "zpqCaptain1";
+			sld.Dialog.Filename = "Enc_Officer_dialog.c";
+			sld.quest.meeting = true;
+			sld.HoldEquip = true;
+			SetSelfSkill(sld, 80, 80, 75, 80, 80);
+			SetShipSkill(sld, 70, 75, 75, 75, 80, 70, 70, 70, 70);
+			SetSPECIAL(sld, 9, 9, 10, 10, 8, 10, 10);
+			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+			SetCharacterPerk(sld, "AdvancedDefense");
+			SetCharacterPerk(sld, "ByWorker");
+			SetCharacterPerk(sld, "Ciras");
+			SetCharacterPerk(sld, "Gunman");
+			SetCharacterPerk(sld, "Sliding");
+			SetCharacterPerk(sld, "CriticalHit");
+			SetCharacterPerk(sld, "IronWill");
+			SetCharacterPerk(sld, "BladeDancer");
+			SetCharacterPerk(sld, "GunProfessional");
+			SetCharacterPerk(sld, "FastReload");
+			SetCharacterPerk(sld, "HullDamageUp");
+			SetCharacterPerk(sld, "SailsDamageUp");
+			SetCharacterPerk(sld, "CrewDamageUp");
+			SetCharacterPerk(sld, "MusketsShoot");
+			SetCharacterPerk(sld, "AdvancedBattleState");
+			SetCharacterPerk(sld, "ShipDefenseProfessional");
+			SetCharacterPerk(sld, "LongRangeShoot");
+			SetCharacterPerk(sld, "SwordplayProfessional");
+			SetCharacterPerk(sld, "ShipTurnRateUp");
+			SetCharacterPerk(sld, "ShipSpeedUp");
+			SetCharacterPerk(sld, "Medic");
+			sld.quest.OfficerPrice = sti(pchar.rank)*500;
+			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
+			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+			sld.loyality = MAX_LOYALITY;
+			AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			QuestAboardCabinDialogNotBattle(); 
+            DialogExit();	
+		break;
+		
+		case "zpqCapitain_fight":
+			LAi_SetCurHPMax(npchar);
+			QuestAboardCabinDialogExitWithBattle(""); 
+            DialogExit();
+			AddDialogExitQuest("MainHeroFightModeOn");
+		break;	
+		
 		case "BlueBirdCapitain":
 			dialog.text = "Хотел бы я знать, кто ты так"+ GetSexPhrase("ой","ая") +"...";
 			link.l1 = "Меня зовут " + GetFullName(pchar) + ". Я - капер.";
@@ -2466,7 +2594,7 @@ void ProcessDialogEvent()
 			npchar.model = "MusketeerEnglish_2";
 			//Korsar Maxim - Прописка всех моделей для кирас. -->
         	npchar.HeroModel = "MusketeerEnglish_2,MusketeerEnglish_2_1,MusketeerEnglish_2_2,MusketeerEnglish_2_3,MusketeerEnglish_2_4,MusketeerEnglish_2_5,MusketeerEnglish_2,MusketeerEnglish_2,MusketeerEnglish_2";
-	        //Korsar Maxim - Прописка всех моделей для кирас. <--
+	        //Korsar Maxim - Прописка всех моделей для кирас. <-- 
 			npchar.model.animation = "mushketer";
 			GiveItem2Character(npchar, "mushket2x2");
 			npchar.IsMushketer.LastGunID = -1;

@@ -165,6 +165,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.NoInt = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"IslandLoader") ) {
+		optref.cameramode.IslandLoader = sti(InterfaceStates.IslandLoader);
+	} else {
+		optref.cameramode.IslandLoader = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -302,6 +308,11 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.NoInt = optref.cameramode.NoInt;
 	} else {
 		InterfaceStates.NoInt = false;
+	}
+	if( CheckAttribute(optref,"cameramode.IslandLoader") ) {
+		InterfaceStates.IslandLoader = optref.cameramode.IslandLoader;
+	} else {
+		InterfaceStates.IslandLoader = false;
 	}
 
 

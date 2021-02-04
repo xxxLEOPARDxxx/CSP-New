@@ -628,12 +628,11 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 				GameInterface.TABLE_ITEMS.(row).td1.icon.group = arItem.picTexture;
 				GameInterface.TABLE_ITEMS.(row).td1.icon.image = "itm" + arItem.picIndex;
 				GameInterface.TABLE_ITEMS.(row).td1.icon.offset = "-2, 0";
-				GameInterface.TABLE_ITEMS.(row).td1.icon.width = 24;
-				GameInterface.TABLE_ITEMS.(row).td1.icon.height = 24;
+				GameInterface.TABLE_ITEMS.(row).td1.icon.width = 32;
+				GameInterface.TABLE_ITEMS.(row).td1.icon.height = 32;
 				GameInterface.TABLE_ITEMS.(row).td1.textoffset = "31,0";
 				GameInterface.TABLE_ITEMS.(row).td1.str = LanguageConvertString(idLngFile, arItem.name);
 				GameInterface.TABLE_ITEMS.(row).td1.scale = 0.85;
-				
 				GameInterface.TABLE_ITEMS.(row).td2.str   = FloatToString(stf(arItem.Weight), 1);
 				GameInterface.TABLE_ITEMS.(row).td2.scale = 0.9;
 				GameInterface.TABLE_ITEMS.(row).td3.str   = GetCharacterItem(xi_refCharacter, sGood);

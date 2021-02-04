@@ -251,6 +251,8 @@ void OpenProcedure() // Процесс открытия
 
 void OpenChest()
 {
+	AddCharacterExpToSkill(PChar, "Fortune", 50);
+	AddCharacterExpToSkill(PChar, "Repair", 50);
 	string nameitm[10];
 	int itmq[10];
 	

@@ -320,17 +320,13 @@ void FillSkillTables()
 
         GameInterface.TABLE_SPECIAL.(row).UserData.ID = skillName;
 		GameInterface.TABLE_SPECIAL.(row).td1.fontidx = 0;
-		GameInterface.TABLE_SPECIAL.(row).td1.textoffset = "3,-3";
-		//GameInterface.TABLE_SPECIAL.(row).td1.align = "center";
-		//Boyer add .90 scale for first column
-		GameInterface.TABLE_SPECIAL.(row).td1.scale = 0.65;
+		GameInterface.TABLE_SPECIAL.(row).td1.textoffset = "3,-5";
+		GameInterface.TABLE_SPECIAL.(row).td1.scale = 0.75;
 		GameInterface.TABLE_SPECIAL.(row).td2.textoffset = "5,0";
-		GameInterface.TABLE_SPECIAL.(row).td2.scale = 0.75;
+		GameInterface.TABLE_SPECIAL.(row).td2.scale = 0.9;
 		GameInterface.TABLE_SPECIAL.(row).td2.align = "center";
 		GameInterface.TABLE_SPECIAL.(row).td3.align = "center";
-		//Boyer add .75 scale for third column
-		// GameInterface.TABLE_SPECIAL.(row).td3.scale = 0.75;
-		GameInterface.TABLE_SPECIAL.(row).td4.scale = 0.9;
+		GameInterface.TABLE_SPECIAL.(row).td4.scale = 0.8;
 		GameInterface.TABLE_SPECIAL.(row).td4.fontidx = 1;
 		GameInterface.TABLE_SPECIAL.(row).td4.textoffset = "0,-1";
 
@@ -374,15 +370,14 @@ void FillSkillTables()
     	GameInterface.TABLE_SKILL_1.(row).td1.icon.height = 20;
     	GameInterface.TABLE_SKILL_1.(row).td1.icon.offset = "0, 0";
 		GameInterface.TABLE_SKILL_1.(row).td2.align = "left";
-		GameInterface.TABLE_SKILL_1.(row).td2.scale = 0.75;
-		GameInterface.TABLE_SKILL_1.(row).td2.textoffset = "6,0";
+		GameInterface.TABLE_SKILL_1.(row).td2.scale = 0.85;
+		GameInterface.TABLE_SKILL_1.(row).td2.textoffset = "0,0";
+		GameInterface.TABLE_SKILL_1.(row).td3.scale = 0.85;
+		GameInterface.TABLE_SKILL_1.(row).td4.scale = 0.85;
 		GameInterface.TABLE_SKILL_1.(row).td5.fontidx = 0;
 		GameInterface.TABLE_SKILL_1.(row).td5.scale = 0.65;
 		GameInterface.TABLE_SKILL_1.(row).td5.align = "left";
 		GameInterface.TABLE_SKILL_1.(row).td5.textoffset = "-1,0";
-		GameInterface.TABLE_SKILL_1.(row).td3.scale = 0.75;
-		//Boyer change .75 scale for third column
-		GameInterface.TABLE_SKILL_1.(row).td4.scale = 0.85;
 
 		GameInterface.TABLE_SKILL_1.(row).td2.str = XI_ConvertString(skillName);
 		skillVal = GetSkillValue(xi_refCharacter, SKILL_TYPE, skillName);
@@ -432,16 +427,14 @@ void FillSkillTables()
     	GameInterface.TABLE_SKILL_2.(row).td1.icon.height = 20;
     	GameInterface.TABLE_SKILL_2.(row).td1.icon.offset = "0, 0";
 		GameInterface.TABLE_SKILL_2.(row).td2.align = "left";
-		GameInterface.TABLE_SKILL_2.(row).td2.scale = 0.75;
-		GameInterface.TABLE_SKILL_2.(row).td2.textoffset = "6,0";
+		GameInterface.TABLE_SKILL_2.(row).td2.scale = 0.85;
+		GameInterface.TABLE_SKILL_2.(row).td2.textoffset = "0,0";
+		GameInterface.TABLE_SKILL_2.(row).td3.scale = 0.85;
+		GameInterface.TABLE_SKILL_2.(row).td4.scale = 0.85;
 		GameInterface.TABLE_SKILL_2.(row).td5.fontidx = 0;
-		//Boyer change.60 scale for lastcolumn
 		GameInterface.TABLE_SKILL_2.(row).td5.scale = 0.65;
 		GameInterface.TABLE_SKILL_2.(row).td5.align = "left";
 		GameInterface.TABLE_SKILL_2.(row).td5.textoffset = "-1,0";
-		GameInterface.TABLE_SKILL_2.(row).td3.scale = 0.75;
-		//Boyer change .75 scale for third column
-		GameInterface.TABLE_SKILL_2.(row).td4.scale = 0.85;
 
 		GameInterface.TABLE_SKILL_2.(row).td2.str = XI_ConvertString(skillName);
 		skillVal = GetSkillValue(xi_refCharacter, SKILL_TYPE, skillName);
@@ -949,10 +942,8 @@ void FillPerksTable(string _type, bool _refresh)
 			GameInterface.TABLE_PERKS.(row).td1.icon.width  = 20;
 		    GameInterface.TABLE_PERKS.(row).td1.icon.height = 20;
 		    GameInterface.TABLE_PERKS.(row).td1.icon.offset = "-1, 0";
-
 			GameInterface.TABLE_PERKS.(row).td2.str = GetConvertStr(perkName, "AbilityDescribe.txt");
-			//GameInterface.TABLE_PERKS.(row).td2.textoffset = "0,-6";
-			GameInterface.TABLE_PERKS.(row).td2.scale = 0.75;
+			GameInterface.TABLE_PERKS.(row).td2.scale = 0.8;
 			n++;
 		}
 	}
@@ -1016,12 +1007,13 @@ void ChoosePerk()
             }
 			GameInterface.PERK_TABLE_NEED.(row).td1.icon.group  = icoGroup;
 			GameInterface.PERK_TABLE_NEED.(row).td1.icon.image  = perkCond;
-			GameInterface.PERK_TABLE_NEED.(row).td1.icon.width  = 24;
-		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.height = 24;
-		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.offset = "-2, 3";
+			GameInterface.PERK_TABLE_NEED.(row).td1.icon.width  = 32;
+		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.height = 32;
+		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.offset = "-2, -1";
 
 			GameInterface.PERK_TABLE_NEED.(row).td2.str = GetConvertStr(perkCond, "AbilityDescribe.txt");
-			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.68;
+			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.8;
+		    GameInterface.PERK_TABLE_NEED.(row).td2.textoffset = "10, -1";
     	}
 		Table_UpdateWindow("PERK_TABLE_NEED");
 	}

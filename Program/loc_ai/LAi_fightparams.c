@@ -639,9 +639,25 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		}
 	}
 	if (isBlocked)
-	{
-		critical = 0;
-	}
+    {
+        if(HasSubStr(attack.equip.blade, "katar") && rand(19)==0)
+        {
+            string weaponID = GetCharacterEquipByGroup(enemy, BLADE_ITEM_TYPE);
+            aref weapon;
+            Items_FindItem(weaponID, &weapon);
+            if(weapon.model != "unarmed" && weapon.quality != "excellent") 
+            {
+                if(GetCharacterItem(enemy, weaponID) <= 1) RemoveCharacterEquip(enemy, weapon.groupID);
+                TakeItemFromCharacter(enemy, weaponID);
+                string sEquipItem = GetGeneratedItem("unarmed");
+                AddItems(enemy, sEquipItem, 1);
+                EquipCharacterbyItem(enemy, sEquipItem);
+                if(sti(attack.index) == GetMainCharacterIndex()) Log_Info("Оружие противника было сломано.");
+				else Log_Info("Ваше оружие было сломано.");
+            }
+        }
+        critical = 0;
+    }
 	bool cirign = false;
 	if (coeff != 0)
 	{

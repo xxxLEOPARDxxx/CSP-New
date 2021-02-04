@@ -91,7 +91,7 @@ void ProcessDialogEvent()
 		case "Term_9_2":
 			dialog.text = "Да, индивид '" +GetFullName(pchar) +"', ты прав"+ GetSexPhrase("","а") +". Мое время истекает с разрядом резервной батареи. Миссия не может быть выполнена, объект не обнаружен, генетический анализ показал отсутствие ближайших предков цели в этом ареале.";
 			link.l1 = "Да, не повезло тебе. Пора, видимо, на покой. Где взять хорошее оружие, я уже понял"+ GetSexPhrase("","а") +". Если встречу Сару о'Конер, обязательно убью, в качестве платы за такой подарок от потомков.";
-			link.l1.go = "Term_10";
+			link.l1.go = "Term_11";
 		break;
 		
 		case "Term_10":
@@ -110,7 +110,7 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		
-		/*case "Term_11":
+		case "Term_11":
 			dialog.text = "Scanning in process... complite... Твой фенотип на 68 процентов схож с Сарой о'Конер. Ты потенциальный предок. Миссия должна быть выполнена. Приступить немедленно.";
 			link.l1 = "Первый раз так замысловато мне говорят, что хотят меня убить. Хорошо, железяка, я не посмотрю на твою древность и пыль из тебя счас повыколочу.";
 			link.l1.go = "Term_11_exit";
@@ -128,8 +128,11 @@ void ProcessDialogEvent()
 			LAi_SetPlayerType(PChar);
 			//Вытащим саблю
    			LAi_SetFightMode(Pchar, true);
+			NPChar.SaveItemsForDead = true;
    			chrDisableReloadToLocation = true;
+			pchar.quest.T102.win_condition.l1 = "NPC_Death";
+			pchar.quest.T102.win_condition.l1.character = "T102";
+			pchar.quest.T102.function = "T102_DoorUnlock";
 		break;
-		*/
 	}
 } 

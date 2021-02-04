@@ -1404,7 +1404,7 @@ void Ship_CheckSituation()
 		}
 		if (CheckAttribute(rCharacter, "SeaAI.Task.Target"))
 		{
-	        if (iNewBallType < 0 || iShipCannonsNum < (sti(rShip.CannonsQuantity) / 10))
+	        if (iNewBallType < 0 || iShipCannonsNum < (sti(rShip.CannonsQuantity) / 2))
 			{
 				// maybe we can abordage???
 				Ship_SetTaskRunaway(SECONDARY_TASK,sti(rCharacter.index), sti(rCharacter.SeaAI.Task.Target));
@@ -1426,7 +1426,7 @@ void Ship_CheckSituation()
 					{					
 						rCharacter.Tmp.fWatchFort = 0; //сброс счетчика оптимизации
 						//проверяем расстояние до форта и наличие флага 'следить за фортом'
-						if (GetDistance2D(stf(rCharacter.Ship.Pos.x), stf(rCharacter.Ship.Pos.z), fFort_x, fFort_z) < 1000)
+						if (GetDistance2D(stf(rCharacter.Ship.Pos.x), stf(rCharacter.Ship.Pos.z), fFort_x, fFort_z) < 2000)
 						{
 							Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), iFortCommander);
 							rCharacter.Tmp.fWatchFort.Qty = 200; //не лочим таск, но увеличиваем паузу срабатывания
@@ -1462,7 +1462,7 @@ void Ship_CheckSituation()
 							if (CheckAttribute(rCharacter, "AnalizeShips"))
 							{									
 								//проверим, стоит ли атаковать
-								if (stf(rCharacter.ship.hp) < (stf(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.hp) / 2))
+								if (stf(rCharacter.ship.hp) < (stf(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.hp) / 4))
 								{
 									Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 								}
@@ -1489,7 +1489,7 @@ void Ship_CheckSituation()
 									
 									if(stf(rCharacter.ship.hp) < (stf(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.hp) / 2))
 									{
-										if ((iCharactersNum1 / iCharactersNum2) >= 2.2 && iCharactersNum2 > 0) 
+										if ((iCharactersNum1 / iCharactersNum2) >= 1.0 && iCharactersNum2 > 0) 
 										{
 											Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 										}
@@ -1500,7 +1500,7 @@ void Ship_CheckSituation()
 									}
 									else
 									{	//если есть шанс победить, то проверяем еще и количественное соотношение групп. не лезть на крупные эскадры
-										if((iCharactersNum2 / iCharactersNum1) >= 2.0 && sti(RealShips[sti(rCharacter.ship.type)].Class) > sti(RealShips[sti(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.type)].Class))
+										if((iCharactersNum2 / iCharactersNum1) >= 3.0 && sti(RealShips[sti(rCharacter.ship.type)].Class) > sti(RealShips[sti(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.type)].Class))
 										{
 											Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 										}
@@ -1527,7 +1527,7 @@ void Ship_CheckSituation()
 						        }
 						        else
 						        {
-						        	if ((HPPercent < 30) || (CrewQuantity <= (2*MinCrewQuantity)))// убрано, по тестам Дира || SailsPercent < 35)
+						        	if ((HPPercent < 25) || (CrewQuantity <= (4*MinCrewQuantity)))// убрано, по тестам Дира || SailsPercent < 35)
 							        {
 							            Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 							        }
@@ -1561,7 +1561,7 @@ void Ship_CheckSituation()
 												{
 													iCharactersNum1 =  Group_GetLiveCharactersNum(rCharacter.SeaAI.Group.Name);
 													iCharactersNum2 =  Group_GetLiveCharactersNum(characters[sti(rCharacter.Ship.LastBallCharacter)].SeaAI.Group.Name);	
-													if ((iCharactersNum2 / iCharactersNum1) >= 2.0 && sti(RealShips[sti(rCharacter.ship.type)].Class) > sti(RealShips[sti(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.type)].Class))
+													if ((iCharactersNum2 / iCharactersNum1) >=3.0 && sti(RealShips[sti(rCharacter.ship.type)].Class) > sti(RealShips[sti(characters[sti(rCharacter.Ship.LastBallCharacter)].ship.type)].Class))
 													{
 														Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), sti(rCharacter.Ship.LastBallCharacter));
 													}
@@ -1591,7 +1591,7 @@ void Ship_CheckSituation()
 							        {									
 										iCharactersNum1 =  Group_GetLiveCharactersNum(rCharacter.SeaAI.Group.Name);
 										iCharactersNum2 =  Group_GetLiveCharactersNum(characters[GetMainCharacterIndex()].SeaAI.Group.Name);	
-										if ((iCharactersNum1 / iCharactersNum2) >= 2.2) 
+										if ((iCharactersNum1 / iCharactersNum2) >= 3.0) 
 										{
 											Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex()));
 										}
@@ -1603,18 +1603,11 @@ void Ship_CheckSituation()
 									else
 									{	//если есть шанс победить - атакуем
 										Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
-										{
-											Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
-										}
-										else
-										{
-											Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
-										}
 									}
 								}
 								else
 								{	//eddy. а то ранэвей у нас как залоченный таск
-						        	if (CheckAttribute(rCharacter, "AnalizeShips") && (HPPercent > 60) && (SailsPercent > 70) && stf(rCharacter.ship.hp) > (stf(pchar.ship.hp) / 2))
+						        	if (CheckAttribute(rCharacter, "AnalizeShips") && (HPPercent > 33) && (SailsPercent > 50) && stf(rCharacter.ship.hp) > (stf(pchar.ship.hp) / 4))
 							        {
 							            Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), GetMainCharacterIndex());
 							        }
@@ -1763,7 +1756,7 @@ void Ship_CheckSituation()
 							if (Ship_GetDistance2D(GetMainCharacter(), rCharacter) < 30 && CheckAttribute(pchar, "GenQuest.DestroyPirate.WasFirstDeside") && !CheckAttribute(pchar, "GenQuest.DestroyPirate.FastAbordage"))
 							{
 								pchar.GenQuest.DestroyPirate.FastAbordage = true; //проверили абордаж
-								if ((GetCrewQuantity(pchar) / GetCrewQuantity(rCharacter)) < 1.6) //один критерий, остальные не важны
+								if ((GetCrewQuantity(pchar) / GetCrewQuantity(rCharacter)) < 1.0) //один критерий, остальные не важны
 								{
 	                                if (sti(rCharacter.nation) != PIRATE)
 									{
@@ -3684,7 +3677,7 @@ void Ship_UpdateParameters()
 				}
 				else
 				{
-					PlaySound("Interface\_Abandon2.wav");
+					PlaySound("interface\_Abandon"+(2+rand(1))+".wav");
 				}
 			}
 			// boal <--
@@ -3968,7 +3961,7 @@ void Ship_UpdateParameters()
 										}
 										else
 										{
-											if (stf(rCharacter.ship.hp) > (stf(rTargetCharacter.ship.hp) / 2) || GetCrewQuantity(rCharacter) > GetCrewQuantity(rTargetCharacter)) //boal fix
+											if (stf(rCharacter.ship.hp) > (stf(rTargetCharacter.ship.hp) / 4) || GetCrewQuantity(rCharacter) > GetCrewQuantity(rTargetCharacter)) //boal fix
 											{
 												Ship_SetTaskAttack(SECONDARY_TASK, sti(rCharacter.index), sti(rTargetCharacter.index));   //fix
 											}

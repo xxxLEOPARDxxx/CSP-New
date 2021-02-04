@@ -906,20 +906,22 @@ void FillShipPlaceTable(string _tabName)
 
     // шапка -->
     GameInterface.(_tabName).select = 0;
-    GameInterface.(_tabName).hr.td1.str = "N";
+    GameInterface.(_tabName).hr.td1.str = "Фото";
     GameInterface.(_tabName).hr.td1.scale = 0.9;
-    GameInterface.(_tabName).hr.td2.str = "Корабль";
-    GameInterface.(_tabName).hr.td2.scale = 0.9;
-    GameInterface.(_tabName).hr.td3.str = "Капитан";
+	GameInterface.(_tabName).hr.td2.str = "Класс";
+	GameInterface.(_tabName).hr.td2.scale = 0.9;
+    GameInterface.(_tabName).hr.td3.str = "Корабль";
     GameInterface.(_tabName).hr.td3.scale = 0.9;
-	GameInterface.(_tabName).hr.td4.str = "Город";
-	GameInterface.(_tabName).hr.td4.scale = 0.9;
-	GameInterface.(_tabName).hr.td5.str = "Локация";
+    GameInterface.(_tabName).hr.td4.str = "Капитан";
+    GameInterface.(_tabName).hr.td4.scale = 0.9;
+	GameInterface.(_tabName).hr.td5.str = "Город";
 	GameInterface.(_tabName).hr.td5.scale = 0.9;
-	GameInterface.(_tabName).hr.td6.str = "Дата стоянки";
+	GameInterface.(_tabName).hr.td6.str = "Локация";
 	GameInterface.(_tabName).hr.td6.scale = 0.9;
-	GameInterface.(_tabName).hr.td7.str = "Цена в месяц";
+	GameInterface.(_tabName).hr.td7.str = "Дата стоянки";
 	GameInterface.(_tabName).hr.td7.scale = 0.9;
+	GameInterface.(_tabName).hr.td8.str = "Цена в месяц";
+	GameInterface.(_tabName).hr.td8.scale = 0.9;
     // <--
     cn = 1;
     for (n=0; n<MAX_COLONIES; n++)
@@ -932,40 +934,44 @@ void FillShipPlaceTable(string _tabName)
     		{
                 if (chref.ShipInStockMan == (rCity.id + "_PortMan"))
 		        {
+                    int iShip = chref.ship.type;
+					ref refBaseShip = GetRealShip(iShip);
+					string shipTexture = refBaseShip.BaseName;
+					
                     row = "tr" + cn;
-                    GameInterface.(_tabName).(row).td1.str = cn;
-                    GameInterface.(_tabName).(row).td1.scale = 0.9;
-                    
-				    GameInterface.(_tabName).(row).td2.str = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'";
-				    GameInterface.(_tabName).(row).td2.scale = 0.83;
-				    
-	                GameInterface.(_tabName).(row).td3.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chref.faceId + ".tga";
-	                GameInterface.(_tabName).(row).td3.icon.uv = "0,0,1,1";
-	                GameInterface.(_tabName).(row).td3.icon.offset = "0, 3";
-	                GameInterface.(_tabName).(row).td3.icon.width  = 26;
-				    GameInterface.(_tabName).(row).td3.icon.height = 26;
-				    GameInterface.(_tabName).(row).td3.str = GetFullName(chref);
-				    GameInterface.(_tabName).(row).td3.textoffset = "30, 0";
-				    GameInterface.(_tabName).(row).td3.scale = 0.83;
-				    
-                    GameInterface.(_tabName).(row).td4.icon.group  = "NATIONS";
-					GameInterface.(_tabName).(row).td4.icon.image  = Nations[sti(rCity.nation)].Name;
-					GameInterface.(_tabName).(row).td4.icon.width  = 26;
-				    GameInterface.(_tabName).(row).td4.icon.height = 26;
-				    GameInterface.(_tabName).(row).td4.icon.offset = "0, 3";
-		    
-					GameInterface.(_tabName).(row).td4.str = GetConvertStr(rCity.id + " Town", "LocLables.txt");
-					GameInterface.(_tabName).(row).td4.scale = 0.85;
-					GameInterface.(_tabName).(row).td4.textoffset = "30, 0";
-					
-					GameInterface.(_tabName).(row).td5.str = GetConvertStr(rCity.islandLable, "LocLables.txt");
+                    // GameInterface.(_tabName).(row).td1.str = cn;
+                    // GameInterface.(_tabName).(row).td1.scale = 0.9;
+					GameInterface.(_tabName).(row).td1.icon.texture = "interfaces\ships\" + shipTexture + ".tga.tx";
+					GameInterface.(_tabName).(row).td1.icon.uv = "0,0,1,1";
+	                GameInterface.(_tabName).(row).td1.icon.offset = "-2, 0";
+	                GameInterface.(_tabName).(row).td1.icon.width  = 40;
+				    GameInterface.(_tabName).(row).td1.icon.height = 40;
+					GameInterface.(_tabName).(row).td2.str = refBaseShip.Class;
+				    GameInterface.(_tabName).(row).td2.scale = 0.8;
+				    GameInterface.(_tabName).(row).td3.str = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'";
+				    GameInterface.(_tabName).(row).td3.scale = 0.8;
+	                GameInterface.(_tabName).(row).td4.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chref.faceId + ".tga";
+	                GameInterface.(_tabName).(row).td4.icon.uv = "0,0,1,1";
+	                GameInterface.(_tabName).(row).td4.icon.offset = "-2, 0";
+	                GameInterface.(_tabName).(row).td4.icon.width  = 40;
+				    GameInterface.(_tabName).(row).td4.icon.height = 40;
+				    GameInterface.(_tabName).(row).td4.str = GetFullName(chref);
+				    GameInterface.(_tabName).(row).td4.textoffset = "40, 0";
+				    GameInterface.(_tabName).(row).td4.scale = 0.8;
+                    GameInterface.(_tabName).(row).td5.icon.group  = "NATIONS";
+					GameInterface.(_tabName).(row).td5.icon.image  = Nations[sti(rCity.nation)].Name;
+					GameInterface.(_tabName).(row).td5.icon.width  = 40;
+				    GameInterface.(_tabName).(row).td5.icon.height = 40;
+				    GameInterface.(_tabName).(row).td5.icon.offset = "-2, 0";
+					GameInterface.(_tabName).(row).td5.str = GetConvertStr(rCity.id + " Town", "LocLables.txt");
 					GameInterface.(_tabName).(row).td5.scale = 0.8;
-					
-					GameInterface.(_tabName).(row).td6.str = chref.ShipInStockMan.AltDate;
-					GameInterface.(_tabName).(row).td6.scale = 0.75;
-					
-					GameInterface.(_tabName).(row).td7.str = chref.ShipInStockMan.MoneyForShip;
-					GameInterface.(_tabName).(row).td7.scale = 0.85;
+					GameInterface.(_tabName).(row).td5.textoffset = "30, 0";
+					GameInterface.(_tabName).(row).td6.str = GetConvertStr(rCity.islandLable, "LocLables.txt");
+					GameInterface.(_tabName).(row).td6.scale = 0.8;
+					GameInterface.(_tabName).(row).td7.str = chref.ShipInStockMan.AltDate;
+					GameInterface.(_tabName).(row).td7.scale = 0.8;
+					GameInterface.(_tabName).(row).td8.str = chref.ShipInStockMan.MoneyForShip;
+					GameInterface.(_tabName).(row).td8.scale = 0.8;
                     
     		        cn++;
 		        }

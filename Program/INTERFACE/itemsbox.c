@@ -113,7 +113,7 @@ void InitInterface_RS(string iniName, ref itemsRef, string faceID)
 	
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 	
-	CreateString(true, "CharName", "", FONT_NORMAL, COLOR_MONEY, 405, 110, SCRIPT_ALIGN_CENTER, 1.0);
+	CreateString(true, "CharName", "", FONT_NORMAL, COLOR_MONEY, 405, 108, SCRIPT_ALIGN_CENTER, 1.0);
 	
 	InterfaceInitButtons(refCharacter);
 	

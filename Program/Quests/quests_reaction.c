@@ -1230,7 +1230,7 @@ void QuestComplete(string sQuestName, string qname)
 		// НАЧАЛО КВЕСТА - СПИМ В ТАВЕРНЕ
 		/////////////////////////////////////////////////////////////////////////////////
 		case "sleep_in_tavern":
-			if (CheckAttribute(pchar, "QuestTemp.TakeShotgun") && rand(3) == 1 && !CheckAttribute(pchar , "GenQuest.GhostShip.LastBattleEnd")) // пасхалка
+			if (CheckAttribute(pchar, "QuestTemp.TakeShotgun") && rand(1) == 1 && !CheckAttribute(pchar , "GenQuest.GhostShip.LastBattleEnd")) // пасхалка
 			{
 			    DeleteAttribute(pchar, "QuestTemp.TakeShotgun");
 			    PChar.GenQuest.CallFunctionParam = "QuestShotgunT102";
@@ -2764,15 +2764,21 @@ void QuestComplete(string sQuestName, string qname)
 					LAi_SetActorType(sld);
 					LAi_group_MoveCharacter(sld, "PearlGroup_2");
 					locations[FindLocation("Pearl_town_2")].pearlVillage = true; //флаг генерить жемчужников
-					bOk = true;	//мир					
+					bOk = true;	//мир
 					if (GetRelation2BaseNation(iTemp) != RELATION_FRIEND)
 					{	
 						if (GetDaysContinueNationLicence(iTemp) == -1)
 						{
-							Log_SetStringToLog("Часового необходимо уничтожить!");
-							LAi_ActorRunToLocation(sld, "reload", "reload1_back", "none", "", "", "", -1);					
-							bOk = false; //война
-							
+							if (GetSummonSkillFromName(pchar, SKILL_SNEAK) < (10+rand(50)+rand(50))) 
+							{
+								Log_SetStringToLog("Часового необходимо уничтожить!");
+								LAi_ActorRunToLocation(sld, "reload", "reload1_back", "none", "", "", "", -1);					
+								bOk = false; //война
+							}
+							else
+							{
+								AddCharacterExpToSkill(pchar, SKILL_SNEAK, 80);
+							}
 						}
 					}
 					if (bOk)
@@ -2829,9 +2835,16 @@ void QuestComplete(string sQuestName, string qname)
 					{	
 						if (GetDaysContinueNationLicence(iTemp) == -1)
 						{
-							Log_SetStringToLog("Часового необходимо уничтожить!");
-							LAi_ActorRunToLocation(sld, "reload", "reload2_back", "none", "", "", "", -1);					
-							bOk = false; //война					
+							if (GetSummonSkillFromName(pchar, SKILL_SNEAK) < (10+rand(50)+rand(50))) 
+							{
+								Log_SetStringToLog("Часового необходимо уничтожить!");
+								LAi_ActorRunToLocation(sld, "reload", "reload2_back", "none", "", "", "", -1);					
+								bOk = false; //война
+							}	
+							else
+							{
+								AddCharacterExpToSkill(pchar, SKILL_SNEAK, 80);
+							}
 						}
 					}
 					if (bOk)
@@ -8226,6 +8239,12 @@ void QuestComplete(string sQuestName, string qname)
 			Log_SetStringToLog("Время расширения колонии ''" + PChar.ColonyBuilding.ColonyName + "'' должно подойти к концу.");
 			
 			CreateModificyColonyCaiman();
+			
+			int idxLoadLoc = FindLoadedLocation();
+            if (idxLoadLoc != -1)
+            {
+				if (locations[idxLoadLoc].islandId == "Caiman") DoQuestReloadToLocation("Caiman_town","reload","reload1", "");
+			}
 			
 			PChar.ColonyBuilding.SlavesInShore.CurShore = "none";
 			PChar.quest.ColonyModification_6.win_condition.l1 = "location";

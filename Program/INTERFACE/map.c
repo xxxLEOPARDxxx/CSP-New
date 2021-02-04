@@ -17,26 +17,21 @@ void InitInterface(string iniName)
     GameInterface.title = "title_map";
 
     SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
-
     SetFormatedText("MAP_CAPTION", XI_ConvertString("title_map"));
-
 	SetFormatedText("INFO_TEXT_QUESTION", XI_ConvertString("MapWhatYouWantToDo"));
-
 	SetCurrentNode("INFO_TEXT_QUESTION");
+	SetNewPicture("INFO_PICTURE", "loading\SeaEnc_"+rand(3)+".tga");
 
 	CalculateInfoData();
-
 	SetFormatedText("INFO_TEXT",totalInfo);
-
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"INFO_TEXT",5);
-
 	SetEventHandler("InterfaceBreak","ProcessBreakExit",0); // Выход на море
 	SetEventHandler("exitCancel","ProcessCancelExit",0); // Выход на море по крестику или Esc
 	SetEventHandler("ievnt_command","ProcCommand",0); // выход на карту только тут (по НЕТ)
 	SetEventHandler("evntDoPostExit","DoPostExit",0); // выход из интерфейса
 	
 	EI_CreateFrame("INFO_BORDERS", 250,152,550,342);
-	PlaySound("interface\_EvShip"+rand(1)+".wav");
+	PlaySound("interface\_EvShip"+rand(3)+".wav");
 }
 
 void ProcessBreakExit()
@@ -61,7 +56,8 @@ void IDoExit(int exitCode)
     SetTimeScale(1.0);
 	TimeScaleCounter = 0; //boal
 	if(IsPerkIntoList("TimeSpeed"))
-	{	DelPerkFromActiveList("TimeSpeed");
+	{	
+		DelPerkFromActiveList("TimeSpeed");
 	}
 	
 	interfaceResultCommand = exitCode;
@@ -129,7 +125,7 @@ void wdmRecalcReloadToSea()
 	//Encounters
 	int numEncounters = wdmGetNumberShipEncounters();
 	int isShipEncounterType = 0;
-	//Log_TestInfo("Начинаем перебирать энкаунтеров");
+	Log_TestInfo("Начинаем перебирать энкаунтеров");
 	for(int i = 0; i < numEncounters; i++)
 	{
 		if(wdmSetCurrentShipData(i))
@@ -143,36 +139,12 @@ void wdmRecalcReloadToSea()
 			makearef(rEncounter, worldMap.encounters.(encID).encdata);
 
 			int iRealEncounterType = sti(rEncounter.RealEncounterType);
-            // boal -->
-            /*aref rEncounterMap;
-            makearef(rEncounterMap, worldMap.encounters.(encID));
-            //DumpAttributes(rEncounterMap);
-            if (CheckAttribute(rEncounter, "task") && rEncounter.task == "1")
-            {
-    			rEncounterMap.killme = 1;
-       			rEncounterMap.kMaxSpeed = 0.1;
-            }      */
-            // boal <--
-			/*if(CheckOfficersPerk(pchar, "LuckyPirate"))
-			{
-				iRand = rand(100);
-				if(iRand < 40)
-				{
-					if(iRealEncounterType < ENCOUNTER_TYPE_MERCHANT_GUARD_LARGE)
-					{
-						iRealEncounterType = iRealEncounterType + 2 + rand(2);
-						rEncounter.RealEncounterType = iRealEncounterType;
-					}
-				}
-
-			} */
 
 			if (isShipEncounterType > 1 && iRealEncounterType < ENCOUNTER_TYPE_BARREL)
 			{
 			    totalInfo = totalInfo + XI_ConvertString("But in the same way");
 			}
 
-			//int iLuckModifier = 0;
 			int iNumMerchantShips = 0;
 			int iNumWarShips = 0;
 			if(CheckAttribute(rEncounter, "NumMerchantShips"))
@@ -249,30 +221,37 @@ void wdmRecalcReloadToSea()
 			}
 			if(sti(rEncounter.Nation) < 0)
 			{
-        			totalInfo = totalInfo + "БАГА -1.";
+        		totalInfo = totalInfo + "БАГА -1.";
       		}
 	        
 			if(iRealEncounterType != ENCOUNTER_TYPE_BARREL && iRealEncounterType != ENCOUNTER_TYPE_BOAT)
-			{
-				switch(sti(rEncounter.Nation))
-				{		        
-					case ENGLAND:		
-						totalInfo = totalInfo + XI_ConvertString("under english flag");
-					break;
-					case FRANCE:		
-						totalInfo = totalInfo + XI_ConvertString("under french flag");
-					break;
-					case SPAIN:		
-						totalInfo = totalInfo + XI_ConvertString("under spanish flag");
-					break;
-					case HOLLAND:		
-						totalInfo = totalInfo + XI_ConvertString("under dutch flag");
-					break;
-					case PIRATE:		
-						totalInfo = totalInfo + ".";
-					break;
-				}
-			}	
+            {
+                string nationname = "";
+                switch(sti(rEncounter.Nation))
+                {                
+                    case ENGLAND:        
+                        totalInfo = totalInfo + XI_ConvertString("under english flag");
+                        nationname = "Eng";
+                    break;
+                    case FRANCE:        
+                        totalInfo = totalInfo + XI_ConvertString("under french flag");
+                        nationname = "Fra";
+                    break;
+                    case SPAIN:        
+                        totalInfo = totalInfo + XI_ConvertString("under spanish flag");
+                        nationname = "Spa";
+                    break;
+                    case HOLLAND:        
+                        totalInfo = totalInfo + XI_ConvertString("under dutch flag");
+                        nationname = "Hol";
+                    break;
+                    case PIRATE:        
+                        totalInfo = totalInfo + ".";
+                        nationname = "Pir";
+                    break;
+                }
+                SetNewPicture("ENC_NATIONS_PICTURE", "loading\Enc_"+nationname+".tga");
+            }    
 
 			if(GetNationRelation2MainCharacter(sti(rEncounter.Nation)) != RELATION_ENEMY)
 			{
@@ -280,30 +259,31 @@ void wdmRecalcReloadToSea()
 			}
 		}
 	}
-	//Log_TestInfo("isShipEncounterType :" + isShipEncounterType);
+	Log_TestInfo("isShipEncounterType :" + isShipEncounterType);
 	if (isShipEncounterType > 1)
-	{
-	   totalInfo = XI_ConvertString("NavalSignal") + XI_ConvertString("battle on course") + totalInfo;
-	}
+    {
+       totalInfo = XI_ConvertString("NavalSignal") + XI_ConvertString("battle on course") + totalInfo;
+       SetNewPicture("ENC_NATIONS_PICTURE", "loading\EncFight.tga");
+    }
 	else
 	{
 		if(iRealEncounterType == ENCOUNTER_TYPE_BARREL || iRealEncounterType == ENCOUNTER_TYPE_BOAT)
 		{		
 			if(iRealEncounterType == ENCOUNTER_TYPE_BARREL) 
 			{
-				SetNewPicture("INFO_PICTURE", "loading\polundra.tga"); 
-			}	
+				SetNewPicture("INFO_PICTURE", "loading\BarrelEnc_"+rand(2)+".tga");
+			}
 			if(iRealEncounterType == ENCOUNTER_TYPE_BOAT) 
 			{
-				SetNewPicture("INFO_PICTURE", "loading\flplndra.tga"); 
-			}			
-	   totalInfo = XI_ConvertString("battle on course") + totalInfo;
+				SetNewPicture("INFO_PICTURE", "loading\BoatEnc_"+rand(5)+".tga");
+			}
+			totalInfo = XI_ConvertString("NavalSignal") + XI_ConvertString("SpecialSituation") + totalInfo;
 			SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"B_OK",0, "#"+XI_ConvertString("GetItemToBort"));
 		}
 		else
 		{
-	   totalInfo = XI_ConvertString("someone sails") + totalInfo;
-		}	
+			totalInfo = XI_ConvertString("NavalSignal") + XI_ConvertString("someone sails") + totalInfo;
+		}
 	}
 }
 

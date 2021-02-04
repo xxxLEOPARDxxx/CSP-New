@@ -606,6 +606,22 @@ void SharpSeekSpy_loginSpy(string qName)
 		pchar.quest.SharpSeekSpy_script.win_condition.l1.locator_group = "quest";
 		pchar.quest.SharpSeekSpy_script.win_condition.l1.locator = "SharpSeekSpy";
 		pchar.quest.SharpSeekSpy_script.function = "SharpSeekSpy_script";
+		Group_DeleteGroup("Sharp_Group");
+		string sGroup = "Sharp_Group";
+		Group_FindOrCreateGroup(sGroup);
+		sld = characterFromId("Sharp");
+		Group_AddCharacter(sGroup, sld.id);
+		Group_SetGroupCommander(sGroup, sld.id);
+
+		sld.mapEnc.worldMapShip = "quest_ship";
+		sld.mapEnc.Name = "бриг 'Шарпоносец'";
+		sld.AlwaysEnemy = true;
+		sld.DontRansackCaptain = true;
+		sld.mapEnc.type = "war";
+		sld.hunter = "pirate";
+		Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+		Group_LockTask(sGroup);
+		Map_CreateWarrior("", sld.id, 8);
 	}
 	else
 	{
@@ -3904,12 +3920,12 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_group_MoveCharacter(sld, "TmpEnemy");	
 
 	// ------------------------ Механик ------------------------
-	sld = GetCharacter(NPC_GenerateCharacter("Mechanic", "Mechanic", "man", "man", 5, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("Mechanic", "CCS_Mechanic", "man", "man", 5, PIRATE, -1, false));
 	sld.name = "Хенрик";
 	sld.lastname = "Ведекер";
 	sld.rank = 5;
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
-	sld.HeroModel = "Mechanic,Mechanic_1,Mechanic_2,Mechanic_3,Mechanic_4,Mechanic_5,Mechanic,Mechanic,Mechanic";
+	sld.HeroModel = "CCS_Mechanic,CCS_Mechanic_1,CCS_Mechanic_2,CCS_Mechanic_3,CCS_Mechanic_4,CCS_Mechanic_5,CCS_Mechanic,CCS_Mechanic,CCS_Mechanic";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.city = "LostShipsCity";
 	sld.location	= "SanGabrielMechanic";
@@ -8735,11 +8751,12 @@ void zpq_sld1_fc(string qName)
 void zpq_seaBattle(string qName)
 {
 	LAi_group_Delete("EnemyFight");
-	sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "pirate_5", "man", "man", 40, PIRATE, 1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim", "man", "man", 40, PIRATE, 1, true));
 	FantomMakeCoolFighter(sld, 40, 105, 105, "blade23", "pistol3", 200);
 	FantomMakeCoolSailor(sld, SHIP_LUGGERQUEST, "Нормандия", CANNON_TYPE_CANNON_LBS24, 105, 105, 105);
     sld.name 	= "Маленький";
     sld.lastname = "Джимми";
+	sld.id		= "zpqCaptain";
 	sld.AlwaysSandbankManeuver = true;
 	sld.DontRansackCaptain = true;
 	sld.AnalizeShips = true;

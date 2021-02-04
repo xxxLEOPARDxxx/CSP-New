@@ -2187,8 +2187,8 @@ void ProcessDialogEvent()
 		break;
 		case "SeekSpy_agree":
 			//(rand(1))
-			if  (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))     //WW 
-			if  (IsCharacterPerkOn(pchar, "Fencer") || IsCharacterPerkOn(pchar, "Grunt") )   //WW 
+			bool boko = (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))     //WW 
+			if  (IsCharacterPerkOn(pchar, "Fencer") || IsCharacterPerkOn(pchar, "Grunt") || boko)   //WW 
 			{   //шпион в одной из общих локаций common
 				pchar.GenQuest.SeekSpy.Location = GetSpyLocation(npchar); //определяем локацию
 				Log_QuestInfo(pchar.GenQuest.SeekSpy.Location); //чит

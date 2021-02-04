@@ -153,6 +153,7 @@ void FillMapForTreasure(ref item)
        } */
        FillBoxForTreasureSuper(item);
 	   if (GetCharacterSPECIALSimple(pchar, SPECIAL_L) > rand(10)) FillBoxForTreasureSuper(item);
+	   if (rand(100)==0) item.BoxTreasure.mushket_Shtuzer = 1;
     }
     DeleteAttribute(Pchar, "GenQuest.TreasureBuild"); //сборный
 
@@ -780,12 +781,12 @@ void  GhostShipOnMap()
     sld.mapEnc.type = "war";
     sld.mapEnc.Name = "Летучий голландец";
 	sld.mapEnc.worldMapShip = "pirates_manowar";
-				
+
     sld.ship.Crew.Morale = 90;
     ChangeCrewExp(sld, "Sailors", 100);
 	ChangeCrewExp(sld, "Cannoners", 100);
 	ChangeCrewExp(sld, "Soldiers", 100);
-				
+
     Fantom_SetBalls(sld, "pirate");
     Fantom_SetCharacterGoods(sld, GOOD_BALLS,  3900 + rand(300), 0);
 	Fantom_SetCharacterGoods(sld, GOOD_BOMBS,  2900 + rand(300), 0);
@@ -1003,13 +1004,19 @@ void GhostShipInit()
 void QuestShotgunT102()
 {
 	ref sld;
-	sld = GetCharacter(NPC_GenerateCharacter("T102", "skelT", "man", "man2", 55, PIRATE, 0, false));
+	sld = GetCharacter(NPC_GenerateCharacter("T102", "Terminator", "man", "man", 55, PIRATE, 0, false));
 	sld.dialog.filename      = "Quest\T102_dialog.c";
+	FantomMakeCoolFighter(sld, 80, 80, 80, "katar", "", 80);
     
     sld.name  = "Terminator";
     sld.lastname = "";
-	TakeNItems(sld,"potion2", 30);
-	LAi_SetHP(sld, 1600.0, 1600.0);
+	LAi_SetHP(sld, 1500.0, 1500.0);
+	AddBonusEnergyToCharacter(sld, 200);
+	SetCharacterPerk(sld, "BasicDefense");
+	SetCharacterPerk(sld, "Tireless");
+	SetCharacterPerk(sld, "HardHitter");
+	SetCharacterPerk(sld, "CriticalHit");
+	SetCharacterPerk(sld, "SwordplayProfessional");
 	
 	ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload1");
 	LAi_group_MoveCharacter(sld, "TmpEnemy");

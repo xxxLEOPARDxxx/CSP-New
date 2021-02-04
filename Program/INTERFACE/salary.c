@@ -23,6 +23,7 @@ void InitInterface(string iniName)
 	SetFormatedText("INFO_TEXT3",LanguageConvertString(tmpLangFileID,"All info"));
 	LanguageCloseFile(tmpLangFileID);
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"INFO_TEXT",5);
+	SetNewPicture("INFO_PICTURE", "loading\salary_"+rand(3)+".tga");
 
     CalculateInfoData();
     
@@ -31,7 +32,7 @@ void InitInterface(string iniName)
 	SetEventHandler("ievnt_command","ProcCommand",0);
 	SetEventHandler("evntDoPostExit","DoPostExit",0);
 	
-	EI_CreateFrame("INFO_BORDERS", 250,152,550,342);
+	// EI_CreateFrame("INFO_BORDERS", 250,152,550,342);
 }
 
 void ProcessBreakExit()

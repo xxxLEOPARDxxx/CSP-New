@@ -673,7 +673,23 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 			_location.box1.items.keyMorgan = 1;
 			Log_TestInfo("У этого кэпа в сундуке будет ключ Моргана!");
 		}
-				
+		
+		if(rand(50) == 0)
+		{
+			switch (rand(3))
+			{
+				case 0: _location.box1.items.Chest_ammo = 1; break;
+				case 1: _location.box1.items.Chest_treasure = 1; break;
+				case 2: _location.box1.items.Chest_quest = 1; break;
+				case 3: _location.box1.items.chest = 1; break;
+			}
+			Log_TestInfo("xzibit");
+		}
+		
+		if(rand(200) == 0)
+		{
+			_location.box1.items.mushket_SeaCarbine = 1;
+		}
     	iTemp = GetCharacterShipClass(_npchar);
 		iNation = sti(_npchar.nation);		
 
@@ -1762,6 +1778,20 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.CurrentNode = "CaptainComission_1"; //даем абордажную ноду
 		}
 		
+		if(refChar.CaptanId == "Sharp")
+		{
+			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+			refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
+			refChar.Dialog.CurrentNode = "SharpCapitain"; //даем абордажную ноду
+		}
+		
+		if(refChar.CaptanId == "zpqCaptain")
+		{
+			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+			refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
+			refChar.Dialog.CurrentNode = "zpqCapitain"; //даем абордажную ноду
+		}
+		AddItems(pchar, "talisman3", 1);
 		if(refChar.CaptanId == "ShipWreck_BadPirate")
 		{
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин

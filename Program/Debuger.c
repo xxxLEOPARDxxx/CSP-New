@@ -11,8 +11,43 @@ void ActiveINSERTControl()
 
 void ActiveF4Control()
 {
+	//Korsar Maxim - На Ф4 спауним Ведекера-офа из ГПК к себе в офы
+	ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "CCS_Mechanic", "man", "man", 30, PIRATE, -1, true));
+	sld.name = "Хенрик";
+	sld.lastname = "Ведекер";
+	sld.greeting = "Gr_questOfficer";
+	sld.Dialog.Filename = "Enc_Officer_dialog.c";
+	sld.quest.meeting = true;
+	sld.HalfImmortal = true;  //Korsar Maxim -  Сам аттрибут
+	SetSelfSkill(sld, 10, 10, 10, 10, 99);
+	SetShipSkill(sld, 50, 50, 50, 50, 100, 100, 50, 100, 50);
+	SetSPECIAL(sld, 6, 10, 9, 10, 10, 8, 10);
+	SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+	SetCharacterPerk(sld, "BasicBattleState");
+	SetCharacterPerk(sld, "AdvancedBattleState");
+	SetCharacterPerk(sld, "ShipDefenseProfessional");
+	SetCharacterPerk(sld, "LightRepair");
+	SetCharacterPerk(sld, "InstantRepair");
+	SetCharacterPerk(sld, "ShipTurnRateUp");
+	SetCharacterPerk(sld, "ShipSpeedUp");
+	SetCharacterPerk(sld, "StormProfessional");
+	SetCharacterPerk(sld, "Turn180");
+	SetCharacterPerk(sld, "SailingProfessional");
+	SetCharacterPerk(sld, "Carpenter");
+	SetCharacterPerk(sld, "Builder");
+	SetCharacterPerk(sld, "WindCatcher");
+	SetCharacterPerk(sld, "SailsMan");
+	SetCharacterPerk(sld, "Doctor1");
+	SetCharacterPerk(sld, "Doctor2");
+	TakeNItems(sld, "talisman7", 1);
+	sld.quest.OfficerPrice = sti(pchar.rank)*350;
+	AddPassenger(pchar, sld, false);
+    SetCharacterRemovable(sld, true);
+	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+	sld.loyality = MAX_LOYALITY;
 	/*Log_Info("Test F4 button");
     SetRandGeraldSail(pchar, rand(4));*/
+	pchar.VedekerDiscount = true;
 }
 
 // Warship. Сюда повесил дамп аттрибутов - по Ф12 не нужно это

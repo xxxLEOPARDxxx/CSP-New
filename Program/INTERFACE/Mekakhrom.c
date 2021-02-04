@@ -141,12 +141,12 @@ void Type_1()
 {
 	OpenCloseFrame(1, true);
 	
-	CreateString(true,"Type_1_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,153,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Type_1_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,148,SCRIPT_ALIGN_CENTER,1.5);
 	
 	string sString = PChar.Dozor.Riddle.Type_1.Question;
 	SetFormatedText("RIDDLE_TEXT_1", sString);
 	
-	CreateString(true,"Type_1_Answer_1", "Место назначения:", FONT_CAPTION, COLOR_NORMAL, 125,362,SCRIPT_ALIGN_LEFT,1.1);
+	CreateString(true,"Type_1_Answer_1", "Место назначения:", FONT_CAPTION, COLOR_NORMAL, 125,359,SCRIPT_ALIGN_LEFT,1.0);
 	CreateString(true,"Type_1_KeyPhrase", "Ответьте правильно для получения ключевой фразы.", FONT_CAPTION, COLOR_NORMAL, 410,400,SCRIPT_ALIGN_CENTER,1.0);
 }
 
@@ -187,13 +187,13 @@ void Reset_1()
 void Type_2()
 {
 	OpenCloseFrame(2, true);
-	CreateString(true,"Type_2_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,153,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Type_2_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,148,SCRIPT_ALIGN_CENTER,1.5);
 	
 	string sString = PChar.Dozor.Riddle.Type_2.Question;
 	SetFormatedText("RIDDLE_TEXT_2", sString);
 	
-	CreateString(true,"Type_2_Answer_1", "Остров:", FONT_CAPTION, COLOR_NORMAL, 215,322,SCRIPT_ALIGN_LEFT,1.1);
-	CreateString(true,"Type_2_Answer_2", "Место назначения:", FONT_CAPTION, COLOR_NORMAL, 270,362,SCRIPT_ALIGN_RIGHT,1.1);
+	CreateString(true,"Type_2_Answer_1", "Остров:", FONT_CAPTION, COLOR_NORMAL, 215,319,SCRIPT_ALIGN_LEFT,1.0);
+	CreateString(true,"Type_2_Answer_2", "Место назначения:", FONT_CAPTION, COLOR_NORMAL, 270,359,SCRIPT_ALIGN_RIGHT,1.0);
 	CreateString(true,"Type_2_KeyPhrase", "Ответьте правильно для получения ключевой фразы.", FONT_CAPTION, COLOR_NORMAL, 410,400,SCRIPT_ALIGN_CENTER,1.0);
 }
 
@@ -237,13 +237,13 @@ void Reset_2()
 void Type_3()
 {
 	OpenCloseFrame(3, true);
-	CreateString(true,"Type_3_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,93,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Type_3_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,88,SCRIPT_ALIGN_CENTER,1.5);
 	
 	string sString = PChar.Dozor.Riddle.Type_3.Question;
 	SetFormatedText("RIDDLE_TEXT_3", sString);
 	
-	CreateString(true,"Type_3_Answer_1", "Остров:", FONT_CAPTION, COLOR_NORMAL, 165,411,SCRIPT_ALIGN_LEFT,1.1);
-	CreateString(true,"Type_3_Answer_2", "Здание:", FONT_CAPTION, COLOR_NORMAL, 220,451,SCRIPT_ALIGN_RIGHT,1.1);
+	CreateString(true,"Type_3_Answer_1", "Остров:", FONT_CAPTION, COLOR_NORMAL, 165,409,SCRIPT_ALIGN_LEFT,1.0);
+	CreateString(true,"Type_3_Answer_2", "Здание:", FONT_CAPTION, COLOR_NORMAL, 220,449,SCRIPT_ALIGN_RIGHT,1.0);
 	CreateString(true,"Type_3_KeyPhrase", "Ответьте правильно для получения ключевой фразы.", FONT_CAPTION, COLOR_NORMAL, 410,490,SCRIPT_ALIGN_CENTER,1.0);
 }
 
@@ -287,13 +287,13 @@ void Reset_3()
 void Type_4()
 {
 	OpenCloseFrame(4, true);
-	CreateString(true,"Type_4_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,93,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Type_4_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,88,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateImage("Type_4_Riddle_Image", "DOZOR", "pic_1", 125,180,695,350);
-	CreateString(true,"Type_4_Answer_1", "Пункт назначения:", FONT_CAPTION, COLOR_NORMAL, 165,412,SCRIPT_ALIGN_LEFT,1.1);
+	CreateString(true,"Type_4_Answer_1", "Пункт назначения:", FONT_CAPTION, COLOR_NORMAL, 165,410,SCRIPT_ALIGN_LEFT,1.0);
 	
-	CreateString(true,"Type_4_Answer_1", "Пункт назначения:", FONT_CAPTION, COLOR_NORMAL, 160,412,SCRIPT_ALIGN_LEFT,1.1);
-	CreateString(true,"Type_4_Answer_2", "Место:", FONT_CAPTION, COLOR_NORMAL, 300,451,SCRIPT_ALIGN_RIGHT,1.1);
+	CreateString(true,"Type_4_Answer_1", "Пункт назначения:", FONT_CAPTION, COLOR_NORMAL, 160,409,SCRIPT_ALIGN_LEFT,1.0);
+	CreateString(true,"Type_4_Answer_2", "Место:", FONT_CAPTION, COLOR_NORMAL, 300,449,SCRIPT_ALIGN_RIGHT,1.0);
 	CreateString(true,"Type_4_Phrase_1", "Сегодня на площади из здания верфи был слышен крик:", FONT_NORMAL, COLOR_NORMAL, 410,355,SCRIPT_ALIGN_CENTER,1.0);
 	CreateString(true,"Type_4_Phrase_2", "''Наконец-то я достроил этот корабль! Достроил!''", FONT_NORMAL, COLOR_NORMAL, 410,375,SCRIPT_ALIGN_CENTER,1.0);
 }
@@ -338,13 +338,13 @@ void Reset_4()
 void Type_7()
 {
 	OpenCloseFrame(7, true);
-	CreateString(true,"Type_7_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,93,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Type_7_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,88,SCRIPT_ALIGN_CENTER,1.5);
 	
 	string sString = PChar.Dozor.Riddle.Type_7.Question;
 	SetFormatedText("RIDDLE_TEXT_7", sString);
 	
-	CreateString(true,"Type_7_Answer_1", "Остров:", FONT_CAPTION, COLOR_NORMAL, 165,412,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"Type_7_Answer_2", "Место:", FONT_CAPTION, COLOR_NORMAL, 215,452,SCRIPT_ALIGN_RIGHT,1.0);
+	CreateString(true,"Type_7_Answer_1", "Остров:", FONT_CAPTION, COLOR_NORMAL, 165,409,SCRIPT_ALIGN_LEFT,1.0);
+	CreateString(true,"Type_7_Answer_2", "Место:", FONT_CAPTION, COLOR_NORMAL, 215,449,SCRIPT_ALIGN_RIGHT,1.0);
 	CreateString(true,"Type_7_KeyPhrase", "Ответьте правильно для получения ключевой фразы.", FONT_CAPTION, COLOR_NORMAL, 390,490,SCRIPT_ALIGN_CENTER,1.0);
 }
 
@@ -388,7 +388,7 @@ void Reset_7()
 void Type_8()
 {
 	OpenCloseFrame(8, true);
-	CreateString(true,"Type_8_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,103,SCRIPT_ALIGN_CENTER,1.5);
+	CreateString(true,"Type_8_RiddleHeader", "Загадка: ", FONT_CAPTION, COLOR_NORMAL, 400,98,SCRIPT_ALIGN_CENTER,1.5);
 	
 	CreateImage("Type_8_Riddle_Image", "COLONY_ARCHITECTURE", "Dozor_1", 315,160,485,340);
 	

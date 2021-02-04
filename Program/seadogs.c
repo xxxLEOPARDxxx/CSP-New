@@ -472,24 +472,7 @@ void LoadGame()
 	TimeScaleCounter = 0;
 
     string loadScr="";
-    switch (rand(4))
-    {
-        case 0 :
-			loadScr = "loading\start_loading.tga.tx";
-		break;
-		case 1 :
-			loadScr = "loading\seaStand_" + rand(9) + ".tga";
-		break;
-		case 2 :
-			loadScr = "loading\battle_" + rand(23) + ".tga";
-		break;
-		case 3 :
-			loadScr = "loading\shipcannon.tga.tx";
-		break;
-		case 4 :
-			loadScr = "loading\rescue.tga.tx";
-		break;
-	}
+	loadScr = "loading\StartGame.tga";
 
 	CreateEntity(&LanguageObject,"obj_strservice");
 	CreateEntity(&reload_fader, "fader");
@@ -932,7 +915,8 @@ void NewGame()
 
 	CreateEntity(&LanguageObject,"obj_strservice");
 	CreateEntity(&reload_fader, "fader");
-	SendMessage(&reload_fader, "ls",FADER_PICTURE, RandPhraseSimple("loading\battle_" + rand(23) + ".tga", "loading\Start_Loading.tga.tx"));
+	// SendMessage(&reload_fader, "ls",FADER_PICTURE, RandPhraseSimple("loading\battle_" + rand(23) + ".tga", "loading\Start_Loading.tga.tx"));
+	SendMessage(&reload_fader, "ls",FADER_PICTURE, "loading\StartGame.tga");
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 	
 	bYesBoardStatus=false;

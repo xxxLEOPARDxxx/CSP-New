@@ -1330,14 +1330,14 @@ void PlantationInformation()
 	// CreateImage("MedicamentHeader", "MAIN_ICONS", "skillborder", 279,406,531,438);
 	// CreateImage("ItemsHeader", "MAIN_ICONS", "skillborder", 14,393,266,424);
 	
-	CreateString(true,"InfromationHeader", "Информация о плантации", FONT_CAPTION, COLOR_NORMAL, 138,44,SCRIPT_ALIGN_CENTER, 1.4);
-	CreateString(true,"SlavesHeader", "Рабы", FONT_CAPTION, COLOR_NORMAL, 400,43,SCRIPT_ALIGN_CENTER, 1.5);
-	CreateString(true,"SugarHeader", "Добыча сахара", FONT_CAPTION, COLOR_NORMAL, 665,43,SCRIPT_ALIGN_CENTER, 1.5);
-	CreateString(true,"CoffeeHeader", "Добыча кофе", FONT_CAPTION, COLOR_NORMAL, 665,333,SCRIPT_ALIGN_CENTER, 1.5);
-	CreateString(true,"GuardiansHeader", "Надсмотрщики", FONT_CAPTION, COLOR_NORMAL, 135,191,SCRIPT_ALIGN_CENTER, 1.5);
-	CreateString(true,"FoodHeader", "Провиант", FONT_CAPTION, COLOR_NORMAL, 400,227,SCRIPT_ALIGN_CENTER, 1.5);
-	CreateString(true,"MedicamentHeader", "Лекарства", FONT_CAPTION, COLOR_NORMAL, 400,411,SCRIPT_ALIGN_CENTER, 1.5);
-	CreateString(true,"InstrumentsHeader", "Инструменты", FONT_CAPTION, COLOR_NORMAL, 135,391,SCRIPT_ALIGN_CENTER, 1.5);
+	CreateString(true,"InfromationHeader", "Информация о плантации", FONT_CAPTION, COLOR_NORMAL, 138,40,SCRIPT_ALIGN_CENTER, 1.4);
+	CreateString(true,"SlavesHeader", "Рабы", FONT_CAPTION, COLOR_NORMAL, 400,39,SCRIPT_ALIGN_CENTER, 1.5);
+	CreateString(true,"SugarHeader", "Добыча сахара", FONT_CAPTION, COLOR_NORMAL, 665,39,SCRIPT_ALIGN_CENTER, 1.5);
+	CreateString(true,"CoffeeHeader", "Добыча кофе", FONT_CAPTION, COLOR_NORMAL, 665,329,SCRIPT_ALIGN_CENTER, 1.5);
+	CreateString(true,"GuardiansHeader", "Надсмотрщики", FONT_CAPTION, COLOR_NORMAL, 135,187,SCRIPT_ALIGN_CENTER, 1.5);
+	CreateString(true,"FoodHeader", "Провиант", FONT_CAPTION, COLOR_NORMAL, 400,223,SCRIPT_ALIGN_CENTER, 1.5);
+	CreateString(true,"MedicamentHeader", "Лекарства", FONT_CAPTION, COLOR_NORMAL, 400,407,SCRIPT_ALIGN_CENTER, 1.5);
+	CreateString(true,"InstrumentsHeader", "Инструменты", FONT_CAPTION, COLOR_NORMAL, 135,387,SCRIPT_ALIGN_CENTER, 1.5);
 	
 	//CreateImage("CharacterMoney", "MAIN_ICONS", "skillborder", 279,568,531,587);
 	//CreateString(true,"CharacterMoney", "Ваше золото: " + sti(PChar.money), FONT_NORMAL, iMoneyColor, 400,570,SCRIPT_ALIGN_CENTER, 0.9);

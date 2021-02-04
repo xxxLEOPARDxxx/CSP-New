@@ -81,7 +81,8 @@ void FillTable()
 	GameInterface.TABLE_HERO.hr.td5.scale = 1.0;
 	GameInterface.TABLE_HERO.hr.td6.str = "Местоположение";
 	GameInterface.TABLE_HERO.hr.td6.scale = 1.0;
-	GameInterface.TABLE_HERO.hr.td7.str = "Пункт назначения";
+	// GameInterface.TABLE_HERO.hr.td7.str = "Пункт назначения";
+	GameInterface.TABLE_HERO.hr.td7.str = "P.I.R.A.T.E.S.";
 	GameInterface.TABLE_HERO.hr.td7.scale = 1.0;
 	GameInterface.TABLE_HERO.hr.td8.str = "Репутация";
 	GameInterface.TABLE_HERO.hr.td8.scale = 1.0;
@@ -125,7 +126,7 @@ void FillTable()
 		}
 	    GameInterface.TABLE_HERO.(row).td6.str = XI_ConvertString("Colony"+chr.PGGAi.location.town);
 	    GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
-	    if (CheckAttribute(chr, "PGGAi.task.target"))
+	    /* if (CheckAttribute(chr, "PGGAi.task.target"))
 	    {
 	    	GameInterface.TABLE_HERO.(row).td7.str = XI_ConvertString("Colony"+chr.PGGAi.task.target);
 	    	GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
@@ -134,7 +135,9 @@ void FillTable()
 		{
 			GameInterface.TABLE_HERO.(row).td7.str = "Находится в колонии";
 			GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
-		}
+		} */
+		GameInterface.TABLE_HERO.(row).td7.str = "" + chr.SPECIAL.Strength + " " + chr.SPECIAL.Perception + " "+chr.SPECIAL.Agility + " " + chr.SPECIAL.Charisma + " "+chr.SPECIAL.Intellect + " " + chr.SPECIAL.Endurance   + " " + chr.SPECIAL.Luck;
+		GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
 		GameInterface.TABLE_HERO.(row).td8.str = ""+makeint(chr.reputation);
 		GameInterface.TABLE_HERO.(row).td8.scale = 0.8;
 		GameInterface.TABLE_HERO.(row).td9.str = ""+PGG_ChangeRelation2MainCharacter(chr, 0);

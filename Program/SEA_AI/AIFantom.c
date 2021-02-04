@@ -922,10 +922,10 @@ void UpgradeShipParameter(ref _chr, string _param)
 				{
 					shTo.SpeedRate        = (stf(shTo.SpeedRate) + stf(shTo.SpeedRate)/5.0);
 				}
-				else
-				{
-					shTo.SpeedRate        = (stf(shTo.SpeedRate) - stf(shTo.Bonus_SpeedRate)) * 1.2 + stf(shTo.Bonus_SpeedRate);
-				}		
+				//else
+				//{
+				//	shTo.SpeedRate        = (stf(shTo.SpeedRate) - stf(shTo.Bonus_SpeedRate)) * 1.2 + stf(shTo.Bonus_SpeedRate);
+				//}		
 				shTo.Tuning.SpeedRate = true;		
 			}	
 			
@@ -939,10 +939,10 @@ void UpgradeShipParameter(ref _chr, string _param)
 				{
 					shTo.TurnRate        = (stf(shTo.TurnRate) + stf(shTo.TurnRate)/5.0);
 				}
-				else
-				{
-					shTo.TurnRate        = (stf(shTo.TurnRate) - stf(shTo.Bonus_TurnRate)) * 1.2 + stf(shTo.Bonus_TurnRate);
-				}	
+				//else
+				//{
+				//	shTo.TurnRate        = (stf(shTo.TurnRate) - stf(shTo.Bonus_TurnRate)) * 1.2 + stf(shTo.Bonus_TurnRate);
+				//}	
 				shTo.Tuning.TurnRate = true;
 			}	
 			
@@ -956,10 +956,10 @@ void UpgradeShipParameter(ref _chr, string _param)
 				{
 					shTo.HP        = sti(shTo.HP) + makeint(sti(shTo.HP)/5);
 				}
-				else
-				{
-					shTo.HP        = makeint((sti(shTo.HP) - sti(shTo.Bonus_HP)) * 1.2 + sti(shTo.Bonus_HP));
-				}	
+				//else
+				//{
+				//	shTo.HP        = makeint((sti(shTo.HP) - sti(shTo.Bonus_HP)) * 1.2 + sti(shTo.Bonus_HP));
+				//}	
 				shTo.Tuning.HP = true;
 			}	
 			
@@ -983,10 +983,10 @@ void UpgradeShipParameter(ref _chr, string _param)
 				{
 					shTo.Capacity        = sti(shTo.Capacity) + makeint(sti(shTo.Capacity)/5);
 				}
-				else
-				{
-					shTo.Capacity        = makeint((sti(shTo.Capacity) - sti(shTo.Bonus_Capacity)) * 1.2 + sti(shTo.Bonus_Capacity));
-				}					
+				//else
+				//{
+				//	shTo.Capacity        = makeint((sti(shTo.Capacity) - sti(shTo.Bonus_Capacity)) * 1.2 + sti(shTo.Bonus_Capacity));
+				//}					
 				shTo.Tuning.Capacity = true;
 			}	
 			

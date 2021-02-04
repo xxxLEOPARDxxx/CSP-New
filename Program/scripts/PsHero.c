@@ -63,8 +63,8 @@ void InitPsHeros()
 			trace("PGG " + GetFullName(ch) + " starting rank " + sti(ch.rank));
 			SetCharacterPerk(ch, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии
 			ch.Money = 8000 + rand(1000)*10; // чтоб быстрее корабли купили
-			k = rand(15);
-			if (k != 0) sname = "Totem_"+k;
+			k = rand(13)+1;
+			sname = "Totem_"+k;
 			if (sname != "") GiveItem2Character(ch, sname);
 			
 			if (rand(1) == 0)
