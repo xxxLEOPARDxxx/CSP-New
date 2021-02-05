@@ -2395,27 +2395,6 @@ ref procGetSailTextureData()
 				{
 					BI_objRetValue.geraldTex = "Ships\Gerald\" + shref.ShipSails.gerald_name + ".tga";
 				}
-				/*
-				switch(sti(Characters[chrIdx].nation))  // Не работает это :(
-				{
-					case ENGLAND:	
-						nationFileName = "ships\parus_" + sUpgrade + "_england.tga";		
-					break;
-					case FRANCE:	
-						nationFileName = "ships\parus_" + sUpgrade + "_france.tga";		
-					break;
-					case SPAIN:		
-						nationFileName = "ships\parus_" + sUpgrade + "_spain.tga";	
-					break;
-					case PIRATE:
-						nationFileName = "ships\parus_" + sUpgrade + "_pirate.tga";
-						//BI_objRetValue.normalTex = "ships\sail_Pirates.tga";
-					break;
-					case HOLLAND:	
-						nationFileName = "ships\parus_" + sUpgrade + "_holland.tga";	
-					break;
-				}
-				*/
 				
 				BI_objRetValue.maxSP = shref.sp;
 				// boal -->
@@ -2430,10 +2409,6 @@ ref procGetSailTextureData()
 				} else {
 					makearef(arEmbl,shref.EmblemedSails);
 				} 
-				/*if (CheckAttribute(shref, "GeraldSails"))
-				{
-					makearef(arEmbl, shref.GeraldSails);  */
-					// boal <--
 				sq = GetAttributesNum(arEmbl);
 				for(i=0; i<sq; i++)
 				{
@@ -2452,11 +2427,7 @@ ref procGetSailTextureData()
 					} else {
 						BI_objRetValue.(attrName).Gerald = tmpStr;
 					}
-					//BI_objRetValue.(attrName).Gerald = "ships\chuckskull.tga"; // текстура герба (если не указана, то берется BI_objRetValue.geraldTex или BI_objRetValue.geraldTexPointer)
-					//BI_objRetValue.(attrName).hscale = 0.5; // масштаб в размере паруса (0.5 - герб занимает половину паруса)
-					//BI_objRetValue.(attrName).vscale = 0.5; // если нет vscale, то используется = scale
 				}
-				//}
 			}
 		}
 	}
@@ -2514,9 +2485,9 @@ ref procGetSailTextureData()
 				{
 					switch(rand(2))
 					{
-						case 0: sUpgrade = "common"; break;
-						case 1: sUpgrade = "pat"; break;
-						case 2: sUpgrade = "silk"; break;
+						case 0: sUpgrade = "common"; 	break;
+						case 1: sUpgrade = "pat"; 		break;
+						case 2: sUpgrade = "silk"; 		break;
 					}
 				}
 				nationFileName = "ships\parus_" + sUpgrade + ".tga";

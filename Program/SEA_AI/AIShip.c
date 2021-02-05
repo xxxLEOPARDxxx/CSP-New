@@ -152,10 +152,14 @@ void Sea_ClearCheckFlag()
 		int i;
 		for (i=0; i<iNumShips; i++)
 		{
-			if (!CheckAttribute(&Characters[Ships[i]], "DontCheckFlag"))
+			//Boyer fix
+			if(sti(Ships[i]) >= 0 && sti(Ships[i]) < TOTAL_CHARACTERS) 
 			{
-			    DeleteAttribute(&Characters[Ships[i]], "CheckFlagYet"); // флаг распознования врага
-			    DeleteAttribute(&Characters[Ships[i]], "CheckFlagDate");
+				if (!CheckAttribute(&Characters[Ships[i]], "DontCheckFlag"))
+				{
+					DeleteAttribute(&Characters[Ships[i]], "CheckFlagYet"); // флаг распознования врага
+					DeleteAttribute(&Characters[Ships[i]], "CheckFlagDate");
+				}
 			}
 		}
 		// фортам трем
@@ -185,10 +189,10 @@ void CreateShipEnvironment()
 	sIslandLocator = "";
 	sIslandID = "";
 	
-	for (int i = 0; i < MAX_SHIPS_ON_SEA; i++)
+	for (int x = 0; x < MAX_SHIPS_ON_SEA; x++)
 	{
-		ShipModelrList[i] = -1;
-		Ships[i] = -1;
+		ShipModelrList[x] = -1;
+		Ships[x] = -1;
 	}
 	ShipOnLoadModelrList = -1;
 	aref arCurWeather = GetCurrentWeather();
@@ -829,6 +833,11 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 	rCharacter.Tmp.fWatchFort  = rand(15); // оптимизация оглядок на форт
 	rCharacter.Tmp.fWatchFort.Qty = 15;
     // boal <--
+
+	if (iCharacterIndex == GetMainCharacterIndex()) { // NK 04-09-16 clears timer attribute, -21 for updatetime
+		rCharacter.seatime = 0;
+		rCharacter.lastupdateseatime = 0;
+	}
 	if (iCharacterIndex >= FANTOM_CHARACTERS)
 	{
 		SetBaseShipData(rCharacter);
@@ -888,6 +897,7 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 	rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon = 0; //счетчик попыток смены боеприпасов при полном боезапаса, для фикса неубегаек
 	// boal <--
 	rCharacter.Ship.SeaAI.Init.FollowDistance = makefloat(180 + rand(120)); // было 300, делаю рандом для разнообразия поведения компаньонов и следования в группе
+	DeleteAttribute(rCharacter, "Ship.SeaAI.Init.AttackRangeSet");
 	//#20180208-01 Add flexibility to AI ship
     rCharacter.Ship.SeaAI.Init.WindC = 2.0;
     rCharacter.Ship.SeaAI.Init.FortC = 2.75;

@@ -1738,6 +1738,13 @@ void ProcessDialogEvent()
 		//---------------------------- генератор квестов мэра -------------------------------
 		break;
 
+		case "Patent_Doubt":
+			dialog.text = "Гладко стелите... Мне стоило бы вас повесить за одну лишь дерзость. Таким отъявленным пиратам веры нет, однако сейчас на нашем архипелаге тяжелые времена и пригодится любая помощь. Так и быть, я подпишу вам патент, ";
+			link.l1 = "Вы не пожалеете, " + GetAddress_FormToNPC(NPChar) + "!";
+			link.l1.go = "Patent_Give";
+			link.l2 = "Ха! Повелись! Это была лишь шутка, я не хочу иметь ничего общего с вашим никчемным государством.";
+			link.l2.go = "arest_3";
+		break;
 		case "Patent_Give":
             pchar.PatentNation = NationShortName(sti(NPChar.nation));
             pchar.PatentPrice = 0;
@@ -2120,7 +2127,7 @@ void ProcessDialogEvent()
 
 		case "arest_2":
 			dialog.text = "Раньше надо было думать! Стража!";
-			link.l1 = "Ну, уж нет! Просто так вы меня не возьмете !";
+			link.l1 = "Ну, уж нет! Просто так вы меня не возьмете!";
 		    link.l1.go = "fight";
 /*			
             Pchar.GenQuest.Death_Execution_location = NPChar.from_sea;
@@ -2129,7 +2136,15 @@ void ProcessDialogEvent()
 
 			DeathExecutionStart(Pchar, sti(NPChar.nation));
 */			
-		break;    
+		break;   
+
+		case "arest_3":
+			dialog.text = "Стража! Взять е"+ GetSexPhrase("го","е") +"!";
+			link.l1 = "Ну, уж нет! Просто так вы меня не возьмете!";
+		    link.l1.go = "fight";
+/*			
+*/			
+		break; 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////
 		//	Уничтожение банды
 		/////////////////////////////////////////////////////////////////////////////////////////////////

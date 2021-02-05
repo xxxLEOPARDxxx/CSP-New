@@ -18,7 +18,7 @@ void ActiveF4Control()
 	sld.greeting = "Gr_questOfficer";
 	sld.Dialog.Filename = "Enc_Officer_dialog.c";
 	sld.quest.meeting = true;
-	sld.HalfImmortal = true;  //Korsar Maxim -  Сам аттрибут
+	sld.HalfImmortal = true;  // Контузия
 	SetSelfSkill(sld, 10, 10, 10, 10, 99);
 	SetShipSkill(sld, 50, 50, 50, 50, 100, 100, 50, 100, 50);
 	SetSPECIAL(sld, 6, 10, 9, 10, 10, 8, 10);

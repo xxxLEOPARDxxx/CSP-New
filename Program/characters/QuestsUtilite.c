@@ -657,7 +657,7 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 	{
         DeleteAttribute(_location, "box1");
         _location.box1.money = 25000;
-		_location.box1.items.talisman3 = 1;
+		// _location.box1.items.talisman3 = 1;
         ok = false;
 	}
 	
@@ -1791,7 +1791,7 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
 			refChar.Dialog.CurrentNode = "zpqCapitain"; //даем абордажную ноду
 		}
-		AddItems(pchar, "talisman3", 1);
+		// AddItems(pchar, "talisman3", 1);
 		if(refChar.CaptanId == "ShipWreck_BadPirate")
 		{
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
@@ -2245,6 +2245,7 @@ void OfficerGirlInit()
 	sld.rank 	= 17;
     sld.reputation = 70; // good девочка
 	sld.alignment = "good";
+	sld.HalfImmortal = true;  // Контузия
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
 	sld.HeroModel = "PGG_YokoDias_0,PGG_YokoDias_1,PGG_YokoDias_2,PGG_YokoDias_3,PGG_YokoDias_4,PGG_YokoDias_5,PGG_YokoDias_6,PGG_YokoDias_7,PGG_YokoDias_8";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--

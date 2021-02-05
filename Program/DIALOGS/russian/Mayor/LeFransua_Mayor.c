@@ -11,8 +11,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1.go = "exit";
 			if (CheckAttribute(pchar, "questTemp.mushket2x2") && !CheckCharacterItem(pchar, "mushket2x2"))
 			{
-				link.l1 = "Слушай, Роджерс, тебе ни о чем не говорит слово 'стрела'? Может быть, здесь бывает пират по кличке 'Стрела', или судно пиратское с таким названием заходило к тебе в порт?";
-				link.l1.go = "Mushket";
+				link.l4 = "Слушай, Роджерс, тебе ни о чем не говорит слово 'стрела'? Может быть, здесь бывает пират по кличке 'Стрела', или судно пиратское с таким названием заходило к тебе в порт?";
+				link.l4.go = "Mushket";
 			}
 			if (CheckAttribute(pchar, "GenQuest.CaptainComission") && NPChar.city == pchar.GenQuest.CaptainComission.PiratesCity)
 			{

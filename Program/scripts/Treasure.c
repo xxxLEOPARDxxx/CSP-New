@@ -1004,7 +1004,7 @@ void GhostShipInit()
 void QuestShotgunT102()
 {
 	ref sld;
-	sld = GetCharacter(NPC_GenerateCharacter("T102", "Terminator", "man", "man", 55, PIRATE, 0, false));
+	sld = GetCharacter(NPC_GenerateCharacter("T102", "Terminator", "Terminator_Sex", "Terminator", 55, PIRATE, 0, false));
 	sld.dialog.filename      = "Quest\T102_dialog.c";
 	FantomMakeCoolFighter(sld, 80, 80, 80, "katar", "", 80);
     

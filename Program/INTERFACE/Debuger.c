@@ -615,7 +615,10 @@ void CalculateInfoDataF6()
 	AddItems(mc, "pistol7", 1);
 	AddItems(mc, "Map_Best", 1);
 	
-	sEquipItem = GetGeneratedItem("blade27");
+	// sEquipItem = GetGeneratedItem("blade27"); 	// Моргана 		(ЛО)
+	// sEquipItem = GetGeneratedItem("blade32"); 	// Фламбердж	(ЛО)
+	// sEquipItem = GetGeneratedItem("katar"); 		// Катар		(СО)
+	// sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
 	AddItems(mc, sEquipItem, 1);
 	
 	AddItems(mc, "bullet", 50);

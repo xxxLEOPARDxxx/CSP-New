@@ -8766,10 +8766,9 @@ void zpq_seaBattle(string qName)
 	ChangeCrewExp(sld, "Sailors", 100);
 	ChangeCrewExp(sld, "Cannoners", 100);
 	ChangeCrewExp(sld, "Soldiers", 100);
-
+	AddItems(sld, "talisman3", 1);
 	sld.SaveItemsForDead = true;
 	sld.DontClearDead = true;
-	
 	LAi_group_MoveCharacter(sld, "EnemyFight");
 	Group_AddCharacter("zpq_Group", "zpqCaptain");			
 	Group_SetType("zpq_Group", "Pirate");

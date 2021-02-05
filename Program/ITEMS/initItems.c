@@ -666,16 +666,7 @@ int InitItems()
 	itm.quality = "excellent";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	// для патча 1.2.5 фиксируем статы
-/*	
-	itm.Generation.qty = 15;
-	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 20.0;
-	itm.Generation.dmg_min.max = 22.0;
-	itm.Generation.dmg_max.min = 66.0;
-	itm.Generation.dmg_max.max = 75.0;
-	itm.Generation.Weight.min = 3.0;
-	itm.Generation.Weight.max = 3.2;
-*/	
+
 	n++;
 	
 	// ГПК 1.2.3 Reblading - "Маринера", бывшая "Германская рапира"
@@ -824,6 +815,43 @@ int InitItems()
 	itm.Generation.dmg_max.max = 68.0;
 	itm.Generation.Weight.min = 2.4;
 	itm.Generation.Weight.max = 2.6;
+	n++;
+	
+	// ГПК 1.2.3 Reblading - "Фламберж", бывшый "Хаудеген" - LEO: перенесена в ЛО для ребаланса
+	makeref(itm,Items[n]);
+	itm.id = "blade32";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blade32";
+	itm.describe = "itmdescr_blade32";
+	itm.folder = "items";
+	itm.model = "blade32";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_10";
+	// boal 19.01.2004 -->
+	itm.price = 3000;
+	itm.Weight = 3.0 + fRandSmall(0.4); // 4.4;
+	// boal 19.01.2004 <--
+	itm.dmg_min = 15.0 + rand(3); // 18.0;
+	itm.dmg_max = 65.0 + rand(5); // 70.0;
+	itm.piercing = 90.0;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 92.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingLight";
+	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 15;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 15.0;
+	itm.Generation.dmg_min.max = 18.0;
+	itm.Generation.dmg_max.min = 65.0;
+	itm.Generation.dmg_max.max = 70.0;
+	itm.Generation.Weight.min = 3.0;
+	itm.Generation.Weight.max = 3.4;
 	n++;
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1309,43 +1337,6 @@ int InitItems()
 	itm.Generation.dmg_max.max = 72.0;
 	itm.Generation.Weight.min = 4.1;
 	itm.Generation.Weight.max = 4.3;
-	n++;
-	
-	// ГПК 1.2.3 Reblading - "Фламберж", бывшый "Хаудеген"
-	makeref(itm,Items[n]);
-	itm.id = "blade32";
-	itm.groupID = BLADE_ITEM_TYPE;
-	itm.name = "itmname_blade32";
-	itm.describe = "itmdescr_blade32";
-	itm.folder = "items";
-	itm.model = "blade32";
-	itm.picIndex = 4;
-	itm.picTexture = "ITEMS_10";
-	// boal 19.01.2004 -->
-	itm.price = 3000;
-	itm.Weight = 4.1 + fRandSmall(0.4); // 4.4;
-	// boal 19.01.2004 <--
-	itm.dmg_min = 20.0 + rand(5); // 25.0;
-	itm.dmg_max = 65.0 + rand(5); // 70.0;
-	itm.piercing = 90.0;
-	itm.minlevel = 1;
-	itm.rare = 0.0001;
-	itm.block = 92.0;
-	itm.param.time = 0.1;
-	itm.param.colorstart = argb(64, 64, 64, 64);
-	itm.param.colorend = argb(0, 32, 32, 32);
-	itm.FencingType = "Fencing";
-	itm.ItemType = "WEAPON";
-	itm.quality = "excellent";
-	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	itm.Generation.qty = 15;
-	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 20.0;
-	itm.Generation.dmg_min.max = 25.0;
-	itm.Generation.dmg_max.min = 65.0;
-	itm.Generation.dmg_max.max = 70.0;
-	itm.Generation.Weight.min = 4.1;
-	itm.Generation.Weight.max = 4.5;
 	n++;
 	
 	// Gregg Катар

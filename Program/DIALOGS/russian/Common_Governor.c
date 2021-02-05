@@ -58,6 +58,29 @@ void ProcessDialogEvent()
 			LAi_group_Attack(NPChar, Pchar);
 		break;
 		
+		case "arest":
+			dialog.text = "Стража! Взять е"+ GetSexPhrase("го","е") +"!";
+			link.l1 = "Ну, уж нет! Просто так вы меня не возьмете!";
+		    link.l1.go = "fight";	
+		break; 
+		
+		case "Patent_Doubt":
+			dialog.text = "Гладко стелите... Мне стоило бы вас повесить за одну лишь дерзость. Таким отъявленным пиратам веры нет, однако сейчас на нашем архипелаге тяжелые времена и пригодится любая помощь. Так и быть, я подпишу вам патент, и помилование. Только не заставляйте меня жалеть об этом.";
+			link.l1 = "Вы не пожалеете, " + GetAddress_FormToNPC(NPChar) + "!";
+			link.l1.go = "Patent_Give";
+			link.l2 = "Ха! Повелись! Это была лишь шутка, я не хочу иметь ничего общего с вашим никчемным государством.";
+			link.l2.go = "arest_3";
+		break;
+		case "Patent_Give":
+            pchar.PatentNation = NationShortName(sti(NPChar.nation));
+            pchar.PatentPrice = 0;
+			dialog.text = "Пожалуйста, надеюсь на дальнейшее сотрудничество. Приходите ко мне время от времени. У меня могут найтись важные задания для вас.";
+			link.l1 = "Спасибо. Прощайте, " + GetAddress_FormToNPC(NPChar) + ".";
+			link.l1.go = "exit";
+			AddDialogExitQuest("any_patent_take");
+			ChangeCharacterHunterScore(Pchar, NationShortName(sti(NPChar.nation)) + "hunter", -100);
+		break;
+		
 		case "First time":
             NextDiag.TempNode = "First time";
 			if (LAi_grp_playeralarm > 0)
@@ -79,6 +102,27 @@ void ProcessDialogEvent()
             		link.l1.go = "exit";
 					break;
                 }
+				
+			if (sti(NPChar.nation) != PIRATE && ChangeCharacterHunterScore(Pchar, NationShortName(sti(NPChar.nation)) + "hunter", 0) > 15)
+            {
+                dialog.text = "О! Кто пришел! Это же сам"+ GetSexPhrase("","а") +" " + GetFullName(pchar) + ". Мы как раз недавно высылали охотников за головами, чтобы они привели вас сюда. И знаете, это уже встало нам в кругленькую сумму.";
+                if (sti(NPChar.nation) != PIRATE && ChangeCharacterHunterScore(Pchar, NationShortName(sti(NPChar.nation)) + "hunter", 0) == 100 && !isMainCharacterPatented())
+				{
+				link.l3 = "Вы видели на что я способ"+ GetSexPhrase("ен","на") +" будучи врагом, а теперь представьте какую пользу я смогу принести вашей державе в качестве союзника. Предлагаю всего раз, здесь и сейчас: выдайте мне патент и все ваши враги станут моими.";
+				link.l3.go = "Patent_Doubt";
+				}
+				link.l2 = "Э... пожалуй, мне пора.";
+				link.l2.go = "arest";
+				break;
+            }
+			if (GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY && sti(NPChar.nation) != PIRATE)
+			{
+    			dialog.text = "Враг в резиденции! Тревога!!";
+				link.l1 = "А-ать, дьявол!";
+				link.l1.go = "fight"; 
+				break;
+			}			
+
 			if (npchar.quest.meeting == "0")
 			{
 				dialog.text = "Я слышал, что вы очень настойчиво просили аудиенции. Меня зовут " + GetFullName(npchar) +

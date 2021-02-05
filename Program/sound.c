@@ -371,7 +371,7 @@ void SetSchemeForLocation (ref loc)
 			
 			case "boarding_cabine":
 				SetSoundScheme("cabine");
-				SetMusic("music_abordage");
+				SetMusicAlarm("music_abordage");
 			break;
 			
 			case "sailing_cabine":
@@ -554,7 +554,7 @@ void SetMusic(string name)
 	//Trace("SetMusic : "+name);
 	if (oldMusicID >= 0)
 	{
-		SendMessage(Sound, "lll", MSG_SOUND_STOP, oldMusicID, 0);
+		SendMessage(Sound, "ll", MSG_SOUND_RELEASE, oldMusicID);
 		oldMusicID = -1;
 	}
 
@@ -568,7 +568,7 @@ void SetMusic(string name)
 	//musicID = SendMessage(Sound, "lslllllll", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, silenceTime);
 	//SendMessage(Sound, "llf", MSG_SOUND_SET_VOLUME, musicID, 1.0);
 	// fix поседнее - это громкость звука
-	musicID = SendMessage(Sound, "lslllllll", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, 0);
+	musicID = SendMessage(Sound, "lslllllllf", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, 0, MUSIC_CHANGE_TIME, 1.0);
 	SendMessage(Sound, "lll", MSG_SOUND_RESUME, musicID, MUSIC_CHANGE_TIME);
 	
 	oldMusicName = musicName;
@@ -660,7 +660,7 @@ void SetBattleMusicAlarm(string name)
 void SetMusicAlarm(string name)
 {
 	//Log_TestInfo("SetMusic: " + name);
-	if (alarmed == 0 && seaAlarmed==false)
+	if (alarmed == 0)
 	{
 		SetMusic(name);
 	}
@@ -712,7 +712,7 @@ void Sound_OnAlarm(bool _alarmed)
 void Sound_OnSeaAlarm(bool _seaAlarmed)
 {
 	seaAlarmed = _seaAlarmed;
-	if (seaAlarmed == oldSeaAlarmed && oldMusicId == musicID)
+	if (seaAlarmed == oldSeaAlarmed)
 		return;
 
 	if (seaAlarmed)
@@ -759,7 +759,7 @@ void ResetSound()
 	ResetSoundScheme();
 	// fix <--
 	StopSound(0,0);
-	//ReleaseSound(0);
+	ReleaseSound(0);
 	musicName = "";
 	oldMusicName = "";
 	musicID = -1;    //fix boal не было нуления ИД

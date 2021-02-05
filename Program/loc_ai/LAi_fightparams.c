@@ -588,54 +588,57 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	{
 		if (coeff != 0)
 		{	
-			if (HasSubStr(attack.equip.blade, "blade32") && rand(6-coeff)==0)
+			if (HasSubStr(attack.equip.blade, "blade32") && (10>rand(100)))
 			{
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
 					Log_Info("Вы вызвали кровотечение.")
 				}
-				else
+				if(sti(enemy.index) == GetMainCharacterIndex())
 				{
 					Log_Info("Вам нанесли кровоточащую рану.")
 				}
-				MakeBloodingAttack(enemy, attack, coeff);
+				if(CheckAttribute(enemy, "model.animation") && CheckAttribute(enemy, "sex") && enemy.model.animation != "skeleton" && enemy.model.animation != "Terminator" && enemy.sex != "skeleton") MakeBloodingAttack(enemy, attack, coeff);
 			}
 			else
 			{
-				if (coeff*2>rand(100))
+				if (coeff>rand(100))
 				{
 					if(sti(attack.index) == GetMainCharacterIndex())
 					{
 						Log_Info("Вы вызвали кровотечение.")
 					}
-					else
+					if(sti(enemy.index) == GetMainCharacterIndex())
 					{
 						Log_Info("Вам нанесли кровоточащую рану.")
 					}
-					MakeBloodingAttack(enemy, attack, coeff);
+					if(CheckAttribute(enemy, "model.animation") && CheckAttribute(enemy, "sex") && enemy.model.animation != "skeleton" && enemy.model.animation != "Terminator" && enemy.sex != "skeleton") MakeBloodingAttack(enemy, attack, coeff);
 				}
 			}
 			
 		}
 
 	}
-	if (fencing_type == "Fencing" && isBlocked && blockSave)
+	if (isBlocked && blockSave)
 	{
 		if (coeff != 0)
 		{
-			if (coeff*3>rand(100))
+			if (fencing_type == "Fencing" || fencing_type == "FencingHeavy")
 			{
-				if(sti(attack.index) == GetMainCharacterIndex())
+				if (coeff*7>rand(100))
 				{
-					Log_Info("Вы пробили блок средним оружием.")
-				}
-				else
-				{
-					Log_Info("Ваш блок был пробит средним оружием.")
-				}
-				isBlocked = false;
-				blockSave = false;
-			} 
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Пробитие блока.")
+					}
+					if(sti(enemy.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Ваш блок пробит.")
+					}
+					isBlocked = false;
+					blockSave = false;
+				} 
+			}
 		}
 	}
 	if (isBlocked)
@@ -676,7 +679,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 					Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
 				}
 			}
-			if (!HasSubStr(attack.equip.blade, "topor") && fencing_type == "FencingHeavy" && rand(8-coeff)==0 && !blockSave)
+			if (!HasSubStr(attack.equip.blade, "topor") && fencing_type == "FencingHeavy" && coeff*7>rand(100) && !blockSave)
 			{
 				cirign = true;
 				Log_TestInfo("тяж");

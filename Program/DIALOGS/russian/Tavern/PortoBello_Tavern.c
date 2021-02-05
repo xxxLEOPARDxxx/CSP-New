@@ -24,7 +24,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			if (CheckAttribute(pchar, "questTemp.mushket2x2_stid") && !CheckCharacterItem(pchar, "mushket2x2"))
 			{
 				link.l1 = "Слушай, Роландо, ты не знаешь, где мне найти Альберта Зиверта - капитана брига 'Стрела'?";
-				if (GetQuestPastDayParam("questTemp.mushket2x2_stid") < 11)
+				if (GetQuestPastDayParam("questTemp.mushket2x2_stid") < 11 || GetQuestPastDayParam("questTemp.mushket2x2_stid") > 60)
 				{
 					link.l1.go = "Mushket_stid";
 				}
@@ -45,7 +45,6 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			dialog.text = "Вот это да!.. Aх-ха-ха! Зачем это тебе понадобился мой лучший друг, знаменитый разбойник Алберто Зиверт?!";
 			link.l1 = "Нужен... у меня к нему дело.";
 			link.l1.go = "Mushket_stid_1";
-			DeleteAttribute(pchar, "questTemp.mushket2x2_stid");
 			break;
 			
 		case "Mushket_stid_1":
@@ -92,7 +91,6 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = "Ну что, прощай, Роландо. Не напрасно тебя называют пройдохой. Мог заработать немного пиастров, а не заработал - зато много...";
 			link.l1.go = "exit";
 			AddQuestRecord("SeekDoubleMushket", "5");
-			DeleteAttribute(pchar, "pchar.questTemp.Mushket.Shore");
 		break;	
 			
 		case "Mushket_stid_goaway":
@@ -101,7 +99,6 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1.go = "exit";
 			AddQuestRecord("SeekDoubleMushket", "6");
 			AddQuestUserData("SeekDoubleMushket", "sSex", GetSexPhrase("ся","ась"));
-			DeleteAttribute(pchar, "pchar.questTemp.Mushket.Shore");
 		break;	
 			
 		case "Mushket_stid_paymoney":
@@ -111,18 +108,17 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = "Спасибо, Лис! Немедленно выдвигаюсь.";
 			link.l1.go = "exit";
 			AddQuestRecord("SeekDoubleMushket", "4");
-
+			DeleteAttribute(pchar, "questTemp.mushket2x2_stid");
 		break;
 		
 		case "Mushket_late":
 			dialog.text = "Aх-ха-ха! Зачем это тебе понадобился мой лучший друг, знаменитый разбойник Алберто Зиверт?!";
 			link.l1 = "Нужен... у меня к нему дело.";
 			link.l1.go = "Mushket_late_1";
-			DeleteAttribute(pchar, "questTemp.mushket2x2_stid");
 		break;
 			
 		case "Mushket_late_1":
-			dialog.text = "Ну что я могу сказать... Не свезло тебе, "+ GetSexPhrase("приятель","подруга") +". Приди ты ко мне немного пораньше - я бы поделился с тобой информацией, в какой бухте можно отыскать Зиверта.\nНо теперь поздно - он ушел оттуда, а куда - не ведаю. Так что ищи теперь сам"+ GetSexPhrase("","а") +"... по всему архипелагу. Он может быть где угодно.";
+			dialog.text = "Ну что я могу сказать... Не свезло тебе, "+ GetSexPhrase("приятель","подруга") +". Приди ты ко мне немного пораньше - я бы поделился с тобой информацией, в какой бухте можно отыскать Зиверта.\nНо теперь поздно - он ушел оттуда, а куда - не ведаю. Так что ищи теперь сам"+ GetSexPhrase("","а") +"... по всему архипелагу. Он может быть где угодно. Хотя можешь попробовать заглянуть попозже, вдруг свезёт?";
 			link.l1 = "Вот дьявол! Ладно, раз так - прощай.";
 			link.l1.go = "exit";
 			AddQuestRecord("SeekDoubleMushket", "7");

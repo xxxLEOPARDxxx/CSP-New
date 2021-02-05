@@ -25,12 +25,14 @@ void ProcessDialogEvent()
 			link.l1 = "Что такое?!";
 			link.l1.go = "Term_1";
 			TakeNItems(Pchar, "term_arm", -1);
+			PlaySound("Kopcapkz\Voices\T-102\T102_Intro.wav");
 		break;
 		
 		case "Term_1":
 			dialog.text = "Я - киборг марки Т-102, производства 'Скайнет продакшн', анклава Детройт, выпуск 2022 года. Я настиг тебя, человек со странного корабля.";
 			link.l1 = "Кто? Чего? Какой еще Ки Борг? Какого года? На дворе семнадцатый век от рождества Христова! Ты - нечисть! Только почему-то металлическая, что странно.";
 			link.l1.go = "Term_2";
+			PlaySound("Kopcapkz\Voices\T-102\T102_DLG_0.wav");
 		break;
 		
 		case "Term_2":
@@ -44,6 +46,7 @@ void ProcessDialogEvent()
 			dialog.text = "Error. Main power too low. Critical error - restarting....";
 			link.l1 = "Чего?";
 			link.l1.go = "Term_4";
+			PlaySound("Kopcapkz\Voices\T-102\T102_DLG_1.wav");
 		break;
 		
 		case "Term_4":
@@ -56,6 +59,7 @@ void ProcessDialogEvent()
 			dialog.text = "System ready.......  Я - киборг марки Т-102, производства 'Скайнет продакшн', анклава Детройт, выпуск 2022 года.";
 			link.l1 = "Это я уже слышал"+ GetSexPhrase("","а") +"! Не зли меня, тупая железка!";
 			link.l1.go = "Term_6";
+			PlaySound("Kopcapkz\Voices\T-102\T102_DLG_2.wav");
 		break;
 		
 		case "Term_6":

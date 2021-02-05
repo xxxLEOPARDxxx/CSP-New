@@ -335,7 +335,7 @@ void LAi_ApplyCharacterDamage(aref chr, int dmg)
 	bool bloodSize = false;
 	if (damage > 30.0) bloodSize = true;
 	float fRange = 1.0 + frand(0.6);
-	if(CheckAttribute(chr, "model.animation") && CheckAttribute(chr, "sex") && chr.model.animation != "skeleton" && chr.sex != "skeleton")
+	if(CheckAttribute(chr, "model.animation") && CheckAttribute(chr, "sex") && chr.model.animation != "skeleton" && chr.model.animation != "Terminator" && chr.sex != "skeleton")
 	{
 		LaunchBlood(chr, fRange, bloodSize);
 	}	
@@ -1323,7 +1323,7 @@ void MakeBloodingAttack(aref enemy, aref attacked, int coeff) // Кровоточащая ат
 		Blooding = stf(enemy.chr_ai.Blooding);
 		if(Blooding < 1.0) Blooding = 1.0;
 	}
-	enemy.chr_ai.Blooding = Blooding + (coeff*2); // Продолжительность
+	enemy.chr_ai.Blooding = Blooding + (rand(coeff*5)); // Продолжительность
 	
 	if(stf(enemy.chr_ai.Blooding) > 200.0) enemy.chr_ai.Blooding = 200.0; 
 

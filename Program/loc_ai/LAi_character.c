@@ -798,7 +798,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
 					}
 				}else{
-					hp = hp - dltTime*1.0; // -1 ХП в сек.
+					hp = hp - dltTime*(MakeFloat(chr.chr_ai.hp_max)/100); // -1 ХП в сек.
 					hp = hp - GetCharacterRegenHP(chr, false)*dltTime; // Если кровотечение, то отключаем реген. ХП (без учета бонусов от предметов)
 					if (!CheckAttribute(chr, "blooding.hp") || hp < sti(chr.blooding.hp)-1.0)
 					{
