@@ -4375,6 +4375,20 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	LAi_SetWarriorType(sld);
 	LAi_group_MoveCharacter(sld, "PearlGroup_2");
 	
+	// крабик
+
+	sld = GetCharacter(NPC_GenerateCharacter("pet_crab", "crabSmall", "crab", "crabSmall", 25, PIRATE, -1, false));
+	sld.name = "Краб";
+	sld.lastname = "";
+	GiveItem2Character(sld, "unarmed");
+	EquipCharacterbyItem(sld, "unarmed");;
+	sld.location	= "Shore19";
+	sld.location.group = "goto";
+	sld.location.locator = "goto1"; 
+	sld.dialog.filename   = "Quest\LostShipsCity\Crab.c";
+	sld.dialog.currentnode   = "First time";
+	LAi_SetLSCoutType(sld);
+	LAi_group_MoveCharacter(sld, "pet_crab");
     //Квестовые горожане из ККС
 	
 	// внешний горожанин Ришард Шамбон - контрабандист (Квест "Тайна Санта-Люсии")
@@ -5076,6 +5090,20 @@ void LSC_fightEnterResidence(string qName)
 
 void LSC_figtInResidence()
 {
+	sld = characterFromId("pet_crab");
+	if (!CharacterIsDead(sld) && CheckAttribute(sld, "quest.answer_1"))
+	{
+		sld.dialog.currentnode = "crab_hire";
+		sld.model	= "pet_crab";
+		sld.animation = "crabBig";
+		LAi_SetHP(sld, 1000, 1000);
+		SetSPECIAL(sld, 7,7,7,7,7,7,7)
+		sld.rank = 25;
+		LAi_SetActorTypeNoGroup(sld); 
+		LAi_ActorDialog(sld, pchar, "", 2.0, 0);
+		ChangeCharacterAddressGroup(sld, "LostShipsCity_town", "goto", "goto11_1");
+	}
+	
 	sld = characterFromId("Ment_6");
 	GetCharacterPos(pchar, &locx, &locy, &locz);
 	LAi_SetWarriorTypeNoGroup(sld);

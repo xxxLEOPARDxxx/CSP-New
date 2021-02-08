@@ -517,7 +517,9 @@ void LAi_LoadLocation(string locationID, int locType)
 				// boal random place to star battle 28/11/03 <--
 				ChangeCharacterAddressGroup(&Characters[idx], locationID, "rld", sLocType + locNum[locI]);
 				logined = logined + 1;
+				
 			}
+			boarding_player_crew = boarding_player_crew - logined;
 		}
 		//Перегружаемся в локацию
 		boarding_location = locIndex;
@@ -1150,7 +1152,6 @@ void LAi_SetBoardingActors(string locID)
 					LAi_SetWarriorType(chr);
 					LAi_group_MoveCharacter(chr, LAI_GROUP_BRDENEMY);
 					ChangeCharacterAddressGroup(chr, locID, "rld", sLocType+"mush"+i);
-					boarding_enemy_crew = boarding_enemy_crew - 1;
 				}
 			}
 			if (!IsFort)

@@ -195,78 +195,82 @@ void AcceptAddOfficer()
 	bool bOk;
 	
 	string attributeName2 = "pic"+(nCurScrollOfficerNum+1);
-
-    if (checkAttribute(GameInterface, "PASSENGERSLIST."+attributeName2 + ".character"))
-    {
-		int iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
-
-		if (!CheckAttribute(&characters[iChar], "isfree"))
+	int iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
+	sld = &characters[iChar];
+	if(sld.id != "pet_crab" || (nCurScrollNum > 6))
+	{
+		if (checkAttribute(GameInterface, "PASSENGERSLIST."+attributeName2 + ".character"))
 		{
-			characters[iChar].isfree = 1;
+			iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
+
+			if (!CheckAttribute(&characters[iChar], "isfree"))
+			{
+				characters[iChar].isfree = 1;
+			}
+			else
+			{
+				characters[iChar].isfree = sti(characters[iChar].isfree) + 1; // совместители
+			}
+			bOk = (Characters[iChar].location != pchar.location);  // ниже локация перебивается на ГГ
+			switch (nCurScrollNum)
+			{
+				case 1:
+					pchar.Fellows.Passengers.navigator = iChar;
+				break;
+
+				case 2:
+					pchar.Fellows.Passengers.boatswain = iChar;
+				break;
+
+				case 3:
+					pchar.Fellows.Passengers.cannoner = iChar;
+				break;
+
+				case 4:
+					pchar.Fellows.Passengers.doctor = iChar;
+				break;
+
+				case 5:
+					pchar.Fellows.Passengers.treasurer = iChar;
+				break;
+
+				case 6:
+					pchar.Fellows.Passengers.carpenter = iChar;
+				break;
+
+				//Boyer mod
+										  
+						   
+			 
+
+				//default:
+					SetOfficersIndex(pchar, nCurScrollNum - 6, iChar);
+					bNeedFollow = true;
+				break;
+				//End Boyer add
+			  
+										  
+						   
+			 
+			}
+			attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
+			characters[iChar].(attributeName2) = true; // совместитель дожности
+			//SetCharacterTask_FollowCharacter(&Characters[iChar], PChar);
+			if (bNeedFollow) // только для офов
+			{
+														
+				//if (Characters[iChar].location.group == "sit")
+				//{// найм прямо в таверне
+				//if (bOk && IsEntity(loadedLocation) && !CheckAttribute(loadedLocation, "DisableOfficers"))
+				if (IsEntity(loadedLocation) && loadedLocation.type == "tavern")
+				{   //  пусть всегда будут появляться
+					PlaceCharacter(&Characters[iChar], "goto", "random_must_be_near");
+				}
+				LAi_tmpl_SetFollow(&Characters[iChar], GetMainCharacter(), -1.0);
+			}
+			FillCharactersScroll();
+			GameInterface.CHARACTERS_SCROLL.current = iCurrentNode;
 		}
-		else
-		{
-		    characters[iChar].isfree = sti(characters[iChar].isfree) + 1; // совместители
-		}
-		bOk = (Characters[iChar].location != pchar.location);  // ниже локация перебивается на ГГ
-		switch (nCurScrollNum)
-		{
-			case 1:
-				pchar.Fellows.Passengers.navigator = iChar;
-			break;
-
-			case 2:
-				pchar.Fellows.Passengers.boatswain = iChar;
-			break;
-
-			case 3:
-				pchar.Fellows.Passengers.cannoner = iChar;
-			break;
-
-			case 4:
-				pchar.Fellows.Passengers.doctor = iChar;
-			break;
-
-			case 5:
-				pchar.Fellows.Passengers.treasurer = iChar;
-			break;
-
-			case 6:
-				pchar.Fellows.Passengers.carpenter = iChar;
-			break;
-
-			//Boyer mod
-									  
-					   
-		 
-
-			//default:
-				SetOfficersIndex(pchar, nCurScrollNum - 6, iChar);
-				bNeedFollow = true;
-			break;
-			//End Boyer add
-		  
-									  
-					   
-		 
-		}
-        attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
-    	characters[iChar].(attributeName2) = true; // совместитель дожности
-    	//SetCharacterTask_FollowCharacter(&Characters[iChar], PChar);
-    	if (bNeedFollow) // только для офов
-    	{
-													
-	    	//if (Characters[iChar].location.group == "sit")
-	    	//{// найм прямо в таверне
-	    	//if (bOk && IsEntity(loadedLocation) && !CheckAttribute(loadedLocation, "DisableOfficers"))
-	    	if (IsEntity(loadedLocation) && loadedLocation.type == "tavern")
-	    	{   //  пусть всегда будут появляться
-	    	    PlaceCharacter(&Characters[iChar], "goto", "random_must_be_near");
-	    	}
-	    	LAi_tmpl_SetFollow(&Characters[iChar], GetMainCharacter(), -1.0);
-    	}
-		FillCharactersScroll();
-		GameInterface.CHARACTERS_SCROLL.current = iCurrentNode;
 	}
 	ExitOfficerMenu();
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_SCROLL_CHANGE,"CHARACTERS_SCROLL",-1);

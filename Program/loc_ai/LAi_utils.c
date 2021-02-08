@@ -1332,3 +1332,17 @@ void MakeBloodingAttack(aref enemy, aref attacked, int coeff) // Кровоточащая ат
 		AddCharacterHealth(pchar, -2.0); // Кровотечение портит здоровье
 	}
 }
+
+void MakeSwiftAttack(aref enemy, aref attacked, int coeff) // Кровоточащая атака
+{
+	float Swift = 0.0;
+	enemy.chr_ai.curen = stf(enemy.chr_ai.energy);
+	if(CheckAttribute(enemy, "chr_ai.Swift"))
+	{
+		Swift = stf(enemy.chr_ai.Swift);
+		if(Swift < 1.0) Swift = 1.0;
+	}
+	enemy.chr_ai.Swift = Swift + (coeff*2); // Продолжительность
+	
+	if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
+}

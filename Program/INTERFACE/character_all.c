@@ -644,12 +644,12 @@ void FillSkillTables()
 	{
 	    row = "tr" + i;
 
-	    GameInterface.TABLE_OTHER.(row).td1.icon.width = 26;
-    	GameInterface.TABLE_OTHER.(row).td1.icon.height = 26;
+	    GameInterface.TABLE_OTHER.(row).td1.icon.width = 16;
+    	GameInterface.TABLE_OTHER.(row).td1.icon.height = 16;
     	GameInterface.TABLE_OTHER.(row).td1.icon.offset = "-1, 0";
 		GameInterface.TABLE_OTHER.(row).td2.align = "left";
-		GameInterface.TABLE_OTHER.(row).td2.scale = 0.85;
-		GameInterface.TABLE_OTHER.(row).td2.textoffset = "3,0";
+		GameInterface.TABLE_OTHER.(row).td2.scale = 0.8;
+		GameInterface.TABLE_OTHER.(row).td2.textoffset = "0,0";
 		GameInterface.TABLE_OTHER.(row).td3.align = "right";
 	}
 	GameInterface.TABLE_OTHER.tr1.UserData.ID = "Rank";
@@ -657,19 +657,22 @@ void FillSkillTables()
     GameInterface.TABLE_OTHER.tr1.td1.icon.image = "Rank";
 	GameInterface.TABLE_OTHER.tr1.td2.str = XI_ConvertString("Rank");
 	GameInterface.TABLE_OTHER.tr1.td3.str = sti(xi_refCharacter.rank);
+	GameInterface.TABLE_OTHER.tr1.td3.scale = 0.8;
 	
 	GameInterface.TABLE_OTHER.tr2.UserData.ID = "Life";
 	GameInterface.TABLE_OTHER.tr2.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr2.td1.icon.image = "Life";
 	GameInterface.TABLE_OTHER.tr2.td2.str = XI_ConvertString("Life");
 	GameInterface.TABLE_OTHER.tr2.td3.str = MakeInt(LAi_GetCharacterHP(xi_refCharacter)) + " / " + MakeInt(LAi_GetCharacterMaxHP(xi_refCharacter));
+	GameInterface.TABLE_OTHER.tr2.td3.scale = 0.8;
 
     GameInterface.TABLE_OTHER.tr3.UserData.ID = "Health";
 	GameInterface.TABLE_OTHER.tr3.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr3.td1.icon.image = "Health";
 	GameInterface.TABLE_OTHER.tr3.td2.str = XI_ConvertString("Health");
+	GameInterface.TABLE_OTHER.tr3.td2.textoffset = "0,-2";
 	GameInterface.TABLE_OTHER.tr3.td3.str = GetHealthName(xi_refCharacter);
-	GameInterface.TABLE_OTHER.tr3.td3.scale = 0.75;
+	GameInterface.TABLE_OTHER.tr3.td3.scale = 0.6;
 	
 	if (GetHealthNum(xi_refCharacter) >= GetHealthMaxNum(xi_refCharacter))
     {
@@ -684,6 +687,7 @@ void FillSkillTables()
 	GameInterface.TABLE_OTHER.tr4.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr4.td1.icon.image = "Energy";
 	GameInterface.TABLE_OTHER.tr4.td2.str = XI_ConvertString("Energy");
+	GameInterface.TABLE_OTHER.tr4.td3.scale = 0.8;
 	GameInterface.TABLE_OTHER.tr4.td3.str = sti(Lai_CharacterGetEnergy(xi_refCharacter)) + " / " + sti(LAi_GetCharacterMaxEnergy(xi_refCharacter));
 	diff = sti(LAi_GetCharacterMaxEnergy(xi_refCharacter) - GetCharacterMaxEnergyABSValue(xi_refCharacter));
 	if (diff != 0)
@@ -707,21 +711,23 @@ void FillSkillTables()
     GameInterface.TABLE_OTHER.tr5.td1.icon.image = "Money";
 	GameInterface.TABLE_OTHER.tr5.td2.str = XI_ConvertString("Money");
 	GameInterface.TABLE_OTHER.tr5.td3.str = MakeMoneyShow(sti(xi_refCharacter.Money), MONEY_SIGN,MONEY_DELIVER);
-	//GameInterface.TABLE_OTHER.tr5.td3.scale = 0.95;
+	GameInterface.TABLE_OTHER.tr5.td3.scale = 0.8;
 	//GameInterface.TABLE_OTHER.tr5.td3.color = SetAlphaIntoColor(COLOR_MONEY, GetAlphaFromSkill(10));
 
     GameInterface.TABLE_OTHER.tr6.UserData.ID = "Reputation";
 	GameInterface.TABLE_OTHER.tr6.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr6.td1.icon.image = "Reputation";
 	GameInterface.TABLE_OTHER.tr6.td2.str = XI_ConvertString("Reputation");
+	GameInterface.TABLE_OTHER.tr6.td2.textoffset = "0,-2";
 	GameInterface.TABLE_OTHER.tr6.td3.str = XI_ConvertString(GetReputationName(sti(xi_refCharacter.reputation)));
-	GameInterface.TABLE_OTHER.tr6.td3.scale = 0.78;
+	GameInterface.TABLE_OTHER.tr6.td3.scale = 0.8;
 	
 	GameInterface.TABLE_OTHER.tr7.UserData.ID = "weight";
 	GameInterface.TABLE_OTHER.tr7.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr7.td1.icon.image = "weight";
 	GameInterface.TABLE_OTHER.tr7.td2.str = XI_ConvertString("weight");
 	GameInterface.TABLE_OTHER.tr7.td3.str = FloatToString(GetItemsWeight(xi_refCharacter), 1) + " / "+GetMaxItemsWeight(xi_refCharacter);
+	GameInterface.TABLE_OTHER.tr7.td3.scale = 0.8;
 	
     GameInterface.TABLE_OTHER.tr8.UserData.ID = "Title";
 	GameInterface.TABLE_OTHER.tr8.td1.icon.group = "ICONS_CHAR";
@@ -730,25 +736,27 @@ void FillSkillTables()
 	DeleteAttribute(&GameInterface, "TABLE_OTHER.tr8.td2");
 	GameInterface.TABLE_OTHER.tr8.td2.str = XI_ConvertString("Title");
 	GameInterface.TABLE_OTHER.tr8.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr8.td2.scale = 0.85;
-	GameInterface.TABLE_OTHER.tr8.td2.textoffset = "3,0";
+	GameInterface.TABLE_OTHER.tr8.td2.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr8.td2.textoffset = "0,0";
 
     DeleteAttribute(&GameInterface, "TABLE_OTHER.tr8.td3");
     GameInterface.TABLE_OTHER.tr8.td3.str = "";
-	GameInterface.TABLE_OTHER.tr8.td3.scale = 0.9;
+	GameInterface.TABLE_OTHER.tr8.td3.scale = 0.8;
 	
 	if (xi_refCharacter.id == pchar.id && isMainCharacterPatented())
     {
         GameInterface.TABLE_OTHER.tr8.td3.str = GetAddress_FormTitle(sti(Items[sti(pchar.EquipedPatentId)].Nation), sti(Items[sti(pchar.EquipedPatentId)].TitulCur));
+		GameInterface.TABLE_OTHER.tr8.td3.align = "right";
         GameInterface.TABLE_OTHER.tr8.td2.icon.group = "NATIONS";
 		GameInterface.TABLE_OTHER.tr8.td2.icon.image = GetNationNameByType(sti(Items[sti(pchar.EquipedPatentId)].Nation));
-		GameInterface.TABLE_OTHER.tr8.td2.icon.offset = "60, 1";
-		GameInterface.TABLE_OTHER.tr8.td2.icon.width = 24;
-		GameInterface.TABLE_OTHER.tr8.td2.icon.height = 24;
+		GameInterface.TABLE_OTHER.tr8.td2.icon.offset = "120, 1";
+		GameInterface.TABLE_OTHER.tr8.td2.icon.width = 16;
+		GameInterface.TABLE_OTHER.tr8.td2.icon.height = 16;
     }
     else
     {
         GameInterface.TABLE_OTHER.tr8.td3.str = "нет звания";
+		GameInterface.TABLE_OTHER.tr8.td3.align = "right";
     }
 	
 	GameInterface.TABLE_OTHER.tr9.UserData.ID = "NextExp";
@@ -756,6 +764,86 @@ void FillSkillTables()
     GameInterface.TABLE_OTHER.tr9.td1.icon.image = "NextExp";
 	GameInterface.TABLE_OTHER.tr9.td2.str = XI_ConvertString("NextExp");
 	GameInterface.TABLE_OTHER.tr9.td3.str = "";
+	GameInterface.TABLE_OTHER.tr9.td3.scale = 0.8;
+	
+	GameInterface.TABLE_OTHER.tr10.UserData.ID = "Health_NA";
+	GameInterface.TABLE_OTHER.tr10.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_OTHER.tr10.td1.icon.image = "Health_NA";
+	GameInterface.TABLE_OTHER.tr10.td2.str = "Регенерация жизни";
+	GameInterface.TABLE_OTHER.tr10.td3.str = ShowStatValue("regenhp")+" в сек.";
+	GameInterface.TABLE_OTHER.tr10.td3.scale = 0.8;
+	
+	GameInterface.TABLE_OTHER.tr11.UserData.ID = "Poison_NA";
+	GameInterface.TABLE_OTHER.tr11.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_OTHER.tr11.td1.icon.image = "Poison_NA";
+	GameInterface.TABLE_OTHER.tr11.td1.icon.width = 16;
+	GameInterface.TABLE_OTHER.tr11.td1.icon.height = 16;
+	GameInterface.TABLE_OTHER.tr11.td2.str = "Отравление";
+	GameInterface.TABLE_OTHER.tr11.td2.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr11.td2.align = "left";
+	GameInterface.TABLE_OTHER.tr11.td3.str = ShowStatValue("poison")+" сек.";
+	GameInterface.TABLE_OTHER.tr11.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr11.td3.align = "right";
+	
+	GameInterface.TABLE_OTHER.tr12.UserData.ID = "Attack_NA";
+	GameInterface.TABLE_OTHER.tr12.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_OTHER.tr12.td1.icon.image = "Attack_NA";
+	GameInterface.TABLE_OTHER.tr12.td1.icon.width = 16;
+	GameInterface.TABLE_OTHER.tr12.td1.icon.height = 16;
+	GameInterface.TABLE_OTHER.tr12.td2.str = "Кровотечение";
+	GameInterface.TABLE_OTHER.tr12.td2.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr12.td2.align = "left";
+	GameInterface.TABLE_OTHER.tr12.td3.str = ShowStatValue("blooding")+"%";
+	GameInterface.TABLE_OTHER.tr12.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr12.td3.align = "right";
+	
+	GameInterface.TABLE_OTHER.tr13.UserData.ID = "LuckySword_NA";
+	GameInterface.TABLE_OTHER.tr13.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_OTHER.tr13.td1.icon.image = "LuckySword_NA";
+	GameInterface.TABLE_OTHER.tr13.td1.icon.width = 16;
+	GameInterface.TABLE_OTHER.tr13.td1.icon.height = 16;
+	GameInterface.TABLE_OTHER.tr13.td2.str = "Резкий удар";
+	GameInterface.TABLE_OTHER.tr13.td2.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr13.td2.align = "left";
+	GameInterface.TABLE_OTHER.tr13.td3.str = ShowStatValue("swiftstrike");
+	GameInterface.TABLE_OTHER.tr13.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr13.td3.align = "right";
+	
+	GameInterface.TABLE_OTHER.tr14.UserData.ID = "AntiDamage_NA";
+	GameInterface.TABLE_OTHER.tr14.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_OTHER.tr14.td1.icon.image = "AntiDamage_NA";
+	GameInterface.TABLE_OTHER.tr14.td1.icon.width = 16;
+	GameInterface.TABLE_OTHER.tr14.td1.icon.height = 16;
+	GameInterface.TABLE_OTHER.tr14.td2.str = "Шанс промаха О/П";
+	GameInterface.TABLE_OTHER.tr14.td2.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr14.td2.align = "left";
+	GameInterface.TABLE_OTHER.tr14.td3.str = ShowStatValue("misschanceheavy");
+	GameInterface.TABLE_OTHER.tr14.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr14.td3.align = "right";
+	
+	GameInterface.TABLE_OTHER.tr15.UserData.ID = "Critical_NA";
+	GameInterface.TABLE_OTHER.tr15.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_OTHER.tr15.td1.icon.image = "Critical_NA";
+	GameInterface.TABLE_OTHER.tr15.td1.icon.width = 16;
+	GameInterface.TABLE_OTHER.tr15.td1.icon.height = 16;
+	GameInterface.TABLE_OTHER.tr15.td2.str = "Шанс крит. удара";
+	GameInterface.TABLE_OTHER.tr15.td2.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr15.td2.align = "left";
+	GameInterface.TABLE_OTHER.tr15.td3.str = ShowStatValue("crit")+"%";
+	GameInterface.TABLE_OTHER.tr15.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr15.td3.align = "right";
+	
+	GameInterface.TABLE_OTHER.tr16.UserData.ID = "Time_NA";
+	GameInterface.TABLE_OTHER.tr16.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_OTHER.tr16.td1.icon.image = "Time_NA";
+	GameInterface.TABLE_OTHER.tr16.td1.icon.width = 16;
+	GameInterface.TABLE_OTHER.tr16.td1.icon.height = 16;
+	GameInterface.TABLE_OTHER.tr16.td2.str = "Время перезарядки";
+	GameInterface.TABLE_OTHER.tr16.td2.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr16.td2.align = "left";
+	GameInterface.TABLE_OTHER.tr16.td3.str = "-"+ShowStatValue("recharge");
+	GameInterface.TABLE_OTHER.tr16.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr16.td3.align = "right";
 	
 	// прорисовка
 	Table_UpdateWindow("TABLE_SPECIAL");
@@ -763,6 +851,104 @@ void FillSkillTables()
     Table_UpdateWindow("TABLE_SKILL_2");
     Table_UpdateWindow("TABLE_PERKS");
     Table_UpdateWindow("TABLE_OTHER");
+}
+
+//методы расчёта показателей в таблице - Gregg
+string ShowStatValue(string type)
+{
+	switch (type)
+	{
+		case "crit":
+			if(IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
+			{
+				if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
+				{
+					return "20";
+				}
+				else
+				{
+					return "15";
+				}
+			}
+			if(!IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
+			{
+				if(IsCharacterPerkOn(xi_refCharacter, "CriticalHit"))
+				{
+					if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
+					{
+						return "10";
+					}
+					else
+					{
+						return "5";
+					}
+				}
+				else
+				{
+					if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
+					{
+						return "5";
+					}
+				}
+			}
+		break;
+		case "regenhp":
+			string value = FloatToString(GetCharacterRegenHP(xi_refCharacter, false),2);
+			return value;
+		break;
+		case "misschanceheavy":
+			/*float fMultiplier = 1.6666667;
+			if(CheckCharacterPerk(xi_refCharacter, "Energaiser")) // скрытый перк боссов и ГГ
+			{
+				fMultiplier = fMultiplier * 1.5;
+			}
+			if(CheckCharacterPerk(xi_refCharacter, "Tireless")) 
+			{
+				fMultiplier = fMultiplier * 1.15;
+			}
+			return FloatToString(fMultiplier,2);*/
+			float coeff = makefloat(xi_refCharacter.Skill.FencingHeavy)/20;
+			return FloatToString(25.0-(coeff*5),1)+"%/"+FloatToString(50.0-(coeff*5),1)+"%";
+		break;
+		case "blooding":
+			if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0";
+			return FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20),1);
+		break;
+		case "swiftstrike":
+			return FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20),1)+"%/"+FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20)*2,1)+" сек.";
+		break;
+		case "poison":
+			if (CheckAttribute(xi_refCharacter,"chr_ai.poison")) return its(sti(FloatToString(xi_refCharacter.chr_ai.poison,0)));
+			else return "0";
+		break;
+		case "recharge":
+			string rechargetime = "0";
+			if(IsCharacterPerkOn(xi_refCharacter, "GunProfessional"))
+			{
+				if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "40";
+				else rechargetime = "25";
+			}
+			else
+			{
+				if(IsCharacterPerkOn(xi_refCharacter, "Gunman"))
+				{
+					if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "15";
+					else rechargetime = "10";
+				}
+			}
+			string weaponID = GetCharacterEquipByGroup(xi_refCharacter, GUN_ITEM_TYPE);
+			if (weaponID != "")
+			{
+				aref weapon;
+				Items_FindItem(weaponID, &weapon);
+				string retime = "";
+				if (rechargetime != "0") retime = FloatToString(sti(weapon.chargespeed) * (1.0 - stf(rechargetime)/100),1);
+				else retime = its(weapon.chargespeed);
+			}
+			return rechargetime+"%/"+retime+" сек.";
+		break;
+	}
+	return "";
 }
 
 void CS_TableSelectChange()
@@ -1069,69 +1255,73 @@ void AcceptAddOfficer()
 	bool bOk;
 	
 	string attributeName2 = "pic"+(nCurScrollOfficerNum+1);
-
-    if (checkAttribute(GameInterface, "PASSENGERSLIST."+attributeName2 + ".character"))
-    {
-		int iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
-
-		if (!CheckAttribute(&characters[iChar], "isfree"))
+	int iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
+	sld = &characters[iChar];
+	if(sld.id != "pet_crab" || (nCurScrollNum > 6))
+	{
+		if (checkAttribute(GameInterface, "PASSENGERSLIST."+attributeName2 + ".character"))
 		{
-			characters[iChar].isfree = 1;
+			iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
+
+			if (!CheckAttribute(&characters[iChar], "isfree"))
+			{
+				characters[iChar].isfree = 1;
+			}
+			else
+			{
+				characters[iChar].isfree = sti(characters[iChar].isfree) + 1; // совместители
+			}
+			bOk = (Characters[iChar].location != pchar.location);  // ниже локация перебивается на ГГ
+			switch (nCurScrollNum)
+			{
+				case 1:
+					pchar.Fellows.Passengers.navigator = iChar;
+				break;
+
+				case 2:
+					pchar.Fellows.Passengers.boatswain = iChar;
+				break;
+
+				case 3:
+					pchar.Fellows.Passengers.cannoner = iChar;
+				break;
+
+				case 4:
+					pchar.Fellows.Passengers.doctor = iChar;
+				break;
+
+				case 5:
+					pchar.Fellows.Passengers.treasurer = iChar;
+				break;
+
+				case 6:
+					pchar.Fellows.Passengers.carpenter = iChar;
+				break;
+
+				//Boyer mod
+				//default:
+					SetOfficersIndex(pchar, nCurScrollNum - 6, iChar);
+					bNeedFollow = true;
+				break;
+				//End Boyer add
+			}
+			attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
+			characters[iChar].(attributeName2) = true; // совместитель дожности
+			//SetCharacterTask_FollowCharacter(&Characters[iChar], PChar);
+			if (bNeedFollow) // только для офов
+			{
+				//if (Characters[iChar].location.group == "sit")
+				//{// найм прямо в таверне
+				//if (bOk && IsEntity(loadedLocation) && !CheckAttribute(loadedLocation, "DisableOfficers"))
+				if (IsEntity(loadedLocation) && loadedLocation.type == "tavern")
+				{   //  пусть всегда будут появляться
+					PlaceCharacter(&Characters[iChar], "goto", "random_must_be_near");
+				}
+				LAi_tmpl_SetFollow(&Characters[iChar], GetMainCharacter(), -1.0);
+			}
+			FillCharactersScroll();
+			GameInterface.CHARACTERS_SCROLL.current = iCurrentNode;
 		}
-		else
-		{
-		    characters[iChar].isfree = sti(characters[iChar].isfree) + 1; // совместители
-		}
-		bOk = (Characters[iChar].location != pchar.location);  // ниже локация перебивается на ГГ
-		switch (nCurScrollNum)
-		{
-			case 1:
-				pchar.Fellows.Passengers.navigator = iChar;
-			break;
-
-			case 2:
-				pchar.Fellows.Passengers.boatswain = iChar;
-			break;
-
-			case 3:
-				pchar.Fellows.Passengers.cannoner = iChar;
-			break;
-
-			case 4:
-				pchar.Fellows.Passengers.doctor = iChar;
-			break;
-
-			case 5:
-				pchar.Fellows.Passengers.treasurer = iChar;
-			break;
-
-			case 6:
-				pchar.Fellows.Passengers.carpenter = iChar;
-			break;
-
-			//Boyer mod
-			//default:
-				SetOfficersIndex(pchar, nCurScrollNum - 6, iChar);
-				bNeedFollow = true;
-			break;
-			//End Boyer add
-		}
-        attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
-    	characters[iChar].(attributeName2) = true; // совместитель дожности
-    	//SetCharacterTask_FollowCharacter(&Characters[iChar], PChar);
-    	if (bNeedFollow) // только для офов
-    	{
-	    	//if (Characters[iChar].location.group == "sit")
-	    	//{// найм прямо в таверне
-	    	//if (bOk && IsEntity(loadedLocation) && !CheckAttribute(loadedLocation, "DisableOfficers"))
-	    	if (IsEntity(loadedLocation) && loadedLocation.type == "tavern")
-	    	{   //  пусть всегда будут появляться
-	    	    PlaceCharacter(&Characters[iChar], "goto", "random_must_be_near");
-	    	}
-	    	LAi_tmpl_SetFollow(&Characters[iChar], GetMainCharacter(), -1.0);
-    	}
-		FillCharactersScroll();
-		GameInterface.CHARACTERS_SCROLL.current = iCurrentNode;
 	}
 	ExitOfficerMenu();
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_SCROLL_CHANGE,"CHARACTERS_SCROLL",-1);
@@ -1357,7 +1547,7 @@ void FillPerksTable(string _type, bool _refresh)
 		    GameInterface.TABLE_PERKS.(row).td1.icon.offset = "-1, 0";
 
 			GameInterface.TABLE_PERKS.(row).td2.str = GetConvertStr(perkName, "AbilityDescribe.txt");
-			GameInterface.TABLE_PERKS.(row).td2.scale = 0.8;
+			GameInterface.TABLE_PERKS.(row).td2.scale = 0.77;
 			n++;
 		}
 	}

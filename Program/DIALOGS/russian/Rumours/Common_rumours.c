@@ -23,7 +23,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			link.l2.go = "exit";
 			break;
 		}
-		
+			
 		//квест шебеки Синяя Птица
 		if(CheckAttribute(NPChar, "city") && pchar.questTemp.BlueBird.City == npchar.city && pchar.questTemp.BlueBird == "returnMoney")
 		{
@@ -37,6 +37,31 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			pchar.questTemp.BlueBird.City = GetSharpCity();
 			break;
 		}
+		
+		if (pchar.questTemp.Slavetrader == "canTakeQuest" && rand(4) == 0)
+		{
+			sld = characterFromId(pchar.questTemp.Slavetrader.UsurerId);
+			Dialog.Text = "Говорят, что ростовщик из колонии "+ XI_ConvertString("Colony" + sld.city) +" для какой-то прибыльной работы ищет капитана, не брезгующего замарать руки...";
+			link.l1 = "Ага, понятно... Что еще нового в городе?";
+			link.l1.go = "new question";
+			link.l2 = RandPhraseSimple("Спасибо, долж"+ GetSexPhrase("ен","на") +" откланяться.",
+									"Всего хорошего.");
+			link.l2.go = "exit";
+			break;
+		}
+		
+		if(pchar.questTemp.Ascold == "canTakeQuest" && rand(3) == 0)
+		{
+			sld = characterFromId(pchar.questTemp.Ascold.TraderId);
+			Dialog.Text = "Говорят, что хозяин магазина из колонии "+ XI_ConvertString("Colony" + sld.city) +" ищет какой-то порошок, большие деньги за него предлагает...";
+			link.l1 = "Ага, понятно... Что еще нового в городе?";
+			link.l1.go = "new question";
+			link.l2 = RandPhraseSimple("Спасибо, долж"+ GetSexPhrase("ен","на") +" откланяться.",
+									"Всего хорошего.");
+			link.l2.go = "exit";
+			break;
+		}
+		
 		//<<<<<-------- квестовые слухи горожан -----------------
 		if (!CheckAttribute(NPChar, "quest.repeat.rumours_citizen") || NPChar.quest.repeat.rumours_citizen != 3 )
         srum = SelectRumourEx("citizen", NPChar);

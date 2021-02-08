@@ -809,6 +809,40 @@ void LAi_AllCharactersUpdate(float dltTime)
 					}
 				}
 			}
+			if(CheckAttribute(chr_ai, "swift"))
+			{
+				chr_ai.swift = stf(chr_ai.swift) - dltTime;
+				if(stf(chr_ai.swift) <= 0.0)
+				{
+					DeleteAttribute(chr_ai, "swift");
+					chr_ai.energy = chr_ai.curen;
+					DeleteAttribute(chr_ai, "curen");
+					if(sti(chr.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вы восстановились после резкого удара.")
+					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
+					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
+					}
+				}
+				else
+				{
+					chr_ai.energy = 0;
+				}
+			}
+			if(CheckAttribute(chr_ai, "noeat"))
+			{
+				chr_ai.noeat = stf(chr_ai.noeat) - dltTime;
+				if(stf(chr_ai.noeat) <= 0.0)
+				{
+					DeleteAttribute(chr_ai, "noeat");
+					if(sti(chr.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Можно кушать.")
+					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
+					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
+					}
+				}
+			}
 			if(LAi_IsImmortal(chr))
 			{
 				if(hp < oldhp) hp = oldhp;

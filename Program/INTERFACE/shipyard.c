@@ -975,17 +975,21 @@ void AcceptAddOfficer()
 		int iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
         // назначение нового кэпа, возможно, если там уже не наш, те или враг или снят
         sld = GetCharacter(iChar);
-		DeleteAttribute(sld, "ship");
-		sld.ship.Type = SHIP_NOTUSED;
+		
+		if(sld.id != "pet_crab")
+		{
+			DeleteAttribute(sld, "ship");
+			sld.ship.Type = SHIP_NOTUSED;
 
-		// снимем пассажира -->
-		CheckForReleaseOfficer(iChar);
-		RemovePassenger(pchar, sld);
-		// снимем пассажира <--
-		SetCompanionIndex(pchar, -1, iChar);
+			// снимем пассажира -->
+			CheckForReleaseOfficer(iChar);
+			RemovePassenger(pchar, sld);
+			// снимем пассажира <--
+			SetCompanionIndex(pchar, -1, iChar);
 
-		xi_refCharacter = sld;
-		DoBuyShip();
+			xi_refCharacter = sld;
+			DoBuyShip();
+		}
 	}
 	ExitOfficerMenu();
 }

@@ -2455,6 +2455,12 @@ void EquipCharacterByItem(ref chref, string itemID)
 	if( Items_FindItem(itemID, &arItm)<0 )	return;
 	if( !CheckAttribute(arItm, "groupID") ) return;
 
+	if(chref.id == "pet_crab" && itemID != "unarmed")
+	{
+		TakeItemFromCharacter(chref, "unarmed");
+		GiveItem2Character(chref, "unarmed");
+		itemID = "unarmed";
+	}
 	string groupName = arItm.groupID;
 	if(groupName != MAPS_ITEM_TYPE) // ugeen - для атласа карт  18.06.09
 	{
@@ -2517,6 +2523,13 @@ void EquipOfficerByItem(ref chref, string itemID)
 {
 	aref arItm;
 
+	if(chref.id == "pet_crab" && itemID != "unarmed")
+	{
+		TakeItemFromCharacter(chref, "unarmed");
+		GiveItem2Character(chref, "unarmed");
+		itemID = "unarmed";
+		
+	}
 	int iItemQuantity = 0;
 	if( !CheckCharacterItem(chref, itemID))
 	{

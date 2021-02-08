@@ -85,7 +85,7 @@ void ProcessDialogEvent()
    			link.l2 = "Я по другому делу.";
 			link.l2.go = "quests";
 			//--> eddy. Аскольд, перехват на рендомного перца
-			if (pchar.questTemp.Ascold == "Seek_powder")
+			if (pchar.questTemp.Ascold == "Seek_powder" && !CheckAttribute(npchar, "quest.answer_2"))
 			{
    				link.l4 = LinkRandPhrase("Тебе не встречалась такая вещь - порошок мумии?", "У тебя в продаже есть порошок мумии?", "Послушай, ты не знаешь, где можно достать порошок мумии?");
 				link.l4.go = "AscoldMerchant";
@@ -135,6 +135,31 @@ void ProcessDialogEvent()
 			}
 			else
 			{
+				//BlackThorn: более внятный поиск порошка.
+				if (!CheckAttribute(npchar, "quest.answer_1") && rand(2)==0)
+				{
+					npchar.quest.answer_1 = "true";
+					npchar.quest.answer_2 = "true";
+					if (NationNameGenitive(sti(npchar.nation)) != NationNameGenitive(sti(pchar.questTemp.Ascold.dialogNation)))
+					{
+						dialog.text = "Прости, но мы такого добра у себя не держим. Тебе стоит поспрашивать где-то в колониях "+ NationNameGenitive(sti(pchar.questTemp.Ascold.dialogNation))+".";
+						link.l2 = "Спасибо за информацию.";
+						link.l2.go = "exit";
+					}
+					else if (XI_ConvertString("Colony" + pchar.questTemp.Ascold.MerchantColony) != XI_ConvertString("Colony" + npchar.city))
+					{
+						dialog.text = "Я своих клиентов не обманываю и всяким мусором не тогрую, но по слухам, в колонии "+ XI_ConvertString("Colony" + pchar.questTemp.Ascold.MerchantColony) +" можно все что угодно найти, от приворотных зелий до порошка мумии.";
+					}
+					else
+					{
+						dialog.text = "У меня нет, но в городе точно кто-то его продавал. Поспрашивай остальных торговцев.";
+					}
+					link.l2 = "Спасибо за информацию.";
+					link.l2.go = "exit";
+				}
+				else
+				{
+					npchar.quest.answer_1 = "true";
 			dialog.text = NPCStringReactionRepeat(LinkRandPhrase("Порошок мумии? Я не знаю, что такое мумия.", "Порошок чего? Мумии? Что это такое?", "Порошок мумии? Что за вещица такая?"),
                      LinkRandPhrase("Опять ты спрашиваешь меня об этом?", "Снова ты начинаешь разговор о том же...", "И опять об этом порошке?"),
                      LinkRandPhrase(NPCharSexPhrase(npchar, "Я же ответил тебе на этот вопрос! Чего ты еще хочешь?", "Я же ответила тебе на этот вопрос! Чего ты еще хочешь?"),
@@ -146,6 +171,7 @@ void ProcessDialogEvent()
                                                "Еще раз спрашиваю, может, изменилось что...",
                                                "Ага, снова спрашиваю.", npchar, Dialog.CurrentNode);
             link.l1.go = DialogGoNodeRepeat("AscoldMerchant_2", "AscoldMerchant_3", "AscoldMerchant_4", "", npchar, Dialog.CurrentNode);
+				}
 			}
 		break;
 		

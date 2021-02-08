@@ -619,11 +619,13 @@ void OnShipScrollChange()
 		    {
 				SetSelectable("CAPTAN_BUTTON", true);
 				SetSelectable("SWAP_BUTTON", true);
+				SetSelectable("CANNONS_REMOVE_ALL", true);
 			}
 			else
 			{
 			    SetSelectable("CAPTAN_BUTTON", false);
 				SetSelectable("SWAP_BUTTON", false);
+				SetSelectable("CANNONS_REMOVE_ALL", false);
 			}
 			SetSelectable("CREW_BUTTON", true);
 			SetSelectable("TAKE_GOODS", true);
@@ -1447,20 +1449,24 @@ void AcceptAddOfficer()
 		int iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
         // назначение нового кэпа, возможно, если там уже не наш, те или враг или снят
         sld = GetCharacter(iChar);
-		DeleteAttribute(sld,"ship");
-		sld.ship = "";
+		
+		if(sld.id != "pet_crab")
+		{
+			DeleteAttribute(sld,"ship");
+			sld.ship = "";
 
-		makearef(arTo,   sld.ship);
-		makearef(arFrom, xi_refCharacter.Ship);
-		CopyAttributes(arTo, arFrom);
-		// снимем пассажира -->
-		CheckForReleaseOfficer(iChar);
-		RemovePassenger(pchar, sld);
-		// снимем пассажира <--
-		SetCompanionIndex(pchar, -1, iChar);
+			makearef(arTo,   sld.ship);
+			makearef(arFrom, xi_refCharacter.Ship);
+			CopyAttributes(arTo, arFrom);
+			// снимем пассажира -->
+			CheckForReleaseOfficer(iChar);
+			RemovePassenger(pchar, sld);
+			// снимем пассажира <--
+			SetCompanionIndex(pchar, -1, iChar);
 
-		xi_refCharacter = sld;
-		DelBakSkill();
+			xi_refCharacter = sld;
+			DelBakSkill();
+		}
 	}
 	ExitOfficerMenu();
 	// оптимизация скилов -->

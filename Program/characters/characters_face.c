@@ -423,7 +423,9 @@ void FaceMaker(aref rCharacter)
 
 		case "PotCMobCap": 		rCharacter.FaceId = 510; break;
 		case "Chard3b":			rCharacter.FaceId = 1510; break; //Волверстон
-		
+		case "pet_crab":		rCharacter.FaceId = 1512; break;
+		case "crabSmall":		rCharacter.FaceId = 1512; break;
+		case "crabBig":			rCharacter.FaceId = 1512; break;
 	}
 }
 

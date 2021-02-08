@@ -1791,7 +1791,6 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
 			refChar.Dialog.CurrentNode = "zpqCapitain"; //даем абордажную ноду
 		}
-		// AddItems(pchar, "talisman3", 1);
 		if(refChar.CaptanId == "ShipWreck_BadPirate")
 		{
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
@@ -2129,11 +2128,13 @@ void SelectAscoldRendom()
 		pchar.questTemp.Ascold.TraderId = colonies[nation].id + "_trader";
 		nation = storeArray[rand(howStore-1)];
 		pchar.questTemp.Ascold.MerchantColony = colonies[nation].id;
+		pchar.questTemp.Ascold.dialogNation = sti(colonies[nation].nation);
 		nation = storeArray[rand(howStore-1)];
 		while (colonies[nation].id == "Panama")
 		{
 			nation = storeArray[rand(howStore-1)];
 		}
+		
 		pchar.questTemp.Ascold.ShipyarderId = colonies[nation].id + "_shipyarder";
 		pchar.questTemp.Ascold.ShipyarderColony = colonies[nation].id;
 		items[GetItemIndex("Azzy_bottle")].useLocation = colonies[nation].id + "_Shipyard";

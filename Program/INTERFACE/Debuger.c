@@ -111,7 +111,20 @@ void CalculateInfoData()
 	                        "F32 - " + descF32 + NewStr() +
 							"F33 - " + descF33 + NewStr() +
 	                        "F34 - " + descF34 + NewStr() +
-							"F35 - " + descF35;
+							"F35 - " + descF35 + NewStr() +
+	                        "F36 - " + descF36 + NewStr() +
+	                        "F37 - " + descF37 + NewStr() +
+	                        "F38 - " + descF38 + NewStr() +
+	                        "F39 - " + descF39 + NewStr() +
+	                        "F40 - " + descF40 + NewStr() +
+                            "F41 - " + descF41 + NewStr() +
+                            "F42 - " + descF42 + NewStr() +
+                            "F43 - " + descF43 + NewStr() +
+	                        "F44 - " + descF44 + NewStr() +
+	                        "F45 - " + descF45 + NewStr() +
+	                        "F46 - " + descF46 + NewStr() +
+	                        "F47 - " + descF47 + NewStr() +
+							"F48 - " + descF48;
 	// перевод строки (по другому у меня не вышло) +LanguageConvertString(idLngFile,"new_string");
     // тут высчитываем нужную информацию и выводим в totalInfo <--
 }
@@ -347,7 +360,85 @@ void ProcCommand()
 		{
 			CalculateInfoDataF35();
 		}
+	    break;
+		case "B_F36":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF36();
+		}
 	    break;	
+		case "B_F37":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF37();
+		}
+	    break;	
+		case "B_F38":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF38();
+		}
+	    break;	
+		case "B_F39":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF39();
+		}
+	    break;	
+		case "B_F40":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF40();
+		}
+	    break;	
+		case "B_F41":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF41();
+		}
+	    break;	
+		case "B_F42":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF42();
+		}
+	    break;	
+		case "B_F43":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF43();
+		}
+	    break;	
+		case "B_F44":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF44();
+		}
+	    break;	
+		case "B_F45":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF45();
+		}
+	    break;	
+		case "B_F46":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF46();
+		}
+	    break;	
+		case "B_F47":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF47();
+		}
+	    break;
+		case "B_F48":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF48();
+		}
+	    break;
 	    case "B_BETA":
 		  if(comName=="activate" || comName=="click")
 		  {
@@ -618,7 +709,7 @@ void CalculateInfoDataF6()
 	// sEquipItem = GetGeneratedItem("blade27"); 	// Моргана 		(ЛО)
 	// sEquipItem = GetGeneratedItem("blade32"); 	// Фламбердж	(ЛО)
 	// sEquipItem = GetGeneratedItem("katar"); 		// Катар		(СО)
-	// sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
+	sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
 	AddItems(mc, sEquipItem, 1);
 	
 	AddItems(mc, "bullet", 50);
@@ -1102,7 +1193,7 @@ void CalculateInfoDataF18()
     //
 	for(i=1; i<11; i++)
     {
-		ref sld = GetCharacter(NPC_GenerateCharacter("DebugOfficer_"+i, "pirate_"+i, "man", "man", 30, PIRATE, -1, true));
+		ref sld = GetCharacter(NPC_GenerateCharacter("DebugOfficer_"+i, "officer_"+i, "man", "man", 30, PIRATE, -1, true));
 		sld.greeting = "Gr_questOfficer";
 		sld.Dialog.Filename = "Enc_Officer_dialog.c";
 		sld.quest.meeting = true;
@@ -1588,6 +1679,263 @@ void CalculateInfoDataF35()
 	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F35", 1);
+}
+
+string descF36 = "Создать тушку для битья";
+void CalculateInfoDataF36()
+{
+	totalInfo = descF36;
+ 	LoginDummy();
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F36", 1);
+}
+
+string descF37 = "Нет назначений";
+void CalculateInfoDataF37()
+{
+	totalInfo = descF37;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F37", 1);
+}
+
+string descF38 = "Нет назначений";
+void CalculateInfoDataF38()
+{
+	totalInfo = descF38;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F38", 1);
+}
+
+string descF39 = "Нет назначений";
+void CalculateInfoDataF39()
+{
+	totalInfo = descF39;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F39", 1);
+}
+
+string descF40 = "Нет назначений";
+void CalculateInfoDataF40()
+{
+	totalInfo = descF40;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F40", 1);
+}
+
+string descF41 = "Нет назначений";
+void CalculateInfoDataF41()
+{
+	totalInfo = descF41;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F41", 1);
+}
+
+string descF42 = "Нет назначений";
+void CalculateInfoDataF42()
+{
+	totalInfo = descF42;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F42", 1);
+}
+
+string descF43 = "Нет назначений";
+void CalculateInfoDataF43()
+{
+	totalInfo = descF43;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F43", 1);
+}
+
+string descF44 = "Нет назначений";
+void CalculateInfoDataF44()
+{
+	totalInfo = descF44;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F44", 1);
+}
+
+string descF45 = "Нет назначений";
+void CalculateInfoDataF45()
+{
+	totalInfo = descF45;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F45", 1);
+}
+
+string descF46 = "Нет назначений";
+void CalculateInfoDataF46()
+{
+	totalInfo = descF46;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F46", 1);
+}
+
+string descF47 = "Нет назначений";
+void CalculateInfoDataF47()
+{
+	totalInfo = descF47;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F47", 1);
+}
+
+string descF48 = "Нет назначений";
+void CalculateInfoDataF48()
+{
+	totalInfo = descF48;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F48", 1);
+}
+
+//создать тушку для битья
+void LoginDummy()
+{
+	LAi_group_SetRelation("teno_monsters_group", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+	
+	//ставим тушку
+	ref sld = GetCharacter(NPC_GenerateCharacter("DummyCharacter", "mictlantecuhtli", "man", "man", 50, PIRATE, 0, true));
+	sld.name = "Манекен";
+	sld.lastname = "Костлявый";
+	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+	//вооружение
+    FantomMakeCoolFighter(sld, 100, 100, 100, "toporAZ", "pistol5", 99999);
+	//установить SPECIAL
+	SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
+	//установить хп
+	LAi_SetHP(sld,9999,9999);
+	
+	//установить агр
+	/*LAi_SetWarriorType(sld);
+	LAi_group_SetRelation("teno_monsters_group", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+	LAi_group_FightGroups("teno_monsters_group", LAI_GROUP_PLAYER, true);*/
+	
+	//перки
+	sld.perks.list.BasicDefense = "1";
+	sld.perks.list.AdvancedDefense = "1";
+	sld.perks.list.CriticalHit = "1";
+	sld.perks.list.Ciras = "1";
+	sld.perks.list.SwordplayProfessional = "1";
+	sld.perks.list.Grus = "1";
+	sld.perks.list.Rush = "1";
+	sld.perks.list.Tireless = "1";
+	sld.perks.list.HardHitter = "1";
+	sld.perks.list.BladeDancer = "1";
+	sld.perks.list.Sliding = "1";
+	sld.perks.list.Gunman = "1";
+	sld.perks.list.GunProfessional = "1";
+	sld.perks.list.IronWill = "1";
+	sld.perks.list.Medic = "1";
+	sld.perks.list.HPPlus = "1";
+	sld.perks.list.EnergyPlus = "1";
+	sld.perks.list.Trustworthy = "1";
+	sld.perks.list.ShipEscape = "1";
+	
+	sld.perks.list.FlagPir = "1";
+	sld.perks.list.FlagEng = "1";
+	sld.perks.list.FlagFra = "1";
+	sld.perks.list.FlagSpa = "1";
+	sld.perks.list.FlagHol = "1";
+	sld.perks.list.FastReload = "1";
+	sld.perks.list.ImmediateReload = "1";
+	sld.perks.list.HullDamageUp = "1";
+	sld.perks.list.SailsDamageUp = "1";
+	sld.perks.list.CrewDamageUp = "1";
+	sld.perks.list.CriticalShoot = "1";
+	sld.perks.list.LongRangeShoot = "1";
+	sld.perks.list.CannonProfessional = "1";
+	sld.perks.list.LongRangeGrappling = "1";
+	sld.perks.list.MusketsShoot = "1";
+	sld.perks.list.GrapplingProfessional = "1";
+	sld.perks.list.BasicBattleState = "1";
+	sld.perks.list.AdvancedBattleState = "1";
+	sld.perks.list.ShipDefenseProfessional = "1";
+	sld.perks.list.LightRepair = "1";
+	sld.perks.list.InstantRepair = "1";
+	sld.perks.list.ShipSpeedUp = "1";
+	sld.perks.list.ShipTurnRateUp = "1";
+	sld.perks.list.StormProfessional = "1";
+	sld.perks.list.Turn180 = "1";
+	sld.perks.list.SailingProfessional = "1";
+	sld.perks.list.Brander = "1";
+	sld.perks.list.Troopers = "1";
+	sld.perks.list.BasicCommerce = "1";
+	sld.perks.list.AdvancedCommerce = "1";
+	sld.perks.list.Carpenter = "1";
+	sld.perks.list.Builder = "1";
+	sld.perks.list.WindCatcher = "1";
+	sld.perks.list.SailsMan = "1";
+	sld.perks.list.Doctor1 = "1";
+	sld.perks.list.Doctor2 = "1";
+	sld.perks.list.EmergentSurgeon = "1";
+	sld.perks.list.ByWorker = "1";
+	sld.perks.list.ByWorker2 = "1";
+	
+	//установить ЛУ и КУ
+	SetSelfSkill(sld, 100, 100, 100, 100, 100); //лёгкое, среднее, тяжёлое, пистолет, удача
+	SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100); // лидерство, торговля, точность, пушки, навигация, ремонт, абордаж, защита, скрытность
 }
 
 void ReloadByStr()

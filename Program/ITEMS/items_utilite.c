@@ -17,14 +17,21 @@ int FindFoodFromChr(ref chref, ref arFind, int startIdx)
 bool EnableFoodUsing(ref mc, aref arItm)
 {
 	bool bEnableUse = false;
-	if(CheckAttribute(arItm,"Food.energy")) 
+	if(CheckAttribute(arItm,"Food.energy") && !CheckAttribute(mc,"chr_ai.noeat")) 
 	{
 		if(LAi_GetCharacterEnergy(mc) < LAi_GetCharacterMaxEnergy(mc)) 
 		{
 			return true;
 		}
 	}
-	
+	if(CheckAttribute(mc,"chr_ai.noeat"))
+	{
+		if(sti(mc.index)==GetMainCharacterIndex())
+		{
+			Log_SetStringToLog("Вы наелись.");
+			PlaySound("interface\knock.wav");
+		}
+	}
 	return false;
 }
 
@@ -36,11 +43,12 @@ void DoCharacterUsedFood(ref chref, string itmID)
 
 	if( CheckAttribute(arItm,"Food.energy") )
 	{
+		chref.chr_ai.noeat = 5.0;
 		LAi_UseEnergyBottle(chref,stf(arItm.Food.energy));
 		if(sti(chref.index)==GetMainCharacterIndex()) 
 		{
 			Log_SetStringToLog(XI_ConvertString("Energy Up"));
-			Log_SetStringToLog("");
+			PlaySound("interface\_Hrust_"+rand(3)+".wav");
 		}
 	}
 }
@@ -64,6 +72,7 @@ void DoCharacterUsedItem(ref chref, string itmID)
 		LAi_UseHealthBottle(chref,stf(arItm.potion.health));
 		if(sti(chref.index)==GetMainCharacterIndex()) {
 			Log_SetStringToLog( XI_ConvertString("Health Up"));
+			PlaySound("interface\_Glotok_"+rand(3)+".wav");
 		}
 		// boal
 		if( CheckAttribute(arItm,"potion.health.speed") )

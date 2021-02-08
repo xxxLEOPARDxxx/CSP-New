@@ -8243,7 +8243,12 @@ void QuestComplete(string sQuestName, string qname)
 			int idxLoadLoc = FindLoadedLocation();
             if (idxLoadLoc != -1)
             {
-				if (locations[idxLoadLoc].islandId == "Caiman") DoQuestReloadToLocation("Caiman_town","reload","reload1", "");
+				if (locations[idxLoadLoc].islandId == "Caiman")
+				{					
+					DoQuestReloadToLocation("Caiman_town","reload","reload1", "");
+					setCharacterShipLocation(pchar, "Caiman_town");
+					setWDMPointXZ("Caiman_town");
+				}
 			}
 			
 			PChar.ColonyBuilding.SlavesInShore.CurShore = "none";
@@ -9102,7 +9107,7 @@ void QuestComplete(string sQuestName, string qname)
 			LAi_SetActorType(sld);
 			LAi_SetImmortal(sld, false);
 			LAi_ActorRunToLocator(sld, "reload", "reload1", "", 7.0);
-			DoQuestFunctionDelay("LSC_RingOver", 7.0); // закрываем квест
+			DoQuestFunctionDelay("LSC_RingOver", 3.0); // закрываем квест
 			SetFunctionTimerCondition("LSC_RingDeleteItemsBoxes", 0, 0, 2, false); // через 2 дня боксы опустеют
         break;
 		
