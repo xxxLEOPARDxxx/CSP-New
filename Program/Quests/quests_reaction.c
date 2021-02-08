@@ -220,7 +220,7 @@ void QuestComplete(string sQuestName, string qname)
 	    			sld.location = "none";
 	    			sld.location.from_sea = "";
     			}
-    			PlaySound("interface\_EvShip1.wav");
+    			PlayVoice("interface\_EvShip1.wav");
     			LAi_SetCurHPMax(npchar);
     			AddPassenger(Pchar, npchar, false);
     			Log_Info("Офицер " + GetFullName(npchar) + " поднялся на борт.");
@@ -236,7 +236,7 @@ void QuestComplete(string sQuestName, string qname)
 			if (iTemp != -1)
 			{
                 npchar = &Characters[iTemp];
-                PlaySound("interface\_EvShip1.wav");
+                PlayVoice("interface\_EvShip1.wav");
                 // лишнее, помер ПГГ и все тут if (findsubstr(sld.id, "PsHero_" , 0) != -1) npchar = sld.id; //homo for navy (ПГГ fix)
                 LAi_SetCurHPMax(npchar);
     			sld.location = "none";
@@ -587,7 +587,7 @@ void QuestComplete(string sQuestName, string qname)
         case "Munity_on_Ship":
             pchar.quest.Munity = "";
             pchar.GenQuest.MunityStart = true;
-            PlaySound("INTERFACE\_GTBoard2.wav");
+            PlayVoice("INTERFACE\_GTBoard2.wav");
             InterfaceStates.Buttons.Save.enable = 0;
             LAi_SetFightMode(Pchar, true);
 
@@ -654,7 +654,7 @@ void QuestComplete(string sQuestName, string qname)
 
 			if (!CheckAttribute(Pchar, "GenQuestFort.SoundOff"))
 			{
-            	PlaySound("INTERFACE\_GTTown2.wav");
+            	PlayVoice("INTERFACE\_GTTown2.wav");
             	AddCharacterExpToSkill(Pchar, "Leadership", 100);
 			    AddCharacterExpToSkill(Pchar, "Sneak", 100);
             }
@@ -9114,8 +9114,8 @@ void QuestComplete(string sQuestName, string qname)
 		case "LSC_RingFindGold": // нашли золото 
 			PlaySound("Ambient\LAND\door_001.wav");
 			PlaySound("Ambient\LAND\door_004.wav");
-			PlaySound("Types\warrior03.wav");
-			PlaySound("Types\warrior04.wav");
+			PlayVoice("Types\warrior03.wav");
+			PlayVoice("Types\warrior04.wav");
 			SetLaunchFrameFormParam("Вы отыскали нужный ящик"+ NewStr() +"Золото капитана 'Санта-Люсии' найдено!", "", 0, 6);//табличка
 			LaunchFrameForm();
 			WaitDate("", 0, 0, 0, 2, 10); //крутим время

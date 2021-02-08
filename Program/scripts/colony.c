@@ -310,10 +310,10 @@ void SoundInResidenceBattle()
 	switch (rand(1))
     {
         case 0:
-            PlaySound("VOICE\" + LanguageGetLanguage() + "\soldier_arest_4.WAV");
+            PlayVoice("VOICE\" + LanguageGetLanguage() + "\soldier_arest_4.WAV");
         break;
         case 1:
-            PlaySound("VOICE\" + LanguageGetLanguage() + "\soldier_common_4.WAV");
+            PlayVoice("VOICE\" + LanguageGetLanguage() + "\soldier_common_4.WAV");
         break;
     }
 }
@@ -472,7 +472,7 @@ void TWN_Capture_Forts()
 
 		if (!CheckAttribute(Pchar, "GenQuestFort.SoundOff"))  // будет для выхода в море и повтора захвата
 		{
-        	PlaySound("INTERFACE\_GTBoard2.wav");
+        	PlayVoice("INTERFACE\_GTBoard2.wav");
         	if (isCityHasFort(sld.City))// довесок после форта
             {
             	AddCharacterExpToSkillSquadron(Pchar, "Leadership", 230);

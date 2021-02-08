@@ -299,8 +299,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                 break;	
                 case "EndOfQuestLine":
                     dialog.text = "Действуйте самостоятельно в интересах Франции, о флибустьерах тоже не забывайте. Война закончилась, пора обустроить свою жизнь, барон"+ GetSexPhrase("","есса") +"...";
-                    link.l1 = "Хорошо, сударь.";
-                    link.l1.go = "exit";
+					if (!CheckAttribute(npchar, "quest.answer_1"))
+				{
+					link.l1 = "Господин, Солей Руаяль прекрасный корабль, в интересах нашей державы, необходимо будет построить еще один королевский мановар для усиления господства на море. Это даст нам большое преимущество в грядущих войнах.";
+					link.l1.go = "build_ship";
+				}
+                    link.l2 = "Хорошо, сударь.";
+                    link.l2.go = "exit";
                     bWorldAlivePause   = false; // Конец линейки
                 break;
 			}
@@ -740,6 +745,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             dialog.text = "Я прошу вас быть у меня в резиденции через неделю-другую, возможно, у меня найдется для вас новое дело.";
 			link.l1 = "Хорошо, сударь. Буду у вас всенепременно.";
             link.l1.go = "Step_4_check";
+			npchar.quest.answer_3 = "true";	
 			AddMoneyToCharacter(pchar, 28000);  
             pchar.questTemp.Waiting_time = "8";
         break;

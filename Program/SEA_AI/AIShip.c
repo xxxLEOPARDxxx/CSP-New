@@ -1097,17 +1097,17 @@ void Ship_BortReloadEvent()
         {
             //Ship_PlaySound3D(aCharacter, "bortreloaded_all", 1.0);
             // типа перезарядка двух бортов PlaySound("interface\_GunReady.wav");
-            PlaySound("interface\_GunReady.wav");
+            PlayVoice("interface\_GunReady.wav");
         }
         else
         {
             //Boyer change #20170327-01  Sound to use aliases changes
             //if (bLeft)  { PlaySound("interface\_GunReadyL.wav"); }
             //if (bRight) { PlaySound("interface\_GunReadyR.wav"); }
-            if (bLeft)  { PlaySound("interface\_GunReadyL.wav"); }
-            if (bRight) { PlaySound("interface\_GunReadyR.wav"); }
-            if (bFront) { PlaySound("interface\_Gun_FB_Ready.wav"); }
-            if (bBack) { PlaySound("interface\_Gun_FB_Ready.wav"); }
+            if (bLeft)  { PlayVoice("interface\_GunReadyL.wav"); }
+            if (bRight) { PlayVoice("interface\_GunReadyR.wav"); }
+            if (bFront) { PlayVoice("interface\_Gun_FB_Ready.wav"); }
+            if (bBack) { PlayVoice("interface\_Gun_FB_Ready.wav"); }
         }
     }
 
@@ -3683,11 +3683,11 @@ void Ship_UpdateParameters()
         	{
 				if (rand(1) == 0)
 				{
-					PlaySound("Interface\_Abandon1.wav");
+					PlayVoice("Interface\_Abandon1.wav");
 				}
 				else
 				{
-					PlaySound("interface\_Abandon"+(2+rand(1))+".wav");
+					PlayVoice("interface\_Abandon"+(2+rand(1))+".wav");
 				}
 			}
 			// boal <--
@@ -5024,7 +5024,7 @@ void Ship_Surrender(int chridx)
 	if (nRel == RELATION_ENEMY) {
 		Log_SetStringToLog(xiStr("MSG_sea_10") + chr.ship.name + xiStr("MSG_sea_11"));
 		PlaySound("interface\notebook.wav");
-		PlaySound("abordage\abordage_wining.wav");
+		PlayVoice("interface\abordage_wining.wav");
 	} else {
 		Log_SetStringToLog(xiStr("MSG_sea_10") + chr.ship.name + xiStr("MSG_sea_12"));
 	}

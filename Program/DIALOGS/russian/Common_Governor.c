@@ -5,7 +5,7 @@ void ProcessDialogEvent()
 	aref Link, NextDiag;
 
 	DeleteAttribute(&Dialog,"Links");
-
+	
 	makeref(NPChar,CharacterRef);
 	makearef(Link, Dialog.Links);
 	makearef(NextDiag, NPChar.Dialog);
@@ -17,6 +17,12 @@ void ProcessDialogEvent()
         ProcessCommonDialog(NPChar, Link, NextDiag);
 		UnloadSegment(NPChar.FileDialog2);
 	}
+	
+	int Matheria1 = 4000;//шелк
+	int Matheria2 = 3000;//красное
+	int Matheria3 = 2000;//черное
+	int BuildPrice = 3000000;
+
     // вызов диалога по городам <--
     
     ref offref, sld;
@@ -142,8 +148,123 @@ void ProcessDialogEvent()
 				link.l2.go = "quests"; // файл нации
 				link.l10 = "Прошу простить, но меня ждут дела.";
 				link.l10.go = "exit";
+				
+				if (GetQuestPastDayParam("pchar.questTemp.buildSoley") >= 60 && NPchar.Nation == FRANCE && !CheckAttribute(npchar, "quest.answer_3"))
+				{
+				
+				Link.l15 = "Ну что, корабль готов?";
+				link.l15.go = "get_ship";
+				}
+				
+				
+				/*
+				Можно в конце линейки сделать запрос: "Я, состою во флоте Франции, для усиления боевой мощи нашей державы, необходимо построить второй корабль - аналог СР".
+				В таком случае, один корабль будет охранять главную колонию, на втором корабле мы будем плавать и громить форты, захватывая колонии для Франции".
+				На постройку корабля - высчитать все ресурсы: доски, парусина, ЧД, КД, и еще некоторые ресурсы в больших количествах. Цена постройки 3 млн. Время строительства 1 месяц.
+				Всё, всё по лору и все довольны без лишнего нытья.
+				*/
 			}
 		break;
+		
+		case "build_ship":
+			dialog.Text = "Это отличная идея! Однако в казне нет ресурсов для ее осуществения... Если хотите, вы можете привезти собственный материал и оплатить работу инженеров и рабочих. Я все организую.";		
+			Link.l1 = "Я " + GetSexPhrase("согласен","согласна")+ ". Что и в каком объеме нужно будет доставить?";
+			Link.l1.go = "build_ship_1"
+			Link.l2 = "Простите, но на такое у меня нет ни времени, ни денег.";
+			Link.l2.go = "exit";
+		break;
+		
+		case "build_ship_1":
+			dialog.Text = "Итак, для постройки королевского мановара понадобятся: "+Matheria2+" единиц красного дерева, "+Matheria3+" черного дерева, "+Matheria1+" шелка, прочие материалы вроде парусины и досок мы сами сможем произвести в наших колониях. Однако вы должны заплатить "+BuildPrice+" золотых вперед на их закупку, а также чтобы я смог начать найм рабочей силы и прочую организационную деятельность.";	
+			
+			if(makeint(Pchar.money) >= BuildPrice)
+			{
+				Link.l1 = "Договорились, вот деньги. Скоро привезу вам все остальное.";
+				Link.l1.go = "build_ship_2"
+			}
+			Link.l2 = "Недешего, пожалуй обойдусь...";
+			Link.l2.go = "exit";
+		break;
+		
+		case "build_ship_2":
+			AddMoneyToCharacter(Pchar, -BuildPrice);
+			dialog.Text = "Ждем с нетерпением.";
+			npchar.quest.answer_1 = "true";	
+
+			NPChar.Tuning.Matherial1 = Matheria1; 
+			NPChar.Tuning.Matherial2 = Matheria2; 
+			NPChar.Tuning.Matherial3 = Matheria3;
+			NextDiag.TempNode = "check_material";
+			Link.l2 = "До свидания.";
+			Link.l2.go = "exit";
+		break;
+				
+		case "check_material":
+			 
+				dialog.Text = "Работа ждет. Принес"+ GetSexPhrase("","ла") +", что я просил?";
+
+				NextDiag.TempNode = "check_material";
+
+				
+			    Link.l1 = "Да. Кое-что удалось достать.";
+			    Link.l1.go = "check_material_1";
+			    Link.l2 = "Нет. Еще добываю.";
+			    Link.l2.go = "Exit";
+		break;
+		
+		case "check_material_1":
+			
+			checkSoleyMatherial(Pchar, NPChar, GOOD_SILK, GOOD_MAHOGANY, GOOD_EBONY);
+		    
+		    if(sti(NPChar.Tuning.Matherial2) < 1 && sti(NPChar.Tuning.Matherial1) < 1 && sti(NPChar.Tuning.Matherial3) < 1)
+			{
+				DeleteAttribute(NPChar, "Tuning");
+				
+                dialog.text = "Вы все привезли. Отлично! Возвращайтесь через пару месяцев, думаю к тому времени постройка уже будет завершена...";
+				SaveCurrentQuestDateParam("pchar.questTemp.buildSoley");
+				NextDiag.TempNode = "First time";
+			    link.l1 = "Жду.";
+			    link.l1.go = "exit";
+				
+			}
+			else
+			{
+				dialog.Text = "Тебе осталось привезти:" + ", красного дерева - "+ sti(NPChar.Tuning.Matherial2) + ", черного дерева - "+ sti(NPChar.Tuning.Matherial3) + ", шелка - "+ sti(NPChar.Tuning.Matherial1)".";
+				link.l1 = "Хорошо.";
+				link.l1.go = "Exit";
+			}
+		break;
+		
+		case "get_ship":
+			dialog.text = "А как же! Можете забирать его в порту. Мы уже успели немного опробовать его на одной пиратской эскадре. Должен признаться, что немного вам завидую, этот корабль уникален во всех смыслах этого слова. В довесок к мановару я передаю вам в службу отличного офицера, надеюсь вы найдете ему применение.";
+			NextDiag.TempNode = "First time";
+			npchar.quest.answer_3 = "true";	
+			sld = GetCharacter(NPC_GenerateCharacter("SoleiRoyalCaptain", "off_fra_2", "man", "man", 35, FRANCE, -1, true));
+			sld.Ship.Name = "Солей Руаяль";
+			sld.Ship.Type = CreateBaseShip(SHIP_SOLEYRU);
+			ResetShipCannonsDamages(sld);
+			SetBaseShipData(sld);			
+			SetCrewQuantityFull(sld);
+			Fantom_SetBalls(sld, "pirate");	
+			FantomMakeCoolFighter(sld, 35, 80, 70, BLADE_LONG, "pistol3", 100);	
+			
+			sld.Dialog.TempNode = "hired";
+			sld.Dialog.FileName = "Enc_Officer_dialog.c";
+			sld.quest.meeting = true;
+			SetBaseShipData(sld);
+			sld.CompanionEnemyEnable = false;
+			SetCompanionIndex(pchar, -1, sti(sld.index));
+			
+			sld.quest.OfficerPrice = sti(pchar.rank)*500;
+			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
+			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+			sld.loyality = MAX_LOYALITY;
+			//AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			
+
+			link.l1 = "Благодарю. Немедленно его испытаю.";
+			link.l1.go = "Exit";
+		break;	
 		
 		case "node_1":
 			dialog.text = "Так какая причина заставила вас прийти сюда и отвлекать меня от важных государственных дел?";
@@ -397,4 +518,47 @@ void ProcessDialogEvent()
 			AddQuestUserData("Andre_Abel_Quest", "sText", "К счастью, меня в очередной раз выручили деньги");
 		break;
 	}
+}
+
+void checkSoleyMatherial(ref Pchar, ref NPChar, int good1, int good2, int good3)
+{
+    int amount;
+
+    amount = GetSquadronGoods(Pchar, good1) - sti(NPChar.Tuning.Matherial1);
+    if (amount < 0)
+    {
+       amount = amount + sti(NPChar.Tuning.Matherial1);
+    }
+    else
+    {
+        amount = sti(NPChar.Tuning.Matherial1);
+    }
+    RemoveCharacterGoods(Pchar, good1, amount);
+    NPChar.Tuning.Matherial1 = sti(NPChar.Tuning.Matherial1) - amount;
+	
+    amount = GetSquadronGoods(Pchar, good2) - sti(NPChar.Tuning.Matherial2);
+    if (amount < 0)
+    {
+       amount = amount + sti(NPChar.Tuning.Matherial2);
+    }
+    else
+    {
+        amount = sti(NPChar.Tuning.Matherial2);
+    }
+    RemoveCharacterGoods(Pchar, good2, amount);
+    NPChar.Tuning.Matherial2 = sti(NPChar.Tuning.Matherial2) - amount;
+	
+		
+    amount = GetSquadronGoods(Pchar, good3) - sti(NPChar.Tuning.Matherial3);
+    if (amount < 0)
+    {
+       amount = amount + sti(NPChar.Tuning.Matherial3);
+    }
+    else
+    {
+        amount = sti(NPChar.Tuning.Matherial3);
+    }
+    RemoveCharacterGoods(Pchar, good3, amount);
+    NPChar.Tuning.Matherial3 = sti(NPChar.Tuning.Matherial3) - amount;
+	
 }

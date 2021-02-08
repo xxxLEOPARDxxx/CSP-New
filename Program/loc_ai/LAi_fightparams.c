@@ -593,11 +593,13 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			{
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Вы вызвали кровотечение.")
+					Log_Info("Вы вызвали кровотечение.");
+					PlaySound("interface\Krovotok_"+rand(2)+".wav");
 				}
 				if(sti(enemy.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Вам нанесли кровоточащую рану.")
+					Log_Info("Вам нанесли кровоточащую рану.");
+					PlaySound("interface\Krovotok_"+rand(2)+".wav");
 				}
 				if(CheckAttribute(enemy, "model.animation") && CheckAttribute(enemy, "sex") && enemy.model.animation != "skeleton" && enemy.model.animation != "Terminator" && enemy.sex != "skeleton") MakeBloodingAttack(enemy, attack, coeff);
 			}
@@ -607,11 +609,13 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 				{
 					if(sti(attack.index) == GetMainCharacterIndex())
 					{
-						Log_Info("Вы вызвали кровотечение.")
+						Log_Info("Вы вызвали кровотечение.");
+						PlaySound("interface\Krovotok_"+rand(2)+".wav");
 					}
 					if(sti(enemy.index) == GetMainCharacterIndex())
 					{
-						Log_Info("Вам нанесли кровоточащую рану.")
+						Log_Info("Вам нанесли кровоточащую рану.");
+						PlaySound("interface\Krovotok_"+rand(2)+".wav");
 					}
 					if(CheckAttribute(enemy, "model.animation") && CheckAttribute(enemy, "sex") && enemy.model.animation != "skeleton" && enemy.model.animation != "Terminator" && enemy.sex != "skeleton") MakeBloodingAttack(enemy, attack, coeff);
 				}
@@ -631,11 +635,11 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			{
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Вы нанесли резкий удар.")
+					Log_Info("Вы нанесли резкий удар.");
 				}
 				if(sti(enemy.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Вам был нанесён резкий удар.")
+					Log_Info("Вам был нанесён резкий удар.");
 				}
 				if(CheckAttribute(enemy, "model.animation") && CheckAttribute(enemy, "sex") && enemy.model.animation != "skeleton" && enemy.model.animation != "Terminator" && enemy.sex != "skeleton") MakeSwiftAttack(enemy, attack, coeff);
 			}
@@ -653,11 +657,13 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 				{
 					if(sti(attack.index) == GetMainCharacterIndex())
 					{
-						Log_Info("Пробитие блока.")
+						Log_Info("Пробитие блока.");
+						PlaySound("interface\Stan_0.wav");
 					}
 					if(sti(enemy.index) == GetMainCharacterIndex())
 					{
-						Log_Info("Ваш блок пробит.")
+						Log_Info("Ваш блок пробит.");
+						PlaySound("interface\Stan_0.wav");
 					}
 					isBlocked = false;
 					blockSave = false;
@@ -665,7 +671,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			}
 		}
 	}
-	//<---Пробитие блоков средним и тяжёлым оружием
+	//<---Пробитие блоков тяжёлым оружием
 	
 	if (isBlocked)
     {
@@ -681,8 +687,16 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
                 string sEquipItem = GetGeneratedItem("unarmed");
                 AddItems(enemy, sEquipItem, 1);
                 EquipCharacterbyItem(enemy, sEquipItem);
-                if(sti(attack.index) == GetMainCharacterIndex()) Log_Info("Оружие противника было сломано.");
-				else Log_Info("Ваше оружие было сломано.");
+                if(sti(attack.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Оружие противника было сломано.");
+					PlaySound("interface\Crash_"+rand(2)+".wav");
+				}
+				else
+				{
+					Log_Info("Ваше оружие было сломано.");
+					PlaySound("interface\Crash_"+rand(2)+".wav");
+				}
             }
         }
         critical = 0;
@@ -709,11 +723,11 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		{
 			if(sti(attack.index) == GetMainCharacterIndex())
 			{
-				Log_Info("Вы промахнулись по противнику.");
+				Log_Info("Вы промахнулись!");
 			}
 			if(sti(enemy.index) == GetMainCharacterIndex())
 			{
-				Log_Info("Противник промахнулся ударом мимо вас.");
+				Log_Info(""+enemy.Name+" промахнулся.");
 			}
 			return;
 		}			
@@ -744,27 +758,27 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			if (HasSubStr(attack.equip.blade, "topor") && rand(6-coeff)==0 && !blockSave)
 			{
 				cirign = true;
-				Log_TestInfo("топор");
+				// Log_TestInfo("топор");
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
+					Log_Info("> Игнор кирасы.");
 				}
 				if(sti(enemy.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+					Log_Info("< Игнор кирасы.");
 				}
 			}
 			if (!HasSubStr(attack.equip.blade, "topor") && fencing_type == "FencingHeavy" && coeff*7>rand(100) && !blockSave)
 			{
 				cirign = true;
-				Log_TestInfo("тяж");
+				// Log_TestInfo("тяж");
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
+					Log_Info("> Игнор кирасы.");
 				}
 				if(sti(enemy.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+					Log_Info("< Игнор кирасы.");
 				}
 			}
 		}

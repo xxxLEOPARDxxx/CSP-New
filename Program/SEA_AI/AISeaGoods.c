@@ -231,7 +231,7 @@ bool AISeaGoods_ShipEatGood()
 
 	if (iCharacterIndex == nMainCharacterIndex)
 	{
-        PlaySound("INTERFACE\_Gotcha.wav"); // boal
+        PlayVoice("INTERFACE\_Gotcha.wav"); // boal
 		string sGoodQuantity = iQuantity * iGoodWeight;
 		string sShipGotGood = LanguageConvertString(iSeaSectionLang, "Ship_got_good");
 		Event(PARSE_STRING, "aslss", &oRes, sShipGotGood, 2, sGoodQuantity, sGoodName);

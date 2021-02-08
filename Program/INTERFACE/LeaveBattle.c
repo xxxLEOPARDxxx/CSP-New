@@ -21,7 +21,7 @@ void InitInterface(string iniName)
 	SetEventHandler("evntDoPostExit","DoPostExit",0); // выход из интерфейса
 	
 	EI_CreateFrame("INFO_BORDERS", 250,152,550,342);
-	PlaySound("interface\_EvShip1.wav");
+	PlayVoice("interface\_EvShip1.wav");
 }
 
 void ProcessBreakExit()

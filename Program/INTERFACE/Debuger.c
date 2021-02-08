@@ -706,10 +706,10 @@ void CalculateInfoDataF6()
 	AddItems(mc, "pistol7", 1);
 	AddItems(mc, "Map_Best", 1);
 	
-	// sEquipItem = GetGeneratedItem("blade27"); 	// Моргана 		(ЛО)
+	sEquipItem = GetGeneratedItem("blade27"); 	// Моргана 		(ЛО)
 	// sEquipItem = GetGeneratedItem("blade32"); 	// Фламбердж	(ЛО)
 	// sEquipItem = GetGeneratedItem("katar"); 		// Катар		(СО)
-	sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
+	// sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
 	AddItems(mc, sEquipItem, 1);
 	
 	AddItems(mc, "bullet", 50);
@@ -1861,16 +1861,21 @@ void LoginDummy()
 	sld.lastname = "Костлявый";
 	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
 	//вооружение
-    FantomMakeCoolFighter(sld, 100, 100, 100, "toporAZ", "pistol5", 99999);
+    // FantomMakeCoolFighter(sld, 100, 100, 100, "blade27", "pistol5", 99999); 	// Моргана 		(ЛО)
+	
+    // FantomMakeCoolFighter(sld, 100, 100, 100, "blade27", "", 99999); 	// Моргана 		(ЛО)
+    FantomMakeCoolFighter(sld, 100, 100, 100, "blade32", "", 99999); 	// Фламбердж	(ЛО)
+    // FantomMakeCoolFighter(sld, 100, 100, 100, "katar", 	"", 99999); 		// Катар		(СО)
+    // FantomMakeCoolFighter(sld, 100, 100, 100, "toporAZ", "", 99999); 	// Макуауитль	(ТО)
 	//установить SPECIAL
 	SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	//установить хп
 	LAi_SetHP(sld,9999,9999);
 	
 	//установить агр
-	/*LAi_SetWarriorType(sld);
+	LAi_SetWarriorType(sld);
 	LAi_group_SetRelation("teno_monsters_group", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
-	LAi_group_FightGroups("teno_monsters_group", LAI_GROUP_PLAYER, true);*/
+	LAi_group_FightGroups("teno_monsters_group", LAI_GROUP_PLAYER, true);
 	
 	//перки
 	sld.perks.list.BasicDefense = "1";

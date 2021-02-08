@@ -1253,6 +1253,7 @@ void ProcessControls()
                 if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
                 {
                     ActivateCharacterPerk(pchar, "Rush");
+					PlayVoice("interface\Bers_"+rand(2)+".wav");
                 }
                 else
                 {
@@ -1582,6 +1583,7 @@ void ProcessControls()
 			if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
             {
 		        ActivateCharacterPerk(pchar, "Rush");
+				PlayVoice("interface\Bers_"+rand(2)+".wav");
 		    }
             else
             {

@@ -419,7 +419,7 @@ void DeckBoat_Start()
 	DeleteBattleInterface();
 	//#20180815-01 Fix per Dmitry
 	//StartBattleLandInterface();
-    PlaySound("interface\_Abandon0.wav");// шлюпки на воду!
+    PlayVoice("interface\_Abandon0.wav");// шлюпки на воду!
 	ref mchr = GetMainCharacter();
 
 	string DeckBoatID = "";

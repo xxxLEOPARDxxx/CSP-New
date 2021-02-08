@@ -239,7 +239,7 @@ void BI_Frame()
 		if (boal_soundOn)
 		{
 		    boal_soundOn = false;
-            PlaySound("interface\_GTBoard0.wav");
+            PlayVoice("interface\_GTBoard0.wav");
 		}
 		// boal <--
 		return;
@@ -251,7 +251,7 @@ void BI_Frame()
 		if (boal_soundOn)
 		{
 		    boal_soundOn = false;
-            PlaySound("interface\_Abandon0.wav");
+            PlayVoice("interface\_Abandon0.wav");
 		}
 		// boal <--
 		return;
@@ -581,22 +581,22 @@ void BI_LaunchCommand()
 		{
 		case 1:
 			//Log_SetStringToLog("Cannonballs");
-			PlaySound("interface\_balls.wav");
+			PlayVoice("interface\_balls.wav");
 			chargeType=GOOD_BALLS;
 			break;
 		case 2:
 			//Log_SetStringToLog("Grapes");
-			PlaySound("interface\_grapes.wav");
+			PlayVoice("interface\_grapes.wav");
 			chargeType=GOOD_GRAPES;
 			break;
 		case 3:
 			//Log_SetStringToLog("Knippels");
-			PlaySound("interface\_chain.wav");
+			PlayVoice("interface\_chain.wav");
 			chargeType=GOOD_KNIPPELS;
 			break;
 		case 4:
 			//Log_SetStringToLog("Bombs");
-			PlaySound("interface\_bombs.wav");
+			PlayVoice("interface\_bombs.wav");
 			chargeType=GOOD_BOMBS;
 			break;
 		}
@@ -2479,16 +2479,7 @@ ref procGetSailTextureData()
 					case 32:sUpgrade = "usual_28";	break;
 					case 33:sUpgrade = "usual_29";	break;
 					case 34:sUpgrade = "usual_30";	break; // LEO: <-- Все корабли используют
-					else sUpgrade = "silkblack";	break;
-				}
-				if (sUpgrade == "silkblack")
-				{
-					switch(rand(2))
-					{
-						case 0: sUpgrade = "common"; 	break;
-						case 1: sUpgrade = "pat"; 		break;
-						case 2: sUpgrade = "silk"; 		break;
-					}
+					else sUpgrade = "common";	break;
 				}
 				nationFileName = "ships\parus_" + sUpgrade + ".tga";
 			
@@ -3100,19 +3091,19 @@ void BI_ProcessControlPress()
 	switch(ControlName)
 	{
 		case "hk_charge1":
-			PlaySound("interface\_balls.wav");
+			PlayVoice("interface\_balls.wav");
 			Ship_ChangeCharge(pchar, GOOD_BALLS);
 		break;
 		case "hk_charge2":
-			PlaySound("interface\_grapes.wav");
+			PlayVoice("interface\_grapes.wav");
 			Ship_ChangeCharge(pchar, GOOD_GRAPES);
 		break;
 		case "hk_charge3":
-			PlaySound("interface\_chain.wav");
+			PlayVoice("interface\_chain.wav");
 			Ship_ChangeCharge(pchar, GOOD_KNIPPELS);
 		break;
 		case "hk_charge4":
-			PlaySound("interface\_bombs.wav");
+			PlayVoice("interface\_bombs.wav");
 			Ship_ChangeCharge(pchar, GOOD_BOMBS);
 		break;
 		case "BICommandsActivate":

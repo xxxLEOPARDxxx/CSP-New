@@ -40,6 +40,13 @@ int PlayStereoSound(string name)
 	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_FX, false, false, false);
 }
 
+int PlayVoiceSound(string name)
+{
+	InitSound();
+	//Trace("PlayStereoSound : "+name);
+	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_SPEECH, false, false, false);
+}
+
 int PlayStereoSoundLooped(string name)
 {
 	InitSound();
@@ -625,6 +632,11 @@ void Sound_SetVolume(int iSoundID, float fVolume)
 int PlaySound(string name)
 {
 	return PlayStereoSound(name);
+}
+
+int PlayVoice(string name)
+{
+	return PlayVoiceSound(name);
 }
 
 int PlaySoundComplex(string sSoundName, bool bSimpleCache, bool bLooped, bool bCached, int iFadeTime)
