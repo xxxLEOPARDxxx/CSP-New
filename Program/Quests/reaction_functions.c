@@ -389,7 +389,8 @@ void BlueBird_loginFleut(string qName)
 		sld = GetCharacter(NPC_GenerateCharacter("BlueBirdTrader", "", "man", "man", 20, sti(pchar.questTemp.BlueBird.nation), 30, true));							
 		sld.dialog.filename = "Quest\ForAll_dialog.c";
 		sld.dialog.currentnode = "BlueBirdTrader";
-		sld.greeting = "CapSinkShip";		
+		sld.greeting = "CapSinkShip";
+		sld.AlwaysEnemy = true;
 		SetCaptanModelByEncType(sld, "trade");
 		FantomMakeCoolSailor(sld, SHIP_FLEUT, pchar.questTemp.BlueBird.Ship.Name, CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
 		sld.Ship.Mode = "trade"; //торговец
@@ -5780,6 +5781,7 @@ void Blood_StartGame(string qName)
     SetSPECIAL(sld, 5,9,7,5,10,7,4);
     sld.rank = 12;
     sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+	sld.HalfImmortal = true;  // Контузия
 	sld.loyality = MAX_LOYALITY;
     InitStartParam(sld);
     //SetRandSPECIAL(sld);
@@ -6196,6 +6198,7 @@ void CapBloodLine_q1(string qName)
     InitStartParam(sld);
     sld.rank = 10;
 	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+	sld.HalfImmortal = true;  // Контузия
 	sld.loyality = MAX_LOYALITY;
 //                     P  I  E  A  T  R  S
 	SetSPECIAL(sld, 10, 7, 9, 8, 8, 4, 8);
@@ -6232,6 +6235,7 @@ void CapBloodLine_q1(string qName)
     InitStartParam(sld);
     sld.rank = 10;
 	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+	sld.HalfImmortal = true;  // Контузия
 	sld.loyality = MAX_LOYALITY;
 //                    P  I  E  A  T  R  S
 	SetSPECIAL(sld, 8, 9, 8, 8, 9, 8, 7);
@@ -6265,6 +6269,7 @@ void CapBloodLine_q1(string qName)
     InitStartParam(sld);
     sld.rank = 10;
 	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+	sld.HalfImmortal = true;  // Контузия
 	sld.loyality = MAX_LOYALITY;
 //                    P  I  E  A  T  R  S
 	SetSPECIAL(sld, 6, 8, 7, 5, 9, 9, 7);
@@ -6299,6 +6304,7 @@ void CapBloodLine_q1(string qName)
     InitStartParam(sld);
     sld.rank = 10;
     sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+	sld.HalfImmortal = true;  // Контузия
 	sld.loyality = MAX_LOYALITY;
 	SetSPECIAL(sld, 8, 9, 5, 5, 9, 5, 7);
     //int           _fl,  f,  fh, p,  fr
@@ -9151,7 +9157,7 @@ void Headhunter_CreateHoumShips(string qName)//cоздание кораблей Хоума
 		DeleteAttribute(sld, "DontClearDead");
 		sld.Ship.Mode = "pirate";
 		sld.AlwaysEnemy = true;
-		sld.Abordage.Enable = false;
+		sld.Abordage.Enable = true;
 		Group_AddCharacter("Houm_Attack", "Houm_helper");//добавление в группу
  
     // ==> стравливание

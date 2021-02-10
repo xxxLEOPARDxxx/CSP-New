@@ -189,8 +189,7 @@ void InitInterface_RS(string iniName, ref itemsRef, string faceID)
 		sHeader = "Новая система лута при абордаже";
 		sText1 = "Более не нужно заглядывать в каждый угол или карман!\n\n" +
 				 "Все вещи из сундуков и с трупов будут собраны здесь.\n" +
-				 "В капитанских каютах процесс обыска остался прежним.\n\n" +
-				 "Эту опцию можно выключить в меню 'Прочее', #55.";
+				 "В капитанских каютах процесс обыска остался прежним.";
 		sText2 = "Запуск сундука с добычей доступен в любой момент после окончания боя\n" +
 				 "Горячая клавиша по умолчанию: 'тильда', она же 'ё'\n" +
 				 "Можно переназначить в настройках игры.";
@@ -224,7 +223,7 @@ void InterfaceInitButtons(ref _refCharacter)
 			SetNodeUsing("DELBODY_BUTTON", true);
 			
 			// Проверка на возможность использования черепа
-			if(CheckCharacterItem(_refCharacter, "SkullAztec") && IsAztecSkullOfficer(arDeadChar) && LAi_IsDead(characters[sti(arDeadChar.index)]) && CheckNPCQuestDate(_refCharacter, "AztecSkull"))
+			if(CheckCharacterItem(_refCharacter, "SkullAztec") && LAi_IsDead(characters[sti(arDeadChar.index)]) && CheckNPCQuestDate(_refCharacter, "AztecSkull"))
 			{
 				SetNodeUsing("SKULL_BUTTON", true);
 			}

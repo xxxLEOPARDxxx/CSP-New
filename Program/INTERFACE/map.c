@@ -119,6 +119,8 @@ void ProcCommand()
 }
 void wdmRecalcReloadToSea()
 {
+	string flagtypes[8];
+	int flagsnum = 1;
 	worldMap.encounter.type = "";
 	totalInfo = "";
 	int iRand;
@@ -126,6 +128,11 @@ void wdmRecalcReloadToSea()
 	int numEncounters = wdmGetNumberShipEncounters();
 	int isShipEncounterType = 0;
 	Log_TestInfo("Начинаем перебирать энкаунтеров");
+	bool pf = false;
+	bool ef = false;
+	bool ff = false;
+	bool hf = false;
+	bool sf = false;
 	for(int i = 0; i < numEncounters; i++)
 	{
 		if(wdmSetCurrentShipData(i))
@@ -232,25 +239,29 @@ void wdmRecalcReloadToSea()
                     case ENGLAND:        
                         totalInfo = totalInfo + XI_ConvertString("under english flag");
                         nationname = "Eng";
+						if (!ef) {ef = true; flagtypes[flagsnum] = "loading\Enc_Eng.tga"; flagsnum += 1; }
                     break;
                     case FRANCE:        
                         totalInfo = totalInfo + XI_ConvertString("under french flag");
                         nationname = "Fra";
+						if (!ff) {ff = true; flagtypes[flagsnum] = "loading\Enc_Fra.tga"; flagsnum += 1; }
                     break;
                     case SPAIN:        
                         totalInfo = totalInfo + XI_ConvertString("under spanish flag");
                         nationname = "Spa";
+						if (!sf) {sf = true; flagtypes[flagsnum] = "loading\Enc_Spa.tga"; flagsnum += 1; }
                     break;
                     case HOLLAND:        
                         totalInfo = totalInfo + XI_ConvertString("under dutch flag");
                         nationname = "Hol";
+						if (!hf) {hf = true; flagtypes[flagsnum] = "loading\Enc_Hol.tga"; flagsnum += 1; }
                     break;
                     case PIRATE:        
                         totalInfo = totalInfo + ".";
                         nationname = "Pir";
+						if (!pf) {pf = true; flagtypes[flagsnum] = "loading\Enc_Pir.tga"; flagsnum += 1; }
                     break;
                 }
-                SetNewPicture("ENC_NATIONS_PICTURE", "loading\Enc_"+nationname+".tga");
             }    
 
 			if(GetNationRelation2MainCharacter(sti(rEncounter.Nation)) != RELATION_ENEMY)
@@ -262,8 +273,18 @@ void wdmRecalcReloadToSea()
 	Log_TestInfo("isShipEncounterType :" + isShipEncounterType);
 	if (isShipEncounterType > 1)
     {
+		for(int j=1;j < flagsnum;j++)
+		{
+			if (flagsnum == 3) {SetNewPicture("ENC_NATIONS2"+j+"_PICTURE", flagtypes[j]); SetNewPicture("ENC_NATIONS2B"+(j-1)+"_PICTURE", "loading\EncFight.tga");};
+			if (flagsnum == 4) {SetNewPicture("ENC_NATIONS3"+j+"_PICTURE", flagtypes[j]); SetNewPicture("ENC_NATIONS3B"+(j-1)+"_PICTURE", "loading\EncFight.tga");};
+			if (flagsnum == 5) {SetNewPicture("ENC_NATIONS4"+j+"_PICTURE", flagtypes[j]); SetNewPicture("ENC_NATIONS4B"+(j-1)+"_PICTURE", "loading\EncFight.tga");};
+			if (flagsnum == 6) {SetNewPicture("ENC_NATIONS5"+j+"_PICTURE", flagtypes[j]); SetNewPicture("ENC_NATIONS5B"+(j-1)+"_PICTURE", "loading\EncFight.tga");};
+		}
+
+       // SetNewPicture("ENC_NATIONS_PICTURE", "loading\EncFight.tga");
+		
        totalInfo = XI_ConvertString("NavalSignal") + XI_ConvertString("battle on course") + totalInfo;
-       SetNewPicture("ENC_NATIONS_PICTURE", "loading\EncFight.tga");
+	   
     }
 	else
 	{
@@ -283,6 +304,7 @@ void wdmRecalcReloadToSea()
 		else
 		{
 			totalInfo = XI_ConvertString("NavalSignal") + XI_ConvertString("someone sails") + totalInfo;
+			SetNewPicture("ENC_NATIONS_PICTURE", "loading\Enc_"+nationname+".tga");
 		}
 	}
 }

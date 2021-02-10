@@ -447,6 +447,7 @@ void ProcessDialogEvent()
 			npchar.greeting = "Gr_questOfficer";
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			npchar.OfficerWantToGo.DontGo = true; //не пытаться уйти
+			sld.HalfImmortal = true;  // Контузия
 			npchar.loyality = MAX_LOYALITY;
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			NextDiag.CurrentNode = NextDiag.TempNode;

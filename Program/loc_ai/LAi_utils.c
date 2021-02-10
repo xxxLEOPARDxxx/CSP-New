@@ -413,26 +413,36 @@ void LAi_CheckKillCharacter(aref chr)
 			ChangeAttributesFromCharacter(rOff, chr, true);
 			rOff.id = chr.id;
 			rOff.HalfImmortal = true;
-			int ihpm = sti(rOff.chr.chr_ai.hp_max)-40;
+			int healing_time = makeint(LAi_GetCharacterMaxHP(chr)/10);//время от хп
+			if (CheckOfficersPerk(pchar, "EmergentSurgeon")) healing_time -= makeint(healing_time/10*3);//снижения от перков врачей
+			else
+			{
+				if (CheckOfficersPerk(pchar, "Doctor2")) healing_time -= makeint(healing_time/10*2);
+				else
+				{
+					if (CheckOfficersPerk(pchar, "Doctor1")) healing_time -= makeint(healing_time/10);
+				}
+			}
+			/*int ihpm = sti(rOff.chr.chr_ai.hp_max)-40;
 			if (ihpm < 40) ihpm = 40;
-			LAi_SetHP(rOff, ihpm, ihpm); // штраф в НР
+			LAi_SetHP(rOff, ihpm, ihpm); // штраф в НР*/
 			
 			 //Korsar Maxim --> доработка системы потери сознания.
 			if(!CheckAttribute(chr, "HPminusDays") && !CheckAttribute(chr, "HPminusDaysNeedtoRestore"))//Если теряет сознание без уже действующих "незаживших ран"
 			{
 		    	rOff.HPminusDays = 0;               //Для подчета дней, которые офицер уже прожил после потери сознания.
-		    	rOff.HPminus = 40;                  //Минус в ХП
-		        rOff.HPminusDaysNeedtoRestore = 10; //Количество дней для выздоровления
+		    	//rOff.HPminus = 40;                  //Минус в ХП
+		        rOff.HPminusDaysNeedtoRestore = healing_time; //Количество дней для выздоровления
 			}
 			else //Если теряет сознание при одной "незвжившей ране" и более
 			{    
 			    rOff.HPminusDays = chr.HPminusDays;
-				if(ihpm > 40) rOff.HPminus = chr.HPminus + 40;
-				rOff.HPminusDaysNeedtoRestore = chr.HPminusDaysNeedtoRestore + 10;
+				//if(ihpm > 40) rOff.HPminus = chr.HPminus + 40;
+				rOff.HPminusDaysNeedtoRestore = chr.HPminusDaysNeedtoRestore + healing_time;
 			}
 			 //Korsar Maxim <-- доработка потери сознания
 			 
-			LAi_SetCurHPMax(rOff);
+			//LAi_SetCurHPMax(rOff);
 			AddPassenger(pchar, rOff, false);
 			Log_Info("Абордажник " + GetFullName(rOff) + " без сознания!");
 		}
@@ -1170,7 +1180,7 @@ void MakePoisonAttackCheckSex(aref attacked, aref enemy)
 {
 	if (enemy.sex == "skeleton" || enemy.sex == "crab" || HasSubStr(enemy.model, "Canib_"))
 	{
-		if (rand(1000) < 150 && !IsOfficer(enemy)) MakePoisonAttack(enemy, attacked, 30 + rand(20));
+		if (rand(1000) < 150) MakePoisonAttack(enemy, attacked, 30 + rand(20));
 	}
 	
 	// Lugger --> травла от клинка.
@@ -1315,7 +1325,7 @@ void LAi_Explosion(ref chr, int damage)
 }
 
 //Gregg
-void MakeBloodingAttack(aref enemy, aref attacked, int coeff) // Кровоточащая атака
+void MakeBloodingAttack(aref enemy, aref attacked, float coeff) // Кровоточащая атака
 {
 	float Blooding = 0.0;
 	if(CheckAttribute(enemy, "chr_ai.Blooding"))
@@ -1323,9 +1333,9 @@ void MakeBloodingAttack(aref enemy, aref attacked, int coeff) // Кровоточащая ат
 		Blooding = stf(enemy.chr_ai.Blooding);
 		if(Blooding < 1.0) Blooding = 1.0;
 	}
-	enemy.chr_ai.Blooding = Blooding + (rand(coeff*5)); // Продолжительность
+	enemy.chr_ai.Blooding = Blooding + (5+rand(coeff*5)); // Продолжительность 5+(от 0 до коэфф*5)
 	
-	if(stf(enemy.chr_ai.Blooding) > 200.0) enemy.chr_ai.Blooding = 200.0; 
+	//if(stf(enemy.chr_ai.Blooding) > 200.0) enemy.chr_ai.Blooding = 200.0; 
 
 	if (enemy.index == GetMainCharacterIndex())
 	{
@@ -1333,7 +1343,7 @@ void MakeBloodingAttack(aref enemy, aref attacked, int coeff) // Кровоточащая ат
 	}
 }
 
-void MakeSwiftAttack(aref enemy, aref attacked, int coeff) // Кровоточащая атака
+void MakeSwiftAttack(aref enemy, aref attacked, float coeff) // Резкий удар
 {
 	float Swift = 0.0;
 	enemy.chr_ai.curen = stf(enemy.chr_ai.energy);
@@ -1342,7 +1352,7 @@ void MakeSwiftAttack(aref enemy, aref attacked, int coeff) // Кровоточащая атака
 		Swift = stf(enemy.chr_ai.Swift);
 		if(Swift < 1.0) Swift = 1.0;
 	}
-	enemy.chr_ai.Swift = Swift + (coeff*2); // Продолжительность
+	enemy.chr_ai.Swift = Swift + (1+rand(4)+coeff); // Продолжительность 1+(от 0 до 4)+коэфф
 	
-	if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
+	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
 }

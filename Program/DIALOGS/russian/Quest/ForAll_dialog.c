@@ -477,6 +477,7 @@ void ProcessDialogEvent()
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
+			sld.HalfImmortal = true;  // Контузия
 			SetSelfSkill(sld, 30, 30, 30, 30, 30);
 			SetShipSkill(sld, 30, 50, 30, 35, 80, 35, 30, 35, 30);
 			SetSPECIAL(sld, 5, 5, 10, 4, 9, 10, 10);
@@ -501,7 +502,7 @@ void ProcessDialogEvent()
 			dialog.text = "Я могу так продолжать хоть целый день. Отдавай деньги за порох, "+ GetFullName(pchar) + ", если хочешь жить.";
 			if(makeint(Pchar.money) >= 300000)
 			{
-				link.l1 = "Ну и здоровый же ты, как для малыша. Но и я не промах, так что просто так не сдамся. Предлагаю компромисс: я отдам тебе 300 000, но ты пойдешь ко мне на службу. Идет?";
+				link.l1 = "Твой корабль захвачен, а вся команда перебита. Но дерёшся ты хорошо. Я сохраню тебе жизнь и даже отдам деньги за порох, если ты пойдешь плавать под моим началом. Или...";
 				link.l1.go = "zpqCapitain_1";
 			}
 			
@@ -510,7 +511,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "zpqCapitain_1":
-			dialog.text = "Справедливое предложение, капитан. Я к вашим услугам.";
+			dialog.text = "Не нужно продолжать. Живым мне всё равно отсюда не уйти. Я согласен.";
 			AddMoneyToCharacter(Pchar, -300000);
 			link.l1 = "Добро пожаловать в команду, корсар!";
 			link.l1.go = "zpq_hired";
@@ -518,7 +519,8 @@ void ProcessDialogEvent()
 		
 		case "zpq_hired":
 			bQuestDisableMapEnter = false;
-			characters[GetCharacterIndex("zpqCaptain")].lifeDay = 0;
+			characters[GetCharacterIndex(npchar)].lifeDay = 0;
+			LAi_SetCurHPMax(npchar);
 			sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim", "man", "man", 30, PIRATE, -1, true));
 			FantomMakeCoolFighter(sld, 40, 105, 105, "blade23", "pistol3", 120);
 			sld.name 	= "Маленький";
@@ -526,10 +528,10 @@ void ProcessDialogEvent()
 			sld.greeting = "Gr_Officer";
 
 			sld.rank = 30;
-			sld.id = "zpqCaptain1";
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
+			sld.HalfImmortal = true;  // Контузия
 			SetSelfSkill(sld, 80, 80, 75, 80, 80);
 			SetShipSkill(sld, 70, 75, 75, 75, 80, 70, 70, 70, 70);
 			SetSPECIAL(sld, 9, 9, 10, 10, 8, 10, 10);
@@ -561,7 +563,7 @@ void ProcessDialogEvent()
 			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 			sld.loyality = MAX_LOYALITY;
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
-			QuestAboardCabinDialogNotBattle(); 
+			QuestAboardCabinDialogNotBattle();
             DialogExit();	
 		break;
 		
@@ -619,6 +621,7 @@ void ProcessDialogEvent()
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
+			sld.HalfImmortal = true;  // Контузия
 			SetSelfSkill(sld, 80, 80, 75, 80, 80);
 			SetShipSkill(sld, 70, 75, 75, 75, 80, 70, 70, 70, 70);
 			SetSPECIAL(sld, 9, 9, 10, 10, 8, 10, 10);
@@ -1022,7 +1025,7 @@ void ProcessDialogEvent()
 			dialog.text = "А что, не ясно? Конечно, кто-то из офицеров!\nКороче, надо мочить "+ GetSexPhrase("его","ее") +". За дело...";
 			link.l1 = "Ну, попробуйте...";
 			link.l1.go = "exit";
-			AddDialogExitQuestFunction("SharpSeekSpy_caveDialog_3");
+			AddDialogExitQuestFunction("SharpSeekSpy_caveDialog_3");		
 		break;
 		//--------------------------- квест официантки --------------------------------
 		//грабитель
@@ -2595,7 +2598,7 @@ void ProcessDialogEvent()
 			npchar.model = "MusketeerEnglish_2";
 			//Korsar Maxim - Прописка всех моделей для кирас. -->
         	npchar.HeroModel = "MusketeerEnglish_2,MusketeerEnglish_2_1,MusketeerEnglish_2_2,MusketeerEnglish_2_3,MusketeerEnglish_2_4,MusketeerEnglish_2_5,MusketeerEnglish_2,MusketeerEnglish_2,MusketeerEnglish_2";
-	        //Korsar Maxim - Прописка всех моделей для кирас. <-- 
+	        //Korsar Maxim - Прописка всех моделей для кирас. <-- 			
 			npchar.model.animation = "mushketer";
 			GiveItem2Character(npchar, "mushket2x2");
 			npchar.IsMushketer.LastGunID = -1;

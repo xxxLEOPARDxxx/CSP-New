@@ -630,7 +630,7 @@ void FillSkillTables()
 	GameInterface.TABLE_OTHER.tr12.td2.str = "Кровотечение";
 	GameInterface.TABLE_OTHER.tr12.td2.scale = 0.8;
 	GameInterface.TABLE_OTHER.tr12.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr12.td3.str = ShowStatValue("blooding")+"%";
+	GameInterface.TABLE_OTHER.tr12.td3.str = ShowStatValue("blooding");
 	GameInterface.TABLE_OTHER.tr12.td3.scale = 0.8;
 	GameInterface.TABLE_OTHER.tr12.td3.align = "right";
 	
@@ -748,11 +748,11 @@ string ShowStatValue(string type)
 			return FloatToString(25.0-(coeff*5),1)+"%/"+FloatToString(50.0-(coeff*5),1)+"%";
 		break;
 		case "blooding":
-			if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0";
-			return FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20),1);
+			if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0"+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.FencingLight)/20)*5,1))+" сек.";
+			return FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20),1)+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.FencingLight)/20)*5,1))+" сек.";
 		break;
 		case "swiftstrike":
-			return FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20),1)+"%/"+FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20)*2,1)+" сек.";
+			return FloatToString((makefloat(xi_refCharacter.Skill.Fencing)/20),1)+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.Fencing)/20),1))+" сек.";
 		break;
 		case "poison":
 			if (CheckAttribute(xi_refCharacter,"chr_ai.poison")) return its(sti(FloatToString(xi_refCharacter.chr_ai.poison,0)));

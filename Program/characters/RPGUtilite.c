@@ -123,7 +123,9 @@ void SetEnergyToCharacter(ref _refCharacter)
 
 int GetCharacterMaxOfficersQty(ref _refCharacter)
 {
-    return GetCharacterSPECIAL(_refCharacter, SPECIAL_C)*2+makeint(GetCharacterSkill(_refCharacter, SKILL_LEADERSHIP)/50);
+	int skillN = sti(_refCharacter.Skill.Leadership);
+	Log_Info(""+makeint(skillN/20));
+    return GetCharacterSPECIAL(_refCharacter, SPECIAL_C)*2+makeint(skillN/20);
 }
 
 int AddCharacterExp(ref _refCharacter,int _exp)
@@ -1010,8 +1012,18 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 {
 	if( !CheckAttribute(_refCharacter,"Skill."+skillName) ) return 1;
 	int skillN = sti(_refCharacter.Skill.(skillName));
+	if (CheckAttribute(_refCharacter,"HPminusDaysNeedtoRestore")) skillN -= 50; //штраф от контузии - Gregg
 
 	bool   bHero = (sti(_refCharacter.index) == GetMainCharacterIndex());
+
+	if (bHero)
+	{
+		if (skillName == "Leadership")
+		{
+			if (CheckAttribute(pchar,"LeadershipLose"))	skillN -= 200;
+		}
+	}
+
     // boal учет вещей -->
     if (bHero || CheckAttribute(_refCharacter, "Payment")) //IsCompanion(_refCharacter) || IsOfficer(_refCharacter))
     {

@@ -358,20 +358,67 @@ void CheckOfficersHPMinus()
 			sld = GetCharacter(iOfficer);
 			CheckAttribute(sld, "HPminusDays") sld.HPminusDays = sti(sld.HPminusDays) + 1;
 			
-			if(CheckAttribute(sld,"HPminus"))
+			/*if(CheckAttribute(sld,"HPminus"))
 			{
-				int ihpm = sti(sld.chr_ai.hp_max)+sti(sld.HPminus);
+				int ihpm = sti(sld.chr_ai.hp_max)+sti(sld.HPminus);*/
 			
-				if(CheckAttribute(sld, "HPminusDays") && CheckAttribute(sld, "HPminusDaysNeedtoRestore"))
+			if(CheckAttribute(sld, "HPminusDays") && CheckAttribute(sld, "HPminusDaysNeedtoRestore"))
+			{
+				if(sti(sld.HPminusDays) >= sti(sld.HPminusDaysNeedtoRestore))
 				{
-					if(sti(sld.HPminusDays) >= sti(sld.HPminusDaysNeedtoRestore))
-					{
-						DeleteAttribute(sld, "HPminusDays");
-						DeleteAttribute(sld, "HPminus");
-						DeleteAttribute(sld, "HPminusDaysNeedtoRestore");
-						LAi_SetHP(sld, ihpm, ihpm);
-						Log_Info("ќфицер " + GetFullName(sld) + " выздоровел.");
-					}
+					DeleteAttribute(sld, "HPminusDays");
+					//DeleteAttribute(sld, "HPminus");
+					DeleteAttribute(sld, "HPminusDaysNeedtoRestore");
+					//LAi_SetHP(sld, ihpm, ihpm);
+					Log_Info("ќфицер " + GetFullName(sld) + " выздоровел.");
+				}
+			}
+		}
+	}
+	for(i=0; i<GetPassengersQuantity(pchar); i++)
+	{
+		iOfficer = GetPassenger(pchar, i);
+		sld = GetCharacter(iOfficer);
+		CheckAttribute(sld, "HPminusDays") sld.HPminusDays = sti(sld.HPminusDays) + 1;
+			
+		/*if(CheckAttribute(sld,"HPminus"))
+		{
+			int ihpm = sti(sld.chr_ai.hp_max)+sti(sld.HPminus);*/
+		
+		if(CheckAttribute(sld, "HPminusDays") && CheckAttribute(sld, "HPminusDaysNeedtoRestore"))
+		{
+			if(sti(sld.HPminusDays) >= sti(sld.HPminusDaysNeedtoRestore))
+			{
+				DeleteAttribute(sld, "HPminusDays");
+				//DeleteAttribute(sld, "HPminus");
+				DeleteAttribute(sld, "HPminusDaysNeedtoRestore");
+				//LAi_SetHP(sld, ihpm, ihpm);
+				Log_Info("ќфицер " + GetFullName(sld) + " выздоровел.");
+			}
+		}
+	}
+	int iCompanionQuantity = getCompanionQuantity(pchar);
+	if(iCompanionQuantity > 1)
+	{
+		for(int n=1; n<COMPANION_MAX; n++)
+		{
+			iOfficer = GetCompanionIndex(pchar, n);
+			sld = GetCharacter(iOfficer);
+			CheckAttribute(sld, "HPminusDays") sld.HPminusDays = sti(sld.HPminusDays) + 1;
+			
+		/*if(CheckAttribute(sld,"HPminus"))
+		{
+			int ihpm = sti(sld.chr_ai.hp_max)+sti(sld.HPminus);*/
+		
+			if(CheckAttribute(sld, "HPminusDays") && CheckAttribute(sld, "HPminusDaysNeedtoRestore"))
+			{
+				if(sti(sld.HPminusDays) >= sti(sld.HPminusDaysNeedtoRestore))
+				{
+					DeleteAttribute(sld, "HPminusDays");
+					//DeleteAttribute(sld, "HPminus");
+					DeleteAttribute(sld, "HPminusDaysNeedtoRestore");
+					//LAi_SetHP(sld, ihpm, ihpm);
+					Log_Info("ќфицер " + GetFullName(sld) + " выздоровел.");
 				}
 			}
 		}

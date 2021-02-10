@@ -369,9 +369,21 @@ void LAi_KillCharacter(aref chr)
 //Убит ли персонаж
 bool LAi_IsDead(aref chr)
 {
-	if (chr.id == "0") return true; // boal если фантома нет, то НПС умер
-	if(CheckAttribute(chr, "chr_ai.hp") == false) return true;
-	if(stf(chr.chr_ai.hp) < 1.0) return true;
+	if (chr.id == "0")
+	{
+		DeleteAttribute(chr.chr_ai, "blooding");
+		return true; // boal если фантома нет, то НПС умер
+	}
+	if(CheckAttribute(chr, "chr_ai.hp") == false)
+	{
+		DeleteAttribute(chr.chr_ai, "blooding");
+		return true;
+	}
+	if(stf(chr.chr_ai.hp) < 1.0)
+	{
+		DeleteAttribute(chr.chr_ai, "blooding");
+		return true;
+	}
 	return false;
 }
 
@@ -798,8 +810,9 @@ void LAi_AllCharactersUpdate(float dltTime)
 					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
 					}
 				}else{
-					hp = hp - dltTime*(MakeFloat(chr.chr_ai.hp_max)/100); // -1 ХП в сек.
-					hp = hp - GetCharacterRegenHP(chr, false)*dltTime; // Если кровотечение, то отключаем реген. ХП (без учета бонусов от предметов)
+					hp = hp - dltTime*4.0;
+					//hp = hp - dltTime*(MakeFloat(chr.chr_ai.hp_max)/100); // -1 ХП в сек.
+					hp = hp - GetCharacterRegenHP(chr, false)*dltTime; // Нанесение процентного урона, чем больше хп у цели, чем чаще бьют тики урона
 					if (!CheckAttribute(chr, "blooding.hp") || hp < sti(chr.blooding.hp)-1.0)
 					{
 						chr.blooding.hp = hp;
@@ -970,9 +983,9 @@ void LAi_CharacterRestoreAy(aref chr)
 //Gregg
 float GetCharacterRegenHP(aref chr, bool useItms) // Новая функция расчета регенерации жизни (Rasteador) (ver. 0.3.0)
 {
-	float fMultiplier = LAi_GetCharacterMaxHP(chr)/450.0; // Скорость регенерации, в зависимости от макс. кол-ва ХП
+	float fMultiplier = LAi_GetCharacterMaxHP(chr)/100.0; // Внесение процентного урона, в зависимости от макс. кол-ва ХП
 
-	if(fMultiplier > 2.0) fMultiplier = 2.0; // Лимит
+	//if(fMultiplier > 2.0) fMultiplier = 2.0; // Лимит
 	
 	return fMultiplier;
 }

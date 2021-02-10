@@ -17,7 +17,7 @@ void QuestDuelCheckPossibility(ref loc)
 	if(LAi_IsCapturedLocation) { return; }
 	if(PChar.GenerateQuestDuel.Block == true) { return; }
 	if(!isDay()) { return; }
-	if(rand(100) > 50) { return; }
+	if(rand(100) > 20) { return; }
 	
 	GenerateQuestDuel();
 }

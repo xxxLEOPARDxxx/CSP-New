@@ -10,7 +10,7 @@ data = "Turn speed", "4.0"
 ;===================================================================================
 
 ;THRUSTS
-	[attack_fast_1] 
+	[attack_force_1] 
 	type = normal
 	start_time = 2
 	end_time = 18
@@ -27,7 +27,7 @@ data = "Turn speed", "4.0"
 	event = "Resact", 10, normal
 
 	
-	[attack_fast_2] 
+	[attack_force_2] 
 	type = normal
 	start_time = 2
 	end_time = 18
@@ -43,7 +43,7 @@ data = "Turn speed", "4.0"
 	event = "SndAlliace_W_attack_thrust1", 2, normal
 	event = "Resact", 10, normal
 		
-	[attack_fast_3] 
+	[attack_force_3] 
 	type = normal
 	start_time = 19
 	end_time = 35
@@ -60,7 +60,7 @@ data = "Turn speed", "4.0"
 	event = "Resact", 27, normal
 
 ;SLASH
-	[attack_force_1]
+	[attack_fast_1]
 	type = normal
 	start_time = 36
 	end_time = 65
@@ -76,7 +76,7 @@ data = "Turn speed", "4.0"
 	event = "SndAlliace_W_attack_slash1", 36, normal
 	event = "Resact", 51, normal
 		
-	[attack_force_2]
+	[attack_fast_2]
 	type = normal
 	start_time = 36
 	end_time = 65
@@ -92,7 +92,7 @@ data = "Turn speed", "4.0"
 	event = "SndAlliace_W_attack_slash1", 36, normal
 	event = "Resact", 51, normal
 
-	[attack_force_3]
+	[attack_fast_3]
 	type = normal
 	start_time = 66
 	end_time = 96
@@ -108,7 +108,7 @@ data = "Turn speed", "4.0"
 	event = "SndAlliace_W_attack_slash2", 66, normal
 	event = "Resact", 81, normal
 
-	[attack_force_4]
+	[attack_fast_4]
 	type = normal
 	start_time = 66
 	end_time = 96

@@ -1253,7 +1253,7 @@ void ProcessControls()
                 if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
                 {
                     ActivateCharacterPerk(pchar, "Rush");
-					PlayVoice("interface\Bers_"+rand(2)+".wav");
+					PlayVoice(GetSexPhrase("interface\Bers_"+rand(2)+".wav","interface\Bersf_"+rand(3)+".wav"));
                 }
                 else
                 {

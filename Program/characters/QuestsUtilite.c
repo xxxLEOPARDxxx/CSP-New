@@ -2289,14 +2289,14 @@ void OfficerGirlInit()
     SetFantomHP(sld);
 	LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
 	
-	sld = GetCharacter(NPC_GenerateCharacter("Beatrice", "PGG_Rumba", "woman", "Angellica", 15, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("Beatrice", "PGG_Rumba", "woman", "Milenace", 15, PIRATE, -1, false));
 	sld.name 	= "Элен";
 	sld.lastname = "МакАртур";
 	sld.loyality = 20;
 	sld.rank 	= 17;
     sld.reputation = 10; // good девочка
 	sld.alignment = "bad";
-	sld.HeroModel = "PGG_Rumba,PGG_Rumba_1,PGG_Rumba_2,PGG_Rumba_3,PGG_Rumba_4,PGG_Rumba_5,PGG_Rumba,PGG_Rumba,PGG_Rumba";
+	sld.HeroModel = "PGG_Rumba_0,PGG_Rumba_1,PGG_Rumba_2,PGG_Rumba_3,PGG_Rumba_4,PGG_Rumba_5";
 	GiveItem2Character(sld, "blade12");
 	TakeNItems(sld,"potion2", Rand(4)+1);
 	sld.equip.blade = "blade12";
@@ -2306,6 +2306,7 @@ void OfficerGirlInit()
 	AddItems(sld, "GunPowder", rand(20)+20);
     sld.Payment = true;
     sld.HoldEquip = false; // не отдавать саблю и пистоль
+	sld.HalfImmortal = true;  // Контузия
 
 	sld.location	= "PuertoPrincipe_town";
 	sld.location.group = "goto";
@@ -2362,6 +2363,7 @@ void OfficerMushketerInit()
 	AddItems(sld, "GunPowder", 100);
     sld.Payment = true;
     sld.HoldEquip = false; // не отдавать саблю и пистоль
+	sld.HalfImmortal = true;  // Контузия
 	sld.location	= "Shore59";
 	sld.location.group = "goto";
 	sld.location.locator = "goto3";
@@ -2403,6 +2405,7 @@ void OfficerMushketerInit()
 	AddItems(sld, "GunPowder", 100);
     sld.Payment = true;
     sld.HoldEquip = false; // не отдавать саблю и пистоль
+	sld.HalfImmortal = true;  // Контузия
 	sld.location	= "Santodomingo_town";
 	sld.location.group = "goto";
 	sld.location.locator = "goto10";

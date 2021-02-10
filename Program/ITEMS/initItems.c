@@ -6444,6 +6444,870 @@ int InitItems()
 	itm.Generation.Weight.max = 14.0;
 	n++;
 	
+	/////////////////////////////////////////////////////////
+	/////		-->		CSP Книги 56 штук				/////
+	/////////////////////////////////////////////////////////
+	
+	/////////////// *** 1 уровень *** ///////////////
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_1"; // Авторитет
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_1";
+	itm.describe = "itmdescr_book1_1";
+	itm.picIndex = 1;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_2"; // Легкое оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_2";
+	itm.describe = "itmdescr_book1_2";
+	itm.picIndex = 2;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_3"; // Среднее оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_3";
+	itm.describe = "itmdescr_book1_3";
+	itm.picIndex = 3;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_4"; // Тяжелое оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_4";
+	itm.describe = "itmdescr_book1_4";
+	itm.picIndex = 4;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_5"; // Пистолеты
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_5";
+	itm.describe = "itmdescr_book1_5";
+	itm.picIndex = 5;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_6"; // Везение
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_6";
+	itm.describe = "itmdescr_book1_6";
+	itm.picIndex = 6;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_7"; // Скрытность
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_7";
+	itm.describe = "itmdescr_book1_7";
+	itm.picIndex = 7;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_8"; // Навигация
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_8";
+	itm.describe = "itmdescr_book1_8";
+	itm.picIndex = 8;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_9"; // Меткость
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_9";
+	itm.describe = "itmdescr_book1_9";
+	itm.picIndex = 9;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_10"; // Орудия
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_10";
+	itm.describe = "itmdescr_book1_10";
+	itm.picIndex = 10;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_11"; // Абордаж
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_11";
+	itm.describe = "itmdescr_book1_11";
+	itm.picIndex = 11;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_12"; // Защита
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_12";
+	itm.describe = "itmdescr_book1_12";
+	itm.picIndex = 12;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_13"; // Починка
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_13";
+	itm.describe = "itmdescr_book1_13";
+	itm.picIndex = 13;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book1_14"; // Торговля
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book1_14";
+	itm.describe = "itmdescr_book1_14";
+	itm.picIndex = 14;
+	itm.picTexture = "BOOK1";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	/////////////// *** 1 уровень *** ///////////////
+	
+	/////////////// *** 2 уровень *** ///////////////
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_1"; // Авторитет
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_1";
+	itm.describe = "itmdescr_book2_1";
+	itm.picIndex = 1;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_2"; // Легкое оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_2";
+	itm.describe = "itmdescr_book2_2";
+	itm.picIndex = 2;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_3"; // Среднее оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_3";
+	itm.describe = "itmdescr_book2_3";
+	itm.picIndex = 3;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_4"; // Тяжелое оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_4";
+	itm.describe = "itmdescr_book2_4";
+	itm.picIndex = 4;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_5"; // Пистолеты
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_5";
+	itm.describe = "itmdescr_book2_5";
+	itm.picIndex = 5;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_6"; // Везение
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_6";
+	itm.describe = "itmdescr_book2_6";
+	itm.picIndex = 6;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_7"; // Скрытность
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_7";
+	itm.describe = "itmdescr_book2_7";
+	itm.picIndex = 7;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_8"; // Навигация
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_8";
+	itm.describe = "itmdescr_book2_8";
+	itm.picIndex = 8;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_9"; // Меткость
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_9";
+	itm.describe = "itmdescr_book2_9";
+	itm.picIndex = 9;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_10"; // Орудия
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_10";
+	itm.describe = "itmdescr_book2_10";
+	itm.picIndex = 10;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_11"; // Абордаж
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_11";
+	itm.describe = "itmdescr_book2_11";
+	itm.picIndex = 11;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_12"; // Защита
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_12";
+	itm.describe = "itmdescr_book2_12";
+	itm.picIndex = 12;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_13"; // Починка
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_13";
+	itm.describe = "itmdescr_book2_13";
+	itm.picIndex = 13;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book2_14"; // Торговля
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book2_14";
+	itm.describe = "itmdescr_book2_14";
+	itm.picIndex = 14;
+	itm.picTexture = "BOOK2";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(0.5);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.0;
+	n++;
+	
+	/////////////// *** 2 уровень *** ///////////////
+	
+	/////////////// *** 3 уровень *** ///////////////
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_1"; // Авторитет
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_1";
+	itm.describe = "itmdescr_book3_1";
+	itm.picIndex = 1;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_2"; // Легкое оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_2";
+	itm.describe = "itmdescr_book3_2";
+	itm.picIndex = 2;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_3"; // Среднее оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_3";
+	itm.describe = "itmdescr_book3_3";
+	itm.picIndex = 3;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_4"; // Тяжелое оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_4";
+	itm.describe = "itmdescr_book3_4";
+	itm.picIndex = 4;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_5"; // Пистолеты
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_5";
+	itm.describe = "itmdescr_book3_5";
+	itm.picIndex = 5;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_6"; // Везение
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_6";
+	itm.describe = "itmdescr_book3_6";
+	itm.picIndex = 6;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_7"; // Скрытность
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_7";
+	itm.describe = "itmdescr_book3_7";
+	itm.picIndex = 7;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_8"; // Навигация
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_8";
+	itm.describe = "itmdescr_book3_8";
+	itm.picIndex = 8;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_9"; // Меткость
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_9";
+	itm.describe = "itmdescr_book3_9";
+	itm.picIndex = 9;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_10"; // Орудия
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_10";
+	itm.describe = "itmdescr_book3_10";
+	itm.picIndex = 10;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_11"; // Абордаж
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_11";
+	itm.describe = "itmdescr_book3_11";
+	itm.picIndex = 11;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_12"; // Защита
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_12";
+	itm.describe = "itmdescr_book3_12";
+	itm.picIndex = 12;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_13"; // Починка
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_13";
+	itm.describe = "itmdescr_book3_13";
+	itm.picIndex = 13;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book3_14"; // Торговля
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book3_14";
+	itm.describe = "itmdescr_book3_14";
+	itm.picIndex = 14;
+	itm.picTexture = "BOOK3";
+	itm.price = 1000;
+	itm.Weight = 0.5 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 0.5;
+	itm.Generation.Weight.max = 1.5;
+	n++;
+	
+	/////////////// *** 3 уровень *** ///////////////
+	
+	/////////////// *** 4 уровень *** ///////////////
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_1"; // Авторитет
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_1";
+	itm.describe = "itmdescr_book4_1";
+	itm.picIndex = 1;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_2"; // Легкое оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_2";
+	itm.describe = "itmdescr_book4_2";
+	itm.picIndex = 2;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_3"; // Среднее оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_3";
+	itm.describe = "itmdescr_book4_3";
+	itm.picIndex = 3;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_4"; // Тяжелое оружие
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_4";
+	itm.describe = "itmdescr_book4_4";
+	itm.picIndex = 4;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_5"; // Пистолеты
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_5";
+	itm.describe = "itmdescr_book4_5";
+	itm.picIndex = 5;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_6"; // Везение
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_6";
+	itm.describe = "itmdescr_book4_6";
+	itm.picIndex = 6;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_7"; // Скрытность
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_7";
+	itm.describe = "itmdescr_book4_7";
+	itm.picIndex = 7;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_8"; // Навигация
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_8";
+	itm.describe = "itmdescr_book4_8";
+	itm.picIndex = 8;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_9"; // Меткость
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_9";
+	itm.describe = "itmdescr_book4_9";
+	itm.picIndex = 9;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_10"; // Орудия
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_10";
+	itm.describe = "itmdescr_book4_10";
+	itm.picIndex = 10;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_11"; // Абордаж
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_11";
+	itm.describe = "itmdescr_book4_11";
+	itm.picIndex = 11;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_12"; // Защита
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_12";
+	itm.describe = "itmdescr_book4_12";
+	itm.picIndex = 12;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_13"; // Починка
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_13";
+	itm.describe = "itmdescr_book4_13";
+	itm.picIndex = 13;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "book4_14"; // Торговля
+	itm.groupID = BOOK_ITEM_TYPE;
+	itm.name = "itmname_book4_14";
+	itm.describe = "itmdescr_book4_14";
+	itm.picIndex = 14;
+	itm.picTexture = "BOOK4";
+	itm.price = 1000;
+	itm.Weight = 1.0 + fRandSmall(1.0);
+	itm.minlevel = 1;
+	itm.rare = 0.01;
+	itm.Generation.Weight.min = 1.0;
+	itm.Generation.Weight.max = 2.0;
+	n++;
+	
+	/////////////// *** 4 уровень *** ///////////////
+	
+	/////////////////////////////////////////////////////////
+	/////		<--		CSP Книги 56 штук				/////
+	/////////////////////////////////////////////////////////
+	
 	trace("Всего предметов (размерность массива) "+n);
 	trace("Всего заскриптованных предметов - " + iScriptItemCount);
 	trace("Начальный специальный предмет: " + Items[ItemsForLocators_start].id);

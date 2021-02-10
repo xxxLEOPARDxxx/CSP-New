@@ -468,7 +468,9 @@ int FindFreeRandomOfficer()
 	int Counter, OfficerIdx;
 	string OfficerId;
 	// special -->
-	if (GetCharacterMaxOfficersQty(Pchar) <= (GetOfficerPassengerQuantity(Pchar) + GetCompanionQuantity(Pchar) - 1)) return -1;
+	if (GetCharacterMaxOfficersQty(Pchar) < (GetOfficerPassengerQuantity(Pchar) + GetCompanionQuantity(Pchar) - 1)) {pchar.LeadershipLose = true; return -1;}
+	if (GetCharacterMaxOfficersQty(Pchar) == (GetOfficerPassengerQuantity(Pchar) + GetCompanionQuantity(Pchar) - 1)) {DeleteAttribute(pchar,"LeadershipLose"); return 0;}
+	else DeleteAttribute(pchar,"LeadershipLose");
 	return 1;
 }
 void LandEnc_OfficerHired()
