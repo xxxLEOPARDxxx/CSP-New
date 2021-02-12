@@ -252,9 +252,39 @@ void ProcessDialogEvent()
 	        	Link.l8 = "Мне не мешало бы отдохнуть...";
 	    		Link.l8.go = "TalkSelf_StartWait";
 	    	}
+			if(!CheckAttribute(pchar,"bookreadtoday") && CheckAttribute(pchar,"booktime") && !bDisableMapEnter && Pchar.questTemp.CapBloodLine == false && PChar.location != "Deck_Near_Ship" && findsubstr(PChar.location, "_shipyard" , 0) == -1 && PChar.location != "CommonPackhouse_2" && !CheckAttribute(pchar,"GenQuest.CannotWait")) // 21.03.09 Warship fix Во время линейки Блада отдыхать нельзя
+	        {
+	        	Link.l9 = "Почитать книгу.";
+	    		Link.l9.go = "ReadBook";
+	    	}
 			Link.l10 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
 			Link.l10.go = "exit";
 		break;
+		
+		case "ReadBook":
+			Dialog.Text = "Ну что-ж, почитал пару часов...";
+			WasteTime(4);
+			pchar.booktime = sti(pchar.booktime) - 1;
+			pchar.bookreadtoday = true;
+			if (sti(pchar.booktime) <= 0)
+			{
+				AddCharacterExpToSkill(pchar, pchar.booktype, sti(pchar.bookbonus));
+				int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+				Log_Info(GetFullName(pchar) + " изучил книгу ''"+LanguageConvertString(idLngFile, pchar.bookname)+"'' и увеличил навык ''"+XI_ConvertString(pchar.booktype)+"''");
+				LanguageCloseFile(idLngFile);
+				DeleteAttribute(pchar,"booktime");
+				DeleteAttribute(pchar,"booktime.full");
+				DeleteAttribute(pchar,"bookbonus");
+				DeleteAttribute(pchar,"booktime");
+				DeleteAttribute(pchar,"booktype");
+				DeleteAttribute(pchar,"bookreadtoday");
+				string sEquipItem = GetCharacterEquipByGroup(pchar, BOOK_ITEM_TYPE);
+				RemoveCharacterEquip(pchar, BOOK_ITEM_TYPE);
+				RemoveItems(pchar, sEquipItem, 1);
+			}
+			Link.l6 = "Всё, хватит на сегодня.";
+			Link.l6.go = "exit";
+		break
 		
 		case "TalkSelf_ChangeFlag":
 			Dialog.Text = "Какой флаг мне необходим на данный момент? Его смена займёт 1 час.";

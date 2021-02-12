@@ -6,6 +6,8 @@ void ProcessDialogEvent()
 	ref NPChar;
 	aref Link, NextDiag;
 
+	int skullprice = (sti(PChar.rank) * 4000) - ((sti(PChar.rank) * 2400) * (0.01* (GetSummonSkillFromName(PChar, SKILL_COMMERCE))))+ 10000;
+
 	DeleteAttribute(&Dialog,"Links");
 
 	makeref(NPChar,CharacterRef);
@@ -280,6 +282,11 @@ void ProcessDialogEvent()
 			{
 				link.l3.go = "AscoldTrader_WasSeek";
 			}
+			if (CheckAttribute(pchar,"cursed.waitingSkull") && pchar.questTemp.Cursed.TraderId == npchar.id && !CheckAttribute(pchar,"cursed.Skullbought")) 
+			{
+				link.l44 = "У меня к вам несколько необычный вопрос. Дело в том, что я ищу один предмет - "+ GetConvertStr("itmname_"+pchar.questTemp.Cursed.Item, "ItemsDescribe.txt") +". Мне стало известно, что он мог принадлежать владельцу этого магазина.";
+				link.l44.go = "buy_skull";
+			}
 			if(CheckAttribute(pchar,"GenQuest.EncGirl"))
 			{
 				if(pchar.GenQuest.EncGirl == "toLoverFather" && pchar.GenQuest.EncGirl.LoverFather == "store_keeper" && pchar.GenQuest.EncGirl.LoverCity == npchar.city)
@@ -322,6 +329,35 @@ void ProcessDialogEvent()
 			link.l5.go = "exit";
 		break;
 
+		case "buy_skull":
+			dialog.text = GetConvertStr("itmname_"+pchar.questTemp.Cursed.Item, "ItemsDescribe.txt") +"? Извините, но это семейная реликвия, она не продается. Много лет назад дед приобрел его у одного пирата, и с тех пор череп ни разу не покидал стен этого магазина.";
+			link.l1 = "Не лгите. Для вас, торгашей, все имеет цену, даже родная мать. Сколько хотите хотите за этот череп?";
+			link.l1.go = "buy_skull_1";
+		break;
+		
+		case "buy_skull_1":
+			dialog.text = sti(skullprice) + " и ни монетой меньше.";
+			if (sti(pchar.Money) >= skullprice)
+            {
+    			link.l1 = "Вот деньги. Давайте его сюда.";
+				link.l1.go = "buy_skull_2";
+			}
+			link.l2 = "Да за эти деньги я десяток таких черепов куплю. До свидания.";
+			link.l2.go = "exit";
+		break;
+		
+		case "buy_skull_2":
+			pchar.cursed.Skullbought = true;
+			AddQuestRecord("CursedSkeleton", "2");
+			dialog.text = "С вами приятно иметь дело.";
+			AddMoneyToCharacter(pchar, -skullprice);
+			GiveItem2Character(pchar, pchar.questTemp.Cursed.Item);
+    		link.l1 = "Ага, прощайте.";
+			link.l1.go = "exit";
+		break;
+		
+		
+		
 		case "market":
 //navy -->
 			//занят ПГГ

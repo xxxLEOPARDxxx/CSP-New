@@ -1002,6 +1002,8 @@ void NewGame_continue()
 		RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
 		RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
 		RemoveCharacterEquip(pchar, BACKPACK_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, TALISMAN_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, BOOK_ITEM_TYPE);
 		DeleteAttribute(pchar, "items");
 		InterfaceStates.startGameWeather = FindWeather("20 Hour");
 		LoadMainCharacterInFirstLocationGroup("Estate", "reload", "reload1");
@@ -1253,7 +1255,7 @@ void ProcessControls()
                 if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
                 {
                     ActivateCharacterPerk(pchar, "Rush");
-					PlayVoice(GetSexPhrase("interface\Bers_"+rand(2)+".wav","interface\Bersf_"+rand(3)+".wav"));
+					PlayVoice(GetSexPhrase("interface\Bers_"+rand(5)+".wav","interface\Bersf_"+rand(4)+".wav"));
                 }
                 else
                 {
@@ -1583,7 +1585,7 @@ void ProcessControls()
 			if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
             {
 		        ActivateCharacterPerk(pchar, "Rush");
-				PlayVoice("interface\Bers_"+rand(2)+".wav");
+				PlayVoice(GetSexPhrase("interface\Bers_"+rand(5)+".wav","interface\Bersf_"+rand(4)+".wav"));
 		    }
             else
             {

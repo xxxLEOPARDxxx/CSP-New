@@ -551,8 +551,10 @@ void RandItem_OnEnterLocator(aref _location, string _locator)
 // ****************** BOXES ********************
 void Box_EnterToLocator(aref loc, string locName)
 {
+	//blackthorn
+	//spawnToughSkeleton(loc);
 	if(!CheckAttribute(loc,locName)) return;
-	
+		
 	if(HasSubStr(locName, "private"))
 	{
 		// check if private box opened
@@ -873,3 +875,52 @@ bool SpawnItem(ref _chr, ref _id, bool isAbordageBox, float luck)
 }
 
 object g_TmpModelVariable; // код от к3, в скриптах нет вообще, есть проверка в ядре
+
+void spawnToughSkeleton(aref _location)
+{
+	if (rand(100) < 30 && CheckAttribute(_location, "locators.monsters") && !bMonstersGen && _location.type == "cave" && !CheckAttribute(pchar, "cursed.waitingSkull"))
+	{	
+		if (!CheckAttribute(pchar, "cursed.quest") || GetQuestPastDayParam("pchar.questTemp.Cursed") >= 90)
+		{
+			pchar.cursed.quest = true;
+			ref sld;
+			
+			LAi_group_Delete("EnemyFight");
+			pchar.quest.cursed_appearance = "PGG_Skeletcap_"+sti(rand(5));
+			sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", pchar.quest.cursed_appearance, "skeleton", "skeleton", sti(pchar.rank)+20, PIRATE, 1, true));
+			
+			FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
+			DeleteAttribute(sld, "SuperShooter");
+			int hitpoints = rand(sti(pchar.rank)*15)+1000;
+			LAi_SetHP(sld, hitpoints, hitpoints);
+			sld.SaveItemsForDead = true;
+			
+			sld.name = "Проклятый капитан";
+			sld.lastname = "";
+			
+			pchar.quest.cursed_appearance.name  = sld.name;
+			pchar.quest.cursed_appearance.lastname = sld.lastname;
+			AddBonusEnergyToCharacter(sld, 200);
+			
+			sld.quest.meeting = "0";	
+			sld.Dialog.CurrentNode = "First time";
+			sld.dialog.filename = "Cursed_Skeleton.c";
+			LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+			LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER_OWN, LAI_GROUP_NEITRAL);
+			LAi_group_Delete("cursed");
+			Group_FindOrCreateGroup("cursed");
+			Group_AddCharacter("cursed", sld);
+			LAi_SetActorTypeNoGroup(sld);
+			LAi_SetCheckMinHP(sld, (LAi_GetCharacterHP(sld) - 1), false, "Battle_Hunters_Land");
+			PlaceCharacter(sld, "monsters", "random_must_be_near");
+			LAi_SetImmortal(sld, true);
+
+			LAi_type_actor_Reset(sld);
+			LAi_ActorDialog(sld, pchar, "", 20.0, 0);
+			SaveCurrentQuestDateParam("pchar.questTemp.Cursed");
+			ChangeCharacterAddressGroup(sld, _location.id, "monster", LAi_FindNearestFreeLocator2Pchar("monster"));
+			LAi_CharacterPlaySound(sld, "DeadmansGod");
+		}
+
+	}
+}

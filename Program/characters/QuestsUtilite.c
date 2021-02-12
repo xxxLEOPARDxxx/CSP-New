@@ -685,6 +685,12 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 			}
 			Log_TestInfo("xzibit");
 		}
+		if(rand(100) == 0)//Книги - Gregg
+		{
+			string book = "book2_"+(rand(13)+1);
+			_location.box1.items.(book) = 1;
+			Log_TestInfo("bookgen");
+		}
 		
 		if(rand(200) == 0)
 		{
@@ -2684,6 +2690,12 @@ void QuestCheckTakeBoxes(ref itemsRef)
 	bMainCharacterInBox = true;
 	//<-- флаг 'в сундуке'
 	//-------------------- КЛАДЫ ------------>>>>>>>>>>>>>
+
+	
+	if (!CheckAttribute(itemsRef, "Treasure")&& !CheckAttribute(itemsRef, "PiratesOnUninhabitedTreasure")&& !CheckAttribute(itemsRef, "Hold_GenQuest_Treasure"))
+	{
+		spawnToughSkeleton(locLoad);
+	}
 	if (CheckAttribute(itemsRef, "Treasure"))
 	{
 		Log_Info("Похоже, что это и есть клад.");

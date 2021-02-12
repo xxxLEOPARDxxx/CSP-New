@@ -226,6 +226,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Dozor_Storm";
+	itm.groupID = JEWELRY_INDIAN_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Dozor_Storm";
 	itm.describe = "itmdescr_Dozor_Storm";
 	itm.model = "";
@@ -238,6 +239,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Dozor_HorseShoe";
+	itm.groupID = JEWELRY_INDIAN_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Dozor_HorseShoe";
 	itm.describe = "itmdescr_Dozor_HorseShoe";
 	itm.model = "";
@@ -250,6 +252,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Dozor_Mirror";
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Dozor_Mirror";
 	itm.describe = "itmdescr_Dozor_Mirror";
 	itm.model = "";
@@ -1347,7 +1350,7 @@ int InitItems()
 	itm.describe = "itmdescr_katar";
 	itm.model = "katar";
 	itm.folder = "items";
-	itm.picIndex = 4;
+	itm.picIndex = 7;
 	itm.picTexture = "ITEMS_14";
 	// boal 19.01.2004 -->
 	itm.price = 50;
@@ -2661,6 +2664,7 @@ int InitItems()
 	
     makeref(itm,Items[n]); // Крест Антониу де Соуза
 	itm.id = "DeSouzaCross";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_DeSouzaCross";
 	itm.describe = "itmdescr_DeSouzaCross";
 	itm.model = "sapphire";
@@ -3147,6 +3151,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_1";
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Totem_1";
 	itm.describe = "itmdescr_Totem_1";
 	itm.model = "Totem_1";
@@ -3166,6 +3171,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_2";
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Totem_2";
 	itm.describe = "itmdescr_Totem_2";
 	itm.model = "Totem_2";
@@ -3185,6 +3191,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_3";
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Totem_3";
 	itm.describe = "itmdescr_Totem_3";
 	itm.model = "Totem_3";
@@ -3204,6 +3211,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_4";
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Totem_4";
 	itm.describe = "itmdescr_Totem_4";
 	itm.model = "Totem_4";
@@ -3223,6 +3231,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_5";
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Totem_5";
 	itm.describe = "itmdescr_Totem_5";
 	itm.model = "Totem_5";
@@ -3242,6 +3251,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_6";
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Totem_6";
 	itm.describe = "itmdescr_Totem_6";
 	itm.model = "Totem_6";
@@ -3261,6 +3271,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_7";
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Totem_7";
 	itm.describe = "itmdescr_Totem_7";
 	itm.model = "Totem_7";
@@ -3280,6 +3291,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_8";
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Totem_8";
 	itm.describe = "itmdescr_Totem_8";
 	itm.model = "Totem_8";
@@ -3299,6 +3311,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_9";
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Totem_9";
 	itm.describe = "itmdescr_Totem_9";
 	itm.model = "Totem_9";
@@ -3318,6 +3331,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_10";
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Totem_10";
 	itm.describe = "itmdescr_Totem_10";
 	itm.model = "Totem_10";
@@ -3356,6 +3370,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_12";	//открывалка на каменный сундук с кинжалом
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Totem_12";
 	itm.describe = "itmdescr_Totem_12";
 	itm.model = "Totem_12";
@@ -3411,6 +3426,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_15";	//открывалка на второй каменный сундук
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Totem_15";
 	itm.describe = "itmdescr_Totem_15";
 	itm.model = "Totem_15";
@@ -3991,6 +4007,7 @@ int InitItems()
     
     makeref(itm,Items[n]);
 	itm.id = STATUE1; //+1
+	itm.groupID = JEWELRY_INDIAN_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_statue1";
 	itm.describe = "itmdescr_statue1";
 	itm.model = "stat1";
@@ -4563,6 +4580,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "jewelry4";
+	itm.groupID = JEWELRY_INDIAN_LEFT_ITEM_TYPE;
 	itm.name = "itmname_jewelry4";
 	itm.describe = "itmdescr_jewelry4";
 	itm.model = "emerald";
@@ -4682,7 +4700,8 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "jewelry8"; // +1 sneak
+	itm.id = "jewelry8"; // +10 К везению
+	itm.groupID = JEWELRY_INDIAN_LEFT_ITEM_TYPE;
 	itm.name = "itmname_jewelry8";
 	itm.describe = "itmdescr_jewelry8";
 	itm.model = "sapphire";
@@ -4714,6 +4733,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "jewelry9"; // +1 sneak
+	itm.groupID = JEWELRY_INDIAN_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_jewelry9";
 	itm.describe = "itmdescr_jewelry9";
 	itm.model = "sapphire";
@@ -4916,6 +4936,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "jewelry15"; // +1 sneak
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_jewelry15";
 	itm.describe = "itmdescr_jewelry15";
 	itm.model = "sapphire";
@@ -5388,6 +5409,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "indian1"; // +1 sneak
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian1";
 	itm.describe = "itmdescr_indian1";
 	itm.model = "pursel";
@@ -5444,6 +5466,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "indian3";
+	itm.groupID = JEWELRY_INDIAN_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_indian3";
 	itm.describe = "itmdescr_indian3";
 	itm.model = "pursel";
@@ -5500,6 +5523,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "indian5"; // +1 sneak
+	itm.groupID = JEWELRY_INDIAN_LEFT_ITEM_TYPE;
 	itm.name = "itmname_indian5";
 	itm.describe = "itmdescr_indian5";
 	itm.model = "sapphire";
@@ -5532,6 +5556,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "indian6";
+	itm.groupID = JEWELRY_INDIAN_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_indian6";
 	itm.describe = "itmdescr_indian6";
 	itm.model = "sapphire";
@@ -5556,6 +5581,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "indian7"; // +1 sneak
+	itm.groupID = JEWELRY_INDIAN_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_indian7";
 	itm.describe = "itmdescr_indian7";
 	itm.model = "sapphire";
@@ -5664,6 +5690,7 @@ int InitItems()
 	
 	makeref(itm,Items[n]);
 	itm.id = "indian10";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian10";
 	itm.describe = "itmdescr_indian10";
 	itm.model = "sapphire";
@@ -5696,6 +5723,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "indian12";
+	itm.groupID = JEWELRY_INDIAN_LEFT_ITEM_TYPE;
 	itm.name = "itmname_indian12";
 	itm.describe = "itmdescr_indian12";
 	itm.model = "sapphire";
@@ -5768,6 +5796,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "indian14";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian14";
 	itm.describe = "itmdescr_indian14";
 	itm.model = "pursel";
@@ -5804,6 +5833,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "indian15";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian15";
 	itm.describe = "itmdescr_indian15";
 	itm.model = "sapphire";
@@ -5860,6 +5890,7 @@ int InitItems()
 
     makeref(itm,Items[n]);
 	itm.id = "indian17"; // +1 sneak
+	itm.groupID = JEWELRY_INDIAN_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_indian17";
 	itm.describe = "itmdescr_indian17";
 	itm.model = "sapphire";
@@ -5896,6 +5927,7 @@ int InitItems()
 
     makeref(itm,Items[n]);
 	itm.id = "indian18";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian18";
 	itm.describe = "itmdescr_indian18";
 	itm.model = "pursel";
@@ -5916,6 +5948,7 @@ int InitItems()
 
     makeref(itm,Items[n]);
 	itm.id = "indian19";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian19";
 	itm.describe = "itmdescr_indian19";
 	itm.model = "pursel";
@@ -5936,6 +5969,7 @@ int InitItems()
 
     makeref(itm,Items[n]);
 	itm.id = "indian20";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian20";
 	itm.describe = "itmdescr_indian20";
 	itm.model = "pursel";
@@ -5956,6 +5990,7 @@ int InitItems()
 
     makeref(itm,Items[n]);
 	itm.id = "indian21";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian21";
 	itm.describe = "itmdescr_indian21";
 	itm.model = "sapphire";
@@ -5976,6 +6011,7 @@ int InitItems()
 
     makeref(itm,Items[n]);
 	itm.id = "indian22";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
 	itm.name = "itmname_indian22";
 	itm.describe = "itmdescr_indian22";
 	itm.model = "pursel";
@@ -6461,8 +6497,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Leadership";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6476,8 +6511,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "FencingLight";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6491,8 +6525,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Fencing";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6506,8 +6539,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "FencingHeavy";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6521,8 +6553,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Pistol";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6536,8 +6567,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Fortune";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6551,8 +6581,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Sneak";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6566,8 +6595,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Sailing";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6581,8 +6609,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Accuracy";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6596,8 +6623,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Cannons";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6611,8 +6637,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Grappling";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6626,8 +6651,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Defense";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6641,8 +6665,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Repair";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6656,8 +6679,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Commerce";
 	n++;
 	
 	/////////////// *** 1 уровень *** ///////////////
@@ -6675,8 +6697,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Leadership";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6690,8 +6711,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "FencingLight";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6705,8 +6725,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Fencing";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6720,8 +6739,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "FencingHeavy";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6735,8 +6753,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Pistol";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6750,8 +6767,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Fortune";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6765,8 +6781,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Sneak";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6780,8 +6795,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Sailing";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6795,8 +6809,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Accuracy";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6810,8 +6823,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Cannons";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6825,8 +6837,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Grappling";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6840,8 +6851,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Defense";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6855,8 +6865,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Repair";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6870,8 +6879,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.0;
+	itm.skill = "Commerce";
 	n++;
 	
 	/////////////// *** 2 уровень *** ///////////////
@@ -6889,8 +6897,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Leadership";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6904,8 +6911,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "FencingLight";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6919,8 +6925,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Fencing";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6934,8 +6939,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "FencingHeavy";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6949,8 +6953,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Pistol";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6964,8 +6967,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Fortune";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6979,8 +6981,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Sneak";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6994,8 +6995,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Sailing";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7009,8 +7009,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Accuracy";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7024,8 +7023,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Cannons";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7039,8 +7037,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Grappling";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7054,8 +7051,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Defense";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7069,8 +7065,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Repair";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7084,8 +7079,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 0.5;
-	itm.Generation.Weight.max = 1.5;
+	itm.skill = "Commerce";
 	n++;
 	
 	/////////////// *** 3 уровень *** ///////////////
@@ -7103,8 +7097,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Leadership";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7118,8 +7111,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "FencingLight";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7133,8 +7125,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Fencing";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7148,8 +7139,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "FencingHeavy";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7163,8 +7153,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Pistol";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7178,8 +7167,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Fortune";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7193,8 +7181,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Sneak";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7208,8 +7195,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Sailing";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7223,8 +7209,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Accuracy";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7238,8 +7223,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Cannons";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7253,8 +7237,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Grappling";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7268,8 +7251,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Defense";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7283,8 +7265,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Repair";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7298,8 +7279,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.Generation.Weight.min = 1.0;
-	itm.Generation.Weight.max = 2.0;
+	itm.skill = "Commerce";
 	n++;
 	
 	/////////////// *** 4 уровень *** ///////////////

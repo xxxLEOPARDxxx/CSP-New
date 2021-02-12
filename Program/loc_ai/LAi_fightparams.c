@@ -786,12 +786,12 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
 					Log_Info("¬аша атака игнорирует сопротивлени€ кирасы противника.");
-					PlaySound("interface\Breaking_"+rand(4)+".wav");
+					PlaySound("interface\Breaking_"+rand(5)+".wav");
 				}
 				if(sti(enemy.index) == GetMainCharacterIndex())
 				{
 					Log_Info("ЌанесЄнна€ по вам атака игнорирует сопротивлени€ кирасы.");
-					PlaySound("interface\Breaking_"+rand(4)+".wav");
+					PlaySound("interface\Breaking_"+rand(5)+".wav");
 				}
 			}
 			if (!HasSubStr(attack.equip.blade, "topor") && fencing_type == "FencingHeavy" && coeff*7>rand(100) && !blockSave)
@@ -801,12 +801,12 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
 					Log_Info("¬аша атака игнорирует сопротивлени€ кирасы противника.");
-					PlaySound("interface\Breaking_"+rand(4)+".wav");
+					PlaySound("interface\Breaking_"+rand(5)+".wav");
 				}
 				if(sti(enemy.index) == GetMainCharacterIndex())
 				{
 					Log_Info("ЌанесЄнна€ по вам атака игнорирует сопротивлени€ кирасы.");
-					PlaySound("interface\Breaking_"+rand(4)+".wav");
+					PlaySound("interface\Breaking_"+rand(5)+".wav");
 				}
 			}
 		}

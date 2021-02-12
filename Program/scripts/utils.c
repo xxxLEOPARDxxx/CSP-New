@@ -340,6 +340,12 @@ void GiveItemToTrader(aref ch)
 	{ 
 		TakeNItems(ch, "BackPack4", 1);
 	}
+	
+	irand = rand(199);//книги - Gregg
+	if (irand == 0) 
+	{ 
+		TakeNItems(ch, "book1_"+(rand(13)+1), 1);
+	}
 	if(CheckOfficersPerk(pchar,"Trader"))
 	{
 		string sFood = "Food1";

@@ -27,6 +27,12 @@
 #define TALISMAN_ITEM_TYPE 		"talisman"
 #define BOOK_ITEM_TYPE 			"book"
 
+#define JEWELRY_INDIAN_LEFT_ITEM_TYPE 		"jewelry_indian_left"
+#define JEWELRY_INDIAN_RIGHT_ITEM_TYPE 		"jewelry_indian_right"
+#define INDIAN_CENTER_ITEM_TYPE 			"indian_center"
+#define IDOLS_LEFT_ITEM_TYPE 				"idols_left"
+#define IDOLS_RIGHT_ITEM_TYPE 				"idols_right"
+
 // indexes for items` array
 #define TOTAL_ITEMS				1000 // Warship 08.05.09 - Новая система предметов
 #define ITEMS_QUANTITY			  325  // не забываем менять номер

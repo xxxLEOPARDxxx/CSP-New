@@ -979,6 +979,18 @@ string GetItemDescribe(int iGoodIndex)
 	if (arItm.price != 0 && arItm.Weight != 0) fItmPrice = stf(arItm.price) / stf(arItm.Weight);
 	else fItmPrice=0;
 	describeStr += "Цена " + makeint(arItm.price) + " / Вес " + FloatToString(stf(arItm.weight), 2) + newStr();
+	if (CheckAttribute(arItm, "groupID"))//Книги, процент прочитанности - Gregg
+	{
+		if(arItm.groupID == BOOK_ITEM_TYPE)
+		{
+			if (CheckAttribute(pchar,"booktype"))
+			{
+				float value = ((sti(pchar.booktime)*100)/sti(pchar.booktime.full)-100)*(-1.0);
+				string text = FloatToString(value,1);
+				describeStr += "Прочитано примерно "+text+"%.";
+			}
+		}
+	}
 	//aw013 <-- 
 
 	LanguageCloseFile(lngFileID);

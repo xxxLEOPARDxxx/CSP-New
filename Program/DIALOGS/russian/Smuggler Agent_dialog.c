@@ -183,9 +183,20 @@ void ProcessDialogEvent()
 			    	link.l4 = "Слушай, мне позарез нужна сотня другая рабов. Уже и не знаю, к кому обращаться.";
 			    	link.l4.go = "pirateStartQuest_Smuggler";
 			    }
-			
-				Link.l17 = "(Негромко) Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
-				Link.l17.go = "Trade";
+				
+				if (CheckAttribute(pchar,"contratrade.time"))
+				{
+					if (pchar.contratrade.time != GetDataDay() && ChangeContrabandRelation(pchar, 0) > 5)
+					{
+						Link.l17 = "(Негромко) Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
+						Link.l17.go = "Trade";
+					}
+				}
+				if (!CheckAttribute(pchar,"contratrade.time") && ChangeContrabandRelation(pchar, 0) > 5)
+				{
+					Link.l17 = "(Негромко) Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
+					Link.l17.go = "Trade";
+				}
 				
 				Link.l7 = "Ничего. До встречи.";
 				Link.l7.go = "Exit";				
@@ -385,8 +396,19 @@ void ProcessDialogEvent()
 				link.l4.go = "pirateStartQuest_Smuggler";
 			}
 
-            Link.l17 = "(Негромко)Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
-		    Link.l17.go = "Trade";
+            if (CheckAttribute(pchar,"contratrade.time"))
+			{
+				if (pchar.contratrade.time != GetDataDay() && ChangeContrabandRelation(pchar, 0) > 5)
+				{
+					Link.l17 = "(Негромко) Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
+					Link.l17.go = "Trade";
+				}
+			}
+			if (!CheckAttribute(pchar,"contratrade.time") && ChangeContrabandRelation(pchar, 0) > 5)
+			{
+				Link.l17 = "(Негромко) Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
+				Link.l17.go = "Trade";
+			}
 
 			Link.l5 = "Ничем. Удачи!";
 			Link.l5.go = "Exit";				
@@ -697,12 +719,140 @@ void ProcessDialogEvent()
 			}
 		break;
 		
-		case "Trade":
-			Dialog.Text = "(Негромко) Хмм... Да, это так. Желаете что-то сейчас купить?";
+		case "Trade"://торговля с контрами - Gregg
+			int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+			Dialog.Text = "(Негромко) Хмм... Да, это так. ";
+			switch (makeint(drand(10)))
+			{
+				case 0:
+					npchar.itemtype = "Lockpick";//отмычки за драги 
+					npchar.pricev = "jewelry"+(drand2(3)+1);
+					string type = npchar.pricev;
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть немного отмычек. Интересуют?. За 3 штуки прошу всего 5 "+LanguageConvertString(idLngFile, "itmname_"+npchar.pricev)+"ов.";
+					LanguageCloseFile(idLngFile);
+					if (CheckCharacterItem(pchar, npchar.pricev) && sti(pchar.items.(type)) >= 5)
+					{
+						Link.l1 = "Ещё бы, конечно интересует.";
+						Link.l1.go = "Trade_2";
+					}
+					Link.l2 = "Нет, просто интересно стало.";
+					Link.l2.go = "Exit";
+				break;
+				case 1:
+					npchar.itemtype = "Totem_"+(drand2(13)+1);//тотем, не шипе-топеку
+					npchar.pricevalue = 30000+drand1(20000);
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За него я прошу "+npchar.pricevalue+" пиастров.";
+					LanguageCloseFile(idLngFile);
+					if(sti(pchar.money) >= sti(npchar.pricevalue)) 
+					{
+						Link.l1 = "Ещё бы, конечно интересует.";
+						Link.l1.go = "Trade_2";
+					}
+					Link.l2 = "Нет, просто интересно стало.";
+					Link.l2.go = "Exit";
+				break;
+				case 2:
+					npchar.itemtype = "skullMa"+(drand2(2)+1);//хрустальный череп
+					npchar.pricevalue = 75000+drand1(25000);
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть настоящий эксклюзив, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За него я прошу "+npchar.pricevalue+" пиастров.";
+					LanguageCloseFile(idLngFile);
+					if(sti(pchar.money) >= sti(npchar.pricevalue)) 
+					{
+						Link.l1 = "Ещё бы, конечно интересует.";
+						Link.l1.go = "Trade_2";
+					}
+					Link.l2 = "Нет, просто интересно стало.";
+					Link.l2.go = "Exit";
+				break;
+				case 3:
+					npchar.itemtype = "indian"+(drand2(21)+1);//индиан, не крысобог
+					if (npchar.itemtype == "indian11") npchar.itemtype = "indian"+(22-drand1(2));
+					npchar.pricevalue = 12500+drand1(2500);
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть туземская побрякушка, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За неё я прошу "+npchar.pricevalue+" пиастров.";
+					LanguageCloseFile(idLngFile);
+					if(sti(pchar.money) >= sti(npchar.pricevalue)) 
+					{
+						Link.l1 = "Ещё бы, конечно интересует.";
+						Link.l1.go = "Trade_2";
+					}
+					Link.l2 = "Нет, просто интересно стало.";
+					Link.l2.go = "Exit";
+				break;
+				case 4:
+					npchar.itemtype = "jewelry"+(drand2(3)+1);//драги за бабки
+					npchar.pricev = "j";
+					npchar.pricevalue = 20000+drand1(5000);
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть драгоценные камни, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+"ы. Интересуют?. За коллекцию из 25 штук я прошу "+npchar.pricevalue+" пиастров.";
+					LanguageCloseFile(idLngFile);
+					if(sti(pchar.money) >= sti(npchar.pricevalue)) 
+					{
+						Link.l1 = "Ещё бы, конечно интересует.";
+						Link.l1.go = "Trade_2";
+					}
+					Link.l2 = "Нет, просто интересно стало.";
+					Link.l2.go = "Exit";
+				break;
+				case 5:
+					npchar.itemtype = "Lockpick";//отмычки за драги
+					npchar.pricev = "jewelry"+(drand2(3)+1);
+					string type1 = npchar.pricev;
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть немного отмычек. Интересуют?. За 3 штуки прошу всего 5 "+LanguageConvertString(idLngFile, "itmname_"+npchar.pricev)+"ов.";
+					LanguageCloseFile(idLngFile);
+					if (CheckCharacterItem(pchar, npchar.pricev) && sti(pchar.items.(type1)) >= 5)
+					{
+						Link.l1 = "Ещё бы, конечно интересует.";
+						Link.l1.go = "Trade_2";
+					}
+					Link.l2 = "Нет, просто интересно стало.";
+					Link.l2.go = "Exit";
+				break;
+				else
+					Dialog.Text = "Увы, сегодня ничего интересного у меня в наличии нет.";
+					Link.l2 = "Эх, какая жалость. Ну, тогда до встречи.";
+					Link.l2.go = "Exit";
+				break;
+			}
+			/*Dialog.Text = "(Негромко) Хмм... Да, это так. Желаете что-то сейчас купить?";
 			Link.l1 = "Да, покажите ваши товары.";
 			Link.l1.go = "Trade_exit";
 			Link.l2 = "Нет, просто интересно стало.";
+			Link.l2.go = "Exit";*/
+		break;
+		
+		case "Trade_2":
+		{
+			int idLngFile1 = LanguageOpenFile("ItemsDescribe.txt");
+			if (CheckAttribute(npchar,"pricev") && !CheckAttribute(npchar,"pricevalue"))
+			{
+				Log_Info("Вы отдали 5"+LanguageConvertString(idLngFile1, "itmname_"+npchar.pricev)+"ов.");
+				Log_Info("Вы получили 3 отмычки.")
+				TakeNItems(pchar, npchar.pricev, -5);
+				TakeNItems(pchar, npchar.itemtype, 3);
+			}
+			if (CheckAttribute(npchar,"pricevalue"))
+			{				
+				AddMoneyToCharacter(pchar, -sti(npchar.pricevalue));
+				if (CheckAttribute(npchar,"pricev"))
+				{					
+					TakeNItems(pchar, npchar.itemtype, 25);
+					Log_Info("Вы получили 25 "+LanguageConvertString(idLngFile1, "itmname_"+npchar.itemtype)+"ов.");
+				}
+				else
+				{ 
+					GiveItem2Character(pchar, npchar.itemtype);
+					Log_Info("Вы получили "+LanguageConvertString(idLngFile1, "itmname_"+npchar.itemtype)+".");
+				}
+			}
+			LanguageCloseFile(idLngFile1);
+			DeleteAttribute(npchar,"pricevalue");
+			DeleteAttribute(npchar,"pricev");
+			DeleteAttribute(npchar,"itemtype");
+			pchar.contratrade.time = GetDataDay();
+			ChangeContrabandRelation(pchar, 5)
+			Dialog.Text = "Держи! С тобой приятно иметь дело. Полагаю, ещё встретимся.";
+			Link.l2 = "Благодарю. До встречи!";
 			Link.l2.go = "Exit";
+		}
 		break;
 		
 ////////////////////////////////////////////////////////////////////////////////

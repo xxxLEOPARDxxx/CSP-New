@@ -799,6 +799,7 @@ void ProcessDialogEvent()
 			sld.quest.OfficerPrice = sti(pchar.rank)*500;
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
 			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
+			sld.HalfImmortal = true;  // Контузия
 			sld.loyality = MAX_LOYALITY;
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			AddDialogExitQuestFunction("Pascal_Escape");

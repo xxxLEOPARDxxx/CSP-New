@@ -688,7 +688,9 @@ void CalculateInfoDataF6()
 	SetCharacterGoods(mc, GOOD_GRAPES, 2000);
 	SetCharacterGoods(mc, GOOD_KNIPPELS, 2000);
 	SetCharacterGoods(mc, GOOD_BOMBS, 2000);;
-	SetCharacterGoods(mc, GOOD_FOOD, 2000);
+	//SetCharacterGoods(mc, GOOD_FOOD, 2000);
+	SetCharacterGoods(mc, GOOD_FOOD, 10000);
+	SetCharacterGoods(mc, GOOD_MEDICAMENT, 1000);
 	SetCharacterGoods(mc, GOOD_POWDER, 3000);
 	SetCharacterGoods(mc, GOOD_WEAPON, 1500);
 
@@ -1516,7 +1518,8 @@ void CalculateInfoDataF31()
 	SetCharacterGoods(mc, GOOD_GRAPES, 1000);
 	SetCharacterGoods(mc, GOOD_KNIPPELS, 1000);
 	SetCharacterGoods(mc, GOOD_BOMBS, 1000);;
-	SetCharacterGoods(mc, GOOD_FOOD, 700);
+	SetCharacterGoods(mc, GOOD_FOOD, 6000);
+	SetCharacterGoods(mc, GOOD_MEDICAMENT, 1000);
 	SetCharacterGoods(mc, GOOD_POWDER, 4000);
 	SetCharacterGoods(mc, GOOD_WEAPON, 500);
 
@@ -1586,7 +1589,8 @@ void CalculateInfoDataF32()
 	SetCharacterGoods(mc, GOOD_GRAPES, 700);
 	SetCharacterGoods(mc, GOOD_KNIPPELS, 700);
 	SetCharacterGoods(mc, GOOD_BOMBS, 700);;
-	SetCharacterGoods(mc, GOOD_FOOD, 500);
+	SetCharacterGoods(mc, GOOD_FOOD, 3000);
+	SetCharacterGoods(mc, GOOD_MEDICAMENT, 500);
 	SetCharacterGoods(mc, GOOD_POWDER, 2000);
 	SetCharacterGoods(mc, GOOD_WEAPON, 500);
 

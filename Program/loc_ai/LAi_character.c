@@ -812,7 +812,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 				}else{
 					hp = hp - dltTime*4.0;
 					//hp = hp - dltTime*(MakeFloat(chr.chr_ai.hp_max)/100); // -1 ХП в сек.
-					hp = hp - GetCharacterRegenHP(chr, false)*dltTime; // Нанесение процентного урона, чем больше хп у цели, чем чаще бьют тики урона
+					hp = hp - GetCharacterRegenHPForBlooding(chr, false)*dltTime; // Нанесение процентного урона, чем больше хп у цели, чем чаще бьют тики урона
 					if (!CheckAttribute(chr, "blooding.hp") || hp < sti(chr.blooding.hp)-1.0)
 					{
 						chr.blooding.hp = hp;
@@ -983,9 +983,36 @@ void LAi_CharacterRestoreAy(aref chr)
 //Gregg
 float GetCharacterRegenHP(aref chr, bool useItms) // Новая функция расчета регенерации жизни (Rasteador) (ver. 0.3.0)
 {
+	float fMultiplier = LAi_GetCharacterMaxHP(chr)/450.0; // Внесение процентного урона, в зависимости от макс. кол-ва ХП
+
+	//if(fMultiplier > 2.0) fMultiplier = 2.0; // Лимит
+	
+	return fMultiplier;
+}
+
+float GetCharacterRegenHPForBlooding(aref chr, bool useItms) // Новая функция расчета регенерации жизни (Rasteador) (ver. 0.3.0)
+{
 	float fMultiplier = LAi_GetCharacterMaxHP(chr)/100.0; // Внесение процентного урона, в зависимости от макс. кол-ва ХП
 
 	//if(fMultiplier > 2.0) fMultiplier = 2.0; // Лимит
 	
 	return fMultiplier;
+}
+
+int BookTime(ref refchar, int tier)//книги, расчёт длительности - Gregg
+{
+	int Intel = GetCharacterSPECIALSimple(refchar, SPECIAL_I);
+	int time = 0;
+	switch (tier)
+	{
+		case 1: time = 4;
+		break;
+		case 2: time = 7;
+		break;
+		case 3: time = 15;
+		break;
+		case 4: time = 30;
+		break;
+	}
+	return makeint(time+((10-Intel)*(time*0.285)));
 }

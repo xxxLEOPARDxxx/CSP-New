@@ -198,6 +198,7 @@ void QuestComplete(string sQuestName, string qname)
 	            	sTemp = npchar.id; // новый рандомный ИД
 					DeleteAttribute(npchar, "");// все трем, а там и перки!
 					CopyAttributes(npchar, sld);
+					if (CheckAttribute(sld,"PerkValue.HPPlus")) npchar.PerkValue.HPPlus = 0;
 	
 					npchar.index = iTemp;
 					// меняемся ИД, старый новому, новый трупу
@@ -1235,6 +1236,20 @@ void QuestComplete(string sQuestName, string qname)
 			    DeleteAttribute(pchar, "QuestTemp.TakeShotgun");
 			    PChar.GenQuest.CallFunctionParam = "QuestShotgunT102";
 			    DoQuestReloadToLocation(pchar.location + "_upstairs", "goto", "goto1", "CallFunctionParam");
+			}
+			if (CheckAttribute(pchar,"cursed.waitingSkull"))
+			{
+				if (GetQuestPastDayParam("pchar.questTemp.Cursed") >= 30 || CheckAttribute(pchar,"cursed.Skullbought"))
+				{
+					PChar.GenQuest.CallFunctionParam = "QuestCursedSceleton";
+					
+					
+					DoQuestReloadToLocation(pchar.location + "_upstairs", "goto", "goto1", "CallFunctionParam");
+				}
+				else
+				{
+					DoQuestReloadToLocation(pchar.location + "_upstairs", "goto", "goto1", "restore_hp");
+				}
 			}
 			else
 			{
@@ -9426,4 +9441,41 @@ void Flag_Rerise()
     	case PIRATE:	Flag_PIRATE();	break;
     	case HOLLAND:	Flag_HOLLAND();	break;
 	}
+}
+
+// blackthorn - генератор "Проклятый скелет"
+void QuestCursedSceleton()
+{
+	ref sld;
+	//sld = GetCharacter(CharacterFromID("CursedSkeleton"));
+	sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_"+sti(rand(5)), "skeleton", "skeleton", sti(pchar.rank)+20, PIRATE, 1, true));
+	FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
+	DeleteAttribute(sld, "SuperShooter");
+	int hitpoints = rand(sti(pchar.rank)*15)+1000;
+	LAi_SetHP(sld, hitpoints, hitpoints);
+	FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
+	DeleteAttribute(sld, "SuperShooter");
+			
+	sld.name = "Проклятый капитан";
+	sld.lastname = "";
+	AddBonusEnergyToCharacter(sld, 200);
+				
+	sld.Dialog.CurrentNode = "First time";
+	sld.dialog.filename = "Cursed_Skeleton.c";
+	
+	chrDisableReloadToLocation = true;
+	pchar.quest.CursedSceleton.win_condition.l1 = "NPC_Death";
+	pchar.quest.CursedSceleton.win_condition.l1.character = sld.id;
+	pchar.quest.CursedSceleton.win_condition = "OpenTheDoors";
+	
+	
+	sld.SaveItemsForDead = true;
+	ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload1");
+	LAi_group_MoveCharacter(sld, "TmpEnemy");
+	LAi_SetActorType(sld);
+    LAi_SetActorType(pchar);
+	sld.quest.meeting = "2";
+	SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
+	LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+    LAi_group_SetRelation("TmpEnemy", LAI_GROUP_PLAYER, LAI_GROUP_FRIEND);
 }

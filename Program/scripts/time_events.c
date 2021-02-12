@@ -96,6 +96,7 @@ void WorldSituationsUpdate()
 			Log_TestInfo("dayRandom2 == " + dayRandom2);
 			
 			CheckOfficersHPMinus(); //Korsar Maxim - ежедневное обновление дней для выздоровления офов
+			CheckBook(); //Книги - Gregg
 		break;
 		
 		case 1:
@@ -420,6 +421,42 @@ void CheckOfficersHPMinus()
 					//LAi_SetHP(sld, ihpm, ihpm);
 					Log_Info("Офицер " + GetFullName(sld) + " выздоровел.");
 				}
+			}
+		}
+	}
+}
+void CheckBook()//Проверка книги только на глобалке - Gregg
+{
+	if (CheckAttribute(pchar,"bookreadtoday"))//учёт чтения на суше, блок полночного чтения на глобалке
+	{
+		DeleteAttribute(pchar,"bookreadtoday");
+		return;
+	}
+	if (IsEntity(&worldMap) != 0)//учёт чтения на глобалке
+	{
+		if (CheckAttribute(pchar,"booktype"))
+		{
+			if (sti(pchar.booktime) > 0)
+			{	
+				pchar.booktime = sti(pchar.booktime)-1;
+				//if (sti(pchar.booktime) != 0)Log_Info("Осталось "+pchar.booktime+" дней по полного изучения книги.");
+				//if (sti(pchar.booktime) == 0)Log_Info("Последний день изучения книги!");
+			}
+			if (sti(pchar.booktime) <= 0)
+			{
+				AddCharacterExpToSkill(pchar, pchar.booktype, sti(pchar.bookbonus));
+				int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+				Log_Info(GetFullName(pchar) + " изучил книгу ''"+LanguageConvertString(idLngFile, pchar.bookname)+"'' и увеличил навык ''"+XI_ConvertString(pchar.booktype)+"''");
+				LanguageCloseFile(idLngFile);
+				DeleteAttribute(pchar,"booktime");
+				DeleteAttribute(pchar,"booktime.full");
+				DeleteAttribute(pchar,"bookbonus");
+				DeleteAttribute(pchar,"booktime");
+				DeleteAttribute(pchar,"booktype");
+				DeleteAttribute(pchar,"bookreadtoday");
+				string sEquipItem = GetCharacterEquipByGroup(pchar, BOOK_ITEM_TYPE);
+				RemoveCharacterEquip(pchar, BOOK_ITEM_TYPE);
+				RemoveItems(pchar, sEquipItem, 1);
 			}
 		}
 	}

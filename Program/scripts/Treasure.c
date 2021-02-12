@@ -138,10 +138,12 @@ void FillMapForTreasure(ref item)
     else FillBoxForTreasure(item, rand(3));
     FillBoxForTreasureAddition(item);
 	Xzibit(item);
+	if (rand(100)==0) BookAdd(1, item);//книги в клад 1 уровня
 
     if (!CheckAttribute(Pchar, "GenQuest.TreasureBuild"))
     {
         if (rand(12+GetCharacterSPECIALSimple(pchar, SPECIAL_L)) == 1) item.MapTypeIdx = -1;
+		
     }
     else
     {// из кусочков даем супер вещи
@@ -154,6 +156,7 @@ void FillMapForTreasure(ref item)
        FillBoxForTreasureSuper(item);
 	   if (GetCharacterSPECIALSimple(pchar, SPECIAL_L) > rand(10)) FillBoxForTreasureSuper(item);
 	   if (rand(100)==0) item.BoxTreasure.mushket_Shtuzer = 1;
+	   if (rand(100)==0) BookAdd(2, item);//книги в клад 2 уровня
     }
     DeleteAttribute(Pchar, "GenQuest.TreasureBuild"); //сборный
 
@@ -163,6 +166,22 @@ void FillMapForTreasure(ref item)
         Pchar.quest.SetTreasureFromMap.win_condition.l1.location = item.MapLocId;
         Pchar.quest.SetTreasureFromMap.win_condition             = "SetTreasureFromMap";
     }
+}
+
+void BookAdd(int value, ref item)//книги - Gregg
+{
+	switch (value)
+	{
+		string book = "";
+		case 1:
+		book = "book3_"+(rand(13)+1);
+		item.BoxTreasure.(book) = 1;
+		break;
+		case 2:
+		book = "book4_"+(rand(13)+1);
+		item.BoxTreasure.(book) = 1;
+		break;
+	}
 }
 
 void Xzibit(ref item)

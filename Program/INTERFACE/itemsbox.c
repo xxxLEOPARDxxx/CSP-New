@@ -1636,6 +1636,7 @@ void OfficerReincarnation(ref rPassanger);
 {
 	ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", rPassanger.sex, rPassanger.model.animation, 1, sti(rPassanger.nation), -1, false));
 	ChangeAttributesFromCharacter(rOff, rPassanger, true);
+	if (CheckAttribute(rPassanger,"PerkValue.HPPlus")) rOff.PerkValue.HPPlus = 0;
 	rOff.id = rPassanger.id;
 	LAi_SetCurHPMax(rOff);
 	RemoveCharacterEquip(rOff, BLADE_ITEM_TYPE);

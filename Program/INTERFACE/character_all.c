@@ -827,10 +827,10 @@ void FillSkillTables()
     GameInterface.TABLE_OTHER.tr15.td1.icon.image = "Critical_NA";
 	GameInterface.TABLE_OTHER.tr15.td1.icon.width = 16;
 	GameInterface.TABLE_OTHER.tr15.td1.icon.height = 16;
-	GameInterface.TABLE_OTHER.tr15.td2.str = "Шанс крит. удара";
+	GameInterface.TABLE_OTHER.tr15.td2.str = "Шанс/урон крита";
 	GameInterface.TABLE_OTHER.tr15.td2.scale = 0.8;
 	GameInterface.TABLE_OTHER.tr15.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr15.td3.str = ShowStatValue("crit")+"%";
+	GameInterface.TABLE_OTHER.tr15.td3.str = ShowStatValue("crit");
 	GameInterface.TABLE_OTHER.tr15.td3.scale = 0.8;
 	GameInterface.TABLE_OTHER.tr15.td3.align = "right";
 	
@@ -860,38 +860,29 @@ string ShowStatValue(string type)
 	switch (type)
 	{
 		case "crit":
+			int critvalue = 0;
+			bool addluck = false;
+			if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
+			{
+				critvalue += 5;
+				addluck = true;
+			}
 			if(IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
 			{
-				if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
-				{
-					return "20";
-				}
-				else
-				{
-					return "15";
-				}
+				critvalue += 15;
+				addluck = true;
 			}
 			if(!IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
 			{
 				if(IsCharacterPerkOn(xi_refCharacter, "CriticalHit"))
 				{
-					if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
-					{
-						return "10";
-					}
-					else
-					{
-						return "5";
-					}
-				}
-				else
-				{
-					if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
-					{
-						return "5";
-					}
+					critvalue += 5;
+					addluck = true;
 				}
 			}
+			if (addluck) critvalue += GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L);
+			int critdamage = 100 + (GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L)*5);
+			return its(critvalue)+"%/"+its(critdamage)+"%";
 		break;
 		case "regenhp":
 			string value = FloatToString(GetCharacterRegenHP(xi_refCharacter, false),2);
@@ -912,7 +903,10 @@ string ShowStatValue(string type)
 			return FloatToString(25.0-(coeff*5),1)+"%/"+FloatToString(50.0-(coeff*5),1)+"%";
 		break;
 		case "blooding":
-			if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0"+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.FencingLight)/20)*5,1))+" сек.";
+			if (CheckAttribute(xi_refCharacter,"equip.blade"))
+			{
+				if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0"+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.FencingLight)/20)*5,1))+" сек.";
+			}
 			return FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20),1)+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.FencingLight)/20)*5,1))+" сек.";
 		break;
 		case "swiftstrike":

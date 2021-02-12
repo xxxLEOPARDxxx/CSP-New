@@ -20,11 +20,6 @@ int GetCharacterRankRateCur(ref _refCharacter)
 int GetCharacterAddHPValue(ref _refCharacter)
 {
     int ret = makeint(2 + GetCharacterSPECIAL(_refCharacter, SPECIAL_E) * 0.55 + 0.5);
-
-	if (CheckCharacterPerk(_refCharacter, "HPPlus"))
-	{
-		ret = ret + 1;
-	}
 	return ret;
 }
 
@@ -45,14 +40,14 @@ int GetCharacterBaseHPValue(ref _refCharacter)
 float GetCharacterMaxEnergyValue(ref _refCharacter)
 {
     float ret = (30.0 + GetCharacterSPECIAL(_refCharacter, SPECIAL_A)*10);
-    /*if (CheckCharacterPerk(_refCharacter, "EnergyPlus"))
+    if (CheckCharacterPerk(_refCharacter, "EnergyPlus"))
 	{
-		ret = ret + 20;
-	} */
-	if (CheckAttribute(_refCharacter, "PerkValue.EnergyPlus"))
+		ret = ret + 60;
+	} 
+	/*if (CheckAttribute(_refCharacter, "PerkValue.EnergyPlus"))
 	{
   		ret = ret + stf(_refCharacter.PerkValue.EnergyPlus);
-	}
+	}*/
 	if (CheckCharacterPerk(_refCharacter, "EnergyPlusFixed"))
 	{
   		ret = ret + 45;
@@ -72,14 +67,14 @@ float GetCharacterMaxEnergyABSValue(ref _refCharacter)
 {
     // проверки перков to_do
     float ret = (30.0 + GetCharacterSPECIALSimple(_refCharacter, SPECIAL_A)*10);
-	/*if (CheckCharacterPerk(_refCharacter, "EnergyPlus"))
+	if (CheckCharacterPerk(_refCharacter, "EnergyPlus"))
 	{
-		ret = ret + 20;
-	}  */
-	if (CheckAttribute(_refCharacter, "PerkValue.EnergyPlus"))
+		ret = ret + 60;
+	}  
+	/*if (CheckAttribute(_refCharacter, "PerkValue.EnergyPlus"))
 	{
   		ret = ret + stf(_refCharacter.PerkValue.EnergyPlus);
-	}
+	}*/
 	if (CheckCharacterPerk(_refCharacter, "EnergyPlusFixed"))
 	{
   		ret = ret + 45;
@@ -124,7 +119,7 @@ void SetEnergyToCharacter(ref _refCharacter)
 int GetCharacterMaxOfficersQty(ref _refCharacter)
 {
 	int skillN = sti(_refCharacter.Skill.Leadership);
-	Log_Info(""+makeint(skillN/20));
+	//Log_Info(""+makeint(skillN/20));
     return GetCharacterSPECIAL(_refCharacter, SPECIAL_C)*2+makeint(skillN/20);
 }
 
@@ -592,14 +587,23 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 	
     // трем кэш
     CheckAttribute(_chref, "BakSkill." + _skill);
+	if (CheckCharacterPerk(_chref, "HPPlus"))
+	{
+		if (!CheckAttribute(_chref, "PerkValue.HPPlus"))
+		{
+			_chref.PerkValue.HPPlus = 0;
+			float npchp = LAi_GetCharacterMaxHP(_chref) + GetCharacterAddHPValue(_chref);
+			LAi_SetHP(_chref,npchp+80,npchp+80);
+		}
+	}
 	if (CheckCharacterPerk(_chref, "HPPlusFixed"))
 	{
 		if (!CheckAttribute(_chref, "PerkValue.HPPlusFixed"))
-			{
-		  		_chref.PerkValue.HPPlusFixed = 0;
-				float nphp = LAi_GetCharacterMaxHP(_chref) + GetCharacterAddHPValue(_chref);
-				LAi_SetHP(_chref,nphp+60,nphp+60);
-			}
+		{
+			_chref.PerkValue.HPPlusFixed = 0;
+			float nphp = LAi_GetCharacterMaxHP(_chref) + GetCharacterAddHPValue(_chref);
+			LAi_SetHP(_chref,nphp+60,nphp+60);
+		}
 	}
 	//if (CheckCharacterPerk(_chref, "Buldozer"))
 	//{
@@ -691,11 +695,11 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 
         if (CheckCharacterPerk(_chref, "EnergyPlus"))
 		{
-		    if (!CheckAttribute(_chref, "PerkValue.EnergyPlus"))
+		    /*if (!CheckAttribute(_chref, "PerkValue.EnergyPlus"))
 			{
 		  		_chref.PerkValue.EnergyPlus = 0;
 			}
-			_chref.PerkValue.EnergyPlus = sti(_chref.PerkValue.EnergyPlus) + 1;
+			_chref.PerkValue.EnergyPlus = sti(_chref.PerkValue.EnergyPlus) + 1;*/
 			SetEnergyToCharacter(_chref);
 		}
 		if (CheckCharacterPerk(_chref, "EnergyPlusFixed"))
@@ -1035,126 +1039,85 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
                 skillN = skillN + 5*(GetHealthNum(_refCharacter) - 6); // max -5
             }
         }
-        // бронзовый крест +1 удача
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "jewelry9", 10);
-
-        // крест Антониу де Соуза +3 удача, +2 авторитет, +1 торговля.
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "DeSouzaCross", 30);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "DeSouzaCross", 20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "DeSouzaCross", 10);
-
-    	// Emerald Pendant +1 удача
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "jewelry15", 10);
-
-    	// Тотемы ацтеков
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Totem_1", 5);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "Totem_2", 5);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_DEFENCE, "Totem_3", 5);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_ACCURACY, "Totem_4", 5);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "Totem_5", 5);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "Totem_6", 5);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "Totem_7", 5);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "Totem_8", 5);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "Totem_9", 5); 
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "Totem_10", 5); 
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SAILING, "Totem_12", 5);
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_REPAIR, "Totem_15", 5);
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "SkullAztec", -20);
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "SkullAztec", 10);
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "KnifeAztec", -30);
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "KnifeAztec", -20);
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "KnifeAztec", -20);
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "KnifeAztec", -20);
-
-    	// itmname_jewelry8	{Bronze Ring} +1 удача
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "jewelry8", 10);
-
-    	// Идол Пикахуатла +1 удача
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "indian7", 10);
-
-    	// Weird Animal Figurine (-1 авторитет)
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian2", -10);
-
-    	// itmname_jewelry4	{Изумруд} (+1 авторитет)
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "jewelry4", 10);
-
-    	// Small Mosaic (+1 торговля)
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "indian3", 10);
-
-    	// iitmname_Mineral4	{Баклан} (-1 авторитет и  -1 удача)
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "mineral4", -10);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "mineral4", -10);
-
-    	//filosof - добавим магических вещичек... (отнять мона исключительно у монстров...)
-
-    	//itmname_indian1	{Идол Иргантахула} (+1 авторитет и скрытность, -2 пистолеты).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian1", 10);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian1", 10);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "indian1", -20);
-
-    	// itmname_indian5	{Маска Маркуханкату} (+1 удача).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian5", 10);
-
-    	// itmname_indian6	{Статуэтка Акумаларту}  (+1 фехтование)
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "indian6", 10);
-
-    	// itmname_indian10	{Идол Йкстоикхатлу} (+2 пистолеты, +1 меткость, -2 удача).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "indian10", 20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian10", -20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_ACCURACY, "indian10", 10);
-
-    	// itmname_indian12	{Идол Морхахтулака} (+1 фехтование).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "indian12", 10);
-
-    	// itmname_indian14	{Идол Ихтилокстумба} (+2 торговля, -2 авторитет).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian14", -20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "indian14", 20);
-
-    	// itmname_indian15	{Ритуальная ванна} (+1 авторитет и защита, -1 удача).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian15", 10);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_DEFENCE, "indian15", 10);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "indian15", -10);
-
-    	// itmname_indian17	{Статуэтка тигра} (+1 удача).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian17", 10);
-
-    	// itmname_indian18	{идол древнего божества} (+2 навигация, -2 удача).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SAILING, "indian18", 20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian18", -20);
-
-    	// itmname_indian19	{маска из красного золота} (+2 меткость, +1 орудия, -2 удача).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_ACCURACY, "indian19", 20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_CANNONS, "indian19", 10);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian19", -20);
-
-    	// itmname_indian20	{скипетр жреца} (+2 авторитет и -1 удача)
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian20", 20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "indian20", -10);
-
-    	// itmname_indian21	{Церемониальный сосуд} (+2 авторитет, -1 удача).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian21", 20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian21", -10);
-
-    	// itmname_indian22	{странная вещь} (+2 защита, +1 фехтование, -1 авторитет и удача).
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "indian22", 10);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_DEFENCE, "indian22", 20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian22", -10);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "indian22", -10);
-
-    	//  itmname_Mineral3	{Хризоберилл} (+1 удача).
-    	//skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "Mineral3", 10);
-
-    	// itmname_Mineral8
-    	//skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_GRAPPLING, "Mineral8", 20);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Mineral8", -10);
-
-        skillN = skillN + SetCharacterSkillBySculArtefact(_refCharacter, skillName);
-    	//  itmname_Coins		{Монета ацтеков} (-5 удача)
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Coins", -50);
-
-        //statue1  +3 ремонт
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_REPAIR, STATUE1, 30);
+		///////////// Иконки слева (Камни/бижутерия)  -->
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "jewelry4", 10);			// {Изумруд}							(+10 авторитет)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "jewelry8", 10);				// {Бронзовое кольцо} 					(+10 к везению)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian5", 10);				// {Двойная маска}						(+10 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "indian12", 10);				// {Кубок-тотем Тепейоллотля}			(+10 тяжелое оружие)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Dozor_HorseShoe", 10);		// {ПоDкова}							(+10 к везению)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SAILING, "Dozor_Storm", 10);			// {ШтоRм}								(+10 к навигации)
 		
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "indian7", 10);				// {Идол Великой Матери} 				(+10 к везению)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian17", 10);				// {Тельная ладанка}					(+10 к скрытности)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_REPAIR, STATUE1, 30);					// {Статуэтка Шочипилли}				(+30 ремонт)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "indian3", 10);				// {Нефритовая маска}					(+10 торговля)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "jewelry9", 10);				// {Бронзовый крестик} 					(+10 к везению)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "indian6", 10);				// {Амулет Шиукоатля}					(+10 среднее оружие)
+		///////////// Иконки слева (Камни/бижутерия) <--
+		
+		///////////// Иконки по центру (Комплексные бафы от идолов)  -->
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "DeSouzaCross", 30);			// {Крест Антонио де Соуза} 			(+30 к везению, +20 к авторитету, +10 к торговле)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "DeSouzaCross", 20);		// {Крест Антонио де Соуза} 			(+30 к везению, +20 к авторитету, +10 к торговле)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "DeSouzaCross", 10);		// {Крест Антонио де Соуза} 			(+30 к везению, +20 к авторитету, +10 к торговле)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian1", 10);			// {Оберег Тлальчитонатиу}				(+10 авторитет и скрытность, -20 пистолеты)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian1", 10);				// {Оберег Тлальчитонатиу}				(+10 авторитет и скрытность, -20 пистолеты)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "indian1", -20);				// {Оберег Тлальчитонатиу}				(+10 авторитет и скрытность, -20 пистолеты)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "indian10", 20);				// {Оберег Эхекатля}					(+20 пистолеты, +10 меткость, -20 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian10", -20);				// {Оберег Эхекатля}					(+20 пистолеты, +10 меткость, -20 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_ACCURACY, "indian10", 10);			// {Оберег Эхекатля}					(+20 пистолеты, +10 меткость, -20 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian14", -20);			// {Чаша Ололиуки}						(+20 торговля, -20 авторитет)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "indian14", 20);			// {Чаша Ололиуки}						(+20 торговля, -20 авторитет)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian15", 10);			// {Базальтовая голова}					(+10 авторитет и защита, -10 везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_DEFENCE, "indian15", 10);				// {Базальтовая голова}					(+10 авторитет и защита, -10 везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "indian15", -10);			// {Базальтовая голова}					(+10 авторитет и защита, -10 везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SAILING, "indian18", 20);				// {Идол Атлауа}						(+20 навигация, -20 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian18", -20);				// {Идол Атлауа}						(+20 навигация, -20 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_ACCURACY, "indian19", 20);			// {Статуэтка Тлалока}					(+20 меткость, +10 орудия, -20 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_CANNONS, "indian19", 10);				// {Статуэтка Тлалока}					(+20 меткость, +10 орудия, -20 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian19", -20);				// {Статуэтка Тлалока}					(+20 меткость, +10 орудия, -20 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian20", 20);			// {Церемониальный нож}					(+20 авторитет и -10 везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "indian20", -10);			// {Церемониальный нож}					(+20 авторитет и -10 везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian21", 20);			// {Церемониальный сосуд}				(+20 авторитет, -10 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "indian21", -10);				// {Церемониальный сосуд}				(+20 авторитет, -10 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "indian22", 10);				// {Голова воина племени майя}			(+20 защита, +10 легкое оружие, -10 авторитет и везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_DEFENCE, "indian22", 20);				// {Голова воина племени майя}			(+20 защита, +10 легкое оружие, -10 авторитет и везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian22", -10);			// {Голова воина племени майя}			(+20 защита, +10 легкое оружие, -10 авторитет и везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "indian22", -10);			// {Голова воина племени майя}			(+20 защита, +10 легкое оружие, -10 авторитет и везение)
+		///////////// Иконки по центру (Комплексные бафы от идолов) <--
+
+    	///////////// Иконки справа (Тотемы ацтеков/бижутерия) -->
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Totem_1", 5);				// {Тотем Шочикецаль} 					(+5 везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "Totem_2", 5);					// {Тотем Миктлантекутли} 				(+5 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "Totem_5", 5);				// {Тотем Тескатлипока}					(+5 пистолеты)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "Totem_6", 5);			// {Тотем Чалчиуитликуэ}				(+5 авторитет)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "Totem_7", 5);				// {Тотем Уицилопочтли}					(+5 среднее оружие)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "Totem_8", 5);				// {Тотем Тлалока}						(+5 легкое оружие)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "Totem_9", 5); 				// {Тотем Майяуэль}						(+5 тяжелое оружие)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "jewelry15", 10);				// {Изумрудные подвески} 				(+10 к скрытности)
+		
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_DEFENCE, "Totem_3", 5);				// {Тотем Кецалькоатля} 				(+5 защита)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_ACCURACY, "Totem_4", 5);				// {Тотем Мишкоатля}					(+5 меткость)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_COMMERCE, "Totem_10", 5); 			// {Тотем Тонакатекутли}				(+5 торговля)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SAILING, "Totem_12", 5);				// {Тотем Синтеотля}					(+5 к навигации)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_REPAIR, "Totem_15", 5);				// {Тотем Шипе-Тотеку}					(+5 к починке)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "Dozor_Mirror", 10);			// {Zеркало}							(+10 к скрытности)
+		///////////// Иконки справа (Тотемы ацтеков/бижутерия) <--
+		
+		///////////// Дют бафы/дебафы из инвентаря -->
+        skillN = skillN + SetCharacterSkillBySculArtefact(_refCharacter, skillName);
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Coins", -50);				// {Проклятые жемчужины}				(-50 везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Mineral8", -10);			// {Башмак}								(-10 везение)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "mineral4", -10);			// {Баклан}								(-10 авторитет и  -10 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "mineral4", -10);				// {Баклан}								(-10 авторитет и  -10 скрытность)
+    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian2", -10);			// {Пугающая фигурка} 					(-10 авторитет)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "SkullAztec", -20);			// {Нефритовый череп}					(-30 удача, +10 лидерство)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "SkullAztec", 10);		// {Нефритовый череп}					(-30 удача, +10 лидерство)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "KnifeAztec", -30);			// {Обсидиановый церемониальный нож} 	(-30 пистолеты, -20 во все остальные типы оружия)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "KnifeAztec", -20);			// {Обсидиановый церемониальный нож} 	(-30 пистолеты, -20 во все остальные типы оружия)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "KnifeAztec", -20);			// {Обсидиановый церемониальный нож} 	(-30 пистолеты, -20 во все остальные типы оружия)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "KnifeAztec", -20);			// {Обсидиановый церемониальный нож} 	(-30 пистолеты, -20 во все остальные типы оружия)
+		///////////// Дют бафы/дебафы из инвентаря <--
+
 		/* if(IsEquipCharacterByItem(_refCharacter, "cirass1"))
 		{
 			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass1", -5);
@@ -1187,9 +1150,6 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 		skillN += SetCharacterSkillBySuit(_refCharacter, skillName);
 		
 		//Gregg Бусты от предметов Дозора
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Dozor_HorseShoe", 1);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SAILING, "Dozor_Storm", 1);
-    	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "Dozor_Mirror", 1);
 	
 		//navy --> действие алкоголя
 		if (CheckAttribute(_refCharacter, "chr_ai.drunk.skill." + skillName))

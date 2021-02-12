@@ -411,6 +411,7 @@ void LAi_CheckKillCharacter(aref chr)
 			Dead_DelLoginedCharacter(chr);//не обыскивается
 			ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", chr.sex, chr.model.animation, 1, sti(chr.nation), -1, false));
 			ChangeAttributesFromCharacter(rOff, chr, true);
+			if (CheckAttribute(chr,"PerkValue.HPPlus")) rOff.PerkValue.HPPlus = 0;
 			rOff.id = chr.id;
 			rOff.HalfImmortal = true;
 			int healing_time = makeint(LAi_GetCharacterMaxHP(chr)/10);//время от хп
@@ -438,7 +439,7 @@ void LAi_CheckKillCharacter(aref chr)
 			{    
 			    rOff.HPminusDays = chr.HPminusDays;
 				//if(ihpm > 40) rOff.HPminus = chr.HPminus + 40;
-				rOff.HPminusDaysNeedtoRestore = chr.HPminusDaysNeedtoRestore + healing_time;
+				rOff.HPminusDaysNeedtoRestore = sti(chr.HPminusDaysNeedtoRestore) + healing_time;
 			}
 			 //Korsar Maxim <-- доработка потери сознания
 			 

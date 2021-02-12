@@ -1369,7 +1369,7 @@ void SetShipyardStore(ref NPChar)
 
     if (sti(PChar.rank) > 1) // 6 класс
     {
-		iTest_ship = rand(10);
+		iTest_ship = rand(20);
 		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BERMSLOOP, NPChar), "ship4");
 		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_EMPRESS, NPChar), "ship4");
 		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PINK, NPChar), "ship4");
@@ -1383,7 +1383,7 @@ void SetShipyardStore(ref NPChar)
 		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_NEPTUNUS, NPChar), "ship4");
 		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SOPHIE, NPChar), "ship4");
 
-		iTest_ship = rand(10);
+		iTest_ship = rand(20);
 		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BERMSLOOP, NPChar), "ship5");
 		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_EMPRESS, NPChar), "ship5");
 		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PINK, NPChar), "ship5");
