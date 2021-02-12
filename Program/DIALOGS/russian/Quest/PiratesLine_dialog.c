@@ -58,7 +58,7 @@ void ProcessDialogEvent()
 		case "PiratesMan1_2":
 			DialogExit();
 			NextDiag.CurrentNode = "Tavern_1"; 
-			LockQuestLine(characterFromId("eng_guber")); // лочим английскую линейку
+			//LockQuestLine(characterFromId("eng_guber")); // лочим английскую линейку
 			chrDisableReloadToLocation = true; 
 			bDisableFastReload = true; 
 			FreeSitLocator("PuertoPrincipe_tavern", "sit3");

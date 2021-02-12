@@ -206,7 +206,7 @@ void ProcessDialogEvent()
 				dialog.text = "У меня работы нет. Но если ты ничем не занят"+ GetSexPhrase("","а") +", то отправляйся в Пуэрто-Принсипе -  поищи там капитана Гудли. У него обычно всегда что-то есть.";
 				link.l1 = "А что за работа у него бывает?";
 				link.l1.go = "PL_Q1_2";
-				LockQuestLine(characterFromId("eng_guber")); // лочим английскую линейку
+				//LockQuestLine(characterFromId("eng_guber")); // лочим английскую линейку
 			}	
 		break;
 		case "PL_Q1_2":
