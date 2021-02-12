@@ -14,7 +14,7 @@ void ProcessDialogEvent()
 	makearef(NextDiag, NPChar.Dialog);
 	
 	//ref itm;
-	int skullgen = rand(2)+1;
+	int skullgen = drand(2)+1;
 	string cursed_artifact = "sculMa"+sti(skullgen); // Êגוסעמגûי ןנוהלוע
 	
 	ProcessCommonDialogRumors(NPChar, Link, NextDiag);
@@ -237,7 +237,7 @@ void SelectCursedRendom()
 				howStore++;
 			}
 		}
-		nation = storeArray[rand(howStore-1)];
+		nation = storeArray[drand(howStore-1)];
 		pchar.questTemp.Cursed.TownId = colonies[nation].id;
 		pchar.questTemp.Cursed.TraderId = colonies[nation].id + "_trader";
 
@@ -250,5 +250,5 @@ string PickAbook()
 	if (pchar.rank >= 10) quality = 2;
 	if (pchar.rank >= 20) quality = 3;
 	if (pchar.rank > 30) quality = 4;
-	return "book"+quality+"_"+sti(rand(13)+1);
+	return "book"+quality+"_"+sti(drand(13)+1);
 }

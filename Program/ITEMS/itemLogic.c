@@ -878,7 +878,7 @@ object g_TmpModelVariable; // код от к3, в скриптах нет вообще, есть проверка в 
 
 void spawnToughSkeleton(aref _location)
 {
-	if (rand(100) < 30 && CheckAttribute(_location, "locators.monsters") && !bMonstersGen && _location.type == "cave" && !CheckAttribute(pchar, "cursed.waitingSkull"))
+	if (drand(100) < 50 && CheckAttribute(_location, "locators.monsters") && !bMonstersGen && _location.type == "cave" && !CheckAttribute(pchar, "cursed.waitingSkull"))
 	{	
 		if (!CheckAttribute(pchar, "cursed.quest") || GetQuestPastDayParam("pchar.questTemp.Cursed") >= 90)
 		{
