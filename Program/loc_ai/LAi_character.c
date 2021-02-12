@@ -848,13 +848,18 @@ void LAi_AllCharactersUpdate(float dltTime)
 				if(stf(chr_ai.noeat) <= 0.0)
 				{
 					DeleteAttribute(chr_ai, "noeat");
-					if(sti(chr.index) == GetMainCharacterIndex())
+					//chr_ai.noeat = 0.0;
+					if(sti(chr.index) == GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood"))
 					{
 						Log_Info("Можно кушать.")
 					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
 					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
 					}
 				}
+			}
+			if (sti(chr.index) == GetMainCharacterIndex() && CheckAttribute(pchar, "autofood") && !CheckAttribute(chr, "noeat"))
+			{
+				if(chr_ai.energy < (LAi_GetCharacterMaxEnergy(chr) * (sti(PChar.autofood_use) * 0.01)))EatSomeFood();
 			}
 			if(LAi_IsImmortal(chr))
 			{
@@ -1015,4 +1020,43 @@ int BookTime(ref refchar, int tier)//книги, расчёт длительности - Gregg
 		break;
 	}
 	return makeint(time+((10-Intel)*(time*0.285)));
+}
+
+void EatSomeFood()
+{
+	
+		bool bEnableFood = true;
+		if(CheckAttribute(PChar, "AcademyLand"))
+		{
+		if(PChar.AcademyLand == "Start")
+		{
+			bEnableFood = sti(PChar.AcademyLand.Temp.EnableFood);
+		}
+		}
+		if(!bEnableFood)
+		{
+			Log_SetStringToLog("В данный момент запрещено использовать еду.");
+		}
+		else
+		{
+			aref  arItm;
+			int   itmIdx;
+			String itemID;
+			itmIdx = FindFoodFromChr(pchar, &arItm, 0);
+			while(itmIdx>=0)
+			{
+					if(EnableFoodUsing(pchar, arItm))
+				{
+					DoCharacterUsedFood(pchar, arItm.id);
+					break;
+				}		
+				if(EnableFoodUsing(pchar, arItm))
+				{
+					DoCharacterUsedFood(pchar, arItm.id);
+					break;
+				}
+				itmIdx = FindFoodFromChr(pchar, &arItm, itmIdx+1);
+			}
+		}
+	
 }

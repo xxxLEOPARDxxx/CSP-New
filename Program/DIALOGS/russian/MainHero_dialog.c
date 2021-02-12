@@ -257,8 +257,49 @@ void ProcessDialogEvent()
 	        	Link.l9 = "Почитать книгу.";
 	    		Link.l9.go = "ReadBook";
 	    	}
-			Link.l10 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
-			Link.l10.go = "exit";
+			
+			Link.l10 = "Использовать еду автоматически.";
+	    	Link.l10.go = "autofood";
+			if(CheckAttribute(pchar,"autofood")) // 21.03.09 Warship fix Во время линейки Блада отдыхать нельзя
+	        {
+	        	Link.l10 = "Прекратить автоматическое использование еды.";
+	    		Link.l10.go = "autofood_stop";
+	    	}
+			Link.l11 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
+			Link.l11.go = "exit";
+		break;
+		
+		case "autofood":
+			Dialog.Text = "Введите процент, до которого должна опуститься энергия, прежде чем начать использовать еду (10-90).";
+			//PChar.autofood_use
+			link.l1 = "";
+			Link.l1.edit = 3;
+			Link.l1.go = "autofood_percentage";
+		break
+		
+		case "autofood_stop":
+			DeleteAttribute(pchar, "autofood");
+			DeleteAttribute(pchar, "autofood_use");
+			dialog.text = "Автоматическое использование еды отключено.";
+			Link.l1 = "Всё, хватит на сегодня.";
+			Link.l1.go = "exit";
+		break
+		
+		case "autofood_percentage":
+			iTemp = sti(dialogEditStrings[3]);
+			if (iTemp < 10 || iTemp > 90)
+			{
+				dialog.text = "Что-то я немного не в себе сегодня... В другой раз, пожалуй.";
+				link.l1 = "Дьявол!";
+				link.l1.go = "exit";
+				break;
+			}
+			dialog.text = "Автоматическое использование еды включено.";
+			PChar.autofood_use = iTemp;
+			pchar.autofood = true;
+			link.l1 = "Славно!";
+			link.l1.go = "exit";
+			
 		break;
 		
 		case "ReadBook":

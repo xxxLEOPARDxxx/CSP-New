@@ -26,7 +26,7 @@ bool EnableFoodUsing(ref mc, aref arItm)
 	}
 	if(CheckAttribute(mc,"chr_ai.noeat"))
 	{
-		if(sti(mc.index)==GetMainCharacterIndex())
+		if(sti(mc.index)==GetMainCharacterIndex()&& !CheckAttribute(pchar, "autofood"))
 		{
 			Log_SetStringToLog("Вы наелись.");
 			PlaySound("interface\knock.wav");
