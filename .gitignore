@@ -72,6 +72,7 @@
 *.lnk
 
 # Папки
+*Betta_fix/
 *CSP2.0_fix/
 *Dev_fix/
 *SAVE/

@@ -138,7 +138,7 @@ void InitCannons()
 	rCannon.BigBall = 0;
 	rCannon.SizeMultiply = 2.2;
 	rCannon.HeightMultiply = 1.0;
-	rCannon.DamageMultiply = 26;
+	rCannon.DamageMultiply = 28;
 	//rCannon.TradeOff = true;
 	rCannon.hp = 55.0;
 	InitBaseCannons_CalcSpeedV0(&rCannon,850.0);
