@@ -141,24 +141,13 @@ void CalculateHunter()
     //#20200219-01
     string sText;
     int charNat = sti(pchar.nation);
-    if(GetNationRelation2MainCharacter(ENGLAND) > GetNationRelation(charNat, ENGLAND))
-       sText = GetRelationName(GetNationRelation2MainCharacter(ENGLAND));
-    else
+
        sText = GetNationReputation(pchar, ENGLAND);
     SetFormatedText("Eng_TEXT", sText);
-    if(GetNationRelation2MainCharacter(FRANCE) > GetNationRelation(charNat, FRANCE))
-       sText = GetRelationName(GetNationRelation2MainCharacter(FRANCE));
-    else
        sText = GetNationReputation(pchar, FRANCE);
     SetFormatedText("Fra_TEXT", sText);
-    if(GetNationRelation2MainCharacter(SPAIN) > GetNationRelation(charNat, SPAIN))
-       sText = GetRelationName(GetNationRelation2MainCharacter(SPAIN));
-    else
        sText = GetNationReputation(pchar, SPAIN);
     SetFormatedText("Spa_TEXT", sText);
-    if(GetNationRelation2MainCharacter(HOLLAND) > GetNationRelation(charNat, HOLLAND))
-       sText = GetRelationName(GetNationRelation2MainCharacter(HOLLAND));
-    else
        sText = GetNationReputation(pchar, HOLLAND);
     SetFormatedText("Hol_TEXT", sText);
 }

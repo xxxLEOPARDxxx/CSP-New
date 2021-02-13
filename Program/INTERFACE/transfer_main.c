@@ -1678,7 +1678,7 @@ void SetGoodsArrows()
 	        }
 	        if (GetCargoGoods(xi_refCharacter, idx) > 0 && GetGoodQuantityByWeight(idx, GetCargoFreeSpace(pchar)) > 0)
 	        {
-				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_LEFT",0, 289,286 + 20*iLine,309,286 + 20 + 20*iLine, 0);
+				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_LEFT",0, 280,286 + 20*iLine,300,286 + 20 + 20*iLine, 0);
 	            SetNodeUsing("B_LEFT",  true);
 	        }
 	        else

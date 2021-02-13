@@ -303,7 +303,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "ReadBook":
-			Dialog.Text = "Ну что-ж, почитал пару часов...";
+			Dialog.Text = "Ну что ж, почитал" + GetSexPhrase("","а") +" пару часов...";
 			WasteTime(4);
 			pchar.booktime = sti(pchar.booktime) - 1;
 			pchar.bookreadtoday = true;

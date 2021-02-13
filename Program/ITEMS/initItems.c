@@ -226,7 +226,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Dozor_Storm";
-	itm.groupID = JEWELRY_INDIAN_LEFT_ITEM_TYPE;
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Dozor_Storm";
 	itm.describe = "itmdescr_Dozor_Storm";
 	itm.model = "";
@@ -252,7 +252,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Dozor_Mirror";
-	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
 	itm.name = "itmname_Dozor_Mirror";
 	itm.describe = "itmdescr_Dozor_Mirror";
 	itm.model = "";
@@ -4936,7 +4936,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "jewelry15"; // +1 sneak
-	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
+	itm.groupID = JEWELRY_INDIAN_LEFT_ITEM_TYPE;
 	itm.name = "itmname_jewelry15";
 	itm.describe = "itmdescr_jewelry15";
 	itm.model = "sapphire";

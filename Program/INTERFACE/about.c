@@ -1,7 +1,7 @@
 // Авторы, форма про нас :)
 // boal ролики делать не умею, зато умею кодить на скриптах, титры на них ;)
 float fNewPos;
-#define MAX_LINE         69
+#define MAX_LINE         72
 
 string STR_TEXT[MAX_LINE] = {
 "",
@@ -40,6 +40,7 @@ string STR_TEXT[MAX_LINE] = {
 "Krah_an_Krait",
 "Zik '",
 "Shaharan",
+"BlackThorn",
 "",
 "",
 "",
@@ -113,6 +114,7 @@ string STR_COLOR[MAX_LINE] = {
 "",
 "",
 " '",
+"",
 "",
 "",
 "",
