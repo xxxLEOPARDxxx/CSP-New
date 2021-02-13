@@ -735,18 +735,18 @@ string ShowStatValue(string type)
 				fMultiplier = fMultiplier * 1.15;
 			}
 			return FloatToString(fMultiplier,2);*/
-			float coeff = makefloat(xi_refCharacter.Skill.FencingHeavy)/20;
+			float coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
 			return FloatToString(25.0-(coeff*5),1)+"%/"+FloatToString(50.0-(coeff*5),1)+"%";
 		break;
 		case "blooding":
 			if (CheckAttribute(xi_refCharacter,"equip.blade"))
 			{
-				if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0"+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.FencingLight)/20)*5,1))+" сек.";
+				if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0"+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
 			}
-			return FloatToString((makefloat(xi_refCharacter.Skill.FencingLight)/20),1)+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.FencingLight)/20)*5,1))+" сек.";
+			return FloatToString(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20,1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
 		break;
 		case "swiftstrike":
-			return FloatToString((makefloat(xi_refCharacter.Skill.Fencing)/20),1)+"%/"+(FloatToString(5.0+(makefloat(xi_refCharacter.Skill.Fencing)/20),1))+" сек.";
+			return FloatToString((makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
 		break;
 		case "poison":
 			if (CheckAttribute(xi_refCharacter,"chr_ai.poison")) return its(sti(FloatToString(xi_refCharacter.chr_ai.poison,0)));
@@ -768,11 +768,11 @@ string ShowStatValue(string type)
 				}
 			}
 			string weaponID = GetCharacterEquipByGroup(xi_refCharacter, GUN_ITEM_TYPE);
-			string retime = "0";
 			if (weaponID != "")
 			{
 				aref weapon;
 				Items_FindItem(weaponID, &weapon);
+				string retime = "";
 				if (rechargetime != "0") retime = FloatToString(sti(weapon.chargespeed) * (1.0 - stf(rechargetime)/100),1);
 				else retime = its(weapon.chargespeed);
 			}

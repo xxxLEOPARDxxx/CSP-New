@@ -885,7 +885,7 @@ void spawnToughSkeleton(aref _location)
 			pchar.cursed.quest = true;
 			ref sld;
 			
-			LAi_group_Delete("EnemyFight");
+			//LAi_group_Delete("EnemyFight");
 			pchar.quest.cursed_appearance = "PGG_Skeletcap_"+sti(rand(5));
 			sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", pchar.quest.cursed_appearance, "skeleton", "skeleton", sti(pchar.rank)+20, PIRATE, 1, true));
 			
@@ -905,11 +905,12 @@ void spawnToughSkeleton(aref _location)
 			sld.quest.meeting = "0";	
 			sld.Dialog.CurrentNode = "First time";
 			sld.dialog.filename = "Cursed_Skeleton.c";
-			LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
-			LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER_OWN, LAI_GROUP_NEITRAL);
 			LAi_group_Delete("cursed");
 			Group_FindOrCreateGroup("cursed");
-			Group_AddCharacter("cursed", sld);
+			Group_AddCharacter("cursed", sld.id);
+			LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+			LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER_OWN, LAI_GROUP_NEITRAL);
+			
 			LAi_SetActorTypeNoGroup(sld);
 			LAi_SetCheckMinHP(sld, (LAi_GetCharacterHP(sld) - 1), false, "Battle_Hunters_Land");
 			PlaceCharacter(sld, "monsters", "random_must_be_near");

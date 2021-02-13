@@ -35,6 +35,21 @@ void InitInterface(string iniName)
 	
     SetEventHandler("ShowItemFromCharacterWindow","ShowItemFromCharacterWindow",0);
 	SetEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT", 0);
+	
+	SetEventHandler("ShowBladeEquipInfo", "ShowBladeEquipInfo", 0);
+	SetEventHandler("ShowGunEquipInfo", "ShowGunEquipInfo", 0);
+	SetEventHandler("ShowSpyglassEquipInfo", "ShowSpyglassEquipInfo", 0);
+	SetEventHandler("ShowCirassEquipInfo", "ShowCirassEquipInfo", 0);
+	SetEventHandler("ShowBackPackEquipInfo", "ShowBackPackEquipInfo", 0);
+	SetEventHandler("ShowTalismanEquipInfo", "ShowTalismanEquipInfo", 0);
+	SetEventHandler("ShowBookEquipInfo", "ShowBookEquipInfo", 0);
+	SetEventHandler("Show1EquipInfo", "Show1EquipInfo", 0);
+	SetEventHandler("Show2EquipInfo", "Show2EquipInfo", 0);
+	SetEventHandler("Show3EquipInfo", "Show3EquipInfo", 0);
+	SetEventHandler("Show4EquipInfo", "Show4EquipInfo", 0);
+	SetEventHandler("Show5EquipInfo", "Show5EquipInfo", 0);
+	
+	
     
     XI_RegistryExitKey("IExit_F2");
     SetVariable();
@@ -375,6 +390,19 @@ void IDoExit(int exitCode)
 	DelEventHandler("ShowItemFromCharacterWindow","ShowItemFromCharacterWindow");
 	
 	DelEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT");
+	
+	DelEventHandler("ShowBladeEquipInfo", "ShowBladeEquipInfo");
+	DelEventHandler("ShowGunEquipInfo", "ShowGunEquipInfo");
+	DelEventHandler("ShowSpyglassEquipInfo", "ShowSpyglassEquipInfo");
+	DelEventHandler("ShowCirassEquipInfo", "ShowCirassEquipInfo");
+	DelEventHandler("ShowBackPackEquipInfo", "ShowBackPackEquipInfo");
+	DelEventHandler("ShowTalismanEquipInfo", "ShowTalismanEquipInfo");
+	DelEventHandler("ShowBookEquipInfo", "ShowBookEquipInfo");
+	DelEventHandler("Show1EquipInfo", "Show1EquipInfo");
+	DelEventHandler("Show2EquipInfo", "Show2EquipInfo");
+	DelEventHandler("Show3EquipInfo", "Show3EquipInfo");
+	DelEventHandler("Show4EquipInfo", "Show4EquipInfo");
+	DelEventHandler("Show5EquipInfo", "Show5EquipInfo");
 
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -673,6 +701,10 @@ void FillItemsSelected()
 	SetNodeUsing("ITEM_7", false);
 	SetNodeUsing("ITEM_8", false);
 	SetNodeUsing("ITEM_9", false);
+	SetNodeUsing("ITEM_10", false);
+	SetNodeUsing("ITEM_11", false);
+	SetNodeUsing("ITEM_12", false);
+	SetNodeUsing("ITEM_13", false);
 	
     for (i = 0; i< TOTAL_ITEMS; i++)
 	{
@@ -733,13 +765,29 @@ void FillItemsSelected()
 						SetNewGroupPicture("ITEM_7", Items[i].picTexture, "itm" + Items[i].picIndex);
 						SetNodeUsing("ITEM_7" , true);
 					break;
-					case PATENT_ITEM_TYPE:
+					case INDIAN_CENTER_ITEM_TYPE:
 						SetNewGroupPicture("ITEM_8", Items[i].picTexture, "itm" + Items[i].picIndex);
 						SetNodeUsing("ITEM_8" , true);
 					break;
 					case BOOK_ITEM_TYPE:
 						SetNewGroupPicture("ITEM_9", Items[i].picTexture, "itm" + Items[i].picIndex);
 						SetNodeUsing("ITEM_9" , true);
+					break;
+					case JEWELRY_INDIAN_LEFT_ITEM_TYPE:
+						SetNewGroupPicture("ITEM_10", Items[i].picTexture, "itm" + Items[i].picIndex);
+						SetNodeUsing("ITEM_10" , true);
+					break;
+					case JEWELRY_INDIAN_RIGHT_ITEM_TYPE:
+						SetNewGroupPicture("ITEM_11", Items[i].picTexture, "itm" + Items[i].picIndex);
+						SetNodeUsing("ITEM_11" , true);
+					break;
+					case IDOLS_LEFT_ITEM_TYPE:
+						SetNewGroupPicture("ITEM_12", Items[i].picTexture, "itm" + Items[i].picIndex);
+						SetNodeUsing("ITEM_12" , true);
+					break;
+					case IDOLS_RIGHT_ITEM_TYPE:
+						SetNewGroupPicture("ITEM_13", Items[i].picTexture, "itm" + Items[i].picIndex);
+						SetNodeUsing("ITEM_13" , true);
 					break;
 				}
 			}
@@ -1516,4 +1564,485 @@ void RemoveItemsQuantity()
 	
 	ExitItemFromCharacterWindow();
 	SetVariable();
+}
+
+void ShowBladeEquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.blade"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.blade == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "blade");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void ShowGunEquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.gun"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.gun == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "gun");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void ShowSpyglassEquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.spyglass"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.spyglass == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "spyglass");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void ShowBackPackEquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.BackPack"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.BackPack == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "BackPack");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void ShowTalismanEquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.talisman"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.talisman == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "talisman");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void ShowCirassEquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.cirass"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.cirass == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "cirass");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void ShowBookEquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.book"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.book == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "book");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show1EquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.jewelry_indian_left"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.jewelry_indian_left == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "jewelry_indian_left");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show2EquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.jewelry_indian_right"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.jewelry_indian_right == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "jewelry_indian_right");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show3EquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.indian_center"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.indian_center == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "indian_center");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show4EquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.idols_left"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.idols_left == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "idols_left");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show5EquipInfo()
+{
+	if(!CheckAttribute(xi_refCharacter, "equip.idols_right"))
+	{
+		return;
+	}
+	if(xi_refCharacter.equip.idols_right == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "idols_right");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void ClickSaber()
+{
+	ClickItem("ITEM_1");
+}
+
+void ClickGun()
+{
+	ClickItem("ITEM_2");
+}
+
+void ClickSpyGlass()
+{
+	ClickItem("ITEM_3");
+}
+
+void ClickCirass()
+{
+	ClickItem("ITEM_4");
+}
+
+void ClickMushket()
+{
+	ClickItem("ITEM_5");
+}
+
+void ClickBackPack()
+{
+	ClickItem("ITEM_6");
+}
+
+void ClickTalisman()
+{
+	ClickItem("ITEM_7");
+}
+
+void ClickBook()
+{
+	ClickItem("ITEM_9");
+}
+
+void ClickShow1()
+{
+	ClickItem("ITEM_8");
+}
+
+void ClickShow2()
+{
+	ClickItem("ITEM_10");
+}
+
+void ClickShow3()
+{
+	ClickItem("ITEM_11");
+}
+
+void ClickShow4()
+{
+	ClickItem("ITEM_12");
+}
+
+void ClickShow5()
+{
+	ClickItem("ITEM_13");
+}
+
+void ClickItem(string sItem)
+{
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_1", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_2", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_4", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_3", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_5", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_6", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_7", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_9", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_8", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_10", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_11", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_12", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_13", 5, 0);
+
+	string sNode = sItem;
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,sNode, 5, 1);
 }

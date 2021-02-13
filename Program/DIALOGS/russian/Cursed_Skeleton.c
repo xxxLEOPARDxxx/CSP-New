@@ -124,7 +124,6 @@ void ProcessDialogEvent()
 			LAi_group_SetRelation(LAI_GROUP_MONSTERS, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 			DeleteAttribute(pchar, "cursed.Skullbought");
 			CloseQuestHeader("CursedSkeleton");
-			NPChar.SaveItemsForDead = true;
             DialogExit();
 		break;
 		
@@ -215,8 +214,7 @@ void ProcessDialogEvent()
 		break;
 		case "Exit_1":
 			NextDiag.CurrentNode = NextDiag.TempNode;
-			characters[GetCharacterIndex(npchar)].lifeDay = 0;
-			ChangeCharacterAddressGroup(npchar, "Desmoines_town", "goto", "goto2");
+			DeleteCharacter(npchar);
 			DeleteAttribute(pchar, "cursed.Skullbought");
 			chrDisableReloadToLocation = false;
 			DialogExit();

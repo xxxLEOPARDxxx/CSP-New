@@ -504,11 +504,17 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	}
 	string fencing_type = LAi_GetBladeFencingType(attack);
 	float coeff = 0.0;
-	switch (fencing_type)
+	/*switch (fencing_type) старый расчёт чистого стата без учёта бонусов. Ниже с учётом - Gregg
 	{
 		case "FencingLight": coeff = makefloat(attack.Skill.FencingLight)/20; break;
 		case "Fencing": coeff = makefloat(attack.Skill.Fencing)/20; break;
 		case "FencingHeavy": coeff = makefloat(attack.Skill.FencingHeavy)/20; break;
+	}*/
+	switch (fencing_type)
+	{
+		case "FencingLight": coeff = makefloat(GetCharacterSkillSimple(attack,"FencingLight"))/20; break;
+		case "Fencing": coeff = makefloat(GetCharacterSkillSimple(attack,"Fencing"))/20; break;
+		case "FencingHeavy": coeff = makefloat(GetCharacterSkillSimple(attack,"FencingHeavy"))/20; break;
 	}
 	//Вычисляем повреждение
 	float dmg = LAi_CalcDamageForBlade(attack, enemy, attackType, isBlocked, blockSave);

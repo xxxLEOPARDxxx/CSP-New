@@ -1083,7 +1083,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "small":
-			Pchar.Quest.Loans.(NPC_Area).Sum = 20000 + 5000*makeint(Pchar.rank);
+			Pchar.Quest.Loans.(NPC_Area).Sum = 5000*makeint(Pchar.rank);
 			Dialog.snd = "voice\USDI\USDI017";
 			dialog.text = "Отлично. С небольшими суммами всегда проще - меньше риска. Я могу предложить вам " + FindRussianMoneyString(sti(Pchar.Quest.loans.(NPC_Area).sum)) + "...";
 			Link.l1 = "Договорились. Под какие проценты?";
@@ -1092,11 +1092,12 @@ void ProcessDialogEvent()
 			Link.l2.go = "Loan";
 			Link.l3 = "Думаю, мне лучше не влезать в долги. До свидания.";
 			Link.l3.go = "ExitDelLoan1";
-			Pchar.Quest.Loans.(NPC_Area).Interest = 22 - makeint((GetSummonSkillFromName(pchar, "Commerce")+GetSummonSkillFromName(pchar, "Leadership"))/10);
+			//Pchar.Quest.Loans.(NPC_Area).Interest = 22 - makeint((GetSummonSkillFromName(pchar, "Commerce")+GetSummonSkillFromName(pchar, "Leadership"))/10);
+			Pchar.Quest.Loans.(NPC_Area).Interest = PcharReputation();
 		break;
 
 		case "Medium":
-			Pchar.Quest.Loans.(NPC_Area).Sum = 40000 + 10000*makeint(Pchar.rank);
+			Pchar.Quest.Loans.(NPC_Area).Sum = 10000*makeint(Pchar.rank);
 			Dialog.snd = "voice\USDI\USDI018";
 			dialog.text = "Не проблема. Надеюсь, что " + FindRussianMoneyString(sti(Pchar.Quest.Loans.(NPC_Area).sum)) + " помогут вам решить ваши проблемы. Это вполне значительная сумма.";
 			Link.l1 = "Договорились. Под какие проценты?";
@@ -1105,11 +1106,11 @@ void ProcessDialogEvent()
 			Link.l2.go = "Loan";
 			Link.l3 = "Думаю, мне лучше не влезать в долги. До свидания.";
 			Link.l3.go = "ExitDelLoan1";
-			Pchar.Quest.Loans.(NPC_Area).Interest = 27 - makeint((GetSummonSkillFromName(pchar, "Commerce")+GetSummonSkillFromName(pchar, "Leadership"))/10);
+			Pchar.Quest.Loans.(NPC_Area).Interest = PcharReputation();
 		break;
 
 		case "Large":
-			Pchar.Quest.Loans.(NPC_Area).Sum = 80000 + 20000*makeint(Pchar.rank);
+			Pchar.Quest.Loans.(NPC_Area).Sum = 20000*makeint(Pchar.rank);
 			Dialog.snd = "voice\USDI\USDI019";
 			dialog.text = "М-да... Рискованно... Но ладно, я готов предоставить вам заем на сумму в " + FindRussianMoneyString(sti(Pchar.Quest.Loans.(NPC_Area).sum)) + ". Как вы понимаете, капитан, это действительно крупные деньги. Очень прошу вас серьезно отнестись к этому делу.";
 			Link.l1 = "Договорились. Под какие проценты?";
@@ -1118,7 +1119,7 @@ void ProcessDialogEvent()
 			Link.l2.go = "Loan";
 			Link.l3 = "Думаю, мне лучше не влезать в долги. До свидания.";
 			Link.l3.go = "ExitDelLoan1";
-			Pchar.Quest.Loans.(NPC_Area).Interest = 37 - makeint((GetSummonSkillFromName(pchar, "Commerce")+GetSummonSkillFromName(pchar, "Leadership"))/10);
+			Pchar.Quest.Loans.(NPC_Area).Interest = PcharReputation();
 		break;
 
 		case "Interest_1":
@@ -2902,3 +2903,9 @@ void SlavetraderGalleonInWorld()
 	Map_CreateTrader(sld.cityShore, sld.quest.targetShore, sld.id, daysQty);//вот он, сам запуск энкаунтера
 	sld.lifeDay = 20;
 }		
+
+
+int PcharReputation()
+{
+	return makeint((100-makeint(pchar.reputation))*0.5)+1;
+}

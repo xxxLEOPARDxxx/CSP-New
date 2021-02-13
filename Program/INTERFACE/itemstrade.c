@@ -82,8 +82,12 @@ void InitInterface_R(string iniName, ref pTrader)
 	SetEventHandler("ShowCirassEquipInfo", "ShowCirassEquipInfo", 0);
 	SetEventHandler("ShowBackPackEquipInfo", "ShowBackPackEquipInfo", 0);
 	SetEventHandler("ShowTalismanEquipInfo", "ShowTalismanEquipInfo", 0);
-	SetEventHandler("ShowPatentEquipInfo", "ShowPatentEquipInfo", 0);
 	SetEventHandler("ShowBookEquipInfo", "ShowBookEquipInfo", 0);
+	SetEventHandler("Show1EquipInfo", "Show1EquipInfo", 0);
+	SetEventHandler("Show2EquipInfo", "Show2EquipInfo", 0);
+	SetEventHandler("Show3EquipInfo", "Show3EquipInfo", 0);
+	SetEventHandler("Show4EquipInfo", "Show4EquipInfo", 0);
+	SetEventHandler("Show5EquipInfo", "Show5EquipInfo", 0);
 
 	SetFormatedText("STORECAPTION1", XI_ConvertString("titleItemsTrade"));
 
@@ -164,8 +168,12 @@ void IDoExit(int exitCode)
 	DelEventHandler("ShowCirassEquipInfo", "ShowCirassEquipInfo");
 	DelEventHandler("ShowBackPackEquipInfo", "ShowBackPackEquipInfo");
 	DelEventHandler("ShowTalismanEquipInfo", "ShowTalismanEquipInfo");
-	DelEventHandler("ShowPatentEquipInfo", "ShowPatentEquipInfo");
 	DelEventHandler("ShowBookEquipInfo", "ShowBookEquipInfo");
+	DelEventHandler("Show1EquipInfo", "Show1EquipInfo");
+	DelEventHandler("Show2EquipInfo", "Show2EquipInfo");
+	DelEventHandler("Show3EquipInfo", "Show3EquipInfo");
+	DelEventHandler("Show4EquipInfo", "Show4EquipInfo");
+	DelEventHandler("Show5EquipInfo", "Show5EquipInfo");
 	interfaceResultCommand = exitCode;
 	EndCancelInterface(true);
 
@@ -949,8 +957,12 @@ void ShowEquipWindow()
 	string sCirass = GetCharacterEquipByGroup(refCharacter, "cirass");
 	string sBackPack = GetCharacterEquipByGroup(refCharacter, "BackPack");
 	string sTalisman = GetCharacterEquipByGroup(refCharacter, "talisman");
-	string sPatent = GetCharacterEquipByGroup(refCharacter, "patent");
 	string sBook = GetCharacterEquipByGroup(refCharacter, "book");
+	string sShow1 = GetCharacterEquipByGroup(refCharacter, "jewelry_indian_left");
+	string sShow2 = GetCharacterEquipByGroup(refCharacter, "jewelry_indian_right");
+	string sShow3 = GetCharacterEquipByGroup(refCharacter, "indian_center");
+	string sShow4 = GetCharacterEquipByGroup(refCharacter, "idols_left");
+	string sShow5 = GetCharacterEquipByGroup(refCharacter, "idols_right");
 		
 	if(CheckAttribute(refCharacter, "equip.blade") && refCharacter.equip.blade != "")
 	{
@@ -1006,15 +1018,6 @@ void ShowEquipWindow()
 		SetNewGroupPicture("EQUIP_TALISMAN_PIC", "none", "none");
 	}
 	
-	if(CheckAttribute(refCharacter, "equip.patent") && refCharacter.equip.patent != "")
-	{
-		SetNewGroupPicture("EQUIP_PATENT_PIC", Items[FindItem(sPatent)].picTexture, "itm" + Items[FindItem(sPatent)].picIndex);
-	}
-	else
-	{
-		SetNewGroupPicture("EQUIP_PATENT_PIC", "none", "none");
-	}
-	
 	if(CheckAttribute(refCharacter, "equip.book") && refCharacter.equip.book != "")
 	{
 		SetNewGroupPicture("EQUIP_BOOK_PIC", Items[FindItem(sBook)].picTexture, "itm" + Items[FindItem(sBook)].picIndex);
@@ -1022,6 +1025,51 @@ void ShowEquipWindow()
 	else
 	{
 		SetNewGroupPicture("EQUIP_BOOK_PIC", "none", "none");
+	}
+	
+	if(CheckAttribute(refCharacter, "equip.jewelry_indian_left") && refCharacter.equip.jewelry_indian_left != "")
+	{
+		SetNewGroupPicture("EQUIP_SHOW1_PIC", Items[FindItem(sShow1)].picTexture, "itm" + Items[FindItem(sShow1)].picIndex);
+	}
+	else
+	{
+		SetNewGroupPicture("EQUIP_SHOW1_PIC", "none", "none");
+	}
+	
+	if(CheckAttribute(refCharacter, "equip.jewelry_indian_right") && refCharacter.equip.jewelry_indian_right != "")
+	{
+		SetNewGroupPicture("EQUIP_SHOW2_PIC", Items[FindItem(sShow2)].picTexture, "itm" + Items[FindItem(sShow2)].picIndex);
+	}
+	else
+	{
+		SetNewGroupPicture("EQUIP_SHOW2_PIC", "none", "none");
+	}
+	
+	if(CheckAttribute(refCharacter, "equip.indian_center") && refCharacter.equip.indian_center != "")
+	{
+		SetNewGroupPicture("EQUIP_SHOW3_PIC", Items[FindItem(sShow3)].picTexture, "itm" + Items[FindItem(sShow3)].picIndex);
+	}
+	else
+	{
+		SetNewGroupPicture("EQUIP_SHOW3_PIC", "none", "none");
+	}
+	
+	if(CheckAttribute(refCharacter, "equip.idols_left") && refCharacter.equip.idols_left != "")
+	{
+		SetNewGroupPicture("EQUIP_SHOW4_PIC", Items[FindItem(sShow4)].picTexture, "itm" + Items[FindItem(sShow4)].picIndex);
+	}
+	else
+	{
+		SetNewGroupPicture("EQUIP_SHOW4_PIC", "none", "none");
+	}
+	
+	if(CheckAttribute(refCharacter, "equip.idols_right") && refCharacter.equip.idols_right != "")
+	{
+		SetNewGroupPicture("EQUIP_SHOW5_PIC", Items[FindItem(sShow5)].picTexture, "itm" + Items[FindItem(sShow5)].picIndex);
+	}
+	else
+	{
+		SetNewGroupPicture("EQUIP_SHOW5_PIC", "none", "none");
 	}
 	
 	SetFormatedText("EQUIP_CAPTION", XI_ConvertString("Equipment") + ": " + refCharacter.name + " " + refCharacter.lastname);	
@@ -1225,39 +1273,6 @@ void ShowCirassEquipInfo()
 	LanguageCloseFile(idLngFile);
 }
 
-void ShowPatentEquipInfo()
-{
-	if(!CheckAttribute(refCharacter, "equip.patent"))
-	{
-		return;
-	}
-	if(refCharacter.equip.patent == "")
-	{
-		return;
-	}
-
-	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
-	string sHeader, sText1, sText2, sText3, sPicture;
-	string sGroup, sGroupPicture;
-	
-	string sItem = GetCharacterEquipByGroup(refCharacter, "patent");
-	ref itm = ItemsFromID(sItem);
-		
-	sGroup = itm.picTexture;
-	sGroupPicture = "itm" + itm.picIndex;
-
-	sHeader = "";
-
-	sHeader = itm.name;
-	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
-	sText1 = GetItemDescribe(FindItem(sItem));
-		
-	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
-	LanguageCloseFile(idLngFile);
-}
-
 void ShowBookEquipInfo()
 {
 	if(!CheckAttribute(refCharacter, "equip.book"))
@@ -1275,6 +1290,171 @@ void ShowBookEquipInfo()
 	string sGroup, sGroupPicture;
 	
 	string sItem = GetCharacterEquipByGroup(refCharacter, "book");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show1EquipInfo()
+{
+	if(!CheckAttribute(refCharacter, "equip.jewelry_indian_left"))
+	{
+		return;
+	}
+	if(refCharacter.equip.jewelry_indian_left == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(refCharacter, "jewelry_indian_left");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show2EquipInfo()
+{
+	if(!CheckAttribute(refCharacter, "equip.jewelry_indian_right"))
+	{
+		return;
+	}
+	if(refCharacter.equip.jewelry_indian_right == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(refCharacter, "jewelry_indian_right");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show3EquipInfo()
+{
+	if(!CheckAttribute(refCharacter, "equip.indian_center"))
+	{
+		return;
+	}
+	if(refCharacter.equip.indian_center == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(refCharacter, "indian_center");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show4EquipInfo()
+{
+	if(!CheckAttribute(refCharacter, "equip.idols_left"))
+	{
+		return;
+	}
+	if(refCharacter.equip.idols_left == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(refCharacter, "idols_left");
+	ref itm = ItemsFromID(sItem);
+		
+	sGroup = itm.picTexture;
+	sGroupPicture = "itm" + itm.picIndex;
+
+	sHeader = "";
+
+	sHeader = itm.name;
+	sHeader = LanguageConvertString(idLngFile, sHeader);
+	
+	sText1 = GetItemDescribe(FindItem(sItem));
+		
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
+	LanguageCloseFile(idLngFile);
+}
+
+void Show5EquipInfo()
+{
+	if(!CheckAttribute(refCharacter, "equip.idols_right"))
+	{
+		return;
+	}
+	if(refCharacter.equip.idols_right == "")
+	{
+		return;
+	}
+
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	
+	string sHeader, sText1, sText2, sText3, sPicture;
+	string sGroup, sGroupPicture;
+	
+	string sItem = GetCharacterEquipByGroup(refCharacter, "idols_right");
 	ref itm = ItemsFromID(sItem);
 		
 	sGroup = itm.picTexture;
@@ -1321,14 +1501,34 @@ void ClickTalisman()
 	ClickItem("TALISMAN");
 }
 
-void ClickPatent()
-{
-	ClickItem("PATENT");
-}
-
 void ClickBook()
 {
 	ClickItem("BOOK");
+}
+
+void ClickShow1()
+{
+	ClickItem("SHOW1");
+}
+
+void ClickShow2()
+{
+	ClickItem("SHOW2");
+}
+
+void ClickShow3()
+{
+	ClickItem("SHOW3");
+}
+
+void ClickShow4()
+{
+	ClickItem("SHOW4");
+}
+
+void ClickShow5()
+{
+	ClickItem("SHOW5");
 }
 
 void ClickItem(string sItem)
@@ -1339,8 +1539,12 @@ void ClickItem(string sItem)
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_SPYGLASS_PIC", 5, 0);
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BACKPACK_PIC", 5, 0);
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_TALISMAN_PIC", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_PATENT_PIC", 5, 0);
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BOOK_PIC", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_SHOW1_PIC", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_SHOW2_PIC", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_SHOW3_PIC", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_SHOW4_PIC", 5, 0);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_SHOW5_PIC", 5, 0);
 
 	string sNode = "EQUIP_" + sItem + "_PIC";
 	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,sNode, 5, 1);

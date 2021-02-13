@@ -1864,13 +1864,13 @@ heroNameDat_73 {Цирилле}
 heroLastNameDat_73 {}
 
 heroFace_73 {542}
-heroModel_73 {PGG_Cirilla_0}
+heroModel_73 {PGG_Cirilla_0,PGG_Cirilla_1,PGG_Cirilla_2,PGG_Cirilla_3,PGG_Cirilla_4,PGG_Cirilla_5,PGG_Cirilla_6,PGG_Cirilla_7,PGG_Cirilla_8}
 
 heroType_73 {Фехтовальщик}
 heroNation_73 {Пираты}
 
 sex_73 {woman}
-animation_73 {Cirilla}
+animation_73 {YokoDias}
 
 hero_73
 {

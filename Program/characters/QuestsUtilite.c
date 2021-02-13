@@ -667,7 +667,7 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 		
 		// Warship 02.07.09 Это прикол такой - можно у случайного кэпа в сундуке обраружить ключ от сундуков Моргана
 		// Причем, сундуков у Моргана два, а открыть получится только один из них
-		if(!CheckAttribute(PChar, "QuestTemp.MorganKeyTaken") && rand(250) == 5)
+		if(!CheckAttribute(PChar, "QuestTemp.MorganKeyTaken") && rand(250-(sti(pchar.rank) * 3)) == 5)
 		{
 			PChar.QuestTemp.MorganKeyTaken = true;
 			_location.box1.items.keyMorgan = 1;

@@ -9453,8 +9453,6 @@ void QuestCursedSceleton()
 	DeleteAttribute(sld, "SuperShooter");
 	int hitpoints = rand(sti(pchar.rank)*15)+1000;
 	LAi_SetHP(sld, hitpoints, hitpoints);
-	FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
-	DeleteAttribute(sld, "SuperShooter");
 			
 	sld.name = "Проклятый капитан";
 	sld.lastname = "";
@@ -9462,6 +9460,12 @@ void QuestCursedSceleton()
 				
 	sld.Dialog.CurrentNode = "First time";
 	sld.dialog.filename = "Cursed_Skeleton.c";
+	
+	LAi_group_Delete("cursed");
+	Group_FindOrCreateGroup("cursed");
+	Group_AddCharacter("cursed", sld.id);
+	//LAi_group_SetRelation("cursed", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+	//LAi_group_SetRelation("cursed", LAI_GROUP_PLAYER_OWN, LAI_GROUP_NEITRAL);
 	
 	chrDisableReloadToLocation = true;
 	pchar.quest.CursedSceleton.win_condition.l1 = "NPC_Death";
@@ -9471,7 +9475,7 @@ void QuestCursedSceleton()
 	
 	sld.SaveItemsForDead = true;
 	ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload1");
-	LAi_group_MoveCharacter(sld, "TmpEnemy");
+	//LAi_group_MoveCharacter(sld, "TmpEnemy");
 	LAi_SetActorType(sld);
     LAi_SetActorType(pchar);
 	sld.quest.meeting = "2";
