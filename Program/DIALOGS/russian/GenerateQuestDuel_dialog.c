@@ -23,14 +23,14 @@ void ProcessDialogEvent()
 
 		// Первый дуалист -->
 		case "Duelist_1_1":
-			dialog.text = "Здравствуйте, капитан " + sName + ". Надеюсь, у вас найдется свободное время для разговора?";
+			dialog.text = "Здравствуйте, капитан " + sName + ". Надеюсь, у вас найдётся свободное время для разговора?";
 			link.l1 = "Приветствую, сударь. А что случилось?";
 			link.l1.go = "Duelist_1_2";
 		break;
 
 		case "Duelist_1_2":
 			dialog.text = "Дело в том, что на сегодня у меня назначена дуэль, с неким человеком...";
-			link.l1 = "И в чем же ваша проблема?";
+			link.l1 = "И в чём же ваша проблема?";
 			link.l1.go = "Duelist_1_3";
 		break;
 
@@ -62,7 +62,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "Duelist_1_7":
-			dialog.text = "Огромное спасибо, капитан. Дуэль назначена за городскими воротами. Время пришло - идемте.";
+			dialog.text = "Огромное спасибо, капитан. Дуэль назначена за городскими воротами. Время пришло - идёмте.";
 			link.l1 = "Идёмте.";
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("QuestDuelAgree");
@@ -198,7 +198,7 @@ void ProcessDialogEvent()
 		
 		case "Duelist_2_5":
 			SetCameraDialogMode(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1));
-			dialog.text = "Черт побери!!! Надеюсь вы удовлетворены?";
+			dialog.text = "Чёрт побери!!! Надеюсь вы удовлетворены?";
 			link.l1 = PChar.GenerateQuestDuel.DuelistFullName + ": Вполне. А теперь убирайтесь. Я не намерен больше смотреть на вас.";
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("QuestDuelBattleWithMercenaryEnd");
@@ -207,7 +207,7 @@ void ProcessDialogEvent()
 		case "Duelist_2_6":
 			SetCameraDialogMode(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1));
 			dialog.text = "Приветствую, господа! " + PChar.GenerateQuestDuel.DuelistName + ", а кто это с вами?";
-			link.l1 = PChar.GenerateQuestDuel.DuelistName + ": Этот человек будет драться вместо меня.";
+			link.l1 = PChar.GenerateQuestDuel.DuelistName + ": "+ GetSexPhrase("Этот человек","Эта леди") +" будет драться вместо меня.";
 			link.l1.go = "Duelist_2_7";
 		break;
 		
@@ -219,7 +219,7 @@ void ProcessDialogEvent()
 		
 		case "Duelist_2_8":
 			SetCameraDialogMode(NPChar);
-			dialog.text = "Что же, когда я прикончу вашего доверенного, весь город узнает о вашей трусости. Начнем?";
+			dialog.text = "Что же, когда я прикончу "+ GetSexPhrase("вашего доверенного","вашу защитницу") +", весь город узнает о вашей трусости. Начнём?";
 			link.l1 = "К вашим услугам.";
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("QuestDuelBattleWithDuelist");
@@ -236,8 +236,8 @@ void ProcessDialogEvent()
 		
 		case "Relative_2":
 			SetCameraDialogMode(CharacterFromID(PChar.GenerateQuestDuel.Characters.Relative_2));
-			dialog.text = "Мы не успели! Наш дядя убит! Мерзавец!!! Что ты натворил?";
-			link.l1 = "Постойте, я сейчас все объясню...";
+			dialog.text = "Мы не успели! Наш дядя убит! "+ GetSexPhrase("Мерзавец!!! Что ты натворил?","Мерзавка!!! Что ты натворила?") +"";
+			link.l1 = "Постойте, я сейчас всё объясню...";
 			link.l1.go = "Relative_3";
 		break;
 		
@@ -251,7 +251,7 @@ void ProcessDialogEvent()
 		case "Relative_4":
 			SetCameraDialogMode(CharacterFromID(PChar.GenerateQuestDuel.Characters.Relative_2));
 			dialog.text = "Защищайся, падаль!";
-			link.l1 = "Черт!";
+			link.l1 = "Чёрт!";
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("QuestDuelBattleWithRelativeRevenge");
 		break;

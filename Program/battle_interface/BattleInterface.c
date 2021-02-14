@@ -401,44 +401,6 @@ ref BI_CommandEndChecking()
 				BattleInterface.Commands.SailTo.EffectRadius	= 5000 + sti(rItm.radius);
 			}
 			else BattleInterface.Commands.SailTo.EffectRadius	= 5000; //boal
-
-			//zagolski. наличие карт и радиус доплыть
-			//BattleInterface.Commands.SailTo.EffectRadius = 3000 + 350*GetCharacterSPECIAL(pchar, "Perception");
-			/*
-			if (CheckMainHeroMap("map_barbados") && Islands[iIsland].id == "Barbados") 				break;
-			if (CheckMainHeroMap("map_jam") && Islands[iIsland].id == "Jamaica") 					break;
-			if (CheckMainHeroMap("map_puerto") && Islands[iIsland].id == "PuertoRico") 				break;
-
-			bool bCubaAll = (Islands[iIsland].id == "Cuba1") || (Islands[iIsland].id == "Cuba2");
-			if (CheckMainHeroMap("map_cuba") && bCubaAll) 								break;
-
-			if (CheckMainHeroMap("map_Curacao") && Islands[iIsland].id == "Curacao") 				break;
-			if (CheckMainHeroMap("map_TORTUGA") && Islands[iIsland].id == "Tortuga") 				break;
-			if (CheckMainHeroMap("map_sm") && Islands[iIsland].id == "SentMartin") 					break;
-			if (CheckMainHeroMap("map_trinidad") && Islands[iIsland].id == "Trinidad") 				break;
-			if (CheckMainHeroMap("map_nevis") && Islands[iIsland].id == "Nevis") 					break;
-			if (CheckMainHeroMap("map_antigua") && Islands[iIsland].id == "Antigua") 				break;
-			if (CheckMainHeroMap("map_guad") && Islands[iIsland].id == "Guadeloupe") 				break;
-			if (CheckMainHeroMap("map_martiniqua") && Islands[iIsland].id == "Martinique") 				break;
-
-			bool bHispAll = (Islands[iIsland].id == "Hispaniola1") || (Islands[iIsland].id == "Hispaniola2");
-			if (CheckMainHeroMap("map_hisp") && bHispAll) 								break;
-
-			if (!CheckMainHeroMap("map_bermudas") && Islands[iIsland].id == "Bermudes") 				break;
-			if (CheckMainHeroMap("map_dominica") && Islands[iIsland].id == "Dominica") 				break;
-			if (CheckMainHeroMap("map_terks") && Islands[iIsland].id == "Terks") 					break;
-			if (CheckMainHeroMap("map_cayman") && Islands[iIsland].id == "Caiman") 					break;
-			if (CheckMainHeroMap("map_beliz") && Islands[iIsland].id == "Beliz") 					break;
-			if (CheckMainHeroMap("map_santa") && Islands[iIsland].id == "SantaCatalina") 				break;
-
-			bool bMain1 = (Islands[iIsland].id == "Cartahena") || (Islands[iIsland].id == "PortoBello");
-			if (CheckMainHeroMap("map_maine_1") && bMain1) 								break;
-
-			bool bMain2 = (Islands[iIsland].id == "Maracaibo") || (Islands[iIsland].id == "Cumana") || (Islands[iIsland].id == "Caracas");
-			if (CheckMainHeroMap("map_maine_2") && bMain2) 								break;
-
-			BattleInterface.Commands.SailTo.EffectRadius = (3000 + 300*GetCharacterSPECIAL(pchar, "Perception"))/4;
-			*/
 		}
 		break;
 	case "BI_Board":
@@ -1212,7 +1174,7 @@ void BI_InitializeCommands()
 	BattleInterface.Commands.Bomb.picNum	= 67;
 	BattleInterface.Commands.Bomb.selPicNum	= 66;
 	BattleInterface.Commands.Bomb.texNum	= BI_ICONS_TEXTURE_COMMAND;
-	BattleInterface.Commands.Bomb.event	= "BI_Bomb";
+	BattleInterface.Commands.Bomb.event		= "BI_Bomb";
 	BattleInterface.Commands.Bomb.note	    = "Спустить мину";
 
 	BattleInterface.Commands.ImmediateDeath.enable	= false;
@@ -1304,19 +1266,19 @@ ref GetCurrentCharge()
 		{
 		case GOOD_BALLS:
 			BI_intNRetValue[0] = 32;
-			BattleInterface.textinfo.Ammo.text = /* XI_convertString("Balls")+ */""+sti(pchar.ship.cargo.goods.balls);
+			BattleInterface.textinfo.Ammo.text = ""+sti(pchar.ship.cargo.goods.balls);
 			break;
 		case GOOD_GRAPES:
 			BI_intNRetValue[0] = 35;
-			BattleInterface.textinfo.Ammo.text = /* XI_convertString("Grapes")+ */""+sti(pchar.ship.cargo.goods.grapes);
+			BattleInterface.textinfo.Ammo.text = ""+sti(pchar.ship.cargo.goods.grapes);
 			break;
 		case GOOD_KNIPPELS:
 			BI_intNRetValue[0] = 34;
-			BattleInterface.textinfo.Ammo.text = /* XI_convertString("Knippels")+ */""+sti(pchar.ship.cargo.goods.knippels);
+			BattleInterface.textinfo.Ammo.text = ""+sti(pchar.ship.cargo.goods.knippels);
 			break;
 		case GOOD_BOMBS:
 			BI_intNRetValue[0] = 33;
-			BattleInterface.textinfo.Ammo.text = /* XI_convertString("Bombs")+ */""+sti(pchar.ship.cargo.goods.bombs);
+			BattleInterface.textinfo.Ammo.text = ""+sti(pchar.ship.cargo.goods.bombs);
 			break;
 		}
 	}
@@ -2566,88 +2528,6 @@ ref procGetSailTextureData()
 	}
 	return &BI_objRetValue;
 }
-/* ref procGetRiggingData()
-{
-	int i,n;
-	int locidx = FindLoadedLocation();
-	int retVal = 0;
-	ref chr;
-
-	string datName = GetEventData();
-	if(datName == "GetFlagTexNum")
-	{
-		i = GetEventData();
-		n = GetEventData();
-		if (n == SHIP_FLAG || n == SHIP_SFLAG) 
-		{
-			if (locidx < 0)
-			{
-				chr = GetCharacter(Ships[CurrentShip]);
-			}	
-			else
-			{
-				chr = GetCharacter(iShips[CurrentShip]);
-			}	
-
-			if (ShipFlagsQuantity == -1) 
-			{
-				ShipFlagsQuantity = GetShipFlagsQuantity(chr);
-				ShipFlagsQuantity *= 2;
-				CurrentFlag = 0;
-			}
-
-			//trace("procGetRiggingData: n = " + n + ", chr.id = " + chr.id + ", ship.type = " + chr.ship.type + ", ship.name = " + chr.ship.name + ", nation = " + sti(chr.nation) + ", ShipFlagsQuantity = " + ShipFlagsQuantity);
-			int pos = CurrentFlag;
-			if (n == SHIP_SFLAG) 
-			{
-				pos -= (ShipFlagsQuantity / 2);
-			}
-			string FlagType;
-			FlagType = GetShipFlagType(chr, pos);
-			CurrentFlag++;
-			trace("procGetRiggingData: n = " + n + " i = " + i + " id = " + chr.id + " ShipName = " + chr.Ship.Name + " nation = " + chr.nation + " CurFlag = " + CurrentFlag + ", ShipFlagsQty = " + ShipFlagsQuantity + ", FlagType = " + FlagType + ", pos = " + pos);
-			if (FlagType == FLAG_NONE) 
-			{
-				//trace("FlagType == FLAG_NONE");
-				retVal = 7;
-				return &retVal;
-			}
-			if (FlagType == FLAG_ENSIGN && n == SHIP_SFLAG) 
-			{
-				//trace("FlagType == FLAG_ENSIGN && n == SHIP_SFLAG");
-				retVal = 7;
-				return &retVal;
-			}
-			if (FlagType == FLAG_SPECIAL && n == SHIP_FLAG) 
-			{
-				//trace("FlagType == FLAG_SPECIAL && n == SHIP_FLAG");
-				retVal = 7;
-				return &retVal;
-			}
-			n = sti(chr.nation);			
-			switch(n)
-			{
-				case ENGLAND: 	retVal = 1; break;
-				case FRANCE: 	retVal = 2; break;
-				case SPAIN: 	retVal = 4; break;
-				case HOLLAND: 	retVal = 0; break;						
-				case PIRATE: 	retVal = GetPirateFlag(chr); break;				
-			}
-		}
-		else
-		{
-			switch(n)
-			{
-			case ENGLAND: retVal = 1; break;
-			case FRANCE: retVal = 2; break;
-			case SPAIN: retVal = 4; break;
-			case PIRATE: retVal = 5; break;
-			case HOLLAND: retVal = 0; break;
-			}
-		}
-	}
-	return &retVal;
-} */
 
 ref procGetRiggingData()
 {

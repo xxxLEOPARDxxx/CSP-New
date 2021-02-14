@@ -6,6 +6,7 @@ void ProcessDialogEvent()
 	aref Link, NextDiag;
 	float locx, locy, locz;
 
+	ref cursedLocLoad = &locations[reload_location_index];
 	bool hungry = true;
 	DeleteAttribute(&Dialog,"Links");
 
@@ -27,19 +28,14 @@ void ProcessDialogEvent()
 				npchar.quest.meeting = "1";
 				link.l1 = "Вот черт, я думал" +GetSexPhrase("","а")+" что здесь никто не живет. Прошу прощения, я сейчас же уйду.";
 				link.l1.go = "meeting_1";
-
 				//Если мы пришли по церковному квесту
-				if (CheckAttribute(pchar.location, "DestroyGhost"))
+				if(CheckAttribute(cursedLocLoad, "DestroyGhost"))
 				{
-					link.l1 = "Я при" + GetSexPhrase("шел","шла") + " освятить это место от скверны! Изыди, нечистый! Именем господа, я заклинаю...";
+					link.l1 = "Я при" + GetSexPhrase("шел","шла") + " избавить это место от скверны! Изыди, нечистый! Именем господа, я заклинаю...";
 					link.l1.go = "meeting_2";
 				}
-				
-				
 				link.l3 = "Умри, отродье!";
 				link.l3.go = "skel_fight";
-
-				
 				NextDiag.TempNode = "First time";
 				break;	
 			}
@@ -101,7 +97,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "end_quest":
-			dialog.text = "Благодарю. Как я и обещал, ты свобод" + GetSexPhrase("ен","на") + ". В награду за старания я даже подарю тебе одну книженцию. За долгие годы, что я просидел в пещере, заняться было особо нечем, так что я не раз ее перечитывал. Должен признаться, весьма занятное чтиво. Я умудрялся при каждом прочтении находить для себя что-то новое.";
+			dialog.text = "Благодарю. Как я и обещал, ты свобод" + GetSexPhrase("ен","на") + ". В награду за старания я даже подарю тебе одну книженцию. За долгие годы что я просидел в пещере, заняться было особо нечем, так что я не раз ее перечитывал. Должен признаться, весьма занятное чтиво. Я умудрялся при каждом прочтении находить для себя что-то новое.";
 			TakeItemFromCharacter(pchar, pchar.questTemp.Cursed.Item);
 			string book = PickAbook();
 			GiveItem2Character(pchar, book);
@@ -116,8 +112,7 @@ void ProcessDialogEvent()
 			npchar.SaveItemsForDead = true;	
 			LAi_group_Attack(NPChar, Pchar);
 			LAi_SetWarriorType(NPChar);
-			ref locLoad = &locations[reload_location_index];
-			SetSkeletonsToLocation(locLoad);
+			SetSkeletonsToLocation(cursedLocLoad);
 			LAi_group_MoveCharacter(NPChar, LAI_GROUP_MONSTERS);
 			LAi_SetImmortal(npchar, false);
 			npchar.quest.meeting = "0";
@@ -129,7 +124,7 @@ void ProcessDialogEvent()
 		
 		case "meeting_1":
 			dialog.text = "Ну уж нет, так просто тебе не выкрутиться. Мне нужна помощь в одном деле. Справишься - я сохраню тебе жизнь и свободу. А что будет в случае провала или отказа тебе лучше не знать.";
-			link.l1 = "И что же за помощь тебе нужна?";
+			link.l1 = "И то же за помощь тебе нужна?";
 			link.l1.go = "meeting_3";
 
 			link.l2 = "Да лучше я тебя просто зарублю!";
@@ -137,17 +132,15 @@ void ProcessDialogEvent()
 		break;
 		
 		case "meeting_2":
-			dialog.text = "Твои заклинания здесь не помогут, а Господь - не услышит. Но у тебя еще есть шанс спастись. Мне нужна помощь в одном деле. Справишься - я сохраню тебе жизнь и свободу. А что будет в случае провала тебе лучше даже не знать.";
+			dialog.text = "У тебя нет шансов в бою со мной. И твои заклинания здесь не помогут, а Господь - не услышит.";
 			npchar.quest.answer_1 = "true";
-			link.l1 = "И что же могло понадобиться демону вроде тебя от "+GetSexPhrase("простого смертного","простой смертной")+"?";
-			link.l1.go = "meeting_3";
-
-			link.l2 = "Я не собираюсь идти на сделку с дьяволом!";
-			link.l2.go = "skel_fight";
+			TakeNItems(NPCHAR, "Chest_ammo", 2 + sti(pchar.rank)*0.1);
+			link.l1 = "Это мы еще посмотрим! Прошу тебя, Господи, направь мою руку, чтобы я смог"+GetSexPhrase("","ла")+" поразить этого нечистого во славу твою!";
+			link.l1.go = "skel_fight";
 		break;
 		
 		case "meeting_3":
-			dialog.text = "Видишь ли, я не всегда был таким. В прошлой жизни у меня был собственный корабль, прямо как у тебя. Скажу больше - я был корсаром, имя которого внушало ужас во всех колониях. Однако, прошло уже слишком много времени, чтобы это кто-то помнил.";
+			dialog.text = "Видишь ли, я не всегда был таким. В прошлой жизни у меня был собственный корабль, прямо как у тебя. Скажу больше - я был корсаром, имя которого внушало ужас во всех колониях. Однако, прошло уже слишком много времени чтобы это кто-то помнил.";
 			link.l2 = "...";
 			link.l2.go = "meeting_5";
 			link.l1 = "Ближе к сути.";
@@ -191,7 +184,7 @@ void ProcessDialogEvent()
 			link.l1.go = "meeting_9";
 		break;
 		case "meeting_9":
-			dialog.text = "Я даю тебе ровно месяц на розыски черепа. Если ты не справишься, то очень пожалеешь. И не думай, что как только отсюда выйдешь, ты от меня избавишься, я привязал свою душу к твоей, так что без проблем найду тебя даже на краю света.";
+			dialog.text = "Я даю тебе ровно месяц на розыски черепа. Если ты не справишься то очень пожалеешь. И не думай, что как только отсюда выйдешь ты от меня избавишься, я привязал свою душу к твоей, так что без проблем найду тебя даже на краю света.";
 			
 			ReOpenQuestHeader("CursedSkeleton");
 			AddQuestRecord("CursedSkeleton", "1");

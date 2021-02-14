@@ -780,7 +780,7 @@ void ProcessDialogEvent()
 					Link.l2.go = "Exit";
 				break;
 				case 2:
-					npchar.itemtype = "skullMa"+(drand2(2)+1);//хрустальный череп
+					npchar.itemtype = "sculMa"+(drand2(2)+1);//хрустальный череп
 					npchar.pricevalue = 75000+drand1(25000);
 					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть настоящий эксклюзив, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За него я прошу "+npchar.pricevalue+" пиастров.";
 					LanguageCloseFile(idLngFile);

@@ -74,7 +74,7 @@ void ProcessDialogEvent()
 				link.l2.go = "exit_fight"; 		
 				if (IsCharacterPerkOn(pchar, "Adventurer") || IsCharacterPerkOn(pchar, "Agent"))
 				{
-					link.l1 = RandPhraseSimple("Вы обознались, сэр! Я законопослушный гражданини.", "С чего такая агрессия? Может я просто прогуляться вышел?");
+					link.l1 = RandPhraseSimple("Вы обознались, сэр! Я законопослуш"+ GetSexPhrase("ный","ная") +" граждан"+ GetSexPhrase("ин","ка") +".", "С чего такая агрессия? Может я просто прогуляться выш"+ GetSexPhrase("ел","ла") +"?");
 					link.l1.go = "CheckPeg";
 				}					
 			}

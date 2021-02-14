@@ -541,7 +541,7 @@ void CreateHabitues(aref loc)
             arrayNPCModelHow = 0;
 			// сажаем пьянь, на козырные места под ГГ
 /// ---> Navarra
-///			for (i = 1; i <=4; i++)
+			// for (i = 1; i <=4; i++)
 			for (i = 1; i <=10; i++)
 /// <--- Navarra		
 			{
