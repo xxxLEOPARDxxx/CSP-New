@@ -2701,10 +2701,11 @@ void QuestCheckTakeBoxes(ref itemsRef)
 	bMainCharacterInBox = true;
 	//<-- флаг 'в сундуке'
 	//-------------------- КЛАДЫ ------------>>>>>>>>>>>>>
-
 	
-	if (!CheckAttribute(itemsRef, "Treasure")&& !CheckAttribute(itemsRef, "PiratesOnUninhabitedTreasure")&& !CheckAttribute(itemsRef, "Hold_GenQuest_Treasure"))
+	//Спавн проклятого кэпа
+	if (locLoad.id != pchar.treasurelocation)
 	{
+		 //&& locLoad != pchar.treasurelocation
 		spawnToughSkeleton(locLoad);
 	}
 	if (CheckAttribute(itemsRef, "Treasure"))
@@ -2712,6 +2713,7 @@ void QuestCheckTakeBoxes(ref itemsRef)
 		Log_Info("Похоже, что это и есть клад.");
 		PlaySound("interface\notebook.wav");
 		DeleteAttribute(itemsRef, "Treasure");
+		DeleteAttribute(PChar, "treasurelocation");
 		//eddy. для безконфликтности квестов
 
 		if(!CheckAttribute(itemsRef, "PiratesOnUninhabitedTreasure"))

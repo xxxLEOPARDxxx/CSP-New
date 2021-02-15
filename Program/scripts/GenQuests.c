@@ -1139,10 +1139,17 @@ void ReasonToFast_SetTreasureBoxFromMap(string qName)
     string box, itmName;
     aref   arToBox;
     aref   arFromBox;
+	
 
     if (GetCharacterItem(pchar, "mapQuest") > 0 )
     {
+		
         Log_Info("Сокровища где-то рядом!");
+		
+		//Запрет спавна проклятого кэпа в этой локации
+		ref locLoad = &locations[reload_location_index];
+		pchar.treasurelocation = locLoad.id;
+		
         PlaySound("interface\notebook.wav");
 		Statistic_AddValue(pchar, "Treasure", 1);
 		
@@ -1521,6 +1528,10 @@ void PiratesOnUninhabited_InTreasureLoc(String _quest)
 	makearef(boxItems, location.(boxId).items);
 	
 	Log_Info("Сокровища где-то рядом!");
+	//Запрет спавна проклятого кэпа в этой локации
+	ref locLoad = &locations[reload_location_index];
+	pchar.treasurelocation = locLoad.id;
+	
 	Statistic_AddValue(Pchar, "Treasure", 1);
 	
 	PChar.Quest.PiratesOnUninhabited_TreasureLose.over = "yes";
@@ -5693,6 +5704,10 @@ void Hold_GenQuest_SetTreasureBoxFromMap(string qName)
 	if (GetCharacterItem(pchar, "mapQuest") > 0 )
     {
         Log_Info("Сокровища где-то рядом!");
+		//Запрет спавна проклятого кэпа в этой локации
+		ref locLoad = &locations[reload_location_index];
+		pchar.treasurelocation = locLoad.id;
+		
         PlaySound("interface\notebook.wav");
 		Statistic_AddValue(Pchar, "Treasure", 1);
 

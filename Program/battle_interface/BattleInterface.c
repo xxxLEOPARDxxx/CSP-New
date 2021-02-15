@@ -1581,16 +1581,20 @@ ref BI_GetData()
 
 void SetParameterData()
 {
+	// BattleInterface.CommandTextures.list.t0.name = "battle_interface\list_icons_Konshud.tga";
 	BattleInterface.CommandTextures.list.t0.name = "battle_interface\list_icons.tga";
 	BattleInterface.CommandTextures.list.t0.xsize = 16;
 	BattleInterface.CommandTextures.list.t0.ysize = 8;
 	//Новый стиль HUD по чекбоксу
+	// if(InterfaceStates.HUDStyle) BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1_Konshud.dds";
+	// else BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1_Konshud.dds";
 	if(InterfaceStates.HUDStyle) BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.dds";
 	else BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.dds";
 	//<---
 	BattleInterface.CommandTextures.list.t1.xsize = 32;
 	BattleInterface.CommandTextures.list.t1.ysize = 32;
 
+	// BattleInterface.CommandTextures.list.t2.name = "battle_interface\cancel_Konshud.tga";
 	BattleInterface.CommandTextures.list.t2.name = "battle_interface\cancel.tga";
 	BattleInterface.CommandTextures.list.t2.xsize = 2;
 	BattleInterface.CommandTextures.list.t2.ysize = 1;
@@ -1712,21 +1716,25 @@ void SetParameterData()
 	BattleInterface.navigation.argbBackMinColor			= argb(0,0,0,128);
 	BattleInterface.navigation.shipShowRadius			= 8.0;
 	//
+	// BattleInterface.navigation.chargeTexture			= "battle_interface\list_icon2_Konshud.tga";
 	BattleInterface.navigation.chargeTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.chargeTextureGreed		= "8,8";
 	BattleInterface.navigation.chargePos				= "-30,"+RecalculateVIcon(290);
 	BattleInterface.navigation.chargePictureSize		= RecalculateHIcon(48)+","+RecalculateVIcon(48);
 	//Mett: порох TODO
+	// BattleInterface.navigation.powderTexture			= "battle_interface\list_icon2_Konshud.tga";
 	BattleInterface.navigation.powderTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.powderTextureGreed		= "8,8";
 	BattleInterface.navigation.powderPos				= "30,"+RecalculateVIcon(290);
 	BattleInterface.navigation.powderPictureSize		= RecalculateHIcon(48)+","+RecalculateVIcon(48);
 	//
+	// BattleInterface.navigation.sailstateTexture			= "battle_interface\list_icon2_Konshud.tga";
 	BattleInterface.navigation.sailstateTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.sailstateTextureGreed	= "8,8";
 	BattleInterface.navigation.sailstatePos				= RecalculateHIcon(30)+","+RecalculateVIcon(190);
 	BattleInterface.navigation.sailstatePictureSize		= RecalculateHIcon(48)+","+RecalculateVIcon(48);
 	//
+	// BattleInterface.navigation.windStateTexture			= "battle_interface\list_icon2_Konshud.tga";
 	BattleInterface.navigation.windStateTexture			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.windTextureGreed			= "8,8";
 	BattleInterface.navigation.windPos					= RecalculateHIcon(-30)+","+RecalculateVIcon(190);
@@ -1816,6 +1824,7 @@ void SetParameterData()
 	int fTmp3 = sti(showWindow.right) - RecalculateHIcon(192);
 	int fTmp4 = sti(showWindow.top) + RecalculateVIcon(500);
 	string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
+	// BattleInterface.imageslist.textinfoback2.texture = "\battle_interface\Icon_Planks_Konshud.tga";
 	BattleInterface.imageslist.textinfoback2.texture = "\battle_interface\Icon_Planks.tga";
 	BattleInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
 	BattleInterface.imageslist.textinfoback2.uv = "0.0,0.0,1.0,1.0";
@@ -1824,6 +1833,7 @@ void SetParameterData()
 	fTmp = sti(showWindow.right) - RecalculateHIcon(84);
 	fTmp3 = sti(showWindow.right) - RecalculateHIcon(132);
 	off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
+	// BattleInterface.imageslist.textinfoback3.texture = "\battle_interface\Icon_Sailcloth_Konshud.tga";
 	BattleInterface.imageslist.textinfoback3.texture = "\battle_interface\Icon_Sailcloth.tga";
 	BattleInterface.imageslist.textinfoback3.color = argb(255,128,128,128);
 	BattleInterface.imageslist.textinfoback3.uv = "0.0,0.0,1.0,1.0";

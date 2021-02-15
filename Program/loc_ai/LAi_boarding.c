@@ -1178,7 +1178,7 @@ void LAi_BoardingGroupKill()
 	if(group != LAI_GROUP_BRDENEMY) return;
 	// отключим шум абордажа (который включается при аларме в sound.c)
 
-	PostEvent("LAi_event_boarding_EnableReload", 5000);
+	PostEvent("LAi_event_boarding_EnableReload", 1000);
 }
 
 //Моделька для абордажного персонажа

@@ -108,6 +108,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = "Спасибо, Лис! Немедленно выдвигаюсь.";
 			link.l1.go = "exit";
 			AddQuestRecord("SeekDoubleMushket", "4");
+			AddQuestUserData("SeekDoubleMushket","sShore", XI_ConvertString(pchar.questTemp.Mushket.Shore));
 			DeleteAttribute(pchar, "questTemp.mushket2x2_stid");
 		break;
 		

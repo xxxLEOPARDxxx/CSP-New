@@ -750,7 +750,7 @@ void ProcessDialogEvent()
 		case "Trade"://торговля с контрами - Gregg
 			int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
 			Dialog.Text = "(Негромко) Хмм... Да, это так. ";
-			switch (makeint(drand(10)))
+			switch (makeint(drand(8)))
 			{
 				case 0:
 					npchar.itemtype = "Lockpick";//отмычки за драги 
@@ -779,7 +779,7 @@ void ProcessDialogEvent()
 					Link.l2 = "Нет, просто интересно стало.";
 					Link.l2.go = "Exit";
 				break;
-				case 2:
+				/*case 2:
 					npchar.itemtype = "sculMa"+(drand2(2)+1);//хрустальный череп
 					npchar.pricevalue = 75000+drand1(25000);
 					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть настоящий эксклюзив, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За него я прошу "+npchar.pricevalue+" пиастров.";
@@ -791,8 +791,8 @@ void ProcessDialogEvent()
 					}
 					Link.l2 = "Нет, просто интересно стало.";
 					Link.l2.go = "Exit";
-				break;
-				case 3:
+				break;*/
+				case 2:
 					npchar.itemtype = "indian"+(drand2(21)+1);//индиан, не крысобог
 					if (npchar.itemtype == "indian11") npchar.itemtype = "indian"+(22-drand1(2));
 					npchar.pricevalue = 12500+drand1(2500);
@@ -806,7 +806,7 @@ void ProcessDialogEvent()
 					Link.l2 = "Нет, просто интересно стало.";
 					Link.l2.go = "Exit";
 				break;
-				case 4:
+				case 3:
 					npchar.itemtype = "jewelry"+(drand2(3)+1);//драги за бабки
 					npchar.pricev = "j";
 					npchar.pricevalue = 20000+drand1(5000);
@@ -820,7 +820,7 @@ void ProcessDialogEvent()
 					Link.l2 = "Нет, просто интересно стало.";
 					Link.l2.go = "Exit";
 				break;
-				case 5:
+				case 4:
 					npchar.itemtype = "Lockpick";//отмычки за драги
 					npchar.pricev = "jewelry"+(drand2(3)+1);
 					string type1 = npchar.pricev;
@@ -850,25 +850,31 @@ void ProcessDialogEvent()
 		case "Trade_2":
 		{
 			int idLngFile1 = LanguageOpenFile("ItemsDescribe.txt");
-			if (CheckAttribute(npchar,"pricev") && !CheckAttribute(npchar,"pricevalue"))
+			if (CheckAttribute(npchar,"pricev"))
 			{
-				Log_Info("Вы отдали 5"+LanguageConvertString(idLngFile1, "itmname_"+npchar.pricev)+"ов.");
-				Log_Info("Вы получили 3 отмычки.")
-				TakeNItems(pchar, npchar.pricev, -5);
-				TakeNItems(pchar, npchar.itemtype, 3);
+				if (npchar.itemtype == "Lockpick")
+				{
+					Log_Info("Вы отдали 5 "+LanguageConvertString(idLngFile1, "itmname_"+npchar.pricev)+"ов.");
+					Log_Info("Вы получили 3 отмычки.")
+					TakeNItems(pchar, npchar.pricev, -5);
+					TakeNItems(pchar, npchar.itemtype, 3);
+				}
 			}
 			if (CheckAttribute(npchar,"pricevalue"))
-			{				
-				AddMoneyToCharacter(pchar, -sti(npchar.pricevalue));
-				if (CheckAttribute(npchar,"pricev"))
-				{					
-					TakeNItems(pchar, npchar.itemtype, 25);
-					Log_Info("Вы получили 25 "+LanguageConvertString(idLngFile1, "itmname_"+npchar.itemtype)+"ов.");
-				}
-				else
-				{ 
-					GiveItem2Character(pchar, npchar.itemtype);
-					Log_Info("Вы получили "+LanguageConvertString(idLngFile1, "itmname_"+npchar.itemtype)+".");
+			{
+				if (npchar.itemtype != "Lockpick")
+				{
+					AddMoneyToCharacter(pchar, -sti(npchar.pricevalue));
+					if (CheckAttribute(npchar,"pricev"))
+					{					
+						TakeNItems(pchar, npchar.itemtype, 25);
+						Log_Info("Вы получили 25 "+LanguageConvertString(idLngFile1, "itmname_"+npchar.itemtype)+"ов.");
+					}
+					else
+					{ 
+						GiveItem2Character(pchar, npchar.itemtype);
+						Log_Info("Вы получили "+LanguageConvertString(idLngFile1, "itmname_"+npchar.itemtype)+".");
+					}
 				}
 			}
 			LanguageCloseFile(idLngFile1);

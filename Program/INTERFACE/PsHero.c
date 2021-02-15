@@ -94,6 +94,8 @@ void FillTable()
 	for (i = 1; i <= PsHeroQty; i++)
 	{
 		chr = CharacterFromID("PsHero_" + i);
+		if(!CharacterIsDead(chr))
+		{
 
 		//временно либо офицер, либо компаньон... не работаем с ним.
 		//if (!sti(chr.PGGAi.IsPGG)) continue;
@@ -145,6 +147,7 @@ void FillTable()
 		GameInterface.TABLE_HERO.(row).td10.str = ""+chr.Money;
 		GameInterface.TABLE_HERO.(row).td10.scale = 0.8;
 	    n++;
+		}
 	}
 	Table_UpdateWindow("TABLE_HERO");
 }

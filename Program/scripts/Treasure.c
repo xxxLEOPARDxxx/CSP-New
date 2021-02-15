@@ -61,6 +61,7 @@ string GetLocationForTreasure(string island)
     else iNum = rand(iNum-1);
     
     arImt = GetAttributeN(arDest, iNum);
+	arImt.Treasure = true;
 	return GetAttributeName(arImt);
 }
 
@@ -590,7 +591,12 @@ void SetTreasureBoxFromMap()
     if (GetCharacterItem(Pchar, "map_full")>0 )
     {
         Log_Info("Сокровища где-то рядом!");
+		//Запрет спавна проклятого кэпа в этой локации
+		ref locLoad = &locations[reload_location_index];
+		pchar.treasurelocation = locLoad.id;
+		
         PlaySound("interface\notebook.wav");
+		pchar.treasurelocation = locLoad.id;
 		Statistic_AddValue(Pchar, "Treasure", 1);
         // немного веселой жизни
         TraderHunterOnMap();

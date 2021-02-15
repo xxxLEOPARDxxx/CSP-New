@@ -267,47 +267,47 @@ void OpenChest()
 	{
 		TakeItemFromCharacter(pchar, chestID);
 		
-		if(rand(1) == 0)
+		if(drand(1) == 0)
 		{
 			nameitm[0] = "gold";
-			itmq[0] = 12000 + rand(10)*1000;
+			itmq[0] = 12000 + drand(10)*1000;
 		}
 		else
 		{
 			nameitm[0] = "gold";
-			itmq[0] = 6000 + rand(4)*1000;
+			itmq[0] = 6000 + drand(4)*1000;
 			
-			if(rand(2) == 0)
+			if(drand1(2) == 0)
 			{
 				nameitm[1] = "jewelry1";
-				itmq[1] = 1 + rand(9);
+				itmq[1] = 1 + drand(9);
 			}
 			
-			if(rand(2) == 0)
+			if(drand2(2) == 0)
 			{
 				nameitm[2] = "jewelry2";
-				itmq[2] = 1 + rand(2);
+				itmq[2] = 1 + drand(2);
 			}
 			
-			if(rand(2) == 0)
+			if(drand(2) == 0)
 			{
-				if(rand(1) == 0)
+				if(drand(1) == 0)
 				{
-					if(rand(1) == 0)
+					if(drand(1) == 0)
 					{
 						nameitm[4] = "jewelry4";
-						itmq[4] = 1 + rand(4);
+						itmq[4] = 1 + drand1(4);
 					}
 					else
 					{
 						nameitm[4] = "jewelry3";
-						itmq[4] = 1 + rand(6);
+						itmq[4] = 1 + drand1(6);
 					}
 				}
 				else
 				{
 					nameitm[4] = "jewelry17";
-					itmq[4] = 1 + rand(40);
+					itmq[4] = 1 + drand1(40);
 				}
 			}
 		}
@@ -317,28 +317,54 @@ void OpenChest()
 	{
 		TakeItemFromCharacter(pchar, chestID);
 		
-		if(rand(1) == 0)
+		if(drand(1) == 0)
 		{
-			nameitm[0] = RandPhraseSimple(RandPhraseSimple("blade5","pistol1"),RandPhraseSimple("pistol2","pistol3"));
-			itmq[0] = 0;
+			string weapon = "";
+			switch(drand1(3))
+			{
+				case 0: weapon = "blade5";
+				break;
+				case 1: weapon = "pistol1";
+				break;
+				case 2: weapon = "pistol2";
+				break;
+				case 3: weapon = "pistol3";
+				break;
+				
+			}
+			nameitm[0] = weapon;
+			itmq[0] = 1;
 			
-			if(pchar.rank >= 15 && rand(6) == 1)
+			if(pchar.rank >= 15 && drand1(6) == 1)
 			{
 		    	nameitm[1] = "pistol6";
 		    	itmq[1] = 1;
 			}
 			else
 			{
-				if(rand(6) == 2)
+				if(drand1(6) == 2)
 				{
-			    	nameitm[1] = RandPhraseSimple(RandPhraseSimple("blade5","pistol1"),RandPhraseSimple("pistol2","pistol3"));
+					string weapon1 = "";
+					switch(drand2(3))
+					{
+						case 0: weapon1 = "blade5";
+						break;
+						case 1: weapon1 = "pistol1";
+						break;
+						case 2: weapon1 = "pistol2";
+						break;
+						case 3: weapon1 = "pistol3";
+						break;
+						
+					}
+			    	nameitm[1] = weapon1;
 			        itmq[1] = 1;
 				}
 			}
 		}
 		else
 		{
-			iRand = 30 + rand(20);
+			iRand = 30 + drand1(20);
 			
 			nameitm[0] = "bullet";
 			itmq[0] = iRand;
@@ -346,31 +372,31 @@ void OpenChest()
 			nameitm[1] = "gunpowder";
 			itmq[1] = iRand;
 			
-			if(rand(2) == 0)
+			if(drand(2) == 0)
 			{
 				nameitm[2] = "potion1";
-				itmq[2] = 3 + rand(3);
+				itmq[2] = 3 + drand1(3);
 			}
 			
-			if(rand(2) == 0)
+			if(drand(2) == 0)
 			{
-				if(rand(1) == 0)
+				if(drand(1) == 0)
 				{
-					if(rand(1) == 0)
+					if(drand(1) == 0)
 					{
 						nameitm[3] = "potion2";
-						itmq[3] = 2 + rand(2);
+						itmq[3] = 2 + drand1(2);
 					}
 					else
 					{
 						nameitm[3] = "jewelry3";
-						itmq[3] = 2 + rand(6);
+						itmq[3] = 2 + drand1(6);
 					}
 				}
 				else
 				{
 					nameitm[3] = "jewelry17";
-					itmq[3] = 1 + rand(40);
+					itmq[3] = 1 + drand1(40);
 				}
 			}
 		}
@@ -380,47 +406,47 @@ void OpenChest()
 	{
 		TakeItemFromCharacter(pchar, chestID);
 		
-		if(rand(1) == 0)
+		if(drand(1) == 0)
 		{
 			nameitm[0] = "gold";
-			itmq[0] = 22000 + rand(10)*2000;
+			itmq[0] = 22000 + drand1(10)*2000;
 		}
 		else
 		{
 			nameitm[0] = "gold";
-			itmq[0] = 10000 + rand(4)*2000;
+			itmq[0] = 10000 + drand1(4)*2000;
 			
-			if(rand(1) == 0)
+			if(drand1(1) == 0)
 			{
 				nameitm[1] = "jewelry5";
 				itmq[1] = 21 + rand(9);
 			}
 			
-			if(rand(2) == 0)
+			if(drand2(2) == 0)
 			{
 				nameitm[2] = "jewelry2";
-				itmq[2] = 11 + rand(2);
+				itmq[2] = 11 + drand(2);
 			}
 			
-			if(rand(2) == 0)
+			if(drand1(2) == 0)
 			{
-				if(rand(1) == 0)
+				if(drand1(1) == 0)
 				{
-					if(rand(1) == 0)
+					if(drand1(1) == 0)
 					{
 						nameitm[4] = "jewelry4";
-						itmq[4] = 26 + rand(4);
+						itmq[4] = 26 + drand2(4);
 					}
 					else
 					{
 						nameitm[4] = "jewelry3";
-						itmq[4] = 24 + rand(6);
+						itmq[4] = 24 + drand2(6);
 					}
 				}
 				else
 				{
 					nameitm[4] = "jewelry17";
-					itmq[4] = 15 + rand(45);
+					itmq[4] = 15 + drand(45);
 				}
 			}
 		}
@@ -428,19 +454,19 @@ void OpenChest()
 	
 	if(chestID == "Chest_quest") //  вестовый сундук
 	{
-		iRand = rand(6);
+		iRand = drand1(6);
 		
 		TakeItemFromCharacter(pchar, chestID);
 		
-		if(rand(1) == 0)
+		if(drand(1) == 0)
 		{
 			nameitm[0] = "gold";
-			itmq[0] = 50000 + rand(10)*2500;
+			itmq[0] = 50000 + drand1(10)*2500;
 		}
 		else
 		{
 			nameitm[0] = "gold";
-			itmq[0] = 6000 + rand(4)*1000;
+			itmq[0] = 6000 + drand2(4)*1000;
 			
 			if(iRand == 1)
 			{
@@ -453,11 +479,11 @@ void OpenChest()
 				itmq[2] = 1;
 			}
 			
-			if(rand(2) == 0)
+			if(drand2(2) == 0)
 			{
-				if(rand(1) == 0)
+				if(drand2(1) == 0)
 				{
-					if(rand(1) == 0)
+					if(drand2(1) == 0)
 					{
 						if(!CheckSkull("Sculma3"))
 						{

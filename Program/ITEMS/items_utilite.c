@@ -26,12 +26,25 @@ bool EnableFoodUsing(ref mc, aref arItm)
 	}
 	if(CheckAttribute(mc,"chr_ai.noeat"))
 	{
-		if(sti(mc.index)==GetMainCharacterIndex()&& !CheckAttribute(pchar, "autofood"))
+		if(sti(mc.index)==GetMainCharacterIndex()&& !CheckAttribute(pchar, "autofood") &&stf(pchar.query_delay) <= 0.0)
 		{
-			Log_SetStringToLog("Вы наелись.");
-			PlaySound("interface\knock.wav");
+			if (pchar.foodquery <= 0 && stf(pchar.query_delay) <= 0.0)
+			{
+				pchar.foodquery = 1;
+				pchar.query_delay = 0.1;
+			}
+			else if (stf(pchar.query_delay) <= 0.0)
+			{
+				pchar.foodquery = sti(pchar.foodquery)+1;
+				pchar.query_delay = 0.1;
+			}
+			Log_SetStringToLog("Потребление еды поставлено в очередь.");
+			Log_SetStringToLog("Очередь:"+pchar.foodquery);
 		}
 	}
+	
+	
+	
 	return false;
 }
 

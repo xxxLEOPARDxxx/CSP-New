@@ -875,7 +875,7 @@ void AddToTable(ref rChar)
 		GameInterface.TABLE_LIST.(sList).td3.icon.offset = "-2, 0";
 		GameInterface.TABLE_LIST.(sList).td3.icon.width = 30;
 		GameInterface.TABLE_LIST.(sList).td3.icon.height = 30;
-		GameInterface.TABLE_LIST.(sList).td3.textoffset = "50, 0";
+		GameInterface.TABLE_LIST.(sList).td3.textoffset = "40, 0";
 		GameInterface.TABLE_LIST.(sList).td3.str = GetConvertStr(rItem.name, "ItemsDescribe.txt");
 		GameInterface.TABLE_LIST.(sList).index = Index;
 		GameInterface.TABLE_LIST.(sList).td3.scale = 1.0;
@@ -939,7 +939,7 @@ void AddToTable(ref rChar)
 			GameInterface.TABLE_LIST.(sList).td3.icon.offset = "-2, 0";
 			GameInterface.TABLE_LIST.(sList).td3.icon.width = 30;
 			GameInterface.TABLE_LIST.(sList).td3.icon.height = 30;
-			GameInterface.TABLE_LIST.(sList).td3.textoffset = "50, 0";
+			GameInterface.TABLE_LIST.(sList).td3.textoffset = "40, 0";
 			GameInterface.TABLE_LIST.(sList).td3.str = GetConvertStr(rItem.name, "ItemsDescribe.txt");
 			GameInterface.TABLE_LIST.(sList).index = i;
 			GameInterface.TABLE_LIST.(sList).td3.scale = 1.0;
@@ -996,7 +996,7 @@ void AddToTable(ref rChar)
 			GameInterface.TABLE_LIST.(sList).td3.icon.offset = "-2, 0";
 			GameInterface.TABLE_LIST.(sList).td3.icon.width = 30;
 			GameInterface.TABLE_LIST.(sList).td3.icon.height = 30;
-			GameInterface.TABLE_LIST.(sList).td3.textoffset = "50, 0";
+			GameInterface.TABLE_LIST.(sList).td3.textoffset = "40, 0";
 			GameInterface.TABLE_LIST.(sList).td3.str = GetConvertStr(rItem.name, "ItemsDescribe.txt");
 			GameInterface.TABLE_LIST.(sList).index = i;
 			GameInterface.TABLE_LIST.(sList).td3.scale = 1.0;

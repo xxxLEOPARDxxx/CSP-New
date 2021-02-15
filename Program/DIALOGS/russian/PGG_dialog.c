@@ -1262,7 +1262,7 @@ void ProcessDialogEvent()
 	case "Exit_Smugglers_Fight":
 		NextDiag.CurrentNode = NextDiag.TempNode;
 		DialogExit();
-
+		CloseQuestHeader("Gen_StrangeInfo");
 		LAi_group_FightGroups(LAI_GROUP_PLAYER, "PGGTmp", true);
 		LAi_SetFightMode(pchar, true);
 		break;

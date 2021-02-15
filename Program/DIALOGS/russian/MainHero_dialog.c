@@ -257,16 +257,18 @@ void ProcessDialogEvent()
 	        	Link.l9 = "Почитать книгу.";
 	    		Link.l9.go = "ReadBook";
 	    	}
-			
-			Link.l10 = "Использовать еду автоматически.";
-	    	Link.l10.go = "autofood";
-			if(CheckAttribute(pchar,"autofood")) // 21.03.09 Warship fix Во время линейки Блада отдыхать нельзя
+			Link.l10 = "Установить приоритет использования еды.";
+	    	Link.l10.go = "food_priority";
+			Link.l11 = "Использовать еду автоматически.";
+	    	Link.l11.go = "autofood";
+			if(CheckAttribute(pchar,"autofood"))
 	        {
-	        	Link.l10 = "Прекратить автоматическое использование еды.";
-	    		Link.l10.go = "autofood_stop";
+	        	Link.l11 = "Прекратить автоматическое использование еды.";
+	    		Link.l11.go = "autofood_stop";
 	    	}
-			Link.l11 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
-			Link.l11.go = "exit";
+			
+			Link.l12 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
+			Link.l12.go = "exit";
 		break;
 		
 		case "autofood":
@@ -294,16 +296,37 @@ void ProcessDialogEvent()
 				link.l1.go = "exit";
 				break;
 			}
-			dialog.text = "Автоматическое использование еды включено.";
 			PChar.autofood_use = iTemp;
+			dialog.text = "Автоматическое использование еды включено.";
 			pchar.autofood = true;
 			link.l1 = "Славно!";
 			link.l1.go = "exit";
-			
+		break;
+
+		case "food_priority":
+			dialog.text = "Какую еду стоит использовать в первую очередь?.";
+			link.l1 = "Менее питательную (Фрукты, хлеб)";
+			link.l1.go = "autofood_finished";
+			link.l2 = "Более питательную питательную (Рыба, мясо)";
+			link.l2.go = "autofood_finished_betterfood";
+		break;
+		
+		case "autofood_finished":
+			dialog.text = "Приоритет для еды установлен.";
+			DeleteAttribute(pchar, "autofood_betterfood");
+			link.l1 = "Славно!";
+			link.l1.go = "exit";
+		break;
+		
+		case "autofood_finished_betterfood":
+			dialog.text = "Приоритет для еды установлен.";
+			PChar.autofood_betterfood = true;
+			link.l1 = "Славно!";
+			link.l1.go = "exit";
 		break;
 		
 		case "ReadBook":
-			Dialog.Text = "Ну что ж, почитал" + GetSexPhrase("","а") +" пару часов...";
+			Dialog.Text = "Ну что-ж, почитал пару часов...";
 			WasteTime(4);
 			pchar.booktime = sti(pchar.booktime) - 1;
 			pchar.bookreadtoday = true;

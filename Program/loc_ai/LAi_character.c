@@ -845,13 +845,36 @@ void LAi_AllCharactersUpdate(float dltTime)
 			if(CheckAttribute(chr_ai, "noeat"))
 			{
 				chr_ai.noeat = stf(chr_ai.noeat) - dltTime;
-				if(stf(chr_ai.noeat) <= 0.0)
+				pchar.query_delay = stf(pchar.query_delay) - dltTime;
+				if (stf(pchar.query_delay) <= 0.0)
+				{
+					DeleteAttribute(pchar, "query_delay");
+				}
+				
+				
+				if(stf(chr_ai.noeat) <= 0.0 )
 				{
 					DeleteAttribute(chr_ai, "noeat");
+					
+					if (sti(chr.index) == GetMainCharacterIndex() && chr_ai.energy == (LAi_GetCharacterMaxEnergy(chr)) && pchar.foodquery != 0)
+					{
+						pchar.foodquery = 0;
+						Log_Info("Очередь остановлена.")
+					}
+					
 					//chr_ai.noeat = 0.0;
 					if(sti(chr.index) == GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood"))
 					{
+						if (pchar.foodquery == 0)
+					{
 						Log_Info("Можно кушать.")
+					}
+					else
+					{
+						pchar.foodquery = sti(pchar.foodquery)-1;
+						EatSomeFood();
+						
+					}
 					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
 					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
 					}
@@ -859,7 +882,10 @@ void LAi_AllCharactersUpdate(float dltTime)
 			}
 			if (sti(chr.index) == GetMainCharacterIndex() && CheckAttribute(pchar, "autofood") && !CheckAttribute(chr, "noeat"))
 			{
-				if(chr_ai.energy < (LAi_GetCharacterMaxEnergy(chr) * (sti(PChar.autofood_use) * 0.01)))EatSomeFood();
+				if(chr_ai.energy < (LAi_GetCharacterMaxEnergy(chr) * (sti(PChar.autofood_use) * 0.01)) && LAi_IsFightMode(pchar))
+				{
+					EatSomeFood();
+				}
 			}
 			if(LAi_IsImmortal(chr))
 			{
@@ -1022,41 +1048,67 @@ int BookTime(ref refchar, int tier)//книги, расчёт длительности - Gregg
 	return makeint(time+((10-Intel)*(time*0.285)));
 }
 
+
 void EatSomeFood()
 {
 	
-		bool bEnableFood = true;
-		if(CheckAttribute(PChar, "AcademyLand"))
-		{
+	bool bEnableFood = true;
+	if(CheckAttribute(PChar, "AcademyLand"))
+	{
 		if(PChar.AcademyLand == "Start")
 		{
 			bEnableFood = sti(PChar.AcademyLand.Temp.EnableFood);
 		}
-		}
-		if(!bEnableFood)
+	}
+	if(!bEnableFood)
+	{
+		Log_SetStringToLog("В данный момент запрещено использовать еду.");
+	}
+	else
+	{
+		aref  arItm;
+		int   itmIdx;
+		String itemID;
+		if (!CheckAttribute(pchar, "autofood_betterfood"))
 		{
-			Log_SetStringToLog("В данный момент запрещено использовать еду.");
+			itmIdx = FindFoodFromChr(pchar, &arItm, 0);	
 		}
 		else
 		{
-			aref  arItm;
-			int   itmIdx;
-			String itemID;
-			itmIdx = FindFoodFromChr(pchar, &arItm, 0);
-			while(itmIdx>=0)
+			itmIdx = FindBetterFoodFromChr(pchar, &arItm);
+		}
+		while(itmIdx>=0)
+		{
+			if(EnableFoodUsing(pchar, arItm))
 			{
-					if(EnableFoodUsing(pchar, arItm))
-				{
-					DoCharacterUsedFood(pchar, arItm.id);
-					break;
-				}		
-				if(EnableFoodUsing(pchar, arItm))
-				{
-					DoCharacterUsedFood(pchar, arItm.id);
-					break;
-				}
+				DoCharacterUsedFood(pchar, arItm.id);
+				break;
+			}		
+			if (!CheckAttribute(pchar, "autofood_betterfood"))
+			{
 				itmIdx = FindFoodFromChr(pchar, &arItm, itmIdx+1);
 			}
+			else
+			{
+				itmIdx = FindFoodFromChr(pchar, &arItm, itmIdx-1);
+				break;
+			}	
 		}
-	
+	}
+}
+
+int FindBetterFoodFromChr(ref chref, ref arFind)
+{
+	int i;
+	aref arItm;
+	for(i=ITEMS_QUANTITY; i>-1; i--)
+	{
+		makearef(arItm,Items[i]);
+		if( CheckAttribute(arItm,"Food") && GetCharacterItem(chref,Items[i].id)>0 )
+		{
+			arFind = arItm;
+			return i;
+		}
+	}
+	return -1;
 }
