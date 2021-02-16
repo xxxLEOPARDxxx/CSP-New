@@ -171,6 +171,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.IslandLoader = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"AltIntIcons") ) {
+		optref.cameramode.AltIntIcons = sti(InterfaceStates.AltIntIcons);
+	} else {
+		optref.cameramode.AltIntIcons = true;
+	}
 
 	GetControlsOptions(optref);
 
@@ -313,6 +319,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.IslandLoader = optref.cameramode.IslandLoader;
 	} else {
 		InterfaceStates.IslandLoader = false;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.AltIntIcons") ) {
+		InterfaceStates.AltIntIcons = optref.cameramode.AltIntIcons;
+	} else {
+		InterfaceStates.AltIntIcons = false;
 	}
 
 

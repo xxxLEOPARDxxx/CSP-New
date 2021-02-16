@@ -26,14 +26,14 @@ bool EnableFoodUsing(ref mc, aref arItm)
 	}
 	if(CheckAttribute(mc,"chr_ai.noeat"))
 	{
-		if(sti(mc.index)==GetMainCharacterIndex()&& !CheckAttribute(pchar, "autofood") &&stf(pchar.query_delay) <= 0.0)
+		if(sti(mc.index)==GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood") && !CheckAttribute(pchar, "query_delay"))
 		{
-			if (pchar.foodquery <= 0 && stf(pchar.query_delay) <= 0.0)
+			if (!CheckAttribute(pchar, "foodquery"))
 			{
 				pchar.foodquery = 1;
 				pchar.query_delay = 0.1;
 			}
-			else if (stf(pchar.query_delay) <= 0.0)
+			else
 			{
 				pchar.foodquery = sti(pchar.foodquery)+1;
 				pchar.query_delay = 0.1;

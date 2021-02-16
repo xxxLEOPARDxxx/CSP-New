@@ -32,13 +32,17 @@ void LoadActivePerkShower()
 	// информация о текстурах
 	if(bSeaActive && !bAbordageStarted)
 	{	// морская часть
-		objActivePerkShower.Textures.t0.file = "battle_interface\list_icons.tga";
+		if(InterfaceStates.AltIntIcons) objActivePerkShower.Textures.t0.file = "battle_interface\list_icons_Konshud.tga";
+		else objActivePerkShower.Textures.t0.file = "battle_interface\list_icons.tga";
+		//objActivePerkShower.Textures.t0.file = "battle_interface\list_icons.tga";
 		objActivePerkShower.Textures.t0.horz = 16;
 		objActivePerkShower.Textures.t0.vert = 8;
 	}
 	else
 	{	// земная часть
-		objActivePerkShower.Textures.t0.file = "battle_interface\LandCommands.tga";
+		if(InterfaceStates.AltIntIcons) objActivePerkShower.Textures.t0.file = "battle_interface\LandCommands_Konshud.tga";
+		else objActivePerkShower.Textures.t0.file = "battle_interface\LandCommands.tga";
+		//objActivePerkShower.Textures.t0.file = "battle_interface\LandCommands.tga";
 		objActivePerkShower.Textures.t0.horz = 16;
 		objActivePerkShower.Textures.t0.vert = 2;
 	}
@@ -128,26 +132,53 @@ int GetPerkPictureIndex(string perkName)
 
 string GetPerkTextureName(string perkName)
 {
-	switch(perkName)
+	if(InterfaceStates.AltIntIcons)
 	{
-		case "TimeSpeed":
-			if(bSeaActive && !bAbordageStarted)
-			{
-				return "battle_interface\list_icons.tga";
-			}
-			else
-			{
-			    return "battle_interface\LandCommands.tga";
-			}
-		break;
-		case "Sink":			return "battle_interface\list_icons.tga"; break;
-		case "Repair":			return "battle_interface\list_icons.tga"; break;
-		case "Rush":			return "battle_interface\LandCommands.tga";	break;
-		case "ImmediateReload":	return "battle_interface\list_icons.tga"; break;
-		case "InstantBoarding":	return "battle_interface\list_icons.tga"; break;
-		case "Turn180":			return "battle_interface\list_icons.tga"; break;
-		case "LightRepair":		return "battle_interface\list_icons.tga"; break;
-		case "InstantRepair":	return "battle_interface\list_icons.tga"; break;
+		switch(perkName)
+		{
+			case "TimeSpeed":
+				if(bSeaActive && !bAbordageStarted)
+				{
+					return "battle_interface\list_icons_Konshud.tga";
+				}
+				else
+				{
+					return "battle_interface\LandCommands_Konshud.tga";
+				}
+			break;
+			case "Sink":			return "battle_interface\list_icons_Konshud.tga"; break;
+			case "Repair":			return "battle_interface\list_icons_Konshud.tga"; break;
+			case "Rush":			return "battle_interface\LandCommands_Konshud.tga";	break;
+			case "ImmediateReload":	return "battle_interface\list_icons_Konshud.tga"; break;
+			case "InstantBoarding":	return "battle_interface\list_icons_Konshud.tga"; break;
+			case "Turn180":			return "battle_interface\list_icons_Konshud.tga"; break;
+			case "LightRepair":		return "battle_interface\list_icons_Konshud.tga"; break;
+			case "InstantRepair":	return "battle_interface\list_icons_Konshud.tga"; break;
+		}
+	}
+	else
+	{
+		switch(perkName)
+		{
+			case "TimeSpeed":
+				if(bSeaActive && !bAbordageStarted)
+				{
+					return "battle_interface\list_icons.tga";
+				}
+				else
+				{
+					return "battle_interface\LandCommands.tga";
+				}
+			break;
+			case "Sink":			return "battle_interface\list_icons.tga"; break;
+			case "Repair":			return "battle_interface\list_icons.tga"; break;
+			case "Rush":			return "battle_interface\LandCommands.tga";	break;
+			case "ImmediateReload":	return "battle_interface\list_icons.tga"; break;
+			case "InstantBoarding":	return "battle_interface\list_icons.tga"; break;
+			case "Turn180":			return "battle_interface\list_icons.tga"; break;
+			case "LightRepair":		return "battle_interface\list_icons.tga"; break;
+			case "InstantRepair":	return "battle_interface\list_icons.tga"; break;
+		}
 	}
 	trace("WARNING!!! Perk name - "+perkName+" hav`t texture");
 	return "";

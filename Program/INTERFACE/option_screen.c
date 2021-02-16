@@ -271,6 +271,12 @@ void IReadVariableAfterInit()
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ISLAND_LOADER_CHECKBOX", 2, 1, nIslandLoader );
 	
+	int nAltIntIcons = 0;
+	if( CheckAttribute(&InterfaceStates,"AltIntIcons") ) {
+		nAltIntIcons = sti(InterfaceStates.AltIntIcons);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALT_INT_ICONS_CHECKBOX", 2, 1, nAltIntIcons );
+	
 	
 	if(bBoardMode)
 	{
@@ -488,6 +494,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.IslandLoader = bBtnState;
+		}
+	}
+	
+	if( sNodName == "ALT_INT_ICONS_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.AltIntIcons = bBtnState;
 		}
 	}
 	
@@ -1155,6 +1168,11 @@ void ShowInfo()
 		case "ISLAND_LOADER_CHECKBOX":
 			sHeader = XI_ConvertString("IslandLoader_title");
 			sText1 = XI_ConvertString("IslandLoader_desc");
+		break;
+		
+		case "ALT_INT_ICONS_CHECKBOX":
+			sHeader = XI_ConvertString("AltIntIcons_title");
+			sText1 = XI_ConvertString("AltIntIcons_desc");
 		break;
 		
 		//#20171223-01 Camera perspective option

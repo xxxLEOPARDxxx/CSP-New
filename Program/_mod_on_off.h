@@ -83,6 +83,12 @@ bool 	bHigherSelfRate 			= true;
 bool 	bPortPermission 			= false;
 //Абордаж стенка на стенку
 bool   bBoardMode                   = false;
+//Взятки стражникам
+bool   bBribeSoldiers               = false;
+//система скрытности
+int iStealthSystem = 1;
+
+
 // платный сайв-лоад
 //bool    bPayForSaveLoad           = true;
 

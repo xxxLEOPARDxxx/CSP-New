@@ -96,6 +96,7 @@ void SetByDefault()
 {
     CheckButton_SetState("CHECK_ENCOUNTERS", iEncountersRate, true);
 	CheckButton_SetState("CHECK_COUNT_ENCOUNTERS", iEncountersCountRate, true);
+	CheckButton_SetState("CHECK_STEALTH_SYSTEM", iStealthSystem, true);
 
 	if (iArcadeSails == 1)// 1 0
     {
@@ -177,14 +178,6 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_LOWERSELF", 1, false);
     }
-	if (bPortPermission)// 1 0
-    {
-    	CheckButton_SetState("CHECK_PORTPERM", 1, true);
-    }
-    else
-    {
-        CheckButton_SetState("CHECK_PORTPERM", 1, false);
-    }
 }
 
 void IProcessFrame()
@@ -229,6 +222,25 @@ void IProcessFrame()
 	{
 		iEncountersCountRate = 3;
 	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_STEALTH_SYSTEM", 3, 1))
+	{
+		bPortPermission = false;
+		bBribeSoldiers = false;
+		iStealthSystem = 1
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_STEALTH_SYSTEM", 3, 2))
+	{
+		bPortPermission = true;
+		bBribeSoldiers = false;
+		iStealthSystem = 2
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_STEALTH_SYSTEM", 3, 3))
+	{
+		bPortPermission = false;
+		bBribeSoldiers = true;
+		iStealthSystem = 3
+	}
+	
 	////
 	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_ARCADESAIL", 3, 1))
 	{
@@ -312,14 +324,6 @@ void IProcessFrame()
 	else
 	{
 		bHigherSelfRate = false;
-	}
-	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_PORTPERM", 3, 1))
-	{
-		bPortPermission = true;
-	}
-	else
-	{
-		bPortPermission = false;
 	}
 }
 
@@ -793,6 +797,11 @@ void ShowInfo()
 			sHeader = XI_ConvertString("EncountersRateCount");
 			sText1 = GetRPGText("EncountersRateCount_desc");
 		break;
+		
+		case "CHECK_STEALTH_SYSTEM":
+			sHeader = XI_ConvertString("StealthSystem");
+			sText1 = GetRPGText("StealthSystem_desc");
+		break;
 
 		case "CHECK_ARCADESAIL":
 			sHeader = XI_ConvertString("Sailing Mode");
@@ -842,6 +851,11 @@ void ShowInfo()
 		case "CHECK_PORTPERM":
 			sHeader = XI_ConvertString("PortPerm");
 			sText1 = GetRPGText("PortPerm_hint");
+		break;
+		
+		case "CHECK_BRIBE":
+			sHeader = XI_ConvertString("Bribe");
+			sText1 = GetRPGText("Bribe_hint");
 		break;
 		
 		case "CHECK_LOWERSELF":

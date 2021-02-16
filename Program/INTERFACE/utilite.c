@@ -741,6 +741,7 @@ void SaveStartGameParam()
 	optref.StartGameParam.bHigherShipRate  		 = bHigherShipRate;
 	optref.StartGameParam.bHigherSelfRate  		 = bHigherSelfRate;
 	optref.StartGameParam.bPortPermission  		 = bPortPermission;
+	optref.StartGameParam.bBribeSoldiers  		 = bBribeSoldiers;
     optref.StartGameParam.bRechargePistolOnLine  = bRechargePistolOnLine;
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
 	optref.StartGameParam.iEncountersCountRate   = iEncountersCountRate;

@@ -1179,7 +1179,7 @@ void Ship_CheckSituation()
 	if (sti(rCharacter.index) == nMainCharacterIndex) { return; }
 	if (LAi_IsDead(rCharacter) || sti(rCharacter.ship.type) == SHIP_NOTUSED) { return; }  // super fix boal
 	
-	//Log_Testinfo("Ship_CheckSituation " + rCharacter.id);
+	// Log_Testinfo("Ship_CheckSituation " + rCharacter.id);
 	
 	int iCharIdx = sti(rCharacter.index);
 	int aiTask = AITASK_NONE;						  
@@ -1708,7 +1708,7 @@ void Ship_CheckSituation()
 								makearef(arReloadLoc, Islands[FindIsland(pchar.location)].reload);
 								string  sLabel;
 								int iQty = GetAttributesNum(arReloadLoc);
-								//Log_TestInfo("Sea.MaxSeaHeight " + Sea.MaxSeaHeight);
+								Log_TestInfo("Sea.MaxSeaHeight " + Sea.MaxSeaHeight);
 								if (bIsFortAtIsland) //т.к. пират, то форт враждебен всегда, не проверяем
 								{
 									if (GetDistance2D(stf(rCharacter.Ship.Pos.x), stf(rCharacter.Ship.Pos.z), fFort_x, fFort_z) < 1000)

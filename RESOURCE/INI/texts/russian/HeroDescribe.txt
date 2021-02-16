@@ -1211,7 +1211,7 @@ heroModel_45 {PGG_Ghost_0,PGG_Ghost_1,PGG_Ghost_2,PGG_Ghost_3,PGG_Ghost_4,PGG_Gh
 heroType_45 {Фехтовальщик}
 heroNation_45 {Пират}
 
-sex_45 {woman}
+sex_45 {skeleton}
 animation_45 {Jessika}
 
 hero_45

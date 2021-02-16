@@ -2,6 +2,9 @@
 
 void ProcessDialogEvent()
 {
+	int license_price = sti(PChar.rank) * (2500) * (0.01 * (120 - GetSummonSkillFromName(PChar, SKILL_COMMERCE)));;
+	int license_expires = rand(2);
+	
 	ref NPChar, sld;
 	aref Link, NextDiag, arCapBase, arCapLocal;
 
@@ -201,6 +204,14 @@ void ProcessDialogEvent()
 			}
 			link.l6 = "Меня интересуют капитаны, которые отмечались в вашем портовом управлении.";
 			link.l6.go = "CapitainList";
+			if (bBribeSoldiers ==true && GetNationRelation(sti(NPChar.nation), GetBaseHeroNation()) == RELATION_ENEMY && sti(NPChar.nation) != PIRATE)
+				{
+				if (!CheckNationLicence(sti(npchar.nation)))
+				{
+					link.l77 = "У вас случаем нет торговой лицензии, на короткий срок? Может осталась от какого-нибудь капитана? ";
+					link.l77.go = "BuyLicense";
+				}
+				}
 			//ОЗГ
 			if(CheckAttribute(pchar, "questTemp.Headhunter"))
 			{
@@ -1271,6 +1282,25 @@ void ProcessDialogEvent()
 		//ВНИМАНИЕ. в квестбук должна заносится типовая строка по примеру   PortmansBook_Delivery  #TEXT   5
 		//в список портмана заносим тайтл, заголовок и номер строки из quest_text.txt
 		//ПРИМЕР: в конце метода  void SetCapitainFromCityToSea(string qName)
+		case "BuyLicense":
+				dialog.text = "Есть у меня один документ, срок которого вот-вот истечет. Не знаю, зачем он кому-либо может понадобиться, но я только рад избавиться от этой бумажки. За определенную сумму, конечно. " + license_price + ". Берете?";
+				if(makeint(Pchar.money) >= license_price)
+				{
+					link.l1 = "Беру.";
+					link.l1.go = "LicenseBought";
+				}
+				link.l2 = "Нет. Спасибо.";
+				link.l2.go = "exit";
+		break;
+		case "LicenseBought":
+				AddMoneyToCharacter(Pchar, -license_price);
+				GiveNationLicence(sti(NPChar.nation), license_expires);
+				
+				dialog.text = "Держите.";
+				link.l1 = "До свидания.";
+				link.l1.go = "exit";
+				license_expires = rand(2);
+		break;
 		case "CapitainList":
 			if (sti(npchar.quest.qty) > 0)
 			{

@@ -804,35 +804,46 @@ float _GetAttackFactor(ref rBlade, string sType, ref kPerk)
 	float min = stf(rBlade.dmg_min);
 	float max  = stf(rBlade.dmg_max);
 	
-	float bladeDmg = min + (max - min)*frandSmall(LAi_GetCharacterFightLevel(pchar));
-
+	float HeavyW = 1.0;//модификатор урона для тяжа
+	float fgtlevel = 0.0;
+	fgtlevel = GetCharacterSkill(xi_refCharacter, rBlade.FencingType); //определение скила по типу меча								   
+	fgtlevel = fgtlevel/SKILL_MAX;//вычисление флоата
+	
+	//float bladeDmg = min + (max - min)*frandSmall(LAi_GetCharacterFightLevel(pchar));
+	float bladeDmg = min + (max - min)*fgtlevel;
+	
 	switch(sType)
 	{
 		case "fast":
 		kAttackDmg = 0.7;
+		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
 		
 		case "force": 	
 		kAttackDmg = 1.0;
+		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
 		
 		case "round":
 		kAttackDmg = 0.6;
-		if(CheckCharacterPerk(pchar, "BladeDancer"))
+		if(CheckCharacterPerk(xi_refCharacter, "BladeDancer"))
 		{
 			kAttackDmg = kAttackDmg * 1.3;
 		}
+		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
 	
 		case "break":
 		kAttackDmg = 3.0;
+		if (rBlade.FencingType == "FencingHeavy") HeavyW = 5.0;
 		break;
 		
 		case "fient":
 		kAttackDmg = 0.5;
+		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
 	}
-	float dmg = bladeDmg * kAttackDmg;
+	float dmg = bladeDmg * kAttackDmg * HeavyW;
 	
 	return dmg;
 }

@@ -400,22 +400,22 @@ void BLI_SetObjectData()
 	BLI_SetMessageParameters();
 	// текстуры
 	int idLngFile = LanguageOpenFile("commands_name.txt");
-	// objLandInterface.CommandTextures.list.t0.name = "battle_interface\LandCommands_Konshud.tga";
-	objLandInterface.CommandTextures.list.t0.name = "battle_interface\LandCommands.tga";
+	if(InterfaceStates.AltIntIcons) objLandInterface.CommandTextures.list.t0.name = "battle_interface\LandCommands_Konshud.tga";
+	else objLandInterface.CommandTextures.list.t0.name = "battle_interface\LandCommands.tga";
 	objLandInterface.CommandTextures.list.t0.xsize = 16;
 	objLandInterface.CommandTextures.list.t0.ysize = 2;
 
- 	// objLandInterface.CommandTextures.list.t1.name = "battle_interface\LandTarget_SLB_Konshud.tga";
- 	objLandInterface.CommandTextures.list.t1.name = "battle_interface\LandTarget_SLB.tga";
+ 	if(InterfaceStates.AltIntIcons) objLandInterface.CommandTextures.list.t1.name = "battle_interface\LandTarget_SLB_Konshud.tga";
+ 	else objLandInterface.CommandTextures.list.t1.name = "battle_interface\LandTarget_SLB.tga";
 	objLandInterface.CommandTextures.list.t1.xsize = 16;
 	objLandInterface.CommandTextures.list.t1.ysize = 2;
 
-	// objLandInterface.CommandTextures.list.t2.name = "battle_interface\Cancel_Konshud.tga";
-	objLandInterface.CommandTextures.list.t2.name = "battle_interface\Cancel.tga";
+	if(InterfaceStates.AltIntIcons) objLandInterface.CommandTextures.list.t2.name = "battle_interface\Cancel_Konshud.tga";
+	else objLandInterface.CommandTextures.list.t2.name = "battle_interface\Cancel.tga";
 	objLandInterface.CommandTextures.list.t2.xsize = 2;
 	objLandInterface.CommandTextures.list.t2.ysize = 1;
-	// objLandInterface.CommandTextures.list.t3.name = "battle_interface\UseFood_Konshud.tga";
-	objLandInterface.CommandTextures.list.t3.name = "battle_interface\UseFood.tga";
+	if(InterfaceStates.AltIntIcons) objLandInterface.CommandTextures.list.t3.name = "battle_interface\UseFood_Konshud.tga";
+	else objLandInterface.CommandTextures.list.t3.name = "battle_interface\UseFood.tga";
 	objLandInterface.CommandTextures.list.t3.xsize = 8;
 	objLandInterface.CommandTextures.list.t3.ysize = 2;													
 	// boal <--

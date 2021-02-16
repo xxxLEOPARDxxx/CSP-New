@@ -2682,7 +2682,7 @@ bool IsAztecSkullOfficer(ref sld)
     for (i=1; i<=MAX_NUM_FIGHTERS; i++)
     {
 		sTemp = "id" + i;
-		if (CheckAttribute(sld, "index") && arOfficer.(sTemp) == sld.index) //Boyer fix
+		if (arOfficer.(sTemp) == sld.index)
 		{
 			return true;
 		}

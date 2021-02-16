@@ -152,7 +152,7 @@ void IProcessFrame()
 		
 		if(XI_IsKeyPressed("control")) // Двигаем цилиндр, если нажата кнопка Ctrl
 		{
-			checkingstagenum = checkingstagenum + 4;
+			checkingstagenum = checkingstagenum + 10;
 			
 			if(cylinderstarted == false) // Звук начала поворота цилиндра
 			{
@@ -163,7 +163,7 @@ void IProcessFrame()
 		}
 		else // Если кнопка не нажата, то возвращаем в исходное положение
 		{
-			checkingstagenum = checkingstagenum - 4;
+			checkingstagenum = checkingstagenum - 10;
 			
 			if(cylinderstarted == true) // Звук начала поворота цилиндра
 			{

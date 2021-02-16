@@ -1,6 +1,8 @@
 // boal 25/04/04 общий диалог солдат
 void ProcessDialogEvent()
 {
+	int bribe_price = sti(PChar.rank) * (500) * (0.01 * (160 - GetSummonSkillFromName(PChar, SKILL_COMMERCE)));
+	
 	ref NPChar, sld;
 	aref Link, NextDiag;	
 
@@ -338,9 +340,25 @@ void ProcessDialogEvent()
 				case 0: link.l1.go = "NotPegYou"; break;
 				else link.l1.go = "PegYou_2"; break;
 			}
+			if(bBribeSoldiers == true)
+			{
+				if(makeint(Pchar.money) >= bribe_price)
+				{
+					link.l2 = RandPhraseSimple("Тут рядом кошель валялся, случаем не ваш? Ух, а он тяжелый, зараза! Вот, держите и больше не теряйте. Кстати, я могу идти?", "Вы меня раскусили. На самом деле я просто странствую по Карибам и раздаю деньги нуждающимся. Говорят, страже мало платят? Это необходимо исправлять. Начнем с вас. Вот, держите. Теперь все в порядке?");
+					link.l2.go = "NotPegYou_2";
+				}
+			}
 		}
 		else
 		{
+			if(bBribeSoldiers == true)
+			{
+				if(makeint(Pchar.money) >= bribe_price)
+				{
+					link.l2 = RandPhraseSimple("Тут рядом кошель валялся, случаем не ваш? Ух, а он тяжелый, зараза! Вот, держите и больше не теряйте. Кстати, я могу идти?", "Вы меня раскусили. На самом деле я просто странствую по Карибам и раздаю деньги нуждающимся. Говорят, страже мало платят? Это необходимо исправлять. Начнем с вас. Вот, держите. Теперь все в порядке?");
+					link.l2.go = "NotPegYou_2";
+				}
+			}
 			dialog.text = RandPhraseSimple("Сдается мне, что это обман... Давай-ка пройдем в комендатуру, "+ GetSexPhrase("голубчик","голубушка") +", там разберемся...", "Хм, что-то подсказывает мне, что ты не "+ GetSexPhrase("тот","та") +", за кого себя выдаешь... Немедленно сдайте оружие, " + GetAddress_Form(npchar) + ", и следуйте за мной для дальнейшего разбирательства!");
 			link.l1 = RandPhraseSimple("Как бы не так!", "После дождичка, в четверг...");
 			link.l1.go = "fight";
@@ -354,6 +372,15 @@ void ProcessDialogEvent()
 		break;
 		case "PegYou_2":
 		dialog.text = RandPhraseSimple("Вам не запудрить мне голову! Сдавайте оружие!", "Ну точно шпион... Сдавайтесь немедленно!");
+		if(bBribeSoldiers == true)
+			{
+
+				if(makeint(Pchar.money) >= bribe_price)
+				{
+					link.l2 = RandPhraseSimple("Тут рядом кошель валялся, случаем не ваш? Ух, а он тяжелый, зараза! Вот, держите и больше не теряйте. Кстати, я могу идти?", "Вы меня раскусили. На самом деле я просто странствую по Карибам и раздаю деньги нуждающимся. Говорят, страже мало платят? Это необходимо исправлять. Начнем с вас. Вот, держите. Теперь все в порядке?");
+					link.l2.go = "NotPegYou_2";
+				}
+			}
 		link.l1 = RandPhraseSimple("Как бы не так!", "После дождичка, в четверг...");
 		link.l1.go = "fight";
 		if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
@@ -369,6 +396,17 @@ void ProcessDialogEvent()
 			if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
 			{
 				AddCharacterExpToSkill(pchar, SKILL_SNEAK, 80);
+				pchar.questTemp.stels.landSolder = GetDataDay();
+			}
+		break;
+				case "NotPegYou_2":
+			dialog.text = RandPhraseSimple("А вот за это спасибо вам, " + GetAddress_Form(pchar) + "." + " На прощание, дам вам бесплатный совет: загляните к нашему портовому начальнику и попросите какую-нибудь бумажку. Сразу легче жить станет.", "Я думаю, в вашем кошеле найдется гораздо больше монет, " + GetAddress_Form(pchar) + ", но ладно, я сегодня добрый." + " На прощание, дам вам бесплатный совет: загляните к нашему портовому начальнику и попросите какую-нибудь бумажку. Сразу легче жить станет.");
+			link.l1 = "До свидания.";
+			link.l1.go = "exit";
+			AddMoneyToCharacter(Pchar, -bribe_price);
+			if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
+			{
+				AddCharacterExpToSkill(pchar, SKILL_COMMERCE, 60);
 				pchar.questTemp.stels.landSolder = GetDataDay();
 			}
 		break;

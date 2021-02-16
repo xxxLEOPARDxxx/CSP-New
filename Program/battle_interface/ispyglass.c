@@ -163,7 +163,9 @@ void SetSpyGlassData()
 					case GOOD_BOMBS: shipCharge=1; break;
 					}
 				}
-				sTextureName = "battle_interface\list_icon2.tga";
+				if(InterfaceStates.AltIntIcons) sTextureName = "battle_interface\List_icon2_Konshud.tga";
+				else sTextureName = "battle_interface\list_icon2.tga";
+				//sTextureName = "battle_interface\list_icon2.tga";
 				uvLeft = 0.375;
 				uvTop = 0.75;
 				uvRight = 0.5;
@@ -402,20 +404,27 @@ void FillISpyGlassParameters()
 	objISpyGlass.info.nation.pos = RecalculateHIconScaled(116)+","+(ntop+RecalculateVIconScaled(8)) + "," + RecalculateHIconScaled(180)+","+(ntop+RecalculateVIconScaled(40));
 	objISpyGlass.info.nation.uv = "0,0,0.125,1.0";
 	//
-	objISpyGlass.info.cannon.texture = "battle_interface\list_icons.tga";
+	if(InterfaceStates.AltIntIcons) objISpyGlass.info.cannon.texture = "battle_interface\List_icons_Konshud.tga";
+	else objISpyGlass.info.cannon.texture = "battle_interface\list_icons.tga";
+	//objISpyGlass.info.cannon.texture = "battle_interface\list_icons.tga";
 	objISpyGlass.info.cannon.pos = RecalculateHIconScaled(212)+","+(ntop+RecalculateVIconScaled(42)) + "," + RecalculateHIconScaled(260)+","+(ntop+RecalculateVIconScaled(90));
 	objISpyGlass.info.cannon.uv = "0.625,0.375,0.6875,0.5";
 	//
-	objISpyGlass.info.speed.texture = "battle_interface\list_icon2.tga";
+	if(InterfaceStates.AltIntIcons) objISpyGlass.info.speed.texture = "battle_interface\List_icon2_Konshud.tga";
+	else objISpyGlass.info.speed.texture = "battle_interface\list_icon2.tga";
+	//objISpyGlass.info.speed.texture = "battle_interface\list_icon2.tga";
 	objISpyGlass.info.speed.pos = RecalculateHIconScaled(284)+","+(ntop+RecalculateVIconScaled(42)) + "," + RecalculateHIconScaled(332)+","+(ntop+RecalculateVIconScaled(90));
 	objISpyGlass.info.speed.uv = "0.25,0.25,0.375,0.375";
-	
-	objISpyGlass.info.sailto.texture = "battle_interface\list_icons.tga";   // boal
+	if(InterfaceStates.AltIntIcons) objISpyGlass.info.sailto.texture = "battle_interface\List_icons_Konshud.tga";
+	else objISpyGlass.info.sailto.texture = "battle_interface\list_icons.tga";
+	//objISpyGlass.info.sailto.texture = "battle_interface\list_icons.tga";   // boal
 	objISpyGlass.info.sailto.pos = RecalculateHIconScaled(428)+","+(ntop+RecalculateVIconScaled(42)) + "," + RecalculateHIconScaled(476)+","+(ntop+RecalculateVIconScaled(90));
 	objISpyGlass.info.sailto.uv = "0.75,0.25,0.8125,0.375";
 	
 	//
-	objISpyGlass.info.charge.texture = "battle_interface\list_icon2.tga";
+	if(InterfaceStates.AltIntIcons) objISpyGlass.info.charge.texture = "battle_interface\List_icon2_Konshud.tga";
+	else objISpyGlass.info.charge.texture = "battle_interface\list_icon2.tga";
+	//objISpyGlass.info.charge.texture = "battle_interface\list_icon2.tga";
 	objISpyGlass.info.charge.pos = RecalculateHIconScaled(356)+","+(ntop+RecalculateVIconScaled(42)) + "," + RecalculateHIconScaled(404)+","+(ntop+RecalculateVIconScaled(90));
 	objISpyGlass.info.charge.uv = "0.125,0.5,0.25,0.625";
 

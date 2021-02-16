@@ -280,8 +280,8 @@ void WM_SetParameterData()
     //#20180714-01
     float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
     int fTmp, fTmp2;
-	// BattleInterface.CommandTextures.list.t0.name = "battle_interface\cancel_Konshud.tga";
-	BattleInterface.CommandTextures.list.t0.name = "battle_interface\cancel.tga";
+	if(InterfaceStates.AltIntIcons) BattleInterface.CommandTextures.list.t0.name = "battle_interface\cancel_Konshud.tga";
+	else BattleInterface.CommandTextures.list.t0.name = "battle_interface\cancel.tga";
 	BattleInterface.CommandTextures.list.t0.xsize = 2;
 	BattleInterface.CommandTextures.list.t0.ysize = 1;
 

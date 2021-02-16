@@ -795,7 +795,9 @@ void ProcessDialogEvent()
 				case 2:
 					npchar.itemtype = "indian"+(drand2(21)+1);//индиан, не крысобог
 					if (npchar.itemtype == "indian11") npchar.itemtype = "indian"+(22-drand1(2));
-					npchar.pricevalue = 12500+drand1(2500);
+					aref ind;
+					Items_FindItem(npchar.itemtype, &ind);
+					npchar.pricevalue = sti(ind.price)*10;
 					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть туземская побрякушка, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За неё я прошу "+npchar.pricevalue+" пиастров.";
 					LanguageCloseFile(idLngFile);
 					if(sti(pchar.money) >= sti(npchar.pricevalue)) 

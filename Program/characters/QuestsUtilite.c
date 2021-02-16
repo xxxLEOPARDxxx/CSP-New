@@ -2703,11 +2703,19 @@ void QuestCheckTakeBoxes(ref itemsRef)
 	//-------------------- КЛАДЫ ------------>>>>>>>>>>>>>
 	
 	//Спавн проклятого кэпа
-	if (locLoad.id != pchar.treasurelocation)
+	if (!CheckAttribute(pchar,"treasurelocation"))
+	{
+		spawnToughSkeleton(locLoad);
+	}
+	if (CheckAttribute(pchar,"treasurelocation"))
+	{
+		if (locLoad.id != pchar.treasurelocation) spawnToughSkeleton(locLoad);
+	}
+	/*if (locLoad.id != pchar.treasurelocation)
 	{
 		 //&& locLoad != pchar.treasurelocation
 		spawnToughSkeleton(locLoad);
-	}
+	}*/
 	if (CheckAttribute(itemsRef, "Treasure"))
 	{
 		Log_Info("Похоже, что это и есть клад.");

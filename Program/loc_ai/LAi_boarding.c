@@ -474,7 +474,7 @@ void LAi_LoadLocation(string locationID, int locType)
 		if (!CheckAttribute(&Locations[locIndex], "CabinType"))
 		{ // не грузим офов, если каюту
 	        //Устанавливаем офицеров, если такие есть
-	        int logined = 1;
+	        int logined = 0;
 			//Boyer mod
 			for(int i = 1; i <= MAX_NUM_FIGHTERS ; i++)
 			{
@@ -839,14 +839,14 @@ void LAi_EnableReload()
 			if(index != GetMainCharacterIndex())
 			{
 				ref chr = &Characters[index];
-				if(!LAi_IsDead(chr) && !IsOfficer(chr) && chr.model.animation != "mushketer") // boal && sd не нужны офицеры для матросов
+				if(!LAi_IsDead(chr) && chr.model.animation != "mushketer") // boal && sd не нужны офицеры для матросов
 				{
 					if(chr.chr_ai.group == LAI_GROUP_PLAYER)
 					{
 						boarding_player_crew = boarding_player_crew + 1;
 						//LAi_tmpl_stay_InitTemplate(chr);  // 05.02.08 требует локаторов ГОТО, что б не ходили за ГГ матросы толпой - нихрена это не работает, все равно ходят !
 						//LAi_SetStayType(chr); // а вот так не ходят !!  <-- ugeen
-						LAi_SetHuberStayType(chr); //нефиг им стоять, все-равно мешаются ! пущай расходятся по палубе
+						if (!IsOfficer(chr)) LAi_SetHuberStayType(chr); //нефиг им стоять, все-равно мешаются ! пущай расходятся по палубе
 					}
 				}
 				/*

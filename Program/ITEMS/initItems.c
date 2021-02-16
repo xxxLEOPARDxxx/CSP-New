@@ -3351,6 +3351,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "Totem_11";	//единый тотем на снятие огня
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Totem_11";
 	itm.describe = "itmdescr_Totem_11";
 	itm.model = "Totem_11";

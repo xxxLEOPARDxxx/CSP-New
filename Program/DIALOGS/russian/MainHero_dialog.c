@@ -259,14 +259,16 @@ void ProcessDialogEvent()
 	    	}
 			Link.l10 = "Установить приоритет использования еды.";
 	    	Link.l10.go = "food_priority";
-			Link.l11 = "Использовать еду автоматически.";
-	    	Link.l11.go = "autofood";
-			if(CheckAttribute(pchar,"autofood"))
-	        {
-	        	Link.l11 = "Прекратить автоматическое использование еды.";
-	    		Link.l11.go = "autofood_stop";
-	    	}
-			
+			if (pchar.location == Get_My_Cabin())
+				{
+				Link.l11 = "Использовать еду автоматически.";
+				Link.l11.go = "autofood";
+				if(CheckAttribute(pchar,"autofood"))
+				{
+					Link.l11 = "Прекратить автоматическое использование еды.";
+					Link.l11.go = "autofood_stop";
+				}
+			}
 			Link.l12 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
 			Link.l12.go = "exit";
 		break;
@@ -280,6 +282,7 @@ void ProcessDialogEvent()
 		break
 		
 		case "autofood_stop":
+			//DoQuestReloadToLocation(pchar.location, "reload", "LAi_FindNearestFreeLocator("reload", locx, locy, locz)", "");
 			DeleteAttribute(pchar, "autofood");
 			DeleteAttribute(pchar, "autofood_use");
 			dialog.text = "Автоматическое использование еды отключено.";

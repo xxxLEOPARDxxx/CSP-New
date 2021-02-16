@@ -73,7 +73,8 @@ void InitInterface_gm(string iniName)
 	if (IsCharacterPerkOn(pchar, "SeaWolf")) text5 = "Морской Волк";
 	string text2 = "Характер: "+text5+"\nСложность: "+GetLevelComplexity(MOD_SKILL_ENEMY_RATE)+"\nНация: "+text3+"\nСкорость набора опыта: "+MOD_EXP_RATE+" / 105\nКоличество абордажников: "+MOD_OFFICERS_RATE+"\nВремя исчезновения трупов: "+MOD_DEAD_CLEAR_TIME+"\nКоличество кораблей охраны: "+MOD_DEFENDERS_RATE+"\nЧастота событий: "+iEncountersRate;
 	SetFormatedText("STARTINFO_TEXT2", text2);
-	string text6 = "Количество энкаунтеров: "+iEncountersCountRate+"\nРежим плавания: "+iArcadeSails+"\nПлатные заходы в порт: "+bPortPermission+"\nСнижение порога личных перков: "+bHigherSelfRate+"\nСнижение порога корабельных перков: "+bHigherShipRate;
+	string text6 = "Количество энкаунтеров: "+iEncountersCountRate+"\nРежим плавания: "+iArcadeSails+"\nПлатные заходы в порт: "+bPortPermission+"\nВзятки стражникам: "+bBribeSoldiers+"\nСнижение порога личных перков: "+bHigherSelfRate+"\nСнижение порога корабельных перков: "+bHigherShipRate;
+	
 	SetFormatedText("STARTINFO_TEXT3", text6);
 	SetFormatedText("COPYRIGHTS_TEXT", PROVIDER_TXT);
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga.tx");
