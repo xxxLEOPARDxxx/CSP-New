@@ -44,6 +44,9 @@ void ProcessDialogEvent()
 	switch(Dialog.CurrentNode)
 	{
         case "Exit":
+			DeleteAttribute(npchar,"pricevalue");
+			DeleteAttribute(npchar,"pricev");
+			DeleteAttribute(npchar,"itemtype");
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;

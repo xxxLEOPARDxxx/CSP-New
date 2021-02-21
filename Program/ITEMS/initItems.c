@@ -6652,7 +6652,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.skill = "Defense";
+	itm.skill = "Defenñe";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6852,7 +6852,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.skill = "Defense";
+	itm.skill = "Defenñe";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7052,7 +7052,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.skill = "Defense";
+	itm.skill = "Defenñe";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7252,7 +7252,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.skill = "Defense";
+	itm.skill = "Defenñe";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7282,6 +7282,19 @@ int InitItems()
 	itm.rare = 0.01;
 	itm.skill = "Commerce";
 	n++;
+	
+	//lipsar çàäîëáàë
+	makeref(itm, Items[n]); //ïèñüìî äëÿ ìîåãî êâåñòà
+    itm.id = "Lukes_letter";
+    itm.name = "itmname_Lukes_letter";
+    itm.describe = "itmdescr_Lukes_letter";
+    itm.model = "letter";
+    itm.picIndex = 16;
+    itm.picTexture = "ITEMS_4";
+    itm.price = 0;
+    itm.Weight = 0.1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
 	
 	/////////////// *** 4 óğîâåíü *** ///////////////
 	

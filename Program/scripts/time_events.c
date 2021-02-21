@@ -444,6 +444,7 @@ void CheckBook()//Проверка книги только на глобалке - Gregg
 			}
 			if (sti(pchar.booktime) <= 0)
 			{
+				if (pchar.booktype == "Defense") pchar.booktype = "Defence";
 				AddCharacterExpToSkill(pchar, pchar.booktype, sti(pchar.bookbonus));
 				int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
 				Log_Info(GetFullName(pchar) + " изучил книгу ''"+LanguageConvertString(idLngFile, pchar.bookname)+"'' и увеличил навык ''"+XI_ConvertString(pchar.booktype)+"''");

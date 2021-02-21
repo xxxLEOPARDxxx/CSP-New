@@ -5788,7 +5788,7 @@ void Blood_StartGame(string qName)
     //int _fl, int _f, int _fh, int _p, int _fr
     SetSelfSkill(sld, 40, 35, 20, 40, 25);
     //int _ld, int _cr, int _ac, int _cn, int _sl, int _re, int _gr, int _de, int _sn
-    SetShipSkill(sld, 45, 30, 25, 25, 50, 25, 25, 25, 30);
+    SetShipSkill(sld, 40, 30, 25, 25, 50, 25, 25, 25, 30);
 	//SetCharacterPerk(sld, "FastReload");
 	//SetCharacterPerk(sld, "HullDamageUp");
 	//SetCharacterPerk(sld, "SailsDamageUp");
