@@ -36,8 +36,11 @@ void ProcessDialogEvent()
 	
     if (!CheckAttribute(npchar, "quest.BadMeeting"))
     {
-	
         npchar.quest.BadMeeting = "";
+    }
+	if (!CheckAttribute(npchar, "quest.Fooled"))
+    {
+        npchar.quest.Fooled = "";
     }
     if (!CheckAttribute(npchar, "quest.GhostShipMonth"))
     {
@@ -112,7 +115,37 @@ void ProcessDialogEvent()
 					break;
                 }
 			
-            if (npchar.quest.BadMeeting != lastspeak_date)
+			if (pchar.questTemp.MC == "toCaracasPadre" && npchar.city == "Caracas")
+			{
+				Dialog.Text = "Добро пожаловать под сень святой обители, "+ GetSexPhrase("сын мой","дочь моя") +".";
+				link.l1 = "Падре, таверну штурмует толпа подвыпивших горожан. Уверяют, что там засел оборотень, но я говорил"+ GetSexPhrase("","а") +" с ним и видел"+ GetSexPhrase("","а") +" всего лишь перепуганного человека. Он хочет исповедоваться!";
+				link.l1.go = "MC_CaracasChirch";
+				Link.l2 = "Мне пора.";
+				Link.l2.go = "exit";
+				break;
+			}
+			
+			if (startherotype == 2 && npchar.quest.BadMeeting != lastspeak_date && npchar.quest.Fooled != lastspeak_date && GetCharacterEquipSuitID(pchar)!= "suit_1" && 80 > sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)))
+			{
+				Dialog.Text = "Твои глаза... Покинь храм Господа, исчадие ада! Нам с тобой не о чем говорить!";
+				Link.l2 = "Ты заблуждаешься, святой отец. Я ангел небесный, и спустилась на землю дабы исполнить поручение Господне.";
+				Link.l2.go = "fool_priest";
+				Link.l1 = "Не очень-то и хотелось.";
+				Link.l1.go = "exit";
+				break;
+			}
+			
+			if (pchar.sex == "Skeleton" && GetCharacterEquipSuitID(pchar)!= "suit_1")
+			{
+				Dialog.Text = "Покинь храм Господа, исчадие ада! Нам с тобой не о чем говорить!";
+				Link.l1 = "Не очень-то и хотелось.";
+				Link.l1.go = "exit";
+				Link.l2 = "Плевать я хотел на тебя и твоего бога!";
+				Link.l2.go = "exit";
+				break;
+			}
+			
+            if (npchar.quest.BadMeeting != lastspeak_date )
 			{
 				if(Pchar.questTemp.CapBloodLine == false)
 				{
@@ -146,15 +179,48 @@ void ProcessDialogEvent()
 				link.l1.go = "node_3";
 				Link.l2 = "Ты мне не отец, и не смей так больше обращаться.";
 				Link.l2.go = "node_2";
+
+				if (startherotype == 2 && GetCharacterEquipSuitID(pchar)!= "suit_1")
+				{
+					Dialog.Text = "Мой ангел! Чем я могу помочь?";
+					Link.l2 = "Ничем, я уже ухожу.";
+					Link.l2.go = "exit";
+				}
 				NPChar.GenQuest.ChurchQuest_2.GiveQuestDay = lastspeak_date;	// Если не дал сегодня, то токо на след день.
 			}
-			else
+			if (npchar.quest.BadMeeting == lastspeak_date)
 			{
 				Dialog.Text = "Покинь храм Господа, богохульни"+ GetSexPhrase("к","ца") +"! Нам с тобой не о чем говорить!";
+				if (pchar.sex == "Skeleton" || startherotype == 2)
+				{
+					Dialog.Text = "Покинь храм Господа, нечисть! Нам с тобой не о чем говорить!";
+				}
 				Link.l1 = "Не очень-то и хотелось.";
 				Link.l1.go = "exit";
 			}
+			
 			NextDiag.TempNode = "First time";
+		break;
+		
+		case "fool_priest":
+			if (drand(80) > sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)))
+			{
+				dialog.text = "Тебе не обмануть меня! Прочь отсюда, дабы не осквернять своим присутствием храм Божий!";
+				link.l1 = "Дьявол!";
+				link.l1.go = "exit";
+				AddCharacterExpToSkill(pchar, SKILL_LEADERSHIP, 10);
+				ChangeCharacterReputation(pchar, -1);
+				npchar.quest.BadMeeting = lastspeak_date;
+			}
+			else
+			{
+				dialog.text = "Простите великодушно, не узнал. Как простой священник может услужить такому небесному созданию?";
+				link.l1 = "Есть один вопрос.";
+				AddCharacterExpToSkill(pchar, SKILL_LEADERSHIP, 100);
+				link.l1.go = "node_3";
+				npchar.quest.Fooled = lastspeak_date;
+				
+			}
 		break;
 		
 		case "node_2":
@@ -167,6 +233,10 @@ void ProcessDialogEvent()
 
 		case "node_3":
 			dialog.text = "Да благословит Господь вас и дела ваши... Вы пришли ко мне с какой-то целью?";
+			if (startherotype == 2 && GetCharacterEquipSuitID(pchar)!= "suit_1")
+			{
+				dialog.text = "Я к вашим услугам. Все, что угодно.";
+			}
 			//зачарованный город -->
   			if (pchar.questTemp.MC == "toCaracasPadre" && npchar.city == "Caracas")
 			{
@@ -187,8 +257,11 @@ void ProcessDialogEvent()
             {
     			link.l1 = RandPhraseSimple("Я хочу внести пожертвования.", "Хочу пожертвовать на благое дело.");
     			link.l1.go = "donation";
-    			link.l2 = RandPhraseSimple("Думаю, настало время исповеди.","Мне нужно покаяться, "+RandPhraseSimple("падре.", "святой отец."));
-    			link.l2.go = "ispoved";
+				if (startherotype !=2)
+				{
+					link.l2 = RandPhraseSimple("Думаю, настало время исповеди.","Мне нужно покаяться, "+RandPhraseSimple("падре.", "святой отец."));
+					link.l2.go = "ispoved";
+				}
     			link.l3 = RandPhraseSimple("У меня к вам дело, " + RandPhraseSimple("падре.", "святой отец."),
                                            "Я прибыл"+ GetSexPhrase("","а") +" по делу, " + RandPhraseSimple("падре.", "святой отец."));
     			link.l3.go = "work";//"quest lines";
@@ -205,7 +278,7 @@ void ProcessDialogEvent()
 				link.l1.go = "GenQuest_Church_2_Start_2";
 				link.l2 = RandPhraseSimple("О-о... Не буду вам мешать...", "Я, кажется, не вовремя - пойду, пожалуй...");
 				link.l2.go = "exit";
-			break;
+		break;
 			
 		case "GenQuest_Church_2_Start_2":
 			dialog.text = "О, "+ GetSexPhrase("сын мой","дочь моя") +", совершено ужасное кощунство, позорнейшее из преступлений! Обокрасть церковь!!! Да это все равно, что запустить свои грязные лапы прямо в карман Господу!";
@@ -710,23 +783,38 @@ void ProcessDialogEvent()
 		
 		
 		case "donation":
-			dialog.Text = "Конечно, "+ GetSexPhrase("сын мой","дочь моя") +". Сколько ты желаешь пожертвовать Святой Церкви?";
-			Link.l1 = "Простите, святой отец, но пожертвования не будет.";
-			Link.l1.go = "No donation";
-			if(makeint(PChar.money)>=100)
+			if (startherotype != 2)
 			{
-				Link.l2 = "Моя лепта будет скромной. Всего 100 пиастров.";
-				Link.l2.go = "donation paid_100";
+				dialog.Text = "Конечно, "+ GetSexPhrase("сын мой","дочь моя") +". Сколько ты желаешь пожертвовать Святой Церкви?";
+				Link.l1 = "Простите, святой отец, но пожертвования не будет.";
+				Link.l1.go = "No donation";
+				if(makeint(PChar.money)>=100)
+				{
+					Link.l2 = "Моя лепта будет скромной. Всего 100 пиастров.";
+					Link.l2.go = "donation paid_100";
+				}
+				if(makeint(PChar.money)>=1000)
+				{
+					Link.l3 = "1000 пиастров. Я думаю, этого хватит.";
+					Link.l3.go = "donation paid_1000";
+				}
+				if(makeint(PChar.money)>=5000)
+				{
+					Link.l4 = "Мне везет с деньгами, поэтому я пожертвую 5000 пиастров.";
+					Link.l4.go = "donation paid_5000";
+				}
 			}
-			if(makeint(PChar.money)>=1000)
+			else
 			{
-				Link.l3 = "1000 пиастров. Я думаю, этого хватит.";
-				Link.l3.go = "donation paid_1000";
-			}
-			if(makeint(PChar.money)>=5000)
-			{
-				Link.l4 = "Мне везет с деньгами, поэтому я пожертвую 5000 пиастров.";
-				Link.l4.go = "donation paid_5000";
+				dialog.Text = "Нет нужды. Одно ваше появление здесь уже стоит дороже любых денег.";
+				Link.l1 = "Как знаешь. тогда еще вопрос...";
+				Link.l1.go = "node_3";
+				
+				if (GetCharacterEquipSuitID(pchar) == "suit_1" && npchar.quest.Fooled != lastspeak_date)
+				dialog.Text = "Я вижу ты и сама нуждаешься больше других. Я не приму твоих денег.";
+				Link.l1 = "Как знаешь. тогда еще вопрос...";
+				Link.l1.go = "node_3";
+				
 			}
 			//-->> квест пожертвования хозяйки борделя
 			if(pchar.questTemp.different == "HostessChurch_toChurch" && pchar.questTemp.different.HostessChurch.city == npchar.city && sti(pchar.money) >= sti(pchar.questTemp.different.HostessChurch.money))

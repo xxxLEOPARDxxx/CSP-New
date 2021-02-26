@@ -742,6 +742,7 @@ void SaveStartGameParam()
 	optref.StartGameParam.bHigherSelfRate  		 = bHigherSelfRate;
 	optref.StartGameParam.bPortPermission  		 = bPortPermission;
 	optref.StartGameParam.bBribeSoldiers  		 = bBribeSoldiers;
+	optref.StartGameParam.bNoBonusSkillOff  	 = bNoBonusSkillOff;
     optref.StartGameParam.bRechargePistolOnLine  = bRechargePistolOnLine;
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
 	optref.StartGameParam.iEncountersCountRate   = iEncountersCountRate;
@@ -807,9 +808,17 @@ void LoadStartGameParam()
 	{
     	bHigherSelfRate = sti(optref.StartGameParam.bHigherSelfRate);
     }
+	if (CheckAttribute(optref, "StartGameParam.bNoBonusSkillOff"))
+	{
+    	bNoBonusSkillOff = sti(optref.StartGameParam.bNoBonusSkillOff);
+    }
 	if (CheckAttribute(optref, "StartGameParam.bPortPermission"))
 	{
     	bPortPermission = sti(optref.StartGameParam.bPortPermission);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bBribeSoldiers"))
+	{
+    	bBribeSoldiers = sti(optref.StartGameParam.bBribeSoldiers);
     }
     if (CheckAttribute(optref, "StartGameParam.bRechargePistolOnLine"))
 	{

@@ -27,7 +27,7 @@ void ProcessDialogEvent()
 		case "PiratesMan1":
 			if (pchar.questTemp.State == "" || sti(pchar.questTemp.CurQuestNumber) > 8 || sti(pchar.questTemp.NationQuest) == SPAIN)
 			{
-				if(CheckAttribute(pchar, "QuestTemp.AndreAbelQuest"))
+				if(CheckAttribute(pchar, "QuestTemp.AndreAbelQuest") || CheckAttribute(pchar, "questTemp.WhisperTutorial"))
 				{
 					dialog.text = RandPhraseSimple("Чего тебе? Проходи мимо.", "Хватит загораживать дорогу, отвали.");
 					link.l1 = RandPhraseSimple("Знаешь что? Не гавкай!", "Поумерь свой пыл. Не то быстро охлажу его!"); 

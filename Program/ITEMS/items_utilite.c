@@ -4,11 +4,14 @@ int FindFoodFromChr(ref chref, ref arFind, int startIdx)
 	aref arItm;
 	for(i=startIdx; i<ITEMS_QUANTITY; i++)
 	{
-		makearef(arItm,Items[i]);
-		if( CheckAttribute(arItm,"Food") && GetCharacterItem(chref,Items[i].id)>0 )
+		if (i!= -1)
 		{
-			arFind = arItm;
-			return i;
+			makearef(arItm,Items[i]);
+			if( CheckAttribute(arItm,"Food") && GetCharacterItem(chref,Items[i].id)>0 )
+			{
+				arFind = arItm;
+				return i;
+			}
 		}
 	}
 	return -1;
@@ -28,18 +31,26 @@ bool EnableFoodUsing(ref mc, aref arItm)
 	{
 		if(sti(mc.index)==GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood") && !CheckAttribute(pchar, "query_delay"))
 		{
-			if (!CheckAttribute(pchar, "foodquery"))
+			if (CheckAttribute(pchar, "pressedFoodButton"))
 			{
-				pchar.foodquery = 1;
-				pchar.query_delay = 0.1;
+				DeleteAttribute(pchar, "pressedFoodButton");
+				
+				if (!CheckAttribute(pchar, "foodquery"))
+				{
+					pchar.foodquery = 1;
+					pchar.query_delay = 0.1;
+					Log_SetStringToLog("Потребление еды поставлено в очередь.");
+					Log_SetStringToLog("Очередь:"+pchar.foodquery);
+				}
+				else
+				{
+					pchar.foodquery = sti(pchar.foodquery)+1;
+					pchar.query_delay = 0.1;
+					Log_SetStringToLog("Потребление еды поставлено в очередь.");
+					Log_SetStringToLog("Очередь:"+pchar.foodquery);
+				}
 			}
-			else
-			{
-				pchar.foodquery = sti(pchar.foodquery)+1;
-				pchar.query_delay = 0.1;
-			}
-			Log_SetStringToLog("Потребление еды поставлено в очередь.");
-			Log_SetStringToLog("Очередь:"+pchar.foodquery);
+			
 		}
 	}
 	
@@ -627,6 +638,7 @@ bool RefreshGeneratedItem(String _itemID)
 		{
 			curSimpleBox = "box" + j;
 			curPrivateBox = "private" + j;
+			if (reference.id == "Caiman_StoreHouse") break;
 			
 			if(!CheckAttribute(reference, curSimpleBox) && !CheckAttribute(reference, curPrivateBox)) break;
 			
@@ -758,8 +770,18 @@ void QuestCheckEnterLocItem(aref _location, string _locator) /// <<<проверка вхо
 	if (_location.id == "Santiago_Incquisitio" && CheckNPCQuestDate(_location, "AttackGuard_date") && sti(Colonies[FindColony(_location.fastreload)].nation) == SPAIN && findsubstr(_locator, "detector" , 0) != -1) 
 	{
 		SetNPCQuestDate(_location, "AttackGuard_date"); //одна засада в день.
-		LAi_group_AttackGroup("SPAIN_CITIZENS", LAI_GROUP_PLAYER);
-		StartIncquisitioAttack();
+		
+		if (CheckAttribute(pchar, "questTemp.WhisperTutorial"))
+		{
+			//Стража только вернулась после обеда и немного не в форме
+			DoQuestFunctionDelay("WhisperIncqAlarm", 2.5);
+		}
+		else
+		{
+			StartIncquisitioAttack();
+			LAi_group_AttackGroup("SPAIN_CITIZENS", LAI_GROUP_PLAYER);
+		}
+		
 		//==>фр.линейка, квест №7. Рок Бразилец, даем диалог.
 		if (pchar.questTemp.State == "Fr7RockBras_toSeekPlace") LAi_ActorWaitDialog(characterFromId("RockBrasilian"), pchar);
 	}

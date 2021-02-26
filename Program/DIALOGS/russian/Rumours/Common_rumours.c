@@ -221,6 +221,35 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			link.l1 = "О чём это ты, приятель?";
 			link.l1.go = "Alcogol_GenQuest_Church_2_1";
 		}
+		
+		if(CheckAttribute(PChar, "HellSpawn.SeekRebirth"))
+	    {
+			//получим пещеру для чистки
+			sTemp = GetArealByCityName(npchar.city);
+			if (sTemp == "Cuba2") sTemp = "Cuba1";
+			if (sTemp == "Hispaniola2") sTemp = "Hispaniola1";
+			aref aPlace, aPlace_2;
+			makearef(aPlace, NullCharacter.TravelMap.Islands.(sTemp).Treasure);
+			int iQty = GetAttributesNum(aPlace)-1;
+			aPlace_2 = GetAttributeN(aPlace, rand(iQty));
+			pchar.quest.HellSpawn.locationId = GetAttributeName(aPlace_2); //Id целевой пещеры
+			sld = &locations[FindLocation(pchar.quest.HellSpawn.locationId)];
+			npchar.quest.HellSpawn.label = GetConvertStr(sld.id.label, "LocLables.txt"); //тип подземелья для диалогов
+			switch (npchar.quest.HellSpawn.label)
+			{
+				case "пещера": sTemp = "Слыхал о местной пещере?"; break;
+				case "грот": sTemp = "Слыхал о местном гроте?"; break;
+				case "подземелье": sTemp = "Слыхал о местном подземелье?"; break;
+			}			
+			
+			dialog.text = "Эх, " + GetAddress_Form(pchar) + " что за жизнь нынче пошла... Страшно за ворота ступить! "+sTemp+" Говорят, нежить собирается там для какого-то ритуала перерождения. ";
+			DeleteAttribute(PChar, "HellSpawn.SeekRebirth");
+			SaveCurrentQuestDateParam("pchar.questTemp.HellSpawn.Rit");
+			
+			pchar.quest.HellSpawnRitual.win_condition.l1 = "location";
+			pchar.quest.HellSpawnRitual.win_condition.l1.location = pchar.quest.HellSpawn.locationId;
+			pchar.quest.HellSpawnRitual.function = "HellSpawnRitual";
+		}
 	break;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		case "rumours_trader":

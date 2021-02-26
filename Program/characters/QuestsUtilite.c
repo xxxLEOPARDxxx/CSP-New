@@ -2374,6 +2374,10 @@ void OfficerMushketerInit()
 	sld.Dialog.Filename = "Enc_OfficerMush.c";
 	sld.dialog.currentnode = "Lostpirate";
 	TakeNItems(sld,"potion2", Rand(2)+2);
+	sld.IsMushketer = true;
+	sld.CanTakeMushket = true;	
+	sld.IsMushketer.LastGunID = -1;
+	sld.IsMushketer.MushketID = "mushket";
 	GiveItem2Character(sld, "mushket");
 	sld.equip.gun = "mushket";
     TakeNItems(sld,"bullet", 100);
@@ -2414,8 +2418,12 @@ void OfficerMushketerInit()
 	sld.Dialog.Filename = "Enc_OfficerMush.c";
 	sld.dialog.currentnode = "Saxon";
 	TakeNItems(sld,"potion2", Rand(2)+2);
+	sld.IsMushketer = true;
+	sld.CanTakeMushket = true;	
+	sld.IsMushketer.LastGunID = -1;
 	GiveItem2Character(sld, "mushket");
 	sld.equip.gun = "mushket";
+	sld.IsMushketer.MushketID = "mushket";
 	GiveItem2Character(sld, "cirass2");
 	EquipCharacterbyItem(sld, "cirass2");
     TakeNItems(sld,"bullet", 100);

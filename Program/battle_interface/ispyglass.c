@@ -380,7 +380,7 @@ void FillISpyGlassParameters()
 		objISpyGlass.shipsign.sp.uv = "0.5,0.109,1.0,0.6875";
 		// objISpyGlass.shipsign.class.texture = "battle_interface\ShipClass.tga";
 		// objISpyGlass.shipsign.class.pos = RecalculateHIconScaled(28)+","+(ntop+RecalculateVIconScaled(1)) + "," + RecalculateHIconScaled(90)+","+(ntop+RecalculateVIconScaled(15));
-		objISpyGlass.shipsign.class.texture = "battle_interface\ShipClassNONE.tga";
+		objISpyGlass.shipsign.class.texture = "";
 		objISpyGlass.shipsign.class.pos = RecalculateHIconScaled(28)+","+(ntop+RecalculateVIconScaled(1)) + "," + RecalculateHIconScaled(90)+","+(ntop+RecalculateVIconScaled(15));
 	}
 	else

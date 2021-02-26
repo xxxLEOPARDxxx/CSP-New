@@ -103,13 +103,13 @@ void ProcessDialogEvent()
            		// boal отчет о корабле
 			if(CheckAttribute(NPChar, "treasurer") && NPChar.treasurer == 1)
 			{
-			    Link.l8 = "Дай мне полный отчет о корабле, " + GetStrSmallRegister(XI_ConvertString("treasurer")) + ".";
+			    Link.l8 = "Дай мне полный отчёт о корабле, " + GetStrSmallRegister(XI_ConvertString("treasurer")) + ".";
 			    Link.l8.go = "QMASTER_1";
 			        
 			    // Warship. Автозакупка товара
 			    if(!CheckAttribute(PChar, "TransferGoods.Enable"))
 			    {
-				    Link.l11 = "Я хочу, чтобы, во время стоянки в колонии, ты закупал товары.";
+				    Link.l11 = "Я хочу, чтобы во время стоянки в колонии, ты закупал товары.";
 				    Link.l11.go = "TransferGoodsEnable";
 			    }
 			    else
@@ -122,6 +122,18 @@ void ProcessDialogEvent()
 			Link.l4 = "Офицер, я более не нуждаюсь в ваших услугах.";
 			Link.l4.go = "AsYouWish";
 			
+			for(iTemp=1; iTemp<=3; iTemp++) // Нужно, чтоб была свободная группа
+			{
+				attr = "Companion" + iTemp;
+				if (CheckAttribute(PChar,"CompanionTravel."+(attr)+".ID")) 
+				{
+					if (PChar.CompanionTravel.(attr).ID == NPChar.ID)
+					{
+						Link.l4 = "Возвращайся в эскадру, офицер.";
+						Link.l4.go = "CompanionTravel_ToSquadron";
+					}
+				}
+			}
 			
             // по тек локации определим можно ли тут приказать  -->
             if (IsEntity(loadedLocation))
@@ -176,7 +188,7 @@ void ProcessDialogEvent()
 					{
 						if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
 						{
-							Link.l10 = "Я хочу назначить тебя управляющим рудников, которые находяться на этом острове.";
+							Link.l10 = "Я хочу назначить тебя управляющим рудников, которые находятся на этом острове.";
 							Link.l10.go = "MinesCommander_Hire";
 						}
 					}	
@@ -191,7 +203,7 @@ void ProcessDialogEvent()
 					{
 						if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
 						{
-							Link.l11 = "Я хочу назначить тебя управляющим плантации, которая находиться недалеко от колонии ''" + PChar.ColonyBuilding.ColonyName + "'' и ей принадлежит.";
+							Link.l11 = "Я хочу назначить тебя управляющим плантации, которая находится недалеко от колонии ''" + PChar.ColonyBuilding.ColonyName + "'' и ей принадлежит.";
 							Link.l11.go = "PlantationCommander_Hire";
 						}
 					}	
@@ -214,7 +226,7 @@ void ProcessDialogEvent()
 	        	
 			PChar.TransferGoods.Enable = true;
 		//	PChar.TransferGoods.TreasurerID = NPChar.id;
-			Dialog.text = "Будет исполнено, "+ GetSexPhrase("господин","госпожа") +" капитан!";
+			Dialog.text = "Будет исполнено, "+GetAddress_Form(pchar)+" капитан!";
 			Link.l1 = "Вольно.";
 			Link.l1.go = "TransferGoodsEnable_2";
         break;
@@ -227,7 +239,7 @@ void ProcessDialogEvent()
 		
 		case "TransferGoodsDisable":
 			DeleteAttribute(PChar, "TransferGoods.Enable");
-			Dialog.text = "Будет исполнено, "+ GetSexPhrase("господин","госпожа") +" капитан.";
+			Dialog.text = "Будет исполнено, "+GetAddress_Form(pchar)+" капитан.";
 			Link.l1 = "Вольно.";
 			Link.l1.go = "exit";
 			Diag.TempNode = "Hired";
@@ -287,19 +299,19 @@ void ProcessDialogEvent()
 
 		case "contract2": 
 			dialog.text = "Спасибо за добрые слова, капитан. А какие условия по контракту?"; 
-			Link.l1 = "Большая единоразовая оплата. Экипировка получше, "+ GetSexPhrase("сам","сама") +" понимаешь. Срок контракта 10 лет. Уволится можешь по истечению срока, а если все будет устраивать нас обоих, продливаем дальше."; 
+			Link.l1 = "Большая единоразовая оплата. Экипировка получше, "+ NPCharSexPhrase(NPChar,"сам","сама") +" понимаешь. Срок контракта 10 лет. Уволиться можешь по истечению срока, а если всё будет устраивать нас обоих, продливаем дальше."; 
 			Link.l1.go = "contract3"; 
 		break; 
 
 		case "contract3":
 			NPChar.contractMoney = makeint(sti(NPChar.rank)*MOD_SKILL_ENEMY_RATE*1000);
-			dialog.text = "Заманчивое предложение, ничего не скажешь. На спокойную старость заработать немного. А как насчет небольших подьемных для постоянного состава?"; 
+			dialog.text = "Заманчивое предложение, ничего не скажешь. На спокойную старость заработать немного. А как насчёт небольших подьёмных для постоянного состава?"; 
 			if (sti(Pchar.money) >= sti(NPChar.contractMoney))
 			{ 
 				Link.l1 = "Ничего против не имею, " + sti(NPChar.contractMoney) + " золотых прямо сейчас на руки тебя устроит?";
 				Link.l1.go = "contract4";
 			} 
-			Link.l2 = "Ничего против не имею, но давай вернемся к этому разговору позже."; 
+			Link.l2 = "Ничего против не имею, но давай вернёмся к этому разговору позже."; 
 			Link.l2.go = "Exit"; 
 		break;
  
@@ -1303,11 +1315,11 @@ void ProcessDialogEvent()
 			Link.l1.go = "Companion_TaskBoarding";
 			Link.l2 = "Это касается твоего корабля.";
 			Link.l2.go = "Companion_TaskChange";
-			if(bBettaTestMode) // Только при бета-тесте
-			{
+			// if(bBettaTestMode) // Только при бета-тесте
+			// {
 			    Link.l3 = "Я хочу, чтобы ты на время вышел из состава моей эскадры и поискал удачу самостоятельно.";
 			    Link.l3.go = "CompanionTravel";
-			}
+			// }
 			Link.l8 = "Пока ничего.";
 			Link.l8.go = "exit";
 		break;
@@ -1367,20 +1379,45 @@ void ProcessDialogEvent()
 				break;
 			}
 		
-			dialog.Text = "Нет пролем, кэп. В каком городе мы встретимся?";
+			dialog.Text = "Нет проблем, кэп. В каком городе мы встретимся?";
 			for(iTemp=0; iTemp<MAX_COLONIES; iTemp++)
 			{
 				sld = &colonies[iTemp];
 				attr = sld.ID;
 				if(sld.nation == "none" || sld.nation == PIRATE || attr == "Panama" || attr == "FortOrange") continue;
 				attrLoc = "l" + iTemp;
+				NPChar.Temp.(attr) = attr;
 				Link.(attrLoc) = "В " + XI_ConvertString("Colony" + attr + "Dat");
 				Link.(attrLoc).go = "CompanionTravelToColony_" + attr;
 			}
-				Link.l99 = "Я передумал. Ничего не нужно.";
+				Link.l99 = "Я передумал"+ GetSexPhrase("","а") +". Ничего не нужно.";
 				Link.l99.go = "exit";
 		break;
-			
+		
+		int nFind = findSubStr(Dialog.CurrentNode, "CompanionTravelToColony_", 0);
+		string idxVal;
+		string nodName;
+		if(nFind == 0) 
+		{
+            idxVal = strcut(Dialog.CurrentNode, 24, strlen(Dialog.CurrentNode)-1);
+            nodName = "CompanionTravelToColony_" + idxVal;
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn;									// Companion index
+				cn = GetCompanionIndex(PChar, i);
+				if (cn == -1) continue;
+				if (NPChar.name == characters[cn].name) NPChar.realcompanionidx = &characters[cn].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = NPChar.Temp.(idxVal);
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D(NPChar.Temp.(idxVal))/300+1.0);
+			dialog.Text = "Вы выбрали колонию "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
+			Link.l1 = "Да, именно её.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+            break;
+        }
+		
 		case "CompanionTravel_EnemyColony":
 			dialog.Text = "Капитан, но я же не cмогу ждать вас в колонии, которая к нам враждебна!";
 				Link.l1 = "Знаешь, забудь про все эти путешествия...";
@@ -1395,7 +1432,7 @@ void ProcessDialogEvent()
 			
 		case "CompanionTravel_NoFood":
 			dialog.Text = "Кэп, для такого путешествия у меня на борту маловато провианта.";
-				Link.l1 = "Да, ты прав. Путешествие подождет, пока-что...";
+				Link.l1 = "Да, ты прав. Путешествие подождёт, пока-что...";
 				Link.l1.go = "exit";
 		break;
 			
@@ -1406,15 +1443,15 @@ void ProcessDialogEvent()
 		break;
 		
 		case "CompanionTravel_PrepareStart":
-			dialog.Text = "Все понятно. До " + XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen") + " мне идти " + sti(characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days) + " дней, что мне делать по прибытию?";
+			dialog.Text = "Всё понятно. До " + XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen") + " мне идти " + sti(characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days) + " дней, что мне делать по прибытию?";
 				Link.l1 = "Жди меня на рейде колонии месяц.";
 				Link.l1.go = "CompanionTravel_PrepareStart_2";
-				Link.l2 = "Знаешь, я передумал. Оставайся со мной, пока-что...";
+				Link.l2 = "Знаешь, я передумал"+ GetSexPhrase("","а") +". Оставайся со мной, пока-что...";
 				Link.l2.go = "exit";
 		break;
 		
 		case "CompanionTravel_PrepareStart_2":
-			dialog.Text = "Все понятно, капитан. Отправляюсь немедленно.";
+			dialog.Text = "Всё понятно, капитан. Отправляюсь немедленно.";
 				Link.l1 = "Да, отправляйся.";
 				Link.l1.go = "CompanionTravel_Start";
 		break;
@@ -1449,7 +1486,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				dialog.text = "Кэп, у вас же и так эскадра из пяти коралей, куда-же шестой еще? В общем, я буду ждать вас тут, на своем корабле - все эти ваши новые компаньоны не надежны - их судна очень скоро пойдут ко дну и вы за мной вернетесь.";
+				dialog.text = "Кэп, у вас же и так эскадра из пяти коралей, куда-же шестой ещё? В общем, я буду ждать вас тут, на своем корабле - все эти ваши новые компаньоны не надежны - их судна очень скоро пойдут ко дну и вы за мной вернетесь.";
 					Link.l1 = "Эх, умная ты голова. Тебе не капитаном, а адмиралом нужно быть!";
 					Link.l1.go = "exit";
 					Diag.TempNode = "CompanionTravel_ToSquadron_2";
@@ -1472,7 +1509,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				Link.l1 = "Еще нет, к сожалению.";
+				Link.l1 = "Ещё нет, к сожалению.";
 				Link.l1.go = "exit";
 				Diag.TempNode = "CompanionTravel_ToSquadron_2";
 				NPChar.DeckDialogNode = "CompanionTravel_ToSquadron_2";
@@ -1487,7 +1524,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Почту за честь быть управляющим вашей колонии!";
 			Link.l1 = "Следи за порядком и процветанием города. Тебе предстоит очень многое контролировать. Я буду время от времени наведываться сюда.";
 			Link.l1.go = "ColonyBuilding_Hovernor_2";
-			Link.l2 = "Я передумал.";
+			Link.l2 = "Я передумал"+ GetSexPhrase("","а") +".";
 			Link.l2.go = "Exit";
 			Diag.TempNode = "Hired";
 		break;
@@ -1524,7 +1561,7 @@ void ProcessDialogEvent()
 			Link.l1.go = "ColonyBuilding_Hovernor_3";
 			Link.l2 = "Я хочу снять тебя с занимаемой должности, " + NPChar.name + ".";
 			Link.l2.go = "ColonyBuilding_Hovernor_4";
-			Link.l3 = "Решил проведать тебя, " + NPChar.name + ".";
+			Link.l3 = "Решил"+ GetSexPhrase("","а") +" проведать тебя, " + NPChar.name + ".";
 			Link.l3.go = "Exit";
 			Diag.TempNode = "ColonyBuilding_Hovernor";
 		break;
@@ -1571,7 +1608,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Вы уверены?";
 			Link.l1 = "Да.";
 			Link.l1.go = "ColonyBuilding_Hovernor_5";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
 			Link.l2.go = "Exit";
 		break;
 		
@@ -1612,7 +1649,7 @@ void ProcessDialogEvent()
 			Link.l1.go = "MinesCommander_2";
 			Link.l2 = "Я хочу снять тебя с занимаемой должности, " + NPChar.name + ".";
 			Link.l2.go = "MinesCommander_Remove";
-			Link.l3 = "Решил проведать тебя, " + NPChar.name + ".";
+			Link.l3 = "Решил"+ GetSexPhrase("","а") +" проведать тебя, " + NPChar.name + ".";
 			Link.l3.go = "Exit";
 			Diag.TempNode = "MinesCommander_1";
 		break;
@@ -1627,7 +1664,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Вы уверены?";
 			Link.l1 = "Да.";
 			Link.l1.go = "MinesCommander_Removed";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
 			Link.l2.go = "Exit";
 			Diag.TempNode = "MinesCommander_1";
 		break;
@@ -1644,7 +1681,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Что ж. Постараюсь оправдать ваши ожидания.";
 			Link.l1 = "Вот и славно. Приступай к своим обязанностям.";
 			Link.l1.go = "MinesCommander_Hired";
-			Link.l2 = "Я передумал.";
+			Link.l2 = "Я передумал"+ GetSexPhrase("","а") +".";
 			Link.l2.go = "Exit";
 			Diag.TempNode = "Hired";
 		break;
@@ -1690,7 +1727,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Вы уверены?";
 			Link.l1 = "Да.";
 			Link.l1.go = "PlantationCommander_Removed";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
 			Link.l2.go = "Exit";
 			Diag.TempNode = "PlantationCommander_1";
 		break;
@@ -1707,7 +1744,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Что ж. Постараюсь оправдать ваши ожидания.";
 			Link.l1 = "Вот и славно. Приступай к своим обязанностям.";
 			Link.l1.go = "PlantationCommander_Hired";
-			Link.l2 = "Я передумал.";
+			Link.l2 = "Я передумал"+ GetSexPhrase("","а") +".";
 			Link.l2.go = "Exit";
 			Diag.TempNode = "Hired";
 		break;
@@ -1735,7 +1772,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Хм... Пожалуй, я смогу справиться с поставленной задачей.";
 			Link.l1 = "Конечно справишься, иначе... Э-э-э... Можешь приступать!";
 			Link.l1.go = "ColonyGuarding_Hovernor_2";
-			Link.l2 = "Я передумал.";
+			Link.l2 = "Я "+ GetSexPhrase("передумал","передумала") +".";
 			Link.l2.go = "Exit";
 			Diag.TempNode = "Hired";
 		break;
@@ -1843,7 +1880,7 @@ void ProcessDialogEvent()
 
 		case "ColonyGuarding_Hovernor_3_3_1":
 			PChar.Colony.Guardians.BaseComplete.First = false;
-			dialog.Text = "Каждую неделю будет проводиться осмотр кораблей охраны береговой линии, и те корабли, которые в данный момент будут охранять её, будут дополнены недостающими боеприпасами и товарами первой необходимости, кроме того будет восполнена и команда \n Но чтобы всё это работало, необходимо будет идти на некоторые траты, которые зависят от комплектуемых кораблей. Например, на данный момент будет необходимо выплачивать из казны колонии по " + GetCostForBaseCompletationAllGuards() + " пиастров в неделю. Если же данная сумма будет отсутвовать, то, к сожалению, комплектовать будет не на что. Что скажете?";
+			dialog.Text = "Каждую неделю будет проводиться осмотр кораблей охраны береговой линии, и те корабли, которые в данный момент будут охранять её, будут дополнены недостающими боеприпасами и товарами первой необходимости, кроме того будет восполнена и команда \n Но чтобы всё это работало, необходимо будет идти на некоторые траты, которые зависят от комплектуемых кораблей. Например, на данный момент будет необходимо выплачивать из казны колонии по " + GetCostForBaseCompletationAllGuards() + " пиастров в неделю. Если же данная сумма будет отсутствовать, то, к сожалению, комплектовать будет не на что. Что скажете?";
 			Link.l1 = "Полезное дело. Я даю разрешение на своевременный расход средств из казны колонии.";
 			Link.l1.go = "ColonyGuarding_Hovernor_3_3_2";
 			Link.l2 = "Пожалуй, пока обойдёмся без этого.";
@@ -1866,7 +1903,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Вы уверены?";
 			Link.l1 = "Да.";
 			Link.l1.go = "ColonyGuarding_Hovernor_5";
-			Link.l2 = "Нет, я передумал.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
 			Link.l2.go = "Exit";
 		break;
 		
@@ -1884,9 +1921,9 @@ void ProcessDialogEvent()
 			Link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Info";
 			Link.l2 = "Я хочу узнать цены, которые требуются для обеспечивания найма.";
 			Link.l2.go = "ColonyGuarding_Hovernor_AutoCrewHire_Costs";
-			Link.l3 = "Необходимо пересмотреть объекты, на которых обеспечивается найм гарнизона.";
+			Link.l3 = "Необходимо пересмотреть объекты, на которых обеспечиваются найм гарнизона.";
 			Link.l3.go = "ColonyGuarding_Hovernor_AutoCrewHire_Set";
-			Link.l4 = "Нет, я передумал.";
+			Link.l4 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
 			Link.l4.go = "exit";
 		break;
 
@@ -1920,19 +1957,19 @@ void ProcessDialogEvent()
 		break;
 
 		case "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Colony":
-			dialog.Text = "На данный момент цена обеспечения найма гарнизона колонии - с учётом укоплекнованности гарнизона: " + ColonyGuardingGetCostForObject("Colony", false) + " золотых; для полного заполнения без учёта укоплекнованности: " + ColonyGuardingGetCostForObject("Colony", true) + " золотых.";
+			dialog.Text = "На данный момент цена обеспечения найма гарнизона колонии - с учётом укомплектованности гарнизона: " + ColonyGuardingGetCostForObject("Colony", false) + " золотых; для полного заполнения без учёта укомплектованности: " + ColonyGuardingGetCostForObject("Colony", true) + " золотых.";
 			Link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
 			Link.l1.go = "ColonyGuarding_Hovernor";
 		break;
 
 		case "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Mines":
-			dialog.Text = "На данный момент цена обеспечения найма гарнизона рудников - с учётом укоплекнованности гарнизона: " + ColonyGuardingGetCostForObject("Mines", false) + " золотых; для полного заполнения без учёта укоплекнованности: " + ColonyGuardingGetCostForObject("Mines", true) + " золотых.";
+			dialog.Text = "На данный момент цена обеспечения найма гарнизона рудников - с учётом укомплектованности гарнизона: " + ColonyGuardingGetCostForObject("Mines", false) + " золотых; для полного заполнения без учёта укомплектованности: " + ColonyGuardingGetCostForObject("Mines", true) + " золотых.";
 			Link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
 			Link.l1.go = "ColonyGuarding_Hovernor";
 		break;
 
 		case "ColonyGuarding_Hovernor_AutoCrewHire_Cost_Plantation":
-			dialog.Text = "На данный момент цена обеспечения найма гарнизона плантации - с учётом укоплекнованности гарнизона: " + ColonyGuardingGetCostForObject("Plantation", false) + " золотых; для полного заполнения без учёта укоплекнованности: " + ColonyGuardingGetCostForObject("Plantation", true) + " золотых.";
+			dialog.Text = "На данный момент цена обеспечения найма гарнизона плантации - с учётом укомплектованности гарнизона: " + ColonyGuardingGetCostForObject("Plantation", false) + " золотых; для полного заполнения без учёта укомплектованности: " + ColonyGuardingGetCostForObject("Plantation", true) + " золотых.";
 			Link.l1 = LinkRandPhrase("Спасибо.", "Ясно.", "Хорошо.");
 			Link.l1.go = "ColonyGuarding_Hovernor";
 		break;
@@ -1988,9 +2025,9 @@ void ProcessDialogEvent()
 
 		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Colony_1":
 			dialog.text = "Вы уверены, капитан?";
-			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен"+ GetSexPhrase("","а") +".");
 			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Colony_2";
-			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал.", "Эээ... Нет, не уверен.");
+			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал"+ GetSexPhrase("","а") +".", "Эээ... Нет, не уверен"+ GetSexPhrase("","а") +".");
 			link.l2.go = "exit";
 		break;
 
@@ -2003,9 +2040,9 @@ void ProcessDialogEvent()
 
 		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Mines_1":
 			dialog.text = "Вы уверены, капитан?";
-			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен"+ GetSexPhrase("","а") +".");
 			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Mines_2";
-			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал.", "Эээ... Нет, не уверен.");
+			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал"+ GetSexPhrase("","а") +".", "Эээ... Нет, не уверен"+ GetSexPhrase("","а") +".");
 			link.l2.go = "exit";
 		break;
 
@@ -2018,9 +2055,9 @@ void ProcessDialogEvent()
 
 		case "ColonyGuarding_Hovernor_AutoCrewHire_On_Plantation_1":
 			dialog.text = "Вы уверены, капитан?";
-			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен"+ GetSexPhrase("","а") +".");
 			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_On_Plantation_2";
-			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал.", "Эээ... Нет, не уверен.");
+			link.l2 = LinkRandPhrase("Мм... Пожалуй, ты прав - стоит подумать ещё.", "Я передумал"+ GetSexPhrase("","а") +".", "Эээ... Нет, не уверен"+ GetSexPhrase("","а") +".");
 			link.l2.go = "exit";
 		break;
 
@@ -2033,9 +2070,9 @@ void ProcessDialogEvent()
 		
 		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Colony_1":
 			dialog.text = "Вы действительно хотите приостановить найм команды для гарнизона колонии?";
-			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен"+ GetSexPhrase("","а") +".");
 			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Colony_2";
-			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал..", "Эээ... Нет, не уверен.");
+			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал"+ GetSexPhrase("","а") +"..", "Эээ... Нет, не уверен"+ GetSexPhrase("","а") +".");
 			link.l2.go = "exit";
 		break;
 		
@@ -2048,9 +2085,9 @@ void ProcessDialogEvent()
 		
 		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Mines_1":
 			dialog.text = "Вы действительно хотите приостановить найм команды для гарнизона рудников?";
-			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен"+ GetSexPhrase("","а") +".");
 			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Mines_2";
-			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал..", "Эээ... Нет, не уверен.");
+			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал"+ GetSexPhrase("","а") +"..", "Эээ... Нет, не уверен"+ GetSexPhrase("","а") +".");
 			link.l2.go = "exit";
 		break;
 		
@@ -2063,9 +2100,9 @@ void ProcessDialogEvent()
 		
 		case "ColonyGuarding_Hovernor_AutoCrewHire_Off_Plantation_1":
 			dialog.text = "Вы действительно хотите приостановить найм команды для гарнизона плантации?";
-			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен.");
+			link.l1 = LinkRandPhrase("Да.", "Совершенно точно.", "Конечно же, уверен"+ GetSexPhrase("","а") +".");
 			link.l1.go = "ColonyGuarding_Hovernor_AutoCrewHire_Off_Plantation_2";
-			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал..", "Эээ... Нет, не уверен.");
+			link.l2 = LinkRandPhrase("Отставить!", "Я, пожалуй, передумал"+ GetSexPhrase("","а") +"..", "Эээ... Нет, не уверен"+ GetSexPhrase("","а") +".");
 			link.l2.go = "exit";
 		break;
 		

@@ -361,8 +361,8 @@ void Cabin_ReloadEndFadeAfter()
 /////////// диалог на палубе ////////////
 void Sea_DeckBoatStartNow(ref _iShipsCharacter)
 {
-	string boat_pic = "loading\boat.tga";	
-	if(CheckAttribute(pchar, "TownEscape")) boat_pic = "loading\Start_Loading.tga";
+	string boat_pic = "loading\boat_"+rand(2)+".tga";	
+	if(CheckAttribute(pchar, "TownEscape")) boat_pic = "loading\StartGame.tga";
 	
 	if (!bAbordageStarted)
 	{

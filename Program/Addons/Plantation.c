@@ -1,6 +1,6 @@
 /* Плантация, её развитие и повседневные дела */
-#define EXTRACT_SUGAR 			1.3
-#define EXTRACT_COFFEE 			0.7
+#define EXTRACT_SUGAR 			3.9
+#define EXTRACT_COFFEE 			2.1
 
 #define AUTO_SELL_PLANTATION_MAX 	2000
 #define AUTO_SELL_SUGAR 		10
@@ -426,9 +426,9 @@ void PlantationMutiny()
 	
 	PChar.Plantation.Defence.End = iEnd;
 	
-	int iTime = 10 + rand(10) + iRandMinus;
-	if(iTime < 8) { iTime = 8; } 
-	if(iTime > 30) { iTime = 30; } 
+	int iTime = 4 + rand(10) + iRandMinus;
+	//if(iTime < 8) { iTime = 8; } 
+	//if(iTime > 30) { iTime = 30; } 
 	
 	string sClearQuest = "ClearMutinyPlantation_" + rand(1000000);
 	PChar.Plantation.ClearQuest = sClearQuest;
@@ -776,7 +776,7 @@ int GetPlantationFoodDays()
 	if(iDay <= 0) { return iGood; }
 	if(iGood <= 0) { return 0; }
 	
-	iDay *= 14;
+	iDay *= 42;
 	iDays = iGood / iDay;
 	
 	if(iDays < 0)
@@ -797,7 +797,7 @@ int GetPlantationMedicamentDays()
 	if(iSlaves <= 0) { return iGood; }
 	if(iGood <= 0) { return 0; }
 	
-	iDay *= 14;
+	iDay *= 42;
 	iDays = iGood / iDay;
 	
 	if(iDays < 0)

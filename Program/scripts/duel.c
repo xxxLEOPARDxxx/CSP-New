@@ -26,7 +26,7 @@ void Duel_Prepare_Fight()
 		PChar.Quest.Duel_Fight_Right_Now.function = "Duel_Fight_Right_Now";
 
 		LocationMakeClone(pchar.location);
-		Locations[FindLocation("Clone_location")].image = "loading\tavern_fight.tga.tx";
+		Locations[FindLocation("Clone_location")].image = "loading\TavernFight_"+rand(1)".tga";
 //		DoQuestReloadToLocation("Clone_location", pchar.location.group, pchar.location.locator, "Duel_Fight_Right_Now");
 		DoReloadCharacterToLocation("Clone_location", pchar.location.group, pchar.location.locator);
 		

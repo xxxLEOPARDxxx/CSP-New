@@ -18,7 +18,7 @@ int LocationInitOldWorld(int n)
 	rLoc.fastreload = "PortRoyal"; // id города
 	rLoc.islandId = "OldWorld"; // id острова
 	
-	rLoc.image = "loading\Town.tga";
+	rLoc.image = "loading\Town_"+rand(8)+".tga";
 	rLoc.citizens = true;
 	rLoc.soldiers = true;
 	/*rLoc.carrier = true;*/
@@ -71,7 +71,7 @@ int LocationInitOldWorld(int n)
 	rLoc.fastreload = "PortRoyal"; //
 	rLoc.islandId = "Jamaica"; //
 	
-	rLoc.image = "loading\Town.tga";
+	rLoc.image = "loading\Town_"+rand(8)+".tga";
 	rLoc.citizens = true;
 	/*rLoc.soldiers = true;
 	rLoc.carrier = true;*/
@@ -128,7 +128,7 @@ int LocationInitOldWorld(int n)
 	rLoc.fastreload = "PortRoyal"; //
 	rLoc.islandId = "OldWorld"; //
 	
-	rLoc.image = "loading\Town.tga";
+	rLoc.image = "loading\Town_"+rand(8)+".tga";
 	rLoc.citizens = true;
 	rLoc.soldiers = true;
 	/*rLoc.carrier = true;*/
@@ -180,7 +180,7 @@ int LocationInitOldWorld(int n)
 	rLoc.fastreload = "PortRoyal"; //
 	rLoc.islandId = "OldWorld"; //
 	
-	rLoc.image = "loading\Town.tga";
+	rLoc.image = "loading\Town_"+rand(8)+".tga";
 	rLoc.citizens = true;
 	rLoc.soldiers = true;
 	/*rLoc.carrier = true;*/
@@ -235,7 +235,7 @@ int LocationInitOldWorld(int n)
 	rLoc.fastreload = "PortRoyal"; //
 	rLoc.islandId = "OldWorld"; //
 	
-	rLoc.image = "loading\Town.tga";
+	rLoc.image = "loading\Town_"+rand(8)+".tga";
 	rLoc.citizens = true;
 	rLoc.soldiers = true;
 	/*rLoc.carrier = true;*/
@@ -287,7 +287,7 @@ int LocationInitOldWorld(int n)
 	rLoc.fastreload = "PortRoyal"; //
 	rLoc.islandId = "OldWorld"; //
 	
-	rLoc.image = "loading\Gate" + rand(1) + ".tga";
+	rLoc.image = "loading\Gate_"+rand(1)+".tga";
 	/*rLoc.citizens = true;
 	rLoc.soldiers = true;
 	rLoc.carrier = true;*/

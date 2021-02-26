@@ -3129,6 +3129,33 @@ int InitItems()
 	itm.ItemType = "WEAPON";
 	n++;
 
+	makeref(itm,Items[n]);
+	itm.id = "pistol7shotgun";  //шотган
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_pistol7shotgun";
+	itm.describe = "itmdescr_pistol7shotgun";
+	itm.folder = "items";
+	itm.model = "pistol7shotgun";
+	itm.picIndex = 8;
+	itm.picTexture = "ITEMS_14";
+	itm.shown = 1;
+	itm.price = 25000;
+	//ложим в храм
+	//itm.startLocation = "Temple_round";
+	//itm.startLocator = "item1";
+	// boal 19.01.2004 -->
+	itm.Weight = 9;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 4;
+	itm.chargespeed = 52;
+	itm.dmg_min = 100.0;
+	itm.dmg_max = 300.0;
+	itm.accuracy = 80;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.ItemType = "WEAPON";
+	n++;
+	
     makeref(itm,Items[n]);
 	itm.id = "Ascold_rabble"; // монтировка
 	itm.name = "itmname_Ascold_rabble";

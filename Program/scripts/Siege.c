@@ -411,6 +411,7 @@ void CreateSiege(string tmp)
         string sGroup = "Sea_"+NationShortName(sti(aData.nation))+"SiegeCap_1";
         Log_TestInfo("CreateSiege "+NationShortName(sti(aData.nation)));
         makeref(rColony, Colonies[FindColony(aData.colony)]);
+		Log_TestInfo("WhoIsUnderSiege "+rColony.id);
         MakeSiegeSquadron(sti(aData.nation));
         aData.SiegeHP = Group_GetPowerHP(sGroup);
         //Log_TestInfo
@@ -777,7 +778,6 @@ void SiegeClear(string tmp)
         makearef(aData, NullCharacter.Siege);
         makeref(rColony, Colonies[FindColony(aData.Colony)]);
         DeleteAttribute(rColony, "DontSetShipInPort"); //возвращаем жизнь
-		DeleteAttribute(rColony, "AlreadyGen");
         DeleteAttribute(rColony, "Siege"); //снимаем осаду
         if (CheckAttribute(PChar, "quest.Union_with_Escadra")) Pchar.quest.Union_with_Escadra.over = "yes";
         if (CheckAttribute(PChar, "quest.BattleOfTheColony")) Pchar.quest.BattleOfTheColony.over = "yes";
@@ -792,6 +792,8 @@ void SiegeClear(string tmp)
         Group_SetAddressNone(sGroup);
         Group_DeleteGroup(sGroup);
         aData.isSiege = 0;
+		Log_TestInfo("Была снята осада с "+rColony.id+". Примерно через неделю при логине форта должны перезаселиться сторожевики.");
+		DeleteAttribute(rColony, "AlreadyGen");
     }
 }
 

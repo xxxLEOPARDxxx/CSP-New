@@ -926,7 +926,6 @@ void NewGame()
 
 	CreateEntity(&LanguageObject,"obj_strservice");
 	CreateEntity(&reload_fader, "fader");
-	// SendMessage(&reload_fader, "ls",FADER_PICTURE, RandPhraseSimple("loading\battle_" + rand(23) + ".tga", "loading\Start_Loading.tga.tx"));
 	SendMessage(&reload_fader, "ls",FADER_PICTURE, "loading\StartGame.tga");
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 	
@@ -998,12 +997,28 @@ void NewGame_continue()
 
 	//LoadMainCharacterInFirstLocation(sTeleportLocName, sTeleportLocator, sTeleportLocName);
 	startGameWeather = true;
-	if (Pchar.questTemp.CapBloodLine != true) //21/07/07 homo дл€ Ѕлада даем другое начало
+	if (Pchar.questTemp.CapBloodLine != true && Pchar.questTemp.WhisperLine != true) //21/07/07 homo дл€ Ѕлада даем другое начало
 	{
 		InterfaceStates.startGameWeather = FindWeather("11 Hour");
 		LoadMainCharacterInFirstLocationGroup("Ship_deck_Low", "goto", "goto4");
     }
-    else
+    else if (Pchar.questTemp.WhisperLine == true)
+	{
+		RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, SPYGLASS_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, PATENT_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, BACKPACK_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, TALISMAN_ITEM_TYPE);
+		RemoveCharacterEquip(pchar, BOOK_ITEM_TYPE);
+		DeleteAttribute(pchar, "items");
+		
+		InterfaceStates.startGameWeather = FindWeather("11 Hour");
+		LoadMainCharacterInFirstLocationGroup("Bermudes_Dungeon", "officers", "reload2_1");
+    }
+	else
     {
         //homo тут это должно точно работать
         RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
@@ -1028,7 +1043,13 @@ void NewGame_continue()
 	//SetQuestForMenInTavernWhoGiveUsInfo(); // to_do
     //#20190909-01
     pchar.fix20190909 = true;
-
+	ReloadProgressUpdate();
+	
+	for (int j = 0; j< MAX_COLONIES; j++)
+	{
+		GenerateIslandShips(colonies[j].island);
+	}
+	ReloadProgressUpdate();
 	//InitSmuggling();
 	ReloadProgressEnd();
 }
@@ -1783,33 +1804,8 @@ void ProcessControls()
 		case "UseFood":
 			if (bLandInterfaceStart)
 			{
-			
-				bool bEnableFood = true;
-				if(CheckAttribute(PChar, "AcademyLand"))
-				{
-					if(PChar.AcademyLand == "Start")
-					{
-						bEnableFood = sti(PChar.AcademyLand.Temp.EnableFood);
-					}
-				}
-				
-				if(!bEnableFood)
-				{
-					Log_SetStringToLog("¬ данный момент запрещено использовать еду.");
-				}
-				else
-				{
-					itmIdx = FindFoodFromChr(pchar, &arItm, 0);
-					while(itmIdx>=0)
-					{
-						if(EnableFoodUsing(pchar, arItm))
-						{
-							DoCharacterUsedFood(pchar, arItm.id);
-							break;
-						}
-						itmIdx = FindFoodFromChr(pchar, &arItm, itmIdx+1);
-					}
-				}
+				pchar.pressedFoodButton = true;
+				EatSomeFood();
 			}
 		break;
         // boal <--
@@ -1924,27 +1920,31 @@ void GameOver(string sName)
 	switch(sName)
 	{
 		case "sea":
-			StartPictureAsVideo( "loading\seadeath.tga.tx", 4 );
+			StartPictureAsVideo( "loading\seadeath_"+rand(3)+".tga", 4 );
 			PlayStereoOGG("music_ship_dead");
 		break;
 		case "boarding":
-			StartPictureAsVideo( "loading\seadeath.tga.tx", 4 );
+			StartPictureAsVideo( "loading\seadeath_"+rand(3)+".tga", 4 );
 			PlayStereoOGG("music_ship_dead");
 		break;
 		case "land":
-			StartPictureAsVideo( "loading\death.tga.tx", 4 );
+			if (mc.sex != "woman") StartPictureAsVideo( "loading\DeathMan_"+rand(1)+".tga", 4 );
+			else StartPictureAsVideo( "loading\DeathWoman_"+rand(1)+".tga", 4 );
 			PlayStereoOGG("music_death");
 		break;
 		case "mutiny":
-			StartPictureAsVideo( "loading\finalbad2.tga.tx", 4 );
+			if (mc.sex != "woman") StartPictureAsVideo( "loading\DeathMan_"+rand(1)+".tga", 4 );
+			else StartPictureAsVideo( "loading\DeathWoman_"+rand(1)+".tga", 4 );
 			PlayStereoOGG("music_death");
 		break;
 		case "town":
-			StartPictureAsVideo( "loading\finalbad1.tga.tx", 4 );
+			if (mc.sex != "woman") StartPictureAsVideo( "loading\DeathMan_"+rand(1)+".tga", 4 );
+			else StartPictureAsVideo( "loading\DeathWoman_"+rand(1)+".tga", 4 );
 			PlayStereoOGG("music_death");
 		break;
 		case "blood":
-			StartPictureAsVideo( "loading\finalbad2.tga.tx", 4 );
+			if (mc.sex != "woman") StartPictureAsVideo( "loading\DeathMan_"+rand(1)+".tga", 4 );
+			else StartPictureAsVideo( "loading\DeathWoman_"+rand(1)+".tga", 4 );
 			PlayStereoOGG("music_death");
 		break;
 	}

@@ -337,7 +337,7 @@ void SelectRColony()
 			}
 		}
 	}
-	Log_Info(fMouseX+"/"+fMouseY);
+	Log_TestInfo(fMouseX+"/"+fMouseY);
 	if (bBettaTestMode)
 	{
 		if (fMouseX >= 69.0 && fMouseX <= 155.0 && fMouseY >= 1275.0 && fMouseY <= 1380.0)
@@ -384,6 +384,12 @@ void SelectRColony()
 				setWDMPointXZ("Shore17");
 				DoQuestReloadToLocation("Caiman_Town", "reload", "reload1", "");
 			}
+		}
+		if (fMouseX >= 648.0 && fMouseX <= 694.0 && fMouseY >= 1955.0 && fMouseY <= 2028.0)
+		{
+			setCharacterShipLocation(pchar, "PortoBello_town");
+			setWDMPointXZ("PortoBello_town");
+			DoQuestReloadToLocation("Panama_town", "reload", "reload1", "");
 		}
 	}
 }

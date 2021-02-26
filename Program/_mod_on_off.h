@@ -83,6 +83,8 @@ bool 	bHigherSelfRate 			= true;
 bool 	bPortPermission 			= false;
 //Абордаж стенка на стенку
 bool   bBoardMode                   = false;
+//Срез скиллов от офицеров
+bool   bNoBonusSkillOff             = false;
 //Взятки стражникам
 bool   bBribeSoldiers               = false;
 //система скрытности

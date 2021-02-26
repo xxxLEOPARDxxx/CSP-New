@@ -468,7 +468,7 @@ void ProcessDialogEvent()
 		case "Sharp_hired":
 			bQuestDisableMapEnter = false;
 			characters[GetCharacterIndex("Sharp")].lifeDay = 0;
-			sld = GetCharacter(NPC_GenerateCharacter("Sharp", "Sharp", "man", "man", 30, PIRATE, -1, true));
+			sld = GetCharacter(NPC_GenerateCharacter("SharpOf", "Sharp", "man", "man", 30, PIRATE, -1, true));
 			FantomMakeCoolFighter(sld, 30, 70, 70, "blade25", "pistol6", 120);
 			sld.name = "Бартоломью";
 			sld.lastname = "Шарп";
@@ -502,7 +502,7 @@ void ProcessDialogEvent()
 			dialog.text = "Я могу так продолжать хоть целый день. Отдавай деньги за порох, "+ GetFullName(pchar) + ", если хочешь жить.";
 			if(makeint(Pchar.money) >= 300000)
 			{
-				link.l1 = "Твой корабль захвачен, а вся команда перебита. Но дерёшся ты хорошо. Я сохраню тебе жизнь и даже отдам деньги за порох, если ты пойдешь плавать под моим началом. Или...";
+				link.l1 = "Твой корабль захвачен, а вся команда перебита. Но дерёшься ты весьма неплохо. Я подумываю сохранить тебе жизнь и даже отдать деньги за порох, если пойдешь плавать под моим началом. Либо...";
 				link.l1.go = "zpqCapitain_1";
 			}
 			
@@ -520,8 +520,7 @@ void ProcessDialogEvent()
 		case "zpq_hired":
 			bQuestDisableMapEnter = false;
 			characters[GetCharacterIndex(npchar)].lifeDay = 0;
-			LAi_SetCurHPMax(npchar);
-			sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim", "man", "man", 30, PIRATE, -1, true));
+			sld = GetCharacter(NPC_GenerateCharacter("zpqCaptainOf", "Lil_Jim", "man", "man", 30, PIRATE, -1, true));
 			FantomMakeCoolFighter(sld, 40, 105, 105, "blade23", "pistol3", 120);
 			sld.name 	= "Маленький";
 			sld.lastname = "Джимми";

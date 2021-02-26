@@ -248,8 +248,8 @@ void LiveOfTheColonyUptade()
 	}
 	
 	iQuantityResize = iPopulationQuantity / 10;
-	if(iQuantityResize < 4) iQuantityResize = 4;
-	if(iQuantityResize > 10) iQuantityResize = 10;
+	if(iQuantityResize < 12) iQuantityResize = 12;
+	if(iQuantityResize > 30) iQuantityResize = 30;
 	
 	
 	if(iPopulationMorale < 40)
@@ -507,7 +507,7 @@ int GetColonyFoodNeedDays()
 		return iFood;
 	}
 	
-	iDay *= 7;
+	iDay *= 21;
 	iDays = iFood / iDay;
 	
 	if(iDays < 0)
@@ -3596,7 +3596,7 @@ void CreateModificyColonyCaiman()
 	//rResidence.fastreload = "Caiman";
 	//rResidence.townsack = "Caiman";
 	
-	rResidence.image = "loading\inside\residence.tga";
+	rResidence.image = "loading\inside\residence_3.tga";
 	rResidence.filespath.models = "locations\inside\" + sTownhall;	
 	rResidence.models.always.locators = sTownhall + "_locators";
 	rResidence.models.always.l1 = sTownhall;
@@ -3909,7 +3909,7 @@ void CreateTownCaiman()
 	
 	rTown.id.label = "Street";
 	rTown.worldmap = "Caiman";
-	rTown.image = "loading\Town.tga";
+	rTown.image = "loading\Town_"+rand(8)+".tga";
 	rTown.citizens = true;
 	rTown.soldiers = true;
 	rTown.carrier = true;

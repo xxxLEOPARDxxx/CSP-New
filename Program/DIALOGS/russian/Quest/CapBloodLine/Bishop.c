@@ -302,7 +302,7 @@ void ProcessDialogEvent()
 
     		if (npchar.id == "Griffin")
     		{
-                if(Pchar.questTemp.CapBloodLine.stat == "PrepareToEscape1")
+                if(Pchar.questTemp.CapBloodLine.stat == "PrepareToEscape1" && !CheckAttribute(pchar, "LockBloodWeaponsOptions"))
                 {
                 	dialog.text = "Какого дьявола ты вваливаешься без стука, проклятый... а, это вы, доктор Блад!";
             		link.l1 = "Добрый день, мистер Гриффин. Прошу прощения за бесцеремонное вторжение, но у меня к вам дело, не терпящее отлагательств.";
@@ -352,7 +352,7 @@ void ProcessDialogEvent()
     		
     		if (npchar.id == "Quest_Smuggler")
     		{
-                if(Pchar.questTemp.CapBloodLine.stat == "PrepareToEscape" && sti(Pchar.reputation) >= 50)
+                if(Pchar.questTemp.CapBloodLine.stat == "PrepareToEscape" && sti(Pchar.reputation) >= 50  && !CheckAttribute(pchar, "LockBloodWeaponsOptions"))
                 {
                 	dialog.text = "Слыхал о вас, доктор Блад. Вы стали, в какой-то мере, звездной личностью среди местных рабов, что гниют на плантациях. Чем же я могу вам услужить?";
             		link.l1 = "С вашего позволения, мы будем говорить тише. Все дело в том, что мне нужно оружие...";
@@ -1495,6 +1495,7 @@ void ProcessDialogEvent()
         case "PStep_18":
 
             dialog.text = "Да что тут выбирать! Все хотят, чтоб ты был нашим капитаном, Питер.";
+			DeleteAttribute(pchar, "LockBloodWeaponsOptions");
         	link.l1 = "Ну, если возражений нет, тогда готовим корабль к бою. Ты будешь штурманом, Джереми, так как ты единственный из нас можешь управлять кораблем.";
             link.l1.go = "PStep_19";
 
@@ -2023,6 +2024,7 @@ void ProcessDialogEvent()
         case "QSStep_5":
 
             dialog.text = "Вряд ли она носит его, мой дорогой доктор. Тем не менее, оно у нее. Маленькое золотое колечко - простое, как три пиастра, но чертовски для меня важное. Скупщик даст вам за него едва ли пятую долю того, что предлагаю я. Только не спрашивайте, почему. Просто ответьте.";
+			pchar.LockBloodWeaponsOptions = true;
         	link.l1 = "Вернусь так быстро, как только смогу. Приготовьте деньги и товар.";
             link.l1.go = "Exit";
             NextDiag.TempNode = "QSStep_6";
@@ -2143,14 +2145,44 @@ void ProcessDialogEvent()
 		  //--> Волверстон
 
         case "VLStep_0":
-
-            dialog.text = "Удрать из этого ада и оставить Бишопа с носом?! Черт тебя побери, ты еще спрашиваешь меня об этом?!";
-        	link.l1 = "Тогда наберись терпения и жди моих указаний.";
-            link.l1.go = "Exit";
+            dialog.text = "Я бы с радостью, но боюсь толку от меня будет немного.";
+        	link.l1 = "Это еще почему?";
+            link.l1.go = "VLStep_0_1";
+            NextDiag.TempNode = "VLStep_1";
+		break;
+		
+		case "VLStep_0_1":
+            dialog.text = "За эти долгие месяцы каторги я не брал в рот ни капли, а на трезвую голову очень туго соображаю. Не мог бы ты принести мне бутылочку рома?";
+			SetQuestHeader("VolversonRum");
+			AddQuestRecord("VolversonRum", "1");
+        	link.l1 = "Похоже, у меня нет выбора. без твоего участия о побеге можно будет забыть.";
+            link.l1.go = "exit";
+            NextDiag.TempNode = "VLStep_0_2";
+		break
+		
+		case "VLStep_0_2":
+            dialog.text = "Ты принес то, что я просил?";
+			if(CheckCharacterItem(pchar, "potionrum"))
+			{
+				link.l1 = "Вот, держи.";
+				link.l1.go = "VLStep_0_3";
+			}
+			link.l2 = "Еще нет.";
+            link.l2.go = "exit";
+            NextDiag.TempNode = "VLStep_0_2";
+            
+		break;
+		
+		case "VLStep_0_3":
+            dialog.text = "(Он за несколько мгновений выпивает всю бутылку до последней капли) Ох...  Так гораздо лучше. Ты говорил о побеге? Я в деле.";
+			RemoveItems(PChar, "potionrum", 1);
+			AddQuestRecord("VolversonRum", "2");
+			CloseQuestHeader("VolversonRum");
+        	link.l1 = "Питт расскажет тебе все подробности. Надеюсь ты сейчас не отрубишься от опъянения и не пропустишь все веселье.";
+            link.l1.go = "exit";
             NextDiag.TempNode = "VLStep_1";
             //Pchar.questTemp.CapBloodLine.Volverston = true;
             Pchar.questTemp.CapBloodLine.Officer = sti(Pchar.questTemp.CapBloodLine.Officer)+1;
-
 		break;
 
         case "VLStep_1":

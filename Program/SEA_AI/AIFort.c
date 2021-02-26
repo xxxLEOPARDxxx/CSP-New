@@ -133,8 +133,8 @@ void Fort_Login(int iIslandIndex)
                 DelCharacterRelation(iFortCharacter);
             }
             // boal 22.04.05 сброс всех отношений <--
-            DeleteAttribute(rCharacter, "CheckFlagYet"); // флаг распозновани€ врага
-    		rCharacter.TmpSkillRecall = "0"; //boal 25.05.04 оптимизаци€ расчета, когда == 0 считаем скилы
+            DeleteAttribute(rCharacter, "CheckFlagYet"); // флаг распознования врага
+    		rCharacter.TmpSkillRecall = "0"; //boal 25.05.04 оптимизация расчета, когда == 0 считаем скилы
 			int iFortMode = FORT_NORMAL;
 			if (CheckAttribute(rCharacter, "Fort.Mode"))
 			{
@@ -181,6 +181,7 @@ void Fort_Login(int iIslandIndex)
 				}
 				SetFortCharacterCaptured(rCharacter, false);
 				iFortMode = FORT_NORMAL;
+				Log_TestInfo("Разрушенный форт "+rCharacter.City+ " был восстановлен. Должны родиться новые сторожевики.");
 				rCharacter.Ship.Crew.Quantity = 900 + rand(600);
 			}
 
@@ -489,7 +490,7 @@ void Fort_SetAbordageMode(ref rKillerCharacter, ref rFortCharacter)
 	Event(FORT_DESTROYED, "l", sti(rFortCharacter.index));
 	int iExp = 20000;
 	//AddCharacterExp(rKillerCharacter, iExp);
-	if (GetRelation(sti(rFortCharacter.index), GetMainCharacterIndex()) == RELATION_ENEMY) // fix если форт друг, а вал€т его осадники
+	if (GetRelation(sti(rFortCharacter.index), GetMainCharacterIndex()) == RELATION_ENEMY) // fix если форт друг, а валят его осадники
 	{
 		// boal -->
 		AddCharacterExpToSkillSquadron(rKillerCharacter, "Grappling", 300);
@@ -517,7 +518,7 @@ void Fort_SetAbordageMode(ref rKillerCharacter, ref rFortCharacter)
 	}
   
 }
-// нигде не используетс€
+// нигде не используется
 void Fort_SetCharacter(ref rCharacter, string sIslandID, string sLocationGroup, string sLocationLocator)
 {
 	int iCharacterIndex = Fort_FindCharacter(sIslandID, sLocationGroup, sLocationLocator);

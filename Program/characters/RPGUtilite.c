@@ -1300,9 +1300,23 @@ int GetSummonSkillFromNameSimple(ref _refCharacter, string skillName)
 		if(iOfficer != -1)
 		{
 			iOffSkill = GetCharacterSkillSimple(&characters[iOfficer], skillName);
-			if (iOffSkill > sumSkill)
+			if (bNoBonusSkillOff) 
 			{
-				sumSkill = iOffSkill;
+				if ((iOffSkill - sumSkill) > 25) sumSkill = sumSkill + 25;
+				else
+				{
+					if (iOffSkill > sumSkill)
+					{
+						sumSkill = iOffSkill;
+					}
+				}
+			}
+			else
+			{
+				if (iOffSkill > sumSkill)
+				{
+					sumSkill = iOffSkill;
+				}
 			}
 		}
 	}
@@ -2291,6 +2305,10 @@ void initNewMainCharacter()
 		ch.HeroParam.Location = ch.HeroParam.ToCityId + "_port";
 		ch.HeroParam.Group    = "reload";
 		ch.HeroParam.Locator  = "sea";
+		if(startherotype == 2)
+		{
+			ch.HeroParam.Location = "PuertoPrincipe_port";
+		}
 	}
 	setCharacterShipLocation(ch, ch.HeroParam.Location);
     setWDMPointXZ(ch.HeroParam.Location);  // коорд на карте
@@ -2424,13 +2442,23 @@ void initNewMainCharacter()
     	pchar.quest.Tut_start.win_condition.l1          = "location";
     	pchar.quest.Tut_start.win_condition.l1.location = "Estate";
     	pchar.quest.Tut_start.function                  = "Blood_StartGame";
+		Pchar.questTemp.WhisperLine = false;
     }
-    else
+    else if (startHeroType == 2)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Bermudes_Dungeon";
+    	pchar.quest.Tut_start.function                  = "Whisper_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+    }
+	else
     {
     	pchar.quest.Tut_start.win_condition.l1          = "location";
     	pchar.quest.Tut_start.win_condition.l1.location = "Ship_deck_Low";
     	pchar.quest.Tut_start.function                  = "Tut_StartGame";
         Pchar.questTemp.CapBloodLine = false;
+		Pchar.questTemp.WhisperLine = false;
+        
     }
 	
 	// Warship Для разных квестов

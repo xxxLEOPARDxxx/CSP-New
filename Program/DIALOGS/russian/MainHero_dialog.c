@@ -15,6 +15,7 @@ void ProcessDialogEvent()
 	int i, iTemp;
 	string sAttr;
     
+	
 	// генератор ИДХ по кейсу -->
 	sAttr = Dialog.CurrentNode;
   	if (findsubstr(sAttr, "CabinCompanionTalk_" , 0) != -1)
@@ -31,6 +32,17 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit_Self();
 		break;
+		case "Exit_incq":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DoQuestFunctionDelay("WhisperLine_Inquisition", 5.0);
+			DialogExit_Self();
+		break;
+		case "Exit_Special":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit_Self();
+			pchar.SystemInfo.ChangePIRATES = true;
+			LaunchCharacter(pchar);
+		break;
 		
 		case "First time":
 	      	NextDiag.TempNode = "First time";
@@ -38,6 +50,7 @@ void ProcessDialogEvent()
 	        Dialog.Text = "Если вы читаете эти строки, значит, где-то явный баг в коде";
 			Link.l1 = "Выход";
 			Link.l1.go = "exit";
+			
 			//ОЗГ
 			if(CheckAttribute(pchar, "questTemp.Headhunter"))
 			{
@@ -117,6 +130,68 @@ void ProcessDialogEvent()
     			Link.l1.go = "exit";
 				AddDialogExitQuestFunction("BlueBird_endCaveDialog");
 			}
+			//Квест нежити на перерождение
+			if (CheckAttribute(pchar, "questTemp.HellSpawn.Rebirth"))
+			{
+				dialog.Text = "(У одного из поверженных противников вы находите клочок бумаги с каким-то текстом, а также пузырек со странным содержимым)\nКажется, чтобы переродиться, я должен выпить зелье и прочесть вслух этот текст.";
+				bMonstersGen = true;
+				DeleteAttribute(pchar, "questTemp.HellSpawn.Rebirth");
+				Link.l1 = "(Исполнить ритуал)";
+				Link.l1.go = "HellSpawn_Ritual";
+				Link.l2 = "Нет, меня вполне устраивает моя текущая форма.";
+				Link.l2.go = "exit";
+			}
+			//Линейка Виспер
+			if (CheckAttribute(pchar, "questTemp.Whisper.Entered_Dungeon"))
+			{
+				dialog.Text = "Координаты совпадают. Кажется, я на месте. Похоже на древние катакомбы. Им лет 300, а то и больше. Надеюсь, ничего не обвалится мне на голову.";
+				bMonstersGen = true;
+				DeleteAttribute(pchar, "questTemp.Whisper.Entered_Dungeon");
+				Link.l1 = "(Перечитать сообщение от заказчика)";
+				Link.l1.go = "Whisper_mission_1";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.Near_Chest"))
+			{
+				DeleteAttribute(pchar, "questTemp.Whisper.Near_Chest");
+				
+				dialog.Text = "Отлично, устройство у меня. Теперь пора убираться отсюда.";
+				Log_Info("Вы нашли квантовый выпрямитель часлиц.");
+				Link.l1 = "...";
+				Link.l1.go = "exit";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.HoldMonologue"))
+			{
+				DeleteAttribute(pchar, "questTemp.Whisper.HoldMonologue");
+				
+				dialog.Text = "Проклятье! Не хватало того, что меня закинуло в прошлое, а машина времени повреждена и находится вместе во всеми моими вещами в лапах этих немытых головорезов. Теперь я еще и в плену, а в ближайшие дни меня ждет публичная казнь.";
+				Link.l1 = "Нужно собраться. Я выберусь на свободу, так или иначе.";
+				Link.l1.go = "exit_incq";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.GetHat"))
+			{
+				DeleteAttribute(pchar, "questTemp.Whisper.GetHat");
+				dialog.Text = "Похоже, его задела шальная пуля от происходящего за городом сражения. ";
+				GiveItem2Character(pchar, "blade19");
+				EquipCharacterByItem(pchar, "blade19");
+				Pchar.model="PGG_Whisper_0";
+				pchar.Whisper.HatEnabled = true;
+				Link.l1 = "Мне жаль, приятель. Твои шпагу со шляпой я заберу. Надеюсь, ты не в обиде. Там, куда ты попал они все равно уже не понадобятся.";
+				Link.l1.go = "exit";
+				PChar.quest.WhisperPirateTownBattle.win_condition.l1 = "location";
+				PChar.quest.WhisperPirateTownBattle.win_condition.l1.location = "PuertoPrincipe_ExitTown";
+				PChar.quest.WhisperPirateTownBattle.function = "WhisperPirateTownBattle";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.AfterTownBattle"))
+			{
+				DeleteAttribute(pchar, "questTemp.Whisper.AfterTownBattle");
+				dialog.Text = "Похоже, мы отбились. Жаль, что столько людей погибло\nДевятипалый говорил, что его тут недалеко ждет корабль. Стоит проверить.";
+				Link.l1 = "Нужно найти бухту.";
+				Link.l1.go = "exit";
+				PChar.quest.WhisperPirateTownBattle.win_condition.l1 = "location";
+				PChar.quest.WhisperPirateTownBattle.win_condition.l1.location = "PuertoPrincipe_Port";
+				PChar.quest.WhisperPirateTownBattle.function = "WhisperMeetCrew";
+			}
+			//Линейка Виспер
 		break;
 		// boal -->
 		case "TalkSelf_Main":
@@ -268,10 +343,69 @@ void ProcessDialogEvent()
 					Link.l11 = "Прекратить автоматическое использование еды.";
 					Link.l11.go = "autofood_stop";
 				}
+				if(startHeroType == 2 && CheckAttribute(pchar,"Whisper.HatEnabled"))
+				{
+					if (Pchar.model=="PGG_Whisper_0")
+					{
+						Link.l13 = "Прекратить носить шляпу.";
+						Link.l13.go = "WhisperHatUnequip";
+					}
+					if (Pchar.model=="PGG_Whisper_0_NoHat")
+					{
+						Link.l13 = "Носить шляпу.";
+						Link.l13.go = "WhisperHatEquip";
+					}
+				}
 			}
 			Link.l12 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
 			Link.l12.go = "exit";
 		break;
+		
+		case "HellSpawn_Ritual"://перерождение
+			Dialog.Text = "(Вы чувствуете себя немного другим).";
+			pchar.Ritual.ModelChanged = false;
+			if (pchar.HeroModel == "PGG_Skeletcap_0,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5")
+			{//веселый роджер
+				pchar.sex = "man";
+				pchar.animation = "man";
+				pchar.model = "PGG_Tich_0";
+				pchar.HeroModel  = "PGG_Tich_0,PGG_Tich_1,PGG_Tich_2,PGG_Tich_3,PGG_Tich_4,PGG_Tich_5";
+				pchar.Ritual.ModelChanged = true;
+			}
+			if (pchar.HeroModel == "PGG_Ghost_0,PGG_Ghost_1,PGG_Ghost_2,PGG_Ghost_3,PGG_Ghost_4,PGG_Ghost_5")
+			{//призрак джессики
+				pchar.sex = "woman";
+				pchar.animation = "Jessika";
+				pchar.model = "PGG_MaryBred_0";
+				pchar.HeroModel  = "PGG_MaryBred_0,PGG_MaryBred_1,PGG_MaryBred_2,PGG_MaryBred_3,PGG_MaryBred_4,PGG_MaryBred_5";
+				pchar.Ritual.ModelChanged = true;
+			}
+			if (pchar.HeroModel == "PGG_Meriman_2")
+			{//ужасный
+				pchar.sex = "man";
+				pchar.animation = "man2_ab";
+				pchar.model = "PGG_Will";
+				pchar.HeroModel  = "PGG_Will";
+				pchar.Ritual.ModelChanged = true;
+			}
+			if (pchar.HeroModel == "PGG_Giant_0,PGG_Giant_1,PGG_Giant_2,PGG_Giant_3,PGG_Giant_4,PGG_Giant_5" )
+			{//каскос
+				//pchar.sex = "man";
+				//pchar.animation = "man2";
+				//pchar.model = "PGG_Blaze";
+				//pchar.HeroModel  = "PGG_Blaze";
+				pchar.Ritual.ModelChanged = true;
+			}
+			if (pchar.Ritual.ModelChanged == false)
+			{//никто из перечисленных
+				pchar.sex = "man";
+				pchar.animation = "man";
+				pchar.model = "PGG_Pat_0";
+				pchar.HeroModel  = "PGG_Pat_0,PGG_Pat_1,PGG_Pat_2,PGG_Pat_3,PGG_Pat_4,PGG_Pat_5,PGG_Pat_6,PGG_Pat_7,PGG_Pat_8";
+			}
+			link.l1 = "Что-то мне нехорошо. Выйду на воздух.";
+			Link.l1.go = "exit";
+		break
 		
 		case "autofood":
 			Dialog.Text = "Введите процент, до которого должна опуститься энергия, прежде чем начать использовать еду (10-90).";
@@ -708,6 +842,36 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit_Self();
 			LaunchMekakhrom();
+		break;
+		
+		// Линейка Виспер
+		case "Whisper_mission":
+			dialog.Text = "Координаты совпадают. Кажется, я на месте. Похоже на древние катакомбы - им лет 300, не меньше. Надеюсь, ничего не обвалится, пока я здесь.";
+			Link.l1 = "(Перечитать сообщение от заказчика)";
+			Link.l1.go = "Whisper_mission_1";
+		break;		
+		case "Whisper_mission_1":
+			dialog.Text = "'Дорогая Виспер, тебя приветствует корпорация Omnitech! Мы слышали, что ты лучшая в своем деле, и хотим предложить тебе одну работу. Дело в том, что существует некий предмет - квантовый выпрямитель частиц. Это опасное устройство, в плохих руках оно может принести вред всему человечеству. В данный момент оно и находится в таких руках.'";
+			Link.l1.go = "Whisper_mission_2";
+		break;
+		case "Whisper_mission_2":
+			dialog.Text = "'Мы выслали тебе координаты лаборатории безумного ученого, что разработал данное устройство. Он окружил себя отрядом боевых ботов, но для тебя это не должно стать большой помехой. Оплата будет достойной, мы за ценой не постоим. У нас есть информация, что на твое имя записан ипотечный кредит. Считай, что он уже погашен, если возьмешься за это дело. И поторапливайся, устройство может активироваться в любой момент!'";
+			Link.l1 = "Что ж, приступим...";
+			DeleteAttribute(pchar, "questTemp.Whisper.Entered_Dungeon");
+			AddDialogExitQuest("MainHeroFightModeOn");	
+			Link.l1.go = "Exit_Special";
+		break;
+		case "WhisperHatUnequip":
+			dialog.Text = "Оставлю ее в каюте, а то голова потеет.";
+			Pchar.model="PGG_Whisper_0_NoHat";
+			Link.l1 = "Все, хватит на сегодня.";	
+			Link.l1.go = "Exit";
+		break;
+		case "WhisperHatEquip":
+			dialog.Text = "Вот, так гораздо лучше.";
+			Pchar.model="PGG_Whisper_0";
+			Link.l1 = "Все, хватит на сегодня.";	
+			Link.l1.go = "Exit";
 		break;
 		
 	}

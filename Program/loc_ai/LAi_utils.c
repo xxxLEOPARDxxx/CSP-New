@@ -412,6 +412,7 @@ void LAi_CheckKillCharacter(aref chr)
 			ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", chr.sex, chr.model.animation, 1, sti(chr.nation), -1, false));
 			ChangeAttributesFromCharacter(rOff, chr, true);
 			if (CheckAttribute(chr,"PerkValue.HPPlus")) rOff.PerkValue.HPPlus = 0;
+			if (CheckAttribute(chr,"HeroModel")) rOff.HeroModel = chr.HeroModel;
 			rOff.id = chr.id;
 			rOff.HalfImmortal = true;
 			int healing_time = makeint(LAi_GetCharacterMaxHP(chr)/10);//время от хп
@@ -445,6 +446,15 @@ void LAi_CheckKillCharacter(aref chr)
 			 
 			//LAi_SetCurHPMax(rOff);
 			AddPassenger(pchar, rOff, false);
+			if (rOff.model.animation == "mushketer")
+			{
+				rOff.IsMushketer = true;
+				rOff.CanTakeMushket = true;
+				rOff.IsMushketer.LastGunID = -1;
+				rOff.equip.blade = chr.equip.blade;
+				rOff.equip.gun = chr.equip.gun;
+				rOff.IsMushketer.MushketID = chr.IsMushketer.MushketID;
+			}
 			Log_Info("Абордажник " + GetFullName(rOff) + " без сознания!");
 		}
 		

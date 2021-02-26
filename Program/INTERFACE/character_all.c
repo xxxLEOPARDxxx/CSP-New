@@ -539,7 +539,7 @@ void FillSkillTables()
 		GameInterface.TABLE_SKILL_1.(row).td2.align = "left";
 		GameInterface.TABLE_SKILL_1.(row).td2.scale = 0.85;
 		GameInterface.TABLE_SKILL_1.(row).td2.textoffset = "0,0";
-		GameInterface.TABLE_SKILL_1.(row).td3.scale = 0.85;
+		GameInterface.TABLE_SKILL_1.(row).td3.scale = 0.8;
 		GameInterface.TABLE_SKILL_1.(row).td4.scale = 0.85;
 		GameInterface.TABLE_SKILL_1.(row).td5.fontidx = 0;
 		GameInterface.TABLE_SKILL_1.(row).td5.scale = 0.65;
@@ -596,7 +596,7 @@ void FillSkillTables()
 		GameInterface.TABLE_SKILL_2.(row).td2.align = "left";
 		GameInterface.TABLE_SKILL_2.(row).td2.scale = 0.85;
 		GameInterface.TABLE_SKILL_2.(row).td2.textoffset = "0,0";
-		GameInterface.TABLE_SKILL_2.(row).td3.scale = 0.85;
+		GameInterface.TABLE_SKILL_2.(row).td3.scale = 0.8;
 		GameInterface.TABLE_SKILL_2.(row).td4.scale = 0.85;
 		GameInterface.TABLE_SKILL_2.(row).td5.fontidx = 0;
 		GameInterface.TABLE_SKILL_2.(row).td5.scale = 0.65;

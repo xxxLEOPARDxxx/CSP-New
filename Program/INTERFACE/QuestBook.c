@@ -2,6 +2,8 @@
 int curQuestTop;
 string CurTable, CurRow;
 int iMaxGoodsStore = 50000;
+string sMessageMode;
+ref chrefsp;
 
 void InitInterface(string iniName)
 {
@@ -26,6 +28,8 @@ void InitInterface(string iniName)
 	SetEventHandler("QuestDeActivate","QuestDeActivate",0);
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
+	SetEventHandler("ShowPGGInfo","ShowPGGInfo",0);
+	sMessageMode = "";
 	string sDate = " ";
 	sDate = GetDateString();
 	string sTime; 
@@ -218,6 +222,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("MouseRClickUp","HideInfoWindow");
  	DelEventHandler("QuestDeActivate","QuestDeActivate");
 	DelEventHandler("TableSelectChange", "TableSelectChange");
+	DelEventHandler("ShowPGGInfo","ShowPGGInfo");
 
     interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -450,6 +455,61 @@ void selectStoreBook()
 void HideInfoWindow() 
 {
 	CloseTooltip();
+	ExitRPGHint();
+}
+
+void ShowPGGInfo()
+{
+	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index"))
+	{ // нет ПГГ в списке
+	ref chrefspp = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
+	ref refBaseShip = GetRealShip(sti(chrefspp.ship.type));
+	string shipTexture = refBaseShip.BaseName;
+	SetFormatedText("SHIP_NAME", XI_ConvertString(RealShips[sti(chrefspp.Ship.Type)].BaseName) + " '" + chrefspp.Ship.Name + "'")
+	SetFormatedText("SHIP_WINDOW_CAPTION", "Характеристики")
+	SetFormatedText("SHIP_INFO_PLACE", "Информация по стоянке")
+	SetFormatedText("PORT_INFO_PLACE", "Остров/колония:\n"+GameInterface.(CurTable).(CurRow).td6.str+" / "+GameInterface.(CurTable).(CurRow).td5.str)
+	SetFormatedText("DATE_INFO_PLACE", "Дата стоянки:\n"+GameInterface.(CurTable).(CurRow).td7.str)
+	SetFormatedText("MONEY_INFO_PLACE", "Цена в месяц:\n"+GameInterface.(CurTable).(CurRow).td8.str+" п.")
+	SetFormatedText("SHIP_RANK", refBaseShip.Class)
+	SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + shipTexture + ".tga.tx");
+	SetNewPicture("SHIP_FRAME_PICTURE", "interfaces\Frame1.tga");
+	string portpic;
+	switch (GameInterface.(CurTable).(CurRow).td5.icon.image)
+	{
+		case "France": portpic = "loading\enc_fra.tga";
+		break;
+		case "England": portpic = "loading\enc_eng.tga";
+		break;
+		case "Spain": portpic = "loading\enc_spa.tga";
+		break;
+		case "Holland": portpic = "loading\enc_hol.tga";
+		break;
+		case "Pirate": portpic = "loading\enc_pir.tga";
+		break;
+	}
+	SetNewPicture("NATION_PORT_PICTURE", portpic);
+	SetShipOTHERTable("TABLE_OTHERS",chrefspp);
+	SetSPECIALMiniTable("TABLE_SMALLSKILL", chrefspp);
+	SetOTHERMiniTable("TABLE_SMALLOTHER", chrefspp);
+	SetFormatedText("OFFICER_NAME", GetFullName(chrefspp));
+	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp.faceId + ".tga");
+	SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
+	
+	XI_WindowShow("SHOW_ADV_INFO", true);
+	XI_WindowDisable("SHOW_ADV_INFO", false);
+	sMessageMode = "RPG_Hint";
+	}
+}
+
+void ExitRPGHint()
+{
+	if (sMessageMode == "RPG_Hint")
+	{
+		XI_WindowShow("SHOW_ADV_INFO", false);
+		XI_WindowDisable("SHOW_ADV_INFO", true);
+		sMessageMode = "";
+	}
 }
 
 void ShowInfoWindow(int index) 
@@ -929,33 +989,36 @@ void FillShipPlaceTable(string _tabName)
 		rCity = &Colonies[n];
 		for (i=1; i<MAX_CHARACTERS; i++)
     	{
-    		makeref(chref, Characters[i]);
-    		if (CheckAttribute(chref, "ShipInStockMan"))
+    		makeref(chrefsp, Characters[i]);
+    		if (CheckAttribute(chrefsp, "ShipInStockMan"))
     		{
-                if (chref.ShipInStockMan == (rCity.id + "_PortMan"))
+                if (chrefsp.ShipInStockMan == (rCity.id + "_PortMan"))
 		        {
-                    int iShip = chref.ship.type;
+                    int iShip = chrefsp.ship.type;
 					ref refBaseShip = GetRealShip(iShip);
 					string shipTexture = refBaseShip.BaseName;
 					
                     row = "tr" + cn;
                     // GameInterface.(_tabName).(row).td1.str = cn;
                     // GameInterface.(_tabName).(row).td1.scale = 0.9;
+					GameInterface.(_tabName).(row).index = chrefsp.id;
 					GameInterface.(_tabName).(row).td1.icon.texture = "interfaces\ships\" + shipTexture + ".tga.tx";
+					// GameInterface.(_tabName).(row).td1.icon.texture  = "interfaces\Frame1.tga";
 					GameInterface.(_tabName).(row).td1.icon.uv = "0,0,1,1";
 	                GameInterface.(_tabName).(row).td1.icon.offset = "-2, 0";
 	                GameInterface.(_tabName).(row).td1.icon.width  = 40;
 				    GameInterface.(_tabName).(row).td1.icon.height = 40;
 					GameInterface.(_tabName).(row).td2.str = refBaseShip.Class;
 				    GameInterface.(_tabName).(row).td2.scale = 0.8;
-				    GameInterface.(_tabName).(row).td3.str = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'";
+				    GameInterface.(_tabName).(row).td3.str = XI_ConvertString(RealShips[sti(chrefsp.Ship.Type)].BaseName) + " '" + chrefsp.Ship.Name + "'";
 				    GameInterface.(_tabName).(row).td3.scale = 0.8;
-	                GameInterface.(_tabName).(row).td4.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chref.faceId + ".tga";
+	                GameInterface.(_tabName).(row).td4.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chrefsp.faceId + ".tga";
+					// GameInterface.(_tabName).(row).td4.icon.texture  = "interfaces\Frame2.tga";
 	                GameInterface.(_tabName).(row).td4.icon.uv = "0,0,1,1";
 	                GameInterface.(_tabName).(row).td4.icon.offset = "-2, 0";
 	                GameInterface.(_tabName).(row).td4.icon.width  = 40;
 				    GameInterface.(_tabName).(row).td4.icon.height = 40;
-				    GameInterface.(_tabName).(row).td4.str = GetFullName(chref);
+				    GameInterface.(_tabName).(row).td4.str = GetFullName(chrefsp);
 				    GameInterface.(_tabName).(row).td4.textoffset = "40, 0";
 				    GameInterface.(_tabName).(row).td4.scale = 0.8;
                     GameInterface.(_tabName).(row).td5.icon.group  = "NATIONS";
@@ -968,9 +1031,9 @@ void FillShipPlaceTable(string _tabName)
 					GameInterface.(_tabName).(row).td5.textoffset = "30, 0";
 					GameInterface.(_tabName).(row).td6.str = GetConvertStr(rCity.islandLable, "LocLables.txt");
 					GameInterface.(_tabName).(row).td6.scale = 0.8;
-					GameInterface.(_tabName).(row).td7.str = chref.ShipInStockMan.AltDate;
+					GameInterface.(_tabName).(row).td7.str = chrefsp.ShipInStockMan.AltDate;
 					GameInterface.(_tabName).(row).td7.scale = 0.8;
-					GameInterface.(_tabName).(row).td8.str = chref.ShipInStockMan.MoneyForShip;
+					GameInterface.(_tabName).(row).td8.str = chrefsp.ShipInStockMan.MoneyForShip;
 					GameInterface.(_tabName).(row).td8.scale = 0.8;
                     
     		        cn++;

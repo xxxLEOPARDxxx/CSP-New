@@ -2500,6 +2500,7 @@ void HostessChurch_null(string qName) //нулим квест
 	if (characters[GetCharacterIndex(pchar.questTemp.different.HostessChurch.city + "_Hostess")].questChurch == "taken") 
 	{
 		characters[GetCharacterIndex(pchar.questTemp.different.HostessChurch.city + "_Hostess")].questChurch = "baster";
+		if (CheckAttribute(pchar,"HellSpawnLocation")) LocatorReloadEnterDisable(pchar.HellSpawnLocation, "reload7_back", false);
 	}
 	pchar.questTemp.different = "free";
 	DeleteAttribute(pchar, "questTemp.different.HostessChurch");
@@ -6774,7 +6775,7 @@ void Winterwood_Prepare_Fight()
 		PChar.Quest.Duel_Fight_Right_Now.function = "Winterwood_Fight_Right_Now";
 
 		LocationMakeClone(pchar.location);
-		Locations[FindLocation("Clone_location")].image = "loading\tavern_fight.tga";
+		Locations[FindLocation("Clone_location")].image = "loading\TavernFight_"+rand(1)".tga";
 		DoReloadCharacterToLocation("Clone_location", pchar.location.group, pchar.location.locator);
 		PlaceCharacter(npchar, "goto", "Clone_location")
 	}
@@ -7582,6 +7583,89 @@ void OglAdd()
     chref.Dialog.CurrentNode = "hired";
    	chref.Dialog.FileName = "Enc_Officer_dialog.c";
 	chref.greeting = "Gr_questOfficer";
+}
+
+////////////////////
+//BlackThorn - ѕосланники ада
+////////////////////
+void HellSpawn(string qName)
+{
+	if (GetQuestPastDayParam("pchar.questTemp.HellSpawn") < 1  && GetCharacterEquipSuitID(pchar)!= "suit_1")
+	{
+		chrDisableReloadToLocation = true;
+		for (int i = 1; i<15; i++)
+		{
+			sld = GetCharacter(NPC_GenerateCharacter("HellSpawn"+i, "Skel"+(rand(3)+1), "skeleton", "skeleton", 1, PIRATE, 1, true));
+			FantomMakeCoolFighter(sld, sti(pchar.rank)+5, 90, 90, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
+			
+			ChangeCharacterAddressGroup(sld, pchar.HellSpawnLocation, "patrol", "patrol"+i);
+			sld.LifeDay = 0;
+			
+			if (i == 1)
+			{
+				LAi_SetActorType(sld);
+				LAi_type_actor_Reset(sld);
+				LAi_ActorDialog(sld, pchar, "", 20.0, 0);
+				sld.dialog.filename = "Quest\HellSpawn.c";
+			}
+			else
+			{
+				LAi_SetWarriorType(sld);
+			}
+		}
+	}
+	else
+	{
+		ref locationHS = &locations[reload_location_index];
+		LocatorReloadEnterDisable(locationHS.id, "reload7_back", false);
+	}
+}
+void HellSpawnFinish(string qName)
+{
+	chrDisableReloadToLocation = false;
+	pchar.HellSpawnFinished = true;
+}
+
+void HellSpawnRitualFinish(string qName)
+{
+	chrDisableReloadToLocation = false;
+	pchar.questTemp.HellSpawn.Rebirth = true;
+	DoQuestCheckDelay("TalkSelf_Quest", 1.0);
+}
+
+void HellSpawnRitual(string qName)
+{
+	if (GetQuestPastDayParam("pchar.questTemp.HellSpawn.Rit") < 1)
+	{
+		ref locationHSRitual = &locations[reload_location_index];
+		chrDisableReloadToLocation = true;
+		
+		aref grp;
+		makearef(grp, locationHSRitual.locators.monsters);
+		pchar.Hellspawn.num = GetAttributesNum(grp);
+		for(int i = 1; i < sti(pchar.Hellspawn.num); i++)
+		{
+			sld = GetCharacter(NPC_GenerateCharacter("HellSpawnR"+i, "Skel"+(rand(3)+1), "skeleton", "skeleton", 1, PIRATE, 1, true));
+			FantomMakeCoolFighter(sld, sti(pchar.rank)+5, 90, 90, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
+			ChangeCharacterAddressGroup(sld, locationHSRitual.id, "monsters", GetAttributeName(GetAttributeN(grp, i)));
+			sld.LifeDay = 0;
+			
+			if (i == 1)
+			{
+				LAi_SetActorType(sld);
+				LAi_type_actor_Reset(sld);
+				LAi_ActorDialog(sld, pchar, "", 20.0, 0);
+				sld.dialog.filename = "Quest\HellSpawn.c";
+				sld.dialog.currentnode = "Ritual";
+			}
+			else
+			{
+				LAi_SetWarriorType(sld);
+				LAi_warrior_SetStay(sld, true);
+			}
+		}
+	}
+	
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -9769,8 +9853,17 @@ void LSC_RingOver(string qName) // чистка квеста
 	LAi_SetSitType(sld);
 	LAi_group_MoveCharacter(sld, "LSC_CITIZEN");
 	if (!CheckAttribute(sld, "quest.ring_final")) AddQuestRecord("LSC_Ring", "2");
+	
+	sld = characterFromId("pet_crab");
+	ChangeCharacterAddressGroup(sld, "ExternalRingDeck", "goto", "goto5");
+	LAi_SetActorTypeNoGroup(sld);
+	LAi_type_actor_Reset(sld);
+	LAi_ActorDialog(sld, pchar, "", 20.0, 0);
+	
 	CloseQuestHeader("LSC_Ring");
 	CloseQuestHeader("RingCapBook");
+	
+	
 }
 
 void LSC_RingStart(string qName) // готовы

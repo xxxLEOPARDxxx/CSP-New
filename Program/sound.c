@@ -248,7 +248,10 @@ void SetSchemeForLocation (ref loc)
 			case "dungeon": 
 				SetSoundScheme("dungeon");
 				SetMusicAlarm("music_cave");
-				bMonstersGen = false; //сбросить флаг монстров
+				if (pchar.questTemp.WhisperLine != true)
+				{
+					bMonstersGen = false; //сбросить флаг монстров
+				}
 			break;
 			
 			case "inca_temple": // не используется

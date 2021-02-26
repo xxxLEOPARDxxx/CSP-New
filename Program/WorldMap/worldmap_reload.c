@@ -54,11 +54,11 @@ void wdmReloadToSea()
 	string imageName = "loading\sea_" + rand(31) + ".tga";
 	if(isShipEncounterType)
 	{
-		imageName = "loading\battle_" + rand(23) + ".tga";
+		imageName = "loading\battle_" + rand(24) + ".tga";
 	}
 	if(MakeInt(wdmLoginToSea.storm) != 0)
 	{
-		imageName = "loading\Storm_" + rand(4) + ".tga";
+		imageName = "loading\Storm_" + rand(7) + ".tga";
 		/*if(MakeInt(wdmLoginToSea.tornado) != 0)
 		{
 			imageName = "loading\Twister.tga";

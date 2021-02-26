@@ -842,6 +842,19 @@ void LAi_AllCharactersUpdate(float dltTime)
 					chr_ai.energy = 0;
 				}
 			}
+			
+			if (sti(chr.index) == GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood") && CheckAttribute(pchar, "foodquery"))
+					{
+						if (!LAi_IsFightMode(pchar) || chr_ai.energy == (LAi_GetCharacterMaxEnergy(chr)))
+						{
+							if (pchar.foodquery > 0)
+							{
+								pchar.foodquery = 0;
+								Log_Info("Очередь остановлена.");
+							}
+						}
+					}
+			
 			if(CheckAttribute(chr_ai, "noeat"))
 			{
 				chr_ai.noeat = stf(chr_ai.noeat) - dltTime;
@@ -856,25 +869,34 @@ void LAi_AllCharactersUpdate(float dltTime)
 				{
 					DeleteAttribute(chr_ai, "noeat");
 					
-					if (sti(chr.index) == GetMainCharacterIndex() && chr_ai.energy == (LAi_GetCharacterMaxEnergy(chr)) && pchar.foodquery != 0)
+					if (sti(chr.index) == GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood") && CheckAttribute(pchar, "foodquery"))
 					{
-						pchar.foodquery = 0;
-						Log_Info("Очередь остановлена.")
+						if (!LAi_IsFightMode(pchar) || chr_ai.energy == (LAi_GetCharacterMaxEnergy(chr)))
+						{
+							if (pchar.foodquery > 0)
+							{
+								pchar.foodquery = 0;
+								Log_Info("Очередь остановлена.");
+							}
+						}
 					}
 					
 					//chr_ai.noeat = 0.0;
 					if(sti(chr.index) == GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood"))
 					{
 						if (pchar.foodquery == 0)
-					{
-						Log_Info("Можно кушать.")
-					}
-					else
-					{
-						pchar.foodquery = sti(pchar.foodquery)-1;
-						EatSomeFood();
-						
-					}
+						{
+							Log_Info("Можно кушать.");
+						}
+						else
+						{
+							if(!CheckAttribute(pchar, "autofood") && pchar.foodquery > 0)
+							{
+								pchar.foodquery = sti(pchar.foodquery)-1;
+								EatSomeFood();
+							}
+							
+						}
 					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
 					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
 					}
@@ -884,6 +906,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 			{
 				if(chr_ai.energy < (LAi_GetCharacterMaxEnergy(chr) * (sti(PChar.autofood_use) * 0.01)) && LAi_IsFightMode(pchar))
 				{
+					//Log_Info("Автоюз.");
 					EatSomeFood();
 				}
 			}
@@ -1051,7 +1074,6 @@ int BookTime(ref refchar, int tier)//книги, расчёт длительности - Gregg
 
 void EatSomeFood()
 {
-	
 	bool bEnableFood = true;
 	if(CheckAttribute(PChar, "AcademyLand"))
 	{
@@ -1076,12 +1098,17 @@ void EatSomeFood()
 		else
 		{
 			itmIdx = FindBetterFoodFromChr(pchar, &arItm);
+			if (itmIdx == -1)
+			{
+				itmIdx = FindFoodFromChr(pchar, &arItm, 1);
+			}
 		}
 		while(itmIdx>=0)
 		{
 			if(EnableFoodUsing(pchar, arItm))
 			{
 				DoCharacterUsedFood(pchar, arItm.id);
+				PlaySound("interface\_Hrust_"+rand(3)+".wav");
 				break;
 			}		
 			if (!CheckAttribute(pchar, "autofood_betterfood"))
@@ -1094,6 +1121,11 @@ void EatSomeFood()
 				break;
 			}	
 		}
+	}
+	
+	if (CheckAttribute(pchar, "pressedFoodButton"))
+	{
+		DeleteAttribute(pchar, "pressedFoodButton");
 	}
 }
 

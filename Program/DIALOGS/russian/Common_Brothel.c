@@ -81,10 +81,22 @@ void ProcessDialogEvent()
 			}
 			if (npchar.questChurch == "taken")
 			{
-				dialog.text = "Ты еще не отдал"+ GetSexPhrase("","а") +" деньги в церковь. Займись этим, времени у тебя - текущий день! Ты обещал"+ GetSexPhrase("","а") +"!";
-				link.l1 = "Да, я помню. Я занимаюсь этим.";
-				link.l1.go = "exit";
-				break;
+				
+				if (!CheckAttribute(pchar, "HellSpawnFinished"))
+				{
+					dialog.text = "Ты еще не отдал"+ GetSexPhrase("","а") +" деньги в церковь. Займись этим, времени у тебя - текущий день! Ты обещал"+ GetSexPhrase("","а") +"!";
+					link.l1 = "Да, я помню. Я занимаюсь этим.";
+					link.l1.go = "exit";
+					break;
+				}
+				else
+				{
+					dialog.text = "Ты вернулся...";
+					link.l1 = "Я правда пытался тебе помочь и отнести деньги в церковь. Но как оказалось, таким как я добрые дела противопоказаны. В результате  моей попытки погибло много невинных. Забери свои деньги, я не в силах тебе помочь.";
+					link.l1.go = "ResultChurch_2";
+					LocatorReloadEnterDisable(pchar.HellSpawnLocation, "reload7_back", false);
+					break;
+				}
 			}
 			if (npchar.questChurch == "yes")
 			{
@@ -101,15 +113,18 @@ void ProcessDialogEvent()
 				break;
 			}
 			//-->> дача квеста пожертвования в церковь
-			if (rand(2) == 1 && pchar.questTemp.different == "free" && GetNpcQuestPastDayWOInit(npchar, "questChurch") > 45 && GetHour() < 20)
+			if (pchar.sex != "skeleton" || pchar.rank >= 10)
 			{
-				dialog.text = "Послушай, я хочу попросить об одном одолжении...";
-				link.l5 = "Слушаю внимательно.";
-				link.l5.go = "toChurch";
-				//личные флаги хозяйки на взятие квеста
-				npchar.questChurch = "taken";
-				SaveCurrentNpcQuestDateParam(npchar, "questChurch");
-				break;
+				if (rand(2) == 1 && pchar.questTemp.different == "free" && GetNpcQuestPastDayWOInit(npchar, "questChurch") > 45 && GetHour() < 20)
+				{
+					dialog.text = "Послушай, я хочу попросить об одном одолжении...";
+					link.l5 = "Слушаю внимательно.";
+					link.l5.go = "toChurch";
+					//личные флаги хозяйки на взятие квеста
+					npchar.questChurch = "taken";
+					SaveCurrentNpcQuestDateParam(npchar, "questChurch");
+					break;
+				}
 			}
 			//<<-- квест пожертвования в церковь
 
@@ -490,6 +505,22 @@ void ProcessDialogEvent()
 			SetTimerFunction("HostessChurch_null", 0, 0, 1); //освобождаем разрешалку на миниквесты и чистим структуру
 			AddMoneyToCharacter(pchar, sti(pchar.questTemp.different.HostessChurch.money));
 			ChangeCharacterReputation(pchar, 0.30);
+			
+			if(pchar.sex == "skeleton")
+			{
+				location = &locations[FindLocation(npchar.city + "_Town")];
+				pchar.HellSpawnLocation = location.id;
+				LocatorReloadEnterDisable(pchar.HellSpawnLocation, "reload7_back", true);
+				//id Города
+				//Log_Info(pchar.HellSpawnLocation);
+				SaveCurrentQuestDateParam("pchar.questTemp.HellSpawn");
+				pchar.quest.HellSpawn.win_condition.l1 = "locator";
+				pchar.quest.HellSpawn.win_condition.l1.location = pchar.HellSpawnLocation;
+				pchar.quest.HellSpawn.win_condition.l1.locator_group = "reload";
+				pchar.quest.HellSpawn.win_condition.l1.locator = "reload7_back";
+				pchar.quest.HellSpawn.function = "HellSpawn";
+			}
+			
 		break;
 		case "toChurch_4":
 			dialog.text = "Жаль, очень жаль...";
@@ -509,10 +540,24 @@ void ProcessDialogEvent()
 			npchar.questChurch = ""; //нулим личный флаг квеста
 		break;
 		case "ResultChurch_2":
-			dialog.text = "Как не взяли?! Эх, ты, не смог"+ GetSexPhrase("","ла") +" уговорить святого отца! А я так надеялась...";
-			link.l1 = "Извини, но так вышло...";
-			link.l1.go = "exit";
-			ChangeCharacterReputation(pchar, -2);
+			if (!CheckAttribute(pchar, "HellSpawnFinished"))
+			{
+				dialog.text = "Как не взяли?! Эх, ты, не смог"+ GetSexPhrase("","ла") +" уговорить святого отца! А я так надеялась...";
+				link.l1 = "Извини, но так вышло...";
+				link.l1.go = "exit";
+				ChangeCharacterReputation(pchar, -2);
+			}
+			else
+			{
+				DeleteAttribute(pchar, "HellSpawnFinished")
+				dialog.text = "Да, я видела за окном какая резня творилась в городе. Подумать не могла, что моя маленькая просьба может привести к такому...";
+				link.l1 = "В следующий раз лучше лишний раз подумай, прежде чем попросишь нежить сделать добрый поступок. Ни к чему хорошему это не приведет.";
+				link.l1.go = "exit";
+				PChar.HellSpawn.SeekRebirth = true;
+				ChangeCharacterReputation(pchar, 12);
+			}
+			
+			
 			npchar.questChurch = ""; //нулим личный флаг квеста
 			AddMoneyToCharacter(pchar, -sti(pchar.questTemp.different.HostessChurch.money));
 		break;

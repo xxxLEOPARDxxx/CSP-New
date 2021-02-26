@@ -10,7 +10,7 @@ int LocationInitDominica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore27";
 	locations[n].id.label = "Shore27";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Dominica";
 	//Sound
 	locations[n].type = "seashore";
@@ -65,7 +65,7 @@ int LocationInitDominica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Dominica_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Dominica";
@@ -122,7 +122,7 @@ int LocationInitDominica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore26";
 	locations[n].id.label = "Shore26";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Dominica";
 	//Sound
 	locations[n].type = "seashore";
@@ -175,7 +175,7 @@ int LocationInitDominica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Dominica_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Dominica";
@@ -225,7 +225,7 @@ int LocationInitDominica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Dominica_Grot";
 	locations[n].id.label = "Grot";
-    locations[n].image = "loading\inside\cave.tga";
+    locations[n].image = "loading\inside\Grot_"+rand(2)+".tga";
 	//Sound
 	locations[n].type = "Cave";
 	locations[n].islandId = "Dominica";

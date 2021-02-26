@@ -627,7 +627,7 @@ void OpenBoxProcedure()
 	}
 	// God_hit_us  это такой прикол - задействовать в ловушки для сундуков(boal)
 	// токо сундуки и дома
-	if (sti(chr.GenQuest.God_hit_us) == 1 && rand(100) >= (85 + GetCharacterSkillToOld(chr, SKILL_FORTUNE)))
+	if (sti(chr.GenQuest.God_hit_us) == 1 && rand(100) >= (85 + GetCharacterSkillToOld(chr, SKILL_FORTUNE)) && Locations[locidx].id != "Caiman_StoreHouse")
 	{
 		Log_Info("Ловушка!");
 		PlaySound("people\clothes1.wav");

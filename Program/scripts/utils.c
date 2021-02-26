@@ -813,7 +813,18 @@ void RemoveGeometryFromLocation(string LocationID, string ModelName)
 void CreateModel(int iChar, string sType, int iSex)
 {
 	int iNation = sti(characters[iChar].nation);
-
+	//DumpAttributes(&characters[iChar]);
+	if (HasSubStr(pchar.location,"Caiman") && CheckAttribute(characters[iChar],"phantomtype") && characters[iChar].phantomtype == "pirate")
+	{
+		iNation = sti(PChar.ColonyBuilding.ColonyNation);
+		string sSoldiersType = PChar.ColonyBuilding.SoldiersType;
+		switch(sSoldiersType)
+		{
+			case "officer": sType = "pofficer"; break;
+			case "pirate": sType = "pirate"; break;
+			case "nation": sType = "soldier"; break;
+		}
+	}
 	string sBody = "";
 	string sPrefix = "";
 	int iNumber = -1;
@@ -888,6 +899,7 @@ void CreateModel(int iChar, string sType, int iSex)
 
 	sResult = sBody+sPrefix+iNumber;
 
+	//Log_Info(iNation+"/"+characters[iChar].name+"/"+sResult);
 	characters[iChar].model = sResult;
 
 	FaceMaker(&characters[iChar]);

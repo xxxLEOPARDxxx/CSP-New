@@ -1866,14 +1866,14 @@ void SetParameterData()
 		BattleInterface.textinfo.CannonsNumB.scale = 0.65;
 		BattleInterface.textinfo.CannonsNumB.color = argb(255,255,255,255);
 		BattleInterface.textinfo.CannonsNumB.pos.x = sti(showWindow.right) - RecalculateHIcon(138);//sti(showWindow.right) - RecalculateHIcon(104);
-		BattleInterface.textinfo.CannonsNumB.pos.y = sti(showWindow.top) + RecalculateVIcon(2);;//RecalculateVIcon(402);
+		BattleInterface.textinfo.CannonsNumB.pos.y = sti(showWindow.top) + RecalculateVIcon(190);;//RecalculateVIcon(402);
 		BattleInterface.textinfo.CannonsNumB.refreshable = true;
 		
 		BattleInterface.textinfo.CannonsNumF.font = "bold_numbers";
 		BattleInterface.textinfo.CannonsNumF.scale = 0.65;
 		BattleInterface.textinfo.CannonsNumF.color = argb(255,255,255,255);
 		BattleInterface.textinfo.CannonsNumF.pos.x = sti(showWindow.right) - RecalculateHIcon(138);//sti(showWindow.right) - RecalculateHIcon(104);
-		BattleInterface.textinfo.CannonsNumF.pos.y = sti(showWindow.top) + RecalculateVIcon(190);;//RecalculateVIcon(402);
+		BattleInterface.textinfo.CannonsNumF.pos.y = sti(showWindow.top) + RecalculateVIcon(2);;//RecalculateVIcon(402);
 		BattleInterface.textinfo.CannonsNumF.refreshable = true;
 	}
 	else
@@ -1948,7 +1948,7 @@ void SetParameterData()
 		BattleInterface.ShipIcon.shipspoffset			= "63.5,-9";
 		BattleInterface.ShipIcon.shipspiconsize			= "64,108";
 
-		BattleInterface.ShipIcon.shipclasstexturename	= "battle_interface\ShipClassCSP.tga"; // Класс кораблей "звездочки"
+		BattleInterface.ShipIcon.shipclasstexturename	= ""; // Класс кораблей "звездочки"
 		BattleInterface.ShipIcon.shipclasscolor			= argb(255,250,250,150);
 		BattleInterface.ShipIcon.shipclassuv			= "0.0,0.0,1.0,1.0";
 		BattleInterface.ShipIcon.shipclassoffset		= "-5,35";

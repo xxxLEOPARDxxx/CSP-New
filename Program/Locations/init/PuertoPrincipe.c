@@ -6,7 +6,7 @@ int LocationInitPuertoPrincipe(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PuertoPrincipe_port";
 	locations[n].id.label = "PuertoPrincipe Port";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "PuertoPrincipe_port";
 	//Town sack
 	locations[n].townsack = "PuertoPrincipe";
@@ -63,7 +63,7 @@ int LocationInitPuertoPrincipe(int n)
 	locations[n].id = "PuertoPrincipe_ExitTown";
 	locations[n].fastreload = "PuertoPrincipe";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate" + rand(1) + ".tga";
+	locations[n].image = "loading\Gate_"+rand(1)+".tga";
 	//Town sack
 	locations[n].townsack = "PuertoPrincipe";
 	//Sound
@@ -213,7 +213,7 @@ int LocationInitPuertoPrincipe(int n)
  	locations[n].id = "PuertoPrincipe_tavern";
 	locations[n].id.label = "Tavern";
 	locations[n].filespath.models = "locations\inside\Tavern09\";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\Tavern_"+rand(7)+".tga";
 	locations[n].habitues = 1;
 	//Town sack
 	locations[n].townsack = "PuertoPrincipe";
@@ -259,7 +259,7 @@ int LocationInitPuertoPrincipe(int n)
 	locations[n].id = "PuertoPrincipe_tavern_upstairs";
 	locations[n].filespath.models = "locations\inside\Tavern_room";
 	locations[n].id.label = "Tavern upstairs";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\TavernCommon.tga";
 	//Town sack
 	locations[n].townsack = "PuertoPrincipe";
 	locations[n].lockWeather = "Inside";
@@ -300,7 +300,7 @@ int LocationInitPuertoPrincipe(int n)
 	locations[n].id = "PuertoPrincipe_store";
 	locations[n].id.label = "Store";
 	locations[n].filespath.models = "locations\inside\Store01\";
-	locations[n].image = "loading\inside\shop.tga";
+	locations[n].image = "loading\inside\shop_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "PuertoPrincipe";
 	locations[n].lockWeather = "Inside";

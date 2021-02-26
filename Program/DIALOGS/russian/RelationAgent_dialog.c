@@ -105,6 +105,12 @@ void ProcessDialogEvent()
 			if (npchar.quest.meeting == "0")
 			{
 				dialog.text = "Позвольте представиться, я являюсь тем человеком, который может замолвить за вас словечко тому или иному губернатору. За плату, естественно, но поверьте, мои услуги самого высшего качества, и вы не пожалеете, если воспользуетесь моими талантами.";
+				if (CheckAttribute(pchar, "Whisper.BuyDocuments"))
+				{
+					link.l1 = "Мне сказали, что я смогу у вас оформить документы на гражданство в одной из наций.";
+					link.l1.go = "WhisperDocuments";
+					break;
+				}
 				link.l1 = "Очень интересно, продолжай.";
 				link.l1.go = "relation";
 				link.l2 = "Может быть, в другой раз.";
@@ -115,6 +121,65 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "First time";
 		break;
 
+		//*************************** Линейка Виспер **************		
+		case "WhisperDocuments":
+			dialog.text = "Все верно. Эта услуга обойдется вам в 1000 монет. Чье гражданство вы бы хотели получить?";
+			DeleteAttribute(Pchar, "perks.list.FlagSpa");
+			DeleteAttribute(Pchar, "Whisper.BuyDocuments");
+			if(makeint(Pchar.money) >= 1000)
+            {
+				link.l1 = "Англии.";
+				link.l1.go = "WhisperEng";
+				link.l2 = "Франции.";
+				link.l2.go = "WhisperFra";
+				link.l3 = "Голландии.";
+				link.l3.go = "WhisperHol";
+			}
+			link.l4 = "А знаете, лучше я стану вольной корсаркой.";
+			link.l4.go = "Whisper_exit";
+		break;
+		
+		case "WhisperEng":
+			dialog.text = "Хорошо. Осталось расписаться вот здесь и вы официально гражданка Англии.";
+			Pchar.BaseNation = ENGLAND;
+			SetCharacterPerk(Pchar, "FlagEng");
+			AddMoneyToCharacter(pchar, -1000);
+			Flag_ENGLAND();
+			link.l1 = "Готово.";
+			link.l1.go = "Whisper_exit";
+		break;
+		case "WhisperFra":
+			dialog.text = "Хорошо. Осталось расписаться вот здесь и вы официально гражданка Франции.";
+			Pchar.BaseNation = FRANCE;
+			SetCharacterPerk(Pchar, "FlagFra");
+			AddMoneyToCharacter(pchar, -1000);
+			Flag_FRANCE();
+			link.l1 = "Готово.";
+			link.l1.go = "Whisper_exit";
+		break;
+		case "WhisperHol":
+			dialog.text = "Хорошо. Осталось расписаться вот здесь и вы официально гражданка Голландии.";
+			AddMoneyToCharacter(pchar, -1000);
+			Pchar.BaseNation = HOLLAND;
+			SetCharacterPerk(pchar, "FlagHol");
+			Flag_HOLLAND();
+			link.l1 = "Готово.";
+			link.l1.go = "Whisper_exit";
+		break;
+		case "Whisper_exit":
+			dialog.text = "Вот ваши бумаги, не теряйте. Подуйте немного на чернила, чтоб высохли, а не то размажутся\nВсего хорошего.";
+			link.l1 = "До свидания.";
+			link.l1.go = "exit";
+			if (Pchar.BaseNation == SPAIN || Pchar.BaseNation == PIRATE)
+			{
+				dialog.text = "В таком случае прошу меня не отвлекать.";
+				Pchar.BaseNation = PIRATE;
+				Flag_PIRATE();
+			}
+			PChar.quest.WhisperPirateTownGetHat.win_condition.l1 = "location";
+			PChar.quest.WhisperPirateTownGetHat.win_condition.l1.location = "PuertoPrincipe_town";
+			PChar.quest.WhisperPirateTownGetHat.function = "WhisperPirateTownGetHat";
+		break;
 		//*************************** Генератор - "Найденные судовые документы" **************		
 		case "D_ShipLetters_1":
 			dialog.text = "Излагайте условия.";

@@ -236,7 +236,7 @@ void ProcCommand()
 				
 				string sSoldiersType = GetCheckSoldiersTypeName();
 				PChar.ColonyBuilding.SoldiersType = sSoldiersType;
-				
+				Log_TestInfo(sSoldiersType);
 				RenamedColonyCaiman();
 				ProcessBreakExit();
 			}
@@ -498,7 +498,7 @@ void BlocksRemoved()
 	if(iBlocks < (sti(PChar.BuildingColony.Blocks)))
 	{
 		RemoveCharacterGoods(PChar, GOOD_BRICK, iBlocks);
-		RemoveCharacterGoods(PChar, GOOD_BRICK, (sti(PChar.BuildingColony.Blocks))-iBlocks);
+		PChar.BuildingColony.Blocks = (sti(PChar.BuildingColony.Blocks))-iBlocks;
 	}
 	else
 	{
@@ -521,7 +521,7 @@ void PlanksRemoved()
 	if(iPlanks < (sti(PChar.BuildingColony.Planks)))
 	{
 		RemoveCharacterGoods(PChar, GOOD_PLANKS, iPlanks);
-		RemoveCharacterGoods(PChar, GOOD_PLANKS, (sti(PChar.BuildingColony.Planks))-iPlanks);
+		PChar.BuildingColony.Planks =(sti(PChar.BuildingColony.Planks))-iPlanks;
 	}
 	else
 	{
@@ -544,7 +544,7 @@ void MahoganyRemoved()
 	if(iMahogany < (sti(PChar.BuildingColony.Mahogany)))
 	{
 		RemoveCharacterGoods(PChar, GOOD_MAHOGANY, iMahogany);
-		RemoveCharacterGoods(PChar, GOOD_MAHOGANY, (sti(PChar.BuildingColony.Mahogany))-iMahogany);
+		PChar.BuildingColony.Mahogany = (sti(PChar.BuildingColony.Mahogany))-iMahogany;
 	}
 	else
 	{
@@ -567,7 +567,7 @@ void EbonyRemoved()
 	if(iEbony < (sti(PChar.BuildingColony.Ebony)))
 	{
 		RemoveCharacterGoods(PChar, GOOD_EBONY, iEbony);
-		RemoveCharacterGoods(PChar, GOOD_EBONY, (sti(PChar.BuildingColony.Ebony))-iEbony);
+		PChar.BuildingColony.Ebony = (sti(PChar.BuildingColony.Ebony))-iEbony;
 	}
 	else
 	{
@@ -590,7 +590,7 @@ void SlavesRemoved()
 	if(iSlaves < (sti(PChar.BuildingColony.Slaves)))
 	{
 		RemoveCharacterGoods(PChar, GOOD_SLAVES, iSlaves);
-		RemoveCharacterGoods(PChar, GOOD_SLAVES, (sti(PChar.BuildingColony.Slaves))-iSlaves);
+		PChar.BuildingColony.Slaves = (sti(PChar.BuildingColony.Slaves))-iSlaves;
 	}
 	else
 	{
@@ -613,7 +613,7 @@ void FoodRemoved()
 	if(iFood < (sti(PChar.BuildingColony.Food)))
 	{
 		RemoveCharacterGoods(PChar, GOOD_FOOD, iFood);
-		RemoveCharacterGoods(PChar, GOOD_FOOD, (sti(PChar.BuildingColony.Food))-iFood);
+		PChar.BuildingColony.Food = (sti(PChar.BuildingColony.Food))-iFood;
 	}
 	else
 	{

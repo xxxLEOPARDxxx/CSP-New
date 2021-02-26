@@ -60,7 +60,7 @@ void IDoExit(int exitCode)
 	{
 		xi_refCharacter.skill.FreeSPECIAL = 0; // если не все распределил, сам дурак
 		
-		if (Pchar.questTemp.CapBloodLine != true)//09/08/07 homo для Блада даем другое начало
+		if (Pchar.questTemp.CapBloodLine != true && Pchar.questTemp.WhisperLine != true)//09/08/07 homo для Блада даем другое начало
 		{
     		ref sld = characterFromID("Sailor_1");
     		LAi_SetActorTypeNoGroup(pchar);

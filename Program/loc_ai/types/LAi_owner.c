@@ -96,7 +96,7 @@ void LAi_type_owner_CharacterUpdate(aref chr, float dltTime)
 					if(nMainCharacterIndex == sti(chrFindNearCharacters[i].index))
 					{					
 						//нашли √√, провер€ем, не в сундуке ли.						
-						if (bMainCharacterInBox && chr.chr_ai.type.state != "afraid")
+						if (bMainCharacterInBox && chr.chr_ai.type.state != "afraid" && chr.id != "Caiman_StoreKeeper")
 						{
 							//--> снимаем если есть флаг на таймер ссоры у хоз€ина - снимаем
 							if (CheckAttribute(pchar, "questTemp.HouseEncTimer"))

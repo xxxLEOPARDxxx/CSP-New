@@ -1,8 +1,13 @@
 /////////////////////////
-// GOF 1.2
+// CSP 2.1.0
 /////////////////////////
 
 string totalInfo = "";
+string CurTable, CurRow;
+string sMessageMode;
+ref chr;
+
+int iSelected; // курсор в таблице		
 
 void InitInterface(string iniName)
 {
@@ -13,9 +18,13 @@ void InitInterface(string iniName)
     SetFormatedText("MAP_CAPTION", XI_ConvertString("titlePsHero"));
 
 	SetEventHandler("InterfaceBreak","ProcessBreakExit",0);
+	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
+	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
+	SetEventHandler("ShowPGGInfo","ShowPGGInfo",0);
 	SetEventHandler("exitCancel","ProcessCancelExit",0);
 	SetEventHandler("ievnt_command","ProcCommand",0);
 	SetEventHandler("evntDoPostExit","DoPostExit",0); // выход из интерфейса
+	sMessageMode = "";
 	FillTable();
 }
 
@@ -33,6 +42,9 @@ void IDoExit(int exitCode)
 {
     EndAboveForm(true);
 	DelEventHandler("InterfaceBreak","ProcessBreakExit");
+	DelEventHandler("MouseRClickUp","HideInfoWindow");
+	DelEventHandler("TableSelectChange", "TableSelectChange");
+	DelEventHandler("ShowPGGInfo","ShowPGGInfo");
 	DelEventHandler("exitCancel","ProcessCancelExit");
 	DelEventHandler("ievnt_command","ProcCommand");
 	DelEventHandler("evntDoPostExit","DoPostExit");
@@ -103,6 +115,7 @@ void FillTable()
 		//if (LAi_IsDead(chr)) continue;
 		
 		row = "tr" + n;
+		GameInterface.TABLE_HERO.(row).index = i;
 		GameInterface.TABLE_HERO.(row).td1.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chr.faceId + ".tga";
 		GameInterface.TABLE_HERO.(row).td1.icon.uv = "0,0,1,1";
 	    GameInterface.TABLE_HERO.(row).td1.icon.width = 40;
@@ -150,4 +163,45 @@ void FillTable()
 		}
 	}
 	Table_UpdateWindow("TABLE_HERO");
+}
+
+void TableSelectChange()
+{
+	string sControl = GetEventData();
+	iSelected = GetEventData();
+    CurTable = sControl;
+    CurRow   =  "tr" + (iSelected);
+}
+
+void ShowPGGInfo()
+{
+	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index"))
+	{ // нет ПГГ в списке
+	chr = CharacterFromID("PsHero_" + GameInterface.TABLE_HERO.(CurRow).index);
+	SetSPECIALMiniTable("TABLE_SMALLSKILL", chr);
+	SetOTHERMiniTable("TABLE_SMALLOTHER", chr);
+	SetFormatedText("OFFICER_NAME", GetFullName(chr));
+	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chr.faceId + ".tga");
+	SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame3.tga");
+	
+	XI_WindowShow("RPG_WINDOW", true);
+	XI_WindowDisable("RPG_WINDOW", false);
+	sMessageMode = "RPG_Hint";
+	}
+}
+
+void ExitRPGHint()
+{
+	if (sMessageMode == "RPG_Hint")
+	{
+		XI_WindowShow("RPG_WINDOW", false);
+		XI_WindowDisable("RPG_WINDOW", true);
+		sMessageMode = "";
+	}
+}
+
+void HideInfoWindow()
+{
+	CloseTooltip();
+	ExitRPGHint();
 }

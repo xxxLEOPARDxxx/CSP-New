@@ -1966,7 +1966,7 @@ void ShowCrewCaptureAsk()
 	{
 		// второй проход - Команда
 		SetFormatedText("CAPTURE_TEXT_CREW", XI_ConvertString("Surrendered_crew_capture"));
-		SetNewGroupPicture("CAPTUR_CREW_PICTURE", "SHIP_STATE_ICONS", "Crew");
+		SetNewPicture("CAPTUR_CREW_PICTURE", "interfaces\portraits\128\face_" + xi_refCharacter.FaceId + ".tga");
 		ShowCaptureCrewWindow();
 		
 		int iMode = CheckEnemyShipHPFree();

@@ -357,7 +357,7 @@ void CheckOfficersHPMinus()
 		{
 			iOfficer = GetOfficersIndex(Pchar, i);
 			sld = GetCharacter(iOfficer);
-			CheckAttribute(sld, "HPminusDays") sld.HPminusDays = sti(sld.HPminusDays) + 1;
+			if (CheckAttribute(sld, "HPminusDays")) sld.HPminusDays = sti(sld.HPminusDays) + 1;
 			
 			/*if(CheckAttribute(sld,"HPminus"))
 			{
@@ -380,7 +380,7 @@ void CheckOfficersHPMinus()
 	{
 		iOfficer = GetPassenger(pchar, i);
 		sld = GetCharacter(iOfficer);
-		CheckAttribute(sld, "HPminusDays") sld.HPminusDays = sti(sld.HPminusDays) + 1;
+		if (CheckAttribute(sld, "HPminusDays")) sld.HPminusDays = sti(sld.HPminusDays) + 1;
 			
 		/*if(CheckAttribute(sld,"HPminus"))
 		{
@@ -405,7 +405,7 @@ void CheckOfficersHPMinus()
 		{
 			iOfficer = GetCompanionIndex(pchar, n);
 			sld = GetCharacter(iOfficer);
-			CheckAttribute(sld, "HPminusDays") sld.HPminusDays = sti(sld.HPminusDays) + 1;
+			if (CheckAttribute(sld, "HPminusDays")) sld.HPminusDays = sti(sld.HPminusDays) + 1;
 			
 		/*if(CheckAttribute(sld,"HPminus"))
 		{

@@ -516,6 +516,32 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		case "Fencing": coeff = makefloat(GetCharacterSkillSimple(attack,"Fencing"))/20; break;
 		case "FencingHeavy": coeff = makefloat(GetCharacterSkillSimple(attack,"FencingHeavy"))/20; break;
 	}
+		//--->Пробитие блоков тяжёлым оружием - Gregg
+	if (isBlocked && blockSave)
+	{
+		if (coeff != 0.0)
+		{
+			if (fencing_type == "FencingHeavy")
+			{
+				if (coeff*7>rand(99))
+				{
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Пробитие блока.");
+						PlaySound("interface\Block_"+rand(1)+".wav");
+					}
+					if(sti(enemy.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Ваш блок пробит.");
+						PlaySound("interface\Block_"+rand(1)+".wav");
+					}
+					isBlocked = false;
+					blockSave = false;
+				} 
+			}
+		}
+	}
+	//<---Пробитие блоков тяжёлым оружием
 	//Вычисляем повреждение
 	float dmg = LAi_CalcDamageForBlade(attack, enemy, attackType, isBlocked, blockSave);
 	float critical = 0.0;
@@ -676,32 +702,6 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		}
 	}
 	//<---Функционал среднего оружия - Gregg
-	//--->Пробитие блоков тяжёлым оружием - Gregg
-	if (isBlocked && blockSave)
-	{
-		if (coeff != 0.0)
-		{
-			if (fencing_type == "FencingHeavy")
-			{
-				if (coeff*7>rand(99))
-				{
-					if(sti(attack.index) == GetMainCharacterIndex())
-					{
-						Log_Info("Пробитие блока.");
-						PlaySound("interface\Block_"+rand(1)+".wav");
-					}
-					if(sti(enemy.index) == GetMainCharacterIndex())
-					{
-						Log_Info("Ваш блок пробит.");
-						PlaySound("interface\Block_"+rand(1)+".wav");
-					}
-					isBlocked = false;
-					blockSave = false;
-				} 
-			}
-		}
-	}
-	//<---Пробитие блоков тяжёлым оружием
 	
 	if (blockSave)
     {
@@ -1045,7 +1045,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 			}
 		}
 	}
-	if(CheckAttribute(enemy, "cirassId"))
+	if(CheckAttribute(enemy, "cirassId") && Items[sti(enemy.cirassId)].id != "suit_1" && Items[sti(enemy.cirassId)].id != "suit_2" && Items[sti(enemy.cirassId)].id != "suit_3")//не учитываем костюмы
 	{
 		damage = damage * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel));
 		if(sti(enemy.index) == GetMainCharacterIndex())

@@ -23,7 +23,7 @@ void InitInterface(string iniName)
 	SetFormatedText("INFO_TEXT3",LanguageConvertString(tmpLangFileID,"All info"));
 	LanguageCloseFile(tmpLangFileID);
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"INFO_TEXT",5);
-	SetNewPicture("INFO_PICTURE", "loading\salary_"+rand(3)+".tga");
+	SetNewPicture("INFO_PICTURE", "loading\salary_"+rand(6)+".tga");
 
     CalculateInfoData();
     

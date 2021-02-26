@@ -178,6 +178,14 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_LOWERSELF", 1, false);
     }
+	if (bNoBonusSkillOff)// 1 0
+    {
+    	CheckButton_SetState("CHECK_NOBONUS_SKILL_OFF", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_NOBONUS_SKILL_OFF", 1, false);
+    }
 }
 
 void IProcessFrame()
@@ -240,7 +248,6 @@ void IProcessFrame()
 		bBribeSoldiers = true;
 		iStealthSystem = 3
 	}
-	
 	////
 	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_ARCADESAIL", 3, 1))
 	{
@@ -324,6 +331,14 @@ void IProcessFrame()
 	else
 	{
 		bHigherSelfRate = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_NOBONUS_SKILL_OFF", 3, 1))
+	{
+		bNoBonusSkillOff = true;
+	}
+	else
+	{
+		bNoBonusSkillOff = false;
 	}
 }
 
@@ -656,14 +671,16 @@ void SelectNation(int iNation)
 
 void selectEngland()
 {
-	SelectNation(ENGLAND);
+	if (startHeroType == 2) SelectNation(PIRATE);
+	else SelectNation(ENGLAND);
 }
 
 void selectFrance()
 {
     //homo блокировка нации для Питера Блада
     if (startHeroType == 1) SelectNation(ENGLAND);
-	else SelectNation(FRANCE);
+	if (startHeroType == 2) SelectNation(PIRATE);
+	if (startHeroType > 2) SelectNation(FRANCE);
 
 }
 
@@ -671,7 +688,8 @@ void selectSpain()
 {
     //homo блокировка нации для Питера Блада
     if (startHeroType == 1) SelectNation(ENGLAND);
-	else SelectNation(SPAIN);
+	if (startHeroType == 2) SelectNation(PIRATE);
+	if (startHeroType > 2) SelectNation(SPAIN);
 
 }
 
@@ -679,7 +697,8 @@ void selectHolland()
 {
     //homo блокировка нации для Питера Блада
     if (startHeroType == 1) SelectNation(ENGLAND);
-	else SelectNation(HOLLAND);
+	if (startHeroType == 2) SelectNation(PIRATE);
+	if (startHeroType > 2) SelectNation(HOLLAND);
 
 }
 
@@ -861,6 +880,11 @@ void ShowInfo()
 		case "CHECK_LOWERSELF":
 			sHeader = XI_ConvertString("LowerSelf");
 			sText1 = GetRPGText("LowerSelf_hint");
+		break;
+		
+		case "CHECK_NOBONUS_SKILL_OFF":
+			sHeader = XI_ConvertString("NoBonusSkillOff");
+			sText1 = GetRPGText("NoBonusSkillOff_hint");
 		break;
 		
 		case "EXP_SLIDE":

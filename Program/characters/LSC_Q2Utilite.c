@@ -612,6 +612,7 @@ void initStartState2Character(ref ch)
 	ch.questTemp.different = "free";
 	// ==> линейка Блада homo
 	ch.questTemp.CapBloodLine = true;
+	ch.questTemp.WhisperLine = true;
 	ch.questTemp.CapBUnarmed = false; //ГГ сабля не положена - false
 	// ==> линейка Теночтитлана
 	ch.questTemp.Teno = "begin";
@@ -1993,7 +1994,7 @@ string SelectNotEnemyColony(ref NPChar)
 	for(n=0; n<MAX_COLONIES; n++)
 	{
 		nation = GetNationRelation(sti(npchar.nation), sti(colonies[n].nation));
-		if (nation != RELATION_ENEMY && colonies[n].id != "Panama" && colonies[n].id != "FortOrange" && colonies[n].nation != "none" && sti(colonies[n].nation) != PIRATE && GetIslandByCityName(npchar.city) != colonies[n].islandLable) //не на свой остров
+		if (nation != RELATION_ENEMY && colonies[n].id != "Panama" && colonies[n].id != "FortOrange" && colonies[n].id != "Caiman" && colonies[n].nation != "none" && sti(colonies[n].nation) != PIRATE && GetIslandByCityName(npchar.city) != colonies[n].islandLable) //не на свой остров
 		{
 			storeArray[howStore] = n;
 			howStore++;

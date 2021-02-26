@@ -1,7 +1,7 @@
 /* Рудники, их развитие и повседневные дела */					
-#define ORE_GOLD				0.9
-#define ORE_SILVER 				1.3
-#define ORE_IRON 				1.7
+#define ORE_GOLD				2.7
+#define ORE_SILVER 				3.9
+#define ORE_IRON 				5.1
 
 #define AUTO_SELL_MINES_MAX 			500
 #define AUTO_SELL_GOLD 				250
@@ -398,9 +398,9 @@ void GenerateMinesMutiny()
 	
 	PChar.Mines.Defence.End = iEnd;
 	
-	int iTime = 8 + rand(10) + iRandMinus;
-	if(iTime < 8) { iTime = 8; } 
-	if(iTime > 30) { iTime = 30; } 
+	int iTime = 4 + rand(10) + iRandMinus;
+	//if(iTime < 8) { iTime = 8; } 
+	//if(iTime > 30) { iTime = 30; } 
 	
 	string sClearQuest = "ClearMutinyMines_" + rand(1000000);
 	PChar.Mines.ClearQuest = sClearQuest;
@@ -745,9 +745,9 @@ void GenerateMinesLandAttack()
 	if(iRand > 0) { iEnd = 1; }else{ iEnd = 0; }
 	PChar.Mines.Defence.End = iEnd;
 	
-	int iTime = 8 + rand(10) + iRandMinus;
-	if(iTime < 7) { iTime = 7; } 
-	if(iTime > 30) { iTime = 30; } 
+	int iTime = 4 + rand(10) + iRandMinus;
+	//if(iTime < 7) { iTime = 7; } 
+	//if(iTime > 30) { iTime = 30; } 
 	
 	string sClearQuest = "ClearLandDefenceMines_" + rand(1000000);
 	PChar.Mines.ClearQuest = sClearQuest;
@@ -1149,7 +1149,7 @@ int GetMinesFoodDays()
 	if(iGood <= 0) { return 0; }
 	if(iDay <= 0) { return iGood; } 
 	
-	iDay *= 14;
+	iDay *= 42;
 	iDays = iGood / iDay;
 	
 	if(iDays < 0)
@@ -1170,7 +1170,7 @@ int GetMinesMedicamentDays()
 	if(iSlaves <= 0) { return iGood; }
 	if(iGood <= 0) { return 0; }
 	
-	iDay *= 14;
+	iDay *= 42;
 	iDays = iGood / iDay;
 	
 	if(iDays < 0)

@@ -17,8 +17,10 @@ void ProcessDialogEvent()
 			dialog.text = LinkRandPhrase("Приветсвую вас! Быть кладовщиком непросто...", "Эх, тоска тут смертная!", "Эх, черт возьми, чем бы заняться?..");
 			link.l1 = LinkRandPhrase("Конечно!", "Понимаю...", "Да, проблемы у тебя серьезные...");
 			link.l1.go = "exit";
-			link.l2 = "Здравствуй, " + NPChar.name + ". Я пришёл поинтересоваться делами склада, а возможно и кое-что оставить на хранение.";
+			link.l2 = "Здравствуй, " + NPChar.name + ". Я приш"+GetSexPhrase("ёл","ла")+" поинтересоваться делами склада, а возможно и кое-что оставить на хранение.";
 			link.l2.go = "StoreHouse_Details";
+			link.l3 = "А отсюда точно ничего не пропадёт, вздумай я оставить что личное?";
+			link.l3.go = "StoreHouse_Details2";
 			
 		break;
 
@@ -26,6 +28,12 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 			LaunchStoreHouse(STORE_HOUSE);
+		break;
+		
+		case "StoreHouse_Details2":
+			dialog.text = "Я головой ручаюсь, что ничего вашего отсюда не пропадёт. Можете оставлять здесь всё что пожелаете, "+GetSexPhrase("сэр!","мэм!");
+			link.l1 = "Просто отлично! Тогда, до встречи.";
+			link.l1.go = "exit";
 		break;
 		
 		case "Exit":

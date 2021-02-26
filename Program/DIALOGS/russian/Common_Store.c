@@ -1227,6 +1227,7 @@ int findStoreMan(ref NPChar, int iTradeNation)
             if (sti(ch.nation) !=  iTradeNation) continue;
             if (NPChar.id == ch.id) continue;
             if (NPChar.id == "Panama_trader" || ch.id == "Panama_trader") continue; //нельзя доплыть
+			if (NPChar.id == "Caiman_trader" || ch.id == "Caiman_trader") continue;
             if (ch.location == "none") continue; // фикс для новых, невидимых до поры островов
             if (GetIslandByCityName(ch.city) == GetIslandByCityName(NPChar.city)) continue; // хрен вам, а не читы!
             storeArray[howStore] = n;

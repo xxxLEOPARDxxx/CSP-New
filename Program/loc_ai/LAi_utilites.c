@@ -142,6 +142,7 @@ void CreateCitizens(aref loc)
 			
 			chr.City = Colonies[iColony].id;
 			chr.CityType = "citizen";
+			chr.CanChangeModel = true;
 			LAi_SetLoginTime(chr, 6.0, 21.99);
 			
 			if (sti(chr.nation) == PIRATE && sti(Colonies[iColony].HeroOwn) != true)
@@ -281,6 +282,7 @@ void CreateCitizens(aref loc)
 			chr.City = Colonies[iColony].id;
             chr.CityType = "soldier";
 			chr.RebirthPhantom = true; 
+			chr.CanChangeModel = true;
 			LAi_CharacterReincarnation(chr, true, true);
 			LAi_SetReincarnationRankStep(chr, MOD_SKILL_ENEMY_RATE+2); //задаем шаг на увеличение ранга фантомам на реинкарнацию
             SetFantomParamFromRank(chr, sti(pchar.rank)+MOD_SKILL_ENEMY_RATE, true); // бравые орлы
@@ -340,6 +342,7 @@ void CreateCitizens(aref loc)
 			chr = &characters[iChar];
 			SetNPCModelUniq(chr, sType, MAN);
 			chr.City = Colonies[iColony].id;
+			chr.CanChangeModel = true;			 
             chr.CityType = "soldier";
             SetFantomParamFromRank(chr, sti(pchar.rank)+MOD_SKILL_ENEMY_RATE, true); // бравые орлы
 			chr.RebirthPhantom = true; 
@@ -380,6 +383,7 @@ void CreateCitizens(aref loc)
             chr.CityType = "soldier";
 			chr.greeting = "soldier_common";
 			chr.RebirthPhantom = true; 
+			chr.CanChangeModel = true;
 			LAi_CharacterReincarnation(chr, true, true);
 			LAi_SetReincarnationRankStep(chr, MOD_SKILL_ENEMY_RATE+2); //задаем шаг на увеличение ранга фантомам на реинкарнацию
             SetFantomParamFromRank(chr, sti(pchar.rank)+MOD_SKILL_ENEMY_RATE, true); // бравые орлы
@@ -439,6 +443,7 @@ void CreateCitizens(aref loc)
 			}
 			chr = GetCharacter(NPC_GenerateCharacter("Carrier", CarrierName[iTemp], "man", "genres", 35, iNation, 2, false));
 			chr.id = chr.id + "_" + chr.index;
+			chr.CanChangeModel = true;
 			aref aLocator;
 			makearef(aLocator, loc.locators.reload);
 			CarrierName[iTemp] = ""; //имя модельки уберем из списка
@@ -485,6 +490,8 @@ void CreateCitizens(aref loc)
 		chr.dialog.filename   = "Quest\ForAll_dialog.c";
 		chr.dialog.currentnode = "SCQ_" + sSex;
 		chr.greeting = sGr; 
+		chr.CanChangeModel = true;
+		chr.QuestCitiz = true;
 		chr.talker = sti(loc.questSeekCap); //начать диалог
 		chr.quest.SeekCap.numQuest = rand(2); //какой квест будет давать
 		LAi_SetLoginTime(chr, 6.0, 21.99);
@@ -541,7 +548,7 @@ void CreateHabitues(aref loc)
             arrayNPCModelHow = 0;
 			// сажаем пьянь, на козырные места под ГГ
 /// ---> Navarra
-			// for (i = 1; i <=4; i++)
+///			for (i = 1; i <=4; i++)
 			for (i = 1; i <=10; i++)
 /// <--- Navarra		
 			{
@@ -1016,7 +1023,7 @@ void CreateBrothels(aref loc)
 		if (!CheckAttribute(location, "Brothel_date") || GetNpcQuestPastDayParam(location, "Brothel_date") > 100)
 		{
 			ref sld;
-			int iColony, iNation, qty, num, qtyAll;
+			int iColony, iNation, qty, num, qtyAll, modelnum;
 			// ==>  массив моделек шлюх, чтоб не двоились в локациях
 			string horse[8];
 			horse[0] = "horse01";
@@ -1038,10 +1045,11 @@ void CreateBrothels(aref loc)
 			//Boyer change
 			//qty = 1;
 			qtyAll = rand(2) + 4;
+			modelnum = 1-(rand(1));
 			//while (qty < qtyAll)
 			for(qty=1; qty < qtyAll; qty++)
 			{
-				num = rand(7);
+				num = qty-modelnum;
 				//if (horse[num] != "")
 				//{
 					//#20171008-01 Brothel adjust changeover period

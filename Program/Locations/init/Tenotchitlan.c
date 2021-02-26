@@ -10,7 +10,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tenotchitlan_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga.tx";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -21,7 +21,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].models.always.jungle = "jungle1";
 	Locations[n].models.always.locators = "jungle1_locators";		
 	Locations[n].models.always.grassPatch = "jungle1_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -59,7 +59,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tenotchitlan_Jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga.tx";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -70,7 +70,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].models.always.jungle = "jungle3";	
 	Locations[n].models.always.locators = "jungle3_locators";		
 	Locations[n].models.always.grassPatch = "jungle3_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -114,7 +114,7 @@ int LocationInitTenotchitlan(int n)
 	// Пирамида
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Locations[n].id = "Temple";
-	Locations[n].image = "loading\outside\temple.tga.tx";
+	Locations[n].image = "loading\outside\Temple.tga";
 	//Sound
 	locations[n].type = "teno";
 	locations[n].id.label = "Incas Temple";
@@ -129,7 +129,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].models.always.locators = "pyramid1_locators";
 	
 	Locations[n].models.always.grassPatch = "pyramid1_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";
 			
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 99948;
@@ -182,7 +182,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Locations[n].id = "Temple_Inside";
 	locations[n].id.label = "Pyramid1Inside";
-	Locations[n].image = "loading\outside\TempleInside.tga.tx";	
+	Locations[n].image = "loading\outside\Pyramid1Inside.tga";	
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].id.label = "Incas Temple";
@@ -217,7 +217,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tenotchitlan_Jungle_03";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga.tx";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -228,7 +228,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].models.always.jungle = "jungle7";	
 	Locations[n].models.always.locators = "jungle7_locators";		
 	Locations[n].models.always.grassPatch = "jungle7_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -273,7 +273,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tenotchitlan_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\jungle2.tga.tx";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -284,7 +284,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].models.always.caveEnt2 = "caveEnt2";	
 	Locations[n].models.always.locators = "caveEnt2_locators";		
 	Locations[n].models.always.grassPatch = "caveEnt2_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -325,7 +325,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tenotchitlan_Cave";
 	locations[n].id.label = "Cave";
-	locations[n].image = "loading\inside\cave.tga.tx";
+	locations[n].image = "loading\inside\Cave_"+(rand(1)+1)+".tga";
 	//Sound
 	locations[n].type = "cave";
  	locations[n].islandId = "Mein";
@@ -368,7 +368,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tenotchitlan_Jungle_05";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga.tx";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -379,7 +379,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].models.always.jungle = "jungle1";
 	Locations[n].models.always.locators = "jungle1_locators";		
 	Locations[n].models.always.grassPatch = "jungle1_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -417,7 +417,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Tenotchitlan_Jungle_06";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga.tx";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -428,7 +428,7 @@ int LocationInitTenotchitlan(int n)
 	Locations[n].models.always.jungle = "jungle8";	
 	Locations[n].models.always.locators = "jungle8_locators";		
 	Locations[n].models.always.grassPatch = "jungle8_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -467,7 +467,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Tenochtitlan";
 	locations[n].id.label = "Tenochtitlan";
 	locations[n].filespath.models = "locations\Tenochtitlan";
-	locations[n].image = "loading\outside\TenochtitlanCity.tga.tx";
+	locations[n].image = "loading\outside\TenochtitlanCity.tga";
 	//Sound
 	locations[n].type = "teno";
 	locations[n].islandId = "Mein";
@@ -626,7 +626,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_1";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -655,7 +655,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_2";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -684,7 +684,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_3";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -713,7 +713,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_4";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -742,7 +742,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_5";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -771,7 +771,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_6";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -800,7 +800,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_7";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -829,7 +829,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_8";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -858,7 +858,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_9";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -887,7 +887,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_10";
 	locations[n].id.label = "";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TemplePointInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\TempleInside.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].idxTeno = iTeno; //индекс Теночтитлана
@@ -919,7 +919,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_great";
 	locations[n].id.label = "TempleGreatInside";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TempleGreatInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";
+	locations[n].image = "loading\outside\Temple_great.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	locations[n].changeAnimation = MainChAnim; //сменить анимацию на обычную
@@ -1022,7 +1022,7 @@ int LocationInitTenotchitlan(int n)
 	locations[n].id = "Temple_round";
 	locations[n].id.label = "TempleRoundInside";
 	locations[n].filespath.models = "locations\TenochtitlanInside\TempleRoundInside";
-	locations[n].image = "loading\outside\TempleInside.tga.tx";	
+	locations[n].image = "loading\outside\Temple_round.tga";	
 	//Sound
 	locations[n].type = "teno_inside";
 	//Models
@@ -1051,7 +1051,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Locations[n].id = "Temple_Skulls";
 	locations[n].id.label = "TempleSecondInside";
-	Locations[n].image = "loading\outside\TempleInside.tga.tx";
+	Locations[n].image = "loading\outside\Temple_Skulls.tga";
 	//Sound
 	locations[n].type = "teno_inside";
 	//Models
@@ -1086,7 +1086,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Locations[n].id = "Temple_Underwater_left";
 	locations[n].id.label = "TempleUnderwater";
-	Locations[n].image = "loading\outside\TempleInside.tga.tx";
+	Locations[n].image = "loading\outside\Temple_Underwater.tga";
 	//Sound	
 	locations[n].type = "underwater";
 	locations[n].changeAnimation = MainChAnim+"_swim"; //сменить анимацию на плавание
@@ -1130,7 +1130,7 @@ int LocationInitTenotchitlan(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Locations[n].id = "Temple_Underwater_right";
 	locations[n].id.label = "TempleUnderwater";
-	Locations[n].image = "loading\outside\TempleInside.tga.tx";
+	Locations[n].image = "loading\outside\Temple_Underwater.tga";
 	//Sound	
 	locations[n].type = "underwater";
 	locations[n].changeAnimation = MainChAnim+"_swim"; //сменить анимацию на плавание

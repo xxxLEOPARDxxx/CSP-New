@@ -14,7 +14,7 @@ int LocationInitLostShipsCity(int n)
  	locations[n].islandId = "LostShipsCity";
 	
 	locations[n].filespath.models = "locations\LostShipsCity\";
-	locations[n].image = "loading\OutsideLSC.tga.tx";
+	locations[n].image = "loading\OutsideLSC.tga";
 	//Sound
 	locations[n].type = "LostShipsCity";
 	//locations[n].houseEnc = true; //для энкаунтеров в домах
@@ -45,7 +45,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.locators = "LostShipsCity_locators";
 	
 	Locations[n].models.always.grassPatch = "LostShipsCity_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";	
 	//Day
 	locations[n].models.day.charactersPatch = "LostShipsCity_patch_day";
 	Locations[n].models.day.jumpPatch = "LostShipsCity_jump_patch";
@@ -716,7 +716,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "AvaShipInside3";
 	locations[n].id.label = "Ava Cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\AvaShipInside3";
-	locations[n].image = "loading\SantaLuci\AvaShipInside3.tga.tx";
+	locations[n].image = "loading\SantaLuci\AvaShipInside3.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -748,7 +748,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "AvaShipInside3_locators";	
 	Locations[n].models.always.grassPatch = "AvaShipInside3_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "AvaShipInside3_patch_day";
 	//Locations[n].models.day.jumpPatch = "AvaShipInside3_jump_patch";
@@ -816,7 +816,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "CarolineBank";
 	locations[n].id.label = "Caroline cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\CarolineBank";
-	locations[n].image = "loading\SantaLuci\CarolineBank.tga.tx";
+	locations[n].image = "loading\SantaLuci\CarolineBank.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -847,7 +847,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "CarolineBank_locators";	
 	Locations[n].models.always.grassPatch = "CarolineBank_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "CarolineBank_patch_day";
 	//Locations[n].models.day.jumpPatch = "CarolineBank_jump_patch";
@@ -900,7 +900,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "CeresSmithy";
 	locations[n].id.label = "CeresSmithy cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\CeresSmithy";
-	locations[n].image = "loading\SantaLuci\CeresSmithy.tga.tx";
+	locations[n].image = "loading\SantaLuci\CeresSmithy.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -932,7 +932,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "CeresSmithy_locators";	
 	Locations[n].models.always.grassPatch = "CeresSmithy_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "CeresSmithy_patch_day";
 	//Locations[n].models.day.jumpPatch = "CeresSmithy_jump_patch";
@@ -1020,7 +1020,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "EsmeraldaStoreBig";
 	locations[n].id.label = "EsmeraldaStoreBig cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\EsmeraldaStoreBig";
-	locations[n].image = "loading\SantaLuci\EsmeraldaStoreBig.tga.tx";
+	locations[n].image = "loading\SantaLuci\EsmeraldaStoreBig.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1052,7 +1052,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "EsmeraldaStoreBig_locators";	
 	Locations[n].models.always.grassPatch = "EsmeraldaStoreBig_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "EsmeraldaStoreBig_patch_day";
 	//Locations[n].models.day.jumpPatch = "EsmeraldaStoreBig_jump_patch";
@@ -1136,7 +1136,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "FenixPlatform";
 	locations[n].id.label = "FenixPlatform cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\FenixPlatform";
-	locations[n].image = "loading\SantaLuci\FenixPlatform.tga.tx";
+	locations[n].image = "loading\SantaLuci\FenixPlatform.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1167,7 +1167,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "FenixPlatform_locators";	
 	Locations[n].models.always.grassPatch = "FenixPlatform_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "FenixPlatform_patch_day";
 	//Locations[n].models.day.jumpPatch = "FenixPlatform_jump_patch";
@@ -1208,7 +1208,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "FernandaDiffIndoor";
 	locations[n].id.label = "FernandaDiffIndoor cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\FernandaDiffIndoor";
-	locations[n].image = "loading\SantaLuci\FernandaDiffIndoor.tga.tx";
+	locations[n].image = "loading\SantaLuci\FernandaDiffIndoor.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1240,7 +1240,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "FernandaDiffIndoor_locators";	
 	Locations[n].models.always.grassPatch = "FernandaDiffIndoor_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "FernandaDiffIndoor_patch_day";
 	//Locations[n].models.day.jumpPatch = "FernandaDiffIndoor_jump_patch";
@@ -1283,7 +1283,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "FleuronTavern";
 	locations[n].id.label = "FleuronTavern cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\FleuronTavern";
-	locations[n].image = "loading\SantaLuci\FleuronTavern.tga.tx";
+	locations[n].image = "loading\SantaLuci\FleuronTavern.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1314,7 +1314,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "FleuronTavern_locators";	
 	Locations[n].models.always.grassPatch = "FleuronTavern_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "FleuronTavern_patch_day";
 	//Locations[n].models.day.jumpPatch = "FleuronTavern_jump_patch";
@@ -1412,7 +1412,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "FurieShipInside2";
 	locations[n].id.label = "FurieShipInside2 cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\FurieShipInside2";
-	locations[n].image = "loading\SantaLuci\FurieShipInside2.tga.tx";
+	locations[n].image = "loading\SantaLuci\FurieShipInside2.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1444,7 +1444,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "FurieShipInside2_locators";	
 	Locations[n].models.always.grassPatch = "FurieShipInside2_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "FurieShipInside2_patch_day";
 	//Locations[n].models.day.jumpPatch = "FurieShipInside2_jump_patch";
@@ -1522,7 +1522,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "GloriaChurch";
 	locations[n].id.label = "GloriaChurch cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\GloriaChurch";
-	locations[n].image = "loading\SantaLuci\GloriaChurch.tga.tx";
+	locations[n].image = "loading\SantaLuci\GloriaChurch.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1554,7 +1554,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "GloriaChurch_locators";	
 	Locations[n].models.always.grassPatch = "GloriaChurch_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";		
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";		
 	//Day
 	locations[n].models.day.charactersPatch = "GloriaChurch_patch_day";
 	//Locations[n].models.day.jumpPatch = "GloriaChurch_jump_patch";
@@ -1614,7 +1614,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "PlutoStoreSmall";
 	locations[n].id.label = "PlutoStoreSmall cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\PlutoStoreSmall";
-	locations[n].image = "loading\SantaLuci\PlutoStoreSmall.tga.tx";
+	locations[n].image = "loading\SantaLuci\PlutoStoreSmall.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1646,7 +1646,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "PlutoStoreSmall_locators";	
 	Locations[n].models.always.grassPatch = "PlutoStoreSmall_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "PlutoStoreSmall_patch_day";
 	//Locations[n].models.day.jumpPatch = "PlutoStoreSmall_jump_patch";
@@ -1720,7 +1720,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "ProtectorFisher";
 	locations[n].id.label = "ProtectorFisher cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\ProtectorFisher";
-	locations[n].image = "loading\SantaLuci\ProtectorFisher.tga.tx";
+	locations[n].image = "loading\SantaLuci\ProtectorFisher.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1751,7 +1751,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "ProtectorFisher_locators";	
 	Locations[n].models.always.grassPatch = "ProtectorFisher_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "ProtectorFisher_patch_day";
 	//Locations[n].models.day.jumpPatch = "ProtectorFisher_jump_patch";
@@ -1789,7 +1789,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "SanAugustineResidence";
 	locations[n].id.label = "SanAugustineResidence cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\SanAugustineResidence";
-	locations[n].image = "loading\SantaLuci\San_Augustin.tga.tx";
+	locations[n].image = "loading\SantaLuci\San_Augustin.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1820,7 +1820,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "SanAugustineResidence_locators";	
 	Locations[n].models.always.grassPatch = "SanAugustineResidence_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "SanAugustineResidence_patch_day";
 	//Locations[n].models.day.jumpPatch = "SanAugustineResidence_jump_patch";
@@ -1948,7 +1948,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "SanGabrielMechanic";
 	locations[n].id.label = "SanGabrielMechanic cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\SanGabrielMechanic";
-	locations[n].image = "loading\SantaLuci\SanGabrielMechanic.tga.tx";
+	locations[n].image = "loading\SantaLuci\SanGabrielMechanic.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -1983,7 +1983,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "SanGabrielMechanic_locators";	
 	Locations[n].models.always.grassPatch = "SanGabrielMechanic_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "SanGabrielMechanic_patch_day";
 	//Locations[n].models.day.jumpPatch = "SanGabrielMechanic_jump_patch";
@@ -2061,7 +2061,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "SantaFlorentinaShipInside4";
 	locations[n].id.label = "SantaFlorentinaShipInside4 cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\SantaFlorentinaShipInside4";
-	locations[n].image = "loading\SantaLuci\SantaFlorentinaShipInside4.tga.tx";
+	locations[n].image = "loading\SantaLuci\SantaFlorentinaShipInside4.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -2093,7 +2093,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "SantaFlorentinaShipInside4_locators";	
 	Locations[n].models.always.grassPatch = "SantaFlorentinaShipInside4_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "SantaFlorentinaShipInside4_patch_day";
 	//Locations[n].models.day.jumpPatch = "SantaFlorentinaShipInside4_jump_patch";
@@ -2177,7 +2177,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "TartarusPrison";
 	locations[n].id.label = "TartarusPrison cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\TartarusPrison";
-	locations[n].image = "loading\SantaLuci\TartarusPrison.tga.tx";
+	locations[n].image = "loading\SantaLuci\TartarusPrison.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -2212,7 +2212,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "TartarusPrison_locators";	
 	Locations[n].models.always.grassPatch = "TartarusPrison_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "TartarusPrison_patch_day";
 	//Locations[n].models.day.jumpPatch = "TartarusPrison_jump_patch";
@@ -2267,7 +2267,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].id = "VelascoShipInside1";
 	locations[n].id.label = "VelascoShipInside1 cabin";
 	locations[n].filespath.models = "locations\LostShipsCityInsides\VelascoShipInside1";
-	locations[n].image = "loading\SantaLuci\VelascoShipInside1.tga.tx";
+	locations[n].image = "loading\SantaLuci\VelascoShipInside1.tga";
 	//Town sack
 	locations[n].townsack = "LostShipsCity";
 	locations[n].lockWeather = "Inside";
@@ -2302,7 +2302,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "VelascoShipInside1_locators";	
 	Locations[n].models.always.grassPatch = "VelascoShipInside1_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "VelascoShipInside1_patch_day";
 	//Locations[n].models.day.jumpPatch = "VelascoShipInside1_jump_patch";
@@ -2471,7 +2471,7 @@ int LocationInitLostShipsCity(int n)
 	Locations[n].models.always.plan2.level = 65532;	
 	Locations[n].models.always.locators = "ExternalRingInside_locators";	
 	Locations[n].models.always.grassPatch = "PlutoStoreSmall_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga.tx";					
+	Locations[n].models.always.grassPatch.texture = "grass\algaeU1.tga";					
 	//Day
 	locations[n].models.day.charactersPatch = "PlutoStoreSmall_patch_day";
 	locations[n].models.day.fonarday = "PlutoStoreSmall_fd";	

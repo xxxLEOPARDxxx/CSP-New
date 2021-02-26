@@ -57,9 +57,10 @@ void CompanionTravel_SetTraveller(ref _NPChar)
 void CompanionTravel_ProcessAllTravellers() // Этот метод вызывается каждый день из QuestActions()
 {
 	aref arTravellers;
-	makearef(arTravellers, PChar.CompanionTravel);
-	int iTravellersCount = GetAttributesNum(arTravellers);
+	if (!CheckAttribute(PChar,"CompanionTravel")) return;
+	int iTravellersCount = sti(PChar.CompanionTravel);
 	if(iTravellersCount == 0) return;
+	makearef(arTravellers, PChar.CompanionTravel);
 	
 	Log_TestInfo("Всего компаньонов-путешественников - "+iTravellersCount);
 		

@@ -7942,6 +7942,20 @@ void QuestComplete(string sQuestName, string qname)
             DoQuestFunctionDelay("Blood_StartGame_End", 1.5);
             //CapBloodLineInit();
 		break;
+		
+		case "Whisper_PC_CheckHP":
+            LAi_group_SetRelation("wl_Pirate", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+            LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+            InterfaceStates.Buttons.Save.enable = false;
+            //InterfaceStates.Launched = true;
+            LAi_SetFightMode(pchar, false);
+			
+			Pchar.model="PGG_Whisper_0_NoHat";
+			DoQuestFunctionDelay("WhisperHold", 0.5);
+			
+            //DoQuestFunctionDelay("WhisperHold", 0.5);
+            //CapBloodLineInit();
+		break;
 
 		case "Dragun_0_CheckMinHP":
             for (i=0; i<=2; i++)

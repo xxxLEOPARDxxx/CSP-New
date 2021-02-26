@@ -643,7 +643,7 @@ void SeaLogin(ref Login)
 
 	// Sea Fader start
 	//Boyer add #20170401-02
-	pchar.loadscreen = "loading\sea.tga.tx";
+	pchar.loadscreen = "loading\sea_" + rand(31) + ".tga";
 	if (!CheckAttribute(&Login,"ImageName")) { Login.ImageName = "loading\sea_" + rand(31) + ".tga"; }
 
 	CreateEntity(&SeaFader, "fader");
@@ -723,7 +723,7 @@ void SeaLogin(ref Login)
 			}
 			DeleteAttribute(&Characters[iCompanionIndex], "SeaAI"); // сброс для кэпов офов из пленных
 			Characters[iCompanionIndex].SeaAI.Group.Name = PLAYER_GROUP;
-			Ship_SetTaskNone(PRIMARY_TASK, iCompanionIndex); // сброс для кэпов офов из пленных
+			//Ship_SetTaskNone(PRIMARY_TASK, iCompanionIndex); // сброс для кэпов офов из пленных
 			Ship_Add2Sea(iCompanionIndex, bFromCoast, "");
 
 			// add companion to player group
@@ -1692,31 +1692,57 @@ bool bSeaLoad = false;
 
 void Sea_Load()
 {
+	int i, iTemp[MAX_SHIPS_ON_SEA];
+	ref chr;
+	
 	bSeaLoad = true;
-
-	CreateSeaEnvironment();
-
+	
+	for (i = 0; i < MAX_SHIPS_ON_SEA; i++) { ShipModelrList[i] = -1; Ships[i] = -1;}
+	iNumShips = 0;
+	
+	CreateSeaEnvironment();	
 	// login island if exist
-	Sea_LoadIsland(AISea.Island);
-
+	Sea_LoadIsland(AISea.Island);	
+	
+	ShipOnLoadModelrList = GetCurrentModelrNumber(); //  вот так вот -- вычисляем номер модельки корабля ГГ  ДО загрузки остальных шипов в море !!!!
+	trace("ShipOnLoadModelrList = " + ShipOnLoadModelrList + " Ships[0] = " + Ships[0]);
+	
 	SendMessage(&AISea, "l", AI_MESSAGE_SEALOAD);
-	SendMessage(&Telescope, "leee", MSG_TELESCOPE_INIT_ARRAYS, &Nations, &RealShips, &Goods);
-
-	PostEvent(SHIP_CHECK_RELOAD_ENABLE, 1);
+		
+	for (i = 0; i < MAX_SHIPS_ON_SEA; i++) iTemp[i] = ShipModelrList[i];
 	
+	//принципиальный момент !!!  двигаем  массив номеров моделек шипов вправо !! - иначе для флагмана ГГ приписывается неправильный номер модельки
+	// два дня понять не мог в чем дело - почему неправильно выставляются флаги при загрузке игры в режиме "море"
+	for (i = 0; i < MAX_SHIPS_ON_SEA - 1; i++) { ShipModelrList[i + 1] = iTemp[i]; }
+	ShipModelrList[0] = ShipOnLoadModelrList;
+	
+	for (i = 0; i < MAX_SHIPS_ON_SEA; i++)
+	{
+		if(Ships[i] > 0) 
+		{
+			chr = GetCharacter(Ships[i]); sTemp = chr.Ship.Name
+		}
+		else 
+		{
+			sTemp = "";
+			ShipModelrList[i] = -1;
+		}	
+		if(ShipModelrList[i] == -1) continue;
+		trace("i = " + i + " ShipModelrList[i] = " + ShipModelrList[i] + " Ships[i] = " + Ships[i] + " ship.name = " + sTemp);
+	}
+		
+	SendMessage(&Telescope, "leee", MSG_TELESCOPE_INIT_ARRAYS, &Nations, &RealShips, &Goods);	
+		
+	PostEvent(SHIP_CHECK_RELOAD_ENABLE, 1);	
 	SetSchemeForSea();
-
 	PostEvent("Sea_FirstInit", 1);
-	
-	// clear save attribute
+
 	DeleteAttribute(&oSeaSave, "");
 	bSeaLoad = false;
-
+	
 	InitBattleInterface();
 	StartBattleInterface();
-	RefreshBattleInterface();
-	//#20190205-01
-    SeaCameras_SetShipForSeaCamera(&pchar);
+	RefreshBattleInterface();					
 }
 
 ref SeaLoad_GetPointer()

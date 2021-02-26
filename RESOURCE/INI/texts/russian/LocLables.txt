@@ -147,7 +147,9 @@ Mayak10 {Маяк Гаваны}
 Mayak11 {Маяк Картахены}
 Mayak12 {Маяк Каймана}
 
-
+Boarding fortyard {Внутренний двор}
+Boarding bastion1 {Бастион}
+Boarding bastion2 {Бастион}
 
 Bridgetown {Бриджтаун}
 Bridgetown Town {Бриджтаун}
@@ -348,6 +350,7 @@ cabine	{Каюта}
 My_Campus	{Кают-компания}
 My_Deck_Medium	{Пушечная палуба}
 My_Deck	{Трюм}
+Orlop deck {Нижняя палуба}
 
 Morgan's House {Дом Моргана}
 Morris's House {Дом Джона Морриса}

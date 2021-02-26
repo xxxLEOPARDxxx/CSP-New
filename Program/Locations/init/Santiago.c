@@ -14,7 +14,7 @@ int LocationInitSantiago(int n)
  	locations[n].islandId = "Cuba";
 	
 	locations[n].filespath.models = "locations\Town_Santiago\Town\";
-	locations[n].image = "loading\Town.tga";
+	locations[n].image = "loading\Town_"+rand(8)+".tga";
 	locations[n].citizens = true;
 	locations[n].soldiers = true;
 	locations[n].carrier = true;
@@ -219,7 +219,7 @@ int LocationInitSantiago(int n)
 	locations[n].id = "Santiago_tavern";
 	locations[n].id.label = "Tavern";
 	locations[n].filespath.models = "locations\inside\tavern03\";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\Tavern_"+rand(7)+".tga";
 	locations[n].habitues = 1;
 	//Town sack
 	locations[n].townsack = "Santiago";
@@ -270,7 +270,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Santiago_tavern_upstairs";
 	locations[n].id.label = "Tavern upstairs";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\TavernCommon.tga";
 	//Town sack
 	locations[n].townsack = "Santiago";
 	locations[n].lockWeather = "Inside";
@@ -312,7 +312,7 @@ int LocationInitSantiago(int n)
 	locations[n].id = "Santiago_store";
 	locations[n].id.label = "Store";
 	locations[n].filespath.models = "locations\inside\Store02\";
-	locations[n].image = "loading\inside\shop.tga";
+	locations[n].image = "loading\inside\shop_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "Santiago";
 	locations[n].lockWeather = "Inside";
@@ -359,7 +359,7 @@ int LocationInitSantiago(int n)
 	locations[n].id = "Santiago_Shipyard";
 	locations[n].id.label = "Shipyard";
 	locations[n].filespath.models = "locations\inside\Shipyard03\";
-	locations[n].image = "loading\inside\shipyard.tga";
+	locations[n].image = "loading\inside\Shipyard_"+rand(4)+".tga";
 	//Town sack
 	locations[n].townsack = "Santiago";
 	locations[n].lockWeather = "Inside";
@@ -405,7 +405,7 @@ int LocationInitSantiago(int n)
 	locations[n].id = "Santiago_townhall";
 	locations[n].id.label = "Townhall";
 	locations[n].filespath.models = "locations\inside\Residence03";
-	locations[n].image = "loading\inside\residence.tga";
+	locations[n].image = "loading\inside\residence_3.tga";
 	//Town sack
 	locations[n].townsack = "Santiago";
 	locations[n].lockWeather = "Inside";
@@ -452,7 +452,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Santiago_church";
 	locations[n].id.label = "Church";
-	locations[n].image = "loading\inside\church.tga";
+	locations[n].image = "loading\inside\churchInsideBig1.tga";
 	//Town sack
 	locations[n].townsack = "Santiago";
 	locations[n].lockWeather = "Inside";
@@ -504,7 +504,7 @@ int LocationInitSantiago(int n)
 	locations[n].id = "Santiago_bank";
 	locations[n].id.label = "Usurer House";
 	locations[n].filespath.models = "locations\inside\Bank02\";
-	locations[n].image = "loading\inside\bank.tga";
+	locations[n].image = "loading\inside\bank_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "Santiago";
 	locations[n].lockWeather = "Inside";
@@ -591,7 +591,7 @@ int LocationInitSantiago(int n)
 	locations[n].id = "Santiago_Incquisitio";
 	locations[n].filespath.models = "locations\inside\InquisitionCave";
 	locations[n].id.label = "Incquisitio";
-	locations[n].image = "loading\inside\inquisitio.tga";
+	locations[n].image = "loading\inside\inquisitio_"+rand(3)+".tga";
 	//Sound
 	locations[n].townsack = "Santiago";
 	locations[n].fastreload = "Santiago";
@@ -636,7 +636,7 @@ int LocationInitSantiago(int n)
 	locations[n].id = "Santiago_HouseSp2";
 	locations[n].filespath.models = "locations\inside\FlamHouse";
 	locations[n].id.label = "House";
-	locations[n].image = "loading\inside\flamhouse.tga";
+	locations[n].image = "loading\inside\CommonFlamHouse.tga";
 	//Town sack
 	locations[n].townsack = "Santiago";
 	locations[n].lockWeather = "Inside";
@@ -695,7 +695,7 @@ int LocationInitSantiago(int n)
     locations[n].id = "Santiago_ExitTown";
 	locations[n].fastreload = "Santiago";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate" + rand(1) + ".tga";
+	locations[n].image = "loading\Gate_"+rand(1)+".tga";
 	//Town sack
 	locations[n].townsack = "Santiago";
 	//Sound
@@ -761,7 +761,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -817,7 +817,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Cuba_Jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -867,7 +867,7 @@ int LocationInitSantiago(int n)
 	locations[n].id = "Mayak9";
 	locations[n].id.label = "Mayak9";
 	locations[n].worldmap = "Mayak9";
-	locations[n].image = "loading\outside\lighthouse.tga";
+	locations[n].image = "loading\outside\lighthouse_"+rand(1)+".tga";
 	//Sound
 	locations[n].type = "mayak";
 	locations[n].islandId = "Cuba";
@@ -953,7 +953,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_Jungle_03";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -1009,7 +1009,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_Jungle_04";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -1058,7 +1058,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_Jungle_05";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -1114,7 +1114,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore11";
 	locations[n].id.label = "Shore11";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Shore11";
 	//Sound
 	locations[n].type = "seashore";
@@ -1168,7 +1168,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_Jungle_06";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -1224,7 +1224,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore12";
 	locations[n].id.label = "Shore12";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Shore12";
 	//Sound
 	locations[n].type = "seashore";
@@ -1278,7 +1278,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Cuba_Jungle_07";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -1334,7 +1334,7 @@ int LocationInitSantiago(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Cuba";
@@ -1382,7 +1382,7 @@ int LocationInitSantiago(int n)
 	// Грот
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cuba_Grot";
-	locations[n].image = "loading\inside\cave.tga";
+	locations[n].image = "loading\inside\Grot_"+rand(2)+".tga";
 	locations[n].id.label = "Grot";
 	//Sound
 	locations[n].type = "Cave";

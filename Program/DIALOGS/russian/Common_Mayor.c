@@ -2218,9 +2218,16 @@ void ProcessDialogEvent()
 			//(rand(1))
 			bool boko = (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))     //WW 
 			if  (IsCharacterPerkOn(pchar, "Fencer") || IsCharacterPerkOn(pchar, "Grunt") || boko)   //WW 
-			{   //шпион в одной из общих локаций common
-				pchar.GenQuest.SeekSpy.Location = GetSpyLocation(npchar); //определ€ем локацию
-				Log_QuestInfo(pchar.GenQuest.SeekSpy.Location); //чит
+			{  			
+				if (rand(100)<10)
+				{//шпион гул€ет по городу
+					pchar.GenQuest.SeekSpy.Location = npchar.city + "_town"; //определ€ем локацию
+					pchar.GenQuest.SeekSpy.City = rand(1); //флаг шпион в городе, ренд - кто будет подсказывать в таверне
+				}
+				else
+				{//шпион в одной из общих локаций common
+					pchar.GenQuest.SeekSpy.Location = GetSpyLocation(npchar); //определ€ем локацию
+					Log_QuestInfo(pchar.GenQuest.SeekSpy.Location); //чит
 				if (pchar.GenQuest.SeekSpy.Location == "none") //на вс€кий случай
 				{
 					dialog.text = "ѕостойте, € припоминаю, что вчера задержали подозрительного человека, суд€ по всему, это и был тот самый шпион. Ќадобность в ваших услугах отпадает.";
@@ -2230,8 +2237,9 @@ void ProcessDialogEvent()
 					break;
 				}
 				else
-				{
-					pchar.quest.SeekSpy_login.again = true; //на вс€кий случай
+					{
+						pchar.quest.SeekSpy_login.again = true; //на вс€кий случай
+					}
 				}
 			}
 			else

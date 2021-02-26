@@ -80,7 +80,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PearlTown1_Townhall";
 	locations[n].id.label = "House";
-	locations[n].image = "loading\inside\mediumhouse02.tga";
+	locations[n].image = "loading\inside\CommonRoom_MH2.tga";
 	//Town sack
 	locations[n].townsack = "Pearl_town_2";
 	locations[n].lockWeather = "Inside";
@@ -123,7 +123,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore49";
 	locations[n].id.label = "Shore49";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Shore49";
 	//Sound
 	locations[n].type = "seashore";
@@ -177,7 +177,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_Jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -233,7 +233,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore50";
 	locations[n].id.label = "Shore50";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Shore50";
 	//Sound
 	locations[n].type = "seashore";
@@ -287,7 +287,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_Jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -343,7 +343,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_Jungle_03";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -399,7 +399,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_GrotEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -451,7 +451,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_Grot";
 	locations[n].id.label = "Grot";
-    locations[n].image = "loading\inside\cave.tga";
+    locations[n].image = "loading\inside\Grot_"+rand(2)+".tga";
 	//Sound
 	locations[n].type = "cave";
 	locations[n].islandId = "Mein";
@@ -495,7 +495,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Pearl_Jungle_04";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -544,7 +544,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore51";
 	locations[n].id.label = "Shore51";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Shore51";
 	//Sound
 	locations[n].type = "seashore";
@@ -598,7 +598,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_Jungle_06";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	locations[n].DisableEncounters = true;
 	//Sound
 	locations[n].type = "jungle";
@@ -655,7 +655,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Pearl_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -777,7 +777,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PearlTown2_Townhall";
 	locations[n].id.label = "House";
-	locations[n].image = "loading\inside\mediumhouse02.tga";
+	locations[n].image = "loading\inside\CommonRoom_MH2.tga";
 	//Town sack
 	locations[n].townsack = "Pearl_town_2";
 	locations[n].lockWeather = "Inside";
@@ -816,7 +816,7 @@ int LocationInitPearl(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PearlTown2_House6";
 	locations[n].id.label = "Room";
-	locations[n].image = "loading\inside\mediumhouse01.tga";
+	locations[n].image = "loading\inside\CommonRoom_MH.tga";
 	//Town sack
 	locations[n].townsack = "Pearl_town_2";
 	locations[n].lockWeather = "Inside";

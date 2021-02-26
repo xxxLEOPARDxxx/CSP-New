@@ -1698,9 +1698,25 @@ void CalculateInfoDataF36()
 	Statistic_AddValue(PChar, "Cheats.F36", 1);
 }
 
-string descF37 = "Нет назначений";
+string descF37 = "Отстроить колонию уровень 1";
 void CalculateInfoDataF37()
 {
+	CreateSmallColonyCaiman();
+	PChar.ColonyBuilding.Stage.FirstStage = "3";
+	Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyBuilding_7";
+	PlayStereoSound("notebook");
+	Log_SetStringToLog("Время строительства колонии на острове Кайман должно подойти к концу. Стоит навестить место работы.");
+	LAi_SetCitizenType(CharacterFromID("Builder"));
+	LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+	ChangeCharacterAddressGroup(CharacterFromID("Builder"), "Shore17", "goto", "goto13");
+	PChar.quest.ColonyBuilding_2_1.win_condition.l1 = "location";
+	PChar.quest.ColonyBuilding_2_1.win_condition.l1.location = "Shore17";
+	PChar.quest.ColonyBuilding_2_1.win_condition = "ColonyBuilding_2_1";
+	
+	DoQuestReloadToLocation("Shore17","reload","reload1", "");
+	setCharacterShipLocation(pchar, "Shore17");
+	setWDMPointXZ("Shore17");
+			
 	totalInfo = descF37;
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
@@ -1711,9 +1727,80 @@ void CalculateInfoDataF37()
 	Statistic_AddValue(PChar, "Cheats.F37", 1);
 }
 
-string descF38 = "Нет назначений";
+string descF38 = "Отстроить колонию уровень 2 + здания";
 void CalculateInfoDataF38()
 {
+	PChar.ColonyBuilding.Stage.SecondStage = "3";
+	LAi_SetCitizenType(CharacterFromID("Builder"));
+	LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+	Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyModification_4";
+	ChangeCharacterAddressGroup(CharacterFromID("Builder"), "Caiman_town", "goto", "goto8");
+	LAi_SetActorType(CharacterFromID("Builder"));
+	LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 15.0, 1.0);
+	PlayStereoSound("notebook");
+	Log_SetStringToLog("Время расширения колонии ''" + PChar.ColonyBuilding.ColonyName + "'' должно подойти к концу.");
+	CreateModificyColonyCaiman();
+	LAi_QuestDelay("LiveOfTheColonyUptade_1", 0.5);
+	LAi_QuestDelay("CheckDefenceColonyUptade_1", 0.5);
+	DoQuestReloadToLocation("Caiman_town","reload","reload1", "");
+	setCharacterShipLocation(pchar, "Caiman_town");
+	setWDMPointXZ("Caiman_town");
+	
+	PChar.quest.Store_build_1.win_condition.l1 = "location";
+	PChar.quest.Store_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.Store_build_1.win_condition = "Store_build_1";
+	PChar.quest.Shipyard_build_1.win_condition.l1 = "location";
+	PChar.quest.Shipyard_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.Shipyard_build_1.win_condition = "Shipyard_build_1";
+	PChar.quest.Tavern_build_1.win_condition.l1 = "location";
+	PChar.quest.Tavern_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.Tavern_build_1.win_condition = "Tavern_build_1";
+	PChar.quest.Church_build_1.win_condition.l1 = "location";
+	PChar.quest.Church_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.Church_build_1.win_condition = "Church_build_1";
+	PChar.quest.Bank_build_1.win_condition.l1 = "location";
+	PChar.quest.Bank_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.Bank_build_1.win_condition = "Bank_build_1";
+	PChar.quest.HeadPort_build_1.win_condition.l1 = "location";
+	PChar.quest.HeadPort_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.HeadPort_build_1.win_condition = "HeadPort_build_1";
+	PChar.quest.StoreHouse_build_1.win_condition.l1 = "location";
+	PChar.quest.StoreHouse_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.StoreHouse_build_1.win_condition = "StoreHouse_build_1";
+	PChar.quest.StoreHouse_resize_1.win_condition.l1 = "location";
+	PChar.quest.StoreHouse_resize_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.StoreHouse_resize_1.win_condition = "StoreHouse_resize_1";
+	
+	PChar.quest.Expidition_build_1.win_condition.l1 = "location";
+	PChar.quest.Expidition_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.Expidition_build_1.win_condition = "Expidition_build_1";
+	
+	PChar.quest.Plantation_build_1.win_condition.l1 = "location";
+	PChar.quest.Plantation_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.Plantation_build_1.win_condition = "Plantation_build_1";
+	PChar.quest.Plantation_resize_1.win_condition.l1 = "location";
+	PChar.quest.Plantation_resize_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.Plantation_resize_1.win_condition = "Plantation_resize_1";
+	
+	PChar.quest.GoldMine_build_1.win_condition.l1 = "location";
+	PChar.quest.GoldMine_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.GoldMine_build_1.win_condition = "GoldMine_build_1";
+	PChar.quest.SilverMine_build_1.win_condition.l1 = "location";
+	PChar.quest.SilverMine_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.SilverMine_build_1.win_condition = "SilverMine_build_1";
+	PChar.quest.IronMine_build_1.win_condition.l1 = "location";
+	PChar.quest.IronMine_build_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.IronMine_build_1.win_condition = "IronMine_build_1";
+	PChar.quest.GoldMine_resize_1.win_condition.l1 = "location";
+	PChar.quest.GoldMine_resize_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.GoldMine_resize_1.win_condition = "GoldMine_resize_1";
+	PChar.quest.SilverMine_resize_1.win_condition.l1 = "location";
+	PChar.quest.SilverMine_resize_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.SilverMine_resize_1.win_condition = "SilverMine_resize_1";
+	PChar.quest.IronMine_resize_1.win_condition.l1 = "location";
+	PChar.quest.IronMine_resize_1.win_condition.l1.location = "Caiman_town";
+	PChar.quest.IronMine_resize_1.win_condition = "IronMine_resize_1";
+	
 	totalInfo = descF38;
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
@@ -1724,9 +1811,84 @@ void CalculateInfoDataF38()
 	Statistic_AddValue(PChar, "Cheats.F38", 1);
 }
 
-string descF39 = "Нет назначений";
+string descF39 = "Построить полностю развитую колонию";
 void CalculateInfoDataF39()
 {
+	PChar.ColonyBuilding.Stage.SecondStage = "3";
+	LAi_SetCitizenType(CharacterFromID("Builder"));
+	LAi_group_MoveCharacter(&Characters[GetCharacterIndex("Builder")], LAI_GROUP_PLAYER);
+	Characters[GetCharacterIndex("Builder")].Dialog.CurrentNode = "ColonyFortBuilding_6";
+	ChangeCharacterAddressGroup(CharacterFromID("Builder"), "LandGuardingPort", "goto", "goto1");
+	LAi_SetActorType(CharacterFromID("Builder"));
+	LAi_ActorDialog(CharacterFromID("Builder"), PChar, "", 15.0, 1.0);
+	PlayStereoSound("notebook");
+	Log_SetStringToLog("Время расширения колонии ''" + PChar.ColonyBuilding.ColonyName + "'' должно подойти к концу.");
+	CreateModificyColonyCaiman();
+	LAi_QuestDelay("LiveOfTheColonyUptade_1", 0.5);
+	LAi_QuestDelay("CheckDefenceColonyUptade_1", 0.5);
+	DoQuestReloadToLocation("LandGuardingPort","reload","reload1", "");
+	setCharacterShipLocation(pchar, "Caiman_town");
+	setWDMPointXZ("Caiman_town");
+	
+	PChar.quest.Store_build_1.win_condition.l1 = "location";
+	PChar.quest.Store_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.Store_build_1.win_condition = "Store_build_1";
+	PChar.quest.Shipyard_build_1.win_condition.l1 = "location";
+	PChar.quest.Shipyard_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.Shipyard_build_1.win_condition = "Shipyard_build_1";
+	PChar.quest.Tavern_build_1.win_condition.l1 = "location";
+	PChar.quest.Tavern_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.Tavern_build_1.win_condition = "Tavern_build_1";
+	PChar.quest.Church_build_1.win_condition.l1 = "location";
+	PChar.quest.Church_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.Church_build_1.win_condition = "Church_build_1";
+	PChar.quest.Bank_build_1.win_condition.l1 = "location";
+	PChar.quest.Bank_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.Bank_build_1.win_condition = "Bank_build_1";
+	PChar.quest.HeadPort_build_1.win_condition.l1 = "location";
+	PChar.quest.HeadPort_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.HeadPort_build_1.win_condition = "HeadPort_build_1";
+	PChar.quest.StoreHouse_build_1.win_condition.l1 = "location";
+	PChar.quest.StoreHouse_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.StoreHouse_build_1.win_condition = "StoreHouse_build_1";
+	PChar.quest.StoreHouse_resize_1.win_condition.l1 = "location";
+	PChar.quest.StoreHouse_resize_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.StoreHouse_resize_1.win_condition = "StoreHouse_resize_1";
+	
+	PChar.quest.Expidition_build_1.win_condition.l1 = "location";
+	PChar.quest.Expidition_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.Expidition_build_1.win_condition = "Expidition_build_1";
+	
+	PChar.quest.Plantation_build_1.win_condition.l1 = "location";
+	PChar.quest.Plantation_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.Plantation_build_1.win_condition = "Plantation_build_1";
+	PChar.quest.Plantation_resize_1.win_condition.l1 = "location";
+	PChar.quest.Plantation_resize_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.Plantation_resize_1.win_condition = "Plantation_resize_1";
+	
+	PChar.quest.GoldMine_build_1.win_condition.l1 = "location";
+	PChar.quest.GoldMine_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.GoldMine_build_1.win_condition = "GoldMine_build_1";
+	PChar.quest.SilverMine_build_1.win_condition.l1 = "location";
+	PChar.quest.SilverMine_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.SilverMine_build_1.win_condition = "SilverMine_build_1";
+	PChar.quest.IronMine_build_1.win_condition.l1 = "location";
+	PChar.quest.IronMine_build_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.IronMine_build_1.win_condition = "IronMine_build_1";
+	PChar.quest.GoldMine_resize_1.win_condition.l1 = "location";
+	PChar.quest.GoldMine_resize_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.GoldMine_resize_1.win_condition = "GoldMine_resize_1";
+	PChar.quest.SilverMine_resize_1.win_condition.l1 = "location";
+	PChar.quest.SilverMine_resize_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.SilverMine_resize_1.win_condition = "SilverMine_resize_1";
+	PChar.quest.IronMine_resize_1.win_condition.l1 = "location";
+	PChar.quest.IronMine_resize_1.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.IronMine_resize_1.win_condition = "IronMine_resize_1";
+	
+	PChar.quest.ColonyFortBuilding_6.win_condition.l1 = "location";
+	PChar.quest.ColonyFortBuilding_6.win_condition.l1.location = "LandGuardingPort";
+	PChar.quest.ColonyFortBuilding_6.win_condition = "ColonyFortBuilding_6";
+	
 	totalInfo = descF39;
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";

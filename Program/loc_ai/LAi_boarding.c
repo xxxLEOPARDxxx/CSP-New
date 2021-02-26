@@ -75,7 +75,7 @@ string LAi_GetBoardingImage(ref echr, bool isMCAttack)
 			}
 		}
 	}
-	return "loading\battle_" + rand(23) + ".tga";
+	return "loading\battle_" + rand(24) + ".tga";
 }
 
 //Начать абордаж с главным персонажем
@@ -545,6 +545,7 @@ void LAi_LoadLocation(string locationID, int locType)
 	}
 	ReloadProgressEnd();
 	PostEvent("LoadSceneSound", 500);
+	pchar.OfficerAttRange = 100.0;//автоагр абордажников на палубе
 }
 
 //Перегрузиться в следующую локации
@@ -839,7 +840,7 @@ void LAi_EnableReload()
 			if(index != GetMainCharacterIndex())
 			{
 				ref chr = &Characters[index];
-				if(!LAi_IsDead(chr) && chr.model.animation != "mushketer") // boal && sd не нужны офицеры для матросов
+				if(!LAi_IsDead(chr) && !CheckAttribute(chr,"AboardFantomMush")) // boal && sd не нужны офицеры для матросов
 				{
 					if(chr.chr_ai.group == LAI_GROUP_PLAYER)
 					{
@@ -1015,6 +1016,7 @@ void LAi_SetBoardingActors(string locID)
 					chr = GetCharacter(NPC_GenerateCharacter("GenChar_", model, "man", "mushketer", 5, sti(mchr.nation), 0, false));
 					chr.id = "GenChar_" + chr.index;
 					chr.AboardFantom = true;
+					chr.AboardFantomMush = true;
 					if (!IsFort) chr.MusketerDistance = 0;
 					LAi_SetWarriorType(chr);
 					LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER);

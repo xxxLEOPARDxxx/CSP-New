@@ -14,7 +14,7 @@ int LocationInitCartahena(int n)
 	locations[n].islandId = "Mein";
 	
 	locations[n].filespath.models = "locations\Town_Cartahena\Town\";
-	locations[n].image = "loading\Town.tga";
+	locations[n].image = "loading\Town_"+rand(8)+".tga";
 	locations[n].citizens = true;
 	locations[n].soldiers = true;
 	locations[n].carrier = true;
@@ -213,7 +213,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Cartahena_tavern";
 	locations[n].id.label = "Tavern";
 	locations[n].filespath.models = "locations\inside\tavern01\";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\Tavern_"+rand(7)+".tga";
 	locations[n].habitues = 1;
 	//Town sack
 	locations[n].townsack = "Cartahena";
@@ -261,7 +261,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Cartahena_tavern_upstairs";
 	locations[n].id.label = "Tavern upstairs";
 	locations[n].filespath.models = "locations\inside\Tavern_room";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\TavernCommon.tga";
 	//Town sack
 	locations[n].townsack = "Cartahena";
 	locations[n].lockWeather = "Inside";
@@ -302,7 +302,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Cartahena_store";
 	locations[n].id.label = "Store";
 	locations[n].filespath.models = "locations\inside\store02\";
-	locations[n].image = "loading\inside\shop.tga";
+	locations[n].image = "loading\inside\shop_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "Cartahena";
 	locations[n].lockWeather = "Inside";
@@ -348,7 +348,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Cartahena_bank";
 	locations[n].id.label = "Usurer House";
 	locations[n].filespath.models = "locations\inside\Bank01\";
-	locations[n].image = "loading\inside\bank.tga";
+	locations[n].image = "loading\inside\bank_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "Cartahena";
 	locations[n].lockWeather = "Inside";
@@ -395,7 +395,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Cartahena_Shipyard";
 	locations[n].id.label = "Shipyard";
 	locations[n].filespath.models = "locations\inside\Shipyard02\";
-	locations[n].image = "loading\inside\shipyard.tga";
+	locations[n].image = "loading\inside\Shipyard_"+rand(4)+".tga";
 	//Town sack
 	locations[n].townsack = "Cartahena";
 	locations[n].lockWeather = "Inside";
@@ -441,7 +441,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Cartahena_townhall";
 	locations[n].id.label = "Townhall";
 	locations[n].filespath.models = "locations\inside\Residence01";
-	locations[n].image = "loading\inside\residence.tga";
+	locations[n].image = "loading\inside\residence_2.tga";
 	//Town sack
 	locations[n].townsack = "Cartahena";
 	locations[n].lockWeather = "Inside";
@@ -495,7 +495,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Cartahena_church";
 	locations[n].id.label = "Church";
 	locations[n].filespath.models = "locations\inside\Church01";
-	locations[n].image = "loading\inside\church.tga";
+	locations[n].image = "loading\inside\Church01.tga";
 	//Town sack
 	locations[n].townsack = "Cartahena";
 	locations[n].lockWeather = "Inside";
@@ -577,7 +577,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Cartahena_ExitTown";
 	locations[n].fastreload = "Cartahena";
 	locations[n].id.label = "Cartahena";
-	locations[n].image = "loading\Gate" + rand(1) + ".tga";
+	locations[n].image = "loading\Gate_"+rand(1)+".tga";
 	//Town sack
 	locations[n].townsack = "Cartahena";
 	//Sound
@@ -648,7 +648,7 @@ int LocationInitCartahena(int n)
 	locations[n].id = "Mayak11";
 	locations[n].id.label = "Mayak11";
 	locations[n].worldmap = "Mayak11";
-	locations[n].image = "loading\outside\lighthouse.tga";
+	locations[n].image = "loading\outside\lighthouse_"+rand(1)+".tga";
 	//Sound
 	locations[n].type = "mayak";
  	locations[n].islandId = "Mein";
@@ -734,7 +734,7 @@ int LocationInitCartahena(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cartahena_jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
  	locations[n].islandId = "Mein";
@@ -790,7 +790,7 @@ int LocationInitCartahena(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cartahena_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -841,7 +841,7 @@ int LocationInitCartahena(int n)
 	// Пещера
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Cartahena_Cave";
-	locations[n].image = "loading\inside\cave.tga";
+	locations[n].image = "loading\inside\Cave_"+(rand(1)+1)+".tga";
 	locations[n].id.label = "Cave";
 	//Sound
 	locations[n].type = "cave";
@@ -890,7 +890,7 @@ int LocationInitCartahena(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Cartahena_jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Mein";
@@ -951,7 +951,7 @@ int LocationInitCartahena(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore25";
 	locations[n].id.label = "Shore25";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Shore25";
 	//Sound
 	locations[n].type = "seashore";

@@ -661,13 +661,15 @@ void CannonsMenuRefresh()
 	int idx = GetCannonGoodsIdxByType(sti(rChr.Ship.Cannons.Type));
 	if (idx != -1)
 	{
+		int nShipType = GetCharacterShipType(rChr);
+		ref refBaseShip = GetRealShip(nShipType);
 	    SetNewGroupPicture("CANNONS_PIC", "GOODS", Goods[idx].Name);
 		SetFormatedText("CANNONS_TEXT", XI_ConvertString(Goods[idx].Name));
 
-		SetFormatedText("CANNONS_QTY_F", its(GetBortCannonsQty(rChr, "fcannon")));
-		SetFormatedText("CANNONS_QTY_B", its(GetBortCannonsQty(rChr, "bcannon")));
-		SetFormatedText("CANNONS_QTY_R", its(GetBortCannonsQty(rChr, "rcannon")));
-		SetFormatedText("CANNONS_QTY_L", its(GetBortCannonsQty(rChr, "lcannon")));
+		SetFormatedText("CANNONS_QTY_F", its(GetBortCannonsQty(rChr, "fcannon")) + "/" + refBaseShip.fcannon);
+		SetFormatedText("CANNONS_QTY_B", its(GetBortCannonsQty(rChr, "bcannon")) + "/" + refBaseShip.bcannon);
+		SetFormatedText("CANNONS_QTY_R", its(GetBortCannonsQty(rChr, "rcannon")) + "/" + refBaseShip.rcannon);
+		SetFormatedText("CANNONS_QTY_L", its(GetBortCannonsQty(rChr, "lcannon")) + "/" + refBaseShip.lcannon);
 		/// всего GetCannonsNum(xi_refCharacter)
 	}
 	else

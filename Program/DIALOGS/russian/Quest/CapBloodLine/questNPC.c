@@ -792,6 +792,7 @@ void ProcessDialogEvent()
         n = FindLocation("CommonStoneHouse");
         locations[n].private1.items.indian1 = 1;
         locations[n].private1.items.EngTradeLicence = 1;
+        locations[n].private1.items.potionrum = 1;
         locations[n].private1.money = 6000;
 					  
 																	   

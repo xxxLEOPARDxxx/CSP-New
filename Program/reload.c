@@ -228,7 +228,7 @@ int Reload(aref reload_group, string locator_name, string current_location)
 	{
 		if(!CheckAttribute(mc, "todeck"))
 		{
-			SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\seaStand_" + rand(9) + ".tga");
+			SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\seaStand_" + rand(13) + ".tga");
 		}
 		else
 		{
@@ -246,8 +246,8 @@ int Reload(aref reload_group, string locator_name, string current_location)
 				if (sGlobalTemp == "afterFDsink")
 				{
 				    //Boyer add #20170401-02
-                    pchar.loadscreen = "loading\rescue.tga.tx";
-					SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\rescue.tga.tx");
+                    pchar.loadscreen = "loading\rescue.tga";
+					SendMessage(&reload_fader, "ls",FADER_PICTURE,"loading\rescue.tga");
 					sGlobalTemp = "";
 				}
 				else {
@@ -530,7 +530,12 @@ int ReloadToLocation(int location_index, aref reload_data)
 	// boal <--
 	mc.location = Locations[location_index].id;
 	mc.location.group = "reload";
-	mc.location.locator = reload_data.emerge;
+	
+	//blackthorn - фикс одной ошибки, что у мен¤ возникала при вызове релоада на старте линейки
+	if (pchar.questTemp.WhisperLine != true)
+	{
+		mc.location.locator = reload_data.emerge;
+	}
 	if(reload_xaddress.active == "true")
 	{
 		mc.location.group = reload_xaddress.group;

@@ -14,7 +14,7 @@ int LocationInitJamaica(int n)
 	locations[n].islandId = "Jamaica";
 	
 	locations[n].filespath.models = "locations\Town_PortRoyal\Town\";
-	locations[n].image = "loading\Town.tga";
+	locations[n].image = "loading\Town_"+rand(8)+".tga";
 	locations[n].citizens = true;
 	locations[n].soldiers = true;
 	locations[n].carrier = true;
@@ -195,7 +195,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_tavern";
 	locations[n].id.label = "Tavern";
 	locations[n].filespath.models = "locations\inside\Tavern07\";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\Tavern_"+rand(7)+".tga";
 	locations[n].habitues = 1;
 	//Town sack
 	locations[n].townsack = "PortRoyal";
@@ -242,7 +242,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortRoyal_tavern_upstairs";
 	locations[n].id.label = "Tavern upstairs";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\TavernCommon.tga";
 	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -284,7 +284,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_store";
 	locations[n].id.label = "Store";
 	locations[n].filespath.models = "locations\inside\store02\";
-	locations[n].image = "loading\inside\shop.tga";
+	locations[n].image = "loading\inside\shop_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -331,7 +331,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_Bank";
 	locations[n].id.label = "Usurer House";
 	locations[n].filespath.models = "locations\inside\Bank02\";
-	locations[n].image = "loading\inside\bank.tga";
+	locations[n].image = "loading\inside\bank_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -376,7 +376,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_Shipyard";
 	locations[n].id.label = "Shipyard";
 	locations[n].filespath.models = "locations\inside\Shipyard03\";
-	locations[n].image = "loading\inside\shipyard.tga";
+	locations[n].image = "loading\inside\Shipyard_"+rand(4)+".tga";
 	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -422,7 +422,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_townhall";
 	locations[n].id.label = "Townhall";
 	locations[n].filespath.models = "locations\inside\Residence03";
-	locations[n].image = "loading\inside\residence.tga";
+	locations[n].image = "loading\inside\residence_3.tga";
 	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -467,7 +467,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortRoyal_RoomTownhall"; // комната в резиденции c переходом в спальню
 	locations[n].id.label = "TownhallRoom";
-	locations[n].image = "loading\inside\BigHouse02.tga";
+	locations[n].image = "loading\inside\CommonResidence_2.tga";
  	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -517,7 +517,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_church";
 	locations[n].id.label = "Church";
 	locations[n].filespath.models = "locations\inside\Church01";
-	locations[n].image = "loading\inside\church.tga";
+	locations[n].image = "loading\inside\churchInside2.tga";
     //Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -569,7 +569,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_Brothel";
 	locations[n].id.label = "Brothel";
 	locations[n].filespath.models = "locations\inside\Brothel\";
-	locations[n].image = "loading\inside\brothell_hall.tga";
+	locations[n].image = "loading\inside\brothell_hall_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -622,7 +622,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_Brothel_room";
 	locations[n].id.label = "Brothel Room";
 	locations[n].filespath.models = "locations\inside\Brothel_room\";
-	locations[n].image = "loading\inside\brothell_room.tga";
+	locations[n].image = "loading\inside\brothell_room_0.tga";
 	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -659,7 +659,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortRoyal_SecBrRoom"; // вторая комната борделя
 	locations[n].id.label = "Room";
-	locations[n].image = "loading\inside\BigHouse03.tga";
+	locations[n].image = "loading\inside\CommonResidence_3.tga";
  	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -750,7 +750,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "PortRoyal_houseS1"; // c переходом в малую резиденцию
 	locations[n].id.label = "Morgan's House";
-	locations[n].image = "loading\inside\BigHouse02.tga";
+	locations[n].image = "loading\inside\CommonResidence_2.tga";
  	//Town sack
 	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
@@ -822,7 +822,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "PortRoyal_ExitTown";
 	locations[n].fastreload = "PortRoyal";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate" + rand(1) + ".tga";
+	locations[n].image = "loading\Gate_"+rand(1)+".tga";
 	//Town sack
 	locations[n].townsack = "PortRoyal";
 	//Sound
@@ -837,7 +837,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.locators = "townExitW_locators";
 		
 	Locations[n].models.always.grassPatch = "townExitW_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";
 	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
@@ -893,7 +893,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "Mayak3";
 	locations[n].id.label = "Mayak3";
 	locations[n].worldmap = "Mayak3";
-	locations[n].image = "loading\outside\lighthouse.tga";
+	locations[n].image = "loading\outside\lighthouse_"+rand(1)+".tga";
 	//Sound
 	locations[n].type = "mayak";
 	locations[n].islandId = "Jamaica";	
@@ -914,7 +914,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.windows.level = 66530;
 		
 	Locations[n].models.always.grassPatch = "lighthouseJamaica_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";
 	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
@@ -987,7 +987,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Jamaica_jungle_01";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Jamaica";
@@ -997,7 +997,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.jungle = "jungle2";	
 	Locations[n].models.always.locators = "jungle2_locators";		
 	Locations[n].models.always.grassPatch = "jungle2_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -1042,7 +1042,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Jamaica_CaveEntrance";
 	locations[n].id.label = "Cave entrance";
-	locations[n].image = "loading\outside\jungle2.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Jamaica";
@@ -1052,7 +1052,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.caveEnt1 = "caveEnt1";	
 	Locations[n].models.always.locators = "caveEnt1_locators";		
 	Locations[n].models.always.grassPatch = "caveEnt1_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -1090,7 +1090,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Jamaica_Grot";
 	locations[n].id.label = "Grot";
-    locations[n].image = "loading\inside\cave.tga";
+    locations[n].image = "loading\inside\Grot_"+rand(2)+".tga";
 	//Sound
 	locations[n].type = "cave";
 	locations[n].islandId = "Jamaica";
@@ -1133,7 +1133,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Jamaica_jungle_02";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Jamaica";
@@ -1143,7 +1143,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.jungle = "jungle7";	
 	Locations[n].models.always.locators = "jungle7_locators";		
 	Locations[n].models.always.grassPatch = "jungle7_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -1188,7 +1188,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore36";
 	locations[n].id.label = "Shore36";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Shore36";
 	//Sound
 	locations[n].type = "seashore";
@@ -1201,7 +1201,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.shore08seabed = "shore08_sb";
 	Locations[n].models.always.locators = "shore08_locators";		
 	Locations[n].models.always.grassPatch = "shore08_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -1239,7 +1239,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     locations[n].id = "Jamaica_Jungle_03";
 	locations[n].id.label = "Jungle";
-	locations[n].image = "loading\outside\jungle.tga";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
  	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "Jamaica";
@@ -1249,7 +1249,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.jungle = "jungle8";	
 	Locations[n].models.always.locators = "jungle8_locators";		
 	Locations[n].models.always.grassPatch = "jungle8_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -1287,7 +1287,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Shore35";
 	locations[n].id.label = "Shore35";
-	locations[n].image = "loading\outside\harbor_" + rand(5) + ".tga";
+	locations[n].image = "loading\outside\harbor_" + rand(14) + ".tga";
 	locations[n].worldmap = "Shore35";
 	//Sound
 	locations[n].townsack = "FortOrange";
@@ -1303,7 +1303,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.locators = "shore10_locators";
 		
 	Locations[n].models.always.grassPatch = "shore10_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";
 	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
@@ -1343,7 +1343,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "FortOrange_ExitTown";
 	locations[n].fastreload = "FortOrange";
 	locations[n].id.label = "ExitTown";
-	locations[n].image = "loading\Gate" + rand(1) + ".tga";
+	locations[n].image = "loading\Gate_"+rand(1)+".tga";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].townsack = "FortOrange";
@@ -1354,7 +1354,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.smugglerLairExit = "smugglerLairExit";	
 	Locations[n].models.always.locators = "smugglerLairExit_locators";		
 	Locations[n].models.always.grassPatch = "smugglerLairExit_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";
 	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
@@ -1419,7 +1419,7 @@ int LocationInitJamaica(int n)
 	Locations[n].models.always.smugglerLairTown = "smugglerLairTown";	
 	Locations[n].models.always.locators = "smugglerLairTown_locators";		
 	Locations[n].models.always.grassPatch = "smugglerLairTown_grass";
-	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga";	
 	Locations[n].models.always.l1 = "plan1";
 	Locations[n].models.always.l1.level = 9;
 	Locations[n].models.always.l1.tech = "LocationModelBlend";
@@ -1507,7 +1507,7 @@ int LocationInitJamaica(int n)
  	locations[n].id = "FortOrange_tavern";
 	locations[n].id.label = "Tavern";
 	locations[n].filespath.models = "locations\inside\Tavern04\";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\Tavern_"+rand(7)+".tga";
 	locations[n].habitues = 1;
 	//Town sack
 	locations[n].townsack = "FortOrange";
@@ -1553,7 +1553,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "FortOrange_tavern_upstairs";
 	locations[n].filespath.models = "locations\inside\Tavern_room";
 	locations[n].id.label = "Tavern upstairs";
-	locations[n].image = "loading\inside\tavern.tga";
+	locations[n].image = "loading\inside\TavernCommon.tga";
 	//Town sack
 	locations[n].townsack = "FortOrange";
 	locations[n].lockWeather = "Inside";
@@ -1593,7 +1593,7 @@ int LocationInitJamaica(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "FortOrange_store";
 	locations[n].id.label = "Store";
-	locations[n].image = "loading\inside\shop.tga";
+	locations[n].image = "loading\inside\shop_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "FortOrange";
 	locations[n].lockWeather = "Inside";
@@ -1681,7 +1681,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "FortOrange_Shipyard";
 	locations[n].id.label = "Shipyard";
 	locations[n].filespath.models = "locations\inside\Shipyard01\";
-	locations[n].image = "loading\inside\shipyard.tga";
+	locations[n].image = "loading\inside\Shipyard_"+rand(4)+".tga";
 	//Town sack
 	locations[n].townsack = "FortOrange";
 	locations[n].lockWeather = "Inside";
@@ -1776,7 +1776,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "FortOrange_bank";
 	locations[n].id.label = "Bank";
 	locations[n].filespath.models = "locations\inside\Bank01\";
-	locations[n].image = "loading\inside\bank.tga";
+	locations[n].image = "loading\inside\bank_"+rand(3)+".tga";
 	//Town sack
 	locations[n].townsack = "FortOrange";
 	locations[n].lockWeather = "Inside";
@@ -1822,7 +1822,7 @@ int LocationInitJamaica(int n)
 	locations[n].id = "FortOrange_church";
 	locations[n].id.label = "Church";
 	locations[n].filespath.models = "locations\inside\Church01";
-	locations[n].image = "loading\inside\church.tga";
+	locations[n].image = "loading\inside\Church01.tga";
 	//Town sack
 	locations[n].townsack = "FortOrange";
 	locations[n].lockWeather = "Inside";
@@ -1869,8 +1869,9 @@ int LocationInitJamaica(int n)
 	locations[n].image = "loading\inside\TwoFloorHouse.tga";
 	//locations[n].MustSetReloadBack = true;
 	//Town sack
-	locations[n].townsack = "";
+	locations[n].townsack = "PortRoyal";
 	locations[n].lockWeather = "Inside";
+	locations[n].islandId = "Jamaica";
 	//Sound
 	locations[n].type = "house";
 	locations[n].fastreload = "PortRoyal";

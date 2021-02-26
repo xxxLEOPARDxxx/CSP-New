@@ -1675,9 +1675,18 @@ void ProcessDialogEvent()
 
 		case "ShipStock_2":
             chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
-			NPChar.MoneyForShip = GetPortManPriceExt(NPChar, chref);
-			dialog.Text = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "', класс " + RealShips[sti(chref.Ship.Type)].Class +
+			if (pchar.location != "Caiman_PortOffice")  NPChar.MoneyForShip = GetPortManPriceExt(NPChar, chref);
+			else NPChar.MoneyForShip = 0;
+			if (pchar.location != "Caiman_PortOffice") 
+			{
+				dialog.Text = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "', класс " + RealShips[sti(chref.Ship.Type)].Class +
                      ", стоимость стоянки " + FindRussianMoneyString(sti(NPChar.MoneyForShip)) + " в месяц, оплата за месяц вперед.";
+			}
+			else
+			{
+				dialog.Text = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "', класс " + RealShips[sti(chref.Ship.Type)].Class +
+                     ", стоимость стоянки - для вас полностью бесплатно.";
+			}
 			Link.l1 = "Да. Это меня устраивает.";
 			if (sti(Pchar.Money) >= sti(NPChar.MoneyForShip))
 			{

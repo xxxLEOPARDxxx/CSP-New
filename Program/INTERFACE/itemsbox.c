@@ -917,7 +917,7 @@ void AddToTable(ref rChar)
 				if(CheckAttribute(&rItem, "groupID"))
 				{
 					// Проверка на оружие
-					if(rItem.groupID != BLADE_ITEM_TYPE && rItem.groupID != GUN_ITEM_TYPE)
+					if(rItem.groupID != BLADE_ITEM_TYPE && rItem.groupID != GUN_ITEM_TYPE && rItem.groupID != TALISMAN_ITEM_TYPE)
 					{
 						continue;
 					}
@@ -974,7 +974,7 @@ void AddToTable(ref rChar)
 				if(CheckAttribute(&rItem, "groupID"))
 				{
 					// Проверка на оружие
-					if(rItem.groupID != BLADE_ITEM_TYPE && rItem.groupID != GUN_ITEM_TYPE)
+					if(rItem.groupID != BLADE_ITEM_TYPE && rItem.groupID != GUN_ITEM_TYPE && rItem.groupID != TALISMAN_ITEM_TYPE)
 					{
 						continue;
 					}
@@ -1487,6 +1487,7 @@ void ChangeQTY_EDIT()
 		    {
 		        GameInterface.qty_edit.str = 0;
 		    }
+			if (sti(GameInterface.qty_edit.str) < 0) GameInterface.qty_edit.str = 0;
 		    // квестовые не продать <--
 		    SetFormatedText("QTY_TypeOperation", "Отдать");
 		}

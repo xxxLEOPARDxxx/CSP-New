@@ -114,7 +114,7 @@ void MessageInfo()
 	
 	if(bFirst)
 	{
-		sMessage += " апитан " + GetName(PChar, "f") + ", тревожные вести пришли из колонии ''" + sColonyName + "''!";
+		sMessage += " апитан " + GetNameLugger(PChar, "f") + ", тревожные вести пришли из колонии ''" + sColonyName + "''!";
 	}
 	
 	sMessage += newStr();

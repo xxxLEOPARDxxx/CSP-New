@@ -941,11 +941,15 @@ void Whr_UpdateWeatherHour()
         {
             //#20190211-01
             if (isSeaEnt) {
-                if(stf(Sea.MaxSeaHeight) != SetMaxSeaHeight(i))
-	
-					string sPreset = WhrGetSeaPresetFromWind(fWeatherSpeed);
-					WhrSetSeaPreset(iCurWeatherNum, sPreset);
-                    WhrCreateSeaEnvironment(); // boal смена волн на лету
+				if (CheckAttribute(Sea,"MaxSeaHeight"))
+				{
+					if(stf(Sea.MaxSeaHeight) != SetMaxSeaHeight(i))
+					{
+						string sPreset = WhrGetSeaPresetFromWind(fWeatherSpeed);
+						WhrSetSeaPreset(iCurWeatherNum, sPreset);
+						WhrCreateSeaEnvironment(); // boal смена волн на лету
+					}
+				}
 	 		}
  		}
  		//#20190211-01

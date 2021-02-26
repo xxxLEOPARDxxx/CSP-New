@@ -6,6 +6,7 @@
 #include "quests\quests_scenes.c"
 #include "quests\quests_reaction.c"
 #include "quests\reaction_functions.c"
+#include "quests\whisper_line_functions.c"
 
 #event_handler("LocationWaitNihgtEnd","WaitDatePostEventControl");
 #event_handler("evntQuestCameraRestore","QuestCameraRestore");
@@ -255,7 +256,17 @@ string GetQuestBookDataDigit()
 string GetDateString()
 {
     int iMonth =GetDataMonth();
-	string sData = GetDataDay()+" "+XI_ConvertString("target_month_" + iMonth)+" "+GetDataYear();
+	string sData;
+	
+	//В начале игры у Виспер другой год
+	if (Pchar.questTemp.WhisperLine != true)
+	{
+		sData = GetDataDay()+" "+XI_ConvertString("target_month_" + iMonth)+" "+GetDataYear();
+	}
+	else
+	{
+		sData = GetDataDay()+" "+XI_ConvertString("target_month_" + iMonth)+" "+2077;
+	}
 	return sData;
 }
 string GetTimeString()

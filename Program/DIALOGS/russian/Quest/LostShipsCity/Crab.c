@@ -140,6 +140,7 @@ void ProcessDialogEvent()
 		
 		case "Exit":
 			NextDiag.CurrentNode = NextDiag.TempNode;
+			LAi_SetWarriorType(npchar);
 			DialogExit();
 		break;
 	}

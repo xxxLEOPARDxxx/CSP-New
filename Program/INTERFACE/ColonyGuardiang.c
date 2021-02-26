@@ -1,5 +1,6 @@
 int nCurScrollNum = -1;
 ref refCharacter = PChar;
+string sMessageMode;
 
 int iChangeCount = 2;
 
@@ -35,6 +36,7 @@ void InitInterface(string iniName)
 	SetNodeUsing("BORDERS_SHIP_CHANGE_RIGHT", false);
 	SetNodeUsing("BORDERS_SHIP_CHANGE_RIGHT_1", false);
 	SetNodeUsing("FRAME_SHIP_CHANGE", false);
+	sMessageMode = "";
 
 	
 	//SetInstallFrame(false, true);
@@ -69,51 +71,30 @@ void ShowInfoWindow()
 			int iCharacter = sti(GameInterface.SHIPS_SCROLL.(attributeName).companionIndex);
 			if(iCharacter != 0)
 			{
-				ref rchr = &Characters[iCharacter];
-				sPicture = "interfaces\portraits\128\face_" + rchr.FaceId + ".tga"
-						
-				sHeader = "Капитан - " + rchr.name + " " + rchr.lastname;
-	
-				sText1 = rchr.name + " " + rchr.lastname;
+				ref chr = &Characters[iCharacter];
+				SetSPECIALMiniTable("TABLE_SMALLSKILL", chr);
+				SetOTHERMiniTable("TABLE_SMALLOTHER", chr);
+				SetFormatedText("OFFICER_NAME", GetFullName(chr));
+				SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chr.faceId + ".tga");
+				SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame3.tga");
 				
-				sText2 = "Ранг: " + sti(rchr.rank);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Авторитет: " + GetCharacterSkill(rchr, SKILL_LEADERSHIP);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Лёгкое лружие: " + GetCharacterSkill(rchr, SKILL_F_LIGHT);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Среднее оружие: " + GetCharacterSkill(rchr, SKILL_FENCING);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Тяжёлое оружие: " + GetCharacterSkill(rchr, SKILL_F_HEAVY);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Пистолеты: " + GetCharacterSkill(rchr, SKILL_PISTOL);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Везение: " + GetCharacterSkill(rchr, SKILL_FORTUNE);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Скрытность: " + GetCharacterSkill(rchr, SKILL_SNEAK);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Навигация: " + GetCharacterSkill(rchr, SKILL_SAILING);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Меткость: " + GetCharacterSkill(rchr, SKILL_ACCURACY);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Пушки: " + GetCharacterSkill(rchr, SKILL_CANNONS);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Абордаж: " + GetCharacterSkill(rchr, SKILL_GRAPPLING);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Защита: " + GetCharacterSkill(rchr, SKILL_DEFENCE);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Починка: " + GetCharacterSkill(rchr, SKILL_REPAIR);
-				sText2 = sText2 + "\n";
-				sText2 = sText2 + "Торговля: " + GetCharacterSkill(rchr, SKILL_COMMERCE);
+				XI_WindowShow("RPG_WINDOW", true);
+				XI_WindowDisable("RPG_WINDOW", false);
+				sMessageMode = "RPG_Hint";
 			}
-		break;
+			break;
 	}
-	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,192,255,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 128, 128);
 }
 
 void HideInfoWindow() 
 {
 	CloseTooltip();
+	if (sMessageMode == "RPG_Hint")
+	{
+		XI_WindowShow("RPG_WINDOW", false);
+		XI_WindowDisable("RPG_WINDOW", true);
+		sMessageMode = "";
+	}
 }
 
 void FillShipsScroll()
@@ -240,6 +221,8 @@ void ProcessCancelExit()
 
 void IDoExit(int exitCode)
 {
+	if (CheckAttribute(pchar,"Colony.Guardians.Ship3")) pchar.g3 = pchar.Colony.Guardians.Ship3;
+	if (CheckAttribute(pchar,"Colony.Guardians.Ship4")) pchar.g4 = pchar.Colony.Guardians.Ship4;
 	DelEventHandler("SetInstallInformation","SetInstallInformation");
 	DelEventHandler("RefreshInstallInformationRight","RefreshInstallInformationRight");
 	DelEventHandler("InterfaceBreak","ProcessBreakExit");
@@ -570,7 +553,7 @@ void RemoveGuardian(int iNum, int iCharacter)
 	string sShip = "Ship" + iNum;
 	PChar.Colony.Guardians.(sShip) = -1;
 	PChar.Colony.Guardians.(sShip).Active = false;
-	
+	DeleteAttribute(pchar,"g"+iNum);
 	GuardianInizialization(iCharacter, iNum, false);
 	
 	SetCharacterShipLocation(chr, "None");
@@ -736,7 +719,7 @@ void SetInformation()
 void SetShipInformationOne()
 {
 	int iShipType = sti(PChar.Colony.Guardians.Ship1);
-	
+
 	if(iShipType == -1)
 	{
 		CreateImage("ShipType1", "BLANK_SHIP2", "Not Used2", 130,100,258,228);
@@ -804,28 +787,28 @@ void SetShipInformationOne()
 		CreateString(true,"ShipClass1", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 140,220,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipHp1", "ICONS", "ship hull icon", 173,79,205,111);
-		CreateString(true,"ShipHp1", "Корпус", FONT_CAPTION, COLOR_NORMAL, 220,86,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipHpQuantity1", iHpReal + "/" + iHpBase, FONT_NORMAL, COLOR_NORMAL, 306,86,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipHp1", "Корпус", FONT_CAPTION, COLOR_NORMAL, 220,84,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipHpQuantity1", iHpReal + "/" + iHpBase, FONT_NORMAL, COLOR_NORMAL, 306,87,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipSp1", "ICONS", "ship rig icon", 173,116,205,144);
-		CreateString(true,"ShipSp1", "Паруса", FONT_CAPTION, COLOR_NORMAL, 220,118,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipSpQuantity1", iSpReal + "/" + iSpBase, FONT_NORMAL, COLOR_NORMAL, 308,118,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSp1", "Паруса", FONT_CAPTION, COLOR_NORMAL, 220,119,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSpQuantity1", iSpReal + "/" + iSpBase, FONT_NORMAL, COLOR_NORMAL, 308,121,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipSr1", "ICONS", "ship speed icon", 173,147,205,176);
-		CreateString(true,"ShipSr1", "Скорость", FONT_CAPTION, COLOR_NORMAL, 220,150,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipSrQuantity1", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_NORMAL, COLOR_NORMAL, 308,150,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSr1", "Скорость", FONT_CAPTION, COLOR_NORMAL, 220,151,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSrQuantity1", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_NORMAL, COLOR_NORMAL, 308,153,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipTr1", "ICONS", "ship maneuver icon", 173,179,205,208);
 		CreateString(true,"ShipTr1", "Маневр.", FONT_CAPTION, COLOR_NORMAL, 220,183,SCRIPT_ALIGN_LEFT,1.0);
 		CreateString(true,"ShipTrQuantity1", fts(fTurnRate,3) + "/" + fTurnRateBase, FONT_NORMAL, COLOR_NORMAL, 308,185,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipCrew1", "ICONS", "ship max crew icon", 173,211,205,240);
-		CreateString(true,"ShipCrew1", "Команда", FONT_CAPTION, COLOR_NORMAL, 220,215,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipCrewQuantity1", iCrewReal + "/" + iCrewBase, FONT_NORMAL, COLOR_NORMAL, 308,215,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCrew1", "Команда", FONT_CAPTION, COLOR_NORMAL, 220,216,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCrewQuantity1", iCrewReal + "/" + iCrewBase, FONT_NORMAL, COLOR_NORMAL, 308,218,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipCannons1", "ICONS", "ship cannons icon", 173,244,205,270);
-		CreateString(true,"ShipCannons1", sCannon, FONT_CAPTION, COLOR_NORMAL, 220,244,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipCannonsQuantity1", iCannonsReal + "/" + iCannonsBase, FONT_NORMAL, COLOR_NORMAL, 308,248,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCannons1", sCannon, FONT_CAPTION, COLOR_NORMAL, 220,247,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCannonsQuantity1", iCannonsReal + "/" + iCannonsBase, FONT_NORMAL, COLOR_NORMAL, 308,249,SCRIPT_ALIGN_LEFT,1.0);
 		
 		SetNodeUsing("INSTALL_SHIP1", false);
 		SetNodeUsing("GUARD_NOT_SHIP1", false);
@@ -857,7 +840,7 @@ void SetShipInformationOne()
 void SetShipInformationTwo()
 {
 	int iShipType = sti(PChar.Colony.Guardians.Ship2);
-	
+
 	if(iShipType == -1)
 	{
 		CreateImage("ShipType2", "BLANK_SHIP2", "Not Used2", 130,383,258,511);
@@ -925,28 +908,28 @@ void SetShipInformationTwo()
 		CreateString(true,"ShipClass2", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 140,503,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipHp2", "ICONS", "ship hull icon", 173,362,205,394);
-		CreateString(true,"ShipHp2", "Корпус", FONT_CAPTION, COLOR_NORMAL, 220,370,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipHp2", "Корпус", FONT_CAPTION, COLOR_NORMAL, 220,367,SCRIPT_ALIGN_LEFT,1.0);
 		CreateString(true,"ShipHpQuantity2", iHpReal + "/" + iHpBase, FONT_NORMAL, COLOR_NORMAL, 306,370,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipSp2", "ICONS", "ship rig icon", 173,399,205,427);
-		CreateString(true,"ShipSp2", "Паруса", FONT_CAPTION, COLOR_NORMAL, 220,403,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipSpQuantity2", iSpReal + "/" + iSpBase, FONT_NORMAL, COLOR_NORMAL, 308,403,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSp2", "Паруса", FONT_CAPTION, COLOR_NORMAL, 220,402,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSpQuantity2", iSpReal + "/" + iSpBase, FONT_NORMAL, COLOR_NORMAL, 308,404,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipSr2", "ICONS", "ship speed icon", 173,430,205,459);
-		CreateString(true,"ShipSr2", "Скорость", FONT_CAPTION, COLOR_NORMAL, 220,433,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipSrQuantity2", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_NORMAL, COLOR_NORMAL, 308,433,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSr2", "Скорость", FONT_CAPTION, COLOR_NORMAL, 220,434,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSrQuantity2", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_NORMAL, COLOR_NORMAL, 308,436,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipTr2", "ICONS", "ship maneuver icon", 173,464,205,493);
 		CreateString(true,"ShipTr2", "Маневр.", FONT_CAPTION, COLOR_NORMAL, 220,466,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipTrQuantity2", fts(fTurnRate,3) + "/" + fTurnRateBase, FONT_NORMAL, COLOR_NORMAL, 308,470,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipTrQuantity2", fts(fTurnRate,3) + "/" + fTurnRateBase, FONT_NORMAL, COLOR_NORMAL, 308,468,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipCrew2", "ICONS", "ship max crew icon", 173,496,205,525);
-		CreateString(true,"ShipCrew2", "Команда", FONT_CAPTION, COLOR_NORMAL, 220,498,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipCrewQuantity2", iCrewReal + "/" + iCrewBase, FONT_NORMAL, COLOR_NORMAL, 308,498,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCrew2", "Команда", FONT_CAPTION, COLOR_NORMAL, 220,499,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCrewQuantity2", iCrewReal + "/" + iCrewBase, FONT_NORMAL, COLOR_NORMAL, 308,501,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipCannons2", "ICONS", "ship cannons icon", 173,527,205,553);
-		CreateString(true,"ShipCannons2", sCannon, FONT_CAPTION, COLOR_NORMAL, 220,527,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipCannonsQuantity2", iCannonsReal + "/" + iCannonsBase, FONT_NORMAL, COLOR_NORMAL, 308,530,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCannons2", sCannon, FONT_CAPTION, COLOR_NORMAL, 220,531,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCannonsQuantity2", iCannonsReal + "/" + iCannonsBase, FONT_NORMAL, COLOR_NORMAL, 308,533,SCRIPT_ALIGN_LEFT,1.0);
 		
 		SetNodeUsing("INSTALL_SHIP2", false);
 		SetNodeUsing("GUARD_NOT_SHIP2", false);
@@ -978,7 +961,7 @@ void SetShipInformationTwo()
 void SetShipInformationThree()
 {
 	int iShipType = sti(PChar.Colony.Guardians.Ship3);
-	
+	if (CheckAttribute(pchar,"g3") && pchar.g3 != "-1") {PChar.Colony.Guardians.Ship3 = pchar.g3; iShipType = sti(PChar.Colony.Guardians.Ship3);}
 	if(iShipType == -1)
 	{
 		CreateImage("ShipType3", "BLANK_SHIP2", "Not Used2", 525,100,653,228);
@@ -1046,28 +1029,28 @@ void SetShipInformationThree()
 		CreateString(true,"ShipClass3", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 535,220,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipHp3", "ICONS", "ship hull icon", 568,79,600,111);
-		CreateString(true,"ShipHp3", "Корпус", FONT_CAPTION, COLOR_NORMAL, 615,86,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipHpQuantity3", iHpReal + "/" + iHpBase, FONT_NORMAL, COLOR_NORMAL, 700,86,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipHp3", "Корпус", FONT_CAPTION, COLOR_NORMAL, 615,84,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipHpQuantity3", iHpReal + "/" + iHpBase, FONT_NORMAL, COLOR_NORMAL, 700,87,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipSp3", "ICONS", "ship rig icon", 568,116,600,144);
-		CreateString(true,"ShipSp3", "Паруса", FONT_CAPTION, COLOR_NORMAL, 615,118,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipSpQuantity3", iSpReal + "/" + iSpBase, FONT_NORMAL, COLOR_NORMAL, 702,118,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSp3", "Паруса", FONT_CAPTION, COLOR_NORMAL, 615,119,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSpQuantity3", iSpReal + "/" + iSpBase, FONT_NORMAL, COLOR_NORMAL, 702,121,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipSr3", "ICONS", "ship speed icon", 568,147,600,176);
-		CreateString(true,"ShipSr3", "Скорость", FONT_CAPTION, COLOR_NORMAL, 615,150,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipSrQuantity3", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_NORMAL, COLOR_NORMAL, 702,150,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSr3", "Скорость", FONT_CAPTION, COLOR_NORMAL, 615,151,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSrQuantity3", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_NORMAL, COLOR_NORMAL, 702,153,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipTr3", "ICONS", "ship maneuver icon", 568,179,600,208);
 		CreateString(true,"ShipTr3", "Маневр.", FONT_CAPTION, COLOR_NORMAL, 615,183,SCRIPT_ALIGN_LEFT,1.0);
 		CreateString(true,"ShipTrQuantity3", fts(fTurnRate,3) + "/" + fTurnRateBase, FONT_NORMAL, COLOR_NORMAL, 702,185,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipCrew3", "ICONS", "ship max crew icon", 568,211,600,240);
-		CreateString(true,"ShipCrew3", "Команда", FONT_CAPTION, COLOR_NORMAL, 615,215,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipCrewQuantity3", iCrewReal + "/" + iCrewBase, FONT_NORMAL, COLOR_NORMAL, 702,215,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCrew3", "Команда", FONT_CAPTION, COLOR_NORMAL, 615,216,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCrewQuantity3", iCrewReal + "/" + iCrewBase, FONT_NORMAL, COLOR_NORMAL, 702,218,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipCannons3", "ICONS", "ship cannons icon", 568,244,600,270);
-		CreateString(true,"ShipCannons3", sCannon, FONT_CAPTION, COLOR_NORMAL, 615,244,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipCannonsQuantity3", iCannonsReal + "/" + iCannonsBase, FONT_NORMAL, COLOR_NORMAL, 702,248,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCannons3", sCannon, FONT_CAPTION, COLOR_NORMAL, 615,247,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCannonsQuantity3", iCannonsReal + "/" + iCannonsBase, FONT_NORMAL, COLOR_NORMAL, 702,249,SCRIPT_ALIGN_LEFT,1.0);
 		
 		SetNodeUsing("INSTALL_SHIP3", false);
 		SetNodeUsing("GUARD_NOT_SHIP3", false);
@@ -1099,7 +1082,7 @@ void SetShipInformationThree()
 void SetShipInformationFour()
 {
 	int iShipType = sti(PChar.Colony.Guardians.Ship4);
-	
+	if (CheckAttribute(pchar,"g4") && pchar.g4 != "-1") {PChar.Colony.Guardians.Ship4 = pchar.g4; iShipType = sti(PChar.Colony.Guardians.Ship4);}
 	if(iShipType == -1)
 	{
 		CreateImage("ShipType4", "BLANK_SHIP2", "Not Used2", 525,383,653,511);
@@ -1167,28 +1150,28 @@ void SetShipInformationFour()
 		CreateString(true,"ShipClass4", iShipClass, FONT_BOLD_NUMBERS, COLOR_NORMAL, 535,503,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipHp4", "ICONS", "ship hull icon", 568,362,600,394);
-		CreateString(true,"ShipHp4", "Корпус", FONT_CAPTION, COLOR_NORMAL, 615,370,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipHp4", "Корпус", FONT_CAPTION, COLOR_NORMAL, 615,367,SCRIPT_ALIGN_LEFT,1.0);
 		CreateString(true,"ShipHpQuantity4", iHpReal + "/" + iHpBase, FONT_NORMAL, COLOR_NORMAL, 700,370,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipSp4", "ICONS", "ship rig icon", 568,399,600,427);
-		CreateString(true,"ShipSp4", "Паруса", FONT_CAPTION, COLOR_NORMAL, 615,403,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipSpQuantity4", iSpReal + "/" + iSpBase, FONT_NORMAL, COLOR_NORMAL, 702,403,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSp4", "Паруса", FONT_CAPTION, COLOR_NORMAL, 615,402,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSpQuantity4", iSpReal + "/" + iSpBase, FONT_NORMAL, COLOR_NORMAL, 702,404,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipSr4", "ICONS", "ship speed icon", 568,430,600,459);
-		CreateString(true,"ShipSr4", "Скорость", FONT_CAPTION, COLOR_NORMAL, 615,433,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipSrQuantity4", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_NORMAL, COLOR_NORMAL, 702,433,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSr4", "Скорость", FONT_CAPTION, COLOR_NORMAL, 615,434,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipSrQuantity4", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_NORMAL, COLOR_NORMAL, 702,436,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipTr4", "ICONS", "ship maneuver icon", 568,464,600,493);
 		CreateString(true,"ShipTr4", "Маневр.", FONT_CAPTION, COLOR_NORMAL, 615,466,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipTrQuantity4", fts(fTurnRate,3) + "/" + fTurnRateBase, FONT_NORMAL, COLOR_NORMAL, 702,470,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipTrQuantity4", fts(fTurnRate,3) + "/" + fTurnRateBase, FONT_NORMAL, COLOR_NORMAL, 702,468,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipCrew4", "ICONS", "ship max crew icon", 568,496,600,525);
-		CreateString(true,"ShipCrew4", "Команда", FONT_CAPTION, COLOR_NORMAL, 615,498,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipCrewQuantity4", iCrewReal + "/" + iCrewBase, FONT_NORMAL, COLOR_NORMAL, 702,498,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCrew4", "Команда", FONT_CAPTION, COLOR_NORMAL, 615,499,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCrewQuantity4", iCrewReal + "/" + iCrewBase, FONT_NORMAL, COLOR_NORMAL, 702,501,SCRIPT_ALIGN_LEFT,1.0);
 		
 		CreateImage("ShipCannons4", "ICONS", "ship cannons icon", 568,527,600,553);
-		CreateString(true,"ShipCannons4", sCannon, FONT_CAPTION, COLOR_NORMAL, 615,527,SCRIPT_ALIGN_LEFT,1.0);
-		CreateString(true,"ShipCannonsQuantity4", iCannonsReal + "/" + iCannonsBase, FONT_NORMAL, COLOR_NORMAL, 702,530,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCannons4", sCannon, FONT_CAPTION, COLOR_NORMAL, 615,531,SCRIPT_ALIGN_LEFT,1.0);
+		CreateString(true,"ShipCannonsQuantity4", iCannonsReal + "/" + iCannonsBase, FONT_NORMAL, COLOR_NORMAL, 702,533,SCRIPT_ALIGN_LEFT,1.0);
 		
 		SetNodeUsing("INSTALL_SHIP4", false);
 		SetNodeUsing("GUARD_NOT_SHIP4", false);
@@ -1501,31 +1484,31 @@ void SetInstallInformation(bool bBool)
 	
 	CreateImage("ShipHpInstall", "ICONS", "ship hull icon", 330,259,362,291);
 	CreateString(true,"ShipHpInstall", "Корпус", FONT_CAPTION, COLOR_NORMAL, 390,264,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"ShipHpQuantityInstall", iHpReal + "/" + iHpBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,264,SCRIPT_ALIGN_LEFT,0.9);
+	CreateString(true,"ShipHpQuantityInstall", iHpReal + "/" + iHpBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,266,SCRIPT_ALIGN_LEFT,0.9);
 	
 	CreateImage("ShipSpInstall", "ICONS", "ship rig icon", 330,296,362,328);
 	CreateString(true,"ShipSpInstall", "Паруса", FONT_CAPTION, COLOR_NORMAL, 390,300,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"ShipSpQuantityInstall", iSpReal + "/" + iSpBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,300,SCRIPT_ALIGN_LEFT,0.9);
+	CreateString(true,"ShipSpQuantityInstall", iSpReal + "/" + iSpBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,303,SCRIPT_ALIGN_LEFT,0.9);
 	
 	CreateImage("ShipSrInstall", "ICONS", "ship speed icon", 330,330,362,360);
 	CreateString(true,"ShipSrInstall", "Скорость", FONT_CAPTION, COLOR_NORMAL, 390,335,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"ShipSrQuantityInstall", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,335,SCRIPT_ALIGN_LEFT,0.9);
+	CreateString(true,"ShipSrQuantityInstall", fts(FindShipSpeed(chr),3) + "/" + fSpeedRateBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,337,SCRIPT_ALIGN_LEFT,0.9);
 	
 	CreateImage("ShipTrInstall", "ICONS", "ship maneuver icon", 330,364,362,394);
-	CreateString(true,"ShipTrInstall", "Маневренность", FONT_CAPTION, COLOR_NORMAL, 390,370,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"ShipTrQuantityInstall", fts(fTurnRate,3) + "/" + fTurnRateBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,368,SCRIPT_ALIGN_LEFT,0.9);
+	CreateString(true,"ShipTrInstall", "Маневренность", FONT_CAPTION, COLOR_NORMAL, 390,368,SCRIPT_ALIGN_LEFT,1.0);
+	CreateString(true,"ShipTrQuantityInstall", fts(fTurnRate,3) + "/" + fTurnRateBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,370,SCRIPT_ALIGN_LEFT,0.9);
 	
 	CreateImage("ShipCrewInstall", "ICONS", "ship max crew icon", 330,397,362,429);
 	CreateString(true,"ShipCrewInstall", "Команда", FONT_CAPTION, COLOR_NORMAL, 390,403,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"ShipCrewQuantityInstall", iCrewReal + "/" + iCrewBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,403,SCRIPT_ALIGN_LEFT,0.9);
+	CreateString(true,"ShipCrewQuantityInstall", iCrewReal + "/" + iCrewBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,405,SCRIPT_ALIGN_LEFT,0.9);
 	
 	CreateImage("ShipCannonsInstall", "ICONS", "ship cannons icon", 330,432,362,462);
-	CreateString(true,"ShipCannonsInstall", "Количество орудий", FONT_CAPTION, COLOR_NORMAL, 390,436,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"ShipCannonsQuantityInstall", iCannonsReal + "/" + iCannonsBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,436,SCRIPT_ALIGN_LEFT,0.9);
+	CreateString(true,"ShipCannonsInstall", "Количество орудий", FONT_CAPTION, COLOR_NORMAL, 390,438,SCRIPT_ALIGN_LEFT,1.0);
+	CreateString(true,"ShipCannonsQuantityInstall", iCannonsReal + "/" + iCannonsBase, FONT_BOLD_NUMBERS, COLOR_NORMAL, 550,440,SCRIPT_ALIGN_LEFT,0.9);
 	
 	CreateImage("ShipCannonsTypeInstall", "ICONS", "cannons skill icon", 330,467,362,499);
-	CreateString(true,"ShipCannonsTypeInstall", sCannon, FONT_CAPTION, COLOR_NORMAL, 390,472,SCRIPT_ALIGN_LEFT,1.0);
-	CreateString(true,"ShipCannonsTypeInstall1", sCaliber, FONT_CAPTION, COLOR_NORMAL, 525,470,SCRIPT_ALIGN_LEFT,1.3);
+	CreateString(true,"ShipCannonsTypeInstall", sCannon, FONT_CAPTION, COLOR_NORMAL, 390,473,SCRIPT_ALIGN_LEFT,1.0);
+	CreateString(true,"ShipCannonsTypeInstall1", sCaliber, FONT_CAPTION, COLOR_NORMAL, 525,473,SCRIPT_ALIGN_LEFT,1.1);
 }
 
 void InstallShipFrame()
