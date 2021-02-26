@@ -5772,7 +5772,7 @@ void Blood_StartGame(string qName)
 	ChangeCharacterAddressGroup(sld, "Estate", "goto", "goto12");
 	
     //==============//Джереми Питт//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Pitt", "Pitt", "man", "man", 1, ENGLAND, -1, false)); //TO_DO анимацию вернуть по готовности модельки
+   	sld = GetCharacter(NPC_GenerateCharacter("Pitt", "PBLine_Pitt_0", "man", "man", 1, ENGLAND, -1, false)); //TO_DO анимацию вернуть по готовности модельки
     sld.name 	= "Джереми";
     sld.lastname 	= "Питт";
     sld.Dialog.CurrentNode = "First time";
@@ -5783,6 +5783,9 @@ void Blood_StartGame(string qName)
     sld.rank = 12;
     sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 	sld.HalfImmortal = true;  // Контузия
+	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	sld.HeroModel = "PBLine_Pitt_0,PBLine_Pitt_1,PBLine_Pitt_2,PBLine_Pitt_3,PBLine_Pitt_4,PBLine_Pitt_5";
+	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.loyality = MAX_LOYALITY;
     InitStartParam(sld);
     //SetRandSPECIAL(sld);
@@ -6110,7 +6113,7 @@ void CapBloodLine_q1(string qName)
     Pchar.questTemp.CapBUnarmed = true; //ГГ сабля не положена
 
     //Бишоп на плантациях
-   	sld = GetCharacter(NPC_GenerateCharacter("Bishop", "trader_2", "man", "man", 1, ENGLAND, 3, false));
+   	sld = GetCharacter(NPC_GenerateCharacter("Bishop", "PBLine_Bishop", "man", "man", 1, ENGLAND, 3, false));
     sld.name 	= "Полковник";
     sld.lastname 	= "Бишоп";
     sld.Dialog.CurrentNode = "First Bishop";
@@ -6186,7 +6189,7 @@ void CapBloodLine_q1(string qName)
     ChangeCharacterAddressGroup(sld, "Bridgetown_tavern", "sit","sit_base"+(1+i));
 	
     //==============//Волверстон//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Volverston", "officer_3", "man", "man", 12, ENGLAND, -1, false)); 
+   	sld = GetCharacter(NPC_GenerateCharacter("Volverston", "PBLine_Volverston", "man", "man", 12, ENGLAND, -1, false)); 
     sld.name 	= "Волверстон";
     sld.lastname 	= "";
     sld.Dialog.CurrentNode = "First time";
@@ -6207,7 +6210,7 @@ void CapBloodLine_q1(string qName)
     //int           _fl,  f,  fh, p,  fr
     SetSelfSkill(sld, 20, 30, 45, 30, 40);//
     //int            ld,  cr, ac, cn, sl, re, gr, de, sn
-    SetShipSkill(sld, 45, 30, 15, 15, 10, 40, 45, 30, 20)//;
+    SetShipSkill(sld, 45, 30, 15, 15, 10, 40, 45, 30, 20);
    	SetCharacterPerk(sld, "AdvancedDefense");
 	SetCharacterPerk(sld, "CriticalHit");
 	SetCharacterPerk(sld, "Grus");
@@ -6223,7 +6226,7 @@ void CapBloodLine_q1(string qName)
 	ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseF2_1");
 	
     //==============//Натаниэль   Хагторп//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Hugtorp", "officer_16", "man", "man", 10, ENGLAND, -1, false));
+   	sld = GetCharacter(NPC_GenerateCharacter("Hugtorp", "PBLine_Hagtorp", "man", "man", 10, ENGLAND, -1, false));
     sld.name 	= "Натаниэль";
     sld.lastname 	= "Хагторп";
     sld.Dialog.CurrentNode = "First time";
@@ -6257,7 +6260,7 @@ void CapBloodLine_q1(string qName)
    	ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseS2_2");
    	
     //==============//Николас Дайк//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Dieke", "officer_19", "man", "man", 10, ENGLAND, -1, false));
+   	sld = GetCharacter(NPC_GenerateCharacter("Dieke", "PBLine_Daik_0", "man", "man", 10, PIRATE, -1, false));
     sld.name 	= "Николас";
     sld.lastname 	= "Дайк";
     sld.Dialog.CurrentNode = "First time";
@@ -6271,6 +6274,9 @@ void CapBloodLine_q1(string qName)
     sld.rank = 10;
 	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 	sld.HalfImmortal = true;  // Контузия
+	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	sld.HeroModel = "PBLine_Daik_0,PBLine_Daik_1,PBLine_Daik_2,PBLine_Daik_3,PBLine_Daik_4,PBLine_Daik_5";
+	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.loyality = MAX_LOYALITY;
 //                    P  I  E  A  T  R  S
 	SetSPECIAL(sld, 6, 8, 7, 5, 9, 9, 7);
@@ -6291,7 +6297,7 @@ void CapBloodLine_q1(string qName)
 	ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseF1_1");
 	
     //==============//Нед Огл//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Ogl", "Chard3a", "man", "man", 10, ENGLAND, -1, false)); 
+   	sld = GetCharacter(NPC_GenerateCharacter("Ogl", "PBLine_NedOgl", "man", "man", 10, ENGLAND, -1, false)); 
     sld.name 	= "Нед";
     sld.lastname 	= "Огл";
     sld.Dialog.CurrentNode = "First time";

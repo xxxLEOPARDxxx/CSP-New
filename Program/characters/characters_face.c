@@ -381,19 +381,26 @@ void FaceMaker(aref rCharacter)
 		case "Hobart":			rCharacter.FaceId = 227; break;
 		case "Sharp":			rCharacter.FaceId = 228; break;
 		case "SoldierEnglish_1":		rCharacter.FaceId = 229; break;
-		case "Pitt":			rCharacter.FaceId = 230; break;
 		case "skeletcap":		rCharacter.FaceId = 231; break;
 		case "girl_9":			rCharacter.FaceId = 232; break;
 	    case "girl_10":			rCharacter.FaceId = 233; break;
 	    case "Chard3a":			rCharacter.FaceId = 234; break;
 		case "Danielle":		rCharacter.FaceId = 235; break;
+		
+		// Линейка Блада CSP - пять офицеров -->
+		case "PBLine_Daik_0":		rCharacter.FaceId = 236; break;
+		case "PBLine_Hagtorp":		rCharacter.FaceId = 237; break;
+		case "PBLine_NedOgl":		rCharacter.FaceId = 238; break;
+		case "PBLine_Pitt_0":		rCharacter.FaceId = 230; break;
+		case "PBLine_Volverston":	rCharacter.FaceId = 239; break;
+		// Линейка Блада CSP - пять офицеров <--
 
 		// ГПК 1.2.5 -->
 		case "Angellica":		rCharacter.FaceId = 242; break;
 		case "PGG_Rumba":		rCharacter.FaceId = 488; break;
 		
 		case "YokoDias":		rCharacter.FaceId = 243; break;
-		case "PGG_YokoDias_0":		rCharacter.FaceId = 243; break;
+		case "PGG_YokoDias_0":	rCharacter.FaceId = 243; break;
 		
 		case "Jessika":			rCharacter.FaceId = 244; break;
 		// <-- ГПК 1.2.3

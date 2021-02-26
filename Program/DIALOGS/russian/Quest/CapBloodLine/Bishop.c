@@ -1171,6 +1171,7 @@ void ProcessDialogEvent()
 
             dialog.text = "Доброе утро, доктор Блад. Я ждал вас.";
         	link.l1 = "Доброе, доктор Вакер. Что ж, я собрал людей и все необходимое. Жду только обещанных денег.";
+			npchar.LifeDay = 0;
             link.l1.go = "WStep_12";
 
 		break;

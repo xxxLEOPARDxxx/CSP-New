@@ -1483,7 +1483,7 @@ void SetShipPictureDataByShipTypeName(string sType)
 	case "manowar":				BI_intNRetValue[0] = 20+7*32;	BI_intNRetValue[1] = 20+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Гол. Мановар
 	case "hms_victory":			BI_intNRetValue[0] = 22+7*32;	BI_intNRetValue[1] = 22+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Мановар Виктория
 	case "sp_sanfelipe":		BI_intNRetValue[0] = 24+7*32;	BI_intNRetValue[1] = 24+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Исп. Мановар
-		// КВЕСТОВЫЕ (10 кораблей)
+		// КВЕСТОВЫЕ (11 кораблей)
 	case "luggerquest":			BI_intNRetValue[0] = 26+7*32;	BI_intNRetValue[1] = 26+7*32;		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Курьерский Люггер
 	case "xebekvml":			BI_intNRetValue[0] = 28+7*32;	BI_intNRetValue[1] = 28+7*32;		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Щебека
 	case "brigqeen":			BI_intNRetValue[0] = 30+7*32;	BI_intNRetValue[1] = 30+7*32;		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Бриг
@@ -1494,6 +1494,7 @@ void SetShipPictureDataByShipTypeName(string sType)
 	case "flyingdutchman":		BI_intNRetValue[0] = 8+8*32;	BI_intNRetValue[1] = 8+8*32;		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Варшип
 	case "santisima":			BI_intNRetValue[0] = 10+8*32;	BI_intNRetValue[1] = 10+8*32;		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Быстрый мановар
 	case "soleyru":				BI_intNRetValue[0] = 12+8*32;	BI_intNRetValue[1] = 12+8*32;		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Сулей Руаяль
+	case "Wh_corvette_quest":	BI_intNRetValue[0] = 14+8*32;	BI_intNRetValue[1] = 14+8*32;		BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Корвет
 	}
 	BI_intNRetValue[3] = false;
 }

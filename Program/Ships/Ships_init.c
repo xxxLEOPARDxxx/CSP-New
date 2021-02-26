@@ -9965,6 +9965,88 @@ void InitShips()
 	refship.nation.holland	= true;
 	refship.nation.pirate	= true;
 	refship.nation.spain	= true;
+	
+	///////////////////////////////////////////////////////////////////////////
+	/// Wh_corvette_quest 		Пёс Войны
+	///////////////////////////////////////////////////////////////////////////
+	makeref(refShip,ShipsTypes[SHIP_WH_CORVETTE_QUEST]);
+	refShip.Name            			= "Wh_corvette_quest";
+	refship.Soundtype					= "corvette";
+	refShip.Class						= 3;
+	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS16;
+	refShip.MaxCaliber      			= 32;
+	refShip.Weight						= Tonnes2CWT(680);
+	refShip.Capacity        			= 2500;
+	refShip.CannonsQuantity				= 40;
+	refShip.rcannon 					= 16;
+	refShip.lcannon 					= 16;
+	refShip.fcannon 					= 4;
+	refShip.bcannon 					= 4;
+	refShip.MaxCrew         		= 230;
+	refShip.MinCrew         		= 40;
+	refShip.SpeedRate					= 20.0;
+	refShip.TurnRate        			= 60.0;
+	refShip.Price           			= 150000;
+
+	refShip.HP              			= 3400;
+	refShip.SP              			= 100;
+	refShip.MastMultiplier					= 1.3;
+	refship.Type.Merchant					= false;
+	refship.Type.War						= true;
+	refship.QuestShip					= true; 
+	refShip.fWindAgainstSpeed				= 2.2;
+	refShip.sea_enchantment					= 1.5;
+	refShip.lowpolycrew = 16;
+	refShip.buildtime = 80;
+
+	refship.Rocking.y = 0.8;
+	refship.Rocking.az = 0.025;
+	
+	refship.WaterLine					= -0.50;
+	refship.SpeedDependWeight			= 0.3;
+	refship.SubSeaDependWeight			= 0.7;
+	refship.TurnDependWeight			= 0.35;
+	refship.WindAgainstSpeed   = 6.0;//boal
+	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
+	refship.DeckType           = "Medium";
+
+	
+	refShip.Flags.Mast1.Flag1 = FLAG_SPECIAL;
+	refShip.Flags.Mast3.Flag1 = FLAG_ENSIGN;
+	refShip.Flags.Mast4.Flag1 = FLAG_ENSIGN;
+
+	
+	refship.InertiaAccelerationX	= 8.0;	refship.InertiaBrakingX		= 8.0;
+	refship.InertiaAccelerationY	= 6;	refship.InertiaBrakingY		= 6;
+	refship.InertiaAccelerationZ	= 6.0;	refship.InertiaBrakingZ		= 6.0;
+	
+	refShip.Height.Bombs.Y				= 1.3;		refShip.Height.Bombs.DY		= 0.6;
+	refShip.Height.Grapes.Y				= 3.1;		refShip.Height.Grapes.DY	= 1.5;
+	refShip.Height.Knippels.Y			= 14.7;		refShip.Height.Knippels.DY	= 15.0;
+	refShip.Height.Balls.Y				= 1.3;		refShip.Height.Balls.DY		= 0.6;
+	
+	refShip.GeraldSails.rey_b2		= 1;
+	refShip.GeraldSails.rey_b3		= 1;
+	refShip.GeraldSails.rey_b2.vscale		= 0.7;
+	refShip.GeraldSails.rey_b3.vscale		= 0.7;
+
+	refship.Track.Enable	= true;
+	refship.Track1.ZStart	= 0.17;
+	refship.Track1.LifeTime = 12.5;
+	refship.Track1.Width	= "4.0, 5.0";
+	refship.Track1.Speed	= "6.0, 8.0";
+
+	refship.Track2.ZStart	= -0.15;
+	refship.Track2.LifeTime = 6.5;
+	refship.Track2.Width	= "5.0, 7.0";
+	refship.Track2.Speed	= "0.15, 0.25";
+	
+	//Nation
+    refship.nation.england	= true;
+	refship.nation.france	= true;
+	refship.nation.holland	= true;
+	refship.nation.pirate	= true;
+	refship.nation.spain	= true;
 
 	///////////////////////////////////////////////////////////////////////////
 	//// ArabellaShip			Фрегат Арабелла

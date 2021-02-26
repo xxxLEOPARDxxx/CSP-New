@@ -159,7 +159,8 @@ void ProcessDialogEvent()
 		case "Finish":
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
-			
+			chrDisableReloadToLocation = false;
+			bDisableCharacterMenu = false;
 			LocatorReloadEnterDisable("Santiago_ExitTown", "reload3", false);
 			LocatorReloadEnterDisable("Havana_ExitTown", "reload4", false);
 			LocatorReloadEnterDisable("PuertoPrincipe_ExitTown", "reload3", false);
@@ -171,10 +172,10 @@ void ProcessDialogEvent()
 			bDisableLandEncounters = false;
 			
             ref mc = GetMainCharacter();
-            mc.Ship.Type = GenerateShipExt(SHIP_SOPHIE, true, mc);
+            mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
             mc.Ship.name="Черная Вдова";
             SetBaseShipData(mc);
-            mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS12;
+            mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
             SetCrewQuantityFull(mc);
 
             SetCharacterGoods(mc,GOOD_FOOD,200);
@@ -195,6 +196,13 @@ void ProcessDialogEvent()
 			AddQuestRecord("WhisperQuestline", "2");
 			AddQuestUserData("WhisperQuestline", "sWhCapName", GetFullName(characterFromId("wl_Pirate_Cap")));
 			AddQuestRecord("WhisperQuestline", "3");
+			
+			SetQuestsCharacters();
+			
+			//sld = CharacterFromID("PoorKillSponsor");
+			//ref wlocation = &locations[FindLocation(sld.city + "_Town")];
+			//pchar.W.PoorKillLocation = wlocation.id;
+			//Log_Info(pchar.W.PoorKillLocation);
 
 		break;
 		case "Jack":
@@ -437,8 +445,10 @@ void ProcessDialogEvent()
 		break;
 		case "CS":
 			dialog.text = "Это тебе не игрушка, девочка. Ты и представить себе не можешь, на что способен этот предмет. Положи его на место, медленно и осторожно.";
-			link.l1 = "Ты про квантовый выпрямитель частиц?";
-			link.l1.go = "CS_1";
+			link.l1 = "skip";
+			link.l1.go = "Finish";
+			link.l2 = "Ты про квантовый выпрямитель частиц?";
+			link.l2.go = "CS_1";
 		break;
 		case "CS_1":
 			dialog.text = "Ты хоть сама понимаешь, что только что сказала?";

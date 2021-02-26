@@ -687,6 +687,9 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 			case "Corvette_quest":
 				iCannonDiff = rand(3);  // 40, 38, 36, 34
 			break;
+			case "Wh_corvette_quest":
+				iCannonDiff = rand(2);  // 40, 38, 36, 34
+			break;
 			case "ArabellaShip":
 				iCannonDiff = rand(3);  // 52, 50, 48, 46
 			break;
@@ -888,6 +891,16 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Êאסעמלםûו באפû הכÿ 
 		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.7 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (70 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
+	}
+	if(rRealShip.BaseName == "Wh_corvette_quest")
+	{
+		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (6 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.25 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.HP = sti(rRealShip.HP) + (60 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "ArabellaShip")
