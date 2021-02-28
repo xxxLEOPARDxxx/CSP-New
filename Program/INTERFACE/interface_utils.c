@@ -780,6 +780,76 @@ void SetShipOTHERTable(string _tabName, ref _chr)
 	Table_UpdateWindow(_tabName);
 }
 
+void SetShipQualityTable(ref _chr, string _bar1, string _bar7, string _bar2, string _bar3, string _bar4, string _bar5, string _bar6)
+{
+	int iShip = sti(_chr.ship.type);
+	ref refShip = GetRealShip(iShip);
+	ref rBaseShip = GetShipByType(sti(refShip.BaseType));
+
+	float fTemp; 
+	fTemp = stf(refShip.HP);
+	if(CheckAttribute(refShip, "Tuning.HP")) fTemp = fTemp/1.2;
+	float fHP = 500*(fTemp/stf(rBaseShip.HP)-0.9);//приводим 0,9 - 1,1 к формату 0-100
+
+	fTemp = stf(refShip.MastMultiplier);
+	if(CheckAttribute(refShip, "Tuning.MastMultiplier")) fTemp = fTemp + 0.3;
+	float fMast = 100*(stf(rBaseShip.MastMultiplier)+0.3-fTemp)/0.6;
+
+	fTemp = stf(refShip.SpeedRate); 
+	if(CheckAttribute(refShip, "Tuning.SpeedRate")) fTemp = fTemp/1.2;
+	float fspeedRate = 500*(fTemp/stf(rBaseShip.SpeedRate)-0.9);
+
+	fTemp = stf(refShip.TurnRate);
+	if(CheckAttribute(refShip, "Tuning.TurnRate")) fTemp = fTemp/1.2;
+	float fTurnRate = 500*(fTemp/stf(rBaseShip.TurnRate)-0.9);
+
+	fTemp = stf(refShip.WindAgainstSpeed); 
+	if(CheckAttribute(refShip, "Tuning.SWindAgainst")) fTemp = (fTemp-0.005)*stf(refShip.Class)*2/(stf(refShip.Class)*2+1);
+	float fWAS = 500*(fTemp/stf(rBaseShip.WindAgainstSpeed)-0.9);
+
+	fTemp = stf(refShip.Capacity);
+	if(CheckAttribute(refShip, "Tuning.Capacity")) fTemp = fTemp/1.2;
+	float fCapacity = 400*(fTemp/stf(rBaseShip.Capacity)-0.875);
+
+	fTemp = stf(refShip.OptCrew); 	//if(CheckAttribute(refShip, "Tuning.MaxCrew"))	fTemp = fTemp/1.2; //тюнинг не влияет на оптимальную
+	float fCrew = 333*(fTemp/stf(rBaseShip.OptCrew)-0.8333);
+
+	GameInterface.StatusLine.(_bar1).Max   = 100;
+	GameInterface.StatusLine.(_bar1).Min   = 0;
+	GameInterface.StatusLine.(_bar1).Value = fHP;
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, _bar1,0);
+
+	GameInterface.StatusLine.(_bar2).Max   = 100;
+	GameInterface.StatusLine.(_bar2).Min   = 0;
+	GameInterface.StatusLine.(_bar2).Value = fspeedRate;
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, _bar2,0);
+
+	GameInterface.StatusLine.(_bar3).Max   = 100;
+	GameInterface.StatusLine.(_bar3).Min   = 0;
+	GameInterface.StatusLine.(_bar3).Value = fTurnRate;
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, _bar3,0);
+
+	GameInterface.StatusLine.(_bar4).Max   = 100;
+	GameInterface.StatusLine.(_bar4).Min   = 0;
+	GameInterface.StatusLine.(_bar4).Value = fWAS;
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, _bar4,0);
+
+	GameInterface.StatusLine.(_bar5).Max   = 100;
+	GameInterface.StatusLine.(_bar5).Min   = 0;
+	GameInterface.StatusLine.(_bar5).Value = fCapacity;
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, _bar5,0);
+
+	GameInterface.StatusLine.(_bar6).Max   = 100;
+	GameInterface.StatusLine.(_bar6).Min   = 0;
+	GameInterface.StatusLine.(_bar6).Value = fCrew;
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, _bar6,0);
+
+	GameInterface.StatusLine.(_bar7).Max   = 100;
+	GameInterface.StatusLine.(_bar7).Min   = 0;
+	GameInterface.StatusLine.(_bar7).Value = fMast;
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, _bar7,0);
+}
+
 void SetFoodShipInfo(ref chr, string _textName)
 {
 	int iColor, iFood;

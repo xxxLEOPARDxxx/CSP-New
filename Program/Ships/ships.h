@@ -1,6 +1,6 @@
 #define SAILS_COLOR_QUANTITY				9
-#define SHIP_TYPES_QUANTITY					138
-#define SHIP_TYPES_QUANTITY_WITH_FORT		139	// must be (SHIP_TYPES_QUANTITY + 1)
+#define SHIP_TYPES_QUANTITY					137
+#define SHIP_TYPES_QUANTITY_WITH_FORT		138	// must be (SHIP_TYPES_QUANTITY + 1)
 
 //====================================================================================================================================================================================================================
 //7											(Название корабля)		Пушки: к-во(калибр)														(Бейдевинд)		(Нац. принадлежность)	(Тип кор: торг|воен)

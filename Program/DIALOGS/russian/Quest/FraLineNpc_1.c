@@ -402,6 +402,7 @@ void ProcessDialogEvent()
  		case "Step_F5_10":
 			dialog.text = "Непременно исполню вашу просьбу, о душевном здоровье Бертрана вы можете более не переживать.";
 			link.l1 = "Мадам, вы оказали всем флибустьерам огромную услугу. Полагаю, мы в расчете.";
+			Pchar.quest.Fr3_AfterAnna_IKnowYou.over = "yes";
     		link.l1.go = "exit";
 			npchar.LifeDay = 0;
 		break;

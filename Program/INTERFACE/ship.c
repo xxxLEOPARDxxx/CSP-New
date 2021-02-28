@@ -482,6 +482,7 @@ void OnShipScrollChange()
 		FillGoodsTable();
 
 		SetShipOTHERTable("TABLE_OTHER", xi_refCharacter);
+		SetShipQualityTable(xi_refCharacter, "BAR_HP", "BAR_Mast", "BAR_Speed", "BAR_TurnRate", "BAR_WAS", "BAR_Capacity", "BAR_Crew");
 		// еда -->
 		int iColor, iFood;
 		string sText;

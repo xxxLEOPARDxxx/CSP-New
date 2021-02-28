@@ -61,6 +61,15 @@ void Whisper_StartGame(string qName)
     //Environment.date.month = 7;
     //Environment.date.day = 3;
 	
+	for (i = 1; i <= PsHeroQty; i++)
+	{
+		sld = CharacterFromID("PsHero_" + i);
+		if(sld.FaceId == 487)
+		{//Его мы позже наймем оффом, так что убираем из ПГГ
+			LAi_KillCharacter(sld);
+		}
+	}
+	
 	//Спавним роботов
 	for (int i = 0; i < 10; i++)
 	{
@@ -528,9 +537,147 @@ void WhisperJimTalk(string qName)
 	LAi_ActorTurnToCharacter(pchar, sld);
 }
 
-/*
-Заблокировать испанскую
-*/
+void WhisperPlaceSmugglersOnShore(string LocationId)
+{
+	ref Smuggler, player;
+	int RandCounter;
+	int i;
+	
+	player = GetMainCharacter();
+
+	string Model;
+	
+	player.GenQuest.Smugglers_Group = "Smugglers_1";
+    LAi_group_Register(player.GenQuest.Smugglers_Group);
+    
+	for (i = 1; i <= 6; i++)
+    {
+        Model = "pirate_" + (rand(9)+1);
+		Smuggler = GetCharacter(NPC_GenerateCharacter("W_Smug0" + i, Model, "man", "man", 5, PIRATE, -1, true)); // 4 дн¤, потом сами пропадут
+		SetFantomParam(Smuggler);
+		LAi_SetWarriorTypeNoGroup(Smuggler);
+		LAi_warrior_DialogEnable(Smuggler, true);
+		LAi_warrior_SetStay(Smuggler, true);
+		Smuggler.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
+		Smuggler.Dialog.CurrentNode = "Smuggler";
+		Smuggler.greeting = "Gr_Smuggler_OnShore";
+		LAi_SetImmortal(Smuggler, true);
+		LAi_group_MoveCharacter(Smuggler, player.GenQuest.Smugglers_Group);
+		if (i < 3) ChangeCharacterAddressGroup(Smuggler, LocationID, "Smugglers", "Smuggler0" + i);
+		else
+		{
+			int rando = rand(3);
+			switch (rando)
+			{
+				case 0: rando = 1; break;
+				case 1: rando = 1; break;
+				case 2: rando = 2; break;
+				case 3: rando = 3; break;
+			}
+			ChangeCharacterAddressGroup(Smuggler, LocationID, "Smugglers", "Smuggler0"+rando);
+		}		
+    }
+	
+	AddGeometryToLocation(LocationID, "smg");
+	
+	LAi_group_SetRelation(LAI_GROUP_PLAYER, player.GenQuest.Smugglers_Group, LAI_GROUP_NEITRAL);
+	LAi_group_SetRelation(player.GenQuest.Smugglers_Group, "CoastalGuards", LAI_GROUP_NEITRAL); // патруль на берегу
+
+	//SetTimerCondition("Rand_Smuggling", 0, 0, 4, false);  // через 4 дн¤ всех убрать
+}
+
+void WhisperRemoveSmugglersFromShore()
+{
+	ref Smuggler;
+	int RandCounter, i, cn;
+	string sLoc = "Shore58";
+
+	RemoveGeometryFromLocation(sLoc, "smg");
+
+	for (i = 1; i <= 6; i++) //eddy
+	{
+		cn = GetCharacterIndex("W_Smug0"+i);
+		if (cn != -1)
+		{
+			characters[cn].lifeDay = 0;
+		}
+	}
+	LAi_group_SetRelation(LAI_GROUP_PLAYER, "CoastalGuards", LAI_GROUP_NEITRAL);
+}
+
+void WhisperChinaman(string qName)
+{
+	Sea_CabinStartNow();
+	
+	pchar.quest.WhisperChinamanCapSpeaks.win_condition.l1          = "location";
+	pchar.quest.WhisperChinamanCapSpeaks.win_condition.l1.location = Get_My_Cabin();
+	pchar.quest.WhisperChinamanCapSpeaks.function             = "WhisperChinamanCapSpeaks";	
+}
+
+void WhisperChinamanCapSpeaks(string qName)
+{
+	sld = GetCharacter(NPC_GenerateCharacter("W_Chinaman", "PGG_Longway", "man", "man", 5, PIRATE, -1, false));
+	
+	LAi_SetActorTypeNoGroup(sld);
+	sld.name 	= "Лонг";
+    sld.lastname = "Вэй";
+	sld.Dialog.Filename = "Quest\WhisperLine\Whisper_cabin_dialog.c";
+	//sld.Dialog.CurrentNode = "ChinamanSpeak";
+    ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "rld", "aloc1");
+	
+	sld = GetCharacter(NPC_GenerateCharacter("W_ChinamanGuard", "pirate_10", "man", "man", 5, PIRATE, 0, false));
+	LAi_SetActorTypeNoGroup(sld);
+	sld.name 	= "Хуан";
+    sld.lastname = "";
+	sld.greeting = "Gr_questOfficer";
+	GiveItem2Character(sld, "blade9");
+	EquipCharacterByItem(sld, "blade9");
+    ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "rld", "loc1");	
+	sld.Dialog.Filename = "Quest\WhisperLine\Whisper_cabin_dialog.c";
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);	
+}
+void WhisperChinamanSpeaks(string qName)
+{
+	sld = characterFromID("W_Chinaman");
+	SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
+	LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+}
+void WhisperChinamanCapSpeaksAgain(string qName)
+{
+	sld = characterFromID("W_ChinamanGuard");
+	SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
+	LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+}
+
+void WhisperSmugglingPatrol()
+{
+	ref CoastGuard;
+	int i;
+	int iNation = 1;// Нация патруля
+	string Model;
+	
+	for (i = 1; i <= 3; i++)
+    {
+        Model = "off_" + NationShortName(iNation) + "_" + (rand(1) + 1);
+		CoastGuard = GetCharacter(NPC_GenerateCharacter("Coastal_Captain0" + i, Model, "man", "man", sti(pchar.rank) + rand(MOD_SKILL_ENEMY_RATE), iNation, 3, true)); // 3 дня, потом сами пропадут
+		SetFantomParam(CoastGuard);
+		SelectCoastalGuardShip(CoastGuard);
+		CoastGuard.AlwaysEnemy = true;
+		CoastGuard.DontRansackCaptain = true;
+		CoastGuard.AlwaysSandbankManeuver = true;
+		Group_AddCharacter("Coastal_Guards", CoastGuard.id);
+		SetCharacterRelationBoth(sti(CoastGuard.index), GetMainCharacterIndex(), RELATION_ENEMY);
+		//if (makeint(pchar.rank) < 6 && i == 1 && GetCompanionQuantity(pchar) == 1) break;
+		if (makeint(pchar.rank) < 9 && i == 2 && GetCompanionQuantity(pchar) < 3) break;
+    }
+	Group_SetGroupCommander("Coastal_Guards", "Coastal_Captain01");
+	Group_SetAddress("Coastal_Guards", Islands[GetCharacterCurrentIsland(Pchar)].id, "", "");
+	Group_SetPursuitGroup("Coastal_Guards", PLAYER_GROUP);
+	Group_SetTaskAttack("Coastal_Guards", PLAYER_GROUP);
+	Group_LockTask("Coastal_Guards");
+	Flag_PIRATE();
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Линейка Виспер --     конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

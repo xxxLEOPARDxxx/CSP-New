@@ -394,6 +394,7 @@ void FillShipParam(ref _chr)
 		GameInterface.edit_box.str = _chr.ship.name;
 		SetFormatedText("SHIP_RANK", refBaseShip.Class);
 		SetShipOTHERTable("TABLE_OTHER", _chr);
+		SetShipQualityTable(_chr, "BAR_HP", "BAR_Mast", "BAR_Speed", "BAR_TurnRate", "BAR_WAS", "BAR_Capacity", "BAR_Crew");
 		SetFormatedText("FRAME_INFO_CAPTION", XI_ConvertString(sShip));
 		SetFormatedText("INFO_TEXT", GetConvertStr(sShip, "ShipsDescribe.txt"));
 	}

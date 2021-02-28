@@ -7722,7 +7722,12 @@ void RestoreBridgetown()
     	//Торговца вернуть
     	sld = characterFromID("Bridgetown_trader");
    	    LAi_RemoveLoginTime(sld);
-    	
+    	for (int j = 0; j< MAX_COLONIES; j++)
+		{
+			ClearIslandShips(colonies[j].id);
+			DeleteAttribute(&colonies[j],"AlreadyGen");
+			GenerateIslandShips(colonies[j].island);
+		}
         makeref(rColony, Colonies[FindColony("Bridgetown")]);
         DeleteAttribute(rColony, "DontSetShipInPort"); //возвращаем жизнь
         RemoveShipFromBridgetown();
@@ -9933,6 +9938,178 @@ void LSC_RingDeleteItemsBoxes(string qName)
 }
 // <-- тайна Санта-Люсии
 
+// История старой дружбы Lipsar
+string RandomCityAllien()
+{
+	if (CheckAttribute(&colonies[1], "nation"))
+	{
+		string City;
+		int n, nation;
+		int storeArray[27];
+		int howStore = 0;
+		string NATION1=pchar.BaseNation;
+		switch (NATION1)
+		{
+			case "0":
+				NATION1="ENGLAND";
+			break;
+			case "1":
+				NATION1="FRANCE";
+			break;
+			case "2":
+				NATION1="SPAIN";
+			break;
+			case "3":
+				NATION1="HOLLAND";
+			break;
+			case "4":
+				NATION1="PIRATE";
+			break;
+		}
+		for (int i = 0; i < 27; i++)
+		{
+			if (colonies[i].nation != "none" && colonies[i].id != "Havana" && colonies[i].id != "Panama" &&  colonies[i].nation == NATION1 && colonies[i].id != "PortRoyal")
+			{
+				storeArray[howStore] = i;
+				howStore++;
+			}
+		}
+	n = rand(howStore - 1);
+	nation = storeArray[n];
+	City = colonies[nation].id;
+	}
+	Log_Info(City);
+	return City;
+}
+string RandomCityEnemy()
+{
+	string City;
+	int n, n1, n2, n3 = 0;
+	int nation = 0;
+	int storeArray[27];
+	int howStore = 0;
+	string Patent = pchar.PatentNation;
+	switch (Patent)
+	{
+	case "eng":
+		n = 0;
+		n1 = 1;
+		n2 = 0;
+		n3 = 0;
+	break;
+	case "fra":
+		n = 1;
+		n1 = 0;
+		n2 = 3;
+		n3 = 1;
+	break;
+	case "spa":
+		n = 2;
+		n1 = 3;
+		n2 = 2;
+		n3 = 2;
+	break;
+	case "hol":
+		n = 3;
+		n1 = 1;
+		n2 = 2;
+		n3 = 3;
+	break;
+	}
+	for (int i = 0; i < 27; i++)
+	{
+		if (colonies[i].nation != "none" && sti(colonies[i].nation) != PIRATE && colonies[i].id != "Havana" && colonies[i].id != "Panama" && colonies[i].nation != n && colonies[i].nation != n1 && colonies[i].nation != n2 && colonies[i].nation != n3)
+		{
+			storeArray[howStore] = i;
+			howStore++;
+		}
+	}
+	n = rand(howStore - 1);
+	nation = storeArray[n];
+	City = colonies[nation].id;
+	return City;
+}
+void SpawnMaks(string spawn_max)
+{
+	sld = GetCharacter(NPC_GenerateCharacter("Maks", "pirate_1", "man", "man", 30, PIRATE, -1, false));
+	sld.name = "Максимилиан";
+	sld.lastname = "Вебер";
+	GiveItem2Character(sld, "pistol5");
+	sld.equip.gun = "pistol5";
+	GiveItem2Character(sld, "blade28");
+	sld.equip.blade = "blade28";
+	FreeSitLocator(spawn_max, "sit1");
+	ChangeCharacterAddressGroup(sld, spawn_max, "sit", "sit1");
+	sld.Dialog.filename = "Quest\SilencePrice\Maks.c";
+	LAi_SetImmortal(sld, true);
+	LAi_SetSitType(sld);
+	LAi_SetLoginTime(sld, 0.0, 24.0);
+	sld.NextDiag.TempNode = "First_Time";
+}
+string RandomHouse(ref npchar)
+{
+	aref arCommon, arRld, arRld2, arDis;
+	int i, n, Qty, Qty2;
+	string LocId;
+	string storeArray[50];
+	int howStore = 0;
+	makearef(arRld, Locations[FindLocation(npchar.city + "_town")].reload);
+	Qty = GetAttributesNum(arRld);
+	for (i = 0; i < Qty; i++)
+	{
+		arCommon = GetAttributeN(arRld, i);
+		LocId = arCommon.go;
+		if (findsubstr(LocId, "Common", 0) != -1)
+		{
+			storeArray[howStore] = LocId;
+			howStore++;
+		}
+
+		if (arCommon.label != "Sea")
+		{
+			makearef(arRld2, Locations[FindLocation(LocId)].reload);
+			Qty2 = GetAttributesNum(arRld2);
+			for (n = 0; n < Qty2; n++)
+			{
+				arCommon = GetAttributeN(arRld2, n);
+				LocId = arCommon.go;
+				if (findsubstr(LocId, "Common", 0) != -1)
+				{
+					storeArray[howStore] = LocId;
+					howStore++;
+				}
+			}
+		}
+	}
+	LocId = storeArray[rand(howStore - 1)];
+	Log_info(LocId);
+	Locations.Locid.DisableEncounters = true;
+	SetOpenDoorCommonLoc(npchar.city, LocId);
+	pchar.GenQuest.SeekSpy.Location = LocId; //в дальнейшем не забыть положить 0
+	return LocId;
+}
+void spawn_1()
+{
+	sld = GetCharacter(NPC_GenerateCharacter("Anri", "pirate_17", "man", "man", 30, PIRATE, -1, false));
+	sld.name = "Анри";
+	sld.lastname = "Кристиансон";
+	FantomMakeCoolFighter(sld, 90, 90, 90, "blade32", "pistol5", 300);
+	sld.city = RandomCityEnemy();
+	sld.Dialog.filename = "Quest\SilencePrice\Anri.c";
+	LAi_SetLoginTime(sld, 0.0, 24.0);
+	SetSelfSkill(sld, 80, 100, 100, 100, 100);
+	SetShipSkill(sld, 70, 70, 70, 70, 70, 70, 70, 70, 70);
+	LAi_SetCitizenType(sld);
+	sld.NextDiag.TempNode = "First_Time";
+	ChangeCharacterAddressGroup(sld, RandomHouse(sld), "barmen", "stay");
+	Log_info(sld.city);
+}
+void spawn_2()
+{
+}
+void enemies()
+{
+}
 
 //Korsar Maxim --> мой код
 void SetPortAlarm(string qName) //Тревога в городе, если причалил под вражеским флагом

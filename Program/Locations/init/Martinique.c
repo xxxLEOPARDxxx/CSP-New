@@ -1238,7 +1238,7 @@ int LocationInitMartinique(int n)
 	//Town sack
 	locations[n].townsack = "LeFransua";
 	//Sound
-	locations[n].type = "port";
+	locations[n].type = "seashore";
 	locations[n].fastreload = "LeFransua";
     locations[n].islandId = "Martinique";
 	//Models

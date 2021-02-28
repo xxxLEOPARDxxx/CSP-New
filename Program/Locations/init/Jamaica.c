@@ -181,6 +181,7 @@ int LocationInitJamaica(int n)
 	locations[n].reload.l23.emerge = "reload1";
 	locations[n].reload.l23.autoreload = "0";
 	locations[n].reload.l23.label = "BuilderHouse";
+	locations[n].reload.l23.disable = true;
 
 	locations[n].reload.l24.name = "houseF1";
 	locations[n].reload.l24.go = "CommonRoom_MH3";

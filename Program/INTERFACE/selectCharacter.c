@@ -90,6 +90,7 @@ void InitInterface(string iniName)
 	TmpI_ShowLevelComplexity();
 	TmpI_ShowOffAmount();
 	SetByDefault();
+	SetMusic("music_MainMenu");
 }
 
 void SetByDefault()

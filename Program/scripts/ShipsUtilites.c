@@ -1613,7 +1613,6 @@ void SetShipyardStore(ref NPChar)
 		iTest_ship = rand(100);
 		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON50, NPChar), "ship14");
 		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FASTFRIGATE, NPChar), "ship14");
- 
 		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_ESSEX, NPChar), "ship14");
 		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATE_H, NPChar), "ship14");
 		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_WARGALLEON2, NPChar), "ship14");
@@ -1641,7 +1640,6 @@ void SetShipyardStore(ref NPChar)
 		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POSEIDON, NPChar), "ship15");
 		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_HMS_CENTURION, NPChar), "ship15");
 		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_RESOLUTION, NPChar), "ship15");
-
 		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_SUPERIORWARSHIP1, NPChar), "ship15");
 		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LINK, NPChar), "ship15");
 		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SUPERBE, NPChar), "ship15");

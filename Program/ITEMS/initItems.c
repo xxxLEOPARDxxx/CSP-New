@@ -6076,7 +6076,7 @@ int InitItems()
 	itm.CirassLevel.fast = 0.25;
 	itm.CirassLevel.force = 0.10;
 	itm.CirassLevel.round = 0.20;
-	itm.CirassLevel.break = 0.05;
+	itm.CirassLevel.break = 0.10;
 	itm.CirassLevel.feint = 0.20;
 	// boal 19.01.2004 <--
 	itm.minlevel = 2;
@@ -6109,7 +6109,7 @@ int InitItems()
 	itm.CirassLevel.fast = 0.35;
 	itm.CirassLevel.force = 0.20;
 	itm.CirassLevel.round = 0.30;
-	itm.CirassLevel.break = 0.15;
+	itm.CirassLevel.break = 0.20;
 	itm.CirassLevel.feint = 0.30;
 	// boal 19.01.2004 <--
 	itm.minlevel = 5;
@@ -6142,7 +6142,7 @@ int InitItems()
 	itm.CirassLevel.fast = 0.40;
 	itm.CirassLevel.force = 0.25;
 	itm.CirassLevel.round = 0.35;
-	itm.CirassLevel.break = 0.20;
+	itm.CirassLevel.break = 0.30;
 	itm.CirassLevel.feint = 0.35;
 	// boal 19.01.2004 <--
 	itm.minlevel = 11;
@@ -6171,7 +6171,7 @@ int InitItems()
 	itm.CirassLevel.fast = 0.45;
 	itm.CirassLevel.force = 0.30;
 	itm.CirassLevel.round = 0.40;
-	itm.CirassLevel.break = 0.25;
+	itm.CirassLevel.break = 0.40;
 	itm.CirassLevel.feint = 0.40;
 	// boal 19.01.2004 <--
 	itm.minlevel = 9;
@@ -6200,7 +6200,7 @@ int InitItems()
 	itm.CirassLevel.fast = 0.55;
 	itm.CirassLevel.force = 0.40;
 	itm.CirassLevel.round = 0.50;
-	itm.CirassLevel.break = 0.35;
+	itm.CirassLevel.break = 0.50;
 	itm.CirassLevel.feint = 0.50;
 	// boal 19.01.2004 <--
 	itm.minlevel = 20;

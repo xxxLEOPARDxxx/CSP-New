@@ -1391,17 +1391,6 @@ void SetNationToOfficers(int _nat)
 	}
 }
 
-bool grandfatherisashiteater()
-{
-	if (bBettaTestMode) return false;
-	if (sti(pchar.Ship.Type) == SHIP_NOTUSED) return false;
-	if (51 - (GetCharacterSPECIALSimple(pchar, SPECIAL_S) + GetCharacterSPECIALSimple(pchar, SPECIAL_P) + GetCharacterSPECIALSimple(pchar, SPECIAL_E) + GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I) + GetCharacterSPECIALSimple(pchar, SPECIAL_A) + GetCharacterSPECIALSimple(pchar, SPECIAL_L)) < 0 || sti(pchar.rank) > 55 || LAi_GetCharacterMaxHP(pchar) > 565 || 30 - (stf(RealShips[sti(Pchar.Ship.Type)].SpeedRate)) < 0 || 30000 - sti(RealShips[sti(Pchar.Ship.Type)].HP) < 0)
-	{
-		return true;
-	}
-    return false;
-}
-
 bool IsOfficerCompanion(ref _refCharacter)
 {
 	int findIdx = sti(_refCharacter.index);
@@ -2250,6 +2239,32 @@ void SetIsabellaTalker(string qName)
 {
 	ref chr = characterFromID("Isabella");
 	chr.talker = 10;
+}
+//История давней дружбы Lipsar
+void SilencePriceInit()
+{
+	//квестовый перс Люк
+	ref ch;
+	ch = GetCharacter(NPC_GenerateCharacter("Old Friend", "corsair1_2", "man", "man", 30, PIRATE, -1, false));
+	ch.name = "Люк";
+	ch.lastname = "Фрайленг";
+	ch.location	= "Bridgetown_town";
+	ch.location.group = "goto";
+	ch.location.locator = "goto1";
+	ch.Dialog.Filename = "Quest\SilencePrice\Luke.c";
+	FantomMakeCoolFighter(ch, 30, 90, 50, "blade28", "pistol5", 300);
+	GiveItem2Character(ch, "cirass1");
+	ch.equip.cirass = "cirass1";
+	ch.rank = 30;
+	ch.SaveItemsForDead = true;
+	AddBonusEnergyToCharacter(ch, 50);
+	SetSelfSkill(ch, 80, 100, 100, 100, 100);
+	SetShipSkill(ch, 80, 80, 80, 80, 80, 80, 80, 80, 80);
+	LAi_SetImmortal(ch, true);
+	LAi_SetCitizenType(ch);
+	LAi_SetLoginTime(ch, 0.0, 24.0);
+	ch.greeting = "Gr_Atilla";
+	ChangeCharacterAddressGroup(ch, "LaVega_town", "goto", "goto15");
 }
 void OfficerGirlInit()
 {

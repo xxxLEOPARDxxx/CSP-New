@@ -5142,48 +5142,58 @@ void ShipWreck_SetCapToMap()
 
 void ShipWreck_DeliveToCity(string qName)
 {
+	
 	ref sld;
-	if(pchar.location == pchar.location.from_sea && reload_cur_island_index > -1)
+	if(pchar.location == pchar.location.from_sea || HasSubStr(pchar.location,"_town"))
 	{
-		chrDisableReloadToLocation = true;
-		Log_Info("доставили каторжан в поселение");
-		for(int i = 0; i < sti(pchar.GenQuest.ShipWreck.Qty); i++)
-		{
-			sld = CharacterFromID("ShipWreck_" + i);
-			PlaceCharacter(sld, "goto", "random_must_be_near");
-			if(i == 0)
+		//if (reload_cur_island_index > -1)
+		//{
+			Log_Info("доставили каторжан в поселение");
+			for(int i = 0; i < sti(pchar.GenQuest.ShipWreck.Qty); i++)
 			{
-				if(CheckAttribute(pchar,"GenQuest.ShipWreck.Crazy")) // разговор с психом
+				sld = CharacterFromID("ShipWreck_" + i);
+				PlaceCharacter(sld, "goto", "random_must_be_near");
+				if (i == 0 && CheckAttribute(sld,"curtown"))
 				{
-					sld.dialog.currentnode = "ShipWreck_34";	
+					if (sld.curtown == pchar.location) break;
 				}
-				else
+				chrDisableReloadToLocation = true;
+				if (i == 0 && !CheckAttribute(sld,"curtown")) sld.curtown = pchar.location;
+				if(i == 0)
 				{
-					RemovePassenger(pchar, sld);
-					if(CheckAttribute(pchar,"GenQuest.ShipWreck.Mutiny"))
+					if(CheckAttribute(pchar,"GenQuest.ShipWreck.Crazy")) // разговор с психом
 					{
-						sld.dialog.currentnode = "ShipWreck_48";	
+						sld.dialog.currentnode = "ShipWreck_34";
+						sld.curtown = pchar.location;
 					}
 					else
 					{
-						if(pchar.GenQuest.ShipWreck.variant == "1")
+						RemovePassenger(pchar, sld);
+						if(CheckAttribute(pchar,"GenQuest.ShipWreck.Mutiny"))
 						{
-							sld.dialog.currentnode = "ShipWreck_30";	
+							sld.dialog.currentnode = "ShipWreck_48";	
+						}
+						else
+						{
+							if(pchar.GenQuest.ShipWreck.variant == "1")
+							{
+								sld.dialog.currentnode = "ShipWreck_30";	
+							}	
+							if(pchar.GenQuest.ShipWreck.variant == "2")
+							{
+								sld.dialog.currentnode = "ShipWreck_32";	
+							}						
 						}	
-						if(pchar.GenQuest.ShipWreck.variant == "2")
-						{
-							sld.dialog.currentnode = "ShipWreck_32";	
-						}						
-					}	
+					}
+					LAi_SetActorType(sld);
+					LAi_ActorDialog(sld, pchar, "", -1, 0);
 				}
-				LAi_SetActorType(sld);
-				LAi_ActorDialog(sld, pchar, "", -1, 0);
 			}
-		}
+		//}
 	}
 	else
 	{
-		SetFunctionExitFromLocationCondition("ShipWreck_ExitFromTown", pchar.location, false);				
+		SetFunctionExitFromLocationCondition("ShipWreck_ExitFromTown", pchar.location, true);
 	}	
 }
 
@@ -5191,7 +5201,7 @@ void ShipWreck_ExitFromTown(string _quest)
 {
 	pchar.quest.ShipWreck_DeliveToCity.win_condition.l1 = "Location_Type";
 	pchar.quest.ShipWreck_DeliveToCity.win_condition.l1.location_type = "town";
-	pchar.quest.ShipWreck_DeliveToCity.function = "ShipWreck_DeliveToCity";						
+	pchar.quest.ShipWreck_DeliveToCity.function = "ShipWreck_DeliveToCity";					
 }
 
 void ShipWreck_GoOut()

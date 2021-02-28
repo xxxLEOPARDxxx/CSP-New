@@ -688,6 +688,7 @@ void SetInformation()
 	SetNodeUsing("FRAME_SHIP_INSTALL", false);
 	SetNodeUsing("INSTALL_OK", false);
 	SetNodeUsing("INSTALL_CANCEL", false);
+	SetNodeUsing("GUARD_CHANGE", true);
 	
 	SetShipInformationOne();
 	SetShipInformationTwo();
@@ -1521,6 +1522,7 @@ void InstallShipFrame()
 	SetNodeUsing("SHIPS_SCROLL", true);
 	SetNodeUsing("LEFTSCROLLBUTTON", true);
 	SetNodeUsing("RIGHTSCROLLBUTTON", true);
+	SetNodeUsing("GUARD_CHANGE", false);
 	
 	SetInstallInformation(1);
 }
@@ -1697,6 +1699,7 @@ void SetChangeFrame(bool bInstall, bool bContinue)
 	SetNodeUsing("BORDERS_SHIP_4", bInstall);
 	SetNodeUsing("BORDERS_SHIP_4_1", bInstall);
 	SetNodeUsing("SHIP4_NAME", bInstall);
+	SetNodeUsing("GUARD_CHANGE", false);
 
 	if(!bContinue)
 	{
@@ -1930,6 +1933,14 @@ void ChangeShipsOK()
 	
 	int iShipOne = sti(PChar.Colony.Guardians.Ship1);
 	int iShipTwo = sti(PChar.Colony.Guardians.(sShip));
+	if (iShipTwo == sti(PChar.Colony.Guardians.Ship3))
+	{
+		pchar.g3 = iShipOne;
+	}
+	if (iShipTwo == sti(PChar.Colony.Guardians.Ship4))
+	{
+		pchar.g4 = iShipOne;
+	}
 	
 	PChar.Colony.Guardians.Ship1 = iShipTwo;
 	PChar.Colony.Guardians.(sShip) = iShipOne;

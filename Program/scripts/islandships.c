@@ -93,10 +93,13 @@ void GenerateIslandShips(string sIslandID)
 
 					if (defendersCount == 0) continue;
 					iShipsQuantity = 3-rand(3);
-					if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
+					if (CheckAttribute(FortChref,"Fort.Mode"))
 					{
-						iShipsQuantity = 0; 
-						continue;
+						if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
+						{
+							iShipsQuantity = 0; 
+							continue;
+						}
 					}
 						
 					while (iShipsQuantity > 0)

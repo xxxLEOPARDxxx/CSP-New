@@ -367,6 +367,8 @@ int CreateJamaicaCharacters(int n)
 	
 		makeref(ch,Characters[n]);			// Архитектор
 	ch.id		= "Builder";
+	ch.name	= "Альбрехт";
+	ch.lastname	= "Цальпфер";
 	ch.model	= "Mechanic";
 	ch.sex = "man";
 	ch.City = "PortRoyal";

@@ -1,9 +1,19 @@
 // Авторы, форма про нас :)
 // boal ролики делать не умею, зато умею кодить на скриптах, титры на них ;)
 float fNewPos;
-#define MAX_LINE         72
+#define MAX_LINE         85
 
 string STR_TEXT[MAX_LINE] = {
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
 "",
 "",
 "",
@@ -26,11 +36,13 @@ string STR_TEXT[MAX_LINE] = {
 "Korsar Maxim",
 "BlackThorn",
 "Krah_an_Krait",
+"Lipsar",
 "",
 "Правка и доработка интерфейсов",
 "LEOPARD",
 "Gregg",
 "Korsar Maxim",
+"BlackThorn",
 "",
 "Тестирование",
 "LEOPARD",
@@ -41,6 +53,7 @@ string STR_TEXT[MAX_LINE] = {
 "Zik '",
 "Shaharan",
 "BlackThorn",
+"Lipsar",
 "",
 "",
 "",
@@ -68,8 +81,8 @@ string STR_TEXT[MAX_LINE] = {
 "",
 "Ерилейн, за его уникального героя 'Темный Странник'",
 "Konstrush, за его описание для героев, и за сочный, крутой HUD",
-"BlackThorn, за отличные идеи и правки",
-"",
+"Sinistra, за квесты по ПДМ и не только",
+"Qwerry, St., за отличные идеи и правки",
 "",
 "",
 "",
@@ -79,6 +92,16 @@ string STR_TEXT[MAX_LINE] = {
 };
 
 string STR_COLOR[MAX_LINE] = {
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
 "",
 "",
 "",
@@ -102,7 +125,9 @@ string STR_COLOR[MAX_LINE] = {
 "",
 "",
 "",
+"",
 "yellow",
+"",
 "",
 "",
 "",
@@ -114,6 +139,7 @@ string STR_COLOR[MAX_LINE] = {
 "",
 "",
 " '",
+"",
 "",
 "",
 "",

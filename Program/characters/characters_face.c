@@ -433,6 +433,7 @@ void FaceMaker(aref rCharacter)
 		case "pet_crab":		rCharacter.FaceId = 1512; break;
 		case "crabSmall":		rCharacter.FaceId = 1512; break;
 		case "crabBig":			rCharacter.FaceId = 1512; break;
+		case "PGG_Longway":		rCharacter.FaceId = 487; break;
 	}
 }
 

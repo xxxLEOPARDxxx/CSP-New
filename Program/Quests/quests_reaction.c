@@ -957,6 +957,23 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 		// boal <---
 		
+		//Линейка Виспер
+		//Незавершенное дело Билла
+		case "W_Smuggling":
+			if (CheckAttribute(pchar,"Whisper.Contraband"))	
+			{
+				DeleteAttribute(pchar, "Whisper.Contraband");
+				AddQuestRecord("WhisperContraband", "4");
+				CloseQuestHeader("WhisperContraband");
+			}
+			if (CheckAttribute(pchar, "Whisper.ContraSmuggler"))
+			{
+				DeleteAttribute(pchar, "Whisper.ContraSmuggler");
+				WhisperRemoveSmugglersFromShore();
+				AddQuestRecord("WhisperContraband", "4");
+				CloseQuestHeader("WhisperContraband");
+			}
+		break;
         ////////////////////////////////////////////////////////////////////////
 		//  Служебный квест контрабандистов - ограничение по времени
 		////////////////////////////////////////////////////////////////////////
@@ -9154,9 +9171,68 @@ void QuestComplete(string sQuestName, string qname)
 			DoQuestCheckDelay("LSC_RingDialog", 6.0);
         break;
 		// <-- тайна Санта-Люсии	
-	
-	}   
+	// <-- тайна Санта-Люсии
+//История давней дружбы, написал Lipsar//;
+	case "Taverna":
+		chrDisableReloadToLocation = true;
+		pchar = GetMainCharacter();
+		sld = characterFromID("Old Friend");
+		DoQuestReloadToLocation("LaVega_tavern", "sit", "sit5", "");
+		ChangeCharacterAddressGroup(sld, "LaVega_tavern", "sit", "sit6");
+		sld.Dialog.CurrentNode = "StartQuest_4";
+		LAi_SetSitType(pchar);
+		LAi_SetActorType(sld);
+		LAi_ActorSetSitMode(sld);
+		LAi_ActorDialogDelay(sld, PChar, "", 1.5);
+		chrDisableReloadToLocation = false;
+	break;
+	case "AfterDialog":
+		pchar = GetMainCharacter();
+		sld = characterFromID("Old Friend");
+		Lai_SetPlayerType(PChar);
+		LAi_SetSitType(sld);
+		DoQuestReloadToLocation("LaVega_tavern", "tables", "stay4", "");
+	break;
+	case "GiveLetter":
+		sld = characterFromID("Maks");
+		pchar = GetMainCharacter();
+		TakeItemFromCharacter(pchar, "Lukes_letter");
+		PlaySound("Interface\important_item");
+		LAi_SetStayType(pchar);
+		LAi_SetActorType(sld);
+		LAi_ActorSetSitMode(sld);
+		LAi_ActorDialogDelay(sld, PChar, "", 1.5);
+	break;
+	case "Plata1":
+		sld = characterFromID("Maks");
+		pchar = GetMainCharacter();
+		PlaySound("Interface\took_item");
+		AddMoneyToCharacter(pchar, "10000");
+		LAi_SetSitType(sld);
+		Lai_SetPlayerType(pchar);
+	break;
+		//конец История давней дружбы
+		//2 жертвы и главу шпионов.
+////////////////// КВЕСТЫ Проклятие Дальних Морей --> //////////////////
+		case "PDM_Albreht_Vhod":
+			chrDisableReloadToLocation = false;   //блокировка всех выходов
+            sld = CharacterFromID("Albreht_Zalpfer");  //сам подходит
+	        sld.dialog.currentnode = "Ja_1";         //вызывает диалог
+			sld.greeting = "Albrecht_Zalpfer";    //приветствие	
+			LAi_SetActorType(sld);            //актёр или житель
+			LAi_ActorDialog(sld, pchar, "", 0.5, 0);
+			Locations[FindLocation("PortRoyal_town")].reload.l23.disable = false;   //открывает архитектора
+            PlaceCharacter(sld, "goto", PChar.location);			
+        break;
+
+		case "PDM_Albreht_Vihod":
+			sld = CharacterFromID("Albreht_Zalpfer")   //ссылкается на персонажа
+			ChangeCharacterAddressGroup(sld, "PortRoyal_town", "goto", "goto100");   //переместить
+        break;
+////////////////// КВЕСТЫ Проклятие Дальних Морей <-- //////////////////
+	}
 }
+
 
 // boal -->
 ////////////////////////   общие методы //////////////////////////

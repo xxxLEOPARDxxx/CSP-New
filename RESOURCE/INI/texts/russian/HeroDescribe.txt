@@ -710,7 +710,7 @@ heroLastnameGen_25 {Рива}
 heroNameDat_25 {Дику}
 heroLastNameDat_25 {Риву}
 
-heroFace_25 {230}
+heroFace_25 {240}
 heroModel_25 {PGG_Pitt_0,PGG_Pitt_1,PGG_Pitt_2,PGG_Pitt_3,PGG_Pitt_4,PGG_Pitt_5}
 
 heroType_25 {Торговец}

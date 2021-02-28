@@ -48,9 +48,17 @@ void InitInterface(string iniName)
 	SetEventHandler("Show3EquipInfo", "Show3EquipInfo", 0);
 	SetEventHandler("Show4EquipInfo", "Show4EquipInfo", 0);
 	SetEventHandler("Show5EquipInfo", "Show5EquipInfo", 0);
-	
-	
-    
+
+	switch (xi_refCharacter.sex)
+	{
+		case "man": SetNewPicture("SETUP_BIG_PICTURE", "interfaces\sith\CharEquip_Man.tga");
+		break;
+		case "woman": SetNewPicture("SETUP_BIG_PICTURE", "interfaces\sith\CharEquip_Woman.tga");
+		break;
+		case "skeleton": SetNewPicture("SETUP_BIG_PICTURE", "interfaces\sith\CharEquip_Skeleton.tga");
+		break;
+	}
+
     XI_RegistryExitKey("IExit_F2");
     SetVariable();
     SetNewGroupPicture("Weight_PIC", "ICONS_CHAR", "weight");
@@ -252,21 +260,10 @@ void AcceptAddOfficer()
 				case 6:
 					pchar.Fellows.Passengers.carpenter = iChar;
 				break;
-
-				//Boyer mod
-										  
-						   
-			 
-
 				//default:
 					SetOfficersIndex(pchar, nCurScrollNum - 6, iChar);
 					bNeedFollow = true;
 				break;
-				//End Boyer add
-			  
-										  
-						   
-			 
 			}
 			attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
 			characters[iChar].(attributeName2) = true; // совместитель дожности
@@ -340,18 +337,9 @@ void AcceptRemoveOfficer()
 		case 6:
 			pchar.Fellows.Passengers.carpenter = -1;
 		break;
-
-		//Boyer mod
-														  
-		
-
 		//default:
 			RemoveOfficersIndex(pchar, GetOfficersIndex(pchar, nCurScrollNum - 6));
 		break;
-
-		//End Boyer mod
-														  
-		
 	}
     attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
     DeleteAttribute(&characters[iChar], attributeName2); // совместитель дожности

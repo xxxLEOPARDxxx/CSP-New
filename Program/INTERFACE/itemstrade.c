@@ -91,6 +91,16 @@ void InitInterface_R(string iniName, ref pTrader)
 
 	SetFormatedText("STORECAPTION1", XI_ConvertString("titleItemsTrade"));
 
+	switch (refCharacter.sex)
+	{
+		case "man": SetNewPicture("EQUIP_BIG_PICTURE", "interfaces\sith\CharEquip_Man.tga");
+		break;
+		case "woman": SetNewPicture("EQUIP_BIG_PICTURE", "interfaces\sith\CharEquip_Woman.tga");
+		break;
+		case "skeleton": SetNewPicture("EQUIP_BIG_PICTURE", "interfaces\sith\CharEquip_Skeleton.tga");
+		break;
+	}
+
 	SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + its(refStoreChar.FaceId) + ".tga");
 }
 
@@ -272,7 +282,7 @@ void AddToTable()
 	n = 1;
 	idLngFile = LanguageOpenFile("ItemsDescribe.txt");
 	Table_Clear("TABLE_LIST", false, true, false);
-														
+	
 	// Сначало уникальные предметы
 	for (i = ITEMS_QUANTITY; i < TOTAL_ITEMS; i++)
 	{
@@ -938,6 +948,7 @@ void ExitEquipWindow()
 	SetNodeUsing("SCROLL_LIST", true);
 	
 	SetCurrentNode("TABLE_LIST");
+
 }
 
 void ShowEquipWindow()
@@ -950,7 +961,7 @@ void ShowEquipWindow()
 	SetNodeUsing("SCROLL_LIST", false);
 
 	SetCurrentNode("EQUIP_WINDOW");
-		
+
 	string sBlade = GetCharacterEquipByGroup(refCharacter, "blade");
 	string sGun = GetCharacterEquipByGroup(refCharacter, "gun");
 	string sSpyglass = GetCharacterEquipByGroup(refCharacter, "spyglass");
@@ -1456,7 +1467,7 @@ void Show5EquipInfo()
 	
 	string sItem = GetCharacterEquipByGroup(refCharacter, "idols_right");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1466,7 +1477,7 @@ void Show5EquipInfo()
 	sHeader = LanguageConvertString(idLngFile, sHeader);
 	
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }

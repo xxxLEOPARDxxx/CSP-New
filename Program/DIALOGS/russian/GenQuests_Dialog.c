@@ -984,7 +984,7 @@ void ProcessDialogEvent()
 		
 		case "ShipWreck_38":
 			chrDisableReloadToLocation = false;			
-			SetFunctionExitFromLocationCondition("ShipWreck_ExitFromTown", pchar.location, false);				
+			SetFunctionExitFromLocationCondition("ShipWreck_ExitFromTown", pchar.location, true);
 			if(!CheckAttribute(pchar,"GenQuest.CaptainComission.CrazyRec"))
 			{
 				pchar.GenQuest.CaptainComission.CrazyRec = true;

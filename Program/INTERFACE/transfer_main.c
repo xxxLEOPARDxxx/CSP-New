@@ -603,7 +603,9 @@ void ProcessFrame()
 void OnShipScrollChange()
 {
 	ShowShipInfo(pchar, "");
+	SetShipQualityTable(pchar, "BAR1_HP", "BAR1_Mast", "BAR1_Speed", "BAR1_TurnRate", "BAR1_WAS", "BAR1_Capacity", "BAR1_Crew");
 	ShowShipInfo(xi_refCharacter, "2");
+	SetShipQualityTable(xi_refCharacter, "BAR2_HP", "BAR2_Mast", "BAR2_Speed", "BAR2_TurnRate", "BAR2_WAS", "BAR2_Capacity", "BAR2_Crew");
 	ShowShipFoodInfo(pchar);
 	FillGoodsTable();
 	//Ship info window

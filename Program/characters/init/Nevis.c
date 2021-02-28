@@ -197,5 +197,32 @@ int CreateNevisCharacters(int n)
 	ch.greeting = "Gr_Smuggler Agent";
 	n = n + 1;
 	
+	///////////////////////////////////////////////////////////////////////////////
+	// ΟΠΞΚΛίÒΘΕ ΔΐΛάΝΘΥ ΜΞΠΕΙ
+	///////////////////////////////////////////////////////////////////////////////
+	
+	makeref(ch,Characters[n]);			//ΐλόαπευς Φΰλόοτεπ
+	ch.id		= "Albreht_Zalpfer";
+	ch.name	= "ΐλόαπευς";
+	ch.lastname	= "Φΰλόοτεπ";
+	ch.model	= "Mechanic";
+	ch.model.animation = "man";
+	ch.sex = "man";
+	ch.City = "Charles";
+	ch.location	= "Charles_town";
+	ch.location.group = "goto";
+	ch.location.locator = "goto22";
+	ch.Dialog.Filename = "Quest/PDM/Albreht_Zalpfer.c";
+	ch.greeting = "Albrecht_Zalpfer";
+	SetCharacterPerk(ch, "Carpenter");
+	SetCharacterPerk(ch, "BasicBattleState");
+	SetShipSkill(ch, 2, 3, 2, 3, 1, 21, 3, 1, 2);
+	ch.nation = ENGLAND;
+	LAi_SetLoginTime(ch, 6.0, 21.99);
+	LAi_SetCitizenType(ch);
+	LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
+	LAi_SetImmortal(ch, false);
+	n = n + 1;
+	
 	return n;
 }

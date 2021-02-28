@@ -135,7 +135,77 @@ void ProcessDialogEvent()
 			}
 			NextDiag.TempNode = "First time";
 		break;
-
+		
+		case "Smuggler":
+			NextDiag.TempNode = "Smuggler";
+			if (CheckAttribute(pchar, "Whisper.ContraSmuggler"))
+			{
+				dialog.Text = "Ты еще кто такая? Чего тебе здесь надо?";
+				Link.l1 = "У нас с вами есть один общий знакомый по имени "+GetCharacterFullName("Tortuga_trader")+". Я привезла товар, как договаривались.";
+				Link.l1.go = "Whisper_contraband";
+				Link.l2 = "Ничего.";
+				Link.l2.go = "exit";
+			}
+			else
+			{
+				dialog.Text = "Сделка состоялась, а теперь вали отсюда, нечего глаза мозолить!";
+				Link.l1 = "Ухожу, только дерзить мне не надо.";
+				Link.l1.go = "exit";
+			}
+			
+		break;	
+		case "Whisper_contraband":
+			if(Pchar.Location != Pchar.location.from_sea)
+			{
+				dialog.Text = "Это все очень интересно, но корабль твой где? Или ты весь товар на горбу принесла?";
+				Link.l1 = "Корабль будет, я просто сначала место проверить хотела.";
+				Link.l1.go = "Whisper_contraband_2";
+				break;
+			}
+			if(GetSquadronGoods(Pchar, GOOD_EBONY) >= 100)
+			{
+				DeleteAttribute(pchar, "Whisper.ContraSmuggler");
+				dialog.Text = "Вижу. Похоже, все в порядке. Мои рабы... работники, мигом все выгрузят. Вот твои деньги.";
+				AddMoneyToCharacter(PChar, 50000);
+				RemoveCharacterGoods(Pchar, GOOD_EBONY, 100);
+				Link.l1 = "Неплохая сумма, спасибо.";
+				Link.l1.go = "Whisper_contraband_1";
+				
+				break;
+			}
+			if(GetSquadronGoods(Pchar, GOOD_EBONY) < 100 && GetSquadronGoods(Pchar, GOOD_EBONY) > 0)
+			{
+				dialog.Text = "У тебя не хватает товара. Возвращайся, когда соберешь.";
+				Link.l1 = "И правда. Жди, сейчас докуплю и вернусь.";
+				Link.l1.go = "Whisper_contraband_2";
+				break;
+			}
+			if(GetSquadronGoods(Pchar, GOOD_EBONY) == 0)
+			{
+				dialog.Text = "Издеваешься? У тебя в трюме вообще нет нужного товара!";
+				Link.l1 = "Кажется, я его куда-то переложила. Никуда не уходи, я сейчас.";
+				Link.l1.go = "Whisper_contraband_2";
+			}
+		break;
+		case "Whisper_contraband_1":
+			dialog.Text = "Кстати, если еще что интересное найдешь, сразу нам неси, а то "+GetCharacterFullName("Tortuga_trader")+" собирается завязывать с подобными сделками. Одного нашего представителя ты всегда сможешь найти в таверне.";
+			WhisperRemoveSmugglersFromShore();
+			AddQuestRecord("WhisperContraband", "3");
+			CloseQuestHeader("WhisperContraband");
+			Link.l1 = "Хорошо, учту.";
+			Link.l1.go = "exit";
+			//pchar.quest.WhisperChinaman.win_condition.l1 = "ExitFromLocation";
+			pchar.quest.WhisperChinaman.win_condition.l1 = "EnterToSea";
+            pchar.quest.WhisperChinaman.function    = "WhisperChinaman";
+			WhisperSmugglingPatrol();
+			//CaptainComission_GenerateCoastalPatrol();
+			
+		break;
+		case "Whisper_contraband_2":
+			dialog.Text = "И пошустрей давай, я всю жизнь в этой бухте торчать не собираюсь.";
+			Link.l1.go = "exit";
+		break;
+		
 		case "Jim":
 			dialog.text = "После того, как ты разделалась с Джеком, никто из команды тебе перечить не пожелает. Он держал в страхе всех. К тому же, у нас на корабле традиция такая - после смерти старого капитана, новым назначать самого отчаянного рубаку, который перебьет остальных претендентов на шляпу. Такой капитан не побоится привести нас к самой богатой добыче. ";
 			link.l1 = "Знаешь, мне нравился ваша традиция. А много ли уже капитанов сменилось?";
@@ -147,14 +217,25 @@ void ProcessDialogEvent()
 			link.l1.go = "Jim_2";
 		break;
 		case "Jim_2":
-			dialog.text = "Ничего, научишься. Билл поначалу тоже не умел, но тем не менее стал самым успешным капитаном. Мы, если что, поможем, на первых порах. ";
-			link.l1 = "Убедил. Ну и где ваш кораблик?";
+			SetQuestHeader("WhisperContraband");
+			AddQuestRecord("WhisperContraband", "1");
+			pchar.Whisper.Contraband = true;
+			GiveItem2Character(Pchar, "Map_bad");
+			Log_Info("Вы получили карту архипелага.");
+			SetTimerCondition("W_Smuggling", 0, 0, 60, false);
+			dialog.text = "Ничего, научишься. Билл поначалу тоже не умел, но тем не менее стал самым успешным капитаном 'Вдовы'. Мы, если что, поможем, на первых порах. Вот, возьми карту Билла, чтобы проще было ориентироваться.\nКстати, если не знаешь с чего начать - загляни в его судовой журнал. Там заметки, что составлял Билл. Мы вроде собирались отвезти товар кому-то на Тортуге, но всех подробностей я не знаю, так что лучше сама прочитай.";
+			link.l1 = "Хорошо, почитаю на досуге. А где наш кораблик?";
 			link.l1.go = "Jim_EndLine";
 		break;
 		case "Jim_EndLine":
 			dialog.text = "Да прямо здесь, в бухте. Подходи к берегу и залезай в шлюпку. ";
 			link.l1 = "...";
 			link.l1.go = "Finish";
+			if (bBettaTestMode)
+			{
+				link.l2 = "(Бетта тест мод) Получить Пса Войны.";
+				link.l2.go = "FinishBeta";
+			}
 		break;
 		case "Finish":
 			NextDiag.CurrentNode = NextDiag.TempNode;
@@ -170,13 +251,23 @@ void ProcessDialogEvent()
 			InterfaceStates.DisFastTravel = false;
 			DeleteAttribute(Pchar, "questTemp.WhisperTutorial");
 			bDisableLandEncounters = false;
-			
-            ref mc = GetMainCharacter();
-            mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
-            mc.Ship.name="Черная Вдова";
-            SetBaseShipData(mc);
-            mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
-            SetCrewQuantityFull(mc);
+			ref mc = GetMainCharacter();
+			if(!CheckAttribute(pchar,"WhisperCheat"))
+			{
+				mc.Ship.Type = GenerateShipExt(SHIP_SOPHIE, true, mc);
+				mc.Ship.name="Черная Вдова";
+				SetBaseShipData(mc);
+				mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS12;
+				SetCrewQuantityFull(mc);
+			}
+			else
+			{
+				mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
+				mc.Ship.name="Пёс Войны";
+				SetBaseShipData(mc);
+				mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
+				SetCrewQuantityFull(mc);
+			}
 
             SetCharacterGoods(mc,GOOD_FOOD,200);
         	SetCharacterGoods(mc,GOOD_BALLS,300);//2000);
@@ -184,26 +275,26 @@ void ProcessDialogEvent()
             SetCharacterGoods(mc,GOOD_KNIPPELS,300);//700);
             SetCharacterGoods(mc,GOOD_BOMBS,300);//1500);
             SetCharacterGoods(mc,GOOD_POWDER,1000);
-            SetCharacterGoods(mc,GOOD_PLANKS,10);
+            SetCharacterGoods(mc,GOOD_PLANKS,50);
+            SetCharacterGoods(mc,GOOD_SAILCLOTH,50);
             SetCharacterGoods(mc,GOOD_RUM,40);//600);
-            SetCharacterGoods(mc,GOOD_WEAPON,100);//2000);
+            SetCharacterGoods(mc,GOOD_WEAPON,200);//2000);
+            SetCharacterGoods(mc,GOOD_EBONY,100);//2000);
             DoReloadCharacterToLocation(Pchar.HeroParam.Location, Pchar.HeroParam.Group, Pchar.HeroParam.Locator);
 			Lai_SetPlayerType(pchar);
 			
 			SetQuestHeader("WhisperQuestline");
 			AddQuestRecord("WhisperQuestline", "1");
-			
 			AddQuestRecord("WhisperQuestline", "2");
 			AddQuestUserData("WhisperQuestline", "sWhCapName", GetFullName(characterFromId("wl_Pirate_Cap")));
 			AddQuestRecord("WhisperQuestline", "3");
 			
 			SetQuestsCharacters();
-			
-			//sld = CharacterFromID("PoorKillSponsor");
-			//ref wlocation = &locations[FindLocation(sld.city + "_Town")];
-			//pchar.W.PoorKillLocation = wlocation.id;
-			//Log_Info(pchar.W.PoorKillLocation);
-
+		break;
+		case "FinishBeta":
+			pchar.WhisperCheat = true;
+			link.l1 = "...";
+			link.l1.go = "Finish";
 		break;
 		case "Jack":
 			dialog.text = "Правда что ли? Ха-ха! То есть, э... Очень жаль, конечно. Ладно, давай сюда его вещички и проваливай.";
@@ -362,7 +453,7 @@ void ProcessDialogEvent()
             LAi_ActorGoToLocation(npchar, "reload", "reload1", "none", "", "", "", 7);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
-			DoQuestFunctionDelay("WhisperLine_IncqGuard", 15.0);
+			DoQuestFunctionDelay("WhisperLine_IncqGuard", 11.0);
 		break;
 		
 		
@@ -445,10 +536,8 @@ void ProcessDialogEvent()
 		break;
 		case "CS":
 			dialog.text = "Это тебе не игрушка, девочка. Ты и представить себе не можешь, на что способен этот предмет. Положи его на место, медленно и осторожно.";
-			link.l1 = "skip";
-			link.l1.go = "Finish";
-			link.l2 = "Ты про квантовый выпрямитель частиц?";
-			link.l2.go = "CS_1";
+			link.l1 = "Ты про квантовый выпрямитель частиц?";
+			link.l1.go = "CS_1";
 		break;
 		case "CS_1":
 			dialog.text = "Ты хоть сама понимаешь, что только что сказала?";
@@ -542,3 +631,4 @@ void ProcessDialogEvent()
 		break;
 	}
 }
+

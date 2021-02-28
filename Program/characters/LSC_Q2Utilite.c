@@ -571,6 +571,8 @@ void initStartState2Character(ref ch)
 	SelectSlavetraderRendom(); //это непосредственно выбор
 	// ==> квест Изабеллы
 	IsabellaInit()
+	//==>квест История давней дружбы Lipsar
+	SilencePriceInit()
 	// ==>  флаги и иниты бергларов 
 	BerglarsInit();
 	// ==>  нищие

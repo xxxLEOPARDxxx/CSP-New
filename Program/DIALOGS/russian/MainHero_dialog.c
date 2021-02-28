@@ -163,8 +163,8 @@ void ProcessDialogEvent()
 			{
 				DeleteAttribute(pchar, "questTemp.Whisper.HoldMonologue");
 				
-				dialog.Text = "Проклятье! Не хватало того, что меня закинуло в прошлое, а машина времени повреждена и находится вместе во всеми моими вещами в лапах этих немытых головорезов. Теперь я еще и в плену, а в ближайшие дни меня ждет публичная казнь.";
-				Link.l1 = "Нужно собраться. Я выберусь на свободу, так или иначе.";
+				dialog.Text = "Проклятье! Не хватало того, что меня закинуло в прошлое, а машина времени повреждена и находится вместе во всеми моими вещами в лапах этих немытых головорезов. В довесок я еще и в плену, а в ближайшие дни меня ждет публичная казнь.";
+				Link.l1 = "Нужно собраться. Я выберусь на свободу, рано или поздно.";
 				Link.l1.go = "exit_incq";
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.GetHat"))
@@ -190,6 +190,13 @@ void ProcessDialogEvent()
 				PChar.quest.WhisperPirateTownBattle.win_condition.l1 = "location";
 				PChar.quest.WhisperPirateTownBattle.win_condition.l1.location = "PuertoPrincipe_Port";
 				PChar.quest.WhisperPirateTownBattle.function = "WhisperMeetCrew";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.SmugPatrol"))
+			{
+				DeleteAttribute(pchar, "questTemp.Whisper.SmugPatrol");
+				dialog.Text = "Так и знала! Конечно же сюда заходят патрули, этот торгаш мне лапшу на уши навесил.";
+				Link.l1 = "Нужно поспешить на палубу, пока мне корабль не потопили.";
+				Link.l1.go = "exit";
 			}
 			//Линейка Виспер
 		break;
@@ -357,10 +364,31 @@ void ProcessDialogEvent()
 					}
 				}
 			}
-			Link.l12 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
-			Link.l12.go = "exit";
+			if (bBettaTestMode)
+			{
+				Link.l12 = "Установить время на глобальной карте (должно быть значение float)";
+				Link.l12.go = "WorldmapTime";
+			}
+			Link.l14 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
+			Link.l14.go = "exit";
 		break;
 		
+		case "WorldmapTime":
+			Dialog.Text = "Напишите float число формата x.x, желательно не более 12.0, иначе возможны сбои даже при небольшом ускорении времени.";
+			Link.l1.edit = 1;
+			Link.l1 = "";
+			Link.l1.go = "WorldmapTime_Change";	
+		break;
+		
+		case "WorldmapTime_Change":
+			if (stf(GetStrSmallRegister(dialogEditStrings[1])) > 0.0 && stf(GetStrSmallRegister(dialogEditStrings[1])) < 12.1) pchar.wmtimechange = stf(GetStrSmallRegister(dialogEditStrings[1]));
+			else pchar.wmtimechange = 0.5;
+			if (stf(pchar.wmtimechange) != 0.5) Dialog.Text = "Установлена скорость глобальной карты "+pchar.wmtimechange+".";
+			else Dialog.Text = "Установлена стандартное значение в 0.5.";
+			worldMap.date.hourPerSec = stf(pchar.wmtimechange);
+			Link.l1 = "Отлично.";
+			Link.l1.go = "exit";	
+		break;
 		case "HellSpawn_Ritual"://перерождение
 			Dialog.Text = "(Вы чувствуете себя немного другим).";
 			pchar.Ritual.ModelChanged = false;
