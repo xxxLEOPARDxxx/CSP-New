@@ -1034,7 +1034,7 @@ int GenerateStoreShipExt(int iBaseType, ref chr)
 	{
 		return SHIP_NOTUSED;
 	}
-	
+		
 	ref rRealShip = GetRealShip(iShip);
 	rRealShip.StoreShip = false;  // корабль на верфи, трется отдельным методом
     
@@ -1367,288 +1367,158 @@ void SetShipyardStore(ref NPChar)
         }
         return;
     }
-
+	
 	FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_TARTANE, NPChar), "ship1"); // обязательный на верфи
-
-	iTest_ship = rand(5); // 7 класс
-	if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_TARTANE, NPChar), "ship2");
-	if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PLOT, NPChar), "ship2");
-	if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_WAR_TARTANE, NPChar), "ship2");
-
-	iTest_ship = rand(5); // 7 класс
-	if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_TARTANE, NPChar), "ship3");
-	if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PLOT, NPChar), "ship3");
-	if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_WAR_TARTANE, NPChar), "ship3");
-
-    if (sti(PChar.rank) > 1) // 6 класс
-    {
-		iTest_ship = rand(20);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BERMSLOOP, NPChar), "ship4");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_EMPRESS, NPChar), "ship4");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PINK, NPChar), "ship4");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LUGGER, NPChar), "ship4");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LUGGER_H, NPChar), "ship4");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SPEEDY, NPChar), "ship4");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_SLOOP, NPChar), "ship4");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEOTH_H, NPChar), "ship4");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SLOOP, NPChar), "ship4");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SLOOP_B, NPChar), "ship4");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_NEPTUNUS, NPChar), "ship4");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SOPHIE, NPChar), "ship4");
-
-		iTest_ship = rand(20);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BERMSLOOP, NPChar), "ship5");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_EMPRESS, NPChar), "ship5");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PINK, NPChar), "ship5");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LUGGER, NPChar), "ship5");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LUGGER_H, NPChar), "ship5");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SPEEDY, NPChar), "ship5");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_SLOOP, NPChar), "ship5");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEOTH_H, NPChar), "ship5");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SLOOP, NPChar), "ship5");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SLOOP_B, NPChar), "ship5");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_NEPTUNUS, NPChar), "ship5");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SOPHIE, NPChar), "ship5");
+	
+	string shipyarder_nation=NPChar.nation;//учет нации Lipsar
+	// 0-england 1-france 2-spain 3-holland 4-pirate;
+	int storeArray[SHIP_TYPES_QUANTITY];
+	aref rShip;
+	int j=0;
+	switch (shipyarder_nation)
+	{
+		case "0":
+			for (i=0;i<SHIP_TYPES_QUANTITY;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.england);
+				if (rShip==true)
+				{					
+					storeArray[j]= i;  
+					j++;
+				}
+			}				
+		break;
+		case "1":
+			for (i=0;i<SHIP_TYPES_QUANTITY;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.france);
+				if (rShip==true) 
+				{
+					storeArray[j]= i;
+					j++;
+				}
+			}
+		break;
+		case "2":
+			for ( i=0;i<SHIP_TYPES_QUANTITY;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.spain);
+				if (rShip==true) 
+				{
+					storeArray[j]= i;
+					j++;
+				}
+			}
+		break;
+		case "3":
+			for (i=0;i<SHIP_TYPES_QUANTITY;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.holland);
+				if (rShip==true) 
+				{
+					storeArray[j]= i; 
+					j++;
+				}
+			}
+		break;
+		case "4":
+			for (i=0;i<SHIP_TYPES_QUANTITY;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.pirate);
+				if (rShip==true) 
+				{
+					storeArray[j]= i; 
+					j++;
+				}
+			}
+		break;
 	}
-	if (sti(PChar.rank) > 5) // 5 класс
-    {
-		iTest_ship = rand(20);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACCA, NPChar), "ship6");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BARQUE, NPChar), "ship6");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_POSTILLIONEN, NPChar), "ship6");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SCHOONER, NPChar), "ship6");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_COLONIALSCHOONER, NPChar), "ship6");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_XEBEC, NPChar), "ship6");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BATTLEXEBEC, NPChar), "ship6");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_XEBECLIGHT, NPChar), "ship6");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SCHOONERLIGHT, NPChar), "ship6");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_MIRAGE, NPChar), "ship6");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACRE, NPChar), "ship6");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_ENSLAVER, NPChar), "ship6");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SHNYAVA, NPChar), "ship6");
+	int j1,j2,j3,j4,j5,j6=0;
+	for (i=0;i<j;i++)
+		{
+			j6=i;
+			if (sti(ShipsTypes[storeArray[i]].Class)==6) break;//ищем начало 6 класса
+		}
+	iTest_ship=rand(j6-1);
+	FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship2");
 	
-		iTest_ship = rand(20);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACCA, NPChar), "ship7");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BARQUE, NPChar), "ship7");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_POSTILLIONEN, NPChar), "ship7");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SCHOONER, NPChar), "ship7");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_COLONIALSCHOONER, NPChar), "ship7");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_XEBEC, NPChar), "ship7");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BATTLEXEBEC, NPChar), "ship7");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_XEBECLIGHT, NPChar), "ship7");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SCHOONERLIGHT, NPChar), "ship7");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_MIRAGE, NPChar), "ship7");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACRE, NPChar), "ship7");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_ENSLAVER, NPChar), "ship7");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SHNYAVA, NPChar), "ship7");
+	iTest_ship=rand(j6-1);
+	FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship3");//2 корабля 7 класса
 	
-		iTest_ship = rand(20);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACCA, NPChar), "ship8");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BARQUE, NPChar), "ship8");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_POSTILLIONEN, NPChar), "ship8");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SCHOONER, NPChar), "ship8");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_COLONIALSCHOONER, NPChar), "ship8");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_XEBEC, NPChar), "ship8");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BATTLEXEBEC, NPChar), "ship8");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_XEBECLIGHT, NPChar), "ship8");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SCHOONERLIGHT, NPChar), "ship8");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_MIRAGE, NPChar), "ship8");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACRE, NPChar), "ship8");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_ENSLAVER, NPChar), "ship8");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SHNYAVA, NPChar), "ship8");
+	for (i=j6+1;i<j;i++)
+		{
+			j5=i;
+			if (sti(ShipsTypes[storeArray[i]].Class)==5) break;//ищем начало 5 класса
+		}
+	if (sti(PChar.rank)>1)
+		{
+			iTest_ship=j6+rand(j5-j6-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship4");
+			
+			iTest_ship=j6+rand(j5-j6-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship5");//2 корабля 6 класса
+		}
+	for (i=j5+1;i<j;i++)
+	{
+		j4=i;
+		if (sti(ShipsTypes[storeArray[i]].Class)==4) break;//ищем начало 4 класса
 	}
-	if (sti(PChar.rank) > 10) // 4 класс
-    {
-		iTest_ship = rand(30);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIG, NPChar), "ship9");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIGHEAVY, NPChar), "ship9");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BARKENTINE, NPChar), "ship9");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIGANTINE, NPChar), "ship9");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CASTELF, NPChar), "ship9");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_DERFFLINGER, NPChar), "ship9");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_INTERCEPTOR, NPChar), "ship9");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUT, NPChar), "ship9");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PO_FLEUT50, NPChar), "ship9");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON_L, NPChar), "ship9");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GREYHOUND, NPChar), "ship9");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CORVETTELIGHT, NPChar), "ship9");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PACKET_BRIG, NPChar), "ship9");
-		if (iTest_ship == 14) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PDN, NPChar), "ship9");
-		if (iTest_ship == 15) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_ENTERPRISE, NPChar), "ship9");
-		if (iTest_ship == 16) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACRE_H, NPChar), "ship9");
-		if (iTest_ship == 17) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CARAVEL, NPChar), "ship9");
-		if (iTest_ship == 18) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATEMEDIUM, NPChar), "ship9");
-		if (iTest_ship == 19) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_RAAFRIGATE, NPChar), "ship9");
-		if (iTest_ship == 20) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CARAVEL2, NPChar), "ship9");
-		if (iTest_ship == 21) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUTWAR, NPChar), "ship9");
-		if (iTest_ship == 22) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUTWARSAT, NPChar), "ship9");
-		if (iTest_ship == 23) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEONTRADER, NPChar), "ship9");
-		if (iTest_ship == 24) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LYDIA, NPChar), "ship9");
-	
-		iTest_ship = rand(30);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIG, NPChar), "ship10");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIGHEAVY, NPChar), "ship10");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BARKENTINE, NPChar), "ship10");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIGANTINE, NPChar), "ship10");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CASTELF, NPChar), "ship10");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_DERFFLINGER, NPChar), "ship10");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_INTERCEPTOR, NPChar), "ship10");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUT, NPChar), "ship10");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PO_FLEUT50, NPChar), "ship10");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON_L, NPChar), "ship10");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GREYHOUND, NPChar), "ship10");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CORVETTELIGHT, NPChar), "ship10");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PACKET_BRIG, NPChar), "ship10");
-		if (iTest_ship == 14) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PDN, NPChar), "ship10");
-		if (iTest_ship == 15) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_ENTERPRISE, NPChar), "ship10");
-		if (iTest_ship == 16) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACRE_H, NPChar), "ship10");
-		if (iTest_ship == 17) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CARAVEL, NPChar), "ship10");
-		if (iTest_ship == 18) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATEMEDIUM, NPChar), "ship10");
-		if (iTest_ship == 19) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_RAAFRIGATE, NPChar), "ship10");
-		if (iTest_ship == 20) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CARAVEL2, NPChar), "ship10");
-		if (iTest_ship == 21) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUTWAR, NPChar), "ship10");
-		if (iTest_ship == 22) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUTWARSAT, NPChar), "ship10");
-		if (iTest_ship == 23) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEONTRADER, NPChar), "ship10");
-		if (iTest_ship == 24) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LYDIA, NPChar), "ship10");
-	
-		iTest_ship = rand(30);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIG, NPChar), "ship11");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIGHEAVY, NPChar), "ship11");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BARKENTINE, NPChar), "ship11");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BRIGANTINE, NPChar), "ship11");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CASTELF, NPChar), "ship11");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_DERFFLINGER, NPChar), "ship11");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_INTERCEPTOR, NPChar), "ship11");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUT, NPChar), "ship11");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PO_FLEUT50, NPChar), "ship11");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON_L, NPChar), "ship11");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GREYHOUND, NPChar), "ship11");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CORVETTELIGHT, NPChar), "ship11");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PACKET_BRIG, NPChar), "ship11");
-		if (iTest_ship == 14) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PDN, NPChar), "ship11");
-		if (iTest_ship == 15) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_ENTERPRISE, NPChar), "ship11");
-		if (iTest_ship == 16) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POLACRE_H, NPChar), "ship11");
-		if (iTest_ship == 17) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CARAVEL, NPChar), "ship11");
-		if (iTest_ship == 18) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATEMEDIUM, NPChar), "ship11");
-		if (iTest_ship == 19) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_RAAFRIGATE, NPChar), "ship11");
-		if (iTest_ship == 20) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CARAVEL2, NPChar), "ship11");
-		if (iTest_ship == 21) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUTWAR, NPChar), "ship11");
-		if (iTest_ship == 22) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FLEUTWARSAT, NPChar), "ship11");
-		if (iTest_ship == 23) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEONTRADER, NPChar), "ship11");
-		if (iTest_ship == 24) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LYDIA, NPChar), "ship11");
-    }
-    if (sti(PChar.rank) > 20) // 3 класс
-    {
-		iTest_ship = rand(50);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PINNACE, NPChar), "ship12");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_DUTCHPINNACE, NPChar), "ship12");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PINNACELIGHT, NPChar), "ship12");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_XEBEKVT, NPChar), "ship12");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FELIPE, NPChar), "ship12");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CRIMSONBLOOD, NPChar), "ship12");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CORVETTE, NPChar), "ship12");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATE_l, NPChar), "ship12");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BATTLECORVETTE, NPChar), "ship12");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BLACKANGEL, NPChar), "ship12");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_COASTALFRIGATE, NPChar), "ship12");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_FRIGATE, NPChar), "ship12");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_JAMAICASHIP, NPChar), "ship12");
-		if (iTest_ship == 14) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_THEBLACKPEARL, NPChar), "ship12");
-		if (iTest_ship == 15) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON_H, NPChar), "ship12");
-		if (iTest_ship == 16) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON1, NPChar), "ship12");
-		if (iTest_ship == 17) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LA_MARIANNA, NPChar), "ship12");
-		if (iTest_ship == 18) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PIRATFASTGAL, NPChar), "ship12");
-		if (iTest_ship == 19) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_UNICORN, NPChar), "ship12");
-		if (iTest_ship == 20) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_REVENGE, NPChar), "ship12");
-		if (iTest_ship == 21) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LINEFRIGATE, NPChar), "ship12");
-		if (iTest_ship == 22) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LIGHTFRIGATE, NPChar), "ship12");
-		if (iTest_ship == 23) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BOUSSOLE, NPChar), "ship12");
-		if (iTest_ship == 24) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SURPRISE, NPChar), "ship12");
-		if (iTest_ship == 25) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SALAMANDER, NPChar), "ship12");
-		if (iTest_ship == 26) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATE_SAT, NPChar), "ship12");
-		if (iTest_ship == 27) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BATTLEFRIGATE, NPChar), "ship12");
-		if (iTest_ship == 28) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_NIGHTMARE, NPChar), "ship12");
-		if (iTest_ship == 29) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_MORDAUNT, NPChar), "ship12");
-		if (iTest_ship == 30) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATE, NPChar), "ship12");
-		if (iTest_ship == 31) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_AMSTERDAM, NPChar), "ship12");
-		if (iTest_ship == 32) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CARRACA, NPChar), "ship12");
-	
-		iTest_ship = rand(50);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PINNACE, NPChar), "ship13");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_DUTCHPINNACE, NPChar), "ship13");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PINNACELIGHT, NPChar), "ship13");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_XEBEKVT, NPChar), "ship13");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FELIPE, NPChar), "ship13");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CRIMSONBLOOD, NPChar), "ship13");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CORVETTE, NPChar), "ship13");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATE_l, NPChar), "ship13");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BATTLECORVETTE, NPChar), "ship13");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BLACKANGEL, NPChar), "ship13");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_COASTALFRIGATE, NPChar), "ship13");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_FRIGATE, NPChar), "ship13");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_JAMAICASHIP, NPChar), "ship13");
-		if (iTest_ship == 14) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_THEBLACKPEARL, NPChar), "ship13");
-		if (iTest_ship == 15) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON_H, NPChar), "ship13");
-		if (iTest_ship == 16) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON1, NPChar), "ship13");
-		if (iTest_ship == 17) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LA_MARIANNA, NPChar), "ship13");
-		if (iTest_ship == 18) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_PIRATFASTGAL, NPChar), "ship13");
-		if (iTest_ship == 19) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_UNICORN, NPChar), "ship13");
-		if (iTest_ship == 20) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_REVENGE, NPChar), "ship13");
-		if (iTest_ship == 21) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LINEFRIGATE, NPChar), "ship13");
-		if (iTest_ship == 22) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LIGHTFRIGATE, NPChar), "ship13");
-		if (iTest_ship == 23) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BOUSSOLE, NPChar), "ship13");
-		if (iTest_ship == 24) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SURPRISE, NPChar), "ship13");
-		if (iTest_ship == 25) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SALAMANDER, NPChar), "ship13");
-		if (iTest_ship == 26) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATE_SAT, NPChar), "ship13");
-		if (iTest_ship == 27) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BATTLEFRIGATE, NPChar), "ship13");
-		if (iTest_ship == 28) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_NIGHTMARE, NPChar), "ship13");
-		if (iTest_ship == 29) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_MORDAUNT, NPChar), "ship13");
-		if (iTest_ship == 30) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATE, NPChar), "ship13");
-		if (iTest_ship == 31) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_AMSTERDAM, NPChar), "ship13");
-		if (iTest_ship == 32) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CARRACA, NPChar), "ship13");
-    }
-    
-    if (sti(PChar.rank) > 25) // 2 класс
-    {	
-		iTest_ship = rand(100);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_GALEON50, NPChar), "ship14");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FASTFRIGATE, NPChar), "ship14");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_ESSEX, NPChar), "ship14");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FRIGATE_H, NPChar), "ship14");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_WARGALLEON2, NPChar), "ship14");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_NL_PINNACEOFWAR47, NPChar), "ship14");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_HOLLGALEON_H, NPChar), "ship14");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FEARLESS, NPChar), "ship14");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LINESHIP, NPChar), "ship14");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_NL_FWZP, NPChar), "ship14");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_CONSTITUTION, NPChar), "ship14");
-		if (iTest_ship == 12) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_OXFORD, NPChar), "ship14");
-		if (iTest_ship == 13) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_DUTCHLINESHIP, NPChar), "ship14");
-		if (iTest_ship == 14) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_DUTCHSHIP, NPChar), "ship14");
-		if (iTest_ship == 15) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_NL_CONVOISHIP, NPChar), "ship14");
-		if (iTest_ship == 16) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_COURONNE, NPChar), "ship14");
-		if (iTest_ship == 17) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_ALEXIS, NPChar), "ship14");
-		if (iTest_ship == 18) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LINESHIPHEAVY, NPChar), "ship14");
-		if (iTest_ship == 19) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_WARSHIP, NPChar), "ship14");
-		if (iTest_ship == 20) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_HEAVYWARSHIP, NPChar), "ship14");
-		if (iTest_ship == 21) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_HEAVYLINESHIP, NPChar), "ship14");
-    }
-	
-	if (sti(PChar.rank) > 30) // 1 класс
-    {	
-		iTest_ship = rand(150);
-		if (iTest_ship == 1) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_POSEIDON, NPChar), "ship15");
-		if (iTest_ship == 2) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_HMS_CENTURION, NPChar), "ship15");
-		if (iTest_ship == 3) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_RESOLUTION, NPChar), "ship15");
-		if (iTest_ship == 4) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_FR_SUPERIORWARSHIP1, NPChar), "ship15");
-		if (iTest_ship == 5) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LINK, NPChar), "ship15");
-		if (iTest_ship == 6) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SUPERBE, NPChar), "ship15");
-		if (iTest_ship == 7) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BATTLESHIP, NPChar), "ship15");
-		if (iTest_ship == 8) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LINK2, NPChar), "ship15");
-		if (iTest_ship == 9) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_BELLONA, NPChar), "ship15");
-		if (iTest_ship == 10) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_LINEARSHIP, NPChar), "ship15");
-		if (iTest_ship == 11) FillShipParamShipyard(NPChar, GenerateStoreShipExt(SHIP_SHARK, NPChar), "ship15");
-    }
+	if (sti(PChar.rank)>5)
+		{
+			iTest_ship=j5+rand(j4-j5-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship6");
+			
+			iTest_ship=j5+rand(j4-j5-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship7");
+			
+			iTest_ship=j5+rand(j4-j5-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship8");//3 корабля 5 класса
+		}
+		
+	for (i=j4+1;i<j;i++)
+		{
+			j3=i;
+			if (sti(ShipsTypes[storeArray[i]].Class)==3) break;//ищем начало 3 класса
+		}
+	if (sti(PChar.rank)>10)
+		{
+			iTest_ship=j4+rand(j3-j4-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship9");
+			
+			iTest_ship=j4+rand(j3-j4-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship10");
+			
+			iTest_ship=j4+rand(j3-j4-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship11");//3 корабля 4 класса
+		}
+	for (i=j3+1;i<j;i++)
+		{
+			j2=i;
+			if (sti(ShipsTypes[storeArray[i]].Class)==2) break;//ищем начало 2 класса
+		}
+	if (sti(PChar.rank)>20)
+		{
+			iTest_ship=j3+rand(j2-j3-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship12");
+			
+			iTest_ship=j3+rand(j2-j3-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship13");//2 корабля 3 класса
+		}
+	for (i=j2+1;i<j;i++)
+		{
+			j1=i;
+			if (sti(ShipsTypes[storeArray[i]].Class)==1) break;//ищем начало 1 класса
+		}		
+	if (sti(PChar.rank)>25)
+		{
+			iTest_ship=j2+rand(j1-j2-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship14");//корабль 2 класса
+		}
+	if (sti(PChar.rank)>30)
+		{
+			iTest_ship=j1+rand(j-j1-1);
+			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship15");//корабль 1 класса
+		}
 }
 
 void FreeShipFromShipyard(ref NPChar)

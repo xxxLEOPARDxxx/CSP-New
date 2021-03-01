@@ -617,19 +617,19 @@ void WhisperChinaman(string qName)
 void WhisperChinamanCapSpeaks(string qName)
 {
 	sld = GetCharacter(NPC_GenerateCharacter("W_Chinaman", "PGG_Longway", "man", "man", 5, PIRATE, -1, false));
-	
+	sld.greeting = "GR_longway";
+	//PlayVoice("Voice\Russian\Longway-01.wav");
 	LAi_SetActorTypeNoGroup(sld);
 	sld.name 	= "Лонг";
     sld.lastname = "Вэй";
 	sld.Dialog.Filename = "Quest\WhisperLine\Whisper_cabin_dialog.c";
-	//sld.Dialog.CurrentNode = "ChinamanSpeak";
     ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "rld", "aloc1");
 	
 	sld = GetCharacter(NPC_GenerateCharacter("W_ChinamanGuard", "pirate_10", "man", "man", 5, PIRATE, 0, false));
 	LAi_SetActorTypeNoGroup(sld);
 	sld.name 	= "Хуан";
     sld.lastname = "";
-	sld.greeting = "Gr_questOfficer";
+	sld.greeting = "Gr_Officer";
 	GiveItem2Character(sld, "blade9");
 	EquipCharacterByItem(sld, "blade9");
     ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "rld", "loc1");	

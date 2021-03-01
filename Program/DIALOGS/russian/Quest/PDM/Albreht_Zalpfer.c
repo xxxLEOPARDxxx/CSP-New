@@ -23,6 +23,7 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			link.l2 = "Полегче, полегче. Кто вы такой?";
 			link.l2.go = "Next_1";
+			PlaySound("Kopcapkz\Voices\PDM\Albrecht Zalpfer.wav"); 
 		break;
 			
 		case "Next_1":
@@ -135,7 +136,9 @@ void ProcessDialogEvent()
 		
 		case "Finish":
 			Log_TestInfo("Получена книга от Альбрехта Цальпфера.");
+			PlaySound("Interface\important_item.wav");
 			GiveItem2Character(PChar, "book3_13");
+			ChangeCharacterReputation(pchar, 3);
 			LAi_SetCitizenType(npchar);
 			Pchar.quest.PDM_Albreht_Vihod.win_condition.l1           = "ExitFromLocation";
         	Pchar.quest.PDM_Albreht_Vihod.win_condition.l1.location  = "PortRoyal_town";

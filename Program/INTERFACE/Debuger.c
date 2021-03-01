@@ -669,8 +669,6 @@ void CalculateInfoDataF6()
 	// mc.Ship.Type = GenerateShipExt(SHIP_XebekVML, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_BRIGQEEN, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_BRIGSW, true, mc);
-	// mc.Ship.Type = GenerateShipExt(SHIP_CORVETTE_QUEST, true, mc);
-	// mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_ARABELLA, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_FRIGATEQUEEN, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_FLYINGDUTCHMAN, true, mc);
@@ -1508,6 +1506,7 @@ void CalculateInfoDataF31()
 	mc.Ship.Type = GenerateShipExt(SHIP_ARABELLA, true, mc);
 //	mc.Ship.Type = GenerateShipExt(SHIP_FRIGATEQUEEN, true, mc);
 	SetBaseShipData(mc);
+	int iShip = pchar.ship.type;
 	mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
 //	mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
 	SetCrewQuantityFull(mc);
@@ -1901,11 +1900,37 @@ void CalculateInfoDataF39()
 	Statistic_AddValue(PChar, "Cheats.F39", 1);
 }
 
-string descF40 = "Нет назначений";
+string descF40 = "Выдать сверхбыстрый корабль";
 void CalculateInfoDataF40()
 {
 	totalInfo = descF40;
- 	
+ 	ref mc;
+	mc = GetMainCharacter();
+//	mc.Ship.Type = GenerateShipExt(SHIP_CORVETTE_QUEST, true, mc);
+	mc.Ship.Type = GenerateShipExt(SHIP_XebekVML, true, mc);
+//	mc.Ship.Type = GenerateShipExt(SHIP_FRIGATEQUEEN, true, mc);
+	SetBaseShipData(mc);
+	int iShip = pchar.ship.type;
+	mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
+	SetCrewQuantityFull(mc);
+	AddCrewMorale(mc, 100);
+	ChangeCrewExp(mc, "Sailors", 100);
+	ChangeCrewExp(mc, "Cannoners", 100);
+	ChangeCrewExp(mc, "Soldiers", 100);
+
+	SetCharacterGoods(mc, GOOD_BALLS, 1000);
+	SetCharacterGoods(mc, GOOD_GRAPES, 1000);
+	SetCharacterGoods(mc, GOOD_KNIPPELS, 1000);
+	SetCharacterGoods(mc, GOOD_BOMBS, 1000);;
+	SetCharacterGoods(mc, GOOD_FOOD, 2000);
+	SetCharacterGoods(mc, GOOD_MEDICAMENT, 1000);
+	SetCharacterGoods(mc, GOOD_POWDER, 2000);
+	SetCharacterGoods(mc, GOOD_WEAPON, 300);
+	ref refBaseShip = GetRealShip(iShip);
+	refBaseShip.WindAgainstSpeed = 30.0;
+	refBaseShip.SpeedRate = 60.0;
+	refBaseShip.TurnRate = 90.0;
+	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
 	
 	SetFormatedText("INFO_TEXT", totalInfo);

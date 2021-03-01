@@ -154,7 +154,7 @@ void ProcessDialogEvent()
 		case "ChinamanOff":
 			DialogExit();
 			npchar.Dialog.Filename = "Enc_Officer_dialog.c";
-			npchar.greeting = "Gr_questOfficer";
+			npchar.greeting = "GR_longway";
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			npchar.OfficerWantToGo.DontGo = true; //не пытаться уйти
 			sld.HalfImmortal = true;  // Контузия
