@@ -48,7 +48,6 @@ void eChangeDayNight()
 		HideCitizens();
 	}
 	RecalculateJumpTable();*/
-	// дл€ вмл это не нужно, тк врем€ обрабатываетс€ он лайн
 }
 
 //navy -->
