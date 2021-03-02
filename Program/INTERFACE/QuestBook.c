@@ -490,6 +490,7 @@ void ShowPGGInfo()
 	}
 	SetNewPicture("NATION_PORT_PICTURE", portpic);
 	SetShipOTHERTable("TABLE_OTHERS",chrefspp);
+	SetShipQualityTable(chrefspp, "BAR_HP", "BAR_Mast", "BAR_Speed", "BAR_TurnRate", "BAR_WAS", "BAR_Capacity", "BAR_Crew");
 	SetSPECIALMiniTable("TABLE_SMALLSKILL", chrefspp);
 	SetOTHERMiniTable("TABLE_SMALLOTHER", chrefspp);
 	SetFormatedText("OFFICER_NAME", GetFullName(chrefspp));

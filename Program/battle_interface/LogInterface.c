@@ -96,6 +96,9 @@ void CreateILogAndActions(int loadType)
 void Log_SetActiveAction(string actionName)
 {
 	if( ILogAndActions.type=="sea" && g_ActiveActionName!=actionName ) {
+		// LDH 13Feb17 clear MoorName when leave moor location
+		if (actionName != "Moor")
+			pchar.MoorName = " ";
 		RefreshBattleInterface();
 	}
 	g_ActiveActionName = actionName;

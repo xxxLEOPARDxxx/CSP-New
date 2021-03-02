@@ -559,6 +559,15 @@ void SetButtonsState()
 	{
 		int iCharacter = sti(GameInterface.CHARACTERS_SCROLL.(attributeName).character);
 		xi_refCharacter = &characters[iCharacter];
+		switch (xi_refCharacter.sex)
+		{
+			case "man": SetNewPicture("SETUP_BIG_PICTURE", "interfaces\sith\CharEquip_Man.tga");
+			break;
+			case "woman": SetNewPicture("SETUP_BIG_PICTURE", "interfaces\sith\CharEquip_Woman.tga");
+			break;
+			case "skeleton": SetNewPicture("SETUP_BIG_PICTURE", "interfaces\sith\CharEquip_Skeleton.tga");
+			break;
+		}
 		SetVariable();
 	}
 	else

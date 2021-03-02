@@ -1797,6 +1797,18 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
 			refChar.Dialog.CurrentNode = "zpqCapitain"; //даем абордажную ноду
 		}
+		if(refChar.CaptanId == "AntonioDeSouza")
+		{
+			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+			refChar.Dialog.FileName = "Quest\WhisperLine\Whisper_cabin_dialog.c";
+			refChar.Dialog.CurrentNode = "DeSouza"; //даем абордажную ноду
+		}
+		if(refChar.CaptanId == "wl_Pirate_Cap")
+		{
+			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+			refChar.Dialog.FileName = "Quest\WhisperLine\Whisper_cabin_dialog.c";
+			refChar.Dialog.CurrentNode = "WarDogCap"; //даем абордажную ноду
+		}
 		if(refChar.CaptanId == "ShipWreck_BadPirate")
 		{
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин

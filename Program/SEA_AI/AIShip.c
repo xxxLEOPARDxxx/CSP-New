@@ -3267,10 +3267,43 @@ void Ship_CheckMainCharacter()
 					sIslandID = rIsland.id;
 					makearef(arIslandReload, rIsland.reload);
 					sIslandLocator = rIsland.reload.(sLocatorName).name;
+					
+					// LDH 24Jan17 - display mooring location name -->
+                    int nFile = LanguageOpenFile("LocLables.txt");
+					string MoorName = LanguageConvertString(nFile, rIsland.reload.(sLocatorName).label);
+                    LanguageCloseFile(nFile);
+					if (!CheckAttribute(pchar, "MoorName")) pchar.MoorName = " ";
+					if (MoorName != pchar.MoorName)
+                    {
+						// LDH 14Feb17 rewrite
+						// LDH 26Jan17 - play anchor sound if moor location changes due to overlapping locations
+						if (pchar.MoorName != " " && MoorName != " ")
+						{
+							boal_soundOn = false;		// make sure it's only played once
+							PlaySound("interface\_Yakordrop.wav");
+						}
+						pchar.MoorName = MoorName;
+                    }
+					// LDH 24Jan17 <--
+					
 					break;
 				}
 			}
+			// LDH 12Feb17 display moor name in battle interface -->
+			// If we don't do this, location does not update
+			BattleInterface.textinfo.Location.text = GetBILocationName();
+			RefreshBattleInterface();
+			// LDH 12Feb17 <--
 		}
+	}
+	else
+	{
+		// LDH 13Feb17 display region name in battle interface -->
+		pchar.Moorname = " ";
+		// If we don't do this, location does not update
+		BattleInterface.textinfo.Location.text = GetBILocationName();
+		RefreshBattleInterface();
+		// LDH 13Feb17 <--
 	}
 
 	// disable any abordage if storm

@@ -180,8 +180,8 @@ void WhrCreateSeaEnvironment()
 	//	Sea.Harmonics.(sTemp) = GetAttributeValue(aHarmonic);
 	//}
 
-	string sPreset = WhrGetSeaPresetFromWind(fWeatherSpeed);
-    WhrSetSeaPreset(iCurWeatherNum, sPreset);
+	//string sPreset = WhrGetSeaPresetFromWind(fWeatherSpeed);
+   // WhrSetSeaPreset(iCurWeatherNum, sPreset);
 	// Advanced Sea initialize
 	Sea.Sea2.WaterColor = Whr_GetColor(aSea2, "WaterColor");
 	Sea.Sea2.SkyColor = Whr_GetColor(aSea2, "SkyColor");

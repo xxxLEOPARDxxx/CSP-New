@@ -167,6 +167,19 @@ void ProcessDialogEvent()
 				}
 				// <-- Квестовый генератор священника. Квест №1.
 			
+				////////////////
+				//Линейка Виспер
+				////////////////
+				if(startherotype == 2 && CheckAttribute(pchar, "Whisper.FindDesouza") && !CheckAttribute(pchar,"Whisper.Contraband") && (sti(pchar.money) >= 10000) && pchar.rank >=10 && npchar.nation!=3)
+				{
+					dialog.Text = "Капитан, не стоит разгуливать в таком виде. Я слыхал инквизиция рыщет в поисках девушки с таким же цветом волос. Тебе бы прикрыться, что ли.";
+					DeleteAttribute(pchar, "Whisper.FindDesouza")
+					Link.l1 = "Это от кого ты такое услышал?";
+					Link.l1.go = "w_find_desouza";
+					break;
+				}
+				// <-- Линейка Виспер
+				
 				dialog.Text = LinkRandPhrase("Эй, " + GetAddress_Form(NPChar) + " " + PChar.name + "! " + TimeGreeting() + ".",
                                     "О, какие у нас гости! Рад видеть вас, " + GetAddress_Form(NPChar) + " " + PChar.name + ".",
                                     "Хорошо, что вы заглянули ко мне, " + GetFullName(pchar) + ". Каков будет сегодня ваш заказ?");
@@ -1578,6 +1591,37 @@ void ProcessDialogEvent()
 		pchar.questTemp.Headhunter = "hunt_carlos_fight";
 		break;
 		//ОЗГ
+		
+		//Виспер
+		case "w_find_desouza":
+			dialog.text = "Да заходили сюда одни типы, вопросы задавали. Они конечно же не сказали, что на инквизицию работают, но меня не проведешь. Я сразу приметил клеймо в форме распятия у одного на запястье. Такие инквизиторы ставят бывшим преступникам, когда набирают в свой орден.";
+			link.l1 = "А ты очень проницателен, как для простого трактирщика. Но почему ты решил мне рассказать про тех ребят, а не им про меня?";
+			link.l1.go = "w_find_desouza_1";
+		break;
+		case "w_find_desouza_1":
+			dialog.text = "Ну во первых я не очень люблю инквизиторов, а во вторых они уже давно уплыли. Ты, с другой стороны, можешь быть заинтересована, куда.";
+			link.l1 = "И куда же?";
+			link.l1.go = "w_find_desouza_2";
+		break;
+		case "w_find_desouza_2":
+			dialog.text = "А вот теперь мы подошли к главной причине, почему я тебе все это рассказывал. Ясное дело, такая информация денег стоит. Десять тысяч.";
+			link.l1 = "Получи. Ну давай, говори, не томи.";
+			link.l1.go = "w_find_desouza_3";
+		break;
+		case "w_find_desouza_3":
+			AddMoneyToCharacter(pchar, -10000);
+			dialog.text = "О, совсем другое дело. А направились они в голландский порт.";
+			link.l1 = "А конкретней?";
+			link.l1.go = "w_find_desouza_4";
+		break;
+		case "w_find_desouza_4":
+			dialog.text = "Конкретней не знаю, но у голландцев не так уж много портов на Карибах, наверняка найдешь.";
+			AddQuestRecord("WhisperQuestline", "4");
+			pchar.Whisper.FindDesouzaHol = true;
+			link.l1 = "Ладно, прощай.";
+			link.l1.go = "exit";
+		break;
+		//Виспер
 	}
 }
 

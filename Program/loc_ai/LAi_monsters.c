@@ -839,7 +839,6 @@ bool LAi_CreateEncounters(ref location)
 		// Pirates on a uninhabited island
 		case 6:
 			// Если reload_cur_island_index > -1 значит, ГГ пришел с моря
-			if(num <= 0) return false;
 			if(rand(4) == 1 && CheckAttribute(location, "onUninhabitedIsland") && !CheckAttribute(location, "deadlocked") && !CheckAttribute(PChar, "GenQuest.PiratesOnUninhabited") && !CheckAttribute(pchar, "GenQuest.ShipWreck") && reload_cur_island_index > -1)
 			{
 				model[0] = "pirate_1";
@@ -873,6 +872,8 @@ bool LAi_CreateEncounters(ref location)
 				
 				num = rand(10) + makeint(MOD_SKILL_ENEMY_RATE / 3) + dRand(5); // Кол-во пиратов
 				PChar.GenQuest.PiratesOnUninhabited.PiratesQty = num;
+				
+				if(num <= 0) return false;
 				
 				while(i < num)
 				{

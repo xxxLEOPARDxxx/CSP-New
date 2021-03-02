@@ -974,6 +974,10 @@ void QuestComplete(string sQuestName, string qname)
 				CloseQuestHeader("WhisperContraband");
 			}
 		break;
+		//Спавн Пса Войны
+		case "Whisper_WarDog":
+			WhisperWarDogSeaBattle();
+		break;
         ////////////////////////////////////////////////////////////////////////
 		//  Служебный квест контрабандистов - ограничение по времени
 		////////////////////////////////////////////////////////////////////////

@@ -1928,7 +1928,7 @@ void CalculateInfoDataF40()
 	SetCharacterGoods(mc, GOOD_WEAPON, 300);
 	ref refBaseShip = GetRealShip(iShip);
 	refBaseShip.WindAgainstSpeed = 30.0;
-	refBaseShip.SpeedRate = 60.0;
+	refBaseShip.SpeedRate = 200.0;
 	refBaseShip.TurnRate = 90.0;
 	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";

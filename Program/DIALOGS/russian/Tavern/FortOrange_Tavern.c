@@ -14,6 +14,14 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                 link.l1 = "У вас в городе не появлялся такой Франсуа Гонтьер? Мне он очень нужен.";
                 link.l1.go = "Jamaica_ratF_1";
             }
+			//виспер
+			if(CheckAttribute(pchar, "Whisper.FindDesouzaHol"))
+			{
+				link.l1 = "Послушай, к тебе тут случаем не подходили ребята подозрительной наружности? У них еще должно быть клеймо в форме распятия на руке.";
+				link.l1.go = "FindDesouzaHol";
+				break;
+			}
+			//виспер
 		break;
 
         case "DefenceOrange": //Голландская линейка, квест №4, защита форта Оранж.
@@ -48,6 +56,12 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddQuestRecord("Slavetrader", "21_4");
 			pchar.questTemp.Slavetrader = "FindRatJamaica_H";
 		break;
+		case "FindDesouzaHol":
+    		dialog.text = "Нет, таких точно здесь не видел.";
+    		link.l1 = "Ясно, спасибо.";
+			pchar.Whisper.FindDesouzaHolWaitress = true;
+    		link.l1.go = "exit";
+ 		break;
 
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

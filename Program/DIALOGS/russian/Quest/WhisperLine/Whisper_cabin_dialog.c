@@ -104,6 +104,100 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "First time";
 		break;
 
+		case "WarDogCap":
+			dialog.Text = "Снова ты? Я думал ты давно уже сгинула в стенах инквизиции.";
+			Link.l1 = "От меня так просто не избавиться.";
+			Link.l1.go = "WarDogCap_1";
+		break;
+		case "WarDogCap_1":
+			dialog.Text = "Как ты меня вообще нашла?";
+			Link.l1 = "Твой дружок-инквизитор, Антониу де Соуза, сам устроил эту западню. Твои недавние постуки очень разозлили испанскую корону, де Соуза хотел лично тебя здесь поймать, но я вежливо попросила оказать эту честь мне.";
+			Link.l1.go = "WarDogCap_2";
+		break;
+		case "WarDogCap_1":
+			dialog.Text = "Какого черта тебе от меня нужно?";
+			Link.l1 = "У тебя есть кое-что мое.";
+			Link.l1.go = "WarDogCap_2";
+		break;
+		case "WarDogCap_2":
+			dialog.Text = "Ты про свой пистоль? Могу отдать, если позволишь мне уйти.";
+			Link.l1 = "Не только пистоль, все мое снаряжение, включая устройство, с помощью которого я телепортировалась сюда.";
+			Link.l1.go = "WarDogCap_3";
+		break;
+		case "WarDogCap_3":
+			dialog.Text = "Чего? А, ты про ту бесполезную железку? Так я ее выкинул давно за борт.";
+			Link.l1 = "Что ты сделал, тупица?!";
+			Link.l1.go = "WarDogCap_4";
+		break;
+		case "WarDogCap_4":
+			dialog.Text = "Я не позволю бабе так с собой разговаривать!";
+			Link.l1 = "Да я тебя закопаю, сволочь!";
+			Link.l1.go = "WarDogCap_fight";
+		break;
+		case "WarDogCap_fight":
+			AddQuestRecord("WhisperQuestline", "8");
+			CloseQuestHeader("WhisperQuestline");
+			LAi_SetCurHPMax(npchar);
+			QuestAboardCabinDialogExitWithBattle(""); 
+			pchar.Whisper.NanoCostume = true;
+            DialogExit();
+			AddDialogExitQuest("MainHeroFightModeOn");
+		break;
+		case "DeSouza":
+			dialog.Text = "Надо же, какой сюрприз. А я везде тебя искал, Виспер.";
+			Link.l1 = "Мне надоело ждать, когда же ты меня найдешь, так что я сама к тебе пришла.";
+			Link.l1.go = "DeSouza_1";
+		break;
+		case "DeSouza_1":
+			dialog.Text = "Храбро, но глупо. Ты хоть представляешь, что я сейчас с тобой сделаю?";
+			Link.l1 = "Сомневаюсь, что тебе хватит на это сил, ты еле на ногах стоишь. Могу предложить тебе передышку. Давай немного поговорим.";
+			Link.l1.go = "DeSouza_2";
+		break;
+		case "DeSouza_2":
+			dialog.Text = "И о чем же ты хочешь говорить?";
+			Link.l1 = "Я бы хотела знать, где находится "+GetFullName(characterFromId("wl_Pirate_Cap"))+"?";
+			Link.l1.go = "DeSouza_3";
+		break;
+		case "DeSouza_3":
+			dialog.Text = "Ха! Я бы тоже хотел это знать. До недавних пор он был образцовым капером, однако в последнее время почувствовал вседозволенность. Ему удалось раздобыть корвет с  характеристиками, равных которым на архипелаге сейчас нет. Он перестал появляться у генерал-губернатора, а его корабль, по слухам, был замечен за грабежами других кораблей Испании. Такое недопустимо, так что генерал-губернатор попросил меня найти его лично и покарать. Этим я и занимаюсь сейчас, а заодно отлавливаю других врагов короны, вроде тебя.";
+			Link.l1 = "И что, нет совсем никаких зацепок, где он может быть?";
+			Link.l1.go = "DeSouza_4";
+		break;
+		case "DeSouza_4":
+			dialog.Text = "Есть одна, но прежде чем я ее назову, позволь и мне задать вопрос. Правда ли ты из будущего?";
+			Link.l1 = "Да.";
+			Link.l1.go = "DeSouza_5";
+		break;
+		case "DeSouza_5":
+			dialog.Text = "Боже, теперь я вижу что ты не врешь. Ответь же мне, помнит ли кто-то в будущем обо мне и моем ордене?";
+			Link.l1 = "В будущем люди стараются забыть о вашем безумном ордене. Если и вспоминают, то только в негативном ключе, как о рассаднике жестокости и невежества. Все, чего вы добились - множество смертей и разрушенных жизней.";
+			Link.l1.go = "DeSouza_6";
+		break;
+		case "DeSouza_6":
+			dialog.Text = "За такие слова, я тебя\nИ все же, доля правды в этом есть. Стараясь выполнить волю господа я немало согрешил. Однако я не считаю, что поступал неправильно, иногда грех - это вынужденная мера, чтобы нести добро\nК черту людей! Только Господу дано меня судить!";
+			Link.l1 = "Я удовлетворила твое любопытство. Твой черед.";
+			Link.l1.go = "DeSouza_7";
+		break;
+		case "DeSouza_7":
+			AddQuestRecord("WhisperQuestline", "7");
+			AddQuestUserData("WhisperQuestline", "sWhCapName", GetFullName(characterFromId("wl_Pirate_Cap")));
+			SetTimerCondition("Whisper_WarDog", 0, 0, 30, false);
+			dialog.Text = "Я заплатил одной бордельной девице, которую часто посещает "+GetFullName(characterFromId("wl_Pirate_Cap"))+", чтобы она пустила ему в ухо один слух, якобы в бухте на Терксе спрятан клад. Он жадный человек, наверняка должен клюнуть. По моим примерным подсчетам, если все сработало, он должен объявиться там через месяц.";
+			Link.l1 = "Коварный и жестокий план, как раз в стиле инквизиции.";
+			Link.l1.go = "DeSouza_8";
+		break;
+		case "DeSouza_8":
+			dialog.Text = "Пускай же Господь решит, кому из нас двоих суждено его перехватить, а кому отправиться сегодня на суд Божий.";
+			Link.l1 = "Аминь.";
+			Link.l1.go = "DeSouza_fight";
+		break;
+		case "DeSouza_fight":
+			LAi_SetCurHPMax(npchar);
+			QuestAboardCabinDialogExitWithBattle("");
+			pchar.Whisper.DeSouzaTalked = true;
+            DialogExit();
+			AddDialogExitQuest("MainHeroFightModeOn");
+		break;
 		case "ChinamanSpeak_1":
 			dialog.Text = "Лонг Вэй.";
 			Link.l1 = "Вижу, далековато тебя забросило от дома. Ты ведь из Японии? Знаешь, у меня когда-то был японский меч...";

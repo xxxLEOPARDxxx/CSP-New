@@ -806,13 +806,13 @@ void ProcessDialogEvent()
 			for(i = 0; i < sti(pchar.GenQuest.ShipWreck.Qty); i++)
 			{
 				rChar = CharacterFromID("ShipWreck_" + i);
-				LAi_SetImmortal(rChar, false);
 				if(CheckPassengerInCharacter(pchar, "ShipWreck_" + i)) 
 				{
 					RemovePassenger(pchar, rChar);
 				}
 				LAi_SetWarriorType(rChar);
 				LAi_group_MoveCharacter(rChar, "ShipWreckGroup");
+				LAi_SetImmortal(rChar, false);
 			}
 
 			LAi_Group_SetRelation("ShipWreckGroup", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
@@ -4965,9 +4965,12 @@ void ProcessDialogEvent()
 		break;
 		
 		case "PiratesOnUninhabited_2":
-			for(i = 0; i < sti(PChar.GenQuest.PiratesOnUninhabited.PiratesQty); i++)
+			iTemp=sti(PChar.GenQuest.PiratesOnUninhabited.PiratesQty);
+			sTemp="PirateOnUninhabited_";
+			for(i = 0; i < iTemp; i++)
 			{
-				LAi_SetImmortal(CharacterFromID("PirateOnUninhabited_" + i), false);
+				rChar=CharacterFromID(sTemp + i);
+				LAi_SetImmortal(rChar, false);
 			}
 			
 			LAi_Group_SetRelation("PiratesOnUninhabitedGroup", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);

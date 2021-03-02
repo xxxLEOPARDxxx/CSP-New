@@ -19,6 +19,7 @@
 #define BI_ICONS_TEXTURE_SHIP1		1
 #define BI_ICONS_TEXTURE_ABILITY	2
 
+#define SAILDIR_POS_DIF             10000.0							   
 #define FLAG_ENSIGN    "E"
 #define FLAG_SPECIAL   "S"
 #define FLAG_NONE      "N"
@@ -427,6 +428,10 @@ ref BI_CommandEndChecking()
 	case "BI_SailAway":
 		BI_retComValue = 0;
 		break;
+    case "BI_SailDir":
+	    BI_SailDirIconSet();
+		BI_retComValue = BI_COMMODE_USER_ICONS;
+		break;
 	case "BI_HeaveToDrift":
 		BI_retComValue = 0;
 		break;
@@ -485,6 +490,37 @@ ref BI_CommandEndChecking()
 	}
 
 	return &BI_retComValue;
+}
+void BI_SailDirIconSet()
+{
+    BattleInterface.UserIcons.ui1.enable = false;
+    BattleInterface.UserIcons.ui2.enable = false;
+    BattleInterface.UserIcons.ui3.enable = false;
+
+    BattleInterface.UserIcons.ui4.enable = true;
+    BattleInterface.UserIcons.ui5.enable = true;
+    BattleInterface.UserIcons.ui6.enable = true;
+    BattleInterface.UserIcons.ui7.enable = true;
+    BattleInterface.UserIcons.ui8.enable = true;
+    BattleInterface.UserIcons.ui9.enable = true;
+    BattleInterface.UserIcons.ui10.enable = true;
+    BattleInterface.UserIcons.ui11.enable = true;
+}
+
+void BI_SailSpeedIconSet()
+{
+    BattleInterface.UserIcons.ui1.enable = true;
+    BattleInterface.UserIcons.ui2.enable = true;
+    BattleInterface.UserIcons.ui3.enable = true;
+
+    BattleInterface.UserIcons.ui4.enable = false;
+    BattleInterface.UserIcons.ui5.enable = false;
+    BattleInterface.UserIcons.ui6.enable = false;
+    BattleInterface.UserIcons.ui7.enable = false;
+    BattleInterface.UserIcons.ui8.enable = false;
+    BattleInterface.UserIcons.ui9.enable = false;
+    BattleInterface.UserIcons.ui10.enable = false;
+    BattleInterface.UserIcons.ui11.enable = false;
 }
 
 void BI_LaunchCommand()
@@ -697,6 +733,54 @@ void BI_LaunchCommand()
 		break;
 		}
 		break;
+	case "BI_SailDir":
+        float posX = stf(Characters[charIdx].Ship.Pos.x);
+        float posZ = stf(Characters[charIdx].Ship.Pos.z);
+        float fAng;
+        switch(locName)
+		{
+			case "dir_n":
+				posZ += SAILDIR_POS_DIF;
+				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+			break;
+			case "dir_ne":
+				fAng = PIm2 * 0.125;
+				posX = posX + sin(fAng) * SAILDIR_POS_DIF;
+				posZ = posZ + cos(fAng) * SAILDIR_POS_DIF;
+				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+			break;
+			case "dir_e":
+				posX += SAILDIR_POS_DIF;
+				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+			break;
+			case "dir_se":
+				fAng = PIm2 * 0.375;
+				posX = posX + sin(fAng) * SAILDIR_POS_DIF;
+				posZ = posZ + cos(fAng) * SAILDIR_POS_DIF;
+				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+			break;
+			case "dir_s":
+				posZ -= SAILDIR_POS_DIF;
+				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+			break;
+			case "dir_sw":
+				fAng = PIm2 * 0.625;
+				posX = posX + sin(fAng) * SAILDIR_POS_DIF;
+				posZ = posZ + cos(fAng) * SAILDIR_POS_DIF;
+				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+			break;
+			case "dir_w":
+				posX -= SAILDIR_POS_DIF;
+				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+			break;
+			case "dir_nw":
+				fAng = PIm2 * 0.875;
+				posX = posX + sin(fAng) * SAILDIR_POS_DIF;
+				posZ = posZ + cos(fAng) * SAILDIR_POS_DIF;
+				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+			break;
+		}
+        break;
 	case "BI_CompanionCommand":
 		BI_SetSpecCommandMode(BI_COMMODE_COMMAND_SELECT,-1,-1,targetNum,1);
 		return;
@@ -994,6 +1078,7 @@ void BI_SetPossibleCommands()
 		BattleInterface.Commands.Reload.enable			= bReloadCanBe;
 		BattleInterface.Commands.Abordage.enable		= false;
 		BattleInterface.Commands.SailTo.enable			= !bDisableSailTo && bSailTo;
+		BattleInterface.Commands.SailDir.enable			= false;
 		/*if( !bEnableIslandSailTo && iArcadeSailTo != 1)
 		{
 			BattleInterface.Commands.SailTo.enable		= false;
@@ -1023,6 +1108,7 @@ void BI_SetPossibleCommands()
 		BattleInterface.Commands.Defend.enable			= bDefend;
 		BattleInterface.Commands.Reload.enable			= false;
 		BattleInterface.Commands.SailTo.enable			= false;
+		BattleInterface.Commands.SailDir.enable			= true;
 		BattleInterface.Commands.Map.enable				= false;
 		BattleInterface.Commands.Speed.enable			= false;
 		//BattleInterface.Commands.CCommand.enable		= false;
@@ -1239,7 +1325,14 @@ void BI_InitializeCommands()
 	BattleInterface.Commands.Speak.selPicNum	= 68;
 	BattleInterface.Commands.Speak.event		= "BI_Speak";
 	BattleInterface.Commands.Speak.note         = LanguageConvertString(idLngFile, "sea_Speak");
-
+	
+	BattleInterface.Commands.SailDir.enable			= false;
+	BattleInterface.Commands.SailDir.picNum			= 71;
+	BattleInterface.Commands.SailDir.selPicNum		= 70;
+	BattleInterface.Commands.SailDir.texNum			= BI_ICONS_TEXTURE_COMMAND;
+	BattleInterface.Commands.SailDir.event			= "BI_SailDir";
+	BattleInterface.Commands.SailDir.note			= LanguageConvertString(idLngFile, "sea_SailDir");
+	
 	LanguageCloseFile(idLngFile);
 }
 
@@ -1582,6 +1675,7 @@ ref BI_GetData()
 
 void SetParameterData()
 {
+	int idLngFile = LanguageOpenFile("commands_name.txt");
 	if(InterfaceStates.AltIntIcons) BattleInterface.CommandTextures.list.t0.name = "battle_interface\List_icons_Konshud.tga";
 	else BattleInterface.CommandTextures.list.t0.name = "battle_interface\list_icons.tga";
 	BattleInterface.CommandTextures.list.t0.xsize = 16;
@@ -1663,6 +1757,61 @@ void SetParameterData()
 	BattleInterface.UserIcons.ui3.selpic = 7;
 	BattleInterface.UserIcons.ui3.tex = 0;
 	BattleInterface.UserIcons.ui3.name = "sail_fast";
+	BattleInterface.UserIcons.ui4.enable = true;
+	BattleInterface.UserIcons.ui4.selpic = 96;
+	BattleInterface.UserIcons.ui4.pic = 112;
+	BattleInterface.UserIcons.ui4.tex = BI_ICONS_TEXTURE_COMMAND;;
+	BattleInterface.UserIcons.ui4.name = "dir_n";
+	BattleInterface.UserIcons.ui4.note = LanguageConvertString(idLngFile, "sea_SailN");
+
+	BattleInterface.UserIcons.ui5.enable = true;
+	BattleInterface.UserIcons.ui5.selpic = 97;
+	BattleInterface.UserIcons.ui5.pic = 113;
+	BattleInterface.UserIcons.ui5.tex = BI_ICONS_TEXTURE_COMMAND;;
+	BattleInterface.UserIcons.ui5.name = "dir_ne";
+	BattleInterface.UserIcons.ui5.note = LanguageConvertString(idLngFile, "sea_SailNE");
+
+	BattleInterface.UserIcons.ui6.enable = true;
+	BattleInterface.UserIcons.ui6.selpic = 98;
+	BattleInterface.UserIcons.ui6.pic = 114;
+	BattleInterface.UserIcons.ui6.tex = BI_ICONS_TEXTURE_COMMAND;;
+	BattleInterface.UserIcons.ui6.name = "dir_e";
+	BattleInterface.UserIcons.ui6.note = LanguageConvertString(idLngFile, "sea_SailE");
+
+	BattleInterface.UserIcons.ui7.enable = true;
+	BattleInterface.UserIcons.ui7.selpic = 99;
+	BattleInterface.UserIcons.ui7.pic = 115;
+	BattleInterface.UserIcons.ui7.tex = BI_ICONS_TEXTURE_COMMAND;;
+	BattleInterface.UserIcons.ui7.name = "dir_se";
+	BattleInterface.UserIcons.ui7.note = LanguageConvertString(idLngFile, "sea_SailSE");
+
+	BattleInterface.UserIcons.ui8.enable = true;
+	BattleInterface.UserIcons.ui8.selpic = 100;
+	BattleInterface.UserIcons.ui8.pic = 116;
+	BattleInterface.UserIcons.ui8.tex = BI_ICONS_TEXTURE_COMMAND;;
+	BattleInterface.UserIcons.ui8.name = "dir_s";
+	BattleInterface.UserIcons.ui8.note = LanguageConvertString(idLngFile, "sea_SailS");
+
+	BattleInterface.UserIcons.ui9.enable = true;
+	BattleInterface.UserIcons.ui9.selpic = 101;
+	BattleInterface.UserIcons.ui9.pic = 117;
+	BattleInterface.UserIcons.ui9.tex = BI_ICONS_TEXTURE_COMMAND;;
+	BattleInterface.UserIcons.ui9.name = "dir_sw";
+	BattleInterface.UserIcons.ui9.note = LanguageConvertString(idLngFile, "sea_SailSW");
+
+    BattleInterface.UserIcons.ui10.enable = true;
+	BattleInterface.UserIcons.ui10.selpic = 102;
+	BattleInterface.UserIcons.ui10.pic = 118;
+	BattleInterface.UserIcons.ui10.tex = BI_ICONS_TEXTURE_COMMAND;;
+	BattleInterface.UserIcons.ui10.name = "dir_w";
+	BattleInterface.UserIcons.ui10.note = LanguageConvertString(idLngFile, "sea_SailW");
+
+	BattleInterface.UserIcons.ui11.enable = true;
+	BattleInterface.UserIcons.ui11.selpic = 103;
+	BattleInterface.UserIcons.ui11.pic = 119;
+	BattleInterface.UserIcons.ui11.tex = BI_ICONS_TEXTURE_COMMAND;;
+	BattleInterface.UserIcons.ui11.name = "dir_nw";
+	BattleInterface.UserIcons.ui11.note = LanguageConvertString(idLngFile, "sea_SailNW");
 
 	//===============================================
 	BattleInterface.MessageIcons.IconWidth = RecalculateHIcon(64);
@@ -1780,10 +1929,11 @@ void SetParameterData()
 	BattleInterface.textinfo.Date.refreshable = true;
 	//
 	BattleInterface.textinfo.Location.font = "interface_button";
-	BattleInterface.textinfo.Location.scale = 1.3;
+	BattleInterface.textinfo.Location.scale = 1.2;
 	BattleInterface.textinfo.Location.pos.x = sti(showWindow.right) - RecalculateHIcon(138);
 	BattleInterface.textinfo.Location.pos.y = RecalculateVIcon(234);
-	BattleInterface.textinfo.Location.text = XI_convertString("Open Sea");
+	BattleInterface.textinfo.Location.text = GetBILocationName();	// Display MoorName or region name in location
+	BattleInterface.textinfo.Location.refreshable = true;			// Enable updates
 	//
 	BattleInterface.textinfo.Speed.font = "interface_button";
 	BattleInterface.textinfo.Speed.scale = 1.3;
@@ -2110,6 +2260,7 @@ void SetParameterData()
 	BattleInterface.ShipInfoImages.CrewUV = "0.0,0.0,1.0,0.166";
 
 	BattleInterface.ShifInfoVisible = InterfaceStates.enabledshipmarks;
+	LanguageCloseFile(idLngFile);
 }
 
 ref ProcessSailDamage()
@@ -3236,4 +3387,21 @@ bool CanSetSailsGerald(ref _char)
 	}
 
 	return true;
+}
+// LDH 13Feb17 - return moor location name or map region, adjusted for long strings and enlarged fonts
+string GetBILocationName()
+{
+	string Name;
+	if(CheckAttribute(pchar,"MoorName"))
+	{	
+		if (pchar.MoorName == " ")
+			Name = GetCurLocationName1();
+		else
+			Name = pchar.MoorName;
+	}
+	float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+
+	if (strlen(Name) > 24 && fHtRatio > 1.0)
+		Name += strcut("               ", 0, makeint((fHtRatio - 1.0) * 10.0 + 0.5));
+	return Name;
 }

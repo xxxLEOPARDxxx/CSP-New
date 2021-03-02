@@ -133,9 +133,103 @@ void ProcessDialogEvent()
 				link.l1.go = "Jim";
 				break;
 			}
+			if (npchar.id == "W_Lejitos")
+            {
+				if (!CheckAttribute(npchar, "quest.meting"))
+				{
+					Lai_SetPlayerType(pchar);
+					dialog.text = "Глупцы. Вам следовало бы знать, что зверь, загнанный в угол - опасен. А я не просто какой-то зверь, я - Ягуар. Надеюсь, вы успели помолиться своему мертвому богу, потому что сейчас я вас к нему отправлю!";
+					link.l1.go = "exit_cave_entrance_fight";
+					npchar.quest.meting = 1;
+					break;
+				}
+				if (npchar.quest.meting == 1)
+				{
+					Lai_SetPlayerType(pchar);
+					dialog.text = "Я бы и сам справился, но все равно, благодарю за своевременное вмешательство. У тебя, как я вижу, есть свои счеты с испанцами?";
+					link.l1 = "Да, я успела нажить себе парочку врагов. А что ты там говорил перед боем, про мертвого бога?";
+					link.l1.go = "Lejitos";
+					npchar.quest.meting = 2;
+					break;
+				}
+			}
 			NextDiag.TempNode = "First time";
 		break;
 		
+		case "LejitosOff":
+			npchar.Dialog.Filename = "Enc_Officer_dialog.c";
+			npchar.greeting = "Gr_QuestOfficer";
+			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
+			npchar.OfficerWantToGo.DontGo = true; //не пытаться уйти
+			npchar.HalfImmortal = true;  // Контузия
+			npchar.loyality = MAX_LOYALITY;
+			AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			NPChar.quest.meeting = true;
+			//LAi_SetWarriorType(NPChar);
+			DialogExit();
+		break;
+		case "LejitosNoOff":
+			DialogExit();
+			NPChar.lifeday = 0;
+			LAi_SetActorType(NPChar);
+            LAi_ActorGoToLocation(npchar, "reload", "reload2_back", "none", "", "", "", 10);
+		break;
+		case "Lejitos":
+			dialog.Text = "Я не христианин. Мои родители ими были когда-то, но они не прожили достаточно долго, чтоб навязать мне эту веру. Меня нашли, вырастили и воспитали в племени индейцев гуарани. Они открыли мне глаза на истинную веру и рассказали всю суть про христианского бога.";
+			Link.l1 = "Ты прожил всю жизнь среди индейцев?";
+			Link.l1.go = "Lejitos_1";
+		break;
+		case "Lejitos_1":
+			dialog.Text = "К сожалению, испанцы не дали мне такой роскоши. Однажды я отправился на охоту, а когда вернулся домой с добычей - застал нашу деревню в руинах. Все премя было истреблено. Я конечно же отомстил, но племя мне это не вернуло\nПосле этого я подался жить к испанцам, в так называемом цивилизованном обществе. Несколько лет я жил в спокойствии, осваиваясь на новом месте, пока однажды кто-то не рассказал местному священнику о безобидных индейских ритуалах, что я проводил перед принятием еды. Тот в свою очередь донес это до инкцизиции, а что было дальше думаю ты и сама можешь понять\nС тех пор я скрывался от испанцев в голландских колониях, но даже здесь мне не дают покоя. Это далеко не первая и не последняя группа охотников, что прищли за моей головой.";
+			Link.l1 = "Лично мне все равно, во что ты веришь. Но как боец я вижу, что ты - настоящий зверь. Не хочешь пойти ко мне на службу? Обещаю, будучи у меня в команде ты перебьешь немало испанцев. Прямо сейчас я намереваюсь догнать тот корабль, про который говорил один из этих подонков.";
+			Link.l1.go = "Lejitos_2";
+			Link.l2 = "Не думаю, что нам с тобой по пути, приятель. Прощай.";
+			Link.l2.go = "LejitosNoOff";
+		break;
+		case "Lejitos_2":
+			dialog.Text = "Ты умеешь убеждать. Конечно же, я не откажусь добавить еще парочку испанских скальпов себе в коллекцию.";
+			Link.l1 = "Вот и договорились. Кстати мне говорили, что ты направился в эту пещеру за кладом. Удалось найти что-то?";
+			Link.l1.go = "Lejitos_3";
+		break;
+		case "Lejitos_3":
+			dialog.Text = "Это не клад, а индейская реликвия. Я могу отдать ее тебе на хранение, только прошу, не продавай. Ее наверняка переплавят в слитки, после чего ее настоящая ценность будет навсегда утеряна.";
+			Link.l1 = "Ну ладно, пойдем.";
+			Link.l1.go = "LejitosOff";
+		break;
+		
+		case "DeSouzaHunter":
+			dialog.Text = "Надо же, кто пришел! Похоже, мы убьем одним выстрелом двух зайцев! Этого безбожника Элихио уже было бы достаточно, чтобы обрадовать сеньора де Соузу, но когда мы приведем ему еще и тебя, нам наверняка выдадут премию!";
+			Link.l1 = "Де Соуза, говоришь? А где же он сам?";
+			Link.l1.go = "DeSouzaHunter_1";
+		break;
+		case "DeSouzaHunter_1":
+			AddQuestRecord("WhisperQuestline", "6");
+			dialog.Text = "Что, не терпится получить от него свежую порцию пыток? Уверяю, ждать осталось недолго, ведь он здесь, недалеко, на корабле. Мы причалили в бухте с ироничным для тебя названием - Берег Спасения\nНа корабле все инструменты уже подготовлены. Ты же Виспер, верно? Я видел там железную деву, подписанную твоим именем\nНу так как, сама пойдешь? Или сначала хочешь отхватить порцию и от нас? Вам, сеньор Лехито, я тот же вопрос задаю.";
+			Link.l1 = "Сейчас посмотрим, кто от кого получит!";
+			Link.l1.go = "exit_lejitos_speak";
+		break;
+		case "exit_lejitos_speak":
+			DialogExit();
+			sld = characterFromID("W_Lejitos");
+			SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
+			LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+		break;
+		case "exit_cave_entrance_fight":
+			AddDialogExitQuest("MainHeroFightModeOn");
+			DialogExit();
+			LAi_SetWarriorType(NPChar);
+			LAi_SetImmortal(NPChar, false);
+			//ref sld;
+			for (int i = 1; i <= 7; i++)
+			{
+				sld = characterFromID("DeSouzaHunter"+sti(i));
+				LAi_SetWarriorType(sld);
+				LAi_SetImmortal(sld, false);
+				LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+			}
+			LAi_group_MoveCharacter(npchar, LAI_GROUP_PLAYER);
+		break;
 		case "Smuggler":
 			NextDiag.TempNode = "Smuggler";
 			if (CheckAttribute(pchar, "Whisper.ContraSmuggler"))
@@ -220,6 +314,7 @@ void ProcessDialogEvent()
 			SetQuestHeader("WhisperContraband");
 			AddQuestRecord("WhisperContraband", "1");
 			pchar.Whisper.Contraband = true;
+			pchar.Whisper.FindDesouza = true;
 			GiveItem2Character(Pchar, "Map_bad");
 			Log_Info("Вы получили карту архипелага.");
 			SetTimerCondition("W_Smuggling", 0, 0, 60, false);
@@ -256,7 +351,7 @@ void ProcessDialogEvent()
 			{
 				mc.Ship.Type = GenerateShipExt(SHIP_SOPHIE, true, mc);
 				mc.Ship.name="Черная Вдова";
-				SetBaseShipData(mc);
+				//SetBaseShipData(mc);
 				mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS12;
 				SetCrewQuantityFull(mc);
 			}
@@ -264,7 +359,7 @@ void ProcessDialogEvent()
 			{
 				mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
 				mc.Ship.name="Пёс Войны";
-				SetBaseShipData(mc);
+				//SetBaseShipData(mc);
 				mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
 				SetCrewQuantityFull(mc);
 			}
@@ -287,7 +382,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("WhisperQuestline", "1");
 			AddQuestRecord("WhisperQuestline", "2");
 			AddQuestUserData("WhisperQuestline", "sWhCapName", GetFullName(characterFromId("wl_Pirate_Cap")));
-			AddQuestRecord("WhisperQuestline", "3");
+			//AddQuestRecord("WhisperQuestline", "3");
 			
 			SetQuestsCharacters();
 		break;

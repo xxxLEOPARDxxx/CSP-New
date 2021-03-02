@@ -2244,6 +2244,63 @@ string GetCurLocationName()
 	return locLabel;
 }
 
+string GetCurLocationName1()
+{
+	if( nMainCharacterIndex < 0 ) return "";
+	if( !CheckAttribute(pchar,"location") ) return "";
+	string locLabel = pchar.location;
+	int locidx = FindLocation(pchar.location);
+	if( locidx>=0 )
+	{
+		// boal -->
+		int nLablesFileID = LanguageOpenFile("LocLables.txt");
+        locLabel = "";
+       // if (CheckAttribute(&locations[locidx], "islandId"))
+		//{
+		//	locLabel = LanguageConvertString(nLablesFileID, Locations[locidx].islandId) + " ";
+		//}
+		if (CheckAttribute(&locations[locidx], "fastreload"))
+		{
+			locLabel += LanguageConvertString(nLablesFileID, Locations[locidx].fastreload + " Town") + " ";
+		}
+		if (CheckAttribute(&Locations[locidx],"id.label") )
+		{
+			locLabel += LanguageConvertString(nLablesFileID, Locations[locidx].id.label);
+		}
+		LanguageCloseFile(nLablesFileID);
+	}
+	else
+	{
+		if (worldMap.island != "")
+		{
+            locLabel =  worldMap.island;
+			
+			int iIslandIndex = FindIsland(locLabel);
+			if (iIslandIndex != -1 && Islands[iIslandIndex].visible == true)
+			{
+				if (locLabel == "Cuba2") locLabel = "Cuba";
+				if (locLabel == "Hispaniola2") locLabel = "Hispaniola";
+				locLabel = GetConvertStr(locLabel, "LocLables.txt");
+				if (locLabel == "")
+				{
+					locLabel = GetConvertStr("Mein", "LocLables.txt");
+				}
+				locLabel  += " - " + XI_ConvertString("Sea");
+			}
+			else
+			{
+				locLabel = XI_ConvertString("Open Sea");
+			}				
+		}
+		else
+		{
+			locLabel = XI_ConvertString("Open Sea");
+		}
+		// boal <--
+	}
+	return locLabel;
+}
+
 string GetPlayTime()
 {
 	int hours = sti( InterfaceStates.GameTime.hour );

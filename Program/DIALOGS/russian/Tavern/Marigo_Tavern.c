@@ -10,6 +10,17 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = HeroStringReactionRepeat("Знаешь, " + NPChar.name + ", как-нибудь в следующий раз.", "Точно, "+ GetSexPhrase("забыл","забыла") +" что-то...",
                       "Да уж, действительно в третий раз...", "Да уж...", npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
+			
+			//виспер
+			if(CheckAttribute(pchar, "Whisper.FindDesouzaHol"))
+			{
+				DeleteAttribute(pchar, "Whisper.FindDesouzaHol")
+				link.l1 = "Послушай, к тебе тут случаем не подходили ребята подозрительной наружности? У них еще должно быть клеймо в форме распятия на руке.";
+				link.l1.go = "FindDesouzaHol";
+				break;
+			}
+			//виспер
+			
 			// ==> Проверяем поле состояния квестов.
 			switch(pchar.questTemp.State)
             {
@@ -21,6 +32,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 
             }
             // <== Проверяем поле состояния квестов.
+			
+
  		break;
         //============ Голландская линейка, квест №1. поиски Чумакейро.
  		case "Step_H1_1":
@@ -46,6 +59,12 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
  		case "Step_H1_5":
     		dialog.text = "Какой-то незнакомец, первый раз его видел у нас в городе. У Аарона сегодня день открытых дверей, хе-хе.";
     		link.l1 = "М-да, похоже на то... Ну да ладно, спасибо тебе еще раз. Прощай.";
+    		link.l1.go = "exit";
+ 		break;
+		case "FindDesouzaHol":
+    		dialog.text = "Ко мне нет, но к моей официантке приставали типы, подходящие под описание. Можешь у нее узнать подробности.";
+    		link.l1 = "Хорошо, спасибо.";
+			pchar.Whisper.FindDesouzaHolWaitress = true;
     		link.l1.go = "exit";
  		break;
 

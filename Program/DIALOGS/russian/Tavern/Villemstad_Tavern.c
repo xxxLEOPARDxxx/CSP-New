@@ -15,6 +15,14 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                 link.l1 = "Слышал"+ GetSexPhrase("","а") +", у вас на острове заваруха была серьезная... Рабы, вроде, восстали.";
                 link.l1.go = "EscapeSlaveVillemstad_T1";
             }
+			//виспер
+			if(CheckAttribute(pchar, "Whisper.FindDesouzaHol"))
+			{
+				link.l1 = "Послушай, к тебе тут случаем не подходили ребята подозрительной наружности? У них еще должно быть клеймо в форме распятия на руке.";
+				link.l1.go = "FindDesouzaHol";
+				break;
+			}
+			//виспер
 			// ==> Проверяем поле состояния квестов.
 			switch(pchar.questTemp.State)
 			{
@@ -385,6 +393,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			CreateHalen();
 			DialogExit();
 		break;
+		case "FindDesouzaHol":
+    		dialog.text = "Нет, таких точно здесь не видел.";
+    		link.l1 = "Ясно, спасибо.";
+    		link.l1.go = "exit";
+ 		break;
 		
 		
 		

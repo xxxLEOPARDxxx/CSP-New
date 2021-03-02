@@ -39,7 +39,7 @@ void Whisper_StartGame(string qName)
     TakeNItems(Pchar, "potion2", 3);
     TakeNItems(Pchar, "potion1", 4);
     SetCharacterPerk(Pchar, "GunProfessional");
-	Pchar.model="PGG_Whisper_5";
+	Pchar.model="PGG_Whisper_5_NoHat";
 	
 	//Костыль для перезарядки пистолета и смены модели ГГ, хз, можно ли проще сделать
 	DoReloadCharacterToLocation(pchar.location,"reload","reload2_back");
@@ -65,6 +65,10 @@ void Whisper_StartGame(string qName)
 	{
 		sld = CharacterFromID("PsHero_" + i);
 		if(sld.FaceId == 487)
+		{//Его мы позже наймем оффом, так что убираем из ПГГ
+			LAi_KillCharacter(sld);
+		}
+		if(sld.FaceId == 535)
 		{//Его мы позже наймем оффом, так что убираем из ПГГ
 			LAi_KillCharacter(sld);
 		}
@@ -150,8 +154,8 @@ void WhisperTeleport(string qName)
 	sld = GetCharacter(NPC_GenerateCharacter("wl_Pirate_Cap", "PGG_Rozencraft", "man", "man", 1, PIRATE, -1, true));
 	sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
 	sld.dialog.currentnode = "First time";
-	//sld.name = "";
-	//sld.lastname = "";
+	sld.name = "Эрнан";
+	sld.lastname = " Эстебан";
 	//sld.greeting = "cit_common";
 	//Добавить звуки
     LAi_SetActorTypeNoGroup(sld);
@@ -386,8 +390,15 @@ void WhisperPirateTown(string qName)
 
 void WhisperPirateTownGetHat(string qName)
 {	
-	sld = characterFromID("NineFingers");
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload2", true);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload3", true);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload4", true);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload5", true);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload6", true);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload7", true);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload8", true);
 	
+	sld = characterFromID("NineFingers");
 	//sld.greeting = "Gr_padre";
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_town", "goto", "goto6");
 	LAi_SetActorTypeNoGroup(sld);
@@ -402,6 +413,14 @@ void WhisperPirateTownGetHat(string qName)
 
 void WhisperPirateTownBattle(string qName)
 {	
+
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload2", false);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload3", false);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload4", false);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload5", false);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload6", false);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload7", false);
+	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload8", false);
 
 	LocatorReloadEnterDisable("PuertoPrincipe_ExitTown", "reload3", true);
 	LocatorReloadEnterDisable("PuertoPrincipe_ExitTown", "reload1_back", true);
@@ -524,8 +543,9 @@ void WhisperMeetCrew(string qName)
 }
 void WhisperJimTalk(string qName)
 {	
+	sld = CharacterFromID("Wh_Jack");
+	Dead_DelLoginedCharacter(sld);
 	sld = characterFromID("Wh_Jim");
-	
 	//sld.greeting = "Gr_padre";
 	LAi_SetActorTypeNoGroup(sld);
     LAi_type_actor_Reset(sld);
@@ -677,6 +697,207 @@ void WhisperSmugglingPatrol()
 	Group_SetTaskAttack("Coastal_Guards", PLAYER_GROUP);
 	Group_LockTask("Coastal_Guards");
 	Flag_PIRATE();
+}
+
+void WhisperHuntersCaveEntrance(string qName)
+{
+	Group_FindOrCreateGroup("DeSouzaHunter");
+	
+	chrDisableReloadToLocation = true;
+	string cnd;
+	for (int i = 1; i <= 7; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("DeSouzaHunter"+sti(i), "OZG_" + (rand(6) + 1), "man", "man", 8, PIRATE, 0, true));
+		//SetFantomParamHunter(sld);
+		LAi_SetHP(sld, 50+sti(pchar.rank)*10.0, 50+sti(pchar.rank)*10.0);
+		LAi_SetActorType(sld);
+		//LAi_warrior_SetStay(sld, true);
+		Group_AddCharacter("DeSouzaHunter", sld.id);
+		sld.LifeDay = 0;
+		
+		cnd = "l" + i;
+		pchar.quest.WhisperAfterHuntersCaveBattle.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.WhisperAfterHuntersCaveBattle.win_condition.(cnd).character ="DeSouzaHunter"+sti(i);
+		if (i < 5)
+		{
+			ChangeCharacterAddressGroup(sld, PChar.location, "monsters", "monster3");
+		}
+		else
+		{
+			ChangeCharacterAddressGroup(sld, PChar.location, "monsters", "monster1");
+		}
+		if (i == 1)
+		{
+			LAi_SetStayTypeNoGroup(sld);
+			sld.talker = 10;
+			ChangeCharacterAddressGroup(sld, PChar.location, "enc01", "enc01_03");
+			sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+			sld.dialog.currentnode = "DeSouzaHunter";
+	        sld.greeting = "Gr_HUNTER";
+		}
+		LAi_SetImmortal(sld, true);
+	}
+	
+	sld = GetCharacter(NPC_GenerateCharacter("W_Lejitos", "PGG_Lejitos_GPK", "man", "man", 1, PIRATE, -1, true));
+	sld.name = "Элихио";
+	sld.lastname = "Лехито";
+	LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+	sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+	LAi_SetActorType(sld);
+	ChangeCharacterAddressGroup(sld, PChar.location, "enc01", "enc01_02");
+	LAi_SetImmortal(sld, true);
+	SetSelfSkill(sld, 45, 45, 75, 45, 35);
+	SetShipSkill(sld, 50, 25, 20, 20, 20, 25, 70, 25, 15);
+	SetSPECIAL(sld, 10, 3, 10, 4, 8, 9, 5);
+	sld.rank = 15;
+	LAi_SetHP(sld, 300.0, 300.0);
+	
+	GiveItem2Character(sld, "topor_01");
+	EquipCharacterByItem(sld, "topor_01");
+	GiveItem2Character(sld, "cirass2");
+	EquipCharacterbyItem(sld, "cirass2");
+	GiveItem2Character(sld, "pistol2");
+	EquipCharacterbyItem(sld, "pistol2")
+	TakeNItems(sld, "indian18", 1);
+	
+	SetCharacterPerk(sld, "ByWorker");
+	SetCharacterPerk(sld, "CrewDamageUp");
+	SetCharacterPerk(sld, "LongRangeGrappling");
+	SetCharacterPerk(sld, "GrapplingProfessional");
+	SetCharacterPerk(sld, "AdvancedDefense");
+	SetCharacterPerk(sld, "CriticalHit");
+	SetCharacterPerk(sld, "HardHitter");
+	SetCharacterPerk(sld, "IronWill");
+	SetCharacterPerk(sld, "Ciras");
+	SetCharacterPerk(sld, "MusketsShoot");
+	SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+	
+	
+	PChar.quest.WhisperAfterHuntersCaveBattle.function = "WhisperAfterHuntersCaveBattle";
+	
+}
+
+void WhisperAfterHuntersCaveBattle(string qName)
+{
+	chrDisableReloadToLocation = false;
+	if(!LAi_IsDead(CharacterFromID("W_Lejitos")))
+	{
+		sld = characterFromID("W_Lejitos");
+		LAi_SetActorType(sld);
+		SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
+		LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+	}
+	WhisperDeSouzaSeaBattle();
+}
+
+void WhisperDeSouzaSeaBattle()
+{
+	sld = CharacterFromID("AntonioDeSouza")
+	SetFantomParamHunter(sld);
+	sld.Ship.Type = GenerateShipExt(SHIP_GALEON_H, true, sld);
+	sld.Ship.name = "Кара Господня";
+	//SetBaseShipData(sld);
+	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
+	SetCrewQuantityFull(sld);
+	
+	sld.SaveItemsForDead = true;
+	TakeNItems(sld, "DeSouzaCross", 1);
+	
+	SetSelfSkill(sld, 50, 50, 50, 50, 50);
+	SetShipSkill(sld, 40, 40, 40, 40, 40, 40, 40, 40, 40);
+	//SetSPECIAL(sld, 10, 3, 10, 4, 8, 9, 5);
+	sld.rank = 15;
+	LAi_SetHP(sld, 400.0, 400.0);
+
+    SetCharacterGoods(sld,GOOD_FOOD,500);
+    SetCharacterGoods(sld,GOOD_BALLS,1000);
+    SetCharacterGoods(sld,GOOD_GRAPES,1000);
+    SetCharacterGoods(sld,GOOD_KNIPPELS,1000);
+    SetCharacterGoods(sld,GOOD_BOMBS,1000);
+    SetCharacterGoods(sld,GOOD_POWDER,3000);
+    SetCharacterGoods(sld,GOOD_PLANKS,150);
+    SetCharacterGoods(sld,GOOD_SAILCLOTH,150);
+    SetCharacterGoods(sld,GOOD_RUM,200);
+    SetCharacterGoods(sld,GOOD_WEAPON,600);
+			
+	sld.AlwaysEnemy = true;
+	sld.DontRansackCaptain = true;
+	sld.AlwaysSandbankManeuver = true;
+	Group_FindOrCreateGroup("DeSouza");
+	Group_AddCharacter("DeSouza", sld.id);
+	SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
+	Group_SetGroupCommander("DeSouza", "AntonioDeSouza");
+
+	//Group_SetPursuitGroup("DeSouza", PLAYER_GROUP);
+	Group_SetTaskAttack("DeSouza", PLAYER_GROUP);
+	Group_LockTask("DeSouza");
+	
+	Group_SetAddress("DeSouza", "SentMartin", "Quest_ships", "quest_ship_7");
+	SetFunctionNPCDeathCondition("WhisperDeSouza_Is_Dead", "AntonioDeSouza", false);
+}
+
+void WhisperDeSouza_Is_Dead(string qName)
+{
+	if (!CheckAttribute(pchar, "Whisper.DeSouzaTalked"))
+	{
+		AddQuestRecord("WhisperQuestline", "3");
+		CloseQuestHeader("WhisperQuestline");
+	}
+}
+
+void WhisperWarDog_Is_Dead(string qName)
+{
+	if (!CheckAttribute(pchar, "Whisper.NanoCostume"))
+	{
+		AddQuestRecord("WhisperQuestline", "3");
+		CloseQuestHeader("WhisperQuestline");
+	}
+}
+
+void WhisperWarDogSeaBattle()
+{
+	sld = CharacterFromID("wl_Pirate_Cap")
+	sld.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, sld);
+	sld.Ship.name = "Пёс Войны";
+	//SetBaseShipData(sld);
+	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
+	SetCrewQuantityFull(sld);
+	
+	sld.SaveItemsForDead = true;
+	GiveItem2Character(sld, "cirass5");
+	EquipCharacterbyItem(sld, "cirass5")
+	
+	SetSelfSkill(sld, 60, 60, 60, 60, 60);
+	SetShipSkill(sld, 50, 50, 50, 50, 50, 50, 50, 50, 50);
+	//SetSPECIAL(sld, 10, 3, 10, 4, 8, 9, 5);
+	sld.rank = 25;
+	LAi_SetHP(sld, 500.0, 500.0);
+
+    SetCharacterGoods(sld,GOOD_FOOD,500);
+    SetCharacterGoods(sld,GOOD_BALLS,1000);
+    SetCharacterGoods(sld,GOOD_GRAPES,1000);
+    SetCharacterGoods(sld,GOOD_KNIPPELS,1000);
+    SetCharacterGoods(sld,GOOD_BOMBS,1000);
+    SetCharacterGoods(sld,GOOD_POWDER,3000);
+    SetCharacterGoods(sld,GOOD_PLANKS,150);
+    SetCharacterGoods(sld,GOOD_SAILCLOTH,150);
+    SetCharacterGoods(sld,GOOD_RUM,200);
+    SetCharacterGoods(sld,GOOD_WEAPON,600);
+			
+	sld.AlwaysEnemy = true;
+	sld.DontRansackCaptain = true;
+	sld.AlwaysSandbankManeuver = true;
+	Group_FindOrCreateGroup("WarDog");
+	Group_AddCharacter("WarDog", sld.id);
+	SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
+	Group_SetGroupCommander("WarDog", "wl_Pirate_Cap");
+
+	//Group_SetPursuitGroup("DeSouza", PLAYER_GROUP);
+	Group_SetTaskAttack("WarDog", PLAYER_GROUP);
+	Group_LockTask("WarDog");
+	
+	Group_SetAddress("WarDog", "Terks", "Quest_ships", "quest_ship_7");	
+	SetFunctionNPCDeathCondition("WhisperWarDog_Is_Dead", "AntonioDeSouza", false);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Линейка Виспер --     конец

@@ -352,12 +352,12 @@ void ProcessDialogEvent()
 				}
 				if(startHeroType == 2 && CheckAttribute(pchar,"Whisper.HatEnabled"))
 				{
-					if (Pchar.model=="PGG_Whisper_0")
+					if (Pchar.model=="PGG_Whisper_0" || Pchar.model=="PGG_Whisper_5")
 					{
 						Link.l13 = "Прекратить носить шляпу.";
 						Link.l13.go = "WhisperHatUnequip";
 					}
-					if (Pchar.model=="PGG_Whisper_0_NoHat")
+					if (Pchar.model=="PGG_Whisper_0_NoHat" || Pchar.model=="PGG_Whisper_5_NoHat")
 					{
 						Link.l13 = "Носить шляпу.";
 						Link.l13.go = "WhisperHatEquip";
@@ -891,13 +891,27 @@ void ProcessDialogEvent()
 		break;
 		case "WhisperHatUnequip":
 			dialog.Text = "Оставлю ее в каюте, а то голова потеет.";
-			Pchar.model="PGG_Whisper_0_NoHat";
+			if (Pchar.model=="PGG_Whisper_0")
+			{
+				Pchar.model="PGG_Whisper_0_NoHat";
+			}
+			else
+			{
+				Pchar.model="PGG_Whisper_5_NoHat";
+			}
 			Link.l1 = "Все, хватит на сегодня.";	
 			Link.l1.go = "Exit";
 		break;
 		case "WhisperHatEquip":
 			dialog.Text = "Вот, так гораздо лучше.";
-			Pchar.model="PGG_Whisper_0";
+			if (Pchar.model=="PGG_Whisper_0_NoHat")
+			{
+				Pchar.model="PGG_Whisper_0";
+			}
+			else
+			{
+				Pchar.model="PGG_Whisper_5";
+			}
 			Link.l1 = "Все, хватит на сегодня.";	
 			Link.l1.go = "Exit";
 		break;

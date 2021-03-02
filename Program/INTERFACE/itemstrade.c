@@ -561,6 +561,15 @@ void ProcessFrame()
 		nCurScrollNum = sti(GameInterface.CHARACTERS_SCROLL.current);
 		string sAttr = "pic" + (nCurScrollNum + 1);
 		refCharacter = &characters[sti(GameInterface.CHARACTERS_SCROLL.(sAttr).character)];
+		switch (refCharacter.sex)
+		{
+			case "man": SetNewPicture("EQUIP_BIG_PICTURE", "interfaces\sith\CharEquip_Man.tga");
+			break;
+			case "woman": SetNewPicture("EQUIP_BIG_PICTURE", "interfaces\sith\CharEquip_Woman.tga");
+			break;
+			case "skeleton": SetNewPicture("EQUIP_BIG_PICTURE", "interfaces\sith\CharEquip_Skeleton.tga");
+			break;
+		}
 		SetDescription();
 		//FillEquipInfo();
 		FillCharacterInfo();
