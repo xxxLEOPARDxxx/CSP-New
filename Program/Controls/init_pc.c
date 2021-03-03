@@ -386,7 +386,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 
 		// Net Controls =====================================================================
 		CI_CreateAndSetControls( "NetShipControls", "Net_Menu", CI_GetKeyCode("VK_ESCAPE"), 0, true );
-		CI_CreateAndSetControls( "NetShipControls", "Say", CI_GetKeyCode("KEY_U"), 0, true );
+		CI_CreateAndSetControls( "PrimaryLand", "Say", CI_GetKeyCode("KEY_K"), 0, true );
 		CI_CreateAndSetControls( "NetShipControls", "Team_Say", CI_GetKeyCode("KEY_O"), 0, true );
 		CI_CreateAndSetControls( "NetShipControls", "Person_Say", CI_GetKeyCode("KEY_T"), 0, true );
 		CI_CreateAndSetControls( "", "gamestat", CI_GetKeyCode("VK_F1"), 0, true );
@@ -821,7 +821,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 
 		// Net Controls =====================================================================
 		CI_CreateAndSetControls( "NetShipControls", "Net_Menu", CI_GetKeyCode("VK_ESCAPE"), 0, true );
-		CI_CreateAndSetControls( "NetShipControls", "Say", CI_GetKeyCode("KEY_U"), 0, true );
+		CI_CreateAndSetControls( "PrimaryLand", "Say", CI_GetKeyCode("KEY_K"), 0, true );
 		CI_CreateAndSetControls( "NetShipControls", "Team_Say", CI_GetKeyCode("KEY_O"), 0, true );
 		CI_CreateAndSetControls( "NetShipControls", "Person_Say", CI_GetKeyCode("KEY_T"), 0, true );
 		CI_CreateAndSetControls( "", "gamestat", CI_GetKeyCode("VK_F1"), 0, true );

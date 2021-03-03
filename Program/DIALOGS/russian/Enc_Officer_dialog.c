@@ -1,5 +1,4 @@
 // BOAL новый диалог офицера и компаньона 21/06/06
-													  
 void ProcessDialogEvent()
 {
 	ref NPChar, d;
@@ -1443,6 +1442,29 @@ void ProcessDialogEvent()
 		break;
 		
 		case "CompanionTravel_PrepareStart":
+			int iShip = sti(characters[sti(NPChar.realcompanionidx)].ship.type);
+			ref refBaseShip = GetRealShip(iShip);
+			if (sti(refBaseShip.hp)/4>sti(characters[sti(NPChar.realcompanionidx)].ship.hp))
+			{
+				dialog.Text = "Я вижу проблему, кэп...";
+				Link.l1 = "Какую?";
+				Link.l1.go = "CompanionTravel_NoHP";
+				break;
+			}
+			if (sti(refBaseShip.MinCrew)>GetCrewQuantity(characters[sti(NPChar.realcompanionidx)]))
+			{
+				dialog.Text = "Я вижу проблему, кэп...";
+				Link.l1 = "Какую?";
+				Link.l1.go = "CompanionTravel_NoCrew";
+				break;
+			}
+			if (sti(characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days)+30>CalculateShipFood(characters[sti(NPChar.realcompanionidx)]))
+			{
+				dialog.Text = "Я вижу проблему, кэп...";
+				Link.l1 = "Какую?";
+				Link.l1.go = "CompanionTravel_NoFood";
+				break;
+			}
 			dialog.Text = "Всё понятно. До " + XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen") + " мне идти " + sti(characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days) + " дней, что мне делать по прибытию?";
 				Link.l1 = "Жди меня на рейде колонии месяц.";
 				Link.l1.go = "CompanionTravel_PrepareStart_2";

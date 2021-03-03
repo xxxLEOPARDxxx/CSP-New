@@ -159,11 +159,19 @@ void QuestComplete(string sQuestName, string qname)
             //#20190708-01
             LAi_group_SetCheck("LAND_HUNTER", "LandHunter_Afterword");
             LAi_group_SetRelation("LAND_HUNTER", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
-            LAi_group_FightGroups("LAND_HUNTER", LAI_GROUP_PLAYER, true);
+			LAi_group_FightGroups("LAND_HUNTER", LAI_GROUP_PLAYER, true);
+			LAi_group_SetRelation("LAND_HUNTER","ENGLAND_CITIZENS",LAI_GROUP_ENEMY);
+			LAi_group_SetRelation("LAND_HUNTER","FRANCE_CITIZENS",LAI_GROUP_ENEMY);
+			LAi_group_SetRelation("LAND_HUNTER","SPAIN_CITIZENS",LAI_GROUP_ENEMY);//стража теперь Агрится на ОЗГ
+			LAi_group_SetRelation("LAND_HUNTER","HOLLAND_CITIZENS",LAI_GROUP_ENEMY);
         break;
         //#20190708-01
         case "LandHunter_Afterword":
 		    LAi_group_SetAlarm("LAND_HUNTER", LAI_GROUP_PLAYER, 0.0);
+			LAi_group_SetRelation("LAND_HUNTER","ENGLAND_CITIZENS",LAI_GROUP_NEITRAL);
+			LAi_group_SetRelation("LAND_HUNTER","FRANCE_CITIZENS",LAI_GROUP_NEITRAL);//разАгр стражи на ОЗГ до следующего раза
+			LAi_group_SetRelation("LAND_HUNTER","SPAIN_CITIZENS",LAI_GROUP_NEITRAL);
+			LAi_group_SetRelation("LAND_HUNTER","HOLLAND_CITIZENS",LAI_GROUP_NEITRAL);
 		break;
         case "GoAway_Hunters_Land":
             //LAi_SetActorType(Pchar);
@@ -9566,7 +9574,7 @@ void QuestCursedSceleton()
 	pchar.quest.CursedSceleton.win_condition.l1.character = sld.id;
 	pchar.quest.CursedSceleton.win_condition = "OpenTheDoors";
 	
-	
+	sld.cirassId = Items_FindItemIdx("cirass5");  // предмета нет, но влияение есть
 	sld.SaveItemsForDead = true;
 	ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload1");
 	//LAi_group_MoveCharacter(sld, "TmpEnemy");

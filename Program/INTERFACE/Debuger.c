@@ -709,9 +709,9 @@ void CalculateInfoDataF6()
 	AddItems(mc, "Map_Best", 1);
 	
 	// sEquipItem = GetGeneratedItem("blade27"); 	// Моргана 		(ЛО)
-	sEquipItem = GetGeneratedItem("blade32"); 	// Фламбердж	(ЛО)
+	// sEquipItem = GetGeneratedItem("blade32"); 	// Фламбердж	(ЛО)
 	// sEquipItem = GetGeneratedItem("katar"); 		// Катар		(СО)
-	// sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
+	sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
 	AddItems(mc, sEquipItem, 1);
 	
 	AddItems(mc, "bullet", 50);
@@ -2058,8 +2058,8 @@ void LoginDummy()
 	
     // FantomMakeCoolFighter(sld, 100, 100, 100, "blade27", "", 99999); 	// Моргана 		(ЛО)
     // FantomMakeCoolFighter(sld, 100, 100, 100, "blade32", "", 99999); 	// Фламбердж	(ЛО)
-    FantomMakeCoolFighter(sld, 100, 100, 100, "katar", 	"", 99999); 		// Катар		(СО)
-    // FantomMakeCoolFighter(sld, 100, 100, 100, "toporAZ", "", 99999); 	// Макуауитль	(ТО)
+    // FantomMakeCoolFighter(sld, 100, 100, 100, "katar", 	"", 99999); 		// Катар		(СО)
+    FantomMakeCoolFighter(sld, 100, 100, 100, "toporAZ", "", 99999); 	// Макуауитль	(ТО)
 	//установить SPECIAL
 	SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	//установить хп

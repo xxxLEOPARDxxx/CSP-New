@@ -91,7 +91,7 @@ void FillCharactersScroll()
 			pRef2.str3 = "#" + Characters[_curCharIdx].lastname;
 			//pRef2.str4 = "#" + Characters[_curCharIdx].quest.OfficerPrice;
 			pRef2.str5 = "#" + Characters[_curCharIdx].rank;
-			if(checkAttribute(&Characters[_curCharIdx], "HPminusDaysNeedtoRestore")) pRef2.str4 = "#"+ "Ранен " + (sti(Characters[_curCharIdx].HPminusDaysNeedtoRestore)-sti(Characters[_curCharIdx].HPminusDays)); // инфошка контузии - Gregg
+			if(checkAttribute(&Characters[_curCharIdx], "HPminusDaysNeedtoRestore")) pRef2.str4 = "#"+ "Ранен " + (sti(Characters[_curCharIdx].HPminusDaysNeedtoRestore)-sti(Characters[_curCharIdx].HPminusDays))+"д"; // инфошка контузии - Gregg
 		}
 		else
 		{
@@ -122,7 +122,7 @@ void FillCharactersScroll()
 			pRef2.str3 = "#" + Characters[_curCharIdx].lastname;
 			//pRef2.str4 = "#" + Characters[_curCharIdx].quest.OfficerPrice;
 			pRef2.str5 = "#" + Characters[_curCharIdx].rank;
-			if(checkAttribute(&Characters[_curCharIdx], "HPminusDaysNeedtoRestore")) pRef2.str4 = "#"+ "Ранен " + (sti(Characters[_curCharIdx].HPminusDaysNeedtoRestore)-sti(Characters[_curCharIdx].HPminusDays)); // инфошка контузии - Gregg
+			if(checkAttribute(&Characters[_curCharIdx], "HPminusDaysNeedtoRestore")) pRef2.str4 = "#"+ "Ранен " + (sti(Characters[_curCharIdx].HPminusDaysNeedtoRestore)-sti(Characters[_curCharIdx].HPminusDays))+"д"; // инфошка контузии - Gregg
 		}
 		else
 		{
@@ -161,7 +161,7 @@ void FillCharactersScroll()
 				{
 					//pRef2.str4 = "#" + sti(Characters[_curCharIdx].quest.convoyquest.money);
 				}
-				if(checkAttribute(&Characters[_curCharIdx], "HPminusDaysNeedtoRestore")) pRef2.str4 = "#"+ "Ранен " + (sti(Characters[_curCharIdx].HPminusDaysNeedtoRestore)-sti(Characters[_curCharIdx].HPminusDays)); // инфошка контузии - Gregg
+				if(checkAttribute(&Characters[_curCharIdx], "HPminusDaysNeedtoRestore")) pRef2.str4 = "#"+ "Ранен " + (sti(Characters[_curCharIdx].HPminusDaysNeedtoRestore)-sti(Characters[_curCharIdx].HPminusDays))+"д"; // инфошка контузии - Gregg
 				pRef2.str5 = "#" + Characters[_curCharIdx].rank;
 				m++;
 			}
@@ -200,7 +200,7 @@ void FillCharactersScroll()
 					//pRef2.str4 = "#" + Characters[_curCharIdx].quest.deliverymoney;
 				}
 			}
-			if(checkAttribute(&Characters[_curCharIdx], "HPminusDaysNeedtoRestore")) pRef2.str4 = "#"+ "Ранен " + (sti(Characters[_curCharIdx].HPminusDaysNeedtoRestore)-sti(Characters[_curCharIdx].HPminusDays)); // инфошка контузии - Gregg
+			if(checkAttribute(&Characters[_curCharIdx], "HPminusDaysNeedtoRestore")) pRef2.str4 = "#"+ "Ранен " + (sti(Characters[_curCharIdx].HPminusDaysNeedtoRestore)-sti(Characters[_curCharIdx].HPminusDays))+"д"; // инфошка контузии - Gregg
 			m++;
 		}
 		else

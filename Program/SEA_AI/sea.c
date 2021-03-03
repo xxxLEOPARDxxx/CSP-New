@@ -284,6 +284,59 @@ void Sea_LandLoad()
 {	
 	string sColony = Sea_FindNearColony(); // boal
 	int iColony = FindColony(sColony);
+	int patentnation = -1;
+	if (isMainCharacterPatented())
+	{
+		patentnation = GetPatentNation();
+		if (bPortPermission && sti(Colonies[FindColony(Sea_FindNearColony())].nation) == patentnation)
+		{
+			if(iColony != -1)
+			{
+				if (CheckAttribute(pchar, "ship.crew.disease"))  // to_do
+				{
+					if (pchar.ship.crew.disease == "1")
+					{
+						if (Colonies[iColony].disease != "1" && sti(Colonies[iColony].nation) != PIRATE)
+						{
+							LaunchDiseaseAlert(DISEASE_ON_SHIP);
+							return;
+						}
+					}
+				}
+				if(CheckAttribute(&Colonies[iColony], "disease.time"))
+				{
+					if(sti(Colonies[iColony].disease.time > 0))
+					{
+						LaunchDiseaseAlert(DISEASE_ON_COLONY);  // to_do
+						return;
+					}
+				}
+			}
+			pchar.CheckEnemyCompanionType = "Sea_LandLoad"; // откуда вход
+			if (!CheckEnemyCompanionDistance2GoAway(true)) return; // && !bBettaTestMode  табличка выхода из боя
+		
+			bSeaReloadStarted = true;
+			PauseAllSounds();
+			//ResetSoundScheme();
+			ResetSound(); // new
+
+			if (bSeaActive == false) return;
+			if (bCanEnterToLand == true)
+			{
+				//#20190717-01
+				resetGroupRel();
+				LayerFreeze("realize", false);
+				LayerFreeze("execute", false);
+				Reload(arIslandReload, sIslandLocator, sIslandID);
+				ReleaseMapEncounters();
+				EmptyAllFantomShips(); // boal
+				DeleteAttribute(pchar, "CheckStateOk"); // проверка протектором
+				Group_FreeAllDead();
+			}
+			Log_Info("Пропуск в порт колонии бесплатен благодаря патенту.");
+			return;
+		}
+	}
 	if(bPortPermission && FindColony(Sea_FindNearColony()) != -1 && sti(Colonies[FindColony(Sea_FindNearColony())].nation) != PIRATE && colonies[FindColony(Sea_FindNearColony())].nation != "none" && colonies[FindColony(Sea_FindNearColony())].id != "FortOrange" && colonies[FindColony(Sea_FindNearColony())].id != "LostShipsCity" && pchar.questTemp.sbormoney != Sea_FindNearColony() && sti(pchar.money) < ((sti(GetCharacterShipHP(pchar)) + (sti(GetCrewQuantity(pchar)) * 10) + sti(GetCargoMaxSpace(pchar)))/5))
 	{
 		Log_Info("Недостаточно денег на оплату портового сбора. Вход невозможен.")
@@ -339,7 +392,7 @@ void Sea_LandLoad()
 		// Начало ---->
 		if (bPortPermission)
 		{
-			int sbormoney
+			int sbormoney;
 			if(iColony != -1 && sti(Colonies[iColony].nation) != PIRATE && colonies[iColony].nation != "none" && colonies[iColony].id != "FortOrange" && colonies[iColony].id != "LostShipsCity") // Не берем сбор на необитайках, в пиратских колониях, в ГПК и в Форт Оранже
 			{
 				if(pchar.questTemp.sbormoney != Sea_FindNearColony())

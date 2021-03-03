@@ -92,7 +92,7 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 			
 			//<-- если квестовый ситизен, задача которого поговорить с √√
 			//--> провер€ем не врагов, но дерущихс€. 			
-			if (stf(chr.chr_ai.type.checkFight) < 0.0)
+			if (stf(chr.chr_ai.type.checkFight) < 0.0 && !LAi_group_IsActivePlayerAlarm())//fix не говор€т во врем€ тревоги  Lipsar
 			{
 				for(i = 0; i < num; i++)
 				{

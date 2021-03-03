@@ -750,7 +750,7 @@ void FillSkillTables()
 		GameInterface.TABLE_OTHER.tr8.td3.align = "right";
         GameInterface.TABLE_OTHER.tr8.td2.icon.group = "NATIONS";
 		GameInterface.TABLE_OTHER.tr8.td2.icon.image = GetNationNameByType(sti(Items[sti(pchar.EquipedPatentId)].Nation));
-		GameInterface.TABLE_OTHER.tr8.td2.icon.offset = "120, 1";
+		GameInterface.TABLE_OTHER.tr8.td2.icon.offset = "120, 0";
 		GameInterface.TABLE_OTHER.tr8.td2.icon.width = 16;
 		GameInterface.TABLE_OTHER.tr8.td2.icon.height = 16;
     }
