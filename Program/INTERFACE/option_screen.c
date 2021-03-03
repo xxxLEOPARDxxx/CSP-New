@@ -677,7 +677,7 @@ bool AddToControlsList(int row, string sControl, string sKey, bool bRemapable)
 	GameInterface.controls_list.(rowname).userdata.control = sControl;
 	GameInterface.controls_list.(rowname).userdata.key = sKey;
 	GameInterface.controls_list.(rowname).td2.str = LanguageConvertString(g_ControlsLngFile,sControl);
-	GameInterface.controls_list.(rowname).td2.textoffset = "2,1";
+	GameInterface.controls_list.(rowname).td2.textoffset = "2,-1";
 	if( GameInterface.controls_list.(rowname).td2.str == "" ) {
 		trace("Warning!!! " + sControl + " hav`t translate value");
 	}

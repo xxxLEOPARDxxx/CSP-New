@@ -894,7 +894,7 @@ void spawnToughSkeleton(aref _location)
 			int hitpoints = rand(sti(pchar.rank)*15)+1000;
 			LAi_SetHP(sld, hitpoints, hitpoints);
 			sld.SaveItemsForDead = true;
-			
+			sld.cirassId = Items_FindItemIdx("cirass5");  // предмета нет, но влияение есть
 			sld.name = "Проклятый капитан";
 			sld.lastname = "";
 			

@@ -9566,7 +9566,7 @@ void QuestCursedSceleton()
 	pchar.quest.CursedSceleton.win_condition.l1.character = sld.id;
 	pchar.quest.CursedSceleton.win_condition = "OpenTheDoors";
 	
-	
+	sld.cirassId = Items_FindItemIdx("cirass5");  // предмета нет, но влияение есть
 	sld.SaveItemsForDead = true;
 	ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload1");
 	//LAi_group_MoveCharacter(sld, "TmpEnemy");

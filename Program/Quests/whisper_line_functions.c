@@ -796,6 +796,7 @@ void WhisperDeSouzaSeaBattle()
 	SetFantomParamHunter(sld);
 	sld.Ship.Type = GenerateShipExt(SHIP_GALEON_H, true, sld);
 	sld.Ship.name = "Кара Господня";
+	LAi_SetImmortal(sld, false);
 	//SetBaseShipData(sld);
 	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
 	SetCrewQuantityFull(sld);
@@ -891,13 +892,13 @@ void WhisperWarDogSeaBattle()
 	Group_AddCharacter("WarDog", sld.id);
 	SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
 	Group_SetGroupCommander("WarDog", "wl_Pirate_Cap");
-
+	LAi_SetImmortal(sld, false);
 	//Group_SetPursuitGroup("DeSouza", PLAYER_GROUP);
 	Group_SetTaskAttack("WarDog", PLAYER_GROUP);
 	Group_LockTask("WarDog");
 	
 	Group_SetAddress("WarDog", "Terks", "Quest_ships", "quest_ship_7");	
-	SetFunctionNPCDeathCondition("WhisperWarDog_Is_Dead", "AntonioDeSouza", false);
+	SetFunctionNPCDeathCondition("WhisperWarDog_Is_Dead", "wl_Pirate_Cap", false);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Линейка Виспер --     конец

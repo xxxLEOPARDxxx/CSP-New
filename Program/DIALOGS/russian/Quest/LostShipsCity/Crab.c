@@ -26,7 +26,8 @@ void ProcessDialogEvent()
 
 				link.l2 = "Надо же, пропустил" + GetSexPhrase("","а") + " одного. Сдохни, тварь!";
 				link.l2.go = "crab_fight";
-				
+				//link.l3 = "Нire";
+				//link.l3.go = "crab_hire";
 
 				
 				NextDiag.TempNode = "First time";
@@ -49,8 +50,7 @@ void ProcessDialogEvent()
 					dialog.text = "(Краб щелкает клешней в знак приветствия.)";
 					link.l1 = "И тебе привет, дружище.";
 					link.l1.go = "exit";
-					//link.l3 = "Нire";
-					//link.l3.go = "crab_hire";
+					
 				}
 			}
 			NextDiag.TempNode = "First time";
@@ -129,6 +129,7 @@ void ProcessDialogEvent()
 			
 			npchar.Dialog.Filename = "Enc_OfficerCrab.c";
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			Npchar.cirassId = Items_FindItemIdx("cirass5");  // предмета нет, но влияение есть
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			npchar.OfficerWantToGo.DontGo = true;
 

@@ -10007,7 +10007,7 @@ void InitShips()
 	refship.SubSeaDependWeight			= 0.7;
 	refship.TurnDependWeight			= 0.35;
 	refship.WindAgainstSpeed   = 6.0;//boal
-	refship.CabinType          = "Cabin_Medium"; // boal 28.03.05
+	refship.CabinType          = "New_Cabin2"; // boal 28.03.05
 	refship.DeckType           = "Medium";
 
 	

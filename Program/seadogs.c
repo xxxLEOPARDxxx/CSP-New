@@ -1275,7 +1275,13 @@ void ProcessControls()
                         PlaySound("knock");
                     }
                 }
-            return;
+				return;
+            break;
+            case "OfficersCharge":
+                pchar.OfficerAttRange = 35.0;
+                OfficersFollow();
+                Log_SetStringToLog("ќфицеры, в атаку!");
+                return;
             break;
             case "OfficersCharge":
                 pchar.OfficerAttRange = 35.0;
