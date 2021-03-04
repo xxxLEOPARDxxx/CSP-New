@@ -111,9 +111,10 @@ void ProcessDialogEvent()
 				}
 				if (npchar.quest.meting == 1)
 				{
-					PlayVoice("VOICE\Russian\EvilPirates02.wav");
-					dialog.text = "Слыхала? На поселок напал карательный отряд из Сантьяго. За стенами уже вовсю разгорелась битва. Не по твою ли душу они пришли?";
-					link.l1 = "Черт! Ты прав, наверное моего спасителя из стражи заставили проговориться под пытками. Что же теперь делать?";
+					dialog.text = "Ты это видишь? На поселок напал карательный отряд из Сантьяго. Не по твою ли душу они пришли?";
+					link.l1 = "Черт! Ты прав, наверное моего спасителя из стражи заставили проговориться под пытками, в какую сторону я ушла. Что же нам теперь делать?";
+					AddMoneyToCharacter(npchar, 777);
+					npchar.SaveItemsForDead = true;
 					link.l1.go = "NF_2_1";
 					npchar.quest.meting = 2;
 					break;
@@ -302,7 +303,7 @@ void ProcessDialogEvent()
 		
 		case "Jim":
 			dialog.text = "После того, как ты разделалась с Джеком, никто из команды тебе перечить не пожелает. Он держал в страхе всех. К тому же, у нас на корабле традиция такая - после смерти старого капитана, новым назначать самого отчаянного рубаку, который перебьет остальных претендентов на шляпу. Такой капитан не побоится привести нас к самой богатой добыче. ";
-			link.l1 = "Знаешь, мне нравился ваша традиция. А много ли уже капитанов сменилось?";
+			link.l1 = "Знаешь, мне нравится ваша традиция. А много ли уже капитанов сменилось?";
 			link.l1.go = "Jim_1";
 		break;
 		case "Jim_1":
@@ -315,10 +316,8 @@ void ProcessDialogEvent()
 			AddQuestRecord("WhisperContraband", "1");
 			pchar.Whisper.Contraband = true;
 			pchar.Whisper.FindDesouza = true;
-			GiveItem2Character(Pchar, "Map_bad");
-			Log_Info("Вы получили карту архипелага.");
 			SetTimerCondition("W_Smuggling", 0, 0, 60, false);
-			dialog.text = "Ничего, научишься. Билл поначалу тоже не умел, но тем не менее стал самым успешным капитаном 'Вдовы'. Мы, если что, поможем, на первых порах. Вот, возьми карту Билла, чтобы проще было ориентироваться.\nКстати, если не знаешь с чего начать - загляни в его судовой журнал. Там заметки, что составлял Билл. Мы вроде собирались отвезти товар кому-то на Тортуге, но всех подробностей я не знаю, так что лучше сама прочитай.";
+			dialog.text = "Ничего, научишься. Билл поначалу тоже не умел, но тем не менее стал самым успешным капитаном 'Вдовы'. Мы, если что, поможем, на первых порах. Кстати, у Билла при себе еще была карта архипелага, если ты ее нашла - пользуйся, чтобы проще было ориентироваться на море.\nИ если не знаешь с чего начать - загляни в его судовой журнал. Там заметки, что составлял Билл. Мы вроде собирались отвезти товар кому-то на Тортуге, но всех подробностей я не знаю, так что лучше сама прочитай.";
 			link.l1 = "Хорошо, почитаю на досуге. А где наш кораблик?";
 			link.l1.go = "Jim_EndLine";
 		break;
@@ -326,11 +325,6 @@ void ProcessDialogEvent()
 			dialog.text = "Да прямо здесь, в бухте. Подходи к берегу и залезай в шлюпку. ";
 			link.l1 = "...";
 			link.l1.go = "Finish";
-			if (bBettaTestMode)
-			{
-				link.l2 = "(Бетта тест мод) Получить Пса Войны.";
-				link.l2.go = "FinishBeta";
-			}
 		break;
 		case "Finish":
 			NextDiag.CurrentNode = NextDiag.TempNode;
@@ -346,36 +340,7 @@ void ProcessDialogEvent()
 			InterfaceStates.DisFastTravel = false;
 			DeleteAttribute(Pchar, "questTemp.WhisperTutorial");
 			bDisableLandEncounters = false;
-			ref mc = GetMainCharacter();
-			if(!CheckAttribute(pchar,"WhisperCheat"))
-			{
-				mc.Ship.Type = GenerateShipExt(SHIP_SOPHIE, true, mc);
-				mc.Ship.name="Черная Вдова";
-				//SetBaseShipData(mc);
-				mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS12;
-				SetCrewQuantityFull(mc);
-			}
-			else
-			{
-				mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
-				mc.Ship.name="Пёс Войны";
-				//SetBaseShipData(mc);
-				mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
-				SetCrewQuantityFull(mc);
-			}
-
-            SetCharacterGoods(mc,GOOD_FOOD,200);
-        	SetCharacterGoods(mc,GOOD_BALLS,300);//2000);
-            SetCharacterGoods(mc,GOOD_GRAPES,300);//700);
-            SetCharacterGoods(mc,GOOD_KNIPPELS,300);//700);
-            SetCharacterGoods(mc,GOOD_BOMBS,300);//1500);
-            SetCharacterGoods(mc,GOOD_POWDER,1000);
-            SetCharacterGoods(mc,GOOD_PLANKS,50);
-            SetCharacterGoods(mc,GOOD_SAILCLOTH,50);
-            SetCharacterGoods(mc,GOOD_RUM,40);//600);
-            SetCharacterGoods(mc,GOOD_WEAPON,200);//2000);
-            SetCharacterGoods(mc,GOOD_EBONY,100);//2000);
-            DoReloadCharacterToLocation(Pchar.HeroParam.Location, Pchar.HeroParam.Group, Pchar.HeroParam.Locator);
+            //DoReloadCharacterToLocation(Pchar.HeroParam.Location, Pchar.HeroParam.Group, Pchar.HeroParam.Locator);
 			Lai_SetPlayerType(pchar);
 			
 			SetQuestHeader("WhisperQuestline");
@@ -383,13 +348,17 @@ void ProcessDialogEvent()
 			AddQuestRecord("WhisperQuestline", "2");
 			AddQuestUserData("WhisperQuestline", "sWhCapName", GetFullName(characterFromId("wl_Pirate_Cap")));
 			//AddQuestRecord("WhisperQuestline", "3");
-			
+	
 			SetQuestsCharacters();
-		break;
-		case "FinishBeta":
-			pchar.WhisperCheat = true;
-			link.l1 = "...";
-			link.l1.go = "Finish";
+			
+			LAi_SetActorType(npchar);
+            LAi_ActorGoToLocation(npchar, "reload", "sea", "none", "", "", "", 25);
+			for(i=1; i < 5; i++)
+			{
+				sld = CharacterFromID("Wh_Crew"+sti(i));
+				LAi_SetActorType(sld);
+				LAi_ActorGoToLocation(sld, "reload", "sea", "none", "", "", "", 20);
+			}
 		break;
 		case "Jack":
 			dialog.text = "Правда что ли? Ха-ха! То есть, э... Очень жаль, конечно. Ладно, давай сюда его вещички и проваливай.";
@@ -450,13 +419,14 @@ void ProcessDialogEvent()
 			link.l1.go = "NF_2_exit";
 		break;
 		case "NF_2_exit":
-			Lai_SetPlayerType(pchar);
+			//Lai_SetPlayerType(pchar);
 			TakeNItems(npchar, "blade19", 1);
 			NextDiag.CurrentNode = NextDiag.TempNode;
-			PlayVoice("People Fight\rifle_fire1.wav");
-			LAi_KillCharacter(npchar);
+			LAi_CharacterPlaySound(pchar, "People Fight\Player_Man_Shoot_01.wav");
+			DoQuestFunctionDelay("WhisperKillNineFingers", 0.7);
+			DialogExit();
 			pchar.questTemp.Whisper.GetHat = true;
-			DoQuestCheckDelay("TalkSelf_Quest", 1.0);
+			DoQuestCheckDelay("TalkSelf_Quest", 2.5);
 		break;
 		case "Pirateguard":
 			dialog.text = RandPhraseSimple("Чего тебе? Проходи мимо.", "Хватит загораживать дорогу, отвали.");

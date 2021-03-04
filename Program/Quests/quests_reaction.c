@@ -160,18 +160,18 @@ void QuestComplete(string sQuestName, string qname)
             LAi_group_SetCheck("LAND_HUNTER", "LandHunter_Afterword");
             LAi_group_SetRelation("LAND_HUNTER", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 			LAi_group_FightGroups("LAND_HUNTER", LAI_GROUP_PLAYER, true);
-			LAi_group_SetRelation("LAND_HUNTER","ENGLAND_CITIZENS",LAI_GROUP_ENEMY);
-			LAi_group_SetRelation("LAND_HUNTER","FRANCE_CITIZENS",LAI_GROUP_ENEMY);
-			LAi_group_SetRelation("LAND_HUNTER","SPAIN_CITIZENS",LAI_GROUP_ENEMY);//стража теперь Агрится на ОЗГ
-			LAi_group_SetRelation("LAND_HUNTER","HOLLAND_CITIZENS",LAI_GROUP_ENEMY);
+			LAi_group_SetRelation("ENGLAND_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);
+			LAi_group_SetRelation("FRANCE_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);
+			LAi_group_SetRelation("SPAIN_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);//стража теперь Агрится на ОЗГ
+			LAi_group_SetRelation("HOLLAND_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);//04.03 fix Lipsar теперь делаем другом ГГ, нужно для лока матросов
         break;
         //#20190708-01
         case "LandHunter_Afterword":
 		    LAi_group_SetAlarm("LAND_HUNTER", LAI_GROUP_PLAYER, 0.0);
-			LAi_group_SetRelation("LAND_HUNTER","ENGLAND_CITIZENS",LAI_GROUP_NEITRAL);
-			LAi_group_SetRelation("LAND_HUNTER","FRANCE_CITIZENS",LAI_GROUP_NEITRAL);//разАгр стражи на ОЗГ до следующего раза
-			LAi_group_SetRelation("LAND_HUNTER","SPAIN_CITIZENS",LAI_GROUP_NEITRAL);
-			LAi_group_SetRelation("LAND_HUNTER","HOLLAND_CITIZENS",LAI_GROUP_NEITRAL);
+			LAi_group_SetRelation(LAI_GROUP_PLAYER,"ENGLAND_CITIZENS",LAI_GROUP_NEITRAL);
+			LAi_group_SetRelation(LAI_GROUP_PLAYER,"FRANCE_CITIZENS",LAI_GROUP_NEITRAL);//разАгр стражи на ОЗГ до следующего раза
+			LAi_group_SetRelation(LAI_GROUP_PLAYER,"SPAIN_CITIZENS",LAI_GROUP_NEITRAL);
+			LAi_group_SetRelation(LAI_GROUP_PLAYER,"HOLLAND_CITIZENS",LAI_GROUP_NEITRAL);
 		break;
         case "GoAway_Hunters_Land":
             //LAi_SetActorType(Pchar);

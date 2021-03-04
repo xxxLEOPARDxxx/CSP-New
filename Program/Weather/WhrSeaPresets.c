@@ -209,12 +209,18 @@ void WhrSetSeaPreset(string sPreset)
 	PSea.FoamUV = fFoamUV;					//тайлинг пены
 	PSea.FoamTexDisturb = fFoamTexDisturb;	//сдвиг по нормали. х.з. что это надо поюзать. значение от 0.0 до 1.0
 
+	/* PSea.Reflection = fReflection;
+	PSea.Transparency = fTransparency;
+	PSea.Frenel = fFrenel;
+	PSea.Attenuation = fAttenuation;
+	PSea.WaterColor = iWaterColor;
+	PSea.SkyColor = iSkyColor; */
+
 	PSea.Reflection = fReflection;
 	PSea.Transparency = fTransparency;
 	PSea.Frenel = fFrenel;
 	PSea.Attenuation = fAttenuation;
 	PSea.WaterColor = iWaterColor;
-
 	PSea.SkyColor = iSkyColor;
 
 	Log_TestInfo("WhrSetSeaPreset: выбран пресет " + sPreset);

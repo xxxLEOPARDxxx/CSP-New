@@ -92,14 +92,14 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 			
 			//<-- если квестовый ситизен, задача которого поговорить с ГГ
 			//--> проверяем не врагов, но дерущихся. 			
-			if (stf(chr.chr_ai.type.checkFight) < 0.0 && !LAi_group_IsActivePlayerAlarm())//fix не говорят во время тревоги  Lipsar
+			if (stf(chr.chr_ai.type.checkFight) < 0.0 && !LAi_group_IsActivePlayerAlarm())//fix Lipsar не говорят во время тревоги  
 			{
 				for(i = 0; i < num; i++)
 				{
 					idx = sti(chrFindNearCharacters[i].index);
 					by = &Characters[idx];
 					chr.chr_ai.type.checkFight = 1.5;
-					if (LAi_CheckFightMode(by))
+					if (LAi_CheckFightMode(by) && GetRelation(by, chr.index) != RELATION_FRIEND)//04.03 fix Lipsar проверяем на отношение к игроку, связано с ОЗГ
 					{
 						if (LAi_IsSetBale(chr))
 						{

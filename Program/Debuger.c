@@ -11,7 +11,7 @@ void ActiveINSERTControl()
 
 void ActiveF4Control()
 {
-	//Korsar Maxim - На Ф4 спауним Ведекера-офа из ГПК к себе в офы
+	/* //Korsar Maxim - На Ф4 спауним Ведекера-офа из ГПК к себе в офы
 	ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "CCS_Mechanic", "man", "man", 30, PIRATE, -1, true));
 	sld.name = "Хенрик";
 	sld.lastname = "Ведекер";
@@ -45,9 +45,9 @@ void ActiveF4Control()
     SetCharacterRemovable(sld, true);
 	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 	sld.loyality = MAX_LOYALITY;
-	/*Log_Info("Test F4 button");
-    SetRandGeraldSail(pchar, rand(4));*/
-	pchar.VedekerDiscount = true;
+	Log_Info("Test F4 button");
+    SetRandGeraldSail(pchar, rand(4));
+	pchar.VedekerDiscount = true; */
 }
 
 // Warship. Сюда повесил дамп аттрибутов - по Ф12 не нужно это
@@ -180,75 +180,4 @@ void ActiveF12Control()
 	        }
         }
     }
-}
-
-///////////////////////////// test //////////////
-void TestColonyCommanders()
-{
-	int iChar;
-
-	string sColony;
-
-	int i;
-	float x, y, z;  // boal
-
-	for (i=0; i<MAX_COLONIES; i++)
-	{
-		if (colonies[i].nation == "none") continue; // необитайки
-		// зададим базовых мэров городов
-		iChar = GetCharacterIndex(colonies[i].id + "_Mayor");
-		if (iChar != -1)
-		{   // мэр есть
-        	Log_Info("M: " + characters[iChar].id + " L:" + characters[iChar].location +
-        	" " + characters[iChar].City + "  " + characters[iChar].nation);
-        	trace("M: " + characters[iChar].id + " L:" + characters[iChar].location +
-        	" " + characters[iChar].City + "  " + characters[iChar].nation);
-        }
-
-		// добавить проверку на пиратов, у них нет фортов, нафиг им коммандер?
-		if (CheckAttribute(&colonies[i], "HasNoFort"))
-		{
-			continue;
-		}
-		iChar = GetCharacterIndex(colonies[i].id + " Fort Commander");
-		Log_Info("F: " + characters[iChar].id + " L:" + characters[iChar].location + " g " + characters[iChar].location.group + " r " + characters[iChar].location.locator +
-  		" " + characters[iChar].City + "  " + characters[iChar].nation);
-  		trace("F: " + characters[iChar].id + " L:" + characters[iChar].location + " g " + characters[iChar].location.group + " r " + characters[iChar].location.locator +
-  		" " + characters[iChar].City + "  " + characters[iChar].nation);
-	}
-}
-// проверка ликвидности товара - цена-вес, что выгоднее - выводим в компил.лог список, строим заполняя трюм товаром по одной пачке
-void TestGoodsLiquidity()
-{
-	int i, j, idx;
-	float fMaxCost;
-
-	for (i = 0; i< GOODS_QUANTITY; i++)
-	{
-		SetCharacterGoods(pchar, i, sti(Goods[i].Units));
-	}
-	trace("======= TestGoodsLiquidity ======== start ");
-	for (j = 0; j< GOODS_QUANTITY; j++)
-	{
-		fMaxCost = 0;
-		idx = -1;
-		for (i = 0; i< GOODS_QUANTITY; i++)
-		{
-			if (GetCargoGoods(pchar, i) > 0)
-			{
-				if (fMaxCost < stf(Goods[i].Cost)/stf(Goods[i].Weight))
-				{
-					fMaxCost = stf(Goods[i].Cost)/stf(Goods[i].Weight);
-					idx = i;
-				}
-			}
-		}
-		if (fMaxCost > 0)
-		{
-			SetCharacterGoods(pchar, idx, 0);
-			trace(Goods[idx].Name + " = " + fMaxCost);
-			Log_info(Goods[idx].Name + " = " + fMaxCost);
-		}
-	}
-	trace("======= TestGoodsLiquidity ======== end ");
 }

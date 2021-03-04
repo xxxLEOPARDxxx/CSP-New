@@ -397,10 +397,15 @@ void WhisperPirateTownGetHat(string qName)
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload6", true);
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload7", true);
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload8", true);
-	
+	PlayVoice("VOICE\Russian\EvilPirates02.wav");
+	SetLocationCapturedState("PuertoPrincipe_town", false); 	
+}
+void WhisperPirateTownGetHat_part_1(string qName)
+{	
+	//PlayVoice("VOICE\Russian\EvilPirates02.wav");
 	sld = characterFromID("NineFingers");
 	//sld.greeting = "Gr_padre";
-    ChangeCharacterAddressGroup(sld, "PuertoPrincipe_town", "goto", "goto6");
+    ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item12");
 	LAi_SetActorTypeNoGroup(sld);
     LAi_type_actor_Reset(sld);
     SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
@@ -409,10 +414,6 @@ void WhisperPirateTownGetHat(string qName)
 	
 	LAi_SetActorType(pchar);
 	LAi_ActorTurnToCharacter(pchar, sld);
-}
-
-void WhisperPirateTownBattle(string qName)
-{	
 
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload2", false);
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload3", false);
@@ -429,20 +430,20 @@ void WhisperPirateTownBattle(string qName)
 	string cnd;
 	for (int i = 0; i < 10; i++)
 	{
-		sld = GetCharacter(NPC_GenerateCharacter("IncqSoldier_"+sti(i), "sold_spa_"+(rand(7)+1), "man", "man", 1, SPAIN, 1, true));
+		sld = GetCharacter(NPC_GenerateCharacter("IncqSoldier_"+sti(i), "sold_spa_"+(rand(7)+1), "man", "man", 5, SPAIN, 0, true));
 		LAi_SetWarriorType(sld);
 		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);	
-		sld.LifeDay = 0;
 		cnd = "l" + i;
 		pchar.quest.WhisperAfterTownBattle.win_condition.(cnd) = "NPC_Death";
 		pchar.quest.WhisperAfterTownBattle.win_condition.(cnd).character ="IncqSoldier_"+sti(i);
+		LAi_SetImmortal(sld, true);
 		
-		sld = GetCharacter(NPC_GenerateCharacter("PirateTownDefender_"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", 1, PIRATE, -1, true));
+		sld = GetCharacter(NPC_GenerateCharacter("PirateTownDefender_"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", 5, PIRATE, 0, true));
 		LAi_SetWarriorType(sld);
 		LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
 		sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
 		sld.dialog.currentnode = "Pirateguard";
-		sld.LifeDay = 0;
+		LAi_SetImmortal(sld, true);
 		
 	}
 	sld = characterFromID("IncqSoldier_0");
@@ -483,6 +484,31 @@ void WhisperPirateTownBattle(string qName)
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item9");
 	
 	pchar.quest.WhisperAfterTownBattle.function = "WhisperAfterTownBattle";
+}
+
+void WhisperPirateTownBattle(string qName)
+{	
+	SetLocationCapturedState("PuertoPrincipe_town", false);
+	DoQuestFunctionDelay("WhisperPirateTownGetHat_part_1", 0.1);
+}
+void WhisperKillNineFingers(string qName)
+{	
+	sld = characterFromID("NineFingers");
+	DeleteAttribute(sld, "items");
+    DeleteAttribute(sld, "equip");
+	GiveItem2Character(sld, "Map_bad");
+	RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
+	LAi_KillCharacter(sld);
+}
+void WhisperPirateTownBattleMortality()
+{	
+	for (int i = 0; i < 10; i++)
+	{
+		sld = characterFromID("IncqSoldier_"+sti(i));
+		LAi_SetImmortal(sld, false);
+		sld = characterFromID("PirateTownDefender_"+sti(i));
+		LAi_SetImmortal(sld, false);
+	}
 }
 
 void WhisperAfterTownBattle(string qName)

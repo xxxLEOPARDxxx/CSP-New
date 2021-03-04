@@ -32,9 +32,40 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit_Self();
 		break;
+		case "exit_WhisperTownbattle":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			WhisperPirateTownBattleMortality();
+			//AddDialogExitQuest("MainHeroFightModeOn");	
+			DialogExit_Self();
+		break;
+		case "exit_WhisperAddWidow":
+			NextDiag.CurrentNode = NextDiag.TempNode;	
+			DialogExit_Self();
+			
+			ref mc = GetMainCharacter();
+
+			mc.Ship.Type = GenerateShipExt(SHIP_SOPHIE, true, mc);
+			mc.Ship.name="Черная Вдова";
+			SetBaseShipData(mc);
+			mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS12;
+			SetCrewQuantityFull(mc);
+			
+            SetCharacterGoods(mc,GOOD_FOOD,200);
+        	SetCharacterGoods(mc,GOOD_BALLS,300);//2000);
+            SetCharacterGoods(mc,GOOD_GRAPES,300);//700);
+            SetCharacterGoods(mc,GOOD_KNIPPELS,300);//700);
+            SetCharacterGoods(mc,GOOD_BOMBS,300);//1500);
+            SetCharacterGoods(mc,GOOD_POWDER,1000);
+            SetCharacterGoods(mc,GOOD_PLANKS,50);
+            SetCharacterGoods(mc,GOOD_SAILCLOTH,50);
+            SetCharacterGoods(mc,GOOD_RUM,40);//600);
+            SetCharacterGoods(mc,GOOD_WEAPON,200);//2000);
+            SetCharacterGoods(mc,GOOD_EBONY,100);//2000);
+		break;
 		case "Exit_incq":
 			NextDiag.CurrentNode = NextDiag.TempNode;
-			DoQuestFunctionDelay("WhisperLine_Inquisition", 5.0);
+			DoQuestFunctionDelay("WhisperLine_Inquisition", 2.0);
+			WaitDate("", 0, 0, 3, 2, 30);
 			DialogExit_Self();
 		break;
 		case "Exit_Special":
@@ -170,23 +201,20 @@ void ProcessDialogEvent()
 			if (CheckAttribute(pchar, "questTemp.Whisper.GetHat"))
 			{
 				DeleteAttribute(pchar, "questTemp.Whisper.GetHat");
-				dialog.Text = "Похоже, его задела шальная пуля от происходящего за городом сражения. ";
+				dialog.Text = "Похоже, его задело шальной пулей от происходящего сражения. ";
 				GiveItem2Character(pchar, "blade19");
 				EquipCharacterByItem(pchar, "blade19");
 				Pchar.model="PGG_Whisper_0";
 				pchar.Whisper.HatEnabled = true;
-				Link.l1 = "Мне жаль, приятель. Твои шпагу со шляпой я заберу. Надеюсь, ты не в обиде. Там, куда ты попал они все равно уже не понадобятся.";
-				Link.l1.go = "exit";
-				PChar.quest.WhisperPirateTownBattle.win_condition.l1 = "location";
-				PChar.quest.WhisperPirateTownBattle.win_condition.l1.location = "PuertoPrincipe_ExitTown";
-				PChar.quest.WhisperPirateTownBattle.function = "WhisperPirateTownBattle";
+				Link.l1 = "Мне жаль, приятель. Твои шпагу со шляпой я заберу, в данный момент они мне гораздо нужнее, чем тебе. Надеюсь, ты не в обиде.";
+				Link.l1.go = "exit_WhisperTownbattle";
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.AfterTownBattle"))
 			{
 				DeleteAttribute(pchar, "questTemp.Whisper.AfterTownBattle");
-				dialog.Text = "Похоже, мы отбились. Жаль, что столько людей погибло\nДевятипалый говорил, что его тут недалеко ждет корабль. Стоит проверить.";
+				dialog.Text = "Похоже, мы отбились. Жаль, что столько людей погибло\nДевятипалый говорил, что его тут недалеко ждет корабль. Стоит попытаться попасть на него, ведь испанцы наверняка могут вернуться сюда в любой момент с подкреплением.";
 				Link.l1 = "Нужно найти бухту.";
-				Link.l1.go = "exit";
+				Link.l1.go = "exit_WhisperAddWidow";
 				PChar.quest.WhisperPirateTownBattle.win_condition.l1 = "location";
 				PChar.quest.WhisperPirateTownBattle.win_condition.l1.location = "PuertoPrincipe_Port";
 				PChar.quest.WhisperPirateTownBattle.function = "WhisperMeetCrew";

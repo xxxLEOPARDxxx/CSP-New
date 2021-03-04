@@ -1939,30 +1939,86 @@ void CalculateInfoDataF40()
 	Statistic_AddValue(PChar, "Cheats.F40", 1);
 }
 
-string descF41 = "Нет назначений";
+string descF41 = "Дамп всех осад";
 void CalculateInfoDataF41()
 {
 	totalInfo = descF41;
- 	
+	int iChar;
+
+	string sColony;
+
+	int i;
+	float x, y, z;  // boal
+
+	for (i=0; i<MAX_COLONIES; i++)
+	{
+		if (colonies[i].nation == "none") continue; // необитайки
+		// зададим базовых мэров городов
+		iChar = GetCharacterIndex(colonies[i].id + "_Mayor");
+		if (iChar != -1)
+		{   // мэр есть
+        	Log_Info("M: " + characters[iChar].id + " L:" + characters[iChar].location +
+        	" " + characters[iChar].City + "  " + characters[iChar].nation);
+        	trace("M: " + characters[iChar].id + " L:" + characters[iChar].location +
+        	" " + characters[iChar].City + "  " + characters[iChar].nation);
+        }
+
+		// добавить проверку на пиратов, у них нет фортов, нафиг им коммандер?
+		if (CheckAttribute(&colonies[i], "HasNoFort"))
+		{
+			continue;
+		}
+		iChar = GetCharacterIndex(colonies[i].id + " Fort Commander");
+		Log_Info("F: " + characters[iChar].id + " L:" + characters[iChar].location + " g " + characters[iChar].location.group + " r " + characters[iChar].location.locator +
+  		" " + characters[iChar].City + "  " + characters[iChar].nation);
+  		trace("F: " + characters[iChar].id + " L:" + characters[iChar].location + " g " + characters[iChar].location.group + " r " + characters[iChar].location.locator +
+  		" " + characters[iChar].City + "  " + characters[iChar].nation);
+	}
+	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
-	
 	SetFormatedText("INFO_TEXT", totalInfo);
-	
-	// Статистика по читам
-	Statistic_AddValue(PChar, "Cheats.F41", 1);
+	Statistic_AddValue(PChar, "Cheats.F40", 1);
 }
 
-string descF42 = "Нет назначений";
+string descF42 = "Проверка ликвидности товара"; // проверка ликвидности товара - цена-вес, что выгоднее - выводим в компил.лог список, строим заполняя трюм товаром по одной пачке
 void CalculateInfoDataF42()
 {
 	totalInfo = descF42;
- 	
+	int i, j, idx;
+	float fMaxCost;
+
+	for (i = 0; i< GOODS_QUANTITY; i++)
+	{
+		SetCharacterGoods(pchar, i, sti(Goods[i].Units));
+	}
+	trace("======= TestGoodsLiquidity ======== start ");
+	for (j = 0; j< GOODS_QUANTITY; j++)
+	{
+		fMaxCost = 0;
+		idx = -1;
+		for (i = 0; i< GOODS_QUANTITY; i++)
+		{
+			if (GetCargoGoods(pchar, i) > 0)
+			{
+				if (fMaxCost < stf(Goods[i].Cost)/stf(Goods[i].Weight))
+				{
+					fMaxCost = stf(Goods[i].Cost)/stf(Goods[i].Weight);
+					idx = i;
+				}
+			}
+		}
+		if (fMaxCost > 0)
+		{
+			SetCharacterGoods(pchar, idx, 0);
+			trace(Goods[idx].Name + " = " + fMaxCost);
+			Log_info(Goods[idx].Name + " = " + fMaxCost);
+		}
+	}
+	trace("======= TestGoodsLiquidity ======== end ");
+	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
-	
 	SetFormatedText("INFO_TEXT", totalInfo);
-	
-	// Статистика по читам
-	Statistic_AddValue(PChar, "Cheats.F42", 1);
+	Statistic_AddValue(PChar, "Cheats.F40", 1);
 }
 
 string descF43 = "Нет назначений";

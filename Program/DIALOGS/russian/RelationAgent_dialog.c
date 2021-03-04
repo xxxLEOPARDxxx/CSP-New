@@ -179,6 +179,10 @@ void ProcessDialogEvent()
 			PChar.quest.WhisperPirateTownGetHat.win_condition.l1 = "location";
 			PChar.quest.WhisperPirateTownGetHat.win_condition.l1.location = "PuertoPrincipe_town";
 			PChar.quest.WhisperPirateTownGetHat.function = "WhisperPirateTownGetHat";
+			PChar.quest.WhisperPirateTownBattle.win_condition.l1 = "location";
+			PChar.quest.WhisperPirateTownBattle.win_condition.l1.location = "PuertoPrincipe_ExitTown";
+			PChar.quest.WhisperPirateTownBattle.function = "WhisperPirateTownBattle";
+			SetLocationCapturedState("PuertoPrincipe_town", true); 	
 		break;
 		//*************************** Генератор - "Найденные судовые документы" **************		
 		case "D_ShipLetters_1":
