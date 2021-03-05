@@ -2,7 +2,7 @@
 void ProcessDialogEvent()
 {
 	ref NPChar, d;
-	aref Link, Diag;
+	aref Link, Diag, NextDiag;
 
 	DeleteAttribute(&Dialog,"Links");
 
@@ -10,6 +10,7 @@ void ProcessDialogEvent()
 	makearef(Link, Dialog.Links);
 	makeref(d, Dialog);
 	makearef(Diag, NPChar.Dialog);
+	makearef(NextDiag, NPChar.Dialog);
 	
 	ref    sld;
 	string attr, attrLoc;
@@ -134,6 +135,29 @@ void ProcessDialogEvent()
 				}
 			}
 			
+			// приколы -->
+			if (PChar.sex == "woman" && !CheckAttribute(pchar, "questTemp.MainHeroWoman"))
+			{//Запускаем счетчик для отката
+				pchar.questTemp.MainHeroWoman = true;
+				SaveCurrentQuestDateParam("pchar.questTemp.MainHeroWomanSex");
+			}
+            if (PChar.location == Get_My_Cabin())
+            {
+    			if (PChar.sex == "woman" && NPChar.sex == "man")
+    			{
+					Link.l5 = RandPhraseSimple("Раз уж мы в каюте давай может...а? Посмотри тут и кровать есть... такая мягенькая...",
+	                                           "Посмотри какая в моей каюте большая кровать. Не хочешь разделить ее со мной?");
+	                if (drand(40) + 30 < sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)) && GetQuestPastDayParam("pchar.questTemp.MainHeroWomanSex") >= 5)
+	                {
+	                    Link.l5.go = "Love_Sex_Yes";
+	                }
+	                else
+	                {
+	                    Link.l5.go = "Love_Sex";
+	                }
+                }
+            }
+			
             // по тек локации определим можно ли тут приказать  -->
             if (IsEntity(loadedLocation))
             {
@@ -213,6 +237,77 @@ void ProcessDialogEvent()
             Link.l12.go = "Exit";
         break;
 
+		case "Love_Sex_Yes":
+		    dialog.text = RandPhraseSimple("Пожалуй, такой красотке грех отказывать.",
+                                           "Я готов пойти на все ради вас, капитан.");
+            link.l1 = RandPhraseSimple("Oh, Yes!", "Умничка! Если постараешься, быть может получишь в этом месяце премию.");
+			link.l1.go = "Love_Sex_Yes_2";
+        break;
+        
+        case "Love_Sex_Yes_2":
+            AddCharacterExpToSkill(pchar, "Leadership", 100);
+            AddCharacterExpToSkill(pchar, "Fencing", -50);// утрахала
+            AddCharacterExpToSkill(pchar, "Pistol", -50);
+            AddCharacterHealth(pchar, 10);
+			SaveCurrentQuestDateParam("pchar.questTemp.MainHeroWomanSex");
+   			AddDialogExitQuest("PlaySex_1");
+			NextDiag.CurrentNode = "After_sex";
+			DialogExit();
+        break;
+        
+        case "After_sex":
+            NextDiag.TempNode = "Hired";
+		    dialog.text = RandPhraseSimple("Вы как всегда на высоте, капитан.",
+                                           "Капитан, надеюсь, вам все понравилось, я старался.");
+            link.l1 = RandPhraseSimple("Да, мы отлично провели время.", "Ага. теперь вернемся к нашим делам.");
+			link.l1.go = "exit";
+        break;
+        
+        case "Love_Sex":
+            NextDiag.TempNode = "Hired";
+		    dialog.text = RandPhraseSimple("Что!!!?? Капитан, вы давно не сходили на берег и не были в борделе?", "Не понимаю, о чем это вы?");
+            link.l1 = RandPhraseSimple("Ну сам подумай.. ты такая красавичик, да еще и в моем подчинении", "Ну не идти же мне в бордель, когда под боком есть ты!");
+			link.l1.go = "Love_Sex_2";							
+			link.l2 = RandPhraseSimple("Извини меня, красавчик, очень трудно было удержаться, чтоб не предложить..", "Эх.. ладно, проехали...");
+			link.l2.go = "exit";	
+        break;
+        
+        case "Love_Sex_2":
+            NextDiag.TempNode = "Hired";
+		    dialog.text = RandPhraseSimple("Капитан! Держите себя в руках, если не можете в своих, позовите матросов!", "То, что я офицер и номинально подчиняюсь Вам, капитан, еще ничего не значит!");
+            link.l1 = RandPhraseSimple("Малыш, не протився. Я уже не могу себя сдерживать. Пойдем..", "Я - твой капитан! И я приказываю тебе!");
+			link.l1.go = "Love_Sex_3";							
+			link.l2 = RandPhraseSimple("Извини меня, малыш, очень трудно было удержаться, чтоб не предложить..", "Эх.. ладно, проехали...");
+			link.l2.go = "exit";	
+        break;
+        
+        case "Love_Sex_3":
+            NextDiag.TempNode = "Hired";
+		    dialog.text = RandPhraseSimple("Ну все! Вы ответите за это! И прямо сейчас!", "Покувыркаться с вами? Чтож сейчас поглядим, кто на что способен..");
+            link.l1 = "Э.. ты о чем?";
+			link.l1.go = "Love_Sex_4";							
+        break;
+        
+        case "Love_Sex_4":
+            ChangeCharacterReputation(pchar, -15);
+            CheckForReleaseOfficer(GetCharacterIndex(Npchar.id));
+			RemovePassenger(Pchar, Npchar);
+            LAi_SetWarriorType(Npchar);
+            LAi_group_MoveCharacter(Npchar, "TmpEnemy");
+            LAi_group_SetHearRadius("TmpEnemy", 100.0);
+            LAi_group_FightGroupsEx("TmpEnemy", LAI_GROUP_PLAYER, true, Pchar, -1, false, false);
+
+			if (PChar.location == Get_My_Cabin() || findsubstr(PChar.location, "_tavern" , 0) != -1)
+            {
+				LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], false);
+                LAi_group_SetCheck("TmpEnemy", "CannotFightCurLocation");
+				LAi_group_SetCheck("TmpEnemy", "MainHeroFightModeOff");
+            }
+            DialogExit();
+			AddDialogExitQuest("MainHeroFightModeOn");
+        break;
+        // приколы <--
+		
 		case "TransferGoodsEnable":
 			if(sti(PChar.Ship.Type) == SHIP_NOTUSED)
 	        {
