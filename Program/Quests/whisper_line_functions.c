@@ -243,10 +243,11 @@ void WhisperLine_Cage(string qName)
 	
 	bDisableLandEncounters = true;
 	
-	sld = GetCharacter(NPC_GenerateCharacter("AntonioDeSouza", "priest", "man", "man", 10, SPAIN, -1, false));
+	//sld = GetCharacter(NPC_GenerateCharacter("AntonioDeSouza", "priest", "man", "man", 10, SPAIN, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("AntonioDeSouza", "PGG_Vincento_0", "man", "man", 10, SPAIN, -1, false));
    	sld.name 	= "Антониу";
     sld.lastname = "де Соуза";
-	sld.model.animation = "man2";
+	//sld.model.animation = "man2";
     sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
 	sld.greeting = "Gr_padre";
     LAi_SetHuberType(sld);
@@ -271,19 +272,22 @@ void WhisperLine_DeSouzaHits(string qName)
 	LAi_SetActorTypeNoGroup(PChar);
     LAi_SetActorTypeNoGroup(sld);
     LAi_ActorTurnToCharacter(pchar, sld);
-	switch (rand(2))
+	switch (2)
 	{
 		case 0:
 			LAi_ActorAnimation(sld, "attack_fast_"+sti(rand(2)+1), "", 0.6);
+			DoQuestFunctionDelay("WhisperLine_DeSouzaHits_1", 0.5);
 		break;
 		case 1:
 			LAi_ActorAnimation(sld, "attack_force_"+sti(rand(3)+1), "", 0.6);
+			DoQuestFunctionDelay("WhisperLine_DeSouzaHits_1", 0.5);
 		break;
 		case 2:
-			LAi_ActorAnimation(sld, "attack_break_1", "", 0.6);
+			LAi_ActorAnimation(sld, "attack_break_1", "", 2.9);
+			DoQuestFunctionDelay("WhisperLine_DeSouzaHits_1", 1.0);
 		break;
 	}	
-	DoQuestFunctionDelay("WhisperLine_DeSouzaHits_1", 0.5);
+	
 }
 
 void WhisperLine_DeSouzaHits_1(string qName)

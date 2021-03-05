@@ -135,7 +135,7 @@ heroType_2 {Авантюрист}
 heroNation_2 {Пират}
 
 sex_2 {woman}
-animation_2 {Milenace}
+animation_2 {YokoDias}
 
 hero_2
 {
