@@ -114,6 +114,10 @@ float Cannon_GetFireHeight()
 	{
 	   Y = Y + 0.6;
 	}
+	if (sBallName == "Knippels" )
+	{
+	   Y = Y + 2.6;
+	}
 	if (sti(aEnemy.Ship.Type) == SHIP_FORT)
 	{
 	   Y = 40;

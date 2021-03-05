@@ -149,11 +149,10 @@ void Sea_ClearCheckFlag()
 {
     if (bSeaActive)
     {
-		int i;
 		for (i=0; i<iNumShips; i++)
 		{
 			//Boyer fix
-			if(sti(Ships[i]) >= 0 && sti(Ships[i]) < TOTAL_CHARACTERS) 
+			if(sti(Ships[i]) >= 0 && sti(Ships[i]) < TOTAL_CHARACTERS) 												   
 			{
 				if (!CheckAttribute(&Characters[Ships[i]], "DontCheckFlag"))
 				{
@@ -161,17 +160,17 @@ void Sea_ClearCheckFlag()
 					DeleteAttribute(&Characters[Ships[i]], "CheckFlagDate");
 				}
 			}
-		}
-		// фортам трем
-		for (i=0; i<MAX_COLONIES; i++)
-		{
-			if (CheckAttribute(&colonies[i], "commanderIdx"))
+			// фортам трем
+			for (i=0; i<MAX_COLONIES; i++)
 			{
-				if (!CheckAttribute(&Characters[sti(colonies[i].commanderIdx)], "DontCheckFlag"))
+				if (CheckAttribute(&colonies[i], "commanderIdx"))
 				{
-					DeleteAttribute(&Characters[sti(colonies[i].commanderIdx)], "CheckFlagYet"); // флаг распознования врага
-				    DeleteAttribute(&Characters[sti(colonies[i].commanderIdx)], "CheckFlagDate");
-			    }
+					if (!CheckAttribute(&Characters[sti(colonies[i].commanderIdx)], "DontCheckFlag"))
+					{
+						DeleteAttribute(&Characters[sti(colonies[i].commanderIdx)], "CheckFlagYet"); // флаг распознования врага
+						DeleteAttribute(&Characters[sti(colonies[i].commanderIdx)], "CheckFlagDate");
+					}
+				}
 			}
 		}
 	}
@@ -559,7 +558,8 @@ float Ship_MastDamage()
         //#20190113-06
         int iBallCharacterIndex = GetEventData();
         ref rBallCharacter = GetCharacter(iBallCharacterIndex);
-        if(GetNationRelation(sti(rBallCharacter.Nation), sti(rCharacter.nation)) != RELATION_FRIEND) {
+        if(GetNationRelation(sti(rBallCharacter.Nation), sti(rCharacter.nation)) != RELATION_FRIEND) 
+			{
             if(CheckAttribute(rCharacter, "SeaAI.fortSanctuary")) {
                 DeleteAttribute(rCharacter, "SeaAI.fortSanctuary")
                 rCharacter.SeaAI.hitInSanctuary = true;
@@ -891,9 +891,9 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 	rCharacter.Ship.SeaAI.Init.AbordageDistance = 30.0;
 	// boal -->
 	ref	rCannon = GetCannonByType(sti(rCharacter.Ship.Cannons.Type));
-	float range = 550;
+	float range = 50;
 	if (CheckAttribute(rCannon, "FireRange")) range = stf(rCannon.FireRange);
-	rCharacter.Ship.SeaAI.Init.AttackDistance = range  / (1.4 + frandSmall(2.0)); // это очень важный параметр, он определяет дистанцию АИ, на которой будет стараться держаться корабль
+	rCharacter.Ship.SeaAI.Init.AttackDistance = range  / (1.4 + frandSmall(2.0));  // это очень важный параметр, он определяет дистанцию АИ, на которой будет стараться держаться корабль
 	rCharacter.Ship.SeaAI.Init.AttackDistance.qtyTryChangeCannon = 0; //счетчик попыток смены боеприпасов при полном боезапаса, для фикса неубегаек
 	// boal <--
 	rCharacter.Ship.SeaAI.Init.FollowDistance = makefloat(180 + rand(120)); // было 300, делаю рандом для разнообразия поведения компаньонов и следования в группе
@@ -904,8 +904,8 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
     rCharacter.Ship.SeaAI.Init.DefEnemyC = 5.0;
     rCharacter.Ship.SeaAI.Init.MinEnemyC = 3.0;
     rCharacter.Ship.SeaAI.Init.MaxEnemyC = 10.0;
-    rCharacter.Ship.SeaAI.Init.IslandDist = 500.0;
-    rCharacter.Ship.SeaAI.Init.IslandC = 1.75;
+    rCharacter.Ship.SeaAI.Init.IslandDist = 90.0;
+    rCharacter.Ship.SeaAI.Init.IslandC = 2.5;
     rCharacter.Ship.SeaAI.Init.POSRatio = 0.3;
     rCharacter.Ship.SeaAI.Init.LowPredTime = 20.0;
     rCharacter.Ship.SeaAI.Init.HighPredTime = 50.0;
@@ -1801,16 +1801,6 @@ void Ship_CheckSituation()
 	    }
 	    // AI компа <--
     }
-    /*else // наши компаньоны
-    {
-        // boal fix 23.05.05
-    	if (rMyCharacter.SystemInfo.NoneOfEnimy == true)
-    	{
-            fMinEnemyDistance = 1000.0;
-    	}
-        rCharacter.SystemInfo.GlobalMinEnemyDistance    = fMinEnemyDistance;  
-    } */
-    // boal фикс выхода на карту
 }
 
 // проверка флага НПС у ГГ, мож он пират?
@@ -2013,7 +2003,7 @@ int Ship_FindOtherBallType(ref rCharacter, float fMinEnemyDistance, bool bBalls,
 			}
 		}*/
 
-		if ( bBalls) //(fMinEnemyDistance <= range) && //если дистанция больше, то тем более на ядра
+		if (bBalls) //(fMinEnemyDistance <= range) && //если дистанция больше, то тем более на ядра
 		{
 			iType = GOOD_BALLS;
 		}
@@ -2101,8 +2091,8 @@ void Ship_SailDamage()
 void Ship_Ship2IslandCollision()
 {
 	float	fPower, fSlide, x, y, z;
-	int		iOurCharacterIndex, iEnemyCharacterIndex, iTouchPoint;
-
+	int		iOurCharacterIndex, iEnemyCharacterIndex, iTouchPoint, prevTask;
+	
 	iOurCharacterIndex = GetEventData();
 	iEnemyCharacterIndex = GetEventData();
 	fPower = abs(GetEventData());
@@ -2114,13 +2104,26 @@ void Ship_Ship2IslandCollision()
 
 	ref rOurCharacter = GetCharacter(iOurCharacterIndex);
 
+	if (iOurCharacterIndex != GetMainCharacterIndex())
+		{
+			Ship_SetTaskDrift(SECONDARY_TASK, iOurCharacterIndex);
+			rOurCharacter.TmpPerks.Turn = true;
+			rOurCharacter.TmpPerks.Turn.Angle = PI/1.3;//корабли будут пытаться развернуться от острова
+			rOurCharacter.Tmp.SpeedRecall = 0;
+		}
+
     if (!sti(rOurCharacter.TmpPerks.SandbankManeuver) && !CheckAttribute(rOurCharacter, "AlwaysSandbankManeuver"))  //boal
     {
 		float fHP = (1.0 - fSlide) * fPower * 3.0;
 		Ship_ApplyHullHitpoints(rOurCharacter, fHP, KILL_BY_ISLAND, -1);
 
-		if (fPower > 1.0) { Play3DSound("coll_ship2rock", x, y, z); }
+		if (fPower > 1.0)  Play3DSound("coll_ship2rock", x, y, z); 
 	}
+	if (iOurCharacterIndex != GetMainCharacterIndex() && sti(rOurCharacter.SeaAI.Task)==AITASK_DRIFT)
+		{
+			Ship_SetTaskAttack(PRIMARY_TASK, sti(iOurCharacterIndex), GetMainCharacterIndex());//и вернуться к атаке; переделал Lipsar
+			rOurCharacter.Tmp.SpeedRecall = 0;
+		}
 }
 
 float Ship_GetAttackHP(int iCharacterIndex, float fDistance)
@@ -2837,8 +2840,10 @@ void Ship_HullHitEvent()
     }
     // boal 290704 раз в минуту проверяем обиду на гл героя, если жухлит через желтый прицел <--
     //#20190113-06
-    if(GetNationRelation(sti(rBallCharacter.Nation), sti(rOurCharacter.nation)) != RELATION_FRIEND) {
-        if(CheckAttribute(rOurCharacter, "SeaAI.fortSanctuary")) {
+    if(GetNationRelation(sti(rBallCharacter.Nation), sti(rOurCharacter.nation)) != RELATION_FRIEND) 
+	{
+        if(CheckAttribute(rOurCharacter, "SeaAI.fortSanctuary")) 
+		{
             DeleteAttribute(rOurCharacter, "SeaAI.fortSanctuary");
             rOurCharacter.SeaAI.hitInSanctuary = true;
         }
@@ -3023,19 +3028,8 @@ void Ship_CheckMainCharacter()
     locTmpTime = locTmpTime + 0.5;  // можно засунуть проверку locDisableUpdateTime, если нужно выключить
     if (locTmpTime > 9)
 	{
-		/*if (bDisableMapEnter)
-		{
-			if (locTmpTime > 29)
-			{
-				CalcLocalTime(6);
-    			BattleInterface.textinfo.Date.text = XI_convertString("Date:")+GetQuestBookData();
-			}
-		}
-		else
-		{ */
 		    CalcLocalTime(2);
       		BattleInterface.textinfo.Date.text = XI_convertString("Date:")+GetQuestBookData();
-		//}
 	}
 	// boal время в море идет!!! <--
 	
@@ -3560,7 +3554,8 @@ void Ship_UpdateParameters()
 		return;
 	}
     // рудимент bool	bStrand = sti(rCharacter.Ship.Strand);
-	aref	arTmpPerks; makearef(arTmpPerks, rCharacter.TmpPerks);
+	aref	arTmpPerks; 
+	makearef(arTmpPerks, rCharacter.TmpPerks);
 
 	// update temporary skill storage
 	Ship_UpdateTmpSkills(rCharacter);
@@ -3678,7 +3673,7 @@ void Ship_UpdateParameters()
 	}
 	//Log_Info("MaxSpeedY = "  + arCharShip.MaxSpeedY);
 	// calculate immersion
-	float	fLoad = Clampf(GetCargoLoad(rCharacter) / stf(rShip.Capacity));
+	float fLoad = Clampf(GetCargoLoad(rCharacter) / stf(rShip.Capacity));
 	arCharShip.Immersion = (stf(rShip.SubSeaDependWeight) * fLoad); // это уровень погружения от веса
 
 	// do damage if ship hull < 10 процентов, sinking
@@ -4755,7 +4750,8 @@ bool Ship_CheckMorale(int chridx, bool checkNow)
 	return true;  //chance to surrender
 }
 
-float GetDistDeltaToNearestEnemy(int idx) {
+float GetDistDeltaToNearestEnemy(int idx)
+{
 	float fDistDelta = 0.0;
 	ref chr = GetCharacter(idx);
 	float fEnemyDistance = 0.0;
@@ -5190,7 +5186,8 @@ void Ship_Neutral(int chridx, string sGroup)
 }
 
 
-void FlagPerkForCapturedShip(ref refChar) {
+void FlagPerkForCapturedShip(ref refChar) 
+{
 	//Trace("FlagPerkForCapturedShip.nation = " + refChar.nation);
 	string sMessage = "";
 	string sPerk = "";
