@@ -172,6 +172,15 @@ void ProcessDialogEvent()
 				Link.l2 = "Нет, меня вполне устраивает моя текущая форма.";
 				Link.l2.go = "exit";
 			}
+			//Старт за Шарпов
+			if (CheckAttribute(pchar, "questTemp.Sharp.Entered_Shore"))
+			{
+				dialog.Text = "Если верить подсказкам на карте, сокровища должны быть где-то неподалеку.";
+				bMonstersGen = true;
+				DeleteAttribute(pchar, "questTemp.Sharp.Entered_Shore");
+				Link.l1 = "Нужно отыскать грот.";
+				Link.l1.go = "Exit_Special";
+			}
 			//Линейка Виспер
 			if (CheckAttribute(pchar, "questTemp.Whisper.Entered_Dungeon"))
 			{

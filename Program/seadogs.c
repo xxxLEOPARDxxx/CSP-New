@@ -986,13 +986,18 @@ void NewGame_continue()
 
 	//LoadMainCharacterInFirstLocation(sTeleportLocName, sTeleportLocator, sTeleportLocName);
 	startGameWeather = true;
-	if (Pchar.questTemp.CapBloodLine != true && Pchar.questTemp.WhisperLine != true) //21/07/07 homo для Блада даем другое начало
-	{
+	if (startHeroType > 4)
+	{//Стандартное начало
 		InterfaceStates.startGameWeather = FindWeather("11 Hour");
 		LoadMainCharacterInFirstLocationGroup("Ship_deck_Low", "goto", "goto4");
     }
-    else if (Pchar.questTemp.WhisperLine == true)
-	{
+	if (startHeroType == 3 || startHeroType == 4) 
+	{//Блейз и Беатрис
+		InterfaceStates.startGameWeather = FindWeather("11 Hour");
+		LoadMainCharacterInFirstLocationGroup("Shore57", "item", "item11");
+    }
+    if (startHeroType == 2)
+	{//Виспер
 		RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
 		RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
 		RemoveCharacterEquip(pchar, SPYGLASS_ITEM_TYPE);
@@ -1007,8 +1012,8 @@ void NewGame_continue()
 		InterfaceStates.startGameWeather = FindWeather("11 Hour");
 		LoadMainCharacterInFirstLocationGroup("Bermudes_Dungeon", "officers", "reload2_1");
     }
-	else
-    {
+	if (startHeroType == 1)
+    {//Блад
         //homo тут это должно точно работать
         RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
 		RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);

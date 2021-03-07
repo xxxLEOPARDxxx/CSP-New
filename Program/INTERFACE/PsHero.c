@@ -108,58 +108,60 @@ void FillTable()
 		chr = CharacterFromID("PsHero_" + i);
 		if(!CharacterIsDead(chr))
 		{
-
-		//временно либо офицер, либо компаньон... не работаем с ним.
-		//if (!sti(chr.PGGAi.IsPGG)) continue;
-		//помер, нефиг мертвых качать.
-		//if (LAi_IsDead(chr)) continue;
-		
-		row = "tr" + n;
-		GameInterface.TABLE_HERO.(row).index = i;
-		GameInterface.TABLE_HERO.(row).td1.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chr.faceId + ".tga";
-		GameInterface.TABLE_HERO.(row).td1.icon.uv = "0,0,1,1";
-	    GameInterface.TABLE_HERO.(row).td1.icon.width = 40;
-    	GameInterface.TABLE_HERO.(row).td1.icon.height = 40;
-    	GameInterface.TABLE_HERO.(row).td1.icon.offset = "-2, -1";
-	    // GameInterface.TABLE_HERO.(row).td1.str = chr.id;
-	    GameInterface.TABLE_HERO.(row).td1.scale = 0.8;
-	    GameInterface.TABLE_HERO.(row).td2.str = GetFullName(chr);
-	    GameInterface.TABLE_HERO.(row).td2.scale = 0.8;
-	    GameInterface.TABLE_HERO.(row).td3.str = chr.rank;
-	    GameInterface.TABLE_HERO.(row).td3.scale = 1.0;
-	    GameInterface.TABLE_HERO.(row).td4.str = XI_ConvertString(Nations[sti(chr.nation)].name);
-	    GameInterface.TABLE_HERO.(row).td4.scale = 0.8;
-	    if (GetCharacterShipType(chr) != SHIP_NOTUSED)
-	    {
-	    	GameInterface.TABLE_HERO.(row).td5.str = XI_ConvertString(RealShips[GetCharacterShipType(chr)].BaseName);
-	    	GameInterface.TABLE_HERO.(row).td5.scale = 0.8;
-	    }
-		else
-		{
-			GameInterface.TABLE_HERO.(row).td5.str = "Нет корабля";
-	    	GameInterface.TABLE_HERO.(row).td5.scale = 0.8;
-		}
-	    GameInterface.TABLE_HERO.(row).td6.str = XI_ConvertString("Colony"+chr.PGGAi.location.town);
-	    GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
-	    /* if (CheckAttribute(chr, "PGGAi.task.target"))
-	    {
-	    	GameInterface.TABLE_HERO.(row).td7.str = XI_ConvertString("Colony"+chr.PGGAi.task.target);
-	    	GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
-	    }
-		else
-		{
-			GameInterface.TABLE_HERO.(row).td7.str = "Находится в колонии";
-			GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
-		} */
-		GameInterface.TABLE_HERO.(row).td7.str = "" + chr.SPECIAL.Strength + " " + chr.SPECIAL.Perception + " "+chr.SPECIAL.Agility + " " + chr.SPECIAL.Charisma + " "+chr.SPECIAL.Intellect + " " + chr.SPECIAL.Endurance   + " " + chr.SPECIAL.Luck;
-		GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
-		GameInterface.TABLE_HERO.(row).td8.str = ""+makeint(chr.reputation);
-		GameInterface.TABLE_HERO.(row).td8.scale = 0.8;
-		GameInterface.TABLE_HERO.(row).td9.str = ""+PGG_ChangeRelation2MainCharacter(chr, 0);
-		GameInterface.TABLE_HERO.(row).td9.scale = 0.8;
-		GameInterface.TABLE_HERO.(row).td10.str = ""+chr.Money;
-		GameInterface.TABLE_HERO.(row).td10.scale = 0.8;
-	    n++;
+			if(chr.PGGAi.IsPGG != false)
+			{
+				//временно либо офицер, либо компаньон... не работаем с ним.
+				//if (!sti(chr.PGGAi.IsPGG)) continue;
+				//помер, нефиг мертвых качать.
+				//if (LAi_IsDead(chr)) continue;
+				
+				row = "tr" + n;
+				GameInterface.TABLE_HERO.(row).index = i;
+				GameInterface.TABLE_HERO.(row).td1.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chr.faceId + ".tga";
+				GameInterface.TABLE_HERO.(row).td1.icon.uv = "0,0,1,1";
+				GameInterface.TABLE_HERO.(row).td1.icon.width = 40;
+				GameInterface.TABLE_HERO.(row).td1.icon.height = 40;
+				GameInterface.TABLE_HERO.(row).td1.icon.offset = "-2, -1";
+				// GameInterface.TABLE_HERO.(row).td1.str = chr.id;
+				GameInterface.TABLE_HERO.(row).td1.scale = 0.8;
+				GameInterface.TABLE_HERO.(row).td2.str = GetFullName(chr);
+				GameInterface.TABLE_HERO.(row).td2.scale = 0.8;
+				GameInterface.TABLE_HERO.(row).td3.str = chr.rank;
+				GameInterface.TABLE_HERO.(row).td3.scale = 1.0;
+				GameInterface.TABLE_HERO.(row).td4.str = XI_ConvertString(Nations[sti(chr.nation)].name);
+				GameInterface.TABLE_HERO.(row).td4.scale = 0.8;
+				if (GetCharacterShipType(chr) != SHIP_NOTUSED)
+				{
+					GameInterface.TABLE_HERO.(row).td5.str = XI_ConvertString(RealShips[GetCharacterShipType(chr)].BaseName);
+					GameInterface.TABLE_HERO.(row).td5.scale = 0.8;
+				}
+				else
+				{
+					GameInterface.TABLE_HERO.(row).td5.str = "Нет корабля";
+					GameInterface.TABLE_HERO.(row).td5.scale = 0.8;
+				}
+				GameInterface.TABLE_HERO.(row).td6.str = XI_ConvertString("Colony"+chr.PGGAi.location.town);
+				GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
+				/* if (CheckAttribute(chr, "PGGAi.task.target"))
+				{
+					GameInterface.TABLE_HERO.(row).td7.str = XI_ConvertString("Colony"+chr.PGGAi.task.target);
+					GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
+				}
+				else
+				{
+					GameInterface.TABLE_HERO.(row).td7.str = "Находится в колонии";
+					GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
+				} */
+				GameInterface.TABLE_HERO.(row).td7.str = "" + chr.SPECIAL.Strength + " " + chr.SPECIAL.Perception + " "+chr.SPECIAL.Agility + " " + chr.SPECIAL.Charisma + " "+chr.SPECIAL.Intellect + " " + chr.SPECIAL.Endurance   + " " + chr.SPECIAL.Luck;
+				GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
+				GameInterface.TABLE_HERO.(row).td8.str = ""+makeint(chr.reputation);
+				GameInterface.TABLE_HERO.(row).td8.scale = 0.8;
+				GameInterface.TABLE_HERO.(row).td9.str = ""+PGG_ChangeRelation2MainCharacter(chr, 0);
+				GameInterface.TABLE_HERO.(row).td9.scale = 0.8;
+				GameInterface.TABLE_HERO.(row).td10.str = ""+chr.Money;
+				GameInterface.TABLE_HERO.(row).td10.scale = 0.8;
+				n++;
+			}
 		}
 	}
 	Table_UpdateWindow("TABLE_HERO");

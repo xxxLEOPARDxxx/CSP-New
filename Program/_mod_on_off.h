@@ -2,7 +2,7 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2  "
-#define VERSION_NUMBER2       "Corsairs Ship Pack 2.1.0"
+#define VERSION_NUMBER2       "Corsairs Ship Pack 2.1.1"
 #define VERSION_NUMBER3       ""
 #define PROVIDER_TXT            "LEOPARD's team - MaelStrom edition"
 #define VERSION_NUM      99910  // текущий номер
@@ -79,6 +79,8 @@ bool 	bHigherShipRate				= true;
 bool 	bQuestMark 					= false;
 // -10 личного порога
 bool 	bHigherSelfRate 			= true;
+// Найм полубессмертного ПГГ
+bool 	bHalfImmortalPGG 			= false;
 // Сбор денег за швартовку
 bool 	bPortPermission 			= false;
 //Абордаж стенка на стенку

@@ -198,51 +198,58 @@ string RecalculateMushketHitsType(aref attack)
 
 //Расчитать полученный опыт при ударе саблей
 //#20200522-01
-float LAi_CalcExperienceForBlade(aref attack, aref enemy, string attackType, bool isBlocked, float dmg, bool blockSave)
+float LAi_CalcExperienceForBlade(aref attack, aref enemy, string attackType, float dmg, bool isBlocked, bool blockSave)
 {
+	if (dmg == 0) return 0.0;
 	//Вычисляем полученый опыт
 	float ra = 1.0;
 	float re = 1.0;
-	if(CheckAttribute(attack, "rank"))
+	float currhp = stf(enemy.chr_ai.hp);
+	float exp = currhp/Lai_GetCharacterMaxHP(enemy)*GetCharacterSPECIALSimple(attack, SPECIAL_I);//Lipsar передeлка опыта
+	if (CheckAttribute(attack, "rank"))
 	{
 		ra = stf(attack.rank);
 	}
-	if(CheckAttribute(enemy, "rank"))
+	if (CheckAttribute(enemy, "rank"))
 	{
 		re = stf(enemy.rank);
 	}
-	if(ra < 1.0) ra = 1.0;
-	if(re < 1.0) re = 1.0;
-	dmg = dmg*((1.0 + re*0.5)/(1.0 + ra*0.5));
+	if (ra < 1.0)
+		ra = 1.0;
+	if (re < 1.0)
+		re = 1.0;
+	exp = exp * ((1.0 + re * 0.5) / (1.0 + ra * 0.5));
 
-	switch(attackType)
+	switch (attackType)
 	{
-		case "break":
-			if(isBlocked)
+	case "break":
+		if (isBlocked)
+		{
+			//#20200510-03
+			if (blockSave)
 			{
-				//#20200510-03
-                if(blockSave) {
-                    dmg = dmg*0.85;
-                }
-				else {
-                    dmg = dmg*1.1;
-				}
-			}else{
-				dmg = dmg*1.2;
+				  
+							   
+				exp = exp * 0.85;
 			}
+			else					  
+			{
+				exp = exp * 1.1;
+			}
+		}
+		else
+		{
+			exp = exp * 1.2;
+		}
 		break;
-		case "feint":
-			dmg = dmg*1.5;
+	case "feint":
+		exp = exp * 1.5;
 		break;
-		case "feintc":
-			dmg = dmg*1.5;
+	case "feintc":
+		exp = exp * 1.5;
 		break;
 	}
-	if (stf(enemy.chr_ai.hp) < dmg)
-	{
-       dmg = stf(enemy.chr_ai.hp);
-	}
-	return dmg;
+	return exp;
 }
 
 //Энергия, необходимая для запуска действия
@@ -409,25 +416,29 @@ float LAi_GunCalcDamage(aref attack, aref enemy)
 //Расчитать полученный опыт при попадании из пистолета
 float LAi_GunCalcExperience(aref attack, aref enemy, float dmg)
 {
-    //Вычисляем полученый опыт
+	if (dmg == 0) return 0.0;
+	float currhp = stf(enemy.chr_ai.hp);
+	if (dmg > Lai_GetCharacterMaxHP(enemy)) currhp = Lai_GetCharacterMaxHP(enemy);
+	int bonus = 1;
+	if (rand(GetCharacterSPECIALSimple(attack, SPECIAL_I)) > 7) bonus = GetCharacterSPECIALSimple(attack, SPECIAL_I);
+	float exp = currhp/Lai_GetCharacterMaxHP(enemy) * GetCharacterSPECIALSimple(attack, SPECIAL_P) *  bonus +(1+rand(GetCharacterSPECIALSimple(attack, SPECIAL_L)-1) * currhp/Lai_GetCharacterMaxHP(enemy));//Lipsar передeлка опыта
+	//Вычисляем полученый опыт
 	float ra = 1.0;
 	float re = 1.0;
-	if(CheckAttribute(attack, "rank"))
+	if (CheckAttribute(attack, "rank"))//Lipsar переделка опыта
 	{
 		ra = stf(attack.rank);
 	}
-	if(CheckAttribute(enemy, "rank"))
+	if (CheckAttribute(enemy, "rank"))
 	{
 		re = stf(enemy.rank);
 	}
-	if(ra < 1.0) ra = 1.0;
-	if(re < 1.0) re = 1.0;
-	dmg = dmg*((1.0 + re*0.5)/(1.0 + ra*0.5));
-	if (stf(enemy.chr_ai.hp) < dmg)
-	{
-       dmg = stf(enemy.chr_ai.hp);
-	}
-    return dmg;
+	if (ra < 1.0)
+		ra = 1.0;
+	if (re < 1.0)
+		re = 1.0;
+	exp = exp * ((1.0 + re * 0.5) / (1.0 + ra * 0.5));														
+	return exp;
 }
 
 //Расчитаем текущую скорость перезарядки пистолета
@@ -925,7 +936,8 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	    {
 	       re = stf(enemy.rank);
 	    }
-        AddCharacterExpToSkill(attack, LAi_GetBladeFencingType(attack), makefloat(10.0 + ((1 + re) / (1+ra))*6.5));
+		int experience = MakeInt(Lai_GetCharacterMaxHP(enemy)/stf(enemy.rank) + GetCharacterSPECIALSimple(attack, SPECIAL_I));//Lipsar передeлка опыта
+		AddCharacterExpToSkill(attack, LAi_GetBladeFencingType(attack), experience);		 
         AddCharacterExpToSkill(attack, SKILL_DEFENCE, 1);
         AddCharacterExpToSkill(attack, SKILL_FORTUNE, 1);
         AddCharacterExpToSkill(attack, SKILL_LEADERSHIP, 1);
@@ -1102,7 +1114,8 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	    {
 	       re = stf(enemy.rank);
 	    }
-        AddCharacterExpToSkill(attack, SKILL_PISTOL, makefloat(15.0 + ((1 + re) / (1+ra))*12.0));
+		int experience = MakeInt(Lai_GetCharacterMaxHP(enemy)/stf(enemy.rank) + GetCharacterSPECIALSimple(attack, SPECIAL_P));//Lipsar передeлка опыта
+		AddCharacterExpToSkill(attack, SKILL_PISTOL, experience);		 
         AddCharacterExpToSkill(attack, SKILL_DEFENCE, 1);
         AddCharacterExpToSkill(attack, SKILL_FORTUNE, 2);
         AddCharacterExpToSkill(attack, SKILL_LEADERSHIP, 1);
@@ -1123,7 +1136,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	}
 	if(!noExp)
     {
-        AddCharacterExpToSkill(attack, SKILL_PISTOL, Makefloat(exp*0.85));
+        AddCharacterExpToSkill(attack, SKILL_PISTOL, MakeFloat(exp*0.5));
     }
 }
 

@@ -1,4 +1,3 @@
-
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -15,7 +14,7 @@ void ProcessDialogEvent()
 	
 	switch(Dialog.CurrentNode)
 	{
-        case "Exit":
+		case "Exit":
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;
@@ -36,13 +35,13 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			
 			if (npchar.id == "W_ChinamanGuard")
-            {
+			{
 				
 				if (!CheckAttribute(npchar, "quest.meting"))
 				{
 					Lai_SetPlayerType(pchar);
 					dialog.Text = "Капитан, смотрите какую 'крысу' мы поймали в трюме.";
-					Link.l1 = "Проклятье, только бы не еще один путешественник во времени. Он наш язык хоть понимает?";
+					Link.l1 = "Проклятье, только бы не ещё один путешественник во времени. Он наш язык хоть понимает?";
 					Link.l1.go = "Exit_Chinaman_Speak";
 					npchar.quest.meting = 1;
 				break;
@@ -67,7 +66,7 @@ void ProcessDialogEvent()
 				}
 			}
 			if (npchar.id == "W_Chinaman")
-            {
+			{
 				
 				if (!CheckAttribute(npchar, "quest.meting"))
 				{
@@ -115,17 +114,17 @@ void ProcessDialogEvent()
 			Link.l1.go = "WarDogCap_2";
 		break;
 		case "WarDogCap_2":
-			dialog.Text = "Какого черта тебе от меня нужно?";
-			Link.l1 = "У тебя есть кое-что мое.";
+			dialog.Text = "Какого чёрта тебе от меня нужно?";
+			Link.l1 = "У тебя есть кое-что моё.";
 			Link.l1.go = "WarDogCap_2_1";
 		break;
 		case "WarDogCap_2_1":
 			dialog.Text = "Ты про свой пистоль? Могу отдать, если позволишь мне уйти.";
-			Link.l1 = "Не только пистоль, все мое снаряжение, включая устройство, с помощью которого я телепортировалась сюда.";
+			Link.l1 = "Не только пистоль, всё моё снаряжение, включая устройство, с помощью которого я телепортировалась сюда.";
 			Link.l1.go = "WarDogCap_3";
 		break;
 		case "WarDogCap_3":
-			dialog.Text = "Чего? А, ты про ту бесполезную железку? Так я ее выкинул давно за борт.";
+			dialog.Text = "Чего? А, ты про ту бесполезную железку? Так я её выкинул давно за борт.";
 			Link.l1 = "Что ты сделал, тупица?!";
 			Link.l1.go = "WarDogCap_4";
 		break;
@@ -140,12 +139,12 @@ void ProcessDialogEvent()
 			LAi_SetCurHPMax(npchar);
 			QuestAboardCabinDialogExitWithBattle(""); 
 			pchar.Whisper.NanoCostume = true;
-            DialogExit();
+			DialogExit();
 			AddDialogExitQuest("MainHeroFightModeOn");
 		break;
 		case "DeSouza":
 			dialog.Text = "Надо же, какой сюрприз. А я везде тебя искал, Виспер.";
-			Link.l1 = "Мне надоело ждать, когда же ты меня найдешь, так что я сама к тебе пришла.";
+			Link.l1 = "Мне надоело ждать, когда же ты меня найдёшь, так что я сама к тебе пришла.";
 			Link.l1.go = "DeSouza_1";
 		break;
 		case "DeSouza_1":
@@ -154,7 +153,7 @@ void ProcessDialogEvent()
 			Link.l1.go = "DeSouza_2";
 		break;
 		case "DeSouza_2":
-			dialog.Text = "И о чем же ты хочешь говорить?";
+			dialog.Text = "И о чём же ты хочешь говорить?";
 			Link.l1 = "Я бы хотела знать, где находится "+GetFullName(characterFromId("wl_Pirate_Cap"))+"?";
 			Link.l1.go = "DeSouza_3";
 		break;
@@ -164,25 +163,25 @@ void ProcessDialogEvent()
 			Link.l1.go = "DeSouza_4";
 		break;
 		case "DeSouza_4":
-			dialog.Text = "Есть одна, но прежде чем я ее назову, позволь и мне задать вопрос. Правда ли ты из будущего?";
+			dialog.Text = "Есть одна, но прежде чем я её назову, позволь и мне задать вопрос. Правда ли ты из будущего?";
 			Link.l1 = "Да.";
 			Link.l1.go = "DeSouza_5";
 		break;
 		case "DeSouza_5":
-			dialog.Text = "Боже, теперь я вижу что ты не врешь. Ответь же мне, помнит ли кто-то в будущем обо мне и моем ордене?";
-			Link.l1 = "В будущем люди стараются забыть о вашем безумном ордене. Если и вспоминают, то только в негативном ключе, как о рассаднике жестокости и невежества. Все, чего вы добились - множество смертей и разрушенных жизней.";
+			dialog.Text = "Боже, теперь я вижу что ты не врёшь. Ответь же мне, помнит ли кто-то в будущем обо мне и моём ордене?";
+			Link.l1 = "В будущем люди стараются забыть о вашем безумном ордене. Если и вспоминают, то только в негативном ключе, как о рассаднике жестокости и невежества. Всё, чего вы добились - множество смертей и разрушенных жизней.";
 			Link.l1.go = "DeSouza_6";
 		break;
 		case "DeSouza_6":
-			dialog.Text = "За такие слова, я тебя\nИ все же, доля правды в этом есть. Стараясь выполнить волю господа я немало согрешил. Однако я не считаю, что поступал неправильно, иногда грех - это вынужденная мера, чтобы нести добро\nК черту людей! Только Господу дано меня судить!";
-			Link.l1 = "Я удовлетворила твое любопытство. Твой черед.";
+			dialog.Text = "За такие слова, я тебя\nИ всё же, доля правды в этом есть. Стараясь выполнить волю господа я немало согрешил. Однако я не считаю, что поступал неправильно, иногда грех - это вынужденная мера, чтобы нести добро\nК чёрту людей! Только Господу дано меня судить!";
+			Link.l1 = "Я удовлетворила твое любопытство. Твой черёд.";
 			Link.l1.go = "DeSouza_7";
 		break;
 		case "DeSouza_7":
 			AddQuestRecord("WhisperQuestline", "7");
 			AddQuestUserData("WhisperQuestline", "sWhCapName", GetFullName(characterFromId("wl_Pirate_Cap")));
 			SetTimerCondition("Whisper_WarDog", 0, 0, 30, false);
-			dialog.Text = "Я заплатил одной бордельной девице, которую часто посещает "+GetFullName(characterFromId("wl_Pirate_Cap"))+", чтобы она пустила ему в ухо один слух, якобы в бухте на Терксе спрятан клад. Он жадный человек, наверняка должен клюнуть. По моим примерным подсчетам, если все сработало, он должен объявиться там через месяц.";
+			dialog.Text = "Я заплатил одной бордельной девице, которую часто посещает "+GetFullName(characterFromId("wl_Pirate_Cap"))+", чтобы она пустила ему в ухо один слух, якобы в бухте на Терксе спрятан клад. Он жадный человек, наверняка должен клюнуть. По моим примерным подсчётам, если всё сработало, он должен объявиться там через месяц.";
 			Link.l1 = "Коварный и жестокий план, как раз в стиле инквизиции.";
 			Link.l1.go = "DeSouza_8";
 		break;
@@ -195,7 +194,7 @@ void ProcessDialogEvent()
 			LAi_SetCurHPMax(npchar);
 			QuestAboardCabinDialogExitWithBattle("");
 			pchar.Whisper.DeSouzaTalked = true;
-            DialogExit();
+			DialogExit();
 			AddDialogExitQuest("MainHeroFightModeOn");
 		break;
 		case "ChinamanSpeak_1":
@@ -205,7 +204,7 @@ void ProcessDialogEvent()
 		break;
 		case "ChinamanSpeak_2":
 			dialog.Text = "Я прибыть сюда из Китая, провинция Шаньдун.";
-			Link.l1 = "Ясно. А по какой причине, вместо того, чтобы находиться в своем Китае, ты оказался у меня на корабле?";
+			Link.l1 = "Ясно. А по какой причине, вместо того, чтобы находиться в своём Китае, ты оказался у меня на корабле?";
 			Link.l1.go = "ChinamanSpeak_3";
 		break;
 		case "ChinamanSpeak_3":
@@ -215,19 +214,19 @@ void ProcessDialogEvent()
 		break;
 		case "ChinamanSpeak_1_1":
 			dialog.Text = "Меня отправить служить к этим злым людям, что вы встречать на берегу. Они бить меня и заставлять носить тяжести. Я спрятаться от них в трюме этого корабля.";
-			Link.l1 = "Ага, теперь мне все ясно. Значит ты - беглый раб.";
+			Link.l1 = "Ага, теперь мне всё ясно. Значит ты - беглый раб.";
 			Link.l1.go = "ChinamanSpeak_1_2";
 		break;
 		case "ChinamanSpeak_1_2":
 			dialog.Text = "Получаться, что так.";
 			Link.l1 = "Меня зацепила твоя история. Могу предложить место в команде. Говоришь, был капитаном? Мне бы не помешал кто-то с твоим опытом, так как я сама в этом ремесле недавно.";
 			Link.l1.go = "ChinamanSpeak_1_3";
-			Link.l2 = "Тогда твое место - среди других рабов. Хуан, отведи его в трюм.";
+			Link.l2 = "Тогда твоё место - среди других рабов. Хуан, отведи его в трюм.";
 			Link.l2.go = "ChinamanSlave";
 		break;
 		case "ChinamanSpeak_1_3":
-			dialog.Text = "Могу помочь управлять кораблем, а также, я владеть мечом, могу быть телохранителем. ";
-			Link.l1 = "В таком случае, Хуан, отдай ему свой клинок. Потом найдешь себе другой.";
+			dialog.Text = "Могу помочь управлять кораблём, а также, я владеть мечом, могу быть телохранителем. ";
+			Link.l1 = "В таком случае, Хуан, отдай ему свой клинок. Потом найдёшь себе другой.";
 			Link.l1.go = "Exit_ChiGuard_Speak";
 		break;
 		case "ChinamanSlave":
@@ -235,7 +234,7 @@ void ProcessDialogEvent()
 			ChangeCharacterReputation(pchar, -30);
 			AddCharacterGoodsSimple(pchar, GOOD_SLAVES, 1);
 			LAi_SetActorTypeNoGroup(npchar);
-            LAi_ActorGoToLocation(npchar, "reload", "reload1", "none", "", "", "", 7);
+			LAi_ActorGoToLocation(npchar, "reload", "reload1", "none", "", "", "", 7);
 			npchar.lifeday = 0;
 			sld = characterFromID("W_ChinamanGuard");
 			LAi_ActorGoToLocation(sld, "reload", "reload1", "none", "", "", "", 7);
@@ -265,12 +264,12 @@ void ProcessDialogEvent()
 			SetCharacterPerk(NPChar, "ByWorker");
 			SetCharacterPerk(NPChar, "ShipSpeedUp");
 			SetCharacterPerk(NPChar, "ShipTurnRateUp");
-			SetCharacterPerk(NPChar, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+			SetCharacterPerk(NPChar, "Energaiser"); // скрытый перк даёт 1.5 к приросту энергии, даётся ГГ и боссам уровней
 			
 			sld = characterFromID("W_ChinamanGuard");
 			LAi_ActorGoToLocation(sld, "reload", "reload1", "none", "", "", "", 7);
 			sld.lifeday = 0;
-			PlayVoice("interface\_EvEnemy1.wav");
+			PlayVoice("interface\_EvShip3.wav");
 			pchar.questTemp.Whisper.SmugPatrol = true;	
 			DoQuestCheckDelay("TalkSelf_Quest", 2.0);
 		break;

@@ -1629,7 +1629,7 @@ void ProcessDialogEvent()
                     }
                     else
                     {
-                        //отсекаем возможность дать квест пирата в Панаме
+                        /* //отсекаем возможность дать квест пирата в Панаме
 						if (npchar.city == "Panama") i = rand(2);							
 						else {  i = dRand(4);                                                //   0-5  случайный квест
 						       //if  (IsCharacterPerkOn(pchar,"Trader"))                       i = dRand(4); 
@@ -1638,8 +1638,10 @@ void ProcessDialogEvent()
 							   if ((IsCharacterPerkOn(pchar,"Fencer")) && dRand1(3) >= 1)     i = dRand2(1);    // банда или лазутчик
 							   if ((IsCharacterPerkOn(pchar,"Buccaneer")) && dRand1(3) >= 1)  i = dRand2(2);
 							   if ((IsCharacterPerkOn(pchar,"Agent")) && dRand1(3) >= 1)      i = dRand2(1)+2;  //  в чужой город  или контриков
-							   if ((IsCharacterPerkOn(pchar,"SeaWolf")) && dRand1(3) >= 1)    i = 4;        //WW   на пирата
-							 }
+							   if ((IsCharacterPerkOn(pchar,"SeaWolf")) && dRand1(3) >= 1)    i = dRand(4);        //WW   на пирата
+							 } */
+						if (npchar.city == "Panama") i = rand(2);							
+						else i = dRand(4);
                     }         
                     // boal <--
 					switch (i)

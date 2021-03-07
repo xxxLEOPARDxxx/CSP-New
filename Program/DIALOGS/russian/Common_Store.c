@@ -494,7 +494,7 @@ void ProcessDialogEvent()
 		
 		// Warship. Автозакупка товаров -->
 		case "TransferGoods":
-			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea) || (Pchar.location.from_sea == "Shore17");
 			
 			if(sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
@@ -769,7 +769,7 @@ void ProcessDialogEvent()
 			}
 //navy <--
 			dialog.text = NPCharRepPhrase(npchar,"Дела?! Выкладывай все по порядку!","Я вас слушаю. О каком деле идет речь?");
-            ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+            ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea) || (Pchar.location.from_sea == "Shore17");
             if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
     			/*if (CheckAttribute(pchar, "CargoQuest.iQuantityGoods"))

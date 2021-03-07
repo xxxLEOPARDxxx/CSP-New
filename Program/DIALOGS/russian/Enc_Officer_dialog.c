@@ -119,8 +119,11 @@ void ProcessDialogEvent()
 			    }
 			}
 			
-			Link.l4 = "Офицер, я более не нуждаюсь в ваших услугах.";
-			Link.l4.go = "AsYouWish";
+			if (npchar.id != "Sharp_Sibling")
+			{
+				Link.l4 = "Офицер, я более не нуждаюсь в ваших услугах.";
+				Link.l4.go = "AsYouWish";
+			}
 			
 			for(iTemp=1; iTemp<=3; iTemp++) // Нужно, чтоб была свободная группа
 			{
@@ -141,7 +144,8 @@ void ProcessDialogEvent()
 				pchar.questTemp.MainHeroWoman = true;
 				SaveCurrentQuestDateParam("pchar.questTemp.MainHeroWomanSex");
 			}
-            if (PChar.location == Get_My_Cabin())
+			
+            if (PChar.location == Get_My_Cabin() && npchar.id != "Sharp_Sibling")
             {
     			if (PChar.sex == "woman" && NPChar.sex == "man")
     			{

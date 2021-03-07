@@ -740,6 +740,7 @@ void SaveStartGameParam()
 	optref.StartGameParam.bNoPirateRestrictions  = bNoPirateRestrictions;
 	optref.StartGameParam.bHigherShipRate  		 = bHigherShipRate;
 	optref.StartGameParam.bHigherSelfRate  		 = bHigherSelfRate;
+	optref.StartGameParam.bHalfImmortalPGG  	 = bHalfImmortalPGG;
 	optref.StartGameParam.bPortPermission  		 = bPortPermission;
 	optref.StartGameParam.bBribeSoldiers  		 = bBribeSoldiers;
 	optref.StartGameParam.bNoBonusSkillOff  	 = bNoBonusSkillOff;
@@ -807,6 +808,10 @@ void LoadStartGameParam()
 	if (CheckAttribute(optref, "StartGameParam.bHigherSelfRate"))
 	{
     	bHigherSelfRate = sti(optref.StartGameParam.bHigherSelfRate);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bHalfImmortalPGG"))
+	{
+    	bHalfImmortalPGG = sti(optref.StartGameParam.bHalfImmortalPGG);
     }
 	if (CheckAttribute(optref, "StartGameParam.bNoBonusSkillOff"))
 	{

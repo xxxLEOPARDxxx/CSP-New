@@ -2168,6 +2168,7 @@ void QuestComplete(string sQuestName, string qname)
 					SetCharacterPerk(sld, "Ciras");
 					SetCharacterPerk(sld, "Gunman");
                     SetCharacterPerk(sld, "Tireless");
+                    TakeNItems(sld, "Lockpick", rand(3));
 					PlaceCharacter(sld, "goto", "random");
 					LAi_SetCitizenType(sld);
 					//LAi_ActorDialog(sld, pchar, "", -1, 0); 
@@ -7984,6 +7985,15 @@ void QuestComplete(string sQuestName, string qname)
 			
             //DoQuestFunctionDelay("WhisperHold", 0.5);
             //CapBloodLineInit();
+		break;
+		
+		case "Sharp_Prologue_CheckHP":
+			LAi_group_SetRelation("SharpSibling", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+			sld = CharacterFromID("Sharp_Sibling");
+			LAi_SetActorType(pchar);
+            LAi_SetActorType(sld);
+            SetActorDialogAny2Pchar(sld.id, "", 0.0, 0.0);
+		    LAi_ActorFollow(pchar, sld, "ActorDialog_Any2Pchar", 0.5);
 		break;
 
 		case "Dragun_0_CheckMinHP":

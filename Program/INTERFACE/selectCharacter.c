@@ -179,6 +179,14 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_LOWERSELF", 1, false);
     }
+	if (bHalfImmortalPGG)// 1 0
+    {
+    	CheckButton_SetState("CHECK_HALFIMMORTALPGG", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_HALFIMMORTALPGG", 1, false);
+    }
 	if (bNoBonusSkillOff)// 1 0
     {
     	CheckButton_SetState("CHECK_NOBONUS_SKILL_OFF", 1, true);
@@ -340,6 +348,14 @@ void IProcessFrame()
 	else
 	{
 		bNoBonusSkillOff = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_HALFIMMORTALPGG", 3, 1))
+	{
+		bHalfImmortalPGG = true;
+	}
+	else
+	{
+		bHalfImmortalPGG = false;
 	}
 }
 
@@ -881,6 +897,10 @@ void ShowInfo()
 		case "CHECK_LOWERSELF":
 			sHeader = XI_ConvertString("LowerSelf");
 			sText1 = GetRPGText("LowerSelf_hint");
+		break;
+		case "CHECK_HALFIMMORTALPGG":
+			sHeader = XI_ConvertString("HalfImmortalPGG");
+			sText1 = GetRPGText("HalfImmortalPGG_hint");
 		break;
 		
 		case "CHECK_NOBONUS_SKILL_OFF":

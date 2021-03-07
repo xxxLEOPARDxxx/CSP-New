@@ -438,6 +438,8 @@ void FaceMaker(aref rCharacter)
 		case "PGG_Rozencraft":		rCharacter.FaceId = 496; break;
 		case "priest":		rCharacter.FaceId = 531; break;
 		case "PGG_Vincento_0":		rCharacter.FaceId = 531; break;
+		case "PGG_Beatric_0":		rCharacter.FaceId = 522; break;
+		case "PGG_Devlin_0":		rCharacter.FaceId = 1; break;
 	}
 }
 

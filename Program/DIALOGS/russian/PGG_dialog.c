@@ -64,6 +64,11 @@ void ProcessDialogEvent()
 //	link.l1 = "Обязательно!";
 //	link.l1.go = "exit.";
 	case "First time":
+		if (!CheckAttribute(pchar, "questTemp.DuelTimer"))
+		{//Запускаем счетчик для отката
+			pchar.questTemp.DuelTimer = true;
+			SaveCurrentQuestDateParam("pchar.questTemp.DuelCooldown");
+		}
 		if (CheckAttribute(NPChar, "PGGAi.location.town.back") && CheckAttribute(pchar, "questTemp.PGGContra.Know"))
 		{
 			Dialog.text = "Слушай, проваливай отсюда! Сорвешь сделку, и я вырву тебе сердце!";
@@ -97,18 +102,21 @@ void ProcessDialogEvent()
 		Dialog.Text = "Ну, а меня здесь все знают! Я " + GetFullName(NPChar) + ". Приятно познакомиться, чем могу быть полезен?";
 		link.l1 = RandPhraseSimple("Есть одно дельце!", "У меня к тебе разговор...");
 		link.l1.go = "quest";
-		if (sti(pchar.Ship.Type) != SHIP_NOTUSED && sti(NPChar.Ship.Type) != SHIP_NOTUSED)
+		if(!CheckAttribute(pchar, "PGG_hired"))
 		{
-			sld = GetRealShip(sti(NPChar.Ship.Type));
-			
-			Dialog.Text = "Ну, а меня здесь все знают! Я - " + GetFullName(NPChar) + ", капитан " + xiStr(sld.BaseName + "Acc") + " " + NPChar.Ship.Name + ".";
-			link.l2 = "Я тут подумал"+ GetSexPhrase("","а") +", не хочешь ко мне присоединиться? С двумя кораблями мы сможем хорошие дела провернуть.";
-			link.l2.go = "companion";
-		}
-		if (sti(NPChar.Ship.Type) == SHIP_NOTUSED)
-		{
-			link.l3 = RandPhraseSimple("Не хочешь пойти офицером ко мне на корабль?", "Пожалуй, такой офицер как ты, мне бы не помешал. Что скажешь?");
-			link.l3.go = "officer";
+			if (sti(pchar.Ship.Type) != SHIP_NOTUSED && sti(NPChar.Ship.Type) != SHIP_NOTUSED)
+			{
+				sld = GetRealShip(sti(NPChar.Ship.Type));
+				
+				Dialog.Text = "Ну, а меня здесь все знают! Я - " + GetFullName(NPChar) + ", капитан " + xiStr(sld.BaseName + "Acc") + " " + NPChar.Ship.Name + ".";
+				link.l2 = "Я тут подумал"+ GetSexPhrase("","а") +", не хочешь ко мне присоединиться? С двумя кораблями мы сможем хорошие дела провернуть.";
+				link.l2.go = "companion";
+			}
+			if (sti(NPChar.Ship.Type) == SHIP_NOTUSED)
+			{
+				link.l3 = RandPhraseSimple("Не хочешь пойти офицером ко мне на корабль?", "Пожалуй, такой офицер как ты, мне бы не помешал. Что скажешь?");
+				link.l3.go = "officer";
+			}
 		}
 		if (bBettaTestMode)
 		{
@@ -159,30 +167,41 @@ void ProcessDialogEvent()
 				iRnd = rand(MAX_PGG_STORIES - 1);
 				iAns = rand(MAX_PGG_MEET_REP - 1);
 				Dialog.Text = PGG_Stories[iRnd] + PCharRepPhrase(PGG_Meet_GoodRep[iAns] + " Какие вести?", PGG_Meet_BadRep[iAns] + " Что нового творится на архипелаге?");
-			}		
-			if (sti(pchar.Ship.Type) != SHIP_NOTUSED && sti(NPChar.Ship.Type) != SHIP_NOTUSED)
-			{
-				link.l2 = RandPhraseSimple("Я тут подумал"+ GetSexPhrase("","а") +", не хочешь ко мне присоединиться? С двумя кораблями мы сможем хорошие дела провернуть.", "Слушай, ты выглядишь опытным капитаном. Не хочешь плавать под моим началом?");
-				link.l2.go = "companion";
 			}
-			if (sti(NPChar.Ship.Type) == SHIP_NOTUSED)
+			if(!CheckAttribute(pchar, "PGG_hired"))
 			{
-				Dialog.Text = RandPhraseSimple("Эх, горе мне, горе... Корабль мой на дне!", "Кого я вижу?! Каким ветром занесло в наши края? А я вот без корабля остался...");
-				link.l3 = RandPhraseSimple("Жаль... Ну, может вскоре повезет больше.", "Вот это дела... Ну, мне пора, прощай.");
-				link.l3.go = "exit";
-				if (FindFreeRandomOfficer() > 0)
+				if (sti(pchar.Ship.Type) != SHIP_NOTUSED && sti(NPChar.Ship.Type) != SHIP_NOTUSED)
 				{
-					link.l3 = RandPhraseSimple("Не хочешь пойти офицером ко мне на корабль?", "Пожалуй, такой офицер, как ты, мне бы не помешал. Что скажешь?");
-					link.l3.go = "officer";
+					link.l2 = RandPhraseSimple("Я тут подумал"+ GetSexPhrase("","а") +", не хочешь ко мне присоединиться? С двумя кораблями мы сможем хорошие дела провернуть.", "Слушай, ты выглядишь опытным капитаном. Не хочешь плавать под моим началом?");
+					link.l2.go = "companion";
+				}
+				if (sti(NPChar.Ship.Type) == SHIP_NOTUSED)
+				{
+					Dialog.Text = RandPhraseSimple("Эх, горе мне, горе... Корабль мой на дне!", "Кого я вижу?! Каким ветром занесло в наши края? А я вот без корабля остался...");
+					link.l3 = RandPhraseSimple("Жаль... Ну, может вскоре повезет больше.", "Вот это дела... Ну, мне пора, прощай.");
+					link.l3.go = "exit";
+					if (FindFreeRandomOfficer() > 0)
+					{
+						link.l3 = RandPhraseSimple("Не хочешь пойти офицером ко мне на корабль?", "Пожалуй, такой офицер, как ты, мне бы не помешал. Что скажешь?");
+						link.l3.go = "officer";
+					}
 				}
 			}
 //			link.l4 = "Что нового слышно?";
 //			link.l4.go = "rumours_capitan";
 		}
-		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 20 || bBettaTestMode)
+		if (!CheckAttribute(pchar, "questTemp.DuelTimer"))
+		{//Запускаем счетчик для отката
+			pchar.questTemp.DuelTimer = true;
+			SaveCurrentQuestDateParam("pchar.questTemp.DuelCooldown");
+		}
+		if (GetQuestPastDayParam("pchar.questTemp.DuelCooldown") >= 30 || bBettaTestMode)
 		{
-			link.l8 = PCharRepPhrase("Вот это рожа. Так и хочется ее разукрасить.", "А... наш знакомый мерзавчик. Не желаете ли пару лишних дырок в груди?");
-			link.l8.go = "outraged";
+			if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 51 || bBettaTestMode)
+			{
+				link.l8 = PCharRepPhrase("Вот это рожа. Так и хочется ее разукрасить.", "А... наш знакомый мерзавчик. Не желаете ли пару лишних дырок в груди?");
+				link.l8.go = "outraged";
+			}
 		}
 		link.l9 = "Ничего.";
 		link.l9.go = "exit";
@@ -212,10 +231,10 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			break;
 		}
-		//если отношение ниже 70, то в 70 процентов случаев откажет...
-		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70 && rand(100) < 70)
+		//если отношение ниже 70, то в 100 процентов случаев откажет...
+		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70)
 		{
-			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет...", "Нет, я капитан, и не хочу быть офицером.");
+			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет... Я тебя совсем не знаю. Для начала нам стоит как-нибудь вместе на дельце сходить.", "Нет, я капитан, и не хочу быть офицером. Да и я тебя совсем не знаю. Нам стоит как-нибудь вместе на дельце  сходить, прежде чем такие предложения друг другу делать.");
 			link.l1 = RandPhraseSimple("Ну, как хочешь...", "Что ж, счастливо оставаться.");
 			link.l1.go = "exit";
 			SaveCurrentNpcQuestDateParam(NPChar, "Officer_Talk");
@@ -261,11 +280,14 @@ void ProcessDialogEvent()
 		AddMoneyToCharacter(pchar, -(makeint(NPChar.Quest.Officer.Price)));
 		AddDialogExitQuestFunction("PGG_BecomeHiredOfficer");
 		NPChar.loyality = MakeInt(PGG_ChangeRelation2MainCharacter(NPChar, 0)*0.3)
-
+		if (bHalfImmortalPGG)
+		{
+			pchar.PGG_hired = true;
+			NPChar.HalfImmortal = true;  // Контузия
+		}
 		DeleteAttribute(NPChar, "Quest.Officer");
 		DeleteAttribute(NPChar, "PGGAi.Task");
 		DeleteAttribute(NPChar, "PGGAi.LockService");
-
 		Dialog.Text = RandPhraseSimple("Вот и отлично!", "Я не сомневался в вас, капитан.");
 		link.l1 = "Не опаздывай к отплытию.";
 		link.l1.go = "exit";
@@ -295,10 +317,10 @@ void ProcessDialogEvent()
 			SaveCurrentNpcQuestDateParam(NPChar, "Companion_Talk");
 			break;
 		}
-		//если отношение ниже 70, то в 70 процентов случаев откажет...
-		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70 && rand(100) < 70)
+		//если отношение ниже 70, то в 100 процентов случаев откажет...
+		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70)
 		{
-			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет...", "Нет, спасибо. Не люблю плавать под чьим-то началом.");
+			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет... Я тебя совсем не знаю. Для начала нам стоит как-нибудь вместе на дельце сходить.", "Нет, спасибо. Не люблю плавать под чьим-то началом. Да и я тебя совсем не знаю. Нам стоит как-нибудь вместе на дельце  сходить, прежде чем такие предложения друг другу делать.");
 			link.l1 = RandPhraseSimple("Ну, как хочешь...", "Что ж, счастливо оставаться.");
 			link.l1.go = "exit";
 			SaveCurrentNpcQuestDateParam(NPChar, "Companion_Talk");
@@ -319,12 +341,15 @@ void ProcessDialogEvent()
 			NPChar.Dialog.FileName = "Enc_Officer_dialog.c";
             NPChar.Payment = true;
             NPChar.Money   = 0;
-            
+            if (bHalfImmortalPGG)
+			{
+				pchar.PGG_hired = true;
+				NPChar.HalfImmortal = true;  // Контузия
+			}
             SetBaseShipData(NPChar);
             DeleteAttribute(NPChar,"ship.sails");
 			DeleteAttribute(NPChar,"ship.masts");
 			DeleteAttribute(NPChar,"ship.blots");
-			
 			Fantom_SetCannons(NPChar, "pirate");
 			Fantom_SetBalls(NPChar, "pirate");
     
@@ -1174,7 +1199,7 @@ void ProcessDialogEvent()
 
 	case "Exit_Quest_1_End":
 		RemoveCharacterCompanion(PChar, NPChar);
-
+		PGG_ChangeRelation2MainCharacter(NPChar, 20);
 		i = sti(PChar.GenQuest.PGG_Quest.Goods.Part);
 /*		i *= (sti(PChar.GenQuest.PGG_Quest.Parts)-1);
 		i += sti(PChar.GenQuest.PGG_Quest.StartGoods);

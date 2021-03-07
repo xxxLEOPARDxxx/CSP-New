@@ -206,6 +206,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 
 	//дуэли быть!
 	case "fight_right_now":
+		SaveCurrentQuestDateParam("pchar.questTemp.DuelCooldown");
 		PChar.questTemp.duel.enemy = NPChar.id;
 		AddDialogExitQuestFunction("Duel_Prepare_Fight");
 		NextDiag.CurrentNode = NextDiag.TempNode;
@@ -213,6 +214,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		break;
 
 	case "fight_right_now_1":	                  //WW  ?????
+		SaveCurrentQuestDateParam("pchar.questTemp.DuelCooldown");
 		PChar.questTemp.duel.enemy = NPChar.id;
 		PChar.questTemp.duel.enemyQty = rand(2) + 1;
 		AddDialogExitQuestFunction("Duel_Prepare_Fight");

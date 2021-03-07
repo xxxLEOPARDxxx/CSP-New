@@ -10,7 +10,6 @@ object PirateFlag, PirateCFlag, CommanderFlag, FortFlag, MerchantFlag, PersonalF
 #define RA_POWDER_DET 3.0
 
 bool	bAbordageShipCanBe = false;
-bool 	LetCharge = false;
 int		iAbordageShipEnemyCharacter;
 
 //bool	bNoDamage2Us = false;
@@ -150,7 +149,7 @@ void Sea_ClearCheckFlag()
 {
     if (bSeaActive)
     {
-		for (int i=0; i<iNumShips; i++)
+		for (i=0; i<iNumShips; i++)
 		{
 			//Boyer fix
 			if(sti(Ships[i]) >= 0 && sti(Ships[i]) < TOTAL_CHARACTERS) 												   
@@ -871,6 +870,7 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 	rCharacter.Tmp.BortsReloaded.Event = false;
 	rCharacter.Tmp.BortsReloaded.cannonl = false;
 	rCharacter.Tmp.BortsReloaded.cannonr = false;
+    rCharacter.BOAL_ReadyCharge = "1"; // в начале всегда заряжен ядрами, пусть и палит ими
     
 	rCharacter.Features.GeraldSails = true;
 	rCharacter.Ship.LastBallCharacter = -1;
@@ -1110,7 +1110,7 @@ void Ship_BortReloadEvent()
             if (bBack) { PlayVoice("interface\_Gun_FB_Ready.wav"); }
         }
     }
-	LetCharge = LetRecharge();
+
     Ship_ClearBortsReloadedEvent(aCharacter);
 }
 
@@ -1120,7 +1120,7 @@ void Ship_ClearBortsReloadedEvent(aref aCharacter)
 	aCharacter.Tmp.BortsReloaded.cannonl = false; 
 	aCharacter.Tmp.BortsReloaded.cannonr = false; 
 	aCharacter.Tmp.BortsReloaded.cannonf = false; 
-	aCharacter.Tmp.BortsReloaded.cannonb = false;
+	aCharacter.Tmp.BortsReloaded.cannonb = false; 
 }
 
 void Ship_ChangeChargeEvent() // нигде не используется???
@@ -1141,8 +1141,8 @@ void Ship_ChangeChargeEvent() // нигде не используется???
 
 void Ship_ChangeCharge(ref rCharacter, int iNewChargeType)
 {
-	SendMessage(&AISea, "la", AI_MESSAGE_CANNON_RELOAD, rCharacter);
-	
+	SendMessage(&AISea, "la", AI_MESSAGE_CANNON_RELOAD, rCharacter); // must be first line in this function
+
 	ref rGood = GetGoodByType(iNewChargeType);
 	if (rGood) {
 		rCharacter.Ship.Cannons.Charge = rGood.name;
@@ -1150,8 +1150,8 @@ void Ship_ChangeCharge(ref rCharacter, int iNewChargeType)
 	}
 
 	Cannon_RecalculateParameters(sti(rCharacter.index));
-	LetCharge = LetRecharge();
- // чтоб пока не стрельнул не выпендривал (нужно для приказа компаньону)
+	rCharacter.BOAL_ReadyCharge = "1"; // чтоб пока не стрельнул не выпендривал (нужно для приказа компаньону)
+	//rCharacter.BOAL_ReadyCharge = "1"; // чтоб пока не стрельнул не выпендривал (нужно для приказа компаньону)
 	//fix Ship_PlaySound3D(rCharacter, "reloadstart_" + rGood.name, 1.0);
 
 	Ship_ClearBortsReloadedEvent(rCharacter);
@@ -1176,7 +1176,7 @@ void Ship_CheckSituation()
 	aref	rCharacter = GetEventData();
 	aref	rShipObject = GetEventData();
 	
-	if (sti(rCharacter.index) == nMainCharacterIndex)  return; 
+	if (sti(rCharacter.index) == nMainCharacterIndex) { return; }
 	if (LAi_IsDead(rCharacter) || sti(rCharacter.ship.type) == SHIP_NOTUSED) { return; }  // super fix boal
 	
 	// Log_Testinfo("Ship_CheckSituation " + rCharacter.id);
@@ -1256,9 +1256,14 @@ void Ship_CheckSituation()
 		if (GetCargoGoods(rCharacter,GOOD_GRAPES)   < iShipCannonsNum) { bGrapes   = false; }
 
 		int iNewBallType = iCurrentBallType;
-	    if (LetCharge)
+		if( !CheckAttribute(rCharacter,"BOAL_ReadyCharge"))
+	    {
+	        rCharacter.BOAL_ReadyCharge = "1";
+	    }
+	    if (rCharacter.BOAL_ReadyCharge == "0")
 	    {
 	        iNewBallType = Ship_FindOtherBallType(rCharacter, fMinEnemyDistance, bBalls, bBombs, bGrapes, bKnippels);
+	        rCharacter.BOAL_ReadyCharge = "1";
 	    	if (iNewBallType >= 0 && iNewBallType != iCurrentBallType)
 		    {
 		   	   Ship_ChangeCharge(rCharacter, iNewBallType);
@@ -1266,16 +1271,16 @@ void Ship_CheckSituation()
 	    }
 	    else
 	    {
-				ref rCannon = GetCannonByType(sti(rCharacter.Ship.Cannons.Type));
-				float range = stf(rCannon.FireRange);
-				if ((fMinEnemyDistance > (range*0.9)) &&  bBalls) // из зоны ушли
-				{
-					iNewBallType = GOOD_BALLS;
-					if (iNewBallType != iCurrentBallType)
-					{
-						Ship_ChangeCharge(rCharacter, iNewBallType);
-					}
-				}
+	        ref rCannon = GetCannonByType(sti(rCharacter.Ship.Cannons.Type));
+		    float range = stf(rCannon.FireRange);
+		    if ((fMinEnemyDistance > (range*0.9)) && bBalls) // из зоны ушли
+	        {
+	           iNewBallType = GOOD_BALLS;
+	           if (iNewBallType != iCurrentBallType)
+	           {
+	               Ship_ChangeCharge(rCharacter, iNewBallType);
+	           }
+	        }
 	    }
     }
     // выбор снаряда <--
@@ -2003,7 +2008,7 @@ int Ship_FindOtherBallType(ref rCharacter, float fMinEnemyDistance, bool bBalls,
 			iType = GOOD_BALLS;
 		}
 
-		if ((fMinEnemyDistance <= (range * 0.8)) && bKnippels) 
+		if ( (fMinEnemyDistance <= (range * 0.8)) && bKnippels) 
 		{
 			if (sti(characters[enemy].ship.sp) > 30 && ShipSailState(enemy) >= 0.5)  // супер баг акелловцев  ShipSailState - 0 нет паруса 1 боевой 2 - полный
 			{
@@ -2012,7 +2017,7 @@ int Ship_FindOtherBallType(ref rCharacter, float fMinEnemyDistance, bool bBalls,
 			fRangeModifier = 0.8;
 		}
 
-		if ((fMinEnemyDistance <= (range * 0.5)) && bBombs)
+		if ( (fMinEnemyDistance <= (range * 0.5)) && bBombs)
 		{
 			iType = GOOD_BOMBS;
 			fRangeModifier = 0.6;
@@ -4398,8 +4403,6 @@ void Ship_ResearchCannons(ref aCharacter)
 {
 	if (bSeaLoaded)
 	{
-		Log_Info("test5");
-		aCharacter.BOAL_ReadyCharge = "1";
 		SendMessage(&AISea, "la", AI_MESSAGE_RESEARCH_CANNONS, aCharacter);
 		RefreshBattleInterface();
 		Ship_ChangeCharge(aCharacter, sti(aCharacter.Ship.Cannons.Charge.Type));

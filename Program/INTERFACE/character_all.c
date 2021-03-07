@@ -304,6 +304,8 @@ void ShowInfoWindow()
 			string attributeName = "pic" + (nChooseNum+1);
 			int iCharacter = sti(GameInterface.CHARACTERS_SCROLL.(attributeName).character);
             sHeader = XI_ConvertString("passengership");
+			sText1 = XI_ConvertString("Passenger_Descr");
+			if (nChooseNum > 6 && nChooseNum < 7 + MAX_NUM_FIGHTERS) nChooseNum = 7;//всех абордажников в цифру 7
 			switch(nChooseNum)
 			{
 				case 0:
@@ -348,13 +350,11 @@ void ShowInfoWindow()
 					sText2 = XI_ConvertString("Carpenter_Up");
 				break;
 
-				//Boyer mod
-				//default:
+				case 7:
 					sHeader = XI_ConvertString("fighter");
 					sText1 = XI_ConvertString("Officer_Descr");
 					sText2 = XI_ConvertString("Officer_Up");
 				break;
-				//End Boyer add
 			}
 			if(iCharacter != 0)
 			{
@@ -770,9 +770,14 @@ void FillSkillTables()
 	GameInterface.TABLE_OTHER.tr10.UserData.ID = "Health_NA";
 	GameInterface.TABLE_OTHER.tr10.td1.icon.group = "ICONS_STATS_CHAR";
     GameInterface.TABLE_OTHER.tr10.td1.icon.image = "Health_NA";
+	GameInterface.TABLE_OTHER.tr10.td1.icon.width = 16;
+	GameInterface.TABLE_OTHER.tr10.td1.icon.height = 16;
 	GameInterface.TABLE_OTHER.tr10.td2.str = "Регенерация жизни";
+	GameInterface.TABLE_OTHER.tr10.td2.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr10.td2.align = "left";
 	GameInterface.TABLE_OTHER.tr10.td3.str = ShowStatValue("regenhp")+" в сек.";
 	GameInterface.TABLE_OTHER.tr10.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr10.td3.align = "right";
 	
 	GameInterface.TABLE_OTHER.tr11.UserData.ID = "Poison_NA";
 	GameInterface.TABLE_OTHER.tr11.td1.icon.group = "ICONS_STATS_CHAR";

@@ -2315,7 +2315,7 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
             if (CheckAttribute(arItm, "model"))
             {
                 chref.model = GetSubStringByNum(chref.HeroModel, sti(arItm.model));
-				if (sti(arItm.model) == 5 && findsubstr(chref.HeroModel, "Whisper" , 0) != -1 &&  !CheckAttribute(pchar, "Whisper.NanoCostume"))
+				if (startherotype == 2 && sti(arItm.model) == 5 && findsubstr(chref.HeroModel, "Whisper" , 0) != -1 &&  !CheckAttribute(pchar, "Whisper.NanoCostume"))
 				{
 					chref.model = "PGG_Whisper_5_Cirass"
 				}

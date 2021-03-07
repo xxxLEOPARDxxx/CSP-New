@@ -191,7 +191,7 @@ void ProcessDialogEvent()
 			AddQuestUserData("CursedSkeleton", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("CursedSkeleton", "sSex1", GetSexPhrase("ся","ась"));
 			AddQuestUserData("CursedSkeleton", "scityName", XI_ConvertString("Colony" + pchar.questTemp.Cursed.TownId));
-			
+			npchar.lifeday = 0;
 			link.l1 = "Да хорош пугать меня. Так и быть, помогу тебе. Беру курс на "+ XI_ConvertString("Colony" + pchar.questTemp.Cursed.TownId + "Acc") +".";
 			pchar.cursed.waitingSkull = true;
 			link.l1.go = "exit";
@@ -208,6 +208,7 @@ void ProcessDialogEvent()
 		case "Exit_1":
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DeleteCharacter(npchar);
+			npchar.lifeday = 0;
 			DeleteAttribute(pchar, "cursed.Skullbought");
 			chrDisableReloadToLocation = false;
 			DialogExit();

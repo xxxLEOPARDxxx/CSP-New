@@ -2310,6 +2310,12 @@ void initNewMainCharacter()
 			ch.HeroParam.Location = "PuertoPrincipe_port";
 		}
 	}
+	if(startherotype == 3 || startherotype == 4)
+	{
+		ch.HeroParam.Location = "Shore57";
+		ch.HeroParam.Group    = "reload";
+		ch.HeroParam.Locator  = "boat";
+	}
 	setCharacterShipLocation(ch, ch.HeroParam.Location);
     setWDMPointXZ(ch.HeroParam.Location);  // коорд на карте
 	SetTimerCondition("Move_Govenour", 0, 0, 25 + rand(10), true); // to_do перенести в один метод инициации
@@ -2444,14 +2450,22 @@ void initNewMainCharacter()
     	pchar.quest.Tut_start.function                  = "Blood_StartGame";
 		Pchar.questTemp.WhisperLine = false;
     }
-    else if (startHeroType == 2)
+    if (startHeroType == 2)
     {
     	pchar.quest.Tut_start.win_condition.l1          = "location";
     	pchar.quest.Tut_start.win_condition.l1.location = "Bermudes_Dungeon";
     	pchar.quest.Tut_start.function                  = "Whisper_StartGame";
         Pchar.questTemp.CapBloodLine = false;
     }
-	else
+	if (startHeroType == 3 || startHeroType == 4)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Shore57";
+    	pchar.quest.Tut_start.function                  = "Sharp_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+		Pchar.questTemp.WhisperLine = false;
+    }
+	if (startHeroType > 4)
     {
     	pchar.quest.Tut_start.win_condition.l1          = "location";
     	pchar.quest.Tut_start.win_condition.l1.location = "Ship_deck_Low";
