@@ -1,3 +1,5 @@
+// Наработки из К3 по сетевой игре. Может в CSP появится, кек)
+
 Net_ShipDieFromPlayer				{%1 <%2> пустил ко дну %3 <%4>.}
 Net_ShipDieFromCollisionLiveShip	{%1 <%2> протаранил %3 <%4>.}
 Net_ShipDieFromCollisionDeadShip	{%1 <%2> пошел на корм рыбам! Горе такому шкиперу!}
