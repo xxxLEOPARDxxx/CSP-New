@@ -149,7 +149,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Node_11":
-			Diag.TempNode = "Node_1Next";
+			Diag.TempNode = "ThanksAgain";
 			addMoneyToCharacter(pchar, makeint((sti(pchar.rank))*25 + frand(2)*500));
 			dialog.text = "У меня с собой есть немного денег, не побрезгуйте - возьмите их в знак благодарности. Я теперь всем расскажу, "+ GetSexPhrase("какой вы благородный и храбрый человек","какая вы благородная и храбрая женщина") +".";
 			link.l1 = "Хорошо-хорошо, расскажешь. Спасибо... А теперь иди домой.";

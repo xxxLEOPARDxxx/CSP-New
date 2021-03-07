@@ -1,3 +1,4 @@
+// 100% готово
 // Уведомления в море
 
 	// Море
@@ -23,7 +24,7 @@ seg_Sailcloth	{Парусины}
 seg_Planks		{Досок}
 seg_Slaves		{Рабов}
 seg_Wheat		{Пшеницы}
-seg_Ebony		{Черного дерева}
+seg_Ebony		{Чёрного дерева}
 seg_Chocolate	{Какао}
 seg_Sugar		{Сахара}
 seg_Wine		{Вина}

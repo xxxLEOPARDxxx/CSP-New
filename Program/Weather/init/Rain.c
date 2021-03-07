@@ -132,7 +132,7 @@ int Whr_InitRain(int n)
 	Weathers[n].Sea.SunRoad.Color1 = argb(0,164,55,0);
 	Weathers[n].Sea.SunRoad.Color2 = argb(0,255,200,50);
 	Weathers[n].Sea.SunRoad.Power = 0.3;
-	//угол, частота, высота волны в метрах, начальна§ позици§ волны, скорость волны
+	//угол, частота, высота волны в метрах, начальна€ позици€ волны, скорость волны
 	//Weathers[n].Sea.Harmonics.h1 = "0.0, 4.0, 1.4, 0.0, 50.0";
 	//Weathers[n].Sea.Harmonics.h2 = "270.0, 1.0, 3.0, 0.0, 10.0";
 	//Weathers[n].Sea.Harmonics.h3 = "45.0, 2.0, 2.0, 0.0, 5.0";
@@ -146,7 +146,7 @@ int Whr_InitRain(int n)
 	Weathers[n].Sun.Reflection.Size = 500.0;
 	Weathers[n].Sun.Reflection.Color = argb(200, 200, 200, 200);
 
-	Weathers[n].Sea2.BumpScale = 0.05; //Ю?О†ї? ђЭОНЯ
+	Weathers[n].Sea2.BumpScale = 0.05; //ћ≈Ћ »≈ ¬ќЋЌџ
 	Weathers[n].Sea2.PosShift = 1.0; //остроконечность волн
 
 	Weathers[n].Sea2.WaterColor = argb(0, 45, 70, 80);
@@ -160,7 +160,7 @@ int Whr_InitRain(int n)
 	Weathers[n].Sea2.Amp1 = 30.0; //амплитуда 1 волны
 	Weathers[n].Sea2.AnimSpeed1 = 2.0; //скорость анимации
 	Weathers[n].Sea2.Scale1 = 0.17; //размеры волны
-	Weathers[n].Sea2.MoveSpeed1 = "7.0, 0.0, 0.0"; //скорость движени§
+	Weathers[n].Sea2.MoveSpeed1 = "7.0, 0.0, 0.0"; //скорость движени€
 
 	Weathers[n].Sea2.Amp2 = 1.5;
 	Weathers[n].Sea2.AnimSpeed2 = 4.0;

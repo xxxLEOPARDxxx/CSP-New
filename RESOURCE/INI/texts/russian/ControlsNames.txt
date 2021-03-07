@@ -1,4 +1,5 @@
-newLine {}
+// 100% готово
+newLine{}
 
 // Меню настроек
 HelpChooser				{Выбор раздела помощи}
@@ -19,7 +20,6 @@ PrimaryLand				{Управление на земле}
 	ChrCamTurnH			{Горизонтальное перемещение камеры за персонажем}
 	ChrCamCameraSwitch	{Изменение режима камеры 'за персонажем' \ 'вид из глаз'}
 	ChrCamNormalize		{Центрирование камеры}
-	
 	// Движение
 
 	ChrTurnH 	{Поворот персонажа}
@@ -48,12 +48,12 @@ PrimaryLand				{Управление на земле}
 	ChrAttackRound		{Круговой удар}
 	ChrAttackBreak		{Пробивающий удар}
 	ChrAttackFient		{Финт}
-	ChrAttackBreakBase	{Пробивающий удар / Финт}
+	ChrAttackBreakBase	{Пробивающий удар/Финт}
 	ChrAttackRoundBase	{Круговой удар}
 	ChrAttackChoseBase	{Переключатель ударов}
 	ChrBlockBase		{Блок}
-	ChrAttackBase		{Выпад / Парирование}
-	ChrAltAttackBase	{Удар / Круговой удар}
+	ChrAttackBase		{Выпад/Парирование}
+	ChrAltAttackBase	{Удар/Круговой удар}
 	ChrAltAttackBaseA	{Круговой удар}
 
 	ChrFire				{Выстрелить}

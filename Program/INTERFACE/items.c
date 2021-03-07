@@ -1047,7 +1047,7 @@ bool ThisItemCanBeEquip( aref arItem )
 	}
 	if (arItem.groupID == GUN_ITEM_TYPE) 
 	{
-		if (!IsMainCharacter(xi_refCharacter) && !CheckAttribute(xi_refCharacter, "CanTakeMushket")) 
+		if (!IsMainCharacter(xi_refCharacter) && !CheckAttribute(xi_refCharacter, "CanTakeMushket") && HasSubStr(arItem.id, "mushket")) 
 		{
 			return false;
 		}	

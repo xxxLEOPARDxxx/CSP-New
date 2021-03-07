@@ -1,3 +1,4 @@
+// 100% готово
 // Море
 
 sea_Moor			{Причалить}
@@ -75,7 +76,7 @@ go_tavern		{Таверна}
 go_residence	{Резиденция}
 go_loanshark	{Ростовщик}
 go_usurer		{Ростовщик}
-go_church		{Церковь}	  
+go_church		{Церковь}
 go_prison		{Тюрьма}
 go_brothel		{Бордель}
 go_portman		{Портовое управление}

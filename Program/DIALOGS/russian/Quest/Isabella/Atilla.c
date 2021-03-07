@@ -19,16 +19,24 @@ void ProcessDialogEvent()
 	
 		case "First time":
 	if (PChar.sex != "woman")
-		{
-			dialog.text = "Чтоб мне лопнуть! Старина " + GetFullName(PChar) + "!";
-			link.l1 = "Атилла! Здорово, старый морской черт!";
-			link.l1.go = "port_1";		}
-		else
-			{
-	dialog.text = "Красавица " + GetFullName(PChar) + "! Как я рад тебя видеть!";
-	link.l1 = "Зато я тебе не рада, Атилла. Нам не о чем разговаривать. Или думаешь, я забыла, как ты подставил меня в Каракасе? Проваливай.";
+	{
+		dialog.text = "Чтоб мне лопнуть! Старина " + GetFullName(PChar) + "!";
+		link.l1 = "Атилла! Здорово, старый морской черт!";
+		link.l1.go = "port_1";		
+	}
+	else
+	{
+		dialog.text = "Красавица " + GetFullName(PChar) + "! Как я рад тебя видеть!";
+		link.l1 = "Зато я тебе не рада, Атилла. Нам не о чем разговаривать. Или думаешь, я забыла, как ты подставил меня в Каракасе? Проваливай.";
 		link.l1.go = "W_exit";
+		if (startherotype == 2)
+		{
+			dialog.text = RandPhraseSimple("Чего тебе? Проходи мимо.", "Хватит загораживать дорогу, отвали.");
+			link.l1 = RandPhraseSimple("Знаешь что? Не гавкай!", "Поумерь свой пыл. Не то быстро охлажу его!"); 
+			link.l1.go = "exit";
+			NextDiag.TempNode = "W_exit";
 		}
+	}
 			NextDiag.TempNode = "First time";
 			DeleteAttribute(npchar, "talker"); //снимаем говорилку
 		break;

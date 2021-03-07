@@ -1,3 +1,4 @@
+// 100% готово
 // Квестовые сообщения
 
 QUEST_MESSAGE1	{Колония Эль Каймано окупирована.}
@@ -118,7 +119,7 @@ Title_3		{Капитан}
 Title_4		{Командор}
 Title_5		{Адмирал}
 
-// Без перевода - скорее всего в скриптах встречается
+// Идёт цепочка, не трогать
 
 NationKingsCrownEng		{English throne}
 NationKingsCrownFra		{French crown}

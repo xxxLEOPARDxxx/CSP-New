@@ -225,18 +225,27 @@ int EventReturn_iGrassQuality()
 // boal 13.11.06 спец прерывание ядра, для выбора шейдера подсветки и без
 #event_handler("GOpt_isGrassLightsOn","EventReturn_isGrassLightsOn");
 
+/* Nathaniel (06.03.21): фикс "светящейся" травы во время дождей ---------------------------- */
 int EventReturn_isGrassLightsOn()
 {
-	// trace("EventReturn_isGrassLightsOn"); это я перевел на 1 раз за все время создания травы
-	// 1 - светится, 0 - темная
-	if (bSeaActive || bStorm || bTornado)
-	{
+    // trace("EventReturn_isGrassLightsOn"); это я перевел на 1 раз за все время создания травы
+    // 1 - светится, 0 - темная
+    
+	//Mett: теперь проверка по WeatherParams
+    if(CheckAttribute(&WeatherParams, "Rain") && sti(WeatherParams.Rain))
+    {
 		return 0;
-	}
-	
-	if (GetHour() >= 9 && GetHour() <= 18)
-	{
-	    return 1;
-	}
-	return 0;
+    }
+    
+    if (bSeaActive || bStorm || bTornado)
+    {
+		return 0;
+    }
+    
+    if (GetHour() >= 9 && GetHour() <= 18)
+    {
+		return 1;
+    }
+    return 0;
 }
+/* ------------------------------------------------------------------------------------------ */

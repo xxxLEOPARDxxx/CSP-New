@@ -1236,7 +1236,7 @@ void QuestSetCurrentNode(string _chID, string _Node)
 string NPCharSexPhrase(ref _character, string StrMan, string StrWoman)
 {
 	string strBack;
-    if (_character.sex == "woman")
+    if (_character.sex == "woman" || findsubstr(_character.HeroModel, "PGG_Ghost" , 0) != -1)
     {
         strBack = StrWoman;
     }

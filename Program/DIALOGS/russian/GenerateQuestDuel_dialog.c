@@ -71,7 +71,7 @@ void ProcessDialogEvent()
 		case "Duelist_1_8":
 			SetCameraDialogMode(CharacterFromID(PChar.GenerateQuestDuel.Characters.Wife));
 			dialog.text = PChar.GenerateQuestDuel.WifeName + ", кто это такой?";
-			link.l1 = PChar.GenerateQuestDuel.WifeName + ": Дорогой, этот капитан согласился помочь нам.";
+			link.l1 = PChar.GenerateQuestDuel.WifeName + ": "+ GetSexPhrase("Дорогой, этот капитан согласился помочь нам.","Дорогой, эта леди согласилась помочь нам.") +"";
 			link.l1.go = "Duelist_1_9";
 		break;
 
@@ -140,7 +140,7 @@ void ProcessDialogEvent()
 		
 		case "Wife_2":
 			dialog.text = "Мой муж повздорил с соседом и ссора зашла так далеко, что они решили разрешить её на дуэли. " + PChar.GenerateQuestDuel.DuelistName + " плохо владеет шпагой. Его убьют, я уверена!";
-			link.l1 = "Понимаю. Вы хотите, что бы я помирил вашего мужа с соседом?";
+			link.l1 = "Понимаю. Вы хотите, что бы я помирил"+ GetSexPhrase("","а") +" вашего мужа с соседом?";
 			link.l1.go = "Wife_3";
 		break;
 		

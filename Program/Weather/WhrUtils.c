@@ -13,7 +13,7 @@ float Whr_GetFloat(aref arRef, string sAttribute)
 		return fMin + frnd() * (fMax - fMin);
 	}
 
-	if (!CheckAttribute(&arRef, sAttribute)) return 0.0; //задолбало
+	if (!CheckAttribute(&arRef, sAttribute)) return 0.0;
 
 	return stf(arRef.(sAttribute));
 }
@@ -48,7 +48,6 @@ void eChangeDayNight()
 		HideCitizens();
 	}
 	RecalculateJumpTable();*/
-	// для вмл это не нужно, тк время обрабатывается он лайн
 }
 
 //navy -->
