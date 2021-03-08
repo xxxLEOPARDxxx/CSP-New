@@ -21,6 +21,16 @@ void ProcessDialogEvent()
 	{
 		// -----------------------------------Диалог первый - первая встреча
 		case "First time":
+			if (startherotype == 5 || startherotype == 6)
+			{
+				if(npchar.id == "Beatrice")
+				{
+					dialog.text = "У тебя хватает наглости заявляться сюда, после того, что было? Прочь с глаз моих, пока я тебя не зарубила!";
+					link.l1 = "Прости, Элен...";
+					link.l1.go = "exit";
+					break;
+				}
+			}
             NextDiag.TempNode = "First time";
 			dialog.text = RandPhraseSimple("Приветствую, капитан! Девушка-офицер не нужна на вашем корыте?",
                           "Новый, очень продвинутый офицер нужен?");

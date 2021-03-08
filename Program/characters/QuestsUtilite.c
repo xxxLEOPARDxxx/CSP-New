@@ -1236,7 +1236,7 @@ void QuestSetCurrentNode(string _chID, string _Node)
 string NPCharSexPhrase(ref _character, string StrMan, string StrWoman)
 {
 	string strBack;
-    if (_character.sex == "woman" || findsubstr(_character.HeroModel, "PGG_Ghost" , 0) != -1)
+    if (_character.sex == "woman" || findsubstr(_character.Model, "PGG_Ghost" , 0) != -1)
     {
         strBack = StrWoman;
     }
@@ -2277,6 +2277,60 @@ void SilencePriceInit()
 	LAi_SetLoginTime(ch, 0.0, 24.0);
 	ch.greeting = "Gr_Atilla";
 	ChangeCharacterAddressGroup(ch, "LaVega_town", "goto", "goto15");
+}
+//Проклятие Дальних Морей Sinistra
+void CursedIdolInit()
+{
+	//Джеймс Кэллоу
+	ref sld;
+	sld = GetCharacter(NPC_GenerateCharacter("James_Callow", "ozg_green", "man", "man", 6, PIRATE, -1, false));
+	sld.name	= "Джеймс";
+	sld.lastname	= "Кэллоу";
+	sld.rank     = 6;
+	sld.model	= "ozg_green";
+	SetCharacterPerk(sld, "HullDamageUp");
+	SetCharacterPerk(sld, "CrewDamageUp");
+	SetCharacterPerk(sld, "CriticalShoot");
+	SetCharacterPerk(sld, "LongRangeShoot");
+	SetCharacterPerk(sld, "CannonProfessional");
+	SetCharacterPerk(sld, "ShipDefenseProfessional");
+	SetCharacterPerk(sld, "SwordplayProfessional");
+	SetCharacterPerk(sld, "AdvancedDefense");
+	SetCharacterPerk(sld, "CriticalHit");
+	SetCharacterPerk(sld, "Sliding");
+	GiveItem2Character(sld, BLADE_LONG);
+	SetSelfSkill(sld, 20, 45, 15, 20, 15);
+	SetShipSkill(sld, 20, 10, 20, 15, 32, 10, 15, 15, 12);
+	sld.sex = "man";
+	sld.City = "LaVega";
+	sld.location	= "LaVega_tavern";
+	sld.Dialog.Filename = "Quest/PDM/Cursed_Idol.c";
+	sld.greeting = "James_Callow";
+	sld.nation = PIRATE;
+	LAi_SetSitType(sld);
+	LAi_SetImmortal(sld, true);
+	ChangeCharacterAddressGroup(sld,"LaVega_tavern","sit","sit_base3");
+	//Губернатор Ле Франсуа КЛОН
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_LeFransua_Mayor_Klon", "huber_fra", "man", "man", 30, PIRATE, -1, false));
+	sld.name	= "Бартоломью";
+	sld.lastname	= "Роджер";
+	sld.nation = PIRATE;
+	LAi_SetSitType(sld);
+	LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
+	LAi_SetImmortal(sld, true);
+	GiveItem2Character(sld, GUN_COMMON);
+	GiveItem2Character(sld, BLADE_LONG);
+	LAi_SetHuberType(sld);
+	SetRandSPECIAL(sld);
+    SetSelfSkill(sld, 90, 90, 90, 60, 70);
+	sld.standUp = true; //вставать и нападать на врага
+	//Ростовщик на Тортуге КЛОН
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_Tortuga_usurer_Klon", "usurer_3", "man", "man", 1, FRANCE, -1, false));
+	sld.City = "Tortuga";
+	sld.Dialog.Filename = "PDM_Cursed_Idol.c";
+	LAi_SetOwnerType(sld);
+	LAi_SetImmortal(sld, true);
+	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
 }
 void OfficerGirlInit()
 {

@@ -9235,23 +9235,84 @@ void QuestComplete(string sQuestName, string qname)
 	break;
 		//конец История давней дружбы
 		//2 жертвы и главу шпионов.
-////////////////// КВЕСТЫ Проклятие Дальних Морей --> //////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////  	КВЕСТЫ "Проклятие Дальних Морей" НАЧАЛО  	///	 		АВТОР Sinistra				//////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//========================  Квест "Альбрехт".  =======================												
 		case "PDM_Albreht_Vhod":
 			chrDisableReloadToLocation = false;   //блокировка всех выходов
-            sld = CharacterFromID("Albreht_Zalpfer");  //сам подходит
-	        sld.dialog.currentnode = "Ja_1";         //вызывает диалог
+            sld = CharacterFromID("Albreht_Zalpfer");  //ссылается на персонажа
+	        sld.dialog.currentnode = "Ja_1";         //название диалога
 			sld.greeting = "Albrecht_Zalpfer";    //приветствие	
 			LAi_SetActorType(sld);            //актёр или житель
-			LAi_ActorDialog(sld, pchar, "", 0.5, 0);
+			LAi_ActorDialog(sld, pchar, "", 0.5, 0);  //начинает говорить
+			PlaceCharacter(sld, "goto", PChar.location);   //где стоит	
 			Locations[FindLocation("PortRoyal_town")].reload.l23.disable = false;   //открывает архитектора
-            PlaceCharacter(sld, "goto", PChar.location);			
         break;
 
 		case "PDM_Albreht_Vihod":
-			sld = CharacterFromID("Albreht_Zalpfer")   //ссылкается на персонажа
-			ChangeCharacterAddressGroup(sld, "PortRoyal_town", "goto", "goto100");   //переместить
+			sld = CharacterFromID("Albreht_Zalpfer")   //ссылается на персонажа
+			ChangeCharacterAddressGroup(sld, "PortRoyal_town", "none", "");   //переместить
         break;
-////////////////// КВЕСТЫ Проклятие Дальних Морей <-- //////////////////
+
+//========================  Квест "Проклятый идол".  =======================
+		
+		case "PDM_Callow_RodjerVozvrat":	
+			sld = CharacterFromID("PDM_LeFransua_Mayor_Klon")   //убираем клона
+			ChangeCharacterAddressGroup(sld, "LeFransua_town", "none", "");   //переместить
+			
+			sld = CharacterFromID("LeFransua_Mayor")   //возвращаем губернатора
+			ChangeCharacterAddressGroup(sld, "LeFransua_townhall", "sit", "sit1");   //переместить
+		break;
+
+		case "PDM_Callow_RodjerFin":
+			sld = CharacterFromID("James_Callow")   //ссылается на персонажа
+			sld.dialog.filename = "Quest/PDM/Cursed_Idol.c";
+			sld.dialog.currentnode = "CollowRad_1";
+		break;
+		
+		case "PDM_Callow_RadPoka":
+			sld = CharacterFromID("James_Callow")   //ссылается на персонажа
+			ChangeCharacterAddressGroup(sld, "LaVega_town", "none", "");   //переместить
+		break;
+		
+		case "PDM_FraOff_Bitva_1_Posle":
+			chrDisableReloadToLocation = false;   //Теперь можно уйти
+			bDisableFastReload = false;	         	//Открываем быстрые перемещения
+			sld = CharacterFromID("James_Callow")   //ссылается на персонажа
+			sld.dialog.filename = "Quest/PDM/Cursed_Idol.c";
+			sld.dialog.currentnode = "CollowNeRad_1";
+		break;
+		
+		case "PDM_Pobeda_nad_Callow":
+			AddQuestRecord("PDM_Cursed_Idol", "6");							//Квест под номером в СЖ
+			CloseQuestHeader("PDM_Cursed_Idol"); 								//Закончить квест в СЖ
+			AddCharacterExpToSkill(PChar, "Leadership", 40);
+    		AddCharacterExpToSkill(PChar, "Sailing", 40);
+    		AddCharacterExpToSkill(PChar, "Accuracy", 20);
+    		AddCharacterExpToSkill(PChar, "Cannons", 20);
+			AddCharacterExpToSkill(PChar, "Repair", 20);
+    		AddCharacterExpToSkill(PChar, "Defence", 20);
+    		AddCharacterExpToSkill(PChar, "Sneak", 20);
+		break;
+		
+		case "PDM_Callow_poradomoy":
+			sld = CharacterFromID("James_Callow")
+			sld.dialog.filename = "Quest/PDM/Cursed_Idol.c";
+			sld.dialog.currentnode = "Callow_POBEDA_1";
+			AddQuestRecord("PDM_Cursed_Idol", "9");
+			chrDisableReloadToLocation = false;
+			bDisableFastReload = false;
+			LAi_LocationFightDisable(loadedLocation, true); //запрещаем оружие
+		break;
+//========================  Квест "Новая Родина".  =======================		
+
+//будущий текст
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   	КВЕСТЫ "Проклятие Дальних Морей" КОНЕЦ
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }
 

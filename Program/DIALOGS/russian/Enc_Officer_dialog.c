@@ -119,7 +119,7 @@ void ProcessDialogEvent()
 			    }
 			}
 			
-			if (npchar.id != "Sharp_Sibling")
+			if (npchar.id != "Sharp_Sibling" && npchar.id != "SharleMary")
 			{
 				Link.l4 = "ќфицер, € более не нуждаюсь в ваших услугах.";
 				Link.l4.go = "AsYouWish";

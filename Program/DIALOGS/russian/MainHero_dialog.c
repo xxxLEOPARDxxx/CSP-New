@@ -181,6 +181,22 @@ void ProcessDialogEvent()
 				Link.l1 = "Нужно отыскать грот.";
 				Link.l1.go = "Exit_Special";
 			}
+			//Старт за Мэри и Шарля
+			if (CheckAttribute(pchar, "questTemp.SharleMary.Entered_Shore"))
+			{
+				dialog.Text = "Матерь Небесная, вот это шторм был... Кровь... У меня голова разбита... Черт возьми, всё как в тумане. "+GetSexPhrase("Мэри! Где Мэри?!","Шарль! Где Шарль?!")+" На песке ни досок, ни трупов. «Фортуна» погибла или дрейфует где то в море. К дьяволу, их всех.";
+				DeleteAttribute(pchar, "questTemp.SharleMary.Entered_Shore");
+				Link.l1 = "Мне нужно найти "+GetSexPhrase("Мэри.","Шарля.");
+				Link.l1.go = "Exit_Special";
+			}
+			if (CheckAttribute(pchar, "questTemp.SharleMary.Death"))
+			{
+				dialog.Text = "Ох... "+GetSexPhrase("Бедная Мэри...","Бедный Шарль...")+" У меня не вышло спасти тебя.";
+				chrDisableReloadToLocation = false;
+				DeleteAttribute(pchar, "questTemp.SharleMary.Death");
+				Link.l1 = "Не знаю, смогу ли жить дальше после такого. Пойду на пляж, возможно, ещё хоть кто-то выжил.";
+				Link.l1.go = "Exit";
+			}
 			//Линейка Виспер
 			if (CheckAttribute(pchar, "questTemp.Whisper.Entered_Dungeon"))
 			{

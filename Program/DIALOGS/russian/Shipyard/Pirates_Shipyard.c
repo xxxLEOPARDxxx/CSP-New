@@ -401,35 +401,35 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     			        Link.l2 = "Увеличить дедвейт.";
     			        Link.l2.go = "ship_tunning_Capacity";
     			    }
-    			    if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.SpeedRate"))
-                    {
-    			        Link.l3 = "Увеличить скорость.";
-    			        Link.l3.go = "ship_tunning_SpeedRate";
-    			    }
 					if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.MastMultiplier"))
                     {
     			        Link.l3 = "Увеличить прочность мачт.";
     			        Link.l3.go = "ship_tunning_MastMultiplier";
     			    }
+					if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.SpeedRate"))
+                    {
+    			        Link.l4 = "Увеличить скорость.";
+    			        Link.l4.go = "ship_tunning_SpeedRate";
+    			    }
     			    if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.TurnRate"))
                     {
-    			        Link.l4 = "Увеличить маневренность.";
-    			        Link.l4.go = "ship_tunning_TurnRate";
+    			        Link.l5 = "Увеличить маневренность.";
+    			        Link.l5.go = "ship_tunning_TurnRate";
     			    }
     			    if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.MaxCrew"))
                     {
-    			        Link.l5 = "Прибавить место для экипажа.";
-    			        Link.l5.go = "ship_tunning_MaxCrew";
+    			        Link.l6 = "Прибавить место для экипажа.";
+    			        Link.l6.go = "ship_tunning_MaxCrew";
     			    }
     			    if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.HP"))
                     {
-    			        Link.l6 = "Увеличить прочность корпуса.";
-    			        Link.l6.go = "ship_tunning_HP";
+    			        Link.l7 = "Увеличить прочность корпуса.";
+    			        Link.l7.go = "ship_tunning_HP";
     			    }
     			    if (!CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.WindAgainst"))
                     {
-    			        Link.l7 = "Увеличить ход в бейдевинд.";
-    			        Link.l7.go = "ship_tunning_WindAgainst";
+    			        Link.l8 = "Увеличить ход в бейдевинд.";
+    			        Link.l8.go = "ship_tunning_WindAgainst";
     			    }
     			    Link.l10 = "Постойте! Я передумал"+ GetSexPhrase("","а") +".";
     			    Link.l10.go = "ship_tunning_not_now_2";

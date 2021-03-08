@@ -602,7 +602,7 @@ float Ship_GetSailState(ref rCharacter)
 	SendMessage(rCharacter, "le", MSG_SHIP_GET_SAIL_STATE, &fSailState);
 	return fSailState;
 }
-// boal 27.09.05 -->
+// boal 27.09.05 --> LEO - запилить пиздатого брандера - ВЗРЫВ нахрен
 void Ship_SetExplosion(ref rCharacter, ref	rShipObject)
 {
     int i = 0;
@@ -1084,6 +1084,7 @@ void Ship_BortReloadEvent()
     
     if (sti(aCharacter.Tmp.BortsReloaded.Event))
     {
+		LetCharge = LetRecharge();
         bool bLeft = false;
         bool bRight = false;
         bool bFront = false;
@@ -1109,11 +1110,10 @@ void Ship_BortReloadEvent()
             if (bFront) { PlayVoice("interface\_Gun_FB_Ready.wav"); }
             if (bBack) { PlayVoice("interface\_Gun_FB_Ready.wav"); }
         }
-    }
-	LetCharge = LetRecharge();
+    
     Ship_ClearBortsReloadedEvent(aCharacter);
+	}
 }
-
 void Ship_ClearBortsReloadedEvent(aref aCharacter)
 {
 	aCharacter.Tmp.BortsReloaded.Event = false;

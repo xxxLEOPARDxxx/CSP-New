@@ -986,7 +986,7 @@ void NewGame_continue()
 
 	//LoadMainCharacterInFirstLocation(sTeleportLocName, sTeleportLocator, sTeleportLocName);
 	startGameWeather = true;
-	if (startHeroType > 4)
+	if (startHeroType > 6)
 	{//Стандартное начало
 		InterfaceStates.startGameWeather = FindWeather("11 Hour");
 		LoadMainCharacterInFirstLocationGroup("Ship_deck_Low", "goto", "goto4");
@@ -995,6 +995,11 @@ void NewGame_continue()
 	{//Блейз и Беатрис
 		InterfaceStates.startGameWeather = FindWeather("11 Hour");
 		LoadMainCharacterInFirstLocationGroup("Shore57", "item", "item11");
+    }
+	if (startHeroType == 5 || startHeroType == 6) 
+	{//Блейз и Беатрис
+		InterfaceStates.startGameWeather = FindWeather("11 Hour");
+		LoadMainCharacterInFirstLocationGroup("Shore_ship2", "goto", "goto4");
     }
     if (startHeroType == 2)
 	{//Виспер

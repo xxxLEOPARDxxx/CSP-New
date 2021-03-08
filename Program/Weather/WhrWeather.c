@@ -58,7 +58,7 @@ void SetNextWeather(string sWeatherID)
 			if (bBettaTestMode)
 			{
 				Trace("iNextWeatherNum = " + iNextWeatherNum);
-				Log_SetStringToLog("Lighting: " + Weathers[i].Lighting);
+				Log_SetStringToLog("œŒ√Œƒ¿: " + Weathers[i].Lighting);
 			}
 			return;
 		}
@@ -160,9 +160,9 @@ void CreateWeatherEnvironment()
 			Weathers[iTmp].Bak.Sun.Overflow.Enable	= Weathers[iTmp].Sun.Overflow.Enable;
 
 			Weathers[iTmp].Fog.Color = argb(0,50,60,65);
-			Weathers[iTmp].Fog.Height = 250;
-			Weathers[iTmp].Fog.Density = 0.008;
-			Weathers[iTmp].Fog.SeaDensity = 0.008;
+			Weathers[iTmp].Fog.Height = 1000;
+			Weathers[iTmp].Fog.Density = 0.003;
+			Weathers[iTmp].Fog.SeaDensity = 0.0022;
 
 			Weathers[iTmp].Sun.Glow.Enable = false;
 			Weathers[iTmp].Sun.Overflow.Enable = false;
@@ -789,9 +789,9 @@ void Whr_TimeUpdate()
 				}
 
 				Weathers[iBlendWeatherNum].Fog.Color = argb(0,50,60,65);
-				Weathers[iBlendWeatherNum].Fog.Height = 250;
-				Weathers[iBlendWeatherNum].Fog.Density = 0.008;
-				Weathers[iBlendWeatherNum].Fog.SeaDensity = 0.008;
+				Weathers[iBlendWeatherNum].Fog.Height = 1000;
+				Weathers[iBlendWeatherNum].Fog.Density = 0.003;
+				Weathers[iBlendWeatherNum].Fog.SeaDensity = 0.0022;
 
 				Weathers[iBlendWeatherNum].Sun.Glow.Enable = false;
 				Weathers[iBlendWeatherNum].Sun.Overflow.Enable = false;
@@ -819,9 +819,9 @@ void Whr_TimeUpdate()
 					Weathers[iBlendWeatherNum].Bak.Sun.Overflow.Enable	= Weathers[iBlendWeatherNum].Sun.Overflow.Enable;
 				}
 				Weathers[iBlendWeatherNum].Fog.Color = argb(0,50,60,65);
-				Weathers[iBlendWeatherNum].Fog.Height = 250;
-				Weathers[iBlendWeatherNum].Fog.Density = 0.008;
-				Weathers[iBlendWeatherNum].Fog.SeaDensity = 0.008;
+				Weathers[iBlendWeatherNum].Fog.Height = 1000;
+				Weathers[iBlendWeatherNum].Fog.Density = 0.003;
+				Weathers[iBlendWeatherNum].Fog.SeaDensity = 0.0022;
 
 				Weathers[iBlendWeatherNum].Sun.Glow.Enable = false;
 				Weathers[iBlendWeatherNum].Sun.Overflow.Enable = false;

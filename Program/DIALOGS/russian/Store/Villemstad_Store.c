@@ -187,9 +187,9 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
  		
 		case "Dozor_7":
 			dialog.text = "Ну что, капитан как успехи? Раздуплили головоломку?";
-			link.l1 = "Да, разгадал, и готов сказать правильный ответ.";
+			link.l1 = "Да, разгадал"+ GetSexPhrase("","а") +", и готов"+ GetSexPhrase("","а") +" сказать правильный ответ.";
 			link.l1.go = "Dozor_8";
-			link.l2 = "Ещё не разгадал.";
+			link.l2 = "Ещё не разгадал"+ GetSexPhrase("","а") +".";
 			link.l2.go = "exit";
 		break;
  		

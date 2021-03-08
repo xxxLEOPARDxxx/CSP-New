@@ -1,7 +1,6 @@
 int LetBortCharge = 0;
 void Ship_BortFire()
 {
-	LetCharge = 0;
 	float	dx, dy, dz, d2x, d2y, d2z;
 	aref	firedShip;
 	string	bortName;

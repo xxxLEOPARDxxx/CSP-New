@@ -7323,6 +7323,17 @@ int InitItems()
     itm.ItemType = "QUESTITEMS";
     n++;
 	
+	makeref(itm, Items[n]); //квест "Проклятый идол"
+    itm.id = "Cursed_idol";
+    itm.name = "itmname_Cursed_idol";
+    itm.describe = "itmdescr_Cursed_idol";
+    itm.picIndex = 9;
+    itm.picTexture = "ITEMS_14";
+    itm.price = 0;
+    itm.Weight = 1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
 	/////////////// *** 4 уровень *** ///////////////
 	
 	/////////////////////////////////////////////////////////

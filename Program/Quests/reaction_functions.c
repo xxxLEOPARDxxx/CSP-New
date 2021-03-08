@@ -10138,3 +10138,101 @@ void SetPortAlarm(string qName) //Тревога в городе, если причалил под вражеским 
 //Gregg -->
 
 //Gregg <--
+
+//Sinistra Проклятый идол -->
+void PDM_Callow_RodjerProdolg(string qName)
+{ 
+	chrDisableReloadToLocation = true;   //Нельзя убежать	
+	LAi_LockFightMode(Pchar, false);
+	LAi_LocationFightDisable(loadedLocation, true); //Запрещаем оружие
+	Pchar.GenQuest.Hunter2Pause = true;
+    //--------------------------- французы ------------------------------
+	
+    int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE;
+	if (Rank < 1) Rank = 1;
+	sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_off", "off_fra_1", "man", "man", Rank, FRANCE, -1, true));
+    FantomMakeCoolFighter(sld, sti(pchar.rank), 20, 20, "blade11", "", 50);	
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto2");
+	LAi_SetActorType(sld);
+	sld.dialog.filename   = "Quest/PDM/Cursed_Idol.c";		//Название файла диалога
+	sld.dialog.currentnode   = "FraOff_1";				//С какой фразы начинать диалог
+	LAi_ActorDialog(sld, pchar, "", -1, 0);	
+	for (i=1; i<=3; i++)
+    {
+        sTemp = "sold_fra_"+(rand(7)+1);  //количество
+		if (i==12) sTemp = "off_fra_1";
+ 		sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_"+i, sTemp, "man", "man", Rank, FRANCE, -1, true));
+        FantomMakeCoolFighter(sld, sti(pchar.rank), 15, 15, "blade8", "", 20);
+        ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto2");
+		LAi_SetActorType(sld);
+		LAi_ActorFollow(sld, pchar, "", -1);
+    }
+}
+void PDM_Callow_Voina(string qName)
+{
+	sld = CharacterFromID("James_Callow");
+	FantomMakeCoolFighter(sld, 30, 70, 70, "blade34", "", 140);
+	FantomMakeCoolSailor(sld, SHIP_SCHOONERLIGHT, "Жадный Билли", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
+	sld.name	= "Джеймс";
+	sld.lastname	= "Кэллоу";
+	sld.AlwaysSandbankManeuver = true;
+	sld.SaveItemsForDead = true;
+	sld.DontClearDead = true;
+	sld.AnalizeShips = true;  //анализировать вражеские корабли при выборе таска
+	sld.DontRansackCaptain = true;
+	sld.AlwaysEnemy = true;
+	GiveItem2Character(sld, "lockpick");
+	AddMoneyToCharacter(sld, 18000);
+	SetCharacterPerk(sld, "HullDamageUp");
+	SetCharacterPerk(sld, "CrewDamageUp");
+	SetCharacterPerk(sld, "CriticalShoot");
+	SetCharacterPerk(sld, "LongRangeShoot");
+	SetCharacterPerk(sld, "CannonProfessional");
+	SetCharacterPerk(sld, "ShipDefenseProfessional");
+	SetCharacterPerk(sld, "SwordplayProfessional");
+	SetCharacterPerk(sld, "AdvancedDefense");
+	SetCharacterPerk(sld, "CriticalHit");
+	SetCharacterPerk(sld, "Sliding");
+	sld.ship.Crew.Morale = 100;
+	ChangeCrewExp(sld, "Sailors", 60);
+	ChangeCrewExp(sld, "Cannoners", 30);
+	ChangeCrewExp(sld, "Soldiers", 50);
+	
+	Group_FindOrCreateGroup("Nui");					//Название группы
+	Group_SetType("Nui", "war");						//Тип поведения
+	Group_AddCharacter("Nui", "James_Callow");	//Добавить капитана
+	Group_SetGroupCommander("Nui", "James_Callow");
+	Group_SetTaskAttack("Nui", PLAYER_GROUP);
+	Group_SetPursuitGroup("Nui", PLAYER_GROUP);
+	Group_SetAddress("Nui", "Hispaniola1", "", "");
+	Group_LockTask("Nui");
+
+	pchar.quest.PDM_Pobeda_nad_Callow.win_condition.l1 = "NPC_Death";
+	pchar.quest.PDM_Pobeda_nad_Callow.win_condition.l1.character = "James_Callow";
+	pchar.quest.PDM_Pobeda_nad_Callow.win_condition = "PDM_Pobeda_nad_Callow";
+	PChar.quest.PDM_NEPobeda_nad_Callow.win_condition.l1 = "MapEnter";
+	PChar.quest.PDM_NEPobeda_nad_Callow.function = "PDM_NEPobeda_nad_Callow";
+}
+void PDM_NEPobeda_nad_Callow(string qName)
+{
+	sld = CharacterFromID("James_Callow");
+	Group_FindOrCreateGroup("Nui");					//Название группы
+	Group_SetType("Nui", "war");						//Тип поведения
+	Group_AddCharacter("Nui", "James_Callow");	//Добавить капитана
+	Group_SetGroupCommander("Nui", "James_Callow");
+	Group_SetTaskAttack("Nui", PLAYER_GROUP);
+	Group_SetPursuitGroup("Nui", PLAYER_GROUP);
+	Group_SetAddress("Nui", "none", "", "");
+	Group_LockTask("Nui");								
+	AddCharacterExpToSkill(PChar, "Leadership", -40);
+    AddCharacterExpToSkill(PChar, "Sailing", -40);
+    AddCharacterExpToSkill(PChar, "Accuracy", -20);
+    AddCharacterExpToSkill(PChar, "Cannons", -20);
+	AddCharacterExpToSkill(PChar, "Repair", -20);
+    AddCharacterExpToSkill(PChar, "Defence", -20);
+    AddCharacterExpToSkill(PChar, "Sneak", -20);
+	AddQuestRecord("PDM_Cursed_Idol", "7");
+	AddQuestUserData("PDM_Cursed_Idol", "sSex", GetSexPhrase("","а"));
+	CloseQuestHeader("PDM_Cursed_Idol"); 
+}
+//Sinistra Проклятый идол <--

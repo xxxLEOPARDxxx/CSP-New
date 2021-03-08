@@ -75,13 +75,13 @@ void Whisper_StartGame(string qName)
 	for (int i = 0; i < 10; i++)
 	{
 		sld = GetCharacter(NPC_GenerateCharacter("Robot"+sti(i), "Terminator", "Terminator_Sex", "Terminator", 55, PIRATE, 0, false));
-		if (rand (1)==0) FantomMakeCoolFighter(sld, 1, 20, 20, "katar", "", 80);
-		else FantomMakeCoolFighter(sld, 1, 20, 20, "blade14", "", 80);
+		if (rand (1)==0) FantomMakeCoolFighter(sld, 1, 15, 15, "katar", "", 80);
+		else FantomMakeCoolFighter(sld, 1, 15, 15, "blade14", "", 80);
 		LAi_SetHP(sld, 10.0 * MOD_SKILL_ENEMY_RATE, 10.0 *MOD_SKILL_ENEMY_RATE);
-		if (MOD_SKILL_ENEMY_RATE == 10)
-		{
-			LAi_SetHP(sld, 20.0 * MOD_SKILL_ENEMY_RATE, 20.0 *MOD_SKILL_ENEMY_RATE);
-		}
+		//if (MOD_SKILL_ENEMY_RATE == 10)
+		//{
+		//	LAi_SetHP(sld, 20.0 * MOD_SKILL_ENEMY_RATE, 20.0 *MOD_SKILL_ENEMY_RATE);
+		//}
 		LAi_SetWarriorType(sld);
 		LAi_warrior_SetStay(sld, true);
 		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
@@ -139,7 +139,7 @@ void WhisperScientist(string qName)
 	sld.LifeDay = 0;
 	
 	sld = GetCharacter(NPC_GenerateCharacter("FinalBot", "Terminator", "Terminator_Sex", "Terminator", 55, PIRATE, 0, false));
-	FantomMakeCoolFighter(sld, 1, 20, 20, "katar", "pistol7", 80);
+	FantomMakeCoolFighter(sld, 1, 20, 20, "", "pistol7", 80);
 	sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
 	sld.name = "Т-911";
 	sld.lastname = "";
@@ -150,9 +150,25 @@ void WhisperScientist(string qName)
    	LAi_SetImmortal(sld, true);
 	sld.talker = 10;
 	ChangeCharacterAddressGroup(sld, "Bermudes_Dungeon", "item", "duhi1");
-	
+	DoQuestFunctionDelay("TeleportBot", 0.5);
 }
 
+void TeleportBot(string qName)
+{
+	sld = CharacterFromID("FinalBot");
+	switch (rand(2))
+	{
+		case 0:
+		TeleportCharacterToPos(sld, -36.0, -0.11696, -18.0);
+		break;
+		case 1:
+		TeleportCharacterToPos(sld, -3.8456, -0.11696, -15.0);
+		break;
+		case 2:
+		TeleportCharacterToPos(sld, 16.0, -0.11696, 20.0);
+		break;
+	}
+}
 void WhisperTeleport(string qName)
 {
 	pchar.questTemp.WhisperLine = false;
@@ -255,7 +271,7 @@ void WhisperLine_Cage(string qName)
     sld.lastname = "де Соуза";
 	//sld.model.animation = "man2";
     sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
-	sld.greeting = "Gr_padre";
+	//sld.greeting = "Gr_padre";
     LAi_SetHuberType(sld);
     LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
     ChangeCharacterAddressGroup(sld, "Santiago_Incquisitio", "goto", "goto5");
@@ -441,7 +457,7 @@ void WhisperPirateTownGetHat_part_1(string qName)
 	string cnd;
 	for (int i = 0; i < 10; i++)
 	{
-		sld = GetCharacter(NPC_GenerateCharacter("IncqSoldier_"+sti(i), "sold_spa_"+(rand(7)+1), "man", "man", 5, SPAIN, 0, true));
+		sld = GetCharacter(NPC_GenerateCharacter("IncqSoldier_"+sti(i), "sold_spa_"+(rand(7)+1), "man", "man", MOD_SKILL_ENEMY_RATE, SPAIN, 0, true));
 		LAi_SetWarriorType(sld);
 		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);	
 		cnd = "l" + i;
@@ -449,7 +465,7 @@ void WhisperPirateTownGetHat_part_1(string qName)
 		pchar.quest.WhisperAfterTownBattle.win_condition.(cnd).character ="IncqSoldier_"+sti(i);
 		LAi_SetImmortal(sld, true);
 		
-		sld = GetCharacter(NPC_GenerateCharacter("PirateTownDefender_"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", 5, PIRATE, 0, true));
+		sld = GetCharacter(NPC_GenerateCharacter("PirateTownDefender_"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", MOD_SKILL_ENEMY_RATE, PIRATE, 0, true));
 		LAi_SetWarriorType(sld);
 		LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
 		sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
@@ -487,10 +503,10 @@ void WhisperPirateTownGetHat_part_1(string qName)
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "rld", "aloc0");
 	sld = characterFromID("PirateTownDefender_4");
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item2");
+	sld = characterFromID("PirateTownDefender_5");
+	ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item1");
 	if (MOD_SKILL_ENEMY_RATE != 10)
 	{
-		sld = characterFromID("PirateTownDefender_5");
-		ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item1");
 		sld = characterFromID("PirateTownDefender_6");
 		ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item12");
 		sld = characterFromID("PirateTownDefender_7");
@@ -510,6 +526,10 @@ void WhisperKillNineFingers(string qName)
 	DeleteAttribute(sld, "items");
     DeleteAttribute(sld, "equip");
 	GiveItem2Character(sld, "Map_bad");
+	GiveItem2Character(sld, "spyglass1");
+	GiveItem2Character(sld, "pistol1");
+	TakeNItems(sld, "GunPowder", 10);
+    TakeNItems(sld, "bullet", 10);
 	RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
 	LAi_KillCharacter(sld);
 }
@@ -548,7 +568,8 @@ void WhisperMeetCrew(string qName)
 	LAi_SetHP(sld, 30.0 * MOD_SKILL_ENEMY_RATE, 30.0 *MOD_SKILL_ENEMY_RATE);
 	if (MOD_SKILL_ENEMY_RATE == 10)
 	{
-		LAi_SetHP(sld, 60.0 * MOD_SKILL_ENEMY_RATE, 60.0 *MOD_SKILL_ENEMY_RATE);
+		SetCharacterPerk(sld, "Sliding");
+		LAi_SetHP(sld, 35.0 * MOD_SKILL_ENEMY_RATE, 35.0 *MOD_SKILL_ENEMY_RATE);
 	}
 	//sld.greeting = "Gr_padre";
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_Port", "officers", "reload1_1");
@@ -857,17 +878,17 @@ void WhisperDeSouzaSeaBattle()
 	TakeNItems(sld, "DeSouzaCross", 1);
 	
 	SetSelfSkill(sld, 50, 50, 50, 50, 50);
-	SetShipSkill(sld, 40, 40, 40, 40, 40, 40, 40, 40, 40);
+	SetShipSkill(sld, 50, 50, 50, 50, 50, 50, 50, 50, 50);
 	//SetSPECIAL(sld, 10, 3, 10, 4, 8, 9, 5);
 	sld.rank = 25;
-	LAi_SetHP(sld, 400.0, 400.0);
+	LAi_SetHP(sld, 50.0 * MOD_SKILL_ENEMY_RATE, 50.0 * MOD_SKILL_ENEMY_RATE);
 
 	if (MOD_SKILL_ENEMY_RATE == 10)
 	{
 		sld.rank = 40;
 		SetSelfSkill(sld, 80, 80, 80, 80, 80);
 		SetShipSkill(sld, 80, 80, 80, 80, 80, 80, 80, 80, 80);
-		LAi_SetHP(sld, 1500.0, 1500.0);
+		LAi_SetHP(sld, 600.0, 600.0);
 	}
 	
     SetCharacterGoods(sld,GOOD_FOOD,500);
@@ -925,15 +946,15 @@ void WhisperWarDogSeaBattle()
 	
 	//SetCrewQuantityFull(sld);
 	int hcrew = GetMaxCrewQuantity(sld);
-	SetCrewQuantityOverMax(sld, hcrew+200);// Усложним бой
+	SetCrewQuantityOverMax(sld, hcrew+180);// Усложним бой
 	
 	sld.SaveItemsForDead = true;
 	GiveItem2Character(sld, "cirass5");
 	EquipCharacterbyItem(sld, "cirass5")
-	LAi_SetHP(sld, 200.0 + 120 * MOD_SKILL_ENEMY_RATE, 200.0 + 100 * MOD_SKILL_ENEMY_RATE);
+	LAi_SetHP(sld, 200.0 + 70 * MOD_SKILL_ENEMY_RATE, 200.0 + 70 * MOD_SKILL_ENEMY_RATE);
 	SetSelfSkill(sld, 80, 80, 80, 80, 80);
-	SetShipSkill(sld, 80, 80, 80, 80, 80, 80, 80, 80, 80);
-	sld.rank = 40;
+	SetShipSkill(sld, 75, 75, 75, 75, 75, 75, 75, 75, 75);
+	sld.rank = 30;
 	SelAllPerksToChar(sld, false);
 	if (MOD_SKILL_ENEMY_RATE == 10)
 	{
@@ -941,7 +962,7 @@ void WhisperWarDogSeaBattle()
 		SelAllPerksToChar(sld, false);
 		SetSelfSkill(sld, 100, 100, 100, 100, 100);
 		SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100);
-		LAi_SetHP(sld, 2000.0, 2000.0);
+		LAi_SetHP(sld, 1000.0, 1000.0);
 	}
 	SetFoodToCharacter(sld, 3, 20);	
 	SetSPECIAL(sld, 10, 10, 10, 10, 10, 10, 10);

@@ -1121,6 +1121,7 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 		
 		///////////// Дют бафы/дебафы из инвентаря -->
         skillN = skillN + SetCharacterSkillBySculArtefact(_refCharacter, skillName);
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Cursed_idol", -40);			// {Идол Хурукацелитипочтли}				(-40 везение)
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Coins", -50);				// {Проклятые жемчужины}				(-50 везение)
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "Mineral8", -10);			// {Башмак}								(-10 везение)
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "mineral4", -10);			// {Баклан}								(-10 авторитет и  -10 скрытность)
@@ -2465,7 +2466,15 @@ void initNewMainCharacter()
         Pchar.questTemp.CapBloodLine = false;
 		Pchar.questTemp.WhisperLine = false;
     }
-	if (startHeroType > 4)
+	if (startHeroType == 5 || startHeroType == 6)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Shore_ship2";
+    	pchar.quest.Tut_start.function                  = "SharleMary_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+		Pchar.questTemp.WhisperLine = false;
+    }
+	if (startHeroType > 6)
     {
     	pchar.quest.Tut_start.win_condition.l1          = "location";
     	pchar.quest.Tut_start.win_condition.l1.location = "Ship_deck_Low";

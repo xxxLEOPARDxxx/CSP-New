@@ -570,9 +570,11 @@ void initStartState2Character(ref ch)
 	// ==> выбор ростовщика-работорговца
 	SelectSlavetraderRendom(); //это непосредственно выбор
 	// ==> квест Изабеллы
-	IsabellaInit()
+	IsabellaInit();
 	//==>квест История давней дружбы Lipsar
-	SilencePriceInit()
+	SilencePriceInit();
+	// ==> квест Проклятый Идол Sinistra
+	CursedIdolInit();
 	// ==>  флаги и иниты бергларов 
 	BerglarsInit();
 	// ==>  нищие

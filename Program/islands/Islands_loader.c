@@ -95,7 +95,7 @@ void CheckIslandChange()
         SendMessage(&wdm_fader, "l", FADER_STARTFRAME);
         pchar.loadscreen = "loading\sea_" + rand(31) + ".tga";
         SendMessage(&wdm_fader, "ls",FADER_PICTURE, pchar.loadscreen);
-		ChangeSeaMapNew();
+		//ChangeSeaMapNew(sNewIslandId);
 	}
 }
 //#20190624-01
@@ -189,46 +189,6 @@ void ChangeSeaMapNew() //string sNewIslandId)
 	LayerAddObject(SEA_REALIZE, &wdm_fader, -1);
 }
 
-
-int ReloadToSeaLoader(int island_index, aref reload_data)
-{
-	
-	object Login;
-
-	ref rPlayer = GetMainCharacter();
-	rPlayer.lastFightMode = 0;
-
-	ref rIsland = GetIslandByIndex(island_index);
-	/*Trace("============================");
-	Trace("island_index = " + island_index);
-	DumpAttributes(rIsland);
-	Trace("============================");*/
-
-	rPlayer.location = rIsland.id;
-	rPlayer.location.group = "reload";
-
-	Login.Island = rIsland.id;
-
-	Login.Encounters = "";
-
-	Login.PlayerGroup.x = reload_data.playerGroup.x;	// FIX-ME
-	Login.PlayerGroup.z = reload_data.playerGroup.z; 
-	Login.PlayerGroup.ay = reload_data.playerGroup.ay;
-	Login.FromCoast = true;
-		
-	SeaLogin(Login);
-	return 1;
-
-	/*
-	reload_data.x
-	reload_data.y
-	reload_data.z
-	reload_data.ships.l1.x
-
-	return -1;
-	*/
-}
-
 void Sea2Sea_Reload()
 {
 	//#20180813-02
@@ -253,12 +213,12 @@ void Sea2Sea_Reload()
 	float ix = MakeFloat(worldMap.islands.(CIsland).position.x);
 	float iz = MakeFloat(worldMap.islands.(CIsland).position.z);
 
-	if (CIsland == "Cuba1" || CIsland == "Cuba2" || CIsland == "Beliz" || CIsland == "SantaCatalina"
+	/*if (CIsland == "Cuba1" || CIsland == "Cuba2" || CIsland == "Beliz" || CIsland == "SantaCatalina"
 		|| CIsland == "PortoBello" || CIsland == "Cartahena" || CIsland == "Maracaibo"
 		|| CIsland == "Caracas" || CIsland == "Cumana")
 	{
 		scale = 25;
-	}
+	}*/
 	
 	seaLoginToSea.playerGroup.x = (CX - ix)*scale;
 	seaLoginToSea.playerGroup.z = (CZ - iz)*scale;
@@ -267,12 +227,9 @@ void Sea2Sea_Reload()
 
 	seaLoginToSea.imageName = pchar.loadscreen;
     //musicName = "";
-	ReloadToSeaLoader(nextisland,&seaLoginToSea);
+	SeaLogin(&seaLoginToSea);
 	LayerAddObject(SEA_REALIZE, &wdm_fader, -1);
 	ReloadProgressEnd();
-	DeleteAttribute(seaLoginToSea,"playerGroup");
-	DeleteAttribute(seaLoginToSea,"island");
-	DeleteAttribute(seaLoginToSea,"imageName");
 
 	//#20190624-01
     float RTplayerShipX;

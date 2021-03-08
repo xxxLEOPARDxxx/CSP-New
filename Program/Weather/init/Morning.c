@@ -343,17 +343,17 @@ int Whr_InitMorning(int n)
 
 	Weathers[n].Sea2.Amp1 = 6.0; //амплитуда 1 волны
 	Weathers[n].Sea2.AnimSpeed1 = 10.0; //скорость анимации
-	Weathers[n].Sea2.Scale1 = 0.8; //размеры волны
-	Weathers[n].Sea2.MoveSpeed1 = "4.0, 0.0, 0.0"; //скорость движени€
+	Weathers[n].Sea2.Scale1 = 0.5; //размеры волны
+	Weathers[n].Sea2.MoveSpeed1 = "7.0, 0.0, 0.0"; //скорость движени€
 
 	Weathers[n].Sea2.Amp2 = 1.0;
-	Weathers[n].Sea2.AnimSpeed2 = 12.0;
-	Weathers[n].Sea2.Scale2 = 2.0;
-	Weathers[n].Sea2.MoveSpeed2 = "-1.0, 0.0, 2.0";
+	Weathers[n].Sea2.AnimSpeed2 = 10.0;
+	Weathers[n].Sea2.Scale2 = 4.0;
+	Weathers[n].Sea2.MoveSpeed2 = "0.0, 0.0, -1.0";
 
 	Weathers[n].Sea2.FoamK = 0.3;//€ркость пены по высоте 0.1 - пена €рка€ с 10 метров 1.0 через метр после начала
-	Weathers[n].Sea2.FoamV = 2.8;//высота с которой начинаетс€ пена
-	Weathers[n].Sea2.FoamUV = 1.0; //тайлинг пены
+	Weathers[n].Sea2.FoamV = 3.2;//высота с которой начинаетс€ пена
+	Weathers[n].Sea2.FoamUV = 0.2; //тайлинг пены
 	Weathers[n].Sea2.FoamTexDisturb = 0.7;//сдвиг по нормали. х.з. что это надо поюзать. значение от 0.0 до 1.0
 
 	Weathers[n].Wind.Angle = 2.0;
@@ -489,7 +489,7 @@ int Whr_InitMorning(int n)
 	Weathers[n].Sea.GF2MX.Bump.AnimSpeed = 7.0;
 	Weathers[n].Sea.GF2MX.Bump.Dir = "weather\sea\bump_g2mx\";
 
-	Weathers[n].Sea.Transparency = 0.2;
+	Weathers[n].Sea.Transparency = 0.5;
 	Weathers[n].Sea.FrenelCoefficient = 0.2;
 	Weathers[n].Sea.WaterReflection = 0.9;
 	Weathers[n].Sea.WaterAttenuation = 0.1;
@@ -519,26 +519,26 @@ int Whr_InitMorning(int n)
 	Weathers[n].Sun.Reflection.Size = 500.0;
 	Weathers[n].Sun.Reflection.Color = argb(200, 200, 200, 200);
 
-	Weathers[n].Sea2.BumpScale = 0.1; //ћ≈Ћ »≈ ¬ќЋЌџ
-	Weathers[n].Sea2.PosShift = 0.5; //остроконечность волн
+	Weathers[n].Sea2.BumpScale = 0.05; //ћ≈Ћ »≈ ¬ќЋЌџ
+	Weathers[n].Sea2.PosShift = 1.9; //остроконечность волн
 
-	Weathers[n].Sea2.WaterColor = argb(0, 20, 65, 90);
-	Weathers[n].Sea2.SkyColor = argb(0, 205, 205, 205);
+	Weathers[n].Sea2.WaterColor = argb(0, 65, 100, 110);
+	Weathers[n].Sea2.SkyColor = argb(0, 255, 255, 255);
 
 	Weathers[n].Sea2.Reflection = 0.6;
-		Weathers[n].Sea2.Transparency = 0.1;
-	Weathers[n].Sea2.Frenel = 0.2;
+	Weathers[n].Sea2.Transparency = 0.1;
+	Weathers[n].Sea2.Frenel = 0.4;
 	Weathers[n].Sea2.Attenuation = 0.2;
 
-	Weathers[n].Sea2.Amp1 = 17.0; //амплитуда 1 волны
-	Weathers[n].Sea2.AnimSpeed1 = 0.5; //скорость анимации
-	Weathers[n].Sea2.Scale1 = 0.7 //размеры волны9
-	Weathers[n].Sea2.MoveSpeed1 = "0.0, 0.0, 8.0"; //скорость движени€
+	Weathers[n].Sea2.Amp1 = 6.0; //амплитуда 1 волны
+	Weathers[n].Sea2.AnimSpeed1 = 1.0; //скорость анимации
+	Weathers[n].Sea2.Scale1 = 0.6; //размеры волны
+	Weathers[n].Sea2.MoveSpeed1 = "7.0, 0.0, 0.0"; //скорость движени€
 
-	Weathers[n].Sea2.Amp2 = 1.5;
-	Weathers[n].Sea2.AnimSpeed2 = 0.0;
-	Weathers[n].Sea2.Scale2 = 2.0;
-	Weathers[n].Sea2.MoveSpeed2 = "4.0, 0.0, 4.0";
+	Weathers[n].Sea2.Amp2 = 1.0;
+	Weathers[n].Sea2.AnimSpeed2 = 10.0;
+	Weathers[n].Sea2.Scale2 = 4.0;
+	Weathers[n].Sea2.MoveSpeed2 = "0.0, 0.0, -1.0";
 
 	Weathers[n].Sea2.FoamK = 0.3;//€ркость пены по высоте 0.1 - пена €рка€ с 10 метров 1.0 через метр после начала
 	Weathers[n].Sea2.FoamV = 2.8;//высота с которой начинаетс€ пена
@@ -546,8 +546,8 @@ int Whr_InitMorning(int n)
 	Weathers[n].Sea2.FoamTexDisturb = 0.7;//сдвиг по нормали. х.з. что это надо поюзать. значение от 0.0 до 1.0
 
 	Weathers[n].Wind.Angle = 2.0;
-	Weathers[n].Wind.Speed.Min = 5.5;
-	Weathers[n].Wind.Speed.Max = 13.0;
+	Weathers[n].Wind.Speed.Min = 7.0;
+	Weathers[n].Wind.Speed.Max = 14.0;
 
 	n++;
 
@@ -720,7 +720,7 @@ int Whr_InitMorning(int n)
 	Weathers[n].Sea2.Frenel = 0.4;
 	Weathers[n].Sea2.Attenuation = 0.2;
 
-	Weathers[n].Sea2.Amp1 = 25.0; //амплитуда 1 волны
+	Weathers[n].Sea2.Amp1 = 6.0; //амплитуда 1 волны
 	Weathers[n].Sea2.AnimSpeed1 = 2.0; //скорость анимации
 	Weathers[n].Sea2.Scale1 = 0.8; //размеры волны
 	Weathers[n].Sea2.MoveSpeed1 = "7.0, 0.0, 0.0"; //скорость движени€
@@ -731,7 +731,7 @@ int Whr_InitMorning(int n)
 	Weathers[n].Sea2.MoveSpeed2 = "0.0, 0.0, -1.0";
 
 	Weathers[n].Sea2.FoamK = 0.3;//€ркость пены по высоте 0.1 - пена €рка€ с 10 метров 1.0 через метр после начала
-	Weathers[n].Sea2.FoamV = 2.8;//высота с которой начинаетс€ пена
+	Weathers[n].Sea2.FoamV = 3.2;//высота с которой начинаетс€ пена
 	Weathers[n].Sea2.FoamUV = 1.0; //тайлинг пены
 	Weathers[n].Sea2.FoamTexDisturb = 0.7;//сдвиг по нормали. х.з. что это надо поюзать. значение от 0.0 до 1.0
 
@@ -787,7 +787,7 @@ int Whr_InitMorning(int n)
 	Weathers[n].Fog.Enable = true;
 	Weathers[n].Fog.Height = 200;
 	Weathers[n].Fog.Start = 10;
-	Weathers[n].Fog.Density = 0.0016;		
+	Weathers[n].Fog.Density = 0.0006;		
 	Weathers[n].Fog.IslandDensity = 0.0008;	
 	Weathers[n].Fog.SeaDensity = 0.0012;	
 	Weathers[n].Fog.Color = argb(0,80,90,100);
@@ -910,7 +910,7 @@ int Whr_InitMorning(int n)
 	Weathers[n].Sea2.Frenel = 0.4;
 	Weathers[n].Sea2.Attenuation = 0.2;
 
-	Weathers[n].Sea2.Amp1 = 25.0; //амплитуда 1 волны
+	Weathers[n].Sea2.Amp1 = 6.0; //амплитуда 1 волны
 	Weathers[n].Sea2.AnimSpeed1 = 2.0; //скорость анимации
 	Weathers[n].Sea2.Scale1 = 0.9; //размеры волны
 	Weathers[n].Sea2.MoveSpeed1 = "7.0, 0.0, 0.0"; //скорость движени€

@@ -30,7 +30,7 @@ int Whr_InitDayStorm(int n)
 	Weathers[n].Lightning.ScaleY = 1.0;
 	Weathers[n].Lightning.Flash.Texture = "Weather\lightning\flash.tga.tx";
 
-	Weathers[n].Sky.Dir = "weather\skies\Storm01\";
+	Weathers[n].Sky.Dir = "weather\skies\Storm03\";
 	Weathers[n].Sky.Color = argb(0,255,255,255);
 	Weathers[n].Sky.Rotate.Min = 0.0;
 	Weathers[n].Sky.Rotate.Max = 0.0;
@@ -214,7 +214,7 @@ int Whr_InitDayStorm(int n)
 	Weathers[n].Lightning.ScaleY = 1.0;
 	Weathers[n].Lightning.Flash.Texture = "Weather\lightning\flash.tga.tx";
 
-	Weathers[n].Sky.Dir = "weather\skies\Storm02\";
+	Weathers[n].Sky.Dir = "weather\skies\Storm03\";
 	Weathers[n].Sky.Color = argb(0,255,255,255);
 	Weathers[n].Sky.Rotate.Min = 0.0;
 	Weathers[n].Sky.Rotate.Max = 0.0;
@@ -1327,7 +1327,7 @@ int Whr_InitDayStorm(int n)
 	Weathers[n].Lightning.ScaleY = 1.0;
 	Weathers[n].Lightning.Flash.Texture = "Weather\lightning\flash.tga.tx";
 
-	Weathers[n].Sky.Dir = "weather\skies\Storm04\";
+	Weathers[n].Sky.Dir = "weather\skies\Storm03\";
 	Weathers[n].Sky.Color = argb(0,255,255,255);
 	Weathers[n].Sky.Rotate.Min = 0.0;
 	Weathers[n].Sky.Rotate.Max = 0.0;

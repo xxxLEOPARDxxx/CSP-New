@@ -134,6 +134,13 @@ void FaceMaker(aref rCharacter)
 		case "officer_64":		rCharacter.FaceId = 426; break;
 		// <-- Офицеры
 		
+		// --> ПКМ рабы
+		case "PKM_rab_1":		rCharacter.FaceId = 478; break;
+		case "PKM_rab_2":		rCharacter.FaceId = 478; break;
+		case "PKM_rab_3":		rCharacter.FaceId = 478; break;
+		case "PKM_rab_4":		rCharacter.FaceId = 478; break;
+		// <-- ПКМ рабы
+		
 		// --> ОЗГи
 		case "OZG_1":		rCharacter.FaceId = 461; break;
 		case "OZG_2":		rCharacter.FaceId = 462; break;
@@ -414,8 +421,8 @@ void FaceMaker(aref rCharacter)
 		// Орион
 		case "OffOrion":		rCharacter.FaceId = 291; break; //Мартин Блэкер
 		// Мушкетеры
-		case "quest_mush_1":		rCharacter.FaceId = 292; break; //саксонец
-		case "quest_mush_2":		rCharacter.FaceId = 293; break; //пират
+		case "quest_mush_1":	rCharacter.FaceId = 292; break; //саксонец
+		case "quest_mush_2":	rCharacter.FaceId = 293; break; //пират
 		case "Lil_Jim":			rCharacter.FaceId = 294; break; //Маленький Джимми
 		case "CCS_Mechanic":	rCharacter.FaceId = 295; break; //Korsar Maxim -
 		// временное решение для девиц из борделя
@@ -434,12 +441,14 @@ void FaceMaker(aref rCharacter)
 		case "crabSmall":		rCharacter.FaceId = 1512; break;
 		case "crabBig":			rCharacter.FaceId = 1512; break;
 		case "PGG_Longway":		rCharacter.FaceId = 487; break;
-		case "PGG_Lejitos_GPK":		rCharacter.FaceId = 535; break;
-		case "PGG_Rozencraft":		rCharacter.FaceId = 496; break;
-		case "priest":		rCharacter.FaceId = 531; break;
-		case "PGG_Vincento_0":		rCharacter.FaceId = 531; break;
-		case "PGG_Beatric_0":		rCharacter.FaceId = 522; break;
-		case "PGG_Devlin_0":		rCharacter.FaceId = 1; break;
+		case "PGG_Lejitos_GPK":	rCharacter.FaceId = 535; break;
+		case "PGG_Rozencraft":	rCharacter.FaceId = 496; break;
+		case "priest":			rCharacter.FaceId = 531; break;
+		case "PGG_Vincento_0":	rCharacter.FaceId = 531; break;
+		case "PGG_Beatric_0":	rCharacter.FaceId = 522; break;
+		case "PGG_Devlin_0":	rCharacter.FaceId = 1; break;
+		case "PGG_ShMor_0":		rCharacter.FaceId = 508; break;
+		case "PGG_Mary":		rCharacter.FaceId = 517; break;
 	}
 }
 
