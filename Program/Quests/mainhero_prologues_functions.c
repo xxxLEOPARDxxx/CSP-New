@@ -114,6 +114,7 @@ void SharleMary_StartGame(string qName)
 	
 	GiveItem2Character(pchar, "blade35");
 	EquipCharacterbyItem(pchar, "blade35");
+	AddMoneyToCharacter(PChar, 5000);
 }
 
 void SharleMary_Indians(string qName)

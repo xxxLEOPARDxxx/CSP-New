@@ -57,6 +57,15 @@ void LAi_type_sit_CharacterUpdate(aref chr, float dltTime)
 		{
 			LAi_CharacterPlaySound(chr, snd);
 		}
+		if(bQuestMark)
+		{
+			if (CheckAttribute(chr,"dialog.filename") && chr.dialog.filename == "Enc_Treasure_dialog.c")
+			{
+				chr.quest.questflag.model = "exclamationmarkG";
+				chr.quest.questflag.technique = "RandItem"; 
+			}
+			
+		}
 		if(chr.chr_ai.tmpl != LAI_TMPL_DIALOG && !CheckAttribute(chr, "nonTable"))
 		{
 			time = 20;

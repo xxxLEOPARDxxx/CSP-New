@@ -2168,7 +2168,7 @@ void QuestComplete(string sQuestName, string qname)
 					SetCharacterPerk(sld, "Ciras");
 					SetCharacterPerk(sld, "Gunman");
                     SetCharacterPerk(sld, "Tireless");
-                    TakeNItems(sld, "Lockpick", rand(3));
+                    TakeNItems(sld, "Lockpick", 1+rand(2));
 					PlaceCharacter(sld, "goto", "random");
 					LAi_SetCitizenType(sld);
 					//LAi_ActorDialog(sld, pchar, "", -1, 0); 

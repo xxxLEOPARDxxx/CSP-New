@@ -1235,7 +1235,7 @@ bool Whr_isRainEnable()
 }
 // boal <--
 
-//Nathaniel (06.03.21): фикс светящейся травы
+//Nathaniel (06.03.21): фикс засветов в подземельях при дождях и штормах
 string Whr_GetRainyLightningPath()
 {
 	// автор условия: Mett

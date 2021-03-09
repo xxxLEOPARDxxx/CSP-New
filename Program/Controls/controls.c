@@ -44,6 +44,8 @@ void ControlsTreeInit()
 	n = AddControlTreeNode(-1,"ChrAttackBreakBase","ChrAttackBreak",0.0);
 	
 	n = AddControlTreeNode(-1,"ChrAltAttackBaseA","ChrAttackRound",0.0);
+	n = AddControlTreeNode(-1,"SoloParry","ChrParry",0.0);
+	n = AddControlTreeNode(-1,"SoloFient","ChrAttackFient",0.0);
 }
 
 void ControlsInit(string sPlatformName,bool bFirst,int choice)

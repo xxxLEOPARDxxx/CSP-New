@@ -176,7 +176,8 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "FightModeControls", "ChrAltAttackBaseA", CI_GetKeyCode("KEY_B"), 0, true );
 		CI_CreateAndSetControls( "FightModeControls", "ChrAttackBreakBase", CI_GetKeyCode("VK_MBUTTON"), 0, true ); //ChrAttackRoundBase
 		CI_CreateAndSetControls( "FightModeControls", "ChrAttackBase", CI_GetKeyCode("VK_RBUTTON"), 0, true );   //1
-
+		CI_CreateAndSetControls( "FightModeControls", "SoloParry", CI_GetKeyCode("KEY_T"), 0, true );
+		CI_CreateAndSetControls( "FightModeControls", "SoloFient", CI_GetKeyCode("KEY_T"), 0, true );
 		//MapControlToGroup("ChrBlockBase","BattleInterfaceControls");
 		//CI_CreateAndSetControls( "FightModeControls", "BIFastCommand", CI_GetKeyCode("VK_F3"), 0, true ); //VK_F3
 
@@ -607,6 +608,8 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "FightModeControls", "ChrAltAttackBaseA", CI_GetKeyCode("KEY_B"), 0, true );   //2
 		CI_CreateAndSetControls( "FightModeControls", "ChrAttackBreakBase", CI_GetKeyCode("VK_SPACE"), 0, true ); //ChrAttackRoundBase
 		CI_CreateAndSetControls( "FightModeControls", "ChrAttackBase", CI_GetKeyCode("KEY_X"), 0, true );   //1
+		CI_CreateAndSetControls( "FightModeControls", "SoloParry", CI_GetKeyCode("VK_L_BREAKE"), 0, true );
+		CI_CreateAndSetControls( "FightModeControls", "SoloFient", CI_GetKeyCode("VK_R_BREAKE"), 0, true );
 
 		//MapControlToGroup("ChrBlockBase","BattleInterfaceControls");
 		//CI_CreateAndSetControls( "FightModeControls", "BIFastCommand", CI_GetKeyCode("VK_F3"), 0, true ); //VK_F3

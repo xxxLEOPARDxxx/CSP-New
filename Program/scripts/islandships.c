@@ -144,7 +144,7 @@ void PlaceCharacterShip(int iChar, int iNation, string sIslandID, int iColonyIdx
 	string sLocatorGroup = "IslandShips" + iColonyNum;
 	string sLocator = "Ship_"+(rand(4)+2);
 	
-	ref FortChref = GetFortCommander(colonies[iColonyIdx].id);
+	//ref FortChref = GetFortCommander(colonies[iColonyIdx].id);
 	
 	if(isFortDefender)
 	{
@@ -155,7 +155,8 @@ void PlaceCharacterShip(int iChar, int iNation, string sIslandID, int iColonyIdx
 	
 	if(isFortDefender)
 	{
-		Group_SetGroupCommander(sGroup, FortChref.id);
+		//Group_SetGroupCommander(sGroup, FortChref.id);
+		Group_SetGroupCommander(sGroup, characters[defendersGroup].id);
 		sLocator = "Ship_1";
 	}
 	else
@@ -181,11 +182,11 @@ void PlaceCharacterShip(int iChar, int iNation, string sIslandID, int iColonyIdx
 		z = rand(1000000);
 		Group_SetTaskMove(sGroup, x, z);
 	}
-	//else
-	//{
-		//Ship_SetTaskDrift(SECONDARY_TASK, iChar);
-		//Group_SetTaskNone(sGroup);
-	//}
+	else
+	{
+		Ship_SetTaskDrift(SECONDARY_TASK, iChar);
+		Group_SetTaskNone(sGroup);
+	}
 
 	/*if (sti(characters[iChar].nation) != PIRATE && GetNationRelation2Character(iNation, nMainCharacterIndex) == RELATION_ENEMY)
 	{

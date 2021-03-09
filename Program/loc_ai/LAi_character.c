@@ -884,18 +884,21 @@ void LAi_AllCharactersUpdate(float dltTime)
 					//chr_ai.noeat = 0.0;
 					if(sti(chr.index) == GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood"))
 					{
-						if (pchar.foodquery == 0)
+						if (CheckAttribute(pchar, "foodquery"))
 						{
-							Log_Info("Можно кушать.");
-						}
-						else
-						{
-							if(!CheckAttribute(pchar, "autofood") && pchar.foodquery > 0)
+							if (pchar.foodquery == 0)
 							{
-								pchar.foodquery = sti(pchar.foodquery)-1;
-								EatSomeFood();
+								Log_Info("Можно кушать.");
 							}
-							
+							else
+							{
+									if(!CheckAttribute(pchar, "autofood") && pchar.foodquery > 0)
+								{
+									pchar.foodquery = sti(pchar.foodquery)-1;
+									EatSomeFood();
+								}
+								
+							}
 						}
 					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
 					//pchar.questTemp.bloodingperk = "false"; // Анти-баг

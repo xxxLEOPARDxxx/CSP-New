@@ -998,7 +998,7 @@ string GetItemDescribe(int iGoodIndex)
 	{
 		if(arItm.groupID == BOOK_ITEM_TYPE)
 		{
-			if (CheckAttribute(pchar,"booktype"))
+			if (CheckAttribute(pchar,"booktype") && pchar.bookname == arItm.name)
 			{
 				float value = ((sti(pchar.booktime)*100)/sti(pchar.booktime.full)-100)*(-1.0);
 				string text = FloatToString(value,1);
