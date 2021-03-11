@@ -93,8 +93,6 @@ void SharleMary_StartGame(string qName)
 	bDisableLandEncounters = true;
 	LocatorReloadEnterDisable("Shore_ship2", "boat", true);
 	
-	//Заблокировать меню персонажа
-	bDisableCharacterMenu = true;
 	//Вступительный монолог
 	pchar.questTemp.SharleMary.Entered_Shore = true;
 	DoQuestCheckDelay("TalkSelf_Quest", 1.0);
@@ -112,13 +110,18 @@ void SharleMary_StartGame(string qName)
     pchar.quest.SharleMary_Indians.win_condition.l1.location = "Common_jungle_01";
     pchar.quest.SharleMary_Indians.function                  = "SharleMary_Indians";
 	
+	GiveItem2Character(pchar, "blade4");
+	GiveItem2Character(pchar, "blade7");
 	GiveItem2Character(pchar, "blade35");
-	EquipCharacterbyItem(pchar, "blade35");
+	EquipCharacterbyItem(pchar, "blade4");
+	TakeNItems(pchar, "potion1", 10);
 	AddMoneyToCharacter(PChar, 5000);
 }
 
 void SharleMary_Indians(string qName)
 {
+	//Заблокировать меню персонажа
+	bDisableCharacterMenu = true;
 	chrDisableReloadToLocation = true;
 	string cnd;
 	int maxIndians = 2;
@@ -195,8 +198,7 @@ void SharleMary_Meeting(string qName)
 		sld = characterFromID("SharleMary");
 		DeleteAttribute(sld, "chr_ai.poison");
 		LAi_SetActorType(sld);
-		SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
-		LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+		LAi_ActorDialog(sld, pchar, "", -1, 0);
 	}
 	else
 	{
@@ -220,6 +222,7 @@ void SharleMary_MeetCap(string qName)
 	{
 		sld = characterFromID("SharleMary");
 		ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload1");
+		LAi_SetCurHPMax(sld);
 	}
 	ref LocLoad = &locations[reload_location_index];
 	LAi_LocationFightDisable(locLoad, true);
@@ -260,6 +263,7 @@ void SharleMary_FightPirates()
 		sld = CharacterFromID("SharleMary");
 		LAi_SetWarriorType(sld);
 		LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+		LAi_SetCurHPMax(sld);
 	}
 	ref LocLoad = &locations[reload_location_index];
 	LAi_LocationFightDisable(locLoad, false);
@@ -277,6 +281,7 @@ void SharleMary_FightPirates()
 
 void SharleMary_MeetCrew(string qName)
 {
+	bDisableLandEncounters = false;
 	for (int i = 1; i<=5; i++)
 	{
 		sld = GetCharacter(NPC_GenerateCharacter("SMCrew"+i, "pirate_"+(rand(15)+1), "man", "man", 1, PIRATE, 0, true));
@@ -287,8 +292,7 @@ void SharleMary_MeetCrew(string qName)
 			sld.dialog.filename = "Quest\MainheroPrologues\Prologue_SharleMary_dialog.c";
 			FantomMakeCoolFighter(sld, 15, 20, 20, "blade31", "", 100);
 			LAi_SetActorType(sld);
-			SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
-			LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+			LAi_ActorDialog(sld, pchar, "", -1, 0);
 		}
 	}
 }

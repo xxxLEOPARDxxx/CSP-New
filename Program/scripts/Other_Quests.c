@@ -282,7 +282,19 @@ void Andre_Abel_Quest_In_Prison()	// В тюрьме...
 	location.box1.money = PChar.money;	
 	location.box1 = Items_MakeTime(GetTime(), GetDataDay(), GetDataMonth(), GetDataYear())
 		
-	RemoveAllCharacterItems(PChar, true);	
+	RemoveAllCharacterItems(PChar, true);
+
+		//==> убираем офицеров
+		StoreOfficers_Ascold(pchar);  // запомним офицеров во временном хранилище			
+        for (i=1; i<=MAX_NUM_FIGHTERS; i++)
+		{		
+			string officers = "Fellows.Passengers.Officers."+"id"+i;
+			if(CheckAttribute(pchar, officers))
+			{
+				RemoveOfficersIndex(pchar, sti(pchar.(officers)));						 
+			}
+		} 
+        //<== убираем офицеров
 }
 
 void Andre_Abel_Quest_Runaway_From_Prison()	// По другую сторону решетки
@@ -314,6 +326,7 @@ void Andre_Abel_Quest_Martin_Bleker_Is_Dead(string sQuest)	// Мартина убили
 void Andre_Abel_Quest_Liberty(string sQuest)	// Локация выхода из Виллемстада
 {
 	ref rChar = CharacterFromID("Martin_Bleker");
+	RestoreOfficers_Ascold(Pchar);
 	ChangeCharacterAddressGroup(rChar, "Villemstad_ExitTown", "goto", "goto8");
 	chrDisableReloadToLocation = true;
 	LAi_SetActorType(rChar);

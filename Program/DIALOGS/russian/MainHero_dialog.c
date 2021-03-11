@@ -24,6 +24,15 @@ void ProcessDialogEvent()
 	 	PChar.GenQuest.CabinCompanionNum = strcut(sAttr, i+1, strlen(sAttr)-1); // индех в конце
  	    Dialog.CurrentNode = "Cabin_Companion_Talk";
  	}
+	
+// Вызов персонажей by xxxZohanxxx -->	
+  	if (findsubstr(sAttr, "CabinPassengerTalk_" , 0) != -1)
+ 	{
+        i = findsubstr(sAttr, "_" , 0);
+		PChar.GenQuest.CabinPassengerNum = strcut(sAttr, i+1, strlen(sAttr)-1); // индекс в конце
+ 	    Dialog.CurrentNode = "Cabin_Passenger_Talk";
+ 	}
+// <-- Вызов персонажей by xxxZohanxxx	
  	// генератор ИДХ по кейсу <--
     
 	switch(Dialog.CurrentNode)
@@ -300,8 +309,10 @@ void ProcessDialogEvent()
 				//navy --> 13.02.08
 				if (!bDisableMapEnter && GetCompanionQuantity(PChar) > 1)
 				{
-    				link.l3 = "Вызвать компаньона.";
-    				link.l3.go = "Cabin_CompanionSelect";
+// Вызов персонажей by xxxZohanxxx -->					
+					link.l3 = "Вызвать ко мне...";
+					link.l3.go = "Cabin_PersonSelect";
+// <-- Вызов персонажей by xxxZohanxxx	
 				}
 				//navy <--
 			}
@@ -425,6 +436,32 @@ void ProcessDialogEvent()
 			Link.l14 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
 			Link.l14.go = "exit";
 		break;
+		
+// Вызов персонажей by xxxZohanxxx -->
+		case "Cabin_PersonSelect":
+				Dialog.Text = "Кого именно?";
+				if (!bDisableMapEnter && GetCompanionQuantity(PChar) > 1)
+				{
+    				link.l1 = "Компаньона.";
+    				link.l1.go = "Cabin_CompanionSelect";
+				}	
+				if (!bDisableMapEnter)
+				{
+					if (sti(pchar.Fellows.Passengers.navigator) != -1 || sti(pchar.Fellows.Passengers.boatswain) != -1 || sti(pchar.Fellows.Passengers.cannoner) != -1 || sti(pchar.Fellows.Passengers.doctor) != -1 || sti(pchar.Fellows.Passengers.treasurer) != -1 || sti(pchar.Fellows.Passengers.carpenter) != -1)
+					{
+					link.l2 = "Офицера.";
+    				link.l2.go = "Cabin_OfficerSelect";	
+					}					
+				}
+				if (!bDisableMapEnter && GetPassengersQuantity(PChar) > 1)
+				{				
+					link.l3 = "Пассажира.";
+    				link.l3.go = "Cabin_PassengerSelect";	
+				}	
+			link.l4 = "В другой раз.";
+			link.l4.go = "exit";				
+		break;
+// <-- Вызов персонажей by xxxZohanxxx			
 		
 		case "WorldmapTime":
 			Dialog.Text = "Напишите float число формата x.x, желательно не более 12.0, иначе возможны сбои даже при небольшом ускорении времени.";
@@ -815,6 +852,123 @@ void ProcessDialogEvent()
 			link.l9.go = "exit";
 			break;
 
+// Вызов персонажей by xxxZohanxxx -->			
+		case "Cabin_OfficerSelect":
+			Dialog.Text = "Кого из офицеров вызвать?";
+			if (sti(pchar.Fellows.Passengers.navigator) != -1)
+			{
+				chr = GetCharacter(sti(pchar.Fellows.Passengers.navigator));
+				if (chr.location != Get_My_Cabin())
+				{	
+				link.l1 = "Штурман " + GetFullName(chr) + ".";
+				link.l1.go = "Cabin_navigator_Talk";
+				}
+			}
+			if (sti(pchar.Fellows.Passengers.boatswain) != -1)
+			{
+				chr = GetCharacter(sti(pchar.Fellows.Passengers.boatswain));
+				if (chr.location != Get_My_Cabin())
+				{
+				link.l2 = "Боцман " + GetFullName(chr) + ".";
+				link.l2.go = "Cabin_boatswain_Talk";
+				}
+			}
+			if (sti(pchar.Fellows.Passengers.cannoner) != -1)
+			{
+				chr = GetCharacter(sti(pchar.Fellows.Passengers.cannoner));
+				if (chr.location != Get_My_Cabin())
+				{				
+				link.l3 = "Канонир " + GetFullName(chr) + ".";
+				link.l3.go = "Cabin_cannoner_Talk";
+				}
+			}
+			if (sti(pchar.Fellows.Passengers.doctor) != -1)
+			{
+				chr = GetCharacter(sti(pchar.Fellows.Passengers.doctor));
+				if (chr.location != Get_My_Cabin())
+				{				
+				link.l4 = "Врач " + GetFullName(chr) + ".";
+				link.l4.go = "Cabin_doctor_Talk";
+				}
+			}
+			if (sti(pchar.Fellows.Passengers.treasurer) != -1)
+			{
+				chr = GetCharacter(sti(pchar.Fellows.Passengers.treasurer));
+				if (chr.location != Get_My_Cabin())
+				{				
+				link.l5 = "Казначей " + GetFullName(chr) + ".";
+				link.l5.go = "Cabin_treasurer_Talk";
+				}
+			}
+			if (sti(pchar.Fellows.Passengers.carpenter) != -1)
+			{
+				chr = GetCharacter(sti(pchar.Fellows.Passengers.carpenter));
+				if (chr.location != Get_My_Cabin())
+				{				
+				link.l6 = "Плотник " + GetFullName(chr) + ".";
+				link.l6.go = "Cabin_carpenter_Talk";
+				}
+			}			
+			link.l7 = "В другой раз.";
+			link.l7.go = "exit";
+			break;				
+			
+		case "Cabin_PassengerSelect":
+			Dialog.Text = "Кого из пассажиров вызвать?";
+			for (i = 1; i < GetPassengersQuantity(PChar); i++)
+			{
+				chr = GetCharacter(GetPassenger(PChar,i));	
+					if (!CheckAttribute(chr,"prisoned") && !IsOfficer(chr) && GetRemovable(chr) && chr.location != Get_My_Cabin() && !CheckAttribute(chr, "isfree")) // Чтобы в список не попадали квестовые, офицеры и пленники
+					{
+						sAttr = "l" + i;
+						link.(sAttr) = GetFullName(chr) + ".";
+						link.(sAttr).go = "CabinPassengerTalk_" + i;
+					}
+			}
+			link.l99 = "В другой раз.";
+			link.l99.go = "exit";
+			break;	
+
+		case "Cabin_navigator_Talk":
+			chr = GetCharacter(sti(pchar.Fellows.Passengers.navigator));
+			PlaceCharacter(chr, "rld", PChar.location);
+			DialogExit_Self();
+		break;
+		case "Cabin_boatswain_Talk":
+			chr = GetCharacter(sti(pchar.Fellows.Passengers.boatswain));
+			PlaceCharacter(chr, "rld", PChar.location);
+			DialogExit_Self();
+		break;			
+		case "Cabin_cannoner_Talk":
+			chr = GetCharacter(sti(pchar.Fellows.Passengers.cannoner));
+			PlaceCharacter(chr, "rld", PChar.location);
+			DialogExit_Self();
+		break;				
+		case "Cabin_doctor_Talk":
+			chr = GetCharacter(sti(pchar.Fellows.Passengers.doctor));
+			PlaceCharacter(chr, "rld", PChar.location);
+			DialogExit_Self();
+		break;			
+		case "Cabin_treasurer_Talk":
+			chr = GetCharacter(sti(pchar.Fellows.Passengers.treasurer));
+			PlaceCharacter(chr, "rld", PChar.location);
+			DialogExit_Self();
+		break;		
+		case "Cabin_carpenter_Talk":
+			chr = GetCharacter(sti(pchar.Fellows.Passengers.carpenter));
+			PlaceCharacter(chr, "rld", PChar.location);
+			DialogExit_Self();
+		break;	
+		
+		case "Cabin_Passenger_Talk":
+			i = sti(PChar.GenQuest.CabinPassengerNum);
+			chr = GetCharacter(GetPassenger(PChar,i));
+			PlaceCharacter(chr, "rld", PChar.location);
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit_Self();
+		break;
+// <-- Вызов персонажей by xxxZohanxxx				
+			
 		case "Cabin_Companion_Talk":
 			i = sti(PChar.GenQuest.CabinCompanionNum);
 			PlaceCompanionCloneNearMChr(i, false);

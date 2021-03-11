@@ -180,6 +180,10 @@ bool LAi_CreateEncounters(ref location)
 	if (sCity == "none") return false;
 	iNation = GetCityNation(sCity);
 	if (iNation == -1 || iNation == PIRATE) return false;
+	
+	if (findsubstr(location.Id, "LaVega" , 0) != -1) return false;
+	if (findsubstr(location.Id, "PuertoPrincipe" , 0) != -1) return false;
+	if (findsubstr(location.Id, "LeFransua" , 0) != -1) return false;
 	}
 	
 	// Warship 10.08.09 ≈сли прерывание на локацию - не генерим энкаунтеров, иначе погло накладыватьс€, суд€ по всму

@@ -718,6 +718,32 @@ void CreateHabitues(aref loc)
 					}
 				}
 			}
+			//Lipsar для нытиков про Орион
+			if (!CheckAttribute(PChar, "QuestTemp.AndreAbelQuest_StartQuest") && PChar.location == "FortFrance_tavern"  && pchar.questTemp.piratesLine == "begin" && sti(pchar.rank) > 4) // не взята пиратская линейка 
+			{
+				Log_TestInfo("Сопровождение флейта 'Орион' - сгенерился квестодатель в sit, sit7");
+				PChar.QuestTemp.AndreAbelQuest_StartQuest = true;
+				PChar.QuestTemp.AndreAbelQuest = true;
+				
+				// Потереть для начала новой игры -->
+				sld = GetCharacter(NPC_GenerateCharacter("Andre_Abel" , "officer_19", "man", "man", 10, FRANCE, -1, true));
+				FantomMakeCoolFighter(sld, 10, 30, 35, "blade9", "pistol2", 10);
+				FantomMakeCoolSailor(sld, SHIP_FLEUT, "Орион", CANNON_TYPE_CANNON_LBS16, 30, 30, 30);
+				sld.name = "Андре";
+				sld.lastname = "Абель";
+				sld.SaveItemsForDead = true; // сохранять на трупе вещи
+				sld.DontClearDead = true; // не убирать труп через 200с
+				sld.dialog.FileName = "Quest\Andre_Abel_Dialog.c";
+				sld.greeting = "cit_quest";
+				LAi_SetSitType(sld);
+				LAi_SetImmortal(sld, true);	// До поры нельзя убить
+				SetCharacterGoods(sld, GOOD_SILK, 700);
+				SetCharacterGoods(sld, GOOD_TOBACCO, 500);
+				FreeSitLocator("FortFrance_tavern", "sit7");
+				ChangeCharacterAddressGroup(sld, "FortFrance_tavern", "sit", "sit7");
+				SetFunctionTimerCondition("Andre_Abel_Quest_1Day_Left", 0, 0, 1, false);
+				// <-- Потереть для начала новой игры
+			}
 			if (IsCharacterPerkOn(pchar, "Adventurer"))
 			{
 				if (rand(10 - makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/3)) == 0 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20

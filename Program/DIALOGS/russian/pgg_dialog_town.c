@@ -480,19 +480,23 @@ void ProcessDialogEvent()
 		switch (rand(2))
 		{
 		case 0:
-			if (PGG_IsQuestAvaible() && !CheckAttribute(pchar, "GenQuest.PGG_Quest") && sti(NPChar.Ship.Type) != SHIP_NOTUSED && sti(PChar.Ship.Type) != SHIP_NOTUSED)
+			if (PGG_IsQuestAvaible() && !CheckAttribute(pchar, "GenQuest.PGG_Quest") && sti(NPChar.Ship.Type) != SHIP_NOTUSED && GetCharacterShipClass(PChar) <= 4 && sti(PChar.Ship.Type) != SHIP_NOTUSED)
 			{
-					Dialog.Text = "Что за разговор? Хотя.. Почему бы и нет. Дело или дельце - это мы завсегда!";
-					link.l1 = "Хм. Ты о чем?";
-					link.l1.go = "Quest_1_Work";
-					NPChar.PGGAi.ActiveQuest = 1; // чтоб говорил от своего имени
-					PChar.GenQuest.PGG_Quest = 1; // чтоб не достовали другие ПГГ
-				}
-				else
+				Dialog.Text = "Что за разговор? Хотя.. Почему бы и нет. Дело или дельце - это мы завсегда!";
+				link.l1 = "Хм. Ты о чем?";
+				link.l1.go = "Quest_1_Work";
+				NPChar.PGGAi.ActiveQuest = 1; // чтоб говорил от своего имени
+				PChar.GenQuest.PGG_Quest = 1; // чтоб не достовали другие ПГГ
+			}
+			else
+			{
+				Dialog.Text = RandPhraseSimple("Что еще за дела?.. Не видишь мы кушаем!.. Ик..", "... Чего и вам советуем!");
+				link.l1 = "Понятно...";
+				link.l1.go = "exit";
+				if (GetCharacterShipClass(PChar) > 4)
 				{
-			Dialog.Text = RandPhraseSimple("Что еще за дела?.. Не видишь мы кушаем!.. Ик..", "... Чего и вам советуем!");
-			link.l1 = "Понятно...";
-			link.l1.go = "exit";
+					Dialog.Text = "Дело с тобой!?? Подрасти сначала!";
+				}
 			}
 		break;
 		case 1:

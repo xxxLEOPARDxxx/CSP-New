@@ -455,24 +455,40 @@ void WhisperPirateTownGetHat_part_1(string qName)
 	LocatorReloadEnterDisable("PuertoPrincipe_ExitTown", "reload2_back", true);
 
 	string cnd;
-	for (int i = 0; i < 10; i++)
+	int weaponskill = 2 * MOD_SKILL_ENEMY_RATE;
+	for (int i = 0; i < 12; i++)
 	{
-		sld = GetCharacter(NPC_GenerateCharacter("IncqSoldier_"+sti(i), "sold_spa_"+(rand(7)+1), "man", "man", MOD_SKILL_ENEMY_RATE, SPAIN, 0, true));
-		LAi_SetWarriorType(sld);
-		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);	
-		cnd = "l" + i;
-		pchar.quest.WhisperAfterTownBattle.win_condition.(cnd) = "NPC_Death";
-		pchar.quest.WhisperAfterTownBattle.win_condition.(cnd).character ="IncqSoldier_"+sti(i);
-		LAi_SetImmortal(sld, true);
+		if (i < 10)
+		{
+			sld = GetCharacter(NPC_GenerateCharacter("IncqSoldier_"+sti(i), "sold_spa_"+(rand(7)+1), "man", "man", MOD_SKILL_ENEMY_RATE, SPAIN, 0, true));
+			LAi_SetWarriorType(sld);
+			LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);	
+			cnd = "l" + i;
+			pchar.quest.WhisperAfterTownBattle.win_condition.(cnd) = "NPC_Death";
+			pchar.quest.WhisperAfterTownBattle.win_condition.(cnd).character ="IncqSoldier_"+sti(i);
+			LAi_SetImmortal(sld, true);
+			GiveItem2Character(sld, "blade4");
+			EquipCharacterByItem(sld, "blade4");
+			SetSelfSkill(sld, weaponskill, weaponskill, weaponskill, weaponskill, weaponskill);
+			LAi_SetHP(sld, 12.0 * MOD_SKILL_ENEMY_RATE, 12.0 *MOD_SKILL_ENEMY_RATE);
+			ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item8");
+		}
+			sld = GetCharacter(NPC_GenerateCharacter("PirateTownDefender_"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", MOD_SKILL_ENEMY_RATE, PIRATE, 0, true));
+			LAi_SetWarriorType(sld);
+			LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+			sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
+			sld.dialog.currentnode = "Pirateguard";
+			LAi_SetImmortal(sld, true);
+			GiveItem2Character(sld, "blade1");
+			EquipCharacterByItem(sld, "blade1");
+			SetSelfSkill(sld, weaponskill, weaponskill, weaponskill, weaponskill, weaponskill);
+			LAi_SetHP(sld, 12.0 * MOD_SKILL_ENEMY_RATE, 12.0 *MOD_SKILL_ENEMY_RATE);
+		if (i < 10)	ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item12");
+		if (i >= 10 && MOD_SKILL_ENEMY_RATE < 10)	ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item1");
 		
-		sld = GetCharacter(NPC_GenerateCharacter("PirateTownDefender_"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", MOD_SKILL_ENEMY_RATE, PIRATE, 0, true));
-		LAi_SetWarriorType(sld);
-		LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
-		sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
-		sld.dialog.currentnode = "Pirateguard";
-		LAi_SetImmortal(sld, true);
 		
 	}
+	/*
 	sld = characterFromID("IncqSoldier_0");
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item7");
 	sld = characterFromID("IncqSoldier_1");
@@ -505,13 +521,17 @@ void WhisperPirateTownGetHat_part_1(string qName)
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item2");
 	sld = characterFromID("PirateTownDefender_5");
 	ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item1");
+	sld = characterFromID("PirateTownDefender_6");
+	ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item12");
+	sld = characterFromID("PirateTownDefender_7");
+	ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item9");
+	
 	if (MOD_SKILL_ENEMY_RATE != 10)
 	{
-		sld = characterFromID("PirateTownDefender_6");
-		ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item12");
-		sld = characterFromID("PirateTownDefender_7");
+		sld = characterFromID("PirateTownDefender_8");
 		ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item9");
 	}
+	*/
 	pchar.quest.WhisperAfterTownBattle.function = "WhisperAfterTownBattle";
 }
 
@@ -523,6 +543,7 @@ void WhisperPirateTownBattle(string qName)
 void WhisperKillNineFingers(string qName)
 {	
 	sld = characterFromID("NineFingers");
+	RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
 	DeleteAttribute(sld, "items");
     DeleteAttribute(sld, "equip");
 	GiveItem2Character(sld, "Map_bad");
@@ -530,7 +551,7 @@ void WhisperKillNineFingers(string qName)
 	GiveItem2Character(sld, "pistol1");
 	TakeNItems(sld, "GunPowder", 10);
     TakeNItems(sld, "bullet", 10);
-	RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
+    TakeNItems(sld, "potionrum", 5);
 	LAi_KillCharacter(sld);
 }
 void WhisperPirateTownBattleMortality()
@@ -607,14 +628,13 @@ void WhisperMeetCrew(string qName)
 }
 void WhisperJimTalk(string qName)
 {	
-	sld = CharacterFromID("Wh_Jack");
-	Dead_DelLoginedCharacter(sld);
+	//sld = CharacterFromID("Wh_Jack");
+	//Dead_DelLoginedCharacter(sld);
 	sld = characterFromID("Wh_Jim");
 	//sld.greeting = "Gr_padre";
 	LAi_SetActorTypeNoGroup(sld);
     LAi_type_actor_Reset(sld);
-    SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
-	LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+    LAi_ActorDialog(sld, pchar, "", -1, 0);
 	LAi_SetImmortal(sld, true);
 	
 	LAi_SetActorType(pchar);
@@ -700,15 +720,6 @@ void WhisperChinaman(string qName)
 
 void WhisperChinamanCapSpeaks(string qName)
 {
-	sld = GetCharacter(NPC_GenerateCharacter("W_Chinaman", "PGG_Longway", "man", "man", 5, PIRATE, -1, false));
-	sld.greeting = "GR_longway";
-	//PlayVoice("Voice\Russian\Longway-01.wav");
-	LAi_SetActorTypeNoGroup(sld);
-	sld.name 	= "Лонг";
-    sld.lastname = "Вэй";
-	sld.Dialog.Filename = "Quest\WhisperLine\Whisper_cabin_dialog.c";
-    ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "rld", LAi_FindNearestFreeLocator2Pchar("rld"));
-	
 	sld = GetCharacter(NPC_GenerateCharacter("W_ChinamanGuard", "pirate_10", "man", "man", 5, PIRATE, 0, false));
 	LAi_SetActorTypeNoGroup(sld);
 	sld.name 	= "Хуан";
@@ -720,6 +731,16 @@ void WhisperChinamanCapSpeaks(string qName)
 	sld.Dialog.Filename = "Quest\WhisperLine\Whisper_cabin_dialog.c";
 	LAi_SetActorType(sld);
 	LAi_ActorDialog(sld, pchar, "", -1, 0);	
+	
+	sld = GetCharacter(NPC_GenerateCharacter("W_Chinaman", "PGG_Longway", "man", "man", 5, PIRATE, -1, false));
+	sld.CanTakeMushket = true;
+	sld.greeting = "GR_longway";
+	//PlayVoice("Voice\Russian\Longway-01.wav");
+	LAi_SetActorTypeNoGroup(sld);
+	sld.name 	= "Лонг";
+    sld.lastname = "Вэй";
+	sld.Dialog.Filename = "Quest\WhisperLine\Whisper_cabin_dialog.c";
+    ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "rld", LAi_FindNearestFreeLocator2Pchar("rld"));
 }
 void WhisperChinamanSpeaks(string qName)
 {
@@ -812,6 +833,7 @@ void WhisperHuntersCaveEntrance(string qName)
 	}
 	
 	sld = GetCharacter(NPC_GenerateCharacter("W_Lejitos", "PGG_Lejitos_GPK", "man", "man", 1, PIRATE, -1, true));
+	sld.CanTakeMushket = true;
 	sld.name = "Элихио";
 	sld.lastname = "Лехито";
 	LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
@@ -823,7 +845,7 @@ void WhisperHuntersCaveEntrance(string qName)
 	SetShipSkill(sld, 50, 25, 20, 20, 20, 25, 70, 25, 15);
 	SetSPECIAL(sld, 10, 3, 10, 4, 8, 9, 5);
 	sld.rank = 15;
-	LAi_SetHP(sld, 220.0, 220.0);
+	LAi_SetHP(sld, 250.0, 250.0);
 	
 	GiveItem2Character(sld, "topor_01");
 	EquipCharacterByItem(sld, "topor_01");
@@ -857,8 +879,7 @@ void WhisperAfterHuntersCaveBattle(string qName)
 	{
 		sld = characterFromID("W_Lejitos");
 		LAi_SetActorType(sld);
-		SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
-		LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+		LAi_ActorDialog(sld, pchar, "", -1, 0);
 	}
 	WhisperDeSouzaSeaBattle();
 }
@@ -873,7 +894,10 @@ void WhisperDeSouzaSeaBattle()
 	//SetBaseShipData(sld);
 	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
 	SetCrewQuantityFull(sld);
-	
+	sld.ship.Crew.Morale = 100;
+	ChangeCrewExp(sld, "Sailors", 70);
+	ChangeCrewExp(sld, "Cannoners", 70);
+	ChangeCrewExp(sld, "Soldiers", 70);
 	sld.SaveItemsForDead = true;
 	TakeNItems(sld, "DeSouzaCross", 1);
 	
@@ -882,9 +906,15 @@ void WhisperDeSouzaSeaBattle()
 	//SetSPECIAL(sld, 10, 3, 10, 4, 8, 9, 5);
 	sld.rank = 25;
 	LAi_SetHP(sld, 50.0 * MOD_SKILL_ENEMY_RATE, 50.0 * MOD_SKILL_ENEMY_RATE);
+	GiveItem2Character(sld, "cirass3");
+	EquipCharacterbyItem(sld, "cirass3");
 
+	SetCharacterPerk(sld, "MusketsShoot");
+	SetCharacterPerk(sld, "CannonProfessional");
+	
 	if (MOD_SKILL_ENEMY_RATE == 10)
 	{
+		SetHalfPerksToChar(sld, true);
 		sld.rank = 40;
 		SetSelfSkill(sld, 80, 80, 80, 80, 80);
 		SetShipSkill(sld, 80, 80, 80, 80, 80, 80, 80, 80, 80);
@@ -944,9 +974,14 @@ void WhisperWarDogSeaBattle()
 	//SetBaseShipData(sld);
 	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
 	
-	//SetCrewQuantityFull(sld);
+	SetCrewQuantityFull(sld);
 	int hcrew = GetMaxCrewQuantity(sld);
 	SetCrewQuantityOverMax(sld, hcrew+180);// Усложним бой
+	
+	sld.ship.Crew.Morale = 100;
+	ChangeCrewExp(sld, "Sailors", 100);
+	ChangeCrewExp(sld, "Cannoners", 100);
+	ChangeCrewExp(sld, "Soldiers", 100);
 	
 	sld.SaveItemsForDead = true;
 	GiveItem2Character(sld, "cirass5");
@@ -955,11 +990,12 @@ void WhisperWarDogSeaBattle()
 	SetSelfSkill(sld, 80, 80, 80, 80, 80);
 	SetShipSkill(sld, 75, 75, 75, 75, 75, 75, 75, 75, 75);
 	sld.rank = 30;
-	SelAllPerksToChar(sld, false);
+	SetHalfPerksToChar(sld, true);
+	SetCharacterPerk(sld, "MusketsShoot");
+	SetCharacterPerk(sld, "CannonProfessional");
 	if (MOD_SKILL_ENEMY_RATE == 10)
 	{
 		sld.rank = 55;
-		SelAllPerksToChar(sld, false);
 		SetSelfSkill(sld, 100, 100, 100, 100, 100);
 		SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100);
 		LAi_SetHP(sld, 1000.0, 1000.0);

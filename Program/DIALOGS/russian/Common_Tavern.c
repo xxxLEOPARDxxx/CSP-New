@@ -973,35 +973,6 @@ void ProcessDialogEvent()
 							dialog.text = "Ну, тогда поговори вон с тем типом, что в таверну зашел. Он сегодня о сопровождении спрашивал.";
 							link.l1 = RandPhraseSimple("Ты его хорошо знаешь? Может, пират какой?", "А кто он такой? Стоит с ним дело иметь?");
 							link.l1.go = "ConvoyAreYouSure";
-
-            				if(!CheckAttribute(PChar, "QuestTemp.AndreAbelQuest_StartQuest") && PChar.location == "FortFrance_tavern" && drand(3) == 1 && pchar.questTemp.piratesLine == "begin") // не взята пиратская линейка 
-            				{
-            					dialog.text = "Хм, могу посоветовать тебе обратиться к человеку, который сидит возде лестницы в дальнем углу. У него, похоже, какие-то проблемы...";
-								link.l1 = RandPhraseSimple("Спасибо тебе...", "Хех, ну вот я и наш"+ GetSexPhrase("ел","ла") +" работу.");
-								link.l1.go = "exit";
-								Log_TestInfo("Сопровождение флейта 'Орион' - сгенерился квестодатель в sit, sit7");
-								PChar.QuestTemp.AndreAbelQuest_StartQuest = true;
-								PChar.QuestTemp.AndreAbelQuest = true;
-							
-								// Потереть для начала новой игры -->
-								sld = GetCharacter(NPC_GenerateCharacter("Andre_Abel" , "officer_19", "man", "man", 10, FRANCE, -1, true));
-								FantomMakeCoolFighter(sld, 10, 30, 35, "blade9", "pistol2", 10);
-								FantomMakeCoolSailor(sld, SHIP_FLEUT, "Орион", CANNON_TYPE_CANNON_LBS16, 30, 30, 30);
-								sld.name = "Андре";
-								sld.lastname = "Абель";
-								sld.SaveItemsForDead = true; // сохранять на трупе вещи
-								sld.DontClearDead = true; // не убирать труп через 200с
-								sld.dialog.FileName = "Quest\Andre_Abel_Dialog.c";
-								sld.greeting = "cit_quest";
-								LAi_SetSitType(sld);
-								LAi_SetImmortal(sld, true);	// До поры нельзя убить
-								SetCharacterGoods(sld, GOOD_SILK, 700);
-								SetCharacterGoods(sld, GOOD_TOBACCO, 500);
-								FreeSitLocator("FortFrance_tavern", "sit7");
-								ChangeCharacterAddressGroup(sld, "FortFrance_tavern", "sit", "sit7");
-								SetFunctionTimerCondition("Andre_Abel_Quest_1Day_Left", 0, 0, 1, false);
-								// <-- Потереть для начала новой игры
-            				}
 						}
             			else
             			{

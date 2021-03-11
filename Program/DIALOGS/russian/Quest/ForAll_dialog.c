@@ -468,7 +468,7 @@ void ProcessDialogEvent()
 		case "Sharp_hired":
 			bQuestDisableMapEnter = false;
 			characters[GetCharacterIndex("Sharp")].lifeDay = 0;
-			sld = GetCharacter(NPC_GenerateCharacter("SharpOf", "Sharp", "man", "man", 30, PIRATE, -1, true));
+			sld = GetCharacter(NPC_GenerateCharacter("SharpOf", "Sharp", "man", "man", 20, PIRATE, -1, true));
 			FantomMakeCoolFighter(sld, 30, 70, 70, "blade25", "pistol6", 120);
 			sld.name = "Бартоломью";
 			sld.lastname = "Шарп";
@@ -478,9 +478,12 @@ void ProcessDialogEvent()
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
 			sld.HalfImmortal = true;  // Контузия
-			SetSelfSkill(sld, 30, 30, 30, 30, 30);
-			SetShipSkill(sld, 30, 50, 30, 35, 80, 35, 30, 35, 30);
-			SetSPECIAL(sld, 5, 5, 10, 4, 9, 10, 10);
+			//SetSelfSkill(sld, 30, 30, 30, 30, 30);
+			//SetShipSkill(sld, 30, 50, 30, 35, 80, 35, 30, 35, 30);
+			SetSelfSkill(sld, 40, 40, 40, 40, 40);
+			SetShipSkill(sld, 50, 50, 50, 50, 60, 40, 30, 40, 30);
+			SetSPECIAL(sld, 6, 6, 8, 5, 8, 8, 10);
+			LAi_SetHP(sld, 200.0, 200.0);
 			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 			sld.quest.OfficerPrice = sti(pchar.rank)*500;
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);

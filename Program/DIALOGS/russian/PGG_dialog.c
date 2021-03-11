@@ -509,6 +509,10 @@ void ProcessDialogEvent()
 					}
 				}  /**/
 			}
+			if (GetCharacterShipClass(PChar) > 4)
+			{
+				Dialog.Text = "Дело с тобой!?? Подрасти сначала!";
+			}
 			break;
 		}
 		SaveCurrentNpcQuestDateParam(NPChar, "QuestTalk");

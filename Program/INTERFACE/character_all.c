@@ -1621,8 +1621,8 @@ void ChoosePerk()
 		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.offset = "-2, -1";
 
 			GameInterface.PERK_TABLE_NEED.(row).td2.str = GetConvertStr(perkCond, "AbilityDescribe.txt");
-			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.8;
-		    GameInterface.PERK_TABLE_NEED.(row).td2.textoffset = "10, -1";
+			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.72;
+		    GameInterface.PERK_TABLE_NEED.(row).td2.textoffset = "10, 0";
     	}
 		Table_UpdateWindow("PERK_TABLE_NEED");
 		if (perkName == "UnlimitedContra")

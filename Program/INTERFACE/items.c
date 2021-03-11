@@ -1117,13 +1117,13 @@ bool ThisItemCanBeEquip( aref arItem )
 	{
 		if(CheckAttribute(xi_refCharacter, "IsMushketer"))
 		{
-			if(arItem.ID == xi_refCharacter.IsMushketer.MushketID)
-			{
-				SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Remove that"));
-				return true;
-			}
 			if (xi_refCharacter.id == "OffMushketer" || xi_refCharacter.id == "OfMush1" || xi_refCharacter.id == "OfMush2")
 			{
+				if(HasSubStr(arItem.id, "mushket") && !HasSubStr(arItem.id, "mushket2x2") && arItem.ID != xi_refCharacter.IsMushketer.MushketID)
+				{
+					SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
+					return true;
+				}
 				if(arItem.groupID == BLADE_ITEM_TYPE || arItem.groupID == SPYGLASS_ITEM_TYPE || arItem.groupID == GUN_ITEM_TYPE)
 				{
 					return false;
@@ -1131,6 +1131,11 @@ bool ThisItemCanBeEquip( aref arItem )
 			}
 			else
 			{
+				if(arItem.ID == xi_refCharacter.IsMushketer.MushketID)
+				{
+					SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Remove that"));
+					return true;
+				}
 				if(arItem.groupID == BLADE_ITEM_TYPE || arItem.groupID == SPYGLASS_ITEM_TYPE || arItem.groupID == GUN_ITEM_TYPE || arItem.groupID == CIRASS_ITEM_TYPE)
 				{
 					return false;
@@ -1288,14 +1293,24 @@ void EquipPress()
 					}
 					else
 					{
-						if(!CheckAttribute(xi_refCharacter, "IsMushketer")) // Не мушкетер. Делаем мушкетером
+						if (xi_refCharacter.id == "OffMushketer" || xi_refCharacter.id == "OfMush1" || xi_refCharacter.id == "OfMush2")
 						{
-							SetOfficerToMushketer(xi_refCharacter, itmRef.id, true);
+							string sLastGun = GetCharacterEquipByGroup(xi_refCharacter, GUN_ITEM_TYPE);
+							xi_refCharacter.IsMushketer.MushketID = itmRef.id; // Запомним, какой мушкет надели
+							EquipCharacterByItem(xi_refCharacter, itmRef.id); // Экипируем мушкет
 						}
-						else // Мушкетер. Делаем обычным фехтовальщиком
+						else
 						{
-							SetOfficerToMushketer(xi_refCharacter, itmRef.id, false);
+							if(!CheckAttribute(xi_refCharacter, "IsMushketer")) // Не мушкетер. Делаем мушкетером
+							{
+								SetOfficerToMushketer(xi_refCharacter, itmRef.id, true);
+							}
+							else // Мушкетер. Делаем обычным фехтовальщиком
+							{
+								SetOfficerToMushketer(xi_refCharacter, itmRef.id, false);
+							}
 						}
+						
 					}
 				}
 				else

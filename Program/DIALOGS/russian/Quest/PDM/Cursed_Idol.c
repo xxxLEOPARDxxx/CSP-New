@@ -529,7 +529,7 @@ void ProcessDialogEvent()
 			int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE;
 			if (Rank < 1) Rank = 1;
 			sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_off", "off_fra_1", "man", "man", Rank, FRANCE, -1, true));
-			FantomMakeCoolFighter(sld, sti(pchar.rank), 50, 50, "blade17", "", 90);	
+			FantomMakeCoolFighter(sld, sti(pchar.rank), 50, 50, "blade19", "", 90);	
 			ChangeCharacterAddressGroup(sld, pchar.location, "reload",  "reload1");
 			LAi_SetActorType(sld);
 			sld.dialog.filename   = "Quest/PDM/Cursed_Idol.c";		//Название файла диалога
@@ -557,7 +557,7 @@ void ProcessDialogEvent()
 				sTemp = "sold_fra_"+(rand(7)+1);
 				if (i==12) sTemp = "off_fra_1";
 				sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_"+i, sTemp, "man", "man", Rank, FRANCE, -1, true));
-				FantomMakeCoolFighter(sld, sti(pchar.rank), 30, 30, "blade9", "", 50);
+				FantomMakeCoolFighter(sld, sti(pchar.rank), 30, 30, "blade7", "", 50);
 				LAi_SetWarriorType(sld);
 				LAi_group_MoveCharacter(sld, "EnemyFight");
 				ChangeCharacterAddressGroup(sld, pchar.location, "reload",  "reload1");

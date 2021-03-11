@@ -1361,7 +1361,9 @@ bool PGG_IsQuestAvaible()
 	bool retVal = true;
 
 	sTown = GetCurrentTown();
-	if (sTown == "" || sTown == "Panama" || Colonies[FindColony(sTown)].from_sea == "" || CheckAttribute(Colonies[FindColony(sTown)], "HasNoFort")) retVal = false;
+	if (sTown == "" || sTown == "Panama" || Colonies[FindColony(sTown)].from_sea == "") retVal = false;
+	//Прошлая проверка
+	//if (sTown == "" || sTown == "Panama" || Colonies[FindColony(sTown)].from_sea == "" || CheckAttribute(Colonies[FindColony(sTown)], "HasNoFort")) retVal = false;
 	return retVal;
 }
 
@@ -1388,7 +1390,8 @@ void PGG_Q1RemoveShip(string qName)
 		if(sti(PChar.GenQuest.PGG_Quest.Stage) == -1)
             nRelChange = -20;
 		PGG_ChangeRelation2MainCharacter(chr, nRelChange);
-		CloseQuestHeader("Gen_PGGQuest1");
+		if (chr.sex != "woman")CloseQuestHeader("Gen_PGGQuest1");
+		else CloseQuestHeader("Gen_PGGQuest1woman");
 	}
 	DeleteAttribute(chr, "AlwaysFriend");
 }

@@ -611,6 +611,10 @@ void SharpSeekSpy_loginSpy(string qName)
 		string sGroup = "Sharp_Group";
 		Group_FindOrCreateGroup(sGroup);
 		sld = characterFromId("Sharp");
+		LAi_SetHP(sld, 350.0, 350.0);
+		SetHalfPerksToChar(sld, true);
+		SetCharacterPerk(sld, "MusketsShoot");
+		SetCharacterPerk(sld, "CannonProfessional");
 		Group_AddCharacter(sGroup, sld.id);
 		Group_SetGroupCommander(sGroup, sld.id);
 
@@ -8910,6 +8914,8 @@ void zpq_seaBattle(string qName)
 //zagolski. начальный квест пирата
 void pirateStartQuest_Smuggler_fc(string qName)
 {
+	if (sti(pchar.rank)<5 && sti(pchar.Nation) == PIRATE)
+	{
 	AddQuestRecord("pSQ", "4");
 	chrDisableReloadToLocation = true;
 	int iRank = makeint(sti(pchar.rank)+MOD_SKILL_ENEMY_RATE/2);
@@ -8925,6 +8931,7 @@ void pirateStartQuest_Smuggler_fc(string qName)
 	LAi_group_SetRelation("pirateStartQuest_Smuggler_group", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 	LAi_group_FightGroups("pirateStartQuest_Smuggler_group", LAI_GROUP_PLAYER, true);
 	LAi_group_SetCheck("pirateStartQuest_Smuggler_group", "OpenTheDoors");
+	}
 }
 
 void pirateStartQuest_Smuggler_fc2(string qName)
@@ -10151,7 +10158,7 @@ void PDM_Callow_RodjerProdolg(string qName)
     int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE;
 	if (Rank < 1) Rank = 1;
 	sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_off", "off_fra_1", "man", "man", Rank, FRANCE, -1, true));
-    FantomMakeCoolFighter(sld, sti(pchar.rank), 20, 20, "blade11", "", 50);	
+    FantomMakeCoolFighter(sld, sti(pchar.rank), 20, 20, "blade18", "", 50);	
 	ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto2");
 	LAi_SetActorType(sld);
 	sld.dialog.filename   = "Quest/PDM/Cursed_Idol.c";		//Название файла диалога
@@ -10162,7 +10169,7 @@ void PDM_Callow_RodjerProdolg(string qName)
         sTemp = "sold_fra_"+(rand(7)+1);  //количество
 		if (i==12) sTemp = "off_fra_1";
  		sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_"+i, sTemp, "man", "man", Rank, FRANCE, -1, true));
-        FantomMakeCoolFighter(sld, sti(pchar.rank), 15, 15, "blade8", "", 20);
+        FantomMakeCoolFighter(sld, sti(pchar.rank), 15, 15, "blade2", "", 20);
         ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto2");
 		LAi_SetActorType(sld);
 		LAi_ActorFollow(sld, pchar, "", -1);
