@@ -905,12 +905,12 @@ string ShowStatValue(string type)
 			}
 			return FloatToString(fMultiplier,2);*/
 			float coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
-			return FloatToString(25.0-(coeff*5),1)+"%/"+FloatToString(50.0-(coeff*5),1)+"%";
+			return FloatToString(20.0-(coeff*4),1)+"%/"+FloatToString(40.0-(coeff*4),1)+"%";
 		break;
 		case "blooding":
 			if (CheckAttribute(xi_refCharacter,"equip.blade"))
 			{
-				if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0"+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
+				if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return "10.0"+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
 			}
 			return FloatToString(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20,1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
 		break;
@@ -1621,8 +1621,8 @@ void ChoosePerk()
 		    GameInterface.PERK_TABLE_NEED.(row).td1.icon.offset = "-2, -1";
 
 			GameInterface.PERK_TABLE_NEED.(row).td2.str = GetConvertStr(perkCond, "AbilityDescribe.txt");
-			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.72;
-		    GameInterface.PERK_TABLE_NEED.(row).td2.textoffset = "10, 0";
+			GameInterface.PERK_TABLE_NEED.(row).td2.scale = 0.8;
+		    GameInterface.PERK_TABLE_NEED.(row).td2.textoffset = "10, -1";
     	}
 		Table_UpdateWindow("PERK_TABLE_NEED");
 		if (perkName == "UnlimitedContra")

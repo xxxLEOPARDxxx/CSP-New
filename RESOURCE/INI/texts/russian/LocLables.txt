@@ -13,7 +13,7 @@ Cumana			{Кумана}
 Caracas			{Каракас}
 Curacao			{Кюрасао}
 Cartahena		{Картахена}
-Dominica		{доминика}
+Dominica		{Доминика}
 Guadeloupe		{Гваделупа}
 Hispaniola		{Эспаньола}
 Hispaniola1		{Эспаньола}
@@ -52,9 +52,9 @@ BasTer_town			{Бас Тер}
 SantoDomingo_town	{Санто-доминго}
 LaVega_town			{Ла Вега}
 PortPax_town		{Порт-о-Принс}
-PortRoyal_town		{порт Рояль}
+PortRoyal_town		{Порт Рояль}
 Maracaibo_town		{Маракайбо}
-FortFrance_town		{форт де Франс}
+FortFrance_town		{Форт де Франс}
 LeFransua_town		{Ле Франсуа}
 Marigo_town			{Мариго}
 Charles_town		{Чарлстаун}
@@ -185,12 +185,12 @@ SentJons			{Сент-Джонс}
 SentJons Town		{Сент-Джонс}
 SentJons Fort		{форт Сент-Джонса}
 SentJons Port		{порт Сент-Джонса}
-PortRoyal			{порт Рояль}
-PortRoyal Town		{порт Рояль}
-PortRoyal Fort		{форт порт Рояля}
-PortRoyal Port		{порт порт Рояля}
-FortOrange			{форт Оранж}
-FortOrange Town		{форт Оранж}
+PortRoyal			{Порт Рояль}
+PortRoyal Town		{Порт Рояль}
+PortRoyal Fort		{форт Порт Рояля}
+PortRoyal Port		{порт Порт Рояля}
+FortOrange			{Форт Оранж}
+FortOrange Town		{Форт Оранж}
 Villemstad			{Виллемстад}
 Villemstad Town		{Виллемстад}
 Villemstad Fort		{форт Виллемстада}
@@ -203,9 +203,9 @@ LaVega				{Ла Вега}
 LaVega Town			{Ла Вега}
 LaVega Fort			{форт Ла Веги}
 LaVega Port			{порт Ла Веги}
-SantoDomingo Town	{Санто-доминго}
-SantoDomingo Fort	{форт Санто-доминго}
-SantoDomingo Port	{порт Санто-доминго}
+SantoDomingo Town	{Санто-Доминго}
+SantoDomingo Fort	{форт Санто-Доминго}
+SantoDomingo Port	{порт Санто-Доминго}
 PortPax				{Порт-о-Принс}
 PortPax Town		{Порт-о-Принс}
 PortPax Fort		{форт Порт-о-Принс}

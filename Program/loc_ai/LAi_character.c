@@ -1051,7 +1051,7 @@ float GetCharacterRegenHPForBlooding(aref chr, bool useItms) // Новая функция ра
 {
 	float fMultiplier = LAi_GetCharacterMaxHP(chr)/100.0; // Внесение процентного урона, в зависимости от макс. кол-ва ХП
 
-	//if(fMultiplier > 2.0) fMultiplier = 2.0; // Лимит
+	if(fMultiplier > 10.0) fMultiplier = 10.0; // Лимит
 	
 	return fMultiplier;
 }

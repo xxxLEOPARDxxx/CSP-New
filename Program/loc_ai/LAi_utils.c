@@ -1344,7 +1344,7 @@ void MakeBloodingAttack(aref enemy, aref attacked, float coeff) // Кровоточащая 
 		Blooding = stf(enemy.chr_ai.Blooding);
 		if(Blooding < 1.0) Blooding = 1.0;
 	}
-	enemy.chr_ai.Blooding = Blooding + (5+rand(coeff*5)); // Продолжительность 5+(от 0 до коэфф*5)
+	enemy.chr_ai.Blooding = Blooding + (10+rand(coeff*5)); // Продолжительность 5+(от 0 до коэфф*5)
 	
 	//if(stf(enemy.chr_ai.Blooding) > 200.0) enemy.chr_ai.Blooding = 200.0; 
 
