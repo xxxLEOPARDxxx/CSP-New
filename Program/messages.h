@@ -345,6 +345,8 @@
 #define MSG_SOUND_ALIAS_ADD					77017   //"s"		  alias_name
 //#20180815-03
 #define MSG_SOUND_ENVIRONMENT				77100	//"ll"
+//#20180824-01
+#define MSG_SOUND_PLAY_NORET       			77150
 
 //============================================================================================
 //Animals messages

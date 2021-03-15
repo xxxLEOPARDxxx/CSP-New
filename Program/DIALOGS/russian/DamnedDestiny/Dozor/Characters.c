@@ -341,7 +341,7 @@ void ProcessDialogEvent()
 		// НЕЗНАКОМЕЦ В ДОМЕ -->
 		case "NoName_1":
 			dialog.text = "Ты перв" + GetSexPhrase("ый","вая") +", кто добрался до сокровища, дозорн" + GetSexPhrase("ый","ая") +". Поздравляю!";
-			link.l1 = "Кто вы" + GetSexPhrase("такой","такая") +"?";
+			link.l1 = "Кто вы такой?";
 			link.l1.go = "NoName_2";
 		break;
 		

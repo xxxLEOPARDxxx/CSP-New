@@ -1342,6 +1342,7 @@ void ProcessDialogEvent()
 		case "SCQ_exit":
 			//минус один шанс, что следующий квестодатель сам заговорит
 			sld = &locations[FindLocation(npchar.location)];
+			if(!CheckAttribute(sld,"questSeekCap")) sld.questSeekCap = 0;
 			if (sti(sld.questSeekCap) > 0) sld.questSeekCap = sti(sld.questSeekCap)-1;
 			npchar.lifeDay = 0;
 			LAi_CharacterDisableDialog(npchar);

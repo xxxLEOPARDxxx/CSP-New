@@ -307,7 +307,7 @@ void ProcessDialogEvent()
 					link.l2.go = "TalkSelf_room_day";
 	    		}
 				//navy --> 13.02.08
-				if (!bDisableMapEnter && GetCompanionQuantity(PChar) > 1)
+				if (!bDisableMapEnter && pchar.location == Get_My_Cabin())
 				{
 // Вызов персонажей by xxxZohanxxx -->					
 					link.l3 = "Вызвать ко мне...";
@@ -416,12 +416,12 @@ void ProcessDialogEvent()
 				}
 				if(startHeroType == 2 && CheckAttribute(pchar,"Whisper.HatEnabled"))
 				{
-					if (Pchar.model=="PGG_Whisper_0" || Pchar.model=="PGG_Whisper_5")
+					if (!CheckAttribute(pchar,"Whisper.Equipped"))
 					{
-						Link.l13 = "Прекратить носить шляпу.";
+						Link.l13 = "Прекратить носить шляпу. (Работает не на всех костюмах и кирасах)";
 						Link.l13.go = "WhisperHatUnequip";
 					}
-					if (Pchar.model=="PGG_Whisper_0_NoHat" || Pchar.model=="PGG_Whisper_5_NoHat")
+					else
 					{
 						Link.l13 = "Носить шляпу.";
 						Link.l13.go = "WhisperHatEquip";
@@ -453,7 +453,7 @@ void ProcessDialogEvent()
     				link.l2.go = "Cabin_OfficerSelect";	
 					}					
 				}
-				if (!bDisableMapEnter && GetPassengersQuantity(PChar) > 1)
+				if (!bDisableMapEnter)
 				{				
 					link.l3 = "Пассажира.";
     				link.l3.go = "Cabin_PassengerSelect";	
@@ -915,9 +915,17 @@ void ProcessDialogEvent()
 			
 		case "Cabin_PassengerSelect":
 			Dialog.Text = "Кого из пассажиров вызвать?";
-			for (i = 1; i < GetPassengersQuantity(PChar); i++)
+			for (i = 0; i < GetPassengersQuantity(PChar); i++)
 			{
-				chr = GetCharacter(GetPassenger(PChar,i));	
+				chr = GetCharacter(GetPassenger(PChar,i));
+					if (HasSubStr(chr.id,"ShipWreckSailor"))
+					{
+						LAi_SetCitizenType(chr);
+						sAttr = "l" + i;
+						link.(sAttr) = GetFullName(chr) + ".";
+						link.(sAttr).go = "CabinPassengerTalk_" + i;
+						continue;
+					}
 					if (!CheckAttribute(chr,"prisoned") && !IsOfficer(chr) && GetRemovable(chr) && chr.location != Get_My_Cabin() && !CheckAttribute(chr, "isfree")) // Чтобы в список не попадали квестовые, офицеры и пленники
 					{
 						sAttr = "l" + i;
@@ -1093,7 +1101,7 @@ void ProcessDialogEvent()
 			dialog.Text = "'Мы выслали тебе координаты лаборатории безумного ученого, что разработал данное устройство. Он окружил себя отрядом боевых ботов, но для тебя это не должно стать большой помехой. Оплата будет достойной, мы за ценой не постоим. У нас есть информация, что на твое имя записан ипотечный кредит. Считай, что он уже погашен, если возьмешься за это дело. И поторапливайся, устройство может активироваться в любой момент!'";
 			Link.l1 = "Что ж, приступим...";
 			DeleteAttribute(pchar, "questTemp.Whisper.Entered_Dungeon");
-			AddDialogExitQuest("MainHeroFightModeOn");	
+			//AddDialogExitQuest("MainHeroFightModeOn");	
 			Link.l1.go = "Exit_Special";
 		break;
 		case "WhisperHatUnequip":
@@ -1102,10 +1110,20 @@ void ProcessDialogEvent()
 			{
 				Pchar.model="PGG_Whisper_0_NoHat";
 			}
-			else
+			if (Pchar.model=="PGG_Whisper_5")
 			{
 				Pchar.model="PGG_Whisper_5_NoHat";
 			}
+			if (Pchar.model=="PGG_Whisper_7")
+			{
+				Pchar.model="PGG_Whisper_7_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_8")
+			{
+				Pchar.model="PGG_Whisper_8_NoHat";
+			}
+			pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5_NoHat,PGG_Whisper_6,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
+			pchar.Whisper.Equipped = true;
 			Link.l1 = "Все, хватит на сегодня.";	
 			Link.l1.go = "Exit";
 		break;
@@ -1115,10 +1133,20 @@ void ProcessDialogEvent()
 			{
 				Pchar.model="PGG_Whisper_0";
 			}
-			else
+			if (Pchar.model=="PGG_Whisper_5_NoHat")
 			{
 				Pchar.model="PGG_Whisper_5";
 			}
+			if (Pchar.model=="PGG_Whisper_7_NoHat")
+			{
+				Pchar.model="PGG_Whisper_7";
+			}
+			if (Pchar.model=="PGG_Whisper_8_NoHat")
+			{
+				Pchar.model="PGG_Whisper_8";
+			}
+			pchar.HeroModel  = "PGG_Whisper_0,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5,PGG_Whisper_6,PGG_Whisper_7,PGG_Whisper_8";
+			DeleteAttribute(pchar,"Whisper.Equipped");
 			Link.l1 = "Все, хватит на сегодня.";	
 			Link.l1.go = "Exit";
 		break;

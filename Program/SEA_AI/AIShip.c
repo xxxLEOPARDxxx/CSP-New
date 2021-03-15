@@ -4398,7 +4398,7 @@ void Ship_ResearchCannons(ref aCharacter)
 {
 	if (bSeaLoaded)
 	{
-		Log_Info("test5");
+		// Log_Info("test5");
 		aCharacter.BOAL_ReadyCharge = "1";
 		SendMessage(&AISea, "la", AI_MESSAGE_RESEARCH_CANNONS, aCharacter);
 		RefreshBattleInterface();

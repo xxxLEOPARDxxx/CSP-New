@@ -375,6 +375,63 @@ void LAi_CheckKillCharacter(aref chr)
 				return;
 			}
 		}
+		
+//ККС - Jason: самовосстанавливающийся абордажник
+	if(CheckAttribute(chr, "HalfImmortal"))
+	{
+		if(!IsOfficer(chr)) return;
+		ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", chr.sex, chr.model.animation, 1, sti(chr.nation), -1, false));
+		ChangeAttributesFromCharacter(rOff, chr, true);
+		if (CheckAttribute(chr,"PerkValue.HPPlus")) rOff.PerkValue.HPPlus = 0;
+		if (CheckAttribute(chr,"HeroModel")) rOff.HeroModel = chr.HeroModel;
+		rOff.id = chr.id;
+		rOff.HalfImmortal = true;
+		int healing_time = makeint(LAi_GetCharacterMaxHP(chr)/10);//время от хп
+		if (CheckOfficersPerk(pchar, "EmergentSurgeon")) healing_time -= makeint(healing_time/10*3);//снижения от перков врачей
+		else
+		{
+			if (CheckOfficersPerk(pchar, "Doctor2")) healing_time -= makeint(healing_time/10*2);
+			else
+			{
+				if (CheckOfficersPerk(pchar, "Doctor1")) healing_time -= makeint(healing_time/10);
+			}
+		}
+			/*int ihpm = sti(rOff.chr.chr_ai.hp_max)-40;
+			if (ihpm < 40) ihpm = 40;
+			LAi_SetHP(rOff, ihpm, ihpm); // штраф в НР*/
+			
+		 //Korsar Maxim --> доработка системы потери сознания.
+		if(!CheckAttribute(chr, "HPminusDays") && !CheckAttribute(chr, "HPminusDaysNeedtoRestore"))//Если теряет сознание без уже действующих "незаживших ран"
+		{
+		   	rOff.HPminusDays = 0;               //Для подчета дней, которые офицер уже прожил после потери сознания.
+		   	//rOff.HPminus = 40;                  //Минус в ХП
+			rOff.HPminusDaysNeedtoRestore = healing_time; //Количество дней для выздоровления
+		}
+		else //Если теряет сознание при одной "незвжившей ране" и более
+		{    
+		    rOff.HPminusDays = chr.HPminusDays;
+			//if(ihpm > 40) rOff.HPminus = chr.HPminus + 40;
+			rOff.HPminusDaysNeedtoRestore = sti(chr.HPminusDaysNeedtoRestore) + healing_time;
+		}
+		//Korsar Maxim <-- доработка потери сознания
+			 
+		//LAi_SetCurHPMax(rOff);
+		AddPassenger(pchar, rOff, false);
+		if (rOff.model.animation == "mushketer")
+		{
+			rOff.IsMushketer = true;
+			rOff.CanTakeMushket = true;
+			rOff.IsMushketer.LastGunID = -1;
+			rOff.equip.blade = chr.equip.blade;
+			rOff.equip.gun = chr.equip.gun;
+			rOff.IsMushketer.MushketID = chr.IsMushketer.MushketID;
+		}
+		
+		//BlackThorn - фикс дюпа вещей из сундука мародера
+		DeleteAttribute(chr, "items");
+		chr.items = "";
+		chr.money = 0;
+	}
 
 
 		DeleteAttribute(chr, "quest.questflag");
@@ -404,57 +461,11 @@ void LAi_CheckKillCharacter(aref chr)
 		}
 		LAi_Character_Dead_Process(chr);
 		
-		//ККС - Jason: самовосстанавливающийся абордажник
+		
 		if(CheckAttribute(chr, "HalfImmortal"))
 		{
 			if(!IsOfficer(chr)) return;
 			Dead_DelLoginedCharacter(chr);//не обыскивается
-			ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", chr.sex, chr.model.animation, 1, sti(chr.nation), -1, false));
-			ChangeAttributesFromCharacter(rOff, chr, true);
-			if (CheckAttribute(chr,"PerkValue.HPPlus")) rOff.PerkValue.HPPlus = 0;
-			if (CheckAttribute(chr,"HeroModel")) rOff.HeroModel = chr.HeroModel;
-			rOff.id = chr.id;
-			rOff.HalfImmortal = true;
-			int healing_time = makeint(LAi_GetCharacterMaxHP(chr)/10);//время от хп
-			if (CheckOfficersPerk(pchar, "EmergentSurgeon")) healing_time -= makeint(healing_time/10*3);//снижения от перков врачей
-			else
-			{
-				if (CheckOfficersPerk(pchar, "Doctor2")) healing_time -= makeint(healing_time/10*2);
-				else
-				{
-					if (CheckOfficersPerk(pchar, "Doctor1")) healing_time -= makeint(healing_time/10);
-				}
-			}
-			/*int ihpm = sti(rOff.chr.chr_ai.hp_max)-40;
-			if (ihpm < 40) ihpm = 40;
-			LAi_SetHP(rOff, ihpm, ihpm); // штраф в НР*/
-			
-			 //Korsar Maxim --> доработка системы потери сознания.
-			if(!CheckAttribute(chr, "HPminusDays") && !CheckAttribute(chr, "HPminusDaysNeedtoRestore"))//Если теряет сознание без уже действующих "незаживших ран"
-			{
-		    	rOff.HPminusDays = 0;               //Для подчета дней, которые офицер уже прожил после потери сознания.
-		    	//rOff.HPminus = 40;                  //Минус в ХП
-		        rOff.HPminusDaysNeedtoRestore = healing_time; //Количество дней для выздоровления
-			}
-			else //Если теряет сознание при одной "незвжившей ране" и более
-			{    
-			    rOff.HPminusDays = chr.HPminusDays;
-				//if(ihpm > 40) rOff.HPminus = chr.HPminus + 40;
-				rOff.HPminusDaysNeedtoRestore = sti(chr.HPminusDaysNeedtoRestore) + healing_time;
-			}
-			 //Korsar Maxim <-- доработка потери сознания
-			 
-			//LAi_SetCurHPMax(rOff);
-			AddPassenger(pchar, rOff, false);
-			if (rOff.model.animation == "mushketer")
-			{
-				rOff.IsMushketer = true;
-				rOff.CanTakeMushket = true;
-				rOff.IsMushketer.LastGunID = -1;
-				rOff.equip.blade = chr.equip.blade;
-				rOff.equip.gun = chr.equip.gun;
-				rOff.IsMushketer.MushketID = chr.IsMushketer.MushketID;
-			}
 			Log_Info("Абордажник " + GetFullName(rOff) + " без сознания!");
 		}
 		

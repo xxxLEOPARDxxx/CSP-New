@@ -257,10 +257,11 @@ void ShowGoodsInfo(int iGoodIndex)
 
 void IDoExit(int exitCode)
 {
-	if(GetSummonSkillFromName(GetMainCharacter(), "Sneak") < Rand(120))
+	if(GetSummonSkillFromName(GetMainCharacter(), "Sneak") < Rand(120) && !CheckAttribute(pchar,"ContraInter"))
 	{
+		PChar.GenQuest.contraTravel.PatrolFight = true;
 		DoQuestCheckDelay("Rand_ContrabandInterruption", 0.1);
-		for (int i=1; i<=3; i++)
+		for (int i=1; i<=3+makeint(MOD_SKILL_ENEMY_RATE/2); i++)
 		{
 			characters[GetCharacterIndex("Rand_Smug0"+i)].ContrabandInterruption = true;
 		}

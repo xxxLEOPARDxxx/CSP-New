@@ -672,11 +672,9 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		}
 	}
 	//--->Функционал лёгкого оружия - Gregg
-	if (coeff != 0.0)
+	if (coeff != 0.0 && dmg > 0)
 	{
-		if (fencing_type == "FencingLight" && !blockSave && attackType == "force")//выпад
-		{
-			if (HasSubStr(attack.equip.blade, "blade32") && rand(9)==0)//фламберж
+		if (HasSubStr(attack.equip.blade, "blade32") && 10.0+coeff+2.5>rand(99) && !blockSave)//фламберж
 			{
 				if(CheckAttribute(enemy, "sex") && enemy.model.animation != "Terminator")
 				{
@@ -693,9 +691,9 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 					MakeBloodingAttack(enemy, attack, coeff);
 				}
 			}
-			else//прочее
-			{
-				if (coeff*10>rand(999))
+		if (fencing_type == "FencingLight" && !blockSave && attackType == "force" && !HasSubStr(attack.equip.blade, "blade32"))//выпад
+		{
+				if ((2.5+coeff)*10>rand(999))
 				{
 					if(CheckAttribute(enemy, "sex") && enemy.model.animation != "Terminator")
 					{
@@ -712,19 +710,16 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 						MakeBloodingAttack(enemy, attack, coeff);
 					}
 				}
-			}
-			
 		}
-
 	}
 	//<---Функционал лёгкого оружия
 	
 	//--->Функционал среднего оружия - Gregg
-	if (fencing_type == "Fencing" && !blockSave)
+	if (fencing_type == "Fencing" && !blockSave  && dmg > 0)
 	{
 		if (coeff != 0.0)
 		{
-			if (coeff*10>rand(999))
+			if ((2.5+coeff)*10>rand(999))
 			{
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
@@ -802,7 +797,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		}			
 		if (attackType == "break")//модификация урона пробивающего
 		{
-			if (CheckAttribute(enemy, "cirassId"))
+			if (CheckAttribute(enemy, "cirassId") && Items[sti(enemy.cirassId)].id != "suit_1" && Items[sti(enemy.cirassId)].id != "suit_2" && Items[sti(enemy.cirassId)].id != "suit_3")
 			{
 				dmg *= 2;
 			}
@@ -820,9 +815,9 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		}
 	}
 	bool cirign = false;
-	if (coeff != 0)
+	if (coeff != 0 && attack.chr_ai.group != enemy.chr_ai.group)
 	{
-		if (CheckAttribute(enemy, "cirassId"))
+		if (CheckAttribute(enemy, "cirassId") && Items[sti(enemy.cirassId)].id != "suit_1" && Items[sti(enemy.cirassId)].id != "suit_2" && Items[sti(enemy.cirassId)].id != "suit_3" )
 		{
 			if (HasSubStr(attack.equip.blade, "topor") && rand(99)<15 && !blockSave) //15%
 			{
@@ -1065,10 +1060,13 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 		}		
 	}
 	// boal брон работает всегда, а не токо в блоке 23.05.2004 -->
-	if(CheckAttribute(enemy, "cirassId"))
+	if(CheckAttribute(enemy, "cirassId")&& Items[sti(enemy.cirassId)].id != "suit_1" && Items[sti(enemy.cirassId)].id != "suit_2" && Items[sti(enemy.cirassId)].id != "suit_3")
 	{
-        if(rand(1000) < stf(Items[sti(enemy.cirassId)].CirassLevel)*500) return;
-	}
+        if(rand(1000) < stf(Items[sti(enemy.cirassId)].CirassLevel)*500) 
+		{	
+			if(sti(enemy.index) == GetMainCharacterIndex()) Log_Info("Ваша кираса заблокировала урон от выстрела.");
+			return;
+		}
 	// boal 23.05.2004 <--
 	//Начисляем повреждение
 	float damage = LAi_GunCalcDamage(attack, enemy);
@@ -1101,7 +1099,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 			if (rand(5)==0)	{LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)*2); Log_Info("Критический выстрел");}
 			else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)+25);
 		}
-		else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5));	
+		else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5));
 		
 		//Проверим на смерть
 		LAi_CheckKillCharacter(enemy);
@@ -1168,6 +1166,12 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
     {
         AddCharacterExpToSkill(attack, SKILL_PISTOL, MakeFloat(exp*0.5));
     }
+}
+}
+
+void SetBack()
+{
+	
 }
 
 //--------------------------------------------------------------------------------

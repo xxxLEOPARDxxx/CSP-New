@@ -17,13 +17,13 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		
-		case "First time":
+		case "First time":								//Автор Sinistra
 			dialog.text = "Посмотрите-ка кто здесь! "+ GetSexPhrase("Великий Пират","Великая Пиратка") +", Ужас Морей и Океанов! Только, чёрт возьми, я забыл твоё имя! Эй, ты действительно "+ GetSexPhrase("такой ужасный человек","такая ужасная девушка") +", как люди говорят?";
 			link.l1 = "О, я думаю, что на самом деле я вполне "+ GetSexPhrase("обычный ужасный человек","обычная ужасная девушка") +".";
 			link.l1.go = "Vstrecha_1";
 			link.l2 = "Нет. Честно говоря, на самом деле я "+ GetSexPhrase("кроткий и мягкий","кроткая и магкая") +". Извините, но я бы "+ GetSexPhrase("предпочёл","предпочла") +" ненадолго обратиться в паническое бегство.";
 			link.l2.go = "exit";
-			PlaySound("Kopcapkz\Voices\PDM\James Callow.wav");
+			PlayVoice("Kopcapkz\Voices\PDM\James Callow.wav");
 		break;
 			
 		case "Vstrecha_1":
@@ -117,7 +117,7 @@ void ProcessDialogEvent()
             link.l1 = "До встречи, брат.";
 			link.l1.go = "CodDa_1";
 			GiveItem2Character(PChar, "Cursed_idol");
-			PlaySound("Interface\important_item.wav");
+			PlayVoice("Interface\important_item.wav");
 			Log_info("Джеймс отдал вам идола");
 			NextDiag.TempNode = "VstrechDaAgain_1";
 		break;
@@ -173,7 +173,7 @@ void ProcessDialogEvent()
 			dialog.text = "Эй! Ты на моей территории, "+ GetSexPhrase("мальчишка","девчонка") +", так что помалкивай здесь, не то замолчишь навеки. Ты меня понял"+ GetSexPhrase("","а") +"?";
             link.l1 = "Придержи свой гонор, Роджер. Я знаю, где я нахожусь.";
 			link.l1.go = "Rodjer_2";
-			PlaySound("Kopcapkz\Voices\PDM\Desmond Ray Beltrop.wav");
+			PlayVoice("Kopcapkz\Voices\PDM\Desmond Ray Beltrop.wav");
 		break;
 		
 		case "Rodjer_2":
@@ -242,7 +242,7 @@ void ProcessDialogEvent()
 			GiveItem2Character(PChar, "Cursed_idol");
 			Log_info("Роджер вернул вам идола");
 			NextDiag.TempNode = "RodjerPokapoka_1";
-			ChangeCharacterReputation(pchar, 5);
+			ChangeCharacterReputation(pchar, 4);
 		break;
 		
 		case "RodjerPokapoka_1":
@@ -324,7 +324,7 @@ void ProcessDialogEvent()
 			dialog.text = "Ах! Наконец-то ты вернул"+ GetSexPhrase("ся","ась") +". Как идут дела? Ты всё сделал"+ GetSexPhrase("","а") +"?";
 			link.l1 = "Конечно. Жадный мерзавец при виде золота потерял последние остатки разума.";
 			link.l1.go = "CollowRad_2";
-			PlaySound("Kopcapkz\Voices\PDM\James Callow.wav");
+			PlayVoice("Kopcapkz\Voices\PDM\James Callow.wav");
 		break;
 		
 		case "CollowRad_2":
@@ -339,6 +339,8 @@ void ProcessDialogEvent()
 			link.l1.go = "CollowRadCod_1";
 			NextDiag.TempNode = "CollowRadPoka_1";
 			AddMoneyToCharacter(pchar, 7000);
+			AddCharacterExpToSkill(pchar, "Leadership", 20);
+			AddCharacterExpToSkill(pchar, "Sneak", 40);
 		break;
 		
 		case "CollowRadPoka_1":
@@ -365,7 +367,7 @@ void ProcessDialogEvent()
 			LAi_SetSitType(pchar);
 			locCameraTarget(PChar)
             locCameraFollow();
-			PlaySound("Kopcapkz\Voices\PDM\James Callow.wav");
+			PlayVoice("Kopcapkz\Voices\PDM\James Callow.wav");
 			link.l1.go = "CollowNeRad_2";
 		break;
 		
@@ -414,11 +416,7 @@ void ProcessDialogEvent()
 			dialog.text = "Тогда ступай, "+ GetSexPhrase("брат","сестра") +". Удачи тебе.";
 			link.l1 = "До встречи, брат. Я скоро вернусь.";
 			link.l1.go = "CollowNeRad_8";
-			ChangeCharacterAddressGroup(pchar, "LaVega_tavern", "tables", "stay1");
-			LAi_SetPlayerType(pchar);
 			NextDiag.TempNode = "VstrechEsheAgain_2";
-			locCameraTarget(PChar)
-            locCameraFollow();
 		break;
 		
 		case "CollowNeRad_8":
@@ -491,7 +489,7 @@ void ProcessDialogEvent()
 			dialog.text = "Бонжур, "+ GetSexPhrase("месье","мадемуазель") +"! Чем я могу быть вам полезен?";
             link.l1 = "Здравствуйте! Я хочу преподнести вам дар. Я слышал"+ GetSexPhrase("","а") +", что вы интересуетесь драгоценными камнями... Что вы скажете по поводу этого идола?";
 			link.l1.go = "Rostovshik_2";
-			PlaySound("Kopcapkz\Voices\PDM\France\Nicolas de Montferrat.wav");
+			PlayVoice("Kopcapkz\Voices\PDM\France\Nicolas de Montferrat.wav");
 		break;
 		
 		case "Rostovshik_2":
@@ -501,10 +499,10 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Rostovshik_3":
-			dialog.text = "Вы преподнесли мне бесценный подарок, "+ GetSexPhrase("месье","мадемуазель") +" "+pchar.name+". Я вам чрезвычайно благодарен. Я вознаграждаю вас 40000 золотых - никто не скажет, что я - скряга! Если вы хотите знать, "+ GetSexPhrase("месье","мадемуазель") +" "+pchar.name+", я, пожалуй, пошлю этого идола Его Величеству! Я слыхал, что он как раз увлекается такими интересными вещами.";
+			dialog.text = "Вы преподнесли мне бесценный подарок, "+ GetSexPhrase("месье","мадемуазель") +" "+pchar.name+". Я вам чрезвычайно благодарен. Я вознаграждаю вас 35000 золотых - никто не скажет, что я - скряга! Если вы хотите знать, "+ GetSexPhrase("месье","мадемуазель") +" "+pchar.name+", я, пожалуй, пошлю этого идола Его Величеству! Я слыхал, что он как раз увлекается такими интересными вещами.";
             link.l1 = "Я очень рад"+ GetSexPhrase("","а") +", что мой подарок оказался так кстати.";
 			link.l1.go = "Rostovshik_4";
-			AddMoneyToCharacter(pchar, 40000);
+			AddMoneyToCharacter(pchar, 35000);
 			Log_info("Вы подарили идола ростовщику");
 			TakeItemFromCharacter(pchar, "Cursed_idol");
 		break;
@@ -529,12 +527,16 @@ void ProcessDialogEvent()
 			int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE;
 			if (Rank < 1) Rank = 1;
 			sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_off", "off_fra_1", "man", "man", Rank, FRANCE, -1, true));
-			FantomMakeCoolFighter(sld, sti(pchar.rank), 50, 50, "blade19", "", 90);	
+			FantomMakeCoolFighter(sld, sti(pchar.rank), 15, 15, "blade19", "", 20);	
 			ChangeCharacterAddressGroup(sld, pchar.location, "reload",  "reload1");
 			LAi_SetActorType(sld);
 			sld.dialog.filename   = "Quest/PDM/Cursed_Idol.c";		//Название файла диалога
 			sld.dialog.currentnode   = "Rostovshik_Fra_Off_1";				//С какой фразы начинать диалог
 			LAi_ActorDialog(sld, pchar, "", -1, 0);	
+			sld = CharacterFromID("PDM_Tortuga_usurer_Klon")   //ссылается на клона
+			ChangeCharacterAddressGroup(sld, "Tortuga_Town", "none", "");   //переместить
+			sld = CharacterFromID("Tortuga_usurer")   //ссылается на персонажа
+			ChangeCharacterAddressGroup(sld, "Tortuga_Bank", "barmen", "stay");
 			DialogExit();
 		break;
 		
@@ -542,7 +544,7 @@ void ProcessDialogEvent()
 			dialog.text = "(обращается к ростовщику) Бонжур, Жюст, я хотел тебя позвать на праздничный ужин... Погодите-ка, я знаю "+ GetSexPhrase("этого человека","эту девушку") +", он"+ GetSexPhrase("","а") +" пират"+ GetSexPhrase("","ка") +"! Это он"+ GetSexPhrase("","а") +" перебил"+ GetSexPhrase("","а") +" наш патруль на Мартинике. СТРАЖА!";
             link.l1 = "И чего встали, подходите. Или испугались меня?";
 			link.l1.go = "Rostovshik_Fra_Off_2";
-			PlaySound("Kopcapkz\Voices\PDM\Pete - Town Guard.wav");
+			PlayVoice("Kopcapkz\Voices\PDM\Pete - Town Guard.wav");
 		break;
 		
 		case "Rostovshik_Fra_Off_2":
@@ -557,7 +559,7 @@ void ProcessDialogEvent()
 				sTemp = "sold_fra_"+(rand(7)+1);
 				if (i==12) sTemp = "off_fra_1";
 				sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_"+i, sTemp, "man", "man", Rank, FRANCE, -1, true));
-				FantomMakeCoolFighter(sld, sti(pchar.rank), 30, 30, "blade7", "", 50);
+				FantomMakeCoolFighter(sld, sti(pchar.rank), 15, 15, "blade7", "", 0);
 				LAi_SetWarriorType(sld);
 				LAi_group_MoveCharacter(sld, "EnemyFight");
 				ChangeCharacterAddressGroup(sld, pchar.location, "reload",  "reload1");
@@ -567,10 +569,6 @@ void ProcessDialogEvent()
 			LAi_group_SetCheck("EnemyFight", "PDM_Callow_poradomoy");
 			chrDisableReloadToLocation = true;
 			LAi_SetFightMode(pchar, true);
-			sld = CharacterFromID("PDM_Tortuga_usurer_Klon")   //ссылается на клона
-			ChangeCharacterAddressGroup(sld, "Tortuga_Town", "none", "");   //переместить
-			sld = CharacterFromID("Tortuga_usurer")   //ссылается на персонажа
-			ChangeCharacterAddressGroup(sld, "Tortuga_Bank", "barmen", "stay");
 			DialogExit();
 		break;
 		
@@ -590,6 +588,7 @@ void ProcessDialogEvent()
 			dialog.text = "Ах! Наконец-то ты "+ GetSexPhrase("вернулся","вернулась") +". Как дела? Ты это сделал"+ GetSexPhrase("","а") +"?";
             link.l1 = "На этот раз всё прошло гладко. Ростовщик взял идола.";
 			link.l1.go = "Callow_POBEDA_2";
+			PlayVoice("Kopcapkz\Voices\PDM\James Callow.wav");
 			ChangeCharacterAddressGroup(pchar, "LaVega_tavern", "sit", "sit_front3");
 			LAi_SetSitType(pchar);
 			locCameraTarget(PChar)
@@ -600,6 +599,13 @@ void ProcessDialogEvent()
 			dialog.text = "Агггх! Какое облегчение! Ты и представить себе не можешь, каким тяжким грузом это было для меня.";
             link.l1 = "Теперь ты свободен от его влияния. Но, я вспоминаю, что ты обещал стать моим офицером... как насчёт этого?";
 			link.l1.go = "Callow_POBEDA_3";
+			AddCharacterExpToSkill(pchar, "Leadership", 15);   	//добавить опыт к авторитету
+			AddCharacterExpToSkill(pchar, "FencingLight", 10);     //добавить опыт к лёгкому оружию
+			AddCharacterExpToSkill(pchar, "FencingHeavy", 10);     //добавить опыт к тяжёлому оружию
+			AddCharacterExpToSkill(pchar, "Fencing", 10);    	    //добавить опыт к среднему оружию
+			AddCharacterExpToSkill(pchar, "Pistol", 10);			//добавить опыт к пистолетам
+			AddCharacterExpToSkill(pchar, "Fortune", 30);			//добавить опыт к удаче
+			AddCharacterExpToSkill(pchar, "Sneak", 30);     	    //добавить опыт к скрытности
 		break;
 		
 		case "Callow_POBEDA_3":
@@ -616,14 +622,20 @@ void ProcessDialogEvent()
 			sld = CharacterFromID("James_Callow")
 			AddPassenger(pchar, sld, false);
 			SetCharacterRemovable(sld, true);
+			sld.greeting = "GR_Jamescallow";
+			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.Payment = true;										//Оплата труда
-			sld.OfficerWantToGo.DontGo = false;
+			sld.quest.OfficerPrice = sti(pchar.rank)*500
+			sld.OfficerWantToGo.DontGo = true;
 			sld.reputation = -2;
 			LAi_SetImmortal(sld, false);
+			sld.HalfImmortal = true; 							    //Контузия
+			sld.loyality = MAX_LOYALITY;
+			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
+			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			LAi_SetActorType(npchar);   //делает нпс актёром
 			ChangeCharacterAddressGroup(npchar, "LaVega_tavern", "tables", "stay1");
 			LAi_ActorGoToLocation(npchar, "reload", "reload1", "none", "", "", "", 3);  // идёт в определённый локатор.
-			NextDiag.TempNode = "Callow_Officer_1";
 		break;
 		
 		case "FINAL":

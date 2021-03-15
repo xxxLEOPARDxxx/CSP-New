@@ -176,9 +176,24 @@ void ProcessDialogEvent()
                     // если таможня уже бежит
 					if (CheckAttribute(NPChar, "ContrabandInterruption"))
 					{
-					    dialog.Text = RandSwear()+ "Патруль! Мы тебя не знаем, ты нас не знаешь!";
-						Link.l1 = "Точно!";
-						Link.l1.go = "Exit";
+						if (CheckAttribute(PChar, "GenQuest.contraTravel.PatrolFight"))
+						{
+							if (chrDisableReloadToLocation)
+							{
+								dialog.Text = RandSwear()+ "Патруль! Мы тебя не знаем, ты нас не знаешь!";
+								Link.l1 = "Точно!";
+								Link.l1.go = "Exit";
+								break;
+							}
+							dialog.Text = RandPhraseSimple("Спасибо за помощь. Мы не забудем этого. Отправляемся.", "Молодец! Отлично сражал"+ GetSexPhrase("ся","ась") +". Идем.");
+							ChangeContrabandRelation(PChar, 5);
+							DeleteAttribute(PChar,"GenQuest.contraTravel.PatrolFight");
+							DeleteAttribute(NPChar,"ContrabandInterruption");
+							AddCharacterExpToSkill(Pchar, "Sneak", 50);
+							Link.l2 = "Уже иду.";
+							Link.l2.go = "Exit";
+							break;
+						}
 					}
 					else
 					{
@@ -372,7 +387,7 @@ void ProcessDialogEvent()
             if(GetSummonSkillFromName(pchar, "Sneak") < Rand(120))
 			{
 				AddDialogExitQuest("Rand_ContrabandInterruption");
-				for (i=1; i<=3; i++)
+				for (i=1; i<=3+makeint(MOD_SKILL_ENEMY_RATE/2); i++)
 				{
 					characters[GetCharacterIndex("Rand_Smug0"+i)].ContrabandInterruption = true;
 				}

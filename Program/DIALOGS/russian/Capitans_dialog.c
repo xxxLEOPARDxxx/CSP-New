@@ -793,7 +793,8 @@ int findPriceStoreMan(ref NPChar)
 		if (CheckAttribute(ch, "Dialog.Filename") && ch.Dialog.Filename == "Common_Store.c") // магазин
 		{
             //if (sti(ch.nation) !=  sti(NPChar.nation)) continue;
-            if (ch.location == "none") continue; // фикс для новых, невидимых до поры островов
+            if (ch.location == "none") continue;
+			if (ch.City == "Caiman") continue;			// фикс для новых, невидимых до поры островов
             storeArray[howStore] = n;
             howStore++;
             

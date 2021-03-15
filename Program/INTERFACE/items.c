@@ -2,10 +2,13 @@
 #include "interface\character_all.h"
 
 int nCurScrollOfficerNum;
+string sMapDescribe;//переменная для текста описания карты
+bool bMapCross;
+float fOffsetX, fOffsetY;
 
 void InitInterface(string iniName)
 {
-    InterfaceStack.SelectMenu_node = "LaunchItems"; // запоминаем, что звать по Ф2
+	InterfaceStack.SelectMenu_node = "LaunchItems"; // запоминаем, что звать по Ф2
 	GameInterface.title = "titleItems";
 	
 	xi_refCharacter = pchar;
@@ -17,9 +20,10 @@ void InitInterface(string iniName)
 
 	SetEventHandler("InterfaceBreak","ProcessExitCancel",0);
 	SetEventHandler("exitCancel","ProcessExitCancel",0);
-    SetEventHandler("ievnt_command","ProcessCommandExecute",0);
-    SetEventHandler("frame","ProcessFrame",1);
-    SetEventHandler("ShowInfoWindow","ShowInfoWindow",0);
+	SetEventHandler("ievnt_command","ProcessCommandExecute",0);
+	SetEventHandler("frame","ProcessFrame",1);
+	SetEventHandler("ShowInfoWindow","ShowInfoWindow",0);
+	SetEventHandler("ShowMapDesc","ShowMapDesc",0);
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
 	
 	SetEventHandler("ExitOfficerMenu","ExitOfficerMenu",0);
@@ -33,7 +37,7 @@ void InitInterface(string iniName)
 	SetEventHandler("ExitMapWindow","ExitMapWindow",0);
 	SetEventHandler("ExitItemFromCharacterWindow","ExitItemFromCharacterWindow",0);
 	
-    SetEventHandler("ShowItemFromCharacterWindow","ShowItemFromCharacterWindow",0);
+	SetEventHandler("ShowItemFromCharacterWindow","ShowItemFromCharacterWindow",0);
 	SetEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT", 0);
 	
 	SetEventHandler("ShowBladeEquipInfo", "ShowBladeEquipInfo", 0);
@@ -59,10 +63,10 @@ void InitInterface(string iniName)
 		break;
 	}
 
-    XI_RegistryExitKey("IExit_F2");
-    SetVariable();
-    SetNewGroupPicture("Weight_PIC", "ICONS_CHAR", "weight");
-    SetNewGroupPicture("Money_PIC", "ICONS_CHAR", "Money");
+	XI_RegistryExitKey("IExit_F2");
+	SetVariable();
+	SetNewGroupPicture("Weight_PIC", "ICONS_CHAR", "weight");
+	SetNewGroupPicture("Money_PIC", "ICONS_CHAR", "Money");
 }
 
 void FillPassengerScroll()
@@ -109,18 +113,18 @@ void FillPassengerScroll()
 			ok = CheckAttribute(&characters[_curCharIdx], "prisoned") && sti(characters[_curCharIdx].prisoned) == true;
 			if (!ok && GetRemovable(&characters[_curCharIdx]))
 			{
-                // совместители должностей -->
-                howWork = 1;
-                if (CheckCharacterPerk(&characters[_curCharIdx], "ByWorker"))
-                {
-                    howWork = 2;
-                }
-                if (CheckCharacterPerk(&characters[_curCharIdx], "ByWorker2"))
-                {
-                    howWork = 3;
-                }
-                ok = !CheckAttribute(&characters[_curCharIdx], "isfree") || sti(characters[_curCharIdx].isfree) < howWork;
-                PsgAttrName = GetOfficerTypeByNum(nCurScrollNum);
+				// совместители должностей -->
+				howWork = 1;
+				if (CheckCharacterPerk(&characters[_curCharIdx], "ByWorker"))
+				{
+					howWork = 2;
+				}
+				if (CheckCharacterPerk(&characters[_curCharIdx], "ByWorker2"))
+				{
+					howWork = 3;
+				}
+				ok = !CheckAttribute(&characters[_curCharIdx], "isfree") || sti(characters[_curCharIdx].isfree) < howWork;
+				PsgAttrName = GetOfficerTypeByNum(nCurScrollNum);
 				// совместители должностей <--
 				if (ok && !CheckAttribute(&characters[_curCharIdx], PsgAttrName))
 				{
@@ -146,7 +150,7 @@ void ExitOfficerMenu()
 
 void OfficerChange()
 {
-    string attributeName = "pic" + (nCurScrollNum+1);
+	string attributeName = "pic" + (nCurScrollNum+1);
 
 	if(GameInterface.CHARACTERS_SCROLL.(attributeName).character != "0")
 	{
@@ -163,13 +167,13 @@ void OfficerChange()
 	}
 	else
 	{
-	    //Boyer mod
-	    //if (nCurScrollNum <= 9 && nCurScrollNum != 0)
-	    if (nCurScrollNum <= 6 + MAX_NUM_FIGHTERS && nCurScrollNum != 0)
+		//Boyer mod
+		//if (nCurScrollNum <= 9 && nCurScrollNum != 0)
+		if (nCurScrollNum <= 6 + MAX_NUM_FIGHTERS && nCurScrollNum != 0)
 		{
 			FillPassengerScroll();
-		    SendMessage(&GameInterface,"lsl",MSG_INTERFACE_SCROLL_CHANGE,"PASSENGERSLIST",-1);
-		    SetCurrentNode("PASSENGERSLIST");
+			SendMessage(&GameInterface,"lsl",MSG_INTERFACE_SCROLL_CHANGE,"PASSENGERSLIST",-1);
+			SetCurrentNode("PASSENGERSLIST");
 			ProcessFrame();
 			SetOfficersSkills();
 
@@ -189,26 +193,26 @@ void SetOfficersSkills()
 		{
 			sCharacter = GameInterface.PASSENGERSLIST.(sCharacter).character;
 			ref otherchr = &characters[sti(sCharacter)];
-	        SetSPECIALMiniTable("TABLE_SMALLSKILL", otherchr);
-	        SetOTHERMiniTable("TABLE_SMALLOTHER", otherchr);
-	        SetFormatedText("OFFICER_NAME", GetFullName(otherchr));
-	        SetSelectable("ACCEPT_ADD_OFFICER", true);
-        }
-        else
-        {
-            Table_Clear("TABLE_SMALLSKILL", false, true, true);
-            Table_Clear("TABLE_SMALLOTHER", false, true, true);
-            SetFormatedText("OFFICER_NAME", "");
-            SetSelectable("ACCEPT_ADD_OFFICER", false);
-        }
+			SetSPECIALMiniTable("TABLE_SMALLSKILL", otherchr);
+			SetOTHERMiniTable("TABLE_SMALLOTHER", otherchr);
+			SetFormatedText("OFFICER_NAME", GetFullName(otherchr));
+			SetSelectable("ACCEPT_ADD_OFFICER", true);
+		}
+		else
+		{
+			Table_Clear("TABLE_SMALLSKILL", false, true, true);
+			Table_Clear("TABLE_SMALLOTHER", false, true, true);
+			SetFormatedText("OFFICER_NAME", "");
+			SetSelectable("ACCEPT_ADD_OFFICER", false);
+		}
 	}
 	else
-    {
-        Table_Clear("TABLE_SMALLSKILL", false, true, true);
-        Table_Clear("TABLE_SMALLOTHER", false, true, true);
-        SetFormatedText("OFFICER_NAME", "");
-        SetSelectable("ACCEPT_ADD_OFFICER", false);
-    }
+	{
+		Table_Clear("TABLE_SMALLSKILL", false, true, true);
+		Table_Clear("TABLE_SMALLOTHER", false, true, true);
+		SetFormatedText("OFFICER_NAME", "");
+		SetSelectable("ACCEPT_ADD_OFFICER", false);
+	}
 }
 
 void AcceptAddOfficer()
@@ -301,12 +305,12 @@ void ExitRemoveOfficerMenu()
 
 void AcceptRemoveOfficer()
 {
-    int iCurrentNode = nCurScrollNum;
+	int iCurrentNode = nCurScrollNum;
 	string attributeName2 = "pic"+(nCurScrollNum+1);
 
 	int iChar = sti(GameInterface.CHARACTERS_SCROLL.(attributeName2).character);
 
-    characters[iChar].isfree = sti(characters[iChar].isfree) - 1; // совместители
+	characters[iChar].isfree = sti(characters[iChar].isfree) - 1; // совместители
 	if (sti(characters[iChar].isfree) <= 0)
 	{
 		DeleteAttribute(&characters[iChar], "isfree");
@@ -341,9 +345,9 @@ void AcceptRemoveOfficer()
 			RemoveOfficersIndex(pchar, GetOfficersIndex(pchar, nCurScrollNum - 6));
 		break;
 	}
-    attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
-    DeleteAttribute(&characters[iChar], attributeName2); // совместитель дожности
-    
+	attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
+	DeleteAttribute(&characters[iChar], attributeName2); // совместитель дожности
+	
 	FillCharactersScroll();
 	GameInterface.CHARACTERS_SCROLL.current = iCurrentNode;
 	ExitRemoveOfficerMenu();
@@ -360,9 +364,10 @@ void IDoExit(int exitCode)
 {
 	DelEventHandler("InterfaceBreak","ProcessExitCancel");
 	DelEventHandler("exitCancel","ProcessExitCancel");
-    DelEventHandler("ievnt_command","ProcessCommandExecute");
-    DelEventHandler("frame","ProcessFrame");
-    DelEventHandler("ShowInfoWindow","ShowInfoWindow");
+	DelEventHandler("ievnt_command","ProcessCommandExecute");
+	DelEventHandler("frame","ProcessFrame");
+	DelEventHandler("ShowInfoWindow","ShowInfoWindow");
+	DelEventHandler("ShowMapDesc","ShowMapDesc");
 	DelEventHandler("MouseRClickUp","HideInfoWindow");
 	
 	DelEventHandler("ExitOfficerMenu","ExitOfficerMenu");
@@ -395,7 +400,7 @@ void IDoExit(int exitCode)
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
 	{
-        DeleteAttribute(&InterfaceStates,"ReloadMenuExit");
+		DeleteAttribute(&InterfaceStates,"ReloadMenuExit");
 		EndCancelInterface(false);
 	}
 	else
@@ -411,7 +416,7 @@ void ProcessCommandExecute()
 	
 	int  iItemIndex = 0;
 	ref itm;
-    switch(nodName)
+	switch(nodName)
 	{
 		case "EQUIP_BUTTON":
 			if (comName=="activate" || comName=="click")
@@ -423,7 +428,7 @@ void ProcessCommandExecute()
 		case "I_CHARACTER_2":
 			if(comName=="click")
 			{
-			    nodName = "I_CHARACTER";
+				nodName = "I_CHARACTER";
 				InterfaceStates.ReloadMenuExit = true;
 				IDoExit(RC_INTERFACE_ANY_EXIT);
 				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
@@ -433,7 +438,7 @@ void ProcessCommandExecute()
 		case "I_SHIP_2":
 			if(comName=="click")
 			{
-			    nodName = "I_SHIP";
+				nodName = "I_SHIP";
 				InterfaceStates.ReloadMenuExit = true;
 				IDoExit(RC_INTERFACE_ANY_EXIT);
 				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
@@ -442,7 +447,7 @@ void ProcessCommandExecute()
 		case "I_QUESTBOOK_2":
 			if(comName=="click")
 			{
-			    nodName = "I_QUESTBOOK";
+				nodName = "I_QUESTBOOK";
 				InterfaceStates.ReloadMenuExit = true;
 				IDoExit(RC_INTERFACE_ANY_EXIT);
 				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
@@ -451,7 +456,7 @@ void ProcessCommandExecute()
 		case "I_TRADEBOOK_2":
 			if(comName=="click")
 			{
-			    nodName = "I_TRADEBOOK";
+				nodName = "I_TRADEBOOK";
 				InterfaceStates.ReloadMenuExit = true;
 				IDoExit(RC_INTERFACE_ANY_EXIT);
 				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
@@ -460,7 +465,7 @@ void ProcessCommandExecute()
 		case "I_NATIONS_2":
 			if(comName=="click")
 			{
-			    nodName = "I_NATIONS";
+				nodName = "I_NATIONS";
 				InterfaceStates.ReloadMenuExit = true;
 				IDoExit(RC_INTERFACE_ANY_EXIT);
 				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
@@ -469,7 +474,7 @@ void ProcessCommandExecute()
 		case "I_ITEMS_2":
 			if(comName=="click")
 			{
-			    nodName = "I_ITEMS";
+				nodName = "I_ITEMS";
 				InterfaceStates.ReloadMenuExit = true;
 				IDoExit(RC_INTERFACE_ANY_EXIT);
 				PostEvent("LaunchIAfterFrame",1,"sl", nodName, 2);
@@ -481,7 +486,7 @@ void ProcessCommandExecute()
 				iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 				itm = &Items[iItemIndex];
 				
-	            		ADD_BUTTON(itm.id);
+						ADD_BUTTON(itm.id);
 			}
 		break;
 		
@@ -491,7 +496,7 @@ void ProcessCommandExecute()
 				iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 				itm = &Items[iItemIndex];
 				
-	            		ADD_ALL_BUTTON(itm.id);
+						ADD_ALL_BUTTON(itm.id);
 			}
 		break;
 		
@@ -501,7 +506,7 @@ void ProcessCommandExecute()
 				iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 				itm = &Items[iItemIndex];
 				
-	            		REMOVE_BUTTON(itm.id);
+						REMOVE_BUTTON(itm.id);
 			}
 		break;
 		
@@ -511,7 +516,7 @@ void ProcessCommandExecute()
 				iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 				itm = &Items[iItemIndex];
 				
-	            		REMOVE_ALL_BUTTON(itm.id);
+						REMOVE_ALL_BUTTON(itm.id);
 			}
 		break;
 
@@ -572,7 +577,7 @@ void SetButtonsState()
 	}
 	else
 	{
-        xi_refCharacter = pchar;
+		xi_refCharacter = pchar;
 	SetVariable();
 	}
 }
@@ -625,8 +630,8 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 	
 	// Заполним вещами от нас
 	makearef(rootItems, xi_refCharacter.Items);
-    for (i=0; i<GetAttributesNum(rootItems); i++)
-    {
+	for (i=0; i<GetAttributesNum(rootItems); i++)
+	{
 		curItem = GetAttributeN(rootItems, i);
 
 		if (Items_FindItem(GetAttributeName(curItem), &arItem)>=0 )
@@ -671,8 +676,8 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 				n++;
 			}	
 		}
-    }
-    
+	}
+	
 	Table_UpdateWindow("TABLE_ITEMS");
 	LanguageCloseFile(idLngFile);
 	if (_mode == 1)
@@ -683,7 +688,7 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 
 void FillItemsSelected() 
 {
-	int    i;
+	int	i;
 	string sGood;
 	int iLastGunItem;
 	ref rLastGunItem;
@@ -703,7 +708,7 @@ void FillItemsSelected()
 	SetNodeUsing("ITEM_12", false);
 	SetNodeUsing("ITEM_13", false);
 	
-    for (i = 0; i< TOTAL_ITEMS; i++)
+	for (i = 0; i< TOTAL_ITEMS; i++)
 	{
 		if(!CheckAttribute(&Items[i], "ID"))
 		{
@@ -859,14 +864,14 @@ void ShowInfoWindow()
 	switch (sCurrentNode)
 	{
 		/*case "CHARACTER_NATION_PICTURE":
-		    sHeader = XI_ConvertString("Nation");
+			sHeader = XI_ConvertString("Nation");
 			sText1 = GetRPGText("Nation_hint");
 		break;   */
 	}
 	sHeader = "Предметы";
 	sText1  = "Здесь Вы можете получить информацию об имеющихся предметах, изучить инвентарь или изменить экипировку главного героя. "+
-              "Так же можно посмотреть состояние инвентаря офицеров, компаньонов и пассажиров. Выбор оружия они делают сами при экипировке их новым снаряжением. "+
-              "Обмен предметами со своими офицерами осуществляется на суше через команду 'Обмен'.";
+			  "Так же можно посмотреть состояние инвентаря офицеров, компаньонов и пассажиров. Выбор оружия они делают сами при экипировке их новым снаряжением. "+
+			  "Обмен предметами со своими офицерами осуществляется на суше через команду 'Обмен'.";
 	
 	if(sCurrentNode == "TABLE_ITEMS")
 	{
@@ -920,11 +925,11 @@ void TableSelectChange()
 {
 	string sControl = GetEventData();
 	iSelected = GetEventData();
-    CurTable = sControl;
-    CurRow   =  "tr" + (iSelected);
-    
-    // отрисовка инфы
-    SetItemInfo();
+	CurTable = sControl;
+	CurRow   =  "tr" + (iSelected);
+	
+	// отрисовка инфы
+	SetItemInfo();
 }
 
 void SetItemInfo()
@@ -1008,15 +1013,15 @@ void SetControlsTabMode(int nMode)
 			nColor4 = argb(255,255,255,255);
 		break;
 	}
-    
+	
 	SetNewGroupPicture("TABBTN_1", "TABS", sPic1);
 	SetNewGroupPicture("TABBTN_2", "TABS", sPic2);
 	SetNewGroupPicture("TABBTN_3", "TABS", sPic3);
 	SetNewGroupPicture("TABBTN_4", "TABS", sPic4);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_1", 8,0,nColor1);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_2", 8,0,nColor2);
-    SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_3", 8,0,nColor3);
-    SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_4", 8,0,nColor4);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_3", 8,0,nColor3);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_4", 8,0,nColor4);
 	FillControlsList(nMode);
 }
 
@@ -1024,10 +1029,10 @@ void FillControlsList(int nMode)
 {
 	switch (nMode)
 	{
-	    case 1: FillItemsTable(1); break;  // все
-	    case 2: FillItemsTable(2); break;  // снаряжение
-	    case 3: FillItemsTable(3); break;  // остальное
-	    case 4: FillItemsTable(4); break;  // карты
+		case 1: FillItemsTable(1); break;  // все
+		case 2: FillItemsTable(2); break;  // снаряжение
+		case 3: FillItemsTable(3); break;  // остальное
+		case 4: FillItemsTable(4); break;  // карты
 	}
 }
 
@@ -1094,7 +1099,7 @@ bool ThisItemCanBeEquip( aref arItem )
 			return false;
 		}
 	}
-    if (IsEquipCharacterByItem(xi_refCharacter, arItem.id))
+	if (IsEquipCharacterByItem(xi_refCharacter, arItem.id))
 	{
 		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Remove that"));
 		//aw013	if(arItem.groupID==BLADE_ITEM_TYPE || arItem.groupID==SPYGLASS_ITEM_TYPE || arItem.groupID==PATENT_ITEM_TYPE)
@@ -1106,9 +1111,9 @@ bool ThisItemCanBeEquip( aref arItem )
 	else
 	{
 		if (arItem.groupID == CIRASS_ITEM_TYPE && !IsCharacterPerkOn(xi_refCharacter,"Ciras") && arItem.Clothes == false)
-	    {
-		    return false;
-	    }
+		{
+			return false;
+		}
 		
 		if (HasSubStr(arItem.id, "chest")) SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#Взломать");
 		else SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
@@ -1183,70 +1188,71 @@ void EquipPress()
 				ShowMapWindow();
 				return;
 			}	
-            //pchar.I_MAP_SHOW = true;
-            //pchar.I_MAP_SHOW_ITEM = itmRef.id;
-            //PostEvent("InterfaceBreak", 400);
-            if (itmRef.id == "map_full" || itmRef.id == "map_part1" || itmRef.id == "map_part2")
-            {// клады
-            	SetNewPicture("MAP_PICTURE", "interfaces\Maps\treasure map.tga");
-            	if (GetCharacterItem(pchar, "map_part1")>0  && GetCharacterItem(pchar, "map_part2")>0)
-			    {
-			        TakeNItems(xi_refCharacter, "map_part1", -1);
-			        TakeNItems(xi_refCharacter, "map_part2", -1);
-			        TakeNItems(pchar, "map_full",   1);
-			        itmRef = &Items[Items_FindItem("map_full", &itmRef)];
-			        // здесь генерация назначение и типа клада
-			        pchar.GenQuest.TreasureBuild = true;
-			        FillMapForTreasure(itmRef);
-			        SetVariable();
-			    }
-			    // тут применяем логику двух кусков, из них одна карта <--
-			    if (itmRef.mapType == "Full")
-			    {
-		            if (sti(itmRef.MapTypeIdx) == -1)
-				    {
-                        SetFormatedText("MAP_TEXT", GetConvertStr("type_fake", "MapDescribe.txt"));
-					    DeleteAttribute(itmRef, "MapIslId");
-					    TakeNItems(GetMainCharacter(), "map_full", -1);
-				    }
-				    else
-				    {
-				        if (!CheckAttribute(itmRef, "MapIslId"))
-				        {
-				            FillMapForTreasure(itmRef); //заполним если смотрим карту из сундука
-				        }
-                        //totalInfo = GetConvertStr(itmRef.MapIslId, "LocLables.txt");
-                        i = FindLocation(itmRef.MapLocId);  // ищем ареал
+			//pchar.I_MAP_SHOW = true;
+			//pchar.I_MAP_SHOW_ITEM = itmRef.id;
+			//PostEvent("InterfaceBreak", 400);
+			if (itmRef.id == "map_full" || itmRef.id == "map_part1" || itmRef.id == "map_part2")
+			{// клады
+				SetNewPicture("MAP_PICTURE", "interfaces\Maps\map_1.tga");
+				if (GetCharacterItem(pchar, "map_part1")>0  && GetCharacterItem(pchar, "map_part2")>0)
+				{
+					TakeNItems(xi_refCharacter, "map_part1", -1);
+					TakeNItems(xi_refCharacter, "map_part2", -1);
+					TakeNItems(pchar, "map_full",   1);
+					itmRef = &Items[Items_FindItem("map_full", &itmRef)];
+					// здесь генерация назначение и типа клада
+					pchar.GenQuest.TreasureBuild = true;
+					FillMapForTreasure(itmRef);
+					SetVariable();
+				}
+				// тут применяем логику двух кусков, из них одна карта <--
+				if (itmRef.mapType == "Full")
+				{
+					if (sti(itmRef.MapTypeIdx) == -1)
+					{
+						SetFormatedText("MAP_TEXT", GetConvertStr("type_fake", "MapDescribe.txt"));
+						DeleteAttribute(itmRef, "MapIslId");
+						TakeNItems(GetMainCharacter(), "map_full", -1);
+					}
+					else
+					{
+						if (!CheckAttribute(itmRef, "MapIslId"))
+						{
+							FillMapForTreasure(itmRef); //заполним если смотрим карту из сундука
+						}
+						//totalInfo = GetConvertStr(itmRef.MapIslId, "LocLables.txt");
+						i = FindLocation(itmRef.MapLocId);  // ищем ареал
 						if (i != -1 && locations[i].islandId != "Mein")
-                        {
-                            totalInfo = GetConvertStr(locations[i].islandId, "LocLables.txt");
-                            totalInfo = GetConvertStr("type_full_" + itmRef.MapTypeIdx + "_isl", "MapDescribe.txt") + " " + totalInfo;
-                        }
-                        else
-                        {
-                            totalInfo = GetConvertStr("type_full_" + itmRef.MapTypeIdx + "_mein", "MapDescribe.txt");
-                        }
+						{
+							totalInfo = GetConvertStr(locations[i].islandId, "LocLables.txt");
+							totalInfo = GetConvertStr("type_full_" + itmRef.MapTypeIdx + "_isl", "MapDescribe.txt") + " " + totalInfo;
+						}
+						else
+						{
+							totalInfo = GetConvertStr("type_full_" + itmRef.MapTypeIdx + "_mein", "MapDescribe.txt");
+						}
 						itmRef.MapIslName = totalInfo;
 						totalInfo = GetConvertStr(itmRef.MapLocId, "MapDescribe.txt") + ", " + GetConvertStr(itmRef.MapLocId + "_" + itmRef.MapBoxId, "MapDescribe.txt");
-				        itmRef.MaplocName = totalInfo;
+						itmRef.MaplocName = totalInfo;
 
-				        totalInfo = GetConvertStr("type_full_" + itmRef.MapTypeIdx, "MapDescribe.txt");
-				        totalInfo = GetAssembledString(totalInfo, itmRef);
-				        SetFormatedText("MAP_TEXT", totalInfo);
-				    }
-			    }
-			    else
-			    {
-           			SetFormatedText("MAP_TEXT", GetConvertStr("type_part", "MapDescribe.txt"));
+						totalInfo = GetConvertStr("type_full_" + itmRef.MapTypeIdx, "MapDescribe.txt");
+						totalInfo = GetAssembledString(totalInfo, itmRef);
+						sMapDescribe = totalinfo;//в глобальную переменную, чтобы можно было в другой функции показывать/скрывать текст
+						SetMapCross(itmRef.MapLocId);
+					}
 				}
-            	SetVAligmentFormatedText("MAP_TEXT");
-            }
-            else
-            {
-            	SetNewPicture("MAP_PICTURE", "interfaces\Maps\" + itmRef.imageTga + ".tga");
-            	SetFormatedText("MAP_TEXT", "");
-            }
-            ShowMapWindow();
+				else
+				{
+		   			SetFormatedText("MAP_TEXT", GetConvertStr("type_part", "MapDescribe.txt"));
+				}
+				SetVAligmentFormatedText("MAP_TEXT");
+			}
+			else
+			{
+				SetNewPicture("MAP_PICTURE", "interfaces\Maps\" + itmRef.imageTga + ".tga");
+				SetFormatedText("MAP_TEXT", "");
+			}
+			ShowMapWindow();
 		}
 		else
 		{
@@ -1260,11 +1266,11 @@ void EquipPress()
 				}
 				
 				if(HasSubStr(itmRef.id, "chest") && xi_refCharacter.id == pchar.id)
-	        	{
+				{
 					if(CheckCharacterItem(xi_refCharacter, "Lockpick"))
 					{
-	        	    	pchar.questTemp.lockpicking.ID = itmRef.id;
-	        		    IDoExit(RC_INTERFACE_LOCKPICK);
+						pchar.questTemp.lockpicking.ID = itmRef.id;
+						IDoExit(RC_INTERFACE_LOCKPICK);
 						return;
 					}
 					else
@@ -1272,7 +1278,7 @@ void EquipPress()
 						Log_Info("Для взлома нужна отмычка.");
 						PlaySound("interface\knock.wav");
 					}
-	        	}
+				}
 			}
 			else
 			{
@@ -1382,7 +1388,80 @@ void ExitMapWindow()
 	XI_WindowDisable("MAP_WINDOW", true);
 	XI_WindowDisable("MAIN_WINDOW", false);
 
+	SetFormatedText("MAP_TEXT", "");
+	sMapDescribe = "";//обнуляем при выходе из карты, иначе после просмотра карты сокровищ можно открыть карту острова и на ней будет работать показ описания запомненной карты
+	SendMessage(&GameInterface,"lslllll",MSG_INTERFACE_MSG_TO_NODE,"MAP_X_CROSS", 0, makeint(fOffsetX)+721, 25, makeint(fOffsetX)+743, 47);// Установить отметку на исходную позицию, под кнопку закрытия
+
 	SetCurrentNode("TABLE_ITEMS");
+}
+
+void SetMapCross(string _MapLocId)
+{
+	int left, top;//координаты для отметки клада
+	bMapCross = true;//текст описания карты не показывать сразу
+
+	switch(_MapLocId)//список локаций беру из MapDescribe.txt
+	{
+	case "Antigua_Grot": left = 622; top = 235; break;	//{в пещере справа от залива Уиллогби}
+	case "SentJons_TownCave": left = 601; top = 235; break;	//{в подземелье города Сент-Джонс}
+
+	case "Beliz_Cave": left = 58; top = 101; break;	//{в пещере справа от выхода из Белиза}
+	case "Beliz_Cave_2": left = 55; top = 225; break;	//{в пещере напротив выхода из Белиза}
+
+	case "Panama_Cave": left = 229; top = 502; break;	//{в пещере слева от выхода из города Порто Белло}
+	case "PortoBello_Cave": left = 195; top = 512; break;	//{в пещере справа от залива Москитос}
+
+	case "Tortuga_Grot": left = 374; top = 53; break;	//{в пещере напротив пляжа Глаз Рыбы}
+	case "Tortuga_Cave": left = 380; top = 61; break;	//{в подземелье города Тортуга}
+
+	case "Caracas_Grot": left = 444; top = 484; break;	//{в пещере слева от выхода из Каракаса}
+	case "Maracaibo_Cave": left = 369; top = 474; break;	//{в пещере напротив выхода из Маракайбо}
+	case "Cartahena_Cave": left = 304; top = 510; break;	//{в пещере напротив выхода из Картахены}
+
+	case "Pearl_Grot": left = 66; top = 345; break;	//{в пещере на западном побережье между Белизом и Санта Каталиной} 			//тут надо исправить на грот описание, если там грот
+	case "SantaCatalina_Grot": left = 123; top = 445; break;	//{в пещере справа от залива Сан Хуан дель Норте}
+	case "SantaCatalina_PearlCave": left = 109; top = 466; break;	//{в пещере слева от залива Сан Хуан дель Норте}
+	case "SantaCatalina_Cave": left = 106; top = 375; break;	//{в пещере справа от мыса Перлас}
+	case "Tenotchitlan_Cave": left = 55; top = 308; break;	//{в пещере на север от храма Инков}
+
+	case "Barbados_Cave": left = 625; top = 385; break;	//{в пещере недалеко от Бриджтауна}
+	case "Bermudes_Dungeon": left = 625; top = 29; break;	//{в подземелье под верьфью пиратского поселения}
+	case "Caiman_Grot": left = 202; top = 173; break;	//{в пещере справа от пустынного пляжа}
+	case "Charles_Grot": left = 550; top = 202; break;	//{в пещере справа от пляжа Бат}
+	case "Cuba_Grot": left = 198; top = 44; break;	//{в пещере справа от мыса Камагуэй}
+	case "Cumana_Cave": left = 530; top = 505; break;	//{в пещере справа от бухты Карупано}
+	case "Curacao_Cave": left = 465; top = 435; break;	//{в пещере справа от берега Приют контрабандиста}
+	case "Dominica_Grot": left = 574; top = 326; break;	//{в пещере справа от пляжа Касл Брус}
+	case "Guadeloupe_Cave": left = 485; top = 269; break;	//{в пещере слева от маяка Гваделупы}
+	case "Hispaniola_Cave": left = 383; top = 119; break;	//{в пещере недалеко от города Порт-о-Принс}
+	case "Jamaica_Grot": left = 263; top = 287; break;	//{в пещере справа от маяка Порт-Рояля}
+	case "Marigo_Cave": left = 619; top = 140; break;	//{в пещере напротив выхода из Мариго}
+	case "SanJuan_Cave": left = 485; top = 153; break;	//{в пещере недалеко от Сан-Хуана}
+	case "Terks_Grot": left = 474; top = 33; break;	//{в пещере справа от залива Северный}
+ 	case "Trinidad_Grot": left = 591; top = 458; break;	//{в пещере напротив маяка Тринидада и Тобаго}
+ 	case "FortFrance_Dungeon": left = 499; top = 357; break;	//{в подземелье города Форт де Франс}
+	}
+	//to do - тогда уж можно выбирать ещё и карту отдельного острова для отображения
+	//оставить плохую общую для карт с описанием "старая рваная", а качественные карты островов выбирать при описании "выглядит новой"???
+
+	GetXYWindowOffset(&fOffsetX, &fOffsetY);
+	//position = 50,50,750,580 - позиция карты
+	SendMessage(&GameInterface,"lslllll",MSG_INTERFACE_MSG_TO_NODE,"MAP_X_CROSS", 0, 43+makeint(fOffsetX)+left, 43+top, 43+makeint(fOffsetX)+left+14, 43+top+14);// Установить картинку на новую позицию
+}
+
+void ShowMapDesc()
+{
+	if (bMapCross)	
+		{
+		SetFormatedText("MAP_TEXT", sMapDescribe);
+		SetVAligmentFormatedText("MAP_TEXT");
+		bMapCross = false; 
+		}
+	else	
+		{
+		SetFormatedText("MAP_TEXT", "");
+		bMapCross = true; 
+		}
 }
 
 void ShowMapWindow()
@@ -1392,6 +1471,7 @@ void ShowMapWindow()
 	XI_WindowDisable("MAIN_WINDOW", true);
 
 	SetCurrentNode("MAP_TEXT");
+	SetCurrentNode("MAP_X_CROSS");
 }
 
 void ExitItemFromCharacterWindow()

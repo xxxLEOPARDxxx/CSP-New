@@ -24,7 +24,7 @@ void Whisper_StartGame(string qName)
 	RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
 	RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
     DeleteAttribute(Pchar, "items");
-//    DeleteAttribute(Pchar, "equip");
+	//DeleteAttribute(Pchar, "equip");
     DeleteAttribute(Pchar, "ship");
     DeleteAttribute(Pchar, "ShipSails.gerald_name");
     Pchar.ship.type = SHIP_NOTUSED;
@@ -74,14 +74,22 @@ void Whisper_StartGame(string qName)
 	//Спавним роботов
 	for (int i = 0; i < 10; i++)
 	{
-		sld = GetCharacter(NPC_GenerateCharacter("Robot"+sti(i), "Terminator", "Terminator_Sex", "Terminator", 55, PIRATE, 0, false));
-		if (rand (1)==0) FantomMakeCoolFighter(sld, 1, 15, 15, "katar", "", 80);
-		else FantomMakeCoolFighter(sld, 1, 15, 15, "blade14", "", 80);
+		sld = GetCharacter(NPC_GenerateCharacter("Robot"+sti(i), "Terminator", "Terminator_Sex", "Terminator", MOD_SKILL_ENEMY_RATE, PIRATE, 0, false));
+		if (rand (1) == 0)
+		{
+			GiveItem2Character(sld, "katar");
+			EquipCharacterByItem(sld, "katar");
+		}
+		else 
+		{
+			GiveItem2Character(sld, "blade14");
+			EquipCharacterByItem(sld, "blade14");
+		}
 		LAi_SetHP(sld, 10.0 * MOD_SKILL_ENEMY_RATE, 10.0 *MOD_SKILL_ENEMY_RATE);
-		//if (MOD_SKILL_ENEMY_RATE == 10)
-		//{
-		//	LAi_SetHP(sld, 20.0 * MOD_SKILL_ENEMY_RATE, 20.0 *MOD_SKILL_ENEMY_RATE);
-		//}
+		if (MOD_SKILL_ENEMY_RATE == 10)
+		{
+			SetCharacterPerk(sld, "Sliding");
+		}
 		LAi_SetWarriorType(sld);
 		LAi_warrior_SetStay(sld, true);
 		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
@@ -106,7 +114,7 @@ void Whisper_StartGame(string qName)
 	sld = characterFromId("Robot8");
 	ChangeCharacterAddressGroup(sld, PChar.location, "monsters", "monster19");
 	sld = characterFromId("Robot9");
-	ChangeCharacterAddressGroup(sld, PChar.location, "monsters", "monster9");
+	ChangeCharacterAddressGroup(sld, PChar.location, "monsters", "monster24");
     
 	PChar.quest.WhisperScientist.win_condition.l1 = "locator";
 	PChar.quest.WhisperScientist.win_condition.l1.location = "Bermudes_Dungeon";
@@ -133,7 +141,7 @@ void WhisperScientist(string qName)
 	Group_AddCharacter("Scientist", sld.id);
     LAi_SetActorType(sld);
     LAi_type_actor_Reset(sld);
-    LAi_ActorDialog(sld, pchar, "", 20.0, 0);
+    LAi_ActorDialog(sld, pchar, "", -1, 0);
 	LAi_SetHP(sld, 5.0, 5.0);
 	LAi_SetImmortal(sld, true);
 	sld.LifeDay = 0;
@@ -483,8 +491,15 @@ void WhisperPirateTownGetHat_part_1(string qName)
 			EquipCharacterByItem(sld, "blade1");
 			SetSelfSkill(sld, weaponskill, weaponskill, weaponskill, weaponskill, weaponskill);
 			LAi_SetHP(sld, 12.0 * MOD_SKILL_ENEMY_RATE, 12.0 *MOD_SKILL_ENEMY_RATE);
-		if (i < 10)	ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item12");
-		if (i >= 10 && MOD_SKILL_ENEMY_RATE < 10)	ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item1");
+		if (i < 10)
+		{
+			ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item12");
+		}
+		if (i >= 10 && MOD_SKILL_ENEMY_RATE < 10)	
+		{
+			ChangeCharacterAddressGroup(sld, "PuertoPrincipe_ExitTown", "item", "item1");
+			LAi_SetImmortal(sld, false);
+		}
 		
 		
 	}
@@ -602,7 +617,6 @@ void WhisperMeetCrew(string qName)
 	LAi_SetActorType(pchar);
 	LAi_ActorTurnToCharacter(pchar, sld);
 	
-	
 	sld = GetCharacter(NPC_GenerateCharacter("Wh_Jim", "PGG_Doggerty", "man", "man", 5, PIRATE, -1, false));
    	sld.name 	= "Джим";
     sld.lastname = "";
@@ -622,6 +636,7 @@ void WhisperMeetCrew(string qName)
 		ChangeCharacterAddressGroup(sld, "PuertoPrincipe_Port", "enc03", "enc03_0"+sti(i));
 		LAi_SetActorTypeNoGroup(sld);
 		LAi_ActorTurnToCharacter(sld, pchar);
+		LAi_SetImmortal(sld, true);
 		sld.LifeDay = 0;
 	}
 	
@@ -631,14 +646,13 @@ void WhisperJimTalk(string qName)
 	//sld = CharacterFromID("Wh_Jack");
 	//Dead_DelLoginedCharacter(sld);
 	sld = characterFromID("Wh_Jim");
-	//sld.greeting = "Gr_padre";
 	LAi_SetActorTypeNoGroup(sld);
-    LAi_type_actor_Reset(sld);
-    LAi_ActorDialog(sld, pchar, "", -1, 0);
+    LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
 	LAi_SetImmortal(sld, true);
 	
-	LAi_SetActorType(pchar);
-	LAi_ActorTurnToCharacter(pchar, sld);
+	//LAi_SetActorType(pchar);
+	//LAi_ActorTurnToCharacter(pchar, sld);
 }
 
 void WhisperPlaceSmugglersOnShore(string LocationId)
@@ -796,12 +810,12 @@ void WhisperHuntersCaveEntrance(string qName)
 	string cnd;
 	for (int i = 1; i <= 7; i++)
 	{
-		sld = GetCharacter(NPC_GenerateCharacter("DeSouzaHunter"+sti(i), "OZG_" + (rand(6) + 1), "man", "man", MOD_SKILL_ENEMY_RATE, PIRATE, 0, true));
+		sld = GetCharacter(NPC_GenerateCharacter("DeSouzaHunter"+sti(i), "OZG_" + (rand(6) + 1), "man", "man", 5+MOD_SKILL_ENEMY_RATE, PIRATE, 0, true));
 		//SetFantomParamHunter(sld);
 		LAi_SetHP(sld, 50+sti(pchar.rank)*10.0, 50+sti(pchar.rank)*10.0);
 		if (MOD_SKILL_ENEMY_RATE == 10)
 		{
-			LAi_SetHP(sld, 50+sti(pchar.rank)*40.0, 50+sti(pchar.rank)*40.0);
+			LAi_SetHP(sld, 50+sti(pchar.rank) * 20.0, 50+sti(pchar.rank) * 20.0);
 		}
 		
 		LAi_SetActorType(sld);
@@ -886,7 +900,7 @@ void WhisperAfterHuntersCaveBattle(string qName)
 
 void WhisperDeSouzaSeaBattle()
 {
-	sld = CharacterFromID("AntonioDeSouza")
+	sld = CharacterFromID("AntonioDeSouza");
 	SetFantomParamHunter(sld);
 	sld.Ship.Type = GenerateShipExt(SHIP_GALEON_H, true, sld);
 	sld.Ship.name = "Кара Господня";
@@ -895,9 +909,9 @@ void WhisperDeSouzaSeaBattle()
 	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
 	SetCrewQuantityFull(sld);
 	sld.ship.Crew.Morale = 100;
-	ChangeCrewExp(sld, "Sailors", 70);
-	ChangeCrewExp(sld, "Cannoners", 70);
-	ChangeCrewExp(sld, "Soldiers", 70);
+	ChangeCrewExp(sld, "Sailors", 20 + 5 * MOD_SKILL_ENEMY_RATE);
+	ChangeCrewExp(sld, "Cannoners", 20 + 5 * MOD_SKILL_ENEMY_RATE);
+	ChangeCrewExp(sld, "Soldiers", 20 + 5 * MOD_SKILL_ENEMY_RATE);
 	sld.SaveItemsForDead = true;
 	TakeNItems(sld, "DeSouzaCross", 1);
 	
@@ -914,11 +928,11 @@ void WhisperDeSouzaSeaBattle()
 	
 	if (MOD_SKILL_ENEMY_RATE == 10)
 	{
-		SetHalfPerksToChar(sld, true);
+		SetCharacterPerk(sld, "Sliding");
 		sld.rank = 40;
 		SetSelfSkill(sld, 80, 80, 80, 80, 80);
 		SetShipSkill(sld, 80, 80, 80, 80, 80, 80, 80, 80, 80);
-		LAi_SetHP(sld, 600.0, 600.0);
+		LAi_SetHP(sld, 500.0, 500.0);
 	}
 	
     SetCharacterGoods(sld,GOOD_FOOD,500);
@@ -939,7 +953,6 @@ void WhisperDeSouzaSeaBattle()
 	Group_AddCharacter("DeSouza", sld.id);
 	SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
 	Group_SetGroupCommander("DeSouza", "AntonioDeSouza");
-
 	//Group_SetPursuitGroup("DeSouza", PLAYER_GROUP);
 	Group_SetTaskAttack("DeSouza", PLAYER_GROUP);
 	Group_LockTask("DeSouza");
@@ -976,29 +989,32 @@ void WhisperWarDogSeaBattle()
 	
 	SetCrewQuantityFull(sld);
 	int hcrew = GetMaxCrewQuantity(sld);
-	SetCrewQuantityOverMax(sld, hcrew+180);// Усложним бой
+	SetCrewQuantityOverMax(sld, hcrew + 20 * MOD_SKILL_ENEMY_RATE);// Усложним бой
 	
 	sld.ship.Crew.Morale = 100;
-	ChangeCrewExp(sld, "Sailors", 100);
-	ChangeCrewExp(sld, "Cannoners", 100);
-	ChangeCrewExp(sld, "Soldiers", 100);
+	ChangeCrewExp(sld, "Sailors", 50 + 5 * MOD_SKILL_ENEMY_RATE);
+	ChangeCrewExp(sld, "Cannoners", 50 + 5 * MOD_SKILL_ENEMY_RATE);
+	ChangeCrewExp(sld, "Soldiers", 50 + 5 * MOD_SKILL_ENEMY_RATE);
 	
 	sld.SaveItemsForDead = true;
 	GiveItem2Character(sld, "cirass5");
 	EquipCharacterbyItem(sld, "cirass5")
-	LAi_SetHP(sld, 200.0 + 70 * MOD_SKILL_ENEMY_RATE, 200.0 + 70 * MOD_SKILL_ENEMY_RATE);
+	LAi_SetHP(sld, 200.0 + 50 * MOD_SKILL_ENEMY_RATE, 200.0 + 50 * MOD_SKILL_ENEMY_RATE);
 	SetSelfSkill(sld, 80, 80, 80, 80, 80);
 	SetShipSkill(sld, 75, 75, 75, 75, 75, 75, 75, 75, 75);
 	sld.rank = 30;
-	SetHalfPerksToChar(sld, true);
+	if (MOD_SKILL_ENEMY_RATE > 2)
+	{
+		SetHalfPerksToChar(sld, true);
+	}
 	SetCharacterPerk(sld, "MusketsShoot");
 	SetCharacterPerk(sld, "CannonProfessional");
 	if (MOD_SKILL_ENEMY_RATE == 10)
 	{
-		sld.rank = 55;
+		sld.rank = 60;
 		SetSelfSkill(sld, 100, 100, 100, 100, 100);
 		SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100);
-		LAi_SetHP(sld, 1000.0, 1000.0);
+		//LAi_SetHP(sld, 1000.0, 1000.0);
 	}
 	SetFoodToCharacter(sld, 3, 20);	
 	SetSPECIAL(sld, 10, 10, 10, 10, 10, 10, 10);

@@ -1380,7 +1380,7 @@ void PGG_Q1RemoveShip(string qName)
 	Group_DelCharacter("PGGQuest", chr.id);
 //	Group_DeleteGroup("PGGQuest");
 	//#20180927-01
-	if (CheckAttribute(PChar, "GenQuest.PGG_Quest.Stage") && sti(PChar.GenQuest.PGG_Quest.Stage) < 2 && sti(PChar.GenQuest.PGG_Quest.Stage) >= 0)
+	if (CheckAttribute(PChar, "GenQuest.PGG_Quest.Stage") && sti(PChar.GenQuest.PGG_Quest.Stage) < 2 && sti(PChar.GenQuest.PGG_Quest.Stage) >= -1)
 	{
 		chr.Dialog.CurrentNode = "Second Time";
 		DeleteAttribute(chr, "PGGAi.ActiveQuest");
@@ -1516,7 +1516,7 @@ void PGG_Q1PlaceShipsNearIsland()
 	iRank = sti(PChar.Rank);
 	iGoods = sti(PChar.GenQuest.PGG_Quest.Goods);
 	iNation = sti(PChar.GenQuest.PGG_Quest.Nation);
-	iLifeDay = 2 + sti(PChar.GenQuest.PGG_Quest.Days);
+	iLifeDay = sti(PChar.GenQuest.PGG_Quest.Days);
 	
 	iRnd = 3 + rand(2);
 	for (i = 0; i < iRnd; i++)
@@ -1526,20 +1526,32 @@ void PGG_Q1PlaceShipsNearIsland()
 		chr.AlwaysSandbankManeuver = true;
 		if (i < 2)
 		{
-			chr.Ship.Type = GenerateShipExt(13 + rand(3), 1, chr);
+			//Lipsar правки в спавне-->
+			CreatePGG_War(chr, iNation);
+			SetRandomNameToShip(chr);
 			SetBaseShipData(chr);
 			SetCrewQuantityFull(chr);
 			Fantom_SetCannons(chr, "war"); //fix
 			Fantom_SetBalls(chr, "pirate");
 			Fantom_SetGoods(chr, "war");
+			iSpace = GetCharacterFreeSpace(chr, iGoods)/10;
+			iSpace = MakeInt(iSpace/(2+rand(1)));
+			if (!CheckAttribute(PChar, "GenQuest.PGG_Quest.Goods.Qty")) PChar.GenQuest.PGG_Quest.Goods.Qty = 0;
+			PChar.GenQuest.PGG_Quest.Goods.Qty = sti(PChar.GenQuest.PGG_Quest.Goods.Qty) + iSpace;
+			Fantom_SetCharacterGoods(chr, iGoods, iSpace, 1);
 			SetRandomNameToShip(chr);
 			SetFantomParamHunter(chr); //крутые парни
 			SetCaptanModelByEncType(chr, "war");//
 		}
 		else
 		{
-			SetShipTypeMerchant(chr);
-			iSpace = GetCharacterFreeSpace(chr, iGoods);
+			CreatePGG_Trade(chr, iNation);
+			SetRandomNameToShip(chr);
+			SetBaseShipData(chr);
+			SetCrewQuantityFull(chr);
+			Fantom_SetCannons(chr, "trade");
+			Fantom_SetBalls(chr, "trade");
+			iSpace = GetCharacterFreeSpace(chr, iGoods)/2;
 			iSpace = MakeInt(iSpace/2 + rand(iSpace/2));
 			if (!CheckAttribute(PChar, "GenQuest.PGG_Quest.Goods.Qty")) PChar.GenQuest.PGG_Quest.Goods.Qty = 0;
 			PChar.GenQuest.PGG_Quest.Goods.Qty = sti(PChar.GenQuest.PGG_Quest.Goods.Qty) + iSpace;
@@ -1548,11 +1560,12 @@ void PGG_Q1PlaceShipsNearIsland()
 			SetCaptanModelByEncType(chr, "trade");
 //			PChar.Quest.(sTmp).win_condition.l1 = "NPC_Death";
 		}
+		//<--Lipsar правки в спавне
 		Group_AddCharacter("PGGQuest", chr.id);
 		chr.AlwaysEnemy = true;
 	}
 	Group_SetGroupCommander("PGGQuest", "RandQuestCap_01");
-	Group_SetAddress("PGGQuest", PChar.GenQuest.PGG_Quest.Island, "Quest_Ships", "Quest_Ship_" + (3+ rand(4)));
+	Group_SetAddress("PGGQuest", PChar.GenQuest.PGG_Quest.Island, PChar.GenQuest.PGG_Quest.Island.Shore, "Quest_Ship_" + (3+ rand(4)));
 	Group_SetTaskNone("PGGQuest");
 
 	PChar.Quest.PGGQuest1_GroupDead.win_condition.l1 = "Group_Death";
@@ -1948,9 +1961,10 @@ void PGG_Q1FightOnShore()
 		chr = CharacterFromID(PChar.GenQuest.PGG_Quest.PGGid);
 		PlaceCharacter(chr, "goto", "random_must_be_near");
 		LAi_SetWarriorType(chr);
-		LAi_SetImmortal(chr, true);
+		LAi_SetImmortal(chr, false);
+		LAi_SetCheckMinHP(chr, 1, true, "PGG_CheckHP");
 		LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER);
-
+		
 		iRnd = 5+rand(10);
 		PChar.GenQuest.PGG_Quest.GrpID.Qty = iRnd;
 		PChar.GenQuestFort.FarLocator = false;
@@ -1995,6 +2009,8 @@ void PGG_Q1AfterShoreFight()
 	{
 		PChar.Quest.PGGQuest1_PGGDead.Over = "yes";
 		chr.Dialog.CurrentNode = "Quest_1_SharePrise";
+		PlaceCharacter(chr, "reload", "random_must_be_near");
+		LAi_SetImmortal(chr, false);
 		LAi_SetActorType(chr);
 		LAi_ActorDialog(chr, pchar, "", 2.0, 0);
 	}

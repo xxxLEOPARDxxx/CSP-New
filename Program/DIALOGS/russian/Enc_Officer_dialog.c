@@ -79,6 +79,7 @@ void ProcessDialogEvent()
 			}
 			// только наняли <--
    			dialog.text = "Что вы хотите, капитан?";
+			if (NPChar.id == "James_Callow") NPChar.faceid = 287;
 			// диалог компаньона на корабле.
 			if (CheckAttribute(NPChar, "IsCompanionClone"))
 			{
@@ -1477,7 +1478,22 @@ void ProcessDialogEvent()
 				break;
 			}
 		
-			dialog.Text = "Нет проблем, кэп. В каком городе мы встретимся?";
+			dialog.Text = "Нет проблем, кэп. Куда мне отправляться?";
+			Link.l1 = "Отправляйся в город...";
+			Link.l1.go = "Travel_Towns";			
+				
+			Link.l2 = "Отправляйся к пиратскому поселению...";
+			Link.l2.go = "TravelToPiratesTowns";	
+
+			Link.l3 = "Отправляйся к необитаемому острову...";
+			Link.l3.go = "TravelToNomanIslands";
+				
+			Link.l99 = "Я передумал"+ GetSexPhrase("","а") +". Ничего не нужно.";
+			Link.l99.go = "exit";
+		break;
+		
+		case "Travel_Towns":
+			dialog.Text = "Где будет место встречи, капитан?";
 			for(iTemp=0; iTemp<MAX_COLONIES; iTemp++)
 			{
 				sld = &colonies[iTemp];
@@ -1491,6 +1507,162 @@ void ProcessDialogEvent()
 				Link.l99 = "Я передумал"+ GetSexPhrase("","а") +". Ничего не нужно.";
 				Link.l99.go = "exit";
 		break;
+		
+		case "TravelToPiratesTowns":
+			dialog.Text = "К какому именно?";
+				Link.l1 = "Бермуды";
+				Link.l1.go = "TravelToPirates";
+				Link.l2 = "Ле Француа";
+				Link.l2.go = "TravelToLeFransua";
+				Link.l3 = "Ла Вега";
+				Link.l3.go = "TravelToLaVega";
+				Link.l4 = "Пуэро-Принсипе";
+				Link.l4.go = "TravelToPuertoPrincipe";	
+				Link.l5 = "Форт Оранж";
+				Link.l5.go = "TravelToFortOrange";
+				Link.l6 = "Знаешь, пока останься, я передумал.";
+				Link.l6.go = "exit";
+		break;
+		case "TravelToNomanIslands":
+			dialog.Text = "К какому именно?";
+				Link.l1 = "Кайман";
+				Link.l1.go = "TravelToCaiman";
+				Link.l2 = "Доминика";
+				Link.l2.go = "TravelToDominica";
+				Link.l3 = "Теркс";
+				Link.l3.go = "TravelToTerks";			
+				Link.l4 = "Знаешь, пока останься, я передумал.";
+				Link.l4.go = "exit";
+		break;
+		
+		case "TravelToCaiman":
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn_3;									// Companion index
+				cn_3 = GetCompanionIndex(PChar, i);
+				if (cn_3 == -1) continue;
+				if (NPChar.name == characters[cn_3].name) NPChar.realcompanionidx = &characters[cn_3].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = "Caiman";
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D("PuertoPrincipe"))/300+1.0);
+			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Caiman" + "Gen")+", капитан?";
+			Link.l1 = "Да, именно так.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+        break;
+		case "TravelToDominica":
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn_4;									// Companion index
+				cn_4 = GetCompanionIndex(PChar, i);
+				if (cn_4 == -1) continue;
+				if (NPChar.name == characters[cn_4].name) NPChar.realcompanionidx = &characters[cn_4].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = "Dominica";
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D("LeFransua"))/300+1.0);
+			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Dominica" + "Gen")+", капитан?";
+			Link.l1 = "Да, именно так.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+        break; 
+		case "TravelToTerks":
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn_5;									// Companion index
+				cn_5 = GetCompanionIndex(PChar, i);
+				if (cn_5 == -1) continue;
+				if (NPChar.name == characters[cn_5].name) NPChar.realcompanionidx = &characters[cn_5].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = "Terks";
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D("Pirates"))/300+1.0);
+			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Terks" + "Gen")+", капитан?";
+			Link.l1 = "Да, именно так.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+        break; 
+		case "TravelToLaVega":
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn_6;									// Companion index
+				cn_6 = GetCompanionIndex(PChar, i);
+				if (cn_6 == -1) continue;
+				if (NPChar.name == characters[cn_6].name) NPChar.realcompanionidx = &characters[cn_6].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = "LaVega";
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D("LaVega"))/300+1.0);
+			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
+			Link.l1 = "Да, именно так.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+        break; 
+		case "TravelToPuertoPrincipe":
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn_7;									// Companion index
+				cn_7 = GetCompanionIndex(PChar, i);
+				if (cn_7 == -1) continue;
+				if (NPChar.name == characters[cn_7].name) NPChar.realcompanionidx = &characters[cn_7].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = "PuertoPrincipe";
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D("PuertoPrincipe"))/300+1.0);
+			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
+			Link.l1 = "Да, именно так.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+        break; 
+		case "TravelToFortOrange":
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn_8;									// Companion index
+				cn_8 = GetCompanionIndex(PChar, i);
+				if (cn_8 == -1) continue;
+				if (NPChar.name == characters[cn_8].name) NPChar.realcompanionidx = &characters[cn_8].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = "FortOrange";
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D("FortOrange"))/300+1.0);
+			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
+			Link.l1 = "Да, именно так.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+        break;
+		case "TravelToPirates":
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn_9;									// Companion index
+				cn_9 = GetCompanionIndex(PChar, i);
+				if (cn_9 == -1) continue;
+				if (NPChar.name == characters[cn_9].name) NPChar.realcompanionidx = &characters[cn_9].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = "Pirates";
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D("Pirates"))/300+1.0);
+			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
+			Link.l1 = "Да, именно так.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+        break;	
+		case "TravelToLeFransua":
+			for (i = 1; i < COMPANION_MAX; i++)
+			{
+				int cn_10;									// Companion index
+				cn_10 = GetCompanionIndex(PChar, i);
+				if (cn_10 == -1) continue;
+				if (NPChar.name == characters[cn_10].name) NPChar.realcompanionidx = &characters[cn_10].index;
+			}
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID = "LeFransua";
+			characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days = makeint(GetDistanceToColony2D("LeFransua"))/300+1.0);
+			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
+			Link.l1 = "Да, именно так.";
+            Link.l1.go = "CompanionTravel_PrepareStart";
+			Link.l2 = "Нет, я передумал, не бери в голову.";
+            Link.l2.go = "exit";
+        break;
 		
 		int nFind = findSubStr(Dialog.CurrentNode, "CompanionTravelToColony_", 0);
 		string idxVal;
@@ -1565,7 +1737,7 @@ void ProcessDialogEvent()
 				break;
 			}
 			dialog.Text = "Всё понятно. До " + XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen") + " мне идти " + sti(characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days) + " дней, что мне делать по прибытию?";
-				Link.l1 = "Жди меня на рейде колонии месяц.";
+				Link.l1 = "Жди меня на рейде месяц.";
 				Link.l1.go = "CompanionTravel_PrepareStart_2";
 				Link.l2 = "Знаешь, я передумал"+ GetSexPhrase("","а") +". Оставайся со мной, пока-что...";
 				Link.l2.go = "exit";
@@ -1603,7 +1775,20 @@ void ProcessDialogEvent()
 					Group_DeleteAtEnd(NPChar.CompanionTravel.GroupID); // Потрем группу
 					SetCompanionIndex(PChar, -1, sti(NPChar.index));
 					PChar.CompanionTravel = sti(PChar.CompanionTravel) - 1; // Этого компаньона взяли обратно в эскадру
+					if(GetAttrValue(PChar, "CompanionTravel") == 0) CloseQuestHeader("CompanionTravel");
 					DeleteAttribute(NPChar, "CompanionTravel");
+					for(iTemp=1; iTemp<=3; iTemp++) // Нужно, чтоб была свободная группа
+					{
+						attr = "Companion" + iTemp;
+						if (CheckAttribute(PChar,"CompanionTravel."+(attr)+".ID")) 
+						{
+							if (PChar.CompanionTravel.(attr).ID == NPChar.ID)
+							{
+								DeleteAttribute(PChar,"CompanionTravel."+(attr)+".ID");
+								DeleteAttribute(NPChar,"Tasks.Clone");
+							}
+						}
+					}
 			}
 			else
 			{
@@ -1626,7 +1811,20 @@ void ProcessDialogEvent()
 				Group_DeleteAtEnd(NPChar.CompanionTravel.GroupID);
 				SetCompanionIndex(PChar, -1, sti(NPChar.index));
 				PChar.CompanionTravel = sti(PChar.CompanionTravel) - 1; // Этого компаньона взяли обратно в эскадру
+				if(GetAttrValue(PChar, "CompanionTravel") == 0) CloseQuestHeader("CompanionTravel");
 				DeleteAttribute(NPChar, "CompanionTravel");
+				for(iTemp=1; iTemp<=3; iTemp++) // Нужно, чтоб была свободная группа
+				{
+					attr = "Companion" + iTemp;
+					if (CheckAttribute(PChar,"CompanionTravel."+(attr)+".ID")) 
+					{
+						if (PChar.CompanionTravel.(attr).ID == NPChar.ID)
+						{
+							DeleteAttribute(PChar,"CompanionTravel."+(attr)+".ID");
+							DeleteAttribute(NPChar,"Tasks.Clone");
+						}
+					}
+				}
 			}
 			else
 			{

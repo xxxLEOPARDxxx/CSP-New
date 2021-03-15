@@ -87,23 +87,7 @@ void Return2SeaAfterAbordage()
 	StartBattleInterface();
 	RefreshBattleInterface();
 
-	//Boyer add
-	bool bIFace = CheckAttribute(PChar, "DisableBIFace");
-	if(bIFace && !CheckAttribute(pchar, "GenQuest.PGG_Quest"))
-        bIFace = false;
-	if(!bIFace){
-		InitBattleInterface();
-		StartBattleInterface();
-		RefreshBattleInterface();
-	}
-    DeleteAttribute(PChar, "DisableBIFace");
-	//Boyer change #20170328-01 Fix post-abordage music always going to soothing calm,
-	//even during midst of ongoing battle...see AIShip.c
 	SetSchemeForSea();
-	Pchar.Ship.POS.Mode = SHIP_ABORDAGE_DEFENDER + SHIP_ABORDAGE_ATTACKER;
-	iVicSoundTime = -1;
-	Ship_CheckMainCharacter();
-	//End Boyer change
 
     SendMessage(&Particles,"l", PS_CLEAR_CAPTURED); // boal
 	PauseParticles(false);

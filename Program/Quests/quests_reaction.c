@@ -883,6 +883,9 @@ void QuestComplete(string sQuestName, string qname)
 			int oSum = 500 + rand(4500);
 			if (makeint(Pchar.money) < oSum) oSum = makeint(Pchar.money);
 			AddMoneyToCharacter(pchar, -oSum);
+			aref stelsTavern;
+			makearef(stelsTavern, pchar.questTemp.stels);
+			if (!CheckAttribute(stelsTavern,"tavern")) pchar.questTemp.stels.tavern = 0;
 			if (sti(pchar.questTemp.stels.tavern) != GetDataDay())
 			{
 				AddCharacterExpToSkill(pchar, SKILL_SNEAK, makeint(50+oSum/100));
@@ -997,6 +1000,7 @@ void QuestComplete(string sQuestName, string qname)
 
 		//Постановка стражников в локацию передачи контрабандистов
 		case "Rand_ContrabandInterruption":
+			pchar.ContraInter = true;
 			chrDisableReloadToLocation = true;
 			LAi_SetFightMode(pchar, false);
 			LAi_LockFightMode(pchar, true);
@@ -1030,11 +1034,23 @@ void QuestComplete(string sQuestName, string qname)
 
 			LAi_ActorDialog(&Characters[makeint(Pchar.quest.contraband.SoldierIDX1)], Pchar, "", 35, 1); // boal 120c - озвереть ждать!!!
 			LAi_group_SetCheck("CoastalGuards", "CoastalGuardsAllDead");
+			pchar.quest.CoastG.win_condition.l1 = "NPC_Death";
+			pchar.quest.CoastG.win_condition.l1.character = sld.id;
+			pchar.quest.CoastG.win_condition.function = "Rand_ContraFinal";
 			//LAi_SetActorType(Pchar); //fix
 			//LAi_ActorFollow(PChar, &Characters[makeint(Pchar.quest.contraband.SoldierIDX1)], "", 35);
 			//Lai_QuestDelay("Rand_CoastalPatrolAppear", 3.0);
 		break;
 
+		case "Rand_ContraFinal":
+			pchar.quest.Rand_ContraFinal.win_condition.l1 = "ExitFromLocation";
+			pchar.quest.Rand_ContraFinal.win_condition.l1.location = pchar.location;
+			pchar.quest.Rand_ContraFinal.win_condition.function = "Rand_Clear";
+		break;
+		
+		case "Rand_Clear":
+			DeleteAttribute(pchar,"ContraInter");
+		break;
 		/*case "Rand_CoastalPatrolAppear":
 			//Trace("QUEST Rand_CoastalPatrolAppear reports: Soldier Idx = " + Pchar.quest.contraband.SoldierIDX1);
 			//StartQuestMovie(true, true, true);
@@ -1059,7 +1075,7 @@ void QuestComplete(string sQuestName, string qname)
 				"Грохоту было - весь город переполошился, а в местной лавке крышу ядром проломило! Да только без толку всё. Местные-то - скупщики значит, в джунглях спрятались, а капитан морем ушёл. Как есть, с носом нашу эскадру оставил! Так из бухты вырулил - любой лоцман позавидует!", Pchar.quest.contraband.City, 3, 5, "");				
 		break;
 		case "CoastalGuardsAllDead":
-			for (i=1; i<4; i++)
+			for (i=1; i<3+makeint(MOD_SKILL_ENEMY_RATE/2); i++)
 			{
 				sTemp = "Rand_Smug0" + i;
 				LAi_SetGuardianTypeNoGroup(CharacterFromID(sTemp));
@@ -6194,25 +6210,25 @@ void QuestComplete(string sQuestName, string qname)
 			int nRank = sti(pchar.rank)+ round((MOD_SKILL_ENEMY_RATE + 1.1) / 4) + 1;
 			string sGoto = "goto2";
 			Model = "SpaOfficer1";
-			sTemp = nRank + 3;
+			iTemp = nRank + 3;
 			attrName = "DeLeiva";
-            		if(sTemp > 23)
-               		sTemp = 23;
+            		if(Itemp > 23)
+               		iTemp = 23;
 			for (i=1; i<=5; i++)
 			{
 				Model = "Sold_spa_"+(rand(7)+1);
-				sTemp = 18;
+				iTemp = 18;
 				attrName = "SpaFighter"+i;
 				if (i==1) 
 				{	
 					Model = "SpaOfficer1";
-					sTemp = 23;
+					iTemp = 23;
 					attrName = "DeLeiva";
 				}
-				sld = GetCharacter(NPC_GenerateCharacter(attrName, Model, "man", "man", sTemp, SPAIN, 0, true));
+				sld = GetCharacter(NPC_GenerateCharacter(attrName, Model, "man", "man", iTemp, SPAIN, 0, true));
 				//#20171007-02 Rescale fight stats French Quest line
 				//FantomMakeCoolFighter(sld, sTemp, 70, 50, BLADE_LONG, "pistol2", 40);
-				FantomMakeCoolFighter(sld, sTemp, (50 + round(4 * MOD_SKILL_ENEMY_RATE / 2)), (30 + round(4 * MOD_SKILL_ENEMY_RATE / 2)), BLADE_LONG, "pistol2", (20 + round(10 * MOD_SKILL_ENEMY_RATE / 2)));
+				FantomMakeCoolFighter(sld, iTemp, (50 + round(4 * MOD_SKILL_ENEMY_RATE / 2)), (30 + round(4 * MOD_SKILL_ENEMY_RATE / 2)), BLADE_LONG, "pistol2", (20 + round(10 * MOD_SKILL_ENEMY_RATE / 2)));
 				LAi_SetWarriorType(sld);
 				if (i==1) 
 				{
@@ -6228,9 +6244,9 @@ void QuestComplete(string sQuestName, string qname)
 				}
 				ChangeCharacterAddressGroup(sld, "Havana_houseS1", "goto", sGoto);
 				Model = "Sold_spa_"+(rand(7)+1);
-				sTemp = nRank;
-				if(sTemp > 18)
-                    			sTemp = 18;
+				iTemp = nRank;
+				if(iTemp > 18)
+                    iTemp = 18;
 				attrName = "SpaFighter"+i;
 				sGoto = "goto5";
 				LAi_group_MoveCharacter(sld, "EnemyFight");
@@ -7977,14 +7993,16 @@ void QuestComplete(string sQuestName, string qname)
             LAi_group_SetRelation("wl_Pirate", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
             LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
             InterfaceStates.Buttons.Save.enable = false;
-            //InterfaceStates.Launched = true;
             LAi_SetFightMode(pchar, false);
-			
 			Pchar.model="PGG_Whisper_0_NoHat";
 			DoQuestFunctionDelay("WhisperHold", 0.5);
-			
-            //DoQuestFunctionDelay("WhisperHold", 0.5);
-            //CapBloodLineInit();
+		break;
+		
+		case "PGG_CheckHP":
+            sld = CharacterFromID(PChar.GenQuest.PGG_Quest.PGGid);
+			LAi_SetImmortal(sld, true);
+			LAi_SetActorType(sld);
+			LAi_ActorGoToLocation(sld, "reload", "boat", "none", "", "", "", 20);
 		break;
 		
 		case "Sharp_Prologue_CheckHP":

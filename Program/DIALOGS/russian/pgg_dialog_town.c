@@ -230,10 +230,10 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			break;
 		}
-		//если отношение ниже 70, то в 100 процентов случаев откажет...
-		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70)
+		//если отношение ниже 70, то в 70 процентов случаев откажет...
+		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70 && drand(100) < 70)
 		{
-			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет... Я тебя совсем не знаю. Для начала нам стоит как-нибудь вместе на дельце сходить.", "Нет, это не по мне! Я не хочу быть офицером! Да и я тебя совсем не знаю. Нам стоит как-нибудь вместе на дельце сходить, прежде чем такие предложения друг другу делать.");
+			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет... ", "Нет, это не по мне! Я не хочу быть офицером!");
 			link.l1 = RandPhraseSimple("Как хочешь...", "Что ж, попутного ветра.");
 			link.l1.go = "exit";
 			SaveCurrentNpcQuestDateParam(NPChar, "Officer_Talk");
@@ -467,7 +467,7 @@ void ProcessDialogEvent()
 //==== BETTA_TEST ====
 
 	case "quest":
-		chrDisableReloadToLocation = false;
+		chrDisableReloadToLocation = false;																							   
 		if (CheckAttribute(NPChar, "QuestTalk") && GetNpcQuestPastDayParam(NPChar, "QuestTalk") < 1)
 		{
 			Dialog.Text = "Я уже все тебе сказала!";
@@ -559,7 +559,7 @@ void ProcessDialogEvent()
 
 	case "Quest_1_Work":
 		iRnd = rand(3);
-		PChar.GenQuest.PGG_Quest.Template = rand(1);
+		PChar.GenQuest.PGG_Quest.Template = drand(1);
 		if (CheckAttribute(NPChar, "PGGAi.ActiveQuest.QstNumber.Template"))
 		{
 			PChar.GenQuest.PGG_Quest.Template = NPChar.PGGAi.ActiveQuest.QstNumber.Template;
@@ -586,8 +586,8 @@ void ProcessDialogEvent()
 			}
 		}
 		PChar.GenQuest.PGG_Quest.Island.Town = FindTownOnIsland(PChar.GenQuest.PGG_Quest.Island);
-		PChar.GenQuest.PGG_Quest.Days = 3 + GetMaxDaysFromIsland2Island(Islands[GetCharacterCurrentIsland(pchar)].id, PChar.GenQuest.PGG_Quest.Island);
-		PChar.GenQuest.PGG_Quest.Goods = GOOD_SLAVES + rand(2);
+		PChar.GenQuest.PGG_Quest.Days = GetMaxDaysFromIsland2Island(Islands[GetCharacterCurrentIsland(pchar)].id, PChar.GenQuest.PGG_Quest.Island)/2 + 1;
+		PChar.GenQuest.PGG_Quest.Goods = GOOD_SLAVES + drand(2);
 		if (CheckAttribute(NPChar, "PGGAi.ActiveQuest"))
 		{
 //			Dialog.Text = "Дело у меня к тебе, приятель. Знаю, можно тебе довериться, но в таверне обсуждать не возьмусь, ушей много лишних. Жду тебя у меня на борту. Помнишь, моя посудина зовется '" + NPChar.Ship.Name + "'.";
@@ -759,7 +759,7 @@ void ProcessDialogEvent()
 		if (PChar.GenQuest.PGG_Quest.Island.Town == "" || PChar.GenQuest.PGG_Quest.Island.Town == "Caiman" ||
 			PChar.GenQuest.PGG_Quest.Island.Town == "Terks" || PChar.GenQuest.PGG_Quest.Island.Town == "Dominica")
 		{
-			sLoc = GetConvertStr(PChar.GenQuest.PGG_Quest.Island, "LocLables.txt") + "Gen");
+			sLoc = GetConvertStr(PChar.GenQuest.PGG_Quest.Island, "LocLables.txt") + "");
 		}
 		else
 		{
@@ -1070,8 +1070,19 @@ void ProcessDialogEvent()
 //			Dialog.Text = "Итак, добыча составила " + PChar.GenQuest.PGG_Quest.Goods.Taken + " " + PChar.GenQuest.PGG_Quest.Goods.Text + ". Давай делить. ";
 			Dialog.Text = PCharRepPhrase("Жаркое дельце! Добыча составила " + PChar.GenQuest.PGG_Quest.Goods.Taken + " " + PChar.GenQuest.PGG_Quest.Goods.Text + ".", 
 					"Отлично сработали, " + GetSexPhrase("капитан","подруга") + "! Добыча составила " + PChar.GenQuest.PGG_Quest.Goods.Taken + " " + PChar.GenQuest.PGG_Quest.Goods.Text + ".");
-			i = sti(PChar.GenQuest.PGG_Quest.Parts);
-			PChar.GenQuest.PGG_Quest.Goods.Part = MakeInt(sti(PChar.GenQuest.PGG_Quest.Goods.Taken) / i);
+			DeleteAttribute(Pchar, "PGGShoreQuest");
+			if (GetCharacterShipClass(NPChar) > GetCharacterShipClass(PChar))
+			{
+				PChar.GenQuest.PGG_Quest.Parts = (GetCharacterShipClass(NPChar) - GetCharacterShipClass(PChar));
+				i = sti(PChar.GenQuest.PGG_Quest.Parts)+1;
+				PChar.GenQuest.PGG_Quest.Goods.Part = MakeInt(sti(PChar.GenQuest.PGG_Quest.Goods.Taken) / i);
+			}
+			else 
+			{
+				PChar.GenQuest.PGG_Quest.Parts = (GetCharacterShipClass(PChar) - GetCharacterShipClass(NPChar));
+				i = sti(PChar.GenQuest.PGG_Quest.Parts)+2;
+				PChar.GenQuest.PGG_Quest.Goods.Part = MakeInt(sti(PChar.GenQuest.PGG_Quest.Goods.Taken)) - MakeInt(sti(PChar.GenQuest.PGG_Quest.Goods.Taken) / i);
+			}
 			if (CheckAttribute(NPChar, "PGGAi.ActiveQuest"))
 			{
 				Dialog.Text = Dialog.Text + PCharRepPhrase(" Моя доля ", "Доля, приходящаяся на мое судно - ");
@@ -1236,6 +1247,8 @@ void ProcessDialogEvent()
 		chrDisableReloadToLocation = false;
 		Dialog.Text = PCharRepPhrase("Настоящая бойня, книпель мне в зад!, жаль, кончилось быстро! Добыча составила " + PChar.GenQuest.PGG_Quest.Goods.Taken + " " + PChar.GenQuest.PGG_Quest.Goods.Text + ".", "Неплохо, капитан, угря мне в ущелье! Добыча составила " + PChar.GenQuest.PGG_Quest.Goods.Taken + " " + PChar.GenQuest.PGG_Quest.Goods.Text + ".");
 
+		pchar.PGGShoreQuest = true;
+		PChar.GenQuest.PGG_Quest.Parts = 2;
 		i = sti(PChar.GenQuest.PGG_Quest.Parts);
 		PChar.GenQuest.PGG_Quest.Goods.Part = MakeInt(sti(PChar.GenQuest.PGG_Quest.Goods.Taken) / i);
         SetCharacterGoods(PChar, sti(PChar.GenQuest.PGG_Quest.Goods), sti(PChar.GenQuest.PGG_Quest.Goods.Taken) + GetCargoGoods(PChar, sti(PChar.GenQuest.PGG_Quest.Goods)));

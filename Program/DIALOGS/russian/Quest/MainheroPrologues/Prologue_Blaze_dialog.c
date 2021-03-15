@@ -247,6 +247,7 @@ void ProcessDialogEvent()
 			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 			sld.loyality = MAX_LOYALITY;
 			sld.quest.meeting = true;
+			NPChar.Payment = true;
 			
 			_location = &locations[reload_location_index];
 			//DeleteAttribute(_location, "box1");

@@ -56,7 +56,7 @@ int LocationInitCaiman(int n)
 
 	locations[n].reload.l2.name = "boat";
 	locations[n].reload.l2.go = "Caiman";
-	locations[n].reload.l2.emerge = "reload_2";
+	locations[n].reload.l2.emerge = "reload_1";
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Sea";
     locations[n].locators_radius.reload.boat = 9.0;
@@ -170,7 +170,7 @@ int LocationInitCaiman(int n)
 
 	locations[n].reload.l2.name = "boat";
 	locations[n].reload.l2.go = "Caiman";
-	locations[n].reload.l2.emerge = "reload_1";
+	locations[n].reload.l2.emerge = "reload_2";
 	locations[n].reload.l2.autoreload = "0";
 	locations[n].reload.l2.label = "Sea";
     locations[n].locators_radius.reload.boat = 9.0;

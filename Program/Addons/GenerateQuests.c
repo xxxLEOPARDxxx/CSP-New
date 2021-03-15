@@ -325,6 +325,8 @@ void QuestDuelWomanAgree()
 	
 	LAi_SetActorType(chr);
 	LAi_ActorFollow(chr, achr, "", 25.0);
+	LAi_SetActorType(achr);
+	LAi_SetStayType(achr);
 	
 	LAi_SetActorType(PChar);
 	LAi_ActorFollow(PChar, achr, "QuestDuelTalkWifeWithDuelist", 25.0);
@@ -386,6 +388,7 @@ void QuestDuelMeeting(string qName)
 	PChar.quest.QuestDuelMeetingNotLogin.over = "yes";
 
 	chrDisableReloadToLocation = true;
+	InterfaceStates.Buttons.Save.enable = false;
 
 	DeleteAllOfficersFromLocation();
 	bDisableOfficers = true;
@@ -454,10 +457,8 @@ void QuestDuelBattleWithMercenary()
 	LAi_Fade("", "");
 	
 	LAi_type_actor_Reset(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1));
-	ChangeCharacterAddressGroup(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1), PChar.location, "encdetector", "enc01");
-	ChangeCharacterAddressGroup(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_2), PChar.location, "encdetector", "enc01");
-	ChangeCharacterAddressGroup(CharacterFromID(PChar.GenerateQuestDuel.Characters.Mercenary), PChar.location, "encdetector", "enc01");
-	ChangeCharacterAddressGroup(PChar, PChar.location, "encdetector", "enc03");
+	ChangeCharacterAddressGroup(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1), PChar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
+	ChangeCharacterAddressGroup(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_2), PChar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
 
 	LAi_SetActorType(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1));
 	LAi_ActorTurnToCharacter(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1), PChar);
@@ -491,8 +492,11 @@ void QuestDuelBattleWithMercenaryWinner(string qName)
 	ref chr = CharacterFromID(sCharacter);
 	chr.Dialog.CurrentNode = "Duelist_2_5";
 	
+	string sChar = PChar.GenerateQuestDuel.Characters.Duelist_1;
+	ref achr = CharacterFromID(sChar);
 	LAi_SetActorType(chr);
 	LAi_SetActorType(PChar);
+	LAi_ActorFollow(achr, PChar, "", 25.0);
 	LAi_ActorWaitDialog(PChar, chr);
 	LAi_ActorDialog(chr, PChar, "", 20.0, 1.0);
 	
@@ -504,9 +508,12 @@ void QuestDuelBattleWithMercenaryEnd()
 	string sExitLocator = PChar.GenerateQuestDuel.ExitTownLocator;
 	string sCharacter = PChar.GenerateQuestDuel.Characters.Duelist_2;
 	ref chr = CharacterFromID(sCharacter);
-
+	
+	string sChar = PChar.GenerateQuestDuel.Characters.Duelist_1;
+	ref achr = CharacterFromID(sChar);
 	LAi_SetPlayerType(PChar);
 	LAi_SetActorType(chr);
+	LAi_SetActorType(achr);
 	LAi_ActorRunToLocation(chr, "reload", sExitLocator, "none", "", "", "", -1);
 		
 	sCharacter = PChar.GenerateQuestDuel.Characters.Duelist_1;
@@ -522,6 +529,7 @@ void QuestDuelBattleWithMercenaryEnd()
 void QuestDuelBattleWithMercenaryHappyEnd()
 {
 	chrDisableReloadToLocation = false;
+	InterfaceStates.Buttons.Save.enable = true;
 
 	string sExitLocator = PChar.GenerateQuestDuel.ExitTownLocator;
 	string sCharacter = PChar.GenerateQuestDuel.Characters.Duelist_1;
@@ -549,9 +557,7 @@ void QuestDuelBattleWithDuelist()
 	LAi_Fade("", "");
 
 	LAi_type_actor_Reset(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1));
-	ChangeCharacterAddressGroup(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1), PChar.location, "encdetector", "enc01");
-	ChangeCharacterAddressGroup(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_2), PChar.location, "encdetector", "enc01");
-	ChangeCharacterAddressGroup(PChar, PChar.location, "encdetector", "enc03");
+	ChangeCharacterAddressGroup(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1), PChar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
 	
 	LAi_SetActorType(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1));
 	LAi_ActorTurnToCharacter(CharacterFromID(PChar.GenerateQuestDuel.Characters.Duelist_1), PChar);
@@ -629,6 +635,7 @@ void QuestDuelBattleWithDuelistWinner(string qName)
 void QuestDuelBattleWithDuelistHappyEnd()
 {
 	chrDisableReloadToLocation = false;
+	InterfaceStates.Buttons.Save.enable = true;
 	
 	string sCharacter = PChar.GenerateQuestDuel.Characters.Duelist_1;
 	ref chr = CharacterFromID(sCharacter);
@@ -719,6 +726,7 @@ void QuestDuelBattleWithRelativeRevenge()
 	LAi_group_SetHearRadius("EnemyFight", 100.0);
 	LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 	LAi_group_FightGroups("EnemyFight", LAI_GROUP_PLAYER, true);
+	LAi_SetFightMode(PChar, true);
 	
 	PChar.quest.QuestDuelBattleWithRelativeRevengeWinner.function = "QuestDuelBattleWithRelativeRevengeWinner";
 }
@@ -727,6 +735,7 @@ void QuestDuelBattleWithRelativeRevengeWinner(string qName)
 {
 	bDisableOfficers = false;
 	chrDisableReloadToLocation = false;
+	InterfaceStates.Buttons.Save.enable = true;
 	AddQuestRecord("QuestDuel", "6");
 	
 	PChar.quest.ClearGenerateQuestDuel.win_condition.l1 = "ExitFromLocation";

@@ -364,6 +364,11 @@ void ProcessDialogEvent()
 			link.l1.go = "fight";
 			
 		}
+		if (!CheckAttribute(pchar,"questTemp.stels.landSolder"))
+		{
+			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 40);
+			pchar.questTemp.stels.landSolder = GetDataDay();
+		} 
 		if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
 		{
 			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 40);
@@ -383,6 +388,11 @@ void ProcessDialogEvent()
 			}
 		link.l1 = RandPhraseSimple("Как бы не так!", "После дождичка, в четверг...");
 		link.l1.go = "fight";
+		if (!CheckAttribute(pchar,"questTemp.stels.landSolder"))
+		{
+			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 40);
+			pchar.questTemp.stels.landSolder = GetDataDay();
+		} 
 		if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
 		{
 			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 40);
@@ -393,22 +403,32 @@ void ProcessDialogEvent()
 			dialog.text = RandPhraseSimple("А-а-а, вижу... Все в порядке, вы можете идти, " + GetAddress_Form(pchar) + ".", "Что-то я немного подустал в карауле... Все в порядке, " + GetAddress_Form(pchar) + ", прошу прощения.");
 			link.l1 = "Так-то!";
 			link.l1.go = "exit";
-			if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
-			{
-				AddCharacterExpToSkill(pchar, SKILL_SNEAK, 80);
-				pchar.questTemp.stels.landSolder = GetDataDay();
-			}
+			if (!CheckAttribute(pchar,"questTemp.stels.landSolder"))
+		{
+			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 80);
+			pchar.questTemp.stels.landSolder = GetDataDay();
+		} 
+		if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
+		{
+			AddCharacterExpToSkill(pchar, SKILL_SNEAK, 80);
+			pchar.questTemp.stels.landSolder = GetDataDay();
+		}
 		break;
 				case "NotPegYou_2":
 			dialog.text = RandPhraseSimple("А вот за это спасибо вам, " + GetAddress_Form(pchar) + "." + " На прощание, дам вам бесплатный совет: загляните к нашему портовому начальнику и попросите какую-нибудь бумажку. Сразу легче жить станет.", "Я думаю, в вашем кошеле найдется гораздо больше монет, " + GetAddress_Form(pchar) + ", но ладно, я сегодня добрый." + " На прощание, дам вам бесплатный совет: загляните к нашему портовому начальнику и попросите какую-нибудь бумажку. Сразу легче жить станет.");
 			link.l1 = "До свидания.";
 			link.l1.go = "exit";
 			AddMoneyToCharacter(Pchar, -bribe_price);
-			if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
-			{
-				AddCharacterExpToSkill(pchar, SKILL_COMMERCE, 60);
-				pchar.questTemp.stels.landSolder = GetDataDay();
-			}
+			if (!CheckAttribute(pchar,"questTemp.stels.landSolder"))
+		{
+			AddCharacterExpToSkill(pchar, SKILL_COMMERCE, 60);
+			pchar.questTemp.stels.landSolder = GetDataDay();
+		} 
+		if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
+		{
+			AddCharacterExpToSkill(pchar, SKILL_COMMERCE, 60);
+			pchar.questTemp.stels.landSolder = GetDataDay();
+		}
 		break;
 		case "LicenceOk":
 			iTemp = GetDaysContinueNationLicence(sti(npchar.nation));

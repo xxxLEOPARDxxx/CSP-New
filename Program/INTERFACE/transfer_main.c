@@ -1824,7 +1824,10 @@ void TakeCrew(int inc)
     float fTemp;
 	if (inc > GetCrewQuantity(xi_refCharacter)) inc = GetCrewQuantity(xi_refCharacter);
 	if ( (GetCrewQuantity(pchar) + inc) > GetMaxCrewQuantity(pchar)) inc = GetMaxCrewQuantity(pchar) - GetCrewQuantity(pchar);
-	if ( inc > GetCargoFreeSpace(pchar)) inc = GetCargoFreeSpace(pchar);
+	if (bSailorsWeight)
+	{
+		if ( inc > GetCargoFreeSpace(pchar)) inc = GetCargoFreeSpace(pchar);
+	}
 	if (inc > 0)
 	{
 		fTemp =  stf(GetCrewQuantity(pchar) + inc);
@@ -1850,7 +1853,10 @@ void GiveCrew(int inc)
 	float fTemp;
 	if (inc > GetCrewQuantity(pchar)) inc = GetCrewQuantity(pchar);
 	if ( (GetCrewQuantity(xi_refCharacter) + inc) > GetMaxCrewQuantity(xi_refCharacter)) inc = GetMaxCrewQuantity(xi_refCharacter) - GetCrewQuantity(xi_refCharacter);
-	if ( inc > GetCargoFreeSpace(xi_refCharacter)) inc = GetCargoFreeSpace(xi_refCharacter);
+	if (bSailorsWeight)
+	{
+		if ( inc > GetCargoFreeSpace(xi_refCharacter)) inc = GetCargoFreeSpace(xi_refCharacter);
+	}
 	if (inc > 0)
 	{
 		fTemp =  stf(GetCrewQuantity(xi_refCharacter) + inc);

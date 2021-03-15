@@ -26,7 +26,7 @@ void CompanionTravel_SetTraveller(ref _NPChar)
 	fChance = CompanionTravel_CalculateSinkChance(sld, PChar.CompanionTravel.(attr).ToColonyID);
 	if(fChance > rand(100)) // Не дойдет до места назначения
 	{
-		PChar.CompanionTravel.(attr).Sink = true;
+		// PChar.CompanionTravel.(attr).Sink = true;
 	}
 	
 	attrLoc = "CompanionTravel_" + attr; // Заносим в группу
@@ -44,6 +44,33 @@ void CompanionTravel_SetTraveller(ref _NPChar)
 	AddQuestUserData("CompanionTravel", "sDays", PChar.CompanionTravel.(attr).Days);
 	AddQuestUserData("CompanionTravel", "sShipInfo", XI_ConvertString(RealShips[sti(sld.Ship.Type)].Basename + "Dat") + " '" + sld.Ship.name + "'");
 	AddQuestUserData("CompanionTravel", "sColony", XI_ConvertString("Colony" + sld.CompanionTravel.ToColonyID + "Dat"));*/
+	// Записи в СЖ
+	ReOpenQuestHeader("CompanionTravel");
+	AddQuestRecord("CompanionTravel", "1");
+	AddQuestUserData("CompanionTravel", "sDays", PChar.CompanionTravel.(attr).Days);
+	AddQuestUserData("CompanionTravel", "sShipInfo", XI_ConvertString(RealShips[sti(sld.Ship.Type)].Basename + "Gen") + " '" + sld.Ship.name + "'");
+	
+//xxxZohanxxx Путешествия --> 	
+	if (sld.CompanionTravel.ToColonyID == "Caiman") 
+	{
+	AddQuestUserData("CompanionTravel", "sColony", XI_ConvertString("Caiman" + "Abl"));
+	Log_Info("Компаньон оправляется до " + XI_ConvertString("Caiman" + "Gen"));		
+	}
+	if (sld.CompanionTravel.ToColonyID == "Dominica") 
+	{
+	AddQuestUserData("CompanionTravel", "sColony", XI_ConvertString("Dominica" + "Abl"));
+	Log_Info("Компаньон оправляется до " + XI_ConvertString("Dominica" + "Gen"));	
+	}
+	if (sld.CompanionTravel.ToColonyID == "Terks") 
+	{
+	AddQuestUserData("CompanionTravel", "sColony", XI_ConvertString("Terks" + "Abl"));
+	Log_Info("Компаньон оправляется до " + XI_ConvertString("Terks" + "Gen"));	
+	}	
+	else
+	{
+	AddQuestUserData("CompanionTravel", "sColony", XI_ConvertString("Colony" + sld.CompanionTravel.ToColonyID + "Abl"));
+	Log_Info("Компаньон оправляется до " + XI_ConvertString("Colony" + sld.CompanionTravel.ToColonyID + "Gen"));	
+	}
 	
 	Log_TestInfo("=====" + attr + "=====");
 	Log_TestInfo("ID компаньона, отправившегося в плавание - " + PChar.CompanionTravel.(attr).ID);
@@ -130,20 +157,28 @@ void CompanionTravel_DeleteCompanion(string sID, string sCompanion, bool WaitInC
 	if(WaitInColony)
 	{
 		Log_TestInfo("Кэпа группы CompanionTravel_"+sCompanion+" слишком долго ждал в колонии и свалил.");
+		Log_Info(XI_ConvertString(RealShips[sti(rTraveller.Ship.Type)].Basename)+" ''"+rTraveller.Ship.name+"'' не дождался вас в колонии и покинул её.");
 	}
 	else
 	{
 		Log_TestInfo("Судно кэпа группы CompanionTravel_"+sCompanion+" не дошло до места назначения.");
+		Log_Info(XI_ConvertString(RealShips[sti(rTraveller.Ship.Type)].Basename)+" ''"+rTraveller.Ship.name+"'' не добрался до места встречи.");
 	}
 	// Поставить соответствующую ноду диалога
 	
 	Group_DeleteAtEnd("CompanionTravel_"+sCompanion);
 	PChar.CompanionTravel = sti(PChar.CompanionTravel) - 1; // Тут счетчик уменьшаем
+	if(GetAttrValue(PChar, "CompanionTravel") == 0) CloseQuestHeader("CompanionTravel");
 }
 
 void CompanionTravel_SetCompanionToColony(string sColony, string sGroupID, string sID) // Поставим компаньона в колонию
 {
-	string sIsland = colonies[FindColony(sColony)].Island;
+	if (sColony == "Terks" || sColony == "Dominica")
+	{
+		if (sColony == "Terks")	sIsland = "Terks";
+		if (sColony == "Dominica")	sIsland = "Dominica";
+	}
+	else string sIsland = colonies[FindColony(sColony)].Island;
 	Log_TestInfo("Поставлен корабль кэпа - " + sID + ", группы - " + sGroupID + " в колонию - " + sColony + " (" + sIsland + ")");
 	ref sld = CharacterFromID(sID);
 	sld.CompanionTravel.WaitOnColony = true;

@@ -206,6 +206,9 @@ void ProcessDialogEvent()
 			pchar.GenQuest.EncGirl = "FindCoins";
 			pchar.GenQuest.EncGirl.MeetSoldiers = 1;
 			Diag.CurrentNode = Diag.TempNode;
+			pchar.quest.EncGirl_DeathSimple.win_condition.l1 = "NPC_Death";
+			pchar.quest.EncGirl_DeathSimple.win_condition.l1.character = npchar.id;
+			pchar.quest.EncGirl_DeathSimple.function = "EncGirl_DeathSimple";
 			pchar.quest.EncGirl_DeliveBack.win_condition.l1 = "location";
 			pchar.quest.EncGirl_DeliveBack.win_condition.l1.location = pchar.GenQuest.EncGirl.city + "_town";
 			pchar.quest.EncGirl_DeliveBack.function = "EncGirl_DeliveBack";
@@ -219,6 +222,9 @@ void ProcessDialogEvent()
 			pchar.GenQuest.EncGirl = "HorseToTavern";
 			pchar.GenQuest.EncGirl.MeetSoldiers = 1;
 			Diag.CurrentNode = Diag.TempNode;
+			pchar.quest.EncGirl_DeathSimple.win_condition.l1 = "NPC_Death";
+			pchar.quest.EncGirl_DeathSimple.win_condition.l1.character = npchar.id;
+			pchar.quest.EncGirl_DeathSimple.function = "EncGirl_DeathSimple";
 			pchar.quest.EncGirl_DeliveBack.win_condition.l1 = "location";
 			pchar.quest.EncGirl_DeliveBack.win_condition.l1.location = pchar.GenQuest.EncGirl.city + "_tavern";
 			pchar.quest.EncGirl_DeliveBack.function = "EncGirl_DeliveBack";		

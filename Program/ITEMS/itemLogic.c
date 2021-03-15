@@ -660,7 +660,7 @@ void Box_OnLoadLocation(ref _location)
 		}
 	}
 
-       
+    
 	// private box
 	for (i=1; i < MAX_HANDLED_BOXES; i++)
 	{
@@ -743,6 +743,7 @@ void Box_OnLoadLocation(ref _location)
     		//respawn items in box
     		if (needRespawn || isAbordageBox)
     		{
+				if (_location.id == "Caiman_StoreHouse") continue;
     			//clear items in box
     			if (CheckAttribute(_location, locatorName))
     			{

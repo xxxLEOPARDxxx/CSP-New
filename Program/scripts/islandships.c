@@ -23,6 +23,19 @@ void GenerateIslandShips(string sIslandID)
 			{
 				bool FortDefender;
 				ref FortChref = GetFortCommander(colonies[i].id);
+				if (CheckAttribute(&colonies[i], "AlreadyGen")) //охрана
+				{
+					int check = 0;
+					for (int j=GlobalCharacters; j<MAX_CHARACTERS; j++)
+					{
+						if (CheckAttribute(&characters[j], "fortDefender") && sti(characters[j].fortDefender) == 1 && characters[j].location == pchar.location)
+						{
+							check++;
+						}
+					}
+					//Log_Info(""+check);
+					if (check == 0) DeleteAttribute(&colonies[i],"AlreadyGen");
+				}
 				if (!CheckAttribute(&colonies[i], "AlreadyGen")) //охрана
 				{
                     //SaveCurrentNpcQuestDateParam(&colonies[i], "GenShipDate"); // дата заполнения

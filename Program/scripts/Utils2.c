@@ -145,6 +145,24 @@ void csmLootCollector()
 			rLoc.(sTemp).items = "";
 			rLoc.(sTemp).money = 0;
 		}
+		
+		if (!CheckAttribute(rLoc, "csmBoxLC.ExtraLoot"))
+		{
+			rLoc.csmBoxLC.ExtraLoot = true;
+			if (rand (1) == 0)	rLoc.csmBoxLC.items.potion1 = makeint(rLoc.csmBoxLC.items.potion1) + rand (3);//Зелье
+			if (rand (3) == 0)	rLoc.csmBoxLC.items.potion2 = makeint(rLoc.csmBoxLC.items.potion2) + rand (2);//Эликсир
+			if (rand (1) == 0)	rLoc.csmBoxLC.items.potion3 = makeint(rLoc.csmBoxLC.items.potion3) + rand (1);//противоядие
+			if (rand (3) == 0)	rLoc.csmBoxLC.items.potion4 = makeint(rLoc.csmBoxLC.items.potion4) + rand (1);//микстура
+			if (rand (1) == 0)	rLoc.csmBoxLC.items.potion5 = makeint(rLoc.csmBoxLC.items.potion5) + rand (5);//Виноград
+			if (rand (3) == 0)	rLoc.csmBoxLC.items.potionwine = makeint(rLoc.csmBoxLC.items.potionwine) + rand (1);//вино
+			if (rand (1) == 0)	rLoc.csmBoxLC.items.potionrum = makeint(rLoc.csmBoxLC.items.potionrum) + rand (2);//ром
+			if (rand (1) == 0)	rLoc.csmBoxLC.items.Food1 = makeint(rLoc.csmBoxLC.items.Food1) + rand (5);//фрукты
+			if (rand (2) == 0)	rLoc.csmBoxLC.items.Food2 = makeint(rLoc.csmBoxLC.items.Food2) + rand (4);//хлеб
+			if (rand (2) == 0)	rLoc.csmBoxLC.items.Food3 = makeint(rLoc.csmBoxLC.items.Food3) + rand (3);//сыр
+			if (rand (3) == 0)	rLoc.csmBoxLC.items.Food4 = makeint(rLoc.csmBoxLC.items.Food4) + rand (2);//рыба
+			if (rand (3) == 0)	rLoc.csmBoxLC.items.Food5 = makeint(rLoc.csmBoxLC.items.Food5) + rand (2);//мясо
+			if (rand (100) == 0)	rLoc.csmBoxLC.items.chest_quest = 1;//странный сундук
+		}
 	}
 
 	if (Dead_Char_num > 0)

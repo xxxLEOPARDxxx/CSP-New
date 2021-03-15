@@ -1363,6 +1363,7 @@ bool SetReloadIcons()
 				objLandInterface.UserIcons.(fastLocName).name = "reload"+i;
 				objLandInterface.UserIcons.(fastLocName).location = curloc.location;
 				objLandInterface.UserIcons.(fastLocName).note = GetNodeForIcon(1+sti(curloc.tex), sti(curloc.pic));
+				if(!CheckAttribute(Locations[idxloc],"islandId")) Locations[idxloc].islandId = 0;
 				if (Locations[idxloc].islandId == "Caiman")
 				{
 					if (objLandInterface.UserIcons.(fastLocName).note == "Дом управляющего плантацией")

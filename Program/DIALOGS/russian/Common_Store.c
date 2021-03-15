@@ -906,10 +906,6 @@ void ProcessDialogEvent()
 		break;
 		
 		case "generate_quest":
-			if (npchar.quest.trade_date != lastspeak_date || bBettaTestMode)
-			{
-				npchar.quest.trade_date = lastspeak_date;
-				//проверка враждебности нам страны торговца
 				if (sti(NPChar.nation) != PIRATE && GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY)
 				{
 					dialog.text = "Нет, не нужно! По крайней мере, до тех пор, пока вы враждуете с " + NationNameAblative(sti(NPChar.nation)) + ".";
@@ -929,9 +925,12 @@ void ProcessDialogEvent()
                         break;
                     }
                     // проверка на проф пригодность <--
-                    int iTradeNation = GenerateNationTrade(sti(NPChar.nation));
 
-					if (iTradeNation < 0)
+					npchar.iTradeNation1 = GenerateNationTrade(sti(NPChar.nation));
+                    npchar.iTradeNation2 = GenerateNationTrade(sti(NPChar.nation));
+                    npchar.iTradeNation3 = GenerateNationTrade(sti(NPChar.nation));
+					
+					if (sti(npchar.iTradeNation1) < 0 && sti(npchar.iTradeNation2) < 0 && sti(npchar.iTradeNation3) < 0)
 					{
 						dialog.text = NPCharRepPhrase(npchar, "Эх, "+GetAddress_Form(NPChar)+", не до фрахтов сегодня. Приходите завтра.","Зайдите завтра. Возможно, я сделаю вам выгодное предложение.");
 						link.l1 = "Хорошо, я зайду завтра.";
@@ -939,15 +938,21 @@ void ProcessDialogEvent()
 					}
 					else
 					{
-                        int storeMan = findStoreMan(NPChar, iTradeNation);
-                        if (storeMan > 0)
+                        npchar.storeMan1 = findStoreMan(NPChar,0);
+                        npchar.storeMan2 = findStoreMan(NPChar,1);
+						npchar.storeMan3 = findStoreMan(NPChar,2);
+                        if (sti(npchar.storeMan1) > 0 && sti(npchar.storeMan2) > 0 && sti(npchar.storeMan3) > 0)
                         {
                             //проверяем импорт/экспорт
-    						iTradeGoods = rand(GOOD_BRICK); //Рабы и золото не даем, бомбы и еду - да!!
+    						npchar.iTradeGoods1 = drand(GOOD_BRICK-10); //Рабы и золото не даем, бомбы и еду - да!!
+    						npchar.iTradeGoods2 = drand(GOOD_BRICK-5); //Рабы и золото не даем, бомбы и еду - да!!
+    						npchar.iTradeGoods3 = drand(GOOD_BRICK); //Рабы и золото не даем, бомбы и еду - да!!
     						//проверяем свободное место (при этом должно вмещаться по меньшей мере 100 единиц выбранного груза
     						RecalculateSquadronCargoLoad(pchar); // fix неверное место
-    						iQuantityGoods = GetSquadronFreeSpace(pchar, iTradeGoods);
-    						if (iQuantityGoods < 100)// это в шт. товара
+    						npchar.iQuantityGoods1 = GetSquadronFreeSpace(pchar, sti(npchar.iTradeGoods1));
+    						npchar.iQuantityGoods2 = GetSquadronFreeSpace(pchar, sti(npchar.iTradeGoods2));
+    						npchar.iQuantityGoods3 = GetSquadronFreeSpace(pchar, sti(npchar.iTradeGoods3));
+    						if (sti(npchar.iQuantityGoods1) < 100 || sti(npchar.iQuantityGoods2) < 100 || sti(npchar.iQuantityGoods3) < 100)// это в шт. товара
     						{
     							dialog.text = NPCharRepPhrase(npchar, "В твою жалкую посудину не поместится весь груз, сегодня сделки не будет.","К сожалению, капитан "+GetFullName(pchar)+", для доставки груза мне нужен более вместительный корабль, чем ваш.");
     							link.l1 = NPCharRepPhrase(npchar, "У меня достойный корабль, но я понял вашу мысль. До свиданья.","Я вас понимаю, бизнес прежде всего. Прощайте.");
@@ -955,60 +960,136 @@ void ProcessDialogEvent()
     						}
     						else
     						{
-    							iQuantityGoods = iQuantityGoods - rand(makeint(iQuantityGoods/3)) - 10;
-								if(CheckOfficersPerk(pchar,"Trader")) iMoney = makeint((iQuantityGoods * sti(Goods[iTradeGoods].Weight) / sti(Goods[iTradeGoods].Units)) * (5+rand(5) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5);
-								else iMoney = makeint((iQuantityGoods * sti(Goods[iTradeGoods].Weight) / sti(Goods[iTradeGoods].Units)) * (4+rand(3) + GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5);
-    							pchar.CargoQuest.iTradeGoods = iTradeGoods;
-    							pchar.CargoQuest.iQuantityGoods = iQuantityGoods;
-    							pchar.CargoQuest.iMoney = iMoney;
-    							pchar.CargoQuest.iTradeNation = iTradeNation;
-    							if(CheckOfficersPerk(pchar,"Trader")) pchar.CargoQuest.iDaysExpired = 18 + rand(6);
-								else pchar.CargoQuest.iDaysExpired = 12 + rand(5);
-    							
-    							pchar.CargoQuest.iTradeColony = Characters[storeMan].city;
-    							pchar.CargoQuest.iTradeIsland = GetIslandByCityName(Characters[storeMan].city);
-    							pchar.CargoQuest.TraderID     = Characters[storeMan].id;
-    							pchar.CargoQuest.GiveTraderID = NPChar.id;
-                                SaveCurrentQuestDateParam("CargoQuest");
-    							string sNation = XI_ConvertString("Colony"+Characters[storeMan].city);
-                                sTemp = "";
-                                if (pchar.CargoQuest.iTradeIsland != Characters[storeMan].city)
+    							npchar.iQuantityGoods1 = sti(npchar.iQuantityGoods1) - rand(sti(npchar.iQuantityGoods1-10)/3) - 10;
+    							npchar.iQuantityGoods2 = sti(npchar.iQuantityGoods2) - rand(sti(npchar.iQuantityGoods2-5)/3) - 10;
+    							npchar.iQuantityGoods3 = sti(npchar.iQuantityGoods3) - rand(sti(npchar.iQuantityGoods3)/3) - 10;
+								
+								if (CheckOfficersPerk(pchar,"Trader")) 
 								{
-                                    sTemp = ", что на " + XI_ConvertString(pchar.CargoQuest.iTradeIsland+"Dat");
-                                }
-                                dialog.text =  "О! Я как раз хотел сам попросить вас об оказании мне одной услуги. Дело в том, что мне нужно доставить груз " +
-                                               GetGoodsNameAlt(iTradeGoods)+ " в количестве " + FindRussianQtyString(iQuantityGoods) + " в город " +
-                                           sNation + sTemp + ", и как можно быстрее. Если вы успеете сделать это за " +  FindRussianDaysString(makeint(pchar.CargoQuest.iDaysExpired)) +
-                                           ", то по прибытии на место получите " +
-                                           FindRussianMoneyString(iMoney) + " вознаграждения. Ну как?";
-    							link.l1 = "Думаю, что я соглас"+ GetSexPhrase("ен","на") +".";
-    							link.l1.go = "exit_trade";
-    							link.l2  = "Не думаю, что мне это подходит.";
-    							link.l2.go = "exit";
+									npchar.iDaysExpired1 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan1)].city)/300+1.0)*2;
+									npchar.iDaysExpired2 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan2)].city)/300+1.0)*2;
+									npchar.iDaysExpired3 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan3)].city)/300+1.0)*2;
+								}
+								else 
+								{
+									npchar.iDaysExpired1 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan1)].city)/300+1.0);
+									npchar.iDaysExpired2 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan2)].city)/300+1.0);
+									npchar.iDaysExpired3 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan3)].city)/300+1.0);
+								}
+								
+								if(CheckOfficersPerk(pchar,"Trader"))
+								{
+									npchar.iMoney1 = makeint((sti(npchar.iQuantityGoods1) * sti(Goods[sti(npchar.iTradeGoods1)].Weight) / sti(Goods[sti(npchar.iTradeGoods1)].Units)) * sti(npchar.iDaysExpired1) /2 * ((1.2 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
+									npchar.iMoney2 = makeint((sti(npchar.iQuantityGoods2) * sti(Goods[sti(npchar.iTradeGoods2)].Weight) / sti(Goods[sti(npchar.iTradeGoods2)].Units)) * sti(npchar.iDaysExpired2) /2 * ((1.2 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
+									npchar.iMoney3 = makeint((sti(npchar.iQuantityGoods3) * sti(Goods[sti(npchar.iTradeGoods3)].Weight) / sti(Goods[sti(npchar.iTradeGoods3)].Units)) * sti(npchar.iDaysExpired3) /2 * ((1.2 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
+								}
+								else 
+								{
+									npchar.iMoney1 = makeint((sti(npchar.iQuantityGoods1) * sti(Goods[sti(npchar.iTradeGoods1)].Weight) / sti(Goods[sti(npchar.iTradeGoods1)].Units)) * sti(npchar.iDaysExpired1) * ((0.9 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
+									npchar.iMoney2 = makeint((sti(npchar.iQuantityGoods2) * sti(Goods[sti(npchar.iTradeGoods2)].Weight) / sti(Goods[sti(npchar.iTradeGoods2)].Units)) * sti(npchar.iDaysExpired2) * ((0.9 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
+									npchar.iMoney3 = makeint((sti(npchar.iQuantityGoods3) * sti(Goods[sti(npchar.iTradeGoods3)].Weight) / sti(Goods[sti(npchar.iTradeGoods3)].Units)) * sti(npchar.iDaysExpired3) * ((0.9 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
+								}
+								npchar.iTradeIsland1 = GetIslandByCityName(Characters[sti(npchar.storeMan1)].city);
+								npchar.iTradeIsland2 = GetIslandByCityName(Characters[sti(npchar.storeMan2)].city);
+								npchar.iTradeIsland3 = GetIslandByCityName(Characters[sti(npchar.storeMan3)].city);
+                                SaveCurrentQuestDateParam("CargoQuest");
+    							NPChar.sNation1 = XI_ConvertString("Colony"+Characters[sti(npchar.storeMan1)].city);
+    							NPChar.sNation2 = XI_ConvertString("Colony"+Characters[sti(npchar.storeMan2)].city);
+    							NPChar.sNation3 = XI_ConvertString("Colony"+Characters[sti(npchar.storeMan3)].city);
+								NPChar.sTemp1 = "";
+                                NPChar.sTemp2 = "";
+                                NPChar.sTemp3 = "";
+								if (npchar.iTradeIsland1 != Characters[sti(npchar.storeMan1)].city)
+								{
+									NPChar.sTemp1 = ", что на " + XI_ConvertString(npchar.iTradeIsland1+"Dat");
+								}
+								if (npchar.iTradeIsland2 != Characters[sti(npchar.storeMan2)].city)
+								{
+									NPChar.sTemp2 = ", что на " + XI_ConvertString(npchar.iTradeIsland2+"Dat");
+								}
+								if (npchar.iTradeIsland3 != Characters[sti(npchar.storeMan3)].city)
+								{
+									NPChar.sTemp3 = ", что на " + XI_ConvertString(npchar.iTradeIsland3+"Dat");
+								}
+
+                                //dialog.text =  "Одну минуту, сейчас найду свой журнал\nВот, что мне нужно сейчас доставить. Груз " + GetGoodsNameAlt(sti(npchar.iTradeGoods1))+ " в количестве " + FindRussianQtyString(sti(npchar.iQuantityGoods1)) + " в город " + NPChar.sNation1 + NPChar.sTemp1 + " за " +  FindRussianDaysString(makeint(sti(npchar.iDaysExpired1))) +", вознаграждение - " +FindRussianMoneyString(sti(npchar.iMoney1)) + ". Еще есть груз " + GetGoodsNameAlt(sti(npchar.iTradeGoods2))+ " в количестве " + FindRussianQtyString(sti(npchar.iQuantityGoods2)) + " в город " + NPChar.sNation2 + NPChar.sTemp2 + " за " +  FindRussianDaysString(makeint(sti(npchar.iDaysExpired2))) +", вознаграждение - " +FindRussianMoneyString(sti(npchar.iMoney2)) + ". А также груз " + GetGoodsNameAlt(sti(npchar.iTradeGoods3))+ " в количестве " + FindRussianQtyString(sti(npchar.iQuantityGoods3)) + " в город " + NPChar.sNation3 + NPChar.sTemp3 + " за " +  FindRussianDaysString(makeint(sti(npchar.iDaysExpired3))) +", вознаграждение - " +FindRussianMoneyString(sti(npchar.iMoney3)) + ".";
+								dialog.text =  "Одну минуту, сейчас найду свой журнал\nВот, что мне нужно сейчас доставить. Выбирайте, какой заказ вам больше всего подходит."	
+								link.l1 = "Я возьмусь доставить груз " + GetGoodsNameAlt(sti(npchar.iTradeGoods1)) + " в количестве " + FindRussianQtyString(sti(npchar.iQuantityGoods1)) + " в город " + NPChar.sNation1 + NPChar.sTemp1 + ", за " +  FindRussianMoneyString(sti(npchar.iMoney1)) +", не позднее чем за " + FindRussianDaysString(makeint(sti(npchar.iDaysExpired1))) + ".";
+								link.l1.go = "exit_trade1";
+								link.l2 = "Я возьмусь доставить груз " + GetGoodsNameAlt(sti(npchar.iTradeGoods2)) + " в количестве " + FindRussianQtyString(sti(npchar.iQuantityGoods2)) + " в город " + NPChar.sNation2 + NPChar.sTemp2 + ", за " +  FindRussianMoneyString(sti(npchar.iMoney2)) +" не позднее чем за " + FindRussianDaysString(makeint(sti(npchar.iDaysExpired2))) + ".";
+								link.l2.go = "exit_trade2";
+								link.l3 = "Я возьмусь доставить груз " + GetGoodsNameAlt(sti(npchar.iTradeGoods3)) + " в количестве " + FindRussianQtyString(sti(npchar.iQuantityGoods3)) + " в город " + NPChar.sNation3 + NPChar.sTemp3 + ", за " +  FindRussianMoneyString(sti(npchar.iMoney3)) +" не позднее чем за " + FindRussianDaysString(makeint(sti(npchar.iDaysExpired3))) + ".";
+								link.l3.go = "exit_trade3";
+								link.l4  = "Мне нужно подумать.";
+								link.l4.go = "exit";
     						}
                         }
                         else
                         {
-                            dialog.text = "Политическая обстановка в архипелаге не позволяет мне торговать. "+
+                            dialog.text = "Политическая обстановка на архипеллаге не позволяет мне торговать. "+
                                           XI_ConvertString(NationShortName(sti(NPChar.nation))+"hunter") + " во вражде со всеми, и магазин остался только у меня.";
     						link.l1 = "О! Сожалею. Всего хорошего";
     						link.l1.go = "exit";
                         }
 					}
 				}
-			}
-			else
-			{
-				dialog.text = NPCharRepPhrase(npchar, "Давай проваливай, нет у меня времени на пустые разговоры!","Я же уже говорил вам сегодня, что у меня ничего для вас нет.");
-				link.l1 = NPCharRepPhrase(npchar, "Ты обязан разговаривать учтиво, или я научу тебя вежливости!", "О, извините.");
-				link.l1.go = "exit";
-			}
 		break;
 
 		case "exit_trade":
 			AddDialogExitQuest("trade_quest_open");
 			Nextdiag.CurrentNode = Nextdiag.TempNode;
 			DialogExit();
+		break;
+		case "exit_trade1":
+			dialog.text = "Отлично! Разрешите приступить к погрузке.";
+			link.l1 = "Приступайте, уважаемый!";
+			link.l1.go = "exit";
+			pchar.CargoQuest.iDaysExpired = sti(npchar.iDaysExpired1);
+    		pchar.CargoQuest.iTradeGoods = npchar.iTradeGoods1;
+    		pchar.CargoQuest.iQuantityGoods = sti(npchar.iQuantityGoods1);
+    		pchar.CargoQuest.iMoney = sti(npchar.iMoney1);
+    		pchar.CargoQuest.iTradeNation = sti(npchar.iTradeNation1);
+    		pchar.CargoQuest.iTradeColony = Characters[sti(npchar.storeMan1)].city;
+    		pchar.CargoQuest.iTradeIsland = npchar.iTradeIsland1;
+			pchar.CargoQuest.TraderID     = Characters[sti(npchar.storeMan1)].id;
+    		pchar.CargoQuest.GiveTraderID = NPChar.id;
+		
+			AddDialogExitQuest("trade_quest_open");
+			Nextdiag.CurrentNode = Nextdiag.TempNode;
+		break;
+		case "exit_trade2":
+			dialog.text = "Отлично! Разрешите приступить к погрузке.";
+			link.l1 = "Приступайте, уважаемый!";
+			link.l1.go = "exit";
+			pchar.CargoQuest.iDaysExpired = sti(npchar.iDaysExpired2);
+    		pchar.CargoQuest.iTradeGoods = npchar.iTradeGoods2;
+    		pchar.CargoQuest.iQuantityGoods = sti(npchar.iQuantityGoods2);
+    		pchar.CargoQuest.iMoney = sti(npchar.iMoney2);
+    		pchar.CargoQuest.iTradeNation = sti(npchar.iTradeNation2);
+    		pchar.CargoQuest.iTradeColony = Characters[sti(npchar.storeMan2)].city;
+    		pchar.CargoQuest.iTradeIsland = npchar.iTradeIsland2;
+			pchar.CargoQuest.TraderID     = Characters[sti(npchar.storeMan2)].id;
+    		pchar.CargoQuest.GiveTraderID = NPChar.id;
+		
+			AddDialogExitQuest("trade_quest_open");
+			Nextdiag.CurrentNode = Nextdiag.TempNode;
+		break;
+		case "exit_trade3":
+			dialog.text = "Отлично! Разрешите приступить к погрузке.";
+			link.l1 = "Приступайте, уважаемый!";
+			link.l1.go = "exit";
+			pchar.CargoQuest.iDaysExpired = sti(npchar.iDaysExpired3);
+    		pchar.CargoQuest.iTradeGoods = npchar.iTradeGoods3;
+    		pchar.CargoQuest.iQuantityGoods = sti(npchar.iQuantityGoods3);
+    		pchar.CargoQuest.iMoney = sti(npchar.iMoney3);
+    		pchar.CargoQuest.iTradeNation = sti(npchar.iTradeNation3);
+    		pchar.CargoQuest.iTradeColony = Characters[sti(npchar.storeMan3)].city;
+    		pchar.CargoQuest.iTradeIsland = npchar.iTradeIsland3;
+			pchar.CargoQuest.TraderID     = Characters[sti(npchar.storeMan3)].id;
+    		pchar.CargoQuest.GiveTraderID = NPChar.id;
+		
+			AddDialogExitQuest("trade_quest_open");
+			Nextdiag.CurrentNode = Nextdiag.TempNode;
 		break;
 
 		case "generate_quest_2":
@@ -1079,9 +1160,9 @@ void ProcessDialogEvent()
 				link.l1 = "Приятно с вами работать.";
 				link.l1.go = "exit";
 				ChangeCharacterReputation(pchar, 3);
-				AddCharacterExpToSkill(pchar, "Sailing", 100);
-				AddCharacterExpToSkill(pchar, "Leadership", 30);
-				AddCharacterExpToSkill(pchar, "COMMERCE", 100);
+				AddCharacterExpToSkill(pchar, "Sailing", 1.0 * sti(pchar.CargoQuest.iDaysExpired) * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_I));
+				AddCharacterExpToSkill(pchar, "Leadership", 0.3 * sti(pchar.CargoQuest.iDaysExpired) * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_C));
+				AddCharacterExpToSkill(pchar, "COMMERCE", 1.0 * sti(pchar.CargoQuest.iDaysExpired) * sti(pchar.rank) * (GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I))/2);
 
 				AddMoneyToCharacter(pchar, makeint(pchar.CargoQuest.iMoney));
 				pchar.quest.generate_trade_quest_progress = "";
@@ -1219,40 +1300,47 @@ void ProcessDialogEvent()
 				DialogExit();
 			}
 		break;
+
 	}
 	LanguageCloseFile(iSeaGoods);
 }
 
-int findStoreMan(ref NPChar, int iTradeNation)
+int findStoreMan(ref NPChar, int delta)
 {
     ref ch;
+	aref chNat;
 	int n;
     int storeArray[30];
     int howStore = 0;
-
-	for(n=0; n<MAX_CHARACTERS; n++)
-	{
-		makeref(ch,Characters[n]);
-        if (CheckAttribute(ch, "Dialog.Filename") && ch.Dialog.Filename == "Common_Store.c") // магазин
+	bool ok;
+		for (int i = 0; i < MAX_CHARACTERS; i++)
 		{
-            if (sti(ch.nation) !=  iTradeNation) continue;
-            if (NPChar.id == ch.id) continue;
-            if (NPChar.id == "Panama_trader" || ch.id == "Panama_trader") continue; //нельзя доплыть
-			if (NPChar.id == "Caiman_trader" || ch.id == "Caiman_trader") continue;
-            if (ch.location == "none") continue; // фикс для новых, невидимых до поры островов
-            if (GetIslandByCityName(ch.city) == GetIslandByCityName(NPChar.city)) continue; // хрен вам, а не читы!
-            storeArray[howStore] = n;
-            howStore++;
+			makeref(ch,Characters[i]);
+			makearef(chNat,Characters[i].Nation);
+			if (CheckAttribute(ch, "Dialog.Filename") && ch.Dialog.Filename == "Common_Store.c")
+			{
+				if (NPChar.id == ch.id) continue;
+				if (NPChar.id == "Panama_trader" || ch.id == "Panama_trader") continue; //нельзя доплыть
+				if (NPChar.id == "Caiman_trader" || ch.id == "Caiman_trader") continue;
+				if (ch.location == "none") continue; // фикс для новых, невидимых до поры островов
+				if (GetIslandByCityName(ch.city) == GetIslandByCityName(NPChar.city)) continue; // хрен вам, а не читы!
+				ok = (GetNationRelation2MainCharacter(sti(chNat)) == RELATION_ENEMY) && (sti(chNat) != PIRATE);
+				if (GetNationRelation(sti(chNat), sti(NPChar.Nation)) != RELATION_ENEMY && !ok)
+				{
+					storeArray[howStore] = i;
+					howStore++;
+				}
+			}
 		}
-    }
-    if (howStore == 0)
-    {
-        return -1;
-    }
-    else
-    {
-        return storeArray[rand(howStore-1)];
-	}
+		if (howStore == 0)
+		{
+			return -1;
+		}
+		else
+		{
+			n = drand(howStore - 3) + delta;
+			return storeArray[n];
+		}
 }
 
 // ugeen --> 

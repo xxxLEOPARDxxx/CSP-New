@@ -388,7 +388,7 @@ void RemoveSmugglersFromShore()
 	pchar.quest.KillSmugglers_outShore.win_condition.l1 = "ExitFromLocation";
 	pchar.quest.KillSmugglers_outShore.win_condition.l1.location = pchar.location;
 	pchar.quest.KillSmugglers_outShore.win_condition = "KillSmugglers_outShore";
-	for (i=1; i<=3; i++) //eddy
+	for (i=1; i<=3+makeint(MOD_SKILL_ENEMY_RATE/2); i++) //eddy
 	{
 		cn = GetCharacterIndex("Rand_Smug0"+i);
 		if (cn != -1)

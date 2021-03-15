@@ -2124,7 +2124,7 @@ void InitShips()
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
-	refship.Type.War						= true;
+	refship.Type.War						= false;
 	refShip.fWindAgainstSpeed				= 2.0;
 	refShip.sea_enchantment					= 3;
 	refShip.lowpolycrew = 12;
@@ -2670,8 +2670,8 @@ void InitShips()
 	refShip.SP = 									100;
 	refShip.MastMultiplier = 						1.6;
 	refship.CanEncounter = 						true;
-	refship.Type.Merchant = 					false;
-	refship.Type.War = 							true;
+	refship.Type.Merchant = 					true;
+	refship.Type.War = 							false;
 	refShip.fWindAgainstSpeed = 				2.0;
 	refShip.sea_enchantment = 					1.8;
 	refShip.lowpolycrew = 						12;
@@ -3655,7 +3655,7 @@ void InitShips()
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
-	refship.Type.Merchant					= true;
+	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
 	refShip.fWindAgainstSpeed				= 2.0;
 	refShip.sea_enchantment					= 1.5;
@@ -3725,7 +3725,7 @@ void InitShips()
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
-	refship.Type.Merchant				= true;
+	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
 	refShip.fWindAgainstSpeed			= 2.2;
 	refShip.sea_enchantment				= 2.1;
@@ -6408,7 +6408,7 @@ void InitShips()
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
 	refship.Type.Merchant					= true;
-	refship.Type.War						= true;
+	refship.Type.War						= false;
 	refShip.fWindAgainstSpeed				= 1.3;
 	refShip.sea_enchantment					= 1.2;
 	refShip.lowpolycrew = 20;
@@ -6781,7 +6781,7 @@ void InitShips()
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter					= true;
-	refship.Type.Merchant					= true;
+	refship.Type.Merchant					= false;
 	refship.Type.War						= true;
 	refShip.fWindAgainstSpeed				= 2.0;
 	refShip.sea_enchantment					= 1.2;
@@ -7917,7 +7917,7 @@ void InitShips()
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
-	refship.Type.Merchant				= true;
+	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
 	refShip.fWindAgainstSpeed			= 1.4;
 	refShip.sea_enchantment				= 1.1;

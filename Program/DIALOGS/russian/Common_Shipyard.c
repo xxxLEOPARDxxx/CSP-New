@@ -121,6 +121,24 @@ void ProcessDialogEvent()
 					break;
 				}
 				//<<--- квест украсть чертеж на верфи			
+				/* автор - Jason (BlackMark Studio); перенос в CSP - Nathaniel ---------- */
+				/* 12.03.21 ------------------------------------------------------------- */
+				if (drand(4) == 2 && !CheckAttribute(pchar, "GenQuest.Findship.Shipyarder"))
+				{
+					if (!CheckAttribute(npchar, "Findship") || GetNpcQuestPastDayParam(npchar, "Findship") >= 60) 
+					{
+						SelectFindship_ShipType(); //выбор типа корабля
+						pchar.GenQuest.Findship.Shipyarder.ShipBaseName = GetStrSmallRegister(XI_ConvertString(GetBaseShipParamFromType(sti(pchar.GenQuest.Findship.Shipyarder.ShipType), "Name") + ""));
+						pchar.GenQuest.Findship.Shipyarder.City = npchar.city; //город квестодателя
+						dialog.text = "Да, у меня есть проблема, требующая решения. Мне поступил заказ. Моему клиенту как можно скорее требуется " + pchar.GenQuest.Findship.Shipyarder.ShipBaseName + ". Однако у меня на верфи сейчас такого корабля нет, сделать его за два месяца у меня тоже нет возможности\nЕсли вы сможете доставить мне такой корабль, я буду весьма вам благодарен и заплачу сумму, в полтора раза превышающую его продажную стоимость.";
+						link.l1 = "Интересное предложение!";
+						link.l1.go = "Findship";
+						link.l2 = "Мне это не интересно.";
+						link.l2.go = "Findship_exit";
+						SaveCurrentNpcQuestDateParam(npchar, "Findship");
+						break;
+					}
+				}
 				
 				dialog.Text = pcharrepphrase("А, это опять ты? Ну да ладно, деньги не пахнут.",
                                         TimeGreeting() + ", чем я могу помочь вам, " + GetAddress_Form(NPChar) + "?");
@@ -169,6 +187,7 @@ void ProcessDialogEvent()
 					link.l6 = "Я выполнил"+ GetSexPhrase("","а") +" ваше поручение. Чертеж из верфи " + XI_ConvertString("Colony" + pchar.questTemp.different.ShipyardsMap.city + "Gen") + " у меня.";
 					link.l6.go = "ShipyardsMapOk_1";
 				}
+				
 				if(CheckAttribute(pchar,"GenQuest.EncGirl"))
 				{
 					if(pchar.GenQuest.EncGirl == "toLoverFather" && pchar.GenQuest.EncGirl.LoverFather == "shipyard_keeper" && pchar.GenQuest.EncGirl.LoverCity == npchar.city)
@@ -185,7 +204,7 @@ void ProcessDialogEvent()
 							link.l8.go = "EncGirl_1";
 						}
 					}
-				}								
+				}
 				Link.l9 = "Мне нужно идти.";
 				Link.l9.go = "exit";
 			}
@@ -264,7 +283,7 @@ void ProcessDialogEvent()
 			pchar.questTemp.different.GiveShipLetters.speakShipyard = true;
 			if(sti(pchar.questTemp.different.GiveShipLetters.variant) == 0)
 			{
-				dialog.text = "Дайте-ка взглянуть ! Нет, таковой у меня не был. Думаю, Вам стоит зайти к начальнику порта.";
+				dialog.text = "Дайте-ка взглянуть! Нет, таковой у меня не был. Думаю, Вам стоит зайти к начальнику порта.";
 				link.l1 = "Несомненно....";
 				link.l1.go = "exit";
 			}
@@ -365,6 +384,49 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();		
 		break;
+		
+		/* Nathaniel (12.03.21): генераторный квест "Поиск корабля" */
+		case "Findship_exit":
+			DialogExit();
+			DeleteAttribute(pchar, "GenQuest.Findship.Shipyarder");
+		break;
+		/* -------------------------------------------------------- */
+		
+		case "Findship":
+			pchar.GenQuest.Findship.Shipyarder = "begin";
+			pchar.GenQuest.Findship.Shipyarder.Name = GetFullName(npchar);
+			pchar.GenQuest.Findship.Shipyarder.City = npchar.city;
+			ReOpenQuestHeader("Findship");
+			AddQuestRecord("Findship", "1");
+			AddQuestUserData("Findship", "sCity", XI_ConvertString("Colony"+pchar.GenQuest.Findship.Shipyarder.City+"Gen"));
+			AddQuestUserData("Findship", "sName", pchar.GenQuest.Findship.Shipyarder.Name);
+			AddQuestUserData("Findship", "sShip", pchar.GenQuest.Findship.Shipyarder.ShipBaseName);
+			SetFunctionTimerCondition("Findship_Over", 0, 0, 60, false);
+			DialogExit();
+		break;
+				
+		case "Findship_check":
+			dialog.text = "Отлично! Рад, что вы так быстро управились с этой задачей. Где этот корабль?";
+			link.l1 = "В данный момент " + pchar.GenQuest.Findship.Shipyarder.ShipBaseName + " ''" + pchar.GenQuest.Findship.Shipyarder.ShipName + "'' стоит на рейде. Можете приступать к осмотру...";
+			link.l1.go = "Findship_complete";
+		break;
+				
+		case "Findship_complete":
+			pchar.quest.Findship_Over.over = "yes";//снять прерывание
+			sld = GetCharacter(sti(pchar.GenQuest.Findship.Shipyarder.CompanionIndex));
+			RemoveCharacterCompanion(PChar, sld);
+			AddPassenger(pchar, sld, false);
+			dialog.text = "Вот ваши деньги, " + GetAddress_Form(npchar) + ". Ваш гонорар составляет " + FindRussianMoneyString(sti(pchar.GenQuest.Findship.Shipyarder.Money)) + ". Искренне благодарю вас за проделанную работу. Не забывайте заглядывать ко мне. До свидания!";
+			link.l1 = "Всего доброго, " + GetAddress_Form(npchar) + " " + npchar.lastname + ".";
+			link.l1.go = "exit";
+			AddMoneyToCharacter(pchar, sti(pchar.GenQuest.Findship.Shipyarder.Money));
+			AddQuestRecord("Findship", "3");
+			AddQuestUserData("Findship", "sMoney", FindRussianMoneyString(sti(pchar.GenQuest.Findship.Shipyarder.Money)));
+			CloseQuestHeader("Findship");
+			DeleteAttribute(pchar, "GenQuest.Findship.Shipyarder");
+		break;
+		//<-- генератор Поиск корабля
+		
 		case "shipyard":
 			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
 		    if (sti(Pchar.Ship.Type) == SHIP_NOTUSED || ok)
@@ -998,4 +1060,120 @@ bool CheckForFlyingDuchmanSails(ref _char)
 	}
 
 	return false;
+}
+
+void SelectFindship_ShipType()
+{
+	int iRank,g;
+	
+	if (sti(pchar.rank) <= 4) iRank = 0;
+	if (sti(pchar.rank) > 5 && sti(pchar.rank) <= 8) iRank = 1;
+	if (sti(pchar.rank) > 9 && sti(pchar.rank) <= 12) iRank = 2;
+	if (sti(pchar.rank) > 13 && sti(pchar.rank) <= 16) iRank = 3;
+	if (sti(pchar.rank) > 17 && sti(pchar.rank) <= 19) iRank = 4;
+	if (sti(pchar.rank) > 20 && sti(pchar.rank) <= 24) iRank = 5;
+	if (sti(pchar.rank) > 25) iRank = 6;
+	
+	switch (iRank)
+	{
+		case 0: 
+			g = 0;
+			g = rand(4);
+			switch (g)
+			{
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BERMSLOOP; break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_EMPRESS;   break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PINK;      break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_LUGGER;    break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_LUGGER_H;  break;
+			}
+		break; 		
+		
+		case 1: 
+			g = 0;
+			g = rand(6);
+			switch (g)
+			{
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SPEEDY;    break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_SLOOP;  break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_GALEOTH_H; break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SLOOP;     break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SLOOP_B;   break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_NEPTUNUS;  break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SOPHIE;    break;
+			}
+		break; 	
+		
+		case 2: 
+			g = 0;
+			g = rand(6);
+			switch (g)
+			{
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_POLACCA;         break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BARQUE;          break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_POSTILLIONEN; break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SCHOONER;        break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_XEBEC;           break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_XEBECLIGHT;      break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BATTLEXEBEC;     break;
+			}
+		break; 	
+		
+		case 3: 
+			g = 0;
+			g = rand(6);
+			switch (g)
+			{
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SCHOONERLIGHT; break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_MIRAGE;        break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_POLACRE;       break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_ENSLAVER;      break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SHNYAVA;       break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIG;          break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIGHEAVY;     break;
+			}
+		break; 	
+			
+		case 4: 
+			g = 0;
+			g = rand(13);
+			switch (g)
+			{
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BARKENTINE;    break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIGANTINE;    break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CASTELF;       break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_DERFFLINGER;   break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_INTERCEPTOR;   break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FLEUT;         break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PO_FLEUT50;    break;
+				case 7: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_GALEON_L;      break;
+				case 8: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CORVETTELIGHT; break;
+				case 9: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PACKET_BRIG;   break;
+				case 10: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PDN;          break;
+				case 11: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_ENTERPRISE;   break;
+				case 12: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CARAVEL;      break;
+				case 13: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_GALEONTRADER; break;
+			}
+		break; 	
+		
+		case 5:
+			g = 0;
+			g = rand(10);
+			switch (g)
+			{
+			    case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FELIPE;      break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CORVETTE;         break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BATTLECORVETTE;         break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_JAMAICASHIP;       break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PIRATFASTGAL;       break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CARRACA;        break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BLACKANGEL;      break;
+				case 7: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_REVENGE;      break;
+				case 8: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_NL_CONVOISHIP;     break;
+				case 9: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_ESSEX;       break;
+				case 10: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_FRIGATE;      break;
+			}
+		break;
+		/* ---------------------------------------------------------------------------------- */
+	}
 }

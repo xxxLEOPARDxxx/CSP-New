@@ -3275,6 +3275,11 @@ ref BI_GetLandData()
 			arLoc.labelLoc = "порт " + sColonyName;
 		}
 		
+		if(arLoc.label == "LeFransua Port")
+		{
+			BI_intNRetValue[0] = 2;
+		}
+		
 		if( arLoc.labelLoc == "" ) {
 			Trace("Warning! Language: string <"+arLoc.label+"> hav`t translation into file <LocLables.txt>");
 		}

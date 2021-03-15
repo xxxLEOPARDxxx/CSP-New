@@ -656,7 +656,7 @@ void ReasonToFast_MeetPatrolShore(string qName) // генерация патруля
 			}	
 			else 
 			{
-				if(sti(pchar.questTemp.ReasonToFast.p1) < GetCharacterSPECIAL(pchar, "LUCK") * 10)	
+				if(sti(pchar.questTemp.ReasonToFast.p1) > 40 + GetSummonSkillFromName(pchar, SKILL_FORTUNE)/2)	
 				{
 					chr.dialog.currentnode = "First Time";
 					pchar.questTemp.ReasonToFast = "MeetPatrolFail";
@@ -1358,26 +1358,26 @@ void ReasonToFast_InitVariables()
 {
 	int s1, s2;
 
-	pchar.questTemp.ReasonToFast.p1 = rand(100);
-	pchar.questTemp.ReasonToFast.p2 = rand(100);
-	pchar.questTemp.ReasonToFast.p3 = "l" + rand(GetNamesCount(NAMETYPE_MAIN) - 1); 	// id пиратского атамана
-	pchar.questTemp.ReasonToFast.p4 = rand(3) + 1; 	// id камня (1-4) 
+	pchar.questTemp.ReasonToFast.p1 = drand(100);
+	pchar.questTemp.ReasonToFast.p2 = drand(100);
+	pchar.questTemp.ReasonToFast.p3 = "l" + drand(GetNamesCount(NAMETYPE_MAIN) - 1); 	// id пиратского атамана
+	pchar.questTemp.ReasonToFast.p4 = drand(3) + 1; 	// id камня (1-4) 
 	pchar.questTemp.ReasonToFast.p5 = (110 - GetSummonSkillFromName(pchar, SKILL_FORTUNE)) * MOD_SKILL_ENEMY_RATE * 1000;	
 	pchar.questTemp.ReasonToFast.p6 = GenQuest_GenerateGoodBlade(); // генерация клинка
 	s1 = GetCharacterSPECIAL(pchar,"Charisma");
-	s1 = s1 - rand(makeint(s1/2));
+	s1 = s1 - drand(makeint(s1/2));
 	s2 = GetCharacterSPECIAL(pchar,"Intellect");
-	s2 = s2 - rand(makeint(s2/2));
+	s2 = s2 - drand(makeint(s2/2));
 	pchar.questTemp.ReasonToFast.p7 = s1;
 	pchar.questTemp.ReasonToFast.p8 = s2;	
 	s1 = GetCharacterSPECIAL(pchar,"Charisma");
 	s2 = GetCharacterSPECIAL(pchar,"Intellect");
-	pchar.questTemp.ReasonToFast.p9 = 50 * (5 + s1 - 2 * rand(makeint(s1/2)) + (s2 - 2 * rand(makeint(s2/2))) * 4) * (200 + GetSummonSkillFromName(pchar, SKILL_COMMERCE));
+	pchar.questTemp.ReasonToFast.p9 = 50 * (5 + s1 - 2 * drand(makeint(s1/2)) + (s2 - 2 * drand(makeint(s2/2))) * 4) * (200 + GetSummonSkillFromName(pchar, SKILL_COMMERCE));
 	pchar.questTemp.ReasonToFast.p10 = 4500000 * (s1 + 4 * s2)/(200 + GetSummonSkillFromName(pchar, SKILL_COMMERCE));
-	pchar.questTemp.ReasonToFast.target = rand(1);
-	if(rand(1) == 0) 
+	pchar.questTemp.ReasonToFast.target = drand(1);
+	if(drand(1) == 0) 
 	{ 
-		pchar.questTemp.ReasonToFast.map = "l" + rand(GetNamesCount(NAMETYPE_NICK) - 1); 
+		pchar.questTemp.ReasonToFast.map = "l" + drand(GetNamesCount(NAMETYPE_NICK) - 1); 
 		pchar.questTemp.ReasonToFast.mapIdx = NAMETYPE_NICK;
 	}
 	else

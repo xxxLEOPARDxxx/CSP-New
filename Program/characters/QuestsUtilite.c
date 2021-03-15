@@ -2278,34 +2278,35 @@ void SilencePriceInit()
 	ch.greeting = "Gr_Atilla";
 	ChangeCharacterAddressGroup(ch, "LaVega_town", "goto", "goto15");
 }
-//Проклятие Дальних Морей Sinistra
-void CursedIdolInit()
+//Проклятие Дальних Морей
+void CursedIdolInit()	//Проклятый идол Sinistra
 {
 	//Джеймс Кэллоу
 	ref sld;
 	sld = GetCharacter(NPC_GenerateCharacter("James_Callow", "ozg_green", "man", "man", 6, PIRATE, -1, false));
 	sld.name	= "Джеймс";
 	sld.lastname	= "Кэллоу";
-	sld.rank     = 6;
+	sld.rank     = 7;
 	sld.model	= "ozg_green";
 	SetCharacterPerk(sld, "HullDamageUp");
 	SetCharacterPerk(sld, "CrewDamageUp");
-	SetCharacterPerk(sld, "CriticalShoot");
+	SetCharacterPerk(sld, "SailsDamageUp");
 	SetCharacterPerk(sld, "LongRangeShoot");
-	SetCharacterPerk(sld, "CannonProfessional");
 	SetCharacterPerk(sld, "ShipDefenseProfessional");
 	SetCharacterPerk(sld, "SwordplayProfessional");
+	SetCharacterPerk(sld, "BasicDefense");
 	SetCharacterPerk(sld, "AdvancedDefense");
 	SetCharacterPerk(sld, "CriticalHit");
 	SetCharacterPerk(sld, "Sliding");
+	SetCharacterPerk(sld, "Energaiser");
 	GiveItem2Character(sld, BLADE_LONG);
-	SetSelfSkill(sld, 20, 45, 15, 20, 15);
-	SetShipSkill(sld, 20, 10, 20, 15, 32, 10, 15, 15, 12);
+	SetSPECIAL(sld, 8,9,6,3,8,6,10);
+	SetSelfSkill(sld, 20, 40, 15, 20, 20);		//(ЛО, СО, ТО, пистолеты, фортуна)
+	SetShipSkill(sld, 20, 10, 45, 40, 32, 10, 15, 15, 12);	//(лидер, торг, точн, пушки, навиг, ремонт, аборд, защита, скрыт)
 	sld.sex = "man";
 	sld.City = "LaVega";
 	sld.location	= "LaVega_tavern";
 	sld.Dialog.Filename = "Quest/PDM/Cursed_Idol.c";
-	sld.greeting = "James_Callow";
 	sld.nation = PIRATE;
 	LAi_SetSitType(sld);
 	LAi_SetImmortal(sld, true);
@@ -2328,9 +2329,26 @@ void CursedIdolInit()
 	sld = GetCharacter(NPC_GenerateCharacter("PDM_Tortuga_usurer_Klon", "usurer_3", "man", "man", 1, FRANCE, -1, false));
 	sld.City = "Tortuga";
 	sld.Dialog.Filename = "PDM_Cursed_Idol.c";
-	LAi_SetOwnerType(sld);
+	LAi_SetStayType(sld);
 	LAi_SetImmortal(sld, true);
 	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
+}
+void NovayaRodinaInit()	//Новая Родина Sinistra
+{
+	//Хьюго Лесопилка
+	ref sld;
+	sld = GetCharacter(NPC_GenerateCharacter("Hugo_Lesopilka", "officer_63", "man", "man", 10, PIRATE, -1, false));
+	sld.name	= "Хьюго";
+	sld.lastname	= "Лесопилка";
+	GiveItem2Character(sld, BLADE_LONG);
+	sld.sex = "man";
+	sld.City = "PuertoPrincipe";
+	sld.location	= "PuertoPrincipe_tavern";
+	sld.Dialog.Filename = "Quest/PDM/Novaya_Rodina.c";
+	sld.nation = PIRATE;
+	LAi_SetSitType(sld);
+	LAi_SetImmortal(sld, true);
+	ChangeCharacterAddressGroup(sld,"PuertoPrincipe_tavern","sit","sit_front2");
 }
 void OfficerGirlInit()
 {

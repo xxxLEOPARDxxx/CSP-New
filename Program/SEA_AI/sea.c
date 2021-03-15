@@ -288,6 +288,31 @@ void Sea_LandLoad()
 	if (isMainCharacterPatented())
 	{
 		patentnation = GetPatentNation();
+		if (FindColony(Sea_FindNearColony())==-1)
+		{
+			pchar.CheckEnemyCompanionType = "Sea_LandLoad"; // откуда вход
+			if (!CheckEnemyCompanionDistance2GoAway(true)) return; // && !bBettaTestMode  табличка выхода из боя
+		
+			bSeaReloadStarted = true;
+			PauseAllSounds();
+			//ResetSoundScheme();
+			ResetSound(); // new
+
+			if (bSeaActive == false) return;
+			if (bCanEnterToLand == true)
+			{
+				//#20190717-01
+				resetGroupRel();
+				LayerFreeze("realize", false);
+				LayerFreeze("execute", false);
+				Reload(arIslandReload, sIslandLocator, sIslandID);
+				ReleaseMapEncounters();
+				EmptyAllFantomShips(); // boal
+				DeleteAttribute(pchar, "CheckStateOk"); // проверка протектором
+				Group_FreeAllDead();
+			}
+			return;
+		}
 		if (bPortPermission && sti(Colonies[FindColony(Sea_FindNearColony())].nation) == patentnation)
 		{
 			if(iColony != -1)

@@ -6679,7 +6679,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.skill = "Defenñe";
+	itm.skill = "Defence";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6879,7 +6879,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(0.5);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.skill = "Defenñe";
+	itm.skill = "Defence";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7079,7 +7079,7 @@ int InitItems()
 	itm.Weight = 0.5 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.skill = "Defenñe";
+	itm.skill = "Defence";
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7279,7 +7279,7 @@ int InitItems()
 	itm.Weight = 1.0 + fRandSmall(1.0);
 	itm.minlevel = 1;
 	itm.rare = 0.01;
-	itm.skill = "Defenñe";
+	itm.skill = "Defence";
 	n++;
 	
 	makeref(itm,Items[n]);

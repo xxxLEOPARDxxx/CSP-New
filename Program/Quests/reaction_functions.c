@@ -8755,6 +8755,14 @@ void Deliver_lay(string qName)//пришли - а нету никого
 }
 //<--малява, кидалово
 
+/* Nathaniel (12.03.21): генераторный квест "Поиски корабля" ------------------------------------ */
+void Findship_Over(string qName)//просрочили найти корабль на верфь
+{
+	AddQuestRecord("Findship", "2");
+	CloseQuestHeader("Findship");
+	DeleteAttribute(pchar, "GenQuest.Findship.Shipyarder");
+}
+/* ---------------------------------------------------------------------------------------------- */
 //zagolski - побег офицера
 void mOfficer_fc(string qName)
 {
@@ -10158,7 +10166,7 @@ void PDM_Callow_RodjerProdolg(string qName)
     int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE;
 	if (Rank < 1) Rank = 1;
 	sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_off", "off_fra_1", "man", "man", Rank, FRANCE, -1, true));
-    FantomMakeCoolFighter(sld, sti(pchar.rank), 20, 20, "blade18", "", 50);	
+    FantomMakeCoolFighter(sld, sti(pchar.rank), 20, 20, "blade18", "", 20);	
 	ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto2");
 	LAi_SetActorType(sld);
 	sld.dialog.filename   = "Quest/PDM/Cursed_Idol.c";		//Название файла диалога
@@ -10169,7 +10177,7 @@ void PDM_Callow_RodjerProdolg(string qName)
         sTemp = "sold_fra_"+(rand(7)+1);  //количество
 		if (i==12) sTemp = "off_fra_1";
  		sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_"+i, sTemp, "man", "man", Rank, FRANCE, -1, true));
-        FantomMakeCoolFighter(sld, sti(pchar.rank), 15, 15, "blade2", "", 20);
+        FantomMakeCoolFighter(sld, sti(pchar.rank), 10, 10, "blade2", "", 10);
         ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto2");
 		LAi_SetActorType(sld);
 		LAi_ActorFollow(sld, pchar, "", -1);
@@ -10178,8 +10186,8 @@ void PDM_Callow_RodjerProdolg(string qName)
 void PDM_Callow_Voina(string qName)
 {
 	sld = CharacterFromID("James_Callow");
-	FantomMakeCoolFighter(sld, 30, 70, 70, "blade34", "", 140);
-	FantomMakeCoolSailor(sld, SHIP_SCHOONERLIGHT, "Жадный Билли", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
+	FantomMakeCoolFighter(sld, 5, 25, 25, "blade34", "", 120);
+	FantomMakeCoolSailor(sld, SHIP_SCHOONERLIGHT, "Жадный Билли", CANNON_TYPE_CULVERINE_LBS12, 60, 30, 50);
 	sld.name	= "Джеймс";
 	sld.lastname	= "Кэллоу";
 	sld.AlwaysSandbankManeuver = true;
@@ -10189,18 +10197,22 @@ void PDM_Callow_Voina(string qName)
 	sld.DontRansackCaptain = true;
 	sld.AlwaysEnemy = true;
 	GiveItem2Character(sld, "lockpick");
-	AddMoneyToCharacter(sld, 18000);
+	AddItems(sld, "jewelry1", rand(5)+2);
+	AddItems(sld, "jewelry2", rand(2)+2);
+	AddItems(sld, "jewelry3", rand(5)+2);	
+	AddItems(sld, "jewelry4", rand(5)+2);
+	AddItems(sld, "jewelry12", rand(20)+2);
+	AddMoneyToCharacter(sld, 15000);
 	SetCharacterPerk(sld, "HullDamageUp");
 	SetCharacterPerk(sld, "CrewDamageUp");
 	SetCharacterPerk(sld, "CriticalShoot");
 	SetCharacterPerk(sld, "LongRangeShoot");
-	SetCharacterPerk(sld, "CannonProfessional");
 	SetCharacterPerk(sld, "ShipDefenseProfessional");
 	SetCharacterPerk(sld, "SwordplayProfessional");
 	SetCharacterPerk(sld, "AdvancedDefense");
 	SetCharacterPerk(sld, "CriticalHit");
 	SetCharacterPerk(sld, "Sliding");
-	sld.ship.Crew.Morale = 100;
+	sld.ship.Crew.Morale = 80;
 	ChangeCrewExp(sld, "Sailors", 60);
 	ChangeCrewExp(sld, "Cannoners", 30);
 	ChangeCrewExp(sld, "Soldiers", 50);

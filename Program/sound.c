@@ -10,7 +10,7 @@ int Play3DSound(string name, float x, float y, float z)
 {
 	InitSound();
 	//Trace("Play3DSound : "+name);
-	return SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY, name, SOUND_WAV_3D, VOLUME_FX, false, false, false, 0, x, y, z);
+	return SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_3D, VOLUME_FX, false, false, false, 0, x, y, z);
 }
 
 int Play3DSoundRet(string name, float x, float y, float z)
@@ -24,7 +24,7 @@ int Play3DSoundCached(string name, float x, float y, float z)
 {
 	InitSound();
 	//Trace("Play3DSoundCached : "+name);
-	return SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY, name, SOUND_WAV_3D, VOLUME_FX, false, false, true, 0, x, y, z);
+	return SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_3D, VOLUME_FX, false, false, true, 0, x, y, z);
 }
 
 int Play3DSoundComplex(string name, float x, float y, float z, bool bLooped, bool bCached)
@@ -37,29 +37,29 @@ int PlayStereoSound(string name)
 {
 	InitSound();
 	//Trace("PlayStereoSound : "+name);
-	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_FX, false, false, false);
+	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_STEREO, VOLUME_FX, false, false, false);
 }
 
 int PlayVoiceSound(string name)
 {
 	InitSound();
 	//Trace("PlayStereoSound : "+name);
-	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_SPEECH, false, false, false);
+	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_STEREO, VOLUME_SPEECH, false, false, false);
 }
 
 int PlayStereoSoundLooped(string name)
 {
 	InitSound();
 	//Trace("PlayStereoSoundLooped : "+name);
-	return SendMessage(Sound,"lsllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_FX, false, true, false);
+	return SendMessage(Sound,"lsllll",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_STEREO, VOLUME_FX, false, true, false);
 }
 
-int PlayStereoSoundLooped_JustCache(string name)
+/* int PlayStereoSoundLooped_JustCache(string name)
 {
 	InitSound();
 	//Trace("PlayStereoSoundLooped : "+name);
-	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY, name, SOUND_WAV_STEREO, VOLUME_FX, true, true, false);
-}
+	return SendMessage(Sound,"lslllll",MSG_SOUND_PLAY_NORET, name, SOUND_WAV_STEREO, VOLUME_FX, true, true, false);
+} */
 
 int PlayStereoOGG(string name)
 {
@@ -465,7 +465,7 @@ void SetStaticSounds (ref loc)
    		}
 
 		//trace("Create 3D Sound <"+locatorType+ "> for locator <"+locatorName+ "> into pos:("+locator.x+","+locator.y+","+locator.z+")" );
-		SendMessage(Sound, "lsllllllfff", MSG_SOUND_PLAY, locatorType, SOUND_WAV_3D, VOLUME_FX, 0, 1, 0, 0, stf(locator.x), stf(locator.y), stf(locator.z));
+		SendMessage(Sound, "lsllllllfff", MSG_SOUND_PLAY_NORET, locatorType, SOUND_WAV_3D, VOLUME_FX, 0, 1, 0, 0, stf(locator.x), stf(locator.y), stf(locator.z));
 	}
 	
 }
@@ -564,7 +564,8 @@ void SetMusic(string name)
 	//Trace("SetMusic : "+name);
 	if (oldMusicID >= 0)
 	{
-		SendMessage(Sound, "ll", MSG_SOUND_RELEASE, oldMusicID);
+		//#20191125-03
+		SendMessage(Sound, "lll", MSG_SOUND_STOP, oldMusicID, 0);
 		oldMusicID = -1;
 	}
 
@@ -578,7 +579,7 @@ void SetMusic(string name)
 	//musicID = SendMessage(Sound, "lslllllll", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, silenceTime);
 	//SendMessage(Sound, "llf", MSG_SOUND_SET_VOLUME, musicID, 1.0);
 	// fix поседнее - это громкость звука
-	musicID = SendMessage(Sound, "lslllllllf", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, 0, MUSIC_CHANGE_TIME, 1.0);
+	musicID = SendMessage(Sound, "lslllllll", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, 0);
 	SendMessage(Sound, "lll", MSG_SOUND_RESUME, musicID, MUSIC_CHANGE_TIME);
 	
 	oldMusicName = musicName;
@@ -675,14 +676,23 @@ void SetBattleMusicAlarm(string name)
 void SetMusicAlarm(string name)
 {
 	//Log_TestInfo("SetMusic: " + name);
-	if (alarmed == 0)
+	//#20181013-01
+    if(seaAlarmed) {
+         if(!bSeaActive || bMapEnter)
+            seaAlarmed = false;
+    }
+	if (alarmed == 0 && seaAlarmed==false)
 	{
 		SetMusic(name);
 	}
 	else
 	{
-  		SetMusic("music_bitva");
-        //Log_TestInfo("SetMusicAlarm: music_bitva");
+		//Boyer change #20170328-02
+		//SetMusic("music_bitva");
+		//#20200330-02
+		if(name != "") musicName = name;
+		SetMusic(battleMusicScheme);
+
 		if (LAi_boarding_process != 0)
 		{
 			/*if (!CheckAttribute(loadedLocation, "CabinType") && !bBettaTestMode)//pchar.location != "CaptainCabine" && pchar.location != "CaptainCabineBig")

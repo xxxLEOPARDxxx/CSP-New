@@ -42,6 +42,8 @@ int GetDistanceToColony2D(string _sColony) // Дистанция до колон
 
 	if(_sColony == "FortOrange") sColonyTown = "Shore36";
 	if(_sColony == "LaVega") sColonyTown = "LaVega_Port";
+	if(_sColony == "Dominica") sColonyTown = "Shore27";
+	if(_sColony == "Terks") sColonyTown = "Shore56";
 	
 	float X1 = makefloat(worldMap.playerShipX)+1000;
 	float Z1 = -makefloat(worldMap.playerShipZ)+980;
