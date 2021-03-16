@@ -59,7 +59,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				dialog.text = "Это опять вы, сударь? Вы еще что-то хотели?";
+				dialog.text = "Это опять вы, "+ GetSexPhrase("сударь","сударыня") +"? Вы еще что-то хотели?";
 				link.l1 = "Не найдется ли минутки поболтать о том, о сем?";
 				link.l1.go = "question";
 				link.l2 = RandPhraseSimple("У меня есть вопрос к тебе.", "Мне нужна информация о делах в этой колонии.");
@@ -71,7 +71,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "question":
-			dialog.text = NPCStringReactionRepeat(""+GetFullName(npchar)+" к вашим услугам, милейший! Что вы хотели узнать?", 
+			dialog.text = NPCStringReactionRepeat(""+GetFullName(npchar)+" к вашим услугам, милейш"+ GetSexPhrase("ий","ая") +"! Что вы хотели узнать?", 
 				"Рад поболтать, капитан!", 
 				"Ну, пожалуй, у меня есть еще время...",
                 "К сожалению, мне пора идти. Всего доброго!", "block", 1, npchar, Dialog.CurrentNode);

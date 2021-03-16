@@ -1378,3 +1378,18 @@ void MakeSwiftAttack(aref enemy, aref attacked, float coeff) // Резкий удар
 	
 	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
 }
+
+void MushketStun(aref enemy) // Мушкетный стан - Gregg
+{
+	LAi_LockFightMode(enemy, true);
+	LAi_SetActorTypeNoGroup(enemy);
+	float understun = 0.0;
+	if(CheckAttribute(enemy, "chr_ai.understun"))
+	{
+		understun = stf(enemy.chr_ai.understun);
+		if(understun < 1.0) understun = 1.0;
+	}
+	enemy.chr_ai.understun = understun + 1 + rand(2); // Продолжительность 1+(от 0 до 2)
+	
+	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
+}

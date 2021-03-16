@@ -310,7 +310,7 @@ bool LAi_CreateEncounters(ref location)
 			if(CheckAttribute(location, "onUninhabitedIsland") || location.type == "seashore" || location.type == "mayak") return false; // На необитаемых  островах, маяках и бухтах нельзя
 			num = GetAttributesNum(grp); //кол-во локаторов 
 			if (num < 2) return false;
-			if(CheckAttribute(pchar, "GenQuest.EncGirl")) return false;		
+			if(CheckAttribute(pchar, "GenQuest.EncGirl") && pchar.GenQuest.EncGirl != "close") return false;
 			if (!CheckAttribute(location, "locators.reload.reloadW_back"))
 			{//--------------- обычная девка в джунглях ---------------				
 				if (sti(pchar.rank) > 1) 

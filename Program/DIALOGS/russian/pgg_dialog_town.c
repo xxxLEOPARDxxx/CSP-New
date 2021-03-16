@@ -842,7 +842,7 @@ void ProcessDialogEvent()
 		if (sti(PChar.GenQuest.PGG_Quest.Stage) < 2)
 		{
 			PChar.GenQuest.PGG_Quest.Stage = 2;
-			PGG_Q1RemoveShip("");
+			// PGG_Q1RemoveShip("");
 
 			if (sti(PChar.GenQuest.PGG_Quest.Template)) 
 			{

@@ -1067,6 +1067,27 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 			if(sti(enemy.index) == GetMainCharacterIndex()) Log_Info("¬аша кираса заблокировала урон от выстрела.");
 			return;
 		}
+	}
+	
+	if (HasSubStr(attack.equip.gun, "mushket")) //ћушкетное оглушение - Gregg
+	{
+		if (rand(1)==0)
+		{
+			if(sti(attack.index) == GetMainCharacterIndex())
+			{
+				Log_Info("¬ыстрел из мушкета оглушил противника.");
+				//PlaySound("interface\Breaking_"+rand(5)+".wav");
+			}
+			if(sti(enemy.index) == GetMainCharacterIndex())
+			{
+				Log_Info("¬ас оглушили выстрелом из мушкета.");
+				//PlaySound("interface\Breaking_"+rand(5)+".wav");
+			}
+			MushketStun(enemy);
+		}
+	}
+	
+	
 	// boal 23.05.2004 <--
 	//Ќачисл€ем повреждение
 	float damage = LAi_GunCalcDamage(attack, enemy);
@@ -1167,7 +1188,6 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
         AddCharacterExpToSkill(attack, SKILL_PISTOL, MakeFloat(exp*0.5));
     }
 }
-}
 
 void SetBack()
 {
@@ -1201,46 +1221,74 @@ float LAi_NPC_GetAttackWeightFast()
 	npc_return_tmp = 20.0;
 	//npc_return_tmp = npc_return_tmp * (0.8 + (0.1 * MOD_SKILL_ENEMY_RATE));
 	//Boyer mod #20170318-33 Fight/difficulty level rebalancing
-	npc_return_tmp = npc_return_tmp * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	if (LAi_GetBladeEnergyType(chr) == "Fencing")
+	{
+		npc_return_tmp = npc_return_tmp * 10 * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	}
+	else
+	{
+		npc_return_tmp = npc_return_tmp * 0.5 * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	}
 	return npc_return_tmp;
 }
 
 //¬ес выбора удара "force", 0 - никогда не выбирать
-#event_handler("NPC_Event_GetAttackWeightForce","LAi_NPC_GetAttackWeightForce");
+#event_handler("NPC_Event_GetAttackWeightForce", "LAi_NPC_GetAttackWeightForce");
 float LAi_NPC_GetAttackWeightForce()
 {
 	aref chr = GetEventData();
 	npc_return_tmp = 50.0;
 	//npc_return_tmp = npc_return_tmp * (0.8 + (0.1 * MOD_SKILL_ENEMY_RATE));
 	//Boyer mod #20170318-33 Fight/difficulty level rebalancing
-	npc_return_tmp = npc_return_tmp * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	if (LAi_GetBladeEnergyType(chr) == "FencingLight")
+	{
+		npc_return_tmp = npc_return_tmp * 10 * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	}
+	else
+	{
+		npc_return_tmp = npc_return_tmp * 0.5 * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	}
 	return npc_return_tmp;
 }
 
 //¬ес выбора удара "round", 0 - никогда не выбирать, если врагов <3 то удар не выбираетс€
-#event_handler("NPC_Event_GetAttackWeightRound","LAi_NPC_GetAttackWeightRound");
+#event_handler("NPC_Event_GetAttackWeightRound", "LAi_NPC_GetAttackWeightRound");
 float LAi_NPC_GetAttackWeightRound()
 {
 	aref chr = GetEventData();
 	npc_return_tmp = 20.0;
 	//npc_return_tmp = npc_return_tmp * (0.8 + (0.1 * MOD_SKILL_ENEMY_RATE));
 	//Boyer mod #20170318-33 Fight/difficulty level rebalancing
-	npc_return_tmp = npc_return_tmp * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	if (LAi_GetBladeEnergyType(chr) == "FencingLight")
+	{
+		npc_return_tmp = npc_return_tmp * 2 * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	}
+	else
+	{
+		npc_return_tmp = npc_return_tmp * (0.8 + (0.05 * MOD_SKILL_ENEMY_RATE + 0.05));
+	}
 	return npc_return_tmp;
 }
 
 //¬ес выбора удара "break", 0 - никогда не выбирать
-#event_handler("NPC_Event_GetAttackWeightBreak","LAi_NPC_GetAttackWeightBreak");
+#event_handler("NPC_Event_GetAttackWeightBreak", "LAi_NPC_GetAttackWeightBreak");
 float LAi_NPC_GetAttackWeightBreak()
 {
 	aref chr = GetEventData();
 	npc_return_tmp = 20.0;
-	npc_return_tmp = npc_return_tmp * (0.6 + (0.1 * MOD_SKILL_ENEMY_RATE));
+	if (LAi_GetBladeEnergyType(chr) == "FencingHeavy")
+	{
+		npc_return_tmp = npc_return_tmp * 6 * (0.6 + (0.1 * MOD_SKILL_ENEMY_RATE));
+	}
+	else
+	{
+		npc_return_tmp = npc_return_tmp * 0.5 * (0.6 + (0.1 * MOD_SKILL_ENEMY_RATE));
+	}
 	return npc_return_tmp;
 }
 
 //¬ес выбора удара "feint", 0 - никогда не выбирать
-#event_handler("NPC_Event_GetAttackWeightFeint","LAi_NPC_GetAttackWeightFeint");
+#event_handler("NPC_Event_GetAttackWeightFeint", "LAi_NPC_GetAttackWeightFeint");
 float LAi_NPC_GetAttackWeightFeint()
 {
 	aref chr = GetEventData();
@@ -1251,29 +1299,38 @@ float LAi_NPC_GetAttackWeightFeint()
 
 //ѕрараметры защиты
 //¬еро€тность желани€ защититс€ - кубик с такой веро€тностью кидаетс€ 2 раза в секунду
-#event_handler("NPC_Event_GetDefenceActive","LAi_NPC_GetAttackDefence");
+#event_handler("NPC_Event_GetDefenceActive", "LAi_NPC_GetAttackDefence");
 float LAi_NPC_GetAttackDefence()
 {
 	aref chr = GetEventData();
 	float level = LAi_GetCharacterFightLevel(chr);
-	//npc_return_tmp = 0.05 + level*0.4;
-	npc_return_tmp = 0.3 + level*0.35;
-	/*if (!iArcadeFencingAI)	// to_do
+	if (LAi_GetBladeFencingType(pchar) == "FencingHeavy")
+								   
+								  
 	{
-		npc_return_tmp = npc_return_tmp + 0.2;
-	}*/
-	return npc_return_tmp;
+		npc_return_tmp = 1 + level * 0.35;
+		return npc_return_tmp;
+	}
+	else
+	{
+		npc_return_tmp = 0.35 + level * 0.35;
+		return npc_return_tmp;
+	}
 }
 
 // boal 20.01.08 коммент - забавно, что спуст€ два года, понал как и что с веро€тност€ми. ќни все привод€тс€ к 0-1 от веса общей суммы, то есть фактически умножение на сложность или цифры распредел€ют сумму по другим акшенам, а не усиливают этот
 // Ёкшены идут парами - все атаки и защита (блок + пари)
 //¬ес выбора блока, 0 - никогда не выбирать
-#event_handler("NPC_Event_GetDefenceWeightBlock","LAi_NPC_GetDefenceWeightBlock");
+#event_handler("NPC_Event_GetDefenceWeightBlock", "LAi_NPC_GetDefenceWeightBlock");
 float LAi_NPC_GetDefenceWeightBlock()
 {
 	aref chr = GetEventData();
 	npc_return_tmp = 80.0;
-	npc_return_tmp = npc_return_tmp * (0.5 + (0.05 * MOD_SKILL_ENEMY_RATE));   // boal
+	if (LAi_GetBladeFencingType(pchar) == "FencingHeavy")
+	{
+		npc_return_tmp = 8.0;
+	}
+	npc_return_tmp = npc_return_tmp * (0.5 + (0.05 * MOD_SKILL_ENEMY_RATE));
 	return npc_return_tmp;
 }
 

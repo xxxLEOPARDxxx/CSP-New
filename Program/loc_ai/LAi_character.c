@@ -371,17 +371,17 @@ bool LAi_IsDead(aref chr)
 {
 	if (chr.id == "0")
 	{
-		DeleteAttribute(chr.chr_ai, "blooding");
+		DeleteAttribute(chr,"chr_ai.blooding");
 		return true; // boal если фантома нет, то НПС умер
 	}
-	if(CheckAttribute(chr, "chr_ai.hp") == false)
+	if(CheckAttribute(chr,"chr_ai.hp") == false)
 	{
-		DeleteAttribute(chr.chr_ai, "blooding");
+		DeleteAttribute(chr,"chr_ai.blooding");
 		return true;
 	}
 	if(stf(chr.chr_ai.hp) < 1.0)
 	{
-		DeleteAttribute(chr.chr_ai, "blooding");
+		DeleteAttribute(chr,"chr_ai.blooding");
 		return true;
 	}
 	return false;
@@ -819,6 +819,24 @@ void LAi_AllCharactersUpdate(float dltTime)
 						LAi_CharacterPlaySound(chr, "blooddrop");
 						LaunchBlood(chr, 1.6, true);
 						SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, hp, MakeFloat(MakeInt(chr.chr_ai.hp)), MakeFloat(MakeInt(chr.chr_ai.hp_max)));
+					}
+				}
+			}
+			if(CheckAttribute(chr_ai, "understun"))
+			{
+				chr_ai.understun = stf(chr_ai.understun) - dltTime;
+				if(CheckAttribute(chr_ai, "underStun") && stf(chr_ai.understun) <= 0.1)
+				{
+					DeleteAttribute(chr_ai, "underStun")
+					if(sti(chr.index) == GetMainCharacterIndex())
+					{
+						LAi_SetPlayerType(chr);
+						LAi_SetFightMode(chr, true);
+					}
+					else
+					{
+						LAi_SetWarriorTypeNoGroup(chr);
+						LAi_SetFightMode(chr, true);
 					}
 				}
 			}

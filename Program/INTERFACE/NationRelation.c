@@ -10,11 +10,11 @@ void InitInterface(string iniName)
 	// делаем заточку под 5 или 6 наций и любую морду (64) гл. героя - универсальность залог успеха!
 	// введем коэфф. для автопоcтроения матрицы
 	int     i;
-	int     dy= 10;
+	int     dy=10;
     int     dx=16;
     int     sx=45;
     int     sy=120;
-	int     sz = 56;
+	int     sz=56;
 	string  picName  = "pic";
 	string  groupName;
 	int     picCount = 1;
@@ -111,10 +111,10 @@ void InitInterface(string iniName)
     /////////////
     CreateString(true,"titul", XI_ConvertString("Hunter_type"),"DIALOG2",COLOR_NORMAL,589,100,SCRIPT_ALIGN_LEFT,1.0);
     
-    CreateString(true,"EngH","","INTERFACE_ULTRASMALL",COLOR_NORMAL,665,145,SCRIPT_ALIGN_CENTER,1.0);
-    CreateString(true,"FraH","","INTERFACE_ULTRASMALL",COLOR_NORMAL,665,205,SCRIPT_ALIGN_CENTER,1.0);
-    CreateString(true,"SpaH","","INTERFACE_ULTRASMALL",COLOR_NORMAL,665,265,SCRIPT_ALIGN_CENTER,1.0);
-    CreateString(true,"HolH","","INTERFACE_ULTRASMALL",COLOR_NORMAL,665,325,SCRIPT_ALIGN_CENTER,1.0);
+    CreateString(true,"EngH","","INTERFACE_ULTRASMALL",COLOR_NORMAL,670,145,SCRIPT_ALIGN_CENTER,1.0);
+    CreateString(true,"FraH","","INTERFACE_ULTRASMALL",COLOR_NORMAL,670,205,SCRIPT_ALIGN_CENTER,1.0);
+    CreateString(true,"SpaH","","INTERFACE_ULTRASMALL",COLOR_NORMAL,670,265,SCRIPT_ALIGN_CENTER,1.0);
+    CreateString(true,"HolH","","INTERFACE_ULTRASMALL",COLOR_NORMAL,670,325,SCRIPT_ALIGN_CENTER,1.0);
 
     CalculateHunter();
     
@@ -129,10 +129,10 @@ void CalculateHunter()
 
     ref mc = GetMainCharacter();
 
-    CreateImage("Eng", "NATIONS", "ENGLAND",  580, 148, 610,178 );
-    CreateImage("Fra", "NATIONS", "FRANCE",  580, 208, 610, 238);
-    CreateImage("Spa", "NATIONS", "SPAIN",  580, 268, 610, 298);
-    CreateImage("Hol", "NATIONS", "HOLLAND",  580, 328, 610, 358);
+    CreateImage("Eng", "NATIONS", "ENGLAND",  570, 145, 610,185 );
+    CreateImage("Fra", "NATIONS", "FRANCE",  570, 205, 610, 245);
+    CreateImage("Spa", "NATIONS", "SPAIN",  570, 265, 610, 305);
+    CreateImage("Hol", "NATIONS", "HOLLAND",  570, 325, 610, 365);
 
     GameInterface.strings.EngH = XI_ConvertString("England");
     GameInterface.strings.FraH = XI_ConvertString("France");
@@ -142,14 +142,34 @@ void CalculateHunter()
     string sText;
     int charNat = sti(pchar.nation);
 
-       sText = GetNationReputation(pchar, ENGLAND);
+       sText = GetNationReputation(pchar, ENGLAND)/* + "(" + (0-sti(pchar.reputation.enghunter)) + ")"*/;
     SetFormatedText("Eng_TEXT", sText);
-       sText = GetNationReputation(pchar, FRANCE);
+       sText = GetNationReputation(pchar, FRANCE)/* + "(" + (0-sti(pchar.reputation.frahunter)) + ")"*/;
     SetFormatedText("Fra_TEXT", sText);
-       sText = GetNationReputation(pchar, SPAIN);
+       sText = GetNationReputation(pchar, SPAIN)/* + "(" + (0-sti(pchar.reputation.spahunter)) + ")"*/;
     SetFormatedText("Spa_TEXT", sText);
-       sText = GetNationReputation(pchar, HOLLAND);
+       sText = GetNationReputation(pchar, HOLLAND)/* + "(" + (0-sti(pchar.reputation.holhunter)) + ")"*/;
     SetFormatedText("Hol_TEXT", sText);
+
+	GameInterface.StatusLine.BAR_ENG.Max   = 100;
+	GameInterface.StatusLine.BAR_ENG.Min   = -100;
+	GameInterface.StatusLine.BAR_ENG.Value = -sti(pchar.reputation.enghunter);
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, "BAR_ENG", 0);
+
+	GameInterface.StatusLine.BAR_FRA.Max   = 100;
+	GameInterface.StatusLine.BAR_FRA.Min   = -100;
+	GameInterface.StatusLine.BAR_FRA.Value = -sti(pchar.reputation.frahunter);
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, "BAR_FRA", 0);
+
+	GameInterface.StatusLine.BAR_SPA.Max   = 100;
+	GameInterface.StatusLine.BAR_SPA.Min   = -100;
+	GameInterface.StatusLine.BAR_SPA.Value = -sti(pchar.reputation.spahunter);
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, "BAR_SPA", 0);
+
+	GameInterface.StatusLine.BAR_HOL.Max   = 100;
+	GameInterface.StatusLine.BAR_HOL.Min   = -100;
+	GameInterface.StatusLine.BAR_HOL.Value = -sti(pchar.reputation.holhunter);
+	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, "BAR_HOL", 0);
 }
 
 void ProcessExitCancel()

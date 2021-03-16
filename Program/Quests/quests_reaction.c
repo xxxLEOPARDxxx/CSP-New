@@ -9313,6 +9313,7 @@ void QuestComplete(string sQuestName, string qname)
 			AddCharacterExpToSkill(PChar, "Repair", 20);
     		AddCharacterExpToSkill(PChar, "Defence", 20);
     		AddCharacterExpToSkill(PChar, "Sneak", 20);
+			PChar.quest.PDM_NEPobeda_nad_Callow.over = "yes";
 		break;
 		
 		case "PDM_Callow_poradomoy":

@@ -29,7 +29,11 @@ void ProcessDialogEvent()
 			if (npchar.id == "FinalBot")
 			{
 				dialog.text = "(Вы слишком поздно замечаете бота. Уже после того, как услышали звук выстрела.)";
-				LAi_LocationFightDisable(locLoad, true);
+				LAi_LocationFightDisable(locLoad, false);
+				DeleteAttribute(locLoad, "box1");
+				DeleteAttribute(locLoad, "box2");
+				DeleteAttribute(locLoad, "box3");
+				DeleteAttribute(locLoad, "box4");
 				LAi_SetActorTypeNoGroup(npchar);
 				LAi_ActorAnimation(npchar, "Shot", "pchar_back_to_player", 1.0);
 				link.l1 = "Чёрт!";

@@ -10186,10 +10186,11 @@ void PDM_Callow_RodjerProdolg(string qName)
 void PDM_Callow_Voina(string qName)
 {
 	sld = CharacterFromID("James_Callow");
-	FantomMakeCoolFighter(sld, 5, 25, 25, "blade34", "", 120);
+	FantomMakeCoolFighter(sld, 6, 25, 25, "blade34", "", 120);
 	FantomMakeCoolSailor(sld, SHIP_SCHOONERLIGHT, "Жадный Билли", CANNON_TYPE_CULVERINE_LBS12, 60, 30, 50);
 	sld.name	= "Джеймс";
 	sld.lastname	= "Кэллоу";
+	LAi_SetImmortal(sld, false);
 	sld.AlwaysSandbankManeuver = true;
 	sld.SaveItemsForDead = true;
 	sld.DontClearDead = true;
