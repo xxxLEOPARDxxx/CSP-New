@@ -579,7 +579,7 @@ void SetFantomParamHunter(ref sld)
 {
     SetSeaFantomParam(sld, "war");
     LAi_SetHP(sld, LAI_DEFAULT_HP_MAX + sti(sld.chr_ai.hp), LAI_DEFAULT_HP_MAX + sti(sld.chr_ai.hp));
-    TakeNItems(sld,"potion2", 2);
+    TakeNItems(sld,"potion2", MOD_SKILL_ENEMY_RATE);
 }
 //крутые парни <--
 // boal 20.03.2004 <--

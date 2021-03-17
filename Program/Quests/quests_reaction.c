@@ -7999,10 +7999,14 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 		
 		case "PGG_CheckHP":
-            sld = CharacterFromID(PChar.GenQuest.PGG_Quest.PGGid);
-			LAi_SetImmortal(sld, true);
-			LAi_SetActorType(sld);
-			LAi_ActorGoToLocation(sld, "reload", "boat", "none", "", "", "", 20);
+		if (CheckAttribute(pchar, "PGG_FightOnShore"))
+            {
+				sld = CharacterFromID(PChar.GenQuest.PGG_Quest.PGGid);
+				LAi_SetImmortal(sld, true);
+				PChar.Quest.PGGQuest1_PGGDead.PGG_Dead = "yes";
+				LAi_SetActorType(sld);
+				LAi_ActorRunToLocation(sld, "reload", "sea", "", "", "", "", 10.0);
+			}
 		break;
 		
 		case "Sharp_Prologue_CheckHP":

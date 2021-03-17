@@ -28,8 +28,9 @@ void GenerateIslandShips(string sIslandID)
 					int check = 0;
 					for (int j=GlobalCharacters; j<MAX_CHARACTERS; j++)
 					{
-						if (CheckAttribute(&characters[j], "fortDefender") && sti(characters[j].fortDefender) == 1 && characters[j].location == pchar.location)
+						if (CheckAttribute(&characters[j], "fortDefender") && CheckAttribute(&characters[j], "IslandShips") && characters[j].IslandShips == colonies[i].id)
 						{
+							//Log_Info(characters[j].id);
 							check++;
 						}
 					}

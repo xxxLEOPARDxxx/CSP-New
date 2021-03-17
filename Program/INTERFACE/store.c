@@ -827,7 +827,7 @@ void TransactionOK()
 		pchar.money = sti(pchar.money)  - moneyback;
 		Statistic_AddValue(Pchar, "Money_spend", moneyback);
 		// boal  check skill -->
-        AddCharacterExpToSkill(pchar, "Commerce", moneyback / 800.0);
+        AddCharacterExpToSkill(pchar, "Commerce", moneyback / (1800.0 - sti(GetCharacterSPECIALSimple(pchar, SPECIAL_I)) * sti(GetCharacterSPECIALSimple(pchar, SPECIAL_C)) * 10));
     	WaitDate("",0,0,0, 0, 5);
         // boal <--
 	}
@@ -847,7 +847,7 @@ void TransactionOK()
   		pchar.money = sti(pchar.money)  + moneyback;
 		Statistic_AddValue(Pchar, "Money_get", moneyback);
 		// boal  check skill -->
-        AddCharacterExpToSkill(pchar, "Commerce", moneyback / 1600.0);
+        AddCharacterExpToSkill(pchar, "Commerce", moneyback / (2600.0 - sti(GetCharacterSPECIALSimple(pchar, SPECIAL_I)) * sti(GetCharacterSPECIALSimple(pchar, SPECIAL_C)) * 10));
     	WaitDate("",0,0,0, 0, 5);
         // boal <--
 	}

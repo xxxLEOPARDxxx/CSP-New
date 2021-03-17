@@ -1045,6 +1045,7 @@ void LAi_SetBoardingActors(string locID)
 	    sLocType = "loc";
 	}
 	trace("sLocType = " + sLocType);
+	if (HasSubStr(boarding_enemy.model,"trader_")) boarding_enemy.Ship.Mode = "Trade";
 	for(i = 0; i < limit; i++) // <= тк loc0 .. loc4 = 5
 	{
 		if(boarding_enemy_crew <= 0) break;

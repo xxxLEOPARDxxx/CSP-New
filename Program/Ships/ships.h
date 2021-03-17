@@ -66,7 +66,7 @@
 //3 пушки(16-24-32)
 #define SHIP_PINNACE				52		// Пинас: 					Gun: 18(16ф)| HP: 4950| трюм: 4000| Crew: 270| Speed: 13.0| Turn: 30| FW: 6.0 |		|Нац:Анг,Фра,Гол,Пир,Исп|		[Trade|WAR]
 #define SHIP_DUTCHPINNACE			53		// Воен. Пинас: 			Gun: 20(24ф)| HP: 5000| трюм: 3600| Crew: 310| Speed: 12.5| Turn: 30| FW: 6.0 |		|Нац:Анг,Фра,Гол|				[WAR]
-#define SHIP_PINNACELIGHT			54		// Двухпалуб. Пинас: 		Gun: 30(16ф)| HP: 5500| трюм: 3000| Crew: 290| Speed: 13.0| Turn: 25| FW: 6.0 |		|Нац:Анг,Пир,Исп|				[Trade|WAR]
+#define SHIP_PINNACELIGHT			54		// Двухпалуб. Пинас: 		Gun: 30(16ф)| HP: 5500| трюм: 3000| Crew: 290| Speed: 13.0| Turn: 25| FW: 6.0 |		|Нац:Анг,Пир,Исп|				[Trade]
 #define SHIP_XEBEKVT				55		// Тяж. Воен. Щебека: 		Gun: 30(24ф)| HP: 4600| трюм: 2600| Crew: 240| Speed: 14.5| Turn: 45| FW: 8.8 |		|Нац:Анг,Фра,Гол,Исп|			[WAR]
 #define SHIP_FELIPE					56		// Воен. Галеон: 			Gun: 30(32ф)| HP: 7000| трюм: 4950| Crew: 440| Speed: 7.7 | Turn: 25| FW: 2.6 |		|Нац:Анг,Фра,Гол,Исп|			[Trade|WAR]
 #define SHIP_CRIMSONBLOOD			57		// Пир. Корвет: 			Gun: 30(16ф)| HP: 4200| трюм: 2000| Crew: 250| Speed: 16.8| Turn: 55| FW: 4.8 |		|Нац:Пир|						[WAR]

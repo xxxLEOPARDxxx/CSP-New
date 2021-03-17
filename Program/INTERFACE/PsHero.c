@@ -140,7 +140,14 @@ void FillTable()
 					GameInterface.TABLE_HERO.(row).td5.str = "Нет корабля";
 					GameInterface.TABLE_HERO.(row).td5.scale = 0.8;
 				}
-				GameInterface.TABLE_HERO.(row).td6.str = XI_ConvertString("Colony"+chr.PGGAi.location.town);
+				if (!CheckAttribute(chr, "PGGAi.Task.SetSail"))
+				{
+					GameInterface.TABLE_HERO.(row).td6.str = XI_ConvertString("Colony"+chr.PGGAi.location.town);
+				}
+				else
+				{
+					GameInterface.TABLE_HERO.(row).td6.str = "В море";
+				}
 				GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
 				/* if (CheckAttribute(chr, "PGGAi.task.target"))
 				{

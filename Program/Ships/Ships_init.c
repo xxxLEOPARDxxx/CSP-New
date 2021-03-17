@@ -4178,7 +4178,7 @@ void InitShips()
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
-	refship.Type.War					= true;
+	refship.Type.War					= false;
 	refShip.fWindAgainstSpeed			= 2.3;
 	refShip.sea_enchantment				= 1.1;
 	refShip.lowpolycrew = 20;

@@ -339,7 +339,7 @@ void Fantom_SetCannons(ref rFantom, string sFantomType)
 	}
 	if (iCaliber > 0)
 	{
-	   iCaliber = iCaliber - rand(1); // LEO: запомнить
+		if (sFantomType == "trade" && iCaliber > 3) iCaliber = iCaliber - 1 - rand(1); // LEO: запомнить Lipsar поправил
 	}
 	else
 	{

@@ -1969,7 +1969,8 @@ int GetShipPriceByTTH(int iType, ref rChar)
 			if(CheckAttribute(rChar, "Ship.Cannons.Type"))
 			{
 				ref rCannon = GetCannonByType(sti(rChar.Ship.Cannons.Type));
-				cannon_price = sti(rCannon.cost);
+				if (CheckAttribute(rCannon,"Cost")) cannon_price = sti(rCannon.Cost);
+				else cannon_price = 1500;
 			}
 			else
 			{
@@ -2094,7 +2095,7 @@ void CreatePGG_War(ref ch, int iNation)
 			if (MOD_SKILL_ENEMY_RATE == 10)
 			{
 				cl = 84;
-				cl1 = 106;
+				cl1 = 105;
 			}
 			else
 			{
@@ -2111,7 +2112,7 @@ void CreatePGG_War(ref ch, int iNation)
 			else
 			{
 				cl = 84;
-				cl1 = 106;
+				cl1 = 105;
 			}
 		break;
 	}
@@ -2289,5 +2290,6 @@ void CreatePGG_Trade(ref ch, int iNation)
 	iType = storeArray2[rand(j-1)];
 
 	ch.Ship.Type = GenerateShipExt(iType, 1, ch);
+	ch.Ship.Mode = "merchant";
 }
 //--->Lipsar корабли по квесту Предложение Пирата

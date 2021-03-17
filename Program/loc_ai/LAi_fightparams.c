@@ -206,6 +206,7 @@ float LAi_CalcExperienceForBlade(aref attack, aref enemy, string attackType, flo
 	float re = 1.0;
 	float currhp = stf(enemy.chr_ai.hp);
 	float exp = currhp/Lai_GetCharacterMaxHP(enemy)*GetCharacterSPECIALSimple(attack, SPECIAL_I);//Lipsar передeлка опыта
+	if(IsCharacterPerkOn(attack,"SwordplayProfessional")) exp *= re/ra * GetCharacterSPECIALSimple(attack, SPECIAL_I));
 	if (CheckAttribute(attack, "rank"))
 	{
 		ra = stf(attack.rank);
@@ -423,8 +424,18 @@ float LAi_GunCalcExperience(aref attack, aref enemy, float dmg)
 	if (dmg > Lai_GetCharacterMaxHP(enemy)) currhp = Lai_GetCharacterMaxHP(enemy);
 	int bonus = 1;
 	if (rand(GetCharacterSPECIALSimple(attack, SPECIAL_I)) > 7) bonus = GetCharacterSPECIALSimple(attack, SPECIAL_I);
-	float exp = currhp/Lai_GetCharacterMaxHP(enemy) * GetCharacterSPECIALSimple(attack, SPECIAL_P) *  bonus +(1+rand(GetCharacterSPECIALSimple(attack, SPECIAL_L)-1) * currhp/Lai_GetCharacterMaxHP(enemy));//Lipsar передeлка опыта
-	//Вычисляем полученый опыт
+		float exp = currhp/Lai_GetCharacterMaxHP(enemy) * GetCharacterSPECIALSimple(attack, SPECIAL_P) *  bonus +(1+rand(GetCharacterSPECIALSimple(attack, SPECIAL_L)-1) * currhp/Lai_GetCharacterMaxHP(enemy));//Lipsar передeлка опыта
+	if(IsCharacterPerkOn(attack,"GunProfessional")) 
+	{
+		if(IsCharacterPerkOn(attack,"Gunman")) 
+		{
+			exp += re/(ra * 2) * GetCharacterSPECIALSimple(attack, SPECIAL_I)/bonus;
+		}
+		else 
+		{
+			exp += re/ra * GetCharacterSPECIALSimple(attack, SPECIAL_I)/bonus;
+		}
+	}
 	float ra = 1.0;
 	float re = 1.0;
 	if (CheckAttribute(attack, "rank"))//Lipsar переделка опыта
@@ -960,7 +971,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	       re = stf(enemy.rank);
 	    }
 		if (stf(enemy.rank) < 4) int experience = GetCharacterSPECIALSimple(attack, SPECIAL_I) + rand(GetCharacterSPECIALSimple(attack, SPECIAL_A));
-		else experience = MakeInt(Lai_GetCharacterMaxHP(enemy)/stf(enemy.rank) + GetCharacterSPECIALSimple(attack, SPECIAL_I));//Lipsar передeлка опыта
+		else experience = Lai_GetCharacterMaxHP(enemy)/stf(enemy.rank) + GetCharacterSPECIALSimple(attack, SPECIAL_I) * re / ra;;//Lipsar передeлка опыта
 		AddCharacterExpToSkill(attack, LAi_GetBladeFencingType(attack), experience);		 
         AddCharacterExpToSkill(attack, SKILL_DEFENCE, 1);
         AddCharacterExpToSkill(attack, SKILL_FORTUNE, 1);
@@ -1163,7 +1174,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	       re = stf(enemy.rank);
 	    }
 		if (stf(enemy.rank) < 4) int experience = GetCharacterSPECIALSimple(attack, SPECIAL_P) + rand(GetCharacterSPECIALSimple(attack, SPECIAL_I));
-		else experience = MakeInt(Lai_GetCharacterMaxHP(enemy)/stf(enemy.rank) + GetCharacterSPECIALSimple(attack, SPECIAL_P));//Lipsar передeлка опыта
+		else experience = Lai_GetCharacterMaxHP(enemy)/stf(enemy.rank) + GetCharacterSPECIALSimple(attack, SPECIAL_P) * re / ra;//Lipsar передeлка опыта
 		AddCharacterExpToSkill(attack, SKILL_PISTOL, experience);		 
         AddCharacterExpToSkill(attack, SKILL_DEFENCE, 1);
         AddCharacterExpToSkill(attack, SKILL_FORTUNE, 2);

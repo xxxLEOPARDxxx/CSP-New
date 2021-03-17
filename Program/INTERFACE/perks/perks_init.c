@@ -130,7 +130,7 @@ void extrnInitPerks()
 	ChrPerksList.list.UnlimitedContra.PlayerOnly = true;
 	
 	ChrPerksList.list.AboardCollector.descr = "perkAboardCollector";
-	ChrPerksList.list.AboardCollector.condition.Grus = true;
+	// ChrPerksList.list.AboardCollector.condition.Grus = true;
 	ChrPerksList.list.AboardCollector.condition.GrapplingProfessional = true;
 	ChrPerksList.list.AboardCollector.BaseType = "self";
 	ChrPerksList.list.AboardCollector.PlayerOnly = true;

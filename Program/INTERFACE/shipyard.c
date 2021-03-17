@@ -787,9 +787,7 @@ void FillShipyardTable()
     	iShip = sti(refNPCShipyard.Ship.Type);
     	refBaseShip = GetRealShip(iShip);
 		sShip = refBaseShip.BaseName;
-		
-		GameInterface.TABLE_SHIPYARD.(row).sShipId = sAttr;
-		
+
 		int nClass = sti(refBaseShip.Class);
 		if (FIS_FilterState != FIS_ALL)
 		{
@@ -799,8 +797,9 @@ void FillShipyardTable()
 				continue;
 			}
 		}
+
 		k++;
-		
+		GameInterface.TABLE_SHIPYARD.(row).sShipId = sAttr;
         GameInterface.TABLE_SHIPYARD.(row).td1.icon.texture = "interfaces\\ships\\" + sShip + ".tga.tx";
 		GameInterface.TABLE_SHIPYARD.(row).td1.icon.uv = "0,0,1,1";
 		GameInterface.TABLE_SHIPYARD.(row).td1.icon.width = 46;

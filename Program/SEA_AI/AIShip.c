@@ -2750,7 +2750,8 @@ void Ship_HullHitEvent()
 	if (bSeriousBoom)
 	{
 		fCrewDamage = fCrewDamage * 7.0;
-		fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull) * (8.0 + frnd() * 4.0); // 4.0
+		// fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull) * (8.0 + frnd() * 4.0); // LEO: Забекапил
+		fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull) * 4; // 4.0
 		Ship_ApplyHullHitpoints(rOurCharacter, fHP, KILL_BY_BALL, iBallCharacterIndex);
 
 		if (iBallCharacterIndex == nMainCharacterIndex)
@@ -2899,9 +2900,7 @@ void Ship_SetFantomData(ref rFantom)
 
 	int iBaseHP = sti(rBaseShip.HP);
 	int iCapacity = sti(rBaseShip.Capacity);
-
-																									  
-
+	
 	rFantom.ship.Crew.Quantity = iOptCrew - rand(makeint(iOptCrew / 3)) + makeint(iOptCrew / 5); //отп команды +-20 процентов
 	
 	rFantom.Ship.HP = iBaseHP;
@@ -3355,9 +3354,12 @@ void Ship_CheckMainCharacter()
 					{
                    		Ship_PlayVictory("music_ship_victory", 12000);
 					} // fix boal
-					FadeOutMusic(3); //fix
-					if(Whr_IsDay()) SetMusic("music_sea_day");
-					else SetMusic("music_sea_night");
+					else
+					{
+						FadeOutMusic(3); //fix
+						if(Whr_IsDay()) SetMusic("music_sea_day");
+						else SetMusic("music_sea_night");
+					}
 				}
 				else
 				{ 
