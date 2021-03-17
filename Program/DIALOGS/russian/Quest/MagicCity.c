@@ -419,7 +419,7 @@ void ProcessDialogEvent()
 			pchar.questTemp.MC = "toSeekSister"; //флаг квеста	
 			LocatorReloadEnterDisable("Charles_town", "housePirate", false);
 			//ставим Ћиз Ўеппард
-			sld = GetCharacter(NPC_GenerateCharacter("LizSheppard", "BaynesDaughter", "woman", "towngirl", 10, ENGLAND, -1, false));
+			sld = GetCharacter(NPC_GenerateCharacter("LizSheppard", "BaynesDaughterSTOK", "woman", "towngirl", 10, ENGLAND, -1, false));
 			sld.name = "Ёлизабет";
 			sld.lastname = "Ўеппард";		
 			sld.dialog.filename = "Quest\MagicCity.c";
