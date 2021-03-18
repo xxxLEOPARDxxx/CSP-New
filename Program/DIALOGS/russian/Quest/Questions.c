@@ -143,6 +143,7 @@ void ProcessDialogEvent()
 			ReOpenQuestHeader("QuestionsMessages");
 			AddQuestRecord("QuestionsMessages", "1");
 			AddQuestUserData("QuestionsMessages", "sName", GetFullName(npchar));
+			CloseQuestHeader("QuestionsMessages");
 		break;
 		
 		case "PortSpein_ok_pistol":
@@ -155,6 +156,7 @@ void ProcessDialogEvent()
 			ReOpenQuestHeader("QuestionsMessages");
 			AddQuestRecord("QuestionsMessages", "1_1");
 			AddQuestUserData("QuestionsMessages", "sName", GetFullName(npchar));
+			CloseQuestHeader("QuestionsMessages");
 		break;
 		
 		case "PortSpein_5":
@@ -244,6 +246,7 @@ void ProcessDialogEvent()
 			ReOpenQuestHeader("QuestionsMessages");
 			AddQuestRecord("QuestionsMessages", "2");
 			AddQuestUserData("QuestionsMessages", "sName", GetFullName(npchar));
+			CloseQuestHeader("QuestionsMessages");
 		break;
 		case "Villemstad_6":
 			sTemp = "q" + npchar.quest.numQuestion;
@@ -332,6 +335,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("QuestionsMessages", "3");
 			AddQuestUserData("QuestionsMessages", "sSex", GetSexPhrase("ся","ась"));
 			AddQuestUserData("QuestionsMessages", "sName", GetFullName(npchar));
+			CloseQuestHeader("QuestionsMessages");
 		break;
 		case "PortPax_6":
 			sTemp = "q" + npchar.quest.numQuestion;
@@ -527,6 +531,7 @@ void ProcessDialogEvent()
 			ReOpenQuestHeader("QuestionsMessages");
 			AddQuestRecord("QuestionsMessages", "4");
 			AddQuestUserData("QuestionsMessages", "sName", GetFullName(npchar));
+			CloseQuestHeader("QuestionsMessages");
 		break;
 		case "Cumana_6":
 			sTemp = "q" + npchar.quest.numQuestion;
@@ -609,6 +614,7 @@ void ProcessDialogEvent()
 			ReOpenQuestHeader("QuestionsMessages");
 			AddQuestRecord("QuestionsMessages", "5");
 			AddQuestUserData("QuestionsMessages", "sName", GetFullName(npchar));
+			CloseQuestHeader("QuestionsMessages");
 		break;
 		case "PortRoyal_6":
 			sTemp = "q" + npchar.quest.numQuestion;
@@ -693,6 +699,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("QuestionsMessages", "6");
 			AddQuestUserData("QuestionsMessages", "sName", GetFullName(npchar));
 			AddQuestUserData("QuestionsMessages", "sBladeName", sTemp);
+			CloseQuestHeader("QuestionsMessages");
 		break;
 		case "Santiago_6":
 			sTemp = "q" + npchar.quest.numQuestion;

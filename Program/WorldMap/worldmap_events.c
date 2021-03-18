@@ -261,6 +261,7 @@ void wdmEnterSeaQuest(string _chrId)
 		AddQuestRecord("HeadHunter", "HeadHunter_Sea");
 		AddQuestUserData("HeadHunter", "sSex", GetSexPhrase("ся","ась"));
 		AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
+		CloseQuestHeader("HeadHunter");
 	}
 	if (findsubstr(_chrId, "GhostCapt" , 0) != -1) // GhostCapt
 	{

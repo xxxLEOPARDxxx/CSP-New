@@ -96,7 +96,8 @@ void ProcessDialogEvent()
 				AddQuestUserData("HeadHunter", "sSex", GetSexPhrase("ся","ась"));
 				AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
 				AddQuestUserData("HeadHunter", "sLoc", GetLocHunterName());
-                DeleteAttribute(PChar, "GenQuest.HunterStart"); 
+                DeleteAttribute(PChar, "GenQuest.HunterStart");
+				CloseQuestHeader("HeadHunter");				
             }
             DialogExit();
         break;
@@ -111,6 +112,7 @@ void ProcessDialogEvent()
 				AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
 				AddQuestUserData("HeadHunter", "sLoc", GetLocHunterName());
                 DeleteAttribute(PChar, "GenQuest.HunterStart"); 
+				CloseQuestHeader("HeadHunter");
             }
             DialogExit();
         break;
@@ -127,6 +129,7 @@ void ProcessDialogEvent()
 				AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
 				AddQuestUserData("HeadHunter", "sLoc", GetLocHunterName());
                 DeleteAttribute(PChar, "GenQuest.HunterStart"); 
+				CloseQuestHeader("HeadHunter");
             }
             DialogExit();
         break;

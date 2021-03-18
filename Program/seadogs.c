@@ -751,7 +751,7 @@ void OnLoad()
 	//onLoadReInit();
 	SpecOfficersCirass();
 	//Boyer change #20170418-01
-	restoreQuestItems();
+	//restoreQuestItems(); не нужно в отсутствие реинитов - Gregg
 	//End Boyer add
 	DeleteAttribute( pchar, "abordage_active_count" );
 	FreezeGroupControls(curKeyGroupName,false);

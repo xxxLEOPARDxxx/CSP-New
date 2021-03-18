@@ -5227,25 +5227,73 @@ void LSC_closeLine(string qName)
 		SetTimerFunction("LSC_climeUsurer", 0, 3 + rand(3), 0);
 		pchar.questTemp.LSC_climeUsurer.qtyMoney = sti(sld.quest.loan.qtyMoney) * 5; //сколько денег к возврату
 	}
-	//убираем жителей ГПК из игры
-	for(i=0; i<MAX_LOCATIONS; i++)
+	// Return to LSC - Gregg
+	//убираем жителей ГПК из игры 
+	/*for(i=0; i<MAX_LOCATIONS; i++)
 	{	
 		sld = &characters[i];
 		if (CheckAttribute(sld, "city") && sld.city == "LostShipsCity")
 			sld.lifeDay = 0;	
-	}
+	}*/
 }
 
 void LSC_takeStormIsland(string qName)
 {	
 	i = FindIsland("LostShipsCity");
-	Islands[i].reload_enable = false;
-	Islands[i].visible = false;
+	//Islands[i].reload_enable = false;
+	//Islands[i].visible = false;
 	DeleteAttribute(&Islands[i], "alwaysStorm");
 	DeleteAttribute(&Islands[i], "storm");
 	DeleteAttribute(&Islands[i], "tornado");
 	DeleteAttribute(&Islands[i], "QuestlockWeather");
 	DeleteAttribute(&Islands[i], "MaxSeaHeight");
+	
+	// Return to LSC - Gregg
+	Islands[i].reload.l2.emerge = "reload1_back";
+	Islands[i].reload_enable = true;
+	Islands[i].visible = true;
+	sld = characterFromId("LSC_Usurer");
+	sld.lifeDay = 0;
+	for(i=0; i<MAX_LOCATIONS; i++)
+	{		
+		if (locations[i].id == "LostShipsCity_town")
+		{
+			locations[i].reload.l1.disable = false;
+			locations[i].reload.l231.disable = false;
+			for(int n=3; n<=73; n++)
+			{	
+				sTemp = "l" + n;
+				locations[i].reload.(sTemp).disable = false; 
+			}
+			DeleteAttribute(&locations[i], "reload.l2.disable"); //откроем выход из ГПК
+			locations[i].locators_radius.reload.reload2_back = 10.0;
+			//второй патч ГПК
+			locations[i].models.day.charactersPatch = "LostShipsCity_patch_day";
+			locations[i].models.night.charactersPatch = "LostShipsCity_patch_day";	
+			//погода
+			DeleteAttribute(&locations[i], "alwaysStorm");	
+			DeleteAttribute(&locations[i], "QuestlockWeather");
+			DeleteAttribute(&locations[i], "MaxWaveHeigh");
+			DeleteAttribute(&locations[i], "alwaysStorm_2");	
+			DeleteAttribute(&locations[i], "alwaysStorm_2.WaveHeigh");	
+			DeleteAttribute(&locations[i], "storm");	
+			DeleteAttribute(&locations[i], "tornado");	
+			break;
+		}
+	}
+	for(i=0; i<MAX_LOCATIONS; i++)
+	{
+		if (CheckAttribute(&locations[i], "fastreload") && locations[i].fastreload == "LostShipsCity")
+		{			
+			DeleteAttribute(&locations[i], "alwaysStorm");	
+			DeleteAttribute(&locations[i], "QuestlockWeather");
+			DeleteAttribute(&locations[i], "MaxWaveHeigh");
+			DeleteAttribute(&locations[i], "alwaysStorm_2");	
+			DeleteAttribute(&locations[i], "alwaysStorm_2.WaveHeigh");	
+			DeleteAttribute(&locations[i], "storm");	
+			DeleteAttribute(&locations[i], "tornado");			
+		}
+	}
 }
 
 //------------ посетить жилые помещения магазина ----------->>>>>>

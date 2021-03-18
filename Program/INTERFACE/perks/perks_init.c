@@ -269,7 +269,7 @@ void extrnInitPerks()
     ChrPerksList.list.Builder.BaseType = "ship";
     
 	ChrPerksList.list.LightRepair.descr = "perkLightRepair";   // плотник
-	ChrPerksList.list.LightRepair.TimeDelay = 240;
+	ChrPerksList.list.LightRepair.TimeDelay = 600;
 	ChrPerksList.list.LightRepair.TimeDuration = 60;
 	ChrPerksList.list.LightRepair.BaseType = "ship";
 	ChrPerksList.list.LightRepair.OfficerType = "carpenter";
@@ -277,7 +277,7 @@ void extrnInitPerks()
 	ChrPerksList.list.InstantRepair.descr = "perkInstantRepair";    // плотник
 	ChrPerksList.list.InstantRepair.condition.LightRepair = true;
 	ChrPerksList.list.InstantRepair.condition.Carpenter = true;
-	ChrPerksList.list.InstantRepair.TimeDelay = 240;// boal 13.02.2004
+	ChrPerksList.list.InstantRepair.TimeDelay = 600;// boal 13.02.2004
 	ChrPerksList.list.InstantRepair.TimeDuration = 30;
 	ChrPerksList.list.InstantRepair.BaseType = "ship";
 	ChrPerksList.list.InstantRepair.OfficerType = "carpenter";
