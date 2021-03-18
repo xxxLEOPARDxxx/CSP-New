@@ -2465,7 +2465,7 @@ void OfficerMushketerInit()
 	sld.loyality = 18;
 	sld.rank = 15;
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
-	sld.HeroModel = "quest_mush_2,quest_mush_2_1,quest_mush_2_2,quest_mush_2_3,quest_mush_2_4,quest_mush_2_5,quest_mush_2,quest_mush_2,quest_mush_2";
+	sld.HeroModel = "quest_mush_2,quest_mush_2_1,quest_mush_2_2,quest_mush_2_3,quest_mush_2_4,quest_mush_2_5";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.reputation = 20; 
 	sld.alignment = "bad";
@@ -2510,7 +2510,7 @@ void OfficerMushketerInit()
 	sld.rank = 18;
 	sld.reputation = 75; 
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
-	sld.HeroModel = "quest_mush_1,quest_mush_1_1,quest_mush_1_2,quest_mush_1_3,quest_mush_1_4,quest_mush_1_5,quest_mush_1,quest_mush_1,quest_mush_1";
+	sld.HeroModel = "quest_mush_1,quest_mush_1_1,quest_mush_1_2,quest_mush_1_3,quest_mush_1_4,quest_mush_1_5";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.alignment = "good";
 	LAi_SetHP(sld, 210, 210);
