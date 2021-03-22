@@ -940,31 +940,37 @@ void ProcessDialogEvent()
 		case "Cabin_navigator_Talk":
 			chr = GetCharacter(sti(pchar.Fellows.Passengers.navigator));
 			PlaceCharacter(chr, "rld", PChar.location);
+			LAi_SetStayType(chr);
 			DialogExit_Self();
 		break;
 		case "Cabin_boatswain_Talk":
 			chr = GetCharacter(sti(pchar.Fellows.Passengers.boatswain));
 			PlaceCharacter(chr, "rld", PChar.location);
+			LAi_SetStayType(chr);
 			DialogExit_Self();
 		break;			
 		case "Cabin_cannoner_Talk":
 			chr = GetCharacter(sti(pchar.Fellows.Passengers.cannoner));
 			PlaceCharacter(chr, "rld", PChar.location);
+			LAi_SetStayType(chr);
 			DialogExit_Self();
 		break;				
 		case "Cabin_doctor_Talk":
 			chr = GetCharacter(sti(pchar.Fellows.Passengers.doctor));
 			PlaceCharacter(chr, "rld", PChar.location);
+			LAi_SetStayType(chr);
 			DialogExit_Self();
 		break;			
 		case "Cabin_treasurer_Talk":
 			chr = GetCharacter(sti(pchar.Fellows.Passengers.treasurer));
 			PlaceCharacter(chr, "rld", PChar.location);
+			LAi_SetStayType(chr);
 			DialogExit_Self();
 		break;		
 		case "Cabin_carpenter_Talk":
 			chr = GetCharacter(sti(pchar.Fellows.Passengers.carpenter));
 			PlaceCharacter(chr, "rld", PChar.location);
+			LAi_SetStayType(chr);
 			DialogExit_Self();
 		break;	
 		
@@ -972,6 +978,7 @@ void ProcessDialogEvent()
 			i = sti(PChar.GenQuest.CabinPassengerNum);
 			chr = GetCharacter(GetPassenger(PChar,i));
 			PlaceCharacter(chr, "rld", PChar.location);
+			LAi_SetStayType(chr);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit_Self();
 		break;

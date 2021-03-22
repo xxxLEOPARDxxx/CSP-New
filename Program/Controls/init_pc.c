@@ -159,6 +159,10 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "PrimaryLand", "OfficersFollow", CI_GetKeyCode("KEY_G"), 0, true );
 		MapControlToGroup("OfficersFollow","FightModeControls");
 		MapControlToGroup("OfficersFollow","BattleInterfaceControls");
+		
+		CI_CreateAndSetControls( "PrimaryLand", "OfficersFree", CI_GetKeyCode("VK_NUMPAD8"), 0, true );
+		MapControlToGroup("OfficersFree","FightModeControls");
+		MapControlToGroup("OfficersFree","BattleInterfaceControls");
 		// <-- JA
 
 		
@@ -591,6 +595,10 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "PrimaryLand", "OfficersFollow", CI_GetKeyCode("KEY_G"), 0, true );
 		MapControlToGroup("OfficersFollow","FightModeControls");
 		MapControlToGroup("OfficersFollow","BattleInterfaceControls");
+		
+		CI_CreateAndSetControls( "PrimaryLand", "OfficersFree", CI_GetKeyCode("KEY_K"), 0, true );
+		MapControlToGroup("OfficersFree","FightModeControls");
+		MapControlToGroup("OfficersFree","BattleInterfaceControls");
 		// <-- JA
 
 

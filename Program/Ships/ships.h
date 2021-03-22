@@ -132,7 +132,7 @@
 #define SHIP_BELLONA				113		// Линкор 1-го класса: 		Gun: 84(42ф) | HP: 8500 | трюм: 4500| Crew: 500 | Speed: 12.0| Turn: 30| FW: 1.0 |	|Нац:Фра,Гол|					[WAR]
 #define SHIP_LINEARSHIP				114		// Тяж. Лин. Корабль: 		Gun: 84(42ф) | HP: 11000| трюм: 4500| Crew: 650 | Speed: 11.8| Turn: 30| FW: 1.0 |	|Нац:Анг,Фра,Пир|				[WAR]
 #define SHIP_SHARK					115		// Тяж. Лин. Корабль: 		Gun: 84(42ф) | HP: 10000| трюм: 5500| Crew: 550 | Speed: 12.5| Turn: 30| FW: 1.0 |	|Нац:Гол,Пир,Исп|				[WAR]
-#define SHIP_ZEVENPROVINCIEN		116		// Лег. Мановар: 			Gun: 92(42ф) | HP: 12000| трюм: 5800| Crew: 650 | Speed: 11.0| Turn: 30| FW: 1.7 |	|Нац:Анг,Фра,Гол,Пир,Исп|		[WAR]
+#define SHIP_ZEVENPROVINCIEN		116		// Дредноут: 				Gun: 92(42ф) | HP: 12000| трюм: 5800| Crew: 650 | Speed: 11.0| Turn: 30| FW: 1.7 |	|Нац:Анг,Фра,Гол,Пир,Исп|		[WAR]
 #define SHIP_FR_TRINITY				117		// Воен. Мановар: 			Gun: 96(42ф) | HP: 13000| трюм: 6200| Crew: 720 | Speed: 10.0| Turn: 30| FW: 1.7 |	|Нац:Анг,Фра,Гол,Пир,Исп|		[WAR]
 #define SHIP_MANOWAR_FAST			118		// Фра. Мановар: 			Gun: 100(42ф)| HP: 17000| трюм: 6000| Crew: 850 | Speed: 9.5 | Turn: 20| FW: 1.0 |	|Нац:Фра|						[WAR]
 #define SHIP_BATTLEMANOWAR			119		// Анг. Мановар: 			Gun: 100(42ф)| HP: 16000| трюм: 6500| Crew: 950 | Speed: 9.0 | Turn: 20| FW: 1.0 |	|Нац:Анг|						[WAR]
@@ -144,16 +144,16 @@
 //====================================================================================================================================================================================================================
 // QuestShip					(11 кораблей)
 #define SHIP_LUGGERQUEST     	   	125		// Курьерский Люггер: 		Gun: 12(16ф) | HP: 1100 | трюм: 990 | Crew: 96  | Speed: 17.5| Turn: 60| FW: 11.0|		6 класс
-#define SHIP_XEBEKVML				126		// Щебека: 					Gun: 22(16ф) | HP: 2500 | трюм: 1800| Crew: 180 | Speed: 17.5| Turn: 55| FW: 7.5 |		4 класс
-#define SHIP_BRIGQEEN				127		// Бриг: 					Gun: 24(16ф) | HP: 2800 | трюм: 2000| Crew: 200 | Speed: 16.5| Turn: 45| FW: 6.0 |		4 класс
-#define SHIP_BRIGSW					128		// Бриг:					Gun: 24(16ф) | HP: 3200 | трюм: 2100| Crew: 130 | Speed: 16.5| Turn: 50| FW: 7.5 |		4 класс
-#define SHIP_CORVETTE_QUEST			129		// Фрегат: 					Gun: 40(24ф) | HP: 3800 | трюм: 2700| Crew: 250 | Speed: 18.0| Turn: 60| FW: 5.5 |		3 класс
-#define SHIP_ARABELLA				130		// Фрегат: 					Gun: 52(32ф) | HP: 6000 | трюм: 3700| Crew: 350 | Speed: 16.0| Turn: 42| FW: 4.0 |		2 класс
-#define SHIP_FRIGATEQUEEN			131		// Фрегат: 					Gun: 52(32ф) | HP: 5500 | трюм: 3200| Crew: 300 | Speed: 17.0| Turn: 45| FW: 4.5 |		2 класс
-#define SHIP_FLYINGDUTCHMAN			132		// Варшип: 					Gun: 66(42ф) | HP: 7700 | трюм: 5200| Crew: 444 | Speed: 15.0| Turn: 40| FW: 3.0 |		2 класс
+#define SHIP_XEBEKVML				126		// Синяя птица: 			Gun: 22(16ф) | HP: 2500 | трюм: 1800| Crew: 180 | Speed: 17.5| Turn: 55| FW: 7.5 |		4 класс
+#define SHIP_BRIGQEEN				127		// Стрела: 					Gun: 24(16ф) | HP: 2800 | трюм: 2000| Crew: 200 | Speed: 16.5| Turn: 45| FW: 6.0 |		4 класс
+#define SHIP_BRIGSW					128		// Морской волк:			Gun: 24(16ф) | HP: 3200 | трюм: 2100| Crew: 130 | Speed: 16.5| Turn: 50| FW: 7.5 |		4 класс
+#define SHIP_CORVETTE_QUEST			129		// ЧЖ: 						Gun: 40(24ф) | HP: 3800 | трюм: 2700| Crew: 250 | Speed: 18.0| Turn: 60| FW: 5.5 |		3 класс
+#define SHIP_ARABELLA				130		// Синко Льягас: 			Gun: 52(32ф) | HP: 6000 | трюм: 3700| Crew: 350 | Speed: 16.0| Turn: 42| FW: 4.0 |		2 класс
+#define SHIP_FRIGATEQUEEN			131		// МКА: 					Gun: 52(32ф) | HP: 5500 | трюм: 3200| Crew: 300 | Speed: 17.0| Turn: 45| FW: 4.5 |		2 класс
+#define SHIP_FLYINGDUTCHMAN			132		// ЛГ: 						Gun: 66(42ф) | HP: 7700 | трюм: 5200| Crew: 444 | Speed: 15.0| Turn: 40| FW: 3.0 |		2 класс
 #define SHIP_SANTISIMA		 	   	133		// Быстрый мановар: 		Gun: 106(42ф)| HP: 10700| трюм: 5750| Crew: 800 | Speed: 13.0| Turn: 32| FW: 1.2 |		1 класс
 #define SHIP_SOLEYRU				134		// Сулей Руаяль: 			Gun: 112(42ф)| HP: 18000| трюм: 6800| Crew: 1200| Speed: 10.6| Turn: 29| FW: 1.3 |		1 класс
-#define SHIP_WH_CORVETTE_QUEST		135		// Корвет: 					Gun: 40(32ф) | HP: 3400 | трюм: 2500| Crew: 230 | Speed: 20.0| Turn: 60| FW: 6.0 |		3 класс
+#define SHIP_WH_CORVETTE_QUEST		135		// Пёс войны: 				Gun: 40(32ф) | HP: 3400 | трюм: 2500| Crew: 230 | Speed: 20.0| Turn: 60| FW: 6.0 |		3 класс
 //====================================================================================================================================================================================================================
 
 //	ЛОДКА + ФОРТ

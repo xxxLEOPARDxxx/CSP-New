@@ -832,6 +832,7 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 	int iDiffHP	    		= sti(rRealShip.HP) - sti(rBaseShip.HP);
 	
 	if (CheckAttribute(rRealShip, "QuestShip")) QuestShipDifficultyBoosts(rRealShip);
+	else SetCabinTypeEx(rRealShip, sti(rRealShip.Class)); //Выдача случайной каюты по классу не квестовым - Gregg
 
 	rRealShip.Price	= GetShipPriceByTTH(iShip, chr); //(iDiffWeight + iDiffCapacity + iDiffMaxCrew*2 + iDiffMinCrew + fDiffSpeedRate*2 + iDiffTurnRate*2 + iDiffHP)*5 + sti(rRealShip.Price);
 
@@ -842,6 +843,46 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 	return iShip;
 }
 // -> ugeen
+
+void SetCabinTypeEx(ref rRealShip, int shipclass) //Выдача случайной каюты по классу не квестовым - Gregg
+{
+	if (shipclass == 7) return;
+		
+	if (shipclass == 6 || shipclass == 5)
+	{
+		switch (rand(1))
+		{
+			case 0: rRealShip.CabinType = "Cabin_Small"; return;
+			break;
+			case 1: rRealShip.CabinType = "New_Cabin1"; return;
+			break;
+		}
+	}
+	if (shipclass == 4 || shipclass == 3)
+	{
+		switch (rand(2))
+		{
+			case 0: rRealShip.CabinType = "Cabin_Medium"; return;
+			break;
+			case 1: rRealShip.CabinType = "Cabin_Medium2"; return;
+			break;
+			case 2: rRealShip.CabinType = "New_Cabin2"; return;
+			break;
+		}
+	}
+	if (shipclass == 2 || shipclass == 1)
+	{
+		switch (rand(2))
+		{
+			case 0: rRealShip.CabinType = "Cabin_Quest"; return;
+			break;
+			case 1: rRealShip.CabinType = "Cabin"; return;
+			break;
+			case 2: rRealShip.CabinType = "Cabin_Huge"; return;
+			break;
+		}
+	}
+}
 
 void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Кастомные бафы для квестовых кораблей в зависимости от сложности
 {
@@ -1451,7 +1492,7 @@ void SetShipyardStore(ref NPChar)
 			j5=i;
 			if (sti(ShipsTypes[storeArray[i]].Class)==5) break;//ищем начало 5 класса
 		}
-	if (sti(PChar.rank)>1)
+	if (sti(PChar.rank)>=1)
 		{
 			iTest_ship=j6+rand(j5-j6-1);
 			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship4");
@@ -1464,7 +1505,7 @@ void SetShipyardStore(ref NPChar)
 		j4=i;
 		if (sti(ShipsTypes[storeArray[i]].Class)==4) break;//ищем начало 4 класса
 	}
-	if (sti(PChar.rank)>5)
+	if (sti(PChar.rank)>=5)
 		{
 			iTest_ship=j5+rand(j4-j5-1);
 			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship6");
@@ -1481,7 +1522,7 @@ void SetShipyardStore(ref NPChar)
 			j3=i;
 			if (sti(ShipsTypes[storeArray[i]].Class)==3) break;//ищем начало 3 класса
 		}
-	if (sti(PChar.rank)>10)
+	if (sti(PChar.rank)>=10)
 		{
 			iTest_ship=j4+rand(j3-j4-1);
 			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship9");
@@ -1497,7 +1538,7 @@ void SetShipyardStore(ref NPChar)
 			j2=i;
 			if (sti(ShipsTypes[storeArray[i]].Class)==2) break;//ищем начало 2 класса
 		}
-	if (sti(PChar.rank)>20)
+	if (sti(PChar.rank)>=20)
 		{
 			iTest_ship=j3+rand(j2-j3-1);
 			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship12");
@@ -1510,12 +1551,12 @@ void SetShipyardStore(ref NPChar)
 			j1=i;
 			if (sti(ShipsTypes[storeArray[i]].Class)==1) break;//ищем начало 1 класса
 		}		
-	if (sti(PChar.rank)>25)
+	if (sti(PChar.rank)>=25)
 		{
 			iTest_ship=j2+rand(j1-j2-1);
 			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship14");//корабль 2 класса
 		}
-	if (sti(PChar.rank)>30)
+	if (sti(PChar.rank)>=30)
 		{
 			iTest_ship=j1+rand(j-j1-1);
 			FillShipParamShipyard(NPChar, GenerateStoreShipExt(storeArray[iTest_ship], NPChar), "ship15");//корабль 1 класса
@@ -2052,13 +2093,13 @@ int GetShipPriceByTTH(int iType, ref rChar)
 //Mett: <-- формула стоимости кораблей по ТТХ
 
 //<---Lipsar корабли по квесту Предложение Пирата
-void CreatePGG_War(ref ch, int iNation)
+void CreatePGG_War(ref ch, int iNation, ref shipOwner)
 {
 	aref rShip;
 	ref rMerch;
 	int iType, cl, cl1, i, j;
 	ref refShip;
-	refShip = GetRealShip(sti(pchar.ship.Type));
+	refShip = GetRealShip(sti(shipOwner.ship.Type));
 	int storeArray1[SHIP_TYPES_QUANTITY];
 	j = 0;
 	switch(sti(refShip.Class))
@@ -2178,17 +2219,32 @@ void CreatePGG_War(ref ch, int iNation)
 				}
 			}
 		break;
+		case "4":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.pirate);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.War == true)
+					{
+						storeArray1[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
 	}
 	iType = storeArray1[rand(j-1)];
 	ch.Ship.Type = GenerateShipExt(iType, 1, ch);
 }
-void CreatePGG_Trade(ref ch, int iNation)
+void CreatePGG_Trade(ref ch, int iNation, ref shipOwner)
 {
 	aref rShip;
 	ref rMerch;
 	int iType, cl, cl1, i, j;
 	ref refShip;
-	refShip = GetRealShip(sti(pchar.ship.Type));
+	refShip = GetRealShip(sti(shipOwner.ship.Type));
 	int storeArray2[SHIP_TYPES_QUANTITY];
 	j = 0;
 	
@@ -2275,6 +2331,21 @@ void CreatePGG_Trade(ref ch, int iNation)
 			for (i=cl;i<cl1;i++)
 			{
 				makearef(rShip,ShipsTypes[i].nation.holland);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.Merchant == true)
+					{
+						storeArray2[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+		case "4":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.pirate);
 				if (rShip == true) 
 				{
 					makeref(rMerch,ShipsTypes[i]);			

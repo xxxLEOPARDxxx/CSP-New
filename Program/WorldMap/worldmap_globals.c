@@ -105,11 +105,15 @@ void Map_ReleaseQuestEncounter(string characterID)
 		{
 			at = GetAttributeN(encs, i);
 			aname = GetAttributeName(at);
-			aname = "addQuestEncounters." + aname + ".characterID";
-			if(worldMap.(aname) == characterID)
+			if (CheckAttribute (worldMap, "addQuestEncounters." + aname + ".characterID"))
 			{
-				DeleteAttribute(&worldMap, aname);
-				break;
+				aname = "addQuestEncounters." + aname + ".characterID";
+				
+				if(worldMap.(aname) == characterID)
+				{
+					DeleteAttribute(&worldMap, aname);
+					break;
+				}
 			}
 		}
 		if(i >= num)
@@ -467,7 +471,7 @@ void  wdmEmptyAllDeadQuestEncounter()
         {
             int iChar = GetCharacterIndex(enc.quest.chrID)
             sdel  = "encounters."+GetAttributeName(enc);
-            if (iChar == -1 || CharacterIsDead(&characters[iChar]))
+            if (iChar == -1 || CharacterIsDead(&characters[iChar]) || CheckAttribute(CharacterFromID(enc.quest.chrID), "PGGAi.RemoveEncounter"))
             {
 	            if (!isWMap)
 				{

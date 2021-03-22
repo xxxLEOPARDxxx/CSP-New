@@ -291,7 +291,8 @@ void Duel_Sea_Prepare()
 	//		это квестовые персы...
 	NPChar.AlwaysEnemy = true;
 	NPChar.Coastal_Captain = true;  // не ругать нации
-	NPChar.Abordage.Enable = false;
+	DeleteAttribute(NPChar, "Abordage.Enable");
+	DeleteAttribute(NPChar, "AlwaysFriend");
 	NPChar.Nation.Bak = NPChar.Nation;
 	NPChar.Nation = GetCityNation(GetCurrentTown());
 	SetCharacterRelationBoth(sti(pchar.index), sti(npchar.index), RELATION_ENEMY);

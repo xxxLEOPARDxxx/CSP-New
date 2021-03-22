@@ -197,11 +197,11 @@ void ProcessDialogEvent()
 			
 		}
 		
-		if (GetQuestPastDayParam("pchar.questTemp.DuelCooldown") >= 30 || bBettaTestMode)
+		if (GetQuestPastDayParam("pchar.questTemp.DuelCooldown") >= 10 || bBettaTestMode)
 		{
-			if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 51 || bBettaTestMode)
+			if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 51 && !CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
 			{
-				link.l8 = PCharRepPhrase("Вот это " + GetSexPhrase("рожа","рыло") + "! Заверни-ка " + GetSexPhrase("ее","его") + " отсюда к чертовой матери!", "А... известная личность! Хочешь пару лишних дырок в брюхе?");
+				link.l8 = link.l8 = PCharRepPhrase("Эта таверна слишком тесна для нас двоих. Я хочу, что бы ты исчезла.", "Если бы ты знала с кем говоришь, по другому запела бы, портовая шалава.");
 				link.l8.go = "outraged";
 			}
 		}
@@ -336,6 +336,12 @@ void ProcessDialogEvent()
 					"Чтож... Я тоже думаю, что вместе мы сможем больше!", "Пожалуй, это будет весело. Договорились."));
 			link.l1 = RandPhraseSimple("Отлично, жду тебя в море!", "Вот и правильно! Мы будем отличной командой.");
 			link.l1.go = "exit";
+			
+			if (CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
+			{
+				PGG_Disband_Fleet(npchar);
+			}
+			
 			if (bHalfImmortalPGG)
 			{
 				pchar.PGG_hired = true;
@@ -467,7 +473,8 @@ void ProcessDialogEvent()
 //==== BETTA_TEST ====
 
 	case "quest":
-		chrDisableReloadToLocation = false;																							   
+		chrDisableReloadToLocation = false;
+		
 		if (CheckAttribute(NPChar, "QuestTalk") && GetNpcQuestPastDayParam(NPChar, "QuestTalk") < 1)
 		{
 			Dialog.Text = "Я уже все тебе сказала!";
@@ -475,18 +482,44 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			break;
 		}
+		int iDays = GetQuestPastDayParam("QuestTalk");
+		if (CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
+		{
+			if (rand(100) > 60 && !CheckAttribute(pchar, "GenQuest.PGG_Quest") && GetCharacterShipClass(PChar) <= 4 && iDays > 7)
+			{
+				Dialog.Text = "Что за разговор? Хотя.. Почему бы и нет. Дело или дельце - это мы завсегда!";
+				link.l1 = "Хм. Ты о чем?";
+				link.l1.go = "Quest_1_Ship";
+				NPChar.PGGAi.ActiveQuest = 1; // чтоб говорил от своего имени
+				PChar.GenQuest.PGG_Quest = 1; // чтоб не достовали другие ПГГ
+				SaveCurrentQuestDateParam("QuestTalk");
+				break;
+			}
+			else
+			{
+				Dialog.Text = "Прости, но ничего такого у меня на примете сейчас нет.";
+				link.l1 = "Понятно...";
+				link.l1.go = "exit";
+				if (GetCharacterShipClass(PChar) > 4)
+				{
+					Dialog.Text = "Дело с тобой!?? Подрасти сначала!";
+				}
+			}
+		}
 		else
 		{
 		switch (rand(2))
 		{
 		case 0:
-			if (PGG_IsQuestAvaible() && !CheckAttribute(pchar, "GenQuest.PGG_Quest") && sti(NPChar.Ship.Type) != SHIP_NOTUSED && GetCharacterShipClass(PChar) <= 4 && sti(PChar.Ship.Type) != SHIP_NOTUSED)
+			
+			if (PGG_IsQuestAvaible() && !CheckAttribute(pchar, "GenQuest.PGG_Quest") && sti(NPChar.Ship.Type) != SHIP_NOTUSED && GetCharacterShipClass(PChar) <= 4 && sti(PChar.Ship.Type) != SHIP_NOTUSED && iDays > 14)
 			{
 				Dialog.Text = "Что за разговор? Хотя.. Почему бы и нет. Дело или дельце - это мы завсегда!";
 				link.l1 = "Хм. Ты о чем?";
 				link.l1.go = "Quest_1_Work";
 				NPChar.PGGAi.ActiveQuest = 1; // чтоб говорил от своего имени
 				PChar.GenQuest.PGG_Quest = 1; // чтоб не достовали другие ПГГ
+				SaveCurrentQuestDateParam("QuestTalk");
 			}
 			else
 			{
@@ -525,7 +558,6 @@ void ProcessDialogEvent()
 		break;
 		}
 		}
-		SaveCurrentNpcQuestDateParam(NPChar, "QuestTalk");
 		break;
 
 	case "quest_onStay": // ПГГ сам подходит
@@ -545,7 +577,7 @@ void ProcessDialogEvent()
 			link.l1 = "Привет, " + GetFullName(NPChar) + ". Как дела?";
 			link.l1.go = "Quest_1_Work";
 		}
-		SaveCurrentNpcQuestDateParam(NPChar, "QuestTalk");
+		SaveCurrentQuestDateParam("QuestTalk");
 		break;
 
 	//=========== Первый квест ==========
@@ -566,7 +598,8 @@ void ProcessDialogEvent()
 		}
 		PChar.GenQuest.PGG_Quest.Parts = GetCompanionQuantity(PChar)+1;
 		PChar.GenQuest.PGG_Quest.Nation = iRnd;
-		PChar.GenQuest.PGG_Quest.Island = GetRandomIslandId();
+		if(PChar.GenQuest.PGG_Quest.Template == "1") PChar.GenQuest.PGG_Quest.Island = GetRandomUninhabitatIsland();
+		else PChar.GenQuest.PGG_Quest.Island = GetRandomIslandId();
 		while(PChar.GenQuest.PGG_Quest.Island == Islands[GetCharacterCurrentIsland(pchar)].id)
 		{
 			PChar.GenQuest.PGG_Quest.Island = GetRandomIslandId();
@@ -700,56 +733,63 @@ void ProcessDialogEvent()
 			PChar.Quest.PGGQuest1_RemoveEnd.function = "PGG_Q1RemoveShip";
 			break;
 		}
-		PChar.GenQuest.PGG_Quest.Stage = 1;
 		if (CheckAttribute(NPChar, "PGGAi.ActiveQuest"))
 		{
-			if (CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
+			if (CheckAttribute(NPChar, "PGGAi.Task.SetSail") )
 			{
-				iRnd = rand(3);
-				PChar.GenQuest.PGG_Quest.Template = drand(1);
-				PChar.GenQuest.PGG_Quest.Parts = GetCompanionQuantity(PChar)+1;
-				PChar.GenQuest.PGG_Quest.Nation = iRnd;
-				PChar.GenQuest.PGG_Quest.Island = GetRandomIslandId();
-
-				PChar.GenQuest.PGG_Quest.Island.Shore = GetIslandRandomShoreId(PChar.GenQuest.PGG_Quest.Island);
-				while(PChar.GenQuest.PGG_Quest.Island.Shore == "")
-				{
+					PChar.GenQuest.PGG_Quest.Stage = 1;
+					iRnd = rand(3);
+					PChar.GenQuest.PGG_Quest.Template = drand(1);
+					PChar.GenQuest.PGG_Quest.Parts = GetCompanionQuantity(PChar)+1;
+					PChar.GenQuest.PGG_Quest.Nation = iRnd;
 					PChar.GenQuest.PGG_Quest.Island = GetRandomIslandId();
+
 					PChar.GenQuest.PGG_Quest.Island.Shore = GetIslandRandomShoreId(PChar.GenQuest.PGG_Quest.Island);
-					if (sti(PChar.GenQuest.PGG_Quest.Template)) 
+					while(PChar.GenQuest.PGG_Quest.Island.Shore == "")
 					{
-						if (!isLocationFreeForQuests(PChar.GenQuest.PGG_Quest.Island)) PChar.GenQuest.PGG_Quest.Island.Shore = "";
+						PChar.GenQuest.PGG_Quest.Island = GetRandomIslandId();
+						PChar.GenQuest.PGG_Quest.Island.Shore = GetIslandRandomShoreId(PChar.GenQuest.PGG_Quest.Island);
+						if (sti(PChar.GenQuest.PGG_Quest.Template)) 
+						{
+							if (!isLocationFreeForQuests(PChar.GenQuest.PGG_Quest.Island)) PChar.GenQuest.PGG_Quest.Island.Shore = "";
+						}
+						else
+						{
+							if (!isLocationFreeForQuests(PChar.GenQuest.PGG_Quest.Island.Shore)) PChar.GenQuest.PGG_Quest.Island.Shore = "";
+						}
 					}
-					else
-					{
-						if (!isLocationFreeForQuests(PChar.GenQuest.PGG_Quest.Island.Shore)) PChar.GenQuest.PGG_Quest.Island.Shore = "";
-					}
-				}
-				PChar.GenQuest.PGG_Quest.Island.Town = FindTownOnIsland(PChar.GenQuest.PGG_Quest.Island);
-				PChar.GenQuest.PGG_Quest.Days = rand (4) + 5;
-				PChar.GenQuest.PGG_Quest.Goods = GOOD_SLAVES + drand(2);
-				PChar.GenQuest.PGG_Quest.PGGid = npchar.id;
-				NPChar.Nation.Bak = NPChar.Nation;
-				
-				Dialog.Text = "Удачное время вы выбрали, чтобы ступить ко мне на палубу, капитан! У меня есть для вас выгодное предложение – взять немного бесхозного добра.";
+					PChar.GenQuest.PGG_Quest.Island.Town = FindTownOnIsland(PChar.GenQuest.PGG_Quest.Island);
+					PChar.GenQuest.PGG_Quest.Days = rand (4) + 5;
+					PChar.GenQuest.PGG_Quest.Goods = GOOD_SLAVES + drand(2);
+					PChar.GenQuest.PGG_Quest.PGGid = npchar.id;
+					NPChar.Nation.Bak = NPChar.Nation;
+					
+					Dialog.Text = "Удачное время вы выбрали, чтобы ступить ко мне на палубу, капитан! У меня есть для вас выгодное предложение – взять немного бесхозного добра.";
+					link.l1 = RandPhraseSimple("А что тут сложного? И почему ты делишься этим со мной, милочка?", 
+					"Бесхозного? Да ты шутишь, милая!");
+					link.l1.go = "Quest_1_Ship_1";
 			}
 			else
 			{
+				PChar.GenQuest.PGG_Quest.Stage = 1;
 				Dialog.Text = RandPhraseSimple("Добро пожаловать на борт, капитан!", 
 					"Ну, вот и славно, теперь я уверен - лишних ушей нет, мои матросы уже в курсе.") + 
 					" Предложение такое – взять немного бесхозного добра.";
+					link.l1 = RandPhraseSimple("А что тут сложного? И почему ты делишься этим со мной, милочка?", 
+					"Бесхозного? Да ты шутишь, милая!");
+					link.l1.go = "Quest_1_Ship_1";
 			}
 //			Dialog.Text = "Ну, вот и славно, теперь я уверен - лишних ушей нет, мои матросы уже в курсе. Предложение такое - взять немного бесхозного добра!";
 //			link.l1 = "А что тут сложного? И почему ты делишься этим со мной?";
-			link.l1 = RandPhraseSimple("А что тут сложного? И почему ты делишься этим со мной, милочка?", 
-					"Бесхозного? Да ты шутишь, милая!");
+			
 		}
 		else
 		{
 			Dialog.Text = "Ну, вот и славно, теперь я уверен" + GetSexPhrase("","а") + " - лишних ушей нет, рассказывай!";
 			link.l1 = "Предложение такое - взять немного бесхозного добра";
+			link.l1.go = "Quest_1_Ship_1";
 		}
-		link.l1.go = "Quest_1_Ship_1";
+		
 		break;
 
 	case "Quest_1_Ship_1":
@@ -801,7 +841,7 @@ void ProcessDialogEvent()
 		
 		if (sti(PChar.GenQuest.PGG_Quest.Template)) 
 		{
-			sTmp +=	", остановился недалеко от " + sLoc + " у бухты " + GetConvertStr(PChar.GenQuest.PGG_Quest.Island.Shore, "LocLables.txt") + " для пополнения припасов.";
+			sTmp +=	", будет проходить около острова " + sLoc + " у бухты " + GetConvertStr(PChar.GenQuest.PGG_Quest.Island.Shore, "LocLables.txt") + ", им пришлось отклониться от привычного маршрута.";
 		}
 		else
 		{
@@ -872,6 +912,10 @@ void ProcessDialogEvent()
 		break;
 
 	case "Exit_Quest_1_Accept":
+		if (CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
+		{
+			PGG_Disband_Fleet(npchar);
+		}
 		if (sti(PChar.GenQuest.PGG_Quest.Stage) < 2)
 		{
 			PChar.GenQuest.PGG_Quest.Stage = 2;
@@ -899,6 +943,7 @@ void ProcessDialogEvent()
 
 			NPChar.PGGAi.IsPGG = false;
 			NPChar.PGGAi.location.town = "none";
+			NPChar.CompanionEnemyEnable = true;
 			DeleteAttribute(NPChar, "PGGAi.Task");
 			DeleteAttribute(NPChar, "PGGAi.LockService");
 			DeleteAttribute(NPChar, "AlwaysFriend");
@@ -1158,6 +1203,8 @@ void ProcessDialogEvent()
 					"Надеюсь, что ваши неудачи не сделают ваш характер еще более несносным, прощайте!"));
 		link.l1.go = "Exit_Quest_1_Failed";
 		PChar.GenQuest.PGG_Quest.Stage = -1;
+		
+		ChangeCharacterReputation(PChar,-20);
 
 		bOk = makeint(NPChar.reputation) < 41 && PGG_ChangeRelation2MainCharacter(NPChar, 0) < 75;
 		if (bOk || CheckAttribute(PChar, "GenQuest.PGG_Quest.Ok"))
@@ -1181,6 +1228,9 @@ void ProcessDialogEvent()
 			AddMoneyToCharacter(PChar, -(sti(PChar.GenQuest.PGG_Quest.FailedPaySum)));
 			AddQuestRecord("Gen_PGGQuest1"+Npchar.sex, "q1_FailPay");
 		}
+		
+		ChangeCharacterReputation(NPChar, 10);
+		
 		CloseQuestHeader("Gen_PGGQuest1"+Npchar.sex);
 		RemoveCharacterCompanion(pchar, NPChar);
 
@@ -1226,6 +1276,8 @@ void ProcessDialogEvent()
 
 	case "Exit_Quest_1_FailedFight":
 		RemoveCharacterCompanion(pchar, NPChar);
+		
+		ChangeCharacterReputation(NPChar, -5);
 
 		LAi_LockFightMode(pchar, false);
 		LAi_LocationFightDisable(&Locations[FindLocation(PChar.location)], false);
@@ -1262,6 +1314,9 @@ void ProcessDialogEvent()
 	case "Exit_Quest_1_End":
 		RemoveCharacterCompanion(PChar, NPChar);
 		PGG_ChangeRelation2MainCharacter(NPChar, 20);
+		
+		ChangeCharacterReputation(PChar, 5);
+		
 		i = sti(PChar.GenQuest.PGG_Quest.Goods.Part);
 		RemoveCharacterGoods(PChar, sti(PChar.GenQuest.PGG_Quest.Goods), i);
 			PChar.Quest.PGGQuest1_EndExitLoc.win_condition.l1 = "ExitFromLocation";

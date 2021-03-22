@@ -1063,6 +1063,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "Get_out_fight":
+			if(CheckAttribute(Npchar,"HalfImmortal")) DeleteAttribute(Npchar,"HalfImmortal");
 			CheckForReleaseOfficer(GetCharacterIndex(Npchar.id));
 			RemovePassenger(Pchar, Npchar);
 			LAi_CharacterDisableDialog(NPChar);

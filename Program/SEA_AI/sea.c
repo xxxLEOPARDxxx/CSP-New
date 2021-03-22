@@ -465,7 +465,6 @@ void Sea_MapStartFade()
 	EmptyAllFantomShips();    // трем корабли
 	wdmEmptyAllDeadQuestEncounter(); // трем случайки
 	pchar.location = "";
-	PGG_DailyUpdate();
 	Siege_DailyUpdate();//homo осады 05/11/06
 	wdmUpdateAllEncounterLivetime(); // homo карта 25/03/07
 	Flag_Rerise(); // переподнять флаг при выходе на карту, прменить отношения нации в столбец ГГ
@@ -575,6 +574,7 @@ void Sea_MapLoad()
 	ResetSound(); // new
 		
 	SetEventHandler("FaderEvent_StartFade", "Sea_MapStartFade", 0);
+	PGG_DailyUpdateSeaReload();
 	SetEventHandler("FaderEvent_EndFade", "Sea_MapEndFade", 0);
 
 	CreateEntity(&SeaFader, "fader");

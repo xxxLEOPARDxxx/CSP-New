@@ -388,10 +388,13 @@ void ProcessDialogEvent()
 			//занят ПГГ
 			if (CheckFreeServiceForNPC(NPChar, "Store") != -1)	 // to_do имя сунуть
 			{
-				dialog.text = "Извините, но я сейчас занят. Другие клиенты! Заходите завтра.";
-				link.l1 = "Да что вы говорите! Ладно, зайду попозже.";
-				link.l1.go = "exit";
-				break;
+				if (makeint(environment.time) < 18.0)
+				{
+					dialog.text = "Извините, но я сейчас занят. Другие клиенты! Заходите сегодня попозже, после 6 вечера.";
+					link.l1 = "Да что вы говорите! Ладно, зайду попозже.";
+					link.l1.go = "exit";
+					break;
+				}
 			}
 //navy <--
 			dialog.text = RandPhraseSimple("У меня есть сабли, пистолеты, пушечные ядра, ценная древесина и другие товары! Что вас интересует?", "Хотите купить золото или серебро? Или, может, присмотреть отличный клинок?");
@@ -944,9 +947,9 @@ void ProcessDialogEvent()
                         if (sti(npchar.storeMan1) > 0 && sti(npchar.storeMan2) > 0 && sti(npchar.storeMan3) > 0)
                         {
                             //проверяем импорт/экспорт
-    						npchar.iTradeGoods1 = drand(GOOD_BRICK-10); //Рабы и золото не даем, бомбы и еду - да!!
-    						npchar.iTradeGoods2 = drand(GOOD_BRICK-5); //Рабы и золото не даем, бомбы и еду - да!!
-    						npchar.iTradeGoods3 = drand(GOOD_BRICK); //Рабы и золото не даем, бомбы и еду - да!!
+    						npchar.iTradeGoods1 = GOOD_CHOCOLATE + drand(GOOD_BRICK-GOOD_CHOCOLATE); //Рабы и золото не даем, бомбы и еду - да!!
+    						npchar.iTradeGoods2 = GOOD_CHOCOLATE + drand1(GOOD_BRICK-GOOD_CHOCOLATE); //Рабы и золото не даем, бомбы и еду - да!!
+    						npchar.iTradeGoods3 = GOOD_CHOCOLATE + drand2(GOOD_BRICK-GOOD_CHOCOLATE); //Рабы и золото не даем, бомбы и еду - да!!
     						//проверяем свободное место (при этом должно вмещаться по меньшей мере 100 единиц выбранного груза
     						RecalculateSquadronCargoLoad(pchar); // fix неверное место
     						npchar.iQuantityGoods1 = GetSquadronFreeSpace(pchar, sti(npchar.iTradeGoods1));
@@ -960,38 +963,44 @@ void ProcessDialogEvent()
     						}
     						else
     						{
-    							npchar.iQuantityGoods1 = sti(npchar.iQuantityGoods1) - rand(sti(npchar.iQuantityGoods1-10)/3) - 10;
-    							npchar.iQuantityGoods2 = sti(npchar.iQuantityGoods2) - rand(sti(npchar.iQuantityGoods2-5)/3) - 10;
-    							npchar.iQuantityGoods3 = sti(npchar.iQuantityGoods3) - rand(sti(npchar.iQuantityGoods3)/3) - 10;
-								
-								if (CheckOfficersPerk(pchar,"Trader")) 
-								{
-									npchar.iDaysExpired1 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan1)].city)/300+1.0)*2;
-									npchar.iDaysExpired2 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan2)].city)/300+1.0)*2;
-									npchar.iDaysExpired3 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan3)].city)/300+1.0)*2;
-								}
-								else 
-								{
-									npchar.iDaysExpired1 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan1)].city)/300+1.0);
-									npchar.iDaysExpired2 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan2)].city)/300+1.0);
-									npchar.iDaysExpired3 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan3)].city)/300+1.0);
-								}
-								
-								if(CheckOfficersPerk(pchar,"Trader"))
-								{
-									npchar.iMoney1 = makeint((sti(npchar.iQuantityGoods1) * sti(Goods[sti(npchar.iTradeGoods1)].Weight) / sti(Goods[sti(npchar.iTradeGoods1)].Units)) * sti(npchar.iDaysExpired1) /2 * ((1.2 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
-									npchar.iMoney2 = makeint((sti(npchar.iQuantityGoods2) * sti(Goods[sti(npchar.iTradeGoods2)].Weight) / sti(Goods[sti(npchar.iTradeGoods2)].Units)) * sti(npchar.iDaysExpired2) /2 * ((1.2 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
-									npchar.iMoney3 = makeint((sti(npchar.iQuantityGoods3) * sti(Goods[sti(npchar.iTradeGoods3)].Weight) / sti(Goods[sti(npchar.iTradeGoods3)].Units)) * sti(npchar.iDaysExpired3) /2 * ((1.2 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
-								}
-								else 
-								{
-									npchar.iMoney1 = makeint((sti(npchar.iQuantityGoods1) * sti(Goods[sti(npchar.iTradeGoods1)].Weight) / sti(Goods[sti(npchar.iTradeGoods1)].Units)) * sti(npchar.iDaysExpired1) * ((0.9 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
-									npchar.iMoney2 = makeint((sti(npchar.iQuantityGoods2) * sti(Goods[sti(npchar.iTradeGoods2)].Weight) / sti(Goods[sti(npchar.iTradeGoods2)].Units)) * sti(npchar.iDaysExpired2) * ((0.9 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
-									npchar.iMoney3 = makeint((sti(npchar.iQuantityGoods3) * sti(Goods[sti(npchar.iTradeGoods3)].Weight) / sti(Goods[sti(npchar.iTradeGoods3)].Units)) * sti(npchar.iDaysExpired3) * ((0.9 * GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE)) + 0.5));
-								}
 								npchar.iTradeIsland1 = GetIslandByCityName(Characters[sti(npchar.storeMan1)].city);
 								npchar.iTradeIsland2 = GetIslandByCityName(Characters[sti(npchar.storeMan2)].city);
 								npchar.iTradeIsland3 = GetIslandByCityName(Characters[sti(npchar.storeMan3)].city);
+	
+								npchar.iQuantityGoods1 = sti(npchar.iQuantityGoods1) - drand(sti(npchar.iQuantityGoods1)/3) - 10;
+    							npchar.iQuantityGoods2 = sti(npchar.iQuantityGoods2) - drand1(sti(npchar.iQuantityGoods2)/3) - 10;
+    							npchar.iQuantityGoods3 = sti(npchar.iQuantityGoods3) - drand2(sti(npchar.iQuantityGoods3)/3) - 10;
+								
+								//Lipsar переделал формулы (ВСЕ(Почти)). Что бы поменять кол-во дней просто меняеете цифры вот тут -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------> Сверху торгаш Снизу обычный. А так же тут ----------------------------------------------------------------------------------------------> 
+								
+									npchar.iDaysExpired1 = GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan1)].city))/2 - MakeInt(GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan1)].city))/20 * 6) + drand(MakeInt(GetMaxDaysFromIsland2Island(GetArealByCityName(Characters[sti(npchar.storeMan1)].city),GetArealByCityName(NPChar.city))/12 * 3)));
+									npchar.iDaysExpired2 = GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan2)].city))/2 - MakeInt(GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan2)].city))/20 * 6) + drand1(MakeInt(GetMaxDaysFromIsland2Island(GetArealByCityName(Characters[sti(npchar.storeMan1)].city),GetArealByCityName(NPChar.city))/12 * 3)));
+									npchar.iDaysExpired3 = GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan3)].city))/2 - MakeInt(GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan3)].city))/20 * 6) + drand2(MakeInt(GetMaxDaysFromIsland2Island(GetArealByCityName(Characters[sti(npchar.storeMan1)].city),GetArealByCityName(NPChar.city))/12 * 3)));
+								
+								if(CheckOfficersPerk(pchar,"Trader"))
+								{
+									npchar.iMoney1 = makeint(sti(npchar.iQuantityGoods1) / sti(Goods[sti(npchar.iTradeGoods1)].Units) * sti(Goods[sti(npchar.iTradeGoods1)].Weight)) * GetDistanceToColony2D(Characters[sti(npchar.storeMan1)].city)/300 * GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan1)].city)) / 2 / (sti(npchar.iDaysExpired1)) * ((1.2 * 5) + 0.5);
+									npchar.iMoney2 = makeint(sti(npchar.iQuantityGoods2) / sti(Goods[sti(npchar.iTradeGoods2)].Units) * sti(Goods[sti(npchar.iTradeGoods2)].Weight)) * GetDistanceToColony2D(Characters[sti(npchar.storeMan2)].city)/300 * GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan2)].city)) / 2 / (sti(npchar.iDaysExpired2)) * ((1.2 * 5) + 0.5);
+									npchar.iMoney3 = makeint(sti(npchar.iQuantityGoods3) / sti(Goods[sti(npchar.iTradeGoods3)].Units) * sti(Goods[sti(npchar.iTradeGoods3)].Weight)) * GetDistanceToColony2D(Characters[sti(npchar.storeMan3)].city)/300 * GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan3)].city)) / 2 / (sti(npchar.iDaysExpired3)) * ((1.2 * 5) + 0.5);
+								}
+								else 
+								{
+									npchar.iMoney1 = makeint(sti(npchar.iQuantityGoods1) / sti(Goods[sti(npchar.iTradeGoods1)].Units) * sti(Goods[sti(npchar.iTradeGoods1)].Weight)) * GetDistanceToColony2D(Characters[sti(npchar.storeMan1)].city)/300 * GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan1)].city)) / 2 / sti(npchar.iDaysExpired1) * ((0.9 * 5) + 0.5);
+									npchar.iMoney2 = makeint(sti(npchar.iQuantityGoods2) / sti(Goods[sti(npchar.iTradeGoods2)].Units) * sti(Goods[sti(npchar.iTradeGoods2)].Weight)) * GetDistanceToColony2D(Characters[sti(npchar.storeMan2)].city)/300 * GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan2)].city)) / 2 / sti(npchar.iDaysExpired2) * ((0.9 * 5) + 0.5);
+									npchar.iMoney3 = makeint(sti(npchar.iQuantityGoods3) / sti(Goods[sti(npchar.iTradeGoods3)].Units) * sti(Goods[sti(npchar.iTradeGoods3)].Weight)) * GetDistanceToColony2D(Characters[sti(npchar.storeMan3)].city)/300 * GetMaxDaysFromIsland2Island(GetArealByCityName(NPChar.city),GetArealByCityName(Characters[sti(npchar.storeMan3)].city)) / 2 / sti(npchar.iDaysExpired3) * ((0.9 * 5) + 0.5);
+								}
+								if (CheckOfficersPerk(pchar,"Trader")) 
+								{
+									npchar.iDaysExpired1 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan1)].city)/300+3.0)*2;
+									npchar.iDaysExpired2 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan2)].city)/300+3.0)*2;
+									npchar.iDaysExpired3 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan3)].city)/300+3.0)*2;
+								}
+								else 
+								{
+									npchar.iDaysExpired1 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan1)].city)/300+3.0);
+									npchar.iDaysExpired2 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan2)].city)/300+3.0);
+									npchar.iDaysExpired3 = makeint(GetDistanceToColony2D(Characters[sti(npchar.storeMan3)].city)/300+3.0);
+								}
                                 SaveCurrentQuestDateParam("CargoQuest");
     							NPChar.sNation1 = XI_ConvertString("Colony"+Characters[sti(npchar.storeMan1)].city);
     							NPChar.sNation2 = XI_ConvertString("Colony"+Characters[sti(npchar.storeMan2)].city);
@@ -1118,6 +1127,7 @@ void ProcessDialogEvent()
 		case "generate_quest_ready":
             iTradeGoods    =  makeint(pchar.CargoQuest.iTradeGoods);
             iQuantityGoods =  makeint(pchar.CargoQuest.iQuantityGoods);
+				
             // блок кидалова нас на бабки -->
             if (rand(8) == 1 && sti(Goods[iTradeGoods].Cost) <= 44 && GetQuestPastDayParam("CargoQuest") > 5)
             {
@@ -1156,13 +1166,35 @@ void ProcessDialogEvent()
 			}
 			else
 			{
+				if ((GetQuestPastDayParam("CargoQuest") + 1) == sti(pchar.CargoQuest.iDaysExpired))
+				{
+				dialog.text = "Вы опоздали на 1 день. Поэтому я заплачу вам только пол цены";
+				link.l1 = "Эхх, с кем не бывает, давайте";
+				link.l1.go = "exit";
+				ChangeCharacterReputation(pchar, 3);
+				AddCharacterExpToSkill(pchar, "Sailing", sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_I) );
+				AddCharacterExpToSkill(pchar, "Leadership", sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_C));
+				AddCharacterExpToSkill(pchar, "COMMERCE", sti(pchar.rank) * (GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I)));
+
+				AddMoneyToCharacter(pchar, makeint(sti(pchar.CargoQuest.iMoney)/2));
+				pchar.quest.generate_trade_quest_progress = "";
+				pchar.quest.generate_trade_quest.over = "yes";
+				RemoveCharacterGoods(pchar, makeint(pchar.CargoQuest.iTradeGoods), makeint(pchar.CargoQuest.iQuantityGoods));
+				
+                OfficersReaction("good");
+                
+                AddQuestRecord("DELIVERY_TRADE_QUEST", "Late1Day");
+                CloseQuestHeader("DELIVERY_TRADE_QUEST");
+				}
+				else
+				{
                 dialog.text = "Замечательно! Вот ваша награда, капитан "+GetFullName(pchar)+".";
 				link.l1 = "Приятно с вами работать.";
 				link.l1.go = "exit";
 				ChangeCharacterReputation(pchar, 3);
-				AddCharacterExpToSkill(pchar, "Sailing", 1.0 * sti(pchar.CargoQuest.iDaysExpired) * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_I));
-				AddCharacterExpToSkill(pchar, "Leadership", 0.3 * sti(pchar.CargoQuest.iDaysExpired) * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_C));
-				AddCharacterExpToSkill(pchar, "COMMERCE", 1.0 * sti(pchar.CargoQuest.iDaysExpired) * sti(pchar.rank) * (GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I))/2);
+				AddCharacterExpToSkill(pchar, "Sailing", GetQuestPastDayParam("CargoQuest") * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_I) );
+				AddCharacterExpToSkill(pchar, "Leadership", GetQuestPastDayParam("CargoQuest") * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_C));
+				AddCharacterExpToSkill(pchar, "COMMERCE", GetQuestPastDayParam("CargoQuest") * sti(pchar.rank) * (GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I)));
 
 				AddMoneyToCharacter(pchar, makeint(pchar.CargoQuest.iMoney));
 				pchar.quest.generate_trade_quest_progress = "";
@@ -1175,6 +1207,7 @@ void ProcessDialogEvent()
                 AddQuestUserData("DELIVERY_TRADE_QUEST", "sGoodGen", GetGoodsNameAlt(iTradeGoods));
 			    AddQuestUserData("DELIVERY_TRADE_QUEST", "sTargetColony",XI_ConvertString("Colony"+pchar.CargoQuest.iTradeColony+"Gen"));
                 CloseQuestHeader("DELIVERY_TRADE_QUEST");
+				}
 			}
 		break;
 		

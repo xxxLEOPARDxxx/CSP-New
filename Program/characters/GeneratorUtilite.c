@@ -27,6 +27,7 @@ void SetFantomParamFromRank(ref NPchar, int  rank, bool setEquip)
 		NPchar.cirassId = Items_FindItemIdx(cirnum);
 		Log_TestInfo("Персонаж "+NPchar.name+" получил кирасу "+cirnum);
 	}
+	SetCharacterPerk(NPchar, PerksChars());
 }
 
 void SetFantomParamFromRank_PPG(ref NPchar, int  rank, bool setEquip)   //WW

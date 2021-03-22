@@ -55,14 +55,14 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			break
 		}
 		//может отказаться.
-		if (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))         //WW  
+		if (drand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))         //WW  
 		{
 			Dialog.Text = RandPhraseSimple("Дуэль?!!! Проваливай, ты не стоишь потраченного времени.", "Дуэль? Слишком много чести! Сгинь!");
 			link.l1 = RandPhraseSimple("Ну-ну...", "Я могу и подождать...");
 			link.l1.go = "exit";
 /**/
 			//можно дать возможность драться полюбому :)			
-			if (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))    //WW
+			if (drand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))    //WW
 			{
 				link.l1 = RandPhraseSimple("Ну, это мы сейчас посмотрим!!!", "Да что ты говоришь?! Сейчас я увижу цвет твоей крови!");
 				link.l1.go = "fight_right_now";
@@ -72,8 +72,8 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		}
 
 		//согласен.
-		Dialog.Text = RandPhraseSimple("Дуэль, говоришь? Пожалуй, я не прочь. Будем биться на шпагах и пистолетах.", 
-			"Да ты, наверное, и шпагу-то держать не умеешь?");
+		Dialog.Text = RandPhraseSimple("Дуэль, говоришь? Пожалуй, я не против размяться.", 
+			"Ты хотя бы знаешь какой стороной шпагу держать?");
 		link.l1 = RandPhraseSimple("Ты будешь на коленях просить о пощаде.", "Я прикончу тебя вот этими руками, мерзавец!");
 		link.l1.go = "land_duel";
 		if (sti(pchar.Ship.Type) != SHIP_NOTUSED && sti(NPChar.Ship.Type) != SHIP_NOTUSED)
@@ -121,7 +121,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		link.l3 = "Я передумал...";
 		link.l3.go = "change_mind";
 
-		if (rand(1))
+		if (drand(1))
 		{
 			Dialog.Text = RandSwear() + RandPhraseSimple("Я думаю, нам стоит выйти за городские ворота. Жду тебя там через " + pchar.questTemp.Duel.WaitTime + " часа. Не задерживайся!", 
 				"Тут не лучшее место для разбирательств. Лучше выйдем из города. Через " + pchar.questTemp.Duel.WaitTime + " часа я буду там.");
@@ -137,7 +137,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		Dialog.Text = RandPhraseSimple("Слишком много чести! Защищайся!", "Мне некогда! Здесь и сейчас!");
 		link.l1 = RandPhraseSimple("Ну, если ты так торопишься умереть...", "Проклятье! Я помогу тебе отправиться в ад!!!");
 		link.l1.go = "fight_right_now";
-		if (rand(1))
+		if (drand(1))
 		{
 			Dialog.Text = RandPhraseSimple("Что ж, давай прогуляемся.", "Пожалуй, ты прав. Встретимся за воротами.");
 			link.l1 = RandPhraseSimple("Жду тебя там.", "Не опаздывай.");
@@ -187,7 +187,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		link.l1.go = "fight_right_now";
 		link.l2 = "Нет, я решил"+ GetSexPhrase("","а") +" принести тебе извинения. Был"+ GetSexPhrase("","а") +" неправ, вспылил"+ GetSexPhrase("","а") +".";
 		link.l2.go = "change_mind";
-		if (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))  //WW 
+		if (drand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))  //WW 
 		{
 			Dialog.Text = RandPhraseSimple("Слушай, я тут подумал и понял, что был неправ. Приношу свои извинения", 
 				"Черт! Это все ром!!! Прости, "+ GetSexPhrase("брат","сестра") +"!");
@@ -206,7 +206,12 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 
 	//дуэли быть!
 	case "fight_right_now":
-		SaveCurrentQuestDateParam("pchar.questTemp.DuelCooldown");
+		if(findsubstr(npchar.id, "PsHero_" , 0) != -1)
+		{
+			LAi_SetCheckMinHP(npchar, 1, true, "PGG_CheckHPDuel");
+			SaveCurrentQuestDateParam("pchar.questTemp.DuelCooldown");
+			chrDisableReloadToLocation = true;
+		}
 		PChar.questTemp.duel.enemy = NPChar.id;
 		AddDialogExitQuestFunction("Duel_Prepare_Fight");
 		NextDiag.CurrentNode = NextDiag.TempNode;
@@ -214,7 +219,6 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		break;
 
 	case "fight_right_now_1":	                  //WW  ?????
-		SaveCurrentQuestDateParam("pchar.questTemp.DuelCooldown");
 		PChar.questTemp.duel.enemy = NPChar.id;
 		PChar.questTemp.duel.enemyQty = rand(2) + 1;
 		AddDialogExitQuestFunction("Duel_Prepare_Fight");
@@ -242,8 +246,49 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 
 	//мир и все такое.
 	case "peace":
-		LAi_SetWarriorType(NPChar);
 		NextDiag.CurrentNode = "after_peace";
+		DialogExit();
+		break;
+		
+	case "Duel_Won":
+		LAi_SetCurHPMax(npchar);
+		Dialog.text = "Проклятье! Я сдаюсь.";
+		link.l1 = "Я сегодня "+GetSexPhrase("добрый","добрая")+". Вали отсюда.";
+		link.l1.go = "duel_nomoney";
+		link.l2 = "Отлично. А теперь выворачивай карманы!";
+		link.l2.go = "duel_money";
+		NextDiag.TempNode = "Second time";
+		break;
+	case "duel_nomoney":
+		ChangeCharacterReputation(pchar, 10);
+		PGG_ChangeRelation2MainCharacter(npchar, 20);
+		Dialog.text = "Проклятье, ты это серьезно? Не скажу, что поступил"+NPCharSexPhrase(npchar, "","а")+ " бы также, будь я на твоем месте. Я этого не забуду.";
+		link.l1 = "Иди давай, пока я не передумал"+GetSexPhrase("","а")+".";
+		link.l1.go = "duel_exit";
+		break;
+	case "duel_money":
+		ChangeCharacterReputation(pchar, -25);
+		PGG_ChangeRelation2MainCharacter(npchar, -30);
+		AddMoneyToCharacter(pchar, sti(npchar.money)/3);
+		AddMoneyToCharacter(npchar, -sti(npchar.money)/3);
+		Dialog.text = "Ах ты, "+GetSexPhrase("мерзавец","мерзавка")+"! Ну ничего, я еще с тобой поквитаюсь.";
+		link.l1 = "Буду  ждать с нетерпением.";
+		link.l1.go = "duel_exit";
+		
+		int rank = sti(npchar.rank) * 2 + MOD_SKILL_ENEMY_RATE;
+		npchar.rank = rank;
+		int rank = sti(chr.rank) + (sti(chr.rank) * 0.2) + MOD_SKILL_ENEMY_RATE;
+		npchar.perks.list.AgileMan = "1";
+		ApplayNewSkill(npchar, "AgileMan", 0);
+		int hp = LAi_GetCharacterMaxHP(npchar);
+		LAi_SetHP(npchar, hp*1.7, hp*1.7);
+		npchar.money = rank * 25000 + rand (1000) - rand(1000);
+		break;
+	case "duel_exit":
+		LAi_SetActorType(npchar);
+		LAi_ActorRunToLocation(npchar, "reload", LAi_FindNearestFreeLocator2Pchar("reload"), npchar.PGGAi.location.town+"_Tavern", "", "", "", 10.0);
+		NextDiag.CurrentNode = NextDiag.TempNode;
+		LAi_SetImmortal(npchar, false);
 		DialogExit();
 		break;
 	}

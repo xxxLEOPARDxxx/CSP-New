@@ -248,6 +248,9 @@ void QuestComplete(string sQuestName, string qname)
                 PlayVoice("interface\_EvShip1.wav");
                 // лишнее, помер ПГГ и все тут if (findsubstr(sld.id, "PsHero_" , 0) != -1) npchar = sld.id; //homo for navy (ПГГ fix)
                 LAi_SetCurHPMax(npchar);
+				//Выдача перка характера при отсутствии
+				if (!IsCharacterPerkOn(npchar, "Grunt") && !IsCharacterPerkOn(npchar, "Trader") && !IsCharacterPerkOn(npchar, "Fencer") && !IsCharacterPerkOn(npchar, "Buccaneer") && !IsCharacterPerkOn(npchar, "Agent") && !IsCharacterPerkOn(npchar, "SeaWolf"))
+					SetCharacterPerk(npchar, PerksChars());
     			sld.location = "none";
     			sld.location.from_sea = "";
                 Log_Info(GetFullName(npchar) + " сдался в плен.");
@@ -1230,7 +1233,7 @@ void QuestComplete(string sQuestName, string qname)
 			int iMoney         = sti(pchar.CargoQuest.iMoney);
             AddCharacterGoods(pchar, iTradeGoods, iQuantityGoods);
 			//задаем квест
-			SetTimerCondition("generate_trade_quest", 0, 0, sti(pchar.CargoQuest.iDaysExpired), false);
+			SetTimerCondition("generate_trade_quest", 0, 0, (sti(pchar.CargoQuest.iDaysExpired) + 1), false);
 
 			pchar.quest.generate_trade_quest_progress = "begin";
 			ReOpenQuestHeader("DELIVERY_TRADE_QUEST");
@@ -1262,7 +1265,6 @@ void QuestComplete(string sQuestName, string qname)
 				Log_SetStringToLog("Время для поставки груза истекло.");
 				ChangeCharacterReputation(pchar, -10);
 				OfficersReaction("bad");
-				ChangeCharacterHunterScore(GetMainCharacter(), NationShortName(sti(characters[GetCharacterIndex(pchar.CargoQuest.TraderID)].nation)) + "hunter", 15);
                 AddQuestRecord("DELIVERY_TRADE_QUEST", "3");
                 AddQuestUserData("DELIVERY_TRADE_QUEST", "sGoodGen", GetGoodsNameAlt(sti(pchar.CargoQuest.iTradeGoods)));
 			    AddQuestUserData("DELIVERY_TRADE_QUEST", "sTargetColony",XI_ConvertString("Colony"+pchar.CargoQuest.iTradeColony+"Gen"));
@@ -8009,6 +8011,26 @@ void QuestComplete(string sQuestName, string qname)
 			}
 		break;
 		
+		case "PGG_CheckHPDuel":
+			sld = CharacterFromID(PChar.questTemp.duel.enemy);
+			DoQuestCheckDelay("hide_weapon", 1.0);
+			sld.Dialog.CurrentNode = "Duel_Won";
+			LAi_SetImmortal(sld, true);
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", -1, 0);
+			chrDisableReloadToLocation = false;
+			if (CheckAttribute(pchar, "questTemp.LocationClone"))
+			{
+				DeleteAttribute(pchar, "questTemp.LocationClone");
+			}
+			if (CheckAttribute(pchar, "questTemp.LocFightEnable") && sti(pchar.questTemp.LocFightEnable))
+			{
+				sld = &Locations[FindLocation(pchar.location)];
+				LAi_LocationFightDisable(sld, true);
+				DeleteAttribute(pchar, "questTemp.LocFightEnable");
+			}
+		break;
+		
 		case "Sharp_Prologue_CheckHP":
 			LAi_group_SetRelation("SharpSibling", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
 			sld = CharacterFromID("Sharp_Sibling");
@@ -9331,7 +9353,318 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 //========================  Квест "Новая Родина".  =======================		
 
-//будущий текст
+		case "PDM_HugoSeaHavana":
+			sld = CharacterFromID("Hugo_Lesopilka")
+			ChangeCharacterAddressGroup(sld,"none","","");
+		break;
+//========================  Квест "Золото не тонет".  =======================	
+
+		case "PDM_Lesopilka_Vremy":
+			AddQuestRecord("PDM_Zoloto_ne_tonet", "3");							
+			AddQuestUserData("PDM_Zoloto_ne_tonet", "sSex", GetSexPhrase("","а"));
+			Group_SetAddress("PDM_HUGO_GAL", "none", "", "");
+		break;
+
+		case "PDM_Lesopilka_SJ":
+			sld = CharacterFromID("Hugo_Lesopilka")
+			ChangeCharacterAddressGroup(sld,"Havana_Town","goto","goto2");
+			sld.dialog.filename   = "Quest/PDM/Novaya_Rodina.c";
+			sld.dialog.currentnode   = "Final_1";
+			PChar.quest.PDM_Lesopilka_Vremy.over = "yes";
+		break;
+		
+		case "PDM_Lesopilka_SJNashel":
+			AddQuestRecord("PDM_Zoloto_ne_tonet", "2");							
+			AddQuestUserData("PDM_Zoloto_ne_tonet", "sSex", GetSexPhrase("","а"));
+			PChar.quest.PDM_Lesopilka_Vremy.over = "yes";
+			PChar.quest.PDM_Lesopilka_SJ.over = "yes";
+			
+			PChar.quest.PDM_Zoloto_ne_tonet_BITVA_na_sushe.win_condition.l1 = "location";
+			PChar.quest.PDM_Zoloto_ne_tonet_BITVA_na_sushe.win_condition.l1.location = "Shore27";
+			PChar.quest.PDM_Zoloto_ne_tonet_BITVA_na_sushe.function = "PDM_Zoloto_ne_tonet_BITVA_na_sushe";
+			
+			PChar.quest.PDM_ZNT_SJ_GLOBAL.win_condition.l1 = "MapEnter";
+			PChar.quest.PDM_ZNT_SJ_GLOBAL.win_condition = "PDM_ZNT_Otmena_SOKR";
+		break;
+		
+		case "PDM_ZolNeTon_PobNaSush":
+			sld = CharacterFromID("Hugo_Lesopilka")
+			ChangeCharacterAddressGroup(sld,"Havana_Town","goto","goto2");
+			sld.city = "Havana";
+			sld.dialog.filename   = "Quest/PDM/Novaya_Rodina.c";
+			sld.dialog.currentnode   = "Final_1";
+			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+			TakeItemFromCharacter(pchar, "PDM_SJ_Angl_Gal");
+			chrDisableReloadToLocation = false;
+			pchar.GenQuestBox.Dominica_Grot.box1.items.icollection = 1;
+			pchar.GenQuestBox.Dominica_Grot.box1.items.indian10 = 1;
+			pchar.GenQuestBox.Dominica_Grot.box1.items.jewelry5 = 20;
+			pchar.GenQuestBox.Dominica_Grot.box1.items.jewelry17 = 60;
+			SetQuestHeader("PDM_Zoloto_ne_tonet");
+			AddQuestRecord("PDM_Zoloto_ne_tonet", "4");	
+			PChar.quest.PDM_ZNT_SJ_GLOBAL.over = "yes";
+			AddCharacterExpToSkill(pchar, "Leadership", 30);
+			AddCharacterExpToSkill(pchar, "FencingLight", 30);
+			AddCharacterExpToSkill(pchar, "FencingHeavy", 30);
+			AddCharacterExpToSkill(pchar, "Fencing", 30);
+			AddCharacterExpToSkill(pchar, "Pistol", 30);
+			AddCharacterExpToSkill(pchar, "Fortune", 30);
+		break;
+		
+		case "PDM_ZNT_Otmena_SOKR":
+			sld = CharacterFromID("Hugo_Lesopilka")
+			ChangeCharacterAddressGroup(sld,"none","","");
+			PChar.quest.PDM_Zoloto_ne_tonet_BITVA_na_sushe.over = "yes";
+			AddQuestRecord("PDM_Zoloto_ne_tonet", "5");							
+			AddQuestUserData("PDM_Zoloto_ne_tonet", "sSex", GetSexPhrase("","а"));
+			CloseQuestHeader("PDM_Zoloto_ne_tonet");
+			AddCharacterExpToSkill(pchar, "Leadership", -30);
+			AddCharacterExpToSkill(pchar, "FencingLight", -30);
+			AddCharacterExpToSkill(pchar, "FencingHeavy", -30);
+			AddCharacterExpToSkill(pchar, "Fencing", -30);
+			AddCharacterExpToSkill(pchar, "Pistol", -30);
+			AddCharacterExpToSkill(pchar, "Fortune", -30);
+		break;
+		
+//========================  Квест "Охота на ведьму".  =======================
+
+		case "PDM_ONV_BARTO_Ischezni":
+			sld = CharacterFromID("PDM_Isp_sekr_guber")
+			ChangeCharacterAddressGroup(sld,"none","","");			
+		break;
+		
+		case "PDM_ONV_Clara_Ischezni":
+			sld = CharacterFromID("PDM_ONV_Carla")
+			ChangeCharacterAddressGroup(sld,"none","","");			
+		break;
+		
+		case "PDM_ONV_Vkomnate":
+			LocatorReloadEnterDisable("Havana_TownhallRoom", "reload1", true);
+			LocatorReloadEnterDisable("Havana_TownhallRoom", "reload2", true);
+			LocatorReloadEnterDisable("Havana_TownhallRoom", "reload3", true);
+			LocatorReloadEnterDisable("Havana_townhall", "reload2", true);
+			LocatorReloadEnterDisable("Havana_townhall", "reload1_back", true);
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_Isp_sekr_guber", "trader_16", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld,"Havana_TownhallRoom","goto","goto9");
+			LAi_KillCharacter(sld);
+			
+			pchar.GenQuestBox.Havana_TownhallRoom.box2.items.PDM_ONV_Kluch = 1;
+			
+			PChar.quest.PDM_ONV_TRUP_1.win_condition.l1 = "locator";
+			PChar.quest.PDM_ONV_TRUP_1.win_condition.l1.location = "Havana_TownhallRoom";
+			PChar.quest.PDM_ONV_TRUP_1.win_condition.l1.locator_group = "reload";
+			PChar.quest.PDM_ONV_TRUP_1.win_condition.l1.locator = "reload2";
+			PChar.quest.PDM_ONV_TRUP_1.win_condition = "PDM_ONV_Vkomnate_Trup";
+			
+			PChar.quest.PDM_ONV_TRUP_2.win_condition.l1 = "locator";
+			PChar.quest.PDM_ONV_TRUP_2.win_condition.l1.location = "Havana_TownhallRoom";
+			PChar.quest.PDM_ONV_TRUP_2.win_condition.l1.locator_group = "goto";
+			PChar.quest.PDM_ONV_TRUP_2.win_condition.l1.locator = "goto5";
+			PChar.quest.PDM_ONV_TRUP_2.win_condition = "PDM_ONV_Vkomnate_Trup";
+			
+			PChar.quest.PDM_ONV_TRUP_3.win_condition.l1 = "locator";
+			PChar.quest.PDM_ONV_TRUP_3.win_condition.l1.location = "Havana_TownhallRoom";
+			PChar.quest.PDM_ONV_TRUP_3.win_condition.l1.locator_group = "box";
+			PChar.quest.PDM_ONV_TRUP_3.win_condition.l1.locator = "box2";
+			PChar.quest.PDM_ONV_TRUP_3.win_condition = "PDM_ONV_Vkomnate_Trup";
+			
+			PChar.quest.PDM_ONV_TRUP_4.win_condition.l1 = "locator";
+			PChar.quest.PDM_ONV_TRUP_4.win_condition.l1.location = "Havana_TownhallRoom";
+			PChar.quest.PDM_ONV_TRUP_4.win_condition.l1.locator_group = "barmen";
+			PChar.quest.PDM_ONV_TRUP_4.win_condition.l1.locator = "bar2";
+			PChar.quest.PDM_ONV_TRUP_4.win_condition = "PDM_ONV_Vkomnate_Trup";
+		break;
+		
+		case "PDM_ONV_Vkomnate_Trup":
+			PChar.quest.PDM_ONV_TRUP_1.over = "yes";
+			PChar.quest.PDM_ONV_TRUP_2.over = "yes";
+			PChar.quest.PDM_ONV_TRUP_3.over = "yes";
+			PChar.quest.PDM_ONV_TRUP_4.over = "yes";
+			AddQuestRecord("PDM_Ohota_na_vedmu", "4");							
+			AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
+			
+			PChar.quest.PDM_ONV_kluch.win_condition.l1 = "item";				//Предмет
+			PChar.quest.PDM_ONV_kluch.win_condition.l1.item = "PDM_ONV_kluch";
+			PChar.quest.PDM_ONV_kluch.win_condition = "PDM_ONV_VstaemKDveri";
+		break;
+		
+		case "PDM_ONV_VstaemKDveri":
+			PChar.quest.PDM_ONV_LOCA.win_condition.l1 = "locator";
+			PChar.quest.PDM_ONV_LOCA.win_condition.l1.location = "Havana_TownhallRoom";
+			PChar.quest.PDM_ONV_LOCA.win_condition.l1.locator_group = "reload";
+			PChar.quest.PDM_ONV_LOCA.win_condition.l1.locator = "reload1";
+			PChar.quest.PDM_ONV_LOCA.win_condition = "PDM_ONV_VhodKGubernatoru";			
+		break;
+		
+		case "PDM_ONV_VhodKGubernatoru":
+			LocatorReloadEnterDisable("Havana_TownhallRoom", "reload1", false);	
+			PlaySound("Interface\key.wav");
+			TakeItemFromCharacter(pchar, "PDM_ONV_kluch");
+			
+			sld = CharacterFromID("spa_guber")
+			ChangeCharacterAddressGroup(sld, "none", "", "");
+			sld = CharacterFromID("Havana_Mayor")
+			ChangeCharacterAddressGroup(sld, "none", "", "");
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Glavny_Guber_KLON", "Gaskon", "man", "man", 10, SPAIN, -1, false));
+			sld.name 	= "Франсиско";
+			sld.lastname = "Орегон-и-Гаскон";
+			sld.city = "Havana";
+			ChangeCharacterAddressGroup(sld, "Havana_townhall", "sit", "sit1");
+			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+			sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+			sld.dialog.currentnode   = "RazgovorSGuberom";
+			LAi_SetHuberType(sld);
+			LAi_SetImmortal(sld, true);
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_SoldatGub_1", "sold_spa_1", "man", "man", 10, SPAIN, -1, false));
+			sld.city = "Havana";
+			ChangeCharacterAddressGroup(sld, "Havana_townhall", "goto", "governor1");
+			FantomMakeCoolFighter(sld, 50, 100, 100, "blade27", "pistol6", 50);
+			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+			sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+			sld.dialog.currentnode   = "Soldat15";
+			sld.greeting = "GR_Spainguard";
+			LAi_SetOwnerType(sld);
+			LAi_SetImmortal(sld, true);
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_SoldatGub_2", "sold_spa_3", "man", "man", 10, SPAIN, -1, false));
+			sld.city = "Havana";
+			ChangeCharacterAddressGroup(sld, "Havana_townhall", "goto", "goto6");
+			FantomMakeCoolFighter(sld, 50, 100, 100, "blade27", "pistol6", 50);
+			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+			sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+			sld.dialog.currentnode   = "Soldat15";
+			sld.greeting = "GR_Spainguard";
+			LAi_SetOwnerType(sld);
+			LAi_SetImmortal(sld, true);
+		break;
+		
+		case "STRAJIschezni":
+			sld = CharacterFromID("PDM_ONV_SoldatGub_1")
+			ChangeCharacterAddressGroup(sld,"none","","");
+			sld = CharacterFromID("PDM_ONV_SoldatGub_2")
+			ChangeCharacterAddressGroup(sld,"none","","");			
+		break;
+		
+		case "PDM_ONV_SVOBODA_URA":
+			bDisableFastReload = false;
+			LocatorReloadEnterDisable("Havana_TownhallRoom", "reload1", false);
+			LocatorReloadEnterDisable("Havana_TownhallRoom", "reload2", false);
+			LocatorReloadEnterDisable("Havana_TownhallRoom", "reload3", false);
+			LocatorReloadEnterDisable("Havana_Townhall", "reload3", false);
+			LocatorReloadEnterDisable("Havana_Townhall", "reload2", false);
+			LocatorReloadEnterDisable("Havana_Townhall", "reload1_back", false);
+			LocatorReloadEnterDisable("Havana_town", "reload3_back", false);
+			LocatorReloadEnterDisable("Havana_town", "reload2_back", false);
+			LocatorReloadEnterDisable("Havana_town", "reload1_back", false);
+			LocatorReloadEnterDisable("Havana_ExitTown", "reload1_back", false);
+			LocatorReloadEnterDisable("Havana_ExitTown", "reload2_back", false);
+			LocatorReloadEnterDisable("Havana_ExitTown", "reload3_back", false);
+
+			sld = CharacterFromID("PDM_ONV_Glavny_Guber_KLON")
+			ChangeCharacterAddressGroup(sld, "none", "", "");
+			sld = CharacterFromID("spa_guber")
+			ChangeCharacterAddressGroup(sld, "Havana_townhall", "sit", "sit1");
+			sld = CharacterFromID("Havana_Mayor")
+			ChangeCharacterAddressGroup(sld, "Havana_townhall", "goto", "governor1");
+
+			pchar.questTemp.PDM_ONV_Detectiv_Tavern_1 = "Tevern_NET";
+		break;
+		
+		case "PDM_ONV_Vzaimno":
+			LAi_KillCharacter(pchar);
+		break;
+		
+		case "PDM_ONV_KaznVedmi":		
+			sld = CharacterFromID("PDM_ONV_Inkvizitor")
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "officers", "reload8_1");
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", 0, 0);
+			sld.lifeday = 0;
+			sld.dialog.currentnode   = "Inqizitor_Kazn_nachalo_1";
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_1", "girl_2", "woman", "woman", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "goto", "goto17");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_2", "citiz_7", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "officers", "reload10_3");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_3", "citiz_4", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "officers", "reload10_2");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Podjigatel", "off_spa_1", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "officers", "reload8_3");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_4", "citiz_8", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "officers", "houseSp21_1");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_5", "citiz_1", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "goto", "goto18");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_6", "citiz_2", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "goto", "goto18");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_7", "citiz_10", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "goto", "goto18");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_8", "girl_8", "woman", "woman", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "goto", "goto18");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_9", "girl_9", "woman", "woman", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "goto", "goto18");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_10", "girl_10", "woman", "woman", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "officers", "houseSp21_2");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_11", "citiz_5", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "officers", "houseSp21_3");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = CharacterFromID("PDM_ONV_Carla")
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "merchant", "mrcActive2");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+		break;
+		
+		case "PDM_ONV_PodjIschezni":
+			sld = CharacterFromID("PDM_ONV_Podjigatel")
+			ChangeCharacterAddressGroup(sld, "none", "", "");
+		break;
+		
+		case "PDM_ONV_InqIschzni":
+			sld = CharacterFromID("PDM_ONV_Inkvizitor")
+			ChangeCharacterAddressGroup(sld, "none", "", "");
+		break;
+		
+//========================  Квест "Потерянное кольцо".  =======================
+
+// Будущий текст
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   	КВЕСТЫ "Проклятие Дальних Морей" КОНЕЦ

@@ -7780,6 +7780,7 @@ void RestoreBridgetown()
 			DeleteAttribute(&colonies[j],"AlreadyGen");
 			GenerateIslandShips(colonies[j].island);
 		}
+		InitPsHeros();
         makeref(rColony, Colonies[FindColony("Bridgetown")]);
         DeleteAttribute(rColony, "DontSetShipInPort"); //возвращаем жизнь
         RemoveShipFromBridgetown();
@@ -10304,3 +10305,175 @@ void PDM_NEPobeda_nad_Callow(string qName)
 	CloseQuestHeader("PDM_Cursed_Idol"); 
 }
 //Sinistra Проклятый идол <--
+
+//Sinistra Золото не тонет -->
+void PDM_Zoloto_ne_tonet_BITVA_na_sushe(string qName)
+{
+	chrDisableReloadToLocation = true;
+	Pchar.GenQuest.Hunter2Pause = true;
+	LAi_SetPlayerType(pchar);
+	LAi_SetFightMode(pchar, true);
+	PlaySound("Kopcapkz\Voices\PDM\Witch\piple.wav");
+	PlaySound("Kopcapkz\Voices\PDM\Ispantsi.wav");
+	
+	int Rank = sti(pchar.rank) - 3 + MOD_SKILL_ENEMY_RATE;
+	if (Rank < 1) Rank = 1;
+//------------------------испанцы-------------------
+	for (i=1; i<=9; i++)
+    {
+        sTemp = "sold_spa_"+(rand(7)+1);  //количество
+		if (i==6) sTemp = "off_spa_2";
+ 		sld = GetCharacter(NPC_GenerateCharacter("SraFriend_"+i, sTemp, "man", "man", Rank, SPAIN, -1, true));
+        FantomMakeCoolFighter(sld, sti(pchar.rank), 40, 40, BLADE_NORMAL, "", 10);
+		sld.greeting = "GR_Spainguard";
+		LAi_SetWarriorType(sld);
+		sld.lifeday = 0;
+		sld.dialog.filename   = "Quest/PDM/Novaya_Rodina.c";
+		sld.dialog.currentnode   = "Novoe_Zadanie_ZaIspaniu";
+		LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+        ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto13");
+	}
+	for (i=10; i<=18; i++)
+    {
+        sTemp = "sold_spa_"+(rand(7)+1);  //количество
+		if (i==15) sTemp = "off_spa_2";
+ 		sld = GetCharacter(NPC_GenerateCharacter("SraFriend_"+i, sTemp, "man", "man", Rank, SPAIN, -1, true));
+        FantomMakeCoolFighter(sld, sti(pchar.rank), 40, 40, BLADE_NORMAL, "", 10);
+		sld.greeting = "GR_Spainguard";
+		LAi_SetWarriorType(sld);
+		sld.lifeday = 0;
+		sld.dialog.filename   = "Quest/PDM/Novaya_Rodina.c";
+		sld.dialog.currentnode   = "Novoe_Zadanie_ZaIspaniu";
+		LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+        ChangeCharacterAddressGroup(sld, pchar.location, "item",  "item10");
+	}
+	for (i=19; i<=22; i++)
+    {
+        sld = GetCharacter(NPC_GenerateCharacter("SpaMush_"+i, "spa_mush_"+(rand(2)+1), "man", "mushketer", Rank, SPAIN, -1, false));		
+		sld.MusketerDistance = 0;
+		sld.greeting = "GR_Spainguard";
+		LAi_SetWarriorType(sld);
+		sld.lifeday = 0;
+		sld.dialog.filename   = "Quest/PDM/Novaya_Rodina.c";
+		sld.dialog.currentnode   = "Novoe_Zadanie_ZaIspaniu";
+        LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+        ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto10");
+	}
+//----------------------англичане-------------------------	
+	for (i=23; i<=43; i++)
+    {
+        sTemp = "sold_eng_"+(rand(7)+1);  //количество
+		if (i==40) sTemp = "off_eng_1";
+ 		sld = GetCharacter(NPC_GenerateCharacter("EngEnemy_"+i, sTemp, "man", "man", Rank, ENGLAND, -1, true));
+        FantomMakeCoolFighter(sld, sti(pchar.rank), 50, 50, BLADE_NORMAL, "", 20);
+		LAi_SetWarriorType(sld);
+		LAi_group_MoveCharacter(sld, "PDM_ENGenemy");
+        ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto16");
+	}
+	for (i=44; i<=47; i++)
+    {
+        sld = GetCharacter(NPC_GenerateCharacter("EngMush_"+i, "eng_mush_"+(rand(2)+1), "man", "mushketer", Rank, ENGLAND, -1, false));		
+		sld.MusketerDistance = 0;
+		LAi_SetWarriorType(sld);
+        LAi_group_MoveCharacter(sld, "PDM_ENGenemy");
+        ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto26");
+	}
+	LAi_group_SetRelation("PDM_ENGenemy", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);		//стравливаем
+	LAi_group_FightGroups("PDM_ENGenemy", LAI_GROUP_PLAYER, false);
+	LAi_group_SetCheck("PDM_ENGenemy", "PDM_ZolNeTon_PobNaSush");
+}
+//Sinistra Золото не тонет <--
+
+//Sinistra Охота на ведьму -->
+void PDM_ONV_Kazn(string qName)
+{
+	sld = CharacterFromID("PDM_ONV_Podjigatel")
+	LAi_ActorGoToLocator(sld, "merchant", "mrcActive2", "PDM_ONV_PodjIschezni", -1);
+}
+void PDM_ONV_Kazn_2(string qName)
+{
+	LAi_SetPlayerType(pchar);
+	sld = CharacterFromID("PDM_ONV_Podjigatel")
+	sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+	sld.dialog.currentnode   = "Inqizitor_Kazn_3";
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", 0, 0);
+}
+void PDM_ONV_Kazn_3(string qName)
+{
+	sld = CharacterFromID("PDM_ONV_Carla")
+	LAi_KillCharacter(sld);
+}
+void PDM_ONV_Kazn_4(string qName)
+{
+	AddQuestRecord("PDM_Ohota_na_vedmu", "14");
+	AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
+	LAi_SetPlayerType(pchar);
+	pchar.questTemp.PDM_ONV_VedmaKaznena = "PDM_ONV_VedmaKaznena";
+	
+	sld = CharacterFromID("PDM_ONV_Inkvizitor")
+	LAi_SetActorType(sld);
+	sld.lifeday = 0;
+	LAi_ActorGoToLocator(sld, "reload", "basement1", "PDM_ONV_InqIschzni", -1);
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_1", "girl_2", "woman", "woman", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_2", "citiz_7", "man", "man", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_3", "citiz_4", "man", "man", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Podjigatel", "off_spa_1", "man", "man", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_4", "citiz_8", "man", "man", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_5", "citiz_1", "man", "man", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_6", "citiz_2", "man", "man", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_7", "citiz_10", "man", "man", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_8", "girl_8", "woman", "woman", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_9", "girl_9", "woman", "woman", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_10", "girl_10", "woman", "woman", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+			
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_11", "citiz_5", "man", "man", 10, SPAIN, -1, false));
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+}
+//Sinistra Охота на ведьму <--

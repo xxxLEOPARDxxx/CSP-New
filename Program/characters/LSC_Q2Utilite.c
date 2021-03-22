@@ -575,6 +575,8 @@ void initStartState2Character(ref ch)
 	SilencePriceInit();
 	// ==> квест Проклятый Идол Sinistra
 	CursedIdolInit();
+	// ==> квест Новая Родина Sinistra
+	NovayaRodinaInit();
 	// ==>  флаги и иниты бергларов 
 	BerglarsInit();
 	// ==>  нищие

@@ -1,3 +1,5 @@
+//    objLandInterface.textinfo.datatext.text = XI_convertString("Date:") + GetQuestBookData();
+
 // boal 13.05.05
 int scx, scy, spx, spy, sgxy, ssxy, smxy;
 int move_i, dir_i, dir_i_start;
@@ -165,6 +167,8 @@ void InitInterface(string iniName)
     // новая игра
     NewGameBegin();
     iTurnGame = 1; // игра первая
+	WaitDate("",0,0,0, 0, 15);
+	SetFormatedText("INFO_TEXT_DATE", GetQuestBookData());
     iHeroLose = 0;
     iHeroWin  = 0;
 }
@@ -202,7 +206,7 @@ void Exit()
     	Statistic_AddValue(Pchar, "GameCards_Lose", iHeroLose);
 
     	bQuestCheckProcessFreeze = true;
-    	WaitDate("",0,0,0, 0, iTurnGame*15);
+    	//WaitDate("",0,0,0, 0, iTurnGame*15);
     	bQuestCheckProcessFreeze = false;
     	RefreshLandTime();
     	EndCancelInterface(true);
@@ -233,6 +237,8 @@ void ProcessCommandExecute()
                         dir_i = -dir_i_start;
                         dir_i_start = dir_i;
                         iTurnGame++;
+						WaitDate("",0,0,0, 0, 15);
+						SetFormatedText("INFO_TEXT_DATE", GetQuestBookData());
                         NewGameBegin();
                         openExit = false;
                     }

@@ -501,6 +501,94 @@ void ProcessDialogEvent()
 			AddDialogExitQuest("MainHeroFightModeOn");
 		break;	
 		
+		case "PGG_cabin":
+			LAi_SetCurHPMax(npchar);
+			dialog.text = "Скоро ты будешь кормить рыб, "+ GetFullName(pchar) + "! Я тебе это гарантирую!";
+			if (!bHalfImmortalPGG || !CheckAttribute(pchar, "PGG_hired"))
+			{
+				link.l1 = "Мы же с тобой коллеги, к чему нам убивать друг друга по пустякам? Может лучше объединим усилия?";
+				link.l1.go = "PGG_cabin_1";
+			}
+			link.l2 = "Самоуверенность заведет тебя в могилу. Защищайся!";
+			link.l2.go = "PGG_cabin_fight";
+		break;
+		
+		case "PGG_cabin_1":
+			int hirePrice = sti(npchar.rank) * 10000 + 100000;
+			npchar.hirePrice = hirePrice;
+			dialog.text = "Плавать с тобой? Да я лучше сдохну\nХотя, для такого время всегда найдется. Пожалуй, я пойду с тобой, если ты в состоянии удовлетворить мой аппетит. Для начала я хочу "+npchar.hirePrice+" пиастров, здесь и сейчас. ";
+			if(makeint(Pchar.money) >= sti(npchar.hirePrice))
+			{
+				link.l1 = "Ну и аппетиты у тебя. Но так и быть, я "+ GetSexPhrase("согласен.","согласна.")+" Вот твои деньги.";
+				link.l1.go = "PGG_cabin_2";
+			}
+			else
+			{
+				link.l1 = "Сколько?! Я столько денег в жизни не видел"+GetSexPhrase("","а")+". Да мне дешевле тебя убить!";
+				link.l1.go = "PGG_cabin_fight";
+			}
+			link.l2 = "Самоуверенность, да еще и жадность. Нет, мы с тобой не найдем общего языка. Защищайся!";
+			link.l2.go = "PGG_cabin_fight";
+		break;
+		case "PGG_cabin_2":
+			dialog.text = "Проклятье, нужно было больше потребовать... Но договор дороже денег, я к твоим услугам.";
+			AddMoneyToCharacter(Pchar, -sti(npchar.hirePrice));
+			link.l1 = "Добро пожаловать в команду!";
+			link.l1.go = "PGG_hired";
+		break;
+		
+		case "PGG_hired":
+			bQuestDisableMapEnter = false;
+			ref chr = CharacterFromID(npchar.CaptanId);
+			sld = GetCharacter(NPC_GenerateCharacter(npchar.CaptanId+"Of", "none", chr.sex, chr.model.animation, 1, PIRATE, -1, false));
+			ChangeAttributesFromCharacter(sld, chr, true);
+			int rank = sti(pchar.rank) + 10;
+			npchar.rank = rank;
+			SetFantomParamFromRank_PPG(npchar, rank, true);
+			chr.perks.list.AgileMan = "1";
+			ApplayNewSkill(chr, "AgileMan", 0);
+			int hp = LAi_GetCharacterMaxHP(chr);
+			LAi_SetHP(chr, hp*1.7, hp*1.7);
+			AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			if (sld.sex != "woman")
+			{
+				sld.greeting = "Gr_Officer";
+			}
+			else
+			{
+				if(rand(1) == 0)
+				{
+					sld.greeting = "Gr_Danielle";
+				}
+				else
+				{
+					sld.greeting = "GR_marycasper";
+				}
+			}
+			if (sld.model.animation == "man") sld.CanTakeMushket = true;
+			sld.Dialog.Filename = "Enc_Officer_dialog.c";
+			sld.quest.meeting = true;
+			sld.HoldEquip = true;
+			
+			if (bHalfImmortalPGG && !CheckAttribute(pchar, "PGG_hired"))
+			{
+				pchar.PGG_hired = true;
+				NPChar.HalfImmortal = true;  // Контузия
+			}
+			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+			sld.quest.OfficerPrice = sti(pchar.rank)*500;
+			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
+			QuestAboardCabinDialogNotBattle();
+            DialogExit();	
+		break;
+		
+		case "PGG_cabin_fight":
+			if(CharacterFromID(npchar.CaptanId) == "PsHero_2") DeleteAttribute(CharacterFromID(npchar.CaptanId), "willDie");
+				QuestAboardCabinDialogExitWithBattle(""); 
+				DialogExit();
+				AddDialogExitQuest("MainHeroFightModeOn");
+		break;	
+		
 		case "zpqCapitain":
 			dialog.text = "Я могу так продолжать хоть целый день. Отдавай деньги за порох, "+ GetFullName(pchar) + ", если хочешь жить.";
 			if(makeint(Pchar.money) >= 300000)

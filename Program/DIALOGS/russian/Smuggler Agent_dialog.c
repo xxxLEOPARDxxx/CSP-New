@@ -659,10 +659,85 @@ void ProcessDialogEvent()
 //navy --> PGG
 			if (CheckFreeServiceForNPC(NPChar, "Smugglers") != -1)
 			{
-				Dialog.Text = "Извини, "+ GetSexPhrase("парень","деваха") +", у нас уже есть дела. Зайди через пару дней.";
-				Link.l1 = "Жаль...";
-				Link.l1.go = "Exit";		
-				break;
+				if (makeint(environment.time) < 19.0)
+				{
+					Dialog.Text = "Извини, "+ GetSexPhrase("парень","деваха") +", у нас уже есть дела. Зайди вечером, часов так после 7, может уже освободимся.";
+					if (ChangeContrabandRelation(pchar, 0) > 5 && sti(pchar.money) >= 1000 && !bOk && !bOk2 && !bOk && npchar.quest.trade_date != lastspeak_date)
+					{
+						Link.l1 = "А нельзя ли сейчас, за скромное вознаграждение вам, как агенту, в 1000 пиастров?";
+						Link.l1.go = "AntiPGGContra";
+					}
+					Link.l2 = "Жаль...";
+					Link.l2.go = "Exit";
+					break;
+				}
+				else
+				{
+					if (bOk || bOk2 || bOk3)
+					{
+						Dialog.Text = "Может, стоит завершить одно дело прежде, чем браться за другое?";
+						Link.l1 = "Пожалуй, ты прав.";
+						Link.l1.go = "Exit";				
+					}
+					else
+					{
+						if (npchar.quest.trade_date != lastspeak_date)
+						{
+							npchar.quest.trade_date = lastspeak_date;
+							
+							if (ChangeContrabandRelation(pchar, 0) > 5)
+							{
+								Pchar.quest.contraband.CurrentPlace = SelectSmugglingLocation();
+								Pchar.quest.contraband.City = NPChar.city;
+								if (Pchar.quest.contraband.CurrentPlace != "None"  && !CheckAttribute(pchar, "Whisper.ContraSmuggler")&& !CheckAttribute(pchar,"Whisper.Contraband"))//boal fix
+								{
+									if (ChangeContrabandRelation(pchar, 0) >= 70)
+									{
+										Dialog.Text = "Я знаю, с тобой можно иметь дело. Мы будем ждать тебя в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+									}
+									else
+									{
+										Dialog.Text = "Хм... Возможно, покупатель и найдется. Мы будем ждать вас в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+									}
+									Link.l1 = "Хорошо. До встречи.";
+									Link.l1.go = "Smuggling_exit";
+								}
+								else
+								{   //boal fix
+									if(CheckAttribute(pchar, "Whisper.ContraSmuggler") || CheckAttribute(pchar,"Whisper.Contraband"))
+									{
+										Dialog.Text = "Кажется, у тебя уже назначена одна сделка, с кем-то на Тортуге. Приходи, когда разберешься.";
+									}
+									else
+									{
+										Dialog.Text = "Сегодня сделок больше не будет. Приходи завтра.";
+									}
+									Link.l1 = "Хорошо.";
+									Link.l1.go = "Exit";
+								}
+							}
+							else
+							{
+								Dialog.Text = "И после всего ты думаешь, что кто-то захочет работать с тобой? Радуйся, что мы еще не послали наемных убийц за твоей головой. Убирайся!";
+								Link.l1 = "Эх... значит не судьба мне стать контрабандистом.";
+								Link.l1.go = "Exit";
+							}
+						}
+						else
+						{
+							if(CheckAttribute(pchar, "Whisper.ContraSmuggler")|| CheckAttribute(pchar,"Whisper.Contraband"))
+							{
+								Dialog.Text = "Кажется, у тебя уже назначена одна сделка, с кем-то на Тортуге. Приходи, когда разберешься.";
+							}
+							else
+							{
+								Dialog.Text = "Сегодня сделок больше не будет. Приходи завтра.";
+							}
+							Link.l1 = "Хорошо.";
+							Link.l1.go = "Exit";
+						}
+					}
+				}
 			}
 //navy <--
 
@@ -729,6 +804,26 @@ void ProcessDialogEvent()
     				Link.l1 = "Хорошо.";
     				Link.l1.go = "Exit";
 				}
+			}
+		break;
+		
+		case "AntiPGGContra":
+			AddMoneyToCharacter(pchar,-1000);
+			npchar.quest.trade_date = lastspeak_date;
+			Pchar.quest.contraband.CurrentPlace = SelectSmugglingLocation();
+			Pchar.quest.contraband.City = NPChar.city;
+			if (Pchar.quest.contraband.CurrentPlace != "None")//boal fix
+			{
+				if (ChangeContrabandRelation(pchar, 0) >= 70)
+				{
+					Dialog.Text = "Я знаю, с тобой можно иметь дело. Мы будем ждать тебя в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+				}
+				else
+				{
+					Dialog.Text = "Хм... Возможно, покупатель и найдется. Мы будем ждать вас в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+				}
+				Link.l1 = "Хорошо. До встречи.";
+				Link.l1.go = "Smuggling_exit";
 			}
 		break;
 		

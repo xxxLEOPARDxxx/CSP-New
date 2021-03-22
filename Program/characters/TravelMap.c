@@ -39,8 +39,8 @@ void InitTravelMap()
 	NullCharacter.TravelMap.Islands.Tortuga.Shore.t0		= "shore58";
 	NullCharacter.TravelMap.Islands.Tortuga.Shore.t1		= "Mayak6";
 	
-	//NullCharacter.TravelMap.Islands.Caiman.Shore.t0			= "shore16";
-	//NullCharacter.TravelMap.Islands.Caiman.Shore.t1			= "shore17";
+	NullCharacter.TravelMap.Islands.Caiman.Shore.t0			= "shore16";
+	NullCharacter.TravelMap.Islands.Caiman.Shore.t1			= "shore17";
 	NullCharacter.TravelMap.Islands.Dominica.Shore.t0		= "shore26";
 	NullCharacter.TravelMap.Islands.Dominica.Shore.t1		= "shore27";
 	NullCharacter.TravelMap.Islands.Terks.Shore.t0			= "shore56";
@@ -1619,6 +1619,7 @@ void InitTravelMap()
 	NullCharacter.TravelMap.Havana.t26.town = "";
 	NullCharacter.TravelMap.Havana.t26.town.days.min = 8;
 	NullCharacter.TravelMap.Havana.t26.town.days.max = 12;
+
 
 //////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// BELIZ /////////////////////////////////////////
@@ -4481,11 +4482,37 @@ int GetMaxDaysFromIsland2Island(string _isl1, string _isl2)
 
 	makearef(arTown, NullCharacter.TravelMap.(sTown));
 	iNum = GetAttributesNum(arTown);
-
-	for (i = 0; i < iNum; i++)
+	
+	if( _isl1 == "Caiman" ||  _isl2 == "Caiman") return 8;
+	else
 	{
-		sTmp = "t" + i;
-		if (arTown.(sTmp) == _isl2) return sti(arTown.(sTmp).town.days.max);
+		for (i = 0; i < iNum; i++)
+		{
+			sTmp = "t" + i;
+			if (arTown.(sTmp) == _isl2) return sti(arTown.(sTmp).town.days.max);
+		}
 	}
 	return -1;
+}
+string GetRandomUninhabitatIsland()
+{
+	string sTemp;
+	int iRand = rand(3);
+	switch (iRand)
+	{
+		case 0:
+			sTemp = "Dominica";
+		break;
+		case 1:
+			if(PChar.ColonyBuilding.Stage != "0") sTemp = "Bermudes";
+			else sTemp = "Caiman";
+		break;
+		case 2:
+			sTemp = "Terks";
+		break;
+		case 3:
+			sTemp = "Bermudes";
+		break;
+	}
+	return sTemp;
 }

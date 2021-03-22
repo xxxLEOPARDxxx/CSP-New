@@ -161,7 +161,7 @@ void ProcessDialogEvent()
 			NPChar.DontClearDead = true;
 			AddPassenger(PChar, NPChar, false);
 			NPChar.OfficerWantToGo.DontGo = true;
-			sld.HalfImmortal = true;  // Контузия
+			NPChar.HalfImmortal = true;  // Контузия
 			NPChar.loyality = MAX_LOYALITY;
 			AddQuestRecord("Andre_Abel_Quest", "19");
 			AddQuestUserData("Andre_Abel_Quest", "sSex", GetSexPhrase("","а"));

@@ -156,7 +156,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				pchar.questTemp.Headhunter = "end_quest";
 				break;
 			} */
-			dialog.text = "Вы очень вовремя! Мне нужен именно так"+ GetSexPhrase("ой","ая") +" капитан, как вы. Позвольте мне рассказать суть проблемы, а потом уже перейдем непосредственно к заданию.";
+			dialog.text = "Вы очень вовремя! Мне нужен именно такой капитан, как вы. Позвольте мне рассказать суть проблемы, а потом уже перейдем непосредственно к заданию.";
 			link.l1 = "Слушаю вас внимательно, "+ npchar.name +".";
 			link.l1.go = "barmen_history";
 		break;

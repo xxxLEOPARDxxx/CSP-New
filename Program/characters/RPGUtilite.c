@@ -1027,6 +1027,16 @@ int GetCharacterSkill(ref _refCharacter, string skillName)
     return skillN;
 }
 
+int GetCharacterSkillNoBonus(ref _refCharacter, string skillName)
+{
+	return sti(_refCharacter.Skill.(skillName));
+}
+
+float GetCharacterSkillNoBonusToOld(ref _refCharacter, string skillName)
+{
+	return GetCharacterSkillNoBonus(_refCharacter,skillName)/SKILL_TO_OLD;
+}
+
 int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 {
 	if( !CheckAttribute(_refCharacter,"Skill."+skillName) ) return 1;

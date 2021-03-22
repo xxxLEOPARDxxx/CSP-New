@@ -27,7 +27,7 @@ void ProcessDialogEvent()
 	}
     // вызов диалога по городам <--
 	ProcessCommonDialogRumors(NPChar, Link, NextDiag);//homo 16/06/06
-    bool ok;
+    bool ok, ok1, ok2;
     int iTest = FindColony(NPChar.City); // город магазина
     ref rColony;
 	if (iTest != -1)
@@ -125,7 +125,7 @@ void ProcessDialogEvent()
 				/* 12.03.21 ------------------------------------------------------------- */
 				if (drand(4) == 2 && !CheckAttribute(pchar, "GenQuest.Findship.Shipyarder"))
 				{
-					if (!CheckAttribute(npchar, "Findship") || GetNpcQuestPastDayParam(npchar, "Findship") >= 60) 
+					if (!CheckAttribute(npchar, "Findship") || GetNpcQuestPastDayParam(npchar, "Findship") >= 20) 
 					{
 						SelectFindship_ShipType(); //выбор типа корабл€
 						pchar.GenQuest.Findship.Shipyarder.ShipBaseName = GetStrSmallRegister(XI_ConvertString(GetBaseShipParamFromType(sti(pchar.GenQuest.Findship.Shipyarder.ShipType), "Name") + ""));
@@ -152,6 +152,41 @@ void ProcessDialogEvent()
 				}	
 			    link.l12 = "’очу изменить внешний вид парусов.";
 			    link.l12.go = "SailsGerald";
+				//Jason --> генератор ѕризонер
+				if (CheckAttribute(pchar, "GenQuest.Findship.Shipyarder") && NPChar.location == pchar.GenQuest.Findship.Shipyarder.City + "_shipyard")
+				{
+					ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+					if(sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
+					{
+						for(i = 1; i < COMPANION_MAX; i++)
+						{
+							int iTemp = GetCompanionIndex(PChar, i);
+							if(iTemp > 0)
+							{
+								sld = GetCharacter(iTemp);
+								NPchar.ShipCheck1 = GetStrSmallRegister(XI_ConvertString(GetBaseShipParamFromType(sti(RealShips[sti(sld.ship.type)].basetype), "Name")));
+								NPchar.ShipCheck2 = GetStrSmallRegister(XI_ConvertString(GetBaseShipParamFromType(sti(pchar.GenQuest.Findship.Shipyarder.ShipType), "Name")));
+								ok1 = (NPChar.ShipCheck1 == NPChar.ShipCheck2);
+								ok2 = (sti(RealShips[sti(sld.ship.type)].basetype) == sti(pchar.GenQuest.Findship.Shipyarder.ShipType));
+								if(GetRemovable(sld))
+								{
+									if (ok1 || ok2)
+									{
+										pchar.GenQuest.Findship.Shipyarder.CompanionIndex = sld.Index;
+										pchar.GenQuest.Findship.Shipyarder.OK = 1;
+										pchar.GenQuest.Findship.Shipyarder.ShipName = sld.Ship.Name;
+										pchar.GenQuest.Findship.Shipyarder.Money = makeint(GetShipSellPrice(sld, CharacterFromID(NPChar.city + "_shipyarder"))*1.5);
+									}
+								}
+							}
+						}
+					}
+					if (CheckAttribute(pchar,"GenQuest.Findship.Shipyarder.OK") && sti(pchar.GenQuest.Findship.Shipyarder.OK) == 1)
+					{
+						link.l13 = "я доставил вам корабль типа ''"+GetStrSmallRegister(XI_ConvertString(GetBaseShipParamFromType(sti(pchar.GenQuest.Findship.Shipyarder.ShipType), "Name")))+"'', как вы просили.";
+						link.l13.go = "Findship_check";
+					}// <-- генератор ѕризонер
+				}
 				Link.l2 = "я только хочу поговорить.";
 				Link.l2.go = "quests"; //(перессылка в файл города)
 				// -->

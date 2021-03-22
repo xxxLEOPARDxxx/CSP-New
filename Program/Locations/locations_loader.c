@@ -82,6 +82,8 @@ void SetCamShuttle(ref loc) // boal вынес в метод
 
 bool LoadLocation(ref loc)
 {
+	NullCharacter.TravelMap.Islands.Caiman.Shore.t0			= "shore16";
+	NullCharacter.TravelMap.Islands.Caiman.Shore.t1			= "shore17";
 	//trace("LoadLocation(ref loc) " + loc.id);
 	if (loc.id == "Cartahena_ExitTown") loc.fastreload = "Cartahena";
 	if (loc.id == "Temple_great" || loc.id == "Tenochtitlan")

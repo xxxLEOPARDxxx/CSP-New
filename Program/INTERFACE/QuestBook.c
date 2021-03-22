@@ -474,6 +474,15 @@ void ShowPGGInfo()
 	SetFormatedText("SHIP_RANK", refBaseShip.Class)
 	SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + shipTexture + ".tga.tx");
 	SetNewPicture("SHIP_FRAME_PICTURE", "interfaces\Frame1.tga");
+	string texturedata;
+	if (IsCharacterPerkOn(chrefspp, "Grunt")) texturedata = "INTERFACES\Sith\Char_Master.tga";
+	if (IsCharacterPerkOn(chrefspp, "Trader")) texturedata = "INTERFACES\Sith\Char_Merchant.tga";
+	if (IsCharacterPerkOn(chrefspp, "Fencer")) texturedata = "INTERFACES\Sith\Char_Corsair.tga";
+	if (IsCharacterPerkOn(chrefspp, "Adventurer")) texturedata = "INTERFACES\Sith\Char_Adventurer.tga";
+	if (IsCharacterPerkOn(chrefspp, "Buccaneer")) texturedata = "INTERFACES\Sith\Char_Inquisitor.tga";
+	if (IsCharacterPerkOn(chrefspp, "Agent")) texturedata = "INTERFACES\Sith\Char_SecretAgent.tga";
+	if (IsCharacterPerkOn(chrefspp, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
+	SetNewPicture("CHARACTER_PROFESSION", texturedata);
 	string portpic;
 	switch (GameInterface.(CurTable).(CurRow).td5.icon.image)
 	{

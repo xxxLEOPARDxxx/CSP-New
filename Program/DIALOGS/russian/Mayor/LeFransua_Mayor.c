@@ -135,7 +135,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			pchar.GenQuest.CaptainComission.ShipName1 = GenerateRandomNameToShip(sti(NPChar.nation));
 			pchar.GenQuest.CaptainComission.ShipName2 = GenerateRandomNameToShip(sti(NPChar.nation));
 			pchar.GenQuest.CaptainComission.UnknownPirateName = "l" + rand(GetNamesCount(NAMETYPE_ORIG) - 1);
-			dialog.text = "’м... ¬ общем некий " + GetName( NAMETYPE_ORIG, pchar.GenQuest.CaptainComission.UnknownPirateName, NAME_NOM) + " убедил часть пиратов, что в нашем тайнике близ " + XI_ConvertString(pchar.GenQuest.CaptainComission.Island.Shore + "Gen") + " есть и их дол€. Ќедавно они сн€лись с €кор€ и на двух судах '" + pchar.GenQuest.CaptainComission.ShipName1 + "' и '" + pchar.GenQuest.CaptainComission.ShipName2 + "' ушли к " + XI_ConvertString(pchar.GenQuest.CaptainComission.Island + "Abl") + ". ѕонимаешь теперь, почему € не могу поручить это дело своим люд€м?";
+			string sLoc = XI_ConvertString(pchar.GenQuest.CaptainComission.Island + "Abl");
+			dialog.text = "’м... ¬ общем некий " + GetName( NAMETYPE_ORIG, pchar.GenQuest.CaptainComission.UnknownPirateName, NAME_NOM) + " убедил часть пиратов, что в нашем тайнике близ " + XI_ConvertString(pchar.GenQuest.CaptainComission.Island.Shore + "Gen") + " есть и их дол€. Ќедавно они сн€лись с €кор€ и на двух судах '" + pchar.GenQuest.CaptainComission.ShipName1 + "' и '" + pchar.GenQuest.CaptainComission.ShipName2 + "' ушли к " + sLoc + ". ѕонимаешь теперь, почему € не могу поручить это дело своим люд€м?";
 			link.l1 = "ѕон€тно. » сколько у мен€ есть времени?";
 			link.l1.go = "CapComission2_2_3";
 		break;

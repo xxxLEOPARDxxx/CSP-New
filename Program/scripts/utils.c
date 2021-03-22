@@ -216,6 +216,12 @@ void GiveItemToTrader(aref ch)
 			AddItems(ch, "map_LSC", 1);
 			ch.quest.takeMap = "smallPrice";
 		}
+		GenerateAndAddItems(ch, "Mineral3", Rand(25) + 25);
+		GenerateAndAddItems(ch, "Mineral10", Rand(3) + 1);
+		irand = rand(9);
+		if(irand == 0) GenerateAndAddItems(ch, "Mineral2", 1);
+		irand = rand(1);
+		if(irand == 0) GenerateAndAddItems(ch, "potionwine", 1);
 	}
 	//<-- дача карты ГПК в магазин Йоста 
 	
@@ -1614,6 +1620,7 @@ int NPC_GenerateCharacter(string _id, string _model, string _sex, string _ani, i
 		ch.cirassId = Items_FindItemIdx(cirnum);
 		Log_TestInfo("Персонаж "+ch.name+" получил кирасу "+cirnum);
 	}
+	SetCharacterPerk(ch, PerksChars());
 	return  iChar;
 }
 // сгенерим разового фантома - нашего моряка (в  форме, если патент)
@@ -1683,10 +1690,31 @@ int NPC_GeneratePhantomCharacter(string sType, int iNation, int iSex, int _LifeD
 	}
 	else
 	{
+		SetCharacterPerk(ch, PerksChars());
 	    LAi_NPC_Equip(ch, sti(ch.rank), true, true);
 	}
 
 	return  iChar;
+}
+
+string PerksChars()
+{
+	switch (rand(5))
+	{
+		case 0: return "Buccaneer";
+		break;
+		case 1: return "Trader";
+		break;
+		case 2: return "Fencer";
+		break;
+		case 3: return "Grunt";
+		break;
+		case 4: return "Agent";
+		break;
+		case 5: return "SeaWolf";
+		break;
+	}
+	return "basicdefence";
 }
 
 // boal prison count -->

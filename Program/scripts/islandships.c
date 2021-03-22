@@ -33,6 +33,11 @@ void GenerateIslandShips(string sIslandID)
 							//Log_Info(characters[j].id);
 							check++;
 						}
+						if (CheckAttribute(&characters[j], "fortDefender") && CheckAttribute(&characters[j], "IslandShips") && characters[j].IslandShips != colonies[i].id)
+						{
+							InitCharacter(&characters[j], j);
+							Group_FreeAllDead();
+						}
 					}
 					//Log_Info(""+check);
 					if (check == 0) DeleteAttribute(&colonies[i],"AlreadyGen");

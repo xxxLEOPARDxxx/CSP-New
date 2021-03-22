@@ -7334,6 +7334,39 @@ int InitItems()
     itm.ItemType = "QUESTITEMS";
     n++;
 	
+	makeref(itm, Items[n]); //квест "Новая Родина"
+    itm.id = "Patent_Espa_Lesopilka";	//Испанский патент для Хьюго
+    itm.name = "itmname_Patent_Espa_Lesopilka";
+    itm.describe = "itmdescr_Patent_Espa_Lesopilka";
+    itm.picIndex = 3;
+    itm.picTexture = "ITEMS_4";
+    itm.price = 0;
+    itm.Weight = 0.1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
+	makeref(itm, Items[n]); //квест "Золото не тонет"
+    itm.id = "PDM_SJ_Angl_Gal";	//СЖ капитана английского гелеона
+    itm.name = "itmname_PDM_SJ_Angl_Gal";
+    itm.describe = "itmdescr_PDM_SJ_Angl_Gal";
+    itm.picIndex = 8;
+    itm.picTexture = "ITEMS_4";
+    itm.price = 0;
+    itm.Weight = 0.1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
+	makeref(itm, Items[n]); //квест "Охота на ведьму"
+    itm.id = "PDM_ONV_Kluch";	//Ключ от двери
+    itm.name = "itmname_PDM_ONV_Kluch";
+    itm.describe = "itmdescr_PDM_ONV_Kluch";
+    itm.picIndex = 15;
+    itm.picTexture = "ITEMS_12";
+    itm.price = 0;
+    itm.Weight = 0.1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
 	/////////////// *** 4 уровень *** ///////////////
 	
 	/////////////////////////////////////////////////////////

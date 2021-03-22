@@ -125,12 +125,6 @@ void DeleteShipEnvironment()
 	{ 
 		// delete particles from ship/etc
 		SendMessage(&Characters[Ships[i]], "l", MSG_SHIP_SAFE_DELETE); 
-
-		// delete sounds from ship
-		//#20190402-03
-        //if (CheckAttribute(&Characters[Ships[i]], "Ship.Sounds.WaterID")) 	ReleaseSound(sti(Characters[Ships[i]].Ship.Sounds.WaterID));
-		//if (CheckAttribute(&Characters[Ships[i]], "Ship.Sounds.SailsID"))   ReleaseSound(sti(Characters[Ships[i]].Ship.Sounds.SailsID));
-		//if (CheckAttribute(&Characters[Ships[i]], "Ship.Sounds.TurnID"))   ReleaseSound(sti(Characters[Ships[i]].Ship.Sounds.TurnID));
 	}
 
 	// scan characters for delete snd id's
@@ -395,6 +389,7 @@ void Ship_FireAction()
 	{
 		if (CheckAttribute(rCharacter, "CompanionEnemyEnable") && sti(rCharacter.CompanionEnemyEnable))
 		{
+			if (rCharacter == PChar.GenQuest.PGG_Quest.PGGid) PChar.GenQuest.PGG_Quest.PGG_Enemy = "1";
 			SeaAI_SetCompanionEnemy(rCharacter);
 			// disconnect companion from our group and set it enemy to us
 		}
@@ -416,14 +411,6 @@ void Ship_FireAction()
 		{
 			Group_SetEnemyToCharacter(rMainGroupCharacter.SeaAI.Group.Name, nMainCharacterIndex);
 		}
-		/* // наследие К3, в ВМЛ только мешает
-		if (CheckAttribute(&rCharacter, "relation.UseOtherCharacter"))
-		{
-			if (sti(rCharacter.relation.UseOtherCharacter) >= 0)
-			{
-				SetCharacterRelationBoth(nMainCharacterIndex, sti(rCharacter.relation.UseOtherCharacter), RELATION_ENEMY);
-			}
-		}*/
 		NationUpdate();
 	}
 	else
@@ -443,41 +430,6 @@ void Ship_FireAction()
 
 	// clear group temporary task status
 	for (i=0; i<MAX_SHIP_GROUPS; i++) { AIGroups[i].TempTask = false; }
-
-	// looking for enemy war/trade ships around
-	/*
-	for (i=0; i<iNumShips; i++)
-	{
-        //#20180707-02 Fix
-	    if(Ships[i] < 0) continue;
-		ref rShipCharacter = GetCharacter(Ships[i]);
-
-		if (SeaAI_GetRelation(GetMainCharacterIndex(), Ships[i]) != RELATION_ENEMY) { continue; }
-
-		sGroupID = Ship_GetGroupID(rShipCharacter);
-		sGroupType = Group_GetType(sGroupID);
-		rGroup = Group_GetGroupByID(sGroupID);
-
-		//float fDistance = Ship_GetDistance2D(GetMainCharacter(), rShipCharacter);
-
-													   
-		//if (!sti(rGroup.TempTask) && fDistance < 2000.0)	// if distance < 2 km
-		//{
-		//	switch (sGroupType)
-		//	{
-		//		case "trade":
-		//			Group_SetTaskRunaway(sGroupID, PLAYER_GROUP);
-		//		break;
-		//		case "war":
-		//			Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
-		//		break;
-		//		case "pirate":
-		//			Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
-		//		break;
-		//	}
-		//}
-	}
-	*/
 
 	// if fort - return
 	int iShipType = sti(rCharacter.Ship.Type);
@@ -569,11 +521,6 @@ float Ship_MastDamage()
 		break;
 	}
 
-
-	//float fAccuracy = stf(rCharacter.TmpSkill.Accuracy);
-
-	//fDamage = fDamage * (1.0 + (0.3 * fAccuracy));
-
 	fDamage = Clampf(fDamage);
 
 	// if mast fall - play sound
@@ -587,10 +534,6 @@ float Ship_MastDamage()
 	
 	// LEO: Общий дамаг по мачтам разделен на классы
 	string sShip = rBaseShip.BaseName;
-	/*if (sShip == "PRINCE" || sShip == "OXFORD" || sShip == "RESOLUTION" || sShip == "MORDAUNT") return fDamage*1.2;
-	if (nClass == 6 || nClass == 5) fDamage *= 1.8;
-	if (nClass == 4 || nClass == 3) fDamage *= 1.6;
-	if (nClass == 2 || nClass == 1) fDamage *= 1.4;*/
 	fDamage = fDamage * MastMulti;
 	return fDamage;
 	//procMastFall
@@ -606,14 +549,7 @@ float Ship_GetSailState(ref rCharacter)
 void Ship_SetExplosion(ref rCharacter, ref	rShipObject)
 {
     int i = 0;
-    // fire ship
-	//int iNumFirePlaces = rand(2);
-	//SendMessage(rShipObject, "le", MSG_SHIP_GET_NUM_FIRE_PLACES, &iNumFirePlaces);
-	//for (i=0; i<=iNumFirePlaces; i++)
-	//{
-		//PostEvent(SHIP_ACTIVATE_FIRE_PLACE, rand(300), "ialsfl", rShipObject, rCharacter, i, "ship_onfire", 3, -1);
-	//}
-	//PostEvent(SHIP_ACTIVATE_FIRE_PLACE, 100, "ialsfl", rShipObject, rCharacter, i, "ship_onfire", 3, -1);  // дает вылет
+	
 	PostEvent(SHIP_BRANDER_DETONATE, 800, "l", sti(rCharacter.index));
     PlaySound("Sea Battles\Vzriv_fort_001.wav");
 	Ship_SetTaskNone(SECONDARY_TASK, sti(rCharacter.index));
@@ -1278,60 +1214,6 @@ void Ship_CheckSituation()
 				}
 	    }
     }
-    // выбор снаряда <--
-    // сбособ второй, модифицированный от к3, но по тестам старый вмл милее и оптимальнее
-	/*if(CheckAttribute(rCharacter, "Ship.Cannons.borts.cannonr.ChargeRatio"))
-	{
-		float fRightChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonr.ChargeRatio);
-		float fLeftChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonl.ChargeRatio);
-		
-		float fFrontChargeRatio = 1.0;
-		float fBackChargeRatio = 1.0;
-		
-		if (CheckAttribute(rCharacter, "Ship.Cannons.borts.cannonf.ChargeRatio"))
-		{
-			fFrontChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonf.ChargeRatio);
-			fBackChargeRatio = stf(rCharacter.Ship.Cannons.borts.cannonb.ChargeRatio);
-		}
-		
-		if (!CheckAttribute(rCharacter, "Sea_AI.cannon.charge"))
-		{
-			if (fRightChargeRatio <= 0.3 || fLeftChargeRatio <= 0.3 || fBackChargeRatio <=0.3 || fFrontChargeRatio <=0.3)
-			{
-				iNewBallType = Ship_FindOtherBallType(rCharacter, fMinEnemyDistance, bBalls, bBombs, bGrapes, bKnippels);
-				rCharacter.Sea_AI.cannon.charge = iNewBallType;
-			}
-		}
-		else
-		{
-			// делаем проверку на хрень типа:
-			// корабль сделал выстрел
-			// зарядился
-			// но ситуация изменилась, и он не может достать выстрелом никого
-			// причем эта проверка не позволит персу 
-			// постоянно перезаряжать пушки
-			// ибо при анализе ситуации 
-			// заряд может и не измениться
-			if(!CheckAttribute(rCharacter, "Sea_AI.cannon.charge.lasttime"))
-			{
-				rCharacter.Sea_AI.cannon.charge.lasttime = 0;
-			}
-			if (fRightChargeRatio == 1.0 && fLeftChargeRatio == 1.0 && fBackChargeRatio == 1.0 && fFrontChargeRatio == 1.0)
-			{
-				rCharacter.Sea_AI.cannon.charge.lasttime = sti(rCharacter.Sea_AI.cannon.charge.lasttime) + 1;
-			}
-			//int iCannonTime = sti(Cannons[sti(rCharacter.Ship.Cannons.Type)].ReloadTime) / 2;
-			if(sti(rCharacter.Sea_AI.cannon.charge.lasttime) > 20)
-			{
-				iNewBallType = Ship_FindOtherBallType(rCharacter, fMinEnemyDistance, bBalls, bBombs, bGrapes, bKnippels);
-				rCharacter.Sea_AI.cannon.charge = iNewBallType;
-			}
-		}
-        if (iNewBallType >= 0 && iNewBallType != iCurrentBallType) 
-		{
-			Ship_ChangeCharge(rCharacter, iNewBallType);
-		}
-	} */
 	bool bIsCompanion = IsCompanion(rCharacter);
 	
 	// check some tasks
@@ -1846,11 +1728,6 @@ void Ship_CheckFlagEnemy(ref rCharacter)
 		Log_TestInfo("Требуется: "+losechance+"/Текущее значение: "+winchance);
 		if (losechance > winchance)
 		{
-			/*mChar.nation = iNationToChange;  // to_do ролик флага сделать
-			Ship_FlagRefresh(PChar); //флаг на лету
-	        SetNationToOfficers(iNationToChange);
-	        SetNationRelation2MainCharacter(sti(rCharacter.nation), RELATION_ENEMY);
-	        */
 			Log_Info("Сойти за друга не удалось - "+ NationNamePeople(sti(rCharacter.nation)) + " распознали в нас врага.");
 			SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
 			DoQuestCheckDelay(NationShortName(iNationToChange) + "_flag_rise", 0.1); // применение нац отношений флага
@@ -1883,8 +1760,6 @@ void Ship_ActivateFirePlace()
 	float	fFireTime = GetEventData();
 	int		iBallCharacterIndex = GetEventData();
 
-	//aref	arPos; makearef(arPos, arCharacter.Ship.Pos);
-	//Log_TestInfo("iFirePlaceIndex " + iFirePlaceIndex);
 	if (!bAbordageStarted) // fix
 	{
 		SendMessage(arShipObject, "llsssfl", MSG_SHIP_ACTIVATE_FIRE_PLACE, iFirePlaceIndex, "ship_smoke", "ship_fire", sSoundName, fFireTime, iBallCharacterIndex);
@@ -1981,22 +1856,6 @@ int Ship_FindOtherBallType(ref rCharacter, float fMinEnemyDistance, bool bBalls,
 		int iType = -1;
 		float fRangeModifier = 1.0;
 		// оптимизация float fDistance = Ship_GetDistance2D(rCharacter, &characters[enemy]);
-
-		/*if (sti(rCharacter.SeaAI.Task) == AITASK_RUNAWAY)
-		{
-			Ship_SetSailState(sti(rCharacter.index), 1);
-			if (sti(characters[enemy].ship.sp) > 20 && ShipSailState(enemy) < 2)
-			{
-				if(fMinEnemyDistance <= (range * 0.9) && bKnippels)
-				{
-					iType = GOOD_KNIPPELS;
-				}
-				if(fMinEnemyDistance <= (range * 0.4) && bGrapes)
-				{
-					iType = GOOD_GRAPES;
-				}
-			}
-		}*/
 
 		if (bBalls) //(fMinEnemyDistance <= range) && //если дистанция больше, то тем более на ядра
 		{
@@ -2242,18 +2101,7 @@ void Ship_ApplyHullHitpoints(ref rOurCharacter, float fHP, int iKillStatus, int 
 	}
 	if (fHP <= 0.0) { return; }
 	if (LAi_IsDead(rOurCharacter) || !CheckAttribute(rOurCharacter, "Ship.HP")) { return; }   // fix
-	
-	/*if (iKillerCharacterIndex >= 0)
-	{
-		if (!CheckAttribute(&Characters[iKillerCharacterIndex], "TmpPerks"))
-		{
-			Trace("Error iKillerCharacterIndex = " + iKillerCharacterIndex);
-		}
 
-		if(sti(characters[iKillerCharacterIndex].TmpPerks.Gunner) == 1) { fHP = fHP * 0.95; }
-		
-		
-	} */
     if (iKillerCharacterIndex >= 0)
 	{
 		if (sti(Characters[iKillerCharacterIndex].TmpPerks.HullDamageUp)) fPlus = 0.15;
@@ -2265,19 +2113,6 @@ void Ship_ApplyHullHitpoints(ref rOurCharacter, float fHP, int iKillStatus, int 
 	if (sti(rOurCharacter.TmpPerks.AdvancedBattleState))		fMinus = 0.25;
 	if (sti(rOurCharacter.TmpPerks.ShipDefenseProfessional))	fMinus = 0.35;
 
-	/*if (bNoDamage2Us)
-	{
-		if (sti(rOurCharacter.index) == nMainCharacterIndex) { return; }
-		if (FindFellowTravellers(pchar, rOurCharacter) == FELLOWTRAVEL_COMPANION) { return; }
-	}*/
-
-	//float fMultiply = (1.0 + (0.3 * fAccuracy));
-
-	/*if (iSeaDamage == 1 && sti(rOurCharacter.index) == nMainCharacterIndex)
-	{ 
-		fMultiply = fMultiply * 0.5; 
-	} */
-	//fCurHP = stf(rOurCharacter.Ship.HP) - fHP * fMultiply * (1.0 + fPlus - fMinus);
 	fCurHP = stf(rOurCharacter.Ship.HP) - fHP * (1.0 + fPlus - fMinus);
 	if (fCurHP <= 0.0)
 	{
@@ -2386,9 +2221,6 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
         }
         // boal 04.04.04 <--
 	}
-											   
-
-	//int iQuantity = GetCompanionQuantity(pchar);
 	
 	float fX = stf(rDead.Ship.Pos.x);
 	float fY = stf(rDead.Ship.Pos.y);
@@ -2758,16 +2590,7 @@ void Ship_HullHitEvent()
 		{
 			Log_SetStringToLog(LanguageConvertString(iSeaSectionLang, "Ship_critical"));
 		}
-		/*int iFlow = rand(100);  // to_do
-		if(iFlow < 10)
-		{
-			if(sti(rOurCharacter.index) == nMainCharacterIndex)
-			{
-				Log_SetStringToLog(LanguageConvertString(iSeaSectionLang, "Ship_flow"));
-			}
-			rOurCharacter.ship.flow = iFlow;
-		}
-		*/
+
 		// boal  check skill -->
 		if (!isOurCompanion && IsCompanion(rBallCharacter))
 		{
@@ -3280,7 +3103,7 @@ void Ship_CheckMainCharacter()
 			// LDH 12Feb17 display moor name in battle interface -->
 			// If we don't do this, location does not update
 			BattleInterface.textinfo.Location.text = GetBILocationName();
-			RefreshBattleInterface();
+			// RefreshBattleInterface();
 			// LDH 12Feb17 <--
 		}
 	}
@@ -3290,7 +3113,7 @@ void Ship_CheckMainCharacter()
 		pchar.Moorname = " ";
 		// If we don't do this, location does not update
 		BattleInterface.textinfo.Location.text = GetBILocationName();
-		RefreshBattleInterface();
+		// RefreshBattleInterface();
 		// LDH 13Feb17 <--
 	}
 

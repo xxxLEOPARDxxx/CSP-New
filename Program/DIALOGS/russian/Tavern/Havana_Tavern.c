@@ -28,6 +28,16 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                 link.l1 = "Послушай, не появлялся ли у вас в городе Франсуа Гонтьер? У него корвет '" + pchar.questTemp.Slavetrader.ShipName+ "', если что... ";
                 link.l1.go = "Havana_ratT_1";
             }
+			if (pchar.questTemp.PDM_ONV_Detectiv_Tavern_1 == "Tevern_NET")	// Квест "Охота на ведьму"
+            {
+                link.l1 = "Мне нужна девушка... по имени Карла. Где я могу найти её?";
+                link.l1.go = "PDM_ONV_Sprashivaem_Pro_Karlu_NeZnaet";
+            }
+			if (pchar.questTemp.PDM_ONV_Detectiv_Tavern_1 == "Tevern_Da")	// Квест "Охота на ведьму"
+            {
+                link.l1 = "Мне нужна девушка... по имени Карла. Где я могу найти её?";
+                link.l1.go = "PDM_ONV_Sprashivaem_Pro_Karlu";
+            }
 		break;
 //******************** Фр.линейка, квест №7. Спасение Рока Бразильца ******************
  	 	case "Step_F7_1":
@@ -116,6 +126,128 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             pchar.quest.Slavetrader_findTortugaRat.win_condition = "Slavetrader_findTortugaRat";
 		break;
 
+//******************** Квест "Охота на ведьму" ******************
+		case "PDM_ONV_Sprashivaem_Pro_Karlu_NeZnaet":
+			dialog.text = "Не знаю я никакой Карлы. И мы здесь не оказываем других услуг - кроме еды или выпивки. Желаете выпить?";
+			Link.l1 = "Нет, спасибо. Я пойду.";
+			Link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_Detectiv_Tavern_1");
+			AddQuestRecord("PDM_Ohota_na_vedmu", "6");							
+			AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
+			pchar.questTemp.PDM_ONV_Detectiv_Jiteli_Havana = "Jiteli_Havana";
+		break;
+
+
+		case "PDM_ONV_Sprashivaem_Pro_Karlu":
+			dialog.text = "Не знаю я никакой Карлы. И мы здесь не оказываем других услуг - кроме еды или выпивки. Желаете выпить?";
+			Link.l1 = "Её обвиняют в ведовстве! Знаешь ли ты, что это значит? То, что она ВЕДЬМА, а если ты будешь покрывать её, то сгоришь на том же самом костре, что и она. Ясно? Люди видели, как она неоднократно входила в твою таверну. Ну так как - будешь запираться, или..?";
+			Link.l1.go = "PDM_ONV_SPKarlu_2";
+		break;
+		
+		case "PDM_ONV_SPKarlu_2":
+			dialog.text = "О, пощадите меня, сеньор"+ GetSexPhrase("","ита") +" капитан! Я не хотел нарушать закон - просто... я едва свожу концы с концами... У меня не было другого выхода, кроме как позволить шлюхам водить сюда клиентов.";
+			Link.l1 = "Ну, я полагаю, что пару тысчонок может смягчить твою вину. Но мне нужно знать, где она.";
+			Link.l1.go = "PDM_ONV_SPKarlu_3";
+			Link.l2 = "Твои ничтожные жалобы не интересуют меня. Я всего лишь хочу знать, где она.";
+			Link.l2.go = "PDM_ONV_SPKarlu_5";
+		break;
+		
+		case "PDM_ONV_SPKarlu_3":
+			dialog.text = "О, сэр - вы погубите меня и моё дело! Я должен заплатить сборщику налогов в следующем месяце! Две тысячи, это просто невозможно! Вы угрожали мне смертью на костре, а теперь хотите, чтобы я умер от голода?!";
+			Link.l1 = "Ты всего лишь ничтожный грешник... Что ж, скажи мне, где Карла - и я оставлю тебя. Пусть Господь тебя простит.";
+			Link.l1.go = "PDM_ONV_SPKarlu_5";
+			Link.l2 = "Ты укрывал врагов общества в своей таверне - так что тебе придётся заплатить, так или иначе.";
+			Link.l2.go = "PDM_ONV_SPKarlu_4";
+		break;
+		
+		case "PDM_ONV_SPKarlu_4":
+			dialog.text = "О, вы разрушили мою жизнь! Да, берите золото - но вы будете прокляты навеки!";
+			Link.l1 = "Подумай о своей судьбе, ничтожный грешник! Если ты не скажешь мне, где Карла, то твои крики из губернаторской темницы будут долго тревожить жителей Гаваны.";
+			Link.l1.go = "PDM_ONV_SPKarlu_5";
+			ChangeCharacterReputation(pchar, -2);
+			AddMoneyToCharacter(pchar, 2000);
+		break;
+		
+		case "PDM_ONV_SPKarlu_5":
+			dialog.text = "Да, да, она была здесь! Но она уплыла недавно с одним капитаном. Когда она сказала мне, что уезжает, я почти разрыдался. Такая хорошая девушка нашла наконец-то свою судьбу. Её капитан был "+ GetSexPhrase("настоящий мужчина, прямо как вы - такой же сильный и отважный","сильным и отважным человеком, прямо как вы.") +"...";
+			Link.l1 = "Как его звали?";
+			Link.l1.go = "PDM_ONV_SPKarlu_6";
+		break;
+		
+		case "PDM_ONV_SPKarlu_6":
+			dialog.text = "Мигель Куэнда, насколько я помню. Он уплыл и взял с собой Карлу. И... простите меня, сеньор"+ GetSexPhrase("","ита") +" - я прошу вас не рассказывать ей, что это я донёс на неё. Я не хочу, чтобы она вечно проклинала моё имя...";
+			Link.l1 = "Я не расскажу ей. Но ты должен сказать мне, куда они направились.";
+			Link.l1.go = "PDM_ONV_SPKarlu_7";
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_Detectiv_Tavern_1");
+		break;
+		
+		case "PDM_ONV_SPKarlu_7":
+			int Isp_Coloni
+			Isp_Coloni = rand(2);
+			if (Isp_Coloni == 0)
+			{
+				dialog.text = "У меня нет никаких соображений на этот счёт, сеньор"+ GetSexPhrase("","ита") +" капитан. Я помню, что она что-то говорила про какую-то колонию - испанскую, разумеется... И там были две буквы: 'п' и 'б'.";
+				Link.l1 = "Я верю тебе. Но помни - ты должен хорошенько позаботиться о своей грязной, но увы, бессмертной душонке. Всего доброго!";
+				Link.l1.go = "exit";
+				pchar.questTemp.PDM_ONV_Detectiv_PB = "PortoBello";
+				AddQuestRecord("PDM_Ohota_na_vedmu", "8");							
+				AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
+				
+				sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Viktor_Martos", "officer_22", "man", "man", 10, SPAIN, -1, false));
+				sld.name = "Виктор";
+				sld.lastname = "Мартос";
+				sld.city = "PortoBello";
+				sld.location	= "PortoBello_tavern";
+				sld.location.group = "sit";
+				sld.location.locator = "sit_base2";
+				LAi_SetSitType(sld);
+				sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+				sld.dialog.currentnode   = "RazgovorSViktorom_1";
+			break;
+			}
+			if (Isp_Coloni == 1)
+			{
+				dialog.text = "У меня нет никаких соображений на этот счёт, сеньор"+ GetSexPhrase("","ита") +" капитан. Я помню, что она что-то говорила про какую-то колонию - испанскую, разумеется... И там были две буквы: 'м' и 'б'.";
+				Link.l1 = "Я верю тебе. Но помни - ты должен хорошенько позаботиться о своей грязной, но увы, бессмертной душонке. Всего доброго!";
+				Link.l1.go = "exit";
+				pchar.questTemp.PDM_ONV_Detectiv_MB = "Maracaibo";
+				AddQuestRecord("PDM_Ohota_na_vedmu", "9");							
+				AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
+				
+				sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Viktor_Martos", "officer_22", "man", "man", 10, SPAIN, -1, false));
+				sld.name = "Виктор";
+				sld.lastname = "Мартос";
+				sld.city = "Maracaibo";
+				sld.location	= "Maracaibo_tavern";
+				sld.location.group = "sit";
+				sld.location.locator = "sit_base2";
+				LAi_SetSitType(sld);
+				sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+				sld.dialog.currentnode   = "RazgovorSViktorom_1";
+			break;
+			}
+			if (Isp_Coloni == 2)
+			{
+				dialog.text = "У меня нет никаких соображений на этот счёт, сеньор"+ GetSexPhrase("","ита") +" капитан. Я помню, что она что-то говорила про какую-то колонию - испанскую, разумеется... И там были две буквы: 'с' и 'х'.";
+				Link.l1 = "Я верю тебе. Но помни - ты должен хорошенько позаботиться о своей грязной, но увы, бессмертной душонке. Всего доброго!";
+				Link.l1.go = "exit";
+				pchar.questTemp.PDM_ONV_Detectiv_SJ = "SanJuan";
+				AddQuestRecord("PDM_Ohota_na_vedmu", "10");							
+				AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
+				
+				sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Viktor_Martos", "officer_22", "man", "man", 10, SPAIN, -1, false));
+				sld.name = "Виктор";
+				sld.lastname = "Мартос";
+				sld.city = "SanJuan";
+				sld.location	= "SanJuan_tavern";
+				sld.location.group = "sit";
+				sld.location.locator = "sit_base2";
+				LAi_SetSitType(sld);
+				sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+				sld.dialog.currentnode   = "RazgovorSViktorom_1";	
+			break;
+			}
+		break;
 
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

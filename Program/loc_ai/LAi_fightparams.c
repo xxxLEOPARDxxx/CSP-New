@@ -424,21 +424,11 @@ float LAi_GunCalcExperience(aref attack, aref enemy, float dmg)
 	if (dmg > Lai_GetCharacterMaxHP(enemy)) currhp = Lai_GetCharacterMaxHP(enemy);
 	int bonus = 1;
 	if (rand(GetCharacterSPECIALSimple(attack, SPECIAL_I)) > 7) bonus = GetCharacterSPECIALSimple(attack, SPECIAL_I);
-		float exp = currhp/Lai_GetCharacterMaxHP(enemy) * GetCharacterSPECIALSimple(attack, SPECIAL_P) *  bonus +(1+rand(GetCharacterSPECIALSimple(attack, SPECIAL_L)-1) * currhp/Lai_GetCharacterMaxHP(enemy));//Lipsar передeлка опыта
-	if(IsCharacterPerkOn(attack,"GunProfessional")) 
-	{
-		if(IsCharacterPerkOn(attack,"Gunman")) 
-		{
-			exp += re/(ra * 2) * GetCharacterSPECIALSimple(attack, SPECIAL_I)/bonus;
-		}
-		else 
-		{
-			exp += re/ra * GetCharacterSPECIALSimple(attack, SPECIAL_I)/bonus;
-		}
-	}
+	float exp = currhp/Lai_GetCharacterMaxHP(enemy) * GetCharacterSPECIALSimple(attack, SPECIAL_P) *  bonus +(1+rand(GetCharacterSPECIALSimple(attack, SPECIAL_L)-1) * currhp/Lai_GetCharacterMaxHP(enemy));//Lipsar передeлка опыта
+	
 	float ra = 1.0;
 	float re = 1.0;
-	if (CheckAttribute(attack, "rank"))//Lipsar переделка опыта
+	if (CheckAttribute(attack, "rank"))
 	{
 		ra = stf(attack.rank);
 	}
@@ -450,6 +440,19 @@ float LAi_GunCalcExperience(aref attack, aref enemy, float dmg)
 		ra = 1.0;
 	if (re < 1.0)
 		re = 1.0;
+	
+	if(IsCharacterPerkOn(attack,"GunProfessional")) 
+	{
+		if(IsCharacterPerkOn(attack,"Gunman")) 
+		{
+			exp += re/ra * GetCharacterSPECIALSimple(attack, SPECIAL_I)/bonus;
+		}
+		else 
+		{
+			exp += re/(ra*2) * GetCharacterSPECIALSimple(attack, SPECIAL_I)/bonus;
+		}
+	}
+	//Вычисляем полученый опыт
 	exp = exp * ((1.0 + re * 0.5) / (1.0 + ra * 0.5));
 	return exp;
 }
@@ -475,11 +478,17 @@ float LAi_GunReloadSpeed(aref chr)
 	{
 		if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.4;
 		else charge_dlt = charge_dlt*1.25;
-	}else{
+	}
+	else
+	{
 		if(IsCharacterPerkOn(chr, "Gunman"))
 		{
 			if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.25;
 			else charge_dlt = charge_dlt*1.1;
+		}
+		else
+		{
+			if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.15;
 		}
 	}
 	return charge_dlt;
@@ -517,7 +526,7 @@ float LAi_GunReloadSpeed(aref chr)
 //#20200522-01
 void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, bool isBlocked, bool blockSave)
 {
-	if(IsCharacterPerkOn(enemy, "Fencer") && rand(9)==1)  {Log_Info("Избежал удара!"); return;}
+	if(IsCharacterPerkOn(enemy, "Fencer") && rand(9)==1 && enemy == pchar)  {Log_Info("Избежал удара!"); return;}
 	//Если неубиваемый, то нетрогаем его
 	if(CheckAttribute(enemy, "chr_ai.immortal"))
 	{
@@ -534,13 +543,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		case "Fencing": coeff = makefloat(attack.Skill.Fencing)/20; break;
 		case "FencingHeavy": coeff = makefloat(attack.Skill.FencingHeavy)/20; break;
 	}*/
-	switch (fencing_type)
-	{
-		case "FencingLight": coeff = makefloat(GetCharacterSkillSimple(attack,"FencingLight"))/20; break;
-		case "Fencing": coeff = makefloat(GetCharacterSkillSimple(attack,"Fencing"))/20; break;
-		case "FencingHeavy": coeff = makefloat(GetCharacterSkillSimple(attack,"FencingHeavy"))/20; break;
-	}
-		//--->Пробитие блоков тяжёлым оружием - Gregg
+	//--->Пробитие блоков тяжёлым оружием - Gregg
 	if (isBlocked && blockSave)
 	{
 		//if (coeff != 0.0)
@@ -614,7 +617,12 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	//Вычисляем повреждение
 	float dmg = LAi_CalcDamageForBlade(attack, enemy, attackType, isBlocked, blockSave);
 	float critical = 0.0;
-	if(IsCharacterPerkOn(attack, "SwordplayProfessional"))
+	int critchance = 0;
+	if (IsCharacterPerkOn(attack, "SwordplayProfessional")) critchance += 10;
+	if (IsCharacterPerkOn(attack, "CriticalHit")) critchance += 5;
+	if (IsCharacterPerkOn(attack, "Fencer")) critchance += 5;
+	if (rand(100 - GetCharacterSPECIALSimple(attack, SPECIAL_L)) <= critchance) critical = 1.0;
+	/*if(IsCharacterPerkOn(attack, "SwordplayProfessional"))
 	{
 		if(IsCharacterPerkOn(attack, "Fencer"))
 		{
@@ -630,7 +638,9 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 				critical = 1.0;//LAi_GetCharacterMaxHP(enemy)*0.30;
 			}
 		}
-	}else{
+	}
+	else
+	{
 		if(IsCharacterPerkOn(attack, "CriticalHit"))
 		{
 			if(IsCharacterPerkOn(attack, "Fencer"))
@@ -658,13 +668,12 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 				}
 			}
 		}
-	}
+	}*/
 	if(IsCharacterPerkOn(attack, "Agent") && attackType == "feint")
 	{
 		if (rand(2)==0) critical = 1.0;
 	}
 	float kDmg = 1.0;
-
 	float kDmgRush = 1.0;
 	if(IsCharacterPerkOn(enemy, "Rush"))
 	{
@@ -682,29 +691,15 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			noExp = true;
 		}
 	}
-	//--->Функционал лёгкого оружия - Gregg
-	if (coeff != 0.0 && dmg > 0)
+	bool cirign = false;
+	switch (fencing_type)
 	{
-		if (HasSubStr(attack.equip.blade, "blade32") && 10.0+coeff+2.5>rand(99) && !blockSave)//фламберж
+		case "FencingLight":
+			//--->Функционал лёгкого оружия - Gregg
+			if (dmg > 0)
 			{
-				if(CheckAttribute(enemy, "sex") && enemy.model.animation != "Terminator")
-				{
-					if(sti(attack.index) == GetMainCharacterIndex())
-					{
-						Log_Info("Вы вызвали кровотечение.");
-						PlaySound("interface\Krovotok_"+rand(4)+".wav");
-					}
-					if(sti(enemy.index) == GetMainCharacterIndex())
-					{
-						Log_Info("Вам нанесли кровоточащую рану.");
-						PlaySound("interface\Krovotok_"+rand(4)+".wav");
-					}
-					MakeBloodingAttack(enemy, attack, coeff);
-				}
-			}
-		if (fencing_type == "FencingLight" && !blockSave && attackType == "force" && !HasSubStr(attack.equip.blade, "blade32"))//выпад
-		{
-				if ((2.5+coeff)*10>rand(999))
+				coeff = makefloat(GetCharacterSkillSimple(attack,"FencingLight"))/20;
+				if (HasSubStr(attack.equip.blade, "blade32") && 10.0+coeff+2.5>rand(99) && !blockSave)//фламберж
 				{
 					if(CheckAttribute(enemy, "sex") && enemy.model.animation != "Terminator")
 					{
@@ -721,32 +716,137 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 						MakeBloodingAttack(enemy, attack, coeff);
 					}
 				}
-		}
-	}
-	//<---Функционал лёгкого оружия
-	
-	//--->Функционал среднего оружия - Gregg
-	if (fencing_type == "Fencing" && !blockSave  && dmg > 0)
-	{
-		if (coeff != 0.0)
-		{
-			if ((2.5+coeff)*10>rand(999))
+				if (!HasSubStr(attack.equip.blade, "blade32") && !blockSave && attackType == "force")//выпад
+				{
+					if ((2.5+coeff)*10>rand(999))
+					{
+						if(CheckAttribute(enemy, "sex") && enemy.model.animation != "Terminator")
+						{
+							if(sti(attack.index) == GetMainCharacterIndex())
+							{
+								Log_Info("Вы вызвали кровотечение.");
+								PlaySound("interface\Krovotok_"+rand(4)+".wav");
+							}
+							if(sti(enemy.index) == GetMainCharacterIndex())
+							{
+								Log_Info("Вам нанесли кровоточащую рану.");
+								PlaySound("interface\Krovotok_"+rand(4)+".wav");
+							}
+							MakeBloodingAttack(enemy, attack, coeff);
+						}
+					}
+				}
+			}
+			//<---Функционал лёгкого оружия
+		break;
+		case "Fencing":
+			//--->Функционал среднего оружия - Gregg
+			if (dmg > 0 && !blockSave)
+			{
+				coeff = makefloat(GetCharacterSkillSimple(attack,"Fencing"))/20;
+				if ((2.5+coeff)*10>rand(999))
+				{
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вы нанесли резкий удар.");
+						PlaySound("interface\Stan_"+rand(5)+".wav");
+					}
+					if(sti(enemy.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вам был нанесён резкий удар.");
+						PlaySound("interface\Stan_"+rand(5)+".wav");
+					}
+					if(CheckAttribute(enemy, "model.animation") && CheckAttribute(enemy, "sex") && enemy.model.animation != "skeleton" && enemy.model.animation != "Terminator" && enemy.sex != "skeleton") MakeSwiftAttack(enemy, attack, coeff);
+				}
+			}
+			//<---Функционал среднего оружия - Gregg
+		break;
+		case "FencingHeavy":
+			//--->Функционал тяжёлого оружия - Gregg
+			coeff = makefloat(GetCharacterSkillSimple(attack,"FencingHeavy"))/20;
+			if (80+(coeff*4)<rand(100) && !rushmiss && attackType != "break")//шанс промаха не пробивающим
 			{
 				if(sti(attack.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Вы нанесли резкий удар.");
-					PlaySound("interface\Stan_"+rand(5)+".wav");
+					Log_Info("Вы промахнулись!");
 				}
 				if(sti(enemy.index) == GetMainCharacterIndex())
 				{
-					Log_Info("Вам был нанесён резкий удар.");
-					PlaySound("interface\Stan_"+rand(5)+".wav");
+					Log_Info(""+attack.Name+" промахнулся.");
 				}
-				if(CheckAttribute(enemy, "model.animation") && CheckAttribute(enemy, "sex") && enemy.model.animation != "skeleton" && enemy.model.animation != "Terminator" && enemy.sex != "skeleton") MakeSwiftAttack(enemy, attack, coeff);
+				return;
 			}
-		}
+			
+			if (attackType == "break" && 60+(coeff*4)<rand(100) && !rushmiss)//шанс промаха пробивающим
+			{
+				if(sti(attack.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Вы промахнулись!");
+				}
+				if(sti(enemy.index) == GetMainCharacterIndex())
+				{
+					Log_Info(""+attack.Name+" промахнулся.");
+				}
+				return;
+			}			
+			if (attackType == "break")//модификация урона пробивающего
+			{
+				if (CheckAttribute(enemy, "cirassId") && HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
+				{
+					dmg *= 2;
+				}
+				else
+				{
+					dmg *= 3;
+				}
+			}
+			if (attackType != "break")//модификация урона не пробивающего
+			{
+				if (!CheckAttribute(enemy, "cirassId"))
+				{
+					dmg *= 1.5;
+				}
+			}
+
+			if (attack.chr_ai.group != enemy.chr_ai.group)
+			{
+				if (CheckAttribute(enemy, "cirassId") && HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
+				{
+					if (HasSubStr(attack.equip.blade, "topor") && rand(99)<15 && !blockSave) //15%
+					{
+						cirign = true;
+						// Log_TestInfo("топор");
+						if(sti(attack.index) == GetMainCharacterIndex())
+						{
+							Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
+							PlaySound("interface\Breaking_"+rand(5)+".wav");
+						}
+						if(sti(enemy.index) == GetMainCharacterIndex())
+						{
+							Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+							PlaySound("interface\Breaking_"+rand(5)+".wav");
+						}
+					}
+					if (!HasSubStr(attack.equip.blade, "topor") && fencing_type == "FencingHeavy" && rand(9)==0 && !blockSave) //10%
+					{
+						cirign = true;
+						// Log_TestInfo("тяж");
+						if(sti(attack.index) == GetMainCharacterIndex())
+						{
+							Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
+							PlaySound("interface\Breaking_"+rand(5)+".wav");
+						}
+						if(sti(enemy.index) == GetMainCharacterIndex())
+						{
+							Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
+							PlaySound("interface\Breaking_"+rand(5)+".wav");
+						}
+					}
+				}
+			}
+			//<--- Функционал тяжёлого оружия - Gregg
+		break;
 	}
-	//<---Функционал среднего оружия - Gregg
 	
 	if (blockSave)
     {
@@ -777,101 +877,17 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
         critical = 0;
     }
 	
-	//--->Функционал тяжёлого оружия - Gregg
-	bool heavy = false;
-	if (fencing_type == "FencingHeavy") heavy = true;//тяжёлое ли оружие
-	if (heavy && 80+(coeff*4)<rand(100) && !rushmiss && attackType != "break")//шанс промаха не пробивающим
-	{
-		if(sti(attack.index) == GetMainCharacterIndex())
-		{
-			Log_Info("Вы промахнулись!");
-		}
-		if(sti(enemy.index) == GetMainCharacterIndex())
-		{
-			Log_Info(""+attack.Name+" промахнулся.");
-		}
-		return;
-	}
-	if (heavy)
-	{
-		if (attackType == "break" && 60+(coeff*4)<rand(100) && !rushmiss)//шанс промаха пробивающим
-		{
-			if(sti(attack.index) == GetMainCharacterIndex())
-			{
-				Log_Info("Вы промахнулись!");
-			}
-			if(sti(enemy.index) == GetMainCharacterIndex())
-			{
-				Log_Info(""+attack.Name+" промахнулся.");
-			}
-			return;
-		}			
-		if (attackType == "break")//модификация урона пробивающего
-		{
-			if (CheckAttribute(enemy, "cirassId") && Items[sti(enemy.cirassId)].id != "suit_1" && Items[sti(enemy.cirassId)].id != "suit_2" && Items[sti(enemy.cirassId)].id != "suit_3")
-			{
-				dmg *= 2;
-			}
-			else
-			{
-				dmg *= 3;
-			}
-		}
-		if (attackType != "break")//модификация урона не пробивающего
-		{
-			if (!CheckAttribute(enemy, "cirassId"))
-			{
-				dmg *= 1.5;
-			}
-		}
-	}
-	bool cirign = false;
-	if (coeff != 0 && attack.chr_ai.group != enemy.chr_ai.group)
-	{
-		if (CheckAttribute(enemy, "cirassId") && Items[sti(enemy.cirassId)].id != "suit_1" && Items[sti(enemy.cirassId)].id != "suit_2" && Items[sti(enemy.cirassId)].id != "suit_3" )
-		{
-			if (HasSubStr(attack.equip.blade, "topor") && rand(99)<15 && !blockSave) //15%
-			{
-				cirign = true;
-				// Log_TestInfo("топор");
-				if(sti(attack.index) == GetMainCharacterIndex())
-				{
-					Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
-					PlaySound("interface\Breaking_"+rand(5)+".wav");
-				}
-				if(sti(enemy.index) == GetMainCharacterIndex())
-				{
-					Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
-					PlaySound("interface\Breaking_"+rand(5)+".wav");
-				}
-			}
-			if (!HasSubStr(attack.equip.blade, "topor") && fencing_type == "FencingHeavy" && rand(9)==0 && !blockSave) //10%
-			{
-				cirign = true;
-				// Log_TestInfo("тяж");
-				if(sti(attack.index) == GetMainCharacterIndex())
-				{
-					Log_Info("Ваша атака игнорирует сопротивления кирасы противника.");
-					PlaySound("interface\Breaking_"+rand(5)+".wav");
-				}
-				if(sti(enemy.index) == GetMainCharacterIndex())
-				{
-					Log_Info("Нанесённая по вам атака игнорирует сопротивления кирасы.");
-					PlaySound("interface\Breaking_"+rand(5)+".wav");
-				}
-			}
-		}
-	}
-	//<--- Функционал тяжёлого оружия - Gregg
-	
 	if(CheckAttribute(enemy, "cirassId") && !cirign && critical > 0.0)// защиты от критов у кирас
 	{
 		string cirassId = enemy.cirassId;
-		if (Items[sti(enemy.cirassId)].id == "cirass1" && rand(9)<4) critical = 0.0;
-		if (Items[sti(enemy.cirassId)].id == "cirass2" && rand(9)<6) critical = 0.0;
-		if (Items[sti(enemy.cirassId)].id == "cirass3" && rand(1)==0) critical = 0.0;
-		if (Items[sti(enemy.cirassId)].id == "cirass4" && rand(4)>0) critical = 0.0;
-		if (Items[sti(enemy.cirassId)].id == "cirass5") critical = 0.0;
+		if (!HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
+		{
+			if (Items[sti(enemy.cirassId)].id == "cirass1" && rand(9)<4) critical = 0.0;
+			if (Items[sti(enemy.cirassId)].id == "cirass2" && rand(9)<6) critical = 0.0;
+			if (Items[sti(enemy.cirassId)].id == "cirass3" && rand(1)==0) critical = 0.0;
+			if (Items[sti(enemy.cirassId)].id == "cirass4" && rand(4)>0) critical = 0.0;
+			if (Items[sti(enemy.cirassId)].id == "cirass5") critical = 0.0;
+		}
 		if (critical == 0.0)
 		{
 			if(sti(enemy.index) == GetMainCharacterIndex())
@@ -972,7 +988,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	    }
 		if (stf(enemy.rank) < 4) int experience = GetCharacterSPECIALSimple(attack, SPECIAL_I) + rand(GetCharacterSPECIALSimple(attack, SPECIAL_A));
 		else experience = Lai_GetCharacterMaxHP(enemy)/stf(enemy.rank) + GetCharacterSPECIALSimple(attack, SPECIAL_I) * re / ra;;//Lipsar передeлка опыта
-		AddCharacterExpToSkill(attack, LAi_GetBladeFencingType(attack), experience);		 
+		AddCharacterExpToSkill(attack, fencing_type, experience);		 
         AddCharacterExpToSkill(attack, SKILL_DEFENCE, 1);
         AddCharacterExpToSkill(attack, SKILL_FORTUNE, 1);
         AddCharacterExpToSkill(attack, SKILL_LEADERSHIP, 1);
@@ -990,7 +1006,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	if (!noExp)
     {
         //AddCharacterExp(attack, MakeInt(exp*0.5 + 0.5));
-        AddCharacterExpToSkill(attack, LAi_GetBladeFencingType(attack), Makefloat(exp*0.2));
+        AddCharacterExpToSkill(attack, fencing_type, Makefloat(exp*0.2));
     }
 	
 }
@@ -1196,7 +1212,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	}
 	if(!noExp)
     {
-        AddCharacterExpToSkill(attack, SKILL_PISTOL, MakeFloat(exp*0.5));
+        AddCharacterExpToSkill(attack, SKILL_PISTOL, MakeFloat(exp*0.2));
     }
 }
 

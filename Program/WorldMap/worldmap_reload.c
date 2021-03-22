@@ -16,7 +16,6 @@ void wdmReloadToSea()
     bAbordageStarted = false;
 	Sea.AbordageMode = false;
 	EmptyAllFantomCharacter();
-	PGG_DailyUpdate();
 	Siege_DailyUpdate();//homo осады 05/11/06
 	SaveCurrentQuestDateParam("WordMapEncounters_DailyUpdate"); //homo карта 25/03/07
 	// расчеты <--
@@ -90,6 +89,7 @@ void WdmEndFade()
 	ReloadProgressStart();	
 	SeaLogin(&wdmLoginToSea);
 	LayerAddObject(SEA_REALIZE, &reload_fader, -1);
+	PGG_DailyUpdateWorldMapReload();
 	ReloadProgressEnd();
 }
 

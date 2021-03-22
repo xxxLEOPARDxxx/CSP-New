@@ -39,6 +39,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     				link.l1.go = "exit";
 				}
 			}
+			if (pchar.questTemp.PDM_ONV_Detectiv_Jiteli_Havana == "Jiteli_Havana" && npchar.sex == "woman")	// Квест "Охота на ведьму"
+			{
+				link.l1 = "А ты не знаешь, где сейчас Карла?";
+				link.l1.go = "PDM_ONV_WOMAN";
+			}
             // <== Проверяем поле состояния квестов.
 		break;
 //========================== Исп. линейка, квест №4. Расследование убийства ==================================
@@ -181,6 +186,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			LAi_group_Attack(NPChar, Pchar);
 			DialogExit();
         break;
+//========================== Квест "Охота на ведьму" ==================================
+		case "PDM_ONV_WOMAN":
+			dialog.text = "Кто, кто? Впервые слышу о такой девушке.");
+			link.l1 = "Прошу прощения...";
+			link.l1.go = "exit";
+		break;
+
 
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

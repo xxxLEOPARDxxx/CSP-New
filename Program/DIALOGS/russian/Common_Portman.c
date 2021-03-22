@@ -18,22 +18,22 @@ void ProcessDialogEvent()
 	if (!CheckAttribute(NPChar, "Portman")) NPChar.Portman = 0;
 	if (!CheckAttribute(NPChar, "PortManPrice")) NPChar.PortManPrice = (0.06 + frnd()*0.1);
 
-    // вызов диалога по городам -->
-    NPChar.FileDialog2 = "DIALOGS\" + LanguageGetLanguage() + "\PortMan\" + NPChar.City + "_PortMan.c";
-    if (LoadSegment(NPChar.FileDialog2))
+	// вызов диалога по городам -->
+	NPChar.FileDialog2 = "DIALOGS\" + LanguageGetLanguage() + "\PortMan\" + NPChar.City + "_PortMan.c";
+	if (LoadSegment(NPChar.FileDialog2))
 	{
-        ProcessCommonDialog(NPChar, Link, NextDiag);
+		ProcessCommonDialog(NPChar, Link, NextDiag);
 		UnloadSegment(NPChar.FileDialog2);
 	}
-    // вызов диалога по городам <--
-    ProcessCommonDialogRumors(NPChar, Link, NextDiag);//homo 25/06/06
+	// вызов диалога по городам <--
+	ProcessCommonDialogRumors(NPChar, Link, NextDiag);//homo 25/06/06
 
-    int i, cn;
-    ref chref;
+	int i, cn;
+	ref chref, compref;
 	ref rRealShip;
-    string attrL, sTitle, sCapitainId, s1;
+	string attrL, sTitle, sCapitainId, s1;
 	string sColony;
-    
+	
 	String sLastSpeakDate = LastSpeakDate();
 	
 	// Warship 25.07.09 Генер "Сгоревшее судно". Даты отказа ГГ - если отказал, то предложит снова только на след сутки
@@ -41,10 +41,10 @@ void ProcessDialogEvent()
 	{
 		DeleteAttribute(NPChar, "Quest.BurntShip");
 	}
-    bool ok;
-    int iTest = FindColony(NPChar.City); // город магазина
-    ref rColony;
-    string sFrom_sea = "";
+	bool ok, ok2;
+	int iTest = FindColony(NPChar.City); // город магазина
+	ref rColony;
+	string sFrom_sea = "";
 	npchar.quest.qty = CheckCapitainsList(npchar); //для списка кэпов
 
 	if (iTest != -1)
@@ -55,35 +55,96 @@ void ProcessDialogEvent()
 
 	attrL = Dialog.CurrentNode;
 	
-	if(HasSubStr(attrL, "ShipStockManBack_"))
- 	{
-        i = findsubstr(attrL, "_" , 0);
-	 	NPChar.ShipToStoreIdx = strcut(attrL, i+1, strlen(attrL)-1); // индех в конце
- 	    Dialog.CurrentNode = "ShipStockManBack";
- 	}
-    
+	if(HasSubStr(attrL, "ShipStockManBack11_"))
+	{
+		i = findsubstr(attrL, "_" , 0);
+		NPChar.StoreWithOff = 1;
+		NPChar.ShipToStoreIdx = strcut(attrL, i+1, strlen(attrL)-1); // индех в конце
+		Dialog.CurrentNode = "ShipStockManBack";
+	}
+
+	if(HasSubStr(attrL, "ShipStockManBack22_"))
+	{
+		i = findsubstr(attrL, "_" , 0);
+		NPChar.StoreWithOff = 0;
+		NPChar.ShipToStoreIdx = strcut(attrL, i+1, strlen(attrL)-1); // индех в конце
+		Dialog.CurrentNode = "ShipStockManBack";
+	}
+
+	if(HasSubStr(attrL, "ShipStockManBack2_"))
+	{
+		i = findsubstr(attrL, "_" , 0);
+		AddMoneyToCharacter(Pchar, -sti(NPChar.MoneyForShip));
+
+		chref = GetCharacter(sti(NPChar.ShipToStoreIdx));//сторож
+
+        int iChar = GetPassenger(PChar, sti(strcut(attrL, i+1, strlen(attrL)-1))); //выбранный пассажир
+		compref = GetCharacter(iChar);
+
+		DeleteAttribute(compref,"ship");//зачем-то стираем корабль офицера, хотя его там и не должно быть
+		compref.ship = "";
+
+		aref    arTo, arFrom;
+
+		makearef(arTo, compref.ship);
+		makearef(arFrom, chref.Ship);
+		CopyAttributes(arTo, arFrom);
+		// снимем пассажира -->
+		CheckForReleaseOfficer(iChar);//увольнение офицера с должностей, если он не просто пассажир
+		RemovePassenger(pchar, compref);
+		// снимем пассажира <--
+		SetCompanionIndex(pchar, -1, iChar);
+		DelBakSkill(compref);
+
+		DeleteAttribute(chref, "ShipInStockMan");
+		chref.id = "ShipInStockMan";//сбрасываем индекс к стандартному, чтобы этот номер массива в следующий раз можно было занять
+		DeleteAttribute(chref,"ship");//затираем данные корабля у сторожа
+		chref.ship = "";
+		LAi_SetCurHP(chref, 0.0);//ещё и убивать непися, чтоб точно очистился из массива? 
+
+		NPChar.Portman	= sti(NPChar.Portman) - 1;
+		pchar.ShipInStock = sti(pchar.ShipInStock) - 1;
+		Dialog.CurrentNode = "exit";//закрываем диалог, ещё одно подтверждение уже не справшиваем
+	}
+
+	if(HasSubStr(attrL, "ShipStockMan11_"))
+	{
+		i = findsubstr(attrL, "_" , 0);
+		NPChar.StoreWithOff = 1;
+		NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, sti(strcut(attrL, i+1, strlen(attrL)-1))); // индех в конце
+		Dialog.CurrentNode = "ShipStock_Choose";
+	}
+
+	if(HasSubStr(attrL, "ShipStockMan22_"))
+	{
+		i = findsubstr(attrL, "_" , 0);
+		NPChar.StoreWithOff = 0;
+		NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, sti(strcut(attrL, i+1, strlen(attrL)-1))); // индех в конце
+		Dialog.CurrentNode = "ShipStock_Choose";
+	}
+
 	if(HasSubStr(attrL, "BurntShip19_"))
 	{
 		i = findsubstr(attrL, "_" , 0);
-	 	NPChar.Quest.BurntShip.ShipCompanionIndex = strcut(attrL, i + 1, strlen(attrL) - 1); // индех в конце
- 	    Dialog.CurrentNode = "BurntShip19";
+		NPChar.Quest.BurntShip.ShipCompanionIndex = strcut(attrL, i + 1, strlen(attrL) - 1); // индех в конце
+		Dialog.CurrentNode = "BurntShip19";
 	}
 	switch(Dialog.CurrentNode)
 	{
-        case "Exit":
+		case "Exit":
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;
 		case "fight":
 			DialogExit();
-            NextDiag.CurrentNode = NextDiag.TempNode;
+			NextDiag.CurrentNode = NextDiag.TempNode;
 			LAi_group_Attack(NPChar, Pchar);
 		break;
 		case "First time":
 			NextDiag.TempNode = "First time";
 			if (LAi_grp_playeralarm > 0)
 			{
-       			dialog.text = NPCharRepPhrase(pchar,
+	  			dialog.text = NPCharRepPhrase(pchar,
 					LinkRandPhrase("В городе поднята тревога, тебя всюду ищут! На твоем месте я бы не стал здесь задерживаться.", "Вся городская стража рыщет по городу в поисках тебя. Я не идиот и разговаривать с тобой не буду!", "Беги, "+ GetSexPhrase("приятель","подруга") +", пока солдаты не сделали из тебя решето..."), 
 					LinkRandPhrase("Что тебе нужно, "+ GetSexPhrase("негодяй","мерзавка") +"?! Городская стража уже взяла твой след, далеко тебе не уйти"+ GetSexPhrase(", грязный пират","") +"!", "Грязн"+ GetSexPhrase("ый","ая") +" убийца, вон из моего дома! Стража!!", "Я не боюсь тебя, мерзав"+ GetSexPhrase("ец","ка") +"! Скоро тебя повесят в нашем форте, далеко тебе не уйти..."));
 				link.l1 = NPCharRepPhrase(pchar,
@@ -94,15 +155,15 @@ void ProcessDialogEvent()
 			}
 			//homo
 			//homo Линейка Блада
-            if (Pchar.questTemp.CapBloodLine == true )
-            {
-                dialog.Text = LinkRandPhrase("Эй, доктор Блад! " + TimeGreeting() + ".",
-                                    "Рад видеть Вас, Питер Блад.",
-                                    "Хорошо, что Вы заглянули ко мне, " + GetFullName(pchar) + ". Как поживает полковник Бишоп?");
-                Link.l1 = "Увы, я уже ухожу, " + NPChar.name + ". До встречи.";
+			if (Pchar.questTemp.CapBloodLine == true )
+			{
+				dialog.Text = LinkRandPhrase("Эй, доктор Блад! " + TimeGreeting() + ".",
+									"Рад видеть Вас, Питер Блад.",
+									"Хорошо, что Вы заглянули ко мне, " + GetFullName(pchar) + ". Как поживает полковник Бишоп?");
+				Link.l1 = "Увы, я уже ухожу, " + NPChar.name + ". До встречи.";
 				Link.l1.go = "exit";
 				break;
-            }
+			}
 			//homo
 			if(NPChar.quest.meeting == "0")
 			{
@@ -113,8 +174,8 @@ void ProcessDialogEvent()
 			else
 			{
 				dialog.text = LinkRandPhrase("Приветствую вас, " + GetAddress_Form(NPChar) + ". Вы ко мне по делу?",
-                                    "Здравствуйте, " + GetFullName(Pchar) + ". Я видел, как ваш корабль вошел в порт, и был уверен, что вы ко мне зайдете.",
-                                    "А, капитан " + GetFullName(Pchar) + ". Что привело вас ко мне?");
+									"Здравствуйте, " + GetFullName(Pchar) + ". Я видел, как ваш корабль вошел в порт, и был уверен, что вы ко мне зайдете.",
+									"А, капитан " + GetFullName(Pchar) + ". Что привело вас ко мне?");
 				Link.l1 = "Здравствуйте, " + GetFullName(NPChar) + ". Я хочу с вами поговорить.";
 			}
 			Link.l1.go = "node_2";
@@ -166,15 +227,15 @@ void ProcessDialogEvent()
 			Link.l3.go = "ShipStock_1";
 			if (sti(NPChar.Portman) > 0)
 			{
-                Link.l4 = "Я хочу забрать свой корабль обратно.";
-    			Link.l4.go = "ShipStockReturn_1";
+				Link.l4 = "Я хочу забрать свой корабль обратно.";
+				Link.l4.go = "ShipStockReturn_1";
 			}
 			if (CheckAttribute(pchar, "GenQuest.LoanChest.TakeChest") && sti(pchar.GenQuest.LoanChest.TargetIdx) == sti(NPChar.index))
 			{
 				link.l5 = "Я к вам по финансовым делам.";
 				link.l5.go = "LoanForAll";//(перессылка в кредитный генератор)	
 			}
-  			if (CheckAttribute(pchar, "GenQuest.Intelligence") && pchar.GenQuest.Intelligence.SpyId == npchar.id && pchar.GenQuest.Intelligence == "") //квест мэра - на связь с нашим шпионом
+ 			if (CheckAttribute(pchar, "GenQuest.Intelligence") && pchar.GenQuest.Intelligence.SpyId == npchar.id && pchar.GenQuest.Intelligence == "") //квест мэра - на связь с нашим шпионом
 			{
 				link.l7 = RandPhraseSimple("Я здесь по поручению одного человека. Его зовут губернатор " + GetFullName(characterFromId(pchar.GenQuest.Intelligence.MayorId)) + ".", 
 					GetFullName(characterFromId(pchar.GenQuest.Intelligence.MayorId)) + " прислал меня к вам. Я долж"+ GetSexPhrase("ен","на") +" кое-что забрать...");
@@ -193,11 +254,11 @@ void ProcessDialogEvent()
 			//ОЗГ
 			if(CheckAttribute(pchar, "questTemp.Headhunter"))
 			{
-	    		if (pchar.questTemp.Headhunter == "Houm" && npchar.nation == ENGLAND)
-	    		{
-		        	link.l12 = "Не подскажете, не останавливался ли у вас корабль 'Мертвая голова' с капитаном Ганнибалом Холмом?";
-	    			link.l12.go = "Houm_portman_1";
-		    	}
+				if (pchar.questTemp.Headhunter == "Houm" && npchar.nation == ENGLAND)
+				{
+					link.l12 = "Не подскажете, не останавливался ли у вас корабль 'Мертвая голова' с капитаном Ганнибалом Холмом?";
+					link.l12.go = "Houm_portman_1";
+				}
 			}
 			
 			link.l8 = "Я по другому вопросу.";
@@ -397,7 +458,7 @@ void ProcessDialogEvent()
 			dialog.text = "Дайте-ка взглянуть! Да, в моих документах этот комплект значится недействительным. Вы весьма добры, раз нашли время заглянуть ко мне и передать бумаги. Попутного ветра, капитан!";
 			link.l1 = "Благодарю!";
 			link.l1.go = "exit";
-			TakeItemFromCharacter(pchar, "CaptainBook"); 			
+			TakeItemFromCharacter(pchar, "CaptainBook");			
 			pchar.questTemp.different = "free";
 			pchar.quest.GiveShipLetters_null.over = "yes"; //снимаем таймер 
 			AddQuestRecord("GiveShipLetters", "10");			
@@ -420,7 +481,7 @@ void ProcessDialogEvent()
 		
 		case "ShipLetters_Portman1_2" :
 			TakeItemFromCharacter(pchar, "CaptainBook"); 
-			addMoneyToCharacter(pchar, sti(pchar.questTemp.different.GiveShipLetters.price1)); 			
+			addMoneyToCharacter(pchar, sti(pchar.questTemp.different.GiveShipLetters.price1));			
 			pchar.questTemp.different = "free";
 			pchar.quest.GiveShipLetters_null.over = "yes"; //снимаем таймер 
 			AddQuestRecord("GiveShipLetters", "5");			
@@ -440,14 +501,14 @@ void ProcessDialogEvent()
 		
 		case "ShipLetters_Portman2_1":
 			TakeItemFromCharacter(pchar, "CaptainBook"); 
-			addMoneyToCharacter(pchar, sti(pchar.questTemp.different.GiveShipLetters.price1)); 			
+			addMoneyToCharacter(pchar, sti(pchar.questTemp.different.GiveShipLetters.price1));			
 			pchar.questTemp.different = "free";
 			pchar.quest.GiveShipLetters_null.over = "yes"; //снимаем таймер 
 			AddQuestRecord("GiveShipLetters", "6");			
 			CloseQuestHeader("GiveShipLetters");
 			DeleteAttribute(pchar, "questTemp.different.GiveShipLetters");
 			NextDiag.CurrentNode = NextDiag.TempNode;
-			DialogExit(); 		
+			DialogExit();		
 		break;
 
 		case "EncGirl_1":
@@ -650,7 +711,7 @@ void ProcessDialogEvent()
 			link.l2.go = "work_PU_2";
 		}
 		else
-        {
+		{
 			dialog.text = "А корабль твой где? Ты что - на собственном горбу пассажиров возить собрал"+ GetSexPhrase("ся","ась") +"?";
 			link.l1 = "Хм, и то верно...";
 			link.l1.go = "exit";
@@ -659,17 +720,17 @@ void ProcessDialogEvent()
 
 		case "work_PU_1":
 			if (!CheckAttribute(npchar, "work_date_PU") || GetNpcQuestPastDayParam(npchar, "work_date_PU") >= 2 || bBettaTestMode)
-    		{					
+			{					
 				if (GetSummonSkillFromName(pchar, SKILL_LEADERSHIP) < 5 || makeint(7-sti(RealShips[sti(Pchar.Ship.Type)].Class)) < 1)//при низком авторитете и на 7 класс не даем
 				{
 				dialog.text = "Извините, но желающих отправиться в путь вместе с вами у меня нет.";
 				link.l1 = "Понятно. Как скажете.";
-                link.l1.go = "exit";
+				link.l1.go = "exit";
 				break;
 				}
 				//конвой
-                if (!CheckQuestAttribute("generate_convoy_quest_progress", "begin"))
-                {
+				if (!CheckQuestAttribute("generate_convoy_quest_progress", "begin"))
+				{
 					if (GetCompanionQuantity(PChar) == COMPANION_MAX)
 					{
 						dialog.text = "Но для эскорта ваша эскадра великовата. Не пойдут торговцы в такой караван, который сам по себе может привлечь нежелательное внимание.";
@@ -685,40 +746,40 @@ void ProcessDialogEvent()
 							link.l1.go = "ConvoyAreYouSure_PU";
 
 						}
-            			else
-            			{
-            						dialog.text = "Обычно у меня много торговцев, которым нужно сопровождение, но сейчас, как назло, никого нет. Может быть, в другой день вам повезет больше.";
+						else
+						{
+									dialog.text = "Обычно у меня много торговцев, которым нужно сопровождение, но сейчас, как назло, никого нет. Может быть, в другой день вам повезет больше.";
 							link.l1 = RandPhraseSimple("Ладно, на нет и суда нет.", "Да, не свезло... Ну ладно, прощай.");
 							link.l1.go = "exit";
 						}
-            		}
-               	}
+					}
+			  	}
 				else
 				{
 					dialog.text = "Но у вас уже есть сопровождаемый. В случае нападения вам не защитить несколько судов одновременно - придётся кем-то жертвовать. Ни один торговец на это не пойдёт. Так что сначала завершите начатое, потом уж подходите.";
 					link.l1 = RandPhraseSimple("Экие нынче торговцы трусоватые пошли. А пришлось бы им в одиночку, да через Атлантику... Ну, да ладно, прощайте.", "Вот незадача... Ну ладно, всего хорошего.");
 					link.l1.go = "exit";
-        			}
-    			}
-    			else
-    			{
+					}
+				}
+				else
+				{
 				dialog.text = "Сегодня уже никого нет. Заходите через пару дней.";
 					link.l1 = "Хорошо. Как скажете.";
-                    			link.l1.go = "exit";
-    			}
+								link.l1.go = "exit";
+				}
 		break;
 
 		case "work_PU_2":
 			if (!CheckAttribute(npchar, "work_date_PU") || GetNpcQuestPastDayParam(npchar, "work_date_PU") >= 2 || bBettaTestMode)
-    		{					
+			{					
 				if (GetSummonSkillFromName(pchar, SKILL_LEADERSHIP) < 5 || makeint(7-sti(RealShips[sti(Pchar.Ship.Type)].Class)) < 1)//при низком авторитете и на 7 класс не даем
 				{
 				dialog.text = "Извините, но желающих отправиться в путь вместе с вами у меня нет.";
 				link.l1 = "Понятно. Как скажете.";
-                link.l1.go = "exit";
+				link.l1.go = "exit";
 				break;
 				}
-		         // пассажир
+				 // пассажир
 				if (drand(6) > 1)
 				{
 					dialog.Text = "Много - не много, а один тип сегодня уже несколько раз заходил, попутное судно искал. Да вот и он опять!";
@@ -731,34 +792,34 @@ void ProcessDialogEvent()
 					link.l1 = RandPhraseSimple("Ну нет, так нет. Чего уж тут...", "Да, не свезло... Ну ладно, прощайте.");
 					link.l1.go = "exit";
 				}
-            }
-    		else
-    		{
+			}
+			else
+			{
 				dialog.text = "Сегодня уже никого нет. Заходите через пару дней.";
 				link.l1 = "Хорошо. Как скажете.";
-                link.l1.go = "exit";
-    		}
+				link.l1.go = "exit";
+			}
 		break;
 
-        case "ConvoyAreYouSure_PU":
-		    dialog.text = RandPhraseSimple("Да вполне солидный господин. А по цене - это уж вы как-нибудь сами сговоритесь, тут я вам не помощник.", "Да Бог с вами, я кого попало не посоветую. Лишь бы в цене сошлись.");
+		case "ConvoyAreYouSure_PU":
+			dialog.text = RandPhraseSimple("Да вполне солидный господин. А по цене - это уж вы как-нибудь сами сговоритесь, тут я вам не помощник.", "Да Бог с вами, я кого попало не посоветую. Лишь бы в цене сошлись.");
 			Link.l1 = "Ясно. Сейчас выясним, куда ему нужно.";
 			Link.l1.go = "exit";
 			pchar.quest.destination = findTraderCity_PU(npchar);
 			pchar.ConvoyQuest.City = npchar.city;
 			AddDialogExitQuest("prepare_for_convoy_quest");
 			SaveCurrentNpcQuestDateParam(npchar, "work_date_PU");
-        break;
+		break;
 
-        case "PassangerAreYouSure_PU":
-		    dialog.text = RandPhraseSimple("Да вполне нормальный пассажир.", "Почему бы нет? Вполне состоятельный господин.");
+		case "PassangerAreYouSure_PU":
+			dialog.text = RandPhraseSimple("Да вполне нормальный пассажир.", "Почему бы нет? Вполне состоятельный господин.");
 			Link.l1 = "Спасибо, сейчас и переговорю.";
 			Link.l1.go = "exit";
 			sGlobalTemp = findPassangerCity_PU(npchar);
 			pchar.GenQuest.GetPassenger_City = npchar.city;
 			AddDialogExitQuest("prepare_for_passenger_quest");
 			SaveCurrentNpcQuestDateParam(npchar, "work_date_PU");
-        break;
+		break;
 
 
 		case "PortmanQuest_NF":
@@ -1226,10 +1287,10 @@ void ProcessDialogEvent()
 				//npchar.quest.money = makeint(sti(npchar.quest.money) / 4); //снижаем оплату
 				ChangeCharacterReputation(pchar, 5);
 				ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 10);
-                AddCharacterExpToSkill(GetMainCharacter(), "Leadership", 10);
-                AddCharacterExpToSkill(GetMainCharacter(), "Sailing", 10);
-                AddCharacterExpToSkill(GetMainCharacter(), "Commerce", 50);
-                AddCharacterExpToSkill(GetMainCharacter(), "Cannons", 20);
+				AddCharacterExpToSkill(GetMainCharacter(), "Leadership", 10);
+				AddCharacterExpToSkill(GetMainCharacter(), "Sailing", 10);
+				AddCharacterExpToSkill(GetMainCharacter(), "Commerce", 50);
+				AddCharacterExpToSkill(GetMainCharacter(), "Cannons", 20);
 			}
 			else
 			{
@@ -1237,9 +1298,9 @@ void ProcessDialogEvent()
 				link.l1 = "Да, действительно...";
 				ChangeCharacterReputation(pchar, 10);
 				ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 20);
-                AddCharacterExpToSkill(GetMainCharacter(), "Leadership", 100);
-                AddCharacterExpToSkill(GetMainCharacter(), "Sailing", 150);
-                AddCharacterExpToSkill(GetMainCharacter(), "Grappling", 100);
+				AddCharacterExpToSkill(GetMainCharacter(), "Leadership", 100);
+				AddCharacterExpToSkill(GetMainCharacter(), "Sailing", 150);
+				AddCharacterExpToSkill(GetMainCharacter(), "Grappling", 100);
 			}
 			link.l1.go = "SeekShip_good_1";
 		break;
@@ -1286,7 +1347,7 @@ void ProcessDialogEvent()
 				makearef(arCapBase, npchar.quest.capitainsList);
 				for (i=0; i<sti(npchar.quest.qty); i++)
 				{
-    				arCapLocal = GetAttributeN(arCapBase, i);
+					arCapLocal = GetAttributeN(arCapBase, i);
 					sCapitainId = GetAttributeName(arCapLocal);
 					sld = characterFromId(sCapitainId);
 					attrL = "l" + i;
@@ -1303,7 +1364,7 @@ void ProcessDialogEvent()
 		break;
 		case "CapList_l0":
 			makearef(arCapBase, npchar.quest.capitainsList);
-    		arCapLocal = GetAttributeN(arCapBase,  0);
+			arCapLocal = GetAttributeN(arCapBase,  0);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
 			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
@@ -1329,7 +1390,7 @@ void ProcessDialogEvent()
 		break;
 		case "CapList_l1":
 			makearef(arCapBase, npchar.quest.capitainsList);
-    		arCapLocal = GetAttributeN(arCapBase,  1);
+			arCapLocal = GetAttributeN(arCapBase,  1);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
 			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
@@ -1355,7 +1416,7 @@ void ProcessDialogEvent()
 		break;
 		case "CapList_l2":
 			makearef(arCapBase, npchar.quest.capitainsList);
-    		arCapLocal = GetAttributeN(arCapBase,  2);
+			arCapLocal = GetAttributeN(arCapBase,  2);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
 			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
@@ -1381,7 +1442,7 @@ void ProcessDialogEvent()
 		break;
 		case "CapList_l3":
 			makearef(arCapBase, npchar.quest.capitainsList);
-    		arCapLocal = GetAttributeN(arCapBase,  3);
+			arCapLocal = GetAttributeN(arCapBase,  3);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
 			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
@@ -1407,7 +1468,7 @@ void ProcessDialogEvent()
 		break;
 		case "CapList_l4":
 			makearef(arCapBase, npchar.quest.capitainsList);
-    		arCapLocal = GetAttributeN(arCapBase,  4);
+			arCapLocal = GetAttributeN(arCapBase,  4);
 			sCapitainId = GetAttributeName(arCapLocal);
 			sld = characterFromId(sCapitainId);
 			dialog.text = LinkRandPhrase("Та-а-ак, давайте посмотрим... Ага, есть! ", "Так-так... Ага, нашел! ", "Значит, так. ") +
@@ -1434,217 +1495,41 @@ void ProcessDialogEvent()
 		//<--------------------------- инфа по базе квествых кэпов
 
 		case "ShipStock_1":
-    			ok = (sFrom_sea == "") || (Pchar.location.from_sea == sFrom_sea);
-			    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
+				ok = (sFrom_sea == "") || (Pchar.location.from_sea == sFrom_sea);
+				if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 				{
 					dialog.text = "Какой именно корабль вы хотите оставить?";
-	    			for(i=1; i<COMPANION_MAX; i++)
-	                {
-	        	        cn = GetCompanionIndex(PChar, i);
-	        	        if(cn > 0)
-	            	    {
-	            		    chref = GetCharacter(cn);
-	                        if (!GetRemovable(chref)) continue;
-						    if(RealShips[sti(chref.Ship.Type)].BaseName == SHIP_SOLEYRU) continue; //Отрубаем хитрость на получение Солея
-    
-	            		    attrL = "l"+i;
-	            		    Link.(attrL)    = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'.";
-    	        		    Link.(attrL).go = "ShipStockMan_" + i;
-	        		    }
-	        	    }
-	    			Link.l9 = "Спасибо, не нужно.";
-	    			Link.l9.go = "exit";
-    			}
-    			else
-    			{
+					for(i=1; i<COMPANION_MAX; i++)//почему нельзя свой единственный корабль сдать?
+					{
+						cn = GetCompanionIndex(PChar, i);
+						if(cn > 0)
+						{
+							chref = GetCharacter(cn);
+							if (!GetRemovable(chref)) continue;
+							if(RealShips[sti(chref.Ship.Type)].BaseName == SHIP_SOLEYRU) continue; //Отрубаем хитрость на получение Солея
+	
+							attrL = "l"+i;
+							Link.(attrL)	= XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'. С ним останется капитан " + GetFullName(chref) + ".";
+							Link.(attrL).go = "ShipStockMan11_" + i;
+							attrL = "l"+i+COMPANION_MAX;
+							Link.(attrL)	= XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "' без моего офицера.";
+							Link.(attrL).go = "ShipStockMan22_" + i;
+
+						}
+					}
+					Link.l17 = "Спасибо, не нужно.";
+					Link.l17.go = "exit";
+				}
+				else
+				{
 					dialog.text = "Хм. Я не вижу ваших кораблей в порту.";
-	    			Link.l1 = "Да, я просто хотел"+ GetSexPhrase("","а") +" узнать о возможности стоянки.";
-	    			Link.l1.go = "exit";
+					Link.l1 = "Да, я просто хотел"+ GetSexPhrase("","а") +" узнать о возможности стоянки.";
+					Link.l1.go = "exit";
 				}
 		break;
-		case "ShipStockMan_1":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 1);
-			dialog.text = "Посмотрим, что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
 
-		case "ShipStockMan_2":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 2);
+		case "ShipStock_Choose":
 			dialog.text = "Посмотрим, что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-
-		case "ShipStockMan_3":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 3);
-			dialog.text = "Посмотрим, что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_4":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 4);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-
-		case "ShipStockMan_5":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 5);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_6":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 6);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_7":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 7);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_8":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 8);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_9":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 9);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_10":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 10);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_11":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 11);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_12":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 12);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_13":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 13);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_14":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 14);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_15":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 15);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_16":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 16);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_17":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 17);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_18":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 18);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_19":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 19);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_20":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 20);
-			dialog.text = "Посмотрим что это за корабль.";
-			Link.l1 = "Хорошо.";
-			Link.l1.go = "ShipStock_2";
-			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l2.go = "exit";
-		break;
-		
-		case "ShipStockMan_21":
-            NPChar.ShipToStoreIdx = GetCompanionIndex(PChar, 21);
-			dialog.text = "Посмотрим что это за корабль.";
 			Link.l1 = "Хорошо.";
 			Link.l1.go = "ShipStock_2";
 			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
@@ -1652,27 +1537,27 @@ void ProcessDialogEvent()
 		break;
 
 		case "ShipStock_2":
-            chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
+			chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
 			if (pchar.location != "Caiman_PortOffice")  NPChar.MoneyForShip = GetPortManPriceExt(NPChar, chref);
 			else NPChar.MoneyForShip = 0;
 			if (pchar.location != "Caiman_PortOffice") 
 			{
 				dialog.Text = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "', класс " + RealShips[sti(chref.Ship.Type)].Class +
-                     ", стоимость стоянки " + FindRussianMoneyString(sti(NPChar.MoneyForShip)) + " в месяц, оплата за месяц вперед.";
+					 ", стоимость стоянки " + FindRussianMoneyString(sti(NPChar.MoneyForShip)) + " в месяц, оплата за месяц вперед.";
 			}
 			else
 			{
 				dialog.Text = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "', класс " + RealShips[sti(chref.Ship.Type)].Class +
-                     ", стоимость стоянки - для вас полностью бесплатно.";
+					 ", стоимость стоянки - для вас полностью бесплатно.";
 			}
 			Link.l1 = "Да. Это меня устраивает.";
 			if (sti(Pchar.Money) >= sti(NPChar.MoneyForShip))
 			{
-			    Link.l1.go = "ShipStock_3";
+				Link.l1.go = "ShipStock_3";
 			}
 			else
 			{
-                Link.l1.go = "ShipStock_NoMoney";
+				Link.l1.go = "ShipStock_NoMoney";
 			}
 			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
 			Link.l2.go = "exit";
@@ -1683,73 +1568,115 @@ void ProcessDialogEvent()
 			Link.l1 = "Упс... зайду позже.";
 			Link.l1.go = "exit";
 		break;
+
 		case "ShipStock_3":
-            AddMoneyToCharacter(pchar, -makeint(NPChar.MoneyForShip));
-            chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
-            chref.ShipInStockMan = NPChar.id;
+			AddMoneyToCharacter(pchar, -makeint(NPChar.MoneyForShip));
+			if (sti(NPChar.StoreWithOff))
+			{
+			chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
+			chref.ShipInStockMan = NPChar.id;
 			// Warship 22.03.09 fix Не перенеслось с КВЛ 1.2.3
 			chref.ShipInStockMan.MoneyForShip = NPChar.MoneyForShip;
-            chref.ShipInStockMan.AltDate = GetQuestBookDataDigit(); // для печати
-            SaveCurrentNpcQuestDateParam(chref, "ShipInStockMan.Date"); // для расчета
-            //chref.Ship.Crew.Quantity  = 0;
-            RemoveCharacterCompanion(pchar, chref);
-            chref.location = "";
-            chref.location.group = "";
-            chref.location.locator = "";
+			chref.ShipInStockMan.AltDate = GetQuestBookDataDigit(); // для печати
+			SaveCurrentNpcQuestDateParam(chref, "ShipInStockMan.Date"); // для расчета
+			//chref.Ship.Crew.Quantity  = 0;
+			RemoveCharacterCompanion(pchar, chref);
+			}
+			else
+			{
+			chref = GetCharacter(NPC_GenerateCharacter("ShipInStockMan", "PKM_rab_"+(rand(3)+1), "man", "man", rand(5)+1, NPChar.nation, -1, false));
+			chref.id = chref.id + "_" + chref.index; //меняем ID на оригинальный
+			chref.reputation = (1 + rand(44) + rand(44));
+			chref.lastname = chref.name;//"сторож Иван" лучше чем "сторож Иванов"?
+			chref.name = "сторож";
+			DeleteAttribute(chref,"ship");
+			chref.ship = "";
 
-            NPChar.Portman    = sti(NPChar.Portman) + 1;
-            pchar.ShipInStock = sti(pchar.ShipInStock) + 1;
+			chref.ShipInStockMan = NPChar.id;
+			chref.ShipInStockMan.MoneyForShip = NPChar.MoneyForShip;
+			chref.ShipInStockMan.AltDate = GetQuestBookDataDigit(); // для печати
+			SaveCurrentNpcQuestDateParam(chref, "ShipInStockMan.Date"); // для расчета
+
+			compref = GetCharacter(sti(NPChar.ShipToStoreIdx));//компаньон, у которого надо забрать корабль
+
+			makearef(arTo, chref.ship);
+			makearef(arFrom, compref.Ship);
+			CopyAttributes(arTo, arFrom);
+
+			compref.ship.type = SHIP_NOTUSED;
+			RemoveCharacterCompanion(pchar, compref);
+			AddPassenger(pchar, compref, false);
+			DelBakSkill(compref);
+			}
+
+			chref.location = "";
+			chref.location.group = "";
+			chref.location.locator = "";
+			NPChar.Portman	= sti(NPChar.Portman) + 1;
+			pchar.ShipInStock = sti(pchar.ShipInStock) + 1;//разобраться - что это. не могу найти, где оно используется.
 
 			dialog.text = "Хорошо. Заберете, когда будет нужно.";
 			Link.l1 = "Спасибо.";
 			Link.l1.go = "exit";
 		break;
+
 		case "ShipStockReturn_1":
-            ok = (sFrom_sea == "") || (Pchar.location.from_sea == sFrom_sea);
-		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
+			ok = (sFrom_sea == "") || (Pchar.location.from_sea == sFrom_sea);
+			if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
 				if (GetCompanionQuantity(pchar) < COMPANION_MAX)
-	            {
-	                dialog.text = "Какой именно корабль вы заберете?";
-	                cn = 1;
-	                for(i=1; i<MAX_CHARACTERS; i++)
-	            	{
-	            		makeref(chref, Characters[i]);
-	            		if (CheckAttribute(chref, "ShipInStockMan"))
-	            		{
-	                        if (chref.ShipInStockMan == NPChar.id)
-	        		        {
-	                            attrL = "l"+cn;
-	            		        Link.(attrL)    = XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'.";
-	            		        Link.(attrL).go = "ShipStockManBack_" + i;
-	            		        cn++;
-	        		        }
-	            		}
-	                }
+				{
+					dialog.text = "Какой именно корабль вы заберете?";
+					cn = 1;
+					for(i=1; i<MAX_CHARACTERS; i++)
+					{
+						makeref(chref, Characters[i]);
+						if (CheckAttribute(chref, "ShipInStockMan"))
+						{
+							if (chref.ShipInStockMan == NPChar.id)
+							{
+								attrL = "l"+cn;
+								if(HasSubStr(chref.id, "ShipInStockMan_"))
+								{
+								Link.(attrL)	= XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "'.";
+								Link.(attrL).go = "ShipStockManBack22_" + i;
+								}
+								else
+								{
+								Link.(attrL)	= XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + " '" + chref.Ship.Name + "' и офицер " + GetFullName(chref) + ".";
+								Link.(attrL).go = "ShipStockManBack11_" + i;
+								}
+								cn++;
+							}
+						}
+					}
 	
-	    			Link.l9 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-	    			Link.l9.go = "exit";
+					Link.l9 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
+					Link.l9.go = "exit";
 				}
 				else
 				{
-	                dialog.text = "Нет ли у вас места для еще одного корабля?";
-	    			Link.l1 = "Да, точно. Спасибо.";
-	    			Link.l1.go = "exit";
+					dialog.text = "Нет ли у вас места для еще одного корабля?";
+					Link.l1 = "Да, точно. Спасибо.";
+					Link.l1.go = "exit";
 				}
 			}
 			else
 			{
 				dialog.text = "Хм. Я не вижу вашего флагмана в порту. А забрать свои корабли вы можете только здесь.";
-    			Link.l1 = "Хорошо, я прибуду за ними позднее.";
-    			Link.l1.go = "exit";
+				Link.l1 = "Хорошо, я прибуду за ними позднее.";
+				Link.l1.go = "exit";
 			}
 		break;
-       	case "ShipStockManBack":
-            chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
-            NPChar.MoneyForShip =  GetNpcQuestPastMonthParam(chref, "ShipInStockMan.Date") * sti(chref.ShipInStockMan.MoneyForShip);
+	  	case "ShipStockManBack":
+			chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
+			NPChar.MoneyForShip =  GetNpcQuestPastMonthParam(chref, "ShipInStockMan.Date") * sti(chref.ShipInStockMan.MoneyForShip);
+
+			//if (sti(NPChar.StoreWithOff)) string sTextAdd = ""; else string sTextAdd = "И кто из ваших офицеров заберёт его?"; 
+
 			if (sti(NPChar.MoneyForShip) > 0)
 			{
-			    dialog.Text = "Забираете? С вас за хранение еще " + FindRussianMoneyString(sti(NPChar.MoneyForShip)) + ".";
+				dialog.Text = "Забираете? С вас за хранение еще " + FindRussianMoneyString(sti(NPChar.MoneyForShip)) + ".";
 			}
 			else
 			{
@@ -1765,15 +1692,56 @@ void ProcessDialogEvent()
 		break;
 		
 		case "ShipStockManBack2":
+			if (sti(NPChar.StoreWithOff))
+			{
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
-			
-            AddMoneyToCharacter(Pchar, -sti(NPChar.MoneyForShip));
+
+			AddMoneyToCharacter(Pchar, -sti(NPChar.MoneyForShip));
 			chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
 			DeleteAttribute(chref, "ShipInStockMan");
 			SetCompanionIndex(pchar, -1, sti(NPChar.ShipToStoreIdx));
-			NPChar.Portman    = sti(NPChar.Portman) - 1;
-            pchar.ShipInStock = sti(pchar.ShipInStock) - 1;
+
+			NPChar.Portman	= sti(NPChar.Portman) - 1;
+			pchar.ShipInStock = sti(pchar.ShipInStock) - 1;
+			}
+			else
+			{
+			dialog.Text = "Кому из ваших офицеров передать его?";
+			int _curCharIdx;
+			int q = 0;
+			int nListSize = GetPassengersQuantity(pchar);
+			for(i=0; i<nListSize; i++)
+				{
+				_curCharIdx = GetPassenger(pchar,i);
+				sld = GetCharacter(_curCharIdx);
+					if (_curCharIdx!=-1)
+					{
+						ok = CheckAttribute(&characters[_curCharIdx], "prisoned") && sti(characters[_curCharIdx].prisoned) == true;
+						if (sld.id != "pet_crab") 
+						{
+							if (!ok && GetRemovable(&characters[_curCharIdx]))
+							{
+								attrL = "l"+i;
+								Link.(attrL)	= GetFullName(&characters[_curCharIdx]);
+								Link.(attrL).go = "ShipStockManBack2_" + i;
+								q++;
+							}
+						}
+					}
+				}
+			attrL = "l"+nListSize;
+			if (q == 0)
+				{
+				Link.(attrL) = RandSwear() + "Забыл" + GetSexPhrase("","а") + " капитана для этого корабля с собой привести.";
+				Link.(attrL).go = "exit";
+				}
+			else
+				{
+				Link.(attrL) = "Нет, я передумал"+ GetSexPhrase("","а") +".";
+				Link.(attrL).go = "exit";
+				}
+			}
 		break;
 		
 		//ОЗГ, Хоум
@@ -1840,7 +1808,7 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			case SHIP_LUGGER:
 				shipAttribute = "speedrate";
 //				neededValue = 16.74 + fRandSmall(0.15);
-	            else
+				else
 				{
 					if(temp == 1)
 					{
@@ -1863,13 +1831,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 				}
 				else	
 				{	
-				    if(temp == 1)	
+					if(temp == 1)	
 				{	
 							shipAttribute = "turnrate";	
 				}	
 				else	
 				{	
-					         shipAttribute = "capacity";	
+							 shipAttribute = "capacity";	
 				}	
 				}	
 			break;	
@@ -2285,206 +2253,206 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			break;
 			
 			case SHIP_BRIGANTINE:
-            	if(rand(3) == 1)
-            	{
-            		neededValue = 16.74 + fRandSmall(0.16);
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		neededValue = 54.0 + fRandSmall(0.5);
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	neededValue = 3240 + rand(30);
-            	shipAttribute = "capacity";
-            	}				
-            break;
-            
-            case SHIP_CASTELF:
-            	if(rand(3) == 1)
-            	{
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}				
-            break;
-            
-            case SHIP_DERFFLINGER:
-            	if(rand(3) == 1)
-            	{
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}				
-            break;
-            
-            case SHIP_INTERCEPTOR:
-            	if(rand(3) == 1)
-            	{
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}				
-            break;
-            
-            case SHIP_PO_FLEUT50:
-            	if(rand(3) == 1)
-            	{
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}				
-            break;
-            
-            case SHIP_FLEUT:
-            	neededValue = 3240 + rand(30);
-            	shipAttribute = "capacity";
-            break;
-            
-            case SHIP_BRIG:
-            	if(rand(3) == 1)
-            	{
-            		neededValue = 15.66 + fRandSmall(0.15);
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		neededValue = 48.6 + fRandSmall(0.45);
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	neededValue = 3240 + rand(30);
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_BRIGHEAVY:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_GREYHOUND:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_CORVETTELIGHT:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_PACKET_BRIG:
-            	if(rand(3) == 1)
-            	{	
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_PDN:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_ENTERPRISE:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_POLACRE_H:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
+				if(rand(3) == 1)
+				{
+					neededValue = 16.74 + fRandSmall(0.16);
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					neededValue = 54.0 + fRandSmall(0.5);
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				neededValue = 3240 + rand(30);
+				shipAttribute = "capacity";
+				}				
+			break;
+			
+			case SHIP_CASTELF:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
 				{
 					shipAttribute = "turnrate";
 				}
-			    else
+				else
+				{
+				shipAttribute = "capacity";
+				}				
+			break;
+			
+			case SHIP_DERFFLINGER:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}				
+			break;
+			
+			case SHIP_INTERCEPTOR:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}				
+			break;
+			
+			case SHIP_PO_FLEUT50:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}				
+			break;
+			
+			case SHIP_FLEUT:
+				neededValue = 3240 + rand(30);
+				shipAttribute = "capacity";
+			break;
+			
+			case SHIP_BRIG:
+				if(rand(3) == 1)
+				{
+					neededValue = 15.66 + fRandSmall(0.15);
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					neededValue = 48.6 + fRandSmall(0.45);
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				neededValue = 3240 + rand(30);
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_BRIGHEAVY:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_GREYHOUND:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_CORVETTELIGHT:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_PACKET_BRIG:
+				if(rand(3) == 1)
+				{	
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_PDN:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_ENTERPRISE:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_POLACRE_H:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
 				{
 				shipAttribute = "capacity";
 				}
@@ -2493,14 +2461,14 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			case SHIP_FRIGATEMEDIUM:
 				if(rand(3) == 1)
 				{
-			        shipAttribute = "speedrate";
+					shipAttribute = "speedrate";
 				}
 				else
 				{
 											
 					shipAttribute = "turnrate";
 				}
-			    else
+				else
 				{
 				shipAttribute = "capacity";
 				}
@@ -2509,13 +2477,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			case SHIP_RaaFrigate:
 				if(rand(3) == 1)
 				{
-			        shipAttribute = "speedrate";
+					shipAttribute = "speedrate";
 				}
 				else
 				{
 					shipAttribute = "turnrate";
 				}
-			    else
+				else
 				{
 				shipAttribute = "capacity";
 				}
@@ -2524,82 +2492,82 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			case SHIP_CARAVEL2:
 				if(rand(3) == 1)
 				{
-			        shipAttribute = "speedrate";
+					shipAttribute = "speedrate";
 				}
 				else
 				{
 					shipAttribute = "turnrate";
 				}
-			    else
+				else
 				{
 				shipAttribute = "capacity";
 				}
-            break;
-            
-            case SHIP_FLEUTWAR:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_FLEUTWARSAT:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_GALEONTRADER:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_LYDIA:
-            	if(rand(3) == 1)
-            	{
-                    shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		shipAttribute = "turnrate";
-            	}
-                else
-            	{
-            	shipAttribute = "capacity";
-            	}
-            break;
-            
-            case SHIP_GALEON_L:
-            	neededValue = 3672 + rand(34);
-            	shipAttribute = "capacity";
-            break;
+			break;
+			
+			case SHIP_FLEUTWAR:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_FLEUTWARSAT:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_GALEONTRADER:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_LYDIA:
+				if(rand(3) == 1)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+				shipAttribute = "capacity";
+				}
+			break;
+			
+			case SHIP_GALEON_L:
+				neededValue = 3672 + rand(34);
+				shipAttribute = "capacity";
+			break;
 			
 			case SHIP_CORVETTE:
 				if(rand(3) == 1)
@@ -2879,7 +2847,7 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 					neededValue = 14.04 + fRandSmall(0.13);
 					shipAttribute = "speedrate";
 				}
-			    else
+				else
 				{
 					neededValue = 59.4 + fRandSmall(0.55);
 					shipAttribute = "turnrate";
@@ -2896,7 +2864,7 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 				{			
 					shipAttribute = "speedrate";			
 				}			
-			    else			
+				else			
 				{			
 					shipAttribute = "turnrate";			
 				}			
@@ -2911,7 +2879,7 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 				{			
 					shipAttribute = "speedrate";			
 				}			
-			    else			
+				else			
 				{			
 					shipAttribute = "turnrate";			
 				}			
@@ -2926,7 +2894,7 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 				{			
 					shipAttribute = "speedrate";			
 				}			
-			    else			
+				else			
 				{			
 					shipAttribute = "turnrate";			
 				}			
@@ -2938,13 +2906,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			
 			case SHIP_FELIPE:			
 				if(rand(3) == 1)			
-			  	{			
-			  		shipAttribute = "speedrate";		
-			  	}			
-			      else			
-			  	{			
-			  		shipAttribute = "turnrate";			
-			  	}			
+			 	{			
+			 		shipAttribute = "speedrate";		
+			 	}			
+				  else			
+			 	{			
+			 		shipAttribute = "turnrate";			
+			 	}			
 				else			
 				{			
 					shipAttribute = "capacity";			
@@ -2953,13 +2921,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			
 			case SHIP_JAMAICASHIP:			
 				if(rand(3) == 1)			
-			  	{			
-			  		shipAttribute = "speedrate";		
-			  	}			
-			      else			
-			  	{			
-			  		shipAttribute = "turnrate";			
-			  	}			
+			 	{			
+			 		shipAttribute = "speedrate";		
+			 	}			
+				  else			
+			 	{			
+			 		shipAttribute = "turnrate";			
+			 	}			
 				else			
 				{			
 					shipAttribute = "capacity";			
@@ -2968,13 +2936,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			
 			case SHIP_THEBLACKPEARL:			
 				if(rand(3) == 1)			
-			  	{			
-			  		shipAttribute = "speedrate";		
-			  	}			
-			      else			
-			  	{			
-			  		shipAttribute = "turnrate";			
-			  	}			
+			 	{			
+			 		shipAttribute = "speedrate";		
+			 	}			
+				  else			
+			 	{			
+			 		shipAttribute = "turnrate";			
+			 	}			
 				else			
 				{			
 					shipAttribute = "capacity";			
@@ -2983,13 +2951,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			
 			case SHIP_GALEON1:			
 				if(rand(3) == 1)			
-			  	{			
-			  		shipAttribute = "speedrate";		
-			  	}			
-			      else			
-			  	{			
-			  		shipAttribute = "turnrate";			
-			  	}			
+			 	{			
+			 		shipAttribute = "speedrate";		
+			 	}			
+				  else			
+			 	{			
+			 		shipAttribute = "turnrate";			
+			 	}			
 				else			
 				{			
 					shipAttribute = "capacity";			
@@ -2998,13 +2966,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			
 			case SHIP_LA_MARIANNA:			
 				if(rand(3) == 1)			
-			  	{			
-			  		shipAttribute = "speedrate";		
-			  	}			
-			      else			
-			  	{			
-			  		shipAttribute = "turnrate";			
-			  	}			
+			 	{			
+			 		shipAttribute = "speedrate";		
+			 	}			
+				  else			
+			 	{			
+			 		shipAttribute = "turnrate";			
+			 	}			
 				else			
 				{			
 					shipAttribute = "capacity";			
@@ -3013,13 +2981,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			
 			case SHIP_PIRATFASTGAL:			
 				if(rand(3) == 1)			
-			  	{			
-			  		shipAttribute = "speedrate";		
-			  	}			
-			      else			
-			  	{			
-			  		shipAttribute = "turnrate";			
-			  	}			
+			 	{			
+			 		shipAttribute = "speedrate";		
+			 	}			
+				  else			
+			 	{			
+			 		shipAttribute = "turnrate";			
+			 	}			
 				else			
 				{			
 					shipAttribute = "capacity";			
@@ -3028,13 +2996,13 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 			
 			case SHIP_REVENGE:			
 				if(rand(3) == 1)			
-			  	{			
-			  		shipAttribute = "speedrate";		
-			  	}			
-			      else			
-			  	{			
-			  		shipAttribute = "turnrate";			
-			  	}			
+			 	{			
+			 		shipAttribute = "speedrate";		
+			 	}			
+				  else			
+			 	{			
+			 		shipAttribute = "turnrate";			
+			 	}			
 				else			
 				{			
 					shipAttribute = "capacity";			
@@ -4507,73 +4475,73 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 				}
 				else
 				{
-		    		if(temp == 1)
-            		{
-            			shipAttribute = "turnrate";
-            		}
-            		else
-            		{
-            			shipAttribute = "capacity";
-            		}
-            	}
-            break;	
-            
-            case SHIP_LINEARSHIP:
-            	temp = rand(2);
-            	
-            	if(temp == 0)
-            	{
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		if(temp == 1)
-            		{
-            			shipAttribute = "turnrate";
-            		}
-            		else
-            		{
-            			shipAttribute = "capacity";
-            		}
-            	}
-            break;	
-            
-            case SHIP_SHARK:
-            	temp = rand(2);
-            	
-            	if(temp == 0)
-            	{
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		if(temp == 1)
-            		{
-            			shipAttribute = "turnrate";
-            		}
-            		else
-            		{
-            			shipAttribute = "capacity";
-            		}
-            	}
-            break;	
-            
-            case SHIP_ZEVENPROVINCIEN:
-            	temp = rand(2);
-            	
-            	if(temp == 0)
-            	{
-            		shipAttribute = "speedrate";
-            	}
-            	else
-            	{
-            		if(temp == 1)
-            		{
-            			shipAttribute = "turnrate";
-            		}
-            		else
-            		{
-		    			shipAttribute = "capacity";
+					if(temp == 1)
+					{
+						shipAttribute = "turnrate";
+					}
+					else
+					{
+						shipAttribute = "capacity";
+					}
+				}
+			break;	
+			
+			case SHIP_LINEARSHIP:
+				temp = rand(2);
+				
+				if(temp == 0)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					if(temp == 1)
+					{
+						shipAttribute = "turnrate";
+					}
+					else
+					{
+						shipAttribute = "capacity";
+					}
+				}
+			break;	
+			
+			case SHIP_SHARK:
+				temp = rand(2);
+				
+				if(temp == 0)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					if(temp == 1)
+					{
+						shipAttribute = "turnrate";
+					}
+					else
+					{
+						shipAttribute = "capacity";
+					}
+				}
+			break;	
+			
+			case SHIP_ZEVENPROVINCIEN:
+				temp = rand(2);
+				
+				if(temp == 0)
+				{
+					shipAttribute = "speedrate";
+				}
+				else
+				{
+					if(temp == 1)
+					{
+						shipAttribute = "turnrate";
+					}
+					else
+					{
+						shipAttribute = "capacity";
 					}
 				}
 			break;	
@@ -4825,9 +4793,9 @@ void SetJornalCapParam(ref npchar)
 	NullCharacter.capitainBase.(sTemp).Tilte1 = npchar.id + "PortmansBook_Delivery"; //заголовок квестбука
 	NullCharacter.capitainBase.(sTemp).Tilte2 = "PortmansBook_Delivery"; //имя квеста в квестбуке
 	NullCharacter.capitainBase.(sTemp).checkTime = daysQty + 5;
-    NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
-    NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
-    NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
+	NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
+	NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
+	NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
 }
 //проверить список отметившихся квестовых кэпов
 int CheckCapitainsList(ref npchar)
@@ -4835,25 +4803,25 @@ int CheckCapitainsList(ref npchar)
 	int bResult = 0;
 	if (!CheckAttribute(npchar, "quest.capitainsList")) return bResult;
 	aref arCapBase, arCapLocal;
-    makearef(arCapBase, npchar.quest.capitainsList);
-    int	Qty = GetAttributesNum(arCapBase);
+	makearef(arCapBase, npchar.quest.capitainsList);
+	int	Qty = GetAttributesNum(arCapBase);
 	if (Qty < 1) return bResult;
 	string sCapitainId;
 	for (int i=0; i<Qty; i++)
-    {
-    	arCapLocal = GetAttributeN(arCapBase, i);
-        sCapitainId = GetAttributeName(arCapLocal);
-    	if (GetCharacterIndex(sCapitainId) > 0) //если еще жив
-    	{
+	{
+		arCapLocal = GetAttributeN(arCapBase, i);
+		sCapitainId = GetAttributeName(arCapLocal);
+		if (GetCharacterIndex(sCapitainId) > 0) //если еще жив
+		{
 			bResult++;
-    	}
+		}
 		else
 		{
 			DeleteAttribute(arCapBase, sCapitainId);
 			i--;
 			Qty--;
 		}
-    }
+	}
 	if (bResult > 5) bResult = 5;
 	return bResult;
 }
@@ -4943,9 +4911,9 @@ void SetSeekShipCapParam(ref npchar)
 	NullCharacter.capitainBase.(sTemp).Tilte1 = npchar.id + "Portmans_SeekShip"; //заголовок квестбука
 	NullCharacter.capitainBase.(sTemp).Tilte2 = "Portmans_SeekShip"; //имя квеста в квестбуке
 	NullCharacter.capitainBase.(sTemp).checkTime = daysQty + 5;
-    NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
-    NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
-    NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
+	NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
+	NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
+	NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
 }
 
 string GenQuestPortman_GenerateGem() // камни
@@ -4978,8 +4946,8 @@ string GenQuestPortman_GenerateGem() // камни
 string findTraderCity_PU(ref NPChar)
 {
 	int n, nation;
-    int storeArray[MAX_COLONIES];
-    int howStore = 0;
+	int storeArray[MAX_COLONIES];
+	int howStore = 0;
 
 	for(n=0; n<MAX_COLONIES; n++)
 	{
@@ -4998,8 +4966,8 @@ string findTraderCity_PU(ref NPChar)
 string findPassangerCity_PU(ref NPChar)
 {
 	int n, nation;
-    int storeArray[MAX_COLONIES];
-    int howStore = 0;
+	int storeArray[MAX_COLONIES];
+	int howStore = 0;
 
 	for(n=0; n<MAX_COLONIES; n++)
 	{
@@ -5013,4 +4981,17 @@ string findPassangerCity_PU(ref NPChar)
 	if (howStore == 0) return "none";
 	nation = storeArray[cRand(howStore-1)];
 	return colonies[nation].id;
+}
+
+void DelBakSkill(ref _compref)
+{
+	DelBakSkillAttr(pchar);
+	ClearCharacterExpRate(pchar);
+	RefreshCharacterSkillExpRate(pchar);
+	SetEnergyToCharacter(pchar);
+
+	DelBakSkillAttr(_compref);
+	ClearCharacterExpRate(_compref);
+	RefreshCharacterSkillExpRate(_compref);
+	SetEnergyToCharacter(_compref);
 }

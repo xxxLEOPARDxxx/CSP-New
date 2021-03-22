@@ -347,7 +347,7 @@ void ReloadStartFade()
 void ReloadEndFade()
 {
     EmptyAllFantomCharacter(); // fix место тут!!!! а не выше, вот вам и баги по квестам, блин boal
-    PGG_DailyUpdate();
+    PGG_DailyUpdateReload();
     Siege_DailyUpdate();//homo осады 05/11/06
     DetectBlades();
 	dialogDisable = false;

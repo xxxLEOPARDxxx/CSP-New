@@ -1,5 +1,5 @@
 /////////////////////////
-// CSP 2.1.0
+// CSP 2.1.3
 /////////////////////////
 
 string totalInfo = "";
@@ -145,8 +145,19 @@ void FillTable()
 					GameInterface.TABLE_HERO.(row).td6.str = XI_ConvertString("Colony"+chr.PGGAi.location.town);
 				}
 				else
-				{
-					GameInterface.TABLE_HERO.(row).td6.str = "В море";
+				{	
+					if (CheckAttribute(chr, "PGG_warrior"))
+					{
+						GameInterface.TABLE_HERO.(row).td6.str = "Охотится на вас");
+					}
+					else
+					{
+						GameInterface.TABLE_HERO.(row).td6.str = "Плывет в "+ XI_ConvertString("Colony" + chr.PGGAi.Task.Target + "Acc");
+					}
+					if (CheckAttribute(chr, "PGG_trader"))
+					{
+						GameInterface.TABLE_HERO.(row).td6.str = "Сопровождает торговца в "+ XI_ConvertString("Colony" + chr.PGGAi.Task.Target + "Acc");
+					}
 				}
 				GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
 				/* if (CheckAttribute(chr, "PGGAi.task.target"))
@@ -192,6 +203,16 @@ void ShowPGGInfo()
 	SetFormatedText("OFFICER_NAME", GetFullName(chr));
 	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chr.faceId + ".tga");
 	SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame3.tga");
+	
+	string texturedata;
+	if (IsCharacterPerkOn(chr, "Grunt")) texturedata = "INTERFACES\Sith\Char_Master.tga";
+	if (IsCharacterPerkOn(chr, "Trader")) texturedata = "INTERFACES\Sith\Char_Merchant.tga";
+	if (IsCharacterPerkOn(chr, "Fencer")) texturedata = "INTERFACES\Sith\Char_Corsair.tga";
+	if (IsCharacterPerkOn(chr, "Adventurer")) texturedata = "INTERFACES\Sith\Char_Adventurer.tga";
+	if (IsCharacterPerkOn(chr, "Buccaneer")) texturedata = "INTERFACES\Sith\Char_Inquisitor.tga";
+	if (IsCharacterPerkOn(chr, "Agent")) texturedata = "INTERFACES\Sith\Char_SecretAgent.tga";
+	if (IsCharacterPerkOn(chr, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
+	SetNewPicture("CHARACTER_PROFESSION", texturedata);
 	
 	XI_WindowShow("RPG_WINDOW", true);
 	XI_WindowDisable("RPG_WINDOW", false);

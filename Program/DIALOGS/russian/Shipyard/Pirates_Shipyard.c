@@ -388,7 +388,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     			    }
 						else
 						{
-							if (cannonDiff > 0 && !CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.Cannon"))
+							if (cannonDiff > 0)
 							{
 								Link.l1 = "Увеличить максимальное количество орудий.";
 								Link.l1.go = "ship_c_quantity";
@@ -1270,7 +1270,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			}
 			else
 			{
-				NextDiag.TempNode = "ship_tunning_TurnRate_again";
+				NextDiag.TempNode = "ship_tunning_MastMultiplier_again";
 				dialog.Text = "Тебе осталось привезти: досок - "+ sti(NPChar.Tuning.Matherial1) + ", крестиков - "+ sti(NPChar.Tuning.Matherial2) + ", сундуков - "+ sti(NPChar.Tuning.Matherial3) + ".";
 				link.l1 = "Хорошо.";
 				link.l1.go = "Exit";

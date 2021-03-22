@@ -650,6 +650,7 @@ void LaunchCharacterItemChange(ref chref)
 {
 	if(procInterfacePrepare(INTERFACE_ITEMSBOX))
 	{
+		chref.HoldEquip = true;
 		nPrevInterface = -1;
 		CurrentInterface = INTERFACE_ITEMSBOX;
 		aref charef; makearef(charef,chref);

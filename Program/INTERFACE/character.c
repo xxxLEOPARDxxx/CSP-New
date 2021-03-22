@@ -178,6 +178,15 @@ void SetVariable()
 {
 	FillSkillTables();
 	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + xi_refCharacter.FaceId + ".tga");
+	string texturedata;
+	if (IsCharacterPerkOn(xi_refCharacter, "Grunt")) texturedata = "INTERFACES\Sith\Char_Master.tga";
+	if (IsCharacterPerkOn(xi_refCharacter, "Trader")) texturedata = "INTERFACES\Sith\Char_Merchant.tga";
+	if (IsCharacterPerkOn(xi_refCharacter, "Fencer")) texturedata = "INTERFACES\Sith\Char_Corsair.tga";
+	if (IsCharacterPerkOn(xi_refCharacter, "Adventurer")) texturedata = "INTERFACES\Sith\Char_Adventurer.tga";
+	if (IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) texturedata = "INTERFACES\Sith\Char_Inquisitor.tga";
+	if (IsCharacterPerkOn(xi_refCharacter, "Agent")) texturedata = "INTERFACES\Sith\Char_SecretAgent.tga";
+	if (IsCharacterPerkOn(xi_refCharacter, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
+	SetNewPicture("CHARACTER_PROFESSION", texturedata);
 	SetFormatedText("HERO_NAME", GetFullName(xi_refCharacter));
 
     // теперь это Лояльность
@@ -233,6 +242,15 @@ void ShowInfoWindow()
 	string sGroup, sGroupPicture;
 	int iItem;
 
+	string text5, text6;
+	if (IsCharacterPerkOn(xi_refCharacter, "Grunt")) {text5 = "Рубака"; text6 = GetConvertStr("Master", "HeroDescribe.txt");}
+	if (IsCharacterPerkOn(xi_refCharacter, "Trader")) {text5 = "Торговец";  text6 = GetConvertStr("Merchant", "HeroDescribe.txt");}
+	if (IsCharacterPerkOn(xi_refCharacter, "Fencer")) {text5 = "Фехтовальщик";  text6 = GetConvertStr("Corsair", "HeroDescribe.txt");}
+	if (IsCharacterPerkOn(xi_refCharacter, "Adventurer")) {text5 = "Авантюрист";  text6 = GetConvertStr("Adventurer", "HeroDescribe.txt");}
+	if (IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) {text5 = "Буканьер";  text6 = GetConvertStr("Inquisitor", "HeroDescribe.txt");}
+	if (IsCharacterPerkOn(xi_refCharacter, "Agent")) {text5 = "Тайный Агент";  text6 = GetConvertStr("SecretAgent", "HeroDescribe.txt");}
+	if (IsCharacterPerkOn(xi_refCharacter, "SeaWolf")) {text5 = "Морской Волк";  text6 = GetConvertStr("SeaWolf", "HeroDescribe.txt");}
+
 	//Boyer fix #20170401-01 Can't load texture -1.tx log errors
 	//sPicture = "-1";
 	sPicture = "";
@@ -275,6 +293,10 @@ void ShowInfoWindow()
 		case "PERK_TABLE_NEED":
 		    sHeader = GetRPGText("PERK_TABLE_NEED");
 		    sText1  = GetRPGText("PERK_TABLE_NEED_desc");
+		break;
+		case "CHARACTER_PROFESSION":
+		    sHeader = text5;
+			sText1 = text6;
 		break;
 	}
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
@@ -763,8 +785,12 @@ string ShowStatValue(string type)
 			{
 				if(IsCharacterPerkOn(xi_refCharacter, "Gunman"))
 				{
-					if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "15";
+					if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "25";
 					else rechargetime = "10";
+				}
+				else
+				{
+					if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "15";
 				}
 			}
 			string weaponID = GetCharacterEquipByGroup(xi_refCharacter, GUN_ITEM_TYPE);

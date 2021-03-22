@@ -660,6 +660,19 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 		// _location.box1.items.talisman3 = 1;
         ok = false;
 	}
+	//Квест "Золото не тонет", английский галеон у Доминики, драгоценности
+	if (_npchar.id == "PDM_Lesopilka_Galeon")
+	{
+        DeleteAttribute(_location, "box1");
+        _location.box1.money = 10000;
+		_location.box1.items.jewelry1 = 20+rand(10);
+        _location.box1.items.jewelry2 = 20+rand(10);
+        _location.box1.items.jewelry3 = 30+rand(10);
+        _location.box1.items.jewelry4 = 30+rand(10);
+        _location.box1.items.jewelry5 = rand(80);
+		_location.box1.items.PDM_SJ_Angl_Gal = 1);
+        ok = false;
+	}
 	
     if (ok) // не квестовый
     {
@@ -822,6 +835,7 @@ void FantomMakeCoolFighter(ref _Character, int _Rank, int _Fencing, int _Pistol,
 	EquipCharacterbyItem(_Character, "spyglass3");
     FaceMaker(_Character);
     SetNewModelToChar(_Character);  // перерисуем модель на лету
+	SetCharacterPerk(_Character, PerksChars());
 }
 
 int GetCoffDiff(float _num, int _maxRange)
@@ -1796,6 +1810,25 @@ void SetQuestAboardCabinDialog(ref refChar)
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
 			refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
 			refChar.Dialog.CurrentNode = "zpqCapitain"; //даем абордажную ноду
+		}
+		if(findsubstr(refChar.CaptanId, "PsHero_" , 0) != -1)
+		{
+			sld = CharacterFromID(refChar.CaptanId);
+			refChar.money = sti(sti(refChar.money)*0.3);//Ибо жирно
+			if(!CheckAttribute(sld, "PGG_companion") && CheckAttribute(sld, "PGG_Grudge"))
+			{
+				sld.willDie = true;
+				LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+				refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
+				refChar.Dialog.CurrentNode = "PGG_cabin"; //даем абордажную ноду
+			}
+			else
+			{
+				if(findsubstr(refChar.CaptanId, "_Trader" , 0) != -1)
+				{
+					ChangeCharacterNationReputation(PChar, sti(sld.Nation), -15);
+				}
+			}
 		}
 		if(refChar.CaptanId == "AntonioDeSouza")
 		{

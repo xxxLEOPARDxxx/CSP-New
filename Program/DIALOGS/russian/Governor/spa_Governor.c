@@ -9,6 +9,21 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             dialog.text = RandPhraseSimple("Какие вопросы?", "Что вам угодно?");
 			link.l1 = RandPhraseSimple("Я передумал"+ GetSexPhrase("","а") +"...", "Сейчас мне не о чем говорить");
 		    link.l1.go = "exit";
+			if (CheckAttribute(pchar, "questTemp.PDM_Novaya_Rodina.Guber") && pchar.questTemp.PDM_Novaya_Rodina.Guber == "HugoLesopilka")	//Квест "Новая Родина". Спрашиваем про Лесопилку.
+			{
+				link.l2 = "Один из пиратов хочет поступить к вам на службу. Он готов заплатить 10000 золотом за каперское свидетельство, которое позволит ему служить у вас.");
+				link.l2.go = "HugoLesopilka_1";
+			}
+			if (CheckAttribute(pchar, "questTemp.PDM_Novaya_Rodina.Guber") && pchar.questTemp.PDM_Novaya_Rodina.Guber == "Lubopitno")	//Квест "Новая Родина". Спрашиваем про Лесопилку.
+			{
+				link.l2 = "Как там этот Хьюго Лесопилка?");
+				link.l2.go = "HugoLesopilka_Lubopitno_1";
+			}
+			if (CheckAttribute(pchar, "questTemp.PDM_ONV_VedmaKaznena") && pchar.questTemp.PDM_ONV_VedmaKaznena == "PDM_ONV_VedmaKaznena")	//Квест "Охота на ведьму". Ведьма казнена
+			{
+				link.l2 = "Я напоминаю, что вы просили передать в руки правосудия женщину, которая связана с убийством вашего секретаря, Бартоломью Ольстера.");
+				link.l2.go = "PDM_ONV_VedmaKaznena";
+			}
 		break;
 
 		case "work_1":  // работа на благо короны - линейка нации
@@ -1462,6 +1477,92 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			//слухи
 			AddSimpleRumour("Капитан, говорят, что вы сумели захватить Порт-о-Принс! Неужели теперь весь острова наш?! Великолепно!!", SPAIN, 5, 1);
 		break;
+		
+//********************** //Квест "Новая Родина". Спрашиваем про Лесопилку ************************
+		case "HugoLesopilka_1":	
+            dialog.text = "Кто этот человек?";
+            link.l1 = "Его зовут Хьюго Лесопилка. Он...";
+            link.l1.go = "HugoLesopilka_2";
+			DeleteAttribute(pchar, "questTemp.PDM_Novaya_Rodina.Guber");
+        break;
+		
+		case "HugoLesopilka_2":
+            dialog.text = "Вы понимаете, что этот человек - отвратительный пират и жестокий убийца? Я никогда не допущу, чтобы этот человек служил в нашем флоте.";
+            link.l1 = "Не обязательно принимать его на службу. Достаточно просто взять его деньги, а затем... Преступника следует наказать, ведь так?";
+            link.l1.go = "Nakazat_1";
+			link.l2 = "Но он не опасен... Я видел"+ GetSexPhrase("","а") +" его, он просто усталый старик, и его самое большое желание - поспать в удобной кровати. Он готов уйти на пенсию и ищет для этого безопасную гавань, где ему позволят жить спокойно.";
+            link.l2.go = "Na_Slujbu_1";
+        break;
+		
+		case "Nakazat_1":
+            dialog.text = "Это ужасно! Вы предлагаете мне взятку от преступника? Это оскорбительно и неприемлемо, "+ GetSexPhrase("сеньор","сеньорита") +"! Больше никогда не говорите об этом со мной!";
+            link.l1 = "Понятно. Я совершил"+ GetSexPhrase("","а") +" ошибку. Больше такого не повторится. Аста луэго!";
+            link.l1.go = "exit";
+			ChangeCharacterReputation(pchar, -12);
+        break;
+		
+		case "Na_Slujbu_1":
+            dialog.text = "Хмммм... Если вы так говорите - может быть, вы и правы. Я доверюсь вам в этом деле, "+pchar.name+". Я подготовлю каперское свидетельство для этого человека и дам его вам. Он должен будет немедленно явиться ко мне после его получения. А теперь позвольте мне вернуться к моим делам.";
+            link.l1 = "Конечно, ваше превосходительство. Аста луэго!";
+            link.l1.go = "Na_Slujbu_2";
+			Log_info("Вы получили испанский патент для Хьюго");
+			GiveItem2Character(PChar, "Patent_Espa_Lesopilka");
+			PlaySound("Interface\important_item.wav");
+			ChangeCharacterReputation(pchar, 1);
+			sld = CharacterFromID("Hugo_Lesopilka")
+			ChangeCharacterAddressGroup(sld,"none","","");
+			pchar.questTemp.PDM_Novaya_Rodina.IshemHugo = "IshemHugo";
+        break;
+		
+		case "Na_Slujbu_2":
+			AddQuestRecord("PDM_Novaya_Rodina", "2");							
+			AddQuestUserData("PDM_Novaya_Rodina", "sSex", GetSexPhrase("","а"));
+			pchar.questTemp.PDM_Novaya_Rodina.Patent = "Patent";
+			DialogExit();
+        break;
+		
+		case "HugoLesopilka_Lubopitno_1":
+			dialog.text = "О, огромное спасибо, "+ GetSexPhrase("сеньор","сеньорита") +" "+pchar.name+". Он очень храбрый и опытный солдат. Наши враги потеряли уже полдюжины кораблей. А также он великолепный рассказчик. Его истории о былых временах собирают толпы слушателей в таверне! А теперь, если вы меня простите, я попрошу вас оставить меня.";
+            link.l1 = "Си, ваше превосходительство. Аста луэго!";
+            link.l1.go = "HugoLesopilka_Lubopitno_2";
+			sld = CharacterFromID("Hugo_Lesopilka")
+			ChangeCharacterAddressGroup(sld,"Havana_Town","goto","goto2");
+			LAi_SetCitizenType(sld);
+        break;
+		
+		case "HugoLesopilka_Lubopitno_2":
+			AddQuestRecord("PDM_Novaya_Rodina", "5");							
+			AddQuestUserData("PDM_Novaya_Rodina", "sSex", GetSexPhrase("","а"));
+			sld = CharacterFromID("Hugo_Lesopilka")
+			sld.dialog.filename   = "Quest/PDM/Novaya_Rodina.c";
+			sld.dialog.currentnode   = "Novoe_Zadanie_1";
+			ChangeCharacterAddressGroup(sld,"Havana_Town","goto","goto2");
+			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+			LAi_SetCitizenType(sld);
+			LAi_SetLoginTime(sld, 6.0, 21.99);
+			DeleteAttribute(pchar, "questTemp.PDM_Novaya_Rodina.Guber");
+			DialogExit();
+        break;
+//********************** //Квест "Охота на ведьму". Ведьма казнена ************************		
+		case "PDM_ONV_VedmaKaznena":
+            dialog.text = "О, да - я получил письмо от одного святого отца об этом дьявольском создании, и о её судьбе. Вы хорошо поработали, "+ GetSexPhrase("сеньор","сеньорита") +" капитан. Я от всего сердца благодарю вас за помощь в этом деле. Полагаю, не так легко было найти её. Я предлагаю скромную плату - 200000 эскудо в знак своей благодарности.";
+            link.l1 = "Грасиас, ваше превосходительство. Аста луэго!";
+            link.l1.go = "PDM_ONV_Nagrada";
+			AddMoneyToCharacter(pchar, 200000);
+        break;
+		
+		case "PDM_ONV_Nagrada":
+			AddQuestRecord("PDM_Ohota_na_vedmu", "15");
+			AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
+			CloseQuestHeader("PDM_Ohota_na_vedmu");
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_VedmaKaznena");
+			ChangeCharacterNationReputation(pchar, SPAIN, 30);
+			AddSimpleRumour("Капитан, говорят, что вы сумели поймать ведьму Карлу! Неужели это правда?! Невероятно!!", SPAIN, 7, 1);
+			
+            DialogExit();
+        break;
+
+		
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод
 }

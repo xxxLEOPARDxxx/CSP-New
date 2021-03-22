@@ -1623,13 +1623,13 @@ void ProcessDialogEvent()
 				else 
 				{
 					// boal 02.09.06 -->
-					if (CheckFreeServiceForNPC(NPChar, "Smugglers") != -1)
+					/*if (CheckFreeServiceForNPC(NPChar, "Smugglers") != -1)
                     {   // если ПГГ контрит в этом городе, то мэр дает задание на контру по факту - приятное с полезным, жаловаться не нужно, если задания другие были, то в сад, этот код не сработает
                         i = 3;
                     }
                     else
                     {
-                        /* //отсекаем возможность дать квест пирата в Панаме
+                        //отсекаем возможность дать квест пирата в Панаме
 						if (npchar.city == "Panama") i = rand(2);							
 						else {  i = dRand(4);                                                //   0-5  случайный квест
 						       //if  (IsCharacterPerkOn(pchar,"Trader"))                       i = dRand(4); 
@@ -1642,7 +1642,7 @@ void ProcessDialogEvent()
 							 } */
 						if (npchar.city == "Panama") i = rand(2);							
 						else i = dRand(4);
-                    }         
+                    //}
                     // boal <--
 					switch (i)
 					{					

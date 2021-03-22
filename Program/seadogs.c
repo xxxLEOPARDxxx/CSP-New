@@ -969,9 +969,6 @@ void NewGame_continue()
 	initNewMainCharacter(); // все там
 	ReloadProgressUpdate();
 
-	InitPsHeros();   // boal 05/07/06 ПГГ
-	ReloadProgressUpdate();
-
     RumourInit();  //homo 23/06/06
 	ReloadProgressUpdate();
 
@@ -1033,8 +1030,12 @@ void NewGame_continue()
 		InterfaceStates.startGameWeather = FindWeather("20 Hour");
 		LoadMainCharacterInFirstLocationGroup("Estate", "reload", "reload1");
     }
+	else
+	{
+		InitPsHeros();   // boal 05/07/06 ПГГ
+	}
 	ReloadProgressUpdate();
-
+	
 	//InitTowns();
 	UpdateCrewInColonies(); // пересчет наемников в городах
 	ReloadProgressUpdate();
@@ -1293,10 +1294,10 @@ void ProcessControls()
                 Log_SetStringToLog("Офицеры, в атаку!");
                 return;
             break;
-            case "OfficersCharge":
+            case "OfficersFree":
                 pchar.OfficerAttRange = 35.0;
-                OfficersFollow();
-                Log_SetStringToLog("Офицеры, в атаку!");
+                OfficersFree();
+                Log_SetStringToLog("Офицеры, вольно!");
                 return;
             break;
             case "OfficersFollow":
@@ -1514,34 +1515,6 @@ void ProcessControls()
 			}	
 		break;
 		// <-- ugeen
-
-		case "OfficersCharge":
-			if(GetOfficersQuantity(pchar) > 0)
-			{
-				pchar.OfficerAttRange = 35.0;
-				OfficersFollow();
-				Log_SetStringToLog("Officers Charge!");
-			}	
-		break;
-
-		case "OfficersFollow":
-			if(GetOfficersQuantity(pchar) > 0)
-			{
-				pchar.OfficerAttRange = 7.0;
-				OfficersFollow();
-				Log_SetStringToLog("Officers Follow!");
-			}	
-		break;
-
-		case "OfficersHold":
-			if(GetOfficersQuantity(pchar) > 0)
-			{
-				pchar.OfficerAttRange = 7.0;
-				OfficersHold();
-				Log_SetStringToLog("Officers Hold!");
-			}	
-		break;
-		
 		// boal -->
 		case "ChrBackward": //ChrStrafeLeft ChrStrafeRight
             if (bLandInterfaceStart && LAi_IsFightMode(pchar))
