@@ -275,9 +275,9 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		link.l1 = "Буду  ждать с нетерпением.";
 		link.l1.go = "duel_exit";
 		
-		int rank = sti(npchar.rank) * 2 + MOD_SKILL_ENEMY_RATE;
+		//int rank = sti(npchar.rank) * 2 + MOD_SKILL_ENEMY_RATE;
 		npchar.rank = rank;
-		int rank = sti(chr.rank) + (sti(chr.rank) * 0.2) + MOD_SKILL_ENEMY_RATE;
+		int rank = sti(npchar.rank) + (sti(npchar.rank) * 0.2) + MOD_SKILL_ENEMY_RATE;
 		npchar.perks.list.AgileMan = "1";
 		ApplayNewSkill(npchar, "AgileMan", 0);
 		int hp = LAi_GetCharacterMaxHP(npchar);

@@ -66,9 +66,9 @@ void wdmStormGen(float dltTime, float playerShipX, float playerShipZ, float play
 void wdmShipEncounter(float dltTime, float playerShipX, float playerShipZ, float playerShipAY)
 {
 	int numShips = wdmGetNumberShipEncounters();
-	if( CheckAttribute(pchar,"worldmap.shipcounter") ) {
-		numShips = numShips - sti(pchar.worldmap.shipcounter);
-	}
+	//if( CheckAttribute(pchar,"worldmap.shipcounter") ) {
+		//numShips = numShips - sti(pchar.worldmap.shipcounter);
+	//}
 	if( numShips < 0 )
 	{
 		trace("Warning! World map ship quantity < 0 : numShips = " + numShips);
