@@ -237,11 +237,131 @@ void ProcessDialogEvent()
 					}	
 				}
 			}
-            	
+			if(npchar.id == "Mechanic1")
+			{
+				if (CheckCharacterItem(pchar, "pistol7") || CheckCharacterItem(pchar, "pistol7shotgun"))
+				{
+					Link.lcraftMechanic = "Механик, у меня есть к тебе один вопрос, как раз по твоей специализации.";
+					Link.lcraftMechanic.go = "mechanic_craft_ammo";
+				}
+				if (CheckAttribute(pchar,"craftingAmmo"))
+				{
+					Link.lcraftMechanic = "Как успехи? Получилось что-то изготовить?";
+					Link.lcraftMechanic.go = "mechanic_craft_ammo_finish";
+				}
+			}	
             Link.l12 = "Ничего. Вольно.";
             Link.l12.go = "Exit";
         break;
 
+		case "mechanic_craft_ammo_finish":
+		    dialog.text = "Не торопите меня, капитан. Я же говорил вам, когда закончу.";
+            link.l1 = "Ладно, извини. Просто не терпится уже пострелять.";
+			link.l1.go = "exit";
+			if (GetQuestPastDayParam("pchar.questTemp.craftingAmmo") >= sti(pchar.ammoCraftDays))
+			{
+				dialog.text = "Еще бы. Пожалуйста, забирайте. Я сделал 50 экземпляров. Смотрите, не израсходуйте все сразу.";
+				link.l1 = "Благодарю. Ты гений!";
+				link.l1.go = "exit";
+				DeleteAttribute(pchar,"craftingAmmo");
+				switch(pchar.ammoCrafttype)
+				{
+					case "shotgun":
+						TakeNItems(Pchar, "12_gauge", 50);
+					break;
+					case "colt":
+						TakeNItems(Pchar, "GunCap_colt", 50);
+						TakeNItems(Pchar, "shotgun_cartridge", 50);
+					break;
+					case "both":
+						TakeNItems(Pchar, "12_gauge", 50);
+						TakeNItems(Pchar, "GunCap_colt", 50);
+						TakeNItems(Pchar, "shotgun_cartridge", 50);
+					break;
+				}	
+			}
+        break;
+		case "mechanic_craft_ammo":
+			if (!CheckAttribute(npchar,"ammoCraftedOnce"))
+			{
+				dialog.text = "Да неужели? Вы меня заинтриговали, капитан.";
+				link.l1 = "Дело в том, что мне принадлежит некое устройство - оружие. Оно работает исправно, однако для его использования необходимы специальные боеприпасы. Не затруднит ли тебя их изготовить?";
+				link.l1.go = "mechanic_craft_ammo_1";
+			}
+			else
+			{
+				dialog.text = "Снова хотите, чтобы я сделал вам боеприпасы?";
+				link.l1 = "Читаешь мои мысли.";
+				link.l1.go = "mechanic_craft_ammo_1";
+			}
+        break;
+		case "mechanic_craft_ammo_1":
+			if (!CheckAttribute(npchar,"ammoCraftedOnce"))
+			{
+				dialog.text = "Хм... Можно взглянуть на ваше устройство?";
+			}
+			else
+			{
+				dialog.text = "Напомните пожалуйста, что там у вас за устройство?";
+			}
+			link.l1 = "А знаешь, забудь.";
+			link.l1.go = "exit";
+			if (!CheckCharacterItem(pchar, "pistol7") && CheckCharacterItem(pchar, "pistol7shotgun"))
+			{
+				pchar.ammoCrafttype = "shotgun";
+				link.l2 = "(Показать шотган)";
+				link.l2.go = "mechanic_craft_ammo_3";
+			}
+			if (CheckCharacterItem(pchar, "pistol7") && !CheckCharacterItem(pchar, "pistol7shotgun"))
+			{
+				pchar.ammoCrafttype = "colt";
+				link.l2 = "(Показать револьвер)";
+				link.l2.go = "mechanic_craft_ammo_3";
+			}
+			if (CheckCharacterItem(pchar, "pistol7") && CheckCharacterItem(pchar, "pistol7shotgun"))
+			{
+				pchar.ammoCrafttype = "both";
+				link.l2 = "(Показать ему шотган и револьвер)";
+				link.l2.go = "mechanic_craft_ammo_3";
+			}
+        break;
+		case "mechanic_craft_ammo_3":
+			pchar.ammoCrafPrice = 50000;
+			pchar.ammoCraftDays = 14;
+			string sDays = " дней.";
+			if (pchar.ammoCrafttype == "both")
+			{
+				pchar.ammoCraftPrice = 100000;
+				pchar.ammoCraftDays = 21;
+				sDays = " день.";
+			}
+			string sTemp = "Я возьму " + pchar.ammoCraftPrice + " пиастров за работу. Все будет готово приблизительно через " + pchar.ammoCraftDays + sDays;
+		    if (!CheckAttribute(npchar,"ammoCraftedOnce"))
+			{
+				dialog.text = "Любопытный механизм. Ну-ка, дайте взгляну поближе\nОчень занятнок у вас устройство, капитан! Да, думаю, я смогу изготовить боеприпас, который подошли бы сюда. Но сами понимаете, на это потребуются время и деньги на материал, а также на оплату моего труда. " + sTemp;
+			}
+			else
+			{
+				dialog.text = "Ага, теперь я вспомнил. " + sTemp;
+			}
+			if (sti(pchar.money)>=sti(pchar.ammoCraftPrice))
+			{
+				link.l1 = "В таком случае, приступай за работу. Вот деньги.";
+				link.l1.go = "mechanic_craft_ammo_4";
+			}
+			link.l2 = "У меня сейчас нет денег на такие расходы. Поговорим об этом в другой раз.";
+			link.l2.go = "exit";
+			npchar.ammoCraftedOnce = true;
+        break;
+		case "mechanic_craft_ammo_4":
+			AddMoneyToCharacter(pchar, -sti(pchar.ammoCraftPrice));
+			pchar.craftingAmmo = true;
+			SaveCurrentQuestDateParam("pchar.questTemp.craftingAmmo");
+			dialog.text = "Слушаюсь, капитан!";
+			link.l1 = "Буду ждать с нетерпением твоих результатов.";
+			link.l1.go = "exit";
+        break;
+		
 		case "Love_Sex_Yes":
 		    dialog.text = RandPhraseSimple("Пожалуй, такой красотке грех отказывать.",
                                            "Я готов пойти на все ради вас, капитан.");

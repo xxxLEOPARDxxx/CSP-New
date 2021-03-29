@@ -1075,7 +1075,7 @@ void ShipWreckLoginToWorldMap(string qName)
 	chr.mapEnc.Name = "сильно потрепавшийся неизвестный корабль прямо по курсу";
 	
 	//Map_CreateWarrior("", sGroup, 30);
-	Map_CreateTrader("", "", sGroup, 30);
+	Map_CreateSlowMerch("",sGroup, 30);
 }
 
 void ShipWreckInSea(ref chr)
@@ -1499,7 +1499,8 @@ void ShipWreckBanditsOneTypeEnd()
 	
 	string sValodya = PChar.GenerateShipWreck.ValodyaID;
 	ref chr = CharacterFromID(sValodya);
-	chr.LifeDay = 0;
+	
+	PChar.quest.ShipWreckInSeaFailedSink.over = "yes";
 	
 	LAi_SetActorType(chr);
 	LAi_ActorRunToLocation(chr, "reload", "reload1", "none", "", "", "", -1);
@@ -1512,7 +1513,6 @@ void ShipWreckBanditsOneTypeEnd()
 		chr.LifeDay = 0;
 		//Group_DeleteGroup(chr.id);
 		//Group_SetAddress(chr.id, "none", "none", "none");
-		PChar.quest.ShipWreckInSeaFailedSink.over = "yes";
 		chr.Killer.Status = KILL_BY_ABORDAGE;
 		chr.Killer.Index = 0;
 		LAi_SetCurHP(chr, 0.0);
@@ -1528,8 +1528,12 @@ void ShipWreckBanditsOneTypeEnd()
 		DeleteAttribute(chr, "Abordage.Enable");
 		
 		SetCompanionIndex(PChar, -1, GetCharacterIndex(chr.id));
+		PChar.VolodyaDebil.Convoy = "1";
+		PChar.IdVolodiDebila = chr.id;
 		Ship_FlagRefresh(chr);
+		DeleteAttribute(chr,"LifeDay");
 	
+		
 		ChangeCharacterReputation(chr, -50);
 		ChangeCharacterReputation(PChar, -30);
 		AddQuestRecord("ShipWreck", "7");
@@ -1578,8 +1582,9 @@ void ShipWreckBanditsOneTypeEnd()
 	
 	LAi_SetPlayerType(PChar);
 	LAi_SetActorType(chr);
-	LAi_ActorGoToLocation(chr, "reload", "reload1", "none", "", "", "", -1);
+	LAi_ActorGoToLocation(chr, "reload", "reload1", "", "", "", "", 5.0);
 	
+	chr.loyality = MAX_LOYALITY/2;
 	chr.greeting = "Gr_questOfficer";
 	chr.Dialog.FileName = "Enc_Officer_dialog.c";
 	chr.Dialog.CurrentNode = "hired";
@@ -1809,26 +1814,48 @@ void ClearShipWreckQuest()
 	Log_TestInfo("Удаляем квест 'Кораблекрушение' по истечении времени, по прохождении или игнора.");
 	
 	ref chr;
-	if(CheckAttribute(PChar, "GenerateShipWreck.CharacterID"))
+	if(!CheckAttribute(PChar,"VolodyaDebil.Convoy"))
 	{
-		if(GetCharacterIndex(PChar.GenerateShipWreck.CharacterID) != -1)
+		if(CheckAttribute(PChar, "GenerateShipWreck.CharacterID"))
 		{
-			chr = CharacterFromID(PChar.GenerateShipWreck.CharacterID);
-			chr.LifeDay = 0;
-			chr.mapEnc.Name = "нам показалось";
-			Map_ReleaseQuestEncounter(chr.id);
+			if(GetCharacterIndex(PChar.GenerateShipWreck.CharacterID) != -1)
+			{
+				chr = CharacterFromID(PChar.GenerateShipWreck.CharacterID);
+				chr.LifeDay = 0;
+				chr.mapEnc.Name = "нам показалось";
+				Map_ReleaseQuestEncounter(chr.id);
+			}
+		}
+	
+		if(CheckAttribute(PChar, "GenerateShipWreck.ValodyaID"))
+		{
+			if(GetCharacterIndex(PChar.GenerateShipWreck.ValodyaID) != -1)
+			{
+				chr = CharacterFromID(PChar.GenerateShipWreck.ValodyaID);
+				chr.LifeDay = 0;
+			}
 		}
 	}
-	
-	if(CheckAttribute(PChar, "GenerateShipWreck.ValodyaID"))
+	else
 	{
-		if(GetCharacterIndex(PChar.GenerateShipWreck.ValodyaID) != -1)
+		chr = CharacterFromID(PChar.GenerateShipWreck.CharacterID);
+		Map_ReleaseQuestEncounter(chr.id);
+		/*aref encs;
+		makearef(encs, worldMap.encounters);
+		int num =  GetAttributesNum(encs);
+		chr = CharacterFromID(PChar.GenerateShipWreck.CharacterID);
+		makearef(encs, worldMap.encounters);
+		num = GetAttributesNum(encs);
+	for(int i = 0; i < num; i++)
+	{
+		aref enc = GetAttributeN(encs, i);
+		if(CheckAttribute(enc, "quest.chrID") == 0) continue;
+		if(enc.quest.chrID == chr.id)
 		{
-			chr = CharacterFromID(PChar.GenerateShipWreck.ValodyaID);
-			chr.LifeDay = 0;
+			wdmDeleteLoginEncounter(GetAttributeName(enc));
 		}
+	}*/
 	}
-	
 	if(CheckAttribute(PChar, "GenerateShipWreck.ShipCrewQty")) 		{ DeleteAttribute(PChar, "GenerateShipWreck.ShipCrewQty"); }
 	if(CheckAttribute(PChar, "GenerateShipWreck.Situation")) 		{ DeleteAttribute(PChar, "GenerateShipWreck.Situation"); }
 	if(CheckAttribute(PChar, "GenerateShipWreck.Money")) 			{ DeleteAttribute(PChar, "GenerateShipWreck.Money"); }
@@ -1858,5 +1885,7 @@ void ClearShipWreckQuest()
 	PChar.GenerateShipWreck.GoodsChange.Yes = false;
 	PChar.GenerateShipWreck.AddBandaShip = false;
 	PChar.GenerateShipWreck.ValodyaToMoney = false;
+	DeleteAttribute(PChar,"VolodyaDebil.Convoy");
+	DeleteAttribute(PChar,"IdVolodiDebila");
 }
 

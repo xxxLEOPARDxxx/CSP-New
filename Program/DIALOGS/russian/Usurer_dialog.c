@@ -664,6 +664,16 @@ void ProcessDialogEvent()
 			dialog.text = "Давайте обсудим. Внимательно вас слушаю.";
 			link.l1 = "Есть ли у вас дело, требующее сторонней помощи?";
 			link.l1.go = "Loan_GiveWork";
+			if (!CheckAttribute(NPChar,"StorageOpen"))
+			{
+				link.l11 = "Могу ли я арендовать у вас ячейку для хранения личных вещей?";
+				link.l11.go = "PersonalStorage";
+			}
+			else
+			{
+				link.l11 = "Откройте мою ячейку хранилища.";
+				link.l11.go = "PersonalStorage_Open";
+			}
 			//найти должника
 			if (CheckAttribute(pchar, "GenQuest.Loan.FindCitizen") && pchar.GenQuest.Loan.FindCitizenNpcharId == NPChar.id)
             {
@@ -721,6 +731,63 @@ void ProcessDialogEvent()
 				link.l9 = "Я ошиб"+ GetSexPhrase("ся","лась") +", никаких финансовых дел у меня с вами нет. Прощайте.";
 				link.l9.go = "exit";
 			}
+		break;
+		//Ветка для персонального хранилища
+		case "PersonalStorage":
+			dialog.text = "Да, я предоставляю такую услугу своим клиентам. Могу дать гарантию, что из моих хранилищ никогда ничего не пропадёт. Стоимость услуги - 10000 пиастров единовременно, а после 1500 за каждый последующий месяц. Охрана - дело хлопотное и дорогое, сами понимаете. Желаете оформить?";
+			if (sti(pchar.money) >= 10000)
+			{
+				link.l1 = "Разумеется, вот ваши деньги.";
+				link.l1.go = "PersonalStorage_2";
+			}
+			link.l2 = "Пожалуй, как нибудь в другой раз...";
+			link.l2.go = "exit";
+		break;
+		case "PersonalStorage_2":
+			AddMoneyToCharacter(Pchar, -10000);
+			NPChar.StorageOpen = "Opened";
+			NPChar.StoragePrice = 1500;
+			SaveCurrentNpcQuestDateParam(NPChar, "Storage.Date");
+			DeleteAttribute(NPChar,"items");
+			dialog.text = "Что-ж, всё оплачено, прошу к ячейке.";
+			link.l1 = "(Открыть ячейку)";
+			link.l1.go = "PersonalStorage_Open_2";
+		break;
+		case "PersonalStorage_Open":
+			NPChar.MoneyForStorage = GetNpcQuestPastMonthParam(NPChar, "Storage.Date") * sti(NPChar.StoragePrice); 
+			if(sti(NPChar.MoneyForStorage) > 0) 
+			{
+				dialog.text = "С вас за аренду ячейки еще " + FindRussianMoneyString(sti(NPChar.MoneyForStorage)) + ".";
+				if(sti(pchar.money) >= sti(NPChar.MoneyForStorage))
+				{
+					link.l1 = "Хорошо, сейчас оплачу аренду.";
+					link.l1.go = "PersonalStorage_Open_1";
+				}
+				else
+				{
+					link.l1 = "Я зайду попозже.";
+					link.l1.go = "exit";
+				}
+			}		
+			else
+			{
+				dialog.text = "... Всё в порядке, можете проходить к хранилищу.";
+				link.l1 = "(Открыть ячейку)";
+				link.l1.go = "PersonalStorage_Open_2";
+			}
+			link.l2 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
+			link.l2.go = "exit"; 	
+		break;
+		case "PersonalStorage_Open_1":
+			AddMoneyToCharacter(Pchar, -sti(NPChar.MoneyForStorage));
+			SaveCurrentNpcQuestDateParam(NPChar, "Storage.Date");
+			dialog.text = "... Всё в порядке, можете проходить к хранилищу.";
+			link.l1 = "(Открыть ячейку)";
+			link.l1.go = "PersonalStorage_Open_2";
+		break;
+		case "PersonalStorage_Open_2":
+			DialogExit();
+			LaunchItemsBox(npchar);
 		break;
 		//=============================  даем или не даем работу - сундуки и должники
 		case "Loan_GiveWork": 

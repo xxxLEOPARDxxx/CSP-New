@@ -33,11 +33,12 @@ void Whisper_StartGame(string qName)
 	EquipCharacterByItem(pchar, "blade14");
 	GiveItem2Character(pchar, "pistol7shotgun");
 	EquipCharacterByItem(pchar, "pistol7shotgun");
-    TakeNItems(Pchar, "GunPowder", 99);
-    TakeNItems(Pchar, "bullet", 99);
+    TakeNItems(Pchar, "12_gauge", 99);
+    TakeNItems(Pchar, "grapeshot", 99);
 	TakeNItems(Pchar, "potion3", 1);
     TakeNItems(Pchar, "potion2", 3);
     TakeNItems(Pchar, "potion1", 4);
+	LAi_SetCharacterUseBullet(pchar,"grapeshot");
     SetCharacterPerk(Pchar, "GunProfessional");
 	Pchar.model="PGG_Whisper_5_NoHat";
 	
@@ -61,15 +62,6 @@ void Whisper_StartGame(string qName)
     //Environment.date.month = 7;
     //Environment.date.day = 3;
 	
-	for (i = 1; i <= PsHeroQty; i++)
-	{
-		sld = CharacterFromID("PsHero_" + i);
-		if(sld.FaceId == 487 || sld.FaceId == 535)
-		{//Его мы позже наймем оффом, так что убираем из ПГГ
-			sld.PGGAi.IsPGG = false;
-			sld.PGGAi.location.town = "none";
-		}
-	}
 	
 	//Спавним роботов
 	for (int i = 0; i < 10; i++)
@@ -125,6 +117,18 @@ void Whisper_StartGame(string qName)
 
 void WhisperScientist(string qName)
 {
+	
+	for (i = 1; i <= PsHeroQty; i++)
+	{
+		sld = CharacterFromID("PsHero_" + i);
+		
+		if(sld.FaceId == 487 || sld.FaceId == 535)
+		{//Его мы позже наймем оффом, так что убираем из ПГГ
+			sld.willDie = true;
+			LAi_KillCharacter(sld);
+		}
+	}
+	
 	pchar.questTemp.Whisper.Near_Chest = true;	
 	PlayVoice("interface\important_item.wav");
 	StartActorSelfDialog("First time");
@@ -996,6 +1000,9 @@ void WhisperWarDogSeaBattle()
 	ChangeCrewExp(sld, "Cannoners", 50 + 5 * MOD_SKILL_ENEMY_RATE);
 	ChangeCrewExp(sld, "Soldiers", 50 + 5 * MOD_SKILL_ENEMY_RATE);
 	
+	TakeNItems(sld, "12_gauge", 99);
+    TakeNItems(sld, "grapeshot", 99);
+	LAi_SetCharacterUseBullet(sld,"grapeshot");
 	sld.SaveItemsForDead = true;
 	GiveItem2Character(sld, "cirass5");
 	EquipCharacterbyItem(sld, "cirass5")

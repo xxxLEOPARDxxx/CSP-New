@@ -599,7 +599,10 @@ void SetTreasureBoxFromMap()
 		pchar.treasurelocation = locLoad.id;
 		Statistic_AddValue(Pchar, "Treasure", 1);
         // немного веселой жизни
-        TraderHunterOnMap();
+		if(MOD_SKILL_ENEMY_RATE == 10)
+			Map_CreateFastWarriorTreasure();
+		else
+			TraderHunterOnMap();
         if( CheckAttribute(Pchar,"location.from_sea") )
         {
             if (rand(2) == 1) //33 процента
@@ -607,7 +610,40 @@ void SetTreasureBoxFromMap()
                 Pchar.quest.SetTreasureHunter.win_condition.l1          = "location";
                 Pchar.quest.SetTreasureHunter.win_condition.l1.location = Pchar.location.from_sea;
                 Pchar.quest.SetTreasureHunter.win_condition             = "";
-                Pchar.quest.SetTreasureHunter.function    = "SetTreasureHunter";
+				if (rand(1) == 1) //50 процентов что это будет ѕ√√
+				{
+					int heroSelected = 1;
+					string chosenHero = rand(PsHeroQty);
+					for (i = 0; i < 25; i++)
+					{
+						if (sti(chosenHero) != 0)
+						{
+							sld = CharacterFromID("PsHero_"+chosenHero);
+							if (sld.PGGAi.location == "Dead" || IsCompanion(sld) || IsOfficer(sld))
+							{
+								chosenHero = rand(PsHeroQty);
+							}
+							else
+							{
+								heroSelected = 0;
+								pchar.chosenHero = sld.id;
+								PGG_Disband_Fleet(sld);
+							}
+						}
+						else
+						{
+							chosenHero = rand(PsHeroQty);
+						}
+					}
+					if(heroSelected == 0)
+					{
+						Pchar.quest.SetTreasureHunter.function    = "SetPGGTreasureHunter";
+					}
+					else
+					{
+						Pchar.quest.SetTreasureHunter.function    = "SetTreasureHunter";
+					}
+				}
             }
         }
 
@@ -727,6 +763,80 @@ void SetTreasureHunter(string temp)
         LAi_ActorDialog(sld, pchar, "", 4.0, 0);
 		chrDisableReloadToLocation = true;
 		DoQuestCheckDelay("OpenTheDoors", 5.0);
+    }
+}
+
+void SetPGGTreasureHunter(string temp)
+{
+    int    j, i, k;
+	string sTemp, sCapId;
+	ref    sld;
+	bool   ok;
+
+	if (chrDisableReloadToLocation) return; // идет некий другой квест с запретом выхода
+	
+    Pchar.GenQuest.Hunter2Pause            = true;
+    
+    j = GetOfficersQuantity(Pchar) + 2;
+    
+	sCapId = "LandHunter0";
+    sTemp = "LAND_HUNTER";
+	ok = true;
+	arrayNPCModelHow = 0;
+    for (i = 1; i <= j; i++)
+    {
+		if (i == 1)
+		{
+			sld = CharacterFromID(pchar.chosenHero);
+			sld.Dialog.CurrentNode = "TreasureHunterPGG";
+		}
+		else
+		{
+			sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "off_hol_2", "man", "man", sti(PChar.rank) + 5, PIRATE, 0, true));
+			SetFantomParamHunter(sld); //крутые парни
+			sld.greeting = "Gr_HUNTER";
+			sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
+			SetModelPirate(sld);
+			k = 0;
+			while (!CheckNPCModelUniq(sld) && k < 10)
+			{
+				k++;
+				SetModelPirate(sld);
+			}
+			arrayNPCModel[arrayNPCModelHow] = sld.model;
+			arrayNPCModelHow++;
+			sld.dialog.filename = "Hunter_dialog.c";
+			sld.Dialog.CurrentNode = "TreasureHunter";
+		}
+		
+        LAi_SetActorTypeNoGroup(sld);
+        LAi_SetCheckMinHP(sld, (LAi_GetCharacterHP(sld) - 1), false, "Battle_Hunters_Land");
+        if (PlaceCharacter(sld, "goto", "random_must_be_near") == "" && i == 1) // fix если вдруг нет в локации
+        {
+            ok = false;
+            break;
+        }
+        LAi_ActorFollow(sld, pchar, "", 8.0);
+        //LAi_Actor2WaitDialog(sld, pchar); // ждать диалог, но бежать
+        LAi_group_MoveCharacter(sld, sTemp);
+    }
+
+	LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+	LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER_OWN, LAI_GROUP_NEITRAL);
+
+	LAi_group_ClearAllTargets();
+	LAi_SetFightModeForOfficers(false);
+	if (ok)
+    {
+        PChar.HunterCost = makeint(sti(Pchar.money) / 5) + rand(20)*1000; //сразу генерим
+        //#20180912-02 Fix
+        PChar.HunterCost.Qty = j; //i;
+        PChar.HunterCost.TempHunterType = "";
+        sld = characterFromID(pchar.chosenHero);
+        LAi_type_actor_Reset(sld);
+        LAi_ActorDialog(sld, pchar, "", 4.0, 0);
+		chrDisableReloadToLocation = true;
+		//DoQuestCheckDelay("OpenTheDoors", 5.0);
     }
 }
 
@@ -1051,4 +1161,35 @@ void QuestShotgunT102()
 	SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
 	LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
     LAi_group_SetRelation("TmpEnemy", LAI_GROUP_PLAYER, LAI_GROUP_FRIEND);
+}
+
+void Map_CreateFastWarriorTreasure()
+{
+	// немного веселой жизни
+    ref  sld;
+    int  i;
+
+    string sCapId = "Follower0";
+    string sGroup = "Sea_" + sCapId + "1";
+
+	Group_DeleteGroup(sGroup);
+	Group_FindOrCreateGroup(sGroup);
+    for (i = 1; i <= 3; i++)
+    {
+        sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "off_hol_2", "man", "man", sti(PChar.rank) + 5, PIRATE, 15, true));
+        SetShipHunter(sld);
+        SetFantomParamHunter(sld); //крутые парни
+        SetCaptanModelByEncType(sld, "war");
+        sld.AlwaysEnemy = true;
+        sld.DontRansackCaptain = true;
+        sld.mapEnc.type = "war";
+        sld.mapEnc.Name = "ƒжентльмены удачи";
+		sld.hunter = "pirate";
+        Group_AddCharacter(sGroup, sCapId + i);
+    }
+
+    Group_SetGroupCommander(sGroup, sCapId+ "1");
+    Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+    Group_LockTask(sGroup);
+    Map_CreateFastWarrior("", sCapId + "1", 8);
 }

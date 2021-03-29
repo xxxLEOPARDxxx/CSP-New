@@ -57,6 +57,40 @@ void Map_CreateTraderXZ(float x1, float z1, float x2, float z2, string character
 	pchar.worldmap.shipcounter = sti(pchar.worldmap.shipcounter) + 1;
 }
 
+//Lipsar--->
+
+void Map_CreateFastWarrior(string beginLocator, string characterID, int TimeOut)
+{
+	aref encField = wdmFindOrCreateQuestEncounter(characterID);
+	encField.type = "coolwarrior";
+	encField.characterID = characterID;
+	encField.beginlocator = beginlocator;
+	encField.TimeOut = TimeOut;
+	worldMap.addQuestEncounters = "updateQuest";
+	if(!CheckAttribute(pchar, "worldmap.shipcounter"))
+	{
+		pchar.worldmap.shipcounter = 0;
+	}
+	pchar.worldmap.shipcounter = sti(pchar.worldmap.shipcounter) + 1;
+}
+
+void Map_CreateSlowMerch(string beginLocator, string characterID, int TimeOut)
+{
+	aref encField = wdmFindOrCreateQuestEncounter(characterID);
+	encField.type = "shipwrecked";
+	encField.characterID = characterID;
+	encField.beginlocator = beginlocator;
+	encField.TimeOut = TimeOut;
+	worldMap.addQuestEncounters = "updateQuest";
+	if(!CheckAttribute(pchar, "worldmap.shipcounter"))
+	{
+		pchar.worldmap.shipcounter = 0;
+	}
+	pchar.worldmap.shipcounter = sti(pchar.worldmap.shipcounter) + 1;
+}
+
+//<---Lipsar
+
 //военный (догоняющий). TimeOut в днях, если -1, то неиспользуеться.
 //При таймауте придёт эвент Map_WarriorEnd
 void Map_CreateWarrior(string beginLocator, string characterID, int TimeOut)
@@ -120,6 +154,7 @@ void Map_ReleaseQuestEncounter(string characterID)
 		{
 			break;
 		}
+		
 	}
 	//Просматриваем список созданных
 	makearef(encs, worldMap.encounters);
@@ -132,8 +167,6 @@ void Map_ReleaseQuestEncounter(string characterID)
 		{
 			wdmDeleteLoginEncounter(GetAttributeName(enc));
 		}
-        num--; //fix
-        i--;
 	}
 	worldMap.deleteUpdate = "";
 }

@@ -105,6 +105,12 @@ void ProcessDialogEvent()
 			dialog.text = "Тогда в кратчайшие сроки нам необходимо освидетельствовать необитаемые острова.";
 			link.l1 = "Постараюсь отплыть как можно быстрее!";
 			link.l1.go = "ColonyBuilding_exit";
+			PChar.BuildingColony.Blocks = 500;
+			PChar.BuildingColony.Planks = 1000;
+			PChar.BuildingColony.Mahogany = 500;
+			PChar.BuildingColony.Ebony = 250;
+			PChar.BuildingColony.Slaves = 200;
+			PChar.BuildingColony.Food = 400;
 		break;
 
 		case "ColonyBuilding_2":
@@ -123,15 +129,15 @@ void ProcessDialogEvent()
 			dialog.text = "А вы не учите меня моему делу. Я же не учу вас глотки резать.";
 			link.l1 = "Кхе.. Что дальше?";
 			link.l1.go = "ColonyBuilding_3";
+			AddDialogExitQuest("ColonyBuildingCayman");
 		break;
 
 		case "ColonyBuilding_3":
-			dialog.text = "Теперь мне потребуются некоторые товары, необходимые для постройки колонии. Кирпичи - " + iBricks + " шт., доски - " + iPlanks + " шт., красное дерево - " + iMahogany + " шт., чёрное дерево - " + iEbony + " шт., провиант - " + iFood + " шт., и " + iSlaves + " рабов. Как только все товары будут доставлены, мы приступим к строительству, йа!";
+			dialog.text = "Теперь мне потребуются некоторые товары, необходимые для постройки колонии. Кирпичи - " + FloatToString(iBricks,0) + " шт., доски - " + iPlanks + " шт., красное дерево - " + iMahogany + " шт., чёрное дерево - " + iEbony + " шт., провиант - " + iFood + " шт., и " + iSlaves + " рабов. Как только все товары будут доставлены, мы приступим к строительству, йа!";
 			link.l1 = "Хорошо.";
 			link.l1.go = "exit";
 			
 			NextDiag.TempNode = "ColonyBuilding_4";
-			AddDialogExitQuest("ColonyBuildingCayman");
 		break;
 
 		case "ColonyBuilding_4":

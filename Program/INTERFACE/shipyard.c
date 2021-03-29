@@ -978,7 +978,7 @@ void AcceptAddOfficer()
         // назначение нового кэпа, возможно, если там уже не наш, те или враг или снят
         sld = GetCharacter(iChar);
 		
-		if(sld.id != "pet_crab")
+		if(sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer")
 		{
 			DeleteAttribute(sld, "ship");
 			sld.ship.Type = SHIP_NOTUSED;
@@ -1443,8 +1443,10 @@ void SetRepairData()
 void RepairMoneyShow()
 {
     int st = GetCharacterShipType(xi_refCharacter);
-
-	SetFormatedText("REPAIR_WINDOW_TEXT", its(GetSailRepairCost(st, RepairSail, refNPCShipyard) + GetHullRepairCost(st, RepairHull, refNPCShipyard)));
+	int iTimeM = makeint(((RepairHull * (8-GetCharacterShipClass(xi_refCharacter)))/4.0 + (RepairSail * (8-GetCharacterShipClass(xi_refCharacter)))/6.0) * 60.0); 
+	string _sTime;
+	if (iTimeM<1) _sTime = "\n"; else _sTime = "часов: " + iTimeM/60 + " | минут: " + its(iTimeM-(iTimeM/60)*60) + "\n";
+	SetFormatedText("REPAIR_WINDOW_TEXT", _sTime + its(GetSailRepairCost(st, RepairSail, refNPCShipyard) + GetHullRepairCost(st, RepairHull, refNPCShipyard)));
 }
 
 void RepairStatShow()

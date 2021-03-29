@@ -171,8 +171,8 @@ void DeleteAllFantomCharactersFromLocation(ref loc)
 			{
 		    		if(chr.location == loc.id)
 				{
-					//ChangeCharacterAddress(chr, "None", "");
-					LogoffCharacter(chr);
+					LAi_SetActorType(chr);
+					LAi_ActorGoToLocation(chr,"reload","sea","none","","","",10.0);
 				}
 			}
 		}
@@ -230,6 +230,7 @@ string GetNameLugger(ref chr, string sType)
 
 void CreateCaimanShoreSlaves(ref loc)
 {
+	Log_TestInfo(PChar.location);
 	if(PChar.ColonyBuilding.SlavesInShore.CurShore != loc.id) { return; }
 
     int iMassive;
@@ -279,10 +280,10 @@ void CreateCaimanShoreSlaves(ref loc)
 		sld.dialog.currentnode = "ForSlave";
 		sld.PoorSit = true;
 		LAi_SetLoginTime(sld, 6.0, 22.99);
-		LAi_SetGroundSitType(sld);
+		LAi_SetCitizenTypeNoGroup(sld);
 		LAi_SetImmortal(sld, true);
 		LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
-		PlaceCharacter(sld, "goto", "random_free");
+		PlaceCharacter(sld, "officers", "random_must_be_near");
 	}
 		
 	/*string sModel = "GenresBag1";

@@ -205,6 +205,7 @@ void ProcessDialogEvent()
 				rColony = GetColonyByIndex(iTest);
 			}
 			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+			if (rColony.id == "Panama") ok = true;
 			if(sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
 				dialog.Text = "Да, вы готовы меня обрадовать?";

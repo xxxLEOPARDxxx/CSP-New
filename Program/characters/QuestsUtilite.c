@@ -2366,7 +2366,7 @@ void CursedIdolInit()	//Проклятый идол Sinistra
 	LAi_SetImmortal(sld, true);
 	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
 }
-void NovayaRodinaInit()	//Новая Родина Sinistra
+void NovayaRodinaInit()	//Новая Родина и Охота на ведьму Sinistra
 {
 	//Хьюго Лесопилка
 	ref sld;
@@ -2382,6 +2382,21 @@ void NovayaRodinaInit()	//Новая Родина Sinistra
 	LAi_SetSitType(sld);
 	LAi_SetImmortal(sld, true);
 	ChangeCharacterAddressGroup(sld,"PuertoPrincipe_tavern","sit","sit_front2");
+	//Бартоломью Ольстер
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_Isp_sekr_guber", "trader_16", "man", "man", 10, SPAIN, -1, false));
+	sld.name = "Бартоломью";
+	sld.lastname = "Ольстер";
+	LAi_SetCitizenType(sld);
+	sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+	sld.dialog.currentnode   = "First_time";
+	sld.sex = "man";
+	sld.City = "Havana";
+	sld.location	= "Havana_town";
+	LAi_SetLoginTime(sld, 6.0, 21.99);
+	sld.nation = SPAIN;
+	LAi_SetImmortal(sld, true);
+	LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+	ChangeCharacterAddressGroup(sld,"Havana_town","goto","goto6");
 }
 void OfficerGirlInit()
 {

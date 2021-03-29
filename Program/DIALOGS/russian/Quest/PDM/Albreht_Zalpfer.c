@@ -96,15 +96,27 @@ void ProcessDialogEvent()
 			AddQuestRecord("Albreht_Zalpfer", "1");
 			AddQuestUserData("Albreht_Zalpfer", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("Albreht_Zalpfer", "sSex1", GetSexPhrase("ся","ась"));
-			AddPassenger(pchar, NPChar, false);    // добавить пассажира
-			SetCharacterRemovable(NPChar, true);   // можно ставить на должность
+			sld = CharacterFromID("Albreht_Zalpfer")
+			AddPassenger(pchar, sld, false);    // добавить пассажира
+			SetCharacterRemovable(sld, true);   // можно ставить на должность
+			sld.loyality = MAX_LOYALITY;
+			sld.Payment = true;
+			sld.quest.OfficerPrice = sti(pchar.rank)*10;
+			sld.OfficerWantToGo.DontGo = true;
+			sld.rank = 4;
+			SetSelfSkill(sld, 5, 40, 5, 5, 5);
+			SetShipSkill(sld, 5, 5, 5, 5, 5, 35, 5, 5, 5);
+			LAi_SetImmortal(sld, false);
+			sld.HalfImmortal = true;
+			GiveItem2Character(sld, "topor_05");
+			EquipCharacterByItem(sld, "topor_05");
 			Pchar.quest.PDM_Albreht_Vhod.win_condition.l1           = "location";
         	Pchar.quest.PDM_Albreht_Vhod.win_condition.l1.location  = "PortRoyal_town";
         	Pchar.quest.PDM_Albreht_Vhod.win_condition              = "PDM_Albreht_Vhod";
-			LAi_SetActorType(npchar);   //делает что-то полезное
-			LAi_ActorRunToLocation(npchar, "reload", "reload1", "none", "", "", "", 4.3);  // идёт в определённый локатор.
-			bDisableFastReload = false;          //быстрое перемещение
-			chrDisableReloadToLocation = false;      //блокировка всех выходов
+			LAi_SetActorType(sld);   //делает что-то полезное
+			LAi_ActorRunToLocation(sld, "reload", "reload1", "none", "", "", "OpenTheDoors", -1);  // идёт в определённый локатор.
+			bDisableFastReload = true;          //быстрое перемещение
+			chrDisableReloadToLocation = true;      //блокировка всех выходов
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();  	// выход из диалога		
 		break;
@@ -124,6 +136,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("Albreht_Zalpfer", "2");
 			CloseQuestHeader("Albreht_Zalpfer");
 			RemovePassenger(pchar, NPChar);
+			RemoveCharacterCompanion(pchar, NPChar);
 			NextDiag.TempNode = "Ja_2";
 		break;
 		

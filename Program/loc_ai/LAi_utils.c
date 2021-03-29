@@ -432,7 +432,7 @@ void LAi_CheckKillCharacter(aref chr)
 		chr.money = 0;
 	}
 
-
+		UnmarkCharacter(chr);
 		DeleteAttribute(chr, "quest.questflag");
 
 		chr.chr_ai.hp = 0.0;		
@@ -1195,6 +1195,7 @@ void MakePoisonAttack(aref attack, aref enemy, int iQuantity)
 		if(poison < 1.0) poison = 1.0;
 	}
 	enemy.chr_ai.poison = poison + 30 + rand(20) + iQuantity;
+	MarkCharacter(enemy,"FX_Poison");
 }
 
 void MakePoisonAttackCheckSex(aref attacked, aref enemy)
@@ -1309,15 +1310,46 @@ void LaunchBlood(aref chr, float addy, bool isBig)
 	}
 }
 
+void LaunchBlast(aref chr) // 280812
+{
+	float x, y, z;
+	GetCharacterPos(chr, &x, &y, &z);
+	y = y + 0.5;
+	CreateParticleSystem("blast_inv", x, y, z, 0,1.0,0,0);
+}
+
+void LaunchBlastPellet(aref chr) // 
+{
+	float x, y, z;
+	GetCharacterPos(chr, &x, &y, &z);
+	y = y + 0.5;
+	CreateParticleSystem("blast_inv", x, y, z, 0,1.0,0,0);
+	y = y + 0.1;
+	CreateParticleSystem("blast_inv", x, y, z, 0,1.0,0,0);
+	y = y + 0.9;
+	CreateParticleSystem("blast_inv", x, y, z, 0,1.0,0,0);
+	Play3DSound("pellet", x, y, z);
+}
+
+void LaunchBlastGrenade(aref chr) // 
+{
+	float x, y, z;
+	GetCharacterPos(chr, &x, &y, &z);
+	y = y + 0.5;
+	CreateParticleSystem("blast_inv", x, y, z, 0,1.0,0,0);
+	CreateParticleSystem("blast_dirt", x, y, z, 0,1.0,0,0);
+	Play3DSound("grenade", x, y, z);
+}
+
 void LAi_Explosion(ref chr, int damage)
 {
 	float x, y, z;						
 	GetCharacterPos(chr, &x, &y, &z);
-	CreateParticleSystemX("blast", x, y, z, x, y, z, 0);	
-	CreateParticleSystemX("fort_fire", x, y, z, x, y, z, 5);
+	CreateParticleSystemX("blood_shoot", x, y, z, x, y, z, 0);	
+	CreateParticleSystemX("cancloud_fire", x, y, z, x, y, z, 20);
 	
 	PlayStereoSound("Sea Battles\cannon_fire_03.wav");
-
+	
 	int num = FindNearCharacters(chr, 3.0, -1.0, -1.0, 0.001, false, true);
 
 	for(int j = 0; j <= num; j++)	
@@ -1343,6 +1375,9 @@ void LAi_Explosion(ref chr, int damage)
 			}
 		}
 	}	
+
+	LAi_ApplyCharacterDamage(chr, damage);	
+	if (sti(LAi_GetCharacterHP(chr)) < damage + 1) Lai_KillCharacter(chr);
 }
 
 //Gregg
@@ -1355,6 +1390,7 @@ void MakeBloodingAttack(aref enemy, aref attacked, float coeff) // Кровоточащая 
 		if(Blooding < 1.0) Blooding = 1.0;
 	}
 	enemy.chr_ai.Blooding = Blooding + (10+rand(coeff*5)); // Продолжительность 5+(от 0 до коэфф*5)
+	MarkCharacter(enemy,"FX_Blood");
 	
 	//if(stf(enemy.chr_ai.Blooding) > 200.0) enemy.chr_ai.Blooding = 200.0; 
 
@@ -1374,6 +1410,7 @@ void MakeSwiftAttack(aref enemy, aref attacked, float coeff) // Резкий удар
 		if(Swift < 1.0) Swift = 1.0;
 	}
 	enemy.chr_ai.Swift = Swift + (1+rand(4)+coeff); // Продолжительность 1+(от 0 до 4)+коэфф
+	MarkCharacter(enemy,"FX_Stan");
 	
 	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
 }
@@ -1389,6 +1426,7 @@ void MushketStun(aref enemy) // Мушкетный стан - Gregg
 		if(understun < 1.0) understun = 1.0;
 	}
 	enemy.chr_ai.understun = understun + 1 + rand(2); // Продолжительность 1+(от 0 до 2)
+	MarkCharacter(enemy,"FX_Stan");
 	
 	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
 }

@@ -2357,30 +2357,32 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 	case GUN_ITEM_TYPE:
 		if(CheckAttribute(arItm,"model"))	{modelName = arItm.model;}
 		SendMessage(chref,"ls",MSG_CHARACTER_SETGUN,modelName);
-		if(CheckAttribute(arItm,"chargeQ"))
-		{	LAi_GunSetChargeQuant(chref,sti(arItm.chargeQ));
-		} else
-		{	LAi_GunSetChargeQuant(chref,0);
+		if(itemID != "")
+		{
+			if(CheckAttribute(chref,"chr_ai.sGun") && itemID == chref.chr_ai.sGun)
+			{
+				if(CheckAttribute(chref,"chr_ai.bullet"))
+				{
+					LAi_SetCharacterUseBullet(chref, chref.chr_ai.bullet);
+				}
+				else
+				{
+					LAi_SetCharacterDefaultBulletType(chref);
+					LAi_GunSetUnload(chref);
+				}
+			}
+			else
+			{
+				LAi_SetCharacterDefaultBulletType(chref);
+				LAi_GunSetUnload(chref);
+			}
 		}
-		if(CheckAttribute(arItm,"chargespeed") && stf(arItm.chargespeed)>0.0)
-		{	LAi_GunSetChargeSpeed(chref,1.0/stf(arItm.chargespeed));
-		} else
-		{	LAi_GunSetChargeSpeed(chref,0.0);
-		}
-		if(CheckAttribute(arItm,"dmg_min"))
-		{	LAi_GunSetDamageMin(chref,stf(arItm.dmg_min));
-		} else
-		{	LAi_GunSetDamageMin(chref,0.0);
-		}
-		if(CheckAttribute(arItm,"dmg_max"))
-		{	LAi_GunSetDamageMax(chref,stf(arItm.dmg_max));
-		} else
-		{	LAi_GunSetDamageMax(chref,0.0);
-		}
-		if(CheckAttribute(arItm,"accuracy"))
-		{	LAi_GunSetAccuracy(chref,stf(arItm.accuracy)*0.01);
-		} else
-		{	LAi_GunSetAccuracy(chref,0.0);
+		else
+		{				
+			if(CheckAttribute(chref,"chr_ai.sGun"))			DeleteAttribute(chref,"chr_ai.sGun");
+			if(CheckAttribute(chref,"chr_ai.bullet"))		DeleteAttribute(chref,"chr_ai.bullet");
+			if(CheckAttribute(chref,"chr_ai.charge_max")) 	DeleteAttribute(chref,"chr_ai.charge_max");
+			if(CheckAttribute(chref,"chr_ai.chargeprc")) 	DeleteAttribute(chref,"chr_ai.chargeprc");
 		}
 	break;
 

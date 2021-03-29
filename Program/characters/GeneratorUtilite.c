@@ -39,6 +39,7 @@ void SetFantomParamFromRank_PPG(ref NPchar, int  rank, bool setEquip)   //WW
     {
 	    LAi_NPC_Equip(NPchar, sti(NPchar.rank), true, true);
     }
+	SetCharacterPerk(NPchar, PerksChars());
 	/*if (IsCharacterPerkOn(NPchar, "Ciras") && rand(4)==0)
 	{
 		string cirnum;

@@ -165,6 +165,36 @@ void QuestComplete(string sQuestName, string qname)
 			LAi_group_SetRelation("SPAIN_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);//стража теперь Агрится на ОЗГ
 			LAi_group_SetRelation("HOLLAND_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);//04.03 fix Lipsar теперь делаем другом ГГ, нужно для лока матросов
         break;
+		case "Battle_PGGHunters_Land":
+            Lai_SetPlayerType(pchar);
+            LAi_SetFightMode(Pchar, true);
+			for (i=1; i<= sti(PChar.HunterCost.Qty); i++)
+			{
+	            if (i == 1)
+				{
+					sld = characterFromID(pchar.chosenHero);
+					DeleteAttribute(pchar,"chosenHero");
+				}
+				else
+				{
+					sld = characterFromID(PChar.HunterCost.TempHunterType + "LandHunter0" + i);
+				}
+				LAi_RemoveCheckMinHP(sld);
+	            LAi_SetWarriorType(sld);
+	            //LAi_group_MoveCharacter(sld, LAI_GROUP_TmpEnemy);
+	            LAi_group_MoveCharacter(sld, "LAND_HUNTER");
+			}
+            //LAi_group_SetRelation(LAI_GROUP_TmpEnemy, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+            //LAi_group_FightGroups(LAI_GROUP_TmpEnemy, LAI_GROUP_PLAYER, true);
+            //#20190708-01
+            LAi_group_SetCheck("LAND_HUNTER", "LandHunter_Afterword");
+            LAi_group_SetRelation("LAND_HUNTER", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("LAND_HUNTER", LAI_GROUP_PLAYER, true);
+			//LAi_group_SetRelation("ENGLAND_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);
+			//LAi_group_SetRelation("FRANCE_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);
+			//LAi_group_SetRelation("SPAIN_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);//стража теперь Агрится на ОЗГ
+			//LAi_group_SetRelation("HOLLAND_CITIZENS",LAI_GROUP_PLAYER,LAI_GROUP_FRIEND);//04.03 fix Lipsar теперь делаем другом ГГ, нужно для лока матросов
+        break;
         //#20190708-01
         case "LandHunter_Afterword":
 		    LAi_group_SetAlarm("LAND_HUNTER", LAI_GROUP_PLAYER, 0.0);
@@ -181,6 +211,27 @@ void QuestComplete(string sQuestName, string qname)
             for (i=1; i<= sti(PChar.HunterCost.Qty); i++)
 			{
 	            sld = characterFromID(PChar.HunterCost.TempHunterType + "LandHunter0" + i);
+				//LAi_RemoveCheckMinHP(sld);  можно пальнуть в спину, тогда по идее будет бой
+				LAi_type_actor_Reset(sld);
+				LAi_ActorGoToLocation(sld, "reload", sTemp, "none", "", "", "", 4.0);
+			}
+        break;
+		case "GoAway_PGGHunters_Land":
+            //LAi_SetActorType(Pchar);
+            //DoQuestCheckDelay("pchar_back_to_player", 4.0);
+            DoQuestCheckDelay("OpenTheDoors", 4.0);
+            sTemp = LAi_FindNearestFreeLocator2Pchar("reload");
+            for (i=1; i<= sti(PChar.HunterCost.Qty); i++)
+			{
+	            if (i == 1)
+				{
+					sld = characterFromID(pchar.chosenHero);
+					DeleteAttribute(pchar,"chosenHero");
+				}
+				else
+				{
+					sld = characterFromID(PChar.HunterCost.TempHunterType + "LandHunter0" + i);
+				}
 				//LAi_RemoveCheckMinHP(sld);  можно пальнуть в спину, тогда по идее будет бой
 				LAi_type_actor_Reset(sld);
 				LAi_ActorGoToLocation(sld, "reload", sTemp, "none", "", "", "", 4.0);
@@ -9273,7 +9324,7 @@ void QuestComplete(string sQuestName, string qname)
 		sld = characterFromID("Maks");
 		pchar = GetMainCharacter();
 		PlaySound("Interface\took_item");
-		AddMoneyToCharacter(pchar, "10000");
+		AddMoneyToCharacter(pchar, 10000);
 		LAi_SetSitType(sld);
 		Lai_SetPlayerType(pchar);
 	break;
@@ -9360,8 +9411,8 @@ void QuestComplete(string sQuestName, string qname)
 //========================  Квест "Золото не тонет".  =======================	
 
 		case "PDM_Lesopilka_Vremy":
-			AddQuestRecord("PDM_Zoloto_ne_tonet", "3");							
-			AddQuestUserData("PDM_Zoloto_ne_tonet", "sSex", GetSexPhrase("","а"));
+			AddQuestRecord("PDM_Novaya_Rodina", "8");							
+			AddQuestUserData("PDM_Novaya_Rodina", "sSex", GetSexPhrase("","а"));
 			Group_SetAddress("PDM_HUGO_GAL", "none", "", "");
 		break;
 
@@ -9374,8 +9425,8 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 		
 		case "PDM_Lesopilka_SJNashel":
-			AddQuestRecord("PDM_Zoloto_ne_tonet", "2");							
-			AddQuestUserData("PDM_Zoloto_ne_tonet", "sSex", GetSexPhrase("","а"));
+			AddQuestRecord("PDM_Novaya_Rodina", "7");							
+			AddQuestUserData("PDM_Novaya_Rodina", "sSex", GetSexPhrase("","а"));
 			PChar.quest.PDM_Lesopilka_Vremy.over = "yes";
 			PChar.quest.PDM_Lesopilka_SJ.over = "yes";
 			
@@ -9400,8 +9451,8 @@ void QuestComplete(string sQuestName, string qname)
 			pchar.GenQuestBox.Dominica_Grot.box1.items.indian10 = 1;
 			pchar.GenQuestBox.Dominica_Grot.box1.items.jewelry5 = 20;
 			pchar.GenQuestBox.Dominica_Grot.box1.items.jewelry17 = 60;
-			SetQuestHeader("PDM_Zoloto_ne_tonet");
-			AddQuestRecord("PDM_Zoloto_ne_tonet", "4");	
+			SetQuestHeader("PDM_Novaya_Rodina");
+			AddQuestRecord("PDM_Novaya_Rodina", "9");	
 			PChar.quest.PDM_ZNT_SJ_GLOBAL.over = "yes";
 			AddCharacterExpToSkill(pchar, "Leadership", 30);
 			AddCharacterExpToSkill(pchar, "FencingLight", 30);
@@ -9415,9 +9466,9 @@ void QuestComplete(string sQuestName, string qname)
 			sld = CharacterFromID("Hugo_Lesopilka")
 			ChangeCharacterAddressGroup(sld,"none","","");
 			PChar.quest.PDM_Zoloto_ne_tonet_BITVA_na_sushe.over = "yes";
-			AddQuestRecord("PDM_Zoloto_ne_tonet", "5");							
-			AddQuestUserData("PDM_Zoloto_ne_tonet", "sSex", GetSexPhrase("","а"));
-			CloseQuestHeader("PDM_Zoloto_ne_tonet");
+			AddQuestRecord("PDM_Novaya_Rodina", "10");							
+			AddQuestUserData("PDM_Novaya_Rodina", "sSex", GetSexPhrase("","а"));
+			CloseQuestHeader("PDM_Novaya_Rodina");
 			AddCharacterExpToSkill(pchar, "Leadership", -30);
 			AddCharacterExpToSkill(pchar, "FencingLight", -30);
 			AddCharacterExpToSkill(pchar, "FencingHeavy", -30);
@@ -9672,6 +9723,18 @@ void QuestComplete(string sQuestName, string qname)
 	}
 }
 
+
+//Lipsar подпилил Хемфри для красоты --->
+void FrameGiveMushket()
+{
+	sld = CharacterFromID("OffMushketer");
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto1");
+	SetLaunchFrameFormParam("Вы отдали мушкет Хемфри...", "", 0.1, 2.0);
+	LaunchFrameForm();
+	LAi_SetActorType(sld);
+	LAi_ActorGoToLocation(sld,"reload","reload1","none","","","",4.0);
+}
+//<--- Lipsar
 
 // boal -->
 ////////////////////////   общие методы //////////////////////////

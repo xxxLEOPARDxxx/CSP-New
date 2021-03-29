@@ -1452,7 +1452,7 @@ void AcceptAddOfficer()
         // назначение нового кэпа, возможно, если там уже не наш, те или враг или снят
         sld = GetCharacter(iChar);
 		
-		if(sld.id != "pet_crab")
+		if(sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer")
 		{
 			DeleteAttribute(sld,"ship");
 			sld.ship = "";

@@ -17,12 +17,29 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		
-		case "First time":							//Автор Sinistra
-			dialog.text = "Приветствую вас, "+ GetSexPhrase("сэр","леди")+". Меня зовут Бартоломью Ольстер. Кстати, вы не видели Карлу, девушку из таверны? Она куда-то пропала...";
-			link.l1 = "Нет, я не знаю, кто она, и уж тем более - где она. Но вы говорите как англичанин - скажите, как вы попали сюда?";
-			link.l1.go = "Bartolom";
-			link.l2 = "Не знаю. Быть может вам стоит поискать в таверне - это было бы логично.";
-			link.l2.go = "Bartolom";
+		case "First_time":							//Автор Sinistra
+			if (pchar.rank >= 15 && sti(pchar.items.patent_spa) == 1)
+			{
+				dialog.text = "Приветствую вас, "+ GetSexPhrase("сэр","леди")+". Меня зовут Бартоломью Ольстер. Кстати, вы не видели Карлу, девушку из таверны? Она куда-то пропала...";
+				link.l1 = "Нет, я не знаю, кто она, и уж тем более - где она. Но вы говорите как англичанин - скажите, как вы попали сюда?";
+				link.l1.go = "Bartolom";
+				link.l2 = "Не знаю. Быть может вам стоит поискать в таверне - это было бы логично.";
+				link.l2.go = "Bartolom";
+			}
+			if (pchar.rank >= 15 && sti(pchar.items.patent_spa) != 1)
+			{
+				dialog.text = "Вы состоите на государственной службе Испании? Нет? Тогда мне с вами не о чем разговаривать.";
+				link.l1 = "Понятно. Тогда я "+ GetSexPhrase("пошёл","пошла")+".";
+				link.l1.go = "exit";
+				NextDiag.TempNode = "First_time";
+			}
+			if (pchar.rank >= 1 && pchar.rank <= 14)
+			{
+				dialog.text = "Извините меня, но вы ещё слишком "+ GetSexPhrase("зелёный","зелёная")+", чтобы я с вами разговаривал.";
+				link.l1 = "Хорошо, я тогда приду позже, когда подрасту.";
+				link.l1.go = "exit";
+				NextDiag.TempNode = "First_time";	
+			}
 			PlayVoice("Kopcapkz\Voices\PDM\Bartholomew Olster.wav");
 		break;
 		
@@ -33,12 +50,12 @@ void ProcessDialogEvent()
 		break;
 		
 		case "PoraVTavernu":
-			bDisableFastReload = false;
-			chrDisableReloadToLocation = false;
-			CloseQuestHeader("PDM_Zoloto_ne_tonet");
 			SetQuestHeader("PDM_Ohota_na_vedmu");
 			AddQuestRecord("PDM_Ohota_na_vedmu", "1");							
 			AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
+			
+			sld = CharacterFromID("PDM_Isp_sekr_guber")
+			sld.lifeday = 0;
 			LAi_SetActorType(sld);
 			LAi_ActorGoToLocator(sld, "reload", "reload3_back", "PDM_ONV_BARTO_Ischezni", -1);
 			
@@ -188,8 +205,16 @@ void ProcessDialogEvent()
 		
 		case "RazgovorSGuberom_7":
 			dialog.text = "Вообще-то, да, сеньор"+ GetSexPhrase("","ита")+" "+pchar.name+". Вы говорили, что бедный Бартоломью искал девушку из таверны по имени Карла, да? Вы не приведёте её ко мне? Я мог бы послать за ней, но это вызовет волну слухов. Может быть, вы бы могли решить это дело более деликатно. Я решил взять расследование под личный контроль.";
-			link.l1 = "Ладно, сеньор генерал-губернатор, если я найду её, конечно, приведу её сюда. Адиос.";
+			link.l1 = "Ладно, сеньор генерал-губернатор, если я найду её, конечно, приведу её сюда. Адиос!";
 			link.l1.go = "RazgovorSGuberom_COD";
+			NextDiag.TempNode = "RazgovorSGuberom_Again";
+		break;
+		
+		case "RazgovorSGuberom_Again":
+			dialog.text = "Я уже вам дал задание, сеньор"+ GetSexPhrase("","ита")+". Что вы хотели ещё спросить?";
+			link.l1 = "Я "+ GetSexPhrase("заблудился","заблудилась")+", ваше превосходительство. Я иду искать девушку Карлу. До свидания!";
+			link.l1.go = "exit";
+			NextDiag.TempNode = "RazgovorSGuberom_Again";
 		break;
 		
 		case "RazgovorSGuberom_COD":
@@ -327,15 +352,22 @@ void ProcessDialogEvent()
 		case "Carla_Final_10":
 			dialog.text = "Я не знала, что мне делать. Всё, чего я хотела это сбежать от моего прошлого. Когда я прибыла сюда, у меня не было денег, и я вернулась к единственному занятию, которое знаю... И теперь, "+ GetSexPhrase("добрый сеньор","добрая сеньорита")+", после того, как я вам всё рассказала, вы можете арестовать меня, и сжечь на костре, только за то, что я хотела жить, любить, и быть свободной, как человек.";
 			link.l1 = "Единственно важная вещь в этом всём состоит в том, что ты ведьма. Поэтому я передам тебя в руки Церкви.";
-			link.l1.go = "NaKoster";
-			link.l1 = "Полагаю, что вы не совершили никакого преступления, Карла. Вы свободны.";
-			link.l1.go = "Carla_Final_11";
+			link.l1.go = "NaKoster_2";
+			link.l2 = "Полагаю, что вы не совершили никакого преступления, Карла. Вы свободны.";
+			link.l2.go = "Carla_Final_11";
 		break;
 		
 		case "Carla_Final_11":
 			dialog.text = "О, "+ GetSexPhrase("сеньор","сеньорита")+" - вы очень благородны. Я скажу вам вот что. Все считают, что колдовство, это занятие неугодное Богу. Но я скажу вам, что это просто Дар, или Мастерство, как и любое другое...";
-			link.l1 = "...";
+			link.l1 = "";
 			link.l1.go = "Carla_Final_12";
+		break;
+		
+		case "NaKoster_2":
+			dialog.text = "Как пожелаете, "+ GetSexPhrase("сеньор","сеньорита")+". Моя жизнь более для меня ничего не значит - я не видела милосердия, не стяжала любви - было бы странно рассчитывать на правосудие.";
+			link.l1 = "Не пытайся разжалобить меня, проклятая ведьма! Ты будешь гореть в огне!";
+			link.l1.go = "NaKoster_COD";
+			NextDiag.TempNode = "NaKoster_Again";
 		break;
 		
 		case "Carla_Final_12":
@@ -477,6 +509,7 @@ void ProcessDialogEvent()
 			SetMusic("none");
 			PlaySound("Kopcapkz\Voices\PDM\Witch\Music.wav");
 			PlaySound("Kopcapkz\Voices\PDM\Witch\scream.WAV");
+			CreateLocationParticles("shipfire", "merchant", "mrcActive2", 0, 0, 0, "");
 			LAi_SetActorType(pchar);
 			sld = CharacterFromID("PDM_ONV_Podjigatel")
 			LAi_SetActorType(sld);

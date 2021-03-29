@@ -502,8 +502,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Орудия ждут. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 				Link.l1 = "Да. Кое-что удалось достать.";
 				Link.l1.go = "ship_tunning_cannon_all_again_2";
-				Link.l2 = "Нет. Еще добываю.";
-				Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}		
 			else
 			{
@@ -690,8 +692,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Орудия ждут. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 				Link.l1 = "Да. Кое-что удалось достать.";
 				Link.l1.go = "ship_c_quantity_again_2";
-				Link.l2 = "Нет. Еще добываю.";
-				Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}		
 			else
 			{
@@ -818,8 +822,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Орудия ждут. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 			    Link.l1 = "Да. Кое-что удалось достать.";
 			    Link.l1.go = "ship_tunning_cannon_again_2";
-			    Link.l2 = "Нет. Еще добываю.";
-			    Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -988,8 +994,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Дедвейт ждет. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 			    Link.l1 = "Да. Кое-что удалось достать.";
 			    Link.l1.go = "ship_tunning_Capacity_again_2";
-			    Link.l2 = "Нет. Еще добываю.";
-			    Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -1115,8 +1123,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Работа ждет. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 			    Link.l1 = "Да. Кое-что удалось достать.";
 			    Link.l1.go = "ship_tunning_SpeedRate_again_2";
-			    Link.l2 = "Нет. Еще добываю.";
-			    Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -1241,8 +1251,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Работа ждет. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 			    Link.l1 = "Да. Кое-что удалось достать.";
 			    Link.l1.go = "ship_tunning_MastMultiplier_again_2";
-			    Link.l2 = "Нет. Еще добываю.";
-			    Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -1359,8 +1371,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Дело ждёт. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 			    Link.l1 = "Да. Кое-что удалось достать.";
 			    Link.l1.go = "ship_tunning_MaxCrew_again_2";
-			    Link.l2 = "Нет. Еще добываю.";
-			    Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -1478,8 +1492,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Работа ждёт. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 			    Link.l1 = "Да. Кое-что удалось доставить.";
 			    Link.l1.go = "ship_tunning_TurnRate_again_2";
-			    Link.l2 = "Нет. Еще добываю.";
-			    Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -1603,8 +1619,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.Text = "Работа ждет. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 			    Link.l1 = "Да. Кое-что удалось достать.";
 			    Link.l1.go = "ship_tunning_HP_again_2";
-			    Link.l2 = "Нет. Еще добываю.";
-			    Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -1736,8 +1754,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			    dialog.Text = "Бейдевинд ждет. Принес"+ GetSexPhrase("","ла") +", что я просил?";
 			    Link.l1 = "Да. Кое-что удалось доставить.";
 			    Link.l1.go = "ship_tunning_WindAgainst_again_2";
-			    Link.l2 = "Нет. Еще добываю.";
-			    Link.l2.go = "Exit";
+				Link.l2 = "Я хочу воспользоваться услугами верфи.";
+				Link.l2.go = "PayToRapair1";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -2076,7 +2096,32 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             pchar.GenQuestBox.Bermudes_Dungeon.box1.items.indian18 = 1;
             pchar.GenQuestBox.Bermudes_Dungeon.box1.items.Bible = 1;
 		break;
-
+		case "PayToRapair1":
+			if (pchar.paytorepair != pchar.dayRandom && CheckAttribute(PChar,"paytorepair")) DeleteAttribute(PChar,"paytorepair");
+			dialog.text = "Уважаем" + GetSexPhrase("ый","ая") + ", я уже подготивил все для улучшения вашего корабля, вы хотите что бы я вот так все бросил?!";
+			link.l1 = "Я вас поня" + GetSexPhrase("л","ла") + ". Надеюсь 15000 тысяч пиастров уладит этот вопрос?"
+			link.l1.go = "PayToRapair2";
+			link.l2 = "Ладно, ничего не нужно.";
+			link.l2.go = "exit";
+			if (CheckAttribute(PChar,"paytorepair")) 
+			{
+				dialog.text = "Нужно лучше обращаться со своим кораблем! Вы мне уже надоели за сегодня... Ладно, что вам нужно?";
+				link.l1 = "Мне нужно починить корабль."
+				link.l1.go = "shipyard";
+				link.l2 = "Мне нужны орудия на корабль.";
+				link.l2.go = "Cannons";
+			}
+			
+		break;
+		case "PayToRapair2":
+			pchar.paytorepair = pchar.dayRandom;
+			AddMoneyToCharacter(pchar, -15000);
+			dialog.text = "Вот, другое дело! Что вам нужно?";
+			link.l1 = "Мне нужно починить корабль."
+			link.l1.go = "shipyard";
+			link.l2 = "Мне нужны орудия на корабль.";
+			link.l2.go = "Cannons";
+		break;
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод
 }

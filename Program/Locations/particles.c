@@ -564,3 +564,17 @@ bool CreateFireParticles(string sGroup, string sLocator)
 	CreateParticleSystemX("Smoke", x, y+1.15, z, x, y+1.15, z, 0); // Дым
 	return true;
 }
+
+// Jason: универсальный создатель партиклов в локации ручным способом. Создает партикл в указанном локаторе или рядом с ним по оси Y и добавляет звук. up - на сколько над локатором должен быть поднят/опущен партикл. ax и az - корректировщики для соотв. осей при ориентировании направленных партиклов. Звуки брать из алиаса. Список некоторых партикловых схем: blood/blood_big - брызги крови, stream - ручеек, Splash - водный всплеск, item - фиолетовая крутящаяся звезда, Firering - мигающее желтое мистическое кольцо, Ship_cannon_fire - выстрел из пушки, blast_inv/Bombard - вспышка+дым, blast/blast_dirt - взрыв с летающими какашками, GunFire - выстрел из пистоля, fountain - фонтан, bubbles - пузыри, fishblue - косяк рыбок, shipfire - большой огонь, torch - факел, shadowstar - теневая звезда, large_smoke - большой дым, smoke - дым, ShipExplode - взрыв
+bool CreateLocationParticles(string sParticle, string sGroup, string sLocator, float up, float ax, float az, string sSound)
+{
+	ref rLoc = &locations[FindLocation(PChar.location)];
+	
+	float x = stf(rLoc.locators.(sGroup).(sLocator).x);
+	float y = stf(rLoc.locators.(sGroup).(sLocator).y);
+	float z = stf(rLoc.locators.(sGroup).(sLocator).z);
+	
+	CreateParticleSystemX(sParticle, x, y+up, z, x+ax, y+up, z+az, 0);
+	Play3DSound(sSound, x, y, z);
+	return true;
+}

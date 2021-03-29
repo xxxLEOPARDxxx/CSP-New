@@ -204,21 +204,22 @@ float LAi_CalcExperienceForBlade(aref attack, aref enemy, string attackType, flo
 	//Вычисляем полученый опыт
 	float ra = 1.0;
 	float re = 1.0;
-	float currhp = stf(enemy.chr_ai.hp);
-	float exp = currhp/Lai_GetCharacterMaxHP(enemy)*GetCharacterSPECIALSimple(attack, SPECIAL_I);//Lipsar передeлка опыта
-	if(IsCharacterPerkOn(attack,"SwordplayProfessional")) exp *= re/ra * GetCharacterSPECIALSimple(attack, SPECIAL_I));
 	if (CheckAttribute(attack, "rank"))
-	{
-		ra = stf(attack.rank);
-	}
+		{
+			ra = stf(attack.rank);
+		}
 	if (CheckAttribute(enemy, "rank"))
-	{
-		re = stf(enemy.rank);
-	}
+		{
+			re = stf(enemy.rank);
+		}
 	if (ra < 1.0)
 		ra = 1.0;
 	if (re < 1.0)
 		re = 1.0;
+	float currhp = stf(enemy.chr_ai.hp);
+	float exp = currhp/Lai_GetCharacterMaxHP(enemy)*GetCharacterSPECIALSimple(attack, SPECIAL_I);//Lipsar передeлка опыта
+	if(IsCharacterPerkOn(attack,"SwordplayProfessional")) exp *= re/ra * GetCharacterSPECIALSimple(attack, SPECIAL_I));
+
 	exp = exp * ((1.0 + re * 0.5) / (1.0 + ra * 0.5));
 
 	switch (attackType)
@@ -381,6 +382,35 @@ float LAi_GunCalcDamage(aref attack, aref enemy)
 	if(CheckAttribute(attack, "chr_ai.dmggunmax"))
 	{
 		max = stf(attack.chr_ai.dmggunmax);
+	}
+	string sBullet = LAi_GetCharacterBulletType(attack);
+	if(sBullet == "powder_pellet") LaunchBlastPellet(enemy);
+	if(sBullet == "grenade") LaunchBlastGrenade(enemy);
+	if(CheckAttribute(enemy, "cirassId"))
+	{
+		min = stf(attack.chr_ai.DmgMin_C);
+		max = stf(attack.chr_ai.DmgMax_C);
+		
+		if(stf(attack.chr_ai.EnergyP_C) > 0.0 )
+		{
+			if(sBullet == "powder_pellet")
+			{
+				if(enemy.chr_ai.group != LAI_GROUP_PLAYER) Lai_CharacterChangeEnergy(enemy, -stf(attack.chr_ai.EnergyP_C));
+			}
+		}	
+	}
+	else
+	{
+		min = stf(attack.chr_ai.DmgMin_NC);
+		max = stf(attack.chr_ai.DmgMax_NC);
+		
+		if(stf(attack.chr_ai.EnergyP_NC) > 0.0)
+		{
+			if(sBullet == "powder_pellet")
+			{
+				if(enemy.chr_ai.group != LAI_GROUP_PLAYER) Lai_CharacterChangeEnergy(enemy, -stf(attack.chr_ai.EnergyP_C));
+			}
+		}	
 	}
 	//Учитываем скилы
 	float aSkill = LAi_GetCharacterGunLevel(attack);
@@ -621,7 +651,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	if (IsCharacterPerkOn(attack, "SwordplayProfessional")) critchance += 10;
 	if (IsCharacterPerkOn(attack, "CriticalHit")) critchance += 5;
 	if (IsCharacterPerkOn(attack, "Fencer")) critchance += 5;
-	if (rand(100 - GetCharacterSPECIALSimple(attack, SPECIAL_L)) <= critchance) critical = 1.0;
+	if (critchance > 0 && rand(100 - GetCharacterSPECIALSimple(attack, SPECIAL_L)) <= critchance) critical = 1.0;
 	/*if(IsCharacterPerkOn(attack, "SwordplayProfessional"))
 	{
 		if(IsCharacterPerkOn(attack, "Fencer"))
@@ -791,7 +821,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			}			
 			if (attackType == "break")//модификация урона пробивающего
 			{
-				if (CheckAttribute(enemy, "cirassId") && HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
+				if (CheckAttribute(enemy, "cirassId") && !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
 				{
 					dmg *= 2;
 				}
@@ -810,7 +840,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 
 			if (attack.chr_ai.group != enemy.chr_ai.group)
 			{
-				if (CheckAttribute(enemy, "cirassId") && HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
+				if (CheckAttribute(enemy, "cirassId") && !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
 				{
 					if (HasSubStr(attack.equip.blade, "topor") && rand(99)<15 && !blockSave) //15%
 					{
@@ -879,14 +909,17 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	
 	if(CheckAttribute(enemy, "cirassId") && !cirign && critical > 0.0)// защиты от критов у кирас
 	{
-		string cirassId = enemy.cirassId;
-		if (!HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
+		string cirasstype = enemy.cirassId;
+		switch (Items[sti(cirasstype)].id)
 		{
-			if (Items[sti(enemy.cirassId)].id == "cirass1" && rand(9)<4) critical = 0.0;
-			if (Items[sti(enemy.cirassId)].id == "cirass2" && rand(9)<6) critical = 0.0;
-			if (Items[sti(enemy.cirassId)].id == "cirass3" && rand(1)==0) critical = 0.0;
-			if (Items[sti(enemy.cirassId)].id == "cirass4" && rand(4)>0) critical = 0.0;
-			if (Items[sti(enemy.cirassId)].id == "cirass5") critical = 0.0;
+			case "suit_1": break;
+			case "suit_2": break;
+			case "suit_3": break;
+			case "cirass1": if (rand(9)<4) critical = 0.0; break;
+			case "cirass2": if (rand(9)<6) critical = 0.0; break;
+			case "cirass3": if (rand(1)==0) critical = 0.0; break;
+			case "cirass4": if (rand(4)>0) critical = 0.0; break;
+			case "cirass5": critical = 0.0; break;
 		}
 		if (critical == 0.0)
 		{
@@ -1087,7 +1120,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 		}		
 	}
 	// boal брон работает всегда, а не токо в блоке 23.05.2004 -->
-	if(CheckAttribute(enemy, "cirassId")&& Items[sti(enemy.cirassId)].id != "suit_1" && Items[sti(enemy.cirassId)].id != "suit_2" && Items[sti(enemy.cirassId)].id != "suit_3")
+	if(CheckAttribute(enemy, "cirassId")&& !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
 	{
         if(rand(1000) < stf(Items[sti(enemy.cirassId)].CirassLevel)*500) 
 		{	
@@ -1132,7 +1165,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 			}
 		}
 	}
-	if(CheckAttribute(enemy, "cirassId") && Items[sti(enemy.cirassId)].id != "suit_1" && Items[sti(enemy.cirassId)].id != "suit_2" && Items[sti(enemy.cirassId)].id != "suit_3")//не учитываем костюмы
+	if(CheckAttribute(enemy, "cirassId") && !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))//не учитываем костюмы
 	{
 		damage = damage * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel));
 		if(sti(enemy.index) == GetMainCharacterIndex())

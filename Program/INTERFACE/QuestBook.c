@@ -29,6 +29,10 @@ void InitInterface(string iniName)
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
 	SetEventHandler("ShowPGGInfo","ShowPGGInfo",0);
+	SetEventHandler("ShowShipsWindow","ShowShipsWindow",0);
+	SetEventHandler("ShowBladeWindow","ShowBladeWindow",0);
+	SetEventHandler("ShowGunWindow","ShowGunWindow",0);
+	SetEventHandler("ShowFoodWindow","ShowFoodWindow",0);
 	sMessageMode = "";
 	string sDate = " ";
 	sDate = GetDateString();
@@ -70,6 +74,150 @@ void XI_SetQuestData(bool qtitle)
 void ShowButtons()
 {
 
+}
+
+void ShowShipsWindow()
+{
+	XI_WindowShow("ENC_INFO_SHIP",true);
+	XI_WindowShow("ENC_INFO_BLADE",false);
+	XI_WindowShow("ENC_INFO_GUN",false);
+	XI_WindowShow("ENC_INFO_FOOD",false);
+	
+	SetNodeUsing("TABBTN_QUEST",false);
+	SetNodeUsing("TABSTR_QUEST",false);
+	SetNodeUsing("TABBTN_QUESTARJ",false);
+	SetNodeUsing("TABSTR_QUESTARJ",false);
+	SetNodeUsing("TABBTN_INFO",false);
+	SetNodeUsing("TABSTR_INFO",false);
+	SetNodeUsing("TABBTN_CASHBOOK",false);
+	SetNodeUsing("TABSTR_CASHBOOK",false);
+	SetNodeUsing("TABBTN_SHIP_PLACE",false);
+	SetNodeUsing("TABSTR_SHIP_PLACE",false);
+	SetNodeUsing("TABBTN_STATISTIC",false);
+	SetNodeUsing("TABSTR_STATISTIC",false);
+	SetNodeUsing("TABBTN_STOREBOOK",false);
+	SetNodeUsing("TABSTR_STOREBOOK",false);
+	
+	SetNodeUsing("I_CHARACTER_2",false);
+	SetNodeUsing("I_CHARACTER",false);
+	SetNodeUsing("I_SHIP_2",false);
+	SetNodeUsing("I_SHIP",false);
+	SetNodeUsing("I_NATIONS_2",false);
+	SetNodeUsing("I_NATIONS",false);
+	SetNodeUsing("I_TRADEBOOK_2",false);
+	SetNodeUsing("I_TRADEBOOK",false);
+	SetNodeUsing("I_ITEMS_2",false);
+	SetNodeUsing("I_ITEMS",false);
+	
+	SetNodeUsing("QUEST_TITLE",false);
+}
+
+void ShowBladeWindow()
+{
+	XI_WindowShow("ENC_INFO_SHIP",false);
+	XI_WindowShow("ENC_INFO_BLADE",true);
+	XI_WindowShow("ENC_INFO_GUN",false);
+	XI_WindowShow("ENC_INFO_FOOD",false);
+	
+	SetNodeUsing("TABBTN_QUEST",false);
+	SetNodeUsing("TABSTR_QUEST",false);
+	SetNodeUsing("TABBTN_QUESTARJ",false);
+	SetNodeUsing("TABSTR_QUESTARJ",false);
+	SetNodeUsing("TABBTN_INFO",false);
+	SetNodeUsing("TABSTR_INFO",false);
+	SetNodeUsing("TABBTN_CASHBOOK",false);
+	SetNodeUsing("TABSTR_CASHBOOK",false);
+	SetNodeUsing("TABBTN_SHIP_PLACE",false);
+	SetNodeUsing("TABSTR_SHIP_PLACE",false);
+	SetNodeUsing("TABBTN_STATISTIC",false);
+	SetNodeUsing("TABSTR_STATISTIC",false);
+	SetNodeUsing("TABBTN_STOREBOOK",false);
+	SetNodeUsing("TABSTR_STOREBOOK",false);
+	
+	SetNodeUsing("I_CHARACTER_2",false);
+	SetNodeUsing("I_CHARACTER",false);
+	SetNodeUsing("I_SHIP_2",false);
+	SetNodeUsing("I_SHIP",false);
+	SetNodeUsing("I_NATIONS_2",false);
+	SetNodeUsing("I_NATIONS",false);
+	SetNodeUsing("I_TRADEBOOK_2",false);
+	SetNodeUsing("I_TRADEBOOK",false);
+	SetNodeUsing("I_ITEMS_2",false);
+	SetNodeUsing("I_ITEMS",false);
+	
+	SetNodeUsing("QUEST_TITLE",false);
+}
+
+void ShowGunWindow()
+{
+	XI_WindowShow("ENC_INFO_SHIP",false);
+	XI_WindowShow("ENC_INFO_BLADE",false);
+	XI_WindowShow("ENC_INFO_GUN",true);
+	XI_WindowShow("ENC_INFO_FOOD",false);
+	
+	SetNodeUsing("TABBTN_QUEST",false);
+	SetNodeUsing("TABSTR_QUEST",false);
+	SetNodeUsing("TABBTN_QUESTARJ",false);
+	SetNodeUsing("TABSTR_QUESTARJ",false);
+	SetNodeUsing("TABBTN_INFO",false);
+	SetNodeUsing("TABSTR_INFO",false);
+	SetNodeUsing("TABBTN_CASHBOOK",false);
+	SetNodeUsing("TABSTR_CASHBOOK",false);
+	SetNodeUsing("TABBTN_SHIP_PLACE",false);
+	SetNodeUsing("TABSTR_SHIP_PLACE",false);
+	SetNodeUsing("TABBTN_STATISTIC",false);
+	SetNodeUsing("TABSTR_STATISTIC",false);
+	SetNodeUsing("TABBTN_STOREBOOK",false);
+	SetNodeUsing("TABSTR_STOREBOOK",false);
+	
+	SetNodeUsing("I_CHARACTER_2",false);
+	SetNodeUsing("I_CHARACTER",false);
+	SetNodeUsing("I_SHIP_2",false);
+	SetNodeUsing("I_SHIP",false);
+	SetNodeUsing("I_NATIONS_2",false);
+	SetNodeUsing("I_NATIONS",false);
+	SetNodeUsing("I_TRADEBOOK_2",false);
+	SetNodeUsing("I_TRADEBOOK",false);
+	SetNodeUsing("I_ITEMS_2",false);
+	SetNodeUsing("I_ITEMS",false);
+	
+	SetNodeUsing("QUEST_TITLE",false);
+}
+
+void ShowFoodWindow()
+{
+	XI_WindowShow("ENC_INFO_SHIP",false);
+	XI_WindowShow("ENC_INFO_BLADE",false);
+	XI_WindowShow("ENC_INFO_GUN",false);
+	XI_WindowShow("ENC_INFO_FOOD",true);
+	
+	SetNodeUsing("TABBTN_QUEST",false);
+	SetNodeUsing("TABSTR_QUEST",false);
+	SetNodeUsing("TABBTN_QUESTARJ",false);
+	SetNodeUsing("TABSTR_QUESTARJ",false);
+	SetNodeUsing("TABBTN_INFO",false);
+	SetNodeUsing("TABSTR_INFO",false);
+	SetNodeUsing("TABBTN_CASHBOOK",false);
+	SetNodeUsing("TABSTR_CASHBOOK",false);
+	SetNodeUsing("TABBTN_SHIP_PLACE",false);
+	SetNodeUsing("TABSTR_SHIP_PLACE",false);
+	SetNodeUsing("TABBTN_STATISTIC",false);
+	SetNodeUsing("TABSTR_STATISTIC",false);
+	SetNodeUsing("TABBTN_STOREBOOK",false);
+	SetNodeUsing("TABSTR_STOREBOOK",false);
+	
+	SetNodeUsing("I_CHARACTER_2",false);
+	SetNodeUsing("I_CHARACTER",false);
+	SetNodeUsing("I_SHIP_2",false);
+	SetNodeUsing("I_SHIP",false);
+	SetNodeUsing("I_NATIONS_2",false);
+	SetNodeUsing("I_NATIONS",false);
+	SetNodeUsing("I_TRADEBOOK_2",false);
+	SetNodeUsing("I_TRADEBOOK",false);
+	SetNodeUsing("I_ITEMS_2",false);
+	SetNodeUsing("I_ITEMS",false);
+	
+	SetNodeUsing("QUEST_TITLE",false);
 }
 
 void HideQuests()
@@ -223,6 +371,10 @@ void IDoExit(int exitCode)
  	DelEventHandler("QuestDeActivate","QuestDeActivate");
 	DelEventHandler("TableSelectChange", "TableSelectChange");
 	DelEventHandler("ShowPGGInfo","ShowPGGInfo");
+	DelEventHandler("ShowShipsWindow","ShowShipsWindow");
+	DelEventHandler("ShowBladeWindow","ShowBladeWindow");
+	DelEventHandler("ShowGunWindow","ShowGunWindow");
+	DelEventHandler("ShowFoodWindow","ShowFoodWindow");
 
     interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -550,6 +702,8 @@ void procTabChange()
 {
 	int iComIndex = GetEventData();
 	string sNodName = GetEventData();
+	XI_WindowShow("ENCYCLOPEDIA_INFO_BUTTONS", false);
+	XI_WindowDisable("ENCYCLOPEDIA_INFO_BUTTONS", true);
 	if( sNodName == "TABBTN_QUEST" )
 	{
 		SetControlsTabMode( 1 );
@@ -563,6 +717,8 @@ void procTabChange()
 	if( sNodName == "TABBTN_INFO" )
 	{
 		SetControlsTabMode( 3 );
+		XI_WindowShow("ENCYCLOPEDIA_INFO_BUTTONS", true);
+		XI_WindowDisable("ENCYCLOPEDIA_INFO_BUTTONS", false);
 		return;
 	}
 	if( sNodName == "TABBTN_CASHBOOK" )
@@ -1012,7 +1168,7 @@ void FillShipPlaceTable(string _tabName)
                     // GameInterface.(_tabName).(row).td1.str = cn;
                     // GameInterface.(_tabName).(row).td1.scale = 0.9;
 					GameInterface.(_tabName).(row).index = chrefsp.id;
-					GameInterface.(_tabName).(row).td1.icon.texture = "interfaces\ships\" + shipTexture + ".tga.tx";
+					GameInterface.(_tabName).(row).td1.icon.texture = "interfaces\ships\" + shipTexture + ".tga";
 					// GameInterface.(_tabName).(row).td1.icon.texture  = "interfaces\Frame1.tga";
 					GameInterface.(_tabName).(row).td1.icon.uv = "0,0,1,1";
 	                GameInterface.(_tabName).(row).td1.icon.offset = "-2, 0";

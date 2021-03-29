@@ -246,6 +246,7 @@ void LAi_CharacterAttack()
 
 void LAi_CharacterFire()
 {
+	string sBullet, sGunPowder;
 	aref attack = GetEventData();
 	aref enemy = GetEventData();
 	float kDist = GetEventData();	//0..1
@@ -254,9 +255,14 @@ void LAi_CharacterFire()
 	if(!CheckAttribute(attack, "chr_ai.charge")) attack.chr_ai.charge = "0";
 	float charge = stf(attack.chr_ai.charge) - 1.0;
 	// boal gun bullet убираем пулю после выстрела -->
-	TakeItemFromCharacter(attack, "bullet");
+	sBullet = LAi_GetCharacterBulletType(attack);
+	TakeItemFromCharacter(attack, sBullet);
 	// boal gun bullet убираем пулю после выстрела <--
-	RemoveItems(attack, "GunPowder", 1); // Warship. Забираем порох
+	sGunPowder = LAi_GetCharacterGunpowderType(attack);
+	if(sGunPowder != "")
+	{
+		RemoveItems(attack, sGunPowder, 1); // Warship. Забираем порох
+	}	
 	if(charge <= 0.0)
 	{
 		charge = 0.0;
@@ -272,10 +278,72 @@ void LAi_CharacterFire()
 		//здесь можно поднимать тревогу в случае близкого выстрела
 		return;
 	}
+	// ugeen -> мультиурон и прочее(27.07.10)
+		
+	string weaponID = GetCharacterEquipByGroup(attack, GUN_ITEM_TYPE);
+	aref weapon;
+	Items_FindItem(weaponID, &weapon);	
+	
+	if(CheckAttribute(attack, "chr_ai.explosion" ) && sti(attack.chr_ai.explosion) > 0)
+	{	
+		float x, y, z;						
+		GetCharacterPos(enemy, &x, &y, &z);
+		CreateParticleSystemX("blood_shoot", x, y, z, x, y, z, 0);	
+		PlayStereoSound("Sea Battles\cannon_fire_03.wav");
+	}
+	
+	if(CheckAttribute(attack, "chr_ai.multidmg") && sti(attack.chr_ai.multidmg) > 0)
+	{
+		int num = FindNearCharacters(enemy, 2.5, -1.0, -1.0, 0.001, false, true);
+		for (int j = 0; j < num; j++)
+		{
+			int idx = -1;
+			if(CheckAttribute(chrFindNearCharacters[j], "index")) idx = sti(chrFindNearCharacters[j].index);	
+			if(idx == -1) continue;
+			ref findCh;
+			findCh = GetCharacter(idx);	
+			if(findCh.chr_ai.group != LAI_GROUP_PLAYER)
+			{
+				LAi_ApplyCharacterFireDamage(attack, &Characters[idx], kDist );
+				Log_Info(Characters[idx].name);
+			}	
+			
+			if(CheckAttribute(attack, "chr_ai.stun" ) && sti(attack.chr_ai.stun) > 0 && !LAi_IsFightMode(enemy) && !IsMainCharacter(enemy))
+			{
+				if(CheckAttribute(enemy, "cirassId"))
+				{
+					if(sti(attack.chr_ai.Stun_C) > 0) 
+					{
+						LAi_Stunned_StunCharacter(enemy, 10, true);
+					}
+				}
+				else
+				{
+					if(sti(attack.chr_ai.Stun_NC) > 0) 
+					{
+						LAi_Stunned_StunCharacter(enemy, 10, true);
+					}
+				}		
+			}			
+									
+			if( CheckAttribute(attack, "chr_ai.selfdmg" ) && sti(attack.chr_ai.selfdmg) > 0 && findCh.id == attack.id && rand(4) == 1)	
+			{
+				LAi_ApplyCharacterDamage( &Characters[idx], 10 + rand(sti(weapon.dmg_min) - 10));
+				if(stf(attack.chr_ai.hp) < 1.0) attack.chr_ai.hp = 1 + makeint(rand(10));
+			}
+		}
+	}
+	
 	//Реакция груп на атаку
 	LAi_group_Attack(attack, enemy);
 	//Начисление повреждений
-	LAi_ApplyCharacterFireDamage(attack, enemy, kDist);
+	LAi_ApplyCharacterFireDamage(attack, enemy, kDist);	
+	if(CheckAttribute(attack, "chr_ai.multidmg") && sti(attack.chr_ai.multidmg) > 0)
+	{
+		if(stf(enemy.chr_ai.hp) < 1.0 && enemy.chr_ai.group == LAI_GROUP_PLAYER) enemy.chr_ai.hp = 5;
+		LAi_CheckKillCharacter( enemy );	
+	}
+	
 	//Исполнение типа
 	string func = attack.chr_ai.type;
 	if(func == "") return;

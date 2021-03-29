@@ -830,13 +830,13 @@ void ProcessDialogEvent()
 		case "Trade"://торговля с контрами - Gregg
 			int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
 			Dialog.Text = "(Негромко) Хмм... Да, это так. ";
-			switch (makeint(drand(8)))
+			switch (makeint(drand(7)))
 			{
 				case 0:
 					npchar.itemtype = "Lockpick";//отмычки за драги 
 					npchar.pricev = "jewelry"+(drand2(3)+1);
 					string type = npchar.pricev;
-					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть немного отмычек. Интересуют?. За 3 штуки прошу всего 5 "+LanguageConvertString(idLngFile, "itmname_"+npchar.pricev)+"ов.";
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть немного отмычек. Интересуют? За 3 штуки прошу всего 5 "+LanguageConvertString(idLngFile, "itmname_"+npchar.pricev)+"ов.";
 					LanguageCloseFile(idLngFile);
 					if (CheckCharacterItem(pchar, npchar.pricev) && sti(pchar.items.(type)) >= 5)
 					{
@@ -849,7 +849,7 @@ void ProcessDialogEvent()
 				case 1:
 					npchar.itemtype = "Totem_"+(drand2(13)+1);//тотем, не шипе-топеку
 					npchar.pricevalue = 30000+drand1(20000);
-					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За него я прошу "+npchar.pricevalue+" пиастров.";
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересует? За него я прошу "+npchar.pricevalue+" пиастров.";
 					LanguageCloseFile(idLngFile);
 					if(sti(pchar.money) >= sti(npchar.pricevalue)) 
 					{
@@ -862,7 +862,7 @@ void ProcessDialogEvent()
 				/*case 2:
 					npchar.itemtype = "sculMa"+(drand2(2)+1);//хрустальный череп
 					npchar.pricevalue = 75000+drand1(25000);
-					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть настоящий эксклюзив, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За него я прошу "+npchar.pricevalue+" пиастров.";
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть настоящий эксклюзив, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют? За него я прошу "+npchar.pricevalue+" пиастров.";
 					LanguageCloseFile(idLngFile);
 					if(sti(pchar.money) >= sti(npchar.pricevalue)) 
 					{
@@ -878,7 +878,8 @@ void ProcessDialogEvent()
 					aref ind;
 					Items_FindItem(npchar.itemtype, &ind);
 					npchar.pricevalue = sti(ind.price)*10;
-					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть туземская побрякушка, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересуют?. За неё я прошу "+npchar.pricevalue+" пиастров.";
+					if (CheckAttribute(ind,"groupID") && sti(ind.price) < 100) npchar.pricevalue = sti(npchar.pricevalue)*25;
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть туземская побрякушка, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+". Интересует? За неё я прошу "+npchar.pricevalue+" пиастров.";
 					LanguageCloseFile(idLngFile);
 					if(sti(pchar.money) >= sti(npchar.pricevalue)) 
 					{
@@ -892,7 +893,7 @@ void ProcessDialogEvent()
 					npchar.itemtype = "jewelry"+(drand2(3)+1);//драги за бабки
 					npchar.pricev = "j";
 					npchar.pricevalue = 20000+drand1(5000);
-					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть драгоценные камни, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+"ы. Интересуют?. За коллекцию из 25 штук я прошу "+npchar.pricevalue+" пиастров.";
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть драгоценные камни, "+LanguageConvertString(idLngFile, "itmname_"+npchar.itemtype)+"ы. Интересуют? За коллекцию из 25 штук я прошу "+npchar.pricevalue+" пиастров.";
 					LanguageCloseFile(idLngFile);
 					if(sti(pchar.money) >= sti(npchar.pricevalue)) 
 					{
@@ -906,7 +907,7 @@ void ProcessDialogEvent()
 					npchar.itemtype = "Lockpick";//отмычки за драги
 					npchar.pricev = "jewelry"+(drand2(3)+1);
 					string type1 = npchar.pricev;
-					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть немного отмычек. Интересуют?. За 3 штуки прошу всего 5 "+LanguageConvertString(idLngFile, "itmname_"+npchar.pricev)+"ов.";
+					Dialog.Text = dialog.text+ "Сегодня в наличии у меня есть немного отмычек. Интересуют? За 3 штуки прошу всего 5 "+LanguageConvertString(idLngFile, "itmname_"+npchar.pricev)+"ов.";
 					LanguageCloseFile(idLngFile);
 					if (CheckCharacterItem(pchar, npchar.pricev) && sti(pchar.items.(type1)) >= 5)
 					{

@@ -16,6 +16,7 @@
 #define INVALID_SUIT			"NoSuit" // Warship 25.10.08
 
 // items group id
+#define AMMO_ITEM_TYPE			"ammo"
 #define GUN_ITEM_TYPE			"gun"
 #define BLADE_ITEM_TYPE			"blade"
 #define SPYGLASS_ITEM_TYPE		"spyglass"
@@ -35,7 +36,7 @@
 
 // indexes for items` array
 #define TOTAL_ITEMS				1000 // Warship 08.05.09 - Ќова€ система предметов
-#define ITEMS_QUANTITY			  331  // не забываем мен€ть номер
+#define ITEMS_QUANTITY			  346  // не забываем мен€ть номер
 #define MAX_BUTTONS               64
 #define RANDITEMS_QUANTITY    	  45
 #define BUTTON_ACTIVATION_TIME	  1000

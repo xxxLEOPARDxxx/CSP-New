@@ -2973,16 +2973,17 @@ void CaptainComission_GetPirateIsland()
 			CityId = "Pirates"; // Бермуды
 			PirateId = "Jackman";
 			sld = CharacterFromID("Jackman");
+			pchar.GenQuest.CaptainComission.PirateName = ChangeNameCase(NAMETYPE_MAIN, sld.name, NAME_ACC);
 		break;
 		case 1:
 			CityId = "LeFransua"; // Ле-Франсуа на Мартинике
 			PirateId = "LeFransua_Mayor";
 			sld = CharacterFromID("LeFransua_Mayor");
+			pchar.GenQuest.CaptainComission.PirateName = sld.name;
 		break;
 	}
 	pchar.GenQuest.CaptainComission.PiratesCity = CityId;
 	pchar.GenQuest.CaptainComission.PirateId = PirateId;
-	pchar.GenQuest.CaptainComission.PirateName = ChangeNameCase(NAMETYPE_MAIN, sld.name, NAME_NOM);
 }
 
 void CaptainComission_GetFamilyType()
@@ -5199,9 +5200,12 @@ void ShipWreck_DeliveToCity(string qName)
 
 void ShipWreck_ExitFromTown(string _quest)
 {
-	pchar.quest.ShipWreck_DeliveToCity.win_condition.l1 = "Location_Type";
-	pchar.quest.ShipWreck_DeliveToCity.win_condition.l1.location_type = "town";
-	pchar.quest.ShipWreck_DeliveToCity.function = "ShipWreck_DeliveToCity";					
+	if(CheckAttribute(pchar, "GenQuest.ShipWreck"))
+	{
+		pchar.quest.ShipWreck_DeliveToCity.win_condition.l1 = "Location_Type";
+		pchar.quest.ShipWreck_DeliveToCity.win_condition.l1.location_type = "town";
+		pchar.quest.ShipWreck_DeliveToCity.function = "ShipWreck_DeliveToCity";		
+	}	
 }
 
 void ShipWreck_GoOut()

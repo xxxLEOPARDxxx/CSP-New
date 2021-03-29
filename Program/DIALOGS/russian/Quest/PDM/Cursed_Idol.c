@@ -334,12 +334,12 @@ void ProcessDialogEvent()
 		break;
 		
 		case "CollowRad_3":
-			dialog.text = "Сказать по чести... Я солгал тебе, чтобы убедить тебя помочь мне. Очень жаль, "+ GetSexPhrase("брат","сестра") +", но я не собираюсь становиться твоим офицером. Возьми себе 7000 пиастров, в уплату за твою услугу...  я негодяй, но меня нельзя назвать неблагодарным негодяем. Прощай, "+ GetSexPhrase("брат","сестра") +".";
+			dialog.text = "Сказать по чести... Я солгал тебе, чтобы убедить тебя помочь мне. Очень жаль, "+ GetSexPhrase("брат","сестра") +", но я не собираюсь становиться твоим офицером. Возьми себе 10000 пиастров, в уплату за твою услугу...  я негодяй, но меня нельзя назвать неблагодарным негодяем. Прощай, "+ GetSexPhrase("брат","сестра") +".";
 			link.l1 = "Почему-то меня это не удивляет. Ну что же - попутного тебе ветра, Кэллоу.";
 			link.l1.go = "CollowRadCod_1";
 			NextDiag.TempNode = "CollowRadPoka_1";
-			AddMoneyToCharacter(pchar, 7000);
-			AddCharacterExpToSkill(pchar, "Leadership", 20);
+			AddMoneyToCharacter(pchar, 10000);
+			AddCharacterExpToSkill(pchar, "Leadership", 40);
 			AddCharacterExpToSkill(pchar, "Sneak", 40);
 		break;
 		
@@ -450,7 +450,7 @@ void ProcessDialogEvent()
 			Log_info("Вы отдали идола Джеймсу");
 			TakeItemFromCharacter(pchar, "Cursed_idol");
 			AddCharacterExpToSkill(pchar, "Fortune", 300);
-			AddCharacterExpToSkill(pchar, "Sneak", -200); 
+			AddCharacterExpToSkill(pchar, "Sneak", -150); 
 			ChangeCharacterReputation(pchar, 5);
 		break;
 		
@@ -499,10 +499,10 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Rostovshik_3":
-			dialog.text = "Вы преподнесли мне бесценный подарок, "+ GetSexPhrase("месье","мадемуазель") +" "+pchar.name+". Я вам чрезвычайно благодарен. Я вознаграждаю вас 35000 золотых - никто не скажет, что я - скряга! Если вы хотите знать, "+ GetSexPhrase("месье","мадемуазель") +" "+pchar.name+", я, пожалуй, пошлю этого идола Его Величеству! Я слыхал, что он как раз увлекается такими интересными вещами.";
+			dialog.text = "Вы преподнесли мне бесценный подарок, "+ GetSexPhrase("месье","мадемуазель") +" "+pchar.name+". Я вам чрезвычайно благодарен. Я вознаграждаю вас 45000 золотых - никто не скажет, что я - скряга! Если вы хотите знать, "+ GetSexPhrase("месье","мадемуазель") +" "+pchar.name+", я, пожалуй, пошлю этого идола Его Величеству! Я слыхал, что он как раз увлекается такими интересными вещами.";
             link.l1 = "Я очень рад"+ GetSexPhrase("","а") +", что мой подарок оказался так кстати.";
 			link.l1.go = "Rostovshik_4";
-			AddMoneyToCharacter(pchar, 35000);
+			AddMoneyToCharacter(pchar, 45000);
 			Log_info("Вы подарили идола ростовщику");
 			TakeItemFromCharacter(pchar, "Cursed_idol");
 		break;
@@ -599,13 +599,13 @@ void ProcessDialogEvent()
 			dialog.text = "Агггх! Какое облегчение! Ты и представить себе не можешь, каким тяжким грузом это было для меня.";
             link.l1 = "Теперь ты свободен от его влияния. Но, я вспоминаю, что ты обещал стать моим офицером... как насчёт этого?";
 			link.l1.go = "Callow_POBEDA_3";
-			AddCharacterExpToSkill(pchar, "Leadership", 15);   	//добавить опыт к авторитету
-			AddCharacterExpToSkill(pchar, "FencingLight", 10);     //добавить опыт к лёгкому оружию
-			AddCharacterExpToSkill(pchar, "FencingHeavy", 10);     //добавить опыт к тяжёлому оружию
-			AddCharacterExpToSkill(pchar, "Fencing", 10);    	    //добавить опыт к среднему оружию
-			AddCharacterExpToSkill(pchar, "Pistol", 10);			//добавить опыт к пистолетам
-			AddCharacterExpToSkill(pchar, "Fortune", 30);			//добавить опыт к удаче
-			AddCharacterExpToSkill(pchar, "Sneak", 30);     	    //добавить опыт к скрытности
+			AddCharacterExpToSkill(pchar, "Leadership", 50);   	//добавить опыт к авторитету
+			AddCharacterExpToSkill(pchar, "FencingLight", 50);     //добавить опыт к лёгкому оружию
+			AddCharacterExpToSkill(pchar, "FencingHeavy", 50);     //добавить опыт к тяжёлому оружию
+			AddCharacterExpToSkill(pchar, "Fencing", 50);    	    //добавить опыт к среднему оружию
+			AddCharacterExpToSkill(pchar, "Pistol", 50);			//добавить опыт к пистолетам
+			AddCharacterExpToSkill(pchar, "Fortune", 50);			//добавить опыт к удаче
+			AddCharacterExpToSkill(pchar, "Sneak", 50);     	    //добавить опыт к скрытности
 		break;
 		
 		case "Callow_POBEDA_3":

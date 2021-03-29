@@ -503,6 +503,8 @@ void ProcessDialogEvent()
 		
 		case "PGG_cabin":
 			LAi_SetCurHPMax(npchar);
+			ref chr = CharacterFromID(npchar.CaptanId);
+			chr.willDie = true;
 			dialog.text = "Скоро ты будешь кормить рыб, "+ GetFullName(pchar) + "! Я тебе это гарантирую!";
 			if (!bHalfImmortalPGG || !CheckAttribute(pchar, "PGG_hired"))
 			{
@@ -539,16 +541,16 @@ void ProcessDialogEvent()
 		
 		case "PGG_hired":
 			bQuestDisableMapEnter = false;
-			ref chr = CharacterFromID(npchar.CaptanId);
+			chr = CharacterFromID(npchar.CaptanId);
 			sld = GetCharacter(NPC_GenerateCharacter(npchar.CaptanId+"Of", "none", chr.sex, chr.model.animation, 1, PIRATE, -1, false));
 			ChangeAttributesFromCharacter(sld, chr, true);
 			int rank = sti(pchar.rank) + 10;
-			npchar.rank = rank;
-			SetFantomParamFromRank_PPG(npchar, rank, true);
-			chr.perks.list.AgileMan = "1";
-			ApplayNewSkill(chr, "AgileMan", 0);
-			int hp = LAi_GetCharacterMaxHP(chr);
-			LAi_SetHP(chr, hp*1.7, hp*1.7);
+			sld.rank = rank;
+			SetFantomParamFromRank_PPG(sld, rank, true);
+			sld.perks.list.AgileMan = "1";
+			ApplayNewSkill(sld, "AgileMan", 0);
+			int hp = LAi_GetCharacterMaxHP(sld);
+			LAi_SetHP(sld, hp*1.6, hp*1.6);
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			if (sld.sex != "woman")
 			{
@@ -583,7 +585,6 @@ void ProcessDialogEvent()
 		break;
 		
 		case "PGG_cabin_fight":
-			if(CharacterFromID(npchar.CaptanId) == "PsHero_2") DeleteAttribute(CharacterFromID(npchar.CaptanId), "willDie");
 				QuestAboardCabinDialogExitWithBattle(""); 
 				DialogExit();
 				AddDialogExitQuest("MainHeroFightModeOn");
@@ -2694,6 +2695,7 @@ void ProcessDialogEvent()
 			GiveItem2Character(npchar, "mushket2x2");
 			npchar.IsMushketer.LastGunID = -1;
 			npchar.equip.gun = "mushket2x2";
+			EquipCharacterByItem(NPChar, "mushket2x2");
 			npchar.IsMushketer.MushketID = "mushket2x2";
 			npchar.MusketerDistance = 5;
 			npchar.greeting = "Gr_questOfficer";
@@ -2704,6 +2706,7 @@ void ProcessDialogEvent()
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			NPChar.quest.meeting = true;
+			LAi_MethodDelay("FrameGiveMushket",0.1);
 			DialogExit();
 		break;
 		case "OffM_TWO":

@@ -55,8 +55,8 @@ PrimaryLand				{Управление на земле}
 	ChrAttackBase		{Выпад/Парирование}
 	ChrAltAttackBase	{Удар/Круговой удар}
 	ChrAltAttackBaseA	{Круговой удар}
-	SoloParry			{Финт}
-	SoloFient			{Парирование}
+	SoloParry			{Парирование}
+	SoloFient			{Финт}
 
 	ChrFire				{Выстрелить}
 	MushketHotkey		{Переключить (мушкет)/(сабля+пистолет)}

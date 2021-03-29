@@ -389,7 +389,7 @@ void Ship_FireAction()
 	{
 		if (CheckAttribute(rCharacter, "CompanionEnemyEnable") && sti(rCharacter.CompanionEnemyEnable))
 		{
-			if (rCharacter == PChar.GenQuest.PGG_Quest.PGGid) PChar.GenQuest.PGG_Quest.PGG_Enemy = "1";
+			if(HasSubStr(rCharacter,"PsHero_")) PChar.PGG_EnemyPP = "1";
 			SeaAI_SetCompanionEnemy(rCharacter);
 			// disconnect companion from our group and set it enemy to us
 		}
@@ -513,11 +513,12 @@ float Ship_MastDamage()
         ref rBallCharacter = GetCharacter(iBallCharacterIndex);
         if(GetNationRelation(sti(rBallCharacter.Nation), sti(rCharacter.nation)) != RELATION_FRIEND) 
 			{
-            if(CheckAttribute(rCharacter, "SeaAI.fortSanctuary")) {
-                DeleteAttribute(rCharacter, "SeaAI.fortSanctuary")
-                rCharacter.SeaAI.hitInSanctuary = true;
-            }
-        }
+				if(CheckAttribute(rCharacter, "SeaAI.fortSanctuary")) 
+				{
+					DeleteAttribute(rCharacter, "SeaAI.fortSanctuary")
+					rCharacter.SeaAI.hitInSanctuary = true;
+				}
+			}
 		break;
 	}
 
@@ -2155,7 +2156,9 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
     }
     bool bDeadCompanion = IsCompanion(rDead);
 	
-											   
+	bool isPgg = HasSubStr(rDead.id,"PsHero_");	
+	bool isntPgg1 = HasSubStr(rDead.id,"_Trader") && CheckAttribute(rDead,"PGG_companion");
+	bool isntPgg2 = HasSubStr(rDead.id,"_Hunter") && CheckAttribute(rDead,"PGG_companion");
 
 	rBaseShip = GetRealShip(sti(rDead.Ship.Type));
     //#20180925-01
@@ -2175,6 +2178,15 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 	                // boal statistic info 17.12.2003 -->
 	                Statistic_AddValue(rKillerCharacter, "KillShip_" + rBaseShip.Class, 1);
 	                // boal statistic info 17.12.2003 <--
+					if (isPgg && !isntPgg1 && !isntPgg2)
+					{ 
+						DeleteAttribute(PChar,"PGG_EnemyPP");
+						if(rKillerCharacter == pchar)
+						{
+							
+							PChar.PGG_Enemy = "1";
+						}
+					}
 			    break;
 			    case KILL_BY_BALL:
 			        AddCharacterExpToSkill(rKillerCharacter, "Accuracy", stf(rKillerBaseShip.Class) / fBaseClass * 35);
@@ -2192,6 +2204,14 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
                         if(!CheckAttribute(rDead, "DontRansackCaptain") || rDead.DontRansackCaptain == false) AISeaGoods_AddGood(rDead, "enemy_boat", "lo_boat", 1000.0, 1); //homo 25/06/07 спасается на шлюпке
                     }
                     //homo
+					if (isPgg && !isntPgg1 && !isntPgg2)
+					{ 
+						DeleteAttribute(PChar,"PGG_EnemyPP");
+						if(rKillerCharacter == pchar)
+						{
+							PChar.PGG_Enemy = "1";
+						}
+					}
 			    break;
 			    case KILL_BY_ABORDAGE:
 			        AddCharacterExpToSkill(rKillerCharacter, "Grappling", stf(rKillerBaseShip.Class) / fBaseClass * 110);
@@ -2204,6 +2224,15 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 	                Statistic_AddValue(rKillerCharacter, "KillAbordShip_" + rBaseShip.Class, 1);
 	                // boal statistic info 17.12.2003 <--
 					if (rKillerCharacter == pchar) FlagPerkForCapturedShip(rDead);
+					if (isPgg && !isntPgg1 && !isntPgg2)
+					{ 
+						DeleteAttribute(PChar,"PGG_EnemyPP");
+						if(rKillerCharacter == pchar)
+						{
+							
+							PChar.PGG_Enemy = "1";
+						}
+					}
 			    break;
 		    }
 			if (iKillStatus != KILL_BY_SELF)

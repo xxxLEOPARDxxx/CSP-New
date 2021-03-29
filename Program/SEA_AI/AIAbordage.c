@@ -161,7 +161,7 @@ void Sea_AbordageLoad(int _iAbordageMode, bool _bMCAbordageInitiator)
 	{
 		if( !CheckAttribute(pchar,"abordage_active_count") )
 		{
-			if (!CheckAttribute(&characters[iAbordageShipEnemyCharacter], "abordage_twice") || _iAbordageMode == FORT_ABORDAGE)
+			if (!CheckAttribute(&characters[iAbordageShipEnemyCharacter], "abordage_twice") || _iAbordageMode == FORT_ABORDAGE || CheckAttribute(&characters[iAbordageShipEnemyCharacter],"PGGAi.Task.SetSail"))
 			{
 				Sea_AbordageLoad_ActiveCountStart();
 
@@ -235,7 +235,7 @@ void Continue_Sea_AbordageLoad()
 		_iAbordageCharacter = iAbordageFortEnemyCharacter; 
 	}
 	
-	if (!CheckAttribute(&characters[_iAbordageCharacter], "abordage_twice") || _iAbordageMode == FORT_ABORDAGE)
+	if (!CheckAttribute(&characters[_iAbordageCharacter], "abordage_twice") || _iAbordageMode == FORT_ABORDAGE || CheckAttribute(&characters[iAbordageShipEnemyCharacter],"PGGAi.Task.SetSail"))
 	{
 		Sea_AbordageStartNow(_iAbordageMode, _iAbordageCharacter, false, _bMCAbordageInitiator);
 	}

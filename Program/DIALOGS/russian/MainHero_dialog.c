@@ -521,6 +521,7 @@ void ProcessDialogEvent()
 				pchar.model = "PGG_Pat_0";
 				pchar.HeroModel  = "PGG_Pat_0,PGG_Pat_1,PGG_Pat_2,PGG_Pat_3,PGG_Pat_4,PGG_Pat_5,PGG_Pat_6,PGG_Pat_7,PGG_Pat_8";
 			}
+			SetNewModelToChar(pchar);
 			link.l1 = "Что-то мне нехорошо. Выйду на воздух.";
 			Link.l1.go = "exit";
 		break
@@ -1131,6 +1132,7 @@ void ProcessDialogEvent()
 			}
 			pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5_NoHat,PGG_Whisper_6,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
 			pchar.Whisper.Equipped = true;
+			SetNewModelToChar(pchar);
 			Link.l1 = "Все, хватит на сегодня.";	
 			Link.l1.go = "Exit";
 		break;
@@ -1154,6 +1156,7 @@ void ProcessDialogEvent()
 			}
 			pchar.HeroModel  = "PGG_Whisper_0,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5,PGG_Whisper_6,PGG_Whisper_7,PGG_Whisper_8";
 			DeleteAttribute(pchar,"Whisper.Equipped");
+			SetNewModelToChar(pchar);
 			Link.l1 = "Все, хватит на сегодня.";	
 			Link.l1.go = "Exit";
 		break;

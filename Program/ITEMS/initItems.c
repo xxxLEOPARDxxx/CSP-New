@@ -2084,6 +2084,150 @@ int InitItems()
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "pistol_grapebok"; //Бок-картечница
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_pistol_grapebok";
+	itm.describe = "itmdescr_pistol_grapebok";
+	itm.folder = "items";
+	itm.model = "pistol2";
+	itm.picIndex = 5;
+	itm.picTexture = "CSP_GUNS2";
+	itm.price = 4100;
+	// boal 19.01.2004 -->
+	itm.Weight = 4.5;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 3;
+	itm.chargespeed = 16;
+	itm.dmg_min = 30.0;
+	itm.dmg_max = 120.0;
+	itm.accuracy = 40;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.quality = "excellent";
+	itm.ItemType = "WEAPON";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "pistol8"; //Бландербуз
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_pistol8";
+	itm.describe = "itmdescr_pistol8";
+	itm.folder = "items";
+	itm.model = "pistol8";
+	itm.picIndex = 2;
+	itm.picTexture = "CSP_GUNS2";
+	itm.price = 4100;
+	// boal 19.01.2004 -->
+	itm.Weight = 5.5;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 1;
+	itm.chargespeed = 16;
+	itm.dmg_min = 50.0;
+	itm.dmg_max = 175.0;
+	itm.accuracy = 40;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.quality = "excellent";
+	itm.ItemType = "WEAPON";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "pistol9"; //Двузарядный пистолет
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_pistol9";
+	itm.describe = "itmdescr_pistol9";
+	itm.folder = "items";
+	itm.model = "pistol9";
+	itm.picIndex = 15;
+	itm.picTexture = "CSP_GUNS2";
+	itm.price = 5200;
+	// boal 19.01.2004 -->
+	itm.Weight = 3.2;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 1;
+	itm.chargespeed = 16;
+	itm.dmg_min = 50.0;
+	itm.dmg_max = 160.0;
+	itm.accuracy = 80;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.quality = "excellent";
+	itm.ItemType = "WEAPON";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "howdah"; //Гауда
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_howdah";
+	itm.describe = "itmdescr_howdah";
+	itm.folder = "items";
+	itm.model = "howdah_black";
+	itm.picIndex = 1;
+	itm.picTexture = "CSP_GUNS2";
+	itm.price = 10000;
+	// boal 19.01.2004 -->
+	itm.Weight = 4;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 2;
+	itm.chargespeed = 16;
+	itm.dmg_min = 45.0;
+	itm.dmg_max = 190.0;
+	itm.accuracy = 40;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.quality = "excellent";
+	itm.ItemType = "WEAPON";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "grape_mushket"; //Склопетта
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_grape_mushket";
+	itm.describe = "itmdescr_grape_mushket";
+	itm.folder = "items";
+	itm.model = "mortar";
+	itm.picIndex = 11;
+	itm.picTexture = "CSP_GUNS2";
+	itm.price = 100000;
+	// boal 19.01.2004 -->
+	itm.Weight = 12;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 1;
+	itm.chargespeed = 16;
+	itm.dmg_min = 100.0;
+	itm.dmg_max = 200.0;
+	itm.accuracy = 50;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.quality = "excellent";
+	itm.ItemType = "WEAPON";
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "mushket6"; //Башенный мушкетон
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_mushket6";
+	itm.describe = "itmdescr_mushket6";
+	itm.folder = "items";
+	itm.model = "portugize";
+	itm.picIndex = 12;
+	itm.picTexture = "CSP_GUNS2";
+	itm.price = 50000;
+	// boal 19.01.2004 -->
+	itm.Weight = 16;
+	// boal 19.01.2004 <--
+	itm.chargeQ = 6;
+	itm.chargespeed = 16;
+	itm.dmg_min = 55.0;
+	itm.dmg_max = 170.0;
+	itm.accuracy = 30;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.quality = "excellent";
+	itm.ItemType = "WEAPON";
+	n++;
 
     makeref(itm,Items[n]);
 	itm.id = "mushket"; //Мушкетон
@@ -3119,7 +3263,7 @@ int InitItems()
 	// boal 19.01.2004 -->
 	itm.Weight = 9;
 	// boal 19.01.2004 <--
-	itm.chargeQ = 4;
+	itm.chargeQ = 5;
 	itm.chargespeed = 52;
 	itm.dmg_min = 100.0;
 	itm.dmg_max = 300.0;
@@ -5089,6 +5233,7 @@ int InitItems()
 
     makeref(itm,Items[n]);
 	itm.id = "bullet"; // boal это пуля "mineral1";
+	itm.groupID = AMMO_ITEM_TYPE;
 	itm.name = "itmname_bullet"; //"itmname_mineral1";
 	itm.describe = "itmdescr_bullet";//"itmdescr_mineral1";
 	itm.model = "pursel";
@@ -5105,6 +5250,7 @@ int InitItems()
 	
 	makeref(itm,Items[n]); // Warship. Порох
 	itm.id = "GunPowder";
+	itm.groupID = AMMO_ITEM_TYPE;
 	itm.name = "itmname_GunPowder";
 	itm.describe = "itmdescr_GunPowder";
 	itm.model = "pursel";
@@ -5119,7 +5265,156 @@ int InitItems()
 	itm.rare = 0.3;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
-	n++;	
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "grapeshot"; // boal это пуля "mineral1";
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_grapeshot"; //"itmname_mineral1";
+	itm.describe = "itmdescr_grapeshot";//"itmdescr_mineral1";
+	itm.model = "pursel";
+	itm.picIndex = 3;
+	itm.picTexture = "ITEMS_17";
+//	itm.shown = false;
+	itm.price = 4;//560;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // бумажный патрон
+	itm.id = "cartridge"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_cartridge";
+	itm.describe = "itmdescr_cartridge";
+	itm.model = "pursel";
+	itm.picIndex = 8;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 100;
+	itm.Weight = 0.1;
+	itm.usepowder = false;
+	itm.minlevel = 0;
+	itm.rare = 0.001;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // петарда
+	itm.id = "powder_pellet"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_powder_pellet";
+	itm.describe = "itmdescr_powder_pellet";
+	itm.model = "pursel";
+	itm.picIndex = 5;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 200;
+	itm.Weight = 0.5;
+	itm.usepowder = false;
+	itm.minlevel = 0;
+	itm.rare = 0.001;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // граната
+	itm.id = "grenade"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_grenade";
+	itm.describe = "itmdescr_grenade";
+	itm.model = "pursel";
+	itm.picIndex = 6;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 400;
+	itm.Weight = 0.5;
+	itm.usepowder = false;
+	itm.minlevel = 0;
+	itm.rare = 0.001;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // гарпун
+	itm.id = "harpoon"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_harpoon";
+	itm.describe = "itmdescr_harpoon";
+	itm.model = "pursel";
+	itm.picIndex = 7;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 500;
+	itm.Weight = 1.0;
+	itm.usepowder = true;
+	itm.minlevel = 0;
+	itm.rare = 0.01;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // капсюли для Кольта
+	itm.id = "GunCap_colt"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_GunCap_colt";
+	itm.describe = "itmdescr_GunCap_colt";
+	itm.model = "pursel";
+	itm.picIndex = 11;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 20;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.0001;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // картридж для Кольта
+	itm.id = "shotgun_cartridge"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_shotgun_cartridge";
+	itm.describe = "itmdescr_shotgun_cartridge";
+	itm.model = "pursel";
+	itm.picIndex = 1;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 100;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.0001;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // ежовый заряд
+	itm.id = "GunEchin"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_GunEchin";
+	itm.describe = "itmdescr_GunEchin";
+	itm.model = "pursel";
+	itm.picIndex = 12;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 50;
+	itm.Weight = 0.4;
+	itm.minlevel = 0;
+	itm.rare = 0.0001;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // гильзы для шотгана
+	itm.id = "12_gauge"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_12_gauge";
+	itm.describe = "itmdescr_12_gauge";
+	itm.model = "pursel";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_14";
+	itm.price = 100;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.0001;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
 	
 	makeref(itm,Items[n]); //Korsar Maxim - Отмычка для взлома
 	itm.id = "Lockpick";
@@ -7310,7 +7605,12 @@ int InitItems()
 	itm.skill = "Commerce";
 	n++;
 	
-	//lipsar задолбал
+	/////////////// *** 4 уровень *** ///////////////
+	
+	/////////////////////////////////////////////////////////
+	/////		<--		CSP Книги 56 штук				/////
+	/////////////////////////////////////////////////////////
+	
 	makeref(itm, Items[n]); //письмо для моего квеста
     itm.id = "Lukes_letter";
     itm.name = "itmname_Lukes_letter";
@@ -7367,17 +7667,103 @@ int InitItems()
     itm.ItemType = "QUESTITEMS";
     n++;
 	
-	/////////////// *** 4 уровень *** ///////////////
+	//InitGunExt(id,	sAttr,  sBullet,  sGunPowder, DmgMin_NC, DmgMax_NC, DmgMin_C, DmgMax_C, EnergyP_NC, EnergyP_C, Stun_NC, Stun_C, MultiDamage, MisFire, SelfDamage, Explosion,Accuracy,ChargeSpeed,isDefault);
+	InitGunExt(		 "pistol1", "t1",  	     "cartridge",               "",  20.0, 100.0,  20.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 8, 0);	
+	InitGunExt(		 "pistol1", "t2", 		    "bullet",      "gunpowder",  20.0, 100.0,  30.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 16, 1);	
+	InitGunExt( 	 "pistol2", "t1", 	     "cartridge",     			"",  30.0, 120.0,  30.0, 120.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 40, 12, 0);
+	InitGunExt(		 "pistol2", "t2", 		    "bullet",      "gunpowder",  30.0, 120.0,  30.0, 120.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 40, 24, 1);	
+	InitGunExt(		 "pistol3", "t1", 	     "grapeshot",      "gunpowder",  50.0, 150.0,  35.0, 135.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 20, 40, 1);	
+	InitGunExt(		 "pistol4", "t1", 	     "cartridge",               "",  40.0, 140.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 28, 0);	
+	InitGunExt(		 "pistol4", "t2", 		    "bullet",      "gunpowder",  40.0, 140.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 56, 1);	
+	InitGunExt(		 "pistol5", "t1", 	     "cartridge",               "",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 16, 0);	
+	InitGunExt(		 "pistol5", "t2", 		    "bullet",      "gunpowder",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 32, 1);	
+	InitGunExt(		 "pistol6", "t1", 	     "cartridge",               "",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 20, 0);	
+	InitGunExt(		 "pistol6", "t2", 		    "bullet",      "gunpowder",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 40, 1);		
+	InitGunExt(		 "pistol7", "t1", "shotgun_cartridge",   "GunCap_colt",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 82, 1);
+	InitGunExt(		 "pistol7shotgun", "t1",  "grapeshot",      "12_gauge",  80.0, 200.0,  50.0, 180.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 80, 52, 0);	
+	InitGunExt(		 "pistol7shotgun", "t2", 	 "bullet",      "12_gauge",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 82, 1);
+	InitGunExt(		 "pistol8", "t1", 	     "grapeshot",      "gunpowder",  50.0,  100.0,  50.0,  100.0,  5.0,  5.0, 1, 1, 1, 0, 1, 1, 50, 40, 1);	
+	InitGunExt(		 "pistol8", "t2", 		   "harpoon",      "gunpowder", 150.0, 250.0, 150.0, 250.0, 20.0, 20.0, 0, 1, 0, 0, 0, 0, 20, 40, 0);	
+	InitGunExt(		 "pistol8", "t3", 		  "GunEchin",               "", 120.0, 220.0, 120.0, 220.0, 20.0, 20.0, 0, 1, 1, 0, 0, 0, 20, 40, 0);		
+	InitGunExt(		 "pistol9", "t1", 	     "cartridge",               "",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 30, 0);	
+	InitGunExt(		 "pistol9", "t2", 		    "bullet",      "gunpowder",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 65, 1);
+	InitGunExt( 	 "pistol_grapebok", "t1", 	 "grapeshot",  "gunpowder",  45.0, 135.0,  30.0,  90.0,  0.0,  0.0, 0, 1, 1, 0, 1, 1, 40, 40, 1);
+	InitGunExt(		 "howdah", "t1",               "grapeshot","gunpowder",  50.0,  85.0,  40.0,  70.0,  5.0,  5.0, 1, 1, 1, 0, 0, 1, 50, 40, 1);		
+    InitGunExt(		 "howdah", "t2",               "GunEchin",          "", 115.0, 215.0, 115.0, 215.0, 20.0, 20.0, 0, 1, 1, 0, 0, 0,  20, 40, 0);
 	
-	/////////////////////////////////////////////////////////
-	/////		<--		CSP Книги 56 штук				/////
-	/////////////////////////////////////////////////////////
+	InitGunExt(		"mushket", "t1", 	             "cartridge",               "", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 20, 0);	
+	InitGunExt(		"mushket", "t2", 		            "bullet",      "gunpowder", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 40, 1);
+	InitGunExt(		"mushket2", "t1", 	             "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 90, 20, 0);	
+	InitGunExt(		"mushket2", "t2", 		            "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 90, 40, 1);	
+	InitGunExt(		"mushket_spanish", "t1", 	     "cartridge",               "", 60.0, 180.0, 60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100, 30, 0);	
+	InitGunExt(		"mushket_spanish", "t2", 		    "bullet",      "gunpowder", 60.0, 180.0, 60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100, 60, 1);
+	InitGunExt(		"mushket_english", "t1", 	     "cartridge",               "", 40.0, 170.0, 40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 75, 16, 0);	
+	InitGunExt(		"mushket_english", "t2", 		    "bullet",      "gunpowder", 40.0, 170.0, 40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 75, 32, 1);
+	InitGunExt(		"mushket_france", "t1", 	     "cartridge",               "", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 40, 0);	
+	InitGunExt(		"mushket_france", "t2", 		    "bullet",      "gunpowder", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 80, 1);
+	InitGunExt(		"mushket_holland", "t1", 	     "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 70, 30, 0);	
+	InitGunExt(		"mushket_holland", "t2", 		    "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 70, 60, 1);
+	InitGunExt(		"mushket_SeaCarbine", "t1", 	     "cartridge",           "", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 20, 0);	
+	InitGunExt(		"mushket_SeaCarbine", "t2", 		    "bullet",  "gunpowder", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 40, 1);
+	InitGunExt(		"mushket2x2", "t1", 	             "cartridge",           "", 90.0, 290.0, 90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 12, 0);	
+	InitGunExt(		"mushket2x2", "t2", 		            "bullet",  "gunpowder", 90.0, 290.0, 90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 24, 1);
+	InitGunExt(		"mushket_Shtuzer", "t1", 	     "cartridge",               "", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100, 40, 0);	
+	InitGunExt(		"mushket_Shtuzer", "t2", 		    "bullet",      "gunpowder", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100, 60, 1);
+	InitGunExt(		"mushket_drob", "t1", 	         "grapeshot",      "gunpowder",  60.0, 110.0,  70.0,  120.0,  0.0,  0.0, 0, 1, 1, 0, 1, 1, 70, 25, 0);
+	InitGunExt(		"mushket_drob", "t2", 	         "cartridge",               "", 60.0, 110.0, 60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 70, 25, 0);	
+	InitGunExt(		"mushket_drob", "t3", 		        "bullet",      "gunpowder",  60.0, 110.0,  60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 70, 25, 1);
+	InitGunExt(		"grape_mushket", "t1", 	               "grenade",           "", 100.0, 200.0,  80.0, 180.0, 10.0, 10.0, 1, 1, 1, 0, 1, 1,100, 50, 1);	
+	InitGunExt(		"grape_mushket", "t2",            "powder_pellet",          "",  15.0, 115.0,   5.0, 105.0,100.0, 80.0, 1, 1, 1, 0, 1, 1,100, 50, 0);
+	InitGunExt(		"mushket6", "t1", 	             "grapeshot",      "gunpowder",  90.0, 155.0,  50.0, 100.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1, 70, 30, 1);	
+	InitGunExt(		"mushket6", "t2", 	              "GunEchin",               "", 115.0, 180.0,  65.0, 115.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1, 60, 25, 0);
 	
 	trace("Всего предметов (размерность массива) "+n);
 	trace("Всего заскриптованных предметов - " + iScriptItemCount);
 	trace("Начальный специальный предмет: " + Items[ItemsForLocators_start].id);
 	trace("Конечный специальный предмет: " + Items[ItemsForLocators_end].id);
 	return n;
+}
+
+void InitGunExt(string id,			
+				string sAttr,       
+				string sBullet,     
+				string sGunPowder,  
+				float  DmgMin_NC,   
+				float  DmgMax_NC,   
+				float  DmgMin_C,    
+				float  DmgMax_C,    
+				float  EnergyP_NC,  
+				float  EnergyP_C,   
+				bool   Stun_NC,     
+				bool   Stun_C,      
+				bool   MultiDamage, 
+				int    MisFire,     
+				bool   SelfDamage,  
+				bool   Explosion,   
+				float  Accuracy,    
+				int    ChargeSpeed, 
+				bool   isDefault )
+{
+	ref gun = ItemsFromID(id);
+	gun.type.(sAttr).bullet 		= sBullet;
+	gun.type.(sAttr).gunpowder 		= sGunPowder;
+	gun.type.(sAttr).DmgMin_NC		= DmgMin_NC;
+	gun.type.(sAttr).DmgMax_NC		= DmgMax_NC;
+	gun.type.(sAttr).DmgMin_C		= DmgMin_C;
+	gun.type.(sAttr).DmgMax_C		= DmgMax_NC;
+	gun.type.(sAttr).EnergyP_NC		= EnergyP_NC;
+	gun.type.(sAttr).EnergyP_C		= EnergyP_C;
+	gun.type.(sAttr).Stun_NC		= Stun_NC;
+	gun.type.(sAttr).Stun_C			= Stun_C;
+	gun.type.(sAttr).multidmg       = MultiDamage;
+	gun.type.(sAttr).misfire        = MisFire;
+	gun.type.(sAttr).SelfDamage     = SelfDamage;
+	gun.type.(sAttr).Explosion      = Explosion;
+	gun.type.(sAttr).Accuracy       = Accuracy;
+	gun.type.(sAttr).ChargeSpeed    = ChargeSpeed;
+	gun.type.(sAttr).Default        = isDefault;
+	
+	if(Stun_NC || Stun_C) gun.stun = true;
 }
 
 // Warship 24.10.08 ГПК 1.2.3 Рандом статов холодного оружия

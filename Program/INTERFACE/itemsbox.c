@@ -28,6 +28,9 @@ int iCurrentTabMode = 3; // “екущий режим сортировки
 
 int iLinesCount = 0;
 
+int lastsort = 0;//мало??? - нужно дл€ каждой таблицы запоминать, если в интерфейсе их может быть несколько???
+bool blastsort;
+
 void InitInterface_RS(string iniName, ref itemsRef, string faceID)
 {
 	sFaceID = faceID;
@@ -1045,10 +1048,105 @@ void OnTableClick()
 	string sControl = GetEventData();
 	int iRow = GetEventData();
 	int iColumn = GetEventData();
-	
+
 	string sRow = "tr" + (iRow + 1);
+//--> mod tablesort
+	if (!SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, sControl, 1 )) 
+		{
+		if (lastsort == iColumn) {bLastSort = !bLastSort;} else {lastsort = iColumn; bLastSort = 1;}//запоминаем сортировку и мен€ем направление сортировки, если это повторный клик по колонке
+//todo - разобратьс€, как заблокировать активацию двойного клика на заголовке - подмен€ть его на ординарные как-то
+//todo - устанавливать стрелочку направлени€ сортировки по запомненным значени€м переменных - но тут нужно как-то узнавать ширину колонок таблицы, чтобы пересчитать координаты???
+//todo - не забыть, что может быть несколько таблиц на одном интерфейсе - надо ещЄ и последнюю таблицы запоминать и сбрасывать(?) сортировку при смене или запоминать дл€ каждой?
+		if (iColumn == 3) 
+			SortTable(sControl, iColumn, 1, bLastSort, iLinesCount); 	
+		else 
+			SortTable(sControl, iColumn, 0, !bLastSort, iLinesCount);
+		}
+//вызывать направление сортировки разными действи€ми - Ћ ћ/ѕ ћ??
+//<-- mod tablesort
 	Table_UpdateWindow(sControl);
 }
+
+//--> mod tablesort
+void SortTable(string sControl,int iColumn, bool bIsString, bool bAsc, int _iLinesCount)//todo - вынести в общедоступный файл interface_utils
+{
+	bool bNoSize;
+	if (_iLinesCount < 1) {bNoSize = true; _iLinesCount = 998;} else bNoSize = false;
+	log_info("");
+	string sColumn = "td" + iColumn;
+	int m, n;
+	string sCurRow, sNextRow, sRow; 
+	sRow = "tr" + 999;//пузырЄк
+	aref aCurRow, aNextRow, aRow; 
+
+	for (m = 0; m < _iLinesCount-2; m++)
+	{
+		for (n = 0; n < _iLinesCount-2; n++)
+		{
+		sCurRow = "tr" + (n + 1);
+		sNextRow = "tr" + (n + 2);
+		if (bNoSize) {if (!checkattribute(&GameInterface,sControl + "." + sNextRow)) {_iLinesCount = n+2; bNoSize = false; break;}}
+//находим число строк - проверить, что это оптимально, и что мусорное значение не сломает//TODO - об€зательно разобратьс€!!! ¬ј∆Ќќ!!!
+
+//TODO - убрать это деление на строки, автоматически 
+		if (bIsString)//строки
+			{
+			if (bAsc)//по возрастанию
+				{
+				if (strcmp (GameInterface.(sControl).(sCurRow).(sColumn).str, GameInterface.(sControl).(sNextRow).(sColumn).str)>0)
+					{
+					makearef(aRow, GameInterface.(sControl).(sRow));
+					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
+					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
+					CopyAttributes(aRow, aCurRow);
+					CopyAttributes(aCurRow, aNextRow);
+					CopyAttributes(aNextRow, aRow);
+					}
+				}
+				else//по убыванию
+				{
+				if (strcmp (GameInterface.(sControl).(sCurRow).(sColumn).str, GameInterface.(sControl).(sNextRow).(sColumn).str)<0)
+					{
+					makearef(aRow, GameInterface.(sControl).(sRow));
+					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
+					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
+					CopyAttributes(aRow, aCurRow);
+					CopyAttributes(aCurRow, aNextRow);
+					CopyAttributes(aNextRow, aRow);
+					}
+				}
+			}
+			else//числа
+			{
+			if (bAsc)//по возрастанию
+				{	
+				if (stf(GameInterface.(sControl).(sCurRow).(sColumn).str) > stf(GameInterface.(sControl).(sNextRow).(sColumn).str))
+					{
+					makearef(aRow, GameInterface.(sControl).(sRow));
+					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
+					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
+					CopyAttributes(aRow, aCurRow);
+					CopyAttributes(aCurRow, aNextRow);
+					CopyAttributes(aNextRow, aRow);
+					}
+				}
+				else
+				{
+				if (stf(GameInterface.(sControl).(sCurRow).(sColumn).str) < stf(GameInterface.(sControl).(sNextRow).(sColumn).str))
+					{
+					makearef(aRow, GameInterface.(sControl).(sRow));
+					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
+					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
+					CopyAttributes(aRow, aCurRow);
+					CopyAttributes(aCurRow, aNextRow);
+					CopyAttributes(aNextRow, aRow);
+					}
+				}
+			}
+		}
+	}
+}
+//<-- mod tablesort
 
 void ChangePosTable()
 {

@@ -52,7 +52,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			}
 			link.l1 = RandSwear() + "Как это я забыл"+ GetSexPhrase("","а") +"...";
 			link.l1.go = "exit";
-			break
+			break;
 		}
 		//может отказаться.
 		if (drand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))         //WW  
@@ -274,14 +274,22 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		Dialog.text = "Ах ты, "+GetSexPhrase("мерзавец","мерзавка")+"! Ну ничего, я еще с тобой поквитаюсь.";
 		link.l1 = "Буду  ждать с нетерпением.";
 		link.l1.go = "duel_exit";
-		
-		//int rank = sti(npchar.rank) * 2 + MOD_SKILL_ENEMY_RATE;
-		npchar.rank = rank;
-		int rank = sti(npchar.rank) + (sti(npchar.rank) * 0.2) + MOD_SKILL_ENEMY_RATE;
-		npchar.perks.list.AgileMan = "1";
-		ApplayNewSkill(npchar, "AgileMan", 0);
-		int hp = LAi_GetCharacterMaxHP(npchar);
-		LAi_SetHP(npchar, hp*1.7, hp*1.7);
+		if (!CheckAttribute(npchar, "PGGAi.Boosted"))
+		{
+			int rank = sti(npchar.rank) + (sti(npchar.rank) * 0.2) + MOD_SKILL_ENEMY_RATE;
+			npchar.rank = rank;
+			npchar.perks.list.AgileMan = "1";
+			ApplayNewSkill(npchar, "AgileMan", 0);
+			SetFantomParamFromRank_PPG(npchar, rank, true);
+			int hp = LAi_GetCharacterMaxHP(npchar);
+			LAi_SetHP(npchar, hp*1.7, hp*1.7);
+			npchar.PGGAi.Boosted = true;
+			if (npchar.id == "PsHero_2" && npchar.model=="PGG_Whisper_6")
+			{				
+				GiveItem2Character(npchar, "suit_1");
+				SetEquipedItemToCharacter(npchar, CIRASS_ITEM_TYPE, "suit_1");
+			}
+		}
 		npchar.money = rank * 25000 + rand (1000) - rand(1000);
 		break;
 	case "duel_exit":
@@ -291,5 +299,72 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		LAi_SetImmortal(npchar, false);
 		DialogExit();
 		break;
+		
+	case "TreasureHunterPGG":
+		NextDiag.CurrentNode = "Second time";
+		//dialog.text = "Постой-ка, "+ GetSexPhrase("приятель","подруга") +"... Сдается, у тебя есть кое-что интересное. Нужно делиться с близкими найдеными сокровищами.";
+		dialog.text = RandPhraseSimple("Я так и подозревал" + npcharSexPhrase(npchar,"","а") + ", что этот жулик продал больше одной карты. Не зря я его убил" + npcharSexPhrase(npchar,"","а")+".","Постой-ка, "+ GetSexPhrase("приятель","подруга") +". Эта карта - моя. Не знаю, как именно она у тебя оказалась, но у меня ее стащил по пьяни один жулик. Так что эти сокровища тебе не принадлежат. ");
+	    if (PGG_ChangeRelation2MainCharacter(npchar, 0) < 41)
+		{
+			dialog.text = "Ты был"+GetSexPhrase("","а")+" настолько слеп"+GetSexPhrase("","а")+", что не замечал"+GetSexPhrase("","а")+" слежки вплоть до самого сокровища";
+			Link.l1 = "Ну что же, пришло время отделиться твоей голове от тела.";
+			Link.l1.go = "battleTreasure";
+			break;
+		}
+		Link.l1 = "Да уж, неловкая ситуация. Сам" + npcharSexPhrase(npchar,"","а") + " понимаешь, просто так я этот клад не отдам, ведь мне эта карта не даром досталась, да и путь сюда был не близкий. Но ссориться с тобой я не желаю. Предлагаю разделить добычу.";
+		Link.l1.go = "Cost_Head";
+            // boal 08.04.04 -->
+        Link.l2 = "Ну что же, всякое в жизни бывает, не повезло тебе. А теперь прочь с дороги!";
+		Link.l2.go = "NoMoney_1";
+		break;
+	case "battleTreasure":
+        AddDialogExitQuest("Battle_PGGHunters_Land");
+		PChar.quest.PGGbattleTreasure.win_condition.l1 = "NPC_Death";
+		PChar.quest.PGGbattleTreasure.win_condition.l1.character = npchar.id;
+		PChar.quest.PGGbattleTreasure.function = "T102_DoorUnlock";
+        DialogExit();
+        break;
+	case "Cost_Head":
+			dialog.text = "Даже так? Я уже был готов за оружие браться\nНу что же, я не против. Думаю, что " + sti(PChar.HunterCost)/2 + " пиастров меня устроит.";
+            if(makeint(Pchar.money) < sti(PChar.HunterCost)/2)
+            {
+                Link.l1 = "У меня нет таких денег.";
+                Link.l1.go = "NoMoney";
+            }
+			else
+			{
+                Link.l1 = "Так и быть, забирай.";
+                Link.l1.go = "Cost_Head2";
+                Link.l2 = "Такую сумму отдавать, непонятно кому... Уж лучше я тебя просто зарежу!!!";
+                Link.l2.go = "NoMoney";
+            }
+	break;	
+	case "NoMoney":
+			dialog.text = "В таком случае разговор окончен!";
+			ChangeCharacterReputation(pchar, -15);
+			Link.l1 = "Похоже на то.";
+			Link.l1.go = "battleTreasure"; 
+		break;
+	case "NoMoney_1":
+			dialog.text = "Ну уж нет! Никуда ты с моим кладом не уйдешь!";
+			ChangeCharacterReputation(pchar, -15);
+			Link.l1 = "В таком случае, пришло время отделиться твоей голове от тела.";
+			Link.l1.go = "battleTreasure"; 
+	break;
+	case "Cost_Head2":
+        AddMoneyToCharacter(pchar, -(sti(PChar.HunterCost)/2));
+		PGG_AddMoneyToCharacter(npchar, (sti(PChar.HunterCost)/2));
+		ChangeCharacterReputation(pchar, 15);
+		PGG_ChangeRelation2MainCharacter(npchar, 40);
+		chrDisableReloadToLocation = false;
+        dialog.text = "А ты "+GetSexPhrase("неплохой малый","славная девчонка")+"! Благодарю за понимание. Надеюсь, мы еще встретимся, я бы с тобой опрокинул кружку-другую.";
+		Link.l1 = "Заманчивое предложение. Если подвернется случай - обязательно выпьем!";
+		Link.l1.go = "Cost_Head3";	
+        break;
+	case "Cost_Head3":
+        AddDialogExitQuest("GoAway_PGGHunters_Land"); 
+        DialogExit();
+        break;
 	}
+	
 }

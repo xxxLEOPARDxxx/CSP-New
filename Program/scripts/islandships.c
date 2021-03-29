@@ -96,6 +96,7 @@ void GenerateIslandShips(string sIslandID)
 						if(defendersCount > 0)
 						{
 							SelAllPerksToNotPChar(&characters[iChar]);
+							DeleteAttribute(&characters[iChar], "perks.list.ShipEscape");
 							SetSelfSkill(&characters[iChar], 100, 100, 100, 100, 100);
 							SetShipSkill(&characters[iChar], 100, 100, 100, 100, 100, 100, 100, 100, 100);
 						}

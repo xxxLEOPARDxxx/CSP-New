@@ -4,6 +4,7 @@ void Duel_Prepare_Fight()
 {
 	int i, idx, iTemp;
 	ref npchar, rLoc, sld;
+	string sTemp;
 
 	npchar = CharacterFromID(pchar.questTemp.duel.enemy);
 	DeleteAttribute(npchar, "City"); // чтоб не было ругани с нацией
@@ -37,7 +38,7 @@ void Duel_Prepare_Fight()
 			{
 				sld = GetCharacter(NPC_GenerateCharacter("Berglar_Duel"+i, "officer_"+(rand(57)+1), "man", "man", iTemp, PIRATE, 1, true));				
 				SetFantomParamHunter(sld);
-				PlaceCharacter(sld, "goto", "Clone_location");
+				PlaceCharacter(sld, "reload", "Clone_location");
 				LAi_SetWarriorType(sld);
 				LAi_group_MoveCharacter(sld, "DUEL_FIGHTER");
 			}

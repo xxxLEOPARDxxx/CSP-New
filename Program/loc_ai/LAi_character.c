@@ -227,12 +227,14 @@ void LAi_SetAlcoholNormal(aref chr)
 void LAi_UseAtidoteBottle(aref chr)
 {
 	DeleteAttribute(chr, "chr_ai.poison");
+	UnmarkCharacter(chr);
 }
 
 //ќтравлен
 bool LAi_IsPoison(aref chr)
 {
 	if(CheckAttribute(chr, "chr_ai.poison")) return true;
+	UnmarkCharacter(chr);
 	return false;
 }
 
@@ -616,14 +618,140 @@ void LAi_GunSetChargeQuant(aref chr, int quant)
 	chr.chr_ai.chargeprc = "1";
 }
 
+bool LAi_SetCharacterUseBullet(ref rChar, string sBullet)
+{
+	string 	sAttr;
+	string 	sBulletType = "";
+	int 	iNum;
+	aref 	rType;
+	
+	string sGun = GetCharacterEquipByGroup(rChar, GUN_ITEM_TYPE);
+	if(sGun != "") 
+	{
+		ref rItm = ItemsFromID(sGun); 
+		makearef(rType, rItm.type);
+		iNum = GetAttributesNum(rType);		
+		for (int i = 0; i < iNum; i++)
+		{
+			sAttr = GetAttributeName(GetAttributeN(rType, i));
+			sBulletType = rItm.type.(sAttr).bullet;
+			if(sBulletType == sBullet)
+			{
+				rChar.chr_ai.sGun			= sGun;
+				rChar.chr_ai.bulletType		= sAttr;
+				rChar.chr_ai.bulletNum 		= iNum;
+				rChar.chr_ai.bullet 		= sBulletType;
+				rChar.chr_ai.gunpowder		= rItm.type.(sAttr).gunpowder;
+				rChar.chr_ai.accuracy		= rItm.type.(sAttr).Accuracy;
+				rChar.chr_ai.chargespeed	= rItm.type.(sAttr).ChargeSpeed;				
+				rChar.chr_ai.DmgMin_NC		= rItm.type.(sAttr).DmgMin_NC;
+				rChar.chr_ai.DmgMax_NC 		= rItm.type.(sAttr).DmgMax_NC;
+				rChar.chr_ai.DmgMin_C 		= rItm.type.(sAttr).DmgMin_C;				
+				rChar.chr_ai.DmgMax_C 		= rItm.type.(sAttr).DmgMax_C;
+				rChar.chr_ai.EnergyP_NC 	= rItm.type.(sAttr).EnergyP_NC;
+				rChar.chr_ai.EnergyP_C 		= rItm.type.(sAttr).EnergyP_C;
+				rChar.chr_ai.Stun_NC 		= rItm.type.(sAttr).Stun_NC;
+				rChar.chr_ai.Stun_C			= rItm.type.(sAttr).Stun_C;						
+				rChar.chr_ai.MultiDmg       = rItm.type.(sAttr).multidmg;
+				rChar.chr_ai.MisFire		= rItm.type.(sAttr).misfire;
+				rChar.chr_ai.SelfDamage		= rItm.type.(sAttr).SelfDamage;
+				rChar.chr_ai.Explosion		= rItm.type.(sAttr).Explosion;
+				
+				rItm.ChargeSpeed			= rItm.type.(sAttr).ChargeSpeed;
+				rItm.Accuracy				= rItm.type.(sAttr).Accuracy;
+				rItm.DmgMin					= rItm.type.(sAttr).DmgMin_NC;
+				rItm.DmgMax					= rItm.type.(sAttr).DmgMax_NC;
+				rItm.dmg_min 				= rItm.type.(sAttr).DmgMin_NC;
+				rItm.dmg_max				= rItm.type.(sAttr).DmgMax_NC;
+								
+				if(CheckAttribute(rItm,"chargeQ"))										LAi_GunSetChargeQuant(rChar,sti(rItm.chargeQ));
+				else																	LAi_GunSetChargeQuant(rChar, 0);						
+				if(CheckAttribute(rItm,"chargespeed") && stf(rItm.chargespeed) > 0.0)	LAi_GunSetChargeSpeed(rChar, 1.0/stf(rItm.chargespeed));
+				else																	LAi_GunSetChargeSpeed(rChar, 0.0);				
+				if(CheckAttribute(rItm,"dmg_min"))										LAi_GunSetDamageMin(rChar,stf(rItm.dmg_min));
+				else																	LAi_GunSetDamageMin(rChar, 0.0);				
+				if(CheckAttribute(rItm,"dmg_max"))										LAi_GunSetDamageMax(rChar,stf(rItm.dmg_max));
+				else																	LAi_GunSetDamageMax(rChar, 0.0);				
+				if(CheckAttribute(rItm,"accuracy"))										LAi_GunSetAccuracy(rChar,stf(rItm.accuracy)*0.01);
+				else																	LAi_GunSetAccuracy(rChar,0.0);
+			
+				return true;	
+			}
+		}
+	}			
+	return false;
+}
+
+// ugeen --> получим тип пуль на одетом огнестрельном оружии
+string LAi_GetCharacterBulletType(ref rChar)
+{
+	string sBulletType = "";	
+	string sGun = GetCharacterEquipByGroup(rChar, GUN_ITEM_TYPE);
+	if(sGun != "") 
+	{
+		if(CheckAttribute(rChar,"chr_ai.bullet"))		
+		{
+			sBulletType 	= rChar.chr_ai.bullet;
+		}	
+	}			
+	return sBulletType;
+}
+
+// ugeen --> получим тип пороха на одетом огнестрельном оружии и известном типе пуль
+string LAi_GetCharacterGunpowderType(ref rChar)
+{
+	string sGunpowderType = "";		
+	string sGun = GetCharacterEquipByGroup(rChar, GUN_ITEM_TYPE);		
+	if(sGun != "") 
+	{
+		if(CheckAttribute(rChar,"chr_ai.gunpowder"))		
+		{
+			sGunPowderType  = rChar.chr_ai.gunpowder;
+		}	
+	}			
+	return sGunpowderType;
+}
+
+string LAi_SetCharacterDefaultBulletType(ref rChar)
+{
+	string sAttr;
+	string sBulletType = "";
+	int iNum;
+	bool isBulletSet = false;
+	aref rType;
+	string sGun = GetCharacterEquipByGroup(rChar, GUN_ITEM_TYPE);
+	if(sGun != "") 
+	{
+		ref rItm = ItemsFromID(sGun); 
+		makearef(rType, rItm.type);
+		iNum = GetAttributesNum(rType);
+		for (int i = 0; i < iNum; i++)
+		{
+			sAttr = GetAttributeName(GetAttributeN(rType, i));
+			if(sti(rItm.type.(sAttr).Default) > 0)
+			{
+				sBulletType = rItm.type.(sAttr).bullet;
+				isBulletSet = LAi_SetCharacterUseBullet(rChar, sBulletType);
+			}
+		}
+		if(!isBulletSet) trace("can't set default bullet for character id " + rChar.id);
+	}			
+	return sBulletType;
+}
+
 // Warship. ћетоды по зар€дке пистол€ -->
 int iGetMinPistolChargeNum(ref rChar) // „его меньше, пороха или пуль?
 {
-	int iBulletQty = GetCharacterItem(rChar, "bullet");
-	int iGunPowderQty = GetCharacterItem(rChar, "GunPowder");
-	int iChargeQty = func_min(iBulletQty, iGunPowderQty); // ”знаем, чего меньше
-	
-	return iChargeQty;
+	string sBulletType = LAi_GetCharacterBulletType(rChar);	 					// узнаем тип пуль
+	int iBulletQty = GetCharacterItem(rChar, sBulletType);   					// считаем кол-во пуль
+	string sGunPowderType = LAi_GetCharacterGunpowderType(rChar); 				// тип пороха
+	if(sGunPowderType != "")
+	{
+		int iGunPowderQty = GetCharacterItem(rChar, sGunPowderType); 				// кол-во пороха		
+		int iChargeQty = func_min(iBulletQty, iGunPowderQty); 						// ”знаем, чего меньше
+		return iChargeQty;
+	}		
+	return iBulletQty;
 }
 
 int iGetPistolChargeNum(ref rChar, int iQuant) // —кока можем зар€дить
@@ -781,6 +909,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 				if(stf(chr_ai.poison) <= 0.0)
 				{
 					DeleteAttribute(chr_ai, "poison");
+					UnmarkCharacter(chr);
 				}else{
 					hp = hp - dltTime*2.0;
 					if (!CheckAttribute(chr, "poison.hp") || hp < sti(chr.poison.hp)-1.0)
@@ -803,6 +932,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 				if(stf(chr_ai.blooding) <= 0.0)
 				{
 					DeleteAttribute(chr_ai, "blooding");
+					UnmarkCharacter(chr);
 					if(sti(chr.index) == GetMainCharacterIndex())
 					{
 						Log_Info(" ровотечение прекратилось.")
@@ -828,6 +958,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 				if(CheckAttribute(chr_ai, "underStun") && stf(chr_ai.understun) <= 0.1)
 				{
 					DeleteAttribute(chr_ai, "underStun")
+					UnmarkCharacter(chr);
 					if(sti(chr.index) == GetMainCharacterIndex())
 					{
 						LAi_SetPlayerType(chr);
@@ -848,6 +979,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 					DeleteAttribute(chr_ai, "swift");
 					chr_ai.energy = chr_ai.curen;
 					DeleteAttribute(chr_ai, "curen");
+					UnmarkCharacter(chr);
 					if(sti(chr.index) == GetMainCharacterIndex())
 					{
 						Log_Info("¬ы восстановились после резкого удара.")

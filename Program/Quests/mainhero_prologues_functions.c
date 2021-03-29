@@ -14,15 +14,6 @@ void Sharp_StartGame(string qName)
 	pchar.questTemp.Sharp.Entered_Shore = true;
 	DoQuestCheckDelay("TalkSelf_Quest", 1.0);
 	
-	for (i = 1; i <= PsHeroQty; i++)
-	{
-		sld = CharacterFromID("PsHero_" + i);
-		if(sld.FaceId == 1 || sld.FaceId == 522)
-		{//Его мы позже наймем оффом, так что убираем из ПГГ
-			sld.PGGAi.IsPGG = false;
-			sld.PGGAi.location.town = "none";
-		}
-	}
 	pchar.quest.Sharp_MeetSiblings.win_condition.l1          = "location";
     pchar.quest.Sharp_MeetSiblings.win_condition.l1.location = "Terks_Grot";
     pchar.quest.Sharp_MeetSiblings.function                  = "Sharp_MeetSiblings";
@@ -42,6 +33,15 @@ void SharpExitFromCave(string qName)
 }
 void Sharp_MeetSiblings(string qName)
 {
+	for (i = 1; i <= PsHeroQty; i++)
+	{
+		sld = CharacterFromID("PsHero_" + i);
+		if(sld.FaceId == 1 || sld.FaceId == 522)
+		{//Его мы позже наймем оффом, так что убираем из ПГГ
+			sld.willDie = true;
+			LAi_KillCharacter(sld);
+		}
+	}
 	chrDisableReloadToLocation = true;
 	if (startherotype == 3)
 	{
@@ -97,21 +97,12 @@ void SharleMary_StartGame(string qName)
 	pchar.questTemp.SharleMary.Entered_Shore = true;
 	DoQuestCheckDelay("TalkSelf_Quest", 1.0);
 	
-	for (i = 1; i <= PsHeroQty; i++)
-	{
-		sld = CharacterFromID("PsHero_" + i);
-		if(sld.FaceId == 508 || sld.FaceId == 517)
-		{//Его мы позже наймем оффом, так что убираем из ПГГ
-			sld.PGGAi.IsPGG = false;
-			sld.PGGAi.location.town = "none";
-		}
-	}
 	pchar.quest.SharleMary_Indians.win_condition.l1          = "location";
     pchar.quest.SharleMary_Indians.win_condition.l1.location = "Common_jungle_01";
     pchar.quest.SharleMary_Indians.function                  = "SharleMary_Indians";
 	
 	GiveItem2Character(pchar, "blade4");
-	GiveItem2Character(pchar, "blade7");
+	GiveItem2Character(pchar, "blade6");
 	GiveItem2Character(pchar, "blade35");
 	EquipCharacterbyItem(pchar, "blade4");
 	TakeNItems(pchar, "potion1", 10);
@@ -120,6 +111,15 @@ void SharleMary_StartGame(string qName)
 
 void SharleMary_Indians(string qName)
 {
+	for (i = 1; i <= PsHeroQty; i++)
+	{
+		sld = CharacterFromID("PsHero_" + i);
+		if(sld.FaceId == 508 || sld.FaceId == 517)
+		{//Его мы позже наймем оффом, так что убираем из ПГГ
+			sld.willDie = true;
+			LAi_KillCharacter(sld);
+		}
+	}
 	//Заблокировать меню персонажа
 	bDisableCharacterMenu = true;
 	chrDisableReloadToLocation = true;

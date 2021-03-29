@@ -1263,7 +1263,7 @@ void ProcessDialogEvent()
 		break;
 
 	case "Quest_1_End":
-		Dialog.Text = "Приятно иметь с тобой дело! Удачи.";
+		Dialog.Text = "Сегодня мы отчаливаем в " + XI_ConvertString("Colony"+npchar.PGGAi.location.town) + " пропивать добычу! Если хочешь, присоединяйся! В любом случае, приятно иметь с тобой дело! Удачи.";
 		link.l1 = "И тебе.";
 		link.l1.go = "Exit";
 		NextDiag.TempNode = "Quest_1_End";
@@ -1308,7 +1308,10 @@ void ProcessDialogEvent()
 	case "Exit_Quest_1_End":
 		RemoveCharacterCompanion(PChar, NPChar);
 		ChangeCharacterReputation(PChar, 5);
-		PGG_ChangeRelation2MainCharacter(NPChar, 20);
+		PGG_ChangeRelation2MainCharacter(NPChar, 30);
+		npchar.PGGAi.location.town = PGG_FindRandomTownByNation(sti(npchar.nation));
+		npchar.PGGAfterShare = true;
+		npchar.PGGAi.AfterSail.TaskCounter = 0;
 		i = sti(PChar.GenQuest.PGG_Quest.Goods.Part);
 /*		i *= (sti(PChar.GenQuest.PGG_Quest.Parts)-1);
 		i += sti(PChar.GenQuest.PGG_Quest.StartGoods);

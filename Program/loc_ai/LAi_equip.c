@@ -12,6 +12,8 @@
 void LAi_NPC_Equip(ref chr, int rank, bool isWeapons, bool isGun)
 {
 	// boal не нужно - ранг и так точно расчитан r = rank + rand(3) - 1;
+	string sBullet = "bullet";
+	string sGunPowder;
 	
 	DeleteAttribute(chr, "equip");
 	DeleteAttribute(chr, "perks.list"); // FIX 101104 убрать накопивщиеся умения
@@ -94,7 +96,8 @@ void LAi_NPC_Equip(ref chr, int rank, bool isWeapons, bool isGun)
 					if(rand(100) < 80)
 					{
 						GiveItem2Character(chr, "pistol3");
-						EquipCharacterByItem(chr, "pistol3");				
+						EquipCharacterByItem(chr, "pistol3");
+						sBullet = "grapeshot";						
 					}	
 				break;
 				
@@ -123,8 +126,13 @@ void LAi_NPC_Equip(ref chr, int rank, bool isWeapons, bool isGun)
 				break;
 			}
 
-			TakeNItems(chr, "bullet", 5+rand(10));// boal gun bullet
-			AddItems(chr, "GunPowder", 5+rand(10)); // Warship. Порох
+			TakeNItems(chr, sBullet, 5 + rand(10));// boal gun bullet
+			LAi_SetCharacterUseBullet(chr, sBullet);
+			sGunPowder = LAi_GetCharacterGunpowderType(chr);
+			if(sGunPowder != "")
+			{
+				AddItems(chr, sGunPowder, 5 + rand(10)); // Warship. Порох
+			}
 		}
 	}
 	// boal выдаем пистоль <--

@@ -287,16 +287,20 @@ void GiveItemToTrader(aref ch)
 		irand = rand(20) + 40;
 		// boal gun bullet -->
 		AddItems(ch, "bullet", irand);
+		AddItems(ch, "grapeshot", irand);
 		// boal <--
 		AddItems(ch, "GunPowder", irand); // Warship. Порох
+		AddItems(ch, "cartridge", makeint(irand/4));
 	}
 	else
 	{
 		irand = rand(20) + 20;
 		// boal gun bullet -->
 		AddItems(ch, "bullet", irand);
+		AddItems(ch, "grapeshot", irand);
 		// boal <--
 		AddItems(ch, "GunPowder", irand); // Warship. Порох
+		AddItems(ch, "cartridge", makeint(irand/4));
 	}
 
     irand = rand(4);
@@ -1947,6 +1951,8 @@ void MarkCharacter(aref chr, string markType)
 
 void UnmarkCharacter(aref chr) 
 { 
+	chr.quest.questflag.model = ""; 
+	chr.quest.questflag.technique = ""; 
 	if(CheckAttribute(chr, "quest.questflag")) DeleteAttribute(chr, "quest.questflag"); 
 }
 

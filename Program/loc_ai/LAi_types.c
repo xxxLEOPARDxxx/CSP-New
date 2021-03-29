@@ -41,6 +41,8 @@
 #include "Loc_ai\types\LAi_LSCout.c"
 //Сидящий не земле
 #include "Loc_ai\types\LAi_groundSit.c"
+// Оглушенные
+#include "Loc_ai\types\LAi_stunned.c"
 
 //------------------------------------------------------------------------------------------
 //Player
@@ -434,4 +436,24 @@ void LAi_SetGroundSitTypeNoGroup(aref chr)
 {
 	chr.chr_ai.type = LAI_DEFAULT_TYPE;
 	LAI_type_GroundSit_Init(chr);
+}
+
+
+//------------------------------------------------------------------------------------------
+// Stunned 
+//------------------------------------------------------------------------------------------
+
+//Установить персонажу тип оглушенного
+void LAi_SetStunnedType(aref chr)
+{
+	chr.chr_ai.type = LAI_DEFAULT_TYPE;
+	LAi_type_Stunned_Init(chr);
+	LAi_group_MoveCharacter(chr, LAI_DEFAULT_GROUP);
+}
+
+//Установить персонажу тип оглушенного, без перемещения в группу
+void LAi_SetStunnedTypeNoGroup(aref chr)
+{
+	chr.chr_ai.type = LAI_DEFAULT_TYPE;
+	LAi_type_Stunned_Init(chr);
 }

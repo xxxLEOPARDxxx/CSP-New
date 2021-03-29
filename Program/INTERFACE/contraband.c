@@ -6,6 +6,7 @@ int 	iShipCapacity;
 int 	iTotalSpace;
 float 	fShipWeight, fStoreWeight;
 int 	iMaxGoodsStore = 50000;
+bool nocheck = true;
 
 bool 	bShowChangeWin = false;
 int  	BuyOrSell = 0; // 1-buy -1 sell
@@ -15,6 +16,11 @@ int 	iShipQty, iStoreQty, iShipPrice, iStorePrice, iUnits;
 float 	fWeight;
 int  	iCurGoodsIdx;
 bool 	ok; // for if
+
+#define FIS_ALL		0		// Normal
+#define FIS_SHIP	1		// Show ship
+#define FIS_STORE	2		// Show store
+int FIS_FilterState = 0;
 
 void InitInterface_RR(string iniName, ref ContraTrader , ref pStore)
 {
@@ -101,6 +107,9 @@ void AddToTable()
 			sStoreQ = 0; refGoods.quantity = 0;
 		}
 		if (sStoreQ == 0 && sShipQ == 0) continue; // только не нули
+		
+		if (sti(sStoreQ) == 0 && FIS_FilterState == FIS_STORE) continue;
+		if (sti(sShipQ) == 0 && FIS_FilterState == FIS_SHIP) continue;
 
 		GameInterface.TABLE_LIST.(row).td1.str = sShipQ;
 		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(sShipQ));
@@ -156,6 +165,52 @@ void AddToTable()
 		n++;
 	}
 	NextFrameRefreshTable();
+	nocheck = false;
+}
+
+void ProcessFilter(string sButton)
+{
+	nocheck = false;
+	switch (sButton)
+	{
+	case "CB_SHIP":
+		/*
+		Radio-button semantics:
+		- If the button was selected the user is deselecting it, so reselect it and exit.
+		- If the button was not selected, deselect all others, set the state variable and
+		  reload the table.
+		*/
+		SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_SHIP", 2, 1, 1);
+		if (FIS_FilterState != FIS_SHIP)
+		{
+			// Button being selected.
+			SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_ALL", 2, 1, 0);
+			SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_STORE", 2, 1, 0);
+			FIS_FilterState = FIS_SHIP;
+			AddToTable();
+		}
+		break;
+	case "CB_ALL":
+	    SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_ALL", 2, 1, 1);
+		if (FIS_FilterState != FIS_ALL)
+		{
+			SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_SHIP", 2, 1, 0);
+			SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_STORE", 2, 1, 0);
+			FIS_FilterState = FIS_ALL;
+			AddToTable();
+		}
+		break;
+	case "CB_STORE":
+	    SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_STORE", 2, 1, 1);
+		if (FIS_FilterState != FIS_STORE)
+		{
+			SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_SHIP", 2, 1, 0);
+			SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_ALL", 2, 1, 0);
+			FIS_FilterState = FIS_STORE;
+			AddToTable();
+		}
+		break;
+	}
 }
 
 void TransactionOK()
@@ -444,6 +499,9 @@ void ProcCommand()
 	            REMOVE_ALL_BUTTON();
 			}
 		break;
+		case "CB_SHIP":		if (comName == "click")ProcessFilter(nodName); break;
+		case "CB_ALL":		if (comName == "click")ProcessFilter(nodName); break;
+		case "CB_STORE":	if (comName == "click")ProcessFilter(nodName); break;
 	}
 }
 
@@ -485,6 +543,7 @@ void RefreshTableByFrameEvent()
 {
 	DelEventHandler("frame", "RefreshTableByFrameEvent");
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"TABLE_LIST", 0 );
+	if(!nocheck) DoChange();
 }
 
 void OnTableClick()
@@ -572,10 +631,18 @@ void CS_TableSelectChange()
     ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(sRow).index));
 }
 
+void DoChange()
+{
+	AddToTable();
+	string row = "tr"+sti(GameInterface.TABLE_LIST.select);
+	if (row != "tr0") ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(row).index));
+	nocheck = true;
+}
+
 void FillShipsScroll()
 {
 	nCurScrollNum = -1;
-	FillScrollImageWithCompanionShips("SHIPS_SCROLL", 5);
+	FillScrollImageWithCompanionShips("SHIPS_SCROLL", COMPANION_MAX);
 
 	if(!CheckAttribute(&GameInterface,"SHIPS_SCROLL.current"))
 	{

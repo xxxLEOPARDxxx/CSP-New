@@ -118,7 +118,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				if(!CheckAttribute(pchar,"GenQuest.CaptainComission.RepeatSpeak"))
 				{
 					AddQuestRecord("CaptainComission1", "31");
-					AddQuestUserData("CaptainComission1", "sName", ChangeNameCase(NAMETYPE_MAIN, pchar.GenQuest.CaptainComission.PirateName, NAME_NOM));
+					AddQuestUserData("CaptainComission1", "sName",  pchar.GenQuest.CaptainComission.PirateName);
 				}	
 				pchar.GenQuest.CaptainComission.RepeatSpeak = true;
 			}
@@ -146,7 +146,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = "Хорошо, я берусь за это дело. Постараюсь успеть.";
 			link.l1.go = "exit";
 			AddQuestRecord("CaptainComission1", "24");
-			AddQuestUserData("CaptainComission1", "sName", ChangeNameCase(NAMETYPE_MAIN, pchar.GenQuest.CaptainComission.PirateName, NAME_NOM));
+			AddQuestUserData("CaptainComission1", "sName", pchar.GenQuest.CaptainComission.PirateName);
 			AddQuestUserData("CaptainComission1", "sShipName1", pchar.GenQuest.CaptainComission.ShipName1);
 			AddQuestUserData("CaptainComission1", "sShipName2", pchar.GenQuest.CaptainComission.ShipName2);
 			AddQuestUserData("CaptainComission1", "sShoreName", XI_ConvertString(pchar.GenQuest.CaptainComission.Island.Shore + "Abl"));

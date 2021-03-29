@@ -95,20 +95,24 @@ void LAi_type_owner_CharacterUpdate(aref chr, float dltTime)
 				{
 					if(nMainCharacterIndex == sti(chrFindNearCharacters[i].index))
 					{					
-						//нашли √√, провер€ем, не в сундуке ли.						
+						//нашли √√, провер€ем, не в сундуке ли.			
 						if (bMainCharacterInBox && chr.chr_ai.type.state != "afraid" && chr.id != "Caiman_StoreKeeper")
 						{
-							//--> снимаем если есть флаг на таймер ссоры у хоз€ина - снимаем
-							if (CheckAttribute(pchar, "questTemp.HouseEncTimer"))
+							if (!CheckAttribute(chr,"StorageOpen"))
 							{
-								DeleteAttribute(pchar, "questTemp.HouseEncTimer");
+								//--> снимаем если есть флаг на таймер ссоры у хоз€ина - снимаем
+								if (CheckAttribute(pchar, "questTemp.HouseEncTimer"))
+								{
+									DeleteAttribute(pchar, "questTemp.HouseEncTimer");
+								}
+								//<-- снимаем если есть флаг на таймер ссоры у хоз€ина - снимаем
+								if (chr.sex == "man") chr.greeting = "VOICE\Russian\soldier_arest_1.wav";
+								else chr.greeting = "VOICE\Russian\Gr_Woman_Citizen_11.wav";
+								chr.dialog.currentnode = chr.sex  + "_FackYou";
+								LAi_SetActorTypeNoGroup(chr); //временно актер, чтобы темплейт диалога не слетал. кодить это еще и в этом типе - геморой. 
+								LAi_ActorDialog(chr, pchar, "", 0.0, 0);			
 							}
-							//<-- снимаем если есть флаг на таймер ссоры у хоз€ина - снимаем
-							if (chr.sex == "man") chr.greeting = "VOICE\Russian\soldier_arest_1.wav";
-							else chr.greeting = "VOICE\Russian\Gr_Woman_Citizen_11.wav";
-							chr.dialog.currentnode = chr.sex  + "_FackYou";
-							LAi_SetActorTypeNoGroup(chr); //временно актер, чтобы темплейт диалога не слетал. кодить это еще и в этом типе - геморой. 
-							LAi_ActorDialog(chr, pchar, "", 0.0, 0);			
+							
 						}
 						else
 						{

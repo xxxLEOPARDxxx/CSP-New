@@ -593,16 +593,11 @@ void CreateHabitues(aref loc)
 		            chr.nation = iNation; // нация его нужна, тк она будет нацией патруля на берегу, он не пират
 					CreateModel(iChar, "pirate", MAN);
 					sTemp = PlaceCharacter(chr, "sit", "random_free");
-					ReSitCharacterOnFree(chr, loc.id, sTemp);
+					FreeSitLocator(loc.id, sTemp);
+					ChangeCharacterAddressGroup(chr, loc.id, "sit", sTemp);
 					LAi_group_MoveCharacter(chr, slai_group);
-/// ---> Navarra
-				///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
-					if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
-					{	LAi_SetGroundSitType(chr);	}
-				///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
-					if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
-					{	LAi_SetBarmanType(chr);		}
-/// <--- Navarra
+					if (findsubstr(sTemp, "_bar" , 0) != -1) LAi_SetBarmanType(chr);
+					else LAi_SetSitType(chr);
 				}
 				else
 				{
@@ -684,18 +679,10 @@ void CreateHabitues(aref loc)
 					SetNPCModelUniq(chr, "pirate", MAN);
 					chr.City = Colonies[iColony].id;
 					chr.CityType = "citizen";
-					sTemp = PlaceCharacter(chr, "sit", "random_free"); // может не быть вовсе, если все места заняты
-					ReSitCharacterOnFree(chr, loc.id, sTemp);
-
+					sTemp = "sit"+rand(10);
+					FreeSitLocator(loc.id, sTemp);
+					ChangeCharacterAddressGroup(chr, loc.id,"sit", sTemp); // может не быть вовсе, если все места занятыa
 					LAi_SetSitType(chr);
-	/// ---> Navarra
-					///	if (findsubstr(sTemp, "sit_ground" , 0) != -1)
-						if (findsubstr(chr.location.locator, "sit_ground" , 0) != -1)
-						{	LAi_SetGroundSitType(chr);	}
-					///	if (findsubstr(sTemp, "sit_bar" , 0) != -1)
-						if (findsubstr(chr.location.locator, "sit_bar" , 0) != -1)
-						{	LAi_SetBarmanType(chr);		}
-	/// <--- Navarra
 					LAi_group_MoveCharacter(chr, slai_group);
 					chr.dialog.filename = "Enc_Treasure_dialog.c";
 					chr.dialog.currentnode = "first time";

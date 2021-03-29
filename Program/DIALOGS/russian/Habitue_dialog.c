@@ -513,6 +513,7 @@ void ProcessDialogEvent()
 		//break;
 		//////  1
 	    case "GhostShip_Speak_1":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
             npchar.GhostShip_Speak_Yet = true;
             pchar.GenQuest.GhostShip.lastspeak_date = LastSpeakDate();
    			dialog.text = "Ну... И-ик! Видел я страшное - корабль-призрак, а на нем сплошные мертвецы... Говорят, он тут со времен Колумба плавает...";
@@ -521,12 +522,14 @@ void ProcessDialogEvent()
 		break;
 		
 		case "GhostShip_Speak_1_2":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Я вру? И-ик! Да я вторую неделю пью, чтоб забыть, что видел... как он на черных рваных парусах входил в бухту...";
 			link.l1 = "И как же ты уцелел?";
 			link.l1.go = "GhostShip_Speak_1_3";
 		break;
 		
 		case "GhostShip_Speak_1_3":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Да я как увидал, что они к берегу пристают, аж штаны испачкал. И-ик!.. А ты не смейся - сам"+ GetSexPhrase("","а") +" бы испачкал"+ GetSexPhrase("","а") +"! И бегом, значит, оттудова...";
 			link.l1 = "Н-да... врун ты изрядный, совсем голову пропил.";
 			link.l1.go = "exit_sit";
@@ -535,6 +538,7 @@ void ProcessDialogEvent()
 		break;
 		//////  2
 		case "GhostShip_Speak_2":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
             npchar.GhostShip_Speak_Yet = true;
             pchar.GenQuest.GhostShip.lastspeak_date = LastSpeakDate();
             dialog.text = "Деется? Да че тут деется?.. А вот говорят, Летучий голландец опять золотой караван пустил на дно.";
@@ -543,12 +547,14 @@ void ProcessDialogEvent()
 		break;
 
 		case "GhostShip_Speak_2_2":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "'Летучий'! Так корабль-призрак опять появился в архипелаге. Вроде пропадал на много лет... в преисподней был, не иначе. А то как прокляты все на нем и пуля их не берет.";
 			link.l1    = "И что же, их убить нельзя?";
 			link.l1.go = "GhostShip_Speak_2_3";
 		break;
 
 		case "GhostShip_Speak_2_3":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Бывало, города брали штурмом, весь гарнизон форта вырезали, а солдат-то в форте тыщи! Хотя, я слышал, топили их как-то, но че им, покойникам, сделается - по дну до берега дотащат корабль, починятся кое-как и опять зверствуют.";
 			link.l1 = "Эх, до чего люди горазды выдумывать... 'По дну тащат' - надо же. Хотя, спасибо, интересная история.";
 			link.l1.go = "exit_sit";
@@ -557,6 +563,7 @@ void ProcessDialogEvent()
 		break;
 		//////  3
 		case "GhostShip_Speak_3":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
             npchar.GhostShip_Speak_Yet = true;
             pchar.GenQuest.GhostShip.lastspeak_date = LastSpeakDate();
             
@@ -585,12 +592,14 @@ void ProcessDialogEvent()
 		break;
 
 		case "GhostShip_Speak_3_2":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Мне местные контрабандисты говорили, что вчера он в нашу бухту заходил.";
 			link.l1    = "Прямо здесь, рядом? Он еще там?";
 			link.l1.go = "GhostShip_Speak_3_3";
 		break;
 
 		case "GhostShip_Speak_3_3":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Откуда мне знать, в море ушел, наверное. Контрабандисты сами убежали, весь товар потеряли...";
     		if (sti(PChar.GenQuest.GhostShip.KillMe) > 0 || sti(PChar.GenQuest.GhostShip.DeadByMe) > 0)
             {
@@ -766,6 +775,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "sit_2":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			AddMoneyToCharacter(pchar, -2);
 			//navy --> Alcohol - rum count;
 			if (CheckAttribute(pchar, "questTemp.Rum"))
@@ -801,10 +811,12 @@ void ProcessDialogEvent()
 		break;
 
 		case "sit_3":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			int iSituation = makeint(rand(5));
 			switch (iSituation)
 			{
 				case 0:
+					if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 					dialog.text = "О! Здравая идея!";
 					link.l1 = "Трактирщик! Рома!";
 					link.l1.go = "sit_2";
@@ -813,6 +825,7 @@ void ProcessDialogEvent()
 				case 1:
 					if(rand(1) == 0)
 					{
+						if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 						dialog.text = RandPhraseSimple("Вот вы, " + GetAddress_Form(NPChar) + ", наверное думаете, что вами все восхищаются, да? А по мне - так вы обычн"+ GetSexPhrase("ый","ая") +" разбойни-"+ GetSexPhrase("гик","гица") +"!.. и убийца. Придумали тоже - 'бла-ародный пират'! Бандит - он и есть бандит, что на мор-ик, что на суше...",
 							"Ик! "+ GetSexPhrase("Под... подонок","Др... дрянь") +"! Ты х-хочешь меня споить, ик! И украсть мои деньги!");
 						link.l1 = "Я вижу, ты уже лишнего на борт принял... иди-ка - проспись, да и мне уже пора.";
@@ -824,6 +837,7 @@ void ProcessDialogEvent()
 					}
 					else
 					{
+						if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 						dialog.text = RandPhraseSimple("Чего ты на меня так уставил"+ GetSexPhrase("ся","ась") +"? Н-небось, хочешь споить и обчистить карманы?! Понаехало здесь разного сброду!  Ик!.. Честному человеку уже и в таверну зайти нельзя!",
 							"Ты меня уважаешь?.. Уважаешь, я тебя с-спрашиваю?!! А-то гляди у меня... Я ни-ко-му не спущу - сразу промеж глаз ка-ак... и всё - заказывай п-панихиду.");
 						link.l1 = "Приятель, вижу - трюм у тебя под завязку. Шёл бы ты домой... да и мне уже пора.";	
@@ -838,6 +852,7 @@ void ProcessDialogEvent()
 				break;
 
 				case 2:
+					if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 					dialog.text = "Слушай! Ты х-хороший человек! М-может быть, т-ты поможешь мне в... в... в одном дельце?";
 					link.l1 = "Нет, пожалуй, мне уже пора идти.";
 					link.l1.go = "exit_sit";
@@ -846,6 +861,7 @@ void ProcessDialogEvent()
 				break;
 
 				case 3:
+					if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 					if (!IsCharacterPerkOn(pchar, "Adventurer"))
 					{
 						if (GetSummonSkillFromName(pchar, SKILL_SNEAK) > rand(110))
@@ -879,12 +895,14 @@ void ProcessDialogEvent()
 				break;
 
 				case 4:
+					if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 					dialog.text = "За тебя! А, дьявол! Кто это?!";
 					link.l1 = "А? Что? Где? Показалось видать.";
 					link.l1.go = "sit_2";// to_do "sit_case_5_exit";
 				break;
 				
                 case 5:
+					if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
                     if (!CheckAttribute(pchar , "GenQuest.GhostShip.LastBattleEnd") && !checkAttribute(npchar, "GhostShip_Speak_Yet") && pchar.GenQuest.GhostShip.lastspeak_date != LastSpeakDate())
 					{
                         dialog.text = "Давай еще по одной кружечке.";
@@ -919,18 +937,21 @@ void ProcessDialogEvent()
 		break;
 
 		case "sit_case_5_exit": // дуэль
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			Diag.CurrentNode = Diag.TempNode;
 			DialogExit();
 			AddDialogExitQuest("fighting");
 		break;
 		
 		case "sit_case_6": // откуп
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Чего-чего?";
 			link.l1 = "Ты меня обокрасть решил, значит? А шпагой в грудь не хочешь?";
 			link.l1.go = "sit_case_61";
 		break;
 		
 		case "sit_case_61": // откуп
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Нет-нет, мне не нужно проблем! Возьмите 1000 пиастров и оставьте меня в покое, прошу вас.";
 			AddMoneyToCharacter(pchar, 1000);
 			link.l1 = "Так и быть, ладно. Прощаю на этот раз.";
@@ -952,6 +973,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "sit_case_3":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.snd = "Voice\HADI\HADI037";
 			dialog.text = "Дело в т-том, что м-меня оскорбил один из с-солдат. В-вот!";
 			link.l1 = "С-солдат? Н-нет, я, пожалуй пас.";
@@ -961,6 +983,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "sit_case_2_friend":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.snd = "Voice\HADI\HADI038";
 			dialog.text = "Ты? К-какой ты мне друг?! Н-нет! Ты хочешь... ик...  ты хочешь меня убить! В-вот!";
 			link.l1 = "Ладно, вижу, тебе уже хватит на сегодня. Прощай.";
@@ -970,6 +993,7 @@ void ProcessDialogEvent()
 		break;
 
 		case "sit_case_2_friend_2":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.snd = "Voice\HADI\HADI039";
 			dialog.text = "А-а-а! Уберите "+ GetSexPhrase("его","ее") +" от меня!!";
 			link.l1 = "Да ты успокойся... ик... больно не будет!";
@@ -985,6 +1009,7 @@ void ProcessDialogEvent()
 		break;
 */
 		case "sit_case_2_enemy":
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.snd = "Voice\HADI\HADI040";
 			dialog.text = "А вы меня не пугайте!.. не на того напал-ик!.. Таким как вы, самое место на виселице, как и всякому отре-ик! Сколько перья ни распускай - а гнилой рыбой за версту несёт. И выбирать выражения с таки-ик, как вы, я не намерен!";
 			link.l1 = "Арх, да что с такой пьяни взять. Пойду, подышу свежим воздухом...";
@@ -993,16 +1018,17 @@ void ProcessDialogEvent()
 			link.l2.go = "sit_case_2_enemy3";
 		break;
 
-		case "sit_case_2_enemy1":		
+		case "sit_case_2_enemy1":
 			dialog.snd = "Voice\HADI\HADI040";
 			dialog.text = "Чего-о?! Да я тебя сейчас вот этими руками... Ик!.. От меня ещё ни один не ушёл!";
 			link.l1 = "Вот же пьяная свинья, такой вечер испортил. Ладно, лови своих тараканов, пойду я, пожалуй.";
 			link.l1.go = "exit_sit1";
 			link.l2 = RandSwear() + "Вижу, ты не угомонишься. Придётся дать урок хороших манер.";
 			link.l2.go = "sit_case_2_enemy3";
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 		break;
 		
-		case "sit_case_2_enemy2":	
+		case "sit_case_2_enemy2":
 			ChangeCharacterReputation(pchar, -2);
 			if(rand(1) == 0)
 			{
@@ -1016,9 +1042,10 @@ void ProcessDialogEvent()
 				link.l1 = RandPhraseSimple(RandSwear() + "Ну, молитесь, недоноски!","Ах, ты ещё и не один!!! Ну - будет тебе в аду компания!");
 				link.l1.go = "fight_right_now_1";
 			}
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 		break;
 		
-		case "sit_case_2_enemy3":	
+		case "sit_case_2_enemy3":
 			ChangeCharacterReputation(pchar, 2);
 			if(rand(1) == 0)
 			{
@@ -1032,6 +1059,7 @@ void ProcessDialogEvent()
 				link.l1 = RandPhraseSimple(RandSwear() + "Ну, молитесь, недоноски!","Ах, ты ещё и не один!!! Ну - будет тебе в аду компания!");
 				link.l1.go = "fight_right_now_1";
 			}
+			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 		break;		
 		
 		case "exit_sit":

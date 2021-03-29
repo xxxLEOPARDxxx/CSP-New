@@ -917,6 +917,7 @@ string GetItemDescribe(int iGoodIndex)
 	ref    arItm = &Items[iGoodIndex];
 	int    lngFileID = LanguageOpenFile("ItemsDescribe.txt");
     string describeStr = "";
+	string ammotype = "";
  
 	if (CheckAttribute(arItm, "groupID"))
 	{
@@ -930,9 +931,59 @@ string GetItemDescribe(int iGoodIndex)
 		
 		if(arItm.groupID == GUN_ITEM_TYPE)
 		{
-			describeStr += GetAssembledString(
+			if(CheckAttribute(arItm,"type.t1") && !CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+			{
+				ammotype = LanguageConvertString(lngFileID, "itmname_"+arItm.type.t1.bullet) + ".";
+				describeStr += GetAssembledString(
 				LanguageConvertString(lngFileID,"weapon gun parameters"),
-				arItm) + newStr();
+				arItm) + "."  + NewStr() + "При стрельбе используется " + ammotype + newStr();
+			}
+			if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+			{
+				ammotype = LanguageConvertString(lngFileID, "itmname_"+arItm.type.t1.bullet) + "/" + LanguageConvertString(lngFileID, "itmname_"+arItm.type.t2.bullet) + ".";
+				int dmg21m = arItm.type.t1.DmgMin_NC;
+				int dmg21ma = arItm.type.t1.DmgMax_NC;
+				int dmg21a = arItm.type.t1.Accuracy;
+				int dmg21c = arItm.type.t1.ChargeSpeed;
+				int dmg22m = arItm.type.t2.DmgMin_NC;
+				int dmg22ma = arItm.type.t2.DmgMax_NC;
+				int dmg22a = arItm.type.t2.Accuracy;
+				int dmg22c = arItm.type.t2.ChargeSpeed;
+				string sTemp;
+				if (dmg21a != dmg22a) sTemp =  dmg21a+"%/"+dmg22a+"%";
+				else sTemp = dmg21a+"%";
+				string sTemp1;
+				if(dmg21m == dmg22m || dmg21ma == dmg22ma ) sTemp1 = "урон мин/макс " + dmg21m+"/"+dmg21ma;
+				else sTemp1 = "урон мин "+dmg21m+"/"+dmg22m + " макс " + dmg21ma+"/"+dmg22ma;
+				string sTemp2;
+				if (dmg21c == dmg22c) sTemp2 = dmg21c;
+				else sTemp2 = dmg21c+"/"+dmg22c;
+				describeStr += "Оружие: " + sTemp1 +  NewStr()+"Время перезарядки "+ sTemp2 +" сек., точность "+ sTemp  + NewStr() + "При стрельбе используются: " + ammotype + NewStr();
+			}
+			if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && CheckAttribute(arItm,"type.t3"))
+			{
+				ammotype = LanguageConvertString(lngFileID, "itmname_"+arItm.type.t1.bullet) + "/" + LanguageConvertString(lngFileID, "itmname_"+arItm.type.t2.bullet) + "/" + LanguageConvertString(lngFileID, "itmname_"+arItm.type.t3.bullet) + ".";
+				int dmg31m = arItm.type.t1.DmgMin_NC;
+				int dmg31ma = arItm.type.t1.DmgMax_NC;
+				int dmg31a = arItm.type.t1.Accuracy;
+				int dmg31c = arItm.type.t1.ChargeSpeed;
+				int dmg32m = arItm.type.t2.DmgMin_NC;
+				int dmg32ma = arItm.type.t2.DmgMax_NC;
+				int dmg32a = arItm.type.t2.Accuracy;
+				int dmg32c = arItm.type.t2.ChargeSpeed;
+				int dmg33m = arItm.type.t3.DmgMin_NC;
+				int dmg33ma = arItm.type.t3.DmgMax_NC;
+				int dmg33a = arItm.type.t3.Accuracy;
+				int dmg33c = arItm.type.t3.ChargeSpeed;
+				if (dmg31a == dmg32a && dmg32a == dmg33a) sTemp = dmg31a+"%";
+				else  sTemp =  dmg31a+"%/"+dmg32a+"%/"+dmg33a+"%";
+				if(dmg31m == dmg32m && dmg33m == dmg32m) sTemp1 = "урон мин/макс " + dmg31m+"/"+dmg31ma;
+				else sTemp1 = "урон мин "+dmg31m+"/"+dmg32m+"/"+dmg33m+" макс "+dmg31ma+"/"+dmg32ma+"/"+dmg33ma;
+				if (dmg31c == dmg32c && dmg32c == dmg33c) sTemp2 = dmg31c;
+				else sTemp2 = dmg31c+"/"+dmg32c+"/"+dmg33c;
+				describeStr += "Оружие: "+sTemp1+","+ NewStr()+"Время перезарядки "+sTemp2+" сек., точность "+sTemp + NewStr() + "При стрельбе используются: " + ammotype + NewStr();
+			}
+			
 		}
 		if(arItm.groupID == BACKPACK_ITEM_TYPE)
 		{	

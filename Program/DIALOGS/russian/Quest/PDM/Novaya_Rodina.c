@@ -284,10 +284,8 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Novoe_Zadanie_Cod_1":
-			CloseQuestHeader("PDM_Novaya_Rodina");
-			SetQuestHeader("PDM_Zoloto_ne_tonet");
-			AddQuestRecord("PDM_Zoloto_ne_tonet", "1");							
-			AddQuestUserData("PDM_Zoloto_ne_tonet", "sSex", GetSexPhrase("","а"));
+			AddQuestRecord("PDM_Novaya_Rodina", "6");							
+			AddQuestUserData("PDM_Novaya_Rodina", "sSex", GetSexPhrase("","а"));
 			
 			int Rank = sti(pchar.rank) - 3 + MOD_SKILL_ENEMY_RATE;
 			if (Rank < 1) Rank = 1;
@@ -375,10 +373,10 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Final_2":
-			dialog.text = "...";
-			if (sti(pchar.Money) >= 15000)
+			dialog.text = "";
+			if (sti(pchar.Money) >= 30000)
 			{
-				link.l1 = "И я подумал"+ GetSexPhrase("","а")+", что ты заслужил эти 15000 золотых.";
+				link.l1 = "И я подумал"+ GetSexPhrase("","а")+", что ты заслужил эти 30000 золотых.";
 				link.l1.go = "Final_3";
 				link.l2 = "Ладно, Хьюго, у меня есть дела. До встречи.";
 				link.l2.go = "FinalPL_3";
@@ -396,45 +394,25 @@ void ProcessDialogEvent()
             dialog.text = "О-о-о! "+ GetSexPhrase("Парень","Девочка")+", ты очень добр"+ GetSexPhrase("","а")+" ко мне, конечно я возьму эти деньги! Может, пойдём выпьем?";
             link.l1 = "Извини, Хьюго, у меня есть незаконченные дела, может быть в другой раз. Адиос!";
 			link.l1.go = "Final_4";
-			ChangeCharacterReputation(pchar, 8);
+			ChangeCharacterReputation(pchar, 5);
 			NextDiag.TempNode = "Final_Again";
-			AddMoneyToCharacter(pchar, -15000);
+			AddMoneyToCharacter(pchar, -30000);
+			AddCharacterExpToSkill(pchar, "Leadership", 70);
+			AddCharacterExpToSkill(pchar, "Commerce", 70);
+			AddCharacterExpToSkill(pchar, "Fortune", 70);
 		break;
 		
 		case "Final_4":
-			bDisableFastReload = true;
-			chrDisableReloadToLocation = true;
-			sld = GetCharacter(NPC_GenerateCharacter("PDM_Isp_sekr_guber", "trader_16", "man", "man", 10, SPAIN, -1, false));
-			LAi_SetImmortal(sld, true);
-			sld.name = "Бартоломью";
-			sld.lastname = "Ольстер";
-			LAi_SetActorType(sld);
-			ChangeCharacterAddressGroup(sld, "Havana_town", "reload", "reload3_back");
-			sld.lifeday = 0;
-			sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
-			sld.dialog.currentnode   = "First time";
-			LAi_ActorDialog(sld, pchar, "", -1, 0);
+			CloseQuestHeader("PDM_Novaya_Rodina");
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;
 		
 		case "FinalPL_3":
-			bDisableFastReload = true;
-			chrDisableReloadToLocation = true;
-			sld = GetCharacter(NPC_GenerateCharacter("PDM_Isp_sekr_guber", "trader_16", "man", "man", 10, SPAIN, -1, false));
-			LAi_SetImmortal(sld, true);
-			sld.name = "Бартоломью";
-			sld.lastname = "Ольстер";
-			LAi_SetActorType(sld);
-			ChangeCharacterAddressGroup(sld, "Havana_town", "reload", "reload3_back");
-			sld.lifeday = 0;
-			sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
-			sld.dialog.currentnode   = "First time";
-			LAi_ActorDialog(sld, pchar, "", -1, 0);
-			
+			CloseQuestHeader("PDM_Novaya_Rodina");
             sld = CharacterFromID("Hugo_Lesopilka")
 			sld.lifeday = 0;
-			ChangeCharacterReputation(pchar, -8);
+			ChangeCharacterReputation(pchar, -5);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;

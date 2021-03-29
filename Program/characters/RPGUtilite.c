@@ -589,6 +589,7 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
     CheckAttribute(_chref, "BakSkill." + _skill);
 	if (CheckCharacterPerk(_chref, "HPPlus"))
 	{
+		if (LAi_IsDead(_chref)) return;
 		if (!CheckAttribute(_chref, "PerkValue.HPPlus"))
 		{
 			_chref.PerkValue.HPPlus = 0;

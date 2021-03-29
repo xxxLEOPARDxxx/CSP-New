@@ -119,6 +119,11 @@ void ProcessDialogEvent()
 			DialogExit();
 			AddDialogExitQuest("MainHeroFightModeOn");
 		break;
+		case "CitizenNotBlade":
+			dialog.text = "Вы кто такой?! Уберите оружие, быстро!";
+			link.l1 = "Просто похвастаться хотел...";
+			link.l1.go = "SeekSpy_house";
+		break;
 		//----------------- поиски лазутчика на улице ----------------------
 		case "SeekSpy_street":
 			Diag.TempNode = "SeekSpy_street";

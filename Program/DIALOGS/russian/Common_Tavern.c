@@ -353,7 +353,7 @@ void ProcessDialogEvent()
                 }
                 else
                 {
-					if (CheckAttribute(NPChar, "CrewHired.PGGId") && GetNpcQuestPastDayParam(NPChar, "CrewHired") < 1 && GetCrewQuantity(rColony) == 0)
+					if (CheckAttribute(NPChar, "CrewHired.PGGId") && GetNpcQuestPastDayParam(NPChar, "CrewHired") < 1 && GetCrewQuantity(rColony) == 0 && drand(100) > 90)
 					{
 						Dialog.text = "»звините, но сейчас нет никого. ¬се ушли с отважным кэпом " + GetFullName(CharacterFromID(NPChar.CrewHired.PGGId)) + ".";
 						link.l1 = "Ёх, жаль!";

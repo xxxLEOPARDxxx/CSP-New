@@ -707,6 +707,7 @@ void FillItemsSelected()
 	SetNodeUsing("ITEM_11", false);
 	SetNodeUsing("ITEM_12", false);
 	SetNodeUsing("ITEM_13", false);
+	SetNodeUsing("ITEM_14", false);
 	
 	for (i = 0; i< TOTAL_ITEMS; i++)
 	{
@@ -729,6 +730,9 @@ void FillItemsSelected()
 						SetNodeUsing("ITEM_1" , true);
 					break;
 					case GUN_ITEM_TYPE:
+						ref itms = ItemsFromID(xi_refCharacter.chr_ai.bullet);
+						SetNodeUsing("ITEM_14" , true);
+						SetNewGroupPicture("ITEM_14", itms.picTexture, "itm" + itms.picIndex);
 						if(CheckAttribute(xi_refCharacter, "IsMushketer"))
 						{
 							iLastGunItem = GetItemIndex(xi_refCharacter.IsMushketer.LastGunID);
@@ -1042,6 +1046,11 @@ bool ThisItemCanBeEquip( aref arItem )
 	{
 		return false;
 	}
+	if (arItem.groupID == AMMO_ITEM_TYPE) 
+	{
+		if (arItem.ID == "GunPowder" || arItem.ID == "shotgun_cartridge" || arItem.ID == "GunCap_colt" || arItem.ID == "12_gauge") return false;
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
+	}
 	if( !IsCanEquiping(xi_refCharacter, arItem.groupID) )
 	{
 		return false;
@@ -1261,6 +1270,10 @@ void EquipPress()
 				if (itmRef.id == "RingCapBook") // СЖ пинаса 'Санта-Люсия' и дневник Колхауна
 				{
 					RemoveItems(pchar, itmRef.id, 1);
+					AddTimeToCurrent(0,20);
+					SetLaunchFrameFormParam("Прошло 20 минут, вы прочитали журнал капитана", "", 0.1, 5.0);
+					LAi_Fade("","LaunchFrameForm");
+					RefreshLandTime();
 					AddQuestRecord("RingCapBook", "1");
 					pchar.questTemp.LSC.Ring.ReadCapBook = "true";
 				}
@@ -1372,6 +1385,61 @@ void EquipPress()
 							Log_Info("Начато чтение книги. Ориентировочно, это займёт "+xi_refCharacter.booktime+" дней.");
 						}
 					}
+					else
+					{
+						if (itmGroup == AMMO_ITEM_TYPE) 
+						{
+							string sGun = GetCharacterEquipByGroup(xi_refCharacter, GUN_ITEM_TYPE);
+							if (itmRef.ID == "bullet" || itmRef.ID == "cartridge")
+							{	
+								if (sGun == "pistol3" || sGun == "howdah" || sGun == "pistol8" || sGun == "pistol_grapebok" || sGun == "mushket6" || sGun == "grape_mushket")
+								{
+									PlaySound("interface\knock.wav");
+									return;
+								}
+							}
+							if (itmRef.ID == "grapeshot")
+							{	
+								if (sGun != "pistol3" && sGun != "howdah" && sGun != "pistol8" && sGun != "pistol_grapebok" && sGun != "mushket6" && sGun != "mushket_drob" && sGun != "pistol7shotgun")
+								{
+									PlaySound("interface\knock.wav");
+									return;
+								}
+							}
+							if (itmRef.ID == "GunEchin")
+							{	
+								if (sGun != "howdah" && sGun != "pistol8" && sGun != "mushket6")
+								{
+									PlaySound("interface\knock.wav");
+									return;
+								}
+							}
+							if (itmRef.ID == "harpoon")
+							{	
+								if (sGun != "pistol8")
+								{
+									PlaySound("interface\knock.wav");
+									return;
+								}
+							}
+							if (itmRef.ID == "powder_pellet" || itmRef.ID == "grenade")
+							{	
+								if (sGun != "grape_mushket")
+								{
+									PlaySound("interface\knock.wav");
+									return;
+								}
+							}
+							LAi_SetCharacterUseBullet(xi_refCharacter, itmRef.ID);
+							LAi_GunSetUnload(xi_refCharacter);
+							log_info("Выбран боеприпас - "+GetConvertStr(itmRef.name, "ItemsDescribe.txt")+"");
+							PlaySound("People Fight\reload1.wav");
+							ref itms = ItemsFromID(xi_refCharacter.chr_ai.bullet);
+							SetNodeUsing("ITEM_14" , true);
+							SetNewGroupPicture("ITEM_14", itms.picTexture, "itm" + itms.picIndex);
+							return;
+						}
+					}
 				}
 			}
 			FillItemsSelected();
@@ -1405,7 +1473,7 @@ void SetMapCross(string _MapLocId)
 	case "Antigua_Grot": left = 622; top = 235; break;	//{в пещере справа от залива Уиллогби}
 	case "SentJons_TownCave": left = 601; top = 235; break;	//{в подземелье города Сент-Джонс}
 
-	case "Beliz_Cave": left = 58; top = 101; break;	//{в пещере справа от выхода из Белиза}
+	case "Beliz_Cave": left = 58; top = 181; break;	//{в пещере справа от выхода из Белиза}
 	case "Beliz_Cave_2": left = 55; top = 225; break;	//{в пещере напротив выхода из Белиза}
 
 	case "Panama_Cave": left = 229; top = 502; break;	//{в пещере слева от выхода из города Порто Белло}

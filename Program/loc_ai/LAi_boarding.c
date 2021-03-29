@@ -1119,6 +1119,10 @@ void LAi_SetBoardingActors(string locID)
 			//}
 		}
 		SetNewModelToChar(chr); //иначе сабли не те, что реально
+		string weaponID = GetCharacterEquipByGroup(chr, BLADE_ITEM_TYPE);
+		aref weapon;
+		Items_FindItem(weaponID, &weapon);
+		chr.chr_ai.fencingtype = weapon.FencingType;
 		chr.AboardFantom = true;
 		AddCharHP(chr, boarding_enemy_hp); // влияение опыта и морали в НР
 		if (IsCharacterPerkOn(chr, "Ciras") && rand(4)==0)

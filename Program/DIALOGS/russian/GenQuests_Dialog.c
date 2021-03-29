@@ -2262,7 +2262,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "CaptainComission_6_2":
-			dialog.text = "¬чера € получил письмо от " + ChangeNameCase(NAMETYPE_MAIN, pchar.GenQuest.CaptainComission.PirateName, NAME_ACC) + ", в котором он сообщил, что повышает сумму выкупа и грозитс€ продать пленника в рабство. ѕокойный капитан должен был известить " + ChangeNameCase(NAMETYPE_MAIN, pchar.GenQuest.CaptainComission.PirateName, NAME_ACC) + ", что € согласен на прежние услови€, и выдать аванс. Ќо теперь мне пон€тно, почему пираты повысили ставки.";
+			dialog.text = "¬чера € получил письмо от " + pchar.GenQuest.CaptainComission.PirateName + ", в котором он сообщил, что повышает сумму выкупа и грозитс€ продать пленника в рабство. ѕокойный капитан должен был известить " + ChangeNameCase(NAMETYPE_MAIN, pchar.GenQuest.CaptainComission.PirateName, NAME_ACC) + ", что € согласен на прежние услови€, и выдать аванс. Ќо теперь мне пон€тно, почему пираты повысили ставки.";
 			link.l1 = "» что вы предлагаете?";
 			link.l1.go = "CaptainComission_6_21";
 		break;
