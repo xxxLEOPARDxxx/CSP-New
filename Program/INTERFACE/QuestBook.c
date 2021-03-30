@@ -75,7 +75,7 @@ void ShowButtons()
 {
 
 }
-
+//инфа о кораблях
 void ShowShipsWindow()
 {
 	XI_WindowShow("ENC_INFO_SHIP",true);
@@ -110,6 +110,10 @@ void ShowShipsWindow()
 	SetNodeUsing("I_ITEMS",false);
 	
 	SetNodeUsing("QUEST_TITLE",false);
+	SetNodeUsing("SHIP_TABLE_LIST_LEFT",true);
+	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",true);
+	FillShipInfoEncy("SHIP_TABLE_LIST_LEFT");
+	FillShipInfoEncy("SHIP_TABLE_LIST_RIGHT");
 }
 
 void ShowBladeWindow()
@@ -146,6 +150,7 @@ void ShowBladeWindow()
 	SetNodeUsing("I_ITEMS",false);
 	
 	SetNodeUsing("QUEST_TITLE",false);
+	AddToTable("BLADE_TABLE_LIST", "blade");
 }
 
 void ShowGunWindow()
@@ -182,6 +187,7 @@ void ShowGunWindow()
 	SetNodeUsing("I_ITEMS",false);
 	
 	SetNodeUsing("QUEST_TITLE",false);
+	AddToTable("GUN_TABLE_LIST", "gun");
 }
 
 void ShowFoodWindow()
@@ -218,6 +224,7 @@ void ShowFoodWindow()
 	SetNodeUsing("I_ITEMS",false);
 	
 	SetNodeUsing("QUEST_TITLE",false);
+	AddToTable("FOOD_TABLE_LIST", "food");
 }
 
 void HideQuests()
@@ -439,7 +446,6 @@ void ProcessCommandExecute()
 {
 	string comName = GetEventData();
 	string nodName = GetEventData();
-
 	switch(nodName)
 	{
         case "I_CHARACTER_2":
@@ -504,6 +510,7 @@ void selectJournal(int iMode)
     HideCashBook();
     HideShipPlace();
 	HideStoreBook();
+	HideInfoWindowEncy();
 	// подменим квестовую ветку, зависимо от типа режима: журнал, архив, инфа
 	aref arQuestInfo, arTmp;
 	int  i;
@@ -1121,7 +1128,7 @@ void InitTableHeader()
 	
 	FillShipPlaceTable("TABLE_SHIP_PLACE"); // 1.2.3
 	
-	FillPriceListTown("TABLE_CITY");
+	FillPriceListTown("TABLE_CITY");	
 }
 
 void FillShipPlaceTable(string _tabName)
@@ -1168,7 +1175,7 @@ void FillShipPlaceTable(string _tabName)
                     // GameInterface.(_tabName).(row).td1.str = cn;
                     // GameInterface.(_tabName).(row).td1.scale = 0.9;
 					GameInterface.(_tabName).(row).index = chrefsp.id;
-					GameInterface.(_tabName).(row).td1.icon.texture = "interfaces\ships\" + shipTexture + ".tga";
+					GameInterface.(_tabName).(row).td1.icon.texture = "interfaces\ships\" + shipTexture + ".tga.tx";
 					// GameInterface.(_tabName).(row).td1.icon.texture  = "interfaces\Frame1.tga";
 					GameInterface.(_tabName).(row).td1.icon.uv = "0,0,1,1";
 	                GameInterface.(_tabName).(row).td1.icon.offset = "-2, 0";
@@ -1277,6 +1284,8 @@ void TableSelectChange()
     {
     	FillPriceList("TABLE_GOODS", GameInterface.(CurTable).(CurRow).UserData.CityID);
     }
+	if(CurTable == "SHIP_TABLE_LIST_LEFT") {iSelected = iSelected-1; FillLeftOtherTable("SHIP_TABLE_OTHER_LEFT",iSelected);} 
+	if(CurTable == "SHIP_TABLE_LIST_RIGHT") {iSelected = iSelected-1; FillLeftOtherTable("SHIP_TABLE_OTHER_RIGHT",iSelected);} 
 }
 
 void NullSelectTable(string sControl)
@@ -1340,4 +1349,463 @@ void FillPriceList(string _tabName, string  attr1)
 		}
 	}
     Table_UpdateWindow(_tabName);
+}
+void FillShipInfoEncy(string _tabName)
+{
+	Table_Clear(_tabName, false, true, false);
+	string sRow;
+	GameInterface._tabName.select = 0;
+	GameInterface.(_tabName).hr.td1.str = "Фото";
+	GameInterface.(_tabName).hr.td1.scale = 1.0;
+	GameInterface.(_tabName).hr.td2.str = "Тип Корабля";
+	GameInterface.(_tabName).hr.td2.scale = 1.0;
+	GameInterface.(_tabName).hr.td3.str = "Класс";
+	GameInterface.(_tabName).hr.td3.scale = 1.0;
+	// GameInterface.(_tabName).hr.td4.str = "Описание";
+	// GameInterface.(_tabName).hr.td4.scale = 0.75;
+
+	aref   arDest, arImt;
+	string sAttr;
+	int    iNum, iShip;
+	ref    refBaseShip;
+	string sShip;
+	int k = 0;
+	ref chrefsp;
+	makeref(chrefsp, Characters[GenerateCharacter(4,WITHOUT_SHIP,"pirate",MAN,1,WARRIOR)]);
+	for (int i = 0; i < SHIP_TYPES_QUANTITY - 1;i++)
+	{
+	sRow = "tr" + (k+1);
+	makeref(refBaseShip,ShipsTypes[i]);
+	sShip = refBaseShip.Name;
+	chrefsp.Ship.Type = sShip;
+
+
+	
+	GameInterface.(_tabName).(sRow).index = chrefsp.id;
+	GameInterface.(_tabName).(sRow).td1.icon.texture = "interfaces\ships\" + sShip + ".tga.tx";
+	GameInterface.(_tabName).(sRow).td1.icon.uv = "0,0,1,1";
+	GameInterface.(_tabName).(sRow).td1.icon.offset = "-2, 0";
+	GameInterface.(_tabName).(sRow).td1.icon.width  = 60;
+	GameInterface.(_tabName).(sRow).td1.icon.height = 60;
+	GameInterface.(_tabName).(sRow).td2.str = refBaseShip.Class;
+	GameInterface.(_tabName).(sRow).td2.str = XI_Convertstring(sShip);
+	GameInterface.(_tabName).(sRow).td3.str = sti(refBaseShip.Class);
+	//GameInterface.(_tabName).(sRow).td4.str = GetConvertStr(sShip, "ShipsDescribe.txt");
+	//GameInterface.(_tabName).(sRow).td4.scale = 0.35;
+	k++;
+	}
+	ShowInfoWindowEncyShip();
+	Table_UpdateWindow(_tabName);
+}
+void FillLeftOtherTable (string _tabName, int iShip)
+{
+	SetShipOTHERTableInfo(_tabName, iShip);
+	ref refBaseShip;
+	makeref(refBaseShip,ShipsTypes[iShip]);
+	string sShip = refBaseShip.Name;
+	if (_tabName == "SHIP_TABLE_OTHER_LEFT") {SetFormatedText("SHIP_INFO_TEXT_LEFT", GetConvertStr(sShip, "ShipsDescribe.txt")); FillGeralds("L", refBaseShip);}
+	if (_tabName == "SHIP_TABLE_OTHER_RIGHT") {SetFormatedText("SHIP_INFO_TEXT_RIGHT", GetConvertStr(sShip, "ShipsDescribe.txt")); FillGeralds("R", refBaseShip);}
+	Table_UpdateWindow(_tabName);
+}
+
+void FillGeralds(string _tab, ref refBaseShip)
+{
+	if (refBaseShip.nation.england == true) SetNewPicture("S_NATION_E_"+_tab, "loading\Enc_Eng.tga");
+	else SetNewPicture("S_NATION_E_"+_tab, "");
+	if (refBaseShip.nation.france == true) SetNewPicture("S_NATION_F_"+_tab, "loading\Enc_Fra.tga");
+	else SetNewPicture("S_NATION_F_"+_tab, "");
+	if (refBaseShip.nation.holland == true) SetNewPicture("S_NATION_H_"+_tab, "loading\Enc_Hol.tga");
+	else SetNewPicture("S_NATION_H_"+_tab, "");
+	if (refBaseShip.nation.spain == true) SetNewPicture("S_NATION_S_"+_tab, "loading\Enc_Spa.tga");
+	else SetNewPicture("S_NATION_S_"+_tab, "");
+	if (refBaseShip.nation.pirate == true)SetNewPicture("S_NATION_P_"+_tab, "loading\Enc_Pir.tga");
+	else SetNewPicture("S_NATION_P_"+_tab, "");
+}
+void SetShipOTHERTableInfo(string _tabName, int iShip)
+{
+    int     i;
+	string  row;
+	string sShip;
+    ref refBaseShip;
+	makeref(refBaseShip,ShipsTypes[iShip]);
+	sShip = refBaseShip.Name;
+		
+    GameInterface.(_tabName).select = 0;
+	GameInterface.(_tabName).hr.td1.str = "";
+	for (i=1; i<=10; i++)
+	{
+	    row = "tr" + i;
+
+	    GameInterface.(_tabName).(row).td1.icon.width = 24;
+    	GameInterface.(_tabName).(row).td1.icon.height = 24;
+    	GameInterface.(_tabName).(row).td1.icon.offset = "2, 1";
+		GameInterface.(_tabName).(row).td2.align = "left";
+		GameInterface.(_tabName).(row).td2.scale = 0.8;
+		GameInterface.(_tabName).(row).td2.textoffset = "0,0";
+		GameInterface.(_tabName).(row).td3.align = "right";
+		GameInterface.(_tabName).(row).td3.scale = 0.8;
+	}
+	GameInterface.(_tabName).tr1.UserData.ID = "Hull";
+	GameInterface.(_tabName).tr1.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr1.td1.icon.image = "Hull";
+	GameInterface.(_tabName).tr1.td2.str = XI_ConvertString("Hull");
+	GameInterface.(_tabName).tr1.td3.str = sti(refBaseShip.hp);
+
+	GameInterface.(_tabName).tr2.UserData.ID = "Sails";
+	GameInterface.(_tabName).tr2.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr2.td1.icon.image = "Sails";
+	GameInterface.(_tabName).tr2.td2.str = XI_ConvertString("Sails");
+	GameInterface.(_tabName).tr2.td3.str = sti(refBaseShip.sp);
+
+	GameInterface.(_tabName).tr3.UserData.ID = "MastHP";
+	GameInterface.(_tabName).tr3.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr3.td1.icon.image = "MastHP";
+	GameInterface.(_tabName).tr3.td2.str = XI_ConvertString("MastHP");
+	GameInterface.(_tabName).tr3.td3.str = FloatToString(stf(refBaseShip.MastMultiplier),2);
+	
+    GameInterface.(_tabName).tr4.UserData.ID = "Speed";
+	GameInterface.(_tabName).tr4.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr4.td1.icon.image = "Speed";
+	GameInterface.(_tabName).tr4.td2.str = XI_ConvertString("Speed");
+	
+	GameInterface.(_tabName).tr4.td3.str = FloatToString(stf(refBaseShip.SpeedRate),2);
+	
+
+    GameInterface.(_tabName).tr5.UserData.ID = "Maneuver";
+	GameInterface.(_tabName).tr5.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr5.td1.icon.image = "Maneuver";
+	GameInterface.(_tabName).tr5.td2.str = XI_ConvertString("Maneuver");
+
+	GameInterface.(_tabName).tr5.td3.str = FloatToString(stf(refBaseShip.TurnRate),2);
+
+
+	GameInterface.(_tabName).tr6.UserData.ID = "AgainstWind";
+	GameInterface.(_tabName).tr6.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr6.td1.icon.image = "AgainstWind";
+	GameInterface.(_tabName).tr6.td2.str = XI_ConvertString("AgainstWind");
+	GameInterface.(_tabName).tr6.td3.str = FloatToString(stf(refBaseShip.WindAgainstSpeed),2);
+	
+	
+	GameInterface.(_tabName).tr7.UserData.ID = "Capacity";
+	GameInterface.(_tabName).tr7.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr7.td1.icon.image = "Capacity";
+	GameInterface.(_tabName).tr7.td2.str = XI_ConvertString("Capacity");
+	GameInterface.(_tabName).tr7.td3.str = refBaseShip.Capacity;
+	
+	GameInterface.(_tabName).tr8.UserData.ID = "Crew";
+	GameInterface.(_tabName).tr8.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr8.td1.icon.image = "Crew";
+	GameInterface.(_tabName).tr8.td2.str = XI_ConvertString("Crew");
+	GameInterface.(_tabName).tr8.td3.str = sti(refBaseShip.MinCrew) +"/" + sti(refBaseShip.OptCrew);
+	
+	GameInterface.(_tabName).tr9.UserData.ID = "sCannons";
+	GameInterface.(_tabName).tr9.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr9.td1.icon.image = "Caliber";
+	GameInterface.(_tabName).tr9.td2.str = XI_ConvertString("sCannons"); //XI_ConvertString("Caliber");
+	GameInterface.(_tabName).tr9.td3.str = XI_ConvertString("caliber" + refBaseShip.MaxCaliber)
+	
+		
+	GameInterface.(_tabName).tr10.UserData.ID = "CannonType";
+	GameInterface.(_tabName).tr10.td1.icon.group = "ICONS_CHAR";
+    GameInterface.(_tabName).tr10.td1.icon.image = "Cannons";
+	GameInterface.(_tabName).tr10.td2.str = XI_ConvertString("Cannon" + "s2");
+
+	if (refBaseShip.CannonsQuantity == 0) 
+	{	
+		GameInterface.(_tabName).tr10.td3.str = "Нет пушек";
+		GameInterface.(_tabName).tr10.td3.align = "right";
+		GameInterface.(_tabName).tr10.td3.scale = 0.8;
+	}
+	else 
+	{
+		GameInterface.(_tabName).tr10.td3.str =  refBaseShip.CannonsQuantity;
+		GameInterface.(_tabName).tr10.td3.align = "right";
+		GameInterface.(_tabName).tr10.td3.scale = 0.8;
+	}
+	// прорисовка
+	Table_UpdateWindow(_tabName);
+}
+
+void GiveItemToTraderByType(aref ch, string type)
+{
+	int i, irand;
+	String itemID;
+	ref itm;
+	
+	DeleteAttribute(ch, "items");
+	for(i = 0; i < ITEMS_QUANTITY; i++)
+	{
+		itemID = Items[i].ID;
+		irand = 1;
+		itm = ItemsFromID(itemID);
+		switch (type)
+		{
+			case "blade":
+				if (CheckAttribute(itm,"groupID")){
+					if (itm.groupID == BLADE_ITEM_TYPE) AddItems(ch, itemID, irand);
+				} 
+			break;
+			case "gun":
+				if (CheckAttribute(itm,"groupID")){
+					if (itm.groupID == GUN_ITEM_TYPE || itm.groupID == AMMO_ITEM_TYPE) AddItems(ch, itemID, irand);
+				} 
+			break;
+			case "food":
+				if (CheckAttribute(itm,"ItemType") && !CheckAttribute(itm,"groupID")){
+					if (itm.ItemType == "Support") AddItems(ch, itemID, irand);
+				} 
+			break;
+		}
+	}
+}
+
+void AddToTable(string _tabName, string type)
+{
+	int n, i;
+	string row, sShipGroup;
+	string sGood;
+	int  idLngFile;
+	int leftQty, rightQty;
+	n = 1;
+	idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	Table_Clear(_tabName, false, true, false);
+	makeref(chrefsp, Characters[GenerateCharacter(4,WITHOUT_SHIP,"pirate",MAN,1,WARRIOR)]);
+	GiveItemToTraderByType(chrefsp, type);
+	switch (type)
+	{
+		case "blade":
+			ShowInfoWindowEncyBlade(); 
+			GameInterface.(_tabName).hr.td1.str = "Наименование предметов";
+			GameInterface.(_tabName).hr.td1.scale = 1.1;
+			GameInterface.(_tabName).hr.td2.str = "Урон мин/макс";
+			GameInterface.(_tabName).hr.td2.scale = 1.1;
+			GameInterface.(_tabName).hr.td3.str = "Класс оружия";
+			GameInterface.(_tabName).hr.td3.scale = 1.1;
+			GameInterface.(_tabName).hr.td4.str = "Вес";
+			GameInterface.(_tabName).hr.td4.scale = 1.1;
+		break;
+		case "gun": ShowInfoWindowEncyGun(); 
+			GameInterface.(_tabName).hr.td1.str = "Наименование предметов";
+			GameInterface.(_tabName).hr.td1.scale = 1.1;
+			GameInterface.(_tabName).hr.td2.str = "Урон мин/макс";
+			GameInterface.(_tabName).hr.td2.scale = 1.1;
+			GameInterface.(_tabName).hr.td3.str = "Патроны";
+			GameInterface.(_tabName).hr.td3.scale = 1.1;
+			GameInterface.(_tabName).hr.td4.str = "Точность";
+			GameInterface.(_tabName).hr.td4.scale = 1.1;
+			GameInterface.(_tabName).hr.td5.str = "Перезарядка";
+			GameInterface.(_tabName).hr.td5.scale = 1.1;
+		break;
+		case "food": ShowInfoWindowEncyFood(); 
+			GameInterface.(_tabName).hr.td1.str = "Наименование предметов";
+			GameInterface.(_tabName).hr.td1.scale = 1.1;
+			GameInterface.(_tabName).hr.td2.str = "Здоровья/Энергия";
+			GameInterface.(_tabName).hr.td2.scale = 1.1;
+			GameInterface.(_tabName).hr.td3.str = "Антидот";
+			GameInterface.(_tabName).hr.td3.scale = 1.1;
+			GameInterface.(_tabName).hr.td4.str = "Вес";
+			GameInterface.(_tabName).hr.td4.scale = 1.1;
+		break;
+	}
+	
+    for (i = 0; i < ITEMS_QUANTITY; i++)
+	{
+        row = "tr" + n;
+		sGood = Items[i].id;
+		// проверка на экипировку, их не продаем
+		leftQty  = GetCharacterFreeItem(chrefsp, sGood);
+
+		if (leftQty > 0)
+		{
+			// GameInterface.(_tabName).(row).td1.str = leftQty ;
+			// GameInterface.(_tabName).(row).td7.str = FloatToString(stf(Items[i].Weight), 1);
+
+			// GameInterface.(_tabName).(row).td6.str = rightQty;
+
+	        GameInterface.(_tabName).(row).td1.icon.group = Items[i].picTexture;
+			GameInterface.(_tabName).(row).td1.icon.image = "itm" + Items[i].picIndex;
+			GameInterface.(_tabName).(row).td1.icon.offset = "-2, 0";
+			GameInterface.(_tabName).(row).td1.icon.width = 60;
+			GameInterface.(_tabName).(row).td1.icon.height = 60;
+			GameInterface.(_tabName).(row).td1.textoffset = "60,0";
+			GameInterface.(_tabName).(row).td1.str = LanguageConvertString(idLngFile, Items[i].name);
+			GameInterface.(_tabName).(row).index = i;
+			GameInterface.(_tabName).(row).td1.scale = 0.9;
+			switch (type)
+			{
+				case "blade":
+				GameInterface.(_tabName).(row).td2.str = makeint(Items[i].dmg_min)+"/"+makeint(Items[i].dmg_max);
+				GameInterface.(_tabName).(row).td3.str = XI_ConvertString(Items[i].FencingType);
+				GameInterface.(_tabName).(row).td4.str = FloatToString(stf(Items[i].Weight), 1);
+				break;
+				case "gun":
+				GameInterface.(_tabName).(row).td2.str = GetGunDamage(Items[i]);
+				GameInterface.(_tabName).(row).td3.str = GetAmmoTypes(Items[i]);
+				GameInterface.(_tabName).(row).td4.str = GetAccuracy(Items[i]);
+				GameInterface.(_tabName).(row).td5.str = GetRecharge(Items[i]);
+				break;
+				case "food":
+				if (CheckAttribute(Items[i],"food.energy"))  GameInterface.(_tabName).(row).td2.str = makeint(Items[i].food.energy) + " EN";
+				else GameInterface.(_tabName).(row).td2.str = "-------";
+				if (CheckAttribute(Items[i],"potion.health"))  GameInterface.(_tabName).(row).td2.str = makeint(Items[i].potion.health) + " HP";
+				if (CheckAttribute(Items[i],"potion.antidote")) GameInterface.(_tabName).(row).td3.str = "Да";
+				else GameInterface.(_tabName).(row).td3.str = "-------";
+				GameInterface.(_tabName).(row).td4.str = FloatToString(stf(Items[i].Weight), 1);
+				break;
+			}
+			//GameInterface.(_tabName).(row).td4.color = iColor;
+			// GameInterface.(_tabName).(row).td3.str = GetTradeItemPrice(i, PRICE_TYPE_BUY);
+			// GameInterface.(_tabName).(row).td5.str = GetTradeItemPrice(i, PRICE_TYPE_SELL);
+			n++;
+		}
+	}
+	LanguageCloseFile(idLngFile);
+	Table_UpdateWindow(_tabName);
+}
+
+int GetTradeItemPrice(int itmIdx, int tradeType)
+{
+	int itmprice = 0;
+	if(itmIdx<0 || itmIdx>TOTAL_ITEMS) return 0;
+
+	if(CheckAttribute(&Items[itmIdx],"price"))
+	{
+		itmprice = sti(Items[itmIdx].price);
+	}
+
+	float skillDelta = GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE);
+	float skillModify;
+	if(tradeType == PRICE_TYPE_BUY)
+	{
+		skillModify = 1.4 - skillDelta*0.019;
+		if(CheckAttribute(&Items[itmIdx],"groupID"))
+		{
+			if(Items[itmIdx].groupID == BLADE_ITEM_TYPE || Items[itmIdx].groupID == GUN_ITEM_TYPE) skillModify *= 10.0;
+		}
+		if(CheckOfficersPerk(pchar,"Trader")) { skillModify -= 0.05; }
+		
+		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ skillModify -= 0.2; }
+		else
+		{
+			if(CheckOfficersPerk(pchar,"BasicCommerce"))	{ skillModify -= 0.1; }
+		}
+	}
+	else
+	{
+		skillModify = 0.75 + skillDelta*0.019;
+		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	skillModify += 0.05;
+		if(CheckOfficersPerk(pchar,"Trader")) { skillModify += 0.05; }
+	}
+
+	return makeint(makefloat(itmprice)*skillModify);
+}
+
+void HideInfoWindowEncy()
+{
+	SetNodeUsing("SHIP_INFO_FADER",false);
+	SetNodeUsing("SHIP_INFO_DUST",false);
+	SetNodeUsing("SHIP_INFO_FRAME",false);
+	SetNodeUsing("SHIP_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("SHIP_TABLE_LIST_LEFT",false);
+	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",false);
+	SetNodeUsing("SHIP_TABLE_SCROLL_LEFT",false);
+	SetNodeUsing("SHIP_TABLE_SCROLL_RIGHT",false);
+	SetNodeUsing("SHIP_TABLE_OTHER_LEFT",false);
+	SetNodeUsing("SHIP_TABLE_OTHER_RIGHT",false);
+	SetNodeUsing("SHIP_INFO_FRAME_TEXT_LEFT",false);
+	SetNodeUsing("SHIP_INFO_FRAME_TEXT_RIGHT",false);
+	SetNodeUsing("SHIP_INFO_TEXT_LEFT",false);
+	SetNodeUsing("SHIP_INFO_TEXT_RIGHT",false);
+	SetNodeUsing("SHIP_CLASS_LEFT",false);
+	SetNodeUsing("SHIP_CLASS_RIGHT",false);
+	SetNewPicture("S_NATION_E_L", "");
+	SetNewPicture("S_NATION_F_L", "");
+	SetNewPicture("S_NATION_H_L", "");
+	SetNewPicture("S_NATION_S_L", "");
+	SetNewPicture("S_NATION_P_L", "");
+	SetNewPicture("S_NATION_E_R", "");
+	SetNewPicture("S_NATION_F_R", "");
+	SetNewPicture("S_NATION_H_R", "");
+	SetNewPicture("S_NATION_S_R", "");
+	SetNewPicture("S_NATION_P_R", "");
+	SetNodeUsing("BLADE_INFO_FADER",false);
+	SetNodeUsing("BLADE_INFO_DUST",false);
+	SetNodeUsing("BLADE_INFO_FRAME",false);
+	SetNodeUsing("BLADE_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("BLADE_TABLE_LIST_SCROLL",false);
+	SetNodeUsing("BLADE_TABLE_LIST",false);
+	SetNodeUsing("BLADE_TYPE_CLASS",false);
+	SetNodeUsing("GUN_INFO_FADER",false);
+	SetNodeUsing("GUN_INFO_DUST",false);
+	SetNodeUsing("GUN_INFO_FRAME",false);
+	SetNodeUsing("GUN_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("GUN_TABLE_LIST_SCROLL",false);
+	SetNodeUsing("GUN_TABLE_LIST",false);
+	SetNodeUsing("FOOD_INFO_FADER",false);
+	SetNodeUsing("FOOD_INFO_DUST",false);
+	SetNodeUsing("FOOD_INFO_FRAME",false);
+	SetNodeUsing("FOOD_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("FOOD_TABLE_LIST_SCROLL",false);
+	SetNodeUsing("FOOD_TABLE_LIST",false);
+}
+void ShowInfoWindowEncyShip()
+{
+	HideInfoWindowEncy();
+	SetNodeUsing("SHIP_TABLE_LIST_LEFT",true);
+	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",true);
+	SetNodeUsing("SHIP_TABLE_SCROLL_LEFT",true);
+	SetNodeUsing("SHIP_TABLE_SCROLL_RIGHT",true);
+	SetNodeUsing("SHIP_TABLE_OTHER_LEFT",true);
+	SetNodeUsing("SHIP_TABLE_OTHER_RIGHT",true);
+	SetNodeUsing("SHIP_INFO_DUST",true);
+	SetNodeUsing("SHIP_INFO_FRAME",true);
+	SetNodeUsing("SHIP_INFO_FRAME_CAPTION",true);
+	SetNodeUsing("SHIP_INFO_FRAME_TEXT_LEFT",true);
+	SetNodeUsing("SHIP_INFO_FRAME_TEXT_RIGHT",true);
+	SetNodeUsing("SHIP_INFO_TEXT_LEFT",true);
+	SetNodeUsing("SHIP_INFO_TEXT_RIGHT",true);
+	SetNodeUsing("SHIP_CLASS_LEFT",true);
+	SetNodeUsing("SHIP_CLASS_RIGHT",true);
+	
+	SetFormatedText("SHIP_INFO_FRAME_CAPTION", "Энциклопедия всех кораблей с полной информацией и возможностью сравнения");
+}
+
+void ShowInfoWindowEncyBlade()
+{
+	HideInfoWindowEncy();
+	SetNodeUsing("BLADE_INFO_FADER",true);
+	SetNodeUsing("BLADE_INFO_DUST",true);
+	SetNodeUsing("BLADE_INFO_FRAME",true);
+	SetNodeUsing("BLADE_INFO_FRAME_CAPTION",true);
+	SetNodeUsing("BLADE_TABLE_LIST_SCROLL",true);
+	SetNodeUsing("BLADE_TABLE_LIST",true);
+	SetNodeUsing("BLADE_TYPE_CLASS",true);
+	
+	SetFormatedText("BLADE_INFO_FRAME_CAPTION", "Энциклопедия всего холодного оружия с фильтрами и с максимальной информацией");
+}
+
+void ShowInfoWindowEncyGun()
+{
+	HideInfoWindowEncy();
+	SetNodeUsing("GUN_INFO_FADER",true);
+	SetNodeUsing("GUN_INFO_DUST",true);
+	SetNodeUsing("GUN_INFO_FRAME",true);
+	SetNodeUsing("GUN_INFO_FRAME_CAPTION",true);
+	SetNodeUsing("GUN_TABLE_LIST_SCROLL",true);
+	SetNodeUsing("GUN_TABLE_LIST",true);
+	
+	SetFormatedText("GUN_INFO_FRAME_CAPTION", "Энциклопедия всего огнестрельного оружия в игре со всей доступной информацией");
+}
+
+void ShowInfoWindowEncyFood()
+{
+	HideInfoWindowEncy();
+	SetNodeUsing("FOOD_INFO_FADER",true);
+	SetNodeUsing("FOOD_INFO_DUST",true);
+	SetNodeUsing("FOOD_INFO_FRAME",true);
+	SetNodeUsing("FOOD_INFO_FRAME_CAPTION",true);
+	SetNodeUsing("FOOD_TABLE_LIST_SCROLL",true);
+	SetNodeUsing("FOOD_TABLE_LIST",true);
+	
+	SetFormatedText("FOOD_INFO_FRAME_CAPTION", "Энциклопедия еды и зелий");
 }

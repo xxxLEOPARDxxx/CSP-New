@@ -434,11 +434,11 @@ void Ship_FireAction()
 	// if fort - return
 	int iShipType = sti(rCharacter.Ship.Type);
 	iShipType = sti(RealShips[iShipType].basetype);
+	
 	if (ShipsTypes[iShipType].name == "Fort")
 	{
 		return;
 	}
-	
 	sGroupID = Ship_GetGroupID(rMainGroupCharacter);
 
 	Group_SetTaskAttack(PLAYER_GROUP, sGroupID);
@@ -1267,29 +1267,36 @@ void Ship_CheckSituation()
     if (!bIsCompanion) //fix 171204 boal Не нужно наших с толку сбивать
     {
         string sGroupID = Ship_GetGroupID(rCharacter);
-        if(CheckAttribute(rCharacter, "fortDefender") && sti(rCharacter.fortDefender) == 1)
+		//Lipsar --->ИИ сторожей
+		if(CheckAttribute(rCharacter, "fortDefender") && sti(rCharacter.fortDefender) == 1 && bSeaActive && rCharacter.SeaAI.Task == "3")
 		{
-			if(sti(rCharacter.SeaAI.Task) == AITASK_NONE)
+			string defGroupID = rCharacter.SeaAI.Task.Target;
+			Log_Info(defGroupID);
+			if (pchar.Ship.LastBallCharacter == defGroupID) 
 			{
-				if (GetNationRelation2Character(sti(rCharacter.nation), GetMainCharacterIndex()) == RELATION_ENEMY)
+				Group_SetEnemyToCharacter(sGroupID, Pchar);
+				Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
+				Group_LockTask(sGroupID);
+				DoQuestCheckDelay("NationUpdate", 0.7);
+				return;
+			}
+			ref attckChar;
+			ref fortChar = &characters[sti(rCharacter.SeaAI.Task.Target)];
+			if (sti(rCharacter.Ship.LastBallCharacter) != -1 || CheckAttribute(fortChar,"Ship.LastBallCharacter")) 
+			{
+				if (sti(rCharacter.Ship.LastBallCharacter) != -1) attckChar = &characters[sti(rCharacter.Ship.LastBallCharacter)];
+				else attckChar = CharacterFromId(fortChar.Ship.LastBallCharacter);
+				if (GetNationRelation2Character(sti(rCharacter.nation), GetCharacterIndex(attckChar.id)) == RELATION_ENEMY && sti(rCharacter.SeaAI.Task.Target) != GetCharacterIndex(attckChar.id))
 				{
-					Group_SetEnemyToCharacter(Ship_GetGroupID(rCharacter), GetMainCharacterIndex());
-					Group_SetTaskAttack(Ship_GetGroupID(rCharacter), PLAYER_GROUP);
-				}
-				else
-				{
-					if (sti(rCharacter.Ship.LastBallCharacter) != -1 && !LAi_IsDead(GetCharacter(sti(rCharacter.Ship.LastBallCharacter))))
-					{
-						Group_SetTaskAttack(Ship_GetGroupID(rCharacter), Ship_GetGroupID(GetCharacter(sti(rCharacter.Ship.LastBallCharacter))));
-					}
-					else
-					{
-						Group_SetTaskNone(Ship_GetGroupID(rCharacter));
-					}
+					Group_SetEnemyToCharacter(sGroupID, attckChar);
+					Group_SetTaskAttack(sGroupID, Ship_GetGroupID(attckChar));
+					Group_LockTask(sGroupID);
+					rCharacter.SeaAI.Task = AITASK_ATTACK;
+					rCharacter.SeaAI.Task.Target = GetCharacterIndex(attckChar.id);
 				}
 			}
 			return;
-		}
+		}//<---Lipsar ИИ сторожей
 		if (CheckAttribute(rCharacter, "SeaAI.Task.Target"))
 		{
 	        if (iNewBallType < 0 || iShipCannonsNum < (sti(rShip.CannonsQuantity) / 2))
@@ -2551,7 +2558,22 @@ void Ship_HullHitEvent()
 
 	ref		rBallCharacter = GetCharacter(iBallCharacterIndex);	// кто пуляет
 	ref		rOurCharacter = GetCharacter(iOurCharacterIndex);   // по кому
-
+	
+	//--->Lipsar для ИИ сторожей
+	if(CheckAttribute(rBallCharacter, "fortDefender") && sti(rBallCharacter.fortDefender) == 1 && bSeaActive && sti(rBallCharacter.SeaAI.Task.Target) != GetCharacterIndex(rOurCharacter.id))
+	{
+		string sGroupID = Ship_GetGroupID(rBallCharacter);
+		if (GetNationRelation2Character(sti(rBallCharacter.nation), GetCharacterIndex(rOurCharacter.id)) == RELATION_ENEMY)
+		{
+			Group_SetEnemyToCharacter(sGroupID, rOurCharacter);
+			Group_SetTaskAttack(sGroupID, Ship_GetGroupID(rOurCharacter));
+			Group_LockTask(sGroupID);
+			rBallCharacter.SeaAI.Task = AITASK_ATTACK;
+			rBallCharacter.SeaAI.Task.Target = GetCharacterIndex(rOurCharacter.id);
+		}
+	}
+	//<---Lipsar для ИИ сторожей
+	
 	rOurCharacter.Ship.LastBallCharacter = iBallCharacterIndex;
 
 	float	x = GetEventData();

@@ -2364,3 +2364,183 @@ void CreatePGG_Trade(ref ch, int iNation, ref shipOwner)
 	ch.Ship.Mode = "merchant";
 }
 //--->Lipsar корабли по квесту Предложение Пирата
+void CreateFortDefenders(ref ch, int iNation)
+{
+	aref rShip;
+	ref rMerch;
+	int iType, cl, cl1, i, j;
+	cl1 = 116;
+	cl  = 84;
+	int storeArray1[SHIP_TYPES_QUANTITY];
+	j = 0;
+	switch (iNation)
+	{
+		case "0":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.england);
+				if (rShip == true) 
+				{	
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.War == true)
+					{
+						storeArray1[j]= i; 
+						j++;
+					}
+				}
+			}				
+		break;
+		case "1":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.france);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.War == true)
+					{
+						storeArray1[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+		case "2":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.spain);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.War == true)
+					{
+						storeArray1[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+		case "3":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.holland);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.War == true)
+					{
+						storeArray1[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+		case "4":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.pirate);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.War == true)
+					{
+						storeArray1[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+	}
+	iType = storeArray1[rand(j-1)];
+	ch.Ship.Type = GenerateShipExt(iType, 1, ch);
+}
+void CreateFortMerchants(ref ch, int iNation)
+{
+	aref rShip;
+	ref rMerch;
+	int iType, cl, cl1, i, j;
+	int storeArray2[SHIP_TYPES_QUANTITY];
+	j = 0;
+	cl = 3;
+	cl1 = 52;
+	switch (iNation)
+	{
+		case "0":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.england);
+				if (rShip == true) 
+				{	
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.Merchant == true)
+					{
+						storeArray2[j]= i; 
+						j++;
+					}
+				}
+			}				
+		break;
+		case "1":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.france);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.Merchant == true)
+					{
+						storeArray2[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+		case "2":
+			for (i;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.spain);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.Merchant == true)
+					{
+						storeArray2[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+		case "3":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.holland);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.Merchant == true)
+					{
+						storeArray2[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+		case "4":
+			for (i=cl;i<cl1;i++)
+			{
+				makearef(rShip,ShipsTypes[i].nation.pirate);
+				if (rShip == true) 
+				{
+					makeref(rMerch,ShipsTypes[i]);			
+					if(rMerch.Type.Merchant == true)
+					{
+						storeArray2[j]= i; 
+						j++;
+					}
+				}
+			}
+		break;
+	}
+	iType = storeArray2[rand(j-1)];
+	ch.Ship.Type = GenerateShipExt(iType, 1, ch);
+}

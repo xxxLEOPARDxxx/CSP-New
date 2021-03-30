@@ -124,6 +124,7 @@ void Fort_Login(int iIslandIndex)
 			// Add fort to AIFort
 			ref rCharacter = GetCharacter(iFortCharacter);
 			int iNation = sti(rCharacter.nation);
+			if(CheckAttribute(rCharacter,"Ship.LastBallCharacter")) DeleteAttribute(rCharacter,"Ship.LastBallCharacter");
 			/*int iRelation = GetNationRelation2MainCharacter(iNation);
 			SetCharacterRelationBoth(nMainCharacterIndex, iFortCharacter, iRelation); */
 
@@ -306,8 +307,16 @@ float Fort_CannonDamage()
 	int iBallCharacterIndex = GetEventData();
 	int iFortCharacterIndex = GetEventData();
 
+
 	rBallCharacter = GetCharacter(iBallCharacterIndex);
 	rFortCharacter = GetCharacter(iFortCharacterIndex);
+	
+	//--->Lipsar для ИИ сторожей
+	if(!CheckAttribute(rFortCharacter,"Ship.LastBallCharacter"))
+	{
+		rFortCharacter.Ship.LastBallCharacter = rBallCharacter.id;
+	}
+	//<---Lipsar для ИИ сторожей
 
 	/*if(sti(rBallCharacter.index) == nMainCharacterIndex)
 	{

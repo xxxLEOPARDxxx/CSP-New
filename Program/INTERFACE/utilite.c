@@ -1064,6 +1064,108 @@ string GetItemDescribe(int iGoodIndex)
 	return describeStr;
 }
 
+string GetGunDamage(ref arItm)
+{
+	if (arItm.groupID != GUN_ITEM_TYPE) return "-------";
+	if(CheckAttribute(arItm,"type.t1") && !CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+	{
+		int dmg11m = arItm.type.t1.DmgMin_NC;
+		int dmg11ma = arItm.type.t1.DmgMax_NC;
+		return "мин "+dmg11m+"\n"+"макс "+dmg11ma;
+	}
+	if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+	{
+		int dmg21m = arItm.type.t1.DmgMin_NC;
+		int dmg21ma = arItm.type.t1.DmgMax_NC;
+		int dmg22m = arItm.type.t2.DmgMin_NC;
+		int dmg22ma = arItm.type.t2.DmgMax_NC;
+		string sTemp2;
+		if(dmg21m == dmg22m || dmg21ma == dmg22ma ) sTemp2 =  "мин "+dmg21m+"\nмакс "+dmg21ma;
+		else sTemp2 = "мин "+dmg21m+"/"+dmg22m + "\nмакс " + dmg21ma+"/"+dmg22ma;
+		return sTemp2;
+	}
+	if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && CheckAttribute(arItm,"type.t3"))
+	{
+		int dmg31m = arItm.type.t1.DmgMin_NC;
+		int dmg31ma = arItm.type.t1.DmgMax_NC;
+		int dmg32m = arItm.type.t2.DmgMin_NC;
+		int dmg32ma = arItm.type.t2.DmgMax_NC;
+		int dmg33m = arItm.type.t3.DmgMin_NC;
+		int dmg33ma = arItm.type.t3.DmgMax_NC;
+		string sTemp3;
+		if(dmg31m == dmg32m && dmg33m == dmg32m) sTemp3 = "мин "+dmg31m+"\nмакс "+dmg31ma;
+		else sTemp3 = "мин "+dmg31m+"/"+dmg32m+"/"+dmg33m+"\nмакс "+dmg31ma+"/"+dmg32ma+"/"+dmg33ma;
+		return sTemp3;
+	}
+}
+
+string GetAmmoTypes(ref arItm)
+{
+	int lngFileID = LanguageOpenFile("ItemsDescribe.txt");
+	if (arItm.groupID != GUN_ITEM_TYPE) return "-------";
+	if(CheckAttribute(arItm,"type.t1") && !CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+	{
+		return LanguageConvertString(lngFileID, "itmname_"+arItm.type.t1.bullet);
+	}
+	if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+	{
+		return LanguageConvertString(lngFileID, "itmname_"+arItm.type.t1.bullet) + "/" + LanguageConvertString(lngFileID, "itmname_"+arItm.type.t2.bullet);
+	}
+	if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && CheckAttribute(arItm,"type.t3"))
+	{
+		return LanguageConvertString(lngFileID, "itmname_"+arItm.type.t1.bullet) + "/" + LanguageConvertString(lngFileID, "itmname_"+arItm.type.t2.bullet) + "/" + LanguageConvertString(lngFileID, "itmname_"+arItm.type.t3.bullet);
+	}
+	LanguageCloseFile(lngFileID);
+}
+
+string GetAccuracy(ref arItm)
+{
+	if (arItm.groupID != GUN_ITEM_TYPE) return "-------";
+	if(CheckAttribute(arItm,"type.t1") && !CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+	{
+		return arItm.type.t1.Accuracy+"%";
+	}
+	if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+	{
+		int dmg21a = arItm.type.t1.Accuracy;
+		int dmg22a = arItm.type.t2.Accuracy;
+		if (dmg21a != dmg22a) return dmg21a+"%/"+dmg22a+"%";
+		else return dmg21a+"%";
+	}
+	if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && CheckAttribute(arItm,"type.t3"))
+	{
+		int dmg31a = arItm.type.t1.Accuracy;
+		int dmg32a = arItm.type.t2.Accuracy;
+		int dmg33a = arItm.type.t3.Accuracy;
+		if (dmg31a == dmg32a && dmg32a == dmg33a) return dmg31a+"%";
+		else  return dmg31a+"%/"+dmg32a+"%/"+dmg33a+"%";
+	}
+}
+
+string GetRecharge(ref arItm)
+{
+	if (arItm.groupID != GUN_ITEM_TYPE) return "-------";
+	if(CheckAttribute(arItm,"type.t1") && !CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+	{
+		return arItm.type.t1.ChargeSpeed;
+	}
+	if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
+	{
+		int dmg21a = arItm.type.t1.ChargeSpeed;
+		int dmg22a = arItm.type.t2.ChargeSpeed;
+		if (dmg21a != dmg22a) return dmg21a+"/"+dmg22a;
+		else return its(dmg21a);
+	}
+	if(CheckAttribute(arItm,"type.t1") && CheckAttribute(arItm,"type.t2") && CheckAttribute(arItm,"type.t3"))
+	{
+		int dmg31a = arItm.type.t1.ChargeSpeed;
+		int dmg32a = arItm.type.t2.ChargeSpeed;
+		int dmg33a = arItm.type.t3.ChargeSpeed;
+		if (dmg31a == dmg32a && dmg32a == dmg33a) return its(dmg31a);
+		else return dmg31a+"/"+dmg32a+"/"+dmg33a;
+	}
+}
+
 string MsgIS(string _str)
 {
 	return GetConvertStr(_str, "interface_strings.txt");
