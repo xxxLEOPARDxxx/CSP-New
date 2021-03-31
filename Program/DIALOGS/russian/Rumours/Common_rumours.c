@@ -256,6 +256,103 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			pchar.PGG_killed_known = pchar.PGG_killed;
 			dialog.text = "Говорят, что в наших водах "+GetSexPhrase("завелся охотник на честных корсаров, ","завелась охотница на честных корсаров")+ GetFullName(pchar)+GetSexPhrase(" его "," её") + " звать. Число душ, отправленных на тот свет этой личностью уже достигло " + pchar.PGG_killed + ". Все уважаемые в этих местах люди. Брр... Что-то меня мутить начинает. То ли из-за рома, то ли всей этой истории...";
 		}
+		
+		//BlackThorn викинг
+		if (CheckAttribute(pchar, "questTemp.pirateVikingQuest") && rand(100) > 60)
+		{
+			if (CheckAttribute(pchar, "LastHearedViking") && pchar.LastHearedViking != npchar.city)
+			{
+				if (pchar.questTemp.pirateVikingQuest == "4")
+				{	
+					if(ShipsTypes[sti(RealShips[sti(pchar.Ship.Type)].BaseType)].Type.Merchant == true && GetCompanionQuantity(pchar) == 1)
+					{
+						if (GetSquadronGoods(Pchar, GOOD_EBONY) >= 400 || GetSquadronGoods(Pchar, GOOD_SILK) >= 1000 || GetSquadronGoods(Pchar, GOOD_SILVER) >= 600) 
+						{
+							dialog.text = "Вижу, вы - вывалый купец, капитан, немало передряг повидали. Но все же, хоть я сам не моряк, но дал бы вам совет - не выходите сегодня в море. В окрестных водах видели пиратскую щебеку, которая как раз охотится на людей вроде вас.";
+							link.l1 = "Ха! Напугал ежа иголкой. Да если мне эта щебека попадется, то считай она уже на дне. Ладно, бывай.";
+							link.l1.go = "exit_sit";
+							AddQuestRecord("pirateVikingQuest", "6");
+							//Можно будет вызвать повторно, если еще не убили
+							//pchar.questTemp.pirateVikingQuest = "5";
+							pchar.LastHearedViking = npchar.city;
+							
+							sld = GetCharacter(NPC_GenerateCharacter("pirateVikingQuest_Captain", "OZG_3", "man", "man", 80, PIRATE, -1, true));
+							sld.mapEnc.worldMapShip = "quest_ship";
+							sld.mapEnc.Name = "щебека 'Драккар'";
+							sld.mapEnc.type = "war";
+							FantomMakeCoolFighter(sld, 80, 100, 100, "topor_viking", "pistol3", 600);
+							FantomMakeCoolSailor(sld, SHIP_XEBEKVT, "Драккар", CANNON_TYPE_CANNON_LBS24, 100, 100, 100);
+							
+							sld.name 	= "Рагнар";
+							sld.lastname = "Лотброк";
+							sld.AlwaysSandbankManeuver = true;
+							sld.DontRansackCaptain = true;
+							sld.AnalizeShips = true;
+							SetCharacterPerk(sld, "MusketsShoot");
+
+							sld.ship.Crew.Morale = 100;
+							ChangeCrewExp(sld, "Sailors", 100);
+							ChangeCrewExp(sld, "Cannoners", 100);
+							ChangeCrewExp(sld, "Soldiers", 100);
+
+							GiveItem2Character(sld, "cirass3");
+							EquipCharacterbyItem(sld, "cirass3");
+							GiveItem2Character(sld, "jewelry9");
+							SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+							TakeNItems(sld, "Food5", 30);
+							TakeNItems(sld, "potion2", 15);
+							sld.SaveItemsForDead = true;
+							sld.DontClearDead = true;
+							
+							LAi_group_MoveCharacter(sld, "Vikings");
+							string  sGroup = "Sea_" + sld.id;
+							group_DeleteGroup(sGroup);
+							Group_FindOrCreateGroup(sGroup);
+							Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+							Group_LockTask(sGroup);
+							Group_AddCharacter(sGroup, sld.id);
+							Group_SetGroupCommander(sGroup, sld.id);
+							Map_CreateWarrior("", sld.id, 8);
+							SetFunctionNPCDeathCondition("PirateVikingQuest_Captain_Is_Dead", sld.id, false);
+							break;
+						}
+						else
+						{
+							dialog.text = "Говорят, в окрестных водах плавает пиратская щебека. Но вам, капитан, бояться нечего. Хоть у вас и торговый рорабль, они вряд захотят тратить тратить свои силы на такой скудный груз.";
+						}
+					}
+					else
+					{
+						dialog.text = "Говорят, в окрестных водах плавает пиратская щебека. Но вам, капитан, бояться нечего. Они охотятся только на одинокие торговые корабли.";
+					}
+				}
+				if (pchar.questTemp.pirateVikingQuest == "3")
+				{
+					dialog.text = "Говорят, местный хозяин магазина собирается судиться с одним незадачливым капитаном. Тот зафрахтовал свой корабль для доставки крупной партии китайского шёлка, однако пришёл с пустым трюмом! Сами понимаете, деньги тут немаленькие замешаны. Обвиняемый капитан говорит, что его ограбила какая-то щебека, капитан которой - голубоглазый блондин. Вся команда это подтверждает. Даже повреждения на корабле имеются после боя, несколько вмятин от ядер, испорченная остнастка, но хозяин магазина всё равно не верит. Каждый раз повторяет, что доказательства сфабрикованы, а капитан с командой лгут. Но я вот думаю, с чего бы ему лгать? Он уже не один десяток раз возил фрахты, причем с куда более ценными грузами. Если бы захотел украсть - давно уже так поступил бы.";
+					AddQuestRecord("pirateVikingQuest", "4");
+					AddQuestRecord("pirateVikingQuest", "5");
+					pchar.questTemp.pirateVikingQuest = "4";
+					pchar.LastHearedViking = npchar.city;
+					break;
+				}
+				if (pchar.questTemp.pirateVikingQuest == "2")
+				{
+					dialog.text = "Не советую вам выходить в море, капитан. Обычно там только пираты покою не давали, а сейчас завелись ещё и самые настоящие викинги! Один купец до последнего не хотел расставаться с серебром в своем трюме, наивно надеясь, что сможет дать им отпор. Он заплатил жизнями своей команды. С обломками его корабля, в местную бухту недавно прибило бедолагу, матроса, который чудом выжил. Он и рассказал мне эту историю. Говорит, лично видел этих зверей. Все до единого в рогатых шлемах!";
+					AddQuestRecord("pirateVikingQuest", "3");
+					pchar.questTemp.pirateVikingQuest = "3";
+					pchar.LastHearedViking = npchar.city;
+					break;
+				}
+				if (pchar.questTemp.pirateVikingQuest == "1")
+				{
+					dialog.text = "Слыхали, капитан? В наш порт недавно вернулся купец, что обычно приторговывает чёрным деревом. Вот только в этот раз он пришел с пустым трюмом. Говорят, в море его перехватила щебека под названием 'Драккар'. Капитан благоразумно поднял белый флаг и его пощадили, однако обобрали до нитки. Он теперь полностью разорён и больше не может продолжать бизнес. В Европу собирается вернуться, к родственникам.";
+					AddQuestRecord("pirateVikingQuest", "2");
+					pchar.questTemp.pirateVikingQuest = "2";
+					pchar.LastHearedViking = npchar.city;
+					break;
+				}
+			}
+		}
 	break;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		case "rumours_trader":

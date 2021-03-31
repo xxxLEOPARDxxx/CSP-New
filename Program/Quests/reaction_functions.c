@@ -10477,3 +10477,44 @@ void PDM_ONV_Kazn_4(string qName)
 	sld.lifeday = 0;
 }
 //Sinistra Охота на ведьму <--
+//Blackthorn Викинг
+void PirateVikingQuest_Captain_Is_Dead(string qName)
+{
+	AddQuestRecord("pirateVikingQuest", "7");
+	pchar.questTemp.pirateVikingQuest = "7";
+}
+//Blackthorn Викинг
+
+//Тичингиту
+void FreeTichingituOver(string qName)//удаляем Тичингиту
+{
+	DeleteAttribute(pchar, "questTemp.Tichingitu");
+	if (CheckCharacterItem(pchar, "letter_1")) RemoveItems(pchar, "letter_A", 1); // 170712
+}
+
+void SetTichingituJail()//ставим Тичингиту
+{
+	sld = GetCharacter(NPC_GenerateCharacter("Tichingitu", "maskog", "man", "man", 10, FRANCE, -1, false));
+	sld.name = "Тичингиту"; // 270912
+	sld.lastname = "";
+	sld.greeting = "Tichingitu";
+    sld.Dialog.Filename = "Quest\Tichingitu.c";
+	sld.dialog.currentnode = "Tichingitu";
+	sld.rank = 12;
+	LAi_SetHP(sld, 140.0, 140.0);
+	SetSPECIAL(sld, 4, 9, 5, 5, 10, 8, 8);
+	SetSelfSkill(sld, 30, 30, 30, 50, 20);
+    SetShipSkill(sld, 5, 5, 2, 5, 1, 2, 1, 1, 10);
+	SetCharacterPerk(sld, "Energaiser");
+	SetCharacterPerk(sld, "Tireless");
+	SetCharacterPerk(sld, "BasicDefense");
+	SetCharacterPerk(sld, "CriticalHit");
+	SetCharacterPerk(sld, "Gunman");
+	GiveItem2Character(sld, "unarmed");
+	sld.equip.blade = "unarmed";
+	sld.equip.gun = "";
+	ChangeCharacterAddressGroup(sld, "BasTer_prison", "goto", "goto9");
+	LAi_SetStayType(sld);
+	LAi_SetImmortal(sld, true); // 170712
+}
+//

@@ -1386,10 +1386,10 @@ void ProcessDialogEvent()
 		break;		
 
 	case "Exit_Smugglers_Fight":
-		NextDiag.CurrentNode = NextDiag.TempNode;
+		NextDiag.CurrentNode = "Second Time";
+		npchar.willDie = true;
 		CloseQuestHeader("Gen_StrangeInfo");
 		DialogExit();
-
 		LAi_group_FightGroups(LAI_GROUP_PLAYER, "PGGTmp", true);
 		LAi_SetFightMode(pchar, true);
 		break;

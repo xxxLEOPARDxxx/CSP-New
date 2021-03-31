@@ -1624,7 +1624,10 @@ int NPC_GenerateCharacter(string _id, string _model, string _sex, string _ani, i
 		ch.cirassId = Items_FindItemIdx(cirnum);
 		Log_TestInfo("Персонаж "+ch.name+" получил кирасу "+cirnum);
 	}
-	SetCharacterPerk(ch, PerksChars());
+	
+	if (_id == "Tichingitu") SetCharacterPerk(ch, "Buccaneer");
+	else SetCharacterPerk(ch, PerksChars());
+	
 	return  iChar;
 }
 // сгенерим разового фантома - нашего моряка (в  форме, если патент)

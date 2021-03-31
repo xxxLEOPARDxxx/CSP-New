@@ -1420,7 +1420,7 @@ void SetShipyardStore(ref NPChar)
 	switch (shipyarder_nation)
 	{
 		case "0":
-			for (i=0;i<125;i++)//fix 125 для учета только НЕ квестовых кораблей 
+			for (i=0;i<116;i++)//fix 116 для учета только НЕ квестовых кораблей 
 			{
 				makearef(rShip,ShipsTypes[i].nation.england);
 				if (rShip==true)
@@ -1431,7 +1431,7 @@ void SetShipyardStore(ref NPChar)
 			}				
 		break;
 		case "1":
-			for (i=0;i<125;i++)
+			for (i=0;i<116;i++)
 			{
 				makearef(rShip,ShipsTypes[i].nation.france);
 				if (rShip==true) 
@@ -1442,7 +1442,7 @@ void SetShipyardStore(ref NPChar)
 			}
 		break;
 		case "2":
-			for ( i=0;i<125;i++)
+			for ( i=0;i<116;i++)
 			{
 				makearef(rShip,ShipsTypes[i].nation.spain);
 				if (rShip==true) 
@@ -1453,7 +1453,7 @@ void SetShipyardStore(ref NPChar)
 			}
 		break;
 		case "3":
-			for (i=0;i<125;i++)
+			for (i=0;i<116;i++)
 			{
 				makearef(rShip,ShipsTypes[i].nation.holland);
 				if (rShip==true) 
@@ -1464,7 +1464,7 @@ void SetShipyardStore(ref NPChar)
 			}
 		break;
 		case "4":
-			for (i=0;i<125;i++)
+			for (i=0;i<116;i++)
 			{
 				makearef(rShip,ShipsTypes[i].nation.pirate);
 				if (rShip==true) 

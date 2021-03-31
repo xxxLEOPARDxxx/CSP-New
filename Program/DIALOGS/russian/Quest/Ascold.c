@@ -12,6 +12,45 @@ void ProcessDialogEvent()
 
 	switch(Dialog.CurrentNode)
 	{
+		case "Exit":
+            NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+		break;
+		
+		case "Tichingitu_11":
+			AddMoneyToCharacter(pchar, -10000);
+			dialog.text = "Отлично! Вот это дело! Сейчас я напишу записку и приложу свою печать, подождите немного... вот, держите. Отдайте это коменданту и можете забирать своего индейца. Вот только зачем он вам понадобился - ума не приложу. Разве что на ярмарках за деньги показывать, ха-ха!";
+			link.l1 = "Бог всё видит, Аскольд. Спасти жизнь человеку - благое дело.";
+			npchar.quest.Tichingitu = "paid"
+			link.l1.go = "Tichingitu_12";
+		break;
+		
+		if (CheckAttribute(pchar, "questTemp.Tichingitu") && pchar.questTemp.Tichingitu == "ascold")
+		{
+			dialog.text = "Что скажете, Шарль? Сходили посмотреть на это индейское чучело?";
+			link.l1 = "Сходил... Поэтому и пришёл снова к вам.";
+			link.l1.go = "Tichingitu_7";
+			if (!CheckAttribute(npchar, "quest.Tichingitu")) 
+			{
+				npchar.quest.Tichingitu = true;
+				break;
+			}
+		}
+		if (CheckAttribute(pchar, "questTemp.Tichingitu") && pchar.questTemp.Tichingitu == "money")
+		{
+			dialog.text = "А, это опять ты! Ну что, принёс деньги за индейца?";
+			if (sti(pchar.money) >= 10000)
+			{
+				link.l1 = "Да. Вот, держите.";
+				link.l1.go = "Tichingitu_11";
+			}
+			if (CheckAttribute(npchar, "quest.Tichingitu") && npchar.quest.Tichingitu != "paid") 
+			{
+				link.l2 = "Нет, я ещё не собрал требуемую сумму.";
+				link.l2.go = "exit";
+				break;
+			}
+		}
 		// ----------------------------------- Диалог первый - первая встреча
 		case "First time":
             if (npchar.quest.meeting == "0")
@@ -28,13 +67,13 @@ void ProcessDialogEvent()
         		link.l1.go = "exit";
         		link.l2 = "Хамить изволите, сударь?";
         		link.l2.go = "Step_3";
+				if (!CheckAttribute(pchar, "questTemp.Tichingitu") && !CheckAttribute(npchar, "quest.Tichingitu"))
+				{
+					link.l3 = "Кажется мне, вас что-то беспокоит, не так ли?";
+					link.l3.go = "Tichingitu_1";
+				}
                 NextDiag.TempNode = "First time";
             }
-		break;
-
- 		case "Exit":
-            NextDiag.CurrentNode = NextDiag.TempNode;
-			DialogExit();
 		break;
 
  		case "Step_1":
@@ -159,10 +198,94 @@ void ProcessDialogEvent()
                           "Мне нужна статуэтка Тлалока, ацтекского бога дождя и грома, церемониальный сосуд племени пурепча и церемониальных нож Туми.";
     		link.l1 = "Понял"+ GetSexPhrase("","а") +". Что ж, буду смотреть по сторонам. Соберу все три вещи - буду у тебя.";
     		link.l1.go = "exit";
+			if (!CheckAttribute(pchar, "questTemp.Tichingitu") && !CheckAttribute(npchar, "quest.Tichingitu"))
+			{
+				link.l2 = "Кажется мне, тебя что-то беспокоит и помимо выданного дела, не так ли?";
+				link.l2.go = "Tichingitu_1";
+			}
     	    pchar.questTemp.Ascold = "SeekThreeObject";
     	    NextDiag.TempNode = "ResultOfSeek";
             AddQuestRecord("Ascold", "3");
 	    AddQuestUserData("Ascold", "sSex", GetSexPhrase("ся","ась"));
+		break;
+		
+		case "Tichingitu_1":
+			dialog.text = "У тебя на удивление хорошее чутьё. Что-ж, расскажу. На днях ко мне вломились в дом несколько бандитов. Куда только стража смотрела...";
+			link.l1 = "Очевидно, куда угодно кроме того, куда было надо. Что дальше?";
+			link.l1.go = "Tichingitu_2";
+		break;
+		
+		case "Tichingitu_2":
+			dialog.text = "Ну я взял оглоблю и наподдал им. Едва ноги унесли. Да только вот напасть какая, отвлекали меня те, что вломились. На второй этаж забрался вор и унёс ларь с ценностями, чтоб его от жадности разорвало!";
+			link.l1 = "И вы его не остановили?";
+			link.l1.go = "Tichingitu_3";
+		break;
+		
+		case "Tichingitu_3":
+			dialog.text = "Куда там, удрал вместе с подельниками в джунгли. А их там уже не найдёшь. Ладно, тут уж ничего не поделать. Я конечно нанял наёмников, чтобы прочесали остров, но грабителей и вора уже и след простыл.";
+			link.l1 = "Звучит очень неприятно. Можно сказать горе.";
+			link.l1.go = "Tichingitu_4";
+		break;
+
+		case "Tichingitu_4":
+			dialog.text = "Так вот эта кража - еще не всё. Буквально на днях - представляете, ко мне снова залез воришка\nНу это уж слишком! Но тут он от меня не ушёл: я поймал его, задал хорошую взбучку и сдал коменданту. Думаю, его скоро повесят. И поделом ему!";
+			link.l1 = "Не думаешь, что погорячился?";
+			link.l1.go = "Tichingitu_5";
+		break;
+		
+		case "Tichingitu_5":
+			dialog.text = "Может быть. На вид он довольно истощённый был. Полез видать от полной безысходности. И его интересовали только монеты. Но и меня пойми... Такое, представляете, чучело залезло ко мне в комнату и шарилось по сундукам\nИндеец из каких-то глухих джунглей, просто чудо. Весь в наряде, раскрашенный... Можете сходить в наши казематы и посмотреть на этого шута ряженого, если вам интересно, пока он ещё жив.";
+			link.l1 = "Хм... Может, и загляну.";
+			link.l1.go = "Tichingitu_6";
+		break;
+		
+		case "Tichingitu_6":
+			dialog.text = "Сходите-сходите, посмотрите на местные ходячие диковины...";
+			link.l1 = "Всего доброго.";
+			link.l1.go = "exit";
+			pchar.questTemp.Tichingitu = "true";
+			AddDialogExitQuestFunction("SetTichingituJail");
+			SetFunctionTimerCondition("FreeTichingituOver", 0, 0, 10, false);
+		break;
+		
+		case "Tichingitu_7":
+			dialog.text = "Ну, что ещё?";
+			link.l1 = "Аскольд, я говорил с этим индейцем. И я пришёл просить вас за него. Этот несчастный просто хотел есть...";
+			link.l1.go = "Tichingitu_8";
+		break;
+		
+		case "Tichingitu_8":
+			dialog.text = "Его можно понять. Так ты что, вызволить его хочешь?";
+			link.l1 = "Может мы договоримся об освобождении? Его ведь казнить собираются, а мне он может и пригодится на корабле...";
+			link.l1.go = "Tichingitu_9";
+		break;
+		
+		case "Tichingitu_9":
+			dialog.text = "Раз уж такое дело, то думаю, ты можешь его выкупить. Меня устроит компенсация в 10000 пиастров.";
+			if (sti(pchar.money) >= 10000)
+			{
+				link.l1 = "Хорошо, вот деньги.";
+				link.l1.go = "Tichingitu_11";
+			}		
+			link.l2 = "Пожалуй, тогда зайду попозже.";
+			link.l2.go = "Tichingitu_10";
+		break;
+		
+		case "Tichingitu_10":
+			dialog.text = "И поторопись! Дней через десять они уже не понадобятся...";
+			link.l1 = "Приму к сведению. До свидания!";
+			link.l1.go = "exit";
+			pchar.questTemp.Tichingitu = "money";
+		break;
+		
+		case "Tichingitu_12":
+			GiveItem2Character(pchar, "letter_A");
+			PlaySound("interface\important_item.wav");
+			LAi_MethodDelay("FrameAscoldVodka",0.1);
+			dialog.text = "Это спорный вопрос. А если вы спасаете убийцу или насильника? Впрочем, ступайте к коменданту, пока вашего краснокожего друга не вздёрнули на виселицу...";
+			link.l1 = "Уже иду. Ещё увидимся, Аскольд.";
+			link.l1.go = "exit";
+			pchar.questTemp.Tichingitu = "pay";
 		break;
 
  		case "ResultOfSeek":

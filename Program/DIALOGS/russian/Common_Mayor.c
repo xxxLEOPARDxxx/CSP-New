@@ -141,6 +141,20 @@ void ProcessDialogEvent()
 								link.l2.go = "pirateStartQuest_final";	
 							}
 						}
+						if(sti(pchar.rank) >= 10 && !CheckAttribute(PChar, "questTemp.pirateVikingQuest"))
+						{
+							link.l3 = "Есть какое-нибудь интересное дело для меня?";
+							link.l3.go = "pirateVikingQuest";
+						}
+						else
+						{
+							if(pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
+							{
+								dialog.text = "Вижу ты с новостями?"
+								link.l1 = "Да, завалил"+ GetSexPhrase("","а") +" таки северянина, ох и лютый же был. Обычно все разговоры заводят как смерть почуят, а этот рычал только аж пена изо рта шла.";
+								link.l1.go = "pirateVikingQuest_final";
+							}
+						}
 					}
 
 					break;
@@ -339,7 +353,44 @@ void ProcessDialogEvent()
 			}
 		break;
 		
-
+		//Blackthorn. Квест викинга
+		case "pirateVikingQuest":
+			dialog.text = "Для тебя найдётся работёнка. Ты не только саблей "+ GetSexPhrase("остёр","остра") +", но и умом, как мне рассказывали. Слушай сюда. Появился пару лет назад в наших водах скандинав какой то, то ли датчанин, то ли швед, неважно, Рагнаром назвался. Корабль у него просто загляденье и команда сплошняком из норманов состоит. И вроде как, всё ничего, пиратствует помаленьку, гроши на хлеб зарабатывает, вот только долю в общий котёл не вносит, губернаторам грубит, призы вообще неизвестно где сбывает. Смекаешь к чему разговор?";
+			link.l1 = "Смекаю, наказать его нужно, так чтоб примером стал. Вот только это не по законам берегового братства как то. Ну, зарвался пират, так пусть шепнет кто властям где он обитает. И к нам, честным корсарам никаких претензий, никто не предъявит.";
+			link.l1.go = "pirateVikingQuest_1";
+			link.l2 = "Что-то не нравится мне этот разговор. Прощай...";
+			link.l2.go = "exit";
+			pchar.questTemp.pirateVikingQuest = "0";
+		break;
+		case "pirateVikingQuest_1":
+			dialog.text = "Законы братства, Кодекс, пиратская честь… Пфф… Детские шалости это. Ты ещё Либерталию вспомни, которую Шарп построить пытался. Ха-ха! Тут у нас баланс сил существует, власти закрывают глаза на наши делишки, если мы их делишкам не мешаем. А вдруг в Европе мир подпишут? Так и патенты отзовут, а все бравые каперы в один миг преступниками станут. И приплывут карательные эскадры. Нас с тобой ловить. Смекаешь?";
+			link.l1 = "Понял, дал ты мне пищу для размышлений. Где искать этого викинга?";
+			link.l1.go = "pirateVikingQuest_2";
+		break;
+		case "pirateVikingQuest_2":
+			dialog.text = "Где то. Знал бы где обитает, сам бы в море вышел, не посмотрел бы на старые раны и возраст. Ты у нас смекалист"+ GetSexPhrase("ый","ая") +", разберёшься. Одно условие – Рагнар этот и вся его команда на корм рыбам пойти должна, а золотишком я не обижу.";
+			link.l1 = "Жди новостей. Да и про отзыв патентов, если новости будут, дай знать. Бывай, "+GetFullName(npchar)+".";
+			link.l1.go = "exit";
+			
+			pchar.questTemp.pirateVikingQuest = "1";
+			pchar.questTemp.pirateVikingQuest.City = npchar.city;
+			pchar.questTemp.pirateVikingQuest.Areal = GetArealByCityName(pchar.questTemp.pirateVikingQuest.City);
+			pchar.questTemp.pirateVikingQuest.Name = GetFullName(npchar);
+			pchar.LastHearedViking = npchar.city;
+			AddQuestRecord("pirateVikingQuest", "1");
+			AddQuestUserData("pirateVikingQuest", "sCity", XI_ConvertString("Colony" + pchar.questTemp.pirateVikingQuest.City + "Gen"));
+			AddQuestUserData("pirateVikingQuest", "sName", pchar.questTemp.pirateVikingQuest.Name);
+		break;
+		case "pirateVikingQuest_final":
+			CloseQuestHeader("pirateVikingQuest");
+			TakeNItems(pchar, "chest", 5);
+			Log_Info("Вы получили кредитные сундуки");
+			dialog.text = "Ага, читал как то. Берсерк видать. Прямо осколок прошлого. Вот, держи награду, заслужил"+ GetSexPhrase("","а") +".";
+			pchar.questTemp.pirateVikingQuest = "end";
+			link.l1 = "Спасибо.";
+			link.l1.go = "exit";
+		break;
+		
 		//zagolski. начальный квест за пирата ===================================
 		case "pirateStartQuest":
 			dialog.text = "Хм... работенка, говоришь? А это даже очень хорошо, что ты ко мне обратил"+ GetSexPhrase("ся","ась") +". Мне как раз нужен человек со стороны. Необходимо кое-что разузнать в соседнем поселении, а моих ребят там знают, как облупленных. Много денег не обещаю, но кое-что перепадет.";

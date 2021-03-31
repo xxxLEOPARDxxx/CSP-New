@@ -15,7 +15,12 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				dialog.text = "Задавайте свои вопросы, "+ GetSexPhrase("сеньор","сеньорита") +".";
 				link.l1 = "Я "+ GetSexPhrase("слышал","слышала") +", недавно вы сумели захватить Рока Бразильца, того самого пирата!";
 				link.l1.go = "Step_F7_1";
-			}	
+			}
+			if (pchar.questTemp.PDM_PK_IshemKoltso == "IshemKoltso")	// Квест "Потерянное кольцо"
+            {
+                link.l1 = "Я разыскиваю кольцо, которое принадлежало... одному из моих знакомых. Довольно ценное кольцо. И это кольцо находится, где-то в этом городе. Быть может, ты что-то слышал о нём? Большой сапфир, в золотой оправе.";
+                link.l1.go = "IshemKoltso";
+            }
 		break;
 //******************** Фр.линейка, квест №7. Спасение Рока Бразильца ******************
  	 	case "Step_F7_1":
@@ -33,6 +38,29 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			dialog.text = "Хех, "+ GetSexPhrase("сеньор","сеньорита") +", это же не исповедники. Те святые отцы - воинствующие монахи! Инквизиция...";
 			link.l1 = "У-у-у, дело ясное. Ну что же, спасибо тебе, друг.";
 			link.l1.go = "exit";
+        break;
+//******************** Квест "Потерянное кольцо" ******************		
+		case "IshemKoltso":
+			dialog.text = "Хммм... Вы говорите - сапфир? Да, я помню, что видел кольцо, вроде того, о котором вы говорите. Оно у одной девки - может быть, вы даже знаете её - по крайней мене, большинству моряков она неплохо знакома, хе-хе. Ее зовут Франческа. Я ещё никогда не встречал девчонки тупее, если честно. Какой-то солдат подарил ей это кольцо пару лет назад. Быть может он был ещё более глуп, чем она - поскольку это кольцо стоит неплохих денег. Да, это наверное то кольцо, которое вы ищете. Ну так что - желаете устроить соревнование с вашими офицерами, кто больше всех выпьет?";
+			link.l1 = "Отличная мысль! Я, пожалуй, приведу команду. Жди меня здесь, никуда не уходи - я скоро вернусь.";
+			link.l1.go = "exit";
+			
+			AddQuestRecord("PDM_Poteryanoe_Koltso", "3");
+			AddQuestUserData("PDM_Poteryanoe_Koltso", "sSex", GetSexPhrase("","а"));
+			DeleteAttribute(pchar, "questTemp.PDM_PK_IshemKoltso");
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_PK_Francheska", "BaynesDaughterSTOK", "woman", "woman", 10, SPAIN, -1, false));
+			sld.name = "Франческа";
+			sld.lastname = "";
+			sld.city = "SantoDomingo";
+			sld.location	= "SantoDomingo_Brothel";
+			sld.location.group = "goto";
+			sld.location.locator = "goto3";
+			sld.dialog.filename   = "Quest/PDM/Poteryanoe_Koltso.c";
+			sld.dialog.currentnode   = "Francheska";
+			LAi_SetCitizenType(sld);
+			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+			LAi_SetImmortal(sld, true);
         break;
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

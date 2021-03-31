@@ -1271,24 +1271,23 @@ void Ship_CheckSituation()
 		if(CheckAttribute(rCharacter, "fortDefender") && sti(rCharacter.fortDefender) == 1 && bSeaActive && rCharacter.SeaAI.Task == "3")
 		{
 			string defGroupID = rCharacter.SeaAI.Task.Target;
-			Log_Info(defGroupID);
-			if (pchar.Ship.LastBallCharacter == defGroupID) 
-			{
-				Group_SetEnemyToCharacter(sGroupID, Pchar);
-				Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
-				Group_LockTask(sGroupID);
-				DoQuestCheckDelay("NationUpdate", 0.7);
-				return;
-			}
 			ref attckChar;
 			ref fortChar = &characters[sti(rCharacter.SeaAI.Task.Target)];
 			if (sti(rCharacter.Ship.LastBallCharacter) != -1 || CheckAttribute(fortChar,"Ship.LastBallCharacter")) 
 			{
 				if (sti(rCharacter.Ship.LastBallCharacter) != -1) attckChar = &characters[sti(rCharacter.Ship.LastBallCharacter)];
 				else attckChar = CharacterFromId(fortChar.Ship.LastBallCharacter);
+				if (attckChar.Ship.LastBallCharacter == defGroupID && GetNationRelation2Character(sti(rCharacter.nation), GetCharacterIndex(attckChar.id))) 
+				{
+					Group_SetEnemyToCharacter(sGroupID, GetCharacterIndex(attckChar.id));
+					Group_SetTaskAttack(sGroupID, Ship_GetGroupID(attckChar));
+					Group_LockTask(sGroupID);
+					DoQuestCheckDelay("NationUpdate", 0.7);
+					return;
+				}
 				if (GetNationRelation2Character(sti(rCharacter.nation), GetCharacterIndex(attckChar.id)) == RELATION_ENEMY && sti(rCharacter.SeaAI.Task.Target) != GetCharacterIndex(attckChar.id))
 				{
-					Group_SetEnemyToCharacter(sGroupID, attckChar);
+					Group_SetEnemyToCharacter(sGroupID, GetCharacterIndex(attckChar.id));
 					Group_SetTaskAttack(sGroupID, Ship_GetGroupID(attckChar));
 					Group_LockTask(sGroupID);
 					rCharacter.SeaAI.Task = AITASK_ATTACK;
@@ -2565,7 +2564,7 @@ void Ship_HullHitEvent()
 		string sGroupID = Ship_GetGroupID(rBallCharacter);
 		if (GetNationRelation2Character(sti(rBallCharacter.nation), GetCharacterIndex(rOurCharacter.id)) == RELATION_ENEMY)
 		{
-			Group_SetEnemyToCharacter(sGroupID, rOurCharacter);
+			Group_SetEnemyToCharacter(sGroupID, GetCharacterIndex(rOurCharacter.id));
 			Group_SetTaskAttack(sGroupID, Ship_GetGroupID(rOurCharacter));
 			Group_LockTask(sGroupID);
 			rBallCharacter.SeaAI.Task = AITASK_ATTACK;

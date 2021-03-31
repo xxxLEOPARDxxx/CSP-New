@@ -28,13 +28,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 
 		case "work_1":  // работа на благо короны - линейка нации
             // сюда вход только с патентом, проверка выше
-			if (CheckAttribute(npchar, "notQuestLine"))
-			{
-                dialog.text = "  сожалению, € не могу предоставить вам работу. ¬ы не тот человек, кому € хотел бы доверить свои дела. ƒо свидани€.";
-                link.l1 = "¬от это да...";
-                link.l1.go = "exit";
-				break;
-			}
+			//if (CheckAttribute(npchar, "notQuestLine"))
+			//{
+            //    dialog.text = "  сожалению, € не могу предоставить вам работу. ¬ы не тот человек, кому € хотел бы доверить свои дела. ƒо свидани€.";
+            //    link.l1 = "¬от это да...";
+            //    link.l1.go = "exit";
+			//	break;
+			//}
             dialog.text = LinkRandPhrase("¬ы находитесь на службе »спании! ѕрошу немедленно приступить к выполнению возложенного на вас поручени€!",
                                          "Ќемедленно приступайте к выполнению вз€тых на себ€ об€зательств!",
                                          "я жду вашего доклада о выполнении моего ответственного поручени€, но не разговоров.");
@@ -405,6 +405,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             pchar.questTemp.State = "empty";
             SaveCurrentQuestDateParam("questTemp");
             pchar.questTemp.CurQuestNumber = "2";
+			if (startherotype == 2)
+			{
+				pchar.questTemp.CurQuestNumber = "4";
+			}
             pchar.questTemp.Waiting_time = "7";
             CloseQuestHeader("Spa_Line_1_SaveCitizens");
             AddMoneyToCharacter(pchar, 50000);

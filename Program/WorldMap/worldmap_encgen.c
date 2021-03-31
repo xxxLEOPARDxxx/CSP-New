@@ -82,6 +82,11 @@ void wdmShipEncounter(float dltTime, float playerShipX, float playerShipZ, float
 		case 2: shipgen=30; break;
 		case 3: shipgen=50; break;
 	}
+	if (!CheckAttribute(pchar, "PGGsAtSea"))
+	{
+		pchar.PGGsAtSea = 0;
+	}
+	shipgen += sti(pchar.PGGsAtSea);
 	if(numShips < shipgen)
 	{
 		//Вероятности появления

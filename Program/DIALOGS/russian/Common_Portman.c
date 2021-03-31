@@ -1718,7 +1718,7 @@ void ProcessDialogEvent()
 					if (_curCharIdx!=-1)
 					{
 						ok = CheckAttribute(&characters[_curCharIdx], "prisoned") && sti(characters[_curCharIdx].prisoned) == true;
-						if (sld.id != "pet_crab") 
+						if (sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer")
 						{
 							if (!ok && GetRemovable(&characters[_curCharIdx]))
 							{

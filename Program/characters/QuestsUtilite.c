@@ -828,14 +828,21 @@ void FantomMakeCoolFighter(ref _Character, int _Rank, int _Fencing, int _Pistol,
 	{
 		GiveItem2Character(_Character, _Gun);
 		EquipCharacterbyItem(_Character, _Gun);
-		TakeNItems(_Character,"bullet", 30+rand(20));
-		AddItems(_Character, "GunPowder", 30+rand(20)); // Warship. Порох
+		GiveGunAmmunition(_Character, _Gun);
 	}
 	GiveItem2Character(_Character,"spyglass3");
 	EquipCharacterbyItem(_Character, "spyglass3");
     FaceMaker(_Character);
     SetNewModelToChar(_Character);  // перерисуем модель на лету
 	SetCharacterPerk(_Character, PerksChars());
+}
+
+void GiveGunAmmunition(ref _Character, string sItem)
+{
+	ref itm = ItemsFromID(sItem);
+	TakeNItems(_Character,itm.type.t1.bullet, 30+rand(20));
+	AddItems(_Character, itm.type.t1.gunpowder, 30+rand(20)); // Warship. Порох
+	LAi_SetCharacterUseBullet(_Character, itm.type.t1.bullet);
 }
 
 int GetCoffDiff(float _num, int _maxRange)
@@ -1811,6 +1818,10 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
 			refChar.Dialog.CurrentNode = "zpqCapitain"; //даем абордажную ноду
 		}
+		if(refChar.CaptanId == "pirateVikingQuest_Captain")
+		{
+			LAi_CharacterPlaySound(refChar,"Voice\valhalla_scream.wav");
+		}
 		if(findsubstr(refChar.CaptanId, "PsHero_" , 0) != -1)
 		{
 			sld = CharacterFromID(refChar.CaptanId);
@@ -2312,10 +2323,11 @@ void SilencePriceInit()
 	ChangeCharacterAddressGroup(ch, "LaVega_town", "goto", "goto15");
 }
 //Проклятие Дальних Морей
-void CursedIdolInit()	//Проклятый идол Sinistra
+void PDMQuestsInit()
 {
-	//Джеймс Кэллоу
 	ref sld;
+	//******Проклятый идол Sinistra******
+	//Джеймс Кэллоу											   
 	sld = GetCharacter(NPC_GenerateCharacter("James_Callow", "ozg_green", "man", "man", 6, PIRATE, -1, false));
 	sld.name	= "Джеймс";
 	sld.lastname	= "Кэллоу";
@@ -2365,11 +2377,9 @@ void CursedIdolInit()	//Проклятый идол Sinistra
 	LAi_SetStayType(sld);
 	LAi_SetImmortal(sld, true);
 	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
-}
-void NovayaRodinaInit()	//Новая Родина и Охота на ведьму Sinistra
-{
+	
+	//******Новая Родина Sinistra******
 	//Хьюго Лесопилка
-	ref sld;
 	sld = GetCharacter(NPC_GenerateCharacter("Hugo_Lesopilka", "officer_63", "man", "man", 10, PIRATE, -1, false));
 	sld.name	= "Хьюго";
 	sld.lastname	= "Лесопилка";
@@ -2382,8 +2392,10 @@ void NovayaRodinaInit()	//Новая Родина и Охота на ведьму Sinistra
 	LAi_SetSitType(sld);
 	LAi_SetImmortal(sld, true);
 	ChangeCharacterAddressGroup(sld,"PuertoPrincipe_tavern","sit","sit_front2");
+	
+	//******Охота на ведьму Sinistra******												
 	//Бартоломью Ольстер
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_Isp_sekr_guber", "trader_16", "man", "man", 10, SPAIN, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_Isp_sekr_guber", "trader_16", "man", "man", 10, SPAIN, -1, false));	//Бартоломью Ольстер
 	sld.name = "Бартоломью";
 	sld.lastname = "Ольстер";
 	LAi_SetCitizenType(sld);
@@ -2397,6 +2409,21 @@ void NovayaRodinaInit()	//Новая Родина и Охота на ведьму Sinistra
 	LAi_SetImmortal(sld, true);
 	LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
 	ChangeCharacterAddressGroup(sld,"Havana_town","goto","goto6");
+	
+	//******Потерянное кольцо Sinistra******
+	//Жозефина Лодет
+	sld = GetCharacter(NPC_GenerateCharacter("Josephine_Lodet", "BaynesWife", "woman", "woman", 10, FRANCE, -1, false));
+	sld.name	= "Старушка";
+	sld.lastname	= "";
+	sld.City = "BasTer";
+	sld.Dialog.Filename = "Quest/PDM/Poteryanoe_Koltso.c";
+	LAi_SetCitizenType(sld);
+	LAi_SetLoginTime(sld, 6.0, 21.99);
+	LAi_SetImmortal(sld, true);
+	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
+	ChangeCharacterAddressGroup(sld,"BasTer_town","goto","goto4");
+	
+	//******Непутёвый казначей Sinistra******
 }
 void OfficerGirlInit()
 {

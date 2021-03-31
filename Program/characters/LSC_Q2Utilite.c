@@ -573,10 +573,8 @@ void initStartState2Character(ref ch)
 	IsabellaInit();
 	//==>квест История давней дружбы Lipsar
 	SilencePriceInit();
-	// ==> квест Проклятый Идол Sinistra
-	CursedIdolInit();
-	// ==> квест Новая Родина Sinistra
-	NovayaRodinaInit();
+	// ==> Квесты Проклятие Дальних Морей Sinistra
+	PDMQuestsInit();
 	// ==>  флаги и иниты бергларов 
 	BerglarsInit();
 	// ==>  нищие

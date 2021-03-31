@@ -1638,7 +1638,8 @@ string PGG_Event_WorkWithContra(ref rRum)
 
 		//фича, можно будет стучать мэру, и с солдатами ломиться на облаву :)
 		pchar.questTemp.PGGContra.Know = true;
-
+		pchar.PGG_Contra_Current = chr.id;
+		SetTimerCondition("PGGContra_close", 0, 0, 3, false);
 		ReOpenQuestHeader("Gen_StrangeInfo");
 		AddQuestRecord("Gen_StrangeInfo", "1");
 		AddQuestUserData("Gen_StrangeInfo", "sName", GetFullName(chr));

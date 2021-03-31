@@ -16,8 +16,9 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
                 link.l1.go = "EscapeSlaveVillemstad_T1";
             }
 			//виспер
-			if(CheckAttribute(pchar, "Whisper.FindDesouzaHol"))
+			if(CheckAttribute(pchar, "Whisper.FindDesouzaHol") && !CheckAttribute(npchar, "Whisper.FindDesouzaHol"))
 			{
+				npchar.Whisper.FindDesouzaHol = true;
 				link.l1 = "Послушай, к тебе тут случаем не подходили ребята подозрительной наружности? У них еще должно быть клеймо в форме распятия на руке.";
 				link.l1.go = "FindDesouzaHol";
 				break;

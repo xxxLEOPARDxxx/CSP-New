@@ -67,7 +67,6 @@ void GenerateIslandShips(string sIslandID)
 						if(defendersCount > 0) iChar = NPC_GenerateCharacter("FortDefender"+i+j, sTemp, "man","man", 30, iNation, -1, true);
 						else iChar = NPC_GenerateCharacter("Officer"+i + (j-defendersCount), "pirate", "man","man", sti(pchar.rank) + 5, iNation, -1, true);
 						
-						
 						if(defendersCount > 0) FortDefender = true;
 						else FortDefender = false;
 						
@@ -211,14 +210,13 @@ void GenerateIslandShips(string sIslandID)
 void PlaceCharacterShip(int iChar, int iNation, string sIslandID, int iColonyIdx, bool isFortDefender, int defendersGroup)
 {
 	int iColonyNum = sti(colonies[iColonyIdx].num);
-	
 	string sColonyID = colonies[iColonyIdx].id;
 	
 	ref chr = GetCharacter(iChar);
 	ref FortChref = GetFortCommander(colonies[iColonyIdx].id);
 	string sGroup1 = "Fort_"+colonies[iColonyIdx].id;
 	Group_AddCharacter(sGroup1, FortChref.id);
-	Group_SetGroupCommander(sGroup1, FortChref);
+	Group_SetGroupCommander(sGroup1, FortChref.id);
 	
 	string sGroup = "IslandGroup" + iChar;
 	string sLocatorGroup = "IslandShips" + iColonyNum;

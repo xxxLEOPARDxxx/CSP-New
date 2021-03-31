@@ -2548,6 +2548,18 @@ int InitItems()
 
 	// boal для генератора -->
 	makeref(itm,Items[n]);
+	itm.id = "letter_A";
+	itm.name = "itmname_letter_A";
+	itm.describe = "itmdescr_letter_A";
+	itm.model = "";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_4";
+	itm.price = 0;
+	itm.Weight = 0.1;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+	
+	makeref(itm,Items[n]);
 	itm.id = "letter_1";
 	itm.name = "itmname_letter_1";
 	itm.describe = "itmdescr_letter_1";
@@ -6803,6 +6815,42 @@ int InitItems()
 	itm.Generation.Weight.max = 14.0;
 	n++;
 	
+	// Топор Викинга
+	makeref(itm,Items[n]);
+	itm.id = "topor_viking";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_topor_viking";
+	itm.describe = "itmdescr_topor_viking";
+	itm.folder = "items";
+	itm.model = "topor_viking";
+	itm.picIndex = 11;
+	itm.picTexture = "ITEMS_14";
+	// boal 19.01.2004 -->
+	itm.price = 17500;
+	itm.Weight = 10.5 + fRandSmall(1.5); // 15.0;
+	// boal 19.01.2004 <--
+	itm.dmg_min = 40.0 + rand(2); // 45.0;
+	itm.dmg_max = 130.0 + rand(5); // 140.0;
+	itm.piercing = 110.0;
+	itm.minlevel = 99;
+	itm.rare = 0.0001;
+	itm.block = 40.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingHeavy";
+	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 15;
+	itm.Generation.dmg_min.min = 40.0;
+	itm.Generation.dmg_min.max = 42.0;
+	itm.Generation.dmg_max.min = 130.0;
+	itm.Generation.dmg_max.max = 135.0;
+	itm.Generation.Weight.min = 10.5;
+	itm.Generation.Weight.max = 12.0;
+	n++;
+	
 	/////////////////////////////////////////////////////////
 	/////		-->		CSP Книги 56 штук				/////
 	/////////////////////////////////////////////////////////
@@ -7667,6 +7715,17 @@ int InitItems()
     itm.ItemType = "QUESTITEMS";
     n++;
 	
+	makeref(itm, Items[n]); //квест "Потерянное кольцо"
+    itm.id = "PDM_PK_Koltso";	//Кольцо Жозефины Лодет
+    itm.name = "itmname_PDM_PK_Koltso";
+    itm.describe = "itmdescr_PDM_PK_Koltso";
+    itm.picIndex = 6;
+    itm.picTexture = "ITEMS_2";
+    itm.price = 0;
+    itm.Weight = 0.1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
 	//InitGunExt(id,	sAttr,  sBullet,  sGunPowder, DmgMin_NC, DmgMax_NC, DmgMin_C, DmgMax_C, EnergyP_NC, EnergyP_C, Stun_NC, Stun_C, MultiDamage, MisFire, SelfDamage, Explosion,Accuracy,ChargeSpeed,isDefault);
 	InitGunExt(		 "pistol1", "t1",  	     "cartridge",               "",  20.0, 100.0,  20.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 8, 0);	
 	InitGunExt(		 "pistol1", "t2", 		    "bullet",      "gunpowder",  20.0, 100.0,  30.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 16, 1);	
@@ -7680,8 +7739,8 @@ int InitItems()
 	InitGunExt(		 "pistol6", "t1", 	     "cartridge",               "",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 20, 0);	
 	InitGunExt(		 "pistol6", "t2", 		    "bullet",      "gunpowder",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 40, 1);		
 	InitGunExt(		 "pistol7", "t1", "shotgun_cartridge",   "GunCap_colt",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 82, 1);
-	InitGunExt(		 "pistol7shotgun", "t1",  "grapeshot",      "12_gauge",  80.0, 200.0,  50.0, 180.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 80, 52, 0);	
-	InitGunExt(		 "pistol7shotgun", "t2", 	 "bullet",      "12_gauge",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 82, 1);
+	InitGunExt(		 "pistol7shotgun", "t1",  "grapeshot",      "12_gauge",  80.0, 200.0,  50.0, 180.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 80, 52, 1);	
+	InitGunExt(		 "pistol7shotgun", "t2", 	 "bullet",      "12_gauge",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 82, 0);
 	InitGunExt(		 "pistol8", "t1", 	     "grapeshot",      "gunpowder",  50.0,  100.0,  50.0,  100.0,  5.0,  5.0, 1, 1, 1, 0, 1, 1, 50, 40, 1);	
 	InitGunExt(		 "pistol8", "t2", 		   "harpoon",      "gunpowder", 150.0, 250.0, 150.0, 250.0, 20.0, 20.0, 0, 1, 0, 0, 0, 0, 20, 40, 0);	
 	InitGunExt(		 "pistol8", "t3", 		  "GunEchin",               "", 120.0, 220.0, 120.0, 220.0, 20.0, 20.0, 0, 1, 1, 0, 0, 0, 20, 40, 0);		

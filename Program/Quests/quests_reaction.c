@@ -1021,7 +1021,17 @@ void QuestComplete(string sQuestName, string qname)
 			LAi_ReloadBoarding();
 		break;
 		// boal <---
-		
+		//Blackthorn - Чистка странных слухов
+		case "PGGContra_close":
+			CloseQuestHeader("Gen_StrangeInfo");
+			DeleteAttribute(pchar, "questTemp.PGGContra.Know");
+			chr = CharacterFromID(pchar.PGG_Contra_Current);
+			if (chr.PGGAi.location != "Dead")
+			{
+				chr.PGGAi.location.town = chr.PGGAi.location.town.back;
+				DeleteAttribute(chr, "PGGAi.location.town.back");
+			}
+		break;
 		//Линейка Виспер
 		//Незавершенное дело Билла
 		case "W_Smuggling":
@@ -9716,13 +9726,23 @@ void QuestComplete(string sQuestName, string qname)
 
 // Будущий текст
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   	КВЕСТЫ "Проклятие Дальних Морей" КОНЕЦ
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		// Тичингиту
+		case "TichingituFree":
+			sld = characterFromId("Tichingitu");
+			sld.dialog.currentnode = "Tichingitu_9";
+			ChangeCharacterAddressGroup(sld, "BasTer_exittown", "rld", "aloc14"); // 170712
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", -1, 0);
+			RemoveAllCharacterItems(sld, true);
+			GiveItem2Character(sld, "topor_05");
+			EquipCharacterbyItem(sld, "topor_05"); // 151012
+		break;
 	}
 }
-
 
 //Lipsar подпилил Хемфри для красоты --->
 void FrameGiveMushket()

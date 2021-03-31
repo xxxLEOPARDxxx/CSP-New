@@ -80,7 +80,9 @@ void ProcessDialogEvent()
 						sld.money = iRank*200+1000+rand(500);
 						LAi_SetWarriorType(sld);
 						LAi_warrior_SetStay(sld, true);
-						LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+						//LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+						LAi_group_MoveCharacter(sld, LAI_GROUP_ENEMY);// лесник изменил группу чтобы ядом таино травить можно было
+						LAi_group_Attack(sld, Pchar);// лесник добавил атаку на пчара а то у некоторых баг что они не нападают.
 						ChangeCharacterAddressGroup(sld, pchar.GenQuest.EncGirl.locationId, "quest", "quest" + i);
 						i++;
 						model[iMassive] = "";	
