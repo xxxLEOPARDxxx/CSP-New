@@ -34,11 +34,11 @@ void GenerateIslandShips(string sIslandID)
 							//Log_Info(characters[j].id);
 							check++;
 						}
-						if (CheckAttribute(&characters[j], "fortDefender") && CheckAttribute(&characters[j], "IslandShips") && characters[j].IslandShips != colonies[i].id)
+						/* if (CheckAttribute(&characters[j], "fortDefender") && CheckAttribute(&characters[j], "IslandShips") && characters[j].IslandShips != colonies[i].id)
 						{
 							InitCharacter(&characters[j], j);
 							Group_FreeAllDead();
-						}
+						} */
 					}
 					//Log_Info(""+check);
 					if (check == 0) DeleteAttribute(&colonies[i],"AlreadyGen");
@@ -108,7 +108,7 @@ void GenerateIslandShips(string sIslandID)
 						
 						SetBaseShipData(chr);
 						
-						TakeNItems(chr,"potion2",10);
+						AddItems(chr,"potion2",10);
 						
 						if(defendersCount > 0) SetCrewQuantityFull(chr);
 						else SetCrewQuantity(chr, GetOptCrewQuantity(chr));

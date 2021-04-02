@@ -215,6 +215,20 @@ void ProcessDialogEvent()
 				Link.l1 = "(Перечитать сообщение от заказчика)";
 				Link.l1.go = "Whisper_mission_1";
 			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.Inside_Incquisition"))
+			{
+				dialog.Text = "Проклятье, как же это было громко! Нужно забрать с трупа оружие, пока остальные стражники не прибежали.";
+				DeleteAttribute(pchar, "questTemp.Whisper.Inside_Incquisition");
+				Link.l1 = "Похоже, придется прорываться с боем.";
+				Link.l1.go = "exit";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.Escaped_Incquisition"))
+			{
+				dialog.Text = "Кажется, оторвалась от погони. Пришлось бежать из города\nСреди прочего барахла, у тюремщика была карта этого острова. На ней отмечено поселение Пуэрто-Принсипе, что находится недалеко отсюда.";
+				DeleteAttribute(pchar, "questTemp.Whisper.Escaped_Incquisition");
+				Link.l1 = "Стоит попытать свою удачу там.";
+				Link.l1.go = "exit";
+			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.Near_Chest"))
 			{
 				DeleteAttribute(pchar, "questTemp.Whisper.Near_Chest");
@@ -235,7 +249,7 @@ void ProcessDialogEvent()
 			if (CheckAttribute(pchar, "questTemp.Whisper.GetHat"))
 			{
 				DeleteAttribute(pchar, "questTemp.Whisper.GetHat");
-				dialog.Text = "Похоже, его задело шальной пулей от происходящего сражения. ";
+				dialog.Text = "Похоже, его задело шальной пулей. ";
 				GiveItem2Character(pchar, "blade19");
 				EquipCharacterByItem(pchar, "blade19");
 				Pchar.model="PGG_Whisper_0";

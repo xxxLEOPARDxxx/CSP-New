@@ -1814,6 +1814,8 @@ void AddCharacterHealth(ref mainChr, float add)
 
     mainChr.Health.HP = makefloat(stf(mainChr.Health.HP) + add);
 
+	//Lipsar квест История давней дружбы
+	if(CheckAttribute(PChar,"Luke.BadPoison")) return;
     if (stf(mainChr.Health.HP) < 1)
     {
         mainChr.Health.HP = 1.0;

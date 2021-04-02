@@ -1941,7 +1941,7 @@ int InitItems()
 	//GUNS
 
 	makeref(itm,Items[n]);
-	itm.id = "pistol1";
+	itm.id = "pistol1";	//Пистоль
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_pistol1";
 	itm.describe = "itmdescr_pistol1";
@@ -1965,7 +1965,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "pistol2";
+	itm.id = "pistol2";	//Колониальный пистолет
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_pistol2";
 	itm.describe = "itmdescr_pistol2";
@@ -1989,7 +1989,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "pistol3"; //Мортира
+	itm.id = "pistol3"; //Тромбон
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_pistol3";
 	itm.describe = "itmdescr_pistol3";
@@ -2013,7 +2013,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "pistol6";  // 2х
+	itm.id = "pistol6";  // Бок-пистолет
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_pistol6";
 	itm.describe = "itmdescr_pistol6";
@@ -2061,7 +2061,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "pistol4"; // 4х
+	itm.id = "pistol4"; // Четырёхствольный пистолет
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_pistol4";
 	itm.describe = "itmdescr_pistol4";
@@ -2086,7 +2086,7 @@ int InitItems()
 	n++;
 	
 	makeref(itm,Items[n]);
-	itm.id = "pistol_grapebok"; //Бок-картечница
+	itm.id = "pistol_grapebok"; //Трёхствольный дробовик
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_pistol_grapebok";
 	itm.describe = "itmdescr_pistol_grapebok";
@@ -2105,7 +2105,7 @@ int InitItems()
 	itm.accuracy = 40;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
-	itm.quality = "excellent";
+	itm.quality = "good";
 	itm.ItemType = "WEAPON";
 	n++;
 	
@@ -2153,7 +2153,7 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
-	itm.quality = "excellent";
+	itm.quality = "good";
 	itm.ItemType = "WEAPON";
 	n++;
 	
@@ -2230,7 +2230,7 @@ int InitItems()
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "mushket"; //Мушкетон
+	itm.id = "mushket"; //Фитильный мушкет
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_mushket";
 	itm.describe = "itmdescr_mushket";
@@ -2249,11 +2249,12 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.quality = "good";
 	itm.ItemType = "WEAPON";
 	n++;
 	
 	makeref(itm,Items[n]);
-	itm.id = "mushket2"; //мушкетон двуствольный 
+	itm.id = "mushket2"; //Охотничий штуцер
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_Mushket2";
 	itm.describe = "itmdescr_Mushket2";
@@ -2277,7 +2278,7 @@ int InitItems()
 	n++;
 	
 	makeref(itm,Items[n]);
-	itm.id = "mushket_spanish"; //Мушкетон испанский
+	itm.id = "mushket_spanish"; //Испанский мушкетон
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_mushket_spa";
 	itm.describe = "itmdescr_mushket_spa";
@@ -2301,7 +2302,7 @@ int InitItems()
 	n++;
 	
     makeref(itm,Items[n]);
-	itm.id = "mushket_english"; //Мушкетон английский
+	itm.id = "mushket_english"; //Английский Мушкетон
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_mushket_eng";
 	itm.describe = "itmdescr_mushket_eng";
@@ -2324,7 +2325,7 @@ int InitItems()
 	n++;
 	
     makeref(itm,Items[n]);
-	itm.id = "mushket_france"; //Мушкетон французский
+	itm.id = "mushket_france"; //Французский мушкетон 
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_mushket_fra";
 	itm.describe = "itmdescr_mushket_fra";
@@ -2348,7 +2349,7 @@ int InitItems()
 	n++;
 	
     makeref(itm,Items[n]);
-	itm.id = "mushket_holland"; //Мушкетон голландский
+	itm.id = "mushket_holland"; //Голландский мушкетон 
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_mushket_hol";
 	itm.describe = "itmdescr_mushket_hol";
@@ -2372,7 +2373,7 @@ int InitItems()
 	n++;
 	
 	makeref(itm,Items[n]);
-	itm.id = "mushket_drob"; //Мушкетон (Аркебуза)
+	itm.id = "mushket_drob"; //Аркебуза
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_Arguebuse";
 	itm.describe = "itmdescr_Arguebuse";
@@ -2391,12 +2392,12 @@ int InitItems()
 	itm.accuracy = 70;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
-	itm.quality = "excellent";
+	itm.quality = "good";
 	itm.ItemType = "WEAPON";
 	n++;
 	
 	makeref(itm,Items[n]);
-	itm.id = "mushket_SeaCarbine"; //Мушкетон флотский
+	itm.id = "mushket_SeaCarbine"; //Флотский карабин 
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_SeaCarbine";
 	itm.describe = "itmdescr_SeaCarbine";
@@ -2420,7 +2421,7 @@ int InitItems()
 	n++;
 	
     makeref(itm,Items[n]);
-	itm.id = "mushket_Shtuzer"; //Мушкетон снайперский
+	itm.id = "mushket_Shtuzer"; //Винтовальный штуцер
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_Shtuzer";
 	itm.describe = "itmdescr_Shtuzer";
@@ -2894,7 +2895,7 @@ int InitItems()
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "mushket2x2"; //Квестовый мушкетон, двуствольный
+	itm.id = "mushket2x2"; //Двуствольный мушкетон
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_questMushket";
 	itm.describe = "itmdescr_questMushket";
@@ -3259,7 +3260,7 @@ int InitItems()
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "pistol7";  //шотган
+	itm.id = "pistol7";  //Револьвер Колье
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_pistol7";
 	itm.describe = "itmdescr_pistol7";
@@ -3282,11 +3283,12 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "pistol7shotgun";  //шотган
+	itm.id = "pistol7shotgun";  //Шотган
 	itm.groupID = GUN_ITEM_TYPE;
 	itm.name = "itmname_pistol7shotgun";
 	itm.describe = "itmdescr_pistol7shotgun";
@@ -3309,6 +3311,7 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
 	
@@ -6694,7 +6697,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "FencingLight";
 	itm.ItemType = "WEAPON";
-	itm.quality = "excellent";
+	itm.quality = "poor";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 10;
 	// Флаг "генерить цену"
@@ -6731,7 +6734,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "Fencing";
 	itm.ItemType = "WEAPON";
-	itm.quality = "excellent";
+	itm.quality = "poor";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 10;
 	// Флаг "генерить цену"
@@ -6768,7 +6771,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "Fencing";
 	itm.ItemType = "WEAPON";
-	itm.quality = "excellent";
+	itm.quality = "ordinary";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 10;
 	itm.Generation.dmg_min.min = 13.0;

@@ -15,6 +15,20 @@ void ProcessDialogEvent()
         NextDiag.CurrentNode = NextDiag.TempNode;
         DialogExit();
     break;
+	case "CitizenNotBlade":
+		if (loadedLocation.type == "town")
+		{
+			dialog.text = NPCharSexPhrase(NPChar, "Послушайте, я, как гражданин этого города, прошу вас не ходить у нас с обнаженным клинком.", "Знаете, я, как гражданка этого города, прошу вас не ходить у нас с обнаженным клинком.");
+			link.l1 = LinkRandPhrase("Хорошо.", "Ладно.", "Как скажете...");
+		}
+		else
+		{
+			dialog.text = NPCharSexPhrase(NPChar, "Осторожнее на поворотах, "+ GetSexPhrase("приятель","подруга") +", когда бежишь с оружием в руках. Я ведь могу и занервничать...", "Мне не нравится, когда "+ GetSexPhrase("мужчины","всякие тут") +" ходят передо мной с оружием наизготовку. Это меня пугает...");
+			link.l1 = RandPhraseSimple("Понял"+ GetSexPhrase("","а") +".", "Убираю.");
+		}
+		Link.l1.go = "exit";
+		NextDiag.TempNode = "First Time";
+	break;
     case "First Time":
         if (!isMainCharacterPatented())
         {
@@ -28,22 +42,6 @@ void ProcessDialogEvent()
             dialog.text = "О! Кого я вижу? " + GetFullName(Pchar) + " собственной персоной! Вот это встреча!";
             link.l1 = "Э-э... Боюсь, я вас не узнаю.";
             link.l1.go = "StartQuest_1";
-            SetCharacterPerk(NPChar, "BasicDefense");
-            SetCharacterPerk(NPChar, "AdvancedDefense");
-            SetCharacterPerk(NPChar, "CriticalHit");
-            SetCharacterPerk(NPChar, "Ciras");
-            SetCharacterPerk(NPChar, "SwordplayProfessional");
-            SetCharacterPerk(NPChar, "Tireless");
-            SetCharacterPerk(NPChar, "HardHitter");
-            SetCharacterPerk(NPChar, "BladeDancer");
-            SetCharacterPerk(NPChar, "Sliding");
-            SetCharacterPerk(NPChar, "Gunman");
-            SetCharacterPerk(NPChar, "GunProfessional");
-            SetCharacterPerk(NPChar, "Turn180");
-            SetCharacterPerk(NPChar, "SailingProfessional");
-            SetCharacterPerk(NPChar, "SailsMan");
-            SetCharacterPerk(NPChar, "Doctor1");
-            SetCharacterPerk(NPChar, "Doctor2");
             AddBonusEnergyToCharacter(NPChar, 50);
         }
     break;
@@ -58,14 +56,6 @@ void ProcessDialogEvent()
         dialog.text = "Хех! А я уж думал совсем с ума сошел, и это не ты. Пойдем в таверну, посидим, поболтаем!";
         link.l1 = "Ха! С радостью!";
         AddDialogExitQuest("Taverna");
-        SetCharacterPerk(NPChar, "FastReload");
-        SetCharacterPerk(NPChar, "HullDamageUp");
-        SetCharacterPerk(NPChar, "SailsDamageUp");
-        SetCharacterPerk(NPChar, "CrewDamageUp");
-        SetCharacterPerk(NPChar, "CriticalShoot");
-        SetCharacterPerk(NPChar, "LongRangeShoot");
-        SetCharacterPerk(NPChar, "CannonProfessional");
-        SetCharacterPerk(NPChar, "LongRangeGrappling");
     break;
     case "StartQuest_4":
         dialog.text = GetFullName(Pchar) + " как ты, " + GetSexPhrase("приятель", "подруга") + "? Расскажи, как тебя сюда занесло?";
@@ -76,14 +66,6 @@ void ProcessDialogEvent()
         dialog.text = "Вот оно как. Помню я наше последнее путешествие, когда мы шли грабить к Гвинее за рабами. Нас тогда чуть не перебили. Поселение, которое мы решили захватить, было очень хорошо защищено. Да... Не всем удалось уйти... Давай выпьем за то, что мы остались живы!";
         link.l1 = "Эх, да уж, много наших тогда полегло. А ведь могли все уйти, если бы не жадность нашего командира! Выпьем!";
         link.l1.go = "StartQuest_7";
-        SetCharacterPerk(NPChar, "MusketsShoot");
-        SetCharacterPerk(NPChar, "GrapplingProfessional");
-        SetCharacterPerk(NPChar, "BasicBattleState");
-        SetCharacterPerk(NPChar, "AdvancedBattleState");
-        SetCharacterPerk(NPChar, "ShipDefenseProfessional");
-        SetCharacterPerk(NPChar, "ShipSpeedUp");
-        SetCharacterPerk(NPChar, "ShipTurnRateUp");
-        SetCharacterPerk(NPChar, "StormProfessional");
     break;
     case "StartQuest_7":
         dialog.text = "Я смотрю у тебя и корабль свой есть, и звание... Слушай, мне не удобно тебя просить, столько времени не виделись, и так сразу...";
@@ -324,7 +306,7 @@ void ProcessDialogEvent()
                             SetQuestHeader("Silence_Price");
                             AddQuestRecord("Silence_Price", "1");
                             AddQuestUserData("Silence_Price", "sSex", GetSexPhrase("", "а"));
-                            AddQuestUserData("Silence_Price", "sCity2", "Тортуга");
+                            AddQuestUserData("Silence_Price", "sCity2", "Тортугу");
                             AddQuestUserData("Silence_Price", "FriendName", NPChar.name + "a " + NPChar.lastname + "а");
                             AddDialogExitQuest("AfterDialog");
                             TakeItemFromCharacter(NPChar, "Lukes_letter");
@@ -530,24 +512,25 @@ void ProcessDialogEvent()
         link.l1 = "Выпьем!";
         NextDiag.TempNode = "Story1";
         link.l1.go = "Exit";
+		Pchar.Luke.SpawnMaks = "1";
     break;
     case "Story1":
-		dialog.text="Что же ты ждешь? Тебе пора в путь!";
+		dialog.text = "Что же ты ждешь? Тебе пора в путь!";
 		link.l1="Постой, Люк. Как тебе удалось тогда выбраться? Я помню, что я уш"+GetSexPhrase("ел","ла")+" од"+GetSexPhrase("ин","на")+". Расскажи, что тогда случилось?";
 		link.l1.go="Story2";
 	break;
 	case "Story2":
-		dialog.text="Хм, я знал что ты спросишь. Ну, слушай. Тогда, после того как мы бросились в бегство, мушкетер попал мне прямо в бедро и я упал среди мертвых тел. Когда пальба утихла, меня нашли живым вражеские солдаты. Они не стали меня убивать, но взяли в плен... ";
+		dialog.text = "Хм, я знал что ты спросишь. Ну, слушай. Тогда, после того как мы бросились в бегство, мушкетер попал мне прямо в бедро и я упал среди мертвых тел. Когда пальба утихла, меня нашли живым вражеские солдаты. Они не стали меня убивать, но взяли в плен... ";
 		link.l1="Что же было дальше?";
 		link.l1.go="Story3";
 	break;
 	case "Story3":
-		dialog.text="Вот слушай. Они не пытали меня, а наоборот помогли с моим ранением и поставили на ноги. Научили меня военному и морскому исскуству и за обещание отпустили на свободу.";
+		dialog.text = "Вот слушай. Они не пытали меня, а наоборот помогли с моим ранением и поставили на ноги. Научили меня военному и морскому исскуству и за обещание отпустили на свободу.";
 		link.l1="Что же за обещание ты дал им?";
 		link.l1.go="Story4";
 	break;
 	case "Story4":
-		dialog.text="Хм, я обещаю, что расскажу об этом, когда ты вернешься от Максимилиана. Сейчас не время для этого разговора.";
+		dialog.text = "Хм, я обещаю, что расскажу об этом, когда ты вернешься от Максимилиана. Сейчас не время для этого разговора.";
 		link.l1="Хорошо, Люк, надеюсь ты сдержишь свое обещание";
 		link.l1.go="exit";
 		AddQuestRecord("Silence_Price","3");
@@ -560,15 +543,31 @@ void ProcessDialogEvent()
         link.l1.go = "exit";
     break;
 	case "SecondQuest_1":
-		dialog.text="О, ты вернул"+GetSexPhrase("ся","ась")+"! Как все прошло? Он с тобой хорошо обошелся?";
-		link.l1="Да, все хорошо. Он заплатил мне десять тысяч писатров, неплохая цена, за такую непыльную работу.";
+		dialog.text = Pchar.name +"?! Что ты тут делаешь?! Как... Как ты наш" + GetSexPhrase("ел","ла") + " меня? Это... Это невозможно!";
+		link.l1="Что же ты, Люк. В чем смысл твоих игр? Ты хочешь избавиться от меня? Насолить мне? В чем твоя цель, ублюдок?";
 		link.l1.go="SecondQuest_2";
 	break;
 	case "SecondQuest_2":
-		dialog.text="Слушай, тут такое дело... ";
-		link.l1="Я за! (Дальнейшая часть в разработке)";
-		link.l1.go="exit";
-		NextDiag.TempNode="Pause";
+		dialog.text = "Тебе не понять... У меня было всё, всё что мне было нужно. Я был счастлив. Но после того злополучного похода, будь он проклят, моя жизнь пошла под откос. Я хочу отомстить всем, кто виновен в этом.";
+		link.l1 = "Постой, Люк, но в чем заключается моя вина?";
+		link.l1.go = "SecondQuest_3";
+	break;
+	case "SecondQuest_3":
+		dialog.text = Pchar.Name + ", я же говорил, не поймешь. Homo homini lupus est. Невиновных не бывает. Есть только разные степени ответственности. И сейчас ты почувствуешь ответственность за всё, что тогда случилось.";
+		link.l1 = "Как скажешь. Сейчас я положу конец твоей актерской карьере, ублюдок!";
+		link.l1.go = "exit";
+		AddDialogExitQuest("LukeFight");
+	break;
+	case "SecondQuest_4":
+		dialog.text = Pchar.Name + ", постой, я сдаюсь... Ты победил" + GetSexPhrase(".","а.");
+		link.l1 = "Что?! Вот так просто?!";
+		link.l1.go = "SecondQuest_5";
+	break;
+	case "SecondQuest_5":
+		dialog.text = "Конечно нет! Макс, ко мне! " + Pchar.Name + ", лови!";
+		link.l1 = "Кха, кха кха... Что это такое?!");
+		link.l1.go = "exit";
+		AddDialogExitQuest("LukeOut");
 	break;
 	}
 }

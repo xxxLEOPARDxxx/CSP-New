@@ -99,6 +99,11 @@ void ProcessDialogEvent()
 					dialog.text = "Очень не хочется прерывать нашу милую беседу, да только у меня на сегодня назначен встреча с губернатором. Никуда не уходи, и не скучай тут без меня, хе-хе. Завтра продолжим.";
 					link.l1 = "...";
 					link.l1.go = "ADS_4_exit";
+					if(rand(100) < 90)
+					{
+						pchar.Whisper.IncqGuard_bad = true;
+						Pchar.BaseNation = PIRATE;
+					}
 					npchar.quest.meting = 5;
 					break;
 				}
@@ -117,7 +122,7 @@ void ProcessDialogEvent()
 				if (npchar.quest.meting == 1)
 				{
 					dialog.text = "Ты это видишь? На посёлок напал карательный отряд из Сантьяго. Не по твою ли душу они пришли?";
-					link.l1 = "Чёрт! Ты прав, наверное моего спасителя из стражи заставили проговориться под пытками, в какую сторону я ушла. Что же нам теперь делать?";
+					link.l1 = "Чёрт! Ты прав, наверное испанцы вышли на мой след. Что же нам теперь делать?";
 					AddMoneyToCharacter(npchar, 777);
 					npchar.SaveItemsForDead = true;
 					link.l1.go = "NF_2_1";
@@ -165,7 +170,7 @@ void ProcessDialogEvent()
 		
 		case "LejitosOff":
 			npchar.Dialog.Filename = "Enc_Officer_dialog.c";
-			npchar.greeting = "Gr_QuestOfficer";
+			//npchar.greeting = "Gr_QuestOfficer";
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			npchar.OfficerWantToGo.DontGo = true; //не пытаться уйти
 			npchar.HalfImmortal = true;  // Контузия
@@ -444,6 +449,38 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = "Pirateguard";
 			link.l1.go = "exit";
 		break;
+		case "IncqGuard_bad":
+			dialog.text = "Вот мы и остались одни\nНаверное ты подумала, что на этом все закончилось? Если так, то вынужден тебя огорчить. Видишь ли, пока де Соуза отдыхает или занимается другими делами, я его здесь подменяю. Вопросы я тебе задавать не буду, этим инквизитор занимается. Я лишь сделаю тебя более покладистой к его приходу, чтобы ему больше не пришлось вытягивать из тебя ответы\nДавай, познакомлю тебя с нашими 'игрушками'. Нам недавно привезли 'Колесо', тебе выпадет честь первой испытать его в действии. Пойдём, не стесняйся. И не вздумай пытаться сбежать, здесь полно стражников.";
+			link.l1 = "(Молча следовать за ним)";
+			link.l1.go = "IncqGuard_bad_go_to_wheel";
+		break;
+		case "IncqGuard_bad_go_to_wheel":
+			DialogExit();
+			LAi_ActorGoToLocator(NPChar, "goto", "goto11", "WhisperLine_IncqGuard_bad_speaks", -1);
+			LAi_ActorGoToLocator(PChar, "goto", "goto11", "", 10);
+			Npchar.dialog.currentnode = "IncqGuard_bad_wheel";
+			//DoQuestFunctionDelay("WhisperLine_IncqGuard_bad_speaks", 5);
+		break;
+		case "IncqGuard_bad_wheel":
+			for (i=1; i<=4; i++)
+			{
+				sld = characterFromId("IncqGuard_"+i);
+				LAi_SetActorTypeNoGroup(sld);
+			}
+			dialog.text = "Вот и наша красавица\nЕсли я правильно помню инструкцию, тебя следует сначала привязать к колесу, после чего, медленными движениями вращать рычаг. Шипы будут все глубже и глубже вонзаться тебе в  ноги, пока ты, наконец, не потеряешь возможность ходить самостоятельно\nТак... Ну и куда же подевалась верёвка?";
+			link.l1 = "Прости, но я вынуждена отказаться от твоего предложения. Возможность ходить мне еще понадобится, когда я буду искать выход отсюда. (Пока он замешкался, ты резким движением выхватываешь его пистолет из кобуры)";
+			link.l1.go = "IncqGuard_bad_wheel_kill";
+		break;
+		case "IncqGuard_bad_wheel_kill":
+			DialogExit();
+			//RemoveCharacterEquip(npchar, BLADE_ITEM_TYPE);
+			npchar.SaveItemsForDead = true;
+			GiveItem2Character(pchar, "pistol3");
+			EquipCharacterByItem(pchar, "pistol3");
+			Lai_SetPlayerType(pchar);
+			//AddDialogExitQuest("MainHeroFightModeOn");
+			DoQuestFunctionDelay("WhisperLine_WhisperHits", 0.2);
+		break;
 		case "IncqGuard":
 			dialog.text = "Чёрт, сильно же он тебя отделал. Знал бы я какое чудовище этот де Соуза - ни за что не пошёл бы сюда на службу.";
 			link.l1 = "Ничего, мне и похуже доставалось.";
@@ -540,7 +577,7 @@ void ProcessDialogEvent()
 			LAi_ActorGoToLocation(npchar, "reload", "reload1", "none", "", "", "", 7);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
-			DoQuestFunctionDelay("WhisperLine_IncqGuard", 11.0);
+			DoQuestFunctionDelay("WhisperLine_IncqGuard", 8.0);
 		break;
 		
 		

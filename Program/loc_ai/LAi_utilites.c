@@ -1264,6 +1264,8 @@ void CreateInsideHouseEncounters(aref loc)
 		if (!CheckAttribute(&locations[iBaseCity], "houseEnc")) return;
 		//==> блокируем квест мэра
 		if (CheckAttribute(pchar, "GenQuest.SeekSpy.Location") && pchar.GenQuest.SeekSpy.Location == loc.id) return;
+		//Lipsar квест История давней дружбы
+		if(CheckAttribute(pchar, "Luke.City") && Pchar.Luke.City.Loc == loc.id) return;
 		//==> блокируем квест доставки малявы
 		if (CheckAttribute(pchar, "questTemp.jailCanMove.Deliver.locationId") && pchar.questTemp.jailCanMove.Deliver.locationId == loc.id) return;
 		//--> ночью не забалуешь

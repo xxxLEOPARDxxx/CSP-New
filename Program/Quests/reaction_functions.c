@@ -10095,14 +10095,14 @@ string RandomCityEnemy()
 }
 void SpawnMaks(string spawn_max)
 {
-	sld = GetCharacter(NPC_GenerateCharacter("Maks", "pirate_1", "man", "man", 30, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("Maks", "pirate_15", "man", "man", 30, PIRATE, -1, false));
 	sld.name = "Максимилиан";
 	sld.lastname = "Вебер";
-	GiveItem2Character(sld, "pistol5");
-	sld.equip.gun = "pistol5";
-	GiveItem2Character(sld, "blade28");
-	sld.equip.blade = "blade28";
+	sld.City = spawn_max - "_tavern";
+	FantomMakeCoolFighter(sld, 30, 90, 90, "blade28", "pistol5", 300);
 	FreeSitLocator(spawn_max, "sit1");
+	SetSelfSkill(sld, 100, 80, 80, 100, 80);
+	SetShipSkill(sld, 70, 70, 70, 70, 70, 70, 70, 70, 70);
 	ChangeCharacterAddressGroup(sld, spawn_max, "sit", "sit1");
 	sld.Dialog.filename = "Quest\SilencePrice\Maks.c";
 	LAi_SetImmortal(sld, true);
@@ -10147,26 +10147,80 @@ string RandomHouse(ref npchar)
 	}
 	LocId = storeArray[rand(howStore - 1)];
 	Log_info(LocId);
-	Locations.Locid.DisableEncounters = true;
-	SetOpenDoorCommonLoc(npchar.city, LocId);
-	pchar.GenQuest.SeekSpy.Location = LocId; //в дальнейшем не забыть положить 0
+	Pchar.Luke.City.Loc = LocID;
+	SetOpenDoorCommonLoc(Pchar.Luke.City, LocID);
 	return LocId;
 }
-void spawn_1()
+void GetSpawnPirate(string qName)
 {
-	sld = GetCharacter(NPC_GenerateCharacter("Anri", "pirate_17", "man", "man", 30, PIRATE, -1, false));
+	chrDisableReloadToLocation = true; 
+	sld = GetCharacter(NPC_GenerateCharacter("Anri", "officer_58", "man", "man", 30, PIRATE, -1, false));
 	sld.name = "Анри";
 	sld.lastname = "Кристиансон";
-	FantomMakeCoolFighter(sld, 90, 90, 90, "blade32", "pistol5", 300);
-	sld.city = RandomCityEnemy();
+	SelAllPerksToNotPchar(sld);
+	FantomMakeCoolFighter(sld, 30, 90, 90, "blade32", "pistol5", 300);
 	sld.Dialog.filename = "Quest\SilencePrice\Anri.c";
-	LAi_SetLoginTime(sld, 0.0, 24.0);
-	SetSelfSkill(sld, 80, 100, 100, 100, 100);
+	sld.SaveItemsForDead = true;
+	LAi_SetImmortal(sld,true);
+	SetSelfSkill(sld, 100, 80, 80, 100, 80);
 	SetShipSkill(sld, 70, 70, 70, 70, 70, 70, 70, 70, 70);
-	LAi_SetCitizenType(sld);
+	SelAllPerksToNotPchar(sld);
 	sld.NextDiag.TempNode = "First_Time";
-	ChangeCharacterAddressGroup(sld, RandomHouse(sld), "barmen", "stay");
-	Log_info(sld.city);
+	ChangeCharacterAddressGroup(sld, "LaVega_town", "officers", LAi_FindNearestFreeLocator2Pchar("officers"));
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, Pchar, "", 20.0, 5.0);
+	bDisableFastReload = false;
+}
+void PirateComeToIsabella(string qName)
+{
+	sld = CharacterFromID("Anri");
+	sld.NextDiag.CurrentNode = "Isabella_1";
+	LAi_SetStayType(sld);
+	ChangeCharacterAddressGroup(sld, "Shore32", "smugglers", "smugglerload"));
+	Locations[FindLocation("Shore32")].DisableEncounters = true;
+	LAi_SetActorType(sld);
+	LAi_LocationDisableOfficersGen("Shore32", true);
+	LAi_ActorDialog(sld, Pchar, "", 20.0, 20.0);
+}
+void PirateComeToIsabellaLoose(string qName)
+{
+	sld = CharacterFromID("Anri");
+	ChangeCharacterAddressGroup(sld, "none", "none", "none");
+	AddQuestRecord("Silence_Price", "5_1");
+	CloseQuestHeader("Silence_Price");
+}
+void MaksCome(string qName)
+{
+	sld = CharacterFromID("Maks");
+	LAi_SetImmortal(sld, false);
+	ChangeCharacterAddressGroup(sld, Pchar.Luke.City.Loc, "reload", "reload1");
+	LAi_group_MoveCharacter(sld, "Maks");
+	LAi_SetPlayerType(pchar);
+	LAi_group_FightGroups("Maks", LAI_GROUP_PLAYER, true);
+	DoQuestFunctionDelay("AddGuardians", 2.0);
+	EndLookAfterCharacter();
+	LAi_SetFightMode(pchar, true);
+}
+void AddGuardians(string qName)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		sTemp = "off_" + NationShortName(sti(Colonies[FindColony(Pchar.Luke.City)].nation)) + "_" + i;
+		sld = GetCharacter(NPC_GenerateCharacter("Maks_Guard" + i, sTemp, "man", "man", 30, sti(Colonies[FindColony(Pchar.Luke.City)].nation), -1, false));
+		SelAllPerksToNotPchar(sld);
+		FantomMakeCoolFighter(sld, 30, 90, 90, "blade28", "pistol5",300);
+		ChangeCharacterAddressGroup(sld, Pchar.Luke.City.Loc, "goto", "goto"+i);
+		LAi_group_MoveCharacter(sld, "Maks");
+	}
+	LAi_group_FightGroups("Maks", LAI_GROUP_PLAYER, true);
+	LAi_group_SetCheck("Maks", "QuestEnd1");
+}
+void LukesEscape(string qName)
+{
+	AddQuestRecord("Silence_Price", "6");
+	Flag_PIRATE();
+	AddCharacterHealth(pchar, -30);
+	Pchar.Luke.BadPoison = "1";
 }
 void spawn_2()
 {
@@ -10497,7 +10551,7 @@ void SetTichingituJail()//ставим Тичингиту
 	sld = GetCharacter(NPC_GenerateCharacter("Tichingitu", "maskog", "man", "man", 10, FRANCE, -1, false));
 	sld.name = "Тичингиту"; // 270912
 	sld.lastname = "";
-	sld.greeting = "Tichingitu";
+	sld.greeting = "GR_Tynichgitu";
     sld.Dialog.Filename = "Quest\Tichingitu.c";
 	sld.dialog.currentnode = "Tichingitu";
 	sld.rank = 12;

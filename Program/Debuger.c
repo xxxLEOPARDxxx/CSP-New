@@ -11,6 +11,18 @@ void ActiveINSERTControl()
 
 void ActiveF4Control()
 {
+	aref    arCharShip; makearef(arCharShip, pchar.Ship);
+    float x = stf(arCharShip.Pos.x);
+    float y = stf(arCharShip.Pos.y);
+    float z = stf(arCharShip.Pos.z);
+    float bx = arCharShip.BoxSize.x;
+    float by = arCharShip.BoxSize.y;
+    float x1, y1;
+    x1 = (frnd() - 0.5) * bx;
+
+    y1 = 1.0 + y + frnd() * 3.0
+    PlaySound("Sea Battles\Vzriv_fort_001.wav");
+    CreateParticleSystem("Blast", x + x1, y1, z, 0.0, 0.0, 0.0, 0); 
 	/* //Korsar Maxim - На Ф4 спауним Ведекера-офа из ГПК к себе в офы
 	ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "CCS_Mechanic", "man", "man", 30, PIRATE, -1, true));
 	sld.name = "Хенрик";

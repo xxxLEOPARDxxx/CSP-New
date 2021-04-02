@@ -74,9 +74,30 @@ void SetCamShuttle(ref loc) // boal вынес в метод
 	}
 	else
 	{
-		//скорость, время, мин, макс, скорость наклона, макс наклон
-		SendMessage(&LocCamera, "lffffff", -1, 0.5, 1.0, 1.0, 1.0, 0.00, 0.0);
-        //SendMessage(&LocCamera, "lffffff", -1, 0.0, 0, 0.0, 0.0, 0.00, 0.0);
+		if (CheckAttribute(pchar, "GenQuest.CamShuttle"))
+		{
+			float fshut = stf(Pchar.GenQuest.CamShuttle)/10;
+			float ftmp = 0.1;
+			if (fshut > 0.4) fshut = 0.4;
+			if (fshut < 0.2) ftmp = 0.05;
+			if(!CheckAttribute(Pchar,"Drunked.Today"))
+			{
+				Log_Info("Что-то я перепил...");
+			}
+			else 
+			{
+				if (Pchar.Drunked.Today != Pchar.dayRandom) Log_Info("Ох, что-то штормит меня сегодня...");
+			}
+			SendMessage(&LocCamera, "lffffff", -1, 0.5, -1.0, 1.0, 1.0, ftmp, fshut);
+			Pchar.Drunked.Today = Pchar.dayRandom;
+		}
+		else
+		{
+			//скорость, время, мин, макс, скорость наклона, макс наклон
+			SendMessage(&LocCamera, "lffffff", -1, 0.5, 1.0, 1.0, 1.0, 0.00, 0.0);
+			//SendMessage(&LocCamera, "lffffff", -1, 0.0, 0, 0.0, 0.0, 0.00, 0.0);
+		}
+		
 	}
 }
 

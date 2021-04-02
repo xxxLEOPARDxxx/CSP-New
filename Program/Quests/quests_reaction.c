@@ -8061,6 +8061,13 @@ void QuestComplete(string sQuestName, string qname)
 			DoQuestFunctionDelay("WhisperHold", 0.5);
 		break;
 		
+		case "WhisperLine_IncqGuard_bad_speaks":			
+			sld = characterFromId(pchar.Whisper.IncqGuard_bad);
+			SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
+			LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+		break;
+		
+		
 		case "PGG_CheckHP":
 		if (CheckAttribute(pchar, "PGG_FightOnShore"))
             {
@@ -9338,6 +9345,144 @@ void QuestComplete(string sQuestName, string qname)
 		LAi_SetSitType(sld);
 		Lai_SetPlayerType(pchar);
 	break;
+	case "ChangeLukesHome":
+			sld = CharacterFromID("Old Friend");
+			sld.City = RandomCityEnemy();
+			Log_TestInfo(sld.City);
+			ChangeCharacterAddressGroup(sld,RandomHouse(sld),"goto","goto1");
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, Pchar,"", 20.0,10.0)
+			Pchar.Luke.City = sld.City;
+			DeleteAttribute(Pchar,"Quest.Luke");
+			AddQuestRecord("Silence_Price","4");
+			AddQuestUserData("Silence_Price","sSex",GetSexPhrase("ся","ась"));
+			Pchar.quest.GetSpawnPirate.win_condition.l1 = "ExitFromLocation";
+			Pchar.quest.GetSpawnPirate.win_condition.l1.location = Pchar.location;
+			Pchar.quest.GetSpawnPirate.function = "GetSpawnPirate";
+	break;
+	case "PirateGoOut":
+		sld = CharacterFromID("Anri");
+		LAi_ActorRunToLocation(sld,"reload", "reload1","none","","","",20.0);
+		AddQuestRecord("Silence_Price","5");
+		chrDisableReloadToLocation = false;
+		
+		Pchar.quest.PirateComeToIsabella.win_condition.l1 = "Timer";
+		Pchar.quest.PirateComeToIsabella.win_condition.l1.date.day = GetAddingDataDay(0, 0, 1);
+		Pchar.quest.PirateComeToIsabella.win_condition.l1.date.month = GetAddingDataMonth(0, 0, 1);
+		Pchar.quest.PirateComeToIsabella.win_condition.l1.date.year = GetAddingDataYear(0, 0, 1);
+		Pchar.quest.PirateComeToIsabella.function = "PirateComeToIsabella";
+
+		Pchar.quest.PirateComeToIsabellaLoose.win_condition.l1 = "Timer";
+		Pchar.quest.PirateComeToIsabellaLoose.win_condition.l1.date.hour = 3;
+		Pchar.quest.PirateComeToIsabellaLoose.win_condition.l1.date.day = GetAddingDataDay(0, 0, 1);
+		Pchar.quest.PirateComeToIsabellaLoose.win_condition.l1.date.month = GetAddingDataMonth(0, 0, 1);
+		Pchar.quest.PirateComeToIsabellaLoose.win_condition.l1.date.year = GetAddingDataYear(0, 0, 1);
+		Pchar.quest.PirateComeToIsabellaLoose.function = "PirateComeToIsabellaLoose";
+	break;
+	case "PirateGoOut1":
+		sld = CharacterFromID("Anri");
+		LAi_ActorRunToLocation(sld,"reload", "reload1","none","","","",20.0);
+		AddQuestRecord("Silence_Price", "5_3");
+		AddQuestUserData("Silence_Price", "sCityName", XI_ConvertString("Colony" + Pchar.Luke.City + "Acc"));
+		LAi_LocationDisableOfficersGen("Shore32", false);
+		GiveItem2Character(pchar,"book2_7");
+		GiveItem2Character(pchar,"book2_6");
+		PlaySound("Interface\important_item.wav");
+	break;
+	case "PrepareFightAnri":
+		sld = CharacterFromID("Anri");
+		sTemp = "AnriChrist";
+		LAi_SetImmortal(sld, false);
+		LAi_group_MoveCharacter(sld, sTemp);
+		LAi_group_FightGroups(sTemp, LAI_GROUP_PLAYER, true);
+		LAi_SetFightMode(sld, true);
+		LAi_SetFightMode(pchar, true);
+		LAi_Group_SetCheck(sTemp, "AfterBatleAnri");
+	break;
+	case "AfterBatleAnri":
+		AddQuestRecord("Silence_Price", "5_2");
+		AddQuestUserData("Silence_Price", "sCityName", XI_ConvertString("Colony" + Pchar.Luke.City + "Acc"));
+		LAi_LocationDisableOfficersGen("Shore32", false);
+	break;
+	case "LukeFight":
+		chrDisableReloadToLocation = true;
+		sld = CharacterFromID("Old Friend");
+		sTemp = "Artist";
+		LAi_SetImmortal(sld, false);
+		LAi_group_MoveCharacter(sld, sTemp);
+		GiveItem2Character(sld,"cirass5");
+		EquipCharacterbyItem(sld,"cirass5");
+		LAi_SetCheckMinHP(sld, 1, true, "QuestPreEnd");
+		LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+		LAi_group_FightGroups(sTemp, LAI_GROUP_PLAYER, true);
+		LAi_SetFightMode(pchar,true);
+	break;
+	case "QuestPreEnd":
+		sld = CharacterFromID("Old Friend");
+		sld.Dialog.CurrentNode = "SecondQuest_4";
+		LAi_SetFightMode(sld, false);
+		LAi_SetFightMode(pchar, false);
+		LAi_SetActorType(sld);
+		LAi_ActorDialog(sld, Pchar, "", 20.0, 1.0);
+	break;
+	case "LukeOut":
+		sld = CharacterFromID("Old Friend");
+		LAi_SetActorType(pchar);
+		LAi_SetImmortal(sld, true);
+		LaunchBlastGrenade(pchar);
+		PlaySound("People Fight\rifle_fire1.wav");
+		pchar.chr_ai.poison = 1 + 30 + 20 + 40;
+		pchar.chr_ai.Blooding = 50;
+		MarkCharacter(pchar,"FX_Blood");
+		Log_Info("Вы получили отравление");
+		Log_Info("У вас началось кровотечение");
+		AddCharacterHealth(pchar, -20);
+		StartLookAfterCharacter(sld.id);
+		LAi_ActorRunToLocation(sld,"reload","reload1", "none", "", "", "", 2.0);
+		DoQuestFunctionDelay("MaksCome", 2.0);
+	break;
+	case "AddGuardians":
+	for (i = 0; i < 3; i++)
+	{
+		sTemp = "off_" + NationShortName(sti(Colonies[FindColony(Pchar.Luke.City)].nation)) + "_" + i;
+		sld = GetCharacter(NPC_GenerateCharacter("Maks_Guard" + i, sTemp, "man", "man", 30, sti(Colonies[FindColony(Pchar.Luke.City)].nation), -1, false));
+		SelAllPerksToNotPchar(sld);
+		sld.dialog.filename = "Quest\SilencePrice\Maks.c";
+		sld.Dialog.CurrentNode = "Guardians";
+		LAi_group_MoveCharacter(sld, "Maks1");
+		FantomMakeCoolFighter(sld, 30, 90, 90, "blade28", "pistol5",300);
+		ChangeCharacterAddressGroup(sld, Pchar.Luke.City.Loc, "reload", "reload1");
+		GiveItem2Character(sld,"cirass3");
+		EquipCharacterbyItem(sld,"cirass3");
+		if(i < 2)
+		{
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, Pchar, "", 20.0, 1.0);
+		}
+	}
+	LAi_group_SetCheck("Maks1", "QuestEnd1");
+	LAi_SetFightMode(pchar,false);
+	sld = CharacterFromID("Maks");
+	break;
+	case "FightGuardians":
+		LAi_group_FightGroups("Maks1", LAI_GROUP_PLAYER, true);
+		LAi_SetFightMode(pchar,true);
+	break;
+	case "QuestEnd1":
+		chrDisableReloadToLocation = false;
+		Pchar.quest.LukesEscape.win_condition.l1 = "ExitFromLocation";
+		Pchar.quest.LukesEscape.win_condition.l1.location = Pchar.Luke.City.Loc;
+		Pchar.quest.LukesEscape.function = "LukesEscape";
+	break;
+	case "HealingPoison":
+		SetLaunchFrameFormParam("Прошёл месяц тяжелых страданий, и вы излечились яда.", "Reload_To_Location", 0.1, 2.0);
+		SetLaunchFrameReloadLocationParam("Bridgetown_church", "barmen","bar1", "");
+		LaunchFrameForm();
+		AddDataToCurrent(0, 1, 0);
+		DeleteAttribute(PChar,"Luke.BadPoison");
+		AddCharacterHealth(pchar, 50);
+		AddQuestRecord("Silence_Price", "6_1");
+	break;
 		//конец История давней дружбы
 		//2 жертвы и главу шпионов.
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9755,6 +9900,15 @@ void FrameGiveMushket()
 	LAi_ActorGoToLocation(sld,"reload","reload1","none","","","",4.0);
 }
 //<--- Lipsar
+void FrameAscoldVodka()
+{
+	pchar.GenQuest.CamShuttle = 2;
+	WaitDate("",0,0,0,5,5);
+	pchar.chr_ai.drunk = 600;
+	SetLaunchFrameFormParam("Спустя несколько часов активных возлияний...", "Reload_To_Location", 0.1, 2.0);
+	SetLaunchFrameReloadLocationParam("BasTer_houseSp1", "barmen","bar1", "");
+	LaunchFrameForm();
+}
 
 // boal -->
 ////////////////////////   общие методы //////////////////////////

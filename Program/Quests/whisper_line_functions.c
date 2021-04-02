@@ -189,7 +189,7 @@ void WhisperTeleport(string qName)
 	sld.dialog.currentnode = "First time";
 	sld.name = "Эрнан";
 	sld.lastname = " Эстебан";
-	//sld.greeting = "cit_common";
+	sld.greeting = "GR_ErnanEsteban";
 	//Добавить звуки
     LAi_SetActorTypeNoGroup(sld);
     LAi_type_actor_Reset(sld);
@@ -283,7 +283,7 @@ void WhisperLine_Cage(string qName)
     sld.lastname = "де Соуза";
 	//sld.model.animation = "man2";
     sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
-	//sld.greeting = "Gr_padre";
+	sld.greeting = "GR_DeSouza";
     LAi_SetHuberType(sld);
     LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
     ChangeCharacterAddressGroup(sld, "Santiago_Incquisitio", "goto", "goto5");
@@ -324,6 +324,36 @@ void WhisperLine_DeSouzaHits(string qName)
 	
 }
 
+void WhisperLine_WhisperHits(string qName)
+{
+	LAi_SetActorTypeNoGroup(PChar);
+	LAi_ActorAnimation(pchar, "Shot", "", 1.9);
+    DoQuestFunctionDelay("WhisperLine_WhisperHits_1", 0.8);
+}
+void WhisperLine_WhisperHits_1(string qName)
+{
+	sld = characterFromId(pchar.Whisper.IncqGuard_bad);
+	LAi_KillCharacter(sld);
+    DoQuestFunctionDelay("WhisperLine_WhisperHits_2", 0.25);
+}
+void WhisperLine_WhisperHits_2(string qName)
+{
+	//LAi_LockFightMode(PChar, false);
+	Lai_SetPlayerType(pchar);
+	RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
+	TakeNItems(pchar, "pistol3", -1);
+	pchar.questTemp.Whisper.Inside_Incquisition = true;
+	DoQuestCheckDelay("TalkSelf_Quest", 1.0);
+	DoQuestFunctionDelay("WhisperLine_WhisperHits_3", 5.25);
+}
+void WhisperLine_WhisperHits_3(string qName)
+{	
+	for (i=1; i<=4; i++)
+	{
+		sld = characterFromId("IncqGuard_"+i);
+		LAi_SetGuardianTypeNoGroup(sld);
+	}
+}
 void WhisperLine_DeSouzaHits_1(string qName)
 {	
 	LAi_ActorAnimation(pchar, "hit_attack_"+sti(rand(2)+1), "WhisperLine_DeSouzaHits_2", 0.1);
@@ -357,13 +387,28 @@ void WhisperLine_DeSouzaSpeaks(string qName)
 	LAi_SetImmortal(sld, true);
 }
 
+void WhisperLine_IncqGuard_bad_speaks(string qName)
+{
+	sld = characterFromId(pchar.Whisper.IncqGuard_bad);
+	sld.dialog.currentnode = "IncqGuard_bad_wheel";
+	SetActorDialogAny2Pchar(sld.id, "", 2.0, 0.0);
+	LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 4.0);
+}
 void WhisperLine_IncqGuard(string qName)
 {	
 	for (i=1; i<=4; i++)
 	{
 		sld = characterFromId("IncqGuard_"+i);
+		TakeNItems(sld, "grapeshot", 10);
+		TakeNItems(sld, "spyglass3", -1);
+		LAi_SetHP(sld, 4.0 * MOD_SKILL_ENEMY_RATE, 4.0 *MOD_SKILL_ENEMY_RATE);
+		RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
+		TakeNItems(sld, "blade16", -10);
+		TakeNItems(sld, "blade4", 1);
+		EquipCharacterByItem(sld, "blade4");
 		if (sld.Dialog.Filename == "Incquistors.c")
 		{
+			
 			LAi_SetActorTypeNoGroup(sld);
 			GetCharacterPos(sld, &locx, &locy, &locz);
 			if (LAi_FindNearestLocator("soldiers", locx, locy, locz) == "soldier1")
@@ -371,7 +416,18 @@ void WhisperLine_IncqGuard(string qName)
 				float locx, locy, locz;
 				GetCharacterPos(pchar, &locx, &locy, &locz);
 				sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
-				sld.dialog.currentnode = "IncqGuard";
+				if(!CheckAttribute(pchar, "Whisper.IncqGuard_bad"))
+				{
+					sld.dialog.currentnode = "IncqGuard";
+				}
+				else
+				{
+					sld.dialog.currentnode = "IncqGuard_bad";
+					pchar.Whisper.IncqGuard_bad = sld.id;
+					LAi_SetActorTypeNoGroup(sld);
+					AddMoneyToCharacter(sld, 1500);
+					TakeNItems(sld, "map_cuba", 1);
+				}
 				LAi_SetActorTypeNoGroup(sld);
 				LAi_type_actor_Reset(sld);
 				//LAi_ActorDialog(sld, pchar, "", 20.0, 0);
@@ -380,28 +436,61 @@ void WhisperLine_IncqGuard(string qName)
 				sld.LifeDay = 0;
 			}
 		}
+		else
+		{
+			if(CheckAttribute(pchar, "Whisper.IncqGuard_bad"))
+			{
+				//LAi_group_Attack(sld, Pchar);
+				//if (MOD_SKILL_ENEMY_RATE != 10)
+				//{
+					DeleteAttribute(sld, "perks.list.Sliding");
+				//}
+				TakeNItems(sld,"potion1", -5);
+				TakeNItems(sld,"potion2", -5);
+				pchar.quest.WhisperOpenTunnel.win_condition.l1 = "NPC_Death";
+				pchar.quest.WhisperOpenTunnel.win_condition.l1.character = sld.id;
+				pchar.quest.WhisperOpenTunnel.function = "WhisperOpenTunnel";
+				TakeNItems(sld, "grapeshot", -10);
+				TakeNItems(sld, "pistol3", -1);
+				RemoveCharacterEquip(sld, GUN_ITEM_TYPE);
+			}
+		}
 	}
 }
 
+void WhisperOpenTunnel(string qName)
+{
+	PChar.quest.WhisperEscape.win_condition.l1 = "locator";
+	PChar.quest.WhisperEscape.win_condition.l1.location = "Santiago_Incquisitio";
+	PChar.quest.WhisperEscape.win_condition.l1.locator_group = "reload";
+	PChar.quest.WhisperEscape.win_condition.l1.locator = "reload1_back";
+	PChar.quest.WhisperEscape.function = "WhisperEscape";
+}
 void WhisperIncqAlarm(string qName)
 {	
 	LAi_group_AttackGroup("SPAIN_CITIZENS", LAI_GROUP_PLAYER);
 }
 void WhisperEscape(string qName)
 {	
+	Pchar.BaseNation = PIRATE;
 	ChangeCharacterNationReputation(pchar, 2, -15);
 	if (!CheckAttribute(pchar, "Whisper.Escaped"))
 	{
 		DoReloadCharacterToLocation("Santiago_ExitTown","reload","reload3");
 		chrDisableReloadToLocation = false;
 		LocatorReloadEnterDisable("Santiago_ExitTown", "reload3", true);
+		LocatorReloadEnterDisable("Cuba_Jungle_03", "reload1_back", true);
+		LocatorReloadEnterDisable("Cuba_Jungle_01", "reload3_back", true);
 		LocatorReloadEnterDisable("Havana_ExitTown", "reload4", true);
-		
 		pchar.Whisper.Escaped = true;
-
 		PChar.quest.WhisperPirateTown.win_condition.l1 = "location";
 		PChar.quest.WhisperPirateTown.win_condition.l1.location = "PuertoPrincipe_town";
 		PChar.quest.WhisperPirateTown.function = "WhisperPirateTown";
+		if(CheckAttribute(pchar, "Whisper.IncqGuard_bad"))
+		{
+			pchar.questTemp.Whisper.Escaped_Incquisition = true;
+			DoQuestCheckDelay("TalkSelf_Quest", 1.0);
+		}
 	}
 }
 
@@ -461,6 +550,8 @@ void WhisperPirateTownGetHat_part_1(string qName)
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload6", false);
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload7", false);
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload8", false);
+	LocatorReloadEnterDisable("Cuba_Jungle_03", "reload1_back", false);
+	LocatorReloadEnterDisable("Cuba_Jungle_01", "reload3_back", false);
 
 	LocatorReloadEnterDisable("PuertoPrincipe_ExitTown", "reload3", true);
 	LocatorReloadEnterDisable("PuertoPrincipe_ExitTown", "reload1_back", true);
@@ -611,7 +702,7 @@ void WhisperMeetCrew(string qName)
 		SetCharacterPerk(sld, "Sliding");
 		LAi_SetHP(sld, 35.0 * MOD_SKILL_ENEMY_RATE, 35.0 *MOD_SKILL_ENEMY_RATE);
 	}
-	//sld.greeting = "Gr_padre";
+	sld.greeting = "GR_ToughPirate";
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_Port", "officers", "reload1_1");
 	LAi_SetActorTypeNoGroup(sld);
     LAi_type_actor_Reset(sld);
@@ -864,7 +955,7 @@ void WhisperHuntersCaveEntrance(string qName)
 	SetSPECIAL(sld, 10, 3, 10, 4, 8, 9, 5);
 	sld.rank = 15;
 	LAi_SetHP(sld, 250.0, 250.0);
-	
+	sld.greeting = "GR_Lejitos";
 	GiveItem2Character(sld, "topor_01");
 	EquipCharacterByItem(sld, "topor_01");
 	GiveItem2Character(sld, "cirass2");

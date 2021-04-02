@@ -278,10 +278,12 @@ void LAi_tmpl_dialog_CharacterUpdate(aref chr, float dltTime)
 			}
 			if(stf(tmpl.dlgtime) >= 0.0)
 			{
-				string snd = "male-citizen";
+				// string snd = "male-citizen";
+				string snd = "cit_common";
 				if(CheckAttribute(chr,"sex"))
 				{
-					if(chr.sex == "woman") snd = "female-citizen";
+					// if(chr.sex == "woman") snd = "female-citizen";
+					if(chr.sex == "woman") snd = "Gr_Woman_Citizen";
 				}
 				LAi_CharacterPlaySound(chr, snd);
 			}

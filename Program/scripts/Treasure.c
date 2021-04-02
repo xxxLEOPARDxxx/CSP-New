@@ -644,6 +644,10 @@ void SetTreasureBoxFromMap()
 						Pchar.quest.SetTreasureHunter.function    = "SetTreasureHunter";
 					}
 				}
+				else
+				{
+					Pchar.quest.SetTreasureHunter.function    = "SetTreasureHunter";
+				}
             }
         }
 
@@ -1177,7 +1181,8 @@ void Map_CreateFastWarriorTreasure()
     for (i = 1; i <= 3; i++)
     {
         sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "off_hol_2", "man", "man", sti(PChar.rank) + 5, PIRATE, 15, true));
-        SetShipHunter(sld);
+		if(CheckAttribute(PChar,"Luke.SpawnMaks")) CreatePGG_War(sld, PIRATE, pchar);
+		else SetShipHunter(sld);
         SetFantomParamHunter(sld); //крутые парни
         SetCaptanModelByEncType(sld, "war");
         sld.AlwaysEnemy = true;

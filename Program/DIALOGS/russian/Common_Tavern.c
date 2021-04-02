@@ -193,6 +193,7 @@ void ProcessDialogEvent()
 					link.l21.go = "LoanForAll";//(перессылка в кредитный генератор)
 				}
 				
+				
 				// Квестовый генератор священника. Квест №2. Warship -->
 				if(CheckAttribute(PChar, "GenQuest.ChurchQuest_2.AskBarmen") && PChar.location == PChar.GenQuest.ChurchQuest_2.QuestTown + "_tavern")
 		            	{
@@ -514,6 +515,24 @@ void ProcessDialogEvent()
 					}
 				}
 			}
+			//Lipsar квест История Давней дружбы--->
+				if(CheckAttribute(Pchar,"Quest.Luke") && Pchar.Quest.Luke == "1" && NPChar.City == "LaVega")
+				{
+					link.l13 = "Послушай, я ищу человека, что сидел за столиком справа от двери. Ты не знаешь где он?";
+					link.l13.go = "LukeQuest_1";
+					sld = CharacterFromID("Maks");
+					ChangeCharacterAddressGroup(sld,"none","none","none");
+				}
+				if(CheckAttribute(Pchar,"Luke.SpawnMaks") && Pchar.Luke.SpawnMaks == "1")
+				{
+					sld = CharacterFromID("Maks");
+					if(NPChar.Location == sld.City)
+					{
+						link.l13 = "Послушай, я ищу человека, По имени Максимилиан Вебер. Ты не знаешь где он?";
+						link.l13.go = "MaksQuest_1";
+					}
+				}
+				//<---Lipsar квест История Давней дружбы
 			
 			link.l14 = "Ты случайно не владеешь информацией, как там дела у моих коллег на море?";
 			link.l14.go = "PGGInfo";
@@ -1624,6 +1643,36 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 		break;
 		//Виспер
+		
+		//Lipsar Квест История Давней Дружбы
+		case "MaksQuest_1":
+			dialog.text = "Наверное ты ищещь того мутного типа, в шляпе и зеленом камзоле.";
+			link.l1 = "Спасибо, помог.";
+			link.l1.go = "exit";
+			DeleteAttribute(Pchar,"Luke.SpawnMaks");
+		break;
+		case "LukeQuest_1":
+			bDisableFastReload = true;
+			dialog.text = "Как только вы ушли, в таверну зашли какие то люди, поговорили с ним, и они ушли вместе. А куда, я даже не знаю.";
+			link.l1 = "Вот те на! Как они выглядели не подскажешь?";
+			link.l1.go = "LukeQuest_2";
+		break;
+		case "LukeQuest_2":
+			dialog.text = "Типичные пираты, ничего особенного в их внешности не было.";
+			link.l1 = "Ладно, спасибо за информацию.";
+			link.l1.go = "exit";
+			link.l2 = "Ладно, спасибо за информацию. Держи, в знак благодарности.";
+			link.l2.go = "Pay1000";
+			Pchar.Luke.Info = "Fight";
+			AddDialogExitQuest("ChangeLukesHome");
+		break;
+		case "Pay1000":
+			dialog.text = "Спасибо, " + GetSexPhrase("сэр","мадам") + ", не ожидал."
+			link.l1 = "Мне не сложно.";
+			link.l1.go = "exit";
+			AddMoneyToCharacter(Pchar, -1000);
+			Pchar.Luke.Info = "Peace";
+		break;
 	}
 }
 

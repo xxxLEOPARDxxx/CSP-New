@@ -218,6 +218,7 @@ void LAi_SetAlcoholNormal(aref chr)
 	}
 	*/
 	if (CheckAttribute(pchar, "questTemp.Rum")) DeleteAttribute(pchar, "questTemp.Rum");
+	if (CheckAttribute(pchar, "GenQuest.CamShuttle")) DeleteAttribute(pchar, "GenQuest.CamShuttle");
 
 	DeleteAttribute(chr, "chr_ai.drunk");
 }

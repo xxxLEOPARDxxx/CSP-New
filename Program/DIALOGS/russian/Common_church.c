@@ -903,6 +903,12 @@ void ProcessDialogEvent()
             {
                 link.l4 = "Я нуждаюсь в исцелении.";
                 link.l4.go = "healthAdd_1";
+				//Lipsar квест История давней дружбы
+				if(CheckAttribute(PChar,"Luke.BadPoison"))				
+				{
+						link.l4 = "Падре, помогите мне. Меня отравили каким-то очень сильным ядом, что мне делать?";
+						link.l4.go = "LukePoison";
+				}
             }
             //==> Вставка Эдди, квест Аззи, возможность сдачи лампы.
             if (CheckCharacterItem(pchar, "Azzy_bottle"))
@@ -1374,7 +1380,19 @@ void ProcessDialogEvent()
 		break;
 
 		//<<--- ночной сторож
-
+		//Lipsar квест История давней дружбы
+		case "LukePoison":
+			dialog.text = GetSexPhrase("Сын мой","Дочь моя") +", дай мне тебя осмотреть... Господи помилуй! Мне не известен этот яд, я никогда с таким не сталкивался. Тебе нужно срочно найти того, кто поможет тебе, иначе твое здоровье не поправится никогда!";
+			link.l1 = "Очень жаль падре, что вы не можете мне помочь.";
+			link.l1.go = "exit";
+			if (NPChar.City == "Bridgetown")
+			{
+				dialog.text = GetSexPhrase("Сын мой","Дочь моя") +", дай мне тебя осмотреть... Господи помилуй! Я знаю, что это за яд! Он очень опасен, нужно немедленно начинать лечение! Я помогу тебе.";
+				link.l1 = "Чего же мы ждем?! Я с радостью приму вашу помощь!";
+				link.l1.go = "exit";
+				AddDialogExitQuest("HealingPoison");
+			}
+		break;
         case "healthAdd_1":
             if (GetHealthMaxNum(pchar) == 6) // отлично
             {

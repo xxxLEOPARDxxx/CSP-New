@@ -343,4 +343,10 @@ void wdmEnterSeaQuest(string _chrId)
 	{
 		characters[GetCharacterIndex(_chrId)].nation = pchar.nation;
 	}
+	if(findsubstr(NPChar.id, "PsHero_" , 0) != -1 && NPChar.nation == PIRATE && PGG_ChangeRelation2MainCharacter(NPChar, 0) > 40 && !CheckAttribute(NPChar, "PGG_warrior"))
+	{
+		NPChar.nation_backup = NPChar.nation;
+		NPChar.nation = pchar.nation;
+		characters[GetCharacterIndex(_chrId)].nation = pchar.nation;
+	}
 }

@@ -1273,14 +1273,28 @@ void Ship_CheckSituation()
 			string defGroupID = rCharacter.SeaAI.Task.Target;
 			ref attckChar;
 			ref fortChar = &characters[sti(rCharacter.SeaAI.Task.Target)];
+			if (pchar.Ship.LastBallCharacter != -1) 
+			{
+				sTemp = Ship_GetGroupID(&characters[sti(pchar.Ship.LastBallCharacter)]); 
+				if (HasSubStr(sTemp,"IslandGroup"))
+				{
+					Group_SetEnemyToCharacter(sGroupID, GetMainCharacterIndex());
+					SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
+					Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
+					Group_LockTask(sGroupID);
+					DoQuestCheckDelay("NationUpdate", 0.7);
+					return;
+				}
+			}
 			if (sti(rCharacter.Ship.LastBallCharacter) != -1 || CheckAttribute(fortChar,"Ship.LastBallCharacter")) 
 			{
 				if (sti(rCharacter.Ship.LastBallCharacter) != -1) attckChar = &characters[sti(rCharacter.Ship.LastBallCharacter)];
 				else attckChar = CharacterFromId(fortChar.Ship.LastBallCharacter);
-				if (attckChar.Ship.LastBallCharacter == defGroupID && GetNationRelation2Character(sti(rCharacter.nation), GetCharacterIndex(attckChar.id))) 
+				if (attckChar.Ship.LastBallCharacter == defGroupID && GetNationRelation2Character(sti(rCharacter.nation), GetCharacterIndex(attckChar.id)) == RELATION_ENEMY) 
 				{
-					Group_SetEnemyToCharacter(sGroupID, GetCharacterIndex(attckChar.id));
-					Group_SetTaskAttack(sGroupID, Ship_GetGroupID(attckChar));
+					Group_SetEnemyToCharacter(sGroupID, GetMainCharacterIndex());
+					SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
+					Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
 					Group_LockTask(sGroupID);
 					DoQuestCheckDelay("NationUpdate", 0.7);
 					return;

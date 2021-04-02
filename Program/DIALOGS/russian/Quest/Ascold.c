@@ -19,7 +19,7 @@ void ProcessDialogEvent()
 		
 		case "Tichingitu_11":
 			AddMoneyToCharacter(pchar, -10000);
-			dialog.text = "Отлично! Вот это дело! Сейчас я напишу записку и приложу свою печать, подождите немного... вот, держите. Отдайте это коменданту и можете забирать своего индейца. Вот только зачем он вам понадобился - ума не приложу. Разве что на ярмарках за деньги показывать, ха-ха!";
+			dialog.text = "Отлично! Вот это дело! Сейчас я напишу записку и приложу свою печать, подожди немного... вот, держи. Отдайте это коменданту и можешь забирать своего индейца. Вот только зачем он тебе понадобился - ума не приложу. Разве что на ярмарках за деньги показывать, ха-ха!";
 			link.l1 = "Бог всё видит, Аскольд. Спасти жизнь человеку - благое дело.";
 			npchar.quest.Tichingitu = "paid"
 			link.l1.go = "Tichingitu_12";
@@ -27,8 +27,8 @@ void ProcessDialogEvent()
 		
 		if (CheckAttribute(pchar, "questTemp.Tichingitu") && pchar.questTemp.Tichingitu == "ascold")
 		{
-			dialog.text = "Что скажете, Шарль? Сходили посмотреть на это индейское чучело?";
-			link.l1 = "Сходил... Поэтому и пришёл снова к вам.";
+			dialog.text = "Ну, что скажешь? Сходил"+GetSexPhrase("","а")+" посмотреть на это индейское чучело?";
+			link.l1 = "Сходил"+GetSexPhrase("","а")+"... Поэтому и приш"+GetSexPhrase("ёл","ла")+" снова к тебе.";
 			link.l1.go = "Tichingitu_7";
 			if (!CheckAttribute(npchar, "quest.Tichingitu")) 
 			{
@@ -38,15 +38,15 @@ void ProcessDialogEvent()
 		}
 		if (CheckAttribute(pchar, "questTemp.Tichingitu") && pchar.questTemp.Tichingitu == "money")
 		{
-			dialog.text = "А, это опять ты! Ну что, принёс деньги за индейца?";
+			dialog.text = "А, это опять ты! Ну что, прин"+GetSexPhrase("ёс","есла")+" деньги за индейца?";
 			if (sti(pchar.money) >= 10000)
 			{
-				link.l1 = "Да. Вот, держите.";
+				link.l1 = "Да. Вот, держи.";
 				link.l1.go = "Tichingitu_11";
 			}
 			if (CheckAttribute(npchar, "quest.Tichingitu") && npchar.quest.Tichingitu != "paid") 
 			{
-				link.l2 = "Нет, я ещё не собрал требуемую сумму.";
+				link.l2 = "Нет, я ещё не собрал"+GetSexPhrase("","а")+" требуемую сумму.";
 				link.l2.go = "exit";
 				break;
 			}
@@ -67,11 +67,6 @@ void ProcessDialogEvent()
         		link.l1.go = "exit";
         		link.l2 = "Хамить изволите, сударь?";
         		link.l2.go = "Step_3";
-				if (!CheckAttribute(pchar, "questTemp.Tichingitu") && !CheckAttribute(npchar, "quest.Tichingitu"))
-				{
-					link.l3 = "Кажется мне, вас что-то беспокоит, не так ли?";
-					link.l3.go = "Tichingitu_1";
-				}
                 NextDiag.TempNode = "First time";
             }
 		break;
@@ -200,7 +195,7 @@ void ProcessDialogEvent()
     		link.l1.go = "exit";
 			if (!CheckAttribute(pchar, "questTemp.Tichingitu") && !CheckAttribute(npchar, "quest.Tichingitu"))
 			{
-				link.l2 = "Кажется мне, тебя что-то беспокоит и помимо выданного дела, не так ли?";
+				link.l2 = "Кажется мне, тебя беспокоит что-то ещё, не так ли?";
 				link.l2.go = "Tichingitu_1";
 			}
     	    pchar.questTemp.Ascold = "SeekThreeObject";
@@ -217,13 +212,13 @@ void ProcessDialogEvent()
 		
 		case "Tichingitu_2":
 			dialog.text = "Ну я взял оглоблю и наподдал им. Едва ноги унесли. Да только вот напасть какая, отвлекали меня те, что вломились. На второй этаж забрался вор и унёс ларь с ценностями, чтоб его от жадности разорвало!";
-			link.l1 = "И вы его не остановили?";
+			link.l1 = "И ты его не остановил?";
 			link.l1.go = "Tichingitu_3";
 		break;
 		
 		case "Tichingitu_3":
 			dialog.text = "Куда там, удрал вместе с подельниками в джунгли. А их там уже не найдёшь. Ладно, тут уж ничего не поделать. Я конечно нанял наёмников, чтобы прочесали остров, но грабителей и вора уже и след простыл.";
-			link.l1 = "Звучит очень неприятно. Можно сказать горе.";
+			link.l1 = "Звучит очень неприятно. Можно сказать горе...";
 			link.l1.go = "Tichingitu_4";
 		break;
 
@@ -250,13 +245,13 @@ void ProcessDialogEvent()
 		
 		case "Tichingitu_7":
 			dialog.text = "Ну, что ещё?";
-			link.l1 = "Аскольд, я говорил с этим индейцем. И я пришёл просить вас за него. Этот несчастный просто хотел есть...";
+			link.l1 = "Аскольд, я говорил"+GetSexPhrase("","а")+" с этим индейцем. И я приш"+GetSexPhrase("ёл","ла")+" просить за него. Этот несчастный просто хотел есть...";
 			link.l1.go = "Tichingitu_8";
 		break;
 		
 		case "Tichingitu_8":
 			dialog.text = "Его можно понять. Так ты что, вызволить его хочешь?";
-			link.l1 = "Может мы договоримся об освобождении? Его ведь казнить собираются, а мне он может и пригодится на корабле...";
+			link.l1 = "Его ведь казнить собираются, а мне он может и пригодится на корабле...";
 			link.l1.go = "Tichingitu_9";
 		break;
 		
@@ -281,11 +276,15 @@ void ProcessDialogEvent()
 		case "Tichingitu_12":
 			GiveItem2Character(pchar, "letter_A");
 			PlaySound("interface\important_item.wav");
-			LAi_MethodDelay("FrameAscoldVodka",0.1);
-			dialog.text = "Это спорный вопрос. А если вы спасаете убийцу или насильника? Впрочем, ступайте к коменданту, пока вашего краснокожего друга не вздёрнули на виселицу...";
-			link.l1 = "Уже иду. Ещё увидимся, Аскольд.";
-			link.l1.go = "exit";
+			dialog.text = "Это спорный вопрос. А если ты спасаешь убийцу или насильника? Выпьешь водочки на посошок? А потом уже ступай к коменданту, пока твоего краснокожего друга не вздёрнули на виселицу...";
+			link.l1 = "Так и быть, уговорил.";
+			link.l1.go = "exit_vodka";
 			pchar.questTemp.Tichingitu = "pay";
+		break;
+		
+		case "exit_vodka":
+			LAi_MethodDelay("FrameAscoldVodka",0.1);
+			DialogExit();
 		break;
 
  		case "ResultOfSeek":

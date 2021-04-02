@@ -1846,12 +1846,14 @@ void SetQuestAboardCabinDialog(ref refChar)
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
 			refChar.Dialog.FileName = "Quest\WhisperLine\Whisper_cabin_dialog.c";
 			refChar.Dialog.CurrentNode = "DeSouza"; //даем абордажную ноду
+			refChar.greeting = "GR_DeSouza";
 		}
 		if(refChar.CaptanId == "wl_Pirate_Cap")
 		{
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
 			refChar.Dialog.FileName = "Quest\WhisperLine\Whisper_cabin_dialog.c";
 			refChar.Dialog.CurrentNode = "WarDogCap"; //даем абордажную ноду
+			refChar.greeting = "GR_ErnanEsteban";
 		}
 		if(refChar.CaptanId == "ShipWreck_BadPirate")
 		{
@@ -2301,7 +2303,7 @@ void SilencePriceInit()
 {
 	//квестовый перс Люк
 	ref ch;
-	ch = GetCharacter(NPC_GenerateCharacter("Old Friend", "corsair1_2", "man", "man", 30, PIRATE, -1, false));
+	ch = GetCharacter(NPC_GenerateCharacter("Old Friend", "officer_34", "man", "man", 30, PIRATE, -1, false));
 	ch.name = "Люк";
 	ch.lastname = "Фрайленг";
 	ch.location	= "Bridgetown_town";
@@ -2312,6 +2314,7 @@ void SilencePriceInit()
 	GiveItem2Character(ch, "cirass1");
 	ch.equip.cirass = "cirass1";
 	ch.rank = 30;
+	SelAllPerksToNotPchar(ch);
 	ch.SaveItemsForDead = true;
 	AddBonusEnergyToCharacter(ch, 50);
 	SetSelfSkill(ch, 80, 100, 100, 100, 100);
