@@ -41,9 +41,10 @@ void Whisper_StartGame(string qName)
 	LAi_SetCharacterUseBullet(pchar,"grapeshot");
     SetCharacterPerk(Pchar, "GunProfessional");
 	Pchar.model="PGG_Whisper_5_NoHat";
+	SetNewModelToChar(Pchar);
 	
 	//Костыль для перезарядки пистолета и смены модели ГГ, хз, можно ли проще сделать
-	DoReloadCharacterToLocation(pchar.location,"reload","reload2_back");
+	//DoReloadCharacterToLocation(pchar.location,"reload","reload2_back");
 	
 	//Запретить выход из локации
 	chrDisableReloadToLocation = true;
@@ -326,7 +327,10 @@ void WhisperLine_DeSouzaHits(string qName)
 
 void WhisperLine_WhisperHits(string qName)
 {
+	sld = characterFromId(pchar.Whisper.IncqGuard_bad);
 	LAi_SetActorTypeNoGroup(PChar);
+	RemoveCharacterEquip(sld, GUN_ITEM_TYPE);
+	TakeNItems(sld, "pistol3", -1);
 	LAi_ActorAnimation(pchar, "Shot", "", 1.9);
     DoQuestFunctionDelay("WhisperLine_WhisperHits_1", 0.8);
 }
@@ -343,8 +347,7 @@ void WhisperLine_WhisperHits_2(string qName)
 	RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
 	TakeNItems(pchar, "pistol3", -1);
 	pchar.questTemp.Whisper.Inside_Incquisition = true;
-	DoQuestCheckDelay("TalkSelf_Quest", 1.0);
-	DoQuestFunctionDelay("WhisperLine_WhisperHits_3", 5.25);
+	DoQuestCheckDelay("TalkSelf_Quest", 1.3);
 }
 void WhisperLine_WhisperHits_3(string qName)
 {	
@@ -399,9 +402,8 @@ void WhisperLine_IncqGuard(string qName)
 	for (i=1; i<=4; i++)
 	{
 		sld = characterFromId("IncqGuard_"+i);
-		TakeNItems(sld, "grapeshot", 10);
 		TakeNItems(sld, "spyglass3", -1);
-		LAi_SetHP(sld, 4.0 * MOD_SKILL_ENEMY_RATE, 4.0 *MOD_SKILL_ENEMY_RATE);
+		LAi_SetHP(sld, 10+2.0 * MOD_SKILL_ENEMY_RATE, 10+2.0 *MOD_SKILL_ENEMY_RATE);
 		RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
 		TakeNItems(sld, "blade16", -10);
 		TakeNItems(sld, "blade4", 1);
@@ -440,6 +442,8 @@ void WhisperLine_IncqGuard(string qName)
 		{
 			if(CheckAttribute(pchar, "Whisper.IncqGuard_bad"))
 			{
+				int weaponskill = 6 * MOD_SKILL_ENEMY_RATE;
+				SetSelfSkill(sld, weaponskill, weaponskill, weaponskill, weaponskill, weaponskill);
 				//LAi_group_Attack(sld, Pchar);
 				//if (MOD_SKILL_ENEMY_RATE != 10)
 				//{
@@ -450,7 +454,6 @@ void WhisperLine_IncqGuard(string qName)
 				pchar.quest.WhisperOpenTunnel.win_condition.l1 = "NPC_Death";
 				pchar.quest.WhisperOpenTunnel.win_condition.l1.character = sld.id;
 				pchar.quest.WhisperOpenTunnel.function = "WhisperOpenTunnel";
-				TakeNItems(sld, "grapeshot", -10);
 				TakeNItems(sld, "pistol3", -1);
 				RemoveCharacterEquip(sld, GUN_ITEM_TYPE);
 			}

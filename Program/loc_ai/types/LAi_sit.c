@@ -57,7 +57,7 @@ void LAi_type_sit_CharacterUpdate(aref chr, float dltTime)
 		{
 			LAi_CharacterPlaySound(chr, snd);
 		}
-		if(bQuestMark)
+		if(InterfaceStates.EnabledQuestsMarks)
 		{
 			if (CheckAttribute(chr,"dialog.filename") && chr.dialog.filename == "Enc_Treasure_dialog.c")
 			{

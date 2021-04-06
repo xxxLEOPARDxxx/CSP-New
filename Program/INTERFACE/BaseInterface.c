@@ -81,6 +81,9 @@ void InitInterfaceTables()
 	// Áûסענאÿ ןנמהאזא
 	Interfaces[INTERFACE_QUICKLY_TRADER].SectionName = "interface\QuicklyTrade.c";
 	Interfaces[INTERFACE_QUICKLY_TRADER].IniFile = "INTERFACES\QuicklyTrade.ini";
+	// Create Character
+	Interfaces[INTERFACE_CREATE_CHARACTER].SectionName = "interface\CreateCharacter.c";
+	Interfaces[INTERFACE_CREATE_CHARACTER].IniFile = "INTERFACES\CreateCharacter.ini";
 	// Colony Land Guard
 	Interfaces[INTERFACE_COLONY_LAND_GUARD].SectionName = "interface\ColonyLandGuard.c";
 	Interfaces[INTERFACE_COLONY_LAND_GUARD].IniFile = "INTERFACES\ColonyLandGuard.ini";

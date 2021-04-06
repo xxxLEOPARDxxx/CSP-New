@@ -111,6 +111,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.EnabledQuestsMarks = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"EnabledFXMarks") ) {
+		optref.cameramode.EnabledFXMarks = sti(InterfaceStates.EnabledFXMarks);
+	} else {
+		optref.cameramode.EnabledFXMarks = true;
+	}
 
 	if( CheckAttribute(&InterfaceStates,"EnabledShipMarks") ) {
 		optref.cameramode.EnabledShipMarks = sti(InterfaceStates.EnabledShipMarks);
@@ -261,6 +267,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.EnabledQuestsMarks = optref.cameramode.EnabledQuestsMarks;
 	} else {
 		InterfaceStates.EnabledQuestsMarks = true;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.EnabledFXMarks") ) {
+		InterfaceStates.EnabledFXMarks = optref.cameramode.EnabledFXMarks;
+	} else {
+		InterfaceStates.EnabledFXMarks = true;
 	}
 
 	if( CheckAttribute(optref,"cameramode.EnabledShipMarks") ) {

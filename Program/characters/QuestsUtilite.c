@@ -845,6 +845,14 @@ void GiveGunAmmunition(ref _Character, string sItem)
 	LAi_SetCharacterUseBullet(_Character, itm.type.t1.bullet);
 }
 
+void GiveGunAmmunitionPchar(ref _Character, string sItem, int qty)
+{
+	ref itm = ItemsFromID(sItem);
+	TakeNItems(_Character,itm.type.t1.bullet, qty);
+	AddItems(_Character, itm.type.t1.gunpowder, qty); // Warship. Порох
+	LAi_SetCharacterUseBullet(_Character, itm.type.t1.bullet);
+}
+
 int GetCoffDiff(float _num, int _maxRange)
 {
 	switch (MOD_SKILL_ENEMY_RATE)

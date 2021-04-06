@@ -2474,7 +2474,7 @@ void EquipCharacterByItem(ref chref, string itemID)
 		if(oldItemID==itemID) return;
 	}
 
-	if (chref.model.animation == "mushketer")
+	if (chref.model.animation == "mushketer" || chref.model.animation == "mushketer_whisper")
 	{
 		if(groupName == BLADE_ITEM_TYPE && itemID != "unarmed") return;
 		
@@ -3272,7 +3272,14 @@ bool SetMainCharacterToMushketer(string sMushket, bool _ToMushketer) // если _To
 		PChar.IsMushketer.MushketID = sMushket; // Запомним, какой мушкет надели
 		PChar.IsMushketer.LastGunID = sLastGun; // Запомним ID предыдущего пистоля
 		PChar.model = PChar.model + "_mush";
-		PChar.model.animation = "mushketer"; // Сменим анимацию
+		if (startherotype == 2)
+		{
+			PChar.model.animation = "mushketer_whisper"; // Сменим анимацию
+		}
+		else
+		{
+			PChar.model.animation = "mushketer"; // Сменим анимацию
+		}
 		Characters_RefreshModel(PChar); // Обновим модель. Важно: обновлять модель нужно ДО экипировки мушкетом
 		EquipCharacterByItem(PChar, sMushket); // Экипируем мушкет
 		PChar.Equip.TempGunID = sLastGun; // Пистоль оставляем экипированным, но в другой группе
@@ -3316,6 +3323,7 @@ bool IsPCharHaveMushketerModel()
 	String sModel = PChar.Model;
 	
 	if(HasSubStr(sModel, "Blad") || 
+	HasSubStr(sModel, "Whisper") || 
 	HasSubStr(sModel, "PGG_Black") || 
 	HasSubStr(sModel, "PGG_Benito") || 
 	HasSubStr(sModel, "PGG_Sharp") || 

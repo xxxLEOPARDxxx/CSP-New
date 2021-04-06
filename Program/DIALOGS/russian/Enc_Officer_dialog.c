@@ -95,11 +95,27 @@ void ProcessDialogEvent()
             }
 
 			//aw013 --> Найм на постоянку 
-			if (!CheckAttribute(NPChar, "OfficerWantToGo.DontGo")) 
-			{ 
-				Link.l3 = "У меня к тебе предложение."; 
-				Link.l3.go = "contract"; 
-			} 
+			
+			if (!bHalfImmortalPGG)
+			{
+				if (!CheckAttribute(NPChar, "OfficerWantToGo.DontGo")) 
+				{ 
+					Link.l3 = "У меня к тебе предложение."; 
+					Link.l3.go = "contract"; 
+				} 
+			}
+			else
+			{
+				if (!CheckAttribute(pchar,"Option_ImmortalOfficers"))
+				{
+					pchar.Option_ImmortalOfficers = "0";
+				}
+				if (sti(pchar.Option_ImmortalOfficers) < makeint(GetCharacterSPECIAL(pchar,"Charisma")*2) && !CheckAttribute(npchar,"ImmortalOfficer"))
+				{
+					Link.l3 = "У меня к тебе предложение."; 
+					Link.l3.go = "contract"; 
+				}
+			}
 			//aw013 <-- Найм на постоянку
            		// boal отчет о корабле
 			if(CheckAttribute(NPChar, "treasurer") && NPChar.treasurer == 1)
@@ -152,7 +168,7 @@ void ProcessDialogEvent()
     			{
 					Link.l5 = RandPhraseSimple("Раз уж мы в каюте давай может...а? Посмотри тут и кровать есть... такая мягенькая...",
 	                                           "Посмотри какая в моей каюте большая кровать. Не хочешь разделить ее со мной?");
-	                if (drand(40) + 30 < sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)) && GetQuestPastDayParam("pchar.questTemp.MainHeroWomanSex") >= 5)
+	                if (drand(70) < sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)) && GetQuestPastDayParam("pchar.questTemp.MainHeroWomanSex") >= 5)
 	                {
 	                    Link.l5.go = "Love_Sex_Yes";
 	                }
@@ -160,6 +176,37 @@ void ProcessDialogEvent()
 	                {
 	                    Link.l5.go = "Love_Sex";
 	                }
+                }
+            }
+			
+			if (PChar.location == Get_My_Cabin() && npchar.id != "Sharp_Sibling")
+            {
+    			if (PChar.sex != "woman" && NPChar.sex == "woman")
+    			{
+					Link.l3 = RandPhraseSimple("Раз уж мы в каюте давай может...а? Посмотри тут и кровать есть... такая мягенькая...",
+	                                           "Посмотри какая в моей каюте большая кровать. Не хочешь разделить ее со мной?");
+	                if (sti(pchar.GenQuest.BrothelCount) > 4+rand(3))
+	                {
+	                    Link.l3.go = "Man_Love_Sex_Yes";
+	                }
+	                else
+	                {
+	                    Link.l3.go = "Man_Love_Sex";
+	                }
+                }
+                if (CheckAttribute(pchar , "questTemp.FUNY_SHIP_FIND") && PChar.questTemp.FUNY_SHIP_FIND == true && GetCharacterItem(PChar, "mineral4") >= 25)
+                {
+                    Link.l4 = "Смотри какая у меня коллекция собралась интересная!";
+            		Link.l4.go = "FUNY_SHIP_1";
+                }
+            }
+            else
+            {
+                if (PChar.sex != "woman" && NPChar.sex == "woman" && npchar.id != "Sharp_Sibling")
+                {
+					Link.l3 = RandPhraseSimple("Девушка-телохранитель - это, конечно, хорошо, но может мы попытаемся сталь ближе?",
+	                                           "Как насчет неуставных услуг?");
+	                Link.l3.go = "Man_Love_Sex";
                 }
             }
 			
@@ -421,7 +468,81 @@ void ProcessDialogEvent()
             LAi_group_MoveCharacter(Npchar, "TmpEnemy");
             LAi_group_SetHearRadius("TmpEnemy", 100.0);
             LAi_group_FightGroupsEx("TmpEnemy", LAI_GROUP_PLAYER, true, Pchar, -1, false, false);
+			DeleteAttribute(Npchar,"HalfImmortal");
+			Npchar.LifeDay = 0;
+			if (PChar.location == Get_My_Cabin() || findsubstr(PChar.location, "_tavern" , 0) != -1)
+            {
+				LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], false);
+                LAi_group_SetCheck("TmpEnemy", "CannotFightCurLocation");
+				LAi_group_SetCheck("TmpEnemy", "MainHeroFightModeOff");
+            }
+            DialogExit();
+			AddDialogExitQuest("MainHeroFightModeOn");
+        break;
+		
+		//Мужской ГГ
+		case "Man_Love_Sex_Yes":
+		    dialog.text = RandPhraseSimple("Пожалуй, такому ловеласу можно и уступить.",
+                                           "Хорошо, все лучше, чем транжирить деньги на уличных девок.");
+            link.l1 = RandPhraseSimple("Oh, Yes!", "Умничка, не идти же мне в бордель, когда под боком есть такая лапа как ты!");
+			link.l1.go = "Man_Love_Sex_Yes_2";
+        break;
+        
+        case "Man_Love_Sex_Yes_2":
+            pchar.GenQuest.BrothelCount = 0;
+            AddCharacterExpToSkill(pchar, "Leadership", 100);
+            AddCharacterExpToSkill(pchar, "Fencing", -50);// утрахала
+            AddCharacterExpToSkill(pchar, "Pistol", -50);
+            AddCharacterHealth(pchar, 10);
 
+   			AddDialogExitQuest("PlaySex_1");
+			NextDiag.CurrentNode = "Man_After_sex";
+			DialogExit();
+        break;
+        
+        case "Man_After_sex":
+            NextDiag.TempNode = "Hired";
+		    dialog.text = RandPhraseSimple("Хм.. странно, я думала ты способен на большее...",
+                                           "Капитан, теперь вы снова можете соображать головой, а не... ? Вернемся к нашим делам.");
+            link.l1 = RandPhraseSimple("Но-но! Как ты разговариваешь со старшим по званию!", "Я могу многое, если соберусь с мыслями.");
+			link.l1.go = "exit";
+        break;
+        
+        case "Man_Love_Sex":
+            NextDiag.TempNode = "Hired";
+		    dialog.text = RandPhraseSimple("Что!!!?? Капитан, ты давно не сходил на берег и не был в борделе?", "Не понимаю, о чем это ты?");
+            link.l1 = RandPhraseSimple("Ну сама подумай.. ты такая красавица, да еще и в моем подчинении", "Ну не идти же мне в бордель, когда под боком есть ты!");
+			link.l1.go = "Man_Love_Sex_2";							
+			link.l2 = RandPhraseSimple("Извини меня, крошка, очень трудно было удержаться, чтоб не предложить..", "Эх.. ладно, проехали...");
+			link.l2.go = "exit";	
+        break;
+        
+        case "Man_Love_Sex_2":
+            NextDiag.TempNode = "Hired";
+		    dialog.text = RandPhraseSimple("Капитан! Держите себя в руках, если не можете в своих, позовите матросов", "То, что я офицер и номинально подчиняюсь Вам, капитан, еще ничего не значит!");
+            link.l1 = RandPhraseSimple("Детка, не протився. Я уже не могу себя сдерживать. Пойдем..", "Я - твой капитан! И я приказываю тебе!");
+			link.l1.go = "Man_Love_Sex_3";							
+			link.l2 = RandPhraseSimple("Извини меня, крошка, очень трудно было удержаться, чтоб не предложить..", "Эх.. ладно, проехали...");
+			link.l2.go = "exit";	
+        break;
+        
+        case "Man_Love_Sex_3":
+            NextDiag.TempNode = "Hired";
+		    dialog.text = RandPhraseSimple("Ну все! Ты ответишь за это! И прямо сейчас!", "Покувыркаться с тобой? Чтож сейчас поглядим, кто на что способен..");
+            link.l1 = "Э.. ты о чем?";
+			link.l1.go = "Man_Love_Sex_4";							
+        break;
+        
+        case "Man_Love_Sex_4":
+            ChangeCharacterReputation(pchar, -15);
+            CheckForReleaseOfficer(GetCharacterIndex(Npchar.id));
+			RemovePassenger(Pchar, Npchar);
+            LAi_SetWarriorType(Npchar);
+            LAi_group_MoveCharacter(Npchar, "TmpEnemy");
+            LAi_group_SetHearRadius("TmpEnemy", 100.0);
+            LAi_group_FightGroupsEx("TmpEnemy", LAI_GROUP_PLAYER, true, Pchar, -1, false, false);
+			DeleteAttribute(Npchar,"HalfImmortal");
+			Npchar.LifeDay = 0;
 			if (PChar.location == Get_My_Cabin() || findsubstr(PChar.location, "_tavern" , 0) != -1)
             {
 				LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], false);
@@ -502,7 +623,7 @@ void ProcessDialogEvent()
 			Diag.TempNode = "Fired";
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerFired");
-
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 
@@ -542,7 +663,25 @@ void ProcessDialogEvent()
 			NPChar.OfficerWantToGo.DontGo = true; 
 			NPChar.loyality = MAX_LOYALITY; 
 			NPChar.Reputation = 50; 
-			DeleteAttribute(NPChar, "alignment"); 
+			DeleteAttribute(NPChar, "alignment");
+			if (bHalfImmortalPGG)
+			{
+				if (!CheckAttribute(pchar,"Option_ImmortalOfficers"))
+				{
+					pchar.Option_ImmortalOfficers = "1";
+				}
+				else
+				{
+					pchar.Option_ImmortalOfficers = sti(sti(pchar.Option_ImmortalOfficers) + 1);
+				}
+				//pchar.PGG_hired = true;
+				NPChar.ImmortalOfficer = true;
+				NPChar.HalfImmortal = true;  // Контузия
+				//string immortal_officer = npchar.id;
+				//pchar.quest.(immortal_officer).win_condition.l1 = "NPC_Death";
+				//pchar.quest.(immortal_officer).win_condition.l1.character = npchar.id;
+				//pchar.quest.(immortal_officer).function = "Remove_Contract_Officer";
+			}
 			// DeleteAttribute(NPChar, "contractMoney");//Mett: это можно заблокировать по желанию, мб потом понадобиться для перерасчета суммы контракта
 			Link.l1 = "Вот и отлично! Договорились"; 
 			Link.l1.go = "Exit"; 
@@ -628,7 +767,7 @@ void ProcessDialogEvent()
             Diag.TempNode = "WantToGo_free_Yet";
 		Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerFired");
-			
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			DialogExit();
@@ -1208,6 +1347,7 @@ void ProcessDialogEvent()
 			ChangeCharacterReputation(pchar, -1);
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerFired");
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			NPChar.rank = 0;	
@@ -1221,6 +1361,7 @@ void ProcessDialogEvent()
 			LAi_CharacterDisableDialog(NPChar);
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerFired");
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			NPChar.rank = 0;
@@ -1236,6 +1377,7 @@ void ProcessDialogEvent()
 			ChangeCharacterReputation(pchar, 1);
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerFired");
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			NPChar.rank = 0;
@@ -1265,6 +1407,7 @@ void ProcessDialogEvent()
 			ChangeCharacterReputation(pchar, 1);
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerFired");
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			NPChar.rank = 0;	
@@ -1306,7 +1449,8 @@ void ProcessDialogEvent()
 			}	//navy <--		
 			Diag.TempNode = "Fired_1";
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
-			AddDialogExitQuestFunction("LandEnc_OfficerFired");			
+			AddDialogExitQuestFunction("LandEnc_OfficerFired");		
+			FireImmortalOfficer(npchar);			
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			DialogExit();	
@@ -1322,7 +1466,8 @@ void ProcessDialogEvent()
 			}	//navy <--	
 			Diag.TempNode = "Fired_2";
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
-			AddDialogExitQuestFunction("LandEnc_OfficerFired");			
+			AddDialogExitQuestFunction("LandEnc_OfficerFired");	
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			DialogExit();	
@@ -1338,7 +1483,8 @@ void ProcessDialogEvent()
 			}	//navy <--	
 			Diag.TempNode = "Fired_3";
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
-			AddDialogExitQuestFunction("LandEnc_OfficerFired");			
+			AddDialogExitQuestFunction("LandEnc_OfficerFired");	
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			DialogExit();	
@@ -1354,7 +1500,8 @@ void ProcessDialogEvent()
 			}	//navy <--		
 			Diag.TempNode = "Fired_4";
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
-			AddDialogExitQuestFunction("LandEnc_OfficerFired");			
+			AddDialogExitQuestFunction("LandEnc_OfficerFired");	
+			FireImmortalOfficer(npchar);
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			DialogExit();	
@@ -1371,7 +1518,8 @@ void ProcessDialogEvent()
 			Diag.TempNode = "Fired_1";
 			OfficersReaction("good");
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
-			AddDialogExitQuestFunction("LandEnc_OfficerFired");			
+			AddDialogExitQuestFunction("LandEnc_OfficerFired");	
+			FireImmortalOfficer(npchar)
 			Diag.CurrentNode = Diag.TempNode;
 			NPChar.quest.meeting = true;
 			DialogExit();	
@@ -2553,5 +2701,14 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 		break;
 		// <-- Самостоятельное плавание компаньона
+	}
+}
+
+void FireImmortalOfficer(ref chr)
+{
+	if (CheckAttribute(chr,"ImmortalOfficer"))
+	{
+		DeleteAttribute(chr,"ImmortalOfficer")
+		pchar.Option_ImmortalOfficers = sti(sti(pchar.Option_ImmortalOfficers) - 1);
 	}
 }

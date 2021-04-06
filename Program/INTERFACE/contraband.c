@@ -145,6 +145,9 @@ void AddToTable()
 					iColor = argb(255,255,255,255);
 				}
 			break;
+			case TRADE_TYPE_AGGRESSIVE:
+				iColor = argb(255,255,173,51);
+			break;
 		}
 
         GameInterface.TABLE_LIST.(row).td4.icon.group = "GOODS";

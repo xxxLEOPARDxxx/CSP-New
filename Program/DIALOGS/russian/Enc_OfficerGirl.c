@@ -131,7 +131,20 @@ void ProcessDialogEvent()
 			dialog.text = ""+ GetSexPhrase("Что желает мой драгоценный капитан?","Какие будут распоряжения?") +"";
 			link.l2 = "Ты уволена. Я обойдусь без твоих услуг!";
 			link.l2.go = "AsYouWish";
-            	
+            
+			if (bHalfImmortalPGG)
+			{
+				if (!CheckAttribute(pchar,"Option_ImmortalOfficers"))
+				{
+					pchar.Option_ImmortalOfficers = "0";
+				}
+				if (sti(pchar.Option_ImmortalOfficers) < makeint(GetCharacterSPECIAL(pchar,"Charisma")*2) && !CheckAttribute(npchar,"ImmortalOfficer"))
+				{
+					Link.l6 = "У меня к тебе предложение."; 
+					Link.l6.go = "contract"; 
+				}
+			}
+			
 			// приколы -->
             if (PChar.location == Get_My_Cabin())
             {
@@ -218,6 +231,62 @@ void ProcessDialogEvent()
 			AddSPECIALValue(Npchar, SPECIAL_L, 1);
         break;
         
+		case "contract": 
+			dialog.text = "Слушаю вас внимательно, капитан."; 
+			Link.l1 = "Ты хороший офицер и полностью мне подходишь. Хочу предложить тебе пойти ко мне на службу по контракту."; 
+			Link.l1.go = "contract2"; 
+		break; 
+
+		case "contract2": 
+			dialog.text = "Спасибо за добрые слова, капитан. А какие условия по контракту?"; 
+			Link.l1 = "Большая единоразовая оплата. Экипировка получше, "+ NPCharSexPhrase(NPChar,"сам","сама") +" понимаешь. Срок контракта 10 лет. Уволиться можешь по истечению срока, а если всё будет устраивать нас обоих, продливаем дальше."; 
+			Link.l1.go = "contract3"; 
+		break; 
+
+		case "contract3":
+			NPChar.contractMoney = makeint(sti(NPChar.rank)*MOD_SKILL_ENEMY_RATE*1000);
+			dialog.text = "Заманчивое предложение, ничего не скажешь. На спокойную старость заработать немного. А как насчёт небольших подьёмных для постоянного состава?"; 
+			if (sti(Pchar.money) >= sti(NPChar.contractMoney))
+			{ 
+				Link.l1 = "Ничего против не имею, " + sti(NPChar.contractMoney) + " золотых прямо сейчас на руки тебя устроит?";
+				Link.l1.go = "contract4";
+			} 
+			Link.l2 = "Ничего против не имею, но давай вернёмся к этому разговору позже."; 
+			Link.l2.go = "Exit"; 
+		break;
+ 
+		case "contract4": 
+			dialog.text = "Вполне, капитан. Я согласен."; 
+			AddMoneyToCharacter(Pchar, -sti(NPChar.contractMoney));
+			SetCharacterPerk(NPChar, "EnergyPlus"); 
+			SetCharacterPerk(NPChar, "HPPlus"); 
+			NPChar.OfficerWantToGo.DontGo = true; 
+			NPChar.loyality = MAX_LOYALITY; 
+			NPChar.Reputation = 50; 
+			DeleteAttribute(NPChar, "alignment");
+			if (bHalfImmortalPGG)
+			{
+				if (!CheckAttribute(pchar,"Option_ImmortalOfficers"))
+				{
+					pchar.Option_ImmortalOfficers = "1";
+				}
+				else
+				{
+					pchar.Option_ImmortalOfficers = sti(sti(pchar.Option_ImmortalOfficers) + 1);
+				}
+				//pchar.PGG_hired = true;
+				NPChar.ImmortalOfficer = true;
+				NPChar.HalfImmortal = true;  // Контузия
+				//string immortal_officer = npchar.id;
+				//pchar.quest.(immortal_officer).win_condition.l1 = "NPC_Death";
+				//pchar.quest.(immortal_officer).win_condition.l1.character = npchar.id;
+				//pchar.quest.(immortal_officer).function = "Remove_Contract_Officer";
+			}
+			// DeleteAttribute(NPChar, "contractMoney");//Mett: это можно заблокировать по желанию, мб потом понадобиться для перерасчета суммы контракта
+			Link.l1 = "Вот и отлично! Договорились"; 
+			Link.l1.go = "Exit"; 
+		break; 
+		
         case "Love_Sex_Yes":
 		    dialog.text = RandPhraseSimple("Пожалуй, такому ловеласу можно и уступить.",
                                            "Хорошо, все лучше, чем транжирить деньги на уличных девок.");
@@ -278,7 +347,8 @@ void ProcessDialogEvent()
             LAi_group_MoveCharacter(Npchar, "TmpEnemy");
             LAi_group_SetHearRadius("TmpEnemy", 100.0);
             LAi_group_FightGroupsEx("TmpEnemy", LAI_GROUP_PLAYER, true, Pchar, -1, false, false);
-
+			DeleteAttribute(Npchar,"HalfImmortal");
+			Npchar.LifeDay = 0;
 			if (PChar.location == Get_My_Cabin() || findsubstr(PChar.location, "_tavern" , 0) != -1)
             {
 				LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], false);
@@ -309,7 +379,7 @@ void ProcessDialogEvent()
    			NextDiag.TempNode = "Fired";
 			Pchar.questTemp.FiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerFired");
-
+			FireImmortalOfficer(npchar);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;
@@ -513,5 +583,14 @@ void ProcessDialogEvent()
 		break;
 		//<--
 	
+	}
+}
+
+void FireImmortalOfficer(ref chr)
+{
+	if (CheckAttribute(chr,"ImmortalOfficer"))
+	{
+		DeleteAttribute(chr,"ImmortalOfficer")
+		pchar.Option_ImmortalOfficers = sti(sti(pchar.Option_ImmortalOfficers) - 1);
 	}
 }

@@ -40,6 +40,7 @@
 #define TRADE_TYPE_CONTRABAND	3
 #define TRADE_TYPE_AMMUNITION	4
 #define TRADE_TYPE_CANNONS 		5
+#define TRADE_TYPE_AGGRESSIVE	6
 
 #define TRADE_TYPE_NORMAL_NAME		"normal"
 #define TRADE_TYPE_EXPORT_NAME		"export"
@@ -47,5 +48,6 @@
 #define TRADE_TYPE_CONTRABAND_NAME	"contraband"
 #define TRADE_TYPE_AMMUNITION_NAME	"ammunition"
 #define TRADE_TYPE_CANNONS_NAME     "cannons"
+#define TRADE_TYPE_AGGRESSIVE_NAME  "aggressive"
 
 object  stores[STORE_QUANTITY];

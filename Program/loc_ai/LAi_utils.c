@@ -358,25 +358,9 @@ void LAi_ApplyCharacterDamage(aref chr, int dmg)
 	SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, dmg, MakeFloat(MakeInt(hp)), MakeFloat(MakeInt(maxhp)));
 }
 
-//Убить персонажа, если закончились hp
-void LAi_CheckKillCharacter(aref chr)
-{
-	if(SendMessage(chr, "ls", MSG_CHARACTER_EX_MSG, "IsDead")) return;
-	if(!CheckAttribute(chr, "chr_ai.hp")) chr.chr_ai.hp = 0.0;
-	//Проверяем
-	if(stf(chr.chr_ai.hp) < 1.0)
-	{
-		//Убиваем, если смертен
-		if(CheckAttribute(chr, "chr_ai.immortal"))
-		{
-			if(sti(chr.chr_ai.immortal) != 0)
-			{
-				chr.chr_ai.hp = 1.0;
-				return;
-			}
-		}
-		
 //ККС - Jason: самовосстанавливающийся абордажник
+void LAi_CheckHalfImmortal(aref chr)
+{
 	if(CheckAttribute(chr, "HalfImmortal"))
 	{	
 		ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", chr.sex, chr.model.animation, 1, sti(chr.nation), -1, false));
@@ -385,6 +369,10 @@ void LAi_CheckKillCharacter(aref chr)
 		if (CheckAttribute(chr,"HeroModel")) rOff.HeroModel = chr.HeroModel;
 		rOff.id = chr.id;
 		rOff.HalfImmortal = true;
+		if (CheckAttribute(chr, "ImmortalOfficer"))
+		{
+			rOff.ImmortalOfficer = true;
+		}
 		int healing_time = makeint(LAi_GetCharacterMaxHP(chr)/10);//время от хп
 		if (CheckOfficersPerk(pchar, "EmergentSurgeon")) healing_time -= makeint(healing_time/10*3);//снижения от перков врачей
 		else
@@ -430,7 +418,84 @@ void LAi_CheckKillCharacter(aref chr)
 		DeleteAttribute(chr, "items");
 		chr.items = "";
 		chr.money = 0;
+		pchar.DeadOfficer = rOff.id;
 	}
+}
+
+void SecondCharceRefresh(string qName)
+{
+	for(int i = 0; i < MAX_CHARACTERS; i++)
+	{
+		ref chr;
+		makeref(chr,Characters[i]);
+		if(CheckAttribute(chr, "id"))
+		{
+			DeleteAttribute(chr, "Adventurers_Luck");
+		}
+	}
+}
+
+//Убить персонажа, если закончились hp
+void LAi_CheckKillCharacter(aref chr)
+{
+	if(SendMessage(chr, "ls", MSG_CHARACTER_EX_MSG, "IsDead")) return;
+	if(!CheckAttribute(chr, "chr_ai.hp")) chr.chr_ai.hp = 0.0;
+	//Проверяем
+	if(stf(chr.chr_ai.hp) < 1.0)
+	{
+		//Убиваем, если смертен
+		if(CheckAttribute(chr, "chr_ai.immortal"))
+		{
+			if(sti(chr.chr_ai.immortal) != 0)
+			{
+				chr.chr_ai.hp = 1.0;
+				return;
+			}
+		}
+		if(IsCharacterPerkOn(chr, "Adventurer"))
+		{
+			if (!CheckAttribute(chr, "willDie") && !CheckAttribute(chr, "ScriptedDeath") && !CheckAttribute(chr, "Adventurers_Luck") && rand(10) <= GetCharacterSPECIALSimple(chr, SPECIAL_L))
+			{
+				chr.Adventurers_Luck = true;
+				int hitpoints = LAi_GetCharacterMaxHP(chr) / 2;
+				if (hitpoints > 200)
+				{
+					hitpoints = 200;
+				}
+				if (sti(chr.index) == GetMainCharacterIndex())
+				{
+					chr.chr_ai.hp =  hitpoints;
+					Log_Info("Судьба дает вам второй шанс!");
+					//Сюда можно поставить юз звука
+					return;
+				}
+				else
+				{
+					if (rand(1) == 0 || IsOfficer(chr))
+					{
+						chr.chr_ai.hp =  hitpoints;
+						Log_Info(GetFullName(chr) +  " получает второй шанс!");
+						return;
+					}
+				}
+				PChar.quest.SecondCharceRefresh.win_condition.l1 = "ExitFromLocation";
+				PChar.quest.SecondCharceRefresh.win_condition.l1.location = PChar.location;
+				PChar.quest.SecondCharceRefresh.function = "SecondCharceRefresh";
+				
+			}
+		}
+	if (bHalfImmortalPGG)
+	{
+		if (CheckAttribute(chr, "ImmortalOfficer"))
+		{
+			LAi_CheckHalfImmortal(chr);
+		}
+	}
+	else
+	{
+		LAi_CheckHalfImmortal(chr);
+	}
+
 
 		UnmarkCharacter(chr);
 		DeleteAttribute(chr, "quest.questflag");
@@ -463,9 +528,21 @@ void LAi_CheckKillCharacter(aref chr)
 		
 		if(CheckAttribute(chr, "HalfImmortal"))
 		{
-			if(!IsOfficer(chr)) return;
-			Dead_DelLoginedCharacter(chr);//не обыскивается
-			Log_Info("Абордажник " + GetFullName(rOff) + " без сознания!");
+			if (bHalfImmortalPGG)
+			{
+				if (CheckAttribute(chr, "ImmortalOfficer"))
+				{
+					if(!IsOfficer(chr)) return;
+					Dead_DelLoginedCharacter(chr);//не обыскивается
+					Log_Info("Абордажник " + GetFullName(CharacterFromID(pchar.DeadOfficer)) + " без сознания!");
+				}
+			}
+			else
+			{
+				if(!IsOfficer(chr)) return;
+				Dead_DelLoginedCharacter(chr);//не обыскивается
+				Log_Info("Абордажник " + GetFullName(CharacterFromID(pchar.DeadOfficer)) + " без сознания!");
+			}
 		}
 		
 /* 		if(chr.id == "Mechanic1") //Korsar Maxim - раньше Ведекер мог сдохнуть, но сейчас уже физически не может.
@@ -1390,7 +1467,7 @@ void MakeBloodingAttack(aref enemy, aref attacked, float coeff) // Кровоточащая 
 		if(Blooding < 1.0) Blooding = 1.0;
 	}
 	enemy.chr_ai.Blooding = Blooding + (10+rand(coeff*5)); // Продолжительность 5+(от 0 до коэфф*5)
-	MarkCharacter(enemy,"FX_Blood");
+	FXMarkCharacter(enemy,"FX_Blood");
 	
 	//if(stf(enemy.chr_ai.Blooding) > 200.0) enemy.chr_ai.Blooding = 200.0; 
 
@@ -1410,7 +1487,7 @@ void MakeSwiftAttack(aref enemy, aref attacked, float coeff) // Резкий удар
 		if(Swift < 1.0) Swift = 1.0;
 	}
 	enemy.chr_ai.Swift = Swift + (1+rand(4)+coeff); // Продолжительность 1+(от 0 до 4)+коэфф
-	MarkCharacter(enemy,"FX_Stan");
+	FXMarkCharacter(enemy,"FX_Stan");
 	
 	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
 }
@@ -1426,7 +1503,7 @@ void MushketStun(aref enemy) // Мушкетный стан - Gregg
 		if(understun < 1.0) understun = 1.0;
 	}
 	enemy.chr_ai.understun = understun + 1 + rand(2); // Продолжительность 1+(от 0 до 2)
-	MarkCharacter(enemy,"FX_Stan");
+	FXMarkCharacter(enemy,"FX_Stan");
 	
 	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
 }

@@ -424,7 +424,7 @@ void ShowColonyInfo(int iColony)
 
 	SetFormatedText("EXPORT_CAPTION", XI_ConvertString("EXPORTING:"));
 	SetFormatedText("IMPORT_CAPTION", XI_ConvertString("IMPORTING:"));
-	SetFormatedText("CONTRABAND_CAPTION", GetLangStr("CONTRABAND"));
+	SetFormatedText("CONTRABAND_CAPTION", XI_ConvertString("CONTRABAND:"));
 	SetFormatedText("AGGRESSIVE_CAPTION", "");
 	SetFormatedText("COLONY_INFO", "");
 	SetFormatedText("COLONY_INFO_TEXT", "");
@@ -572,57 +572,100 @@ void ShowColonyInfo(int iColony)
 	int iIsland = FindIsland(rColony.Island);
 	
 	int i, iType;
-	int iGoods_x, iGoods_y;
+	int iGoods_x, iGoods_x1, iGoods_x2, iGoods_x3, iGoods_x4, iGoods_y, iGoods_y1, iGoods_y2, iGoods_y3, iGoods_y4;
 	string sGoodNum, sType;
+	iGoods_x1 = 410; iGoods_x2 = 410; iGoods_x3 = 410; iGoods_x4 = 410;
+	iGoods_y1 = 245; iGoods_y2 = 330; iGoods_y3 = 415; iGoods_y4 = 470;
 	
-	for(iType=0; iType<4; iType++)
+	
+	bool bFound = true; 
+	aref rootItems;
+	makearef(rootItems, NullCharacter.PriceList);
+	bFound = CheckAttribute(rootItems, sColony);
+
+	
+		
+	ref refStore, refStore2;
+	aref arefStore2, refGoods;
+	for(i = 0; i < STORE_QUANTITY; i++)
 	{
-		i = 1;
-		sGoodNum = "id" + i;
-		iGoods_x = 410;
-		
-		switch(iType)
+		makeref(refStore, Stores[i]);
+		if (refStore.colony == sColony)
+			break;
+	}
+	
+	for(iType=0; iType<GOODS_QUANTITY; iType++)
+	{
+		if(!bFound)
 		{
-		case 0:
-			sType = "Trade.Export";
-			iGoods_y = 245;
 			break;
-		case 1:
-			sType = "Trade.Import";
-			iGoods_y = 330;
-			break;
-		case 2:
-			sType = "Trade.Contraband";
-			iGoods_y = 415;
-			break;
-		case 3:
-			sType = "Trade.Aggressive";
-			iGoods_y = 470;
-			break;	
 		}
+		if(iType > 34 && iType < 51) continue;
 		
-		while(CheckAttribute(islands[iIsland], sType + "." + sGoodNum))
+		sGood = goods[iType].name;
+		
+		int i1, i2, i3, i4;
+		switch(sti(refStore.Goods.(sGood).TradeType))
 		{
-			iColor = argb(255,196,196,255);
-			iGood = islands[iIsland].(sType).(sGoodNum);
-			sGood = goods[iGood].name;
-			SendMessage( &GameInterface,"lslslllll",MSG_INTERFACE_MSG_TO_NODE,"GOODS_PICTURES", 0,
-				sGood, argb(255, 128, 128, 128), iGoods_x,iGoods_y,iGoods_x+28,iGoods_y+28 );
-			
-			if(i%6)
-				iGoods_x+=28;
+		case 1:
+			i1++;
+			if(i1%8)
+			{
+				iGoods_x1 += 28;
+			}
 			else
 			{
-				iGoods_y+=28;
-				iGoods_x=410;
+				iGoods_y1+=28;
+				iGoods_x1 = 438;
 			}
-			
-			i++;
-			sGoodNum = "id" + i;
-		}
-		
-		if(iType == 3 && i > 1)
+			SendMessage( &GameInterface,"lslslllll",MSG_INTERFACE_MSG_TO_NODE,"GOODS_PICTURES", 0,sGood, argb(255, 128, 128, 128), iGoods_x1,iGoods_y1,iGoods_x1+28,iGoods_y1+28 );
+			break;
+		case 2:
+			i2++;
+			if(i2%6)
+			{
+				iGoods_x2+=28;
+			}
+			else
+			{
+				iGoods_y2+=28;
+				iGoods_x2 = 438;
+			}
+			SendMessage( &GameInterface,"lslslllll",MSG_INTERFACE_MSG_TO_NODE,"GOODS_PICTURES", 0,sGood, argb(255, 128, 128, 128), iGoods_x2,iGoods_y2,iGoods_x2+28,iGoods_y2+28 );
+			break;
+		case 3:
+			i3++;
+			if(i3%6)
+			{
+				iGoods_x3+=28;
+			}
+			else
+			{
+				iGoods_y3+=28;
+				iGoods_x3 = 438;
+			}
+			SendMessage( &GameInterface,"lslslllll",MSG_INTERFACE_MSG_TO_NODE,"GOODS_PICTURES", 0,sGood, argb(255, 128, 128, 128), iGoods_x3,iGoods_y3,iGoods_x3+28,iGoods_y3+28 );
+			break;
+		case 6:
+			i4++;
+			if(i4%6)
+			{
+				iGoods_x4+=28;
+			}
+			else
+			{
+				iGoods_y4+=28;
+				iGoods_x4 = 438;
+			}
+			SendMessage( &GameInterface,"lslslllll",MSG_INTERFACE_MSG_TO_NODE,"GOODS_PICTURES", 0,sGood, argb(255, 128, 128, 128), iGoods_x4,iGoods_y4,iGoods_x4+28,iGoods_y4+28 );
+			break;	
+		}	
+		if(sti(refStore.Goods.(sGood).TradeType) == 6 && i4 > 0)
 			SetFormatedText("AGGRESSIVE_CAPTION", GetLangStr("AGGRESSIVE"));
+		sText = "Aктуальность данных о товарах";	
+		AddLineToFormatedText("COLONY_INFO_TEXT", sText);
+		sText =  NullCharacter.PriceList.(sColony).AltDate;
+		AddLineToFormatedText("COLONY_INFO_TEXT2", sText);
 	}
 	
 	///Trade assistant
@@ -634,10 +677,10 @@ void ShowColonyInfo(int iColony)
 	SetFormatedText("TRADEASSISTANT_CAPTION", "Trade assistant");
 	
 	//Find town in trade book
-	bool bFound = true; 
+	bFound = true; 
 	if(TRADEASSISTANT_MODE == 0)
 	{
-		aref rootItems;
+		rootItems;
 		makearef(rootItems, NullCharacter.PriceList);
 		bFound = CheckAttribute(rootItems, sColony);
 	}
@@ -649,8 +692,6 @@ void ShowColonyInfo(int iColony)
 	}
 		
 	//Find our store
-	ref refStore, refStore2;
-	aref arefStore2, refGoods;
 	for(i = 0; i < STORE_QUANTITY; i++)
 	{
 		makeref(refStore, Stores[i]);
@@ -696,7 +737,7 @@ void ShowColonyInfo(int iColony)
 		for(i=0; i<TRADEASSISTANT_MAXGOODS-1; i++)
 			a_fMax[i] = 0.;
 
-		for (i = 0; i < 28; i++) //Skip Shipsilk, Ropes, Sandal, Oil, Gold, Silver, Cannons
+		for (i = 10; i < 35; i++) 
 		{
 			sGood = Goods[i].name;
 			if(refStore.Goods.(sGood).TradeType == T_TYPE_CONTRABAND)
@@ -739,7 +780,7 @@ void ShowColonyInfo(int iColony)
 			{
 				if(fTemp > a_fMax[k])
 				{
-					for(int j=TRADEASSISTANT_MAXGOODS-1; j>k; j--)
+					for( int j=TRADEASSISTANT_MAXGOODS-1; j>k; j--)
 					{
 						a_fMax[j] = a_fMax[j-1];
 						a_iMax[j] = a_iMax[j-1];

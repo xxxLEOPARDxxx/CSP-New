@@ -271,10 +271,153 @@ void LAi_CharacterPostLogin(ref location)
 		LandHunterReactionResult(location);
 		//обновить базу абордажников для нефритового черепа
 		CopyPassForAztecSkull();
-
+		if(CheckAttribute(pchar, "MushketSwap"))
+		{
+			DeleteAttribute(pchar, "MushketSwap");
+		}
+		if(!CheckAttribute(pchar,"quest.SimulatePGGLife") || Pchar.questTemp.CapBloodLine == true)
+		{
+			pchar.quest.SimulatePGGLife = true;
+			Log_TestInfo("Спавн бродящих пгг заблокирован");
+		}
+		else
+		{
+			SimulatePGGLife();
+		}
 	}
 }
 
+void SimulatePGGLife()
+{
+	if (findsubstr(pchar.location, "_town", 0) != -1 || findsubstr(pchar.location, "_ExitTown", 0) != -1 || findsubstr(pchar.location, "_Bank", 0) != -1 || findsubstr(pchar.location, "_store", 0) != -1 || findsubstr(pchar.location, "_Shipyard", 0) != -1 || findsubstr(pchar.location, "_church", 0) != -1 || findsubstr(pchar.location, "_SecBrRoom", 0) != -1 || findsubstr(pchar.location, "_PortOffice", 0) != -1 || findsubstr(pchar.location, "_Fort", 0) != -1 || findsubstr(pchar.location, "_Dungeon", 0) != -1)
+	{
+		int heroSelected = 1;
+		for (i = 1; i <= PsHeroQty; i++)
+		{
+			sld = CharacterFromID("PsHero_"+i);
+			if (findsubstr(pchar.location, sld.PGGAi.location.town, 0) != -1 && !LAi_IsDead(sld) && sld.PGGAi.location != "Dead") //закрыл дополнительно.
+			{
+				if (IsCompanion(sld) || IsOfficer(sld) || CheckAttribute(sld, "PGGAi.Task.SetSail") || CheckAttribute(sld, "PGGAi.SeenToday"))
+				{
+					continue;
+				}
+				else
+				{
+					if (rand(2) == 0)
+					{
+						heroSelected = 0;
+						pchar.chosenHero = sld.id;
+					}
+				}
+			}
+		}
+		if(heroSelected == 0)
+		{
+			if (findsubstr(pchar.location, "_prison", 0) != -1 || findsubstr(pchar.location, "_townhall", 0) != -1 || findsubstr(pchar.location, "_tavern", 0) != -1 || findsubstr(pchar.location, "_Brothel", 0) != -1)
+			{
+				Log_TestInfo("Тут бродящие ПГГ не спавнятся");
+			}
+			else
+			{
+				Log_TestInfo("ПГГ бродит неподалеку");
+				sld = CharacterFromID(pchar.chosenHero);
+				LAi_SetActorTypeNoGroup(sld);
+				sld.PGGAi.SeenToday = true;
+				sld.PGGAi.location.town.backup = sld.PGGAi.location.town;
+				sld.PGGAi.location.backup = sld.PGGAi.location;
+				GetCharacterPos(pchar, &locx, &locy, &locz);
+				string locatorPGG = LAi_FindFarLocator("goto", locx, locy, locz);
+				ChangeCharacterAddressGroup(sld, PChar.location, "goto", locatorPGG);
+				//chrDisableReloadToLocation = true;
+				ref chr;
+				if (findsubstr(pchar.location, "_town", 0) != -1)
+				{
+					if (findsubstr(pchar.location, "LaVega", 0) != -1 || findsubstr(pchar.location, "LeFransua", 0) != -1 || findsubstr(pchar.location, "FortOrange", 0) != -1 || findsubstr(pchar.location, "PuertoPrincipe", 0) != -1)
+					{
+						LAi_ActorGoToLocation(sld, "reload", "reload5", sld.PGGAi.location.town.backup, "", "", "PGGLeft", -1);
+					}
+					LAi_ActorGoToLocation(sld, "reload", "reload4_back", sld.PGGAi.location.town.backup, "", "", "PGGLeft", -1);
+					
+					sld.PGGOfficers = 2+sti(sld.rank)/15;
+					for (i = 0; i < sti(sld.PGGOfficers); i++)
+					{
+						chr = GetCharacter(NPC_GenerateCharacter("PGGOfficer" + i, "officer_" + (rand(63) + 1), "man", "man", sld.rank, PIRATE, 0, true));
+						LAi_SetActorTypeNoGroup(chr);
+						ChangeCharacterAddressGroup(chr, PChar.location, "goto", locatorPGG);
+						LAi_ActorFollow(chr, sld, "", -1);
+						LAi_SetImmortal(chr, true);
+					}
+				}
+				if (findsubstr(pchar.location, "_ExitTown", 0) != -1)
+				{
+					LAi_ActorRunToLocation(sld, "reload", "reload3", sld.PGGAi.location.town.backup, "", "", "PGGLeft", -1);
+					
+					sld.PGGOfficers = 2+sti(sld.rank)/15;
+					for (i = 0; i < sti(sld.PGGOfficers); i++)
+					{
+						chr = GetCharacter(NPC_GenerateCharacter("PGGOfficer" + i, "officer_" + (rand(63) + 1), "man", "man", sld.rank, PIRATE, 0, true));
+						LAi_SetActorTypeNoGroup(chr);
+						ChangeCharacterAddressGroup(chr, PChar.location, "goto", locatorPGG);
+						LAi_ActorFollow(chr, sld, "", -1);
+						LAi_SetImmortal(chr, true);
+					}
+				}
+				if (findsubstr(pchar.location, "_Dungeon", 0) != -1)
+				{
+					locatorPGG = LAi_FindNearestFreeLocator2Pchar("monsters")
+					ChangeCharacterAddressGroup(sld, PChar.location, "monsters", locatorPGG);
+					
+					sld.PGGOfficers = 2+sti(sld.rank)/15;
+					for (i = 0; i < sti(sld.PGGOfficers); i++)
+					{
+						chr = GetCharacter(NPC_GenerateCharacter("PGGOfficer" + i, "officer_" + (rand(63) + 1), "man", "man", sld.rank, PIRATE, 0, true));
+						LAi_SetActorTypeNoGroup(chr);
+						ChangeCharacterAddressGroup(chr, PChar.location, "monsters", locatorPGG);
+						LAi_ActorFollow(chr, sld, "", -1);
+						LAi_SetImmortal(chr, true);
+					}
+				}
+				if (findsubstr(pchar.location, "_fort", 0) != -1)
+				{
+					LAi_ActorRunToLocation(sld, "reload", LAi_FindNearestLocator("reload", locx, locy, locz), sld.PGGAi.location.town.backup, "", "", "PGGLeft", -1);
+					
+					sld.PGGOfficers = 2+sti(sld.rank)/15;
+					for (i = 0; i < sti(sld.PGGOfficers); i++)
+					{
+						chr = GetCharacter(NPC_GenerateCharacter("PGGOfficer" + i, "officer_" + (rand(63) + 1), "man", "man", sld.rank, PIRATE, 0, true));
+						LAi_SetActorTypeNoGroup(chr);
+						ChangeCharacterAddressGroup(chr, PChar.location, "goto", locatorPGG);
+						LAi_ActorFollow(chr, sld, "", -1);
+						LAi_SetImmortal(chr, true);
+					}
+				}
+				LAi_ActorGoToLocation(sld, "reload", LAi_FindNearestLocator("reload", locx, locy, locz), sld.PGGAi.location.town.backup, "", "", "PGGLeft", -1);
+				LAi_SetImmortal(sld, true);
+				
+				PChar.quest.PGGWalkEnd.win_condition.l1 = "ExitFromLocation";
+				PChar.quest.PGGWalkEnd.win_condition.l1.location = PChar.location;
+				PChar.quest.PGGWalkEnd.function = "PGGWalkEnd";
+			}
+		}
+	}
+}
+
+void PGGWalkEnd(string qName)
+{
+	if (CheckAttribute(pchar, "chosenHero"))
+	{
+		sld = CharacterFromID(pchar.chosenHero);
+		DeleteAttribute(pchar, "chosenHero");
+		string futureLoc = sld.PGGAi.location.town.backup + "_Tavern";
+		ChangeCharacterAddressGroup(sld, futureLoc, "goto", "goto1");
+		LAi_SetImmortal(sld, false);
+		if (CheckAttribute(sld, "PGGOfficers"))
+		{
+			DeleteAttribute(sld, "PGGOfficers")
+		}
+	}
+}
+	
 bool LAi_CharacterLogoff(aref chr)
 {
 	chr.chr_ai.login = false;	

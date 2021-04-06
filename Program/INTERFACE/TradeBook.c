@@ -195,6 +195,7 @@ void FillPriceList(string _tabName, string  attr1)
 	    n = 1;
 	    for (i = 0; i < GOODS_QUANTITY; i++)
 	    {
+			if(i > 34 && i < 51) continue;
 	        row = "tr" + n;
 	        sGoods = "Gidx" + i;
 	        if (sti(nulChr.PriceList.(attr1).(sGoods).TradeType) == TRADE_TYPE_CANNONS && !bBettaTestMode) continue; // не пушки
@@ -213,9 +214,9 @@ void FillPriceList(string _tabName, string  attr1)
 
 	        GameInterface.(_tabName).(row).td2.icon.group = "TRADE_TYPE";
 			GameInterface.(_tabName).(row).td2.icon.image = "ico_" + nulChr.PriceList.(attr1).(sGoods).TradeType;
-			GameInterface.(_tabName).(row).td2.icon.offset = "-1, 1";
+			GameInterface.(_tabName).(row).td2.icon.offset = "1, 0";
 			GameInterface.(_tabName).(row).td2.icon.width = 18;
-			GameInterface.(_tabName).(row).td2.icon.height = 20;
+			GameInterface.(_tabName).(row).td2.icon.height = 18;
 
 	        if (CheckAttribute(nulChr, "PriceList." + attr1 + "." + sGoods + ".Buy"))
 	        {
@@ -293,7 +294,11 @@ void ShowInfoWindow()
 		    sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
 		    iItem = sti(GameInterface.(CurTable).(CurRow).UserData.IDX);
 		    sText1  = GetAssembledString(GetConvertStr(GameInterface.(CurTable).(CurRow).UserData.ID + "_descr", "GoodsDescribe.txt"), &Goods[iItem]);
-		    sText2  = "÷вета: красный - контрабанда, синий - импорт, зеленый - экспорт";
+			sText2 = "÷вета указател€ типа товара :" + newStr() + 
+				 "- зелЄный : колониальные товары" + newStr() + 
+				 "- синий : импортные товары" + newStr() + 
+				 "- красный : контрабандные товары" + newStr() + 
+				 "- коричневый : товары агрессивного спроса";
 		break;
 	}
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);

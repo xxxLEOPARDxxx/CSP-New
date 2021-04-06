@@ -1159,7 +1159,7 @@ void ShowFaceInfo( string facestr )
 {
 	string sstr = facestr;
 	string sdat;
-	for( int i=0; i<17; i++ )
+	for( int i=0; i<18; i++ )
 	{
 		sdat = "";
 		if( GetNextSubStr( sstr, &sdat, &sstr, "," ) ) {

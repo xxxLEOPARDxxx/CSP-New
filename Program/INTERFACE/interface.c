@@ -398,6 +398,16 @@ void LaunchQuicklyTrade()
 	}
 }
 
+void LaunchCreateCharacter()
+{
+	if(procInterfacePrepare(INTERFACE_CREATE_CHARACTER))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_CREATE_CHARACTER;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
 // Lugger <--
 
 void LaunchNetMenu()

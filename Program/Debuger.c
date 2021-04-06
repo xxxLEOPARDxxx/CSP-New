@@ -23,6 +23,7 @@ void ActiveF4Control()
     y1 = 1.0 + y + frnd() * 3.0
     PlaySound("Sea Battles\Vzriv_fort_001.wav");
     CreateParticleSystem("Blast", x + x1, y1, z, 0.0, 0.0, 0.0, 0); 
+	
 	/* //Korsar Maxim - На Ф4 спауним Ведекера-офа из ГПК к себе в офы
 	ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "CCS_Mechanic", "man", "man", 30, PIRATE, -1, true));
 	sld.name = "Хенрик";

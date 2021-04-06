@@ -338,6 +338,7 @@ void ProcessDialogEvent()
 			dialog.text = "Хорошо-хорошо, мне не нужны проблемы! Бери что пожелаешь, только не трогай!";
 			link.l1 = "С вашего позволения, хе-хе!";
 			link.l1.go = "exit_setOwner";
+			NextDiag.TempNode = "nofight";
 		break;
 	}
 }

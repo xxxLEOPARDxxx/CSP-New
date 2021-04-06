@@ -1,4 +1,4 @@
-#define INTERFACE_QUANTITY				70
+#define INTERFACE_QUANTITY				71
 
 #define INTERFACE_STORE					0
 #define INTERFACE_SHIPYARD				1
@@ -80,6 +80,8 @@
 // Lugger <--
 
 #define INTERFACE_LOCKPICK				69 //New Abilities - взлом сундука
+
+#define	INTERFACE_CREATE_CHARACTER		70
 
 #define RC_INTERFACE_DO_NOTHING			-1
 

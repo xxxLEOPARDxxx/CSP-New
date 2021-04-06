@@ -284,18 +284,6 @@ void Andre_Abel_Quest_In_Prison()	// В тюрьме...
 	location.box1 = Items_MakeTime(GetTime(), GetDataDay(), GetDataMonth(), GetDataYear())
 		
 	RemoveAllCharacterItems(PChar, true);
-
-		//==> убираем офицеров
-		StoreOfficers_Ascold(pchar);  // запомним офицеров во временном хранилище			
-        for (i=1; i<=MAX_NUM_FIGHTERS; i++)
-		{		
-			string officers = "Fellows.Passengers.Officers."+"id"+i;
-			if(CheckAttribute(pchar, officers))
-			{
-				RemoveOfficersIndex(pchar, sti(pchar.(officers)));						 
-			}
-		} 
-        //<== убираем офицеров
 }
 
 void Andre_Abel_Quest_Runaway_From_Prison()	// По другую сторону решетки
@@ -311,7 +299,9 @@ void Andre_Abel_Quest_Runaway_From_Prison()	// По другую сторону решетки
 	LAi_Group_MoveCharacter(rChar, LAI_GROUP_PLAYER);
 	QuestSetCurrentNode("Henry Morgan", "Andre_Abel_Quest_Morgan_Dialog_11");
 	
-	LAi_Group_Attack(PChar, CharacterFromID("VillemstadJailOff"));	// Как будто мы его ударили
+	LAi_group_FightGroups(LAI_GROUP_PLAYER, "HOLLAND_citizens", true);
+	
+	LAi_SetFightMode(PChar, true);
 	Flag_PIRATE();
 	
 	PChar.Quest.Andre_Abel_Quest_In_Sea_After_Prison.win_condition.l1 = "EnterToSea";
@@ -327,7 +317,6 @@ void Andre_Abel_Quest_Martin_Bleker_Is_Dead(string sQuest)	// Мартина убили
 void Andre_Abel_Quest_Liberty(string sQuest)	// Локация выхода из Виллемстада
 {
 	ref rChar = CharacterFromID("Martin_Bleker");
-	RestoreOfficers_Ascold(Pchar);
 	ChangeCharacterAddressGroup(rChar, "Villemstad_ExitTown", "goto", "goto8");
 	chrDisableReloadToLocation = true;
 	LAi_SetActorType(rChar);
@@ -335,6 +324,9 @@ void Andre_Abel_Quest_Liberty(string sQuest)	// Локация выхода из Виллемстада
 	QuestSetCurrentNode("Martin_Bleker", "Andre_Abel_Quest_In_Liberty_1");
 	LAi_ActorDialog(rChar, PChar, "", -1, 5);
 	PChar.Quest.Andre_Abel_Quest_Martin_Bleker_Is_Dead.over = "yes";
+	LAi_LocationDisableOfficersGen("Villemstad_prison",false);
+	LAi_LocationDisableOfficersGen("Villemstad_fort",false);
+	LAi_LocationDisableOfficersGen("Villemstad_ExitTown",false);
 }
 
 void Andre_Abel_Quest_Delete_Martin(string sQuest)	// Попрощались с Мартином
@@ -345,6 +337,10 @@ void Andre_Abel_Quest_Delete_Martin(string sQuest)	// Попрощались с Мартином
 
 void Andre_Abel_Quest_In_Sea_After_Prison(string sQuest)	// Вышли в море
 {
+	LAi_group_FightGroups(LAI_GROUP_PLAYER, "HOLLAND_citizens", false);
+	LAi_LocationDisableOfficersGen("Villemstad_prison",false);
+	LAi_LocationDisableOfficersGen("Villemstad_fort",false);
+	LAi_LocationDisableOfficersGen("Villemstad_ExitTown",false);
 	AddQuestRecord("Andre_Abel_Quest", "20");
 	AddQuestUserData("Andre_Abel_Quest", "sSex", GetSexPhrase("ся","ась"));
 }

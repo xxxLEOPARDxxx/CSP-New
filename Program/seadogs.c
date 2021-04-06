@@ -550,7 +550,10 @@ void InterfaceDoExit()
 					UnloadSegment("Interface\BaseInterface.c");
 				}
 			}
-			LaunchSelectCharacter();
+			DeleteEntities();
+			ClearEvents();
+			SetEventHandler("frame","NewGame",1);
+			InterfaceStates.doUnFreeze = false;
 		break;
 		case RC_INTERFACE_DO_LOAD_GAME:
 			if(CheckAttribute(&InterfaceStates,"Buttons.Resume.enable") && sti(InterfaceStates.Buttons.Resume.enable) == true)
@@ -586,10 +589,7 @@ void InterfaceDoExit()
 			Return2SeaAfterAbordage();
 			break;
 		case RC_INTERFACE_CHARACTER_SELECT_EXIT:
-			DeleteEntities();
-			ClearEvents();
-			SetEventHandler("frame","NewGame",1);
-			InterfaceStates.doUnFreeze = false;
+			DoQuestFunctionDelay("WayBeginning", 1.0);
 		break;
 		case RC_INTERFACE_SPEAK_EXIT_AND_CAPTURE:
 			string sTargetChr = pchar.speakchr;
@@ -966,7 +966,7 @@ void NewGame_continue()
 	pchar = GetMainCharacter(); //fix
 	//#20190327-01
     pchar.camEye = 0;
-	initNewMainCharacter(); // все там
+	setNewMainCharacter(pchar, 1);
 	ReloadProgressUpdate();
 
     RumourInit();  //homo 23/06/06
@@ -983,11 +983,14 @@ void NewGame_continue()
 
 	//LoadMainCharacterInFirstLocation(sTeleportLocName, sTeleportLocator, sTeleportLocName);
 	startGameWeather = true;
-	if (startHeroType > 6)
-	{//Стандартное начало
+	//if (startHeroType > 6)
+	//{//Стандартное начало
 		InterfaceStates.startGameWeather = FindWeather("11 Hour");
-		LoadMainCharacterInFirstLocationGroup("Ship_deck_Low", "goto", "goto4");
-    }
+		LoadMainCharacterInFirstLocationGroup("SelectMainCharacter_Cabine", "reload", "reload1");
+		pchar.quest.SelectMainCharacterInCabine.win_condition.l1          = "location";
+		pchar.quest.SelectMainCharacterInCabine.win_condition.l1.location = "SelectMainCharacter_Cabine";
+		pchar.quest.SelectMainCharacterInCabine.function                  = "SelectMainCharacterInCabine";
+    /*}
 	if (startHeroType == 3 || startHeroType == 4) 
 	{//Блейз и Беатрис
 		InterfaceStates.startGameWeather = FindWeather("11 Hour");
@@ -1031,9 +1034,9 @@ void NewGame_continue()
 		LoadMainCharacterInFirstLocationGroup("Estate", "reload", "reload1");
     }
 	else
-	{
-		InitPsHeros();   // boal 05/07/06 ПГГ
-	}
+	{*/
+		//InitPsHeros();   // boal 05/07/06 ПГГ
+	//}
 	ReloadProgressUpdate();
 	
 	//InitTowns();
@@ -1045,11 +1048,11 @@ void NewGame_continue()
     pchar.fix20190909 = true;
 	ReloadProgressUpdate();
 	
-	for (int j = 0; j< MAX_COLONIES; j++)
+	/*for (int j = 0; j< MAX_COLONIES; j++)
 	{
 		GenerateIslandShips(colonies[j].island);
 	}
-	ReloadProgressUpdate();
+	ReloadProgressUpdate();*/
 	//InitSmuggling();
 	ReloadProgressEnd();
 }
@@ -1227,6 +1230,15 @@ void ProcessControls()
 	{
 		switch(ControlName)
 		{
+			case "ChrBlock":
+			if (pchar.model.animation == "mushketer")
+			{
+				if (stf(pchar.chr_ai.charge) != 1.0)
+				{
+					pchar.chr_ai.charge = stf(pchar.chr_ai.charge) + 0.01;
+				}
+			}
+			break;
 		    // boal -->
             case "ChrBackward": //ChrStrafeLeft ChrStrafeRight
                 if (bLandInterfaceStart && LAi_IsFightMode(pchar))
@@ -1479,9 +1491,10 @@ void ProcessControls()
 				pchar.mushket.timer = true;
 				LAi_SetFightMode(pchar, false);
 				LAi_SetActorType(pchar);
-				if(pchar.model.animation == "man_fast") PostEvent("Event_SwapWeapon", 1400);
-				if(pchar.model.animation == "man") PostEvent("Event_SwapWeapon", 1800);
-				if(pchar.model.animation == "mushketer") PostEvent("Event_SwapWeapon3", 800);
+				if(pchar.model.animation == "man_fast" || pchar.model.animation == "YokoDias_fast") PostEvent("Event_SwapWeapon", 1400);
+				if(pchar.model.animation == "man" || pchar.model.animation == "YokoDias") PostEvent("Event_SwapWeapon", 1800);
+				if(pchar.model.animation == "mushketer" || pchar.model.animation == "mushketer_whisper") PostEvent("Event_SwapWeapon3", 800);
+				DoQuestFunctionDelay("ReloadMyGun", 2.0);
 			}
 		break;
 		

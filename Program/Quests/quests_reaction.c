@@ -3169,6 +3169,23 @@ void QuestComplete(string sQuestName, string qname)
                 DeleteAttribute(pchar, "tmpKillGroup");
             }
         break;
+		case "PGGLeft":
+			Log_TestInfo("œ√√ Û¯ÂÎ");
+			sld = CharacterFromID(pchar.chosenHero);
+			DeleteAttribute(pchar, "chosenHero");
+			string futureLoc = sld.PGGAi.location.town.backup + "_Tavern";
+			ChangeCharacterAddressGroup(sld, futureLoc, "goto", "goto1");
+			LAi_SetImmortal(sld, false);
+			if (CheckAttribute(sld, "PGGOfficers"))
+			{
+				for (i = 0; i < sti(sld.PGGOfficers); i++)
+				{
+					chr = CharacterFromID("PGGOfficer" + i);
+					ChangeCharacterAddressGroup(chr, futureLoc, "goto", "goto1");
+				}
+				DeleteAttribute(sld, "PGGOfficers");
+			}
+        break;
 
         case "CanEnterToMap":
             bQuestDisableMapEnter = false;

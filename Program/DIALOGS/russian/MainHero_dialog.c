@@ -47,6 +47,11 @@ void ProcessDialogEvent()
 			//AddDialogExitQuest("MainHeroFightModeOn");	
 			DialogExit_Self();
 		break;
+		case "exit_WhisperIncq":
+			NextDiag.CurrentNode = NextDiag.TempNode;	
+			DialogExit_Self();
+			DoQuestFunctionDelay("WhisperLine_WhisperHits_3", 3.00);
+		break;
 		case "exit_WhisperAddWidow":
 			NextDiag.CurrentNode = NextDiag.TempNode;	
 			DialogExit_Self();
@@ -217,10 +222,10 @@ void ProcessDialogEvent()
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.Inside_Incquisition"))
 			{
-				dialog.Text = "Проклятье, как же это было громко! Нужно забрать с трупа оружие, пока остальные стражники не прибежали.";
+				dialog.Text = "Проклятье, как же громко! Еще и это 'оружие' разлетелось на куски после выстрела. Эх, я бы сейчас всё отдала за свой верный шотган...";
 				DeleteAttribute(pchar, "questTemp.Whisper.Inside_Incquisition");
-				Link.l1 = "Похоже, придется прорываться с боем.";
-				Link.l1.go = "exit";
+				Link.l1 = "Нужно забрать с трупа саблю, пока остальные стражники не прибежали. Похоже, придется прорываться с боем.";
+				Link.l1.go = "exit_WhisperIncq";
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.Escaped_Incquisition"))
 			{

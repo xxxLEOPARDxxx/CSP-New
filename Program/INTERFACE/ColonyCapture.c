@@ -293,6 +293,9 @@ void AddToTable()
 					iColor = argb(255,255,255,255);
 				}
 			break;
+			case TRADE_TYPE_AGGRESSIVE:
+				iColor = argb(255,255,173,51);
+			break;
 		}
 		if(checkAttribute(refCharacter, "ship.cargo.goods." + sGood + ".isquest"))
 		{
@@ -357,9 +360,12 @@ void ShowHelpHint()
 				 "Находясь в режиме формы и мотая список в таблице стрелкам вверх/вниз, можно просматривать описание товара под курсором таблицы.";
 				 
         sText2 = "Быстрое взятие всего: стрелками вверх/вниз по списку, Shift + право, Enter";
-        
-        sText3 = "Цвета: красный - контрабанда, синий - импорт, зеленый - экспорт";
-        
+		sText3 = "Цвета типа товара:" + newStr() + 
+				 "- зелёный : колониальные товары" + newStr() + 
+				 "- синий : импортные товары" + newStr() + 
+				 "- красный : контрабандные товары" + newStr() + 
+				 "- коричневый : товары агрессивного спроса";
+                
 		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,192,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
 	}
 }

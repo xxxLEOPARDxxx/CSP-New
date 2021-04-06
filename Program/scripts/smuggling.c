@@ -495,6 +495,9 @@ int GetContrabandGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref
 		case TRADE_TYPE_CANNONS:
 			tradeModify = 1.00 + stf(refGoods.RndPriceModify); 
 			break;	
+		case TRADE_TYPE_AGGRESSIVE:
+			tradeModify = 1.00 + stf(refGoods.RndPriceModify); 
+		break;	
 	}
 
 	float skillModify;

@@ -357,6 +357,7 @@ void LAi_RemoveCheckMinHP(aref chr)
 //Убить персонажа
 void LAi_KillCharacter(aref chr)
 {
+	chr.ScriptedDeath = true;
 	chr.chr_ai.hp = "0";
 	if(CheckAttribute(chr, "chr_ai.immortal"))
 	{

@@ -2548,8 +2548,7 @@ void initMainCharacterItem()
 					itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					TakeNItems(Pchar, "bullet", 5);
-					AddItems(Pchar, "GunPowder", 5);
+					GiveGunAmmunitionPchar(Pchar,itemID,5);
 					GiveItem2Character(Pchar, "Spyglass1");
 					EquipCharacterbyItem(Pchar, "Spyglass1");
 					pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
@@ -2561,8 +2560,7 @@ void initMainCharacterItem()
 					itemID = GetGeneratedItem("pistol" + (rand(2)+1));
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					TakeNItems(Pchar, "bullet", 5);
-					AddItems(Pchar, "GunPowder", 5);
+					GiveGunAmmunitionPchar(Pchar,itemID,5);
 				break;
 				case SPAIN:
 					itemID = GetGeneratedItem("topor3");
@@ -2624,24 +2622,22 @@ void initMainCharacterItem()
 			itemID = GetGeneratedItem("Spyglass" + (rand(2)+1));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
-			GiveItem2Character(Pchar, itemID);
-			EquipCharacterbyItem(Pchar, itemID);
 			itemID = GetGeneratedItem("blade" + (rand(8)+1));
 			GiveItem2Character(Pchar, itemID);
 			EquipCharacterbyItem(Pchar, itemID);
-			TakeNItems(Pchar, "bullet", 10);
-			AddItems(Pchar, "GunPowder", 10);
 			TakenItems(Pchar, "potion1", rand(10));
             TakenItems(Pchar, "Food1", rand(6)+4);
+			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
+			GiveItem2Character(Pchar, itemID);
+			EquipCharacterbyItem(Pchar, itemID);
+			GiveGunAmmunitionPchar(Pchar,itemID,10);
 			switch (sti(ch.nation))
 			{
 				case ENGLAND:
 					pchar.money = 500/MOD_SKILL_ENEMY_RATE;
 				break;
 				case FRANCE:
-					TakeNItems(Pchar, "bullet", 10);
-					AddItems(Pchar, "GunPowder", 10);
+					GiveGunAmmunitionPchar(Pchar,itemID,10);
 					pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
 				break;
 				case HOLLAND:
@@ -2661,11 +2657,6 @@ void initMainCharacterItem()
 			itemID = GetGeneratedItem("blade" + (rand(7)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
-			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
-            GiveItem2Character(Pchar, itemID);
-            EquipCharacterbyItem(Pchar, itemID);
-			TakeNItems(Pchar, "bullet", 10);
-			AddItems(Pchar, "GunPowder", 10);
 			TakenItems(Pchar, "potion1", rand(10));
 			GiveItem2Character(Pchar, "Totem_" + rand(15));
 			GiveItem2Character(Pchar, "Totem_" + rand(15));
@@ -2675,6 +2666,10 @@ void initMainCharacterItem()
 			EquipCharacterbyItem(Pchar, itemID);
 			pchar.money = 3000/MOD_SKILL_ENEMY_RATE;
             TakenItems(Pchar, "Food1", rand(1)+2);
+			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
+            GiveItem2Character(Pchar, itemID);
+            EquipCharacterbyItem(Pchar, itemID);
+			GiveGunAmmunitionPchar(Pchar,itemID,10);
 			switch (sti(ch.nation))
 			{
 				case ENGLAND:
@@ -2683,11 +2678,10 @@ void initMainCharacterItem()
 					EquipCharacterbyItem(Pchar, itemID);
 				break;
 				case FRANCE:
+					GiveGunAmmunitionPchar(Pchar,itemID,10);
 					itemID = GetGeneratedItem("blade12");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					TakeNItems(Pchar, "bullet", 10);
-					AddItems(Pchar, "GunPowder", 10);
 				break;
 				case HOLLAND:
 					itemID = GetGeneratedItem("blade3");
@@ -2695,11 +2689,10 @@ void initMainCharacterItem()
 					EquipCharacterbyItem(Pchar, itemID);
 				break;
 				case PIRATE:
+					GiveGunAmmunitionPchar(Pchar,itemID,10);
 					itemID = GetGeneratedItem("blade1");
 					GiveItem2Character(Pchar, itemID);
 					EquipCharacterbyItem(Pchar, itemID);
-					TakeNItems(Pchar, "bullet", 10);
-					AddItems(Pchar, "GunPowder", 10);
 				break;
 				case SPAIN:
 					itemID = GetGeneratedItem("blade18");
@@ -2721,6 +2714,7 @@ void initMainCharacterItem()
             GiveItem2Character(Pchar, itemID);
 			TakeNItems(Pchar, "bullet", 30);
 			AddItems(Pchar, "GunPowder", 30);
+			GiveGunAmmunitionPchar(Pchar,itemID,30);
 			TakenItems(Pchar, "potion1", rand(10));
 			pchar.money = 1000/MOD_SKILL_ENEMY_RATE;
             TakenItems(Pchar, "Food1", rand(6)+4);
@@ -2767,8 +2761,7 @@ void initMainCharacterItem()
 			itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
-			TakeNItems(Pchar, "bullet", 10);
-			AddItems(Pchar, "GunPowder", 10);
+			GiveGunAmmunitionPchar(Pchar,itemID,10);
 			TakenItems(Pchar, "potion1", rand(8));
 			pchar.money = 2000/MOD_SKILL_ENEMY_RATE;
             TakenItems(Pchar, "Food1", rand(6)+4);

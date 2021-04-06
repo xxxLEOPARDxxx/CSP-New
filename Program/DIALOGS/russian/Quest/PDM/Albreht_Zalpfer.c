@@ -97,24 +97,11 @@ void ProcessDialogEvent()
 			AddQuestUserData("Albreht_Zalpfer", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("Albreht_Zalpfer", "sSex1", GetSexPhrase("ся","ась"));
 			sld = CharacterFromID("Albreht_Zalpfer")
-			AddPassenger(pchar, sld, false);    // добавить пассажира
-			SetCharacterRemovable(sld, true);   // можно ставить на должность
-			sld.loyality = MAX_LOYALITY;
-			sld.Payment = true;
-			sld.quest.OfficerPrice = sti(pchar.rank)*10;
-			sld.OfficerWantToGo.DontGo = true;
-			sld.rank = 4;
-			SetSelfSkill(sld, 5, 40, 5, 5, 5);
-			SetShipSkill(sld, 5, 5, 5, 5, 5, 35, 5, 5, 5);
-			LAi_SetImmortal(sld, false);
-			sld.HalfImmortal = true;
-			GiveItem2Character(sld, "topor_05");
-			EquipCharacterByItem(sld, "topor_05");
 			Pchar.quest.PDM_Albreht_Vhod.win_condition.l1           = "location";
         	Pchar.quest.PDM_Albreht_Vhod.win_condition.l1.location  = "PortRoyal_town";
         	Pchar.quest.PDM_Albreht_Vhod.win_condition              = "PDM_Albreht_Vhod";
 			LAi_SetActorType(sld);   //делает что-то полезное
-			LAi_ActorRunToLocation(sld, "reload", "reload1", "none", "", "", "OpenTheDoors", -1);  // идёт в определённый локатор.
+			LAi_ActorRunToLocation(sld, "reload", "reload1", "none", "", "", "PDM_Albreht_Saditsya_na_korabl", 6);
 			bDisableFastReload = true;          //быстрое перемещение
 			chrDisableReloadToLocation = true;      //блокировка всех выходов
 			NextDiag.CurrentNode = NextDiag.TempNode;

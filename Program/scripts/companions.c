@@ -111,11 +111,11 @@ bool Ship_AutoAbordage(ref rCharacter, float fMinEnemyDistance)
             { // поражение
                 if (bIsCharCompanion)
 			    {
-			        Log_SetStringToLog("Наш корабль " + rCharacter.Ship.Name + " проиграл абордаж ");
+			        Log_SetStringToLog("¬аш корабль " + rCharacter.Ship.Name + " проиграл абордаж ");
 			    }
 			    else
 			    {
-			        Log_SetStringToLog("†орабль " + rCharacter.Ship.Name + " проиграл абордаж ");
+			        Log_SetStringToLog("†корабль " + rCharacter.Ship.Name + " проиграл абордаж ");
 			    }
 			    deadCrew = sti(rShipCharacter.Ship.Crew.Quantity) * fOurCrewFencing/ (fEnCrewFencing*1.8);
 			    SetCrewQuantity(rShipCharacter, makeint(sti(rShipCharacter.Ship.Crew.Quantity) - deadCrew));

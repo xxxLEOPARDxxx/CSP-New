@@ -2408,13 +2408,25 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
     // спасем офицеров boal 07/02/05
 	else
 	{
-        if (bDeadCompanion && CheckOfficersPerk(rDead, "ShipEscape") && GetRemovable(rDead)) // выживаем
-        {
-            //homo 22/06/07
-            AISeaGoods_AddGood(rDead, "boat", "lo_boat", 1000.0, 1);
-            RemoveCharacterCompanion(pchar, rDead);
-            Log_Info(GetFullName(rDead) + " спасся на шлюпке.");
-        }
+		if (bHalfImmortalPGG && CheckAttribute(rDead, "ImmortalOfficer"))
+		{
+			Log_Info(GetFullName(rDead) + " спасся на шлюпке.");
+		}
+		else
+		{
+			if (bDeadCompanion && CheckOfficersPerk(rDead, "ShipEscape") && GetRemovable(rDead)) // выживаем
+			{
+				//homo 22/06/07
+				AISeaGoods_AddGood(rDead, "boat", "lo_boat", 1000.0, 1);
+				RemoveCharacterCompanion(pchar, rDead);
+				Log_Info(GetFullName(rDead) + " спасся на шлюпке.");
+				PlaySound("interface\_EvShip1.wav");
+			}
+		}
+	}
+	if (bDeadCompanion && bHalfImmortalPGG && CheckAttribute(rDead, "ImmortalOfficer"))
+	{
+		LAi_CheckKillCharacter(rDead);
 	}
 	// спасем офицеров boal 07/02/05
 	Play3DSound("ship_sink", fX, fY, fZ);

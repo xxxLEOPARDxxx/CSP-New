@@ -506,11 +506,8 @@ void ProcessDialogEvent()
 			ref chr = CharacterFromID(npchar.CaptanId);
 			chr.willDie = true;
 			dialog.text = "Скоро ты будешь кормить рыб, "+ GetFullName(pchar) + "! Я тебе это гарантирую!";
-			if (!bHalfImmortalPGG || !CheckAttribute(pchar, "PGG_hired"))
-			{
-				link.l1 = "Мы же с тобой коллеги, к чему нам убивать друг друга по пустякам? Может лучше объединим усилия?";
-				link.l1.go = "PGG_cabin_1";
-			}
+			link.l1 = "Мы же с тобой коллеги, к чему нам убивать друг друга по пустякам? Может лучше объединим усилия?";
+			link.l1.go = "PGG_cabin_1";
 			link.l2 = "Самоуверенность заведет тебя в могилу. Защищайся!";
 			link.l2.go = "PGG_cabin_fight";
 		break;
@@ -568,15 +565,14 @@ void ProcessDialogEvent()
 				}
 			}
 			if (sld.model.animation == "man") sld.CanTakeMushket = true;
+			if (HasSubStr(sld.model, "Whisper"))
+			{
+				sld.CanTakeMushket = true;
+				if(sld.model == "PGG_Whisper_6") EquipCharacterByItem(sld, "suit_1");
+			}
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
-			
-			if (bHalfImmortalPGG && !CheckAttribute(pchar, "PGG_hired"))
-			{
-				pchar.PGG_hired = true;
-				NPChar.HalfImmortal = true;  // Контузия
-			}
 			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 			sld.quest.OfficerPrice = sti(pchar.rank)*500;
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);

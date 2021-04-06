@@ -17,11 +17,11 @@ int PsHeroQty = 0;
 // Инициализация ПГГ
 void InitPsHeros()
 {
-    int  i, n, k;
+    int  i, n, k, iStoreQ;
     ref  ch, ch1;
     bool ok;
     int  heroQty   = sti(GetNewMainCharacterParam("ps_hero_qty"));
-    i = 1;
+    i = 1;iStoreQ = 0;
 	string sname;
     PsHeroQty = 0; // глобальная переменная
 	for (n=1; n<=heroQty; n++)
@@ -107,6 +107,11 @@ void InitPsHeros()
 	SaveCurrentQuestDateParam("PGG_DailyUpdateSeaReload");
 	SaveCurrentQuestDateParam("PGG_DailyUpdateWorldMapReload");
 	SaveCurrentQuestDateParam("QuestTalk");
+	if(iStoreQ < 31)
+	{
+		SaveCurrentQuestDateParam("ChangeImport"+iStoreQ);
+		iStoreQ++;
+	}
 }
 // boal 091004 много героев  <--
 
@@ -180,6 +185,11 @@ void PGG_DailyUpdateEx(int i)
 
 	chr = CharacterFromID("PsHero_" + i);
 
+	if (CheckAttribute(chr, "PGGAi.SeenToday"))
+	{
+		DeleteAttribute(chr, "PGGAi.SeenToday")
+	}
+	
 	//лояльность компаньона
 	if (IsCompanion(chr))
 	{
@@ -340,6 +350,12 @@ void PGG_DailyUpdateEx(int i)
 	{
 		chr.location.from_sea = "";
 	}
+	
+	if (CheckAttribute(chr, "nation_backup") && !CheckAttribute(chr, "PGG_warrior"))
+	{
+		chr.nation = chr.nation_backup;
+		DeleteAttribute(chr, "nation_backup")
+	}
 /*
 	i++
 	if (i <= PsHeroQty)
@@ -441,7 +457,7 @@ void PGG_CheckDead(ref chr)
 						{
 							chr.PGGAi.location.town = chr.PGGAi.location.town.back;
 						}
-						chr.PGGAi.location.town = PGG_FindRandomTownByNation(sti(chr.nation));
+						chr.PGGAi.location.town = PGG_FindRandomTownByNation(sti(chr.nation_backup));
 						PGG_ChangeRelation2MainCharacter(chr, -30);
 						DeleteAttribute(chr, "PGGAi.Task");
 						DeleteAttribute(chr, "PGGAi.LockService");
@@ -860,11 +876,6 @@ void PGG_Disband_Fleet(ref chr)
 		pchar.LastPgg = chr.id;
 		DeleteAttribute(chr, "PGG_Hunter");
 		DeleteAttribute(chr, "PGG_Convoy");
-	}
-	if (CheckAttribute(chr, "nation_backup"))
-	{
-		chr.nation = chr.nation_backup;
-		DeleteAttribute(chr, "nation_backup")
 	}
 }
 

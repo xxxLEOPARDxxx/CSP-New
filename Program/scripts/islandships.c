@@ -286,7 +286,7 @@ void ClearIslandShips(string _city)
 			{
 				InitCharacter(&characters[i], i);
 			}
-			if (CheckAttribute(&characters[i], "fortDefender") && sti(characters[i].fortDefender) == 1)
+			if (CheckAttribute(&characters[i], "fortDefender") && sti(characters[i].fortDefender) == 1 && characters[i].IslandShips == _city)
 			{
 				InitCharacter(&characters[i], i);
 			}

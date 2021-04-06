@@ -711,7 +711,8 @@ void CalculateInfoDataF6()
 	// sEquipItem = GetGeneratedItem("blade27"); 	// Моргана 		(ЛО)
 	// sEquipItem = GetGeneratedItem("blade32"); 	// Фламбердж	(ЛО)
 	// sEquipItem = GetGeneratedItem("katar"); 		// Катар		(СО)
-	sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
+	// sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
+	sEquipItem = GetGeneratedItem("topor_viking"); 	// Топор викинга	(ТО)
 	AddItems(mc, sEquipItem, 1);
 	
 	AddItems(mc, "bullet", 50);
@@ -2099,7 +2100,7 @@ void CalculateInfoDataF48()
 	Statistic_AddValue(PChar, "Cheats.F48", 1);
 }
 
-//создать тушку для битья
+//создать "тушка для битья"
 void LoginDummy()
 {
 	LAi_group_SetRelation("teno_monsters_group", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);

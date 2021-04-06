@@ -1899,6 +1899,7 @@ void HideInfoWindowEncy()
 void ShowInfoWindowEncyShip()
 {
 	HideInfoWindowEncy();
+	SetNodeUsing("SHIP_INFO_FADER",true);
 	SetNodeUsing("SHIP_TABLE_LIST_LEFT",true);
 	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",true);
 	SetNodeUsing("SHIP_TABLE_SCROLL_LEFT",true);

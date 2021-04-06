@@ -534,7 +534,14 @@ bool SetOfficerToMushketer(ref rCharacter, string sMushket, bool _ToMushketer)
 		rCharacter.IsMushketer.MushketID = sMushket; // Запомним, какой мушкет надели
 		rCharacter.IsMushketer.LastGunID = sLastGun; // Запомним ID предыдущего пистоля
 		rCharacter.model = rCharacter.model + "_mush";
-		rCharacter.model.animation = "mushketer"; // Сменим анимацию
+		if (rCharacter.sex != "woman")
+		{
+			rCharacter.model.animation = "mushketer"; // Сменим анимацию
+		}
+		else
+		{
+			rCharacter.model.animation = "mushketer_whisper"; // Сменим анимацию
+		}
 		Characters_RefreshModel(rCharacter); // Обновим модель. Важно: обновлять модель нужно ДО экипировки мушкетом
 		EquipCharacterByItem(rCharacter, sMushket); // Экипируем мушкет
 		rCharacter.Equip.TempGunID = sLastGun; // Пистоль оставляем экипированным, но в другой группе

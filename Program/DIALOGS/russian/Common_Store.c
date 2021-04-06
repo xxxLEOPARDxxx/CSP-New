@@ -220,6 +220,7 @@ void ProcessDialogEvent()
 											  "Показывай товары, меньше слов и больше дела. Я тороплюсь.",
 											  npchar, Dialog.CurrentNode);
 			link.l1.go = "market";
+			ChangeImport();
 			link.l2 = HeroStringReactionRepeat(NPCharRepPhrase(npchar,
 			                                        pcharrepphrase("Эх, так бы и "+ GetSexPhrase("прирезал","прирезала") +" кого-нибудь! Ладно, давай к делу.",
 													               "Перейдем к другим делам, милейший"),
@@ -301,7 +302,7 @@ void ProcessDialogEvent()
 				}				
 			}			
 			//<-- eddy. Аскольд, базар с рендомным торговцем
-			link.l5 = HeroStringReactionRepeat(NPCharRepPhrase(npchar,
+			link.l11 = HeroStringReactionRepeat(NPCharRepPhrase(npchar,
 			                                        pcharrepphrase("Пока, старый пропойца.",
 													               "Всего доброго, "+GetAddress_FormToNPC(NPChar)+" " +GetFullName(npchar)+"."),
 													pcharrepphrase("Каррамба! Никуда не уходи. Я еще зайду.",
@@ -322,7 +323,7 @@ void ProcessDialogEvent()
 													pcharrepphrase("Считай свои пиастры, пройдоха! Я еще зайду.",
 													               ""+ GetSexPhrase("Рад был","Рада была") +" вас видеть, " + GetAddress_FormToNPC(NPChar)+" " +GetFullName(npchar)+"!")),
 											  npchar, Dialog.CurrentNode);
-			link.l5.go = "exit";
+			link.l11.go = "exit";
 		break;
 
 		//Линейка Виспер
@@ -869,6 +870,18 @@ void ProcessDialogEvent()
     		    link.l6.go = "rumours_trader";
 
 				// ugeen --> склад товаров для ГГ
+				if(NPChar.city != "Pirates")
+				{
+					if (NPChar.city == "Tortuga" || NPChar.city == "Villemstad" || NPChar.city == "PortRoyal" || NPChar.city == "Havana")
+					{
+						if(!CheckAttribute(NPChar,"Storage.NoActivate"))
+						{
+							link.l7 = "Можно ли арендовать у вас склад?";
+							link.l7.go = "storage_rent";
+						}
+					}
+					
+				}
 				if(CheckAttribute(NPChar,"Storage"))
 				{
 					if(CheckAttribute(NPChar,"Storage.Activate"))
@@ -1341,6 +1354,41 @@ void ProcessDialogEvent()
 				Nextdiag.CurrentNode = Nextdiag.TempNode;
 				DialogExit();
 			}
+		break;
+		case "storage_rent":
+			dialog.text = "Значит, желаете арендовать один из наших складов за умеренную плату?";
+			link.l1 = "А он большой? и сколько попросите за аренду?";
+			link.l1.go = "storage_rent1";
+		break;
+		
+		case "storage_rent1":
+			NPChar.MoneyForStorage = GetStoragePriceExt(NPChar, pchar); 
+			dialog.text = "Он достаточно просторный даже для припортового пакгауза - вместимость 50000 ц. За " + FindRussianMoneyString(sti(NPChar.MoneyForStorage)) + " в месяц я готов обеспечить сохранность ваших запасов. "+
+				"Это включает услуги по охране, защиту от подтопления и борьбу с грызунами. Ну как, годится?.. Ну, и конфиденциальность, понятное дело, гарантирую.";
+			link.l1 = "Годится. Могу я его осмотреть?";	
+			link.l1.go = "storage_rent2";
+			link.l2 = "Слишком дорого просите. Там, небось, воды по колено и крысы вовсю шуруют.";
+			link.l2.go = "storage_rent3";		
+		break;
+		
+		case "storage_rent2":
+			dialog.text = "Конечно-конечно. Только эм-м... оплату за месяц попрошу вперёд.";
+			if(sti(pchar.money) >= sti(NPChar.MoneyForStorage))
+			{
+				link.l1 = "Экий вы... меркантильный. Держите свои деньги - я арендую этот сарай.";
+				link.l1.go = "storage_11";
+			}
+			else
+			{	
+				link.l1 = "Экий вы... меркантильный. Сейчас деньги принесу.";
+				link.l1.go = "exit";
+			}	
+		break;
+		
+		case "storage_rent3":
+			dialog.text = "Ну, как знаете. Если надумаете - обращайтесь. Только учтите, что такое сокровище долго пустовать не будет. Как бы не опоздали.";
+			link.l1 = "Не волнуйтесь. Если понадобится - спрошу.";
+			link.l1.go = "exit";
 		break;
 
 	}

@@ -101,7 +101,6 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 	{
 		return 0;
 	}
-	
 	float _TradeSkill = GetSummonSkillFromNameToOld(chref,SKILL_COMMERCE); // 0..10.0
 	aref refGoods;
 	string tmpstr = Goods[_Goods].name;
@@ -132,7 +131,10 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 			break;  
 		case TRADE_TYPE_CANNONS:
 			tradeModify = 0.85 + stf(refGoods.RndPriceModify); //0.8
-			break;	
+			break;
+		case TRADE_TYPE_AGGRESSIVE:
+			tradeModify = 1.8 + stf(refGoods.RndPriceModify); 
+			break;
 	}
 
 	float skillModify;
@@ -214,6 +216,9 @@ float GetStoreGoodsRndPriceModify(ref _refStore, int _Goods, int _PriceType, ref
 		case TRADE_TYPE_CANNONS:
 			tradeModify = tradeModify - 0.85;
 			break;	
+		case TRADE_TYPE_AGGRESSIVE:
+			tradeModify = tradeModify;
+		break;	
 	}
 	 // может быть минусом, а что делать :(
     return tradeModify;
@@ -246,7 +251,10 @@ string GetStoreGoodsType(ref _refStore,int _Goods)
 		break;
 	case TRADE_TYPE_CANNONS:   //new boal
 		return TRADE_TYPE_CANNONS_NAME;
-		break;		
+		break;
+	case TRADE_TYPE_AGGRESSIVE:
+		return TRADE_TYPE_AGGRESSIVE_NAME;
+		break;
 	}
 	Trace("Missing trade type");
 	return TRADE_TYPE_NORMAL_NAME;
@@ -362,6 +370,10 @@ float AddPriceModify(float curModify, int tradeType, float rateInc)
 		     fMaxModify = 0.3;
 		     fMinModify = -1.5;
              break;
+		case TRADE_TYPE_AGGRESSIVE:
+			fMinModify = -0.85;
+			fMaxModify = 0.15;
+			break;
 	}
 	if (rateInc <= 0.965)
 	{
@@ -420,6 +432,7 @@ int GetProductGoods(int tradeType,bool bLarge, int _i)
 		case TRADE_TYPE_IMPORT:		return makeint( (10+ rand(6)*10) / rate);	break;
 		case TRADE_TYPE_CONTRABAND: return rand(20);	break;
 		case TRADE_TYPE_CANNONS:    return rand(15);	break;
+		case TRADE_TYPE_AGGRESSIVE:    return makeint( (5 + rand(6)*10) / 2*rate);	break;
 		// boal 25.01.2004 <--
 	}
 
@@ -448,6 +461,7 @@ int GetConsumeGoods(int tradeType,bool bLarge, int _i)
 		case TRADE_TYPE_IMPORT:		return makeint((20+rand(10)*10) / rate);	break;
 		case TRADE_TYPE_CONTRABAND: return 50+rand(100);	break;
 		case TRADE_TYPE_CANNONS: return rand(14);	break;
+		case TRADE_TYPE_AGGRESSIVE:		return makeint((10 + rand(6)*10) / rate);	break;
 		// boal 25.01.2004 <--
 	}
 
@@ -701,3 +715,147 @@ int GetStorage(string sColony)
 	return -1;
 }
 // <-- ugeen
+void ChangeImport()
+{	
+	string goodName;
+	//pRef.StoreSize = "large"; // "small"
+	ref pRef; 
+	int iContra, iExport, iImport, iAgress, iType;
+
+	
+	for(int i=0; i<STORE_QUANTITY; i++)
+    {
+		if(GetQuestPastDayParam("ChangeImport"+i) >= (60 + rand(30)))
+		{
+			if(i == 3 || i == 4 || i == 10 || i == 19)
+			{
+				iContra = 2 + rand(1);
+				iExport = 1 + rand(1);
+				iImport = 1 + rand(5);
+				iAgress = 1 + rand(4);
+			}
+			else
+			{
+				iContra = 1 + rand(2);
+				iExport = 2 + rand(4);
+				iImport = 1 + rand(3);
+				iAgress = 0;
+			}
+		pRef = &Stores[i];
+		if(pRef.Colony != "Pirates" && pRef.Colony != "none" && pRef.Colony != "Panama")
+		{
+			for(int j=0; j<GOODS_QUANTITY; j++)
+			{
+				if(j > 31 && j < 51) continue;
+					goodName = Goods[j].Name;
+				if(i == 3 || i == 4 || i == 10 || i == 19) 
+				{
+					if(j < 10 || j == 16)
+					{
+					iType = rand(5);
+					pRef.Goods.(goodName).TradeType = 0;
+						if(iType > 4)
+						{
+							if(iType == 1) 
+							{
+								pRef.Goods.(goodName).TradeType = 1;
+								iExport--;
+							}
+						}
+						if(iType == 4) 
+						{	
+							pRef.Goods.(goodName).TradeType = 6;
+							iAgress--;
+						}
+					}
+					else
+					{
+						iType = rand(4);
+						if(iType == 1) 
+						{
+							pRef.Goods.(goodName).TradeType = 1;
+							iExport--;
+						}
+						if(iType == 2)
+						{		
+							pRef.Goods.(goodName).TradeType = 2;
+							iImport--;
+						}
+						if(iType == 3) 
+						{	
+							pRef.Goods.(goodName).TradeType = 3;
+							iContra--;
+						}
+						if(iType == 4) 
+						{	
+							pRef.Goods.(goodName).TradeType = 6;
+							iAgress--;
+						}
+					}
+				}	
+					else
+					{
+						iType = rand(3);
+						if(iType == 0)
+						{
+							pRef.Goods.(goodName).TradeType = 0;
+						}
+						if(iType == 1) 
+						{
+							pRef.Goods.(goodName).TradeType = 1;
+							iExport--;
+						}
+						if(iType == 2)
+						{		
+							pRef.Goods.(goodName).TradeType = 2;
+							iImport--;
+						}
+						if(iType == 3) 
+						{	
+							pRef.Goods.(goodName).TradeType = 3;
+							iContra--;
+						}
+					}
+				
+				if(iContra <= 0 && pRef.Goods.(goodName).TradeType == 3) pRef.Goods.(goodName).TradeType = 0;
+				if(iImport <= 0 && pRef.Goods.(goodName).TradeType == 2) pRef.Goods.(goodName).TradeType = 0;
+				if(iExport <= 0 && pRef.Goods.(goodName).TradeType == 1) pRef.Goods.(goodName).TradeType = 0;
+				if(iAgress <= 0 && pRef.Goods.(goodName).TradeType == 6) pRef.Goods.(goodName).TradeType = 0;
+				Log_TestInfo("Обновление цен в" + " " + pRef.Colony + "_" + goodName + "_" + pRef.Goods.(goodName).TradeType);
+				switch(sti(pRef.Goods.(goodName).TradeType))
+				{
+					case TRADE_TYPE_NORMAL:
+						pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.5 + rand(sti(sti(Goods[i].Norm)*0.2)));
+						pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15;
+					break;
+					case TRADE_TYPE_EXPORT:
+						pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.9 + rand(sti(sti(Goods[i].Norm)*0.2)));
+						pRef.Goods.(goodName).RndPriceModify = frnd() * 0.1;								
+					break;
+					case TRADE_TYPE_IMPORT:
+						pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.15 + rand(sti(sti(Goods[i].Norm)*0.15))); 
+						pRef.Goods.(goodName).RndPriceModify = frnd() * 0.20; 
+					break;
+					case TRADE_TYPE_CONTRABAND:
+						pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.1))); 
+						pRef.Goods.(goodName).RndPriceModify = frnd() * 0.35; 
+					break;
+					case TRADE_TYPE_AGGRESSIVE:  
+						pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.02)));
+						pRef.Goods.(goodName).RndPriceModify = frnd() * 0.25;
+					break;
+				}
+
+				if (pRef.StoreSize == "small")
+				{
+					pRef.Goods.(goodName).Quantity = makeint(sti(pRef.Goods.(goodName).Quantity) / 3);
+				}
+
+				pRef.Goods.(goodName).Norm            = pRef.Goods.(goodName).Quantity; 
+				pRef.Goods.(goodName).NormPriceModify = pRef.Goods.(goodName).RndPriceModify; 
+			}
+		}
+		}
+		SaveCurrentQuestDateParam("ChangeImport"+i);
+	}
+}

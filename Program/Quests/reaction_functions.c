@@ -507,6 +507,19 @@ void Sharp_Over(string qName)
 	}
 }
 
+//Удаление потерявшегося контрактника
+void Remove_Contract_Officer(string qName)
+{
+	ref chr = CharacterFromID(qName);
+	if (CheckAttribute(chr,"ImmortalOfficer"))
+	{
+		if (!IsCompanion(chr) && !isOfficerInShip(chr, true))
+		{
+			pchar.Option_ImmortalOfficers = sti(sti(pchar.Option_ImmortalOfficers) - 1);
+		}
+	}
+}
+
 //------------ жемчужный промысел ----------------
 void SeaPearl_login(string qName)
 {
@@ -10572,3 +10585,14 @@ void SetTichingituJail()//ставим Тичингиту
 	LAi_SetImmortal(sld, true); // 170712
 }
 //
+void ReloadMyGun(string qName)
+{
+	if(!CheckAttribute(pchar, "MushketSwap"))
+	{
+		pchar.MushketSwap = true;
+		string sGun = GetCharacterEquipByGroup(pchar, GUN_ITEM_TYPE);
+		ref rItm = ItemsFromID(sGun); 
+		int iCharge = iGetPistolChargeNum(pchar, LAi_GunSetChargeQuant(pchar,sti(rItm.chargeQ)));
+		//pchar.chr_ai.charge = iCharge;
+	}
+}

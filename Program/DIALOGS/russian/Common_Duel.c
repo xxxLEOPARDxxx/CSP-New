@@ -74,7 +74,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		//согласен.
 		Dialog.Text = RandPhraseSimple("Дуэль, говоришь? Пожалуй, я не против размяться.", 
 			"Ты хотя бы знаешь какой стороной шпагу держать?");
-		link.l1 = RandPhraseSimple("Ты будешь на коленях просить о пощаде.", "Я прикончу тебя вот этими руками, мерзавец!");
+		link.l1 = RandPhraseSimple("Ты будешь на коленях просить о пощаде.", "Я прикончу тебя вот этими руками, мерза"+ GetSexPhrase("вец","вка") +"!");
 		link.l1.go = "land_duel";
 		if (sti(pchar.Ship.Type) != SHIP_NOTUSED && sti(NPChar.Ship.Type) != SHIP_NOTUSED)
 		{

@@ -1706,7 +1706,7 @@ int NPC_GeneratePhantomCharacter(string sType, int iNation, int iSex, int _LifeD
 
 string PerksChars()
 {
-	switch (rand(5))
+	switch (rand(6))
 	{
 		case 0: return "Buccaneer";
 		break;
@@ -1719,6 +1719,8 @@ string PerksChars()
 		case 4: return "Agent";
 		break;
 		case 5: return "SeaWolf";
+		break;
+		case 6: return "Adventurer";
 		break;
 	}
 	return "basicdefence";
@@ -1947,7 +1949,14 @@ string GetSeaQuestShipNearestLocator(ref _loc, string group, float x, float y, f
 }
 void MarkCharacter(aref chr, string markType)
 {
-	if (!bQuestMark) return;
+	if (InterfaceStates.EnabledQuestsMarks == false) return;
+	chr.quest.questflag.model = markType; 
+	chr.quest.questflag.technique = "RandItem"; 
+}
+
+void FXMarkCharacter(aref chr, string markType)
+{
+	if (InterfaceStates.EnabledFXMarks == false) return;
 	chr.quest.questflag.model = markType; 
 	chr.quest.questflag.technique = "RandItem"; 
 }

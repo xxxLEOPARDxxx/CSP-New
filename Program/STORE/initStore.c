@@ -20,6 +20,7 @@ void InitStores()
    {
        FillStoreGoods(&stores[i]);
    }
+
 }
 
 void SetStoresTradeType(int StoreNum,int GoodsNum,int TradeType)
@@ -34,7 +35,6 @@ void FillStoreGoods(ref pRef)
 	string goodName;
 	string goodType;
 	//int goodBasePrice;
-
 	int iColony = FindColony(pRef.Colony); // город магазина
 	aref arTypes, arCurType;
 	if (iColony != -1)
@@ -56,6 +56,7 @@ void FillStoreGoods(ref pRef)
 					case "Export":		tt=TRADE_TYPE_EXPORT;		break;
 					case "Import":		tt=TRADE_TYPE_IMPORT;		break;
 					case "Contraband":	tt=TRADE_TYPE_CONTRABAND;	break;
+					case "Aggressive":	tt=TRADE_TYPE_AGGRESSIVE;	break;
 				}
 				n = GetAttributesNum(arCurType);
 				for(j=0;j<n;j++)
@@ -82,29 +83,29 @@ void FillStoreGoods(ref pRef)
 		switch(sti(pRef.Goods.(goodName).TradeType))
 		{
 			case TRADE_TYPE_NORMAL:
-			    pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.5 + rand(sti(sti(Goods[i].Norm)*0.2))); //200 + Rand(2500) + rand(500);
-				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15;//0.2
-				break;
-
+				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.5 + rand(sti(sti(Goods[i].Norm)*0.2)));
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15;
+			break;
 			case TRADE_TYPE_EXPORT:
-			    pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.9 + rand(sti(sti(Goods[i].Norm)*0.2))); //500 + Rand(4000)+ rand(6000);
-				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15; //0.2
-				break;
-
+				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.9 + rand(sti(sti(Goods[i].Norm)*0.2)));
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.1;								
+			break;
 			case TRADE_TYPE_IMPORT:
-			    pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.2 + rand(sti(sti(Goods[i].Norm)*0.15))); //60 + Rand(500) + rand(500);
-				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.30; // 0.35
-				break;
-
+				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.15 + rand(sti(sti(Goods[i].Norm)*0.15))); 
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.20; 
+			break;
 			case TRADE_TYPE_CONTRABAND:
-			    pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.1))); //1+Rand(50)*sti(goods[i].Units);
-				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.35; //0.5
-				break;
+				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.1))); 
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.35; 
+			break;
+			case TRADE_TYPE_AGGRESSIVE:  
+				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.02)));
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.25;
+			break;
 			case TRADE_TYPE_AMMUNITION:  //делаю все тоже, что и длЯ нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
 			    pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.5 + rand(sti(sti(Goods[i].Norm)*0.2))); //200 + Rand(2500) + rand(500);
 				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15;//0.2
-				break;
-				
+			break;			
 			case TRADE_TYPE_CANNONS: 
 				if(sti(Goods[i].NotSale) == 1) // 1.2.5 --> старшие калибры не продаем !!!
 				{
@@ -115,7 +116,7 @@ void FillStoreGoods(ref pRef)
 					pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.6 + rand(sti(sti(Goods[i].Norm)*0.6))); //20 + Rand(50) + rand(50);
 				}	
 				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.3 // 0.4
-				break;	
+				break;
 		}
 
 		// размер имеет значение

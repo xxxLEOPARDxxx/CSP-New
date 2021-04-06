@@ -199,6 +199,12 @@ void IReadVariableAfterInit()
 		nEnabledQuestsMarks = sti(InterfaceStates.EnabledQuestsMarks);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"QUESTMARK_CHECKBOX", 2, 1, nEnabledQuestsMarks );
+	
+	int nEnabledFXMarks = 1;
+	if( CheckAttribute(&InterfaceStates,"EnabledFXMarks") ) {
+		nEnabledFXMarks = sti(InterfaceStates.EnabledFXMarks);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FXMARK_CHECKBOX", 2, 1, nEnabledFXMarks );
 
 	int nEnabledShipMarks = 1;
 	if( CheckAttribute(&InterfaceStates,"EnabledShipMarks") ) {
@@ -424,6 +430,13 @@ void procCheckBoxChange()
 	{
 		{ // Show battle mode border
 			InterfaceStates.EnabledQuestsMarks = bBtnState;
+		}
+	}
+	
+	if( sNodName == "FXMARK_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.EnabledFXMarks = bBtnState;
 		}
 	}
 
@@ -1118,6 +1131,11 @@ void ShowInfo()
 		case "QUESTMARK_CHECKBOX":
 			sHeader = XI_ConvertString("QuestMark Mode");
 			sText1 = XI_ConvertString("QuestMark Mode_descr");
+		break;
+		
+		case "FXMARK_CHECKBOX":
+			sHeader = XI_ConvertString("FXMark Mode");
+			sText1 = XI_ConvertString("FXMark Mode_descr");
 		break;
 
 		case "SHIPMARK_CHECKBOX":

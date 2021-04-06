@@ -479,6 +479,9 @@ void ProcessDialogEvent()
 		case "Andre_Abel_Quest_Hol_Gov_Node_8":
 			DialogExit();
 			NextDiag.CurrentNode = NextDiag.TempNode;
+			LAi_LocationDisableOfficersGen("Villemstad_prison",true);
+			LAi_LocationDisableOfficersGen("Villemstad_fort",true);
+			LAi_LocationDisableOfficersGen("Villemstad_ExitTown",true);
 			DoFunctionReloadToLocation("Villemstad_prison", "goto", "goto9", "Andre_Abel_Quest_In_Prison");
 		break;
 			

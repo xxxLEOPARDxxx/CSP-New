@@ -431,6 +431,53 @@ int LocationInitQuestLocations(int n)
 	locations[n].private7.items.potion4 = 27;
 
 	n = n + 1;
+	
+	//Лока создания перса
+	Locations[n].id = "SelectMainCharacter_Cabine";   // Lugger: Выбор ГГ
+    	locations[n].id.label = "cabine2";
+	locations[n].filespath.models = "locations\inside\cabin02\";
+	locations[n].image = "loading\capdeck.tga";
+	//Sound
+	locations[n].type = "residence";
+	locations[n].LoadCabinType.Type = "Cabin";
+	//Models
+	//Always
+	locations[n].models.always.l1 = "cabin02";
+	locations[n].models.always.l1.level = 65538;
+	locations[n].models.always.locators = "cabin02_locators";
+	locations[n].models.always.window = "cabin02_fonar";
+	Locations[n].models.always.window.tech = "LocationWindows";
+	locations[n].models.always.window.level = 65539;
+
+	//Day
+	locations[n].models.day.charactersPatch = "cabin02_patch";
+
+	//Night
+	locations[n].models.night.charactersPatch = "cabin02_patch";
+
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "true";
+
+	//Locations[n].boarding = "false";
+	//Locations[n].camshuttle = 0;
+
+	locations[n].box1 = Items_MakeTime(0, 1, 1, 2003);
+	locations[n].box2 = Items_MakeTime(0, 1, 1, 2003);
+	locations[n].box3 = Items_MakeTime(0, 1, 1, 2003);
+	locations[n].box4 = Items_MakeTime(0, 1, 1, 2003);
+
+    	LAi_LocationFightDisable(&Locations[n], false);
+    	
+	Locations[n].locators_radius.randitem.randitem1 = 1;
+    	Locations[n].reload.l1.name = "reload1";
+	Locations[n].reload.l1.go = "";
+	Locations[n].reload.l1.emerge = "";
+	Locations[n].reload.l1.label = "";
+	Locations[n].items.randitem1 = "";
+	
+	locations[n].environment.weather.rain = false;
+	n = n + 1;
 
 	return n;
 }

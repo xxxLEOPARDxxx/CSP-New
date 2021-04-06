@@ -9,6 +9,8 @@
 
 void SetDamnedDestinyVariable()
 {
+	PChar.SelectMainCharacter = false;
+	
 	GenerateColonyVariable();
 	ReloadProgressUpdate();
 	InitPlantation();
@@ -34,8 +36,129 @@ void SetDamnedDestinyVariable()
 	
 	PChar.GenerateQuestDuel.Block = false;
 	
+	PChar.TmpModel = "Hero1";
+	PChar.ToMusketeer.Model = "hero1";
+	PChar.ToMusketeer.Ani = "man";
+	
+	PChar.SuccessPrice.ReadNotice = false;
+	PChar.SuccessPrice.CreateCharacter = false;
+	PChar.SuccessPrice.CreateCharacter.Model = "Hero1";
+	
 	ReloadProgressUpdate();
 }
+/////////////////////////////////////////////////////////////////////////////////
+// Начало игры и выбор главного героя
+/////////////////////////////////////////////////////////////////////////////////
+void SelectMainCharacterInCabine(string sQuest)
+{
+	ref PChar = GetMainCharacter();
+	
+	bDisableCharacterMenu = true;
+	bDisableQuestInterface = true;
+
+	StartQuestMovie(true, true, true);
+	
+	Locations[FindLocation(PChar.location)].items.randitem1 = "";
+	
+	ChangeCharacterAddressGroup(PChar, PChar.location, "goto", "SelectCharacter");
+	
+	PChar.model = "";
+	SetNewModelToChar(PChar);
+	
+    	SetCharacterTask_None(GetMainCharacter());
+	InterfaceStates.Buttons.Save.enable = false;
+	
+	LAi_SetActorTypeNoGroup(PChar);
+	LAi_ActorTurnToLocator(PChar, "reload", "reload1");
+	
+	DoQuestFunctionDelay("SelectMainCharacterInCabineLocCamera", 0.1);
+	DoQuestFunctionDelay("LaunchCreateCharacterInterface", 2.0);
+}
+
+void SelectMainCharacterInCabineLocCamera(string _tmp)
+{
+	float x, y, z;
+	x = stf(loadedLocation.locators.camera.reload1.x) + 0.5;
+	y = stf(loadedLocation.locators.camera.reload1.y) - 0.5;
+	z = stf(loadedLocation.locators.camera.reload1.z) + 1.0;
+	locCameraToPos(x, y, z, false);	
+}
+
+void LaunchCreateCharacterInterface(string _tmp)
+{
+	LaunchCreateCharacter();
+}
+
+void EndSelectMainCharacter(ref chr)
+{
+	bDisableCharacterMenu = false;
+	bDisableQuestInterface = false;
+	Log_Info("Ожидайте прогрузки, игра не зависнет.");
+	pchar.starttype = startHeroType;
+	LaunchSelectCharacter();
+}
+
+void WayBeginning(string _tmp)
+{
+	DeleteAttribute(pchar,"cirassID");
+	initNewMainCharacter();
+	if (startHeroType == 1) //21/07/07 homo для Блада даем другое начало
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Estate";
+    	pchar.quest.Tut_start.function                  = "Blood_StartGame";
+		Pchar.questTemp.WhisperLine = false;
+		InterfaceStates.startGameWeather = FindWeather("20 Hour");
+		DoQuestReloadToLocation("Estate", "reload", "reload1", "");
+		return;
+    }
+	InitPsHeros();
+	ReloadProgressUpdate();
+	for (int j = 0; j< MAX_COLONIES; j++)
+	{
+		GenerateIslandShips(colonies[j].island);
+	}
+	ReloadProgressUpdate();
+    if (startHeroType == 2)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Bermudes_Dungeon";
+    	pchar.quest.Tut_start.function                  = "Whisper_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+		DoQuestReloadToLocation("Bermudes_Dungeon", "reload", "reload2_back", "");
+		return;
+    }
+	if (startHeroType == 3 || startHeroType == 4)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Shore57";
+    	pchar.quest.Tut_start.function                  = "Sharp_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+		Pchar.questTemp.WhisperLine = false;
+		DoQuestReloadToLocation("Shore57", "item", "item11", "");
+		return;
+    }
+	if (startHeroType == 5 || startHeroType == 6)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Shore_ship2";
+    	pchar.quest.Tut_start.function                  = "SharleMary_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+		Pchar.questTemp.WhisperLine = false;
+		DoQuestReloadToLocation("Shore_ship2", "goto", "goto4", "");
+		return;
+    }
+	if (startHeroType > 6)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Ship_deck_Low";
+    	pchar.quest.Tut_start.function                  = "Tut_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+		Pchar.questTemp.WhisperLine = false;
+		DoQuestReloadToLocation("Ship_deck_low", "goto", "goto4", "");
+    }
+}
+
 /* PROGRAM/LUGGER/UTILS.C */
 /////////////////////////////////////////////////////////////////////////////////
 // Раздача еды

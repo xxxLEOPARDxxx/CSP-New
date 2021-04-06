@@ -90,7 +90,7 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 				
 				if (CheckAttribute(chr, "talker")) 
 				{
-					if(bQuestMark)
+					if(InterfaceStates.EnabledQuestsMarks)
 					{
 					chr.quest.questflag.model = "exclamationmarkY";
 					chr.quest.questflag.technique = "RandItem"; 
@@ -98,7 +98,7 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 				}
 				else
 				{
-					if(bQuestMark)
+					if(InterfaceStates.EnabledQuestsMarks)
 					{
 					chr.quest.questflag.model = "";
 					chr.quest.questflag.technique = ""; 

@@ -51,6 +51,7 @@ void InitInterface(string iniName)
 	GameInterface.nodes.DEFENDERS_SLIDE.value = 0.5;
     SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"DEFENDERS_SLIDE", 0, 0.5);
 
+	startHeroType = sti(pchar.starttype);
     if (startHeroType < 1) startHeroType = 1; // fix
     if (startHeroType > sti(GetNewMainCharacterParam("hero_qty"))) startHeroType = sti(GetNewMainCharacterParam("hero_qty")); // fix
 
@@ -79,14 +80,9 @@ void InitInterface(string iniName)
 
     heroQty   = sti(GetNewMainCharacterParam("hero_qty"));
 
-    if (!CheckAttribute(&NullCharacter, "HeroParam.HeroType") || !CheckAttribute(&NullCharacter, "HeroParam.nation"))
-    {   // иначе уже загружен и выбран ГГ, смотрим настройки и идем обратно
+
 		SetVariable(true);
-	}
-	else
-	{
-	    SetVariable(false);
-	}
+
 	TmpI_ShowLevelComplexity();
 	TmpI_ShowOffAmount();
 	SetByDefault();
@@ -367,8 +363,9 @@ void exitCancel()
 		IDoExit(RC_INTERFACE_LAUNCH_GAMEMENU, true);
 		return;
 	}
-	IDoExit(RC_INTERFACE_CHARACTER_SELECT_EXIT, true);
-	ReturnToMainMenu();
+	IDoExit(RC_INTERFACE_MAIN_MENU_EXIT, true);
+	//IDoExit(RC_INTERFACE_CHARACTER_SELECT_EXIT, true);
+	//ReturnToMainMenu();
 }
 
 void exitOk()
@@ -465,6 +462,12 @@ void ProcessCommandExecute()
 	               MOD_SKILL_ENEMY_RATE++;
 	            }
 	            TmpI_ShowLevelComplexity();
+			}
+		break;
+		case "RANDCHARNATION":
+			if(comName=="click")
+			{
+			    RandCharNation();
 			}
 		break;
 		
@@ -1086,6 +1089,55 @@ void ProcessCommandExecuteTypeLeft()
     totalInfoChar = LanguageConvertString(idLngFile, NullCharacter.HeroParam.HeroType);
     SetInfoChar();
     LanguageCloseFile(idLngFile);
+}
+
+void RandCharNation()
+{
+	idLngFile = LanguageOpenFile("HeroDescribe.txt");
+	switch (rand(6))
+	{
+		case 0:
+			NullCharacter.HeroParam.HeroType = "Master";
+		break;
+		case 1:
+			NullCharacter.HeroParam.HeroType = "Corsair";
+		break;
+		case 2:
+			NullCharacter.HeroParam.HeroType = "Merchant";
+		break;
+		case 3:
+			NullCharacter.HeroParam.HeroType = "Adventurer";
+		break;
+		case 4:
+			NullCharacter.HeroParam.HeroType = "Inquisitor";
+		break;
+		case 5:
+			NullCharacter.HeroParam.HeroType = "SeaWolf";
+		break;
+		case 5:
+			NullCharacter.HeroParam.HeroType = "SecretAgent";
+		break;
+	}
+	switch (rand(4))
+	{
+		case 0:
+			SelectNation(0);
+		break;
+		case 1:
+			SelectNation(1);
+		break;
+		case 2:
+			SelectNation(2);
+		break;
+		case 3:
+			SelectNation(3);
+		break;
+		case 4:
+			SelectNation(4);
+		break;
+	}
+	SetFormatedText("HERO_TYPE", XI_ConvertString(NullCharacter.HeroParam.HeroType));
+	LanguageCloseFile(idLngFile);
 }
 
 void ProcessCommandExecuteTypeRight()
