@@ -33,6 +33,7 @@ void ProcessDialogEvent()
 				{
 					link.l1 = "Я при" + GetSexPhrase("шел","шла") + " избавить это место от скверны! Изыди, нечистый! Именем господа, я заклинаю...";
 					link.l1.go = "meeting_2";
+					break;
 				}
 				link.l3 = "Умри, отродье!";
 				link.l3.go = "skel_fight";
@@ -135,6 +136,7 @@ void ProcessDialogEvent()
 			dialog.text = "У тебя нет шансов в бою со мной. И твои заклинания здесь не помогут, а Господь - не услышит.";
 			npchar.quest.answer_1 = "true";
 			TakeNItems(NPCHAR, "Chest_ammo", 2 + sti(pchar.rank)*0.1);
+			TakeNItems(NPCHAR, "Chest_quest", 1 );
 			link.l1 = "Это мы еще посмотрим! Прошу тебя, Господи, направь мою руку, чтобы я смог"+GetSexPhrase("","ла")+" поразить этого нечистого во славу твою!";
 			link.l1.go = "skel_fight";
 		break;

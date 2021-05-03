@@ -331,11 +331,50 @@ void ProcessDialogEvent()
 						}
 					}
 				}		
-			}												
+			}
+			if (CheckAttribute(pchar,"Whisper.ActiveChardQuest") && !CheckAttribute(pchar,"Whisper.PortmanAtSea") && GetNpcQuestPastDayWOInit(npchar, "Whisper.LastSeenPortman") > 7 && GetNpcQuestPastDayWOInit(pchar, "Whisper.LastSeenPortman") > 7)
+			{
+				Link.l11 = "Я ищу капитана по имени Ральф Портман. У вас в журнале такой не отмечался?";
+				Link.l11.go = "Whisper_chard_quest";
+			}
+			
 			Link.l15 = "Благодарю. До свидания.";
 			Link.l15.go = "exit";
 		break;
 
+		case "Whisper_chard_quest":
+			SaveCurrentNpcQuestDateParam(npchar,"Whisper.LastSeenPortman");
+			if (!CheckAttribute(pchar,"Whisper.PortmanTries"))
+			{
+				pchar.Whisper.PortmanTries = 0;
+			}
+			pchar.Whisper.PortmanTries = sti(pchar.Whisper.PortmanTries)+1;
+			if (npchar.nation != HOLLAND && npchar.nation != SPAIN)
+			{
+				if (sti(pchar.Whisper.PortmanTries) > 2)
+				{
+					WhisperSpawnPortman(npchar);
+					SaveCurrentNpcQuestDateParam(pchar,"Whisper.LastSeenPortman");
+					//SaveCurrentQuestDateParam("Whisper.LastSeenPortman");
+					dialog.text = "Был такой. Он только недавно покинул порт. Кажется, отправился в колонию "+XI_ConvertString("Colony" + pchar.Whisper.PortmanTargetCity)+". Если поторопитесь, может, ещё успеете его догнать.";
+					link.l1 = "Благодарю, я пойду. До свидания.";
+					link.l1.go = "exit";
+				}
+				else
+				{
+					dialog.text = "Хм... Нет, такой у меня пока не отмечался.";
+					link.l1 = "Благодарю за информацию, я пойду. До свидания.";
+					link.l1.go = "exit";
+				}
+			}
+			else
+			{
+				dialog.text = "Кто? Если это англичанин, то вряд ли. Мы их пускаем в порт только в исключительных случаях.";
+				link.l1 = "Спасибо и на том, я пойду. До свидания.";
+				link.l1.go = "exit";
+			}
+		break;
+		
 		case "Church_GenQuest1_Node_FillFullInfo":
 			dialog.text = "Ваша проблема легко разрешима. Вы можете обратиться к любому чиновнику службы навигации, и получить всю имеющуюся информацию о маршруте судна вашего друга.";
 			link.l1 = "К сожалению, не всё так просто. Именно в вашем порту мой друг сменил название судна... из религиозных побуждений.";
@@ -1313,6 +1352,12 @@ void ProcessDialogEvent()
 			sTitle = npchar.id + "Portmans_SeekShip";
 			AddQuestRecordEx(sTitle, "Portmans_SeekShip", "6");
 			CloseQuestHeader(sTitle);
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(npchar, "quest.PortmansSeekShip");
 			npchar.quest = ""; //освобождаем личный флаг квеста для портмана
 		break;

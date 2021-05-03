@@ -232,6 +232,11 @@ void ProcessDialogEvent()
                     link.l1 = "Уже ухожу.";
                 }
         		link.l1.go = "Exit";
+				if (CheckAttribute(pchar, "SeekVolverstonRum") && !CheckCharacterItem(pchar, "potionrum") && !CheckAttribute(npchar, "VolverstonRum_fail") && !CheckAttribute(npchar, "quest.bGoodMerch"))
+				{
+					link.l2 = "У вас случаем нет в продаже бутылочки рома?";
+                    link.l2.go = "Merchant_VolverstonRum";
+				}
     		}
     		//Рабы на плантациях - постоянный диалог
     		if (CheckAttribute(npchar, "CityType") && npchar.CityType == "citizen" && findsubstr(npchar.id, "Slave_" , 0) != -1)
@@ -380,6 +385,58 @@ void ProcessDialogEvent()
             link.l1 = "Спасибо.";
             link.l1.go = "Exit";
 
+		break;
+		
+		case "Merchant_VolverstonRum":
+		
+        	dialog.text = "Есть. С тебя пятьсот монет.";
+			if (pchar.money >= 500)
+			{
+				link.l1 = "Вот. Давайте её сюда.";
+				link.l1.go = "Merchant_VolverstonRum_1";
+			}
+			link.l2 = "Что же так дорого то? Я еще вернусь.";
+    		link.l2.go = "exit";
+    		
+		break;
+		
+		case "Merchant_VolverstonRum_1":
+			AddMoneyToCharacter(pchar, -500);
+        	dialog.text = "Погоди-ка. А откуда это у раба взялись такие деньги? Ничего я тебе не дам. Считай, что это было платой за молчание. А теперь проваливай, а не то стражу позову!";
+    		link.l1 = "Послушайте, мне очень нужна эта бутылка. Вопрос жизни и смерти.";
+    		link.l1.go = "Merchant_VolverstonRum_2";
+		break;
+		case "Merchant_VolverstonRum_2":
+        	dialog.text = "Ладно. Плати еще тысячу, или проваливай.";
+			if (pchar.money >= 1000)
+			{
+				link.l1 = "На, подавись ты уже своими деньгами!";
+				link.l1.go = "Merchant_VolverstonRum_3";
+			}
+			else
+			{
+				link.l1 = "Но у меня столько нет...";
+				link.l1.go = "Merchant_VolverstonRum_2_1";
+			}
+			
+		break;
+		
+		case "Merchant_VolverstonRum_2_1":
+			npchar.VolverstonRum_fail = true;
+        	dialog.text = "В таком случае - пшёл вон! И не спрашивай меня больше.";
+    		link.l1 = "И не подумаю.";
+    		link.l1.go = "exit";
+    		
+		break;
+		
+		case "Merchant_VolverstonRum_3":
+			npchar.VolverstonRum_fail = true;
+			AddMoneyToCharacter(pchar, -1000);
+			TakeNItems(PChar, "potionrum", 1);
+        	dialog.text = "Ха, да у тебя, небось, еще деньги остались? Ладно, забирай свою бутылку. И не надоедай мне больше, раб.";
+    		link.l1 = "Да я к вам теперь и на пушечный выстрел не подойду.";
+    		link.l1.go = "exit";
+    		
 		break;
 		
 		case "Merchant_0":

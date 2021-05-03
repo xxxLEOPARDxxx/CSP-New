@@ -644,6 +644,32 @@ type = normal
 	data = "Probability", "0.0"
 
 
+[fight stand_7]
+loop = true
+type = normal
+	start_time = 0
+	end_time = 0
+	
+	speed = 1.
+	
+	data = "Blend time", "0.0"		; sec
+	
+	data = "Probability", "0.0"
+
+
+[fight stand_8]
+loop = true
+type = normal
+	start_time = 0
+	end_time = 0
+	
+	speed = 1.
+	
+	data = "Blend time", "0.0"		; sec
+	
+	data = "Probability", "0.0"
+
+
 
 
 ; анебше оепелеыемх?

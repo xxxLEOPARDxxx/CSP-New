@@ -201,11 +201,6 @@ int Reload(aref reload_group, string locator_name, string current_location)
 	
 	//Main character
 	ref mc = GetMainCharacter();
-	//Trace("reload_cur_island_index = " + reload_cur_island_index);
-	//Trace("reload_cur_location_index = " + reload_cur_location_index);
-	//Trace("reload_island_index = " + reload_island_index);
-	//Trace("reload_location_index = " + reload_location_index);
-	//Test in sea exit
 
 	if((reload_cur_island_index < 0) && (reload_island_index >= 0))
 	{
@@ -389,39 +384,6 @@ void ReloadEndFade()
 	SendMessage(&reload_fader, "lfl", FADER_IN, RELOAD_TIME_FADE_IN, true);
 	PostEvent("LoadSceneSound", 500);
 	ReloadProgressEnd();
-	/*if (InterfaceStates.NoInt)
-	{
-		if (bSeaActive && !bAbordageStarted)
-		{
-			DeleteBattleInterface();
-		}
-		else
-		{
-			EndBattleLandInterface();
-		}
-	}
-	else
-	{
-		if (bSeaActive && !bAbordageStarted)
-		{
-			if (!IsEntity(BattleInterface))
-			{
-				InitBattleInterface();
-				StartBattleInterface();
-				RefreshBattleInterface();
-			}
-		}
-		else
-		{
-			if (!IsEntity(worldMap))
-			{
-				if (!bLandInterfaceStart)
-				{
-					StartBattleLandInterface();
-				}
-			}
-		}
-	}*/
 }
 
 string FindEmergeLocator(ref rObject, string emerge_str)
@@ -550,7 +512,21 @@ int ReloadToLocation(int location_index, aref reload_data)
 		} 
 		else 
 		{
-			mc.model.animation = locations[location_index].changeAnimation;
+			if (locations[location_index].id.label == "TempleUnderwater")
+			{
+				mc.model.animation = MainChAnim+"_swim";
+			}
+			else
+			{
+				if (CheckCharacterPerk(pchar, "AgileMan"))
+				{
+					mc.model.animation = MainChAnim+"_fast";
+				}
+				else
+				{
+					mc.model.animation = MainChAnim;
+				}
+			}
 		}	
 	}
 	
@@ -603,14 +579,6 @@ int ReloadToLocationEx(int location_index, string sLocator)
 	mc.location.group = "reload";
 	mc.location.locator = sLocator;
 
-	/*
-	if(reload_xaddress.active == "true")
-	{
-		mc.location.group = reload_xaddress.group;
-		mc.location.locator = reload_xaddress.locator;
-	}
-	*/
-	
 	if(IsEntity(&chrAnimationKipper) == false) 
 	{
 		CreateEntity(&chrAnimationKipper, "CharacterAnimationKipper");
@@ -627,10 +595,6 @@ int ReloadToSea(int island_index, aref reload_data)
 	rPlayer.lastFightMode = 0;
 
 	ref rIsland = GetIslandByIndex(island_index);
-	/*Trace("============================");
-	Trace("island_index = " + island_index);
-	DumpAttributes(rIsland);
-	Trace("============================");*/
 
 	rPlayer.location = rIsland.id;
 	rPlayer.location.group = "reload";
@@ -651,15 +615,6 @@ int ReloadToSea(int island_index, aref reload_data)
 		
 	SeaLogin(Login);
 	return 1;
-
-	/*
-	reload_data.x
-	reload_data.y
-	reload_data.z
-	reload_data.ships.l1.x
-
-	return -1;
-	*/
 }
 
 

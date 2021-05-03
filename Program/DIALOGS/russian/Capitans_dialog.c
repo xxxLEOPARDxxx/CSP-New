@@ -109,6 +109,15 @@ void ProcessDialogEvent()
 	    			link.l6.go = "MQ_step_1";
 				}
 				//<-- квест мэра, поиски пирата
+				//--> Квест ***Клан Ламбрини*** Sinistra
+				if (CheckAttribute(pchar, "questTemp.PDM_CL_Ishem") && npchar.name == "Антонио" && npchar.lastname == "де Гальвес")
+				{
+	    			link.l10 = "Семья Ламбрини передаёт вам привет! (напасть)";
+	    			link.l10.go = "Antonio_Bitva";
+					link.l11 = "Кое-кто хочет убить вас. (предать Ламбрини)";
+	    			link.l11.go = "Antonio_1_4";
+				}
+				//<-- Квест ***Клан Ламбрини*** Sinistra
     			link.l5 = "Желаете развеяться?";
 			    link.l5.go = "Play_Game";
                 link.l9 = "Думаю, мне пора!";
@@ -123,6 +132,82 @@ void ProcessDialogEvent()
                 Diag.TempNode = "Go_away_Good";
 			}
         break;
+		//--> Квест ***Клан Ламбрини*** Sinistra
+		case "Antonio_Bitva":
+			bDisableFastReload = true;
+			chrDisableReloadToLocation = true;
+			LAi_LocationFightDisable(loadedLocation, false);
+			AddDialogExitQuest("MainHeroFightModeOn");
+			LAi_group_SetRelation("", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("", LAI_GROUP_PLAYER, false);
+			LAi_group_SetCheck("", "PDM_CL_Lodka");
+			DialogExit();
+		break;
+		
+		case "Antonio_1_4":
+			dialog.text = "И что из этого? Если вы хотели сделать мне сюрприз, то он не удался. Ламбрини хочет меня убить, впрочем, как и остальные контрабандисты были бы не прочь.";
+			link.l1 = "Я "+ GetSexPhrase("пришёл","пришла") +" к вам с предложением.";
+			link.l1.go = "Antonio_1_5";
+		break;
+		
+		case "Antonio_1_5":
+			dialog.text = "Э нет, я не беру взяток от торговцев. И я обязательно доложу о вас сеньору Алькальду!";
+			link.l1 = "Ламбрини был прав на счёт вас! (напасть)";
+			link.l1.go = "Antonio_Bitva";
+			link.l2 = "Что вы сказали бы, если бы я предоставил вам возможность поймать или потопить корабль Ламбрини?";
+			link.l2.go = "Antonio_1_6";
+			link.l3 = "Что же, тогда прощайте.";
+			link.l3.go = "exit";
+		break;
+		
+		case "Antonio_1_6":
+			dialog.text = "Я бы отдал за это мою правую руку. Но это невозможно, увы. Он уже подкупил, кажется, каждого таможенника на Карибах. Что я могу сделать в одиночку?";
+			link.l1 = "Ламбрини предложил мне помочь ему избавиться от вас. Он уверен, что ему в одиночку с вами не справиться, но я мог бы сделать это.";
+			link.l1.go = "Antonio_1_7";
+		break;
+		
+		case "Antonio_1_7":
+			dialog.text = "Если вы работаете на контрабандистов, то нам с вами разговаривать не о чем, сеньор. Прощайте.";
+			link.l1 = "Э, погодите - вы меня даже не выслушали. Я могу сказать Ламбрини, что утопил"+ GetSexPhrase("","а") +" ваш корабль. После этого, он рано или поздно приплывёт сюда, думая, что ему больше ничего не грозит. А вы сможете подстеречь его в бухте, или рядом с ней.";
+			link.l1.go = "Antonio_1_8";
+			link.l2 = "Ну тогда прощайте.";
+			link.l2.go = "exit";
+		break;
+		
+		case "Antonio_1_8":
+			dialog.text = "Любопытно... Этот план может сработать, сеньор"+ GetSexPhrase("","ита") +" "+pchar.name+". А если он сработает, я добьюсь, чтобы сеньор Алькальд щедро вознаградил вас!";
+			link.l1 = "И сколько, по-вашему, может Его Превосходительство заплатить за голову Ламбрини?";
+			link.l1.go = "Antonio_1_9";
+		break;
+		
+		case "Antonio_1_9":
+			int Bonus = sti(pchar.rank);
+			if (Bonus <= 6) Bonus = 1;
+			if (Bonus >= 7 && Bonus <= 12) Bonus = 1.2;
+			if (Bonus >= 13) Bonus = 1.5;
+			int Plata2 = 20000 + 2000 * sti(pchar.rank) * Bonus;
+			dialog.text = "Ну, об этом стоит спросить у Его Превосходительства. Я полагаю, примерно " + Plata2 + ". Наши доходы в последнее время очень снизились из-за контрабандистов.";
+			link.l1 = "Думаю, что " + Plata2 + " - это достаточная плата. Итак, я скажу Октавио Ламбрини, что с вами покончено... Когда он приплывёт сюда, мы его здесь сцапаем. Что может быть проще?";
+			link.l1.go = "Antonio_1_10";
+		break;
+		
+		case "Antonio_1_10":
+			dialog.text = "Как только сообщите Ламбрини о моей смерти - сразу же возвращайтесь ко мне, я буду ждать вас в церкви с 9 утра до часу дня. Мы придумаем, что делать дальше.";
+			link.l1 = "Берегите себя, сеньор. Удачи!";
+			link.l1.go = "Antonio_1_11";
+		break;
+		
+		case "Antonio_1_11":
+			sld = CharacterFromID("PDM_Octavio_Lambrini")
+			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+			sld.dialog.currentnode   = "Octavio_3_1";
+			DeleteAttribute(pchar, "questTemp.PDM_CL_Tavern");
+			DeleteAttribute(pchar, "questTemp.PDM_CL_Ishem");
+			PChar.quest.PDM_CL_Antonio_Ubit.over = "yes";
+			
+			DialogExit();
+		break;
+		//<-- Квест ***Клан Ламбрини*** Sinistra
         case "Trade_1":
 			dialog.text = "Почему бы и нет?";
 			link.l1 = "Пойдемте смотреть товары.";

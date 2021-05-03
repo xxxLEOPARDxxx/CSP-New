@@ -1,8 +1,10 @@
 // boal 08/04/06 общий диалог верфи
+string Tun_Name1_Goods[8] = {"Mahogany","Planks","Silk","Linen","Cotton","Sandal","Leather","Ebony"};
+string Tun_Name2_Items[8] = {"jewelry17","jewelry9","jewelry2","jewelry3","jewelry4","jewelry5","jewelry1","icollection"};
 #include "DIALOGS\russian\Rumours\Common_rumours.c"  //homo 25/06/06
 void ProcessDialogEvent()
 {
-	ref NPChar, sld;
+	ref NPChar, sld, compref;
 	aref Link, NextDiag;
 	string sTemp;
 
@@ -18,18 +20,18 @@ void ProcessDialogEvent()
 	makearef(Link, Dialog.Links);
 	makearef(NextDiag, NPChar.Dialog);
 
-    // вызов диалога по городам -->
-    NPChar.FileDialog2 = "DIALOGS\" + LanguageGetLanguage() + "\Shipyard\" + NPChar.City + "_Shipyard.c";
-    if (LoadSegment(NPChar.FileDialog2))
+	// вызов диалога по городам -->
+	NPChar.FileDialog2 = "DIALOGS\" + LanguageGetLanguage() + "\Shipyard\" + NPChar.City + "_Shipyard.c";
+	if (LoadSegment(NPChar.FileDialog2))
 	{
-        ProcessCommonDialog(NPChar, Link, NextDiag);
+		ProcessCommonDialog(NPChar, Link, NextDiag);
 		UnloadSegment(NPChar.FileDialog2);
 	}
-    // вызов диалога по городам <--
+	// вызов диалога по городам <--
 	ProcessCommonDialogRumors(NPChar, Link, NextDiag);//homo 16/06/06
-    bool ok, ok1, ok2;
-    int iTest = FindColony(NPChar.City); // город магазина
-    ref rColony;
+	bool ok, ok1, ok2;
+	int iTest = FindColony(NPChar.City); // город магазина
+	ref rColony;
 	if (iTest != -1)
 	{
 		rColony = GetColonyByIndex(iTest);
@@ -39,16 +41,57 @@ void ProcessDialogEvent()
 	int i;
   	if (findsubstr(attrLoc, "SailsColorIdx_" , 0) != -1)
  	{
-        i = findsubstr(attrLoc, "_" , 0);
+		i = findsubstr(attrLoc, "_" , 0);
 	 	NPChar.SailsColorIdx = strcut(attrLoc, i+1, strlen(attrLoc)-1); // индех в конце
- 	    Dialog.CurrentNode = "SailsColorDone";
+ 		Dialog.CurrentNode = "SailsColorDone";
  	}
  	if (findsubstr(attrLoc, "SailsTypeChooseIDX_" , 0) != -1)
  	{
-        i = findsubstr(attrLoc, "_" , 0);
+		i = findsubstr(attrLoc, "_" , 0);
 	 	NPChar.SailsTypeChooseIDX = strcut(attrLoc, i+1, strlen(attrLoc)-1); // индех в конце
- 	    Dialog.CurrentNode = "SailsTypeChoose2";
+ 		Dialog.CurrentNode = "SailsTypeChoose2";
  	}
+	if(HasSubStr(attrLoc, "shiporderend2_"))
+	{
+		i = findsubstr(attrLoc, "_" , 0);
+
+		int iChar = GetPassenger(PChar, sti(strcut(attrLoc, i+1, strlen(attrLoc)-1))); //выбранный пассажир
+		compref = GetCharacter(iChar);
+		sld = GetCharacter(sti(npchar.questTemp.NPCid)); 
+
+		DeleteAttribute(compref,"ship");//зачем-то стираем корабль офицера, хотя его там и не должно быть
+		compref.ship = "";
+
+		aref	arTo, arFrom;
+		makearef(arTo, compref.ship);
+		makearef(arFrom, sld.Ship);
+		CopyAttributes(arTo, arFrom);
+		CheckForReleaseOfficer(iChar);//увольнение офицера с должностей, если он не просто пассажир
+		RemovePassenger(pchar, compref);
+		SetCompanionIndex(pchar, -1, iChar);
+		DelBakSkill(compref);
+
+		WaitDate("",0,0,0, 0, 20);
+
+		DeleteAttribute(npchar,"questTemp.ShipOrderDate");
+		DeleteAttribute(npchar,"questTemp.ShipOrderTime");
+		DeleteAttribute(npchar,"questTemp.NPCid");
+		
+		AddQuestRecordEx("ShipOrder", "ShipOrder", "End");
+		pchar.ShipInOrder = sti(pchar.ShipInOrder) - 1;
+		pchar.questTemp.shipordercount = sti(pchar.questTemp.shipordercount) + 1;
+		if(sti(pchar.questTemp.shipordercount) >= 5) UnlockAchievement("AchShipOrder", 1);
+		if(sti(pchar.questTemp.shipordercount) >= 10) UnlockAchievement("AchShipOrder", 2);
+		if(sti(pchar.questTemp.shipordercount) >= 20) UnlockAchievement("AchShipOrder", 3);
+		if (sti(pchar.ShipInOrder) < 1) CloseQuestHeader("ShipOrder");
+
+		sld.id = "ShipOrder";//сбрасываем индекс к стандартному
+		DeleteAttribute(sld,"ship");//затираем данные корабля
+		sld.ship = "";
+		LAi_SetCurHP(sld, 0.0);//ещё и убивать непися, чтоб точно очистился из массива? 
+
+		Dialog.CurrentNode = "exit";//закрываем диалог, ещё одно подтверждение уже не справшиваем
+	}
  	// генератор парусов по кейсу <--
 	switch(Dialog.CurrentNode)
 	{
@@ -58,7 +101,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "ship_tunning_not_now":  // аналог выхода, со старых времен, много переделывать.
-            LockControl("DlgDown3", false);
+			LockControl("DlgDown3", false);
 			LockControl("DlgUp3", false);
 			DialogExit();
 			NextDiag.CurrentNode = "Master_Ship";  // выход для тюнинга, нужно тут из-за LoadSegment
@@ -72,9 +115,9 @@ void ProcessDialogEvent()
 		break;
 		
 		case "First time":
-            if (LAi_grp_playeralarm > 0)
+			if (LAi_grp_playeralarm > 0)
 			{
-       			dialog.text = NPCharRepPhrase(pchar, 
+	   			dialog.text = NPCharRepPhrase(pchar, 
 					LinkRandPhrase("В городе поднята тревога, тебя всюду ищут! На твоем месте я бы не стал здесь задерживаться.", "Вся городская стража рыщет по городу в поисках тебя. Я не идиот и разговаривать с тобой не буду!", "Беги, "+ GetSexPhrase("приятель","подруга") +", пока солдаты не сделали из тебя решето..."), 
 					LinkRandPhrase("Что тебе нужно, "+ GetSexPhrase("негодяй","мерзавка") +"?! Городская стража уже взяла твой след, далеко тебе не уйти"+ GetSexPhrase(", грязный пират","") +"!", "Грязн"+ GetSexPhrase("ый","ая") +" убийца, вон из моего дома! Стража!!", "Я не боюсь тебя, мерзав"+ GetSexPhrase("ец","ка") +"! Скоро тебя повесят в нашем форте, далеко тебе не уйти..."));
 				link.l1 = NPCharRepPhrase(pchar,
@@ -86,20 +129,20 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "First time";
 			
 			//homo Линейка Блада
-            if (Pchar.questTemp.CapBloodLine == true )
-            {
-                dialog.Text = LinkRandPhrase("Эй, доктор Блад! " + TimeGreeting() + ".",
-                                    "Рад видеть Вас, Питер Блад.",
-                                    "Хорошо, что Вы заглянули ко мне, " + GetFullName(pchar) + ". Как поживает полковник Бишоп?");
-                Link.l1 = "Увы, я уже ухожу, " + NPChar.name + ". До встречи.";
+			if (Pchar.questTemp.CapBloodLine == true )
+			{
+				dialog.Text = LinkRandPhrase("Эй, доктор Блад! " + TimeGreeting() + ".",
+									"Рад видеть Вас, Питер Блад.",
+									"Хорошо, что Вы заглянули ко мне, " + GetFullName(pchar) + ". Как поживает полковник Бишоп?");
+				Link.l1 = "Увы, я уже ухожу, " + NPChar.name + ". До встречи.";
 				Link.l1.go = "exit";
-                if(CheckAttribute(Pchar, "questTemp.CapBloodLine.ShipForJack") && Pchar.questTemp.CapBloodLine.ShipForJack == true)
-                {
-                    Link.l2 = "Мне нужно помочь одному... моему другу попасть в Порто Белло.";
-    				Link.l2.go = "Blood_Shipyard1";
-                }
+				if(CheckAttribute(Pchar, "questTemp.CapBloodLine.ShipForJack") && Pchar.questTemp.CapBloodLine.ShipForJack == true)
+				{
+					Link.l2 = "Мне нужно помочь одному... моему другу попасть в Порто Белло.";
+					Link.l2.go = "Blood_Shipyard1";
+				}
 				break;
-            }
+			}
 			
 			if(NPChar.quest.meeting == "0")
 			{
@@ -141,17 +184,29 @@ void ProcessDialogEvent()
 				}
 				
 				dialog.Text = pcharrepphrase("А, это опять ты? Ну да ладно, деньги не пахнут.",
-                                        TimeGreeting() + ", чем я могу помочь вам, " + GetAddress_Form(NPChar) + "?");
+										TimeGreeting() + ", чем я могу помочь вам, " + GetAddress_Form(NPChar) + "?");
 				Link.l1 = pcharrepphrase("Вот-вот, я плачу - ты делаешь.",
-                                        "Нужно воспользоваться услугами верфи.");
+										"Нужно воспользоваться услугами верфи.");
 				Link.l1.go = "Shipyard";
+
+				if (!CheckAttribute(npchar, "questTemp.ShipOrderTime"))
+				{
+				link.l14 = "А можно у вас на верфи заказать корабль, подходящий моим личным предпочтениям?";
+				link.l14.go = "Shipyard1";
+				}
+				else
+				{
+				link.l14 = "Готов ли заказанный мною корабль?";
+				link.l14.go = "shiporder1";
+				}
+
 				if (GetNationRelation2MainCharacter(sti(NPChar.nation)) != RELATION_ENEMY || NPChar.city == "Caiman") 
 				{
 					link.l11 = "Мне нужны орудия на корабль.";
 					link.l11.go = "Cannons";
 				}	
-			    link.l12 = "Хочу изменить внешний вид парусов.";
-			    link.l12.go = "SailsGerald";
+				link.l12 = "Хочу изменить внешний вид парусов.";
+				link.l12.go = "SailsGerald";
 				//Jason --> генератор Призонер
 				if (CheckAttribute(pchar, "GenQuest.Findship.Shipyarder") && NPChar.location == pchar.GenQuest.Findship.Shipyarder.City + "_shipyard")
 				{
@@ -190,7 +245,7 @@ void ProcessDialogEvent()
 				Link.l2 = "Я только хочу поговорить.";
 				Link.l2.go = "quests"; //(перессылка в файл города)
 				// -->
-    			if (CheckAttribute(pchar, "GenQuest.LoanChest.TakeChest") && sti(pchar.GenQuest.LoanChest.TargetIdx) == sti(NPChar.index))
+				if (CheckAttribute(pchar, "GenQuest.LoanChest.TakeChest") && sti(pchar.GenQuest.LoanChest.TargetIdx) == sti(NPChar.index))
 				{
 					link.l3 = "Я хотел"+ GetSexPhrase("","а") +" бы поговорить с вами о делах финансовых.";
 					link.l3.go = "LoanForAll";
@@ -202,20 +257,20 @@ void ProcessDialogEvent()
 					link.l7.go = "IntelligenceForAll";
 				}
 				//--> квест Аззи.
-	    		if (CheckCharacterItem(pchar, "Azzy_bottle"))
-	            {
-	                link.l5 = "Слушай, у меня есть одна штука - жестянка. Мне нужно аккуратненько ее вскрыть. Сможешь сделать это? Я заплачу.";
-	                if (npchar.id == pchar.questTemp.Ascold.ShipyarderId)
-	                {
-	                    link.l5.go = "AggryHelp";
+				if (CheckCharacterItem(pchar, "Azzy_bottle"))
+				{
+					link.l5 = "Слушай, у меня есть одна штука - жестянка. Мне нужно аккуратненько ее вскрыть. Сможешь сделать это? Я заплачу.";
+					if (npchar.id == pchar.questTemp.Ascold.ShipyarderId)
+					{
+						link.l5.go = "AggryHelp";
 						pchar.questTemp.Azzy = "Azzy_IHaveLamp";
-	                }
-	                else
-	                {
-	                    link.l5.go = "AzzyTryTalk";
-	                }
-	            }
-	            //<-- на квест Аззи.
+					}
+					else
+					{
+						link.l5.go = "AzzyTryTalk";
+					}
+				}
+				//<-- на квест Аззи.
 				//проверка выполнения квеста украсть чертеж на верфи
 				if (CheckCharacterItem(pchar, "ShipyardsMap") && CheckAttribute(pchar, "questTemp.different.ShipyardsMap.Id") && pchar.questTemp.different.ShipyardsMap.Id == npchar.id)
 				{				
@@ -249,17 +304,21 @@ void ProcessDialogEvent()
 				dialog.Text = "Хорошо, я рад встрече с новым клиентом. Моя верфь к вашим услугам.";
 				Link.l1 = "Великолепно, " + GetFullName(NPChar) + ". Давайте посмотрим то, что вы можете мне предложить.";
 				Link.l1.go = "Shipyard";
+
+				link.l14 = "А можно у вас на верфи заказать корабль подходящий моим личным предпочтениям?";
+				link.l14.go = "Shipyard1";
+
 				if (GetNationRelation2MainCharacter(sti(NPChar.nation)) != RELATION_ENEMY) 
 				{
 					link.l13 = "Мне нужны орудия на корабль.";
 					link.l13.go = "Cannons";
 				}	
 				link.l12 = "Хочу изменить внешний вид парусов.";
-			    link.l12.go = "SailsGerald";
+				link.l12.go = "SailsGerald";
 				Link.l2 = "Я только хочу поговорить.";		
 				link.l2.go = "quests";
 				// -->
-    			if (CheckAttribute(pchar, "GenQuest.LoanChest.TakeChest") && sti(pchar.GenQuest.LoanChest.TargetIdx) == sti(NPChar.index))
+				if (CheckAttribute(pchar, "GenQuest.LoanChest.TakeChest") && sti(pchar.GenQuest.LoanChest.TargetIdx) == sti(NPChar.index))
 				{
 					link.l3 = "Я хотел"+ GetSexPhrase("","а") +" бы поговорить с вами о делах финансовых.";
 					link.l3.go = "LoanForAll";//(перессылка в файл города)
@@ -271,20 +330,20 @@ void ProcessDialogEvent()
 					link.l7.go = "IntelligenceForAll";
 				}
 				//--> квест Аззи.
-	    		if (CheckCharacterItem(pchar, "Azzy_bottle"))
-	            {
-	                link.l5 = "Слушай, у меня есть одна штука - жестянка. Мне нужно аккуратненько ее вскрыть. Сможешь сделать это? Я заплачу.";
-	                if (npchar.id == pchar.questTemp.Ascold.ShipyarderId)
-	                {
-	                    link.l5.go = "AggryHelp";
+				if (CheckCharacterItem(pchar, "Azzy_bottle"))
+				{
+					link.l5 = "Слушай, у меня есть одна штука - жестянка. Мне нужно аккуратненько ее вскрыть. Сможешь сделать это? Я заплачу.";
+					if (npchar.id == pchar.questTemp.Ascold.ShipyarderId)
+					{
+						link.l5.go = "AggryHelp";
 						pchar.questTemp.Azzy = "Azzy_IHaveLamp";
-	                }
-	                else
-	                {
-	                    link.l5.go = "AzzyTryTalk";
-	                }
-	            }
-	            //<-- на квест Аззи.
+					}
+					else
+					{
+						link.l5.go = "AzzyTryTalk";
+					}
+				}
+				//<-- на квест Аззи.
 				if(CheckAttribute(pchar,"GenQuest.EncGirl"))
 				{
 					if(pchar.GenQuest.EncGirl == "toLoverFather" && pchar.GenQuest.EncGirl.LoverFather == "shipyard_keeper" && pchar.GenQuest.EncGirl.LoverCity == npchar.city)
@@ -464,63 +523,200 @@ void ProcessDialogEvent()
 		
 		case "shipyard":
 			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
-		    if (sti(Pchar.Ship.Type) == SHIP_NOTUSED || ok)
+			if (sti(Pchar.Ship.Type) == SHIP_NOTUSED || ok)
 			{
-			    NextDiag.CurrentNode = NextDiag.TempNode;
+				NextDiag.CurrentNode = NextDiag.TempNode;
 				DialogExit();
 				LaunchShipyard(npchar);
 			}
 			else
 			{
-			    dialog.text = NPCharRepPhrase(npchar, pcharrepphrase("Дуришь меня? А где же твой корабль? У пирса его нет!",
-				                                                     "Клянусь дьяволом, тебе не обмануть меня! У пирса нет твоего корабля!"),
+				dialog.text = NPCharRepPhrase(npchar, pcharrepphrase("Дуришь меня? А где же твой корабль? У пирса его нет!",
+																	 "Клянусь дьяволом, тебе не обмануть меня! У пирса нет твоего корабля!"),
 													  pcharrepphrase("Я не вижу вашего корабля в порту, капитан " +GetFullName(pchar)+ ". Надеюсь, это не 'Летучий голландец'?",
-													                 "Капитан, удобнее грузить товар с пирса. Пришвартуйте корабль и приходите."));
+																	 "Капитан, удобнее чинить корабль в доке. Пришвартуйте корабль и приходите."));
 				link.l1 = NPCharRepPhrase(npchar, pcharrepphrase("" +RandSwear()+"Какая неприятность!!! Ладно, старый проныра, еще увидимся!",
-				                                                 "Я не хотел"+ GetSexPhrase("","а") +" вас обмануть " +GetFullName(npchar)+ ", корабль на другой стороне острова."),
+																 "Я не хотел"+ GetSexPhrase("","а") +" вас обмануть " +GetFullName(npchar)+ ", корабль на другой стороне острова."),
 												  pcharrepphrase("Нет. Мой корабль называется Black Perl. Что это ты побелел? Ха-ха! Шутка!",
-												                 "Спасибо за совет, обязательно им воспользуюсь."));
-			    link.l1.go = "exit";
+																 "Спасибо за совет, обязательно им воспользуюсь."));
+				link.l1.go = "exit";
 			}
 		break;
-		
-		case "Cannons":
-			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
-		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
+
+		case "shiporderend":
+			dialog.Text = "Кому из ваших офицеров передать его?";
+			int _curCharIdx;
+			int q = 0;
+			int nListSize = GetPassengersQuantity(pchar);
+			for(i=0; i<nListSize; i++)
+				{
+				_curCharIdx = GetPassenger(pchar,i);
+				sld = GetCharacter(_curCharIdx);
+					if (_curCharIdx!=-1)
+					{
+						ok = CheckAttribute(&characters[_curCharIdx], "prisoned") && sti(characters[_curCharIdx].prisoned) == true;
+						if (sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer")
+						{
+							if (!ok && GetRemovable(&characters[_curCharIdx]))
+							{
+								attrLoc = "l"+i;
+								Link.(attrLoc)	= GetFullName(&characters[_curCharIdx]);
+								Link.(attrLoc).go = "shiporderend2_" + i;
+								q++;
+							}
+						}
+					}
+				}
+			attrLoc = "l"+nListSize;
+			if (q == 0)
+				{
+				Link.(attrLoc) = RandSwear() + "Забыл" + GetSexPhrase("","а") + " капитана для этого корабля с собой привести.";
+				Link.(attrLoc).go = "exit";
+				}
+			else
+				{
+				Link.(attrLoc) = "Нет, я передумал"+ GetSexPhrase("","а") +".";
+				Link.(attrLoc).go = "exit";
+				}
+		break;
+
+		case "shiporder1":
+			if (CheckAttribute(npchar, "questTemp.chest"))
 			{
-			    NextDiag.CurrentNode = NextDiag.TempNode;
-				DialogExit();
-    			LaunchCannons(sti(rColony.StoreNum));
+				dialog.Text = "Работа идёт. Принесли материалы, что я просил?";
+				Link.l1 = "Да. Кое-что удалось достать.";
+				Link.l1.go = "shiporder2";
+				link.l2 = "Нет. Еще добываю.";
+				link.l2.go = "exit";
 			}
 			else
 			{
-			    dialog.text = NPCharRepPhrase(npchar, pcharrepphrase("Дуришь меня? А где же твой корабль? У пирса его нет!",
-				                                                     "Клянусь дьяволом, тебе не обмануть меня! У пирса нет твоего корабля!"),
+				int timeleft = sti(npchar.questTemp.ShipOrderTime) - GetNpcQuestPastDayParam(npchar,"questTemp.ShipOrderDate");
+				string sAdd = "";
+				switch (timeleft)
+				{
+				case 1: sAdd = " Будет готов завтра!"; break;
+				}
+				if (timeleft < 1)
+				{//готов
+				dialog.text = "Капитан " +GetFullName(pchar)+ "! Корабль готов и, клянусь дьяволом, вы не разочаруетесь. Всё строго соответствует вашим пожеланиям."; 
+				link.l1 = "Приятно это слышать. Могу я забрать его?";
+				link.l1.go = "shiporderend";
+				}
+				else
+				{//не готов
+				dialog.text = "Не волнуйтесь! Работа идёт строго по плану." + sAdd;
+				link.l1 = "Понятно. Зайду позже.";
+				link.l1.go = "exit";
+				link.l2 = "Обстоятельства изменились, я хочу отменить заказ.";
+				link.l2.go = "shipordercancel";
+				}
+			}
+		break;
+
+		case "shiporder2":
+			string sTemp2 = checkOrderMatherial(NPChar);
+			if (sTemp2 == "") 
+			{
+				DeleteAttribute(npchar,"questTemp.chest"));//Всё доставили
+				dialog.Text = "Прекрасно. Это полный комплект. Больше ничего не требуется.";
+				Link.l1 = "Отлично, когда будет готов корабль?";
+				Link.l1.go = "shiporder1";
+			}
+			else
+			{
+				dialog.Text = "Ещё Вам необходимо доставить... эмм... сейчас сверюсь с записями... Итак: " + sTemp2;
+				Link.l1 = "Всё понятно. Вернусь, когда добуду остальное.";
+				Link.l1.go = "exit";
+			}
+		break;
+
+		case "shipordercancel2":
+			AddQuestRecordEx("ShipOrder", "ShipOrder", "Lose");
+			AddQuestUserData("ShipOrder", "sSex", GetSexPhrase("ся","ась"));
+			pchar.ShipInOrder = sti(pchar.ShipInOrder) - 1;
+			if (sti(pchar.ShipInOrder) < 1) CloseQuestHeader("ShipOrder");
+
+			sld = GetCharacter(sti(npchar.questTemp.NPCid)); 
+			DeleteAttribute(npchar,"questTemp.ShipOrderDate");
+			DeleteAttribute(npchar,"questTemp.ShipOrderTime");
+			DeleteAttribute(npchar,"questTemp.NPCid");
+			sld.id = "ShipOrder";//сбрасываем индекс к стандартному, чтобы этот номер массива в следующий раз можно было занять
+			DeleteAttribute(sld,"ship");//затираем данные корабля
+			sld.ship = "";
+			LAi_SetCurHP(sld, 0.0);//ещё и убивать непися, чтоб точно очистился из массива? 
+
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+		break;
+
+		case "shipordercancel":
+			dialog.text = "Постойте, капитан! Мы же обговаривали условия. Мы можем разорвать этот договор, но деньги вернуть я не смогу. Всё уже потрачено на материалы и оплату работы. ";
+			link.l1 = "Я помню об этом, но так сложились обстоятельства. Не могу ждать, пока достроите этот корабль.";
+			link.l1.go = "shipordercancel2";
+			link.l2 = "Вы правы, лучше дождусь, пока заказанный корабль будет готов.";
+			link.l2.go = "exit";
+		break;
+
+		case "shipyard1":
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+			if (sti(Pchar.Ship.Type) == SHIP_NOTUSED || ok)
+			{
+				NextDiag.CurrentNode = NextDiag.TempNode;
+				DialogExit();
+				LaunchShipyard1(npchar);
+			}
+			else
+			{
+				dialog.text = NPCharRepPhrase(npchar, pcharrepphrase("Дуришь меня? А где же твой корабль? У пирса его нет!",
+																	 "Клянусь дьяволом, тебе не обмануть меня! У пирса нет твоего корабля!"),
 													  pcharrepphrase("Я не вижу вашего корабля в порту, капитан " +GetFullName(pchar)+ ". Надеюсь, это не 'Летучий голландец'?",
-													                 "Капитан, удобнее грузить товар с пирса. Пришвартуйте корабль и приходите."));
+																	 "Капитан, удобнее чинить корабль в доке. Пришвартуйте корабль и приходите."));
 				link.l1 = NPCharRepPhrase(npchar, pcharrepphrase("" +RandSwear()+"Какая неприятность!!! Ладно, старый проныра, еще увидимся!",
-				                                                 "Я не хотел"+ GetSexPhrase("","а") +" вас обмануть " +GetFullName(npchar)+ ", корабль на другой стороне острова."),
+																 "Я не хотел"+ GetSexPhrase("","а") +" вас обмануть " +GetFullName(npchar)+ ", корабль на другой стороне острова."),
 												  pcharrepphrase("Нет. Мой корабль называется Black Perl. Что это ты побелел? Ха-ха! Шутка!",
-												                 "Спасибо за совет, обязательно им воспользуюсь."));
-			    link.l1.go = "exit";
+																 "Спасибо за совет, обязательно им воспользуюсь."));
+				link.l1.go = "exit";
+			}
+		break;
+
+		case "Cannons":
+			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
+			if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
+			{
+				NextDiag.CurrentNode = NextDiag.TempNode;
+				DialogExit();
+				LaunchCannons(sti(rColony.StoreNum));
+			}
+			else
+			{
+				dialog.text = NPCharRepPhrase(npchar, pcharrepphrase("Дуришь меня? А где же твой корабль? У пирса его нет!",
+																	 "Клянусь дьяволом, тебе не обмануть меня! У пирса нет твоего корабля!"),
+													  pcharrepphrase("Я не вижу вашего корабля в порту, капитан " +GetFullName(pchar)+ ". Надеюсь, это не 'Летучий голландец'?",
+																	 "Капитан, удобнее чинить корабль в доке. Пришвартуйте корабль и приходите."));
+				link.l1 = NPCharRepPhrase(npchar, pcharrepphrase("" +RandSwear()+"Какая неприятность!!! Ладно, старый проныра, еще увидимся!",
+																 "Я не хотел"+ GetSexPhrase("","а") +" вас обмануть " +GetFullName(npchar)+ ", корабль на другой стороне острова."),
+												  pcharrepphrase("Нет. Мой корабль называется Black Perl. Что это ты побелел? Ха-ха! Шутка!",
+																 "Спасибо за совет, обязательно им воспользуюсь."));
+				link.l1.go = "exit";
 			}
 		break;
 		
 		case "SailsGerald":
 			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
-		    if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
+			if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
-			    dialog.text = "Сменить цвет парусов стоит " +
-				              FindRussianMoneyString(GetSailsTuningPrice(Pchar, npchar, SAILSCOLOR_PRICE_RATE))+
+				dialog.text = "Сменить цвет парусов стоит " +
+							  FindRussianMoneyString(GetSailsTuningPrice(Pchar, npchar, SAILSCOLOR_PRICE_RATE))+
 							  ", поставить новый герб стоит " +
 							  FindRussianMoneyString(GetSailsTuningPrice(Pchar, npchar, SAILSGERALD_PRICE_RATE)) +
 							  ", цена смены типа парусины зависит от материала.";
 							  
-			    link.l1 = "Выбрать новый цвет.";
-			    link.l1.go = "SailsColorChoose";
-			    link.l2 = "Изобразить новый герб.";
-			    link.l2.go = "SailsGeraldChoose";
-			    
+				link.l1 = "Выбрать новый цвет.";
+				link.l1.go = "SailsColorChoose";
+				link.l2 = "Изобразить новый герб.";
+				link.l2.go = "SailsGeraldChoose";
+				
 				// Паруса ЛГ
 				if(!CheckForFlyingDuchmanSails(PChar))
 				{
@@ -535,20 +731,20 @@ void ProcessDialogEvent()
 					link.l4.go = "FlyingDutchmanSails_Clear";
 				}
 				
-			    Link.l9 = "Я передумал"+ GetSexPhrase("","а") +".";
+				Link.l9 = "Я передумал"+ GetSexPhrase("","а") +".";
 				Link.l9.go = "exit";
 			}
 			else
 			{
-			    dialog.text = NPCharRepPhrase(npchar, pcharrepphrase("Дуришь меня? А где же твой корабль? У пирса его нет!",
-				                                                     "Клянусь дьяволом, тебе не обмануть меня! У пирса нет твоего корабля!"),
+				dialog.text = NPCharRepPhrase(npchar, pcharrepphrase("Дуришь меня? А где же твой корабль? У пирса его нет!",
+																	 "Клянусь дьяволом, тебе не обмануть меня! У пирса нет твоего корабля!"),
 													  pcharrepphrase("Я не вижу вашего корабля в порту, капитан " +GetFullName(pchar)+ ". Надеюсь, это не 'Летучий голландец'?",
-													                 "Капитан, удобнее грузить товар с пирса. Пришвартуйте корабль и приходите."));
+																	 "Капитан, удобнее грузить чинить корабль в доке. Пришвартуйте корабль и приходите."));
 				link.l1 = NPCharRepPhrase(npchar, pcharrepphrase("" +RandSwear()+"Какая неприятность!!! Ладно, старый проныра, еще увидимся!",
-				                                                 "Я не хотел"+ GetSexPhrase("","а") +" вас обмануть " +GetFullName(npchar)+ ", корабль на другой стороне острова."),
+																 "Я не хотел"+ GetSexPhrase("","а") +" вас обмануть " +GetFullName(npchar)+ ", корабль на другой стороне острова."),
 												  pcharrepphrase("Нет. Мой корабль называется Black Pearl. Что это ты побелел? Ха-ха! Шутка!",
-												                 "Спасибо за совет, обязательно им воспользуюсь."));
-			    link.l1.go = "exit";
+																 "Спасибо за совет, обязательно им воспользуюсь."));
+				link.l1.go = "exit";
 			}
 		break;
 		
@@ -623,9 +819,13 @@ void ProcessDialogEvent()
 		break;
 		
 		case "SailsTypeChoose":
+		npchar.sailsgerald = "sails";
+		DialogExit();
+		LaunchSailsGeraldScreen(npchar);
+		/*
 			dialog.text = "Какой новый тип парусины ставим? У тебя сейчас паруса из материала '" + GetSailsType(sti(RealShips[sti(Pchar.Ship.Type)].ship.upgrades.sails)) + "'.";
 
-            Link.l1 = GetSailsType(1) + ".";
+			Link.l1 = GetSailsType(1) + ".";
 			Link.l1.go = "SailsTypeChooseIDX_1";
 			Link.l2 = GetSailsType(2)  + ".";
 			Link.l2.go = "SailsTypeChooseIDX_2";
@@ -637,33 +837,34 @@ void ProcessDialogEvent()
 			attrLoc = "l" + sti(RealShips[sti(Pchar.Ship.Type)].ship.upgrades.sails);
 			DeleteAttribute(Link, attrLoc);
 			
-		    Link.l99 = "Я передумал"+ GetSexPhrase("","а") +".";
+			Link.l99 = "Я передумал"+ GetSexPhrase("","а") +".";
 			Link.l99.go = "exit";
+			*/
 		break;
 		
 		case "SailsTypeChoose2":
-            NPChar.SailsTypeMoney = GetSailsTypePrice(sti(RealShips[sti(Pchar.Ship.Type)].ship.upgrades.sails),
-			                                          sti(NPChar.SailsTypeChooseIDX),
+			NPChar.SailsTypeMoney = GetSailsTypePrice(sti(RealShips[sti(Pchar.Ship.Type)].ship.upgrades.sails),
+													  sti(NPChar.SailsTypeChooseIDX),
 													  stf(NPChar.ShipCostRate),
 													  sti(RealShips[sti(Pchar.Ship.Type)].Price));
 													  
 			dialog.text = "У тебя сейчас паруса из материала '" + GetSailsType(sti(RealShips[sti(Pchar.Ship.Type)].ship.upgrades.sails)) +
-			              "', ты выбрал"+ GetSexPhrase("","а") +" тип ткани '"+ GetSailsType(sti(NPChar.SailsTypeChooseIDX))+
+						  "', ты выбрал"+ GetSexPhrase("","а") +" тип ткани '"+ GetSailsType(sti(NPChar.SailsTypeChooseIDX))+
 						  "'. Стоимость замены " + FindRussianMoneyString(sti(NPChar.SailsTypeMoney)) +". Меняем?";
 
 			if (sti(NPChar.SailsTypeMoney) <= sti(Pchar.Money))
 			{
-	            Link.l1 = "Да.";
+				Link.l1 = "Да.";
 				Link.l1.go = "SailsTypeChooseDone";
 			}
-		    Link.l99 = "Нет.";
+			Link.l99 = "Нет.";
 			Link.l99.go = "exit";
 		break;
 		
 		case "SailsTypeChooseDone":
 			AddMoneyToCharacter(Pchar, -sti(NPChar.SailsTypeMoney));
 			dialog.text = "Замечательно! Все сделаем в лучшем виде.";
-		    Link.l9 = "Спасибо.";
+			Link.l9 = "Спасибо.";
 			Link.l9.go = "exit";
 
 			RealShips[sti(Pchar.Ship.Type)].ship.upgrades.sails = sti(NPChar.SailsTypeChooseIDX);
@@ -683,13 +884,13 @@ void ProcessDialogEvent()
 						Link.(attrLoc).go = "SailsColorIdx_" + i;
 					}
 				}
-			    Link.l99 = "Я передумал"+ GetSexPhrase("","а") +".";
+				Link.l99 = "Я передумал"+ GetSexPhrase("","а") +".";
 				Link.l99.go = "exit";
 			}
 			else
 			{
 				dialog.text = "Приходи, когда деньги будут.";
-			    Link.l9 = "Хорошо.";
+				Link.l9 = "Хорошо.";
 				Link.l9.go = "exit";	
 			}
 		break;
@@ -697,7 +898,7 @@ void ProcessDialogEvent()
 		case "SailsColorDone":
 			AddMoneyToCharacter(Pchar, -GetSailsTuningPrice(Pchar, npchar, SAILSCOLOR_PRICE_RATE));
 			dialog.text = "Договорились. Красим паруса в "+ GetStrSmallRegister(SailsColors[sti(NPChar.SailsColorIdx)].name) +" цвет.";
-		    Link.l9 = "Спасибо.";
+			Link.l9 = "Спасибо.";
 			Link.l9.go = "exit";
 			
 			SetSailsColor(Pchar, sti(NPChar.SailsColorIdx));
@@ -711,19 +912,20 @@ void ProcessDialogEvent()
 				{
 					NextDiag.CurrentNode = NextDiag.TempNode;
 					DialogExit();
+					npchar.sailsgerald = "gerald";
 					LaunchSailsGeraldScreen(npchar);
 				}
 				else
 				{
-				    dialog.text = "К сожалению, на твой корабль нельзя установить герб.";
-				    Link.l9 = "Жаль.";
+					dialog.text = "К сожалению, на твой корабль нельзя установить герб.";
+					Link.l9 = "Жаль.";
 					Link.l9.go = "exit";
 				}
 			}
 			else
 			{
 				dialog.text = "Приходи, когда деньги будут.";
-			    Link.l9 = "Хорошо.";
+				Link.l9 = "Хорошо.";
 				Link.l9.go = "exit";	
 			}
 		break;
@@ -898,6 +1100,11 @@ void ProcessDialogEvent()
 			AddQuestUserData("ShipyardsMap", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("ShipyardsMap", "sCity", XI_ConvertString("Colony" + npchar.city + "Gen"));
 			CloseQuestHeader("ShipyardsMap");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
 		break;
 
 		case "ShipyardsMapOk_5":
@@ -912,11 +1119,17 @@ void ProcessDialogEvent()
 			AddQuestUserData("ShipyardsMap", "sCity", XI_ConvertString("Colony" + npchar.city + "Gen"));
 			AddQuestUserData("ShipyardsMap", "iMoney", sti(pchar.questTemp.different.ShipyardsMap.chance)*1000);
 			CloseQuestHeader("ShipyardsMap");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(pchar, "questTemp.different.ShipyardsMap");
 		break;
 		
-        ////////////////////////////////////////////////homo линейка Блада/////////////////////////////////////////
-        case "Blood_Shipyard1":
+		////////////////////////////////////////////////homo линейка Блада/////////////////////////////////////////
+		case "Blood_Shipyard1":
 			dialog.text = "Кхм, ну, это зависит от того, кто ваш друг и зачем ему нужно в Порто Белло, доктор.";
 			link.l1 = "Этот... мой друг, он... то есть, она - красивая барышня... хм, позабыл ее имя - оно такое незапоминающееся..";
 			link.l1.go = "Blood_Shipyard2";
@@ -940,13 +1153,13 @@ void ProcessDialogEvent()
 			Pchar.questTemp.CapBloodLine.ShipForJack = false;
 
 		break;
-        case "Blood_Shipyard4":
+		case "Blood_Shipyard4":
 			dialog.text = "Вы хотите сказать, бывший капер... не так ли?";
 			link.l1 = "Э-э-э... ну, да... бывший. Вы его знаете?";
 			link.l1.go = "Blood_Shipyard6";
 		break;
 		
-        case "Blood_Shipyard5":
+		case "Blood_Shipyard5":
 			dialog.text = "Что ж, я вам поверю на этот раз. Где-то в городе находится человек по имени Джон Майнер. Поговорите с ним, он только что купил у меня корвет.";
 			link.l1 = "Премного благодарен. ";
 			link.l1.go = "Exit";
@@ -954,19 +1167,19 @@ void ProcessDialogEvent()
 			AddQuestRecord("PirateQuest", "2");
 		break;
 		
-        case "Blood_Shipyard6":
+		case "Blood_Shipyard6":
 			dialog.text = "Как вы правильно подметили, я о нем слышал. Не знаю, кем был Роландо Пицарро до того, как объявился в Береговом Братстве. Но я хорошо помню его судно 'Танцующий с Волками'. Красивое название, и красивое судно... было.";
 			link.l1 = "Что?! Он ни словом об этом не обмолвился... ну, в нашей с ним беседе.";
 			link.l1.go = "Blood_Shipyard7";
 		break;
 		
-        case "Blood_Shipyard7":
+		case "Blood_Shipyard7":
 			dialog.text = "Теперь он не распускает язык - жизнь его проучила. Захватив пару богатых призов, он начал рваться в верхушку Братства, пытаясь подсидеть самого Моргана. Ну, знаете - эта идея Шарповской Либертании и все прочее. Говорил он много и красиво, и, само собой, нашлись люди, которые поверили в эти бредни и пошли за ним... Кто ж знал, что все так обернется...";
 			link.l1 = "Его предали?.. был бунт?";
 			link.l1.go = "Blood_Shipyard8";
 		break;
 		
-        case "Blood_Shipyard8":
+		case "Blood_Shipyard8":
 			dialog.text = "Нет - всё случилось гораздо банальнее... Прямо как в жизни. Никакой Либертании Пицарро создавать не собирался - просто хотел сесть в красивое кресло в собственном особняке в Порт Рояле и смотреть, как трясутся и лебезят перед ним молодые каперы. Ну, знаете - это вечное желание карать и миловать на свое усмотрение, раздавать чины или свинцовый талер в сердце... Ну и, конечно - признание... этого мы все хотим, не так ли?\nТолько вот суть его была раскрыта. Морган вообще хотел повесить его тут же - слышали, наверное - он бунтовщиков на дух не переносит. Вот и Пицарро схватили тепленьким прямо в каюте, как только Морган получил все доказательства.";
 			link.l1 = "Очень познавательная история. Надо будет предложить её какому-нибудь романисту. Но, что насчет корабля для этого, гм... правдолюбца?";
 			link.l1.go = "Blood_Shipyard9";
@@ -974,7 +1187,7 @@ void ProcessDialogEvent()
 			link.l2.go = "Blood_Shipyard10";
 		break;
 		
-        case "Blood_Shipyard9":
+		case "Blood_Shipyard9":
 			dialog.text = "Найди в городе человека по имени Джон Майнер, он только что приобрёл корвет. Думаю, пассажир до Порто Белло будет ему не лишним.";
 			link.l1 = "Премного благодарен. ";
 			link.l1.go = "Exit";
@@ -982,19 +1195,19 @@ void ProcessDialogEvent()
 			AddQuestRecord("PirateQuest", "2");
 		break;
 		
-        case "Blood_Shipyard10":
+		case "Blood_Shipyard10":
 			dialog.text = "Обычно у Моргана суд короткий - не дольше, чем горит порох на полке его пистолета. Но, что-то с этим 'народным любимцем' он протянул... вот и сбежал Пицарро к испанцам. Прямо из-под носа у адмирала ускользнул, подтвердив, что Лис существо не только хитрое, но и вёрткое.";
 			link.l1 = "Хм-м, а как же он провел адмирала Берегового Братства? Ну, вдруг пригодится на будущее.";
 			link.l1.go = "Blood_Shipyard11";
 		break;
 		
-        case "Blood_Shipyard11":
+		case "Blood_Shipyard11":
 			dialog.text = "Вряд ли вам подойдет этот способ, но, если желаете - он просидел в тюрьме Порт Рояла три дня и три ночи, а потом кто-то из подельников умудрился передать ему женское платье. И некая леди Тэйлор преспокойно покинула форт, отчитавшись перед комендантом о том, что её возлюбленного Пицарро содержат вполне достойно.\nДалее эта леди села на корабль в порту... и лис сбежал из клетки. Сбежал, а потом объявился вновь. Да только вот цену ему в Братстве уже поняли, и даже Адмирал его больше не ищет... не хочет, видимо, руки марать.";
 			link.l1 = "Итак, сдавать его властям, как я понимаю, смысла нет, поскольку его никто не ищет. Весьма поучительно. Но как мне спровадить его в Порто Белло?";
 			link.l1.go = "Blood_Shipyard12";
 		break;
 		
-        case "Blood_Shipyard12":
+		case "Blood_Shipyard12":
 			dialog.text = "Вам нужен капитан Майнер, Джон Майнер - он занимается снаряжением только что приобретённого корвета. Поищите его в городе.";
 			link.l1 = "Премного благодарен.";
 			link.l1.go = "Exit";
@@ -1008,8 +1221,8 @@ void ProcessDialogEvent()
 string findShipyardCity(ref NPChar)
 {
 	int n, nation;
-    int storeArray[MAX_COLONIES];
-    int howStore = 0;
+	int storeArray[MAX_COLONIES];
+	int howStore = 0;
 
 	for(n=0; n<MAX_COLONIES; n++)
 	{
@@ -1031,8 +1244,8 @@ string findShipyardCity(ref NPChar)
 // проверка какой уже цвет есть
 bool CheckSailsColor(ref chr, int col)
 {
-	int    st = GetCharacterShipType(chr);
-	ref    shref;
+	int	st = GetCharacterShipType(chr);
+	ref	shref;
 	
 	if (st != SHIP_NOTUSED)
 	{
@@ -1047,8 +1260,8 @@ bool CheckSailsColor(ref chr, int col)
 
 bool CheckSailsGerald(ref chr)
 {
-    int    st = GetCharacterShipType(chr);
-	ref    shref;
+	int	st = GetCharacterShipType(chr);
+	ref	shref;
 	if (st != SHIP_NOTUSED)
 	{
 		shref = GetRealShip(st);
@@ -1061,9 +1274,9 @@ string GetSailsType(int _type)
 {
 	switch (_type)
 	{
-	    case 1 : return "Пенька";  break;
-	    case 2 : return "Лён";     break;
-	    case 3 : return "Хлопок";  break;
+		case 1 : return "Пенька";  break;
+		case 2 : return "Лён";	 break;
+		case 3 : return "Хлопок";  break;
 		case 4 : return "Черная парусина";  break;
 	}
 	return "Пенька";
@@ -1118,8 +1331,8 @@ void SelectFindship_ShipType()
 			{
 				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BERMSLOOP; break;
 				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_EMPRESS;   break;
-				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PINK;      break;
-				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_LUGGER;    break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PINK;	  break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_LUGGER;	break;
 				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_LUGGER_H;  break;
 			}
 		break; 		
@@ -1129,13 +1342,13 @@ void SelectFindship_ShipType()
 			g = rand(6);
 			switch (g)
 			{
-				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SPEEDY;    break;
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SPEEDY;	break;
 				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_SLOOP;  break;
 				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_GALEOTH_H; break;
-				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SLOOP;     break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SLOOP;	 break;
 				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SLOOP_B;   break;
 				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_NEPTUNUS;  break;
-				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SOPHIE;    break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SOPHIE;	break;
 			}
 		break; 	
 		
@@ -1144,13 +1357,13 @@ void SelectFindship_ShipType()
 			g = rand(6);
 			switch (g)
 			{
-				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_POLACCA;         break;
-				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BARQUE;          break;
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_POLACCA;		 break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BARQUE;		  break;
 				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_POSTILLIONEN; break;
-				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SCHOONER;        break;
-				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_XEBEC;           break;
-				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_XEBECLIGHT;      break;
-				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BATTLEXEBEC;     break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SCHOONER;		break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_XEBEC;		   break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_XEBECLIGHT;	  break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BATTLEXEBEC;	 break;
 			}
 		break; 	
 		
@@ -1160,12 +1373,12 @@ void SelectFindship_ShipType()
 			switch (g)
 			{
 				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SCHOONERLIGHT; break;
-				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_MIRAGE;        break;
-				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_POLACRE;       break;
-				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_ENSLAVER;      break;
-				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SHNYAVA;       break;
-				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIG;          break;
-				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIGHEAVY;     break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_MIRAGE;		break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_POLACRE;	   break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_ENSLAVER;	  break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_SHNYAVA;	   break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIG;		  break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIGHEAVY;	 break;
 			}
 		break; 	
 			
@@ -1174,19 +1387,19 @@ void SelectFindship_ShipType()
 			g = rand(13);
 			switch (g)
 			{
-				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BARKENTINE;    break;
-				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIGANTINE;    break;
-				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CASTELF;       break;
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BARKENTINE;	break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BRIGANTINE;	break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CASTELF;	   break;
 				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_DERFFLINGER;   break;
 				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_INTERCEPTOR;   break;
-				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FLEUT;         break;
-				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PO_FLEUT50;    break;
-				case 7: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_GALEON_L;      break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FLEUT;		 break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PO_FLEUT50;	break;
+				case 7: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_GALEON_L;	  break;
 				case 8: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CORVETTELIGHT; break;
 				case 9: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PACKET_BRIG;   break;
-				case 10: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PDN;          break;
+				case 10: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PDN;		  break;
 				case 11: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_ENTERPRISE;   break;
-				case 12: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CARAVEL;      break;
+				case 12: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CARAVEL;	  break;
 				case 13: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_GALEONTRADER; break;
 			}
 		break; 	
@@ -1196,19 +1409,68 @@ void SelectFindship_ShipType()
 			g = rand(10);
 			switch (g)
 			{
-			    case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FELIPE;      break;
-				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CORVETTE;         break;
-				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BATTLECORVETTE;         break;
-				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_JAMAICASHIP;       break;
-				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PIRATFASTGAL;       break;
-				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CARRACA;        break;
-				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BLACKANGEL;      break;
-				case 7: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_REVENGE;      break;
-				case 8: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_NL_CONVOISHIP;     break;
-				case 9: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_ESSEX;       break;
-				case 10: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_FRIGATE;      break;
+				case 0: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FELIPE;	  break;
+				case 1: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CORVETTE;		 break;
+				case 2: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BATTLECORVETTE;		 break;
+				case 3: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_JAMAICASHIP;	   break;
+				case 4: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_PIRATFASTGAL;	   break;
+				case 5: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_CARRACA;		break;
+				case 6: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BLACKANGEL;	  break;
+				case 7: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_REVENGE;	  break;
+				case 8: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_NL_CONVOISHIP;	 break;
+				case 9: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_ESSEX;	   break;
+				case 10: pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_FR_FRIGATE;	  break;
 			}
 		break;
 		/* ---------------------------------------------------------------------------------- */
 	}
+}
+
+void DelBakSkill(ref _compref)
+{
+	DelBakSkillAttr(pchar);
+	ClearCharacterExpRate(pchar);
+	RefreshCharacterSkillExpRate(pchar);
+	SetEnergyToCharacter(pchar);
+
+	DelBakSkillAttr(_compref);
+	ClearCharacterExpRate(_compref);
+	RefreshCharacterSkillExpRate(_compref);
+	SetEnergyToCharacter(_compref);
+}
+
+string checkOrderMatherial(ref NPChar)
+{
+	int amount;
+	string sGood1, sItem2;
+	string sLeft = "";
+	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+
+	for (int k=0;k<8;k++)
+	{
+		sGood1 = Tun_Name1_Goods[k];
+		amount = GetSquadronGoods(Pchar, FindGood(sGood1)) - sti(NPChar.questtemp.(sGood1));
+		if (amount < 0) amount = amount + sti(NPChar.questtemp.(sGood1)); else amount = sti(NPChar.questtemp.(sGood1));
+		RemoveCharacterGoods(Pchar, FindGood(sGood1), amount);
+		NPChar.questtemp.(sGood1) = sti(NPChar.questtemp.(sGood1)) - amount;
+		amount = sti(NPChar.questtemp.(sGood1)); 
+		if (amount > 0) sLeft += XI_ConvertString(sGood1) + " - " + amount + "шт., ";
+
+		sItem2 = Tun_Name2_Items[k];
+		amount = GetCharacterItem(pchar, sItem2) - sti(NPChar.questtemp.(sItem2));
+		if (amount < 0) amount = amount + sti(NPChar.questtemp.(sItem2)); else amount = sti(NPChar.questtemp.(sItem2));
+		TakeNItems(pchar, sItem2, -amount);
+		NPChar.questtemp.(sItem2) = sti(NPChar.questtemp.(sItem2)) - amount;
+		amount = sti(NPChar.questtemp.(sItem2)); 
+		if (amount > 0) sLeft += LanguageConvertString(idLngFile, Items[FindItem(sItem2)].name) + " - " + amount + "шт., ";
+	}
+		sItem2 = "chest";
+		amount = GetCharacterItem(pchar, sItem2) - sti(NPChar.questtemp.(sItem2));
+		if (amount < 0) amount = amount + sti(NPChar.questtemp.(sItem2)); else amount = sti(NPChar.questtemp.(sItem2));
+		TakeNItems(pchar, sItem2, -amount);
+		NPChar.questtemp.(sItem2) = sti(NPChar.questtemp.(sItem2)) - amount;
+		amount = sti(NPChar.questtemp.(sItem2)); 
+		if (amount > 0) sLeft += "Сундуков с монетами - " + amount + "шт.";
+
+	return sLeft; //возвращаем строку со списком оставшегося, или строка пустая
 }

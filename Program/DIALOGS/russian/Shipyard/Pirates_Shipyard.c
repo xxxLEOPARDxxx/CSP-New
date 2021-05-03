@@ -244,6 +244,18 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			Link.l1.go = "ship_tunning_start";
 			link.l2 = "Нет, мне не нужно улучшений, я хочу просто воспользоваться услугами верфи.";
 			link.l2.go = "shipyard";
+
+			if (!CheckAttribute(npchar, "questTemp.ShipOrderTime"))
+			{
+			link.l5 = "А можно у вас на верфи заказать корабль, подходящий моим личным предпочтениям?";
+			link.l5.go = "Shipyard1";
+			}
+			else
+			{
+			link.l5 = "Готов ли заказанный мною корабль?";
+			link.l5.go = "shiporder1";
+			}
+
 			link.l3 = "Мне нужны орудия на корабль.";
 			link.l3.go = "Cannons";
 			link.l4 = "Хочу изменить внешний вид парусов.";
@@ -319,6 +331,18 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			Link.l1.go = "ship_tunning_start";
 			link.l2 = "Нет, мне не нужно улучшений, я хочу просто воспользоваться услугами верфи.";
 			link.l2.go = "shipyard";
+
+			if (!CheckAttribute(npchar, "questTemp.ShipOrderTime"))
+			{
+			link.l6 = "А можно у вас на верфи заказать корабль, подходящий моим личным предпочтениям?";
+			link.l6.go = "Shipyard1";
+			}
+			else
+			{
+			link.l6 = "Готов ли заказанный мною корабль?";
+			link.l6.go = "shiporder1";
+			}
+
 			link.l3 = "Мне нужны орудия на корабль.";
 			link.l3.go = "Cannons";
 			link.l31 = "Хочу изменить внешний вид парусов.";

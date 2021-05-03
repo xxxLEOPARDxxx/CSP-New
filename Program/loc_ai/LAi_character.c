@@ -496,6 +496,13 @@ void LAi_CharacterPlaySound(aref chr, string soundname)
 	SendMessage(chr, "s", soundname);
 }
 
+/* //Проиграть звук
+void LAi_CharacterPlaySound(aref chr, string soundname)
+{
+	InitSound();
+	return SendMessage(chr, "lslllll",MSG_SOUND_PLAY_NORET, soundname, SOUND_WAV_STEREO, VOLUME_SPEECH, false, false, false);
+} */
+
 //Переключиться в режим боя и обратно
 void LAi_SetFightMode(aref chr, bool isFightMode)
 {
@@ -941,7 +948,9 @@ void LAi_AllCharactersUpdate(float dltTime)
 					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
 					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
 					}
-				}else{
+				}
+				else
+				{
 					hp = hp - dltTime*4.0;
 					//hp = hp - dltTime*(MakeFloat(chr.chr_ai.hp_max)/100); // -1 ХП в сек.
 					hp = hp - GetCharacterRegenHPForBlooding(chr, false)*dltTime; // Нанесение процентного урона, чем больше хп у цели, чем чаще бьют тики урона
@@ -994,18 +1003,34 @@ void LAi_AllCharactersUpdate(float dltTime)
 					chr_ai.energy = 0;
 				}
 			}
+			if(CheckAttribute(chr_ai, "Trauma"))
+			{
+				chr_ai.Trauma = stf(chr_ai.Trauma) - dltTime;
+				if(stf(chr_ai.Trauma) <= 0.0)
+				{
+					DeleteAttribute(chr_ai, "TraumaQ");
+					DeleteAttribute(chr_ai, "Trauma");
+					UnmarkCharacter(chr);
+					if(sti(chr.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Травма прошла.")
+					//DelPerkFromActiveList("BloodingPerkA");	// Убираем перк, если кровотечение окончено
+					//pchar.questTemp.bloodingperk = "false"; // Анти-баг
+					}
+				}
+			}
 			
 			if (sti(chr.index) == GetMainCharacterIndex() && !CheckAttribute(pchar, "autofood") && CheckAttribute(pchar, "foodquery"))
+			{
+				if (!LAi_IsFightMode(pchar) || chr_ai.energy == (LAi_GetCharacterMaxEnergy(chr)))
+				{
+					if (pchar.foodquery > 0)
 					{
-						if (!LAi_IsFightMode(pchar) || chr_ai.energy == (LAi_GetCharacterMaxEnergy(chr)))
-						{
-							if (pchar.foodquery > 0)
-							{
-								pchar.foodquery = 0;
-								Log_Info("Очередь остановлена.");
-							}
-						}
+						pchar.foodquery = 0;
+						Log_Info("Очередь остановлена.");
 					}
+				}
+			}
 			
 			if(CheckAttribute(chr_ai, "noeat"))
 			{
@@ -1092,7 +1117,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 				if(sti(chr_ai.chargeprc))
 				{
 					// boal 22/07/05 зарядка не в бою. eddy.но если мушкетер, то пофиг
-					if (bRechargePistolOnLine || !LAi_IsFightMode(chr) || chr.model.animation == "mushketer")
+					if (bRechargePistolOnLine || !LAi_IsFightMode(chr) || findsubstr(chr.model.animation, "mushketer" , 0) != -1)
 					{
 						float charge = stf(chr_ai.charge);
 	                    // boal сюда добавть проверку на наличие пуль gun bullet-->

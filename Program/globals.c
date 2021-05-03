@@ -46,7 +46,7 @@ int iRealDay = 0;
 // сетевые штучки <--
 
 int iGrassQuality = 0; //0 full, 1 middle, 2 low, 3 off
-
+int iFlagAllWdm = 2;
 int iEncountersRate = 1;   // работает на карте и будет работать для скорости смены отношений и тп
 int iEncountersCountRate = 1;   // работает на карте и будет работать для скорости смены отношений и тп
 int	iArcadeSails = 1;   // GetRSRollSpeed
@@ -97,8 +97,8 @@ int     MAX_CHARACTERS   = 10;
 #define BOAT_CHARACTER               999
 
 #define MAX_LOCATIONS		800 // boal //700
-#define MAX_ISLANDS   30
-#define MAX_COLONIES  34
+#define MAX_ISLANDS   31
+#define MAX_COLONIES  35
 
 #define LSC_MAX_TAVERN		12
 #define LSC_MAX_RESIDENCE	3

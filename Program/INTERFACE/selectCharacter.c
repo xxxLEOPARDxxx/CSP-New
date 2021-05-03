@@ -23,6 +23,7 @@ void InitInterface(string iniName)
 	SetNewGroupPicture("SPAIN", "NATIONS", "Spain");
 	SetNewGroupPicture("HOLLAND", "NATIONS", "Holland");
 	SetNewGroupPicture("PIRATE", "NATIONS", "Pirate");
+	SetNewPicture("NOOB_HINT_STR", "INTERFACES\FaqPictures\NOOB.png");
 
 	SetMainCharacterIndex(1);
 
@@ -65,6 +66,7 @@ void InitInterface(string iniName)
 	SetEventHandler("confirmChangeProfileName", "confirmChangeProfileName", 0);
 	SetEventHandler("MouseRClickUP","HideInfo",0);
 	SetEventHandler("ShowInfo","ShowInfo",0);
+	SetEventHandler("StopBlind_Hint","StopBlind_Hint",0);
 
 	SetEventHandler("noteOk","procNoteOk",0);
 
@@ -191,6 +193,22 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_NOBONUS_SKILL_OFF", 1, false);
     }
+	if(bFillEncyShips)
+	{
+		CheckButton_SetState("CHECK_ENC_SEARCH_SHIP",1,true);
+	}
+	else
+	{
+		CheckButton_SetState("CHECK_ENC_SEARCH_SHIP",1,false);
+	}
+	if(bAltBalance)
+	{
+		CheckButton_SetState("CHECK_ALTERNATIVE_BALANCE",1,true);
+	}
+	else
+	{
+		CheckButton_SetState("CHECK_ALTERNATIVE_BALANCE",1,false);
+	}
 }
 
 void IProcessFrame()
@@ -352,6 +370,22 @@ void IProcessFrame()
 	else
 	{
 		bHalfImmortalPGG = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_ENC_SEARCH_SHIP", 3, 1))
+	{
+		bFillEncyShips = true;
+	}
+	else
+	{
+		bFillEncyShips = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_ALTERNATIVE_BALANCE", 3, 1))
+	{
+		bAltBalance = true;
+	}
+	else
+	{
+		bAltBalance = false;
 	}
 }
 
@@ -693,6 +727,11 @@ void selectEngland()
 {
 	if (startHeroType == 2) SelectNation(PIRATE);
 	else SelectNation(ENGLAND);
+	
+	if (startHeroType == 8) SelectNation(ENGLAND);
+	if (startHeroType == 9) SelectNation(FRANCE);
+	if (startHeroType == 10) SelectNation(SPAIN);
+	if (startHeroType == 11) SelectNation(HOLLAND);
 }
 
 void selectFrance()
@@ -702,6 +741,10 @@ void selectFrance()
 	if (startHeroType == 2) SelectNation(PIRATE);
 	if (startHeroType > 2) SelectNation(FRANCE);
 
+	if (startHeroType == 8) SelectNation(ENGLAND);
+	if (startHeroType == 9) SelectNation(FRANCE);
+	if (startHeroType == 10) SelectNation(SPAIN);
+	if (startHeroType == 11) SelectNation(HOLLAND);
 }
 
 void selectSpain()
@@ -711,6 +754,10 @@ void selectSpain()
 	if (startHeroType == 2) SelectNation(PIRATE);
 	if (startHeroType > 2) SelectNation(SPAIN);
 
+	if (startHeroType == 8) SelectNation(ENGLAND);
+	if (startHeroType == 9) SelectNation(FRANCE);
+	if (startHeroType == 10) SelectNation(SPAIN);
+	if (startHeroType == 11) SelectNation(HOLLAND);
 }
 
 void selectHolland()
@@ -720,6 +767,10 @@ void selectHolland()
 	if (startHeroType == 2) SelectNation(PIRATE);
 	if (startHeroType > 2) SelectNation(HOLLAND);
 
+	if (startHeroType == 8) SelectNation(ENGLAND);
+	if (startHeroType == 9) SelectNation(FRANCE);
+	if (startHeroType == 10) SelectNation(SPAIN);
+	if (startHeroType == 11) SelectNation(HOLLAND);
 }
 
 void selectPirate()
@@ -727,6 +778,11 @@ void selectPirate()
     	//homo блокировка нации для Питера Блада
 	if (startHeroType == 1) SelectNation(ENGLAND);
 	else SelectNation(PIRATE);
+	
+	if (startHeroType == 8) SelectNation(ENGLAND);
+	if (startHeroType == 9) SelectNation(FRANCE);
+	if (startHeroType == 10) SelectNation(SPAIN);
+	if (startHeroType == 11) SelectNation(HOLLAND);
 }
 
 void IDoExit(int exitCode, bool bCode)
@@ -740,6 +796,7 @@ void IDoExit(int exitCode, bool bCode)
 	DelEventHandler("selectPirate", "selectPirate");
 	DelEventHandler("MouseRClickUP","HideInfo");
 	DelEventHandler("ShowInfo","ShowInfo");
+	DelEventHandler("StopBlind_Hint","StopBlind_Hint");
 
 	DelEventHandler("noteOk","procNoteOk");
 
@@ -767,6 +824,7 @@ void IDoExit(int exitCode, bool bCode)
 		interfaceResultCommand = exitCode;
 		EndCancelInterface(bCode);
 	}
+	if (startHeroType != 1) LAi_MethodDelay("NoFreeze",0.1);
 }
 
 void confirmChangeProfileName()
@@ -786,14 +844,17 @@ void confirmChangeProfilePass()
 
 void ShowInfo()
 {
+	StopBlind_Hint();
 	g_bToolTipStarted = true;
 	string sHeader = "TEST";
 	string sNode = GetCurrentNode();
 
 	string sText1, sText2, sText3, sPicture, sGroup, sGroupPicture;
 	sPicture = "none";
-	sGroup = "none";
-	sGroupPicture = "none";
+	// sGroup = "none";
+	// sGroupPicture = "none";
+	int xx = 256;
+	int yy = 256;
 
 	switch(sNode)
 	{
@@ -870,11 +931,24 @@ void ShowInfo()
 		case "CHECK_SAILS":
 			sHeader = XI_ConvertString("NewSails");
 			sText1 = GetRPGText("NewSails_hint");
+            sPicture = "INTERFACES\FaqPictures\CHECK_SAILS.png";
+			xx = 256;
+			yy = 256;
 		break;
 		
 		case "CHECK_NOPIRATE":
 			sHeader = XI_ConvertString("NoPirate");
 			sText1 = GetRPGText("NoPirate_hint");
+		break;
+		
+		case "CHECK_ENC_SEARCH_SHIP":
+			sHeader = XI_ConvertString("CHECK_ENC_SEARCH_SHIP_header");
+			sText1 = GetRPGText("CHECK_ENC_SEARCH_SHIP_hint");
+		break;
+		
+		case "CHECK_ALTERNATIVE_BALANCE":
+			sHeader = XI_ConvertString("CHECK_ALTERNATIVE_BALANCE");
+			sText1 = GetRPGText("CHECK_ALTERNATIVE_BALANCE_hint");
 		break;
 		
 		case "CHECK_LOWERSHIP":
@@ -933,7 +1007,7 @@ void ShowInfo()
 	}
 	//sHeader = XI_ConvertString("Nation");
 	//sText1 = GetRPGText("Nation_hint");
-	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, xx, yy);
 }
 
 void HideInfo()
@@ -1179,4 +1253,9 @@ void TmpI_ShowDeadAmount()
 void TmpI_ShowDefendersAmount()
 {
     SetFormatedText("DEFENDERS_COUNT", "" + makeint(5 - 5.0 * (1.0 - stf(GameInterface.nodes.DEFENDERS_SLIDE.value))));
+}
+
+void StopBlind_Hint()
+{
+SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"NOOB_HINT_STR", 5, 0);
 }

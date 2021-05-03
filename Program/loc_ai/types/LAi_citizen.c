@@ -42,23 +42,63 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 		{
 			if(LAi_IsSetBale(chr))
 			{
-			//Переходим в боевой режим
-			LAi_tmpl_SetFight(chr, &Characters[trg]);
+				//Переходим в боевой режим
+				LAi_tmpl_SetFight(chr, &Characters[trg]);
 			}else{
-			//Боимся
-			LAi_tmpl_afraid_SetAfraidCharacter(chr, &Characters[trg], true);
-			LAi_SetAfraidDead(chr);
+				//Боимся
+				LAi_tmpl_afraid_SetAfraidCharacter(chr, &Characters[trg], true);
+				LAi_SetAfraidDead(chr);
 			}
 		}else{
-			//--> проверяем не врагов, но дерущихся. 
-			int num = FindNearCharacters(chr, 5.0, -1.0, -1.0, 0.001, false, true);
-			if(num > 0)
+			//Думаем о возможности поговорить	
+			time = stf(chr.chr_ai.type.notalk) - dltTime;
+			int num = FindNearCharacters(chr, 3.0, -1.0, -1.0, 0.001, true, true);	
+			//--> eddy. если квестовый ситизен, задача которого поговорить с ГГ
+			
+			if (CheckAttribute(chr, "talker")) 
 			{
-//if (stf(chr.chr_ai.type.checkFight) < 0.0 && !LAi_group_IsActivePlayerAlarm())//fix Lipsar не говорят во время тревоги  //время checkFight вообще убираю, чтоб реагировали мгновенно, и бояться вообще всех с оружием
+				if(InterfaceStates.EnabledQuestsMarks)
+				{
+					chr.quest.questflag.model = "exclamationmarkY";
+					chr.quest.questflag.technique = "RandItem"; 
+				}
+			}
+			else
+			{
+				if(InterfaceStates.EnabledQuestsMarks)
+				{
+					chr.quest.questflag.model = "";
+					chr.quest.questflag.technique = ""; 
+				}
+			}
+			
+			if (CheckAttribute(chr, "talker") && time < 10.0) 
+			{
+				for(i = 0; i < num; i++)
+				{						
+					idx = sti(chrFindNearCharacters[i].index);
+					if (idx == nMainCharacterIndex) //ищем ГГ
+					{					
+						if (sti(chr.talker) > rand(10) && LAi_Character_CanDialog(chr, pchar))
+						{
+							LAi_tmpl_SetDialog(chr, pchar, -1.0); //любое время можно ставить, с ГГ базар будет сразу
+							DeleteAttribute(chr, "talker");
+							break;
+						}
+						else time = 50.0;
+					}
+				}		
+			}
+			
+			//<-- если квестовый ситизен, задача которого поговорить с ГГ
+			//--> проверяем не врагов, но дерущихся. 			
+			if (stf(chr.chr_ai.type.checkFight) < 0.0 && !LAi_group_IsActivePlayerAlarm())//fix Lipsar не говорят во время тревоги  
+			{
 				for(i = 0; i < num; i++)
 				{
 					idx = sti(chrFindNearCharacters[i].index);
 					by = &Characters[idx];
+					chr.chr_ai.type.checkFight = 1.5;
 					if (LAi_CheckFightMode(by) && GetRelation(by, chr.index) != RELATION_FRIEND)//04.03 fix Lipsar проверяем на отношение к игроку, связано с ОЗГ
 					{
 						if (LAi_IsSetBale(chr))
@@ -74,117 +114,73 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 						}
 						else
 						{
-							LAi_tmpl_afraid_SetAfraidCharacter(chr, by, true);//убегать в сторону
-						}							
-						return;
+							LAi_tmpl_afraid_SetAfraidCharacter(chr, by, true);
+						}
 					}
 				}
 			}
-			//<-- проверяем не врагов, но дерущихся.
-			else
+			else 
 			{
-				//Думаем о возможности поговорить	
-				time = stf(chr.chr_ai.type.notalk) - dltTime;
-				num = FindNearCharacters(chr, 3.0, -1.0, -1.0, 0.001, true, true);	
-				//--> eddy. если квестовый ситизен, задача которого поговорить с ГГ
-				
-				if (CheckAttribute(chr, "talker")) 
+				chr.chr_ai.type.checkFight = stf(chr.chr_ai.type.checkFight) - dltTime;
+			}
+			//<-- проверяем не врагов, но дерущихся.
+			if(time <= 0.0)
+			{
+				if(rand(100) < 10)
 				{
-					if(InterfaceStates.EnabledQuestsMarks)
+					if (CheckAttribute(&chrFindNearCharacters[0], "index"))  //fix
 					{
-					chr.quest.questflag.model = "exclamationmarkY";
-					chr.quest.questflag.technique = "RandItem"; 
-					}
-				}
-				else
-				{
-					if(InterfaceStates.EnabledQuestsMarks)
-					{
-					chr.quest.questflag.model = "";
-					chr.quest.questflag.technique = ""; 
-					}
-				}
-				
-				if (CheckAttribute(chr, "talker") && time < 10.0) 
-				{
-					for(i = 0; i < num; i++)
-					{						
-						idx = sti(chrFindNearCharacters[i].index);
-						if (idx == nMainCharacterIndex) //ищем ГГ
-						{					
-							if (sti(chr.talker) > rand(10) && LAi_Character_CanDialog(chr, pchar))
+						idx = sti(chrFindNearCharacters[0].index);
+						if(idx >= 0)
+						{							
+							by = &Characters[idx];
+							//Тип
+							if(CheckAttribute(by, "chr_ai.type"))
 							{
-								LAi_tmpl_SetDialog(chr, pchar, -1.0); //любое время можно ставить, с ГГ базар будет сразу
-								DeleteAttribute(chr, "talker");
-								break;
-							}
-							else time = 50.0;
-						}
-					}		
-				}
-				
-				//<-- если квестовый ситизен, задача которого поговорить с ГГ
-				//--> проверяем не врагов, но дерущихся.
-//это уже не нужно будет, выше поднял
-				//<-- проверяем не врагов, но дерущихся.
-				if(time <= 0.0)
-				{
-					if(rand(100) < 10)
-					{
-						if (CheckAttribute(&chrFindNearCharacters[0], "index"))  //fix
-						{
-							idx = sti(chrFindNearCharacters[0].index);
-							if(idx >= 0)
-							{							
-								by = &Characters[idx];
-								//Тип
-								if(CheckAttribute(by, "chr_ai.type"))
+								bool isDialog = false;
+								switch(by.chr_ai.type)
 								{
-									bool isDialog = false;
-									switch(by.chr_ai.type)
+								case LAI_TYPE_CITIZEN:
+									isDialog = true;
+									break;
+								case LAI_TYPE_GUARDIAN: 
+									//не разговаривать с протекторами
+									if (!CheckAttribute(by, "protector"))
 									{
-									case LAI_TYPE_CITIZEN:
 										isDialog = true;
-										break;
-									case LAI_TYPE_GUARDIAN: 
-										//не разговаривать с протекторами
-										if (!CheckAttribute(by, "protector"))
-										{
-											isDialog = true;
-										}
-										break;
-									case LAI_TYPE_PATROL:
-										isDialog = true;
-										break;
-									case LAI_TYPE_MERCHANT: //eddy. с мерчантами пусть тоже базарят
-										isDialog = true;
-										break;
 									}
-									//Дистанция
-									time = -1.0;
-									if(GetCharacterDistByChr(chr, by, &time))
+									break;
+								case LAI_TYPE_PATROL:
+									isDialog = true;
+									break;
+								case LAI_TYPE_MERCHANT: //eddy. с мерчантами пусть тоже базарят
+									isDialog = true;
+									break;
+								}
+								//Дистанция
+								time = -1.0;
+								if(GetCharacterDistByChr(chr, by, &time))
+								{
+									if(time < 0.0) isDialog = false;								
+									if(time > 2.5) isDialog = false;
+								}
+								if(isDialog)
+								{
+									chr.chr_ai.type.notalk = 10.0 + rand(20);
+									if(LAi_Character_CanDialog(chr, by))
 									{
-										if(time < 0.0) isDialog = false;								
-										if(time > 2.5) isDialog = false;
-									}
-									if(isDialog)
-									{
-										chr.chr_ai.type.notalk = 10.0 + rand(20);
-										if(LAi_Character_CanDialog(chr, by))
+										if(!LAi_tmpl_SetDialog(chr, by, 3.0 + rand(10)))
 										{
-											if(!LAi_tmpl_SetDialog(chr, by, 3.0 + rand(10)))
-											{
-												LAi_tmpl_walk_InitTemplate(chr);
-											}
+											LAi_tmpl_walk_InitTemplate(chr);
 										}
 									}
 								}
 							}
 						}
 					}
-				}else{
-					chr.chr_ai.type.notalk = time;
 				}
+			}else{
+				chr.chr_ai.type.notalk = time;
 			}
 		}
 	}else{

@@ -75,7 +75,7 @@ void UpdateSky()
 	}
 	
 	// Sky.RotateSpeed == 0.05 - это уже много
-	Sky.RotateSpeed = windSpeed / 1000 / timeScale;
+	Sky.RotateSpeed = windSpeed / 2000 / timeScale;
 }
 
 void FillSkyDir(aref aSky)

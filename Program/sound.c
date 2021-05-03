@@ -157,18 +157,6 @@ void SetWeatherScheme(string scheme)
 	}
 }
 
-/* void SetTimeScheme(string scheme)
-{
-	if (Whr_IsNight())
-	{
-		AddSoundScheme(scheme+"_night");
-	}
-	else
-	{
-		AddSoundScheme(scheme+"_day");
-	}
-}
-*/
 void SetSchemeForLocation (ref loc)
 {
     ref mchref = GetMainCharacter();
@@ -224,6 +212,12 @@ void SetSchemeForLocation (ref loc)
 					else SetMusicAlarm("music_nightjungle");
 				}
 				DeleteAttribute(pchar, "CheckStateOk"); // убрать флаг проверенности протектором
+			break;
+			
+			case "arena":
+				ResetSoundScheme();
+				SetSoundScheme("arena");
+				SetMusicAlarm("music_arena");
 			break;
 			
 			case "mayak":
@@ -575,10 +569,6 @@ void SetMusic(string name)
 		oldMusicID = musicID;
 	}
 
-	//int silenceTime = 20000 + MakeInt(frnd() * MUSIC_SILENCE_TIME);
-	//musicID = SendMessage(Sound, "lslllllll", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, silenceTime);
-	//SendMessage(Sound, "llf", MSG_SOUND_SET_VOLUME, musicID, 1.0);
-	// fix поседнее - это громкость звука
 	musicID = SendMessage(Sound, "lslllllll", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, 0);
 	SendMessage(Sound, "lll", MSG_SOUND_RESUME, musicID, MUSIC_CHANGE_TIME);
 	
@@ -695,12 +685,6 @@ void SetMusicAlarm(string name)
 
 		if (LAi_boarding_process != 0)
 		{
-			/*if (!CheckAttribute(loadedLocation, "CabinType") && !bBettaTestMode)//pchar.location != "CaptainCabine" && pchar.location != "CaptainCabineBig")
-			{   // TO_DO добавил отключку в бетатест - разрушает мозг (выбиваетс€ звуком из фона)
-				//Trace("¬ключить шума абордажа");
-				abordageSoundID = PlayStereoSoundLooped("Abordage");
-				boardM = 1;
-			}*/
 			if (!CheckAttribute(loadedLocation, "CabinType"))
 			{
 				boardM = 1; // потом сбросим звук и схему
@@ -724,7 +708,7 @@ void Sound_OnAlarm(bool _alarmed)
 
 	if (alarmed != 0)
 	{ //alarm on!
-		if (loadedLocation.id == "shore67") SetMusic("music_q_battle");
+		if (loadedLocation.id == "FencingTown_Arena") SetMusic("music_bitva_arena");
 		else SetMusic("music_bitva");
 	}
 	else

@@ -6,6 +6,8 @@ int nCurScrollNum;
 ref xi_refCharacter;
 ref refNPCShipyard;
 int shipIndex;
+int upgradevalue;
+int uptype = 0;
 
 int nCurScrollOfficerNum;
 
@@ -18,7 +20,9 @@ float shipCostRate;
 bool  bShipyardOnTop, bEmptySlot;
 
 int RepairHull, RepairSail;
-int timeHull, timeRig, timePaint;
+int timeHull, timeRig, timePaint, timeUpgrade, timePreUpgrade;
+
+int iSoilClearCost;
 
 //// {*} BUHO-FIST - ADDED CODE - Fist state variable
 #define FIS_ALL		0		// Normal
@@ -72,6 +76,8 @@ void InitInterface_R(string iniName, ref _shipyarder)
     SetEventHandler("ExitOfficerMenu","ExitOfficerMenu",0);
 	SetEventHandler("acceptaddofficer","AcceptAddOfficer",0);
 	SetEventHandler("BuyShipEvent","BuyShipEvent",0);
+	SetEventHandler("ClickREPAIR_Soiling","ClickREPAIR_Soiling",0);
+	SetEventHandler("OpenShipUp","OpenShipUp",0);
     //////////////////
     EI_CreateFrame("SHIP_BIG_PICTURE_BORDER",156,40,366,275); // tak from SHIP_BIG_PICTURE
     EI_CreateHLine("SHIP_BIG_PICTURE_BORDER", 161,246,361,1, 4);
@@ -84,6 +90,13 @@ void InitInterface_R(string iniName, ref _shipyarder)
 
     SetNewGroupPicture("REPAIR_Hull_PIC", "SHIP_STATE_ICONS", "Hull");
     SetNewGroupPicture("REPAIR_Sails_PIC", "SHIP_STATE_ICONS", "Sails");
+	
+    SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");
+    SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILON");
+    SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSON");
+    SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
+    SetNewGroupPicture("EXTRACAPACITYON", "SHIP_UPGRADES", "EXTRACAPACITYON");
+    SetNewGroupPicture("EXTRABIGSIDESON", "SHIP_UPGRADES", "EXTRABIGSIDESON");
 
     FillShipyardTable();
 
@@ -96,16 +109,18 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	timeHull = 0;
 	timeRig = 0;
 	timePaint = 0;
+	timeUpgrade = 0;
+	timePreUpgrade = 0;
 }
 
 void ProcessExitCancel()
 {
     // boal время на ремонт -->
-    if (timeRig > 0 || timeHull > 0 || timePaint > 0)
+    if (timeRig > 0 || timeHull > 0 || timePaint > 0 || timeUpgrade > 0)
     {
         LAi_Fade("", "");
         bQuestCheckProcessFreeze = true;
-    	WaitDate("",0,0,0, 0, makeint( (timeHull/4.0 + timeRig/6.0 + timePaint/6.0) * 60.0));
+    	WaitDate("",0,0,0, 0, makeint( (timeHull/4.0 + timeRig/6.0 + timePaint/6.0 + timeUpgrade) * 60.0));
     	RecalculateJumpTable();
     	bQuestCheckProcessFreeze = false;
     	RefreshLandTime();
@@ -132,7 +147,9 @@ void IDoExit(int exitCode)
 	DelEventHandler("acceptaddofficer","AcceptAddOfficer");
 	DelEventHandler("ExitRepairMenu", "ExitRepairMenu");
 	DelEventHandler("BuyShipEvent","BuyShipEvent");
-
+	DelEventHandler("ClickREPAIR_Soiling","ClickREPAIR_Soiling");
+	DelEventHandler("OpenShipUp","OpenShipUp");
+	
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
 	{
@@ -169,6 +186,20 @@ void ProcessCommandExecute()
 			if (comName=="click" || comName=="activate")
 			{
 			    ShowMessageInfo2();
+			}
+		break;
+		
+		case "SHIPSUP_BUTTON":
+			if (comName=="click" || comName=="activate")
+			{
+			    OpenShipUp();
+			}
+		break;
+		
+		case "SHIPSUP_DOUP":
+			if (comName=="click" || comName=="activate")
+			{
+			    DoUpgrade();
 			}
 		break;
 		
@@ -394,6 +425,20 @@ void FillShipParam(ref _chr)
 		GameInterface.edit_box.str = _chr.ship.name;
 		SetFormatedText("SHIP_RANK", refBaseShip.Class);
 		SetShipOTHERTable("TABLE_OTHER", _chr);
+		
+		if (CheckAttribute(refBaseShip,"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");
+		else SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLOFF");
+		if (CheckAttribute(refBaseShip,"Tuning.SailsSpecial")) SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILON");
+		else SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILOFF");
+		if (CheckAttribute(refBaseShip,"Tuning.CannonsSpecial")) SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSON");
+		else SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSOFF");
+		if (CheckAttribute(refBaseShip,"Tuning.CuBot")) SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
+		else SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGOFF");
+		if (CheckAttribute(refBaseShip,"Tuning.BotPack")) SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOn");
+		else SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOff");
+		if (CheckAttribute(refBaseShip,"Tuning.HighBort")) SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOn");
+		else SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOff");
+		
 		SetShipQualityTable(_chr, "BAR_HP", "BAR_Mast", "BAR_Speed", "BAR_TurnRate", "BAR_WAS", "BAR_Capacity", "BAR_Crew");
 		SetFormatedText("FRAME_INFO_CAPTION", XI_ConvertString(sShip));
 		SetFormatedText("INFO_TEXT", GetConvertStr(sShip, "ShipsDescribe.txt"));
@@ -444,6 +489,8 @@ void ShowInfoWindow()
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
 	int iItem;
+	int xx = 256;
+	int yy = 256;
 
 	//Boyer fix #20170401-01 Can't load texture -1.tx log errors
 	//sPicture = "-1";
@@ -541,14 +588,81 @@ void ShowInfoWindow()
 				sText3 = "Занято: " + FloatToString((stf(GetCargoLoad(rChr))  /  stf(GetCargoMaxSpace(rChr))) * 100.0, 1)+ " %";
 			}
 		break;
+		
 		case "TABLE_SHIPYARD" :
 		    sHeader = XI_Convertstring("Shipyard");
 			sText1  = GetConvertStr("Shipyard_hint", "ShipsDescribe.txt");
 		break;
+		case "SHIPSUP_TABLE" :
+		    sHeader = XI_Convertstring("SHIPS_UPGRADES");
+			sText1  = GetConvertStr("SHIPSUP_TABLE_hint", "ShipsDescribe.txt");
+		break;
+		
+		// LEO - чудим с доп инфой
+		case "EXTRAHULLON":
+			sHeader = XI_ConvertString("EXTRAHULLON");
+			sText1 = GetConvertStr("SUP_HULL_descr", "ShipsDescribe.txt");
+
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(rChr.Ship.Type)],"Tuning.HullSpecial")) sGroupPicture = "EXTRAHULLON";
+			else sGroupPicture = "EXTRAHULLOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRASAILON":
+			sHeader = XI_ConvertString("EXTRASAILON");
+			sText1 = GetConvertStr("SUP_SAIL_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(rChr.Ship.Type)],"Tuning.SailsSpecial")) sGroupPicture = "EXTRASAILON";
+			else sGroupPicture = "EXTRASAILOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRAGUNSON":
+			sHeader = XI_ConvertString("EXTRAGUNSON");
+			sText1 = GetConvertStr("SUP_CANNONS_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(rChr.Ship.Type)],"Tuning.CannonsSpecial")) sGroupPicture = "EXTRAGUNSON";
+			else sGroupPicture = "EXTRAGUNSOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRAHULLKRENGON":
+			sHeader = XI_ConvertString("EXTRAHULLKRENGON");
+			sText1 = GetConvertStr("SUP_HULLCOPPER_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(rChr.Ship.Type)],"Tuning.CuBot")) sGroupPicture = "EXTRAHULLKRENGON";
+			else sGroupPicture = "EXTRAHULLKRENGOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRACAPACITYON":
+			sHeader = XI_ConvertString("EXTRACAPACITYON");
+			sText1 = GetConvertStr("SUP_CAPACITY_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(rChr.Ship.Type)],"Tuning.BotPack")) sGroupPicture = "EXTRACAPACITYON";
+			else sGroupPicture = "EXTRACAPACITYOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRABIGSIDESON":
+			sHeader = XI_ConvertString("EXTRABIGSIDESON");
+			sText1 = GetConvertStr("SUP_BIGSIDES_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(rChr.Ship.Type)],"Tuning.HighBort")) sGroupPicture = "EXTRABIGSIDESON";
+			else sGroupPicture = "EXTRABIGSIDESOFF";
+			xx = 256;
+			yy = 256;
+		break;
 	}
 	if (bShowHint)
 	{
-		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, xx, yy);
 	}
 }
 
@@ -574,6 +688,143 @@ void TableSelectChange()
 		FillShipParam(refNPCShipyard);
 		bShipyardOnTop = true;
 		SetButtionsAccess();
+	}
+	if (CurTable == "SHIPSUP_TABLE")
+	{
+		int upsq = 0;
+		switch(CurRow)
+		{
+			case "tr1":
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)/2);
+				uptype = 1;
+			break;
+			case "tr2":
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.SailsSpecial")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.35);
+				uptype = 2;
+			break;
+			case "tr3":
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CannonsSpecial")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.25);
+				uptype = 3;
+			break;
+			case "tr4":
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CuBot")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.4);
+				uptype = 4;
+			break;
+			case "tr5":
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.BotPack")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.5);
+				uptype = 5;
+			break;
+			case "tr6":
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.4);
+				uptype = 6;
+			break;
+		}
+		
+		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial")) upsq++;
+		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.SailsSpecial")) upsq++;
+		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CannonsSpecial")) upsq++;
+		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CuBot")) upsq++;
+		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.BotPack")) upsq++;
+		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort")) upsq++;
+		
+		switch (sti(RealShips[sti(xi_refCharacter.Ship.Type)].class))
+		{
+			case 7:
+				timePreUpgrade = 2+drand(1);
+			break;
+			case 6:
+				timePreUpgrade = 2+drand(2);
+			break;
+			case 5:
+				timePreUpgrade = 3+drand(3);
+			break;
+			case 4:
+				timePreUpgrade = 4+drand(4);
+			break;
+			case 3:
+				timePreUpgrade = 4+drand(6);
+			break;
+			case 2:
+				timePreUpgrade = 6+drand(6);
+			break;
+			case 1:
+				timePreUpgrade = 10+drand(10);
+			break;
+		}
+		if (upgradevalue == 0)
+		{
+			timePreUpgrade = makeint(timePreUpgrade/2);
+			SetFormatedText("SHIPSUP_VALUE","Демонтаж займёт часов: не менее "+timePreUpgrade);
+		}			
+		else SetFormatedText("SHIPSUP_VALUE",FindRussianMoneyString(upgradevalue)+", апгрейд займёт часов: не менее "+timePreUpgrade);
+		
+		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"SHIPSUP_DOUP",0, "#"+"Улучшить");
+		if (upgradevalue == 0) SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"SHIPSUP_DOUP",0, "#"+"Демонтаж");
+		
+		if (sti(pchar.money)>=upgradevalue && upsq < 3) SetSelectable("SHIPSUP_DOUP", true);	
+		if (sti(pchar.money)<upgradevalue) SetSelectable("SHIPSUP_DOUP", false);
+		if (upsq >= 3 && upgradevalue > 0)
+		{
+			SetFormatedText("SHIPSUP_VALUE","Максимум апгрейдов");
+			SetSelectable("SHIPSUP_DOUP", false);
+		}
+		if (upsq >= 3 && upgradevalue == 0)
+		{
+			SetFormatedText("SHIPSUP_VALUE","Максимум апгрейдов, часов для снятия: не менее "+timePreUpgrade);
+			SetSelectable("SHIPSUP_DOUP", true);
+			SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"SHIPSUP_DOUP",0, "#"+"Демонтаж");
+		}
+		switch(uptype)
+		{
+			case 1:
+				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == true && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == false)
+				{
+					SetSelectable("SHIPSUP_DOUP", true);
+				}
+				else
+				{
+					SetFormatedText("SHIPSUP_VALUE","Апгрейд невозможен для данного корабля");
+					SetSelectable("SHIPSUP_DOUP", false);
+				}
+			break;
+			case 2:
+			
+			break;
+			case 3:
+				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == true && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == false)
+				{
+					SetSelectable("SHIPSUP_DOUP", true);
+				}
+				else
+				{
+					SetFormatedText("SHIPSUP_VALUE","Апгрейд невозможен для данного корабля");
+					SetSelectable("SHIPSUP_DOUP", false);
+				}
+			break;
+			case 4:
+			
+			break;
+			case 5:
+				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == false && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true)
+				{
+					SetSelectable("SHIPSUP_DOUP", true);
+				}
+				else
+				{
+					SetFormatedText("SHIPSUP_VALUE","Апгрейд невозможен для данного корабля");
+					SetSelectable("SHIPSUP_DOUP", false);
+				}
+			break;
+			case 6:
+			
+			break;
+		}
 	}
 }
 
@@ -912,7 +1163,7 @@ void SetButtionsAccess()
     {
         SetSelectable("BUTTON_BUY", false);
 
-        if (GetHullPercent(xi_refCharacter) < 100 || GetSailPercent(xi_refCharacter) < 100)
+        if (GetHullPercent(xi_refCharacter) < 100 || GetSailPercent(xi_refCharacter) < 100 || sti(xi_refCharacter.ship.soiling) > 0)
         {
             SetSelectable("BUTTON_REPAIR", true);
         }
@@ -1331,6 +1582,10 @@ void DoBuyShip()
 		AddCharacterCrew(xi_refCharacter, 0); // обрезать перегруз
 	    RecalculateCargoLoad(xi_refCharacter);
 	}
+	if(!CheckAttribute(xi_refCharacter, "Ship.soiling"))
+	{
+		xi_refCharacter.Ship.soiling = 0;
+	}
 	if (sti(xi_refCharacter.index) == GetMainCharacterIndex())
 	{
   		pchar.location.from_sea = sFrom_sea; // корабль в порту
@@ -1446,7 +1701,7 @@ void RepairMoneyShow()
 	int iTimeM = makeint(((RepairHull * (8-GetCharacterShipClass(xi_refCharacter)))/4.0 + (RepairSail * (8-GetCharacterShipClass(xi_refCharacter)))/6.0) * 60.0); 
 	string _sTime;
 	if (iTimeM<1) _sTime = "\n"; else _sTime = "часов: " + iTimeM/60 + " | минут: " + its(iTimeM-(iTimeM/60)*60) + "\n";
-	SetFormatedText("REPAIR_WINDOW_TEXT", _sTime + its(GetSailRepairCost(st, RepairSail, refNPCShipyard) + GetHullRepairCost(st, RepairHull, refNPCShipyard)));
+	SetFormatedText("REPAIR_WINDOW_TEXT", _sTime + its(iSoilClearCost + GetSailRepairCost(st, RepairSail, refNPCShipyard) + GetHullRepairCost(st, RepairHull, refNPCShipyard)));
 }
 
 void RepairStatShow()
@@ -1456,6 +1711,13 @@ void RepairStatShow()
 
 	SetFormatedText("REPAIR_QTY_H", (hp+RepairHull) + "%");
 	SetFormatedText("REPAIR_QTY_S", (sp+RepairSail) + "%");
+	if(sti(xi_refCharacter.ship.soiling) == 0)
+	{
+		SetFormatedText("REPAIR_Soiling_TEXT" , "не требуется");
+	}else{
+		SetFormatedText("REPAIR_Soiling_TEXT" , FindRussianMoneyString(GetChrClearSoilingCoast()));
+	}
+	
 	RepairMoneyShow();
 }
 
@@ -1519,6 +1781,12 @@ void RepairOk()
     int hp = MakeInt(GetHullPercent(xi_refCharacter));
 	int sp = MakeInt(GetSailPercent(xi_refCharacter));
 	float ret;
+	
+	if(GetChrClearSoilingCoast() > 0)
+	{
+		xi_refCharacter.ship.soiling = 0;
+		AddMoneyToCharacter(pchar, -GetChrClearSoilingCoast());
+	}
 
 	if (RepairHull > 0)
 	{
@@ -1562,6 +1830,8 @@ void RepairAll()
 {
     ClickRepairArror("sail", 100);
     ClickRepairArror("hull", 100);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"REPAIR_Soiling_CHECKBOX", 2, 1, 1);
+	ClickREPAIR_Soiling();
 }
 
 void BuyShipEvent()
@@ -1570,4 +1840,287 @@ void BuyShipEvent()
 	{
 	    ShowMessageInfo();
 	}
+}
+
+void ClickREPAIR_Soiling()
+{
+	if((sti(xi_refCharacter.ship.soiling) != 0)&&(sti(pchar.money) >= GetChrClearSoilingCoast()))
+	{		
+		if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "REPAIR_Soiling_CHECKBOX", 3, 1))
+		{
+			iSoilClearCost = GetChrClearSoilingCoast();
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"REPAIR_Soiling_TEXT", 8,0,argb(255,255,255,200));
+		}else{
+			iSoilClearCost = 0;
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"REPAIR_Soiling_TEXT", 8,0,argb(255,196,196,196));	
+		}
+	}else{
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"REPAIR_Soiling_CHECKBOX", 2, 1, 0);
+		iSoilClearCost = 0;
+	}
+
+	RepairMoneyShow();
+	
+//	iFullPrice = iHullRepairCost + iSailsRepairCost + iCannonsRepairCost + iSoilClearCost;
+//	UpdateRepairWindow();
+}
+
+int GetChrClearSoilingCoast()
+{
+	int Soiling = xi_refCharacter.ship.soiling; 
+	int iClass = sti(RealShips[sti(xi_refCharacter.ship.type)].Class);
+	int sum = 50;
+	
+	switch(iClass)
+	{
+		case 6:
+			sum= 600;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 10)}
+		break; 
+		case 5:
+			sum= 600;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 10)}
+		break; 
+		case 4:
+			sum= 1000;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 15)}
+		break; 
+		case 3:
+			sum= 1500;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 25)}
+		break; 
+		case 2:
+			sum= 1700;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 30)}
+		break; 
+		case 1:
+			sum= 2500;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 35)}
+		break; 
+	}
+
+	return sum;
+}
+
+void OpenShipUp()
+{
+	int upsq = 0;
+	XI_WindowShow("MAIN_WINDOW", false);
+	XI_WindowDisable("MAIN_WINDOW", true);
+	XI_WindowShow("SHIPSUP_WINDOW", true);
+	XI_WindowDisable("SHIPSUP_WINDOW", false);
+	SetNodeUsing("MAIN_WINDOW", false);
+	SetNodeUsing("SHIPSUP_WINDOW", true);
+	upgradevalue = 0;
+	
+	for (int i = 0; i < 6; i++)
+	{
+        string row = "tr" + (i+1);
+        GameInterface.SHIPSUP_TABLE.(row).td1.icon.group = "SHIP_UPGRADES";
+		GameInterface.SHIPSUP_TABLE.(row).td1.icon.width = 128;
+    	GameInterface.SHIPSUP_TABLE.(row).td1.icon.height = 128;
+    	GameInterface.SHIPSUP_TABLE.(row).td1.icon.offset = "-3, 0";
+    	GameInterface.SHIPSUP_TABLE.(row).td1.textoffset = "65,0";
+		GameInterface.SHIPSUP_TABLE.(row).td1.str = "";
+		GameInterface.SHIPSUP_TABLE.(row).td1.align = "left";
+		GameInterface.SHIPSUP_TABLE.(row).td1.scale = 0.8;
+		GameInterface.SHIPSUP_TABLE.(row).td2.scale = 1.0;
+		GameInterface.SHIPSUP_TABLE.(row).td3.scale = 1.0;
+		switch (i)
+		{
+			case 0:
+				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_HULL_descr","ShipsDescribe.txt");
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial"))
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAHULLON";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
+					upgradevalue = 0;
+					upsq++;
+				}				
+				else
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAHULLOFF";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+				}
+				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == false && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
+			break;
+			case 1:
+				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_SAIL_descr","ShipsDescribe.txt");
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.SailsSpecial"))
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRASAILON";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
+					upgradevalue = 0;
+					upsq++;
+				}				
+				else
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRASAILOFF";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+				}
+			break;
+			case 2:
+				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_CANNONS_descr","ShipsDescribe.txt");
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CannonsSpecial"))
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAGUNSON";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
+					upgradevalue = 0;
+					upsq++;
+				}				
+				else
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAGUNSOFF";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+				}
+				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == false && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
+			break;
+			case 3:
+				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_HULLCOPPER_descr","ShipsDescribe.txt");
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CuBot"))
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAHULLKRENGON";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
+					upgradevalue = 0;
+					upsq++;
+				}				
+				else
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAHULLKRENGOFF";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+				}
+			break;
+			case 4:
+				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_CAPACITY_descr","ShipsDescribe.txt");
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.BotPack"))
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "ExtraCapacityOn";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
+					upgradevalue = 0;
+					upsq++;
+				}				
+				else
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "ExtraCapacityOff";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+				}
+				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == true && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == false) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
+			break;
+			case 5:
+				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_BIGSIDES_descr","ShipsDescribe.txt");
+				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort"))
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "ExtraBigSidesOn";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
+					upgradevalue = 0;
+					upsq++;
+				}				
+				else
+				{
+					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "ExtraBigSidesOff";
+					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+				}
+			break;
+		}
+		if (upsq >= 3) SetFormatedText("SHIPSUP_VALUE","Максимальное количество апгрейдов");
+		else SetFormatedText("SHIPSUP_VALUE",FindRussianMoneyString(upgradevalue));
+		SetFormatedText("SHIPSUP_CAPTION", "Уникальные улучшения корабля");
+		SetSelectable("SHIPSUP_DOUP", false);
+    }
+
+	Table_UpdateWindow("SHIPSUP_TABLE");
+}
+
+void DoUpgrade()
+{
+	if (upgradevalue > 0) AddMoneyToCharacter(pchar, -upgradevalue);
+	ref shTo = &RealShips[sti(xi_refCharacter.Ship.Type)];
+	bool up = true;
+	switch (uptype)
+	{
+		case 1:
+			if (!CheckAttribute(shTo,"Tuning.HullSpecial"))
+			{
+				shTo.Tuning.HullSpecial = 1;
+				shTo.price = makeint(sti(shTo.price)*1.5); 
+			}
+			else
+			{
+				DeleteAttribute(shTo,"Tuning.HullSpecial");
+				shTo.price = makeint(sti(shTo.price)/1.5);
+				up = false;
+			}
+		break;
+		case 2:
+			if (!CheckAttribute(shTo,"Tuning.SailsSpecial"))
+			{
+				shTo.Tuning.SailsSpecial = 1;
+				shTo.price = makeint(sti(shTo.price)*1.35); 
+			}
+			else
+			{
+				DeleteAttribute(shTo,"Tuning.SailsSpecial");
+				shTo.price = makeint(sti(shTo.price)/1.35);
+				up = false;
+			}
+		break;
+		case 3:
+			if (!CheckAttribute(shTo,"Tuning.CannonsSpecial"))
+			{
+				shTo.Tuning.CannonsSpecial = 1;
+				shTo.price = makeint(sti(shTo.price)*1.25); 
+			}
+			else
+			{
+				DeleteAttribute(shTo,"Tuning.CannonsSpecial");
+				shTo.price = makeint(sti(shTo.price)/1.25);
+				up = false;
+			}
+		break;
+		case 4:
+			if (!CheckAttribute(shTo,"Tuning.CuBot"))
+			{
+				shTo.Tuning.CuBot = 1;
+				shTo.price = makeint(sti(shTo.price)*1.4); 
+			}
+			else
+			{
+				DeleteAttribute(shTo,"Tuning.CuBot");
+				shTo.price = makeint(sti(shTo.price)/1.4);
+				up = false;
+			}
+		break;
+		case 5:
+			if (!CheckAttribute(shTo,"Tuning.BotPack"))
+			{
+				shTo.Tuning.BotPack = 1;
+				shTo.price = makeint(sti(shTo.price)*1.5); 
+				shTo.Capacity = sti(shTo.Capacity) + makeint(sti(shTo.Capacity)/2);
+				shTo.HP = sti(shTo.HP) - makeint(sti(shTo.HP)/2);
+			}
+			else
+			{
+				DeleteAttribute(shTo,"Tuning.BotPack");
+				shTo.price = makeint(sti(shTo.price)/1.5);
+				shTo.Capacity = makeint(sti(shTo.Capacity)/1.5);
+				shTo.HP = sti(shTo.HP)*2;
+				up = false;
+			}
+		break;
+		case 6:
+			if (!CheckAttribute(shTo,"Tuning.HighBort"))
+			{
+				shTo.Tuning.HighBort = 1;
+				shTo.price = makeint(sti(shTo.price)*1.4); 
+			}
+			else
+			{
+				DeleteAttribute(shTo,"Tuning.HighBort");
+				shTo.price = makeint(sti(shTo.price)/1.4);
+				up = false;
+			}
+		break;
+	}
+	timeUpgrade = timePreUpgrade;
+	OpenShipUp();
 }

@@ -59,6 +59,8 @@ void InitInterface_R(string iniName, ref pStore)
 	GameInterface.TABLE_LIST.hr.td7.scale = 0.9;
 	GameInterface.TABLE_LIST.hr.td8.str = "Вес пачки";
 	GameInterface.TABLE_LIST.hr.td8.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td9.str = "Общий вес";
+	GameInterface.TABLE_LIST.hr.td9.scale = 0.9;
 
     FillShipsScroll();
 
@@ -263,12 +265,19 @@ void AddToTable()
 	{
         row = "tr" + n;
 		sGood = Goods[i].name;
+		sShipQ = GetCargoGoods(refCharacter, i);
+		if(sShipQ == "0")
+		{
+			refCharacter.Goods.(sGood).Bought.Coeff = "1";
+			refCharacter.Goods.(sGood).Bought.Coeff.Qty = "0";
+		}
+		if(!CheckAttribute(refCharacter,"Goods."+sGood+".Bought.Coeff")) refCharacter.Goods.(sGood).Bought.Coeff = "0";
+		if(!CheckAttribute(refCharacter,"Goods."+sGood+".Bought.Coeff.Qty")) refCharacter.Goods.(sGood).Bought.Coeff.Qty = "0";
 		makearef(refGoods,refStore.Goods.(sGood));
         tradeType = MakeInt(refGoods.TradeType);
         if (tradeType == TRADE_TYPE_CANNONS) continue; // не пушки
         
-		sShipQ = GetCargoGoods(refCharacter, i);
-
+		
 		if(refStore.Colony != "none")
 		{
 			sStoreQ = GetStoreGoodsQuantity(refStore, i);
@@ -292,10 +301,9 @@ void AddToTable()
 		GameInterface.TABLE_LIST.(row).td1.str = sShipQ;
 		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(sShipQ));
 		GameInterface.TABLE_LIST.(row).td7.str = Goods[i].Units;
-		GameInterface.TABLE_LIST.(row).td8.str = Goods[i].Weight;
-
 		GameInterface.TABLE_LIST.(row).td6.str = sStoreQ;
-
+		GameInterface.TABLE_LIST.(row).td8.str = Goods[i].Weight;
+		GameInterface.TABLE_LIST.(row).td9.str = GetGoodWeightByType(i, sti(sStoreQ));
 		
 		switch(tradeType)
 		{
@@ -346,7 +354,12 @@ void AddToTable()
 		}
 		else
 		{
-			GameInterface.TABLE_LIST.(row).td5.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, pchar, 1);
+			GameInterface.TABLE_LIST.(row).td5.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, refCharacter, 1);
+			if(!CheckAttribute(refCharacter,"Goods."+sGood+".Bought.Coeff")) 
+			{
+				GameInterface.TABLE_LIST.(row).td5.color = argb(255,255,192,255);
+			}
+			if(CheckAttribute(refCharacter,"Goods."+sGood+".Bought.Coeff") && refCharacter.Goods.(sGood).Bought.Coeff == "0") GameInterface.TABLE_LIST.(row).td5.color = argb(255,255,192,255);
 			// в море
 			if (refStore.Colony == "none")
 			{
@@ -630,6 +643,7 @@ void SetDescription()
 	}
     CalculateInfoData();
 	SetNewPicture("MAIN_CHARACTER_PICTURE", "interfaces\portraits\256\face_" + its(refCharacter.FaceId) + ".tga");
+	AddToTable();
 	SetVariable();
 }
 
@@ -828,7 +842,9 @@ void TransactionOK()
 		{
    			RemoveCharacterGoods(refShipChar, iCurGoodsIdx, nTradeQuantity);
 		}
-
+		string sGood = Goods[iCurGoodsIdx].Name;
+		if(GetCargoGoods(refCharacter, iCurGoodsIdx) == "0" || GetCargoGoods(refCharacter, iCurGoodsIdx) == refCharacter.Goods.(sGood).Bought.Coeff.Qty) refCharacter.Goods.(sGood).Bought.Coeff = "1";
+		if(refCharacter.Goods.(sGood).Bought.Coeff == "1") refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) + nTradeQuantity;
 		AddCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);
 		moneyback = makeint(iShipPrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5);
 		pchar.money = sti(pchar.money)  - moneyback;
@@ -848,7 +864,12 @@ void TransactionOK()
 		{
    			AddCharacterGoods(refShipChar, iCurGoodsIdx, nTradeQuantity);
 		}
-
+		sGood = Goods[iCurGoodsIdx].Name;
+		if(refCharacter.Goods.(sGood).Bought.Coeff == "1")
+		{			
+			refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) - nTradeQuantity;
+			if(sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) <= 0) refCharacter.Goods.(sGood).Bought.Coeff = "0";
+		}
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);
 		moneyback = makeint(iStorePrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5);
   		pchar.money = sti(pchar.money)  + moneyback;

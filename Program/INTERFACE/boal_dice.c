@@ -41,22 +41,7 @@ void InitInterface(string iniName)
 	SetEventHandler("My_eNewNextGame","NewNextGame",0);
 	SetEventHandler("My_eCompTurn","CompTurn",0);
 	SetEventHandler("My_eCheckGame","CheckGame",0);
-	/*
-	gold, silver   - 100x100
-	screen: -40..680 x -30..510  (720x540)
-	cup: 219x178
-	dice: 92x84
-	таблица (в прорядке убывания значимости)
-	1) Покер - 5 одинаковых
-	2) Стрит Бол.стрит - 2,3,4,5,6 Мал.стрит - 1,2,3,4,5
-	3) Каре - 4 одинаковых
-	4) Фул - 3 + 2
-	5) триада - 3 одинаковых
-	6) две пары 2 + 2
-	7) одна пара 2- одинаковых
-	8) ничего нет
-	*/
-	
+
     sgxy = 50;
     ssxy = 70;
     
@@ -74,31 +59,6 @@ void InitInterface(string iniName)
     
     npchar = GetCharacter(sti(pchar.GenQuest.Dice.npcharIdx));
     
-  /*  switch (iRate)
-    {
-        case 50 :
-            money_s = "silver";
-            iExpRate = 1;
-        break;
-        
-        case 200 :
-            money_s = "gold";
-            iExpRate = 2;
-        break;
-        
-        case 500 :
-            money_s = "silver";
-            SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
-            iExpRate = 4;
-        break;
-
-        case 2000 :
-            money_s = "gold";
-            SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
-            iExpRate = 8;
-        break;
-    } */
-	
 	if (iRate <= 99)            //WW  прокачка фортуны  от суммы ставки
          {   money_s = "silver";  
             iExpRate = 1;
@@ -195,41 +155,48 @@ void ProcessCancelExit()
 
 void Exit()
 {
-    if (openExit || bBettaTestMode)
-    {
-        DelEventHandler("InterfaceBreak","ProcessBreakExit");
-    	DelEventHandler("exitCancel","ProcessCancelExit");
-    	DelEventHandler("ievnt_command","ProcessCommandExecute");
-    	DelEventHandler("My_eventMoveImg","MoveImg");
-    	DelEventHandler("My_eStartGame","StartGame");
-    	DelEventHandler("My_eContinueGame","ContinueGame");
-    	DelEventHandler("My_eNewNextGame","NewNextGame");
-    	DelEventHandler("My_eCompTurn","CompTurn");
-    	DelEventHandler("My_eCheckGame","CheckGame");
-
-        if (sti(pchar.GenQuest.Dice.SitType) == true)
-    	{
-            DoQuestCheckDelay("exit_sit", 0.6);
-    	}
-        interfaceResultCommand = RC_INTERFACE_SALARY_EXIT;
-
-    	Statistic_AddValue(Pchar, "GameDice_Win", iHeroWin);
-    	AddCharacterExpToSkill(Pchar, SKILL_FORTUNE, iExpRate*4*iHeroWin);
-    	AddCharacterExpToSkill(Pchar, SKILL_FORTUNE, iExpRate*2*iHeroLose);
-    	Statistic_AddValue(Pchar, "GameDice_Lose", iHeroLose);
-		NPChar.Quest.HeroLose = (iHeroWin < iHeroLose); //navy -- в итоге проиграл или выйграл. (не по деньгам.)
-
-    	bQuestCheckProcessFreeze = true;
-    	//WaitDate("",0,0,0, 0, iTurnGame*15);
-    	bQuestCheckProcessFreeze = false;
-    	RefreshLandTime();
-    	EndCancelInterface(true);
-
+	if (npchar.id == "W_Chard" && iHeroWin < 5 && iHeroLose < 5)
+	{
+		PlaySound("interface\knock.wav");
 	}
 	else
-    {
-        PlaySound("interface\knock.wav");
-    }
+	{
+		if (openExit || bBettaTestMode)
+		{
+			DelEventHandler("InterfaceBreak","ProcessBreakExit");
+			DelEventHandler("exitCancel","ProcessCancelExit");
+			DelEventHandler("ievnt_command","ProcessCommandExecute");
+			DelEventHandler("My_eventMoveImg","MoveImg");
+			DelEventHandler("My_eStartGame","StartGame");
+			DelEventHandler("My_eContinueGame","ContinueGame");
+			DelEventHandler("My_eNewNextGame","NewNextGame");
+			DelEventHandler("My_eCompTurn","CompTurn");
+			DelEventHandler("My_eCheckGame","CheckGame");
+
+			if (sti(pchar.GenQuest.Dice.SitType) == true)
+			{
+				DoQuestCheckDelay("exit_sit", 0.6);
+			}
+			interfaceResultCommand = RC_INTERFACE_SALARY_EXIT;
+
+			Statistic_AddValue(Pchar, "GameDice_Win", iHeroWin);
+			AddCharacterExpToSkill(Pchar, SKILL_FORTUNE, iExpRate*4*iHeroWin);
+			AddCharacterExpToSkill(Pchar, SKILL_FORTUNE, iExpRate*2*iHeroLose);
+			Statistic_AddValue(Pchar, "GameDice_Lose", iHeroLose);
+			NPChar.Quest.HeroLose = (iHeroWin < iHeroLose); //navy -- в итоге проиграл или выйграл. (не по деньгам.)
+
+			bQuestCheckProcessFreeze = true;
+			//WaitDate("",0,0,0, 0, iTurnGame*15);
+			bQuestCheckProcessFreeze = false;
+			RefreshLandTime();
+			EndCancelInterface(true);
+
+		}
+		else
+		{
+			PlaySound("interface\knock.wav");
+		}
+	}
 
 }
 
@@ -339,7 +306,7 @@ void MoveImg()
     if (move_i < 10)
     {
         CreateImage("DiceCup","DICE","cup", 460 - move_i*25, 40 + move_i*15, 460 - move_i*25 + spx, 40 +move_i*15 + spy);
-        PostEvent("My_eventMoveImg", 100);
+        PostEvent("My_eventMoveImg", 70);
     }
     else
     {
@@ -353,7 +320,7 @@ void MoveImg()
             }
 			else
 			{
-            	PostEvent("My_eventMoveImg", 100);
+            	PostEvent("My_eventMoveImg", 80);
             }
         }
         // сброс
@@ -363,10 +330,13 @@ void MoveImg()
 			if (bSetRandDice)
 			{
             	SetDiceForTableRand(); // случайно, 2й ход компа будем жухлить!!!
+				//bSetRandDice = false;
             }
             else
             {
-                bSetRandDice = true;
+
+				bSetRandDice = true;
+
             }
             PutDiceOnTable();
         }
@@ -380,11 +350,17 @@ void MoveImg()
 
 void PutNextCoin()
 {
-    CreateImage("Money_"+money_i,"CARDS",money_s, 530+money_i*3, 310-money_i*3, 530+money_i*3 + smxy, 310-money_i*3 + smxy);
+	if (npchar.id != "W_Chard")
+	{
+		CreateImage("Money_"+money_i,"CARDS",money_s, 530+money_i*3, 310-money_i*3, 530+money_i*3 + smxy, 310-money_i*3 + smxy);
+	}
 }
 void PutNextCoinOp()
 {
-    CreateImage("Money_"+(28+moneyOp_i),"CARDS",money_s, 630+moneyOp_i*3, 310-moneyOp_i*3, 630+moneyOp_i*3 + smxy, 310-moneyOp_i*3 + smxy);
+	if (npchar.id != "W_Chard")
+	{
+		CreateImage("Money_"+(28+moneyOp_i),"CARDS",money_s, 630+moneyOp_i*3, 310-moneyOp_i*3, 630+moneyOp_i*3 + smxy, 310-moneyOp_i*3 + smxy);
+	}
 }
 
 void RedrawDeck(bool _newGame, bool _clearDice)
@@ -442,9 +418,9 @@ void BetaInfo()
         GameInterface.strings.Beta_DiceN  = "Beta_DiceN Type: " + DiceState.Comp.Result.Type + " Rate1: " + DiceState.Comp.Result.Rate1 + " Rate2: " +DiceState.Comp.Result.Rate2;
         GameInterface.strings.Beta_DiceP  = "Beta_DiceP Type: " + DiceState.Hero.Result.Type + " Rate1: " + DiceState.Hero.Result.Rate1 + " Rate2: " +DiceState.Hero.Result.Rate2;
         GameInterface.strings.Beta_TXT    = "dir_i_start " + dir_i_start + " dir_i " + dir_i + " Position " + bStartGame;
-        GameInterface.strings.Beta_WinLose = "Beta Win " + (Statistic_AddValue(Pchar, "GameDice_Win", 0) + iHeroWin)+ " Lose " + (Statistic_AddValue(Pchar, "GameDice_Lose", 0) + iHeroLose)+ " Turn " + iTurnGame;
-		if (CheckAttribute(NPchar, "Quest.DiceCheats")) GameInterface.strings.Beta_WinLose = GameInterface.strings.Beta_WinLose + " Cheats " + NPchar.Quest.DiceCheats;
+        if (CheckAttribute(NPchar, "Quest.DiceCheats")) GameInterface.strings.Beta_WinLose = GameInterface.strings.Beta_WinLose + " Cheats " + NPchar.Quest.DiceCheats;
     }
+	GameInterface.strings.Beta_WinLose = "Побед: " + (Statistic_AddValue(Pchar, "GameDice_Win", 0) + iHeroWin)+ " Поражений: " + (Statistic_AddValue(Pchar, "GameDice_Lose", 0) + iHeroLose)+ " Игр: " + iTurnGame;
 }
 
 // сдать карту
@@ -458,7 +434,7 @@ void StartGame()
 	{
         PlaySound("interface\dice_mix.wav");
 		SetFormatedText("INFO_TEXT","Я первый.");
-		PostEvent("My_eventMoveImg", 100);
+		PostEvent("My_eventMoveImg", 300);
     }
 	else
 	{
@@ -742,7 +718,7 @@ bool CheckGame()
 			SetFormatedText("INFO_TEXT","Так, теперь мой ход.");
 			move_i = 0;
 	        PlaySound("interface\dice_mix.wav");
-	        PostEvent("My_eventMoveImg", 500);
+	        PostEvent("My_eventMoveImg", 300);
         }
         else
         {
@@ -1043,13 +1019,7 @@ void SortDiceOnHand(string _whom)
 {
     int  j,k,w,m;
     string sTemp;
-    /*
-	Поиск наименьшего (простой выбор).
 
-  При первом проходе находим наименьший элемент и ставим его на первое место,
-потом наименьший из оставшихся...
-	*/
-	
 	for (k = 1; k<=4; k++)
 	{
         sGlobalTemp = "d"+k;
@@ -1166,15 +1136,40 @@ void NewNextGame()
 {
     RedrawDeck(true, false);
     openExit = true;
-	if (CheckNextGame() && rand(10) < 10) // есть деньги на игру
-    {
-        ResultStr += NewStr() + "Еще разок?";
-		bLockClick = false;
+	if (npchar.id == "W_Chard")
+	{
+		if (iHeroWin < 5 && iHeroLose < 5)
+		{
+			ResultStr += NewStr() + "Продолжим.";
+			bLockClick = false;
+		}
+		else
+		{
+			if (iHeroWin == 5)
+			{
+				ResultStr = RandSwear() + "Так и быть, я пойду с тобой.";
+				pchar.WhisperWonChard = true;
+			}
+			else
+			{
+				ResultStr = "Не везёт тебе. Значит не судьба нам вместе ходить.";
+			}
+			ResultStr += NewStr() + "Все, я наигрался.";
+			bLockClick = true;
+		}
 	}
 	else
 	{
-        ResultStr += NewStr() + "Все, с меня хватит!";
-		bLockClick = true;
+		if (CheckNextGame() && rand(10) < 10) // есть деньги на игру
+		{
+			ResultStr += NewStr() + "Еще разок?";
+			bLockClick = false;
+		}
+		else
+		{
+			ResultStr += NewStr() + "Все, с меня хватит!";
+			bLockClick = true;
+		}
 	}
 	SetFormatedText("INFO_TEXT",ResultStr);
 	WaitDate("",0,0,0, 0, 10);
@@ -1254,7 +1249,7 @@ void CompTurn()
     		ClickCompDice(1);
     		move_i = 0;
             PlaySound("interface\dice_mix.wav");
-            PostEvent("My_eventMoveImg", 500);
+            PostEvent("My_eventMoveImg", 300);
             return;
     	}
 
@@ -1297,13 +1292,13 @@ void CompTurn()
     		{
                 move_i = 0;
     	        PlaySound("interface\dice_mix.wav");
-    	        PostEvent("My_eventMoveImg", 500);
+    	        PostEvent("My_eventMoveImg", 300);
     	        return;
     		}
         }
-
+		bool zhuhlo = sti(DiceState.Comp.Result.Type) > sti(DiceState.Hero.Result.Type) && GetCharacterSkillToOld(pchar, SKILL_FORTUNE) < rand(12) && rand(4) > 1;
         // супер жухло!!!!! -->
-        if (sti(DiceState.Comp.Result.Type) > sti(DiceState.Hero.Result.Type) && GetCharacterSkillToOld(pchar, SKILL_FORTUNE) < rand(12) && rand(4) > 1)
+        if (zhuhlo || npchar.id == "W_Chard")
         {
 			//navy --> счетчик жульничеств
 			if (!CheckAttribute(npchar, "Quest.DiceCheats")) npchar.Quest.DiceCheats = 0;
@@ -1335,7 +1330,7 @@ void CompTurn()
         		move_i = 0;
         		bSetRandDice = false;
                 PlaySound("interface\dice_mix.wav");
-                PostEvent("My_eventMoveImg", 500);
+                PostEvent("My_eventMoveImg", 300);
                 return;
             }
         }

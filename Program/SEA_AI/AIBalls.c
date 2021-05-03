@@ -1,12 +1,6 @@
 object	AIBalls;
 aref	Grapes, Knippels, Balls, Bombs;
 
-// ------------------- Current Ball Info -------------------
-// AIBalls.CurrentBallType = GOOD_BALLS, GOOD_KNIPPELS, ... etc
-// AIBalls.CurrentBallCannonType = CANNON_TYPE_CULVERINE_LBS8, CANNON_TYPE_CULVERINE_LBS12, ... etc
-// AIBalls.CurrentBallDistance = distance from start
-// AIBalls.CurrentMaxBallDistance = max distance for balls
-
 void DeleteBallsEnvironment()
 {
 	DeleteClass(&AIBalls);
@@ -127,11 +121,28 @@ void Ball_AddBall(aref aCharacter, float fX, float fY, float fZ, float fSpeedV0,
 
 	string sParticleName = "cancloud_fire";		// if (sti(aCharacter.ship.type) < SHIP_CORVETTE)
 
-	if (iCannonType == CANNON_TYPE_CANNON_LBS48)
-		{ sParticleName = "Bombard"; }
+	if (iCannonType >= CANNON_TYPE_CANNON_LBS48)
+    { 
+        sParticleName = "Bombard";
+    }
 	else
 	{
-		if (sti(aCharacter.ship.type) >= SHIP_CORVETTE)	{ sParticleName = "cancloud_fire_big"; }
+		if (iCannonType >= CANNON_TYPE_CANNON_LBS24)
+		{ 
+			sParticleName = "cancloud_fire_big";
+		}
+		else
+		{
+			sParticleName = "cancloud_fire";
+		}
+		if (iCannonType >= CANNON_TYPE_CULVERINE_LBS24)
+		{ 
+			sParticleName = "cancloud_fire_big";
+		}
+		else
+		{
+			sParticleName = "cancloud_fire";
+		}
 	}
 	//if (rand(1) == 0) // boal оптимизация дыма
 	CreateParticleSystem(sParticleName, fX, fY, fZ, -fHeightAng - (fCannonHeightMultiply - 1.0) * 0.1, fDirAng, 0.0, 5);

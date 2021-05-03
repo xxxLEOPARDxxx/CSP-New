@@ -203,6 +203,9 @@
 #define MSG_CHARACTER_SETGUN				30361		//"ls" установить саблю
 #define MSG_CHARACTER_SETFTGLEVEL			30362		//"lf" установить уровень fighting'a
 
+//#20171102-01 Add hat/helmet
+#define MSG_CHARACTER_SETHEAD				30365		//SendMessage(pchar,"lsss",MSG_CHARACTER_SETHEAD,pchar.model, "hat2", "pscripts\HeadGear.ini");
+
 //Поиск персонажей
 #define MSG_CHARACTER_FINDNEAR				30370		//"leeffffll" установить саблю
 														//l - MSG_CHARACTER_FINDNEAR
@@ -393,5 +396,6 @@
 //Camera on ship
 //============================================================================================
 #define MSG_DECK_CAMERA_SET_VIEWPOINT			41800 //"fff"		point.x, point.y, point.z
+#define MSG_WORLDMAP_FLAG_SET				31140 // Иконка нации на глобалке
 
 #endif

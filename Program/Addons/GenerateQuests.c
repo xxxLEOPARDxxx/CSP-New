@@ -17,7 +17,7 @@ void QuestDuelCheckPossibility(ref loc)
 	if(LAi_IsCapturedLocation) { return; }
 	if(PChar.GenerateQuestDuel.Block == true) { return; }
 	if(!isDay()) { return; }
-	if(rand(100) > 20) { return; }
+	if(drand1(100) > 20) { return; }
 	
 	GenerateQuestDuel();
 }
@@ -57,13 +57,13 @@ void GenerateQuestDuel()
 	if(fLuck < 1.1) { fLuck = 1.1; }
 	fLuck /= 10;
 	
-	int iMoney = iRang * 1000 * fLuck * fRandom + rand(100);
-	if(iMoney < 1000) { iMoney = 1000 + rand(500); }
-	if(iMoney > 20000) { iMoney = 20000 + rand(100); }
+	int iMoney = iRang * 1000 * fLuck * fRandom + drand(100);
+	if(iMoney < 1000) { iMoney = 1000 + drand1(500); }
+	if(iMoney > 20000) { iMoney = 20000 + drand2(100); }
 	
-	int iVariant = rand(1);
-	int iRelative = rand(1);
-	int iMercenary = rand(2);
+	int iVariant = drand1(1);
+	int iRelative = drand(1);
+	int iMercenary = drand2(2);
 	if(iMercenary > 1) { iMercenary = 1; }
 	
 	int iCharQty = 3;
@@ -291,6 +291,9 @@ void QuestDuelAgree()
 	DeleteQuestHeader("QuestDuel");
 	SetQuestHeader("QuestDuel");
 	AddQuestRecord("QuestDuel", "1");
+	AddQuestUserData("QuestDuel", "sSex", GetSexPhrase("ся","ась"));
+	AddQuestUserData("QuestDuel", "sSex1", GetSexPhrase("ой","ая"));
+	AddQuestUserData("QuestDuel", "sSex2", GetSexPhrase("к","ца"));
 	AddQuestUserData("QuestDuel", "sColony", XI_ConvertString("Colony" + sColony + "Gen"));
 	AddQuestUserData("QuestDuel", "sName", sCharacterName);
 	AddQuestUserData("QuestDuel", "sMoney", iMoney);
@@ -305,6 +308,7 @@ void QuestDuelAgree()
 void QuestDuelMeetingNotLogin(string qName)
 {
 	AddQuestRecord("QuestDuel", "7");
+	AddQuestUserData("QuestDuel", "sSex", GetSexPhrase("","а"));
 	CloseQuestHeader("QuestDuel");
 	
 	PChar.quest.QuestDuelMeeting.over = "yes";
@@ -338,7 +342,8 @@ void QuestDuelWomanAgree()
 	string sCharacterName = PChar.GenerateQuestDuel.DuelistFullName;
 	DeleteQuestHeader("QuestDuel");
 	SetQuestHeader("QuestDuel");
-	AddQuestRecord("QuestDuel", "1");
+	AddQuestRecord("QuestDuel", "2");
+	AddQuestUserData("QuestDuel", "sSex", GetSexPhrase("","ла"));
 	AddQuestUserData("QuestDuel", "sColony", XI_ConvertString("Colony" + sColony + "Gen"));
 	AddQuestUserData("QuestDuel", "sName", sCharacterName);
 	AddQuestUserData("QuestDuel", "sMoney", iMoney);
@@ -375,6 +380,7 @@ void QuestDuelWoman2Agree()
 	string sExitTown = sColony + "_ExitTown";
 	
 	AddQuestRecord("QuestDuel", "3");
+	AddQuestUserData("QuestDuel", "sSex", GetSexPhrase("ся","ась"));
 	
 	PChar.quest.QuestDuelMeeting.win_condition.l1 = "location";
 	PChar.quest.QuestDuelMeeting.win_condition.l1.location = sExitTown;
@@ -543,7 +549,13 @@ void QuestDuelBattleWithMercenaryHappyEnd()
 	ChangeCharacterReputation(PChar, 5);
 	
 	AddQuestRecord("QuestDuel", "4");
+	AddQuestUserData("QuestDuel", "sSex", GetSexPhrase("","а"));
 	CloseQuestHeader("QuestDuel");
+	
+	pchar.questTemp.duelcount = sti(pchar.questTemp.duelcount) + 1;
+	if(sti(pchar.questTemp.duelcount) >= 5) UnlockAchievement("AchDuelyant", 1);
+	if(sti(pchar.questTemp.duelcount) >= 15) UnlockAchievement("AchDuelyant", 2);
+	if(sti(pchar.questTemp.duelcount) >= 30) UnlockAchievement("AchDuelyant", 3);
 	
 	AddSimpleRumourToAllNations(LinkRandPhrase("Слыхали", "Знаете ли вы", "Невероятно") + ", капитан " + GetNameLugger(PChar, "f") + " вызвался на дуэль за другого человека и выиграл её.", 5, 1);
 	
@@ -650,7 +662,13 @@ void QuestDuelBattleWithDuelistHappyEnd()
 	ChangeCharacterReputation(PChar, 5);
 	
 	AddQuestRecord("QuestDuel", "5");
+	AddQuestUserData("QuestDuel", "sSex", GetSexPhrase("","а"));
 	CloseQuestHeader("QuestDuel");
+	
+	pchar.questTemp.duelcount = sti(pchar.questTemp.duelcount) + 1;
+	if(sti(pchar.questTemp.duelcount) >= 5) UnlockAchievement("AchDuelyant", 1);
+	if(sti(pchar.questTemp.duelcount) >= 15) UnlockAchievement("AchDuelyant", 2);
+	if(sti(pchar.questTemp.duelcount) >= 30) UnlockAchievement("AchDuelyant", 3);
 	
 	if(sti(PChar.GenerateQuestDuel.Mercenary) == 0 && sti(PChar.GenerateQuestDuel.Relative) == 1)
 	{
@@ -711,7 +729,15 @@ void QuestDuelBattleWithRelativeRevenge()
 		
 		if(i == 1)
 		{
-			TakeNItems(chr, "QuestDuelNotice", 1);
+			if (!GetCharacterItem(pchar, "map_part1") || !GetCharacterItem(pchar, "map_part2"))
+			{
+				if (!GetCharacterItem(pchar, "map_part1")) 	GiveItem2Character(chr, "map_part1");
+				else 										GiveItem2Character(chr, "map_part2");
+			}
+			else
+			{
+				TakeNItems(chr, "QuestDuelNotice", 1);
+			}
 			chr.SaveItemsForDead = true;
 		}
 		
@@ -737,6 +763,8 @@ void QuestDuelBattleWithRelativeRevengeWinner(string qName)
 	chrDisableReloadToLocation = false;
 	InterfaceStates.Buttons.Save.enable = true;
 	AddQuestRecord("QuestDuel", "6");
+	AddQuestUserData("QuestDuel", "sSex", GetSexPhrase("","а"));
+	AddQuestUserData("QuestDuel", "sSex1", GetSexPhrase("ся","ась"));
 	
 	PChar.quest.ClearGenerateQuestDuel.win_condition.l1 = "ExitFromLocation";
 	PChar.quest.ClearGenerateQuestDuel.win_condition.l1.location = PChar.location;
@@ -898,8 +926,7 @@ bool GetCanShipWreck(aref loc)
 void GenerateShipWreck(aref loc)
 {
 	bool bCan = GetCanShipWreck(loc);
-	if(!bCan) { return; }
-	
+	if(!bCan && !bBettaTestMode) { return; }
 	PChar.GenerateShipWreck.Block = true;
 	
 	Log_TestInfo("Сгенерирован квест 'Кораблекрушение'. На карте подплывёт корабль.");
@@ -1369,7 +1396,7 @@ void ShipWreckBandInit()
 	chr.Dialog.CurrentNode = "21";
 	chr.DeckDialogNode = "21";
 	
-	string sModel = "officer_" + (rand(19)+1);
+	string sModel = "officer_" + (rand(63)+1);
 	chr.model = sModel;
 	FaceMaker(chr);
 	

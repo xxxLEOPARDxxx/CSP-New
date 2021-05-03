@@ -14,6 +14,7 @@ int FState_GunQ = 0;
 int FState_BONUS = 0;
 int Last_Left_Ship = -1;//запоминаем выбранный в таблице корабль
 int Last_Right_Ship = -1;
+int rownumberach;
 
 string GunTypeQ[4]={"poor","ordinary","good","excellent"};//фильтр оружия по качеству
 string BladeTypeQ[4]={"poor","ordinary","good","excellent"};//фильтр оружия по качеству
@@ -27,6 +28,11 @@ void InitInterface(string iniName)
 	InterfaceStack.SelectMenu_node = "LaunchQuestBook"; // запоминаем, что звать по Ф2
 	GameInterface.title = "titleQuestBook";
 
+	if(sti(Pchar.Ship.Type) != SHIP_NOTUSED)
+	{
+	string sTemp = RealShips[sti(Pchar.Ship.Type)].BaseName;
+	Pchar.Encyclopedia.(sTemp) = "1";
+	}
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
 	selectJournal(1); // первый режим журнала, только активные
@@ -47,11 +53,13 @@ void InitInterface(string iniName)
 	SetEventHandler("CheckButtonChange", "ProcessFilter", 0);
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
 	SetEventHandler("ShowPGGInfo","ShowPGGInfo",0);
+	SetEventHandler("ShowInfoWindow","ShowInfoWindow",0);
 	SetEventHandler("ShowShipsWindow","ShowShipsWindow",0);
 	SetEventHandler("ShowBladeWindow","ShowBladeWindow",0);
 	SetEventHandler("ShowGunWindow","ShowGunWindow",0);
 	SetEventHandler("ShowFoodWindow","ShowFoodWindow",0);
 	SetEventHandler("ShowBonusItemWindow","ShowBonusItemWindow",0);
+	SetEventHandler("PointsEX","PointsEX",0);
 	sMessageMode = "";
 	string sDate = " ";
 	sDate = GetDateString();
@@ -102,6 +110,7 @@ void ShowShipsWindow()
 	XI_WindowShow("ENC_INFO_GUN",false);
 	XI_WindowShow("ENC_INFO_FOOD",false);
 	XI_WindowShow("ENC_INFO_BONUSITEM",false);
+	XI_WindowShow("ENC_INFO_ACHIEVEMENTS",false);
 
 	SetNodeUsing("TABBTN_QUEST",false);
 	SetNodeUsing("TABSTR_QUEST",false);
@@ -143,6 +152,7 @@ void ShowBladeWindow()
 	XI_WindowShow("ENC_INFO_GUN",false);
 	XI_WindowShow("ENC_INFO_FOOD",false);
 	XI_WindowShow("ENC_INFO_BONUSITEM",false);
+	XI_WindowShow("ENC_INFO_ACHIEVEMENTS",false);
 
 	SetNodeUsing("TABBTN_QUEST",false);
 	SetNodeUsing("TABSTR_QUEST",false);
@@ -181,6 +191,7 @@ void ShowGunWindow()
 	XI_WindowShow("ENC_INFO_GUN",true);
 	XI_WindowShow("ENC_INFO_FOOD",false);
 	XI_WindowShow("ENC_INFO_BONUSITEM",false);
+	XI_WindowShow("ENC_INFO_ACHIEVEMENTS",false);
 
 	SetNodeUsing("TABBTN_QUEST",false);
 	SetNodeUsing("TABSTR_QUEST",false);
@@ -219,6 +230,7 @@ void ShowFoodWindow()
 	XI_WindowShow("ENC_INFO_GUN",false);
 	XI_WindowShow("ENC_INFO_FOOD",true);
 	XI_WindowShow("ENC_INFO_BONUSITEM",false);
+	XI_WindowShow("ENC_INFO_ACHIEVEMENTS",false);
 
 	SetNodeUsing("TABBTN_QUEST",false);
 	SetNodeUsing("TABSTR_QUEST",false);
@@ -257,6 +269,7 @@ void ShowBonusItemWindow()
 	XI_WindowShow("ENC_INFO_GUN",false);
 	XI_WindowShow("ENC_INFO_FOOD",false);
 	XI_WindowShow("ENC_INFO_BONUSITEM",true);
+	XI_WindowShow("ENC_INFO_ACHIEVEMENTS",true);
 
 	SetNodeUsing("TABBTN_QUEST",false);
 	SetNodeUsing("TABSTR_QUEST",false);
@@ -433,6 +446,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("SetScrollerPos","SetScrollerPos");
 	DelEventHandler("ScrollPosChange","ProcScrollPosChange");
 	DelEventHandler("ScrollTopChange","ProcScrollChange");
+	DelEventHandler("ShowInfoWindow","ShowInfoWindow");
 	DelEventHandler("ievnt_command","ProcessCommandExecute");
 	DelEventHandler("eTabControlPress","procTabChange");
 	DelEventHandler("CheckButtonChange", "ProcessFilter");
@@ -445,6 +459,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("ShowGunWindow","ShowGunWindow");
 	DelEventHandler("ShowFoodWindow","ShowFoodWindow");
 	DelEventHandler("ShowBonusItemWindow","ShowBonusItemWindow");
+	DelEventHandler("PointsEX", "PointsEX");
 
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -574,6 +589,7 @@ void selectJournal(int iMode)
 	HideShipPlace();
 	HideStoreBook();
 	HideInfoWindowEncy();
+	HideAchievements();
 	// подменим квестовую ветку, зависимо от типа режима: журнал, архив, инфа
 	aref arQuestInfo, arTmp;
 	int  i;
@@ -633,6 +649,7 @@ void selectStatistic()
 	HideQuests();
 	HideShipPlace();
 	HideStoreBook();
+	HideAchievements();
 	ShowButtons();
 	CreateString(true, "LevelComplexity", XI_ConvertString("m_Complexity") + " : " + GetLevelComplexity(MOD_SKILL_ENEMY_RATE), "interface_ultrasmall", COLOR_NORMAL, 440, 338, SCRIPT_ALIGN_CENTER, 1.5);
 }
@@ -647,7 +664,87 @@ void selectCashBook()
 	HideQuests();
 	HideShipPlace();
 	HideStoreBook();
+	HideAchievements();
 	ShowButtons();
+}
+
+void selectAchievements() // Отображаем окно достижений
+{
+	rownumberach = 0;
+	HideCashBook();
+	HideQuests();
+	HideStatistic();
+	
+	SetNodeUsing("ACHIEVEMENTS_INFO_FADER",true);
+	SetNodeUsing("ACHIEVEMENTS_INFO_DUST",true);
+	SetNodeUsing("ACHIEVEMENTS_INFO_FRAME",true);
+	SetNodeUsing("TABLE_ACHIEVEMENTS",true);
+	SetNodeUsing("SCROLL_ACHIEVEMENTS",true);
+	
+	SetNodeUsing("SHIP_INFO_FADER",false);
+	SetNodeUsing("SHIP_INFO_DUST",false);
+	SetNodeUsing("SHIP_INFO_FRAME",false);
+	SetNodeUsing("SHIP_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("SHIP_TABLE_LIST_LEFT",false);
+	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",false);
+	SetNodeUsing("SHIP_TABLE_SCROLL_LEFT",false);
+	SetNodeUsing("SHIP_TABLE_SCROLL_RIGHT",false);
+	SetNodeUsing("SHIP_TABLE_OTHER_LEFT",false);
+	SetNodeUsing("SHIP_TABLE_OTHER_RIGHT",false);
+	SetNodeUsing("SHIP_INFO_FRAME_TEXT_LEFT",false);
+	SetNodeUsing("SHIP_INFO_FRAME_TEXT_RIGHT",false);
+	SetNodeUsing("SHIP_INFO_TEXT_LEFT",false);
+	SetNodeUsing("SHIP_INFO_TEXT_RIGHT",false);
+	SetNodeUsing("SHIP_CLASS_LEFT",false);
+	SetNodeUsing("SHIP_NATION_LEFT",false);
+	SetNodeUsing("SHIP_CLASS_RIGHT",false);
+	SetNodeUsing("SHIP_NATION_RIGHT",false);
+	SetNewPicture("S_NATION_E_L", "");
+	SetNewPicture("S_NATION_F_L", "");
+	SetNewPicture("S_NATION_H_L", "");
+	SetNewPicture("S_NATION_S_L", "");
+	SetNewPicture("S_NATION_P_L", "");
+	SetNewPicture("S_NATION_E_R", "");
+	SetNewPicture("S_NATION_F_R", "");
+	SetNewPicture("S_NATION_H_R", "");
+	SetNewPicture("S_NATION_S_R", "");
+	SetNewPicture("S_NATION_P_R", "");
+	SetNodeUsing("BLADE_INFO_FADER",false);
+	SetNodeUsing("BLADE_INFO_DUST",false);
+	SetNodeUsing("BLADE_INFO_FRAME",false);
+	SetNodeUsing("BLADE_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("BLADE_TABLE_LIST_SCROLL",false);
+	SetNodeUsing("BLADE_TABLE_LIST",false);
+	SetNodeUsing("BLADE_TYPE_CLASS",false);
+	SetNodeUsing("BLADE_TYPE_Quality",false);
+	SetNodeUsing("GUN_INFO_FADER",false);
+	SetNodeUsing("GUN_INFO_DUST",false);
+	SetNodeUsing("GUN_INFO_FRAME",false);
+	SetNodeUsing("GUN_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("GUN_TABLE_LIST_SCROLL",false);
+	SetNodeUsing("GUN_TABLE_LIST",false);
+	SetNodeUsing("GUN_TYPE_QUALITY",false);
+	SetNodeUsing("FOOD_INFO_FADER",false);
+	SetNodeUsing("FOOD_INFO_DUST",false);
+	SetNodeUsing("FOOD_INFO_FRAME",false);
+	SetNodeUsing("FOOD_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("FOOD_TABLE_LIST_SCROLL",false);
+	SetNodeUsing("FOOD_TABLE_LIST",false);
+	SetNodeUsing("BONUSITEM_INFO_FADER",false);
+	SetNodeUsing("BONUSITEM_INFO_DUST",false);
+	SetNodeUsing("BONUSITEM_INFO_FRAME",false);
+	SetNodeUsing("BONUSITEM_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("BONUSITEM_TABLE_LIST_SCROLL",false);
+	SetNodeUsing("BONUSITEM_TABLE_LIST",false);
+	SetNodeUsing("BONUSITEM_CLASS",false);
+	
+	FillATableHeader();
+	FillATableInfo();
+	
+	SetNodeUsing("ACHIEVEMENTS_STR",true);
+	SetNodeUsing("POINTS_EXCHANGE",true);
+	SetFormatedText("ACHIEVEMENTS_INFO_FRAME_CAPTION", "Система достижений с возможностью получения различных наград");
+	SetFormatedText("ACHIEVEMENTS_STR", "Очков достижений: " + sti(pchar.ach_points)); // Очки достижений
 }
 
 void selectShipPlace()
@@ -676,6 +773,8 @@ void selectStoreBook()
 
 void HideInfoWindow()
 {
+	SetNewPicture("SHIP_PICTURE_L", "None");
+	SetNewPicture("SHIP_PICTURE_R", "None");
 	CloseTooltip();
 	ExitRPGHint();
 }
@@ -727,11 +826,370 @@ void ShowPGGInfo()
 	SetFormatedText("OFFICER_NAME", GetFullName(chrefspp));
 	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp.faceId + ".tga");
 	SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
+	
+    if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");
+	else SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLOFF");
+	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.SailsSpecial")) SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILON");
+	else SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILOFF");
+	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.CannonsSpecial")) SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSON");
+	else SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSOFF");
+	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.CuBot")) SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
+	else SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGOFF");
+	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.BotPack")) SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOn");
+	else SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOff");
+	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HighBort")) SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOn");
+	else SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOff");
 
 	XI_WindowShow("SHOW_ADV_INFO", true);
 	XI_WindowDisable("SHOW_ADV_INFO", false);
 	sMessageMode = "RPG_Hint";
 	}
+}
+
+// Обмен очков достижений
+void PointsEX() {
+	IDoExit(RC_INTERFACE_POINTS_EX);		   
+}
+
+void FillATableHeader() // Заполним заголовок таблицы достижений
+{
+    GameInterface.TABLE_ACHIEVEMENTS.hr.td1.str = "Уровень";
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td1.scale = 0.9;
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td2.str = "Достижение";
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td2.scale = 0.9;
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td3.str = "Описание";
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td3.scale = 0.9;
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td4.str = "Прогресс";
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td4.scale = 0.9;
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td5.str = "Очки";
+	GameInterface.TABLE_ACHIEVEMENTS.hr.td5.scale = 0.9;
+	GameInterface.TABLE_ACHIEVEMENTS.select = 0;
+}
+
+void FillATableInfo() // Заполним таблицу достижений информацией
+{
+	string row;
+	int  n;
+	int z = 41;
+	if(bPortPermission) z++;
+	if(bBribeSoldiers) z++;
+	if(startherotype == 1 || startherotype == 2) z++;
+	
+    for(n = 1; n < z+1; n++)
+    {
+    	row = "tr" + n;
+		
+		// Размеры текста
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.scale = 1.1;
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.scale = 0.85;
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td3.scale = 0.75;
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.scale = 0.8;
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td5.scale = 0.9;
+		
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "-";
+	}
+	
+	aref aroot,arcur;
+	makearef(aroot,pchar.achievements);
+	
+	string attrname;
+	int i;
+	
+	// Сортировка по уровню выполненных достижений
+	for(i=0; i<z; i++)
+	{
+		arcur = GetAttributeN(aroot,i);
+		
+		attrname = GetAttributeName(arcur);
+		if(sti(pchar.achievements.(attrname)) == 3) SetTableRowByAchievement(attrname, sti(pchar.achievements.(attrname)));
+	}
+	
+	for(i=0; i<z; i++)
+	{
+		arcur = GetAttributeN(aroot,i);
+		
+		attrname = GetAttributeName(arcur);
+		if(sti(pchar.achievements.(attrname)) == 2) SetTableRowByAchievement(attrname, sti(pchar.achievements.(attrname)));
+	}
+	
+	for(i=0; i<z; i++)
+	{
+		arcur = GetAttributeN(aroot,i);
+		
+		attrname = GetAttributeName(arcur);
+		if(sti(pchar.achievements.(attrname)) == 1) SetTableRowByAchievement(attrname, sti(pchar.achievements.(attrname)));
+	}
+	
+	for(i=0; i<z; i++)
+	{
+		arcur = GetAttributeN(aroot,i);
+		
+		attrname = GetAttributeName(arcur);
+		if(sti(pchar.achievements.(attrname)) == 0) SetTableRowByAchievement(attrname, sti(pchar.achievements.(attrname)));
+	}
+	
+	Table_UpdateWindow("TABLE_ACHIEVEMENTS");
+}
+
+void SetTableRowByAchievement(string ach_id, int level)
+{
+	string row;
+	
+	rownumberach++
+	row = "tr" + rownumberach;
+	
+	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.width = 64;
+	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.height = 64;
+	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.offset = "-2, 0";
+	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.group = "ACHIEVEMENTS";
+	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = GetAchievementIcon(ach_id);	
+
+	if(ach_id == "WhisperLine")
+	{
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.group = "FACE128_543";
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = "face";	
+	}
+	if(ach_id == "CapBladLine")
+	{
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.group = "FACE128_221";
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = "face";	
+	}
+	
+	if(level == 3)
+	{
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "";
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.icon.width = 25;
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.icon.height = 25;
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.icon.offset = "-24, 40";
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.icon.group = "ICONS";
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.icon.image = "complete";
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.str = GetAchievementName(ach_id, level);
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td3.str = GetAchievementDescrible(ach_id, level);
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = "Выполнено";
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 100";
+		
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.color = argb(255,196,255,196);
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td3.color = argb(255,196,255,196);
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.color = argb(255,196,255,196);
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td5.color = argb(255,196,255,196);
+
+	}
+	else
+	{
+		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest" 
+		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest" 
+		|| ach_id == "ships" || ach_id == "bank_money" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchShipSearch")
+		{
+			// GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "1 ур.";
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "1";
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.fontidx = 0; // LEO Я тут лазил
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.textoffset = "38, 20";
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.scale = 0.65;
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td2.str = GetAchievementName(ach_id, 3);
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td3.str = GetAchievementDescrible(ach_id, 3);
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 100";
+		}
+		else
+		{
+			// GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = (level+1) + " ур.";
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = (level+1) + "";
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.fontidx = 0; // LEO Я тут лазил
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.textoffset = "38, 20";
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.scale = 0.65;
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td2.str = GetAchievementName(ach_id, (level+1));
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td3.str = GetAchievementDescrible(ach_id, (level+1));
+			if(level == 2) GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 100";
+			if(level == 1) GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 50";
+			if(level == 0) GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 25";
+			
+			if(level == 2)
+			{
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td1.color = argb(255,9,110,255);
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td2.color = argb(255,179,171,255);
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td3.color = argb(255,179,171,255);
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td4.color = argb(255,179,171,255);
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td5.color = argb(255,179,171,255);
+			}
+			
+			if(level == 1)
+			{
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td1.color = argb(255,255,110,9);
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td2.color = argb(255,255,171,171);
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td3.color = argb(255,255,171,171)
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td4.color = argb(255,255,171,171)
+				GameInterface.TABLE_ACHIEVEMENTS.(row).td5.color = argb(255,255,171,171)
+			}
+		}
+		
+		string strprogress;
+		
+		if((level == 2) || (level == 1) || (level == 0))
+		{
+			if(ach_id == "rank") strprogress = "Ранг персонажа:";
+			if(ach_id == "money") strprogress = "Деньги персонажа:";
+			if(ach_id == "bank_money") strprogress = "Сумма вкладов:";
+			if(ach_id == "AchTreasure") strprogress = "Найдено кладов:";
+			if(ach_id == "AchBlood") strprogress = "Вызвано кровотечений:";
+			if(ach_id == "AchTravma") strprogress = "Нанесено травм:";
+			if(ach_id == "AchStanS") strprogress = "Нанесено резких ударов:";
+			if(ach_id == "AchStanH") strprogress = "Вызвано оглушений:";
+			if(ach_id == "AchChest") strprogress = "Вскрыто сундуков:";
+			if(ach_id == "taxes") strprogress = "Портовые сборы оплачены:";
+			if(ach_id == "AchVzyatka") strprogress = "Выдано взяток:";
+			if(ach_id == "kills") strprogress = "Убийств совершено:";
+			if(ach_id == "ship_kills") strprogress = "Кораблей потоплено:";
+			if(ach_id == "skel_kills") strprogress = "Убито нежити:";
+			if(ach_id == "poisons") strprogress = "Нанесено отравляющих ударов:";
+			if(ach_id == "criticals") strprogress = "Нанесено критических ударов:";
+			if(ach_id == "craft") strprogress = "Создано предметов:";
+			if(ach_id == "books") strprogress = "Книг прочитано:";
+			if(ach_id == "officers") strprogress = "Офицеров нанято:";
+			if(ach_id == "ships") strprogress = "Кораблей в эскадре:";
+			if(ach_id == "heal_bottles") strprogress = "Выпито лечебных зелий:";
+			if(ach_id == "AchFood") strprogress = "Скушано еды:";
+			if(ach_id == "gen_quests") strprogress = "Выполнено генераторных квестов:";
+			if(ach_id == "AchBuildColony") strprogress = "Отстройка колонии:";
+			if(ach_id == "AchTurnir") strprogress = "Выиграно турниров:";
+			if(ach_id == "AchDuelyant") strprogress = "Выиграно дуэлей:";
+			if(ach_id == "AchShipOrder") strprogress = "Заказано кораблей:";
+			if(ach_id == "AchShipSearch") strprogress = "Исследовано кораблей:";
+			if(ach_id == "AchGoldFleet") strprogress = "Золотых флотов потоплено:";
+			if(ach_id == "AchSityRobbery") strprogress = "Городов разграблено:";
+			
+			strprogress = strprogress + "\n";
+		}
+		
+		int monstersall = sti(pchar.Statistic.Monster_s)+sti(pchar.Statistic.Monster_g);
+		int killsall = sti(pchar.Statistic.Solder_s)+sti(pchar.Statistic.Citizen_s)+sti(pchar.Statistic.Warrior_s)+sti(pchar.Statistic.Monster_s)+sti(pchar.Statistic.Solder_g)+sti(pchar.Statistic.Citizen_g)+sti(pchar.Statistic.Warrior_g)+sti(pchar.Statistic.Monster_g);
+		int killshipsall = sti(pchar.Statistic.KillShip_1)+sti(pchar.Statistic.KillShip_2)+sti(pchar.Statistic.KillShip_3)+sti(pchar.Statistic.KillShip_4)+sti(pchar.Statistic.KillShip_5)+sti(pchar.Statistic.KillShip_6)+sti(pchar.Statistic.KillShip_7)+sti(pchar.Statistic.AbordShip_1)+sti(pchar.Statistic.AbordShip_2)+sti(pchar.Statistic.AbordShip_3)+sti(pchar.Statistic.AbordShip_4)+sti(pchar.Statistic.AbordShip_5)+sti(pchar.Statistic.AbordShip_6)+sti(pchar.Statistic.AbordShip_7)+sti(pchar.Statistic.KillAbordShip_1)+sti(pchar.Statistic.KillAbordShip_2)+sti(pchar.Statistic.KillAbordShip_3)+sti(pchar.Statistic.KillAbordShip_4)+sti(pchar.Statistic.KillAbordShip_5)+sti(pchar.Statistic.KillAbordShip_6)+sti(pchar.Statistic.KillAbordShip_7);
+		
+		if(level == 2)
+		{
+			if(ach_id == "rank") strprogress = strprogress + sti(pchar.rank) + " / 40";
+			if(ach_id == "money") strprogress = strprogress + MakeMoneyShow(sti(pchar.money), MONEY_SIGN,MONEY_DELIVER) + " / 15 000 000";
+			if(ach_id == "taxes") strprogress = strprogress + sti(pchar.questTemp.taxescount) + " / 100";
+			if(ach_id == "AchVzyatka") strprogress = strprogress + sti(pchar.questTemp.bribescount) + " / 50";
+			if(ach_id == "kills") strprogress = strprogress + sti(killsall) + " / 500";
+			if(ach_id == "ship_kills") strprogress = strprogress + sti(killshipsall) + " / 70";
+			if(ach_id == "skel_kills") strprogress = strprogress + sti(monstersall) + " / 150";
+			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 225";
+			if(ach_id == "criticals") strprogress = strprogress + sti(pchar.questTemp.criticalcount) + " / 500";
+			if(ach_id == "AchTreasure") strprogress = strprogress + sti(pchar.questTemp.treasurecount) + " / 30";
+			if(ach_id == "AchBlood") strprogress = strprogress + sti(pchar.questTemp.bloodingcount) + " / 300";
+			if(ach_id == "AchTravma") strprogress = strprogress + sti(pchar.questTemp.traumacount) + " / 300";
+			if(ach_id == "AchStanS") strprogress = strprogress + sti(pchar.questTemp.swiftcount) + " / 300";
+			if(ach_id == "AchStanH") strprogress = strprogress + sti(pchar.questTemp.stuncount) + " / 300";
+			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 50";
+			if(ach_id == "craft") strprogress = strprogress + sti(pchar.questTemp.craftcount) + " / 5000";
+			if(ach_id == "books") strprogress = strprogress + sti(pchar.questTemp.bookcount) + " / 10";
+			if(ach_id == "officers") strprogress = strprogress + sti(pchar.questTemp.officercount) + " / 10";
+			if(ach_id == "heal_bottles") strprogress = strprogress + sti(pchar.questTemp.healcount) + " / 200";
+			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 500";
+			if(ach_id == "gen_quests") strprogress = strprogress + sti(pchar.questTemp.genquestcount) + " / 40";
+			if(ach_id == "AchBuildColony") strprogress = strprogress + sti(pchar.questTemp.colonystate) + " / 3";
+			if(ach_id == "AchTurnir") strprogress = strprogress + sti(pchar.questTemp.tournamentcount) + " / 10";
+			if(ach_id == "AchDuelyant") strprogress = strprogress + sti(pchar.questTemp.duelcount) + " / 30";
+			if(ach_id == "AchShipOrder") strprogress = strprogress + sti(pchar.questTemp.shipordercount) + " / 20";
+			if(ach_id == "AchGoldFleet") strprogress = strprogress + sti(pchar.questTemp.GoldFleetNum) + " / 7";
+			if(ach_id == "AchSityRobbery") strprogress = strprogress + (Statistic_AddValue(PChar, "pir_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "eng_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "fra_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "spa_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "hol_GrabbingTown", 0)) + " / 15"
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
+		}
+		
+		if(level == 1)
+		{
+			if(ach_id == "rank") strprogress = strprogress + sti(pchar.rank) + " / 25";
+			if(ach_id == "money") strprogress = strprogress + MakeMoneyShow(sti(pchar.money), MONEY_SIGN,MONEY_DELIVER) + " / 5 000 000";
+			if(ach_id == "taxes") strprogress = strprogress + sti(pchar.questTemp.taxescount) + " / 50";
+			if(ach_id == "AchVzyatka") strprogress = strprogress + sti(pchar.questTemp.bribescount) + " / 25";
+			if(ach_id == "kills") strprogress = strprogress + sti(killsall) + " / 150";
+			if(ach_id == "ship_kills") strprogress = strprogress + sti(killshipsall) + " / 35";
+			if(ach_id == "skel_kills") strprogress = strprogress + sti(monstersall) + " / 75";
+			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 75";
+			if(ach_id == "criticals") strprogress = strprogress + sti(pchar.questTemp.criticalcount) + " / 250";
+			if(ach_id == "AchTreasure") strprogress = strprogress + sti(pchar.questTemp.treasurecount) + " / 15";
+			if(ach_id == "AchBlood") strprogress = strprogress + sti(pchar.questTemp.bloodingcount) + " / 150";
+			if(ach_id == "AchTravma") strprogress = strprogress + sti(pchar.questTemp.traumacount) + " / 150";
+			if(ach_id == "AchStanS") strprogress = strprogress + sti(pchar.questTemp.swiftcount) + " / 150";
+			if(ach_id == "AchStanH") strprogress = strprogress + sti(pchar.questTemp.stuncount) + " / 150";
+			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 25";
+			if(ach_id == "craft") strprogress = strprogress + sti(pchar.questTemp.craftcount) + " / 500";
+			if(ach_id == "books") strprogress = strprogress + sti(pchar.questTemp.bookcount) + " / 6";
+			if(ach_id == "officers") strprogress = strprogress + sti(pchar.questTemp.officercount) + " / 6";
+			if(ach_id == "heal_bottles") strprogress = strprogress + sti(pchar.questTemp.healcount) + " / 100";
+			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 250";
+			if(ach_id == "gen_quests") strprogress = strprogress + sti(pchar.questTemp.genquestcount) + " / 20";
+			if(ach_id == "AchBuildColony") strprogress = strprogress + sti(pchar.questTemp.colonystate) + " / 3";
+			if(ach_id == "AchTurnir") strprogress = strprogress + sti(pchar.questTemp.tournamentcount) + " / 3";
+			if(ach_id == "AchDuelyant") strprogress = strprogress + sti(pchar.questTemp.duelcount) + " / 15";
+			if(ach_id == "AchShipOrder") strprogress = strprogress + sti(pchar.questTemp.shipordercount) + " / 10";
+			if(ach_id == "AchGoldFleet") strprogress = strprogress + sti(pchar.questTemp.GoldFleetNum) + " / 3";
+			if(ach_id == "AchSityRobbery") strprogress = strprogress + (Statistic_AddValue(PChar, "pir_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "eng_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "fra_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "spa_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "hol_GrabbingTown", 0)) + " / 10"
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
+		}
+		
+		if(level == 0)
+		{
+			if(ach_id == "rank") strprogress = strprogress + sti(pchar.rank) + " / 10";
+			if(ach_id == "money") strprogress = strprogress + MakeMoneyShow(sti(pchar.money), MONEY_SIGN,MONEY_DELIVER) + " / 1 000 000";
+			if(ach_id == "bank_money") strprogress = strprogress + MakeMoneyShow(sti(pchar.questTemp.depositcount), MONEY_SIGN,MONEY_DELIVER) + " / 50 000 000";
+			if(ach_id == "AchShipSearch") strprogress = strprogress + sti(pchar.questTemp.shipsearchcount) + " / 124";
+			if(ach_id == "taxes") strprogress = strprogress + sti(pchar.questTemp.taxescount) + " / 10";
+			if(ach_id == "AchVzyatka") strprogress = strprogress + sti(pchar.questTemp.bribescount) + " / 5";
+			if(ach_id == "kills") strprogress = strprogress + sti(killsall) + " / 50";
+			if(ach_id == "ship_kills") strprogress = strprogress + sti(killshipsall) + " / 10";
+			if(ach_id == "skel_kills") strprogress = strprogress + sti(monstersall) + " / 30";
+			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 25";
+			if(ach_id == "criticals") strprogress = strprogress + sti(pchar.questTemp.criticalcount) + " / 100";
+			if(ach_id == "AchTreasure") strprogress = strprogress + sti(pchar.questTemp.treasurecount) + " / 5";
+			if(ach_id == "AchBlood") strprogress = strprogress + sti(pchar.questTemp.bloodingcount) + " / 50";
+			if(ach_id == "AchTravma") strprogress = strprogress + sti(pchar.questTemp.traumacount) + " / 50";
+			if(ach_id == "AchStanS") strprogress = strprogress + sti(pchar.questTemp.swiftcount) + " / 50";
+			if(ach_id == "AchStanH") strprogress = strprogress + sti(pchar.questTemp.stuncount) + " / 50";
+			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 10";
+			if(ach_id == "craft") strprogress = strprogress + sti(pchar.questTemp.craftcount) + " / 300";
+			if(ach_id == "books") strprogress = strprogress + sti(pchar.questTemp.bookcount) + " / 3";
+			if(ach_id == "officers") strprogress = strprogress + sti(pchar.questTemp.officercount) + " / 3";
+			if(ach_id == "ships") strprogress = strprogress + sti(GetCompanionQuantity(pchar)) + " / " + (COMPANION_MAX);
+			if(ach_id == "heal_bottles") strprogress = strprogress + sti(pchar.questTemp.healcount) + " / 50";
+			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 100";
+			if(ach_id == "gen_quests") strprogress = strprogress + sti(pchar.questTemp.genquestcount) + " / 10";
+			if(ach_id == "AchBuildColony") strprogress = strprogress + sti(pchar.questTemp.colonystate) + " / 3";
+			if(ach_id == "AchTurnir") strprogress = strprogress + sti(pchar.questTemp.tournamentcount) + " / 1";
+			if(ach_id == "AchDuelyant") strprogress = strprogress + sti(pchar.questTemp.duelcount) + " / 5";
+			if(ach_id == "AchShipOrder") strprogress = strprogress + sti(pchar.questTemp.shipordercount) + " / 5";
+			if(ach_id == "AchGoldFleet") strprogress = strprogress + sti(pchar.questTemp.GoldFleetNum) + " / 1";
+			if(ach_id == "AchSityRobbery") strprogress = strprogress + (Statistic_AddValue(PChar, "pir_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "eng_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "fra_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "spa_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "hol_GrabbingTown", 0)) + " / 5";
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
+		}
+		
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
+		
+		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest" 
+		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest" || ach_id == "CapBladLine" || ach_id == "WhisperLine")
+		{
+			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = "Не завершено...";
+		}
+	}
+}
+
+void HideAchievements() // Скрываем окно достижений
+{
+	SetNodeUsing("Achievements_STR",false);
+	SetNodeUsing("TABLE_ACHIEVEMENTS",false);
+	SetNodeUsing("SCROLL_ACHIEVEMENTS",false);
+	SetNodeUsing("POINTS_EXCHANGE",false);
 }
 
 void ExitRPGHint()
@@ -744,7 +1202,7 @@ void ExitRPGHint()
 	}
 }
 
-void ShowInfoWindow(int index)
+void ShowInfoWindow()
 {
 	string sCurrentNode = GetCurrentNode();
 	string sHeader, sText1, sText2, sText3, sPicture;
@@ -754,6 +1212,9 @@ void ShowInfoWindow(int index)
 	sPicture = "-1";
 	string sAttributeName;
 	int nChooseNum = -1;
+	ref	refBaseShip;
+	string sShip;
+
 	switch (sCurrentNode)
 	{
 		case "TABLE_GOODS":
@@ -761,11 +1222,22 @@ void ShowInfoWindow(int index)
 			sGroupPicture = GameInterface.(CurTable).(CurRow).UserData.ID;
 			sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
 			iItem = sti(GameInterface.(CurTable).(CurRow).UserData.IDX);
-			sText1  = GetAssembledString(GetConvertStr(GameInterface.(CurTable).(CurRow).UserData.ID + "_descr", "GoodsDescribe.txt"), &Goods[iItem]);
-			CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+			sText1  = GetAssembledString(GetConvertStr(GameInterface.(CurTable).(CurRow).UserData.ID + "_descr", "GoodsDescribe.txt"), &Goods[iItem+1]);
+			CreateTooltip("#" + sHeader, sText1, argb(255,255,0,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+		break;
+		case "SHIP_TABLE_LIST_LEFT":
+			makeref(refBaseShip,ShipsTypes[Last_Left_Ship]);
+			sShip = refBaseShip.Name;
+			sPicture = "interfaces\ships\" + sShip + ".tga.tx";
+			SetNewPicture("SHIP_PICTURE_L", sPicture);
+		break;
+		case "SHIP_TABLE_LIST_RIGHT":
+			makeref(refBaseShip,ShipsTypes[Last_Right_Ship]);
+			sShip = refBaseShip.Name;
+			sPicture = "interfaces\ships\" + sShip + ".tga.tx";
+			SetNewPicture("SHIP_PICTURE_R", sPicture);
 		break;
 	}
-
 	// CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), "", argb(255,255,255,255), "", argb(255,192,255,192), "", argb(255,255,255,255), sPicture, "NATIONS", sGroupPicture, 64, 64);
 }
 void procTabChange()
@@ -811,6 +1283,12 @@ void procTabChange()
 		SetControlsTabMode( 7 );
 		return;
 	}
+	// Достижения!
+	if( sNodName == "TABBTN_Achievements" )
+	{
+		SetControlsTabMode( 8 );
+		return;
+	}
 }
 
 void SetControlsTabMode(int nMode)
@@ -822,6 +1300,7 @@ void SetControlsTabMode(int nMode)
 	int nColor5 = nColor1;
 	int nColor6 = nColor1;
 	int nColor7 = nColor1;
+	int nColor8 = nColor1;
 
 	string sPic1 = "TabSelected";
 	string sPic2 = sPic1;
@@ -830,6 +1309,7 @@ void SetControlsTabMode(int nMode)
 	string sPic5 = sPic1;
 	string sPic6 = sPic1;
 	string sPic7 = sPic1;
+	string sPic8 = sPic1;
 
 	switch (nMode)
 	{
@@ -861,6 +1341,10 @@ void SetControlsTabMode(int nMode)
 			sPic7 = "TabDeSelected";
 			nColor7 = argb(255,255,255,255);
 		break;
+		case 8:
+			sPic8 = "TabDeSelected";
+			nColor8 = argb(255,255,255,255);
+		break;
 	}
 	SetNewGroupPicture("TABBTN_QUEST", "TABS", sPic1);
 	SetNewGroupPicture("TABBTN_QUESTARJ", "TABS", sPic2);
@@ -869,6 +1353,7 @@ void SetControlsTabMode(int nMode)
 	SetNewGroupPicture("TABBTN_STATISTIC", "TABS", sPic5);
 	SetNewGroupPicture("TABBTN_SHIP_PLACE", "TABS", sPic6);
 	SetNewGroupPicture("TABBTN_STOREBOOK", "TABS", sPic7);
+	SetNewGroupPicture("TABBTN_Achievements", "TABS", sPic8);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_QUEST", 8,0,nColor1);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_QUESTARJ", 8,0,nColor2);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_INFO", 8,0,nColor3);
@@ -876,6 +1361,7 @@ void SetControlsTabMode(int nMode)
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_STATISTIC", 8,0,nColor5);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_SHIP_PLACE", 8,0,nColor6);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_STOREBOOK", 8,0,nColor7);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_Achievements", 8,0,nColor8);
 
 	FillControlsList(nMode);
 }
@@ -891,6 +1377,7 @@ void FillControlsList(int nMode)
 		case 5: selectStatistic(); break;
 		case 6: selectShipPlace(); break;
 		case 7: selectStoreBook(); break;
+		case 8: selectAchievements(); break; // Достижения
 	}
 }
 void InitTableHeader()
@@ -1415,11 +1902,13 @@ void FillShipInfoEncy(string _tabName)
 	string sRow;
 
 	GameInterface.(_tabName).hr.td1.str = "Фото";
-	GameInterface.(_tabName).hr.td1.scale = 1.0;
+	GameInterface.(_tabName).hr.td1.scale = 0.8;
 	GameInterface.(_tabName).hr.td2.str = "Тип Корабля";
-	GameInterface.(_tabName).hr.td2.scale = 1.0;
+	GameInterface.(_tabName).hr.td2.scale = 0.8;
 	GameInterface.(_tabName).hr.td3.str = "Класс";
-	GameInterface.(_tabName).hr.td3.scale = 1.0;
+	GameInterface.(_tabName).hr.td3.scale = 0.8;
+	GameInterface.(_tabName).hr.td4.str = "Специф.";
+	GameInterface.(_tabName).hr.td4.scale = 0.8;
 
 	aref   arDest, arImt;
 	string sAttr;
@@ -1431,10 +1920,12 @@ void FillShipInfoEncy(string _tabName)
 	makeref(chrefsp, Characters[GenerateCharacter(4,WITHOUT_SHIP,"pirate",MAN,1,WARRIOR)]);
 	for (int i = 0; i < SHIP_TYPES_QUANTITY - 1;i++)
 	{
+	string spectypes = "";
 	sRow = "tr" + (k+1);
 	makeref(refBaseShip,ShipsTypes[i]);
 	sShip = refBaseShip.Name;
 	chrefsp.Ship.Type = sShip;
+	if (!CheckAttribute(Pchar,"Encyclopedia."+sShip) && bFillEncyShips) continue;											 
 
 	int nClass = sti(refBaseShip.Class);
 	string snation;
@@ -1454,11 +1945,20 @@ void FillShipInfoEncy(string _tabName)
 	GameInterface.(_tabName).(sRow).td1.icon.height = 60;
 	GameInterface.(_tabName).(sRow).td2.str = refBaseShip.Class;
 	GameInterface.(_tabName).(sRow).td2.str = XI_Convertstring(sShip);
+	GameInterface.(_tabName).(sRow).td2.scale = 0.8;
 	GameInterface.(_tabName).(sRow).td3.str = sti(refBaseShip.Class);
+	
+	if (refBaseShip.Type.War == true) spectypes = "Военный";
+	if (refBaseShip.Type.Merchant == true) spectypes = "Торговый";
+	if (refBaseShip.Type.Merchant == true && refBaseShip.Type.War == true) spectypes = "Универс.";
+	GameInterface.(_tabName).(sRow).td4.str = spectypes;
+	GameInterface.(_tabName).(sRow).td4.scale = 0.8;
+	
 	k++;
+	if(!CheckAttribute(refBaseShip,"QuestShip") && bFillEncyShips) pchar.questTemp.shipsearchcount = k;
 	}
 	ShowInfoWindowEncyShip();
-
+	if(bFillEncyShips && pchar.questTemp.shipsearchcount == "124") UnlockAchievement("AchShipSearch",3);
 	int iselected = FindLastShip(_tabName);//если отфильтровался, то вернётся -1
 	GameInterface.(_tabName).select = iselected+1;
 	if (iselected < 2) GameInterface.(_tabName).top = 0; else GameInterface.(_tabName).top = iselected-2;
@@ -1633,6 +2133,8 @@ void SetShipOTHERTableInfo(string _tabName)
 		if (!bQuest && refBaseShipR.nation.pirate == true) SetNewPicture("S_NATION_P_R", "loading\Enc_Pir.tga"); else SetNewPicture("S_NATION_P_R", "");
 	}
 //<--показываем флаги
+	if (_tabName == "SHIP_TABLE_OTHER_LEFT") SetFormatedText("SHIP_INFO_TEXT_LEFT", GetConvertStr(sShip, "ShipsDescribe.txt"));
+	if (_tabName == "SHIP_TABLE_OTHER_RIGHT") SetFormatedText("SHIP_INFO_TEXT_RIGHT", GetConvertStr(sShip, "ShipsDescribe.txt"));
 
 	Table_UpdateWindow(_tabName);
 }
@@ -1703,6 +2205,8 @@ void AddToTable(string _tabName, string type)
 			GameInterface.(_tabName).hr.td3.scale = 1.1;
 			GameInterface.(_tabName).hr.td4.str = "Вес";
 			GameInterface.(_tabName).hr.td4.scale = 1.1;
+			GameInterface.(_tabName).hr.td5.str = "Доп. свойства";
+			GameInterface.(_tabName).hr.td5.scale = 1.1;
 		break;
 		case "gun": ShowInfoWindowEncyGun();
 			GameInterface.(_tabName).hr.td1.str = "Наименование предметов";
@@ -1770,6 +2274,7 @@ void AddToTable(string _tabName, string type)
 				GameInterface.(_tabName).(row).td3.str = XI_ConvertString(Items[i].FencingType);
 				if (CheckAttribute(Items[i],"Generation")) GameInterface.(_tabName).(row).td4.str = FloatToString(stf(Items[i].Generation.Weight.min), 1)+" - "+FloatToString(stf(Items[i].Generation.Weight.max), 1);
 				else GameInterface.(_tabName).(row).td4.str = FloatToString(stf(Items[i].Weight), 1);
+				GameInterface.(_tabName).(row).td5.str = GetSpecialStrings(Items[i]);
 				break;
 				case "gun":
 				GameInterface.(_tabName).(row).td2.str = GetGunDamage(Items[i]);
@@ -1798,6 +2303,45 @@ void AddToTable(string _tabName, string type)
 	}
 	LanguageCloseFile(idLngFile);
 	Table_UpdateWindow(_tabName);
+}
+
+string GetSpecialStrings(ref itm)
+{
+	if (!CheckAttribute(itm,"special")) return "-------";
+	string info = "";
+	if (CheckAttribute(itm,"special.valueBB"))
+	{
+		info += "Шанс пробития блока +"+sti(itm.special.valueBB)+"%\n";
+	}
+	if (CheckAttribute(itm,"special.valueCrB"))
+	{
+		info += "Шанс критического удара +"+sti(itm.special.valueCrB)+"%\n";
+	}
+	if (CheckAttribute(itm,"special.valueCB"))
+	{
+		info += "Шанс пробития кирасы +"+sti(itm.special.valueCB)+"%\n";
+	}
+	if (CheckAttribute(itm,"special.valueSS"))
+	{
+		info += "Шанс резкого удара +"+sti(itm.special.valueSS)+"%\n";
+	}
+	if (CheckAttribute(itm,"special.valueStS"))
+	{
+		info += "Шанс оглушающего удара +"+sti(itm.special.valueStS)+"%\n";
+	}
+	if (CheckAttribute(itm,"special.valueT"))
+	{
+		info += "Шанс травмировать +"+sti(itm.special.valueT)+"%\n";
+	}
+	if (CheckAttribute(itm,"special.valueB"))
+	{
+		info += "Шанс кровотечения +"+sti(itm.special.valueB)+"%\n";
+	}
+	if (CheckAttribute(itm,"special.valueP"))
+	{
+		info += "Шанс отравления +"+sti(itm.special.valueP)+"%\n";
+	}
+	return info;
 }
 
 int GetTradeItemPrice(int itmIdx, int tradeType)
@@ -1895,6 +2439,12 @@ void HideInfoWindowEncy()
 	SetNodeUsing("BONUSITEM_TABLE_LIST_SCROLL",false);
 	SetNodeUsing("BONUSITEM_TABLE_LIST",false);
 	SetNodeUsing("BONUSITEM_CLASS",false);
+	SetNodeUsing("ACHIEVEMENTS_INFO_FADER",false);
+	SetNodeUsing("ACHIEVEMENTS_INFO_DUST",false);
+	SetNodeUsing("ACHIEVEMENTS_INFO_FRAME",false);
+	SetNodeUsing("TABLE_ACHIEVEMENTS",false);
+	SetNodeUsing("POINTS_EXCHANGE",false);
+	SetNodeUsing("SCROLL_ACHIEVEMENTS",false);
 }
 void ShowInfoWindowEncyShip()
 {

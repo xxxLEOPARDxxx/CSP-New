@@ -255,17 +255,7 @@ float Ship_GetBortFireDelta()
 			fAccuracy = 0.1;
 		}
 	}
-	/*
-	if (aCharacter.id != characters[nMainCharacterIndex].id)
-	{
-		fAccuracy  = fAccuracy - 0.2;
-		if (fAccuracy < 0.1)
-		{
-			fAccuracy = 0.1;
-		}
-	} */
 	
-
 	float fRadius = fAccuracy * Bring2Range(0.0, 120.0, 0.0, 1000.0, fDistance);
 	return fRadius;
 }
@@ -719,7 +709,6 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 	aref	arCharacter; makearef(arCharacter, Characters[sti(rCharacter.index)]);
 	
 	int iShipType = sti(rCharacter.Ship.Type);
-
 	if(iShipType == SHIP_NOTUSED)
 	{
 		return;
@@ -886,19 +875,8 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 
 	Ship_CreateStaticSounds(rCharacter);
 
-	//SendMessage(&AISea, "liaa", AI_MESSAGE_ADD_SHIP, &Characters[iCharacterIndex], &Characters[iCharacterIndex], &RealShips[iShipType]);
 	SendMessage(&AISea, "liaa", AI_MESSAGE_ADD_SHIP, &Characters[iCharacterIndex], arChar, arShip);
 
-	// “олько дл€ примера - освободить все паруса одного корабл€ от эффекта надувани€
-	//SendMessage(&Sail,"li", MSG_SAIL_FREE_GROUP, &Characters[iCharacterIndex]);
-	
-    /* if (!CheckAttribute(rCharacter, "Ship.BoxSize.x"))
-	{
-		trace("No Ship.BoxSize id=" + rCharacter.id);
-		rCharacter.Ship.BoxSize.x = 1.0;  // должно считатьс€ в €дре
-		rCharacter.Ship.BoxSize.y = 1.0;
-		rCharacter.Ship.BoxSize.z = 2.0;
-	} */
 	ReloadProgressUpdate();
 	
 	if(CheckAttribute(rCharacter, "ShipWreck"))
@@ -915,11 +893,6 @@ void Ship_Add2Sea(int iCharacterIndex, bool bFromCoast, string sFantomType)
 void Ship_RecreateStaticSounds()
 {
 	for (int i=0; i<iNumShips; i++) {
-		//Boyer fix for log error:
-		//RUNTIME ERROR - file: sea_ai\AIShip.c; line: 851
-		//invalid index -1 [size:1000]
-		//RUNTIME ERROR - file: sea_ai\AIShip.c; line: 851
-		//function 'Ship_RecreateStaticSounds' stack error
 		if (makeint(Ships[i]) > -1)
 			Ship_CreateStaticSounds(&Characters[Ships[i]]);
 	}
@@ -999,10 +972,6 @@ void Ship_OnBortReloaded()
 	if (!bSeaLoaded || bAbordageStarted) { return; }  // fix
 	// далее по коду была глупость, тк прерывание шло по всем Ќѕ—, звуков таких не было вовсе в ресурсах, те мина была в игре. "—апер boal"
 	if (sti(aCharacter.index) != nMainCharacterIndex) { return; } // fix
-	/*{
-		if (sBort == "cannonl" || sBort == "cannonr") { Ship_PlaySound3D(aCharacter, "bortreloaded_" + sBort, 1.0);	}
-		//"bortreloaded_all"
-	}*/
 
 	if (!sti(aCharacter.Tmp.BortsReloaded.Event))
 	{
@@ -1044,7 +1013,7 @@ void Ship_BortReloadEvent()
             //if (bRight) { PlaySound("interface\_GunReadyR.wav"); }
             if (bLeft)  { PlayVoice("interface\_GunReadyL.wav"); }
             if (bRight) { PlayVoice("interface\_GunReadyR.wav"); }
-            if (bFront) { PlayVoice("interface\_Gun_FB_Ready.wav"); }
+            // if (bFront) { PlayVoice("interface\_Gun_FB_Ready.wav"); }
             if (bBack) { PlayVoice("interface\_Gun_FB_Ready.wav"); }
         }
     
@@ -1149,15 +1118,7 @@ void Ship_CheckSituation()
 	        rCharacter.SeaAI.Task.Target = "";
 	    }
 		nTaskTarg = sti(rCharacter.SeaAI.Task.Target);
-	    /*if (rCharacter.SeaAI.Task == AITASK_ABORDAGE && rCharacter.SeaAI.Task.Target == "")
-	    {
-	        Ship_SetTaskRunaway(SECONDARY_TASK, sti(rCharacter.index), nMainCharacterIndex);  // это фикс зависшего абордажа
-	    } */
     }
-	// <--
-	// boal проверка на абордаж не главного геро€ 27.01.2004 -->
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // check ships for abordage
     if (Ship_AutoAbordage(rCharacter, fMinEnemyDistance)) { return; }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -1273,16 +1234,16 @@ void Ship_CheckSituation()
 			string defGroupID = rCharacter.SeaAI.Task.Target;
 			ref attckChar;
 			ref fortChar = &characters[sti(rCharacter.SeaAI.Task.Target)];
-			if (pchar.Ship.LastBallCharacter != -1) 
+			if (pchar.Ship.LastBallCharacter != -1 && GetNationRelation2MainCharacter(sti(rCharacter.nation)) == RELATION_ENEMY && sti(rCharacter.SeaAI.Task.Target) != GetMainCharacterIndex()) 
 			{
 				sTemp = Ship_GetGroupID(&characters[sti(pchar.Ship.LastBallCharacter)]); 
-				if (HasSubStr(sTemp,"IslandGroup"))
+				if (HasSubStr(sTemp,"IslandGroup") || HasSubStr(sTemp,"Fort_"))
 				{
 					Group_SetEnemyToCharacter(sGroupID, GetMainCharacterIndex());
 					SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
 					Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
 					Group_LockTask(sGroupID);
-					DoQuestCheckDelay("NationUpdate", 0.7);
+					DoQuestCheckDelay("NationUpdate", 0.5);
 					return;
 				}
 			}
@@ -1290,13 +1251,14 @@ void Ship_CheckSituation()
 			{
 				if (sti(rCharacter.Ship.LastBallCharacter) != -1) attckChar = &characters[sti(rCharacter.Ship.LastBallCharacter)];
 				else attckChar = CharacterFromId(fortChar.Ship.LastBallCharacter);
-				if (attckChar.Ship.LastBallCharacter == defGroupID && GetNationRelation2Character(sti(rCharacter.nation), GetCharacterIndex(attckChar.id)) == RELATION_ENEMY) 
+				if (attckChar.Ship.LastBallCharacter == defGroupID && GetNationRelation2Character(sti(rCharacter.nation), GetCharacterIndex(attckChar.id)) == RELATION_ENEMY && sti(rCharacter.SeaAI.Task.Target) != GetCharacterIndex(attckChar.id)) 
 				{
 					Group_SetEnemyToCharacter(sGroupID, GetMainCharacterIndex());
 					SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
 					Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
+					rCharacter.SeaAI.Task = AITASK_ATTACK;
 					Group_LockTask(sGroupID);
-					DoQuestCheckDelay("NationUpdate", 0.7);
+					DoQuestCheckDelay("NationUpdate", 0.5);
 					return;
 				}
 				if (GetNationRelation2Character(sti(rCharacter.nation), GetCharacterIndex(attckChar.id)) == RELATION_ENEMY && sti(rCharacter.SeaAI.Task.Target) != GetCharacterIndex(attckChar.id))
@@ -1305,10 +1267,21 @@ void Ship_CheckSituation()
 					Group_SetTaskAttack(sGroupID, Ship_GetGroupID(attckChar));
 					Group_LockTask(sGroupID);
 					rCharacter.SeaAI.Task = AITASK_ATTACK;
+					DoQuestCheckDelay("NationUpdate", 0.5);
 					rCharacter.SeaAI.Task.Target = GetCharacterIndex(attckChar.id);
+					return;
 				}
 			}
-			return;
+			if(CheckAttribute(pchar, "point"))
+			{
+				Group_SetEnemyToCharacter(sGroupID, GetMainCharacterIndex());
+				SetCharacterRelationBoth(sti(rCharacter.index), GetMainCharacterIndex(), RELATION_ENEMY);
+				Group_SetTaskAttack(sGroupID, PLAYER_GROUP);
+				Group_LockTask(sGroupID);
+				DoQuestCheckDelay("NationUpdate", 0.5);
+				DeleteAttribute(pchar, "point");
+				return;
+			}
 		}//<---Lipsar »» сторожей
 		if (CheckAttribute(rCharacter, "SeaAI.Task.Target"))
 		{
@@ -1823,9 +1796,6 @@ void Ship_BranderDetonate()
 		if (fDistance > fBranderDistance) { continue; }
 		float fDamageMultiply = Bring2Range(1.0, 0.0, 10.0, sqrt(fBranderDistance), sqrt(fDistance));
 		Ship_ApplyHullHitpoints(rOtherCharacter, fMaxDamage * fDamageMultiply, KILL_BY_SPY, sti(rCharacter.index));
-		// fire random fire places
-		//int iNumFirePlaces = 0;
-		//SendMessage(&arShipObjects[i], "le", MSG_SHIP_GET_NUM_FIRE_PLACES, &iNumFirePlaces);
 
 		// add move impulse to ship
 		float x = stf(rOtherCharacter.Ship.Pos.x) - stf(rCharacter.Ship.Pos.x);
@@ -2074,6 +2044,10 @@ void Ship_ApplyCrewHitpoints(ref rOurCharacter, float fCrewHP)
 			fMultiply = fMultiply * 0.9;
 		}
 	}
+	if (GetCharacterItem(rOurCharacter, "SkullAztec"))
+	{
+		fMultiply = fMultiply * 0.8;
+	}
 	float fDamage = fCrewHP * fMultiply; 
 
 	float fNewCrewQuantity = stf(rOurCharacter.Ship.Crew.Quantity) - fDamage;
@@ -2133,6 +2107,7 @@ void Ship_ApplyHullHitpoints(ref rOurCharacter, float fHP, int iKillStatus, int 
 	if (sti(rOurCharacter.TmpPerks.BasicBattleState))			fMinus = 0.15;
 	if (sti(rOurCharacter.TmpPerks.AdvancedBattleState))		fMinus = 0.25;
 	if (sti(rOurCharacter.TmpPerks.ShipDefenseProfessional))	fMinus = 0.35;
+	if (CheckAttribute(&RealShips[sti(rOurCharacter.Ship.Type)], "Tuning.HullSpecial")) fMinus = fMinus+0.35;											  
 
 	fCurHP = stf(rOurCharacter.Ship.HP) - fHP * (1.0 + fPlus - fMinus);
 	if (fCurHP <= 0.0)
@@ -2373,11 +2348,7 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 	// set attributes for sinking effect
 	rDead.Ship.Sink = "";
 	aref aSink; makearef(aSink, rDead.Ship.Sink);
-/*	
-	aSink.Speed.y = 0.35;	// speed of sink y
-	aSink.Speed.x = 0.017 * (frnd() * 2.0 - 1.0);	// speed sink angle rotate around x
-	aSink.Speed.z = 0.017 * (frnd() * 2.0 - 1.0);	// speed sink angle rotate around z
-*/
+	
 	// корабль тонет  - немного добавим драматизьму :-)
 	aSink.Speed.y = 0.25 + (frnd() * 0.05);	// speed of sink y
 	aSink.Speed.x = 0.021 * (frnd() * 2.0 - 1.0);	// speed sink angle rotate around x
@@ -2594,9 +2565,11 @@ void Ship_HullHitEvent()
 			Group_SetTaskAttack(sGroupID, Ship_GetGroupID(rOurCharacter));
 			Group_LockTask(sGroupID);
 			rBallCharacter.SeaAI.Task = AITASK_ATTACK;
+			DoQuestCheckDelay("NationUpdate", 0.5);
 			rBallCharacter.SeaAI.Task.Target = GetCharacterIndex(rOurCharacter.id);
 		}
 	}
+	if(rBallCharacter == GetMainCharacter() && CheckAttribute(rOurCharacter, "fortDefender")) pchar.point = "1";
 	//<---Lipsar дл€ »» сторожей
 	
 	rOurCharacter.Ship.LastBallCharacter = iBallCharacterIndex;
@@ -2653,13 +2626,16 @@ void Ship_HullHitEvent()
 
     if (sti(rOurCharacter.TmpPerks.ShipDefenseProfessional) && rand(1000) < 700) { bSeriousBoom = false; }				// no seriouse boom
 
-    float fCrewDamage = stf(rBall.DamageCrew) * fCannonDamageMultiply * AIShip_isPerksUse(rBallCharacter.TmpPerks.CrewDamageUp, 1.0, 1.15);
+    float fCrewDamage;
+	if (CheckAttribute(RealShips[sti(rOurCharacter.Ship.Type)],"Tuning.HighBort") && iBallType == GOOD_GRAPES) fCrewDamage = (stf(rBall.DamageCrew)/2) * fCannonDamageMultiply * AIShip_isPerksUse(rBallCharacter.TmpPerks.CrewDamageUp, 1.0, 1.15);
+	else fCrewDamage = stf(rBall.DamageCrew) * fCannonDamageMultiply * AIShip_isPerksUse(rBallCharacter.TmpPerks.CrewDamageUp, 1.0, 1.15);
 
 	if (bSeriousBoom)
 	{
 		fCrewDamage = fCrewDamage * 7.0;
 		// fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull) * (8.0 + frnd() * 4.0); // LEO: «абекапил
 		fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull) * 4; // 4.0
+		if (CheckAttribute(RealShips[sti(rOurCharacter.Ship.Type)],"Tuning.HighBort") && iBallType != GOOD_GRAPES) fHP *= 1.25;
 		Ship_ApplyHullHitpoints(rOurCharacter, fHP, KILL_BY_BALL, iBallCharacterIndex);
 
 		if (iBallCharacterIndex == nMainCharacterIndex)
@@ -2683,6 +2659,7 @@ void Ship_HullHitEvent()
 	else
 	{ 
 		fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull);
+		if (CheckAttribute(RealShips[sti(rOurCharacter.Ship.Type)],"Tuning.HighBort") && iBallType != GOOD_GRAPES) fHP *= 1.25;
 		Ship_ApplyHullHitpoints(rOurCharacter, fHP, KILL_BY_BALL, iBallCharacterIndex); 
 		// boal  check skill -->
 		if (!isOurCompanion && IsCompanion(rBallCharacter))
@@ -2715,11 +2692,19 @@ void Ship_HullHitEvent()
 		//boal 27.09.05 -->
 		if ((GetCargoGoods(rOurCharacter, GOOD_POWDER) / 20.0) > (GetCargoMaxSpace(rOurCharacter) * 0.25) && rand(1) == 1)
 		{
-			Ship_SetExplosion(rOurCharacter, rShipObject);
-			Log_Info("Ќа корабле " + rOurCharacter.Ship.Name + " сдетонировал весь пороховой запас.");
-		}
+			if (CheckAttribute(&RealShips[sti(rOurCharacter.Ship.Type)], "Tuning.HullSpecial") && rand(4)==0)
+			{
+				Ship_SetExplosion(rOurCharacter, rShipObject);
+				Log_Info("Ќа корабле " + rOurCharacter.Ship.Name + " сдетонировал весь пороховой запас.");
+			}
+			else
+			{
+				Ship_SetExplosion(rOurCharacter, rShipObject);
+				Log_Info("Ќа корабле " + rOurCharacter.Ship.Name + " сдетонировал весь пороховой запас.");
+			}
 		//boal 27.09.05 <--
-	}
+		}
+	} 
     SendMessage(&AISea, "laffff", AI_MESSAGE_CANNONS_BOOM_CHECK, rOurCharacter, fTmpCannonDamage, x, y, z);  // fix перенес с проверкой на труп
 	// boal 290704 раз в минуту провер€ем обиду на гл геро€, если жухлит через желтый прицел -->
 	//Log_Info(rOurCharacter.id);
@@ -3378,8 +3363,6 @@ void Ship_DetonateSmall()
 
 void Ship_Turn180(ref rCharacter)
 {
-	//rCharacter.TmpPerks.Turn = true;
-	//rCharacter.TmpPerks.Turn.Angle = PI;
 	rCharacter.Tmp.SpeedRecall = 0; // чтоб пересчиталс€ маневр
 }
 
@@ -3534,24 +3517,7 @@ void Ship_UpdateParameters()
 	}
 	// boal зависимость от скорости на маневр <--
 	float fTRResult = fMaxSpeedY * fShipTurnRate * fTRFromSailState * fTRFromSpeed;
-	// ===============
-	// boal далее € все закоментил, тк мешало работать коду от скорости, да и вообще сомнительно это дл€ маневра.
-	// VANO :: update fTRResult using rotate with wind direction
-	//float fRotateSide = stf(arCharShip.speed.y);
-	/*float fPrevWindDotShip = stf(arCharShip.WindDotShip);
-	bool bShipTurnToWind = fWindDotShip >= fPrevWindDotShip;
-	float fWindTurnMultiply = 1.0;
-	if (bShipTurnToWind) 
-		{ fWindTurnMultiply = Bring2Range(1.5, 1.0, 0.0, 1.0, abs(fWindDotShip)); }
-	else 
-		{ fWindTurnMultiply = Bring2Range(0.5, 1.0, 0.0, 1.0, abs(fWindDotShip)); }
-
-	arCharShip.WindDotShip = fWindDotShip;
-	//Trace("fWindTurnMultiply = " + fWindTurnMultiply);
-	// ===============
-
-	fTRResult = fWindTurnMultiply * Bring2Range(0.01, 1.0, 0.00001, 1.0, fTRResult);
-	*/
+	
 	fTRResult = Bring2Range(0.07, 0.95, 0.00001, 1.0, fTRResult);
 	arCharShip.MaxSpeedY =	fTRResult;
 
@@ -3594,12 +3560,6 @@ void Ship_UpdateParameters()
 		{
 			Ship_ApplyHullHitpoints(rCharacter, fSinkDamage, KILL_BY_TOUCH, -1);
 		}
-		/*if(!CheckAttribute(rCharacter, "ship.flow")) // to_do
-		{
-			rCharacter.ship.flow = 0;
-		}
-		rCharacter.ship.flow = sti(rCharacter.ship.flow) + 1;
-		*/
 		if (iCharacterIndex == nMainCharacterIndex) 
 		{ 
             // boal -->
@@ -3611,7 +3571,7 @@ void Ship_UpdateParameters()
 				}
 				else
 				{
-					PlayVoice("interface\_Abandon"+(2+rand(1))+".wav");
+					PlayVoice("interface\_Abandon"+(3+rand(1))+".wav");
 				}
 			}
 			// boal <--
@@ -3782,46 +3742,6 @@ void Ship_UpdateParameters()
 
 				if (sti(rCharacter.SeaAI.Task) == AITASK_RUNAWAY)
 				{
-					/*Ship_SetSailState(sti(rCharacter.index), 1);
-
-					//провер€ем дистанцию и дальность стрельбы орудий противника
-					//провер€ем нашу скорость и скорость противника
-					//делаем чек на лидершип
-					//провер€ем мораль команды
-					//если набираем 2 или больше очков - выкидываем груз за борт.
-					//выключаем фонари.
-					Ship_SetLightsOff(rCharacter, 15.0, true, true, false);
-
-					ref rCannon = GetCannonByType(sti(rTargetCharacter.Ship.Cannons.Type));
-					float TargetRange = stf(rCannon.FireRange);
-					int isDropGoods = 0;
-
-					if(fDistance <= TargetRange)
-					{
-						isDropGoods = isDropGoods + 1;
-					}
-					
-					float fOurSpeed = FindShipSpeed(rCharacter);
-					float fEnemySpeed = FindShipSpeed(rTargetCharacter);
-
-					if(fOurSpeed <= fEnemySpeed)
-					{
-						isDropGoods = isDropGoods + 1;
-					}
-
-					if(fOurLeadership < rand(12))
-					{
-						isDropGoods = isDropGoods + 1;
-					}
-
-					float fOurMorale = GetCharacterCrewMorale(rCharacter);
-					if(fOurMorale < rand(99))
-					{
-						isDropGoods = isDropGoods + 1;
-					}
-
-					if(isDropGoods > 2)
-					*/
 					// бешенна€ оптимизаци€, если кто-то убегает -->
 					Ship_SetSailState(sti(rCharacter.index), 1);  // to_do нужно провер€ть, может довольно одного раза или в €дре будет дурить
 					if (sti(rCharacter.Ship.Lights) == 1)
@@ -3881,13 +3801,6 @@ void Ship_UpdateParameters()
 							
 									if (fAbordageDistance < fCharacterDistance && fAng < fCharacterAngle && fRelativeSpeed < fCharacterSpeed)
 									{
-										/*if (sti(rTargetCharacter.index) != nMainCharacterIndex)
-										{
-											CalculateAbordage(rCharacter);
-										}
-										else  */ // код  3 пошел лесом, тк иначе случаи захвата очень редки
-										//if (sti(rTargetCharacter.index) == nMainCharacterIndex)
-										//{
 										if (fRatio > 1.2)
 										{
 											iAbordageShipEnemyCharacter = sti(rCharacter.index);
@@ -3904,7 +3817,6 @@ void Ship_UpdateParameters()
 												Ship_SetTaskRunaway(SECONDARY_TASK,sti(rCharacter.index), sti(rCharacter.SeaAI.Task.Target));  //fix
 											}
 										}
-										//}
 									}
 								} // if √√
 							}
@@ -4024,9 +3936,6 @@ void Ship_UpdatePerks()
 	rCharacter.TmpPerks = "";
 	aref aTmpPerks; makearef(aTmpPerks, rCharacter.TmpPerks);
 
-	// calc perks for speed optimization
-	//if (!CheckAttribute(rCharacter, "TmpPerks.Turn")) {	rCharacter.TmpPerks.Turn = 0; }
-      // to_do
 	aTmpPerks.StormProfessional	  	    = CheckOfficersPerk(rCharacter, "StormProfessional");
     aTmpPerks.FastReload				= CheckOfficersPerk(rCharacter, "FastReload");
 	aTmpPerks.ImmediateReload			= CheckOfficersPerk(rCharacter, "ImmediateReload");
@@ -4157,10 +4066,6 @@ void Ship_LoadShip()
 	
 	ref rCharacter = GetCharacter(iCharacterIndex);
 	
-	//Dev_Trace("Ship_LoadShip = " + iCharacterIndex + " id = " + rCharacter.id + " ship.type = " + rCharacter.ship.type + " IsDead = " + LAi_IsDead(rCharacter));
-
-			   
-	//if (sti(rCharacter.ship.type) != SHIP_NOTUSED && !LAi_IsDead(rCharacter))
 	if (sti(rCharacter.ship.type) != SHIP_NOTUSED)
 	{
 		Event("eSwitchPerks", "l", iCharacterIndex);
@@ -4443,47 +4348,35 @@ bool Ship_CheckMorale(int chridx, bool checkNow)
 	if(lastfired != -1) { if((currenttime - lastfired) < TIME_SINCE_GUNS) combatlevel = COMBATLEVEL_GUNS; }
 	if(lasthit != -1) { if((currenttime - lasthit) < TIME_SINCE_HIT) combatlevel = COMBATLEVEL_HIT; }
 
-	//if (AISHIPDEBUG)	trace("Current combatlevel is " + combatlevel);
-
 	if(combatlevel == COMBATLEVEL_NONE)
 	{
-		// return to baseline when not in combat
 		if(makeint(tempmorale) != basemorale)
 		{
-			//if (AISHIPDEBUG)			trace("Out of combat, return morale to base");
 			if(tempmorale > basemorale) tempmorale -= MORALE_AMT_COMEBACK;
 			else tempmorale += MORALE_AMT_COMEBACK;
 		}
 	}
 	else
 	{
-		//morale auto decreases to: ~80 (with ENEMYHERE), ~62 (with COMBATLEVEL_GUNS), ~16 when COMBATLEVEL_HIT.  More than that requires crew loss
 		if(tempmorale > 5.0 / combatlevel)
 		{
-			//if (AISHIPDEBUG)			trace("In combat, subtract morale:" + retmin(COMBATLEVEL_HIT*CHANGE_MORALE_EVERY, combatlevel*2.5));
 			tempmorale -= retmin(COMBATLEVEL_HIT*CHANGE_MORALE_EVERY, combatlevel*2.5);
 		}
 	}
 	if(CheckAttribute(rCharacter,"seatime.enemydead"))
 	{
-		//if (AISHIPDEBUG)		trace("Adding Morale enemydead= " + rCharacter.seatime.enemydead);
 		tempmorale += stf(rCharacter.seatime.enemydead);
 		DeleteAttribute(rCharacter,"seatime.enemydead"); // 04-09-22 fix
 	}
-	//if a more powerful fleet gain morale (up to base)
 	float strengthrat = FindPowerRatio(chridx);
 
 	if (strengthrat < 0.6 && fdist < enemydistance && combatlevel != COMBATLEVEL_NONE)
-	{ //stronger and with friends, so recover morale (probably winning)
-		//if (AISHIPDEBUG)		trace("Adding Morale for " + rCharacter.ship.name + " being in a position of power");
+	{
 		if(tempmorale < fMaxTempMorale) tempmorale += COMBATLEVEL_ENEMYHERE*2.5;
 	}
 	if(tempmorale > MORALE_MAX) tempmorale = MORALE_MAX;
 	if(tempmorale < MORALE_MIN) tempmorale = MORALE_MIN;
 
-	//if (AISHIPDEBUG)	trace("Morale for " + rCharacter.ship.name + " is " + tempmorale + ", change " + (tempmorale - makefloat(sti(rCharacter.seatime.tempmorale))));
-
-	//rCharacter.ship.crew.morale = makeint(tempmorale);
 	rCharacter.seatime.tempmorale = tempmorale;
 
 	//Calculate Morale at which we consider surrender
@@ -4491,25 +4384,12 @@ bool Ship_CheckMorale(int chridx, bool checkNow)
 	rCharacter.seatime.surmorale = 0.0;  //default, no surrender chance
 
 	if(IsCompanion(rCharacter) || targetidx == -1 || lasthit == -1 || CheckAttribute(rCharacter, "cannotsurrender")) {
-		//No surrender
-		//if (AISHIPDEBUG)		Trace("****** Surrender Disabled ******");
 		return false;
 	}
 	float ftmult = 1.0;
 	//#20191022-02
 	float surrMarg = SURR_MARGIN;
 	//#20200309-01
-	/*
-	if(CheckAttribute(rCharacter,"EncType"))
-	{
-		switch(rCharacter.EncType)
-		{
-			case "trade": ftmult = 1.5; surrMarg += 2.0; break; //ftmult was 2.0 and surrMarg was 2.5 //#20200307-03
-			//#20191021-01
-			case "pirate": ftmult = 0.85; surrMarg += 1.0; break; // ftmult was 0.75
-		}
-	}
-	*/
 	//Encounter type mod
 	if(CheckAttribute(rCharacter,"EncType") && rCharacter.EncType == "trade") {
         ftmult *= 1.5; surrMarg += 2.0; //ftmult was 2.0 and surrMarg was 2.5 //#20200307-03
@@ -4572,8 +4452,6 @@ bool Ship_CheckMorale(int chridx, bool checkNow)
 
 	surmorale = SURR_MAX_MORALE * mrlmod * ftmult;
 
-	//if (AISHIPDEBUG) Trace("SURR MORALE: base SurenderMorale = " + surmorale);
-
 	if (enemydistance > 1600.0) {
         //#20200307-03
         DeleteAttribute(rCharacter, "seatime.thinkSurr");
@@ -4581,55 +4459,32 @@ bool Ship_CheckMorale(int chridx, bool checkNow)
 	}
 	float HPp = GetHullPercent(rCharacter);
 
-	//if(HPp > 40.0 && fdist <= enemydistance) return false; // if friend closer than enemy, no surrender.
-	//#20191021-01
-	//if (AISHIPDEBUG)	Trace("SURR MORALE: Check: HPp = " + HPp + ", fdist " + fdist + ", enemydist " + enemydistance + ", stren " + strengthrat);
     if (HPp > 40.0 && fdist <= enemydistance && strengthrat < 0.8) return false;
 
 	if(HPp < 40.0)
 	{
-		//if (AISHIPDEBUG)		Trace("SURR: hull damage: HPp: " + HPp + ", Bring2Range(6.0, 1.0, 0.1, sqrt(40.0), sqrt(HPp)): " + Bring2Range(6.0, 1.0, 0.1, 6.325, sqrt(HPp)));
-        //#20180921-01 remove sqrt(40.0) = 6.325
 		surmorale *= Bring2Range(6.0, 1.0, 0.1, 6.325, sqrt(HPp)); //how broken are we? x6 change at really broken, x0.5 at 40 percents
 		if (fdist < enemydistance - 200.0) {
-			//if (AISHIPDEBUG)			Trace("SURR: friend close to help");
 			surmorale *= 0.5; //is a friend close to help?
 		}
 	}
-	//if (AISHIPDEBUG)	Trace("SURR MORALE: After Damage Mod: SurenderMorale = " + surmorale);
-
-	//Whose got strong (local) power?
 	if(strengthrat > 1.0) // they're stronger
 	{
-	    //if (AISHIPDEBUG)        Trace("SURR MORALE: Enemy Stronger strengthrat = " + strengthrat);
 		float SP = GetSailPercent(rCharacter);
 		//#20180921-01 remove sqrt(50.0) = 7.071
 		if(SP < 40.0) surmorale *= Bring2Range(5.0, 1.0, 0.1, 7.071, sqrt(SP)); //panic if can't get away
 	}
 	else
-	{ // we're stronger
+	{
 		surmorale *= 0.3;
 	}
-	//if (AISHIPDEBUG)	Trace("SURR MORALE: After local Strength Mod: SurenderMorale = " + surmorale);
-
-	//if (AISHIPDEBUG)	Trace("SURR: GetDistDeltaToNearestEnemy(chridx) " + GetDistDeltaToNearestEnemy(chridx));
-
 	if (GetDistDeltaToNearestEnemy(chridx) > 1.0) {
-		//seem to be escaping, so unlikely to surrender
 		surmorale *= 0.1;
 	}
-	//if (AISHIPDEBUG)	Trace("SURR: surmorale after escaping modifier surmorale, tempmorale" + surmorale + ", " + tempmorale);
-
 	rCharacter.seatime.surmorale = surmorale;
 
 	if(tempmorale > surmorale)
 	{
-		// put ship back in group and do group's task.
-		//ref rGroup = Group_FindOrCreateGroup(Ship_GetGroupID(rCharacter));
-		//if(CheckAttribute(rGroup,"task") && rGroup.task != AITASK_RUNAWAY && CheckAttribute(rCharacter,"SeaAI.task") && rCharacter.SeaAI.task != rGroup.task) { Ship_SetTaskGroupTask(SECONDARY_TASK, chridx); }
-
-		//if (AISHIPDEBUG)		trace("*** Ship_Checkmorale surmorale:" + surmorale + " is less than " + tempmorale + " so keep fighting");
-        //#20200307-03
         if(CheckAttribute(rCharacter, "seatime.thinkSurr")) {
             int nSur = sti(rCharacter.seatime.thinkSurr);
             if(nSur <= 1)
@@ -4663,9 +4518,7 @@ float GetDistDeltaToNearestEnemy(int idx)
 
 	if (CheckAttribute(chr, "seatime.nearestenemy.id") && iClosestIdx == sti(chr.seatime.nearestenemy.id))
 	{
-		//same enemy is closest, return distance change.
 		float fTimeDelta = fNow - stf(chr.seatime.nearestenemy.lastcheck)
-//trace("fTimeDelta:" + fTimeDelta);
 		if (fTimeDelta > 1)
 		{
 			//calc distance
@@ -4687,9 +4540,7 @@ float GetDistDeltaToNearestEnemy(int idx)
 
 bool Ship_CheckMoraleFail(int chridx, float fSurrMult)
 {
-	// start surrender checking, also used for ransome checking
 	ref rCharacter = GetCharacter(chridx);
-	//if (AISHIPDEBUG)	trace("*** Ship_CheckMoraleFail chridx:" + rCharacter.ship.id + ", fSurrMult " + fSurrMult);
 
 	if(!CheckAttribute(rCharacter,"seatime.tempmorale")) {
 		//do a morale calc
@@ -4698,17 +4549,14 @@ bool Ship_CheckMoraleFail(int chridx, float fSurrMult)
 	float tempmorale = rCharacter.seatime.tempmorale;
 
 	if (!CheckAttribute(rCharacter, "seatime.surmorale")) {
-		//if (AISHIPDEBUG)  trace("*** Ship_CheckMoraleFail missing rCharacter.seatime.surmorale");
 		return false;
 	}
 	float surmorale = stf(rCharacter.seatime.surmorale) * fSurrMult;
 
 	if(tempmorale < surmorale)
 	{
-		//if (AISHIPDEBUG)		trace("*** Ship_CheckMoraleFail tempmorale:" + tempmorale + " is less than adjusted surmorale:" + surmorale + " so failed morale check");
 		return true;
 	}
-	//if (AISHIPDEBUG)	trace("*** Ship_CheckMoraleFail tempmorale:" + tempmorale + " is greater than adjusted surmorale:" + surmorale + " so morale ok");
 	return false;
 }
 
@@ -4716,33 +4564,27 @@ bool CheckCanSurrender(ref chr)
 {
 	if(CheckAttribute(chr, "cannotsurrender"))
 	{
-		//if (AISHIPDEBUG)  trace("CheckCanSurrender: No Surrender! chr.cannotsurrender exists");
 		return false;
 	}
 	if(CheckAttribute(chr, "DontRansackCaptain"))
 	{
-		//if (AISHIPDEBUG)  trace("CheckCanSurrender: No Surrender! chr.DontRansackCaptain exists");
 		return false;
 	}
 	if (!CheckAttribute(chr,"Ship.Type") || sti(chr.Ship.Type) < 0 || sti(chr.Ship.Type) ==SHIP_NOTUSED)
 	{
-		//if (AISHIPDEBUG)  trace("CheckCanSurrender: No Surrender! invalid ship type");
 		return false;
 	}
 	//conditions when ship will never surrender
 	if (GetPrisonerQty() > PRISONER_MAX)
 	{
-		//if (AISHIPDEBUG) trace("CheckCanSurrender: No Surrender!GetPrisonerQty() > PRISONER_MAX");
 		return false;
 	}
 	if (sti(pchar.rank) < (sti(chr.rank) - MOD_SKILL_ENEMY_RATE / 2))
 	{
-		//if (AISHIPDEBUG) trace("CheckCanSurrender: No Surrender!sti(pchar.rank) < (sti(chr.rank) - MOD_SKILL_ENEMY_RATE / 2)");
 		return false;
 	}
 	if (GetCharacterShipClass(chr) == 1)
 	{
-		//if (AISHIPDEBUG) trace("CheckCanSurrender: No Surrender! Enemy ship is class 1, they don't surrender");
 		return false;
 	}
 	return true;
@@ -4752,7 +4594,6 @@ void AddKillMorale(ref rKillerCharacter, ref rDead) {
 	ref schr;
 	int iDeadCharacterIndex = GetCharacterIndex(rDead.id);
 	float tmped = 0;
-	//if (AISHIPDEBUG) trace("AddKillMorale: rKillerCharacter.id" + rKillerCharacter.id + ", rDead.id" + rDead.id);
 	if(rKillerCharacter.id != rDead.id) {
 		if(CheckAttribute(rKillerCharacter,"seatime.enemydead")) tmped = stf(rKillerCharacter.seatime.enemydead);
 		float origed = makefloat(GetCharacterShipClass(rKillerCharacter)) / makefloat(GetCharacterShipClass(rDead)) * CLASS_SCALAR_FOR_MORALE;
@@ -4763,7 +4604,6 @@ void AddKillMorale(ref rKillerCharacter, ref rDead) {
 	for(int s = 0; s < iNumShips; s++)
 	{
 		if(Ships[s] < 0 || Ships[s] == iDeadCharacterIndex) continue; // KK
-		//if (AISHIPDEBUG) trace("AddKillMorale: Ships[s]" + Ships[s]);
 		schr = GetCharacter(Ships[s]);
 		bool bOldEnemy = CheckAttribute(rDead, "surrendered") && GetNationRelation2Character(iDeadChNation,Ships[s]) == RELATION_ENEMY;
 		if(SeaAI_GetRelation(iDeadCharacterIndex, Ships[s]) == RELATION_ENEMY || bOldEnemy)
@@ -4785,13 +4625,10 @@ int GetSeaTime()
 
 float FindPowerRatio(int idx)
 {
-    //if (AISHIPDEBUG) trace("FindPowerRatio(idx=" + idx + ")");
 	ref chr = GetCharacter(idx);
 
-	//to reduce load do this every three ticks, otherwise return last value.
 	if (CheckAttribute(chr,"seatime.lastPowercheck.val"))
 	{
-		//we can return last val if needed
 		int iPowercheckdelay = sti(chr.seatime.lastPowercheck);
 
 		if(iPowercheckdelay < 3)
@@ -4803,9 +4640,6 @@ float FindPowerRatio(int idx)
 	//haven't got previous value, or time to recalc:
 	chr.seatime.lastPowercheck = 0; //reset counter
 
-	//#20190703-01
-	//int sidx = sti(chr.curshipnum); // change to array 05-06-27
-
 	float epower;
 	float fpower;
 
@@ -4816,7 +4650,6 @@ float FindPowerRatio(int idx)
 	if(fpower < 0.5) fpower = 1.0;
 
 	float fResult = epower / fpower;
-    //if (AISHIPDEBUG)    trace("FindPowerRatio " + chr.ship.name + ": " + fResult);
 
 	chr.seatime.lastPowercheck.val = fResult; //Fix missing .val
 	return fResult;
@@ -4843,7 +4676,6 @@ bool Ship_Check_Surrender(int chridx, float fSurrMult)
             break;
         }
 	}
-	//if (AISHIPDEBUG)	trace("*** Ship_Check_Surrender chridx:" + Characters[chridx].ship.name + ", fSurrMult " + fSurrMult);
 
 	ref rCharacter = GetCharacter(chridx);
 
@@ -4890,27 +4722,18 @@ bool Ship_Check_Surrender(int chridx, float fSurrMult)
             if(rand(nThink) > 5) return false;
         break;
     }
-	//if (AISHIPDEBUG)	trace("*** Ship_Checkmorale surmorale:" + surmorale + " is greater than " + tempmorale + " so maybe surrender");
 
 	float surch;
 	surch = Bring2Range(0.75, 0.01, 0.01, surmorale, tempmorale);
 
-	//if (AISHIPDEBUG) Trace("SURR: Initial surch = " + surch);
-
-	//ref echr = GetCharacter(targetidx);
-
 	surch *= SURR_GLOBAL_SCL; // LDH
-
-	//if (AISHIPDEBUG)	Trace("SURR: surch after global modifier = " + surch);
 
 	if (surch < 0.1) return false;  //just don't surrender if less then 10 percent chance
 
 	//use random surrender chance
 	float fRoll = frnd();
-	//if (AISHIPDEBUG)	Trace("SURR: surrender roll: fRoll=" + fRoll + ", surch=" + surch);
 	if(fRoll < surch)
 	{
-		//if (AISHIPDEBUG)		Trace("Morale fail");
 		return true;
 	}
 	return false;
@@ -4918,16 +4741,13 @@ bool Ship_Check_Surrender(int chridx, float fSurrMult)
 
 void Ship_Surrender(int chridx)
 {
-	//if (AISHIPDEBUG)	trace("SURR: Ship_Surrender begin idx: " + chridx);
 	ref chr = GetCharacter(chridx);
 	int pchridx = GetMainCharacterIndex();
 	string chid = chr.id;
 
 	if (CheckAttribute(chr, "surrendered") || CheckAttribute(chr, "cannotsurrender")) {
-		//if (AISHIPDEBUG)		trace("trying to surrender again.  But will only surrender once");
 		return;
 	}
-	//if (AISHIPDEBUG)	trace("SURR: " + chid + " is surrendering.  Ship nation: " + sti(chr.nation) );
 
 	int nRel = SeaAI_GetRelation(chridx, pchridx);
 	//set surrendered
@@ -4956,12 +4776,10 @@ void Ship_Surrender(int chridx)
 		Log_SetStringToLog(xiStr("MSG_sea_10") + chr.ship.name + xiStr("MSG_sea_12"));
 	}
 	Ship_Neutral(chridx, "SURR_GROUP");
-	//if (AISHIPDEBUG)	Trace("SURR: Ship_Surrender complete");
 }
 
 void Ship_Neutral(int chridx, string sGroup)
 {
-	//if (AISHIPDEBUG) Trace("Ship_Neutral: Ship_Neutral begin idx: " + chridx);
 	ref chr = GetCharacter(chridx);
 	string chid = chr.id;
 
@@ -4972,9 +4790,6 @@ void Ship_Neutral(int chridx, string sGroup)
 		aref arOldRel; makearef(arOldRel, chr.oldrelation);
 		CopyAttributes(arOldRel, arRel);
 	}
-	//string sTemp1 = "" + iCharacterIndex2;
-	//Characters[iCharacterIndex1].relation.(sTemp1) = iRelationType;
-
 	//forget that you were shot
 	chr.Ship.LastBallCharacter = -1;
 
@@ -5019,7 +4834,6 @@ void Ship_Neutral(int chridx, string sGroup)
         PChar.Quest.PGGQuest1_GroupDead.win_condition.l1.character = chridx;
     }
 	//Remove ship from old group
-	//if (AISHIPDEBUG) trace("Ship_Neutral: setting up character group: ogroup="+ ogroup);
 
 	Group_DelCharacter(ogroup, chid);
 
@@ -5031,7 +4845,6 @@ void Ship_Neutral(int chridx, string sGroup)
 	ChangeCharacterShipGroup(chr, sGroup); //forces a engine group boss refresh for this char
 	Group_DeleteAtEnd(sGroup);
 
-	//if (AISHIPDEBUG) Trace("Ship_Neutral: group change done");
 	//#20190728-01
     bool bHasOld = false;
     if(CheckAttribute(chr, "surrendered")) {
@@ -5042,15 +4855,12 @@ void Ship_Neutral(int chridx, string sGroup)
     }
 	//Set ship neutral to their enemies
 	for (i = 0; i < iNumShips; i++) {
-		//if (ships[i] == -1 || ships[i] == chridx) continue;
 		if (ships[i] == -1) continue;
 		schr = GetCharacter(ships[i]);
-		//if (AISHIPDEBUG) trace("Ship_Neutral: chr.id: " + chr.id + ", schr.id " + schr.id);
 		if (chr.id == schr.id) continue;
 
 		if(GetRelation(chridx, ships[i]) == RELATION_ENEMY || GetNationRelation2Character(sti(schr.nation),chridx) == RELATION_ENEMY)
 		{
-			//if (AISHIPDEBUG) trace("Ship_Neutral: Set relation between: chr.id: " + chr.id + " and schr.id " + schr.id + " to neutral");
 			SetCharacterRelationBoth(chridx, ships[i], RELATION_NEUTRAL);
 		}
 	}
@@ -5067,7 +4877,6 @@ void Ship_Neutral(int chridx, string sGroup)
 			if(GetRelation(nMainCharacterIndex, iFortidx) == RELATION_ENEMY) continue;
 			if(GetRelation(chridx, iFortidx)  == RELATION_ENEMY)
 			{
-			    //if (AISHIPDEBUG) trace("Ship_Neutral: Set relation between: " + chridx + " and fort:" + iFortidx + " to neutral");
 				SetCharacterRelationBoth(chridx, iFortidx, RELATION_NEUTRAL);
 			}
 		}
@@ -5079,14 +4888,11 @@ void Ship_Neutral(int chridx, string sGroup)
     }
 	NationUpdate();
     DoQuestCheckDelay("NationUpdate", 0.9);
-
-	//if (AISHIPDEBUG) Trace("Ship_Neutral: Ship_Neutral complete");
 }
 
 
 void FlagPerkForCapturedShip(ref refChar) 
 {
-	//Trace("FlagPerkForCapturedShip.nation = " + refChar.nation);
 	string sMessage = "";
 	string sPerk = "";
 

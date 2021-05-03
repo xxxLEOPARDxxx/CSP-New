@@ -22,7 +22,7 @@ void ActiveF4Control()
 
     y1 = 1.0 + y + frnd() * 3.0
     PlaySound("Sea Battles\Vzriv_fort_001.wav");
-    CreateParticleSystem("Blast", x + x1, y1, z, 0.0, 0.0, 0.0, 0); 
+    CreateParticleSystem("blast_inv", x + x1, y1, z, 0.0, 0.0, 0.0, 0); 
 	
 	/* //Korsar Maxim - На Ф4 спауним Ведекера-офа из ГПК к себе в офы
 	ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "CCS_Mechanic", "man", "man", 30, PIRATE, -1, true));
@@ -167,14 +167,6 @@ void ActiveF12Control()
             {
                 Log_SetStringToLog("Нет FencingType - error");
             }
-            /*int dchr_index;
-            ref deadCh;
-            dchr_index = Dead_FindCloseBody();
-            if (dchr_index != -1)
-            {
-                deadCh = &Dead_Characters[dchr_index];
-                Log_SetStringToLog("Dead=" + deadCh.id);
-            } */
 			Log_SetStringToLog("Нация: " + findCh.nation);
 			Log_SetStringToLog("Пол: " + findCh.sex);
 			Log_SetStringToLog("Группа: " + findCh.chr_ai.group);

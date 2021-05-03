@@ -73,6 +73,11 @@ void DoCharacterUsedFood(ref chref, string itmID)
 		{
 			Log_SetStringToLog(XI_ConvertString("Energy Up"));
 			PlaySound("interface\_Hrust_"+rand(3)+".wav");
+			pchar.questTemp.foodcount = sti(pchar.questTemp.foodcount) + 1;
+			// Открываем достижения
+			if(sti(pchar.questTemp.foodcount) >= 100) UnlockAchievement("AchFood", 1);
+			if(sti(pchar.questTemp.foodcount) >= 250) UnlockAchievement("AchFood", 2);
+			if(sti(pchar.questTemp.foodcount) >= 500) UnlockAchievement("AchFood", 3);
 		}
 	}
 }
@@ -102,6 +107,15 @@ void DoCharacterUsedItem(ref chref, string itmID)
 		if( CheckAttribute(arItm,"potion.health.speed") )
 		{
 			LAi_UseHealthBottleSpeed(chref, stf(arItm.potion.health.speed));
+		}
+		if(sti(chref.index)==GetMainCharacterIndex()) 
+		{
+			pchar.questTemp.healcount = sti(pchar.questTemp.healcount) + 1;
+			
+			// Открываем достижения
+			if(sti(pchar.questTemp.healcount) >= 50) UnlockAchievement("heal_bottles", 1);
+			if(sti(pchar.questTemp.healcount) >= 100) UnlockAchievement("heal_bottles", 2);
+			if(sti(pchar.questTemp.healcount) >= 200) UnlockAchievement("heal_bottles", 3);
 		}
 	}
 	

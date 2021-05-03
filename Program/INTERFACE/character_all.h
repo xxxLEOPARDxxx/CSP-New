@@ -45,6 +45,7 @@ void FillCharactersScroll()
 	pRef2.str1 = "#" + XI_ConvertString("MainCharacter");
 	pRef2.str2 = "#" + pchar.name;
 	pRef2.str3 = "#" + pchar.lastname;
+	if(checkAttribute(pchar, "chr_ai.HeavyTrauma")) pRef2.str4 = "#"+ "Ранен " + (sti(pchar.chr_ai.HeavyTrauma)*24-makeint(environment.time))+" ч"; // инфошка травмы ГГ - Gregg
 	//pRef2.str4 = "#" + pchar.quest.OfficerPrice;
 	pRef2.str5 = "#" + pchar.rank;
 

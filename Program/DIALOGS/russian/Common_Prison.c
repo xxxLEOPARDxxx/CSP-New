@@ -130,9 +130,58 @@ void ProcessDialogEvent()
 					}
 				}
 			}
+			
+			if(CheckAttribute(pchar,"UnexpectedInheritanceFort") && npchar.id == "FortFranceJailOff")
+			{
+				link.lUnexpectedInheritance = "Месье, у меня вопрос к Вам, он может показаться странным, но всё же...";
+				link.lUnexpectedInheritance.go = "UnexpectedInheritance";
+			}
 			NextDiag.TempNode = "First_officer";
 		break;
 
+		case "UnexpectedInheritance":
+			dialog.Text = "Слушаю Вас.";
+			Link.l1 = "Дело в том, что мне стало известно о находках на территории форта необычных индейских идолов. Мой наниматель – коллекционер и не жалеет денег на языческие побрякушки, если вы понимаете о чем я.";
+			Link.l1.go = "UnexpectedInheritance_1";
+		break;
+		case "UnexpectedInheritance_1":
+			dialog.Text = "Прекрасно вас понимаю капитан, в метрополии мода пошла на всю эту экзотику и перекупщики сейчас платят сущие гроши за находки, планируя нажиться. Действительно, солдаты, выполнявшие земляные работы, обнаружили кое – что интересное.";
+			Link.l1 = "Мой наниматель не стеснён в деньгах. 12 тысяч вас устроит?";
+			Link.l1.go = "UnexpectedInheritance_2";
+		break;
+		case "UnexpectedInheritance_2":
+			dialog.Text = "Ваш наниматель иудей? 25 тысяч и не песо меньше.";
+			Link.l1 = "Мой наниматель француз и дворянин. 16. По рукам?";
+			Link.l1.go = "UnexpectedInheritance_3";
+		break;
+		case "UnexpectedInheritance_3":
+			dialog.Text = "Француз? Дворянин? Ну что же, соотечественнику уступлю за 18 тысяч жалких песо.";
+			if (sti(pchar.money) >= 18000)
+			{
+				Link.l1 = "Прошу месье, ваши деньги. Оревуар!";
+				Link.l1.go = "UnexpectedInheritance_4";
+			}
+			else
+			{
+				Link.l1 = "Хм... У меня с собой столько нет. Я загляну к вам позже.";
+				Link.l1.go = "exit";
+			}
+		break;
+		case "UnexpectedInheritance_4":
+			dialog.Text = "Благодарю, в сундуке ещё были какие то бумаги, возьмите.";
+			Log_Info("Вы получили пергамент с текстом на латыни и половинку карты");
+			Log_Info("Вы получили церемониальный сосуд");
+			PlaySound("interface\important_item.wav");
+			AddQuestRecord("UnexpectedInheritance", "10");
+			TakeNItems(pchar,"indian21", 1);
+			DeleteAttribute(pchar,"UnexpectedInheritanceFort");
+			pchar.quest.UnexpectedInheritanceTerks.win_condition.l1 = "location";
+			pchar.quest.UnexpectedInheritanceTerks.win_condition.l1.location = "Terks_Grot";
+			pchar.quest.UnexpectedInheritanceTerks.function = "UnexpectedInheritanceTerks";
+			Link.l1 = "Любопытно...";
+			Link.l1.go = "exit";
+		break;
+		
 		case "GiveTaskGun":
 			dialog.Text = LinkRandPhrase("Дело в том, что орудия нашего форта изрядно изношены. Казна, правда, выделила деньги на их замену, но приобретать новые нынче очень дорого. Вот я и подумал, что корабельные орудия с абордированных вами призов могли быть здесь очень кстати.","Мне нужно заменить орудийную батарею форта. Деньги на это выделены, но, знаете ли... хочется как-то подешевле... Ну, надеюсь, вы меня понимаете.","Мне пришло предписание заменить изношенные орудия форта, но с ними такая беда - нигде не могу собрать достаточного количества.");
 			Link.l1 = "Хм, а можно подробнее - калибр, количество... цена, наконец.";
@@ -1083,6 +1132,12 @@ void ProcessDialogEvent()
 			AddQuestRecord("GivePrisonFree", "4");
 			AddQuestUserData("GivePrisonFree", "sName", pchar.questTemp.jailCanMove.Name);
 			CloseQuestHeader("GivePrisonFree");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(pchar, "questTemp.jailCanMove.Item1");
 			DeleteAttribute(pchar, "questTemp.jailCanMove.Item2");
 		break;
@@ -1119,6 +1174,12 @@ void ProcessDialogEvent()
             AddQuestUserData("GivePrisonFree", "sName", pchar.questTemp.jailCanMove.Name);
 			AddQuestUserData("GivePrisonFree", "sSex", GetSexPhrase("","а"));
 			CloseQuestHeader("GivePrisonFree");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(pchar, "questTemp.jailCanMove.Item1");
 			DeleteAttribute(pchar, "questTemp.jailCanMove.Item2");
  		break;

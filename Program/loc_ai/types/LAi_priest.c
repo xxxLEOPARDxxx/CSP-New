@@ -222,7 +222,10 @@ void LAi_type_priest_Ask(aref chr)
 	}
 	LAi_tmpl_ani_PlayAnimation(chr, animation, -1.0);
 	//Выбираем проигрываемый звук
-	LAi_CharacterPlaySound(chr, "priest");
+	if(bCharVoice) // LEO
+	{
+		LAi_CharacterPlaySound(chr, "Gr_Church");
+	}
 }
 
 //Ориентироваться по текущему локатору

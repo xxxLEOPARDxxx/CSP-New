@@ -59,6 +59,21 @@ data = "Turn speed", "4.0"
 	event = "SndAlliace_W_attack_thrust2", 19, normal
 	event = "Resact", 27, normal
 
+	[attack_force_4] 
+	type = normal
+	start_time = 19
+	end_time = 35
+	
+	speed = 1.1
+	loop = false
+	
+	data = "Blend time", "0.2"		; sec
+	data = "Dist", "2"	; m
+	data = "Ang", "20"	; grd
+		
+	event = "Attack", 24, normal			;slash
+	event = "SndAlliace_W_attack_thrust2", 19, normal
+	event = "Resact", 27, normal
 ;SLASH
 	[attack_fast_1]
 	type = normal
@@ -632,6 +647,32 @@ type = normal
 
 
 [fight stand_6]
+loop = true
+type = normal
+	start_time = 0
+	end_time = 0
+	
+	speed = 1.
+	
+	data = "Blend time", "0.0"		; sec
+	
+	data = "Probability", "0.0"
+
+
+[fight stand_7]
+loop = true
+type = normal
+	start_time = 0
+	end_time = 0
+	
+	speed = 1.
+	
+	data = "Blend time", "0.0"		; sec
+	
+	data = "Probability", "0.0"
+
+
+[fight stand_8]
 loop = true
 type = normal
 	start_time = 0

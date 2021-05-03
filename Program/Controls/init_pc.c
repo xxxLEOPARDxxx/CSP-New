@@ -223,7 +223,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "Sailing3Pers", "Sea_CameraSwitch", CI_GetKeyCode("VK_TAB"), 0, true );
 		MapControlToGroup("Sea_CameraSwitch","Sailing1Pers");
 
-		CI_CreateAndSetControls( "Sailing3Pers", "BOAL_ActivateTurn180", CI_GetKeyCode("KEY_M"), 0, true );
+		CI_CreateAndSetControls( "Sailing3Pers", "BOAL_ActivateTurn180", CI_GetKeyCode("KEY_V"), 0, true );
 		MapControlToGroup("BOAL_ActivateTurn180","Sailing1Pers");
 		CI_CreateAndSetControls( "Sailing3Pers", "BOAL_ActivateImmediateReload", CI_GetKeyCode("KEY_B"), 0, true );
 		MapControlToGroup("BOAL_ActivateImmediateReload","Sailing1Pers");
@@ -304,11 +304,21 @@ void ExternControlsInit(bool bFirst, bool standart)
 		MapControlToGroup("BICommandsActivate","Sailing1Pers");
 		MapControlToGroup("BICommandsActivate","WorldMapControls");
 		CI_CreateAndSetControls( "PrimaryLand", "LICommandsActivate", CI_GetKeyCode("VK_RETURN"), 0, true );
-		MapControlToGroup("LICommandsActivate","FightModeControls");
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsConfirm", CI_GetKeyCode("VK_RETURN"), 0, true );
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsCancel", CI_GetKeyCode("VK_ESCAPE"), 0, false );
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsLeft", CI_GetKeyCode("VK_LEFT"), 0, true );
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsRight", CI_GetKeyCode("VK_RIGHT"), 0, true );
+				
+		if(CheckAttribute(InterfaceStates, "EnabledCMControls") && sti(InterfaceStates.EnabledCMControls) == 1)
+		{
+			CI_CreateAndSetControls( "Sailing3Pers", "BICommandsActivate", CI_GetKeyCode("VK_MBUTTON"), 0, true );
+			CI_CreateAndSetControls( "PrimaryLand", "LICommandsActivate", CI_GetKeyCode("VK_MBUTTON"), 0, true );
+			CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsConfirm", CI_GetKeyCode("VK_LBUTTON"), 0, true );
+			CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsCancel", CI_GetKeyCode("VK_RBUTTON"), 0, false );
+			CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsLeft", CI_GetKeyCode("VK_MWHEEL_DOWN"), 0, true );
+			CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsRight", CI_GetKeyCode("VK_MWHEEL_UP"), 0, true );
+		}
+		MapControlToGroup("LICommandsActivate","FightModeControls");
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsUp", CI_GetKeyCode("VK_UP"), 0, true );
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsDown", CI_GetKeyCode("VK_DOWN"), 0, true );
 		CI_CreateAndSetControls( "Sailing3Pers", "MiniMapZoomIn", CI_GetKeyCode("KEY_E"), 0, true );
@@ -660,7 +670,7 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "Sailing3Pers", "Sea_CameraSwitch", CI_GetKeyCode("VK_TAB"), 0, true );
 		MapControlToGroup("Sea_CameraSwitch","Sailing1Pers");
 
-		CI_CreateAndSetControls( "Sailing3Pers", "BOAL_ActivateTurn180", CI_GetKeyCode("KEY_M"), 0, true );
+		CI_CreateAndSetControls( "Sailing3Pers", "BOAL_ActivateTurn180", CI_GetKeyCode("KEY_V"), 0, true );
 		MapControlToGroup("BOAL_ActivateTurn180","Sailing1Pers");
 		CI_CreateAndSetControls( "Sailing3Pers", "BOAL_ActivateImmediateReload", CI_GetKeyCode("KEY_B"), 0, true );
 		MapControlToGroup("BOAL_ActivateImmediateReload","Sailing1Pers");
@@ -741,11 +751,21 @@ void ExternControlsInit(bool bFirst, bool standart)
 		MapControlToGroup("BICommandsActivate","Sailing1Pers");
 		MapControlToGroup("BICommandsActivate","WorldMapControls");
 		CI_CreateAndSetControls( "PrimaryLand", "LICommandsActivate", CI_GetKeyCode("VK_RETURN"), 0, true );
-		MapControlToGroup("LICommandsActivate","FightModeControls");
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsConfirm", CI_GetKeyCode("VK_RETURN"), 0, true );
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsCancel", CI_GetKeyCode("VK_ESCAPE"), 0, false );
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsLeft", CI_GetKeyCode("VK_LEFT"), 0, true );
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsRight", CI_GetKeyCode("VK_RIGHT"), 0, true );
+		
+		if(CheckAttribute(InterfaceStates, "EnabledCMControls") && sti(InterfaceStates.EnabledCMControls) == 1)
+		{
+			CI_CreateAndSetControls( "Sailing3Pers", "BICommandsActivate", CI_GetKeyCode("VK_MBUTTON"), 0, true );
+			CI_CreateAndSetControls( "PrimaryLand", "LICommandsActivate", CI_GetKeyCode("VK_MBUTTON"), 0, true );
+			CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsConfirm", CI_GetKeyCode("VK_LBUTTON"), 0, true );
+			CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsCancel", CI_GetKeyCode("VK_RBUTTON"), 0, false );
+			CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsLeft", CI_GetKeyCode("VK_MWHEEL_DOWN"), 0, true );
+			CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsRight", CI_GetKeyCode("VK_MWHEEL_UP"), 0, true );
+		}
+		MapControlToGroup("LICommandsActivate","FightModeControls");
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsUp", CI_GetKeyCode("VK_UP"), 0, true );
 		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsDown", CI_GetKeyCode("VK_DOWN"), 0, true );
 		CI_CreateAndSetControls( "Sailing3Pers", "MiniMapZoomIn", CI_GetKeyCode("KEY_E"), 0, true );

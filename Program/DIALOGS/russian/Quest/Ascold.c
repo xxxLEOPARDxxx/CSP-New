@@ -944,6 +944,7 @@ void ProcessDialogEvent()
     		link.l1.go = "exit";
             NextDiag.TempNode = "GoodFriends";
             pchar.questTemp.Ascold = "Ascold_OverBusiness";
+			UnlockAchievement("Mummydust_quest", 3);
 		break;
 
  		case "GoodFriends":

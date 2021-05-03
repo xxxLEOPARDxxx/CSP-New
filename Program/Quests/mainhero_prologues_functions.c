@@ -299,3 +299,98 @@ void SharleMary_MeetCrew(string qName)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Шарль и Мэри --     конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	Нежить
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Undead_StartGame(string qName)
+{
+	DeleteAttribute(Pchar, "ship");
+    DeleteAttribute(Pchar, "ShipSails.gerald_name");
+    Pchar.ship.type = SHIP_NOTUSED;
+	
+	SetQuestsCharacters();
+	
+	LAi_LockFightMode(Pchar, false);
+	LAi_LocationFightDisable(loadedLocation, true);
+	sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod", "mictlantecuhtli", "skeleton", "man", 100, PIRATE, 0, true));
+    FantomMakeCoolFighter(sld, 50, 100, 100, "toporAZ", "pistol4", 3000); //дадим четырехствольник
+	sld.name = "Миктлантекутли";
+	sld.lastname = "";
+	//sld.dialog.filename   = "Quest\Mictlantecuhtli.c";
+	sld.dialog.filename   = "Quest\MainheroPrologues\Prologue_Undead_dialog.c";
+	//sld.dialog.currentnode   = "ClimeUsurer";
+	sld.dialog.currentnode   = "DeadmansGod";
+	LAi_SetImmortal(sld, true);
+	ChangeCharacterAddressGroup(sld, "Temple_Skulls", "goto", "goto3");
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", 5.0, 0);
+}
+
+void Undead_Start_Graveyard(string qName)
+{
+	PlaySound("interface\grob.wav");
+}
+void Undead_Start_Graveyard_1(string qName)
+{
+	sld = GetCharacter(NPC_GenerateCharacter("Gravedigger", "panhandler_"+(rand(5)+1), "man", "man", 1, PIRATE, 0, true));
+	sld.dialog.filename   = "Quest\MainheroPrologues\Prologue_Undead_dialog.c";
+	sld.dialog.currentnode   = "Gravedigger";
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto2");
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", 5.0, 0);
+	
+	pchar.quest.Undead_Start_Graveyard_2.win_condition.l1 = "NPC_Death";
+	pchar.quest.Undead_Start_Graveyard_2.win_condition.l1.character ="Gravedigger";
+	PChar.quest.Undead_Start_Graveyard_2.function = "Undead_Start_Graveyard_3";
+}
+/*
+void Undead_Start_Graveyard_2(string qName)
+{
+	PChar.quest.Undead_Start_Graveyard_3.win_condition.l1 = "locator";
+	PChar.quest.Undead_Start_Graveyard_3.win_condition.l1.location = pchar.location;
+	PChar.quest.Undead_Start_Graveyard_3.win_condition.l1.locator_group = "box";
+	PChar.quest.Undead_Start_Graveyard_3.win_condition.l1.locator = "box1";
+	PChar.quest.Undead_Start_Graveyard_3.function = "Undead_Start_Graveyard_3";
+}*/
+void Undead_Start_Graveyard_3(string qName)
+{
+	TakeNItems(pchar, "suit_1", 1);
+	Log_Info("Вы получили обноски");
+	PlaySound("interface\important_item.wav");
+	pchar.questTemp.Undead.Leave_Crypt = true;
+	DoQuestCheckDelay("TalkSelf_Quest", 1.0);
+	PChar.quest.Undead_Start_Graveyard_4.win_condition.l1 = "locator";
+	PChar.quest.Undead_Start_Graveyard_4.win_condition.l1.location = pchar.location;
+	PChar.quest.Undead_Start_Graveyard_4.win_condition.l1.locator_group = "reload";
+	PChar.quest.Undead_Start_Graveyard_4.win_condition.l1.locator = "reload1";
+	PChar.quest.Undead_Start_Graveyard_4.function = "Undead_Start_Graveyard_4";
+}
+void Undead_Start_Graveyard_4(string qName)
+{
+	string startCrypt = "Havana_";
+	if (pchar.nation == ENGLAND)
+	{
+		startCrypt = "PortRoyal_";
+		setWDMPointXZ("PortRoyal_town");  // коорд на карте
+	}
+	if (pchar.nation == FRANCE)
+	{
+		startCrypt = "BasTer_";
+		setWDMPointXZ("BasTer_town");  // коорд на карте
+	}
+	if (pchar.nation == SPAIN)
+	{
+		startCrypt = "Havana_";
+		setWDMPointXZ("Havana_town");  // коорд на карте
+	}
+	if (pchar.nation == HOLLAND)
+	{
+		startCrypt = "Villemstad_";
+		setWDMPointXZ("Villemstad_town");  // коорд на карте
+	}
+	DoReloadCharacterToLocation(startCrypt+"cryptbig1", "reload", "reload2");
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   -- Нежить --     конец
+/////////////////////////////////////////////////////////////////////////////////////////////////////////

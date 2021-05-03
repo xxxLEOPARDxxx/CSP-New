@@ -397,5 +397,28 @@ int CreateJamaicaCharacters(int n)
 	LAi_SetImmortal(ch, true);
 	n = n + 1;
 	
+	//смотритель кладбища
+	makeref(ch,Characters[n]);
+	ch.name 	= "Роберт";
+	ch.lastname = "Ван Дер Декен";
+	ch.id		= "PortRoyal_Graveyard_Watcher";
+	ch.model    = "LeoMaskett";
+	ch.sex      = "man";
+	ch.City = "PortRoyal";
+	ch.location	= "PortRoyal_KeepersHouse";
+	ch.location.group = "goto";
+	ch.location.locator = "goto2";
+	ch.watchBoxes = true;
+	ch.NotRemoved = true;
+	LAi_SetLoginTime(ch, 0.0, 24.0);
+	ch.nation = ENGLAND;
+	FantomMakeCoolFighter(ch,30,60,60,BLADE_LONG, "pistol3",60);
+	ch.Dialog.Filename = "Graveyard_Watcher_dialog.c";
+	LAi_SetOwnerType(ch);
+	LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
+	LAi_SetHP(ch, 200.0, 200.0);
+	LAi_SetImmortal(ch, true);
+	n = n + 1;
+	
 	return n;
 }

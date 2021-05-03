@@ -1360,6 +1360,11 @@ void SetNewModelToChar(ref chref)
     	if(CheckAttribute(chref, "model"))
         {
             SendMessage(chref, "lss",   MSG_CHARACTER_SETMODEL, chref.model, chref.model.animation);
+			if (findsubstr(chref.model, "ghost" , 0) != -1 )
+			{
+				object persRef = GetCharacterModel(chref);
+				SendMessage(persRef, "ls", MSG_MODEL_SET_TECHNIQUE, "DLightMark");
+			}		
         }
         if(CheckAttribute(chref, "equip.gun"))
         {
@@ -1785,7 +1790,7 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.CurrentNode = "Justin_Butt_1";
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");
 		}
-		if(refChar.CaptanId == PChar.GenerateShipWreck.CharacterID && PChar.GenerateShipWreck.State == "CanAbordage")//shipwreck
+		if(CheckAttribute(pchar, "GenerateShipWreck.CharacterID") && refChar.CaptanId == PChar.GenerateShipWreck.CharacterID && PChar.GenerateShipWreck.State == "CanAbordage")//shipwreck
 		{
 			refChar.Dialog.Filename = "DamnedDestiny\ShipWreck_dialog.c";
 			refChar.Dialog.CurrentNode = "17";
@@ -1862,6 +1867,20 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.FileName = "Quest\WhisperLine\Whisper_cabin_dialog.c";
 			refChar.Dialog.CurrentNode = "WarDogCap"; //даем абордажную ноду
 			refChar.greeting = "GR_ErnanEsteban";
+		}
+		if(refChar.CaptanId == "Whisper_Portman_Captain")
+		{
+			if(!CheckAttribute(pchar,"Whisper.BetrayChardKill"))
+			{
+				LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+				refChar.Dialog.FileName = "Quest\WhisperLine\Whisper_cabin_dialog.c";
+				refChar.Dialog.CurrentNode = "Portman_Cabin"; //даем абордажную ноду
+				//refChar.greeting = "GR_ErnanEsteban";
+			}
+			else
+			{
+				DeleteAttribute(refChar,"SaveItemsForDead");
+			}
 		}
 		if(refChar.CaptanId == "ShipWreck_BadPirate")
 		{
@@ -2318,10 +2337,11 @@ void SilencePriceInit()
 	ch.location.group = "goto";
 	ch.location.locator = "goto1";
 	ch.Dialog.Filename = "Quest\SilencePrice\Luke.c";
-	FantomMakeCoolFighter(ch, 30, 90, 50, "blade28", "pistol5", 300);
+	FantomMakeCoolFighter(ch, 30, 90, 50, "blade44", "pistol9", 300);
 	GiveItem2Character(ch, "cirass1");
 	ch.equip.cirass = "cirass1";
 	ch.rank = 30;
+	ch.talker = -1;
 	SelAllPerksToNotPchar(ch);
 	ch.SaveItemsForDead = true;
 	AddBonusEnergyToCharacter(ch, 50);
@@ -2337,6 +2357,27 @@ void SilencePriceInit()
 void PDMQuestsInit()
 {
 	ref sld;
+	//******Альбрех Пальцфер Sinistra******
+	//Альбрех Пальцфер
+	sld = GetCharacter(NPC_GenerateCharacter("Albreht_Zalpfer", "Mechanic", "man", "man", 6, ENGLAND, -1, false));
+	sld.name	= "Альбрехт";
+	sld.lastname	= "Цальпфер";
+	sld.City = "Charles";
+	sld.location	= "Charles_town";
+	sld.location.group = "goto";
+	sld.location.locator = "goto22";
+	sld.Dialog.Filename = "Quest/PDM/Albreht_Zalpfer.c";
+	sld.greeting = "Albrecht_Zalpfer";
+	SetCharacterPerk(sld, "Carpenter");
+	SetCharacterPerk(sld, "BasicBattleState");
+	SetShipSkill(sld, 2, 3, 2, 3, 1, 21, 3, 1, 2);
+	sld.talker = 7;
+	sld.nation = ENGLAND;
+	LAi_SetLoginTime(sld, 6.0, 21.99);
+	LAi_SetCitizenType(sld);
+	LAi_group_MoveCharacter(sld, "ENGLAND_CITIZENS");
+	LAi_SetImmortal(sld, false);
+	
 	//******Проклятый идол Sinistra******
 	//Джеймс Кэллоу											   
 	sld = GetCharacter(NPC_GenerateCharacter("James_Callow", "ozg_green", "man", "man", 6, PIRATE, -1, false));
@@ -2355,6 +2396,7 @@ void PDMQuestsInit()
 	SetCharacterPerk(sld, "CriticalHit");
 	SetCharacterPerk(sld, "Sliding");
 	SetCharacterPerk(sld, "Energaiser");
+	SetCharacterPerk(sld, "ByWorker");
 	GiveItem2Character(sld, BLADE_LONG);
 	SetSPECIAL(sld, 8,9,6,3,8,6,10);
 	SetSelfSkill(sld, 20, 40, 15, 20, 20);		//(ЛО, СО, ТО, пистолеты, фортуна)
@@ -2416,6 +2458,7 @@ void PDMQuestsInit()
 	sld.City = "Havana";
 	sld.location	= "Havana_town";
 	LAi_SetLoginTime(sld, 6.0, 21.99);
+	sld.talker = 7;
 	sld.nation = SPAIN;
 	LAi_SetImmortal(sld, true);
 	LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
@@ -2430,11 +2473,35 @@ void PDMQuestsInit()
 	sld.Dialog.Filename = "Quest/PDM/Poteryanoe_Koltso.c";
 	LAi_SetCitizenType(sld);
 	LAi_SetLoginTime(sld, 6.0, 21.99);
+	sld.talker = 7;
 	LAi_SetImmortal(sld, true);
 	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
 	ChangeCharacterAddressGroup(sld,"BasTer_town","goto","goto4");
 	
 	//******Непутёвый казначей Sinistra******
+	//Андреас Фиклер
+	sld = GetCharacter(NPC_GenerateCharacter("Andreas_Fickler", "usurer_5", "man", "man", 10, HOLLAND, -1, false));
+	SetCharacterPerk(sld, "Trader");
+	sld.name	= "Андреас";
+	sld.lastname	= "Фиклер";
+	sld.City = "Villemstad";
+	sld.Dialog.Filename = "Quest/PDM/Neputyovy_kaznachey.c";
+	LAi_SetCitizenType(sld);
+	LAi_SetLoginTime(sld, 6.0, 21.99);
+	sld.talker = 7;
+	LAi_SetImmortal(sld, true);
+	LAi_group_MoveCharacter(sld, "HOLLAND_CITIZENS");
+	ChangeCharacterAddressGroup(sld,"Villemstad_town","officers","houseSp5_2");
+	
+	//******Клан Ламбрини Sinistra******
+	//Октавио Ламбрини
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_Octavio_Lambrini", "barmen_3", "man", "man", 10, PIRATE, -1, false));
+	sld.name	= "Октавио";
+	sld.lastname	= "Ламбрини";
+	sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+	LAi_SetSitType(sld);
+	LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
+	ChangeCharacterAddressGroup(sld,"PortSpein_tavern","sit","sit_front2");
 }
 void OfficerGirlInit()
 {
@@ -2625,6 +2692,7 @@ void OfficerMushketerInit()
 	SetSelfSkill(sld, 70, 10, 10, 100, 70);
 	SetShipSkill(sld, 30, 9, 8, 8, 15, 20, 18, 5, 30);
 	SetCharacterPerk(sld, "AdvancedDefense");
+	SetCharacterPerk(sld, "Gunman");
 	SetCharacterPerk(sld, "GunProfessional");
 	SetCharacterPerk(sld, "Energaiser");
 	SetCharacterPerk(sld, "IronWill");
@@ -2915,6 +2983,12 @@ void QuestCheckTakeBoxes(ref itemsRef)
 		PlaySound("interface\notebook.wav");
 		DeleteAttribute(itemsRef, "Treasure");
 		DeleteAttribute(PChar, "treasurelocation");
+		
+		pchar.questTemp.treasurecount = sti(pchar.questTemp.treasurecount) + 1;
+		if(sti(pchar.questTemp.officercount) >= 5) UnlockAchievement("AchTreasure", 1);
+		if(sti(pchar.questTemp.officercount) >= 15) UnlockAchievement("AchTreasure", 2);
+		if(sti(pchar.questTemp.officercount) >= 30) UnlockAchievement("AchTreasure", 3);
+		
 		//eddy. для безконфликтности квестов
 
 		if(!CheckAttribute(itemsRef, "PiratesOnUninhabitedTreasure"))

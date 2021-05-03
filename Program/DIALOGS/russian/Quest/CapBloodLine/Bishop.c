@@ -2156,6 +2156,7 @@ void ProcessDialogEvent()
             dialog.text = "За эти долгие месяцы каторги я не брал в рот ни капли, а на трезвую голову очень туго соображаю. Не мог бы ты принести мне бутылочку рома?";
 			SetQuestHeader("VolversonRum");
 			AddQuestRecord("VolversonRum", "1");
+			pchar.SeekVolverstonRum = true;
         	link.l1 = "Похоже, у меня нет выбора. без твоего участия о побеге можно будет забыть.";
             link.l1.go = "exit";
             NextDiag.TempNode = "VLStep_0_2";
@@ -2179,6 +2180,7 @@ void ProcessDialogEvent()
 			RemoveItems(PChar, "potionrum", 1);
 			AddQuestRecord("VolversonRum", "2");
 			CloseQuestHeader("VolversonRum");
+			DeleteAttribute(pchar, "SeekVolverstonRum")
         	link.l1 = "Питт расскажет тебе все подробности. Надеюсь ты сейчас не отрубишься от опъянения и не пропустишь все веселье.";
             link.l1.go = "exit";
             NextDiag.TempNode = "VLStep_1";

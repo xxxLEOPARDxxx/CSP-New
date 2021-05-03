@@ -30,6 +30,8 @@
 #event_handler("SeaLoad_GetPointer", "SeaLoad_GetPointer");
 
 #define PLAYER_GROUP	"OurGroup"
+#define SHIPS_PC_SQUAD_DOUBLE 3
+#define SHIPS_NUM_DOUBLE 3
 
 string	sCurrentSeaExecute = "execute"; 
 string	sCurrentSeaRealize = "realize";
@@ -214,18 +216,8 @@ void CreateSeaEnvironment()
 	LayerAddObject(SEA_EXECUTE, &ShipTracks, 100);
 	LayerAddObject(SEA_REALIZE, &ShipTracks, 65531);
 
-/*
-	CreateEntity(&PeopleOnShip, "PEOPLE_ON_SHIP");	ReloadProgressUpdate();
-	LayerAddObject(SEA_EXECUTE, &PeopleOnShip, 100);
-	LayerAddObject(SEA_REALIZE, &PeopleOnShip, 100);
-*/
 	CreateEntity(&SeaLocatorShow, "SeaLocatorShow"); ReloadProgressUpdate();
 	LayerAddObject(SEA_REALIZE, &SeaLocatorShow, -1);
-
-	/*CreateEntity(&Telescope, "TELESCOPE");			ReloadProgressUpdate();
-	LayerAddObject(SEA_EXECUTE, &Telescope, -1);
-	LayerAddObject(SEA_REALIZE, &Telescope, -3);*/
-	//TelescopeInitParameters(&Telescope);
 
 	CreateSeaAnimals();								ReloadProgressUpdate();
 
@@ -238,7 +230,6 @@ void CreateSeaEnvironment()
 	CreateAbordageEnvironment();					ReloadProgressUpdate();
 	CreateSeaGoodsEnvironment();					ReloadProgressUpdate();
 
-	//SetEventHandler(SHIP_CREATE, "Ship_Walk_Create", 0);
 	SetEventHandler("MSG_TELESCOPE_REQUEST", "Telescope_Request", 0);
 	SetEventHandler(SHIP_BORT_FIRE, "Ship_BortFire", 0);
 
@@ -252,10 +243,6 @@ void CreateSeaEnvironment()
 	Sharks.realizeParticles = 100001;
 
 	CreateEntity(&Sharks, "Sharks");				ReloadProgressUpdate();
-
-	//PeopleOnShip.isNight = Whr_IsNight();
-
-	// тут лишнее QuestsCheck();
 }
 // boal -->
 string Sea_FindNearColony()
@@ -425,14 +412,18 @@ void Sea_LandLoad()
 					if(GetNationRelation(sti(Colonies[iColony].nation), sti(pchar.nation)) == RELATION_ENEMY) //Korsar Maxim -  доработка портового сбора.
 					{
 						if(!CheckAttribute(pchar, "Arrive.EnemyPort")) pchar.Arrive.EnemyPort = true; //При причаливании во враждебный город дается аттрибут на вражду.
-	/* 					LAi_group_FightGroups(GetNationNameByType(sti(Colonies[iColony].nation)) + "_citizens", LAI_GROUP_PLAYER, true);
-						SetNationRelation2MainCharacter(sti(Colonies[iColony].nation), RELATION_ENEMY);
-						Log_Info("Тревога!! Враг в порту!!"); */
 						return;
 					}
 					
 					sbormoney = (sti(GetCharacterShipHP(pchar)) + (sti(GetCrewQuantity(pchar)) * 10) + sti(GetCargoMaxSpace(pchar)))/5; // Сбор зависит от прочности корпуса, количества матросов и размера трюма
 					Log_Info("Оплачен портовый сбор в размере "+ sbormoney +" пиастров");
+					
+					pchar.questTemp.taxes = sti(pchar.questTemp.taxes) + 1;
+					// Открываем достижения
+					if(sti(pchar.questTemp.taxes) >= 10) UnlockAchievement("taxes", 1);
+					if(sti(pchar.questTemp.taxes) >= 50) UnlockAchievement("taxes", 2);
+					if(sti(pchar.questTemp.taxes) >= 100) UnlockAchievement("taxes", 3);
+					
 					pchar.money = sti(pchar.money) - sbormoney;
 					
 					if(GetNationRelation(sti(Colonies[iColony].nation), sti(pchar.nation)) != RELATION_ENEMY)
@@ -506,20 +497,12 @@ void Sea_MapLoad()
     int  i, cn;
     ref  chref;
     bool ok = true;
-    //float minShipSpeed = 40; // заведомый мах
     for (i=0; i<COMPANION_MAX; i++)
 	{
 		cn = GetCompanionIndex(rPlayer,i);
 		if( cn>=0 )
 		{
 			chref = GetCharacter(cn);
-            // рассчет времени на карте от скорости кораблей -->
-            /*r1 = GetSailPercent(chref) / 100.0 * GetCharacterShipSpeedRate(chref);
-            if (minShipSpeed > r1)
-            {
-                minShipSpeed = r1;
-            }       */
-            // рассчет времени на карте от скорости кораблей <--
 			if (!GetRemovable(chref)) continue;
 			
             if (GetCargoLoad(chref) > GetCargoMaxSpace(chref))
@@ -549,14 +532,6 @@ void Sea_MapLoad()
         PlaySound("knock");
         return;
     }
-    // boal 201004 проверка на перегруз и мин команду <--
-    // рассчет времени на карте от скорости кораблей -->
-    /*if (minShipSpeed < 1)
-	{
-		minShipSpeed = 1;
-	}
-    worldMap.date.hourPerSec = makefloat(12.5 / minShipSpeed * 4.0);  */
-    // рассчет времени на карте от скорости кораблей <--
     pchar.CheckEnemyCompanionType = "Sea_MapLoad"; // откуда вход
     if (!CheckEnemyCompanionDistance2GoAway(true)) return; // && !bBettaTestMode  табличка выхода из боя
 	LAi_SetAlcoholNormal(pchar);
@@ -688,7 +663,6 @@ void SeaLogin(ref Login)
 
 	// Island
 	int iIslandIndex = FindIsland(Login.Island);
-	//Trace("Island id = " + Login.Island + ", Island index = " + iIslandIndex);
 	string sIslandID = "";
 	if (iIslandIndex != -1) { sIslandID = Islands[iIslandIndex].id; }
 	
@@ -736,24 +710,12 @@ void SeaLogin(ref Login)
 
 	// set commander to group
 	Group_SetGroupCommander(PLAYER_GROUP, Characters[nMainCharacterIndex].id);
-
-	// set our group position
-	/*if (checkAttribute(pchar, "sneak"))   // to_do del
-	{
-		Login.PlayerGroup.x = pchar.sneak.x;
-		Login.PlayerGroup.z = pchar.sneak.z;
-		pchar.sneak.success = 1;
-	}*/
 	Group_SetXZ_AY(PLAYER_GROUP, stf(Login.PlayerGroup.x), stf(Login.PlayerGroup.z), stf(Login.PlayerGroup.ay) );
-	//Trace("Set group : " + PLAYER_GROUP + ", x = " + Login.PlayerGroup.x + ", z = " + Login.PlayerGroup.z + ", ay = " + Login.PlayerGroup.ay);
-	// boal -->
 	NullCharacter.Login.PlayerGroup.x  = Login.PlayerGroup.x;  // 1.2.3 попытка записать коорд ГГ для размещения Group_SetPursuitGroup в кильватерную линию
 	NullCharacter.Login.PlayerGroup.z  = Login.PlayerGroup.z;
 	NullCharacter.Login.PlayerGroup.ay = Login.PlayerGroup.ay;
     pchar.Ship.Pos.x = stf(Login.PlayerGroup.x);
     pchar.Ship.Pos.z = stf(Login.PlayerGroup.z);
-    //Log_Info(" x " + pchar.Ship.Pos.x + " z " + pchar.Ship.Pos.z);
-    // boal <--
 	Sea.MaxSeaHeight = 200;
 
 	ReloadProgressUpdate();
@@ -782,14 +744,18 @@ void SeaLogin(ref Login)
 	// login main player and his friends
 	int iCompanionIndex;
 
+	int iPlayerCompanionsQ = GetCompanionQuantity(pchar); //Include PC + Companions
+	
+	//Lipsar 2 ряда кораблей
+    if(iPlayerCompanionsQ > SHIPS_PC_SQUAD_DOUBLE)
+        SendMessage(&AISea, "lsl", AI_MESSAGE_GROUP_SET_LINES, PLAYER_GROUP, 2);
+	//Lipsar
 	pchar.SeaAI.Group.Name = PLAYER_GROUP;
 	pchar.Ship.Type = Characters[nMainCharacterIndex].Ship.Type;
 	pchar.Ship.Stopped = false;
 	Partition_SetValue("before");// Дележ добычи
 	Ship_Add2Sea(nMainCharacterIndex, bFromCoast, "");
 	Group_AddCharacter(PLAYER_GROUP, Characters[nMainCharacterIndex].id);
-	//Sea.Sea2.BumpScale = stf(Sea.Sea2.BumpScale) * stf(RealShips[sti(pchar.Ship.Type)].sea_enchantment);
-	int iPlayerCompanionsQ = GetCompanionQuantity(pchar);
 	if(iPlayerCompanionsQ > 1)
 	{
 		for (i=1; i<COMPANION_MAX; i++)
@@ -801,13 +767,10 @@ void SeaLogin(ref Login)
 			}
 			DeleteAttribute(&Characters[iCompanionIndex], "SeaAI"); // сброс для кэпов офов из пленных
 			Characters[iCompanionIndex].SeaAI.Group.Name = PLAYER_GROUP;
-			//Ship_SetTaskNone(PRIMARY_TASK, iCompanionIndex); // сброс для кэпов офов из пленных
 			Ship_Add2Sea(iCompanionIndex, bFromCoast, "");
 
 			// add companion to player group
 			Group_AddCharacter(PLAYER_GROUP, Characters[iCompanionIndex].id);
-			//Ship_SetTaskDefendGroup(PRIMARY_TASK, iCompanionIndex, PLAYER_GROUP);
-			// to_do убрал для пробы, в ПКМ не было и не тупили
 			Ship_SetTaskDefend(PRIMARY_TASK, iCompanionIndex, nMainCharacterIndex);
 		}
 	}
@@ -872,10 +835,6 @@ void SeaLogin(ref Login)
 	
 	ReloadProgressUpdate();
 		
-
-	//if (!bStorm) //убираем по требованию продюсеров
-			   
-	//{
 	// login fantom groups		
 	aref arEncounters;
 	makearef(arEncounters,Login.Encounters);
@@ -952,12 +911,8 @@ void SeaLogin(ref Login)
 			continue;
 		}
 
-		//if (bSeaQuestGroupHere) { continue; }
-
 		Sea_AddGroup2TaskList(sGName);
 
-		//rGroup = Group_GetGroupByIndex(Group_CreateGroup(sGName));
-		//rGroup = Group_GetGroupByIndex(Group_FindOrCreateGroup(sGName)); // <--- Вот кто это написал!!!??? :)
 		rGroup = Group_FindOrCreateGroup(sGName); // надо так
 		Group_SetXZ_AY(sGName, x, z, ay);
 		Group_SetType(sGName, rEncounter.Type);
@@ -978,30 +933,6 @@ void SeaLogin(ref Login)
 			rGroup.Task.Target.Pos.z = rEncounter.Task.Pos.z;
 		}
 		if (CheckAttribute(rEncounter, "Lock") && sti(rEncounter.Lock)) { Group_LockTask(sGName); }
-        // перевел все в группу boal 23/06/06 -->
-		/*if (iEncounterType == ENCOUNTER_TYPE_ALONE)
-		{
-			//Group_SetGroupCommander(sGName, Characters[iAloneCharIndex].id);
-			Characters[iAloneCharIndex].SeaAI.Group.Name = sGName;
-			Ship_Add2Sea(iAloneCharIndex, 0, rEncounter.Type);
-
-			iCompanionsQ = GetCompanionQuantity(&Characters[iAloneCharIndex]);
-			if(iCompanionsQ > 1)
-			{
-				for(int l = 1; l < COMPANION_MAX; l++)
-				{
-					cn = GetCompanionIndex(&characters[iAloneCharIndex], l);
-					if (cn != -1)
-					{
-						Characters[cn].SeaAI.Group.Name = sGName;
-						Ship_Add2Sea(cn, 0, rEncounter.Type);
-					}
-				}
-			}
-			continue;
-		} */
-		// перевел все в группу boal 23/06/06   <--
-
 		int iNumWarShips = 0;
 		int iNumMerchantShips = 0;
 		int iNation = PIRATE;
@@ -1020,6 +951,12 @@ void SeaLogin(ref Login)
 		}
 
 		int iNumFantomShips = Fantom_GenerateEncounterExt(sGName, &oResult, iEncounterType, iNumWarShips, iNumMerchantShips, iNation);
+		
+		//Lipsar 2 ряда кораблей
+		if(iEncounterType != ENCOUNTER_TYPE_ALONE && iNumFantomShips > SHIPS_NUM_DOUBLE)
+            SendMessage(&AISea, "lsl", AI_MESSAGE_GROUP_SET_LINES, sGName, 2);
+		//Lipsar
+		
 		// Ugeen --> генерация параметров	для спецэнкаунтеров
 		if (iEncounterType == ENCOUNTER_TYPE_BARREL || iEncounterType == ENCOUNTER_TYPE_BOAT)
 		{	
@@ -1079,9 +1016,6 @@ void SeaLogin(ref Login)
         {
             ay_res += PI;
         }
-		//Trace("Set group : " + sGName + ", x = " + x + ", z = " + z);
-        //если угол между вектором ГГ и результирующим вектором острый,
-        //то считаем, что атакует ГГ
         if (cos(ay_res - ay_mc) > 0) 
 		{
 			isMChrAttack = true;
@@ -1097,11 +1031,6 @@ void SeaLogin(ref Login)
             //уравнение прямой для случайки z = k * x + b
             b = z - ay_e * x;
 
-            //смещаем позицию случайки, коэффициент смещения подобрать экспериментально или ввести функцию.
-//			z1 = (k * iNumFantomShips * 200 + x) * ay - b;
-			//z1 = k * x * ay + b;
-			
-//            Group_SetXZ_AY(sGName, x, z, ay);
 			Trace("Set group new coords : " + sGName + ", x = " + x + ", z = " + z + ", ay_e = " + ay_e + ", b = " + b + ", k = " + k);		
 			
         }
@@ -1155,9 +1084,6 @@ void SeaLogin(ref Login)
 					rFantom.Flags.Pirate = rand(4);
 				}
 				
-//				trace("rFantom.id = " + rFantom.id + " Ship.pos.x = " + rFantom.Ship.pos.x + " Ship.pos.z = " + rFantom.Ship.pos.z);
-//				trace("pchar.Ship.pos.x = " + pchar.Ship.pos.x + " pchar.Ship.pos.z = " + pchar.Ship.pos.z);
-				
 				trace("bSeaCanGenerateShipSituation = " + bSeaCanGenerateShipSituation);
 				
 				//ugeen --> установка возможных ситуаций в каюте кэпа при абордаже - взрыв или эпидемия
@@ -1198,9 +1124,6 @@ void SeaLogin(ref Login)
 				rFantom.SeaAI.Group.Name = sGName;
 				rFantom.Experience = 0;
 				rFantom.Skill.FreeSkill = 0;
-
-				//rFantom.Features.GeraldSails = false;  // код от к3, весьмя страннй, тк при выгрузке в Ship_Add2Sea всем тупо пробивается труе :)
-				//if (CheckAttribute(rEncounter, "GeraldSails")) { rFantom.Features.GeraldSails = sti(rEncounter.GeraldSails); }
 
 				// boal герб на флагман -->
 				DeleteAttribute(rFantom, "ShipSails.gerald_name");   // мог быть с того раза
@@ -1277,10 +1200,6 @@ void SeaLogin(ref Login)
 	//Boyer change
 	TelescopeInitParameters();
 
-	/*CreateEntity(&SeaOperator, "SEA_OPERATOR");
-	LayerAddObject(SEA_EXECUTE, &SeaOperator, -1);
-	LayerAddObject(SEA_REALIZE, &SeaOperator, 3);*/
-
 	SendMessage(&Telescope, "leee", MSG_TELESCOPE_INIT_ARRAYS, &Nations, &RealShips, &Goods);
 
 	PostEvent(SHIP_CHECK_RELOAD_ENABLE, 1);
@@ -1289,18 +1208,9 @@ void SeaLogin(ref Login)
 	sSeaStartMusicName = oldMusicName;
 
 	iRDTSC = RDTSC_E(iRDTSC);
-	//Trace("SeaLogin RDTSC = " + iRDTSC);
-	//Trace("iNumFantomShips = " + iNumFantomShips);
-
+	
 	pchar.space_press = "0";
 	DeleteAttribute(pchar, "SkipEshipIndex");// boal
-	
-	/*if (checkattribute(pchar, "sneak"))
-	{
-		string sgroup = pchar.sneak.group;
-		LAi_group_NotFightPlayerVSGroup(sgroup);
-		deleteAttribute(pchar, "sneak");
-	}*/
 	
 	PostEvent("Sea_FirstInit", 1);
 }
@@ -1366,16 +1276,19 @@ void Sea_LoginGroup(string sGroupID)
 			Trace("Error: Sea_LoginGroup sGroupID = " + sGroupID + ", I can't find any locators or position for this group, maybe you can check this???");
 		}
 	}
+	//Lipsar 2 ряда кораблей
+	if(iNumQuestShips > SHIPS_NUM_DOUBLE)
+       SendMessage(&AISea, "lsl", AI_MESSAGE_GROUP_SET_LINES, sGroupID, 2);
+   	//Lipsar
+	
     // 1.2.3 - кильваторный строй, вместо каши в  Group_SetPursuitGroup -->
     if (CheckAttribute(rGroup, "location.neargroup"))
 	{
   		float fAngle = frnd() * PIm2;
   		ay = 500.0 + rand(300);
-  		//Log_testInfo("Group_SetPursuitGroup " + NullCharacter.Login.PlayerGroup.x + " " + NullCharacter.Login.PlayerGroup.z + " " + NullCharacter.Login.PlayerGroup.ay + " fAngle " + fAngle);
   		x  = stf(NullCharacter.Login.PlayerGroup.x) + ay*cos(fAngle); // окружность радиуса 500
   		z  = stf(NullCharacter.Login.PlayerGroup.z) + ay*sin(fAngle);
   		ay = stf(NullCharacter.Login.PlayerGroup.ay) + fAngle;
-  		//NullCharacter.Login.PlayerGroup.ay = stf(NullCharacter.Login.PlayerGroup.ay) + frnd() * PI;
 	}
 	// 1.2.3 - кильваторный строй, вместо каши в  Group_SetPursuitGroup   <--
 	// set group position
@@ -1436,30 +1349,7 @@ void Sea_LoginGroup(string sGroupID)
     		Ship_Add2Sea(sti(rCharacter.index), bFromCoast, "");
 
     		ReloadProgressUpdate();
-
-            // перевел все в группу boal 23/06/06 -->
-    		/*int iCompanionsNum = GetCompanionQuantity(rCharacter);
-    		//int iGroupIndex = Group_FindGroup(sGroupID);
-    		if (iCompanionsNum > 1)
-    		{
-    			int cn = -1;
-    			for(int k = 1; k < COMPANION_MAX; k++)
-    			{
-    				cn = GetCompanionIndex(rCharacter, k);
-    				if(cn != -1)
-    				{
-    					rCharacter = &characters[cn];
-
-    					rCharacter.SeaAI.Group.Name = sGroupID;
-
-    					Ship_Add2Sea(sti(rCharacter.index), bFromCoast, "");
-
-    					ReloadProgressUpdate();
-    				}
-    			}
-    		} */
-    		// <--
-        }//<- homo fix
+        }
 	}
 
 	rGroup.AlreadyLoaded = "";
@@ -1540,14 +1430,10 @@ float SetMaxSeaHeight(int islandIdx)
 	
 	if (CheckAttribute(Islands[islandIdx], "MaxSeaHeight")) return stf(Islands[islandIdx].MaxSeaHeight);
 
-	// поиск мин расстояния до городов по фортам -->
-    //fMaxViewDist = 2000; // послужит временно дистанцией
-	
 	aref arReloadLoc, arLocator;	
 	makearef(arReloadLoc, Islands[islandIdx].reload);
 	string  sLabel;
 	iQty = GetAttributesNum(arReloadLoc); 
-    //Log_TestInfo("Sea.MaxSeaHeight " + Sea.MaxSeaHeight);
 	for (i=0; i<iQty; i++)
 	{
 		arLocator = GetAttributeN(arReloadLoc, i);
@@ -1627,10 +1513,6 @@ void Sea_LoadIsland(string sIslandID)
 			}
 			CreateGrass(GetResourceDirectory() + "models\islands\"+ Islands[iIslandIndex].id +"\"+ Islands[iIslandIndex].jungle.patch + ".grs", "Grass\"+Islands[iIslandIndex].jungle.texture+".tga.tx", fJungleScale, 20.0, 200.0, 100.0, 1000.0, 0.6);
 		}
-		/*if (MOD_BETTATESTMODE == "On")
-		{
-			CreateEntity(&SeaLighter, "lighter");  //eddy. не надо это пока коментить, это и есть Lighter. ошибку дает, если в локлайтере лоадинг == 0, т.к. в этом случае тулза не инитится в движке.
-		}*/
 		SendMessage(&SeaLighter, "ss", "ModelsPath", Islands[iIslandIndex].filespath.models);
 		SendMessage(&SeaLighter, "ss", "LightPath", GetLightingPath());
 
@@ -1652,20 +1534,6 @@ void Sea_LoadIsland(string sIslandID)
 		SendMessage(&IslandReflModel, "lllf", MSG_MODEL_SET_FOG, 1, 1, stf(Weather.Fog.IslandDensity));
 		LayerAddObject("sea_reflection2", &IslandReflModel, -1);
 		SendMessage(&SeaLighter, "ssi", "AddModel", Islands[iIslandIndex].refl_model, &IslandReflModel);
-		//--> eddy. да будет свет на маяке
-		//if(CheckAttribute(Islands[iIslandIndex], "mayak"))
-		//{
-		//	CreateEntity(&sLightModel, "MODELR");
-		//	string sMayakLightModel;
-		//	if (isDay()) sMayakLightModel = Islands[iIslandIndex].filespath.models + "\" + Islands[iIslandIndex].mayak.model_day;
-		//	else sMayakLightModel = Islands[iIslandIndex].filespath.models + "\" + Islands[iIslandIndex].mayak.model_night;
-		//	//SendMessage(&sLightModel, "ls", MSG_MODEL_SET_TECHNIQUE, "LocVisRays");
-		//	SendMessage(&sLightModel, "ls", MSG_MODEL_LOAD_GEO, sMayakLightModel);
-		//	SendMessage(&Island, "li", MSG_ISLAND_ADD_FORT,  &sLightModel);
-		//	SendMessage(SeaLighter, "ssi", "AddModel", Islands[iIslandIndex].mayak.model_night, &sLightModel);
-		//}
-		//<-- eddy. да будет свет на маяке
-		// Warship Вынес в метод - создание освещения маяка
 		Sea_CreateLighthouse(sIslandID);
 		bIslandLoaded = true;
 		SendMessage(&SeaLocatorShow, "a", &Islands[iIslandIndex]);

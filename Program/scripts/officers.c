@@ -149,6 +149,22 @@ void OfficersReactionResult()
 		if (iPassenger != -1)
 		{
 			sld = GetCharacter(iPassenger);
+			if(sld.id == "W_Chinaman" && !CheckAttribute(sld, "ChinamanAskedSword") && sti(sld.rank) > 7)
+			{
+				if (PlaceCharacter(sld, "goto", "random_must_be_near") != "")
+				{
+					sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+					sld.dialog.currentnode = "Chinaman_plead";
+					
+					LAi_SetActorType(sld);
+					LAi_ActorDialog(sld, pchar, "", 2.0, 0);
+					//SetActorDialogAny2Pchar(sld.id, "pchar_back_to_player", 0.0, 0.0);
+					//LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 2.0);
+					chrDisableReloadToLocation = true;
+					DoQuestCheckDelay("OpenTheDoors", 5.0);
+				}
+			}
+			
 			if (CheckAttribute(sld, "loyality") && !CheckAttribute(sld,"prisoned") && GetRemovable(sld) && !CheckAttribute(sld, "OfficerWantToGo.DontGo"))
 			{
 				if (sti(sld.loyality) < 1)
@@ -479,7 +495,7 @@ void LandEnc_OfficerHired()
 {
 	ref sld = &Characters[sti(Pchar.questTemp.HiringOfficerIDX)];
     sld.Money = 0; // деньги
-
+	sld.Payment = true;
 	AddPassenger(pchar, sld, false);
 
 	sld.location = "None";
@@ -540,7 +556,16 @@ bool SetOfficerToMushketer(ref rCharacter, string sMushket, bool _ToMushketer)
 		}
 		else
 		{
-			rCharacter.model.animation = "mushketer_whisper"; // Сменим анимацию
+			aref weapon;
+			Items_FindItem(sMushket, &weapon);
+			if (CheckAttribute(weapon, "fromHip"))
+			{
+				rCharacter.model.animation = "mushketer_whisper_short"; // Сменим анимацию
+			}
+			else
+			{
+				rCharacter.model.animation = "mushketer_whisper"; // Сменим анимацию
+			}
 		}
 		Characters_RefreshModel(rCharacter); // Обновим модель. Важно: обновлять модель нужно ДО экипировки мушкетом
 		EquipCharacterByItem(rCharacter, sMushket); // Экипируем мушкет

@@ -1,3 +1,5 @@
+#include "ITEMS\initItems.c"
+
 //  boal 14.02.06 меню дебугера
 string totalInfo;
 int idLngFile = -1;
@@ -629,7 +631,7 @@ void CalculateInfoDataF4()
 	Statistic_AddValue(PChar, "Cheats.F4", 1);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF5 = "Ранг +1 (35 скилов)";
+string descF5 = "Дать 1000 скилов для навыков";
 int BOAL_debug_num = 1;
 void CalculateInfoDataF5()
 {
@@ -640,7 +642,7 @@ void CalculateInfoDataF5()
       GiveItem2Character(pchar, "patent_" + pchar.PatentNation);
       EquipCharacterbyItem(pchar, "patent_" + pchar.PatentNation);
       */
-    pchar.Skill.FreeSkill = sti(pchar.Skill.FreeSkill) + 35;
+    pchar.Skill.FreeSkill = sti(pchar.Skill.FreeSkill) + 1000;
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно!";
     LanguageCloseFile(idLngFile);
@@ -664,7 +666,7 @@ void CalculateInfoDataF6()
 	SetRandSelfSkill(mc, 100, 100);
 	SetRandShipSkill(mc, 100, 100);
 	mc.rank = 50;
-	LAi_SetHP(mc, 650.0, 650.0);
+	LAi_SetHP(mc, 6500.0, 6500.0);
 	// mc.Ship.Type = GenerateShipExt(SHIP_LUGGERQUEST, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_XebekVML, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_BRIGQEEN, true, mc);
@@ -674,10 +676,11 @@ void CalculateInfoDataF6()
 	// mc.Ship.Type = GenerateShipExt(SHIP_FLYINGDUTCHMAN, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_SANTISIMA, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_SOLEYRU, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
 	mc.Ship.Type = GenerateShipExt(SHIP_PRINCE, true, mc);
 	SetBaseShipData(mc);
 	mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS48;
-	// mc.Ship.Cannons.Type = CANNON_TYPE_CULVERINE_LBS32;
+	// mc.Ship.Cannons.Type = CANNON_TYPE_CULVERINE_LBS24;
 	SetCrewQuantityFull(mc);
 	AddCrewMorale(mc, 100);
 	ChangeCrewExp(mc, "Sailors", 100);
@@ -708,19 +711,19 @@ void CalculateInfoDataF6()
 	AddItems(mc, "pistol7", 1);
 	AddItems(mc, "Map_Best", 1);
 	
-	// sEquipItem = GetGeneratedItem("blade27"); 	// Моргана 		(ЛО)
-	// sEquipItem = GetGeneratedItem("blade32"); 	// Фламбердж	(ЛО)
-	// sEquipItem = GetGeneratedItem("katar"); 		// Катар		(СО)
-	// sEquipItem = GetGeneratedItem("toporAZ"); 	// Макуауитль	(ТО)
-	sEquipItem = GetGeneratedItem("topor_viking"); 	// Топор викинга	(ТО)
+	// sEquipItem = GetGeneratedItem("blade27"); 		// Моргана 			(ЛО)
+	// sEquipItem = GetGeneratedItem("blade32"); 		// Фламберж			(ЛО)
+	// sEquipItem = GetGeneratedItem("katar"); 			// Катар			(СО)
+	// sEquipItem = GetGeneratedItem("toporAZ"); 		// Макуауитль		(ТО)
+	// sEquipItem = GetGeneratedItem("topor_viking"); 	// Топор викинга	(ТО)
+	sEquipItem = GetGeneratedItem("blade28");			// Танат			(ТО)
 	AddItems(mc, sEquipItem, 1);
 	
-	AddItems(mc, "bullet", 50);
-	AddItems(mc, "GunPowder", 50);
 	AddItems(mc, "cirass5", 1);
 
 	EquipCharacterbyItem(mc, "spyglass4");
 	EquipCharacterbyItem(mc, "pistol7");
+	GiveGunAmmunition(mc,"pistol7");
  	EquipCharacterbyItem(mc, sEquipItem);
  	EquipCharacterbyItem(mc, "cirass5");
  	
@@ -742,27 +745,6 @@ void CalculateInfoDataF7()
 	// -->
 	totalInfo = descF7;
 
-    /*pchar.questTemp.Waiting_time = "0";
-    pchar.questTemp.State = "empty";
-    SaveCurrentQuestDateParam("questTemp");
-    if (sti(pchar.questTemp.CurQuestNumber)<12)
-    {
-        pchar.questTemp.CurQuestNumber = sti(pchar.questTemp.CurQuestNumber)+1;
-    }
-    else
-    {
-        pchar.questTemp.CurQuestNumber = "2";
-    }
-    Log_SetStringToLog("Вы можете получить у Мэдифорда квест " + pchar.questTemp.CurQuestNumber + ".");
-    */
-    /*int i;
-
-	for (i=0; i<MAX_COLONIES; i++)
-	{
-		SetPriceListByStoreMan(&Colonies[i]);
-	}
-    // <*/
-    
 	SetRandSelfSkill(PChar, 1, 1);
     
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
@@ -818,61 +800,10 @@ void CalculateInfoDataF8()
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F8", 1);
 }
-////////////////////////////////////////////////////////////////////////
-// string descF9 = "Ветер == 14.5"//"DumpAttributes(&Weather)";//"Репутация в минус";
 
-// void CalculateInfoDataF9()
-// {
-	// idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	// -->
-	// totalInfo = descF9;
-// /*	
-    // aref	aCurWeather = GetCurrentWeather();
-    // trace("----------------------GetCurrentWeather()------------------");
-    // DumpAttributes(aCurWeather);
-    // trace("--------------------DumpAttributes(&Weather)------------------");
-    // DumpAttributes(&Weather)
-    // trace("--------------------     end dump       ------------------");      
-// */
-    // Weather.Wind.Speed = 14.5;
-	// pchar.wind.speed = Weather.Wind.Speed;
-	// fWeatherSpeed = stf(Weather.Wind.Speed);
-	
-    // /*
-    // ref mc;
-	// mc = GetMainCharacter();
-	// if ( sti(mc.reputation) > REPUTATION_MIN)
-	// {
-	   // mc.reputation = sti(mc.reputation) -10;
-	   // if (sti(mc.reputation) < REPUTATION_MIN)
-	   // {
-	       // mc.reputation = REPUTATION_MIN;
-	   // }
-	// }
-	// */
-    // <
-    // totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
-                // "Команда отработала успешно!";
-    // LanguageCloseFile(idLngFile);
-    // SetFormatedText("INFO_TEXT",totalInfo);
-    
-	// Статистика по читам
-	// Statistic_AddValue(PChar, "Cheats.F9", 1);
-
-//string descF9 = "обновление массива островов & локаций & колоний & кораблей";
 string descF9 = "Выдача материалов для постройки колонии";
 void CalculateInfoDataF9()
 {
-    /* ShipsInit();
-    IslandsInit();
-    LocationInit();
-    ColoniesInit();
-    CreateColonyCommanders();
-    totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
-    SetFormatedText("INFO_TEXT",totalInfo);
-
-    return; */
-	
 	SetCharacterGoods(pchar, GOOD_BALLS, 2000);
 	SetCharacterGoods(pchar, GOOD_GRAPES, 2000);
 	SetCharacterGoods(pchar, GOOD_KNIPPELS, 2000);
@@ -2022,10 +1953,21 @@ void CalculateInfoDataF42()
 	Statistic_AddValue(PChar, "Cheats.F40", 1);
 }
 
-string descF43 = "Нет назначений";
+string descF43 = "Заспавнить золотой Флот";
 void CalculateInfoDataF43()
 {
 	totalInfo = descF43;
+	
+	Log_TestInfo("start GoldFleet");
+	AddTemplRumour("Start_GoldFleet", id_counter+1);
+	string sQuest = "EndOfGoldFleet";
+	SetTimerCondition(sQuest, 0, 0, 29, false);
+	pchar.quest.(sQuest).win_condition = "EndOfGoldFleet";
+	pchar.quest.(sQuest).function= "EndOfGoldFleet";
+	GoldFleet();
+	int pbx = worldMap.islands.PortoBello.PortoBello_town.position.x;
+	int pbz = worldMap.islands.PortoBello.PortoBello_town.position.z;
+	Map_CreateTraderXZ(pbx, pbz, -858.089, 897.072, "Head_of_Gold_Squadron", 22);
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
 	
@@ -2035,24 +1977,33 @@ void CalculateInfoDataF43()
 	Statistic_AddValue(PChar, "Cheats.F43", 1);
 }
 
-string descF44 = "Нет назначений";
+string descF44 = "Позиция корабля";
 void CalculateInfoDataF44()
 {
 	totalInfo = descF44;
  	
-	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	totalInfo = totalInfo + NewStr() +  + "pchar.Ship.Ang.y _ " + stf(pchar.Ship.Ang.y) + NewStr() + "pchar.Ship.Pos.x _ " + stf(pchar.Ship.Pos.x) + NewStr() + "pchar.Ship.Pos.z _ " + stf(pchar.Ship.Pos.z) + NewStr() + "Команда отработала успешно!";
 	
 	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	trace("reload,reload_fort1," + cos(-stf(pchar.Ship.Ang.y)) + ",0,"	+ sin(-stf(pchar.Ship.Ang.y)) + ",0,1,0," + sin(stf(pchar.Ship.Ang.y)) + ",0," + cos(stf(pchar.Ship.Ang.y)) + "," + stf(pchar.Ship.Pos.x) + ",1.364242E-12," + stf(pchar.Ship.Pos.z) + ",1,0,0,0,0,0,0,0,0");	
 	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F44", 1);
 }
 
-string descF45 = "Нет назначений";
+string descF45 = "обновление массива: островов, локаций, колоний, кораблей, вещей (не работает сука)";
 void CalculateInfoDataF45()
 {
 	totalInfo = descF45;
- 	
+	
+    InitItems();
+    ShipsInit();
+    IslandsInit();
+    LocationInit();
+    ColoniesInit();
+    CreateColonyCommanders();
+	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
 	
 	SetFormatedText("INFO_TEXT", totalInfo);
@@ -2114,18 +2065,19 @@ void LoginDummy()
     // FantomMakeCoolFighter(sld, 100, 100, 100, "blade27", "pistol5", 99999); 	// Моргана 		(ЛО)
 	
     // FantomMakeCoolFighter(sld, 100, 100, 100, "blade27", "", 99999); 	// Моргана 		(ЛО)
-    // FantomMakeCoolFighter(sld, 100, 100, 100, "blade32", "", 99999); 	// Фламбердж	(ЛО)
-    // FantomMakeCoolFighter(sld, 100, 100, 100, "katar", 	"", 99999); 		// Катар		(СО)
-    FantomMakeCoolFighter(sld, 100, 100, 100, "toporAZ", "", 99999); 	// Макуауитль	(ТО)
+    // FantomMakeCoolFighter(sld, 100, 100, 100, "blade32", "", 99999); 	// Фламберж		(ЛО)
+    // FantomMakeCoolFighter(sld, 100, 100, 100, "katar", 	"", 99999); 	// Катар		(СО)
+    // FantomMakeCoolFighter(sld, 100, 100, 100, "toporAZ", "", 99999); 	// Макуауитль	(ТО)
+    FantomMakeCoolFighter(sld, 100, 100, 100, "blade28", "", 99999); 		// Танат		(ТО)
 	//установить SPECIAL
 	SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 	//установить хп
 	LAi_SetHP(sld,9999,9999);
 	
 	//установить агр
-	// LAi_SetWarriorType(sld);
-	// LAi_group_SetRelation("teno_monsters_group", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
-	// LAi_group_FightGroups("teno_monsters_group", LAI_GROUP_PLAYER, true);
+	LAi_SetWarriorType(sld);
+	LAi_group_SetRelation("teno_monsters_group", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+	LAi_group_FightGroups("teno_monsters_group", LAI_GROUP_PLAYER, true);
 	
 	//перки
 	sld.perks.list.BasicDefense = "1";

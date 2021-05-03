@@ -57,6 +57,17 @@ void LoginCharacter(aref chr, string locID)
 					Trace("Delete character <" + chr.id + "> , error teleportation by location: " + chr.location + " on locator: " + chr.location.group + "::" + chr.location.locator);
 				}
 			}
+			if(locID == "FencingTown_Arena" || locID == "FencingTown_ExitTown")
+			{	
+				if(CheckAttribute(chr, "location.follower"))
+				{
+					if(chr.location.follower == "1")
+					{
+						DeleteCharacter(chr);
+						isNoCreated = true;
+					}
+				}
+			}
 		}else{
 			Trace("Can't create character: " + chr.id);
 		}

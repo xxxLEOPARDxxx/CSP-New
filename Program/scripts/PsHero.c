@@ -57,7 +57,7 @@ void InitPsHeros()
 			ch.PGGAi = true;    // признак, что ПГГ
 			ch.PGGAi.IsPGG = true;  // в данный момент не офицер ГГ
 			ch.PGGAi.location = "land";   // где суша-море
-			ch.PGGAi.location.town = PGG_FindRandomTownByNation(sti(ch.nation));
+			ch.PGGAi.location.town = PGG_FindRandomTown(ch);
 			//navy <--
 			SetFantomParamFromRank_PPG(ch, 1 + rand(5), true); //WW  генерим статы TO_DO на отдельно специал и эмулятор скилов
 			trace("PGG " + GetFullName(ch) + " starting rank " + sti(ch.rank));
@@ -93,6 +93,7 @@ void InitPsHeros()
 				ch.Money += ch.Money;
 			}
 			SetCharacterPerk(ch, PerksChars());
+			DeleteCloneHeros(ch);
 	    }
 	}
 	//нормальное отношение всех ко всем.
@@ -112,8 +113,43 @@ void InitPsHeros()
 		SaveCurrentQuestDateParam("ChangeImport"+iStoreQ);
 		iStoreQ++;
 	}
+	for(i=0; i<STORE_QUANTITY; i++)
+    {
+		SaveCurrentQuestDateParam("ChangeImport"+i);
+	}
 }
 // boal 091004 много героев  <--
+
+void DeleteCloneHeros(ref sld)
+{
+	if (startHeroType > 1 && startHeroType < 7)
+	{
+		if (startHeroType == 2)
+		{
+			if(sld.FaceId == 487 || sld.FaceId == 535 || sld.FaceId == 211)
+			{//Его мы позже наймем оффом, так что убираем из ПГГ
+				sld.willDie = true;
+				LAi_KillCharacter(sld);
+			}
+		}
+		if (startHeroType == 3 || startHeroType == 4)
+		{
+			if(sld.FaceId == 1 || sld.FaceId == 522)
+			{//Его мы позже наймем оффом, так что убираем из ПГГ
+				sld.willDie = true;
+				LAi_KillCharacter(sld);
+			}
+		}
+		if (startHeroType == 5 || startHeroType == 6)
+		{
+			if(sld.FaceId == 508 || sld.FaceId == 517)
+			{//Его мы позже наймем оффом, так что убираем из ПГГ
+				sld.willDie = true;
+				LAi_KillCharacter(sld);
+			}
+		}
+	}
+}
 
 void PGG_DailyUpdateSeaReload()
 {
@@ -216,24 +252,13 @@ void PGG_DailyUpdateEx(int i)
 		{
 			if (CheckAttribute(chr, "PGGAi.Rebirth") && sti(chr.PGGAi.Rebirth))
 			{
-				if (!CheckAttribute(chr, "PGGAi.Boosted"))
+				Train_PPG(chr, true, true);
+				if (chr.id == "PsHero_2")
 				{
-					int rank = sti(chr.rank) + (sti(chr.rank) * 0.2) + MOD_SKILL_ENEMY_RATE;
-					chr.rank = rank;
-					SetFantomParamFromRank_PPG(chr, rank, true);
-					chr.perks.list.AgileMan = "1";
-					ApplayNewSkill(chr, "AgileMan", 0);
-					int hp = LAi_GetCharacterMaxHP(chr);
-					LAi_SetHP(chr, hp*1.7, hp*1.7);
-					chr.PGGAi.Boosted = true;
+					chr.model="PGG_Whisper_0";
+					SetNewModelToChar(chr);
 				}
-			if (chr.id == "PsHero_2")
-			{
-				chr.model="PGG_Whisper_0";
-				SetNewModelToChar(chr);
-			}
 				LAi_SetCurHPMax(chr);
-				chr.money = rank * 25000 + rand (1000) - rand(1000);
 				DeleteAttribute(chr, "PGGAi.Rebirth")
 				DeleteAttribute(chr, "Ship");
 				chr.Ship.Type = SHIP_NOTUSED;
@@ -457,7 +482,14 @@ void PGG_CheckDead(ref chr)
 						{
 							chr.PGGAi.location.town = chr.PGGAi.location.town.back;
 						}
-						chr.PGGAi.location.town = PGG_FindRandomTownByNation(sti(chr.nation_backup));
+						if (CheckAttribute(chr, "nation_backup"))
+						{
+							chr.PGGAi.location.town = PGG_FindRandomTownByNation(sti(chr.nation_backup));
+						}
+						else
+						{
+							chr.PGGAi.location.town = PGG_FindRandomTown(chr);
+						}
 						PGG_ChangeRelation2MainCharacter(chr, -30);
 						DeleteAttribute(chr, "PGGAi.Task");
 						DeleteAttribute(chr, "PGGAi.LockService");
@@ -906,6 +938,10 @@ void PGG_UpdateStats(ref chr, string sExpType)
 			fMod = MOD_SKILL_ENEMY_RATE + rand(12);
 			fMod = fMod*EXP_MODIFIER; 
 			AddCharacterExpToSkill(chr, SKILL_COMMERCE, fMod*25.2);
+			if(GetCharacterShipClass(chr) > GetCharacterShipClass(PChar) || rand(9) == 0)
+			{
+				PGG_AddMoneyToCharacter(chr, PGG_AddShipsBattleExp(chr, 1));
+			}
 		}
 		else
 		{
@@ -917,10 +953,10 @@ void PGG_UpdateStats(ref chr, string sExpType)
 				iRnd += 15;
 			}
 
-			if (rand(100) < iRnd)
+			if (GetCharacterShipClass(chr) > GetCharacterShipClass(PChar) || rand(100) < iRnd)
 			{
 				//даю меньше от 1 до 6 кораблей...
-				PGG_AddMoneyToCharacter(chr, PGG_AddShipsBattleExp(chr, 1 + rand(makeint(MOD_SKILL_ENEMY_RATE*0.5))));
+				PGG_AddMoneyToCharacter(chr, PGG_AddShipsBattleExp(chr, 1 + rand(makeint(MOD_SKILL_ENEMY_RATE*1.5))));
 			}
 		}
 	}
@@ -973,7 +1009,7 @@ int PGG_AddShipsBattleExp(ref chr, int _shipsNum)
 	float fMod = MOD_SKILL_ENEMY_RATE * EXP_MODIFIER * _shipsNum;
 
 	AddCharacterExpToSkill(chr, SKILL_ACCURACY, fMod*29.4 + FRAND(100.0));
-	AddCharacterExpToSkill(chr, SKILL_SAILING, fMod*7.0);
+	AddCharacterExpToSkill(chr, SKILL_SAILING, fMod*14.0);
 	AddCharacterExpToSkill(chr, SKILL_CANNONS, makefloat((12+rand(80))*12.5));
 
 	sDebugStr = chr.id + " fight with " + _shipsNum + " ships.";
@@ -994,9 +1030,9 @@ int PGG_AddShipsBattleExp(ref chr, int _shipsNum)
 		else
 		{
 			AddCharacterExpToSkill(chr, SKILL_ACCURACY, fMod * 40);
-			AddCharacterExpToSkill(chr, SKILL_SAILING, fMod * 70);
+			AddCharacterExpToSkill(chr, SKILL_SAILING, fMod * 140);
 			AddCharacterExpToSkill(chr, SKILL_CANNONS, fMod * 40);
-			AddCharacterExpToSkill(chr, SKILL_SAILING, fMod * 100);
+			AddCharacterExpToSkill(chr, SKILL_SAILING, fMod * 200);
 			sDebugStr += " Destroyed them.";
 		}
 
@@ -1027,7 +1063,7 @@ int PGG_AddShipsBattleExp(ref chr, int _shipsNum)
 		iMoney += rand(100)*10*i;
 	}
 	PGG_DebugLog(sDebugStr);
-	return iMoney * _shipsNum;
+	return iMoney * _shipsNum * 4;
 }
 
 //прокачка перков на полученные очки
@@ -1365,6 +1401,36 @@ string PGG_FindRandomTownByNation(int _nation)
 	return sTowns[rand(n-1)];
 }
 
+//получить ID случайного города по нации. Будет для раскидывания ПГГ в начале игры по миру.
+string PGG_FindRandomTown(ref chr)
+{
+	
+	string town = "";
+	if(chr.sex == "skeleton")
+	{
+		switch (rand(3))
+		{
+			case 0:
+				town = "PortRoyal";
+			break;
+			case 1:
+				town = "BasTer";
+			break;
+			case 2:
+				town = "Havana";
+			break;
+			case 3:
+				town = "Villemstad";
+			break;
+		}
+		return town;
+	}
+	else
+	{
+		return PGG_FindRandomTownByNation(sti(chr.nation));
+	}
+}
+
 //грузить или нет ПГГ в таверну.
 void PGG_TavernCheckIsPGGHere()
 {
@@ -1378,7 +1444,7 @@ void PGG_TavernCheckIsPGGHere()
 			//квест от ПГГ. Только от одного. И ГГ еще не занят в квесте.
 			if (!CheckAttribute(pchar, "GenQuest.PGG_Quest") && PGG_CheckForQuestOffer(chr)) continue;
 			//в таверне или нет.
-			if (rand(1) == 1 && !CheckAttribute(chr, "PGGAi.Task.SetSail"))
+			if (rand(1) == 1 && !CheckAttribute(chr, "PGGAi.Task.SetSail") && chr.sex != "skeleton")
 			{
 				PGG_PlaceCharacter2Tavern(chr, true);
 				PGG_DebugLog("PGG " + chr.id + " in tavern");
@@ -1391,6 +1457,57 @@ void PGG_TavernCheckIsPGGHere()
 	}
 }
 
+void PGG_GraveyardCheckIsPGGHere(ref location)
+{
+	if(HasSubStr(location.id,"Graveyard"))	
+	{
+		ref chr;
+		int i;
+		bool hasPGG = false;
+		for (i = 1; i <= PsHeroQty; i++)
+		{
+			chr = CharacterFromID("PsHero_" + i);
+			if (findsubstr(pchar.location, chr.PGGAi.location.town, 0) != -1 && !LAi_IsDead(chr) && chr.PGGAi.location != "Dead") //закрыл дополнительно.
+			{
+				//квест от ПГГ. Только от одного. И ГГ еще не занят в квесте.
+				if (!CheckAttribute(pchar, "GenQuest.PGG_Quest") && PGG_CheckForQuestOffer(chr)) continue;
+				//в таверне или нет.
+				if (rand(1) == 1 && !CheckAttribute(chr, "PGGAi.Task.SetSail") && chr.sex == "skeleton")
+				{
+					PGG_PlaceCharacter2Graveyard(chr, true);
+					PGG_DebugLog("PGG " + chr.id + " in graveyard");
+					LAi_LocationFightDisable(location, true);
+					hasPGG = true;
+				}
+				else
+				{
+					PGG_PlaceCharacter2Graveyard(chr, false);
+				}
+			}
+		}
+		if (!hasPGG)
+		{
+			LAi_LocationFightDisable(location, false);
+		}
+	}
+}
+
+void PGG_PlaceCharacter2Graveyard(ref chr, bool _bSet)
+{
+	int n = 0;
+	string sTemp;
+
+	if (_bSet)
+	{
+		sTemp = PlaceCharacter(chr, "goto", "random_free");
+		LAi_SetWarriorType(chr);
+	}
+	else
+	{
+		ChangeCharacterAddressGroup(chr, "None", "", "");
+		LAi_SetWarriorType(chr);
+	}
+}
 //посадить или убрать ПГГ из таверны.
 void PGG_PlaceCharacter2Tavern(ref chr, bool _bSet)
 {
@@ -1409,7 +1526,33 @@ void PGG_PlaceCharacter2Tavern(ref chr, bool _bSet)
 		//Log_TestInfo(sTemp);
 		//Log_TestInfo(FloatToString(findsubstr(sTemp, "_" , 0),1));
 		if (findsubstr(sTemp, "_bar" , 0) != -1) LAi_SetBarmanType(chr);
-		else LAi_SetSitType(chr);
+		else 
+		{
+			if (findsubstr(sTemp, "sit" , 0) == -1)
+			{
+				PlaceCharacter(chr, "tables", "random_free");
+				switch (rand(2))
+				{
+					case 0:
+						LAi_SetStayType(chr);
+					break;
+					case 1:
+						LAi_SetWarriorType(chr);
+						if(chr.model.animation == "man")
+						{
+							LAi_SetGroundSitType(chr);
+						}
+					break;
+					case 2:
+						LAi_SetWarriorType(chr);
+					break;
+				}
+			}
+			else
+			{
+				LAi_SetSitType(chr);
+			}
+		}
 	}
 	else
 	{
@@ -1916,7 +2059,7 @@ void PGG_Q1AfterSeaFight(string qName)
 	chr.RebirthPhantom = true;
 	if (chr.PGGAi.location.town == "none") 
 	{
-		chr.PGGAi.location.town = PGG_FindRandomTownByNation(sti(chr.nation));
+		chr.PGGAi.location.town = PGG_FindRandomTown(chr);
 	}
 
 	Group_SetAddress("PGGQuest", "None", "", "");
@@ -2320,7 +2463,7 @@ void PGG_Q1EndClear(string qName)
 
 	if(!CheckAttribute(chr, "PGGAfterShare"))
 	{
-		chr.PGGAi.location.town = PGG_FindRandomTownByNation(sti(chr.nation));
+		chr.PGGAi.location.town = PGG_FindRandomTown(chr);
 	}
 	else
 	{

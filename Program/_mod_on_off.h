@@ -2,7 +2,7 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2 ATR  "
-#define VERSION_NUMBER2       "CSP v2.1.4 (30.03.2021)"
+#define VERSION_NUMBER2       "CSP v2.2.0b (Лето 2021)"
 #define VERSION_NUMBER3       ""
 #define PROVIDER_TXT            "LEOPARD's team - MaelStrom edition"
 #define VERSION_NUM      99910  // текущий номер
@@ -90,8 +90,13 @@ bool   bNoBonusSkillOff             = false;
 //Взятки стражникам
 bool   bBribeSoldiers               = false;
 //система скрытности
-int iStealthSystem = 1;
-
+int 	iStealthSystem = 1;
+//заполнение энциклопедии
+bool 	bFillEncyShips              = false;
+//альтернативный баланс
+bool 	bAltBalance                 = false;
+//Разговор местных жителей
+bool 	bCharVoice                 = false;
 
 // платный сайв-лоад
 //bool    bPayForSaveLoad           = true;

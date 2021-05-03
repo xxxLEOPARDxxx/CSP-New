@@ -276,6 +276,30 @@ int CreateStoryCharacters(int n)
 	ch.greeting = "Gr_MiddPirate";
 	LAi_group_MoveCharacter(ch, LAI_GROUP_PLAYER_OWN);
 	n = n + 1;
+	
+	makeref(ch,Characters[n]);			// ЅилетЄр :)
+	ch.id		= "ArenaBileter";
+	ch.model	= "trader_9";
+	ch.sex 		= "man";
+	ch.City 	= "";
+	ch.location	= "none";
+	ch.location.group = "";
+	ch.location.locator = "";
+	ch.Dialog.Filename = "ArenaBileter_dialog.c";
+	ch.Dialog.CurrentNode = "First Time";
+	ch.greeting = "Gr_ArenaBileter";
+	ch.nation = PIRATE;
+	ch.quest.type = "";
+	//ch.watchBoxes = true;
+	SetRandSPECIAL(ch);
+    	SetSelfSkill(ch, 30, 30, 70, 50, 30);
+    	SetShipSkill(ch, 30, 50, 30, 30, 40, 70, 30, 25, 70)
+	ch.standUp = true;
+	LAi_SetStayType(ch);
+	LAi_RemoveLoginTime(ch);
+	LAi_group_MoveCharacter(ch, "FENCING_TOWN_CITIZENS");
+	LAi_SetImmortal(ch, true);
+	n = n + 1;
 
 	return n;
 }

@@ -154,11 +154,14 @@ void Item_OnEnterLocator(aref _location, string _locator)
 			{
 			if (Items[itemN].startLocation == _location.id)
 			{
-				Log_SetActiveAction("Pick");
-				chr.activeItem = itemN;
-				chr.activeLocator = _locator;
-				chr.activeRandItem = false;
-				chr.activeItem.pick = true;
+				if (!CheckAttribute(pchar,"CantTakeItems"))
+				{
+					Log_SetActiveAction("Pick");
+					chr.activeItem = itemN;
+					chr.activeLocator = _locator;
+					chr.activeRandItem = false;
+					chr.activeItem.pick = true;
+				}
 			}}}
 		}
 	}
@@ -551,15 +554,13 @@ void RandItem_OnEnterLocator(aref _location, string _locator)
 // ****************** BOXES ********************
 void Box_EnterToLocator(aref loc, string locName)
 {
-	//blackthorn
-	//spawnToughSkeleton(loc);
 	if(!CheckAttribute(loc,locName)) return;
 		
 	if(HasSubStr(locName, "private"))
 	{
 		// check if private box opened
 		if(!CheckAttribute(loc, locName+".opened"))
-			{
+		{
 			if(CheckAttribute(loc, locName+".key")) 
 			{
 				if(CheckCharacterItem(pchar, loc.(locName).key)) //провер€ем ключ
@@ -577,7 +578,7 @@ void Box_EnterToLocator(aref loc, string locName)
 					Log_SetStringToLog(XI_ConvertString("You have not need key"));
 					PlaySound("interface\box_locked.wav");
 					return;
-			}
+				}
 			}
 			else
 			{	
@@ -586,9 +587,9 @@ void Box_EnterToLocator(aref loc, string locName)
 					Log_SetStringToLog(XI_ConvertString("Box is closed"));
 					PlaySound("interface\door_locked.wav");
 					return;
+				}
 			}
 		}
-	}
 	}
 	
 	// Warship 15.08.09 ѕроверка на квестовую закрытость сундуков (не только приватов, вообще всех)

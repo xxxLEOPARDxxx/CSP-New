@@ -19,8 +19,9 @@ int GetCharacterRankRateCur(ref _refCharacter)
 // прирост НР
 int GetCharacterAddHPValue(ref _refCharacter)
 {
-    int ret = makeint(2 + GetCharacterSPECIAL(_refCharacter, SPECIAL_E) * 0.55 + 0.5);
-	return ret;
+    int E = sti(_refCharacter.SPECIAL.Endurance);
+    int ret = makeint(2 + E * 0.55 + 0.5);
+    return ret;
 }
 
 int GetCharacterBaseHPValue(ref _refCharacter)
@@ -89,7 +90,14 @@ float GetCharacterMaxEnergyABSValue(ref _refCharacter)
 //Korsar Maxim --> добавляем и убираем бонусную энергию для перса
 void AddBonusEnergyToCharacter(ref _refCharacter, int iEnrg)
 {
-	_refCharacter.bonusEnergy = iEnrg;
+	if(CheckAttribute(_refCharacter, "bonusEnergy"))
+	{//Теперь бонусы суммируются а не переписывают друг друга
+		_refCharacter.bonusEnergy = sti(_refCharacter.bonusEnergy) + iEnrg;
+	}
+	else
+	{
+		_refCharacter.bonusEnergy = iEnrg;
+	}
 	SetEnergyToCharacter(_refCharacter);
 }
 
@@ -206,7 +214,7 @@ void SetRandSPECIAL(ref _refCharacter)  // Для всех
                (6 + rand(4)),
                (4 + rand(6)),
                (6 + rand(4)),
-               (6 + rand(4)),
+               (7 + rand(3)),
                (4 + rand(6)));
 }
 void SetRandSPECIAL_F(ref _refCharacter)  // для абордажников
@@ -217,7 +225,7 @@ void SetRandSPECIAL_F(ref _refCharacter)  // для абордажников
                (6 + rand(4)),
                (2 + rand(6)),
                (4 + rand(4)),
-               (6 + rand(4)),
+               (7 + rand(3)),
                (2 + rand(8)));
 }
 
@@ -278,7 +286,13 @@ int ApplayNavyPenaltyToSkill(ref _refCharacter, string skillName, int sumSkill)
 			sumSkill = sumSkill - sailSkill;
 	        if (sumSkill < 1) sumSkill = 1;
         }
+		if (CheckAttribute(_refCharacter,"chr_ai.Trauma")) sumSkill = sumSkill - 20; //штраф от травмы - Gregg
+		if (CheckAttribute(_refCharacter,"chr_ai.HeavyTrauma")) sumSkill = sumSkill - 30; //штраф от тяжелой травмы - Gregg
     }
+	else
+	{
+		if (CheckAttribute(_refCharacter,"chr_ai.Trauma")) sumSkill = sumSkill - 20; //штраф от травмы - Gregg
+	}
     return  sumSkill;
 }
 // с пенальти и вещами +1
@@ -583,6 +597,20 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 		worldMap.stormDistKill = 190.0+P;				//Расстояние на котором убиваем шторм
 		worldMap.stormBrnDistMin = 100.0+P;			//Минимальное растояние на котором рожается шторм
 		worldMap.stormBrnDistMax = 140.0+P;			//Максимальное растояние на котором рожается шторм
+		
+		if(sti(pchar.questTemp.bloodingcount) >= 50) UnlockAchievement("AchBlood", 1);
+		if(sti(pchar.questTemp.bloodingcount) >= 150) UnlockAchievement("AchBlood", 2);
+		if(sti(pchar.questTemp.bloodingcount) >= 300) UnlockAchievement("AchBlood", 3);
+		if(sti(pchar.questTemp.swiftcount) >= 50) UnlockAchievement("AchStanS", 1);
+		if(sti(pchar.questTemp.swiftcount) >= 150) UnlockAchievement("AchStanS", 2);
+		if(sti(pchar.questTemp.swiftcount) >= 300) UnlockAchievement("AchStanS", 3);
+		if(sti(pchar.questTemp.stuncount) >= 50) UnlockAchievement("AchStanH", 1);
+		if(sti(pchar.questTemp.stuncount) >= 150) UnlockAchievement("AchStanH", 2);
+		if(sti(pchar.questTemp.stuncount) >= 300) UnlockAchievement("AchStanH", 3);
+		if(sti(pchar.questTemp.traumacount) >= 50) UnlockAchievement("AchTravma", 1);
+		if(sti(pchar.questTemp.traumacount) >= 150) UnlockAchievement("AchTravma", 2);
+		if(sti(pchar.questTemp.traumacount) >= 300) UnlockAchievement("AchTravma", 3);
+		
 	}
 	
     // трем кэш
@@ -721,7 +749,18 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
             AddMsgToCharacter(_chref,MSGICON_LEVELUP);
             Log_SetStringToLog(XI_ConvertString("Level Up"));
             PlayStereoSound("interface\new_level.wav");
+		// Достижение за уровень
+		if(sti(_chref.rank) == 10) UnlockAchievement("rank", 1); // 10 уровень
+		if(sti(_chref.rank) == 25) UnlockAchievement("rank", 2); // 25 уровень
+		if(sti(_chref.rank) == 40) UnlockAchievement("rank", 3); // 40 уровень													  
         }
+		if (sti(_chref.index) == GetMainCharacterIndex())
+		{
+			if(sti(_chref.rank) == 10)
+			{
+				UnexpectedInheritance();
+			}
+		}
     }
 }
 // по специал распередить скилы
@@ -1065,6 +1104,11 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
                 skillN = skillN + 5*(GetHealthNum(_refCharacter) - 6); // max -5
             }
         }
+		///////////// Оружие -->
+		skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_LEADERSHIP, "topor_emperor", 20);			// {Императорский топор}
+		skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SNEAK, "topor_emperor", -30);				// {Императорский топор}
+		///////////// Оружие <--
+		
 		///////////// Иконки слева (Камни/бижутерия)  -->
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_LEADERSHIP, "jewelry4", 10);			// {Изумруд}							(+10 авторитет)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_FORTUNE, "jewelry8", 10);				// {Бронзовое кольцо} 					(+10 к везению)
@@ -1085,6 +1129,8 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_FORTUNE, "DeSouzaCross", 30);			// {Крест Антонио де Соуза} 			(+30 к везению, +20 к авторитету, +10 к торговле)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_LEADERSHIP, "DeSouzaCross", 20);		// {Крест Антонио де Соуза} 			(+30 к везению, +20 к авторитету, +10 к торговле)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_COMMERCE, "DeSouzaCross", 10);		// {Крест Антонио де Соуза} 			(+30 к везению, +20 к авторитету, +10 к торговле)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SNEAK, "DHGlove", -15);		// {Темпоральный деформатор} 			(-15 к скрытности, +25 к авторитету при ношении)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_LEADERSHIP, "DHGlove", 25);		// {Темпоральный деформатор} 			(-15 к скрытности, +25 к авторитету при ношении)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_LEADERSHIP, "indian1", 10);			// {Оберег Тлальчитонатиу}				(+10 авторитет и скрытность, -20 пистолеты)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SNEAK, "indian1", 10);				// {Оберег Тлальчитонатиу}				(+10 авторитет и скрытность, -20 пистолеты)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_PISTOL, "indian1", -20);				// {Оберег Тлальчитонатиу}				(+10 авторитет и скрытность, -20 пистолеты)
@@ -1138,8 +1184,8 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "mineral4", -10);			// {Баклан}								(-10 авторитет и  -10 скрытность)
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "mineral4", -10);				// {Баклан}								(-10 авторитет и  -10 скрытность)
     	skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "indian2", -10);			// {Пугающая фигурка} 					(-10 авторитет)
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "SkullAztec", -20);			// {Нефритовый череп}					(-30 удача, +10 лидерство)
-		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "SkullAztec", 10);		// {Нефритовый череп}					(-30 удача, +10 лидерство)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FORTUNE, "SkullAztec", -20);			// {Нефритовый череп}					(-20 везение, +10 лидерство)
+		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "SkullAztec", 10);		// {Нефритовый череп}					(-20 везение, +10 лидерство)
 		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_PISTOL, "KnifeAztec", -30);			// {Обсидиановый церемониальный нож} 	(-30 пистолеты, -20 во все остальные типы оружия)
 		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_LIGHT, "KnifeAztec", -20);			// {Обсидиановый церемониальный нож} 	(-30 пистолеты, -20 во все остальные типы оружия)
 		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_FENCING, "KnifeAztec", -20);			// {Обсидиановый церемониальный нож} 	(-30 пистолеты, -20 во все остальные типы оружия)
@@ -1588,6 +1634,44 @@ int Statistic_AddValue(ref _chref, string _attrName, int _add) // set and get(_a
     {
         _chref.Statistic.(_attrName) = 0;
     }
+	//Открываем достижения
+	// --->
+	if(_add > 0)
+	{
+		int monstersall = sti(_chref.Statistic.Monster_s)+sti(_chref.Statistic.Monster_g);
+		int killsall = sti(_chref.Statistic.Solder_s)+sti(_chref.Statistic.Citizen_s)+sti(_chref.Statistic.Warrior_s)+sti(_chref.Statistic.Monster_s)+sti(_chref.Statistic.Solder_g)+sti(_chref.Statistic.Citizen_g)+sti(_chref.Statistic.Warrior_g)+sti(_chref.Statistic.Monster_g);
+		int killshipsall = sti(_chref.Statistic.KillShip_1)+sti(_chref.Statistic.KillShip_2)+sti(_chref.Statistic.KillShip_3)+sti(_chref.Statistic.KillShip_4)+sti(_chref.Statistic.KillShip_5)+sti(_chref.Statistic.KillShip_6)+sti(_chref.Statistic.KillShip_7)+sti(_chref.Statistic.AbordShip_1)+sti(_chref.Statistic.AbordShip_2)+sti(_chref.Statistic.AbordShip_3)+sti(_chref.Statistic.AbordShip_4)+sti(_chref.Statistic.AbordShip_5)+sti(_chref.Statistic.AbordShip_6)+sti(_chref.Statistic.AbordShip_7)+sti(_chref.Statistic.KillAbordShip_1)+sti(_chref.Statistic.KillAbordShip_2)+sti(_chref.Statistic.KillAbordShip_3)+sti(_chref.Statistic.KillAbordShip_4)+sti(_chref.Statistic.KillAbordShip_5)+sti(_chref.Statistic.KillAbordShip_6)+sti(_chref.Statistic.KillAbordShip_7);
+		
+		/*
+		string statshipinfo;
+		for (i = 1; i< 8; i++)
+		{
+			statshipinfo = "KillShip_" + i;
+			killshipsall += sti(_chref.Statistic.(statshipinfo));
+			
+			statshipinfo = "AbordShip_" + i;
+			killshipsall += sti(_chref.Statistic.(statshipinfo));
+			
+			statshipinfo = "KillAbordShip_" + i;
+			killshipsall += sti(_chref.Statistic.(statshipinfo));
+		}*/
+		
+		// Убийства нежити
+		if(monstersall >= 30) UnlockAchievement("skel_kills", 1);
+		if(monstersall >= 75) UnlockAchievement("skel_kills", 2);
+		if(monstersall >= 150) UnlockAchievement("skel_kills", 3);
+
+		// Общие убийства
+		if(killsall >= 50) UnlockAchievement("kills", 1);
+		if(killsall >= 150) UnlockAchievement("kills", 2);
+		if(killsall >= 500) UnlockAchievement("kills", 3);
+		
+		// Потопления кораблей
+		if(killshipsall >= 10) UnlockAchievement("ship_kills", 1);
+		if(killshipsall >= 35) UnlockAchievement("ship_kills", 2);
+		if(killshipsall >= 70) UnlockAchievement("ship_kills", 3);
+	}
+	// <---								
     return sti(_chref.Statistic.(_attrName));
 }
 void Statistic_KillChar(aref _attack, aref _enemy, string _attrName)
@@ -2277,11 +2361,186 @@ void setNewMainCharacter(ref ch, int num)
 
 }
 
+void SetAllAchievements(int level)
+{
+	if (level == 0)
+	{
+		pchar.Statistic.Solder_g = 0
+		pchar.Statistic.Solder_s = 0
+		pchar.Statistic.Citizen_g = 0
+		pchar.Statistic.Citizen_s = 0
+		pchar.Statistic.Monster_g = 0
+		pchar.Statistic.Monster_s = 0
+		pchar.Statistic.Warrior_g = 0
+		pchar.Statistic.Warrior_s = 0
+		for(int i=1; i<8; i++)
+		{
+			string KS = "KillShip_"+i;
+			string AS = "abordship_"+i;
+			string KAS = "killabordship_"+i;
+			pchar.Statistic.(KS) = 0;
+			pchar.Statistic.(AS) = 0;
+			pchar.Statistic.(KAS) = 0;
+		}
+		
+		pchar.questTemp.depositcount = 0;
+		pchar.questTemp.taxescount = 0;
+		pchar.questTemp.bribescount = 0;
+		pchar.questTemp.treasurecount = 0;
+		pchar.questTemp.craftcount = 0;
+		pchar.questTemp.stonescount = 0;
+		pchar.questTemp.bookcount = 0;
+		pchar.questTemp.poisoncount = 0;
+		pchar.questTemp.criticalcount = 0;
+		pchar.questTemp.bloodingcount = 0;
+		pchar.questTemp.swiftcount = 0;
+		pchar.questTemp.stuncount = 0;
+		pchar.questTemp.traumacount = 0;
+		pchar.questTemp.craftcount = 0;
+		pchar.questTemp.healcount = 0;
+		pchar.questTemp.genquestcount = 0;
+		pchar.questTemp.officercount = 0;
+		pchar.questTemp.chestcount = 0;
+		pchar.questTemp.colonystate = 0;
+		pchar.questTemp.foodcount = 0;
+		pchar.questTemp.duelcount = 0;
+		pchar.questTemp.tournamentcount = 0;
+		pchar.questTemp.shipordercount = 0;
+		pchar.questTemp.shipsearchcount = 0;
+		pchar.questTemp.GoldFleetNum = 0;
+	}
+	pchar.achievements.rank = level; // Достижение за ранг 175
+	
+	pchar.achievements.money = level; // Достижение за общее кол-во денег 175
+	pchar.achievements.bank_money = level; // Общее сумма вкладов в банк 100
+	
+	if(bPortPermission) pchar.achievements.taxes = level;	// Кол-во оплаченных портовых сборов 175 ---
+	if(bBribeSoldiers) pchar.achievements.AchVzyatka = level; // Кол-во выданных взяток  175 ---
+	
+	pchar.achievements.AchTreasure = level; // Достижение за клады 175
+	pchar.achievements.AchChest = level; // Достижение за сундуки 175
+	
+	pchar.achievements.kills = level; // Кол-во убийств 175
+	pchar.achievements.ship_kills = level; // Кол-во потопленных кораблей 175
+	pchar.achievements.skel_kills = level; // Кол-во убийств нежити 175
+	pchar.achievements.poisons = level; // Кол-во отравленных врагов 175
+	pchar.achievements.criticals = level; // Кол-во критических ударов 175
+	pchar.achievements.AchBlood = level; // Достижение за кровотечения 175
+	pchar.achievements.AchTravma = level; // Достижение за травму 175
+	pchar.achievements.AchStanS = level; // Достижение за резкий 175
+	pchar.achievements.AchStanH = level; // Достижение за станы 175
+	
+	pchar.achievements.craft = level; // Кол-во созданных предметов 175
+	pchar.achievements.books = level; // Кол-во прочитанных книг 175
+	
+	pchar.achievements.officers = level; // Кол-во нанятых офицеров 175
+	pchar.achievements.ships = level; // Кол-во кораблей в эскадре 175
+	
+	pchar.achievements.heal_bottles = level; // Кол-во выпитых зелий 175
+	pchar.achievements.AchFood = level; // Достижение за еду 175
+	
+	pchar.achievements.AchTurnir = level; // Турниры 175
+	pchar.achievements.AchDuelyant = level; // Дуэлянт 175
+	pchar.achievements.AchShipOrder = level; // Заказы коров :) 175
+	pchar.achievements.AchSityRobbery = level; //Грабеж городов 175
+	pchar.achievements.AchGoldFleet = level; //Потопление ЗФ 175
+	if(bFillEncyShips) pchar.achievements.AchShipSearch = level; // Изучить все кораблики 100
+	pchar.achievements.AchBuildColony = level; // Достижение за колонию 175
+	pchar.achievements.gen_quests = level; // Общее кол-во выполненных генераторных квестов 175
+	
+	pchar.achievements.LSC_quest = level; // Выполнение квеста "ГПК" 100
+	pchar.achievements.Teno_quest = level; // Выполнение квеста "Теночтитлан" 100
+	pchar.achievements.Ghostship_quest = level; // Выполнение квеста "Корабль-призрак" 100
+	pchar.achievements.Enchantcity_quest = level; // Выполнение квеста "Зачарованный город" 100
+	
+	pchar.achievements.Killbeggars_quest = level; // Выполнение квеста "Убить всех нищих" 100
+	pchar.achievements.Bluebird_quest = level; // Выполнение квеста "Уничтожить шебеку СП" 100
+	pchar.achievements.Berglarsgang_quest = level; // Выполнение квеста "Банда грабителей и убийц Остина" 100
+	pchar.achievements.Mummydust_quest = level; // Выполнение квеста "Поиски порошка мумии" 100
+	pchar.achievements.Isabella_quest = level; // Выполнение квеста "История прекрасной Изабеллы" 100
+	if(Pchar.questTemp.CapBloodLine == 1) pchar.achievements.CapBladLine = level; // Выполнение линейки Блада 100
+	if(CheckAttribute(Pchar,"questTemp.WhisperFuture")) pchar.achievements.WhisperLine = level; // Выполнение линейки Виспер 100
+	pchar.achievements.Nation_quest_E = level; // Выполнение национальной линейки квестов 100 ---
+	pchar.achievements.Nation_quest_F = level; // Выполнение национальной линейки квестов 100 ---
+	pchar.achievements.Nation_quest_H = level; // Выполнение национальной линейки квестов 100 ---
+	pchar.achievements.Nation_quest_S = level; // Выполнение национальной линейки квестов 100 ---
+	pchar.achievements.Nation_quest_P = level; // Выполнение национальной линейки квестов 100 ---
+	
+	// Всего очков доступных для получения: 6700 (по 100-175 на каждое достижение) - мне лень пересчитывать (Калькулятор запили блеать, LEOPARD :) )
+	// Гарантированно можно получить 5900 очков достижений, если исключать 4 линейки наций, линейки за персонажей и опционалки
+	// Всего достижений: 46
+	// При пересчёте возможных к получению в 1 партии был максимум в... 5050. Всего достижений: 46
+}
+
+void CreateOreModels()
+{
+	int ore1 = 0;
+	int ore2 = 0;
+	int ore3 = 0;
+	int ore4 = 0;
+	
+	string locid;
+	
+	for(int i=0; i<nLocationsNum; i++)
+	{
+		if(locations[i].filespath.models == "locations\inside\DungeonDuffer1")
+		{
+			locid = locations[i].id;
+			pchar.GenQuestRandItem.(locid).stay = true;
+			pchar.GenQuestRandItem.(locid).randitem1 = "ore_mining1";
+			pchar.GenQuestRandItem.(locid).randitem2 = "ore_mining3";
+
+			ore1++;
+			ore3++;
+		}
+		
+		if(locations[i].filespath.models == "locations\inside\DungeonDuffer2")
+		{
+			locid = locations[i].id;
+			pchar.GenQuestRandItem.(locid).stay = true;
+			pchar.GenQuestRandItem.(locid).randitem1 = "ore_mining1";
+			pchar.GenQuestRandItem.(locid).randitem2 = "ore_mining2";
+			pchar.GenQuestRandItem.(locid).randitem3 = "ore_mining3";
+			pchar.GenQuestRandItem.(locid).randitem4 = "ore_mining4";
+
+			ore1++;
+			ore2++;
+			ore3++;
+			ore4++;
+		}
+		
+		if(locations[i].filespath.models == "locations\inside\grotto1")
+		{
+			locid = locations[i].id;
+			pchar.GenQuestRandItem.(locid).stay = true;
+			pchar.GenQuestRandItem.(locid).randitem1 = "ore_mining1";
+			
+			ore1++;
+		}
+		
+		if(locations[i].filespath.models == "locations\inside\grotto2")
+		{
+			locid = locations[i].id;
+			pchar.GenQuestRandItem.(locid).stay = true;
+			pchar.GenQuestRandItem.(locid).randitem1 = "ore_mining2";
+			
+			ore2++;
+		}
+	}
+	
+	
+	Log_TestInfo("Локаций проверено всего: " + nLocationsNum);
+	Log_TestInfo("Железных жил создано: " + ore1);
+	Log_TestInfo("Серебряных жил создано: " + ore2);
+	Log_TestInfo("Золотых жил создано: " + ore3);
+	Log_TestInfo("Угольных жил создано: " + ore4);
+}
 void initNewMainCharacter()
 {
 	ref ch = GetMainCharacter();
 	string sTemp;
 	int    iTmp, i;
+	pchar.ach_points = 0; // Устанавливаем общее кол-во очков достижений на 0 
 
     setNewMainCharacter(ch, startHeroType);
     // контроль версий -->
@@ -2364,6 +2623,7 @@ void initNewMainCharacter()
 	AddQuestRecordInfo("Tutorial_ChangeLog", "1");
 
 	ReloadProgressUpdate();
+	pchar.questTemp.Achievements.Points = "0" // Очки достижений на ноль
 
  	SetNationRelations();
  	// от кого драпаем
@@ -2506,6 +2766,7 @@ void initNewMainCharacter()
 	
 	// Установим начальный дневной рандом
 	PChar.DayRandom = Random();
+	SetAllAchievements(0); // Обнуляем все достижения	
 }
 
 void initMainCharacterItem()

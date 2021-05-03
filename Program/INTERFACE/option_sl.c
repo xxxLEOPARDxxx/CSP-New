@@ -117,6 +117,12 @@ void GetRealOptions(ref optref)
 	} else {
 		optref.cameramode.EnabledFXMarks = true;
 	}
+	
+	if( CheckAttribute(&InterfaceStates,"EnabledCMControls") ) {
+		optref.cameramode.EnabledCMControls = sti(InterfaceStates.EnabledCMControls);
+	} else {
+		optref.cameramode.EnabledCMControls = true;
+	}
 
 	if( CheckAttribute(&InterfaceStates,"EnabledShipMarks") ) {
 		optref.cameramode.EnabledShipMarks = sti(InterfaceStates.EnabledShipMarks);
@@ -273,6 +279,12 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.EnabledFXMarks = optref.cameramode.EnabledFXMarks;
 	} else {
 		InterfaceStates.EnabledFXMarks = true;
+	}
+	
+	if( CheckAttribute(optref,"cameramode.EnabledCMControls") ) {
+		InterfaceStates.EnabledCMControls = optref.cameramode.EnabledCMControls;
+	} else {
+		InterfaceStates.EnabledCMControls = false;
 	}
 
 	if( CheckAttribute(optref,"cameramode.EnabledShipMarks") ) {

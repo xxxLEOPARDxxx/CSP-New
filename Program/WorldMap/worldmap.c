@@ -132,6 +132,8 @@ void wdmCreateWorldMap()
 	worldMap.date.monthnames.m11 = XI_ConvertString("target_month_11");
 	worldMap.date.monthnames.m12 = XI_ConvertString("target_month_12");
 	worldMap.date.font = "normal";
+	worldMap.showFlag.count = 10;
+	worldMap.showFlag.texture = "flagallWDM" + iFlagAllWdm + ".tga";  //path to texture if not in root: "WorldMap\Interfaces\texturename.tga.tx"
 	//#20200226-03
 	worldMap.outputRum = true;			   
 	worldMap.resizeRatio = fHtRatio;
@@ -163,6 +165,7 @@ void wdmCreateWorldMap()
 	//Создаём накопившиеся квестовые энкоунтеры
 	worldMap.addQuestEncounters = "updateQuest";
 	InitWmInterface();
+	SendMessage(&worldMap, "ll", MSG_WORLDMAP_FLAG_SET,  sti(pchar.nation)); //Zero based array
 }
 
 void wdmLoadSavedMap()

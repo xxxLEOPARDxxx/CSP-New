@@ -1,3 +1,35 @@
+//////////////////////////////////////// Спец свойства ХО ///////////////////////////////////////////////////
+
+/* 
+	itm.special.valueBB = 100; 	//Пролом блока
+	itm.special.valueCrB = 100; //Буст крита
+	itm.special.valueCB = 100; 	//Пролом кирасы
+	itm.special.valueSS = 100; 	//Резкий удар
+	itm.special.valueStS = 100; //Стан
+	itm.special.valueT = 100; 	//Травмы
+	itm.special.valueB = 100; 	//Кровоток
+	itm.special.valueP = 100; 	//Отравление
+	
+	itm.points_shop = 1; //атрибут для ачивок
+*/
+
+//////////////////////////////////////// Спец свойства ХО ///////////////////////////////////////////////////
+
+//////////////////////////////////////// Крафт ///////////////////////////////////////////////////
+
+/*  Это всё нужно дописывать для определённого итема, чтобы он появился в списке крафта
+
+    itm.CraftedItem = "grenade";
+    itm.CraftFor = "Blacksmith";
+    itm.ComponentsNum = 2;
+    itm.Component1 = "bullet";
+    itm.Component1Num = 5;
+    itm.Component2 = "gunpowder";
+    itm.Component2Num = 5;
+*/
+
+//////////////////////////////////////// Крафт ///////////////////////////////////////////////////
+
 int InitItems()
 {
 	InitButtons();
@@ -493,7 +525,7 @@ int InitItems()
 	n++;
 	// boal 21.05.2004 <--
 	
-	// ГПК 1.2.3 Reblading - "Дага", бывшый "Кинжал"
+	// ГПК Дага
 	makeref(itm,Items[n]);
 	itm.id = "blade5";  //Кинжал
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -530,7 +562,7 @@ int InitItems()
 	itm.Generation.Weight.max = 1.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Венецианская шпага", бывшая "Бретта"
+	// ГПК Венецианская шпага
     makeref(itm,Items[n]);
 	itm.id = "blade2";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -567,7 +599,7 @@ int InitItems()
 	itm.Generation.Weight.max = 3.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Скорпион", бывшая "Скьявона"
+	// ГПК Скорпион
 	makeref(itm,Items[n]);
 	itm.id = "blade6";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -584,6 +616,7 @@ int InitItems()
 	itm.dmg_min = 10.0 + rand(2); // 8.0;
 	itm.dmg_max = 46.0 + rand(4); // 46.0;
 	itm.piercing = 15;
+	itm.special.valueCrB = 4; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 15;
@@ -604,7 +637,7 @@ int InitItems()
 	itm.Generation.Weight.max = 2.9;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Сарагоса", бывшая "Итальянская рапира"
+	// ГПК Сарагоса
 	makeref(itm,Items[n]);
 	itm.id = "blade9";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -621,6 +654,7 @@ int InitItems()
 	itm.dmg_min = 10.0 + rand(2); // 10.0;
 	itm.dmg_max = 48.0 + rand(4); // 45.0;
 	itm.piercing = 20;
+	itm.special.valueSS = 4; //Резкий удар
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 15;
@@ -641,7 +675,7 @@ int InitItems()
 	itm.Generation.Weight.max = 2.9;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Катана", бывшая "Французская рапира"
+	// ГПК Катана
 	makeref(itm,Items[n]);
 	itm.id = "blade14";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -658,6 +692,9 @@ int InitItems()
 	itm.dmg_min = 20.0;// 20.0;
 	itm.dmg_max = 66.0;// 60.0;
 	itm.piercing = 20;
+	itm.special.valueCrB = 10; //Буст крита
+	itm.special.valueSS = 5; //Резкий удар
+	itm.special.valueBB = 3; //Пролом блока
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 60;
@@ -672,7 +709,7 @@ int InitItems()
 
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Маринера", бывшая "Германская рапира"
+	// ГПК Маринера
 	makeref(itm,Items[n]);
 	itm.id = "blade19";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -689,6 +726,8 @@ int InitItems()
 	itm.dmg_min = 12.0 + rand(2);// 12.0;
 	itm.dmg_max = 53.0 + rand(2);// 50.0;
 	itm.piercing = 20;
+	itm.special.valueCrB = 7; //Буст крита
+	itm.special.valueStS = 4; //Стан
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 60;
@@ -709,7 +748,7 @@ int InitItems()
 	itm.Generation.Weight.max = 2.7;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Испанская рапира", бывшая "Английская рапира"
+	// ГПК Испанская рапира
 	makeref(itm,Items[n]);
 	itm.id = "blade22";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -726,6 +765,8 @@ int InitItems()
 	itm.dmg_min = 12.0 + rand(2); // 13.0;
 	itm.dmg_max = 53.0 + rand(2); // 53.0;
 	itm.piercing = 44;
+	itm.special.valueCrB = 4; //Буст крита
+	itm.special.valueStS = 7; //Стан
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 73;
@@ -746,7 +787,7 @@ int InitItems()
 	itm.Generation.Weight.max = 2.7;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Бретта", бывшая "Испанская рапира"
+	// ГПК Бретта
 	makeref(itm,Items[n]);
 	itm.id = "blade23";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -763,6 +804,8 @@ int InitItems()
 	itm.dmg_min = 16.0 + rand(2); // 14.0;
 	itm.dmg_max = 56.0 + rand(9); // 55.0;
 	itm.piercing = 50;
+	itm.special.valueCrB = 12; //Буст крита
+	itm.special.valueSS = 6; //Резкий удар
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 75;
@@ -783,7 +826,7 @@ int InitItems()
 	itm.Generation.Weight.max = 2.6;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Моргана", бывшая "Рапира Моргана"
+	// ГПК Моргана
 	makeref(itm,Items[n]);
 	itm.id = "blade27";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -800,6 +843,8 @@ int InitItems()
 	itm.dmg_min = 17.0 + rand(2); // 18.0;
 	itm.dmg_max = 64.0 + rand(3); // 65.0;
 	itm.piercing = 99.0;
+	itm.special.valueStS = 9; //Стан
+	itm.special.valueSS = 9; //Резкий удар
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 99.0;
@@ -820,7 +865,7 @@ int InitItems()
 	itm.Generation.Weight.max = 2.6;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Фламберж", бывшый "Хаудеген" - LEO: перенесена в ЛО для ребаланса
+	// ГПК Фламберж
 	makeref(itm,Items[n]);
 	itm.id = "blade32";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -837,6 +882,9 @@ int InitItems()
 	itm.dmg_min = 15.0 + rand(3); // 18.0;
 	itm.dmg_max = 65.0 + rand(5); // 70.0;
 	itm.piercing = 90.0;
+	itm.special.valueBB = 4; //Пролом блока
+	itm.special.valueSS = 4; //Резкий удар
+	itm.special.valueB = 10; 	//Кровоток
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 92.0;
@@ -874,6 +922,8 @@ int InitItems()
 	itm.dmg_min = 12.0 + rand(4);
 	itm.dmg_max = 50.0 + rand(5);
 	itm.piercing = 99.0;
+	itm.special.valueBB = 7; //Пролом блока
+	itm.special.valueSS = 4; //Резкий удар
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 99.0;
@@ -911,6 +961,8 @@ int InitItems()
 	itm.dmg_min = 10.0 + rand(4);
 	itm.dmg_max = 55.0 + rand(5);
 	itm.piercing = 99.0;
+	itm.special.valueCB = 6; //Пролом кирасы
+	itm.special.valueStS = 6; //Стан
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 99.0;
@@ -948,6 +1000,7 @@ int InitItems()
 	itm.dmg_min = 15.0 + rand(3);
 	itm.dmg_max = 65.0 + rand(4);
 	itm.piercing = 99.0;
+	itm.special.valueCrB = 18; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 99.0;
@@ -972,7 +1025,7 @@ int InitItems()
 	//													ОРУЖИЕ СРЕДНЕГО ВЕСА
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// ГПК 1.2.3 Reblading - "Канонирский тесак", бывший "Дюсак"
+	// ГПК Канонирский тесак
 	makeref(itm,Items[n]);
 	itm.id = "blade1";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1009,7 +1062,7 @@ int InitItems()
 	itm.Generation.Weight.max = 6.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Пехотная сабля", бывший "Кутлас"
+	// ГПК Пехотная сабля
     makeref(itm,Items[n]);
 	itm.id = "blade4";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1046,7 +1099,7 @@ int InitItems()
 	itm.Generation.Weight.max = 6.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Клевец", бывший "Топорик"
+	// ГПК Клевец
     makeref(itm,Items[n]);
 	itm.id = "topor3";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1083,7 +1136,7 @@ int InitItems()
 	itm.Generation.Weight.max = 6.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Кайман", бывший "Малкус"
+	// ГПК Кайман
 	makeref(itm,Items[n]);
 	itm.id = "blade3";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1120,7 +1173,7 @@ int InitItems()
 	itm.Generation.Weight.max = 6.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Бильбо", бывшая "Сабля" (Ятаган?)
+	// ГПК Бильбо
 	makeref(itm,Items[n]);
 	itm.id = "blade7";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1137,6 +1190,8 @@ int InitItems()
 	itm.dmg_min = 12.0 + rand(3); // 13.0;
 	itm.dmg_max = 52.0 + rand(6); // 55.0;
 	itm.piercing = 18;
+	itm.special.valueSS = 3; //Резкий удар
+	itm.special.valueBB = 3; //Пролом блока
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 5;
@@ -1157,7 +1212,7 @@ int InitItems()
 	itm.Generation.Weight.max = 5.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Катцбальгер", бывшый "Морской тесак"
+	// ГПК Катцбальгер
     makeref(itm,Items[n]);
 	itm.id = "blade12";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1174,6 +1229,7 @@ int InitItems()
 	itm.dmg_min = 12.0 + rand(3); // 14.0;
 	itm.dmg_max = 52.0 + rand(6); // 65.0;
 	itm.piercing = 30;
+	itm.special.valueStS = 6; //Стан
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 20;
@@ -1194,7 +1250,7 @@ int InitItems()
 	itm.Generation.Weight.max = 5.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Висельник", бывшый "Кракемарт"
+	// ГПК Висельник
     makeref(itm,Items[n]);
 	itm.id = "blade18";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1211,6 +1267,8 @@ int InitItems()
 	itm.dmg_min = 12.0 + rand(3); // 16.0;
 	itm.dmg_max = 52.0 + rand(6); // 60.0;
 	itm.piercing = 35;
+	itm.special.valueCrB = 4; //Буст крита
+	itm.special.valueSS = 2; //Резкий удар
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 35;
@@ -1231,7 +1289,7 @@ int InitItems()
 	itm.Generation.Weight.max = 5.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Нобиль", бывшая "Кавалерийская сабля"
+	// ГПК Нобиль
 	makeref(itm,Items[n]);
 	itm.id = "blade30";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1248,6 +1306,9 @@ int InitItems()
 	itm.dmg_min = 20.0 + rand(5); // 18.0;
 	itm.dmg_max = 75.0 + rand(15); // 63.0;
 	itm.piercing = 55.0;
+	itm.special.valueCrB = 8; //Буст крита
+	itm.special.valueCB = 8; //Пролом кирасы
+	itm.special.valueSS = 8; //Резкий удар
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 40.0;
@@ -1268,7 +1329,7 @@ int InitItems()
 	itm.Generation.Weight.max = 4.5;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Шамшир", бывшая "Голландская пехотная сабля"
+	// ГПК Шамшир
 	makeref(itm,Items[n]);
 	itm.id = "blade31";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1283,8 +1344,10 @@ int InitItems()
 	itm.Weight = 4.6 + fRandSmall(0.2); // 4.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5); // 19.0;
-	itm.dmg_max = 60.0 + rand(3); // 64.0;
+	itm.dmg_max = 60.0 + rand(13); // 64.0;
 	itm.piercing = 50.0;
+	itm.special.valueBB = 7; //Пролом блока
+	itm.special.valueCrB = 7; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 65.0;
@@ -1300,12 +1363,12 @@ int InitItems()
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 23.0;
 	itm.Generation.dmg_max.min = 60.0;
-	itm.Generation.dmg_max.max = 63.0;
+	itm.Generation.dmg_max.max = 73.0;
 	itm.Generation.Weight.min = 4.6;
 	itm.Generation.Weight.max = 4.8;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Чиавона", бывшый "Ураган"
+	// ГПК Чиавона
 	makeref(itm,Items[n]);
 	itm.id = "blade24";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1322,6 +1385,8 @@ int InitItems()
 	itm.dmg_min = 20.0 + rand(5); // 20.0;
 	itm.dmg_max = 75.0 + rand(15); // 66.0;
 	itm.piercing = 58.0;
+	itm.special.valueSS = 12; //Резкий удар
+	itm.special.valueStS = 12; //Стан
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 45.0;
@@ -1342,7 +1407,7 @@ int InitItems()
 	itm.Generation.Weight.max = 4.5;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Карабела", бывшая "Испанская сабля"
+	// ГПК Карабела
 	makeref(itm,Items[n]);
 	itm.id = "blade25";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1359,6 +1424,8 @@ int InitItems()
 	itm.dmg_min = 20.0 + rand(5); // 21.0;
 	itm.dmg_max = 85.0 + rand(5); // 65.0;
 	itm.piercing = 60.0;
+	itm.special.valueCB = 12; //Пролом кирасы
+	itm.special.valueBB = 12; //Пролом блока
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 70.0;
@@ -1379,7 +1446,7 @@ int InitItems()
 	itm.Generation.Weight.max = 4.5;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Скаллоп", бывшый "Кортелас"
+	// ГПК Скаллоп
     makeref(itm,Items[n]);
 	itm.id = "blade34";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1394,8 +1461,10 @@ int InitItems()
 	itm.Weight = 4.6 + fRandSmall(0.2); // 5.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5); // 23.0;
-	itm.dmg_max = 60.0 + rand(3); // 70.0;
+	itm.dmg_max = 60.0 + rand(13); // 70.0;
 	itm.piercing = 90.0;
+	itm.special.valueStS = 5; //Стан
+	itm.special.valueSS = 9; //Резкий удар
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 70.0;
@@ -1411,12 +1480,12 @@ int InitItems()
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 23.0;
 	itm.Generation.dmg_max.min = 60.0;
-	itm.Generation.dmg_max.max = 63.0;
+	itm.Generation.dmg_max.max = 73.0;
 	itm.Generation.Weight.min = 4.6;
 	itm.Generation.Weight.max = 4.8;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Паппенхаймер", бывшый "Цербер"
+	// ГПК Паппенхаймер
     makeref(itm,Items[n]);
 	itm.id = "blade26";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1433,6 +1502,9 @@ int InitItems()
 	itm.dmg_min = 23.0 + rand(3); // 24.0;
 	itm.dmg_max = 80.0 + rand(15); // 70.0;
 	itm.piercing = 88.0;
+	itm.special.valueCrB = 12; //Буст крита
+	itm.special.valueStS = 6; //Стан
+	itm.special.valueCB = 6; //Пролом кирасы
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 72.0;
@@ -1470,6 +1542,9 @@ int InitItems()
 	itm.dmg_min = 35.0 + rand(5); // 6.0;
 	itm.dmg_max = 90.0 + rand(30); // 45.0;
 	itm.piercing = 50;
+	itm.special.valueCB = 16; //Пролом кирасы
+	itm.special.valueSS = 4; //Резкий удар
+	itm.special.valueStS = 4; //Стан
 	itm.minlevel = 0;
 	itm.rare = 0.1;
 	itm.block = 50;
@@ -1505,8 +1580,11 @@ int InitItems()
 	itm.Weight = 4.0 + fRandSmall(0.6);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5);
-	itm.dmg_max = 55.0 + rand(7);
+	itm.dmg_max = 55.0 + rand(17);
 	itm.piercing = 88.0;
+	itm.special.valueCB = 5; //Пролом кирасы
+	itm.special.valueBB = 5; //Пролом блока
+	itm.special.valueCrB = 4; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 72.0;
@@ -1522,7 +1600,7 @@ int InitItems()
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 25.0;
 	itm.Generation.dmg_max.min = 55.0;
-	itm.Generation.dmg_max.max = 62.0;
+	itm.Generation.dmg_max.max = 72.0;
 	itm.Generation.Weight.min = 4.0;
 	itm.Generation.Weight.max = 4.6;
 	n++;
@@ -1542,8 +1620,9 @@ int InitItems()
 	itm.Weight = 4.6 + fRandSmall(0.8);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5);
-	itm.dmg_max = 55.0 + rand(10);
+	itm.dmg_max = 55.0 + rand(20);
 	itm.piercing = 88.0;
+	itm.special.valueStS = 14; //Стан
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 72.0;
@@ -1559,7 +1638,7 @@ int InitItems()
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 23.0;
 	itm.Generation.dmg_max.min = 55.0;
-	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.dmg_max.max = 75.0;
 	itm.Generation.Weight.min = 4.6;
 	itm.Generation.Weight.max = 5.4;
 	n++;
@@ -1581,6 +1660,9 @@ int InitItems()
 	itm.dmg_min = 24.0 + rand(2);
 	itm.dmg_max = 75.0 + rand(10);
 	itm.piercing = 88.0;
+	itm.special.valueStS = 10; //Стан
+	itm.special.valueSS = 10; //Резкий удар
+	itm.special.valueCrB = 4; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 72.0;
@@ -1617,10 +1699,10 @@ int InitItems()
 	itm.picTexture = "ITEMS_3";
 	// boal 19.01.2004 -->
 	itm.price = 300;
-	itm.Weight = 10.0 + fRandSmall(2.0);  // 7;
+	itm.Weight = 9.0 + fRandSmall(2.0);  // 7;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 8.0 + rand(2); // 10.0;
-	itm.dmg_max = 49.0 + rand(11); // 60.0;
+	itm.dmg_min = 12.0 + rand(3); // 10.0;
+	itm.dmg_max = 55.0 + rand(10); // 60.0;
 	itm.piercing = 50;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -1634,12 +1716,12 @@ int InitItems()
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 8.0;
-	itm.Generation.dmg_min.max = 10.0;
-	itm.Generation.dmg_max.min = 49.0;
-	itm.Generation.dmg_max.max = 60.0;
-	itm.Generation.Weight.min = 10.0;
-	itm.Generation.Weight.max = 12.0;
+	itm.Generation.dmg_min.min = 12.0;
+	itm.Generation.dmg_min.max = 15.0;
+	itm.Generation.dmg_max.min = 55.0;
+	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.Weight.min = 9.0;
+	itm.Generation.Weight.max = 11.0;
 	n++;
 	
 	// ГПК 1.2.3 Reblading - "Кортелач", бывшый "Палаш"
@@ -1654,10 +1736,10 @@ int InitItems()
 	itm.picTexture = "ITEMS_10";
 	// boal 19.01.2004 -->
 	itm.price = 400;
-	itm.Weight = 10.0 + fRandSmall(2.0); // 9;
+	itm.Weight = 9.0 + fRandSmall(2.0); // 9;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 8.0 + rand(2); // 12.0;
-	itm.dmg_max = 49.0 + rand(11); // 65.0;
+	itm.dmg_min = 12.0 + rand(3); // 10.0;
+	itm.dmg_max = 55.0 + rand(10); // 60.0;
 	itm.piercing = 65.0;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -1671,12 +1753,12 @@ int InitItems()
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 8.0;
-	itm.Generation.dmg_min.max = 10.0;
-	itm.Generation.dmg_max.min = 49.0;
-	itm.Generation.dmg_max.max = 60.0;
-	itm.Generation.Weight.min = 10.0;
-	itm.Generation.Weight.max = 12.0;
+	itm.Generation.dmg_min.min = 12.0;
+	itm.Generation.dmg_min.max = 15.0;
+	itm.Generation.dmg_max.min = 55.0;
+	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.Weight.min = 9.0;
+	itm.Generation.Weight.max = 11.0;
 	n++;
 	
 	// ГПК 1.2.3 Reblading - "Госсемесер", бывшый "Мальтийский меч"
@@ -1693,9 +1775,11 @@ int InitItems()
 	itm.price = 450;
 	itm.Weight = 8.5 + fRandSmall(1.5); // 7.5;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 12.0 + rand(3); // 14.0;
-	itm.dmg_max = 60.0 + rand(8); // 65.0;
+	itm.dmg_min = 15.0 + rand(5); // 14.0;
+	itm.dmg_max = 75.0 + rand(15); // 65.0;
 	itm.piercing = 35;
+	itm.special.valueT = 3; //Травмы
+	itm.special.valueBB = 7; //Пролом блока
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 20;
@@ -1708,10 +1792,10 @@ int InitItems()
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 12.0;
-	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 60.0;
-	itm.Generation.dmg_max.max = 68.0;
+	itm.Generation.dmg_min.min = 15.0;
+	itm.Generation.dmg_min.max = 20.0;
+	itm.Generation.dmg_max.min = 75.0;
+	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 8.5;
 	itm.Generation.Weight.max = 10.0;
 	n++;
@@ -1730,9 +1814,11 @@ int InitItems()
 	itm.price = 500;
 	itm.Weight = 8.5 + fRandSmall(1.5); // 8;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 12.0 + rand(3); // 16.0;
-	itm.dmg_max = 60.0 + rand(8); // 70.0;
+	itm.dmg_min = 15.0 + rand(5); // 16.0;
+	itm.dmg_max = 75.0 + rand(15); // 70.0;
 	itm.piercing = 60;
+	itm.special.valueT = 3; //Травмы
+	itm.special.valueSS = 7; //Резкий удар
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 25;
@@ -1745,15 +1831,15 @@ int InitItems()
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 12.0;
-	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 60.0;
-	itm.Generation.dmg_max.max = 68.0;
+	itm.Generation.dmg_min.min = 15.0;
+	itm.Generation.dmg_min.max = 20.0;
+	itm.Generation.dmg_max.min = 75.0;
+	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 8.5;
 	itm.Generation.Weight.max = 10.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Кракемарт", бывшый "Эсток"
+	// ГПК Кракемарт
 	makeref(itm,Items[n]);
 	itm.id = "blade13";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1770,6 +1856,9 @@ int InitItems()
 	itm.dmg_min = 35.0 + rand(10);
 	itm.dmg_max = 140.0 + rand(10);
 	itm.piercing = 65;
+	itm.special.valueT = 10; //Травмы
+	itm.special.valueSS = 10; //Резкий удар
+	itm.special.valueCB = 10; //Пролом кирасы
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 20;
@@ -1802,10 +1891,10 @@ int InitItems()
 	itm.picTexture = "ITEMS_10";
 	// boal 19.01.2004 -->
 	itm.price = 650;
-	itm.Weight = 10.0 + fRandSmall(2.0); // 10;
+	itm.Weight = 9.0 + fRandSmall(2.0); // 10;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 8.0 + rand(2); // 20.0;
-	itm.dmg_max = 49.0 + rand(11); // 80.0;
+	itm.dmg_min = 12.0 + rand(3); // 10.0;
+	itm.dmg_max = 55.0 + rand(10); // 60.0;
 	itm.piercing = 70.0;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -1819,12 +1908,12 @@ int InitItems()
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 8.0;
-	itm.Generation.dmg_min.max = 10.0;
-	itm.Generation.dmg_max.min = 49.0;
-	itm.Generation.dmg_max.max = 60.0;
-	itm.Generation.Weight.min = 10.0;
-	itm.Generation.Weight.max = 12.0;
+	itm.Generation.dmg_min.min = 12.0;
+	itm.Generation.dmg_min.max = 15.0;
+	itm.Generation.dmg_max.min = 55.0;
+	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.Weight.min = 9.0;
+	itm.Generation.Weight.max = 11.0;
 	n++;
 	
 	// ГПК 1.2.3 Reblading - "Сторта", бывшый "Итальянский меч"
@@ -1844,6 +1933,9 @@ int InitItems()
 	itm.dmg_min = 24.0 + rand(6); // 22.0;
 	itm.dmg_max = 95.0 + rand(15); // 75.0;
 	itm.piercing = 55;
+	itm.special.valueT = 6; //Травмы
+	itm.special.valueCrB = 4; //Буст крита
+	itm.special.valueCB = 10; //Пролом кирасы
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 25;
@@ -1878,9 +1970,11 @@ int InitItems()
 	itm.price = 800;
 	itm.Weight = 8.5 + fRandSmall(1.5); // 9.5;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 12.0 + rand(3); // 22.0;
-	itm.dmg_max = 60.0 + rand(8); // 80.0;
+	itm.dmg_min = 15.0 + rand(5); // 22.0;
+	itm.dmg_max = 75.0 + rand(15); // 80.0;
 	itm.piercing = 45;
+	itm.special.valueT = 3; //Травмы
+	itm.special.valueCrB = 7; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.block = 35;
@@ -1893,10 +1987,10 @@ int InitItems()
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 12.0;
-	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 60.0;
-	itm.Generation.dmg_max.max = 68.0;
+	itm.Generation.dmg_min.min = 15.0;
+	itm.Generation.dmg_min.max = 20.0;
+	itm.Generation.dmg_max.min = 75.0;
+	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 8.5;
 	itm.Generation.Weight.max = 10.0;
 	n++;
@@ -1913,10 +2007,10 @@ int InitItems()
 	itm.picTexture = "ITEMS_3";
 	// boal 19.01.2004 -->
 	itm.price = 900;
-	itm.Weight = 10.0 + fRandSmall(2.0); // 11.5;
+	itm.Weight = 9.0 + fRandSmall(2.0); // 11.5;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 8.0 + rand(2); // 24.0;
-	itm.dmg_max = 49.0 + rand(11); // 90.0;
+	itm.dmg_min = 12.0 + rand(3); // 24.0;
+	itm.dmg_max = 55.0 + rand(10); // 90.0;
 	itm.piercing = 65;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -1930,15 +2024,15 @@ int InitItems()
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 8.0;
-	itm.Generation.dmg_min.max = 10.0;
-	itm.Generation.dmg_max.min = 49.0;
-	itm.Generation.dmg_max.max = 60.0;
-	itm.Generation.Weight.min = 10.0;
-	itm.Generation.Weight.max = 12.0;
+	itm.Generation.dmg_min.min = 12.0;
+	itm.Generation.dmg_min.max = 15.0;
+	itm.Generation.dmg_max.min = 55.0;
+	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.Weight.min = 9.0;
+	itm.Generation.Weight.max = 11.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Клейбэг", бывшый "Атилл"
+	// ГПК Клейбэг
     makeref(itm,Items[n]);
 	itm.id = "blade20";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1955,6 +2049,9 @@ int InitItems()
 	itm.dmg_min = 35.0 + rand(10); // 25.0;
 	itm.dmg_max = 140.0 + rand(10); // 93.0;
 	itm.piercing = 65;
+	itm.special.valueT = 10; //Травмы
+	itm.special.valueSS = 15; //Резкий удар
+	itm.special.valueCrB = 5; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 30;
@@ -1992,6 +2089,9 @@ int InitItems()
 	itm.dmg_min = 25.0 + rand(7); // 26.0;
 	itm.dmg_max = 90.0 + rand(20); // 100.0;
 	itm.piercing = 75;
+	itm.special.valueT = 10; //Травмы
+	itm.special.valueCB = 5; //Пролом кирасы
+	itm.special.valueStS = 5; //Стан
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 25;
@@ -2012,7 +2112,7 @@ int InitItems()
 	itm.Generation.Weight.max = 10.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Валлонская шпага", бывшый "Французский меч"
+	// ГПК Валлонская шпага
 	makeref(itm,Items[n]);
 	itm.id = "blade33";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -2029,6 +2129,9 @@ int InitItems()
 	itm.dmg_min = 35.0 + rand(10); // 27.0;
 	itm.dmg_max = 140.0 + rand(10); // 95.0;
 	itm.piercing = 70.0;
+	itm.special.valueT = 5; //Травмы
+	itm.special.valueCB = 15; //Пролом кирасы
+	itm.special.valueBB = 10; //Пролом блока
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.block = 60.0;
@@ -2049,7 +2152,7 @@ int InitItems()
 	itm.Generation.Weight.max = 9.5;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Танат"
+	// ГПК Танат
     makeref(itm,Items[n]);
 	itm.id = "blade28";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -2066,6 +2169,9 @@ int InitItems()
 	itm.dmg_min = 40.0 + rand(10); // 28.0;
 	itm.dmg_max = 130.0 + rand(10); // 100.0;
 	itm.piercing = 85.0;
+	itm.special.valueT = 15; //Травмы
+	itm.special.valueCB = 10; //Пролом кирасы
+	itm.special.valueCrB = 5; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 75.0;
@@ -2103,6 +2209,8 @@ int InitItems()
 	itm.dmg_min = 35.0 + rand(5);
 	itm.dmg_max = 105.0 + rand(5);
 	itm.piercing = 85.0;
+	itm.special.valueCrB = 10; //Буст крита
+	itm.special.valueT = 10; //Травмы
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 75.0;
@@ -2140,6 +2248,9 @@ int InitItems()
 	itm.dmg_min = 35.0 + rand(15);
 	itm.dmg_max = 150.0 + rand(15);
 	itm.piercing = 85.0;
+	itm.special.valueT = 8; //Травмы
+	itm.special.valueStS = 12; //Стан
+	itm.special.valueCrB = 10; //Буст крита
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 75.0;
@@ -2177,6 +2288,9 @@ int InitItems()
 	itm.dmg_min = 40.0 + rand(15);
 	itm.dmg_max = 140.0 + rand(20);
 	itm.piercing = 85.0;
+	itm.special.valueT = 10; //Травмы
+	itm.special.valueCB = 6; //Пролом кирасы
+	itm.special.valueBB = 14; //Пролом блока
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 75.0;
@@ -2214,6 +2328,8 @@ int InitItems()
 	itm.dmg_min = 32.0 + rand(8); // 35.0;
 	itm.dmg_max = 120.0 + rand(15); // 120.0;
 	itm.piercing = 95.0;
+	itm.special.valueT = 5; //Травмы
+	itm.special.valueCB = 15; //Пролом кирасы
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 20.0;
@@ -2234,7 +2350,7 @@ int InitItems()
 	itm.Generation.Weight.max = 14.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Макуауитль"
+	// ГПК Макуауитль
 	makeref(itm,Items[n]);
 	itm.id = "toporAZ";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -2251,6 +2367,9 @@ int InitItems()
 	itm.dmg_min = 32.0 + rand(8); // 45.0;
 	itm.dmg_max = 120.0 + rand(15); // 140.0;
 	itm.piercing = 95.0;
+	itm.special.valueT = 6; //Травмы
+	itm.special.valueCrB = 6; //Буст крита
+	itm.special.valueCB = 8; //Пролом кирасы
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 30.0;
@@ -2536,6 +2655,8 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
+	itm.points_shop = 1;
+	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -2560,6 +2681,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
+	itm.fromHip = true;//для выбора другой анимации
 	n++;
 
     makeref(itm,Items[n]);
@@ -2632,6 +2754,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
+	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
     makeref(itm,Items[n]);
@@ -2655,6 +2778,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.ItemType = "WEAPON";
+	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
     makeref(itm,Items[n]);
@@ -2679,6 +2803,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
+	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
     makeref(itm,Items[n]);
@@ -2703,6 +2828,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
+	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -2727,6 +2853,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.quality = "good";
 	itm.ItemType = "WEAPON";
+	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -3165,7 +3292,22 @@ int InitItems()
 	itm.price = 0;
 	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
-	n++;
+	n++;	
+	
+    makeref(itm,Items[n]); // Темпоральный деформатор
+	itm.id = "DHGlove";
+	itm.groupID = INDIAN_CENTER_ITEM_TYPE;
+	itm.name = "itmname_DHGlove";
+	itm.describe = "itmdescr_DHGlove";
+	itm.model = "sapphire";
+	itm.picIndex = 15;
+	itm.picTexture = "ITEMS_14";
+	// boal 19.01.2004 -->
+	itm.Weight = 2.0;
+	itm.price = 0;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++;	
 
 	makeref(itm,Items[n]);
 	itm.id = "DOjeronRing";
@@ -3248,6 +3390,7 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.0001;
 	itm.ItemType = "WEAPON";
+	itm.fromHip = true;//для выбора другой анимации
 	n++;
 
 	makeref(itm,Items[n]);
@@ -5664,6 +5807,14 @@ int InitItems()
 	itm.rare = 0.001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+    itm.CraftedItem = "grenade";
+    itm.CraftFor = "Blacksmith";
+    itm.ComponentsNum = 2;
+    itm.Component1 = "bullet";
+    itm.Component1Num = 50;
+    itm.Component2 = "gunpowder";
+    itm.Component2Num = 50;
 	n++;
 	
 	makeref(itm,Items[n]); // граната
@@ -5681,6 +5832,14 @@ int InitItems()
 	itm.rare = 0.001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+    itm.CraftedItem = "grenade";
+    itm.CraftFor = "Blacksmith";
+    itm.ComponentsNum = 2;
+    itm.Component1 = "bullet";
+    itm.Component1Num = 150;
+    itm.Component2 = "gunpowder";
+    itm.Component2Num = 150;
 	n++;
 	
 	makeref(itm,Items[n]); // гарпун
@@ -6825,7 +6984,7 @@ int InitItems()
     itm.Solder_o.max = 1;
     itm.ItemType = "SUPPORT";
     n++;
-            
+
 	makeref(itm,Items[n]);
 	itm.id = "cirass5"; // Дорогая кираса
 	itm.groupID = CIRASS_ITEM_TYPE;
@@ -6868,6 +7027,7 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
+	itm.points_shop = 1; //атрибут для ачивок
 	n++;
 
 	makeref(itm,Items[n]);
@@ -6886,6 +7046,7 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
+	itm.points_shop = 1; //атрибут для ачивок
 	n++;
 
 	makeref(itm,Items[n]);
@@ -6904,6 +7065,7 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
+	itm.points_shop = 1; //атрибут для ачивок
 	n++;
 	//Обереги
 	
@@ -7022,6 +7184,7 @@ int InitItems()
 	itm.dmg_min = 4.0 + Rand(2); // 7.0;
 	itm.dmg_max = 33.0 + Rand(5); // 15.0;
 	itm.piercing = 25;
+	itm.special.valueP = 5; 	//Отравление
 	itm.minlevel = 0;
 	itm.rare = 0.1;
 	itm.block = 45;
@@ -7032,7 +7195,7 @@ int InitItems()
 	itm.ItemType = "WEAPON";
 	itm.quality = "poor";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	itm.Generation.qty = 10;
+	itm.Generation.qty = 5;
 	// Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 4.0;
 	itm.Generation.dmg_min.max = 6.0;
@@ -7059,6 +7222,7 @@ int InitItems()
 	itm.dmg_min = 6.0 + Rand(4); // 7.0;
 	itm.dmg_max = 40.0 + Rand(5); // 15.0;
 	itm.piercing = 25;
+	itm.special.valueP = 5; 	//Отравление
 	itm.minlevel = 0;
 	itm.rare = 0.1;
 	itm.block = 45;
@@ -7069,7 +7233,7 @@ int InitItems()
 	itm.ItemType = "WEAPON";
 	itm.quality = "poor";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	itm.Generation.qty = 10;
+	itm.Generation.qty = 5;
 	// Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 6.0;
 	itm.Generation.dmg_min.max = 10.0;
@@ -7096,6 +7260,7 @@ int InitItems()
 	itm.dmg_min = 13.0 + rand(6); // 10.0;
 	itm.dmg_max = 52.0 + rand(5); // 60.0;
 	itm.piercing = 24.0;
+	itm.special.valueCB = 6; //Пролом кирасы
 	itm.minlevel = 1;
 	itm.rare = 0.01;
 	itm.block = 12;
@@ -7106,7 +7271,7 @@ int InitItems()
 	itm.ItemType = "WEAPON";
 	itm.quality = "ordinary";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	itm.Generation.qty = 10;
+	itm.Generation.qty = 5;
 	itm.Generation.dmg_min.min = 13.0;
 	itm.Generation.dmg_min.max = 19.0;
 	itm.Generation.dmg_max.min = 52.0;
@@ -7127,11 +7292,14 @@ int InitItems()
 	itm.picTexture = "ITEMS_16";
 	// boal 19.01.2004 -->
 	itm.price = 17500;
-	itm.Weight = 10.0 + fRandSmall(2.5); // 15.0;
+	itm.Weight = 12.0 + fRandSmall(2.5); // 15.0;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 50.0 + rand(10); // 45.0;
 	itm.dmg_max = 170.0 + rand(10); // 140.0;
 	itm.piercing = 105.0;
+	itm.special.valueSS = 15; //Резкий удар
+	itm.special.valueCrB = 5; //Буст крита
+	itm.special.valueT = 10; //Травмы
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.block = 40.0;
@@ -7142,13 +7310,13 @@ int InitItems()
 	itm.ItemType = "WEAPON";
 	itm.quality = "excellent";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	itm.Generation.qty = 15;
+	itm.Generation.qty = 5;
 	itm.Generation.dmg_min.min = 50.0;
 	itm.Generation.dmg_min.max = 60.0;
 	itm.Generation.dmg_max.min = 170.0;
 	itm.Generation.dmg_max.max = 180.0;
-	itm.Generation.Weight.min = 10.0;
-	itm.Generation.Weight.max = 12.5;
+	itm.Generation.Weight.min = 12.0;
+	itm.Generation.Weight.max = 14.5;
 	n++;
 	
 	// Топор Викинга
@@ -7163,11 +7331,14 @@ int InitItems()
 	itm.picTexture = "ITEMS_14";
 	// boal 19.01.2004 -->
 	itm.price = 17500;
-	itm.Weight = 10.5 + fRandSmall(1.5); // 15.0;
+	itm.Weight = 11.5 + fRandSmall(1.5); // 15.0;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 50.0 + rand(10); // 45.0;
 	itm.dmg_max = 180.0 + rand(20); // 140.0;
 	itm.piercing = 110.0;
+	itm.special.valueT = 5; //Травмы
+	itm.special.valueStS = 5; //Стан
+	itm.special.valueCB = 20; //Пролом кирасы
 	itm.minlevel = 99;
 	itm.rare = 0.0001;
 	itm.block = 40.0;
@@ -7178,15 +7349,135 @@ int InitItems()
 	itm.ItemType = "WEAPON";
 	itm.quality = "excellent";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	itm.Generation.qty = 15;
+	itm.Generation.qty = 5;
 	itm.Generation.dmg_min.min = 50.0;
 	itm.Generation.dmg_min.max = 60.0;
 	itm.Generation.dmg_max.min = 180.0;
 	itm.Generation.dmg_max.max = 200.0;
-	itm.Generation.Weight.min = 10.5;
-	itm.Generation.Weight.max = 12.0;
+	itm.Generation.Weight.min = 11.5;
+	itm.Generation.Weight.max = 13.0;
 	n++;
 	
+	// Катана Виспер
+	makeref(itm,Items[n]);
+	itm.id = "blade_whisper";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blade_whisper";
+	itm.describe = "itmdescr_blade_whisper";
+	itm.folder = "items";
+	itm.model = "blade_whisper";
+	itm.picIndex = 12;
+	itm.picTexture = "ITEMS_14";
+	// boal 19.01.2004 -->
+	itm.price = 10000;
+	itm.Weight = 2.3;// 3.5;
+	// boal 19.01.2004 <--
+	itm.dmg_min = 25.0;// 20.0;
+	itm.dmg_max = 75.0;// 60.0;
+	itm.piercing = 100;
+	itm.special.valueCrB = 9; //Буст крита
+	itm.special.valueSS = 9; //Резкий удар
+	//itm.special.valueBB = 15; //Пролом блока
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 95;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingLight";
+	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 25.0;
+	itm.Generation.dmg_min.max = 25.0;
+	itm.Generation.dmg_max.min = 75.0;
+	itm.Generation.dmg_max.max = 75.0;
+	itm.Generation.Weight.min = 2.3;
+	itm.Generation.Weight.max = 2.3;
+	// для патча 1.2.5 фиксируем статы
+	n++;
+	
+	// Дадао
+	makeref(itm,Items[n]);
+	itm.id = "blade_china";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blade_china";
+	itm.describe = "itmdescr_blade_china";
+	itm.folder = "items";
+	itm.model = "blade_china";
+	itm.picIndex = 13;
+	itm.picTexture = "ITEMS_14";
+	// boal 19.01.2004 -->
+	itm.price = 400;
+	itm.Weight = 9.5 + fRandSmall(0.5);
+	// boal 19.01.2004 <--
+	itm.dmg_min = 40.0 + rand(10);
+	itm.dmg_max = 135.0 + rand(25);
+	itm.piercing = 100;
+	itm.special.valueT = 10; //Травмы
+	itm.special.valueSS = 5; //Резкий удар
+	itm.special.valueBB = 15; //Пролом блока
+	itm.minlevel = 1;
+	itm.rare = 0.1;
+	itm.block = 60;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+    itm.FencingType = "FencingHeavy";
+    itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 40.0;
+	itm.Generation.dmg_min.max = 50.0;
+	itm.Generation.dmg_max.min = 135.0;
+	itm.Generation.dmg_max.max = 160.0;
+	itm.Generation.Weight.min = 9.5;
+	itm.Generation.Weight.max = 10.0;
+	// для патча 1.2.5 фиксируем статы
+	n++;
+	
+	//Императорский топор
+    makeref(itm,Items[n]);
+	itm.id = "topor_emperor";  //Топор
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_topor_emperor";
+	itm.describe = "itmdescr_topor_emperor";
+	itm.folder = "items";
+	itm.model = "topor_emperor";
+	itm.picIndex = 14;
+	itm.picTexture = "ITEMS_14";
+	// boal 19.01.2004 -->
+	itm.price = 100000;
+	itm.Weight = 10.5 + fRandSmall(0.5);
+	// boal 19.01.2004 <--
+	itm.dmg_min = 35.0 + rand(7);
+	itm.dmg_max = 120.0+ rand(10);
+	itm.piercing = 100.0;
+	itm.special.valueT = 5; //Травмы
+	itm.special.valueStS = 10; //Стан
+	itm.special.valueCB = 15; //Пролом кирасы
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 30.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingHeavy";
+	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	/*itm.Generation.qty = 5;
+	itm.Generation.dmg_min.min = 45.0;
+	itm.Generation.dmg_min.max = 52.0;
+	itm.Generation.dmg_max.min = 140.0;
+	itm.Generation.dmg_max.max = 150.0;
+	itm.Generation.Weight.min = 10.5;
+	itm.Generation.Weight.max = 11.0;*/
+	n++;
 	/////////////////////////////////////////////////////////
 	/////		-->		CSP Книги 56 штук				/////
 	/////////////////////////////////////////////////////////
@@ -8061,6 +8352,32 @@ int InitItems()
     itm.Weight = 0.1;
     itm.ItemType = "QUESTITEMS";
     n++;
+
+	makeref(itm, Items[n]);
+    itm.id = "Litsenzia";	//Торговая лицензия
+    itm.name = "itmname_Litsenzia";
+    itm.describe = "itmdescr_Litsenzia";
+    itm.picIndex = 13;
+    itm.picTexture = "ITEMS_4";
+    itm.price = 0;
+    itm.Weight = 0.1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
+	// Билет на арену
+	makeref(itm,Items[n]);
+	itm.id = "ArenaBilet";
+	itm.name = "itmname_ArenaBilet";
+	itm.describe = "itmdescr_ArenaBilet";
+	itm.model = "1";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_12";
+	itm.price = 0;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	n++;
 	
 	//InitGunExt(id,	sAttr,  sBullet,  sGunPowder, DmgMin_NC, DmgMax_NC, DmgMin_C, DmgMax_C, EnergyP_NC, EnergyP_C, Stun_NC, Stun_C, MultiDamage, MisFire, SelfDamage, Explosion,Accuracy,ChargeSpeed,isDefault);
 	InitGunExt(		 "pistol1", "t1",  	     "cartridge",               "",  20.0, 100.0,  20.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 8, 0);	
@@ -8074,9 +8391,9 @@ int InitItems()
 	InitGunExt(		 "pistol5", "t2", 		    "bullet",      "gunpowder",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 32, 1);	
 	InitGunExt(		 "pistol6", "t1", 	     "cartridge",               "",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 20, 0);	
 	InitGunExt(		 "pistol6", "t2", 		    "bullet",      "gunpowder",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 40, 1);		
-	InitGunExt(		 "pistol7", "t1", "shotgun_cartridge",   "GunCap_colt",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 82, 1);
+	InitGunExt(		 "pistol7", "t1", "shotgun_cartridge",   "GunCap_colt",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 52, 1);
 	InitGunExt(		 "pistol7shotgun", "t1",  "grapeshot",      "12_gauge",  80.0, 200.0,  50.0, 180.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 80, 52, 1);	
-	InitGunExt(		 "pistol7shotgun", "t2", 	 "bullet",      "12_gauge",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 82, 0);
+	InitGunExt(		 "pistol7shotgun", "t2", 	 "bullet",      "12_gauge",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 52, 0);
 	InitGunExt(		 "pistol8", "t1", 	     "grapeshot",      "gunpowder",  50.0,  100.0,  50.0,  100.0,  5.0,  5.0, 1, 1, 1, 0, 1, 1, 50, 40, 1);	
 	InitGunExt(		 "pistol8", "t2", 		   "harpoon",      "gunpowder", 150.0, 250.0, 150.0, 250.0, 20.0, 20.0, 0, 1, 0, 0, 0, 0, 20, 40, 0);	
 	InitGunExt(		 "pistol8", "t3", 		  "GunEchin",               "", 120.0, 220.0, 120.0, 220.0, 20.0, 20.0, 0, 1, 1, 0, 0, 0, 20, 40, 0);		

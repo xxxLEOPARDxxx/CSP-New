@@ -735,6 +735,7 @@ void SelectOperation(bool bSelect)
 	SetNodeUsing("FRAME1", true);
 	SetNodeUsing("FRAME2", true);
 	SetNodeUsing("FRAME3", true);
+	SetNodeUsing("FRAME4", true);
 	SetNodeUsing("CREATE_CHARACTER", false);
 	SetNodeUsing("SELECT_CHARACTER", false);
 	SetNodeUsing("MAIN_QUESTION_RECTANGLE", false);
@@ -927,6 +928,7 @@ void SetCreateInformation()
 	SetNodeUsing("FRAME1", true);
 	SetNodeUsing("FRAME2", true);
 	SetNodeUsing("FRAME3", true);
+	SetNodeUsing("FRAME4", true);
 	SetNodeUsing("BORDERS", true);
 	SetNodeUsing("CREATE_LEFT_BUTTON", true);
 	SetNodeUsing("CREATE_RIGHT_BUTTON", true);
@@ -1146,6 +1148,7 @@ void ReturnToQuestion()
 	SetNodeUsing("FRAME1", true);
 	SetNodeUsing("FRAME2", true);
 	SetNodeUsing("FRAME3", true);
+	SetNodeUsing("FRAME4", true);
 	SetNodeUsing("BORDERS", false);
 	SetNodeUsing("CREATE_LEFT_BUTTON", false);
 	SetNodeUsing("CREATE_RIGHT_BUTTON", false);
@@ -1213,6 +1216,7 @@ void SetDataInformation()
 	SetNodeUsing("FRAME1", true);
 	SetNodeUsing("FRAME2", true);
 	SetNodeUsing("FRAME3", true);
+	SetNodeUsing("FRAME4", true);
 	SetNodeUsing("BORDERS_CREATE_CHARACTER", false);
 	SetNodeUsing("CREATE_LEFT_BUTTON", false);
 	SetNodeUsing("CREATE_RIGHT_BUTTON", false);
@@ -1286,7 +1290,8 @@ void ProcessFilter()
 	{
 	idLngFile = LanguageOpenFile("HeroDescribe.txt");
 	string sAnim = LanguageConvertString(idLngFile, "animation_" + startHeroType);
-	if (sAnim == "man" || sAnim == "skeleton" || sAnim == "YokoDias") {} else {SelectMainCharacter(0);}
+	string sName = LanguageConvertString(idLngFile, "heroName_" + startHeroType);
+	if (FState_ANIM) {if (sAnim == "man" || sAnim == "skeleton" || sName == "Виспер") {} else SelectMainCharacter(0);}
 	LanguageCloseFile(idLngFile);
 	}
 	return;

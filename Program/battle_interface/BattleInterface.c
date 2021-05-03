@@ -240,7 +240,7 @@ void BI_Frame()
 		if (boal_soundOn)
 		{
 		    boal_soundOn = false;
-            PlayVoice("interface\_GTBoard0.wav");
+            PlayVoice("interface\_GTBoard"+rand(1)+".wav");
 		}
 		// boal <--
 		return;
@@ -626,21 +626,26 @@ void BI_LaunchCommand()
 		if (CheckAttribute(&characters[charIdx], "SeaAI.Task.Target"))  //fix
 		{
 			Ship_SetTaskRunAway(SECONDARY_TASK, charIdx, sti(characters[charIdx].SeaAI.Task.Target));
+			PlayVoice("INTERFACE\SignalCompanion.wav");
 		}
 		else
 		{
 			Ship_SetTaskRunAway(SECONDARY_TASK, charIdx, GetMainCharacterIndex()); // boal fix если вдруг нет, то от ГГ удаляться
+			PlayVoice("INTERFACE\SignalCompanion.wav");
 		}
 	break;
 	case "BI_HeaveToDrift":
 		Ship_SetTaskDrift(SECONDARY_TASK,charIdx);
+		PlayVoice("INTERFACE\_strike_down.wav");
 		break;
 	case "BI_Defend":
 		Ship_SetTaskDefend(SECONDARY_TASK,charIdx,GetTargChrIndex(targetNum,locName));
+		PlayVoice("INTERFACE\SignalCompanion.wav");
 		DeleteAttribute(chRef, "ShipCannonChargeType"); // флаг офов, чем пулять постоянно, ставится игроком командами, до след приказа Атака или конца снарядов
 		break;
 	case "BI_Attack":
 		Ship_SetTaskAttack(SECONDARY_TASK,charIdx,GetTargChrIndex(targetNum,locName));
+		PlayVoice("INTERFACE\SignalCompanion.wav");
 		DeleteAttribute(chRef, "ShipCannonChargeType"); // флаг офов, чем пулять постоянно, ставится игроком командами, до след приказа Атака или конца снарядов
 	break;
 	case "BI_Abordage":
@@ -653,15 +658,6 @@ void BI_LaunchCommand()
 		}
 		break;
 	case "BI_SailTo":
-		/*if(targetNum==-1)
-		{ // приплыть в локатор с именем locName
-			if( !IsEntity(&SailToFader) ) {SeaAI_SailToLocator(locName);}
-		}
-		else
-		{ // догнать перса с индексом targetNum
-			if( !IsEntity(&SailToFader) ) {SeaAI_SailToCharacter(targetNum);}
-		} */
-		// boal 09.02.2004 -->
 	    if (bDisableMapEnter && !bBettaTestMode)
 	    {
            PlaySound("interface\knock.wav");
@@ -742,42 +738,50 @@ void BI_LaunchCommand()
 			case "dir_n":
 				posZ += SAILDIR_POS_DIF;
 				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
 			break;
 			case "dir_ne":
 				fAng = PIm2 * 0.125;
 				posX = posX + sin(fAng) * SAILDIR_POS_DIF;
 				posZ = posZ + cos(fAng) * SAILDIR_POS_DIF;
 				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
 			break;
 			case "dir_e":
 				posX += SAILDIR_POS_DIF;
 				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
 			break;
 			case "dir_se":
 				fAng = PIm2 * 0.375;
 				posX = posX + sin(fAng) * SAILDIR_POS_DIF;
 				posZ = posZ + cos(fAng) * SAILDIR_POS_DIF;
 				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
 			break;
 			case "dir_s":
 				posZ -= SAILDIR_POS_DIF;
 				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
 			break;
 			case "dir_sw":
 				fAng = PIm2 * 0.625;
 				posX = posX + sin(fAng) * SAILDIR_POS_DIF;
 				posZ = posZ + cos(fAng) * SAILDIR_POS_DIF;
 				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
 			break;
 			case "dir_w":
 				posX -= SAILDIR_POS_DIF;
 				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
 			break;
 			case "dir_nw":
 				fAng = PIm2 * 0.875;
 				posX = posX + sin(fAng) * SAILDIR_POS_DIF;
 				posZ = posZ + cos(fAng) * SAILDIR_POS_DIF;
 				Ship_SetTaskMove(SECONDARY_TASK, charIdx, posX, posZ);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
 			break;
 		}
         break;
@@ -813,24 +817,30 @@ void BI_LaunchCommand()
 	case "BI_Brander":
 		//ActivateCharacterPerk(pchar,"Brander"); - многоразовый приказ
 		Ship_SetTaskBrander(SECONDARY_TASK, charIdx, targetNum);
+		PlayVoice("INTERFACE\SignalCompanion.wav");
 		break;
 	case "BI_ImmediateReload":
 		ActivateCharacterPerk(GetCharacter(charIdx),"ImmediateReload");
+		PlayVoice("INTERFACE\SignalCompanion.wav");
 		break;
 	case "BI_LightRepair":
 		ActivateCharacterPerk(GetCharacter(charIdx),"LightRepair");
 		ActivateSpecRepair(GetCharacter(charIdx),0);
+		PlayVoice("INTERFACE\SignalCompanion.wav");
 		break;
 	case "BI_InstantRepair":
 		ActivateCharacterPerk(GetCharacter(charIdx),"InstantRepair");
 		ActivateSpecRepair(GetCharacter(charIdx),1);
+		PlayVoice("INTERFACE\SignalCompanion.wav");
 		break;
 	case "BI_Turn180":
 		ActivateCharacterPerk(GetCharacter(charIdx),"Turn180");
 		Ship_Turn180(GetCharacter(charIdx));
+		PlayVoice("INTERFACE\SignalCompanion.wav");
 		break;
 	case "BI_SandbankManeuver":
 		ActivateCharacterPerk(GetCharacter(charIdx),"SandbankManeuver");
+		PlayVoice("INTERFACE\SignalCompanion.wav");
 		break;
 	// items abilities
 	case "BI_UseItemAbilitie":
@@ -1437,6 +1447,7 @@ bool BI_SetSeaState()
 	//bReloadCanBe = 0;
 	//#20170530-01
     if(bMapEnter) seaAlarmed = false;
+	if(CheckAttribute(pchar,"GhostCap.Fight")) bMapEnter = false;
     return bMapEnter;
 }
 
@@ -1450,7 +1461,7 @@ void SetShipPictureDataByShipTypeName(string sType)
     case "wartartane":			BI_intNRetValue[0] = 4+0*32;	BI_intNRetValue[1] = 4+0*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Баркас
 	// 6-й КЛАСС	(12 кораблей)
 	case "bermsloop":			BI_intNRetValue[0] = 6+0*32;	BI_intNRetValue[1] = 6+0*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Лёг. Шлюп
-	case "empress":				BI_intNRetValue[0] = 8+0*32;	BI_intNRetValue[1] = 8+0*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Императрица
+	case "empress":				BI_intNRetValue[0] = 8+0*32;	BI_intNRetValue[1] = 8+0*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Джонка
 	case "pink":				BI_intNRetValue[0] = 10+0*32;	BI_intNRetValue[1] = 10+0*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Лёг. Шлюп
     case "lugger":				BI_intNRetValue[0] = 12+0*32;	BI_intNRetValue[1] = 12+0*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Люггер
 	case "lugger_h":			BI_intNRetValue[0] = 14+0*32;	BI_intNRetValue[1] = 14+0*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Тяж. Люггер
@@ -1683,13 +1694,13 @@ void SetParameterData()
 	//Новый стиль HUD по чекбоксу
 	if(InterfaceStates.AltIntIcons)
 	{
-		if(InterfaceStates.HUDStyle) BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1_Konshud.dds";
-		else BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1_Konshud.dds";
+		if(InterfaceStates.HUDStyle) BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1_Konshud.tga";
+		else BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1_Konshud.tga";
 	}
 	else
 	{
-		if(InterfaceStates.HUDStyle) BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.dds";
-		else BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.dds";
+		if(InterfaceStates.HUDStyle) BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.tga";
+		else BattleInterface.CommandTextures.list.t1.name = "battle_interface\ship_icons1.tga";
 	}
 	//<---
 	BattleInterface.CommandTextures.list.t1.xsize = 32;
@@ -1896,31 +1907,6 @@ void SetParameterData()
 	BattleInterface.navigation.windPos					= RecalculateHIcon(-30)+","+RecalculateVIcon(190);
 	BattleInterface.navigation.windPictureSize			= RecalculateHIcon(48)+","+RecalculateVIcon(48);
 
-	/*BattleInterface.imageslist.textinfoback1.texture = "battle_interface\textinfo_back.tga";
-	BattleInterface.imageslist.textinfoback1.color = argb(96,64,64,64);
-	BattleInterface.imageslist.textinfoback1.uv = "0.0,0.0,1.0,0.125";
-	BattleInterface.imageslist.textinfoback1.pos = (sti(showWindow.right) - RecalculateHIcon(198)) + "," +
-		RecalculateVIcon(192) + "," +
-		(sti(showWindow.right) - RecalculateHIcon(10)) + "," +
-		RecalculateVIcon(200);
-	//
-	BattleInterface.imageslist.textinfoback2.texture = "battle_interface\textinfo_back.tga";
-	BattleInterface.imageslist.textinfoback2.color = argb(96,64,64,64);
-	BattleInterface.imageslist.textinfoback2.uv = "0.0,0.125,1.0,0.875";
-	BattleInterface.imageslist.textinfoback2.pos = (sti(showWindow.right) - RecalculateHIcon(198)) + "," +
-		RecalculateVIcon(200) + "," +
-		(sti(showWindow.right) - RecalculateHIcon(10)) + "," +
-		RecalculateVIcon(420);
-	//
-	BattleInterface.imageslist.textinfoback3.texture = "battle_interface\textinfo_back.tga";
-	BattleInterface.imageslist.textinfoback3.color = argb(96,64,64,64);
-	BattleInterface.imageslist.textinfoback3.uv = "0.0,0.875,1.0,1.0";
-	BattleInterface.imageslist.textinfoback3.pos = (sti(showWindow.right) - RecalculateHIcon(198)) + "," +
-		RecalculateVIcon(420) + "," +
-		(sti(showWindow.right) - RecalculateHIcon(10)) + "," +
-		RecalculateVIcon(428);
-	*/
-
 	BattleInterface.textinfo.Date.font = "interface_button";
 	BattleInterface.textinfo.Date.scale = 1.2;
 	BattleInterface.textinfo.Date.pos.x = sti(showWindow.right) - RecalculateHIcon(138);
@@ -2106,7 +2092,7 @@ void SetParameterData()
 		BattleInterface.ShipIcon.shipclassiconsize		= "100,24";
 		BattleInterface.ShipIcon.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 
-		BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.dds"; // Иконка корабля
+		BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.tga"; // Иконка корабля
 		BattleInterface.ShipIcon.shipcolor				= argb(255,128,128,128);
 		BattleInterface.ShipIcon.shipoffset				= "0,-5";
 		BattleInterface.ShipIcon.shipiconsize			= "100,100";
@@ -2179,7 +2165,7 @@ void SetParameterData()
 		BattleInterface.ShipIcon.shipclassiconsize		= "64,16";
 		BattleInterface.ShipIcon.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 
-		BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.dds"; // Иконка корабля
+		BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.tga"; // Иконка корабля
 		BattleInterface.ShipIcon.shipcolor				= argb(255,128,128,128);
 		BattleInterface.ShipIcon.shipoffset				= "-13,-15";
 		BattleInterface.ShipIcon.shipiconsize			= "64,64";
@@ -2282,7 +2268,12 @@ ref ProcessSailDamage()
 	float sailPower = GetEventData();
 
 	ref chref = GetCharacter(chrIdx);
-
+	if (CheckAttribute(&RealShips[sti(chref.Ship.Type)], "Tuning.SailsSpecial") && rand(4)>1)
+	{
+		BI_g_fRetVal = 0;
+		return &BI_g_fRetVal;
+	}
+	
 	if (LAi_IsImmortal(chref))
 	{
 		BI_g_fRetVal = 0;
@@ -2617,9 +2608,6 @@ ref procGetSailTextureData()
 				BI_objRetValue.geraldTex = "";//"ships\gerald\chuckskull.tga";
 				BI_objRetValue.sailscolor = argb(255,255,255,255);  // белый парус
 			
-				//BI_objRetValue.geraldTexPointer = 0; // (IDirect3DTexture8*)
-				
-				//if (CheckAttribute(&characters[chrIdx], "ShipSails.SailsColor"))
 				if (CheckAttribute(shref, "ShipSails.SailsColor")) // 1.2.3 цвет теперь атрибут корабля, а не НПС
 				{
 					BI_objRetValue.sailscolor = sti(shref.ShipSails.SailsColor);
@@ -2629,28 +2617,6 @@ ref procGetSailTextureData()
 				{
 					BI_objRetValue.geraldTex = "Ships\Gerald\" + shref.ShipSails.gerald_name + ".tga";
 				}
-				/*
-				switch(sti(Characters[chrIdx].nation))  // Не работает это :(
-				{
-					case ENGLAND:	
-						nationFileName = "ships\parus_" + sUpgrade + "_england.tga";		
-					break;
-					case FRANCE:	
-						nationFileName = "ships\parus_" + sUpgrade + "_france.tga";		
-					break;
-					case SPAIN:		
-						nationFileName = "ships\parus_" + sUpgrade + "_spain.tga";	
-					break;
-					case PIRATE:
-						nationFileName = "ships\parus_" + sUpgrade + "_pirate.tga";
-						//BI_objRetValue.normalTex = "ships\sail_Pirates.tga";
-					break;
-					case HOLLAND:	
-						nationFileName = "ships\parus_" + sUpgrade + "_holland.tga";	
-					break;
-				}
-				*/
-				
 				BI_objRetValue.maxSP = shref.sp;
 				// boal -->
 				if (CheckAttribute(shref, "EmblemedSails.normalTex")) // заднанный в типе парус
@@ -2686,9 +2652,6 @@ ref procGetSailTextureData()
 					} else {
 						BI_objRetValue.(attrName).Gerald = tmpStr;
 					}
-					//BI_objRetValue.(attrName).Gerald = "ships\chuckskull.tga"; // текстура герба (если не указана, то берется BI_objRetValue.geraldTex или BI_objRetValue.geraldTexPointer)
-					//BI_objRetValue.(attrName).hscale = 0.5; // масштаб в размере паруса (0.5 - герб занимает половину паруса)
-					//BI_objRetValue.(attrName).vscale = 0.5; // если нет vscale, то используется = scale
 				}
 				//}
 			}
@@ -2918,6 +2881,7 @@ void MakeSailDmg(int chrIdx, float dmg)
 	{
 		return;
 	}
+	if (CheckAttribute(&RealShips[sti(characters[chrIdx].Ship.Type)], "Tuning.SailsSpecial") && rand(4)>1) return;
 	int iSailsUpgrade = 1;
 	if(!CheckAttribute(&characters[chrIdx], "upgrades.sails"))
 	{
@@ -3274,12 +3238,6 @@ ref BI_GetLandData()
 		{
 			arLoc.labelLoc = "порт " + sColonyName;
 		}
-		
-		if(arLoc.label == "LeFransua Port")
-		{
-			BI_intNRetValue[0] = 2;
-		}
-		
 		if( arLoc.labelLoc == "" ) {
 			Trace("Warning! Language: string <"+arLoc.label+"> hav`t translation into file <LocLables.txt>");
 		}

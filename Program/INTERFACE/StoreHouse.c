@@ -368,9 +368,8 @@ void AddToTable()
 		GameInterface.TABLE_LIST.(row).td1.str = sShipQ;
 		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(sShipQ));
 		GameInterface.TABLE_LIST.(row).td5.str = Goods[i].Units;
-		GameInterface.TABLE_LIST.(row).td6.str = GetGoodWeightByType(i, sti(sStoreQ));
-
 		GameInterface.TABLE_LIST.(row).td4.str = sStoreQ;
+		GameInterface.TABLE_LIST.(row).td6.str = GetGoodWeightByType(i, sti(sStoreQ));
 
 		iColor = argb(255,255,255,255);
 		

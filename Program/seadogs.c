@@ -128,11 +128,6 @@ void ProcessVersionCheck() // boal 271004
 
     if (CheckAttribute(mc, "HeroParam")) // признак, что есть герой
     {
-		/*Level_Complexity         = MOD_SKILL_ENEMY_RATE; // до новой игры из настроек, потом из сэйва
-        bHardcoreGameStart       = bHardcoreGame;
-        bPayForSaveLoadStart     = bPayForSaveLoad;
-        bWorldAlivePauseStart    = bWorldAlivePause;  */
-
         if (!CheckAttribute(mc, "VersionNumber"))
     	{
             Log_Info("Загружена старая сохраненная запись.");
@@ -245,11 +240,8 @@ void ProcessCameraPosAng()
 
 void proc_break_video()
 {
-	//trace("proc_break_video()");
 	if (sti(InterfaceStates.videoIdx) != 1)
 	{
-		//InterfaceStates.videoIdx = -1;
-		//Event("ievntEndVideo");
 	}
 }
 
@@ -526,13 +518,7 @@ void InterfaceDoExit()
 		case RC_INTERFACE_DO_NEW_GAME:
 			InterfaceStates.doUnFreeze = false;
 			DeleteEntities();
-			//DeleteSeaEnvironment();
 			ResetSound();  // fix
-			/*musicName = "";
-			oldMusicName = "";
-			ResetSoundScheme();
-			StopSound(0,0);
-			ReleaseSound(0);*/
 			ClearEvents();
 			ClearPostEvents();
 
@@ -571,10 +557,6 @@ void InterfaceDoExit()
 		case RC_INTERFACE_DO_OPTIONS:
 			LaunchOptionScreen();
 			break;
-		/*case RC_INTERFACE_DO_CONTROLS:
-			LaunchControlsScreen();
-			break;
-			*/
 			
 		case RC_INTERFACE_LOCKPICK: //New Abilities - взлом сундука
 			LaunchLockPicking();
@@ -608,20 +590,9 @@ void InterfaceDoExit()
 			pchar = GetMainCharacter();
 			LaunchCharacter(pchar);
 		break;
-		/*
-		case RC_INTERFACE_TO_PASS:
-			pchar = GetMainCharacter();
-			LaunchPassengers(pchar);
-		break;
-		*/
 		case RC_INTERFACE_TO_SHIP:
 			LaunchShipState();
 		break;
-		/*
-		case RC_INTERFACE_TO_TRADEBOOK:
-			LaunchTradeBook();
-		break;
-		*/
 		case RC_INTERFACE_TO_LOGBOOK:
 			LaunchQuestBook();
 		break;
@@ -631,9 +602,6 @@ void InterfaceDoExit()
 		case RC_INTERFACE_LAUNCH_GAMEMENU:
 			LaunchGameMenuScreen();
 			break;
-		/* case INTERFACE_NET_ENDGAME:
-			ReturnToMainMenu();
-		break; */
 		// boal -->
   		case RC_INTERFACE_DO_BOAL_BETA:
 		     LaunchBoalBetaScreen();
@@ -649,6 +617,13 @@ void InterfaceDoExit()
 		case RC_INTERFACE_MAPVIEW:
 			LaunchMapViewScreen(); // Смотрим атлас карт
 			break;
+		case RC_INTERFACE_POINTS_EX:
+			LaunchPointsEX();
+			break;
+		// Крафт
+		case RC_INTERFACE_CRAFT_ALL:
+			LaunchCraftAll();
+		break;
 	}
 }
 void EngineLayersOffOn(bool on)
@@ -873,39 +848,6 @@ void OnLoad()
         Sound_OnSeaAlarm555(seaAlarmed, true);
 	
 	iCalculateSaveLoadCount("Load");
-	/*if (InterfaceStates.NoInt)
-	{
-		if (bSeaActive && !bAbordageStarted)
-		{
-			DeleteBattleInterface();
-		}
-		else
-		{
-			EndBattleLandInterface();
-		}
-	}
-	else
-	{
-		if (bSeaActive && !bAbordageStarted)
-		{
-			if (!IsEntity(BattleInterface))
-			{
-				InitBattleInterface();
-				StartBattleInterface();
-				RefreshBattleInterface();
-			}
-		}
-		else
-		{
-			if (!IsEntity(worldMap))
-			{
-				if (!bLandInterfaceStart)
-				{
-					StartBattleLandInterface();
-				}
-			}
-		}
-	}*/
 }
 
 void NewGame()
@@ -990,53 +932,6 @@ void NewGame_continue()
 		pchar.quest.SelectMainCharacterInCabine.win_condition.l1          = "location";
 		pchar.quest.SelectMainCharacterInCabine.win_condition.l1.location = "SelectMainCharacter_Cabine";
 		pchar.quest.SelectMainCharacterInCabine.function                  = "SelectMainCharacterInCabine";
-    /*}
-	if (startHeroType == 3 || startHeroType == 4) 
-	{//Блейз и Беатрис
-		InterfaceStates.startGameWeather = FindWeather("11 Hour");
-		LoadMainCharacterInFirstLocationGroup("Shore57", "item", "item11");
-    }
-	if (startHeroType == 5 || startHeroType == 6) 
-	{//Блейз и Беатрис
-		InterfaceStates.startGameWeather = FindWeather("11 Hour");
-		LoadMainCharacterInFirstLocationGroup("Shore_ship2", "goto", "goto4");
-    }
-    if (startHeroType == 2)
-	{//Виспер
-		RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, SPYGLASS_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, PATENT_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, BACKPACK_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, TALISMAN_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, BOOK_ITEM_TYPE);
-		DeleteAttribute(pchar, "items");
-		
-		InterfaceStates.startGameWeather = FindWeather("11 Hour");
-		LoadMainCharacterInFirstLocationGroup("Bermudes_Dungeon", "officers", "reload2_1");
-    }
-	if (startHeroType == 1)
-    {//Блад
-        //homo тут это должно точно работать
-        RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, SPYGLASS_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, PATENT_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, CIRASS_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, MAPS_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, BACKPACK_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, TALISMAN_ITEM_TYPE);
-		RemoveCharacterEquip(pchar, BOOK_ITEM_TYPE);
-		DeleteAttribute(pchar, "items");
-		InterfaceStates.startGameWeather = FindWeather("20 Hour");
-		LoadMainCharacterInFirstLocationGroup("Estate", "reload", "reload1");
-    }
-	else
-	{*/
-		//InitPsHeros();   // boal 05/07/06 ПГГ
-	//}
 	ReloadProgressUpdate();
 	
 	//InitTowns();
@@ -1047,13 +942,6 @@ void NewGame_continue()
     //#20190909-01
     pchar.fix20190909 = true;
 	ReloadProgressUpdate();
-	
-	/*for (int j = 0; j< MAX_COLONIES; j++)
-	{
-		GenerateIslandShips(colonies[j].island);
-	}
-	ReloadProgressUpdate();*/
-	//InitSmuggling();
 	ReloadProgressEnd();
 }
 
@@ -1128,12 +1016,7 @@ void InitGame()
 
 	InitQuestMapEncounters();
 	ReloadProgressUpdate();
-
-	//InitLandRandomEncounters();
-	//ReloadProgressUpdate();
-
-	//SetNextWeather("10 Hours");
-
+	
 	ResetQuestMovie();
 	ReloadProgressUpdate();
 
@@ -1154,9 +1037,6 @@ void ProcessControls()
     int   itmIdx;
 	String itemID;
 	bool bOk, bOk1;
-	//if (bBettaTestMode) Log_QuestInfo(ControlName);
-    // boal <--
-	//trace("ProcessControls() : " + ControlName);
 
     if (ControlName == "QuickSave") { MakeQuickSave(); return; }
     if (ControlName == "QuickLoad") { MakeQuickLoad(); return; }
@@ -1206,21 +1086,25 @@ void ProcessControls()
             case "CIC_LoadAtWill" :
                 Log_SetStringToLog("Эскадра, зарядка по усмотрению!");
                 CIC_SendCommand(ControlName);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
                 return;
             break;
             case "CIC_SailAway" :
                 Log_SetStringToLog("Эскадра, уплыть!");
                 CIC_SendCommand(ControlName);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
                 return;
             break;
             case "CIC_LowerSails" :
                 Log_SetStringToLog("Эскадра, спустить паруса!");
                 CIC_SendCommand(ControlName);
+				PlayVoice("INTERFACE\_strike_down.wav");
                 return;
             break;
             case "CIC_ProtFlagship" :
                 Log_SetStringToLog("Эскадра, защищать флагман!");
                 CIC_SendCommand(ControlName);
+				PlayVoice("INTERFACE\SignalCompanion.wav");
                 return;
             break;
             //// {*} BUHO END ADDITION
@@ -1231,7 +1115,7 @@ void ProcessControls()
 		switch(ControlName)
 		{
 			case "ChrBlock":
-			if (pchar.model.animation == "mushketer")
+			if (findsubstr(pchar.model.animation, "mushketer" , 0) != -1)
 			{
 				if (stf(pchar.chr_ai.charge) != 1.0)
 				{
@@ -1266,31 +1150,47 @@ void ProcessControls()
             break;
             case "BOAL_UsePotion": // boal KEY_X
                 if (bLandInterfaceStart)
-            {
-	            itmIdx = FindPotionFromChr(pchar, &arItm, 0);
-		        while(itmIdx>=0)
-		        {
-			      if( EnablePotionUsing(pchar, arItm) )
-			      {
-				     DoCharacterUsedItem(pchar, arItm.id);
-				     int idLngFile = LanguageOpenFile("save_load.txt");
-				     Log_SetStringToLog(LanguageConvertString(idLngFile, "Potion"));
-				     break;
-			      }
-			      itmIdx = FindPotionFromChr(pchar, &arItm, itmIdx+1);
-		        }
-	        }
+				{
+					bool bEnablePotion1 = true;
+					if(CheckAttribute(PChar, "AcademyLand"))
+					{
+						if(PChar.AcademyLand == "Start")
+						{
+							bEnablePotion1 = sti(PChar.AcademyLand.Temp.EnablePotion);
+						}
+					}
+					
+					if(!bEnablePotion1)
+					{
+						Log_SetStringToLog("В данный момент запрещено использовать эликсиры.");
+					}
+					else
+					{
+						itmIdx = FindPotionFromChr(pchar, &arItm, 0);
+						while(itmIdx>=0)
+						{
+						  if( EnablePotionUsing(pchar, arItm) )
+						  {
+							 DoCharacterUsedItem(pchar, arItm.id);
+							 int idLngFile = LanguageOpenFile("save_load.txt");
+							 Log_SetStringToLog(LanguageConvertString(idLngFile, "Potion"));
+							 break;
+						  }
+						  itmIdx = FindPotionFromChr(pchar, &arItm, itmIdx+1);
+						}
+					}
+				}
             return;
             break;
 			case "csmRunLootCollector":
 				csmLootCollector();
 			break;
             case "BOAL_ActivateRush":  // boal KEY_F
-                if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush"))
-                {
-                    ActivateCharacterPerk(pchar, "Rush");
+				if (bLandInterfaceStart && GetCharacterPerkUsing(pchar, "Rush") && PChar.location != "FencingTown_Arena" && PChar.location != "FencingTown_ExitTown")
+				{
+					ActivateCharacterPerk(pchar, "Rush");
 					PlayVoice(GetSexPhrase("interface\Bers_"+rand(5)+".wav","interface\Bersf_"+rand(4)+".wav"));
-                }
+				}
                 else
                 {
                     if (bLandInterfaceStart && curKeyGroupName == "FightModeControls")
@@ -1333,9 +1233,6 @@ void ProcessControls()
             break;
 			case "TeleBack": Teleport(-1); return; break;
 			case "Action":
-				//DumpAttributes(loadedLocation/*loadedLocation.reload.reload1.x*/);
-				//trace("Y: " + loadedLocation.reload.reload1.y);
-				//trace("Z: " + loadedLocation.reload.reload1.z);
 			return;
             break;
 		}
@@ -1346,6 +1243,17 @@ void ProcessControls()
   	{
         //Boyer change #20170318-38
         if (CheckAttribute(&loadedLocation, "type") && loadedLocation.type == "underwater") return; //запрет ускорения под водой.
+		if (bAltBalance && ControlName == "TimeScaleSlower" && TimeScaleCounter == 0)
+		{
+			Log_SetStringToLog("Замедление времени заблокировано.");
+			return;
+		}
+		if (PChar.location == "FencingTown_Arena" || PChar.location == "FencingTown_ExitTown")
+		{
+			Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
+			return;
+		}
+		
 		DeleteAttribute(pchar, "pause");
 		if (ControlName == "TimeScaleFaster")
      	{
@@ -1442,6 +1350,11 @@ void ProcessControls()
             if (CheckAttribute(&loadedLocation, "type") && loadedLocation.type == "Underwater") {
 				return; //запрет ускорения под водой.
 			}
+			if (PChar.location == "FencingTown_Arena" || PChar.location == "FencingTown_ExitTown")
+			{
+				Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
+				return;
+			}
 			if(IsPerkIntoList("TimeSpeed"))
 			{
 				SetTimeScale(1.0);
@@ -1458,6 +1371,11 @@ void ProcessControls()
 			}
 		break;
 		case "VK_PAUSETimePause":
+			if (PChar.location == "FencingTown_Arena" && PChar.location == "FencingTown_ExitTown")
+			{
+				Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
+				return;
+			}
 			if (!CheckAttribute(pchar, "pause"))
 			{
 				pchar.pause = true;
@@ -1491,10 +1409,21 @@ void ProcessControls()
 				pchar.mushket.timer = true;
 				LAi_SetFightMode(pchar, false);
 				LAi_SetActorType(pchar);
-				if(pchar.model.animation == "man_fast" || pchar.model.animation == "YokoDias_fast") PostEvent("Event_SwapWeapon", 1400);
-				if(pchar.model.animation == "man" || pchar.model.animation == "YokoDias") PostEvent("Event_SwapWeapon", 1800);
-				if(pchar.model.animation == "mushketer" || pchar.model.animation == "mushketer_whisper") PostEvent("Event_SwapWeapon3", 800);
-				DoQuestFunctionDelay("ReloadMyGun", 2.0);
+				if(pchar.model.animation == "man_fast" || pchar.model.animation == "YokoDias_fast") 
+				{
+					PostEvent("Event_SwapWeapon", 1400);
+					DoQuestFunctionDelay("ReloadMyGun", 1.5);
+				}
+				if(pchar.model.animation == "man" || pchar.model.animation == "YokoDias")
+				{
+					PostEvent("Event_SwapWeapon", 1800);
+					DoQuestFunctionDelay("ReloadMyGun", 1.9);
+				}
+				if(findsubstr(pchar.model.animation, "mushketer" , 0) != -1)
+				{
+					PostEvent("Event_SwapWeapon3", 800);
+					DoQuestFunctionDelay("ReloadMyGun", 0.9);
+				}
 			}
 		break;
 		
@@ -1556,26 +1485,42 @@ void ProcessControls()
 		case "BOAL_UsePotion": // boal KEY_C
             if (bLandInterfaceStart)
             {
-				if(LAi_IsPoison(pchar)) 
+				bool bEnablePotion = true;
+				if(CheckAttribute(PChar, "AcademyLand"))
 				{
-					if (UseBestPotion(pchar, true) == 0) 
+					if(PChar.AcademyLand == "Start")
 					{
-						if (UseBestPotion(pchar, false) == 0) 
-						{
-							Log_SetStringToLog("No Potion Found!");
-						}
+						bEnablePotion = sti(PChar.AcademyLand.Temp.EnablePotion);
 					}
 				}
-				else 
+				
+				if(!bEnablePotion)
 				{
-					if (UseBestPotion(pchar, false) == 0) 
+					Log_SetStringToLog("В данный момент запрещено использовать эликсиры.");
+				}
+				else
+				{
+					if(LAi_IsPoison(pchar)) 
 					{
 						if (UseBestPotion(pchar, true) == 0) 
 						{
-							Log_SetStringToLog("No Potion Found!");
+							if (UseBestPotion(pchar, false) == 0) 
+							{
+								Log_SetStringToLog("No Potion Found!");
+							}
 						}
 					}
-				}	
+					else 
+					{
+						if (UseBestPotion(pchar, false) == 0) 
+						{
+							if (UseBestPotion(pchar, true) == 0) 
+							{
+								Log_SetStringToLog("No Potion Found!");
+							}
+						}
+					}	
+				}
 	        }
 		break;
 		
@@ -1669,20 +1614,6 @@ void ProcessControls()
 			}
 		}
 		break;
-		/* case "BOAL_ActivateSandbankManeuver":
-		if(bSeaActive == true)
-		{
-			if (!CheckOfficersPerk(pchar, "SandbankManeuver") && GetOfficersPerkUsing(pchar, "SandbankManeuver"))
-			{
-				ActivateCharacterPerk(pchar,"SandbankManeuver");
-			}
-			else
-			{
-				Log_Info("Навык не доступен!");
-				PlaySound("interface\knock.wav");
-			}
-		}
-		break; */
 	    case "BOAL_DeadSearch":  // boal KEY_1
 			if (bLandInterfaceStart)
             {
@@ -1795,8 +1726,24 @@ void ProcessControls()
 		case "UseFood":
 			if (bLandInterfaceStart)
 			{
-				pchar.pressedFoodButton = true;
-				EatSomeFood();
+				bool bEnableFood = true;
+				if(CheckAttribute(PChar, "AcademyLand"))
+				{
+					if(PChar.AcademyLand == "Start")
+					{
+						bEnableFood = sti(PChar.AcademyLand.Temp.EnableFood);
+					}
+				}
+				
+				if(!bEnableFood)
+				{
+					Log_SetStringToLog("В данный момент запрещено использовать еду.");
+				}
+				else
+				{
+					pchar.pressedFoodButton = true;
+					EatSomeFood();
+				}
 			}
 		break;
         // boal <--

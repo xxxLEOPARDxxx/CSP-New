@@ -99,6 +99,38 @@ void ProcessDialogEvent()
 				LAi_RemoveCheckMinHP(sld);
 				LAi_SetImmortal(sld, false);
 			}
+			bool bRape = GetOfficersQuantity(pchar) == 0 || rand(4) == 0;
+			if (pchar.sex == "woman" && bRape)
+			{
+				dialog.text = RandPhraseSimple(LinkRandPhrase("Ну надо же, какая красотка бродит по джунглям! ", 
+				"Вот это мне повезло сегодня, наконец-то с бабой перепадёт! ", 
+				"Не так быстро, дорогуша, одно дело к тебе есть! ")+
+				LinkRandPhrase("Надеюсь, ты не против, если мы с тобой немного развлечёмся? Скажу сразу, отказов я не принимаю.", 
+				"Давай по-хорошему: раздевайся, сделаем дело и пойдёшь себе дальше.",
+				"Ты же не думала, что сможешь просто так мимо меня пройти? Сначала тебе придётся познакомиться с моим маленьким другом!"),
+				
+				LinkRandPhrase("Лопните мой глаза! Дамочка, а вам известно, что вы сегодня выходите замуж?  Нечаянно и ненадолго...",
+				"Стой, милаха, торопиться никуда не надо, свою судьбу ты уже нашла. Моему дружку ты понравилась, если глупить не будешь понравишься и мне тоже... Бросай железяку, начнем знакомиться поближе, кроха.",
+				"Ну что, цыпа, от тоски что ли в лес подалась? Мы веселить умеем! Кто последний тот и папа, парни!"))
+
+				Link.l1 = "Ладно, делай своё дело, сволочь."
+				Link.l1.go = "Rape";
+				if (GetOfficersQuantity(pchar) > 0)
+				{
+					Link.l1 = LinkRandPhrase("Ну уж нет, отдаваться я тебе не стану, да и моя охрана этого не позволит. ", 
+					"Ты бы завязал с этими грязными мыслишками, мои абордажники все равно в обиду меня не дадут. ", 
+					"Ты мог бы попробовать меня взять, но подумай, стоит ли рисковать ради такого своей жизнью в бою с моими офицерами? ")+
+					LinkRandPhrase("Давай лучше я заплачу тебе, деньгами, и мы разойдёмся без кровопролития.",
+					"Взамен, как насчет небольшой денежной суммы, чтоб мы разошлись мирно?",
+					"Сколько денег ты хочешь чтобы пропустить нас?")
+					Link.l1.go = "Node_2_woman";
+				}
+				Link.l2 = RandPhraseSimple("Не на ту напал, мразь. Я тебе не хрупкая девчонка, могу и постоять за себя.", 
+				"Повтори-ка это в дуло моего пистолета, похотливый павиан!", 
+				"Да ты никак танцором стать решил, но кое-что мешает? Ну подходи, мой клинок это мигом исправит.");
+				Link.l2.go = "CheckSkills";
+				break;
+			}
 			dialog.text = LinkRandPhrase(LinkRandPhrase("Стой! Бросай оружие! Выкладывай золото, или подохнешь на месте!",
 				"Ни с места, "+ GetSexPhrase("путник","девчонка") +"! Оружие не трогай и не вздумай шутить, если жизнь дорога!",
 				"Стой, "+ GetSexPhrase("путник","девчонка") +"! Это платная дорога! Хочешь пройти - давай пошлину."),
@@ -108,6 +140,7 @@ void ProcessDialogEvent()
 				"Не торопись, "+ GetSexPhrase("прохожий","дорогуша") +"! Хочу потолковать с тобой по душам.");				
 			Link.l1 = LinkRandPhrase(LinkRandPhrase("Что ты несёшь?","В чем дело?", "О чём это ты?"), "Что ты имеешь в виду?", "К чему это ты?");
 			Link.l1.go = "Node_2";
+			
 			Link.l2 = LinkRandPhrase(LinkRandPhrase("Никак разбойники?! Вот сейчас и разомнёмся!", 
 				"Разбойники, что ль?! Небось, от правосудия бегаете? А вот правосудие к вам само пришло...",
 				"А разве тебя не учили, что нехорошо приставать к "+ GetSexPhrase("незнакомым","девушкам") +" с разными глупостями? Придётся преподать урок..."),
@@ -155,6 +188,25 @@ void ProcessDialogEvent()
 				"Вас, висельников, следовало бы вздёрнуть на площади! Да видать придётся шпагу марать!"),
 				RandPhraseSimple("А с чего ты решил, что я стану перед тобой кошелем трясти?",
 				"А тебя не смущает, что я неплохо вооружен"+ GetSexPhrase("","а") +" и в джунгли не спросонок выбежал"+ GetSexPhrase("","а") +"?"));
+			Link.l2.go = "CheckSkills";	
+		break;
+		
+		case "Node_2_woman":
+			iMoney = 100*MOD_SKILL_ENEMY_RATE*sti(NPChar.EncQty)+makeint(100 * sti(PChar.rank))+makeint(100 * sti(NPChar.rank)*sti(NPChar.EncQty));
+			NPChar.moneyfee = iMoney;
+			dialog.text = "Думаю ты не обеднеешь, отдав "+iMoney+" пиастров. Примерно по "+makeint(iMoney/sti(NPChar.EncQty))+" на брата.";
+			//Link.l1 = "Проклятье! Мерзавец! У меня с собой только " + makeint(makeint(Pchar.money)/20)*10 + " пиастров.";
+			if(sti(pchar.money) >= sti(NPChar.moneyfee))
+			{
+				Link.l1 = "Проклятье! Мерзавец! Забирай свои деньги!";
+			}
+			else
+			{
+				Link.l1 = "У меня нет столько денег.";
+			}
+			Link.l1.go = "CheckMoney";
+			Link.l2 = RandPhraseSimple("Сколько? Ну это уже наглость, нам придется тебя за это проучить.",
+				"А я ведь надеялась на твое благоразумие. С такими расценками нам гораздо проще тебя убить!");
 			Link.l2.go = "CheckSkills";	
 		break;
 
@@ -242,7 +294,36 @@ void ProcessDialogEvent()
 				Link.l1.go = "Exit_Fight";				
 			}				
 		break;
+		
+		case "Rape":
+			AddCharacterExpToSkill(pchar, "Leadership", -100);
+            AddCharacterExpToSkill(pchar, "Fencing", 50);
+            AddCharacterExpToSkill(pchar, "Pistol", 50);
+            AddCharacterHealth(pchar, -10);
+			Diag.TempNode = "OnceAgainRape";
+			AddDialogExitQuest("PlaySex_1");
+			for(i = 0; i < iTemp; i++)
+			{
+				sld = CharacterFromID(sTemp + i);
+				sld.LifeDay = 0;
+				LAi_SetWarriorTypeNoGroup(sld);
+				sld.Dialog.CurrentNode = "OnceAgainRape";
+				LAi_SetCheckMinHP(sld, LAi_GetCharacterHP(sld)-1, true, "LandEnc_RaidersBeforeDialog");
+			}
+			DialogExit();
+		break;
 
+		case "OnceAgainRape":
+			Diag.TempNode = "OnceAgainRape";
+			dialog.text = LinkRandPhrase("Мы закончили, можешь идти, куда шла.",
+				"Надеюсь, мы стобой еще увидимся, хе-хе. А пока, можешь идти.",
+				"Если не хочешь на второй заход, лучше вали подобру-поздорову.");
+			Link.l1 = "Уже ухожу.";
+			Link.l1.go = "Exit";
+			Link.l2 = "Ну уж нет, я уйду только после того, как ты сдохнешь, тварь!";
+			Link.l2.go = "Exit_Fight";
+		break;
+		
 		case "OnceAgain":
 			Diag.TempNode = "OnceAgain";
 			dialog.text = LinkRandPhrase("Снова ты? Давай, беги домой, к маме! А то ведь я могу и рассердиться.",

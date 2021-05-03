@@ -202,7 +202,13 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
 		if( cn>=0 )
 		{
 			chref = GetCharacter(cn);
-
+			
+			if(sti(chref.Ship.soiling)<100)
+			{
+				if (CheckAttribute(&RealShips[sti(chref.Ship.Type)], "Tuning.CuBot") && rand(4)==0) chref.Ship.soiling = sti(chref.Ship.soiling)+1;
+				else chref.Ship.soiling= sti(chref.Ship.soiling)+1;
+			}
+			
 			if (!GetRemovable(chref)) continue;
 
 			// RATS -->

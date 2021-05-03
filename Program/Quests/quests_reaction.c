@@ -314,7 +314,15 @@ void QuestComplete(string sQuestName, string qname)
             PChar.GenQuest.GhostShip.AskAbout    = 2; // опять будет
             Survive_In_Sea_Go2Land();
         break;
-        
+        case "GhostShip_Start":
+			AddQuestRecord("GhostShipQuest", "3_1");
+			n = FindIsland("KhaelRoa");
+			Islands[n].alwaysStorm = true;
+			Islands[n].storm = true;
+			Islands[n].tornado = true;
+			pchar.GhostCap.Fight = true;
+			if (!CheckAttribute(pchar , "GenQuest.GhostShip.LastBattle")) Pchar.Abordage.Enable = false;
+			break;
         case "GhostShip_Dead":
             if (CheckAttribute(pchar , "GenQuest.GhostShip.LastBattle"))
             {
@@ -359,6 +367,14 @@ void QuestComplete(string sQuestName, string qname)
 
                 DoQuestCheckDelay("PostVideo_Start", 0.1); */
             }
+			n = FindIsland("KhaelRoa");
+			DeleteAttribute(&Islands[n], "alwaysStorm");
+			DeleteAttribute(&Islands[n], "storm");
+			DeleteAttribute(&Islands[n], "tornado");
+			DeleteAttribute(&Islands[n], "QuestlockWeather");
+			DeleteAttribute(&Islands[n], "MaxSeaHeight");
+			Pchar.Abordage.Enable = true;
+			DeleteAttribute(pchar,"GhostCap.Fight");
         break;
         
 		case "GhostCapt_OfferPrize":
@@ -650,7 +666,7 @@ void QuestComplete(string sQuestName, string qname)
         case "Munity_on_Ship":
             pchar.quest.Munity = "";
             pchar.GenQuest.MunityStart = true;
-            PlayVoice("INTERFACE\_GTBoard2.wav");
+            PlayVoice("INTERFACE\_GTMutiny_"+rand(2)+".wav");
             InterfaceStates.Buttons.Save.enable = 0;
             LAi_SetFightMode(Pchar, true);
 
@@ -1483,6 +1499,11 @@ void QuestComplete(string sQuestName, string qname)
 				ChangeCharacterReputation(pchar, 1);
 				RemoveCharacterCompanion(Pchar, characterFromID("QuestTrader"));
 				CloseQuestHeader("convoy_quest");
+				
+				pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+				if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+				if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+				if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
 			}
 			pchar.quest.generate_convoy_quest_progress = "";
 			GetCharacterPos(pchar, &locx, &locy, &locz);
@@ -3139,6 +3160,12 @@ void QuestComplete(string sQuestName, string qname)
 			AddQuestUserData("GivePrisonFree", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("GivePrisonFree", "sName", pchar.questTemp.jailCanMove.Deliver.name);
 			CloseQuestHeader("GivePrisonFree");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
             chrDisableReloadToLocation = false;
 			iTemp = GetCharacterIndex(pchar.questTemp.jailCanMove.Deliver.Id);
 			if (iTemp > 0) ChangeCharacterAddress(&characters[iTemp], "none", "");
@@ -3768,10 +3795,12 @@ void QuestComplete(string sQuestName, string qname)
             Pchar.quest.MorrisWillams_SeekCirassaAgain.win_condition.l1 = "ExitFromLocation";
             Pchar.quest.MorrisWillams_SeekCirassaAgain.win_condition.l1.location = "Shore_ship2";
             Pchar.quest.MorrisWillams_SeekCirassaAgain.win_condition = "MorrisWillams_SeekCirassaAgain";
+			chrDisableReloadToLocation = true;
         break;
 
         case "MorrisWillams_AfterFightInShore":
             Pchar.quest.MorrisWillams_SeekCirassaAgain.over = "yes";
+			chrDisableReloadToLocation = false;
         break;
 
         case "MorrisWillams_SeekCirassaAgain":
@@ -8074,6 +8103,7 @@ void QuestComplete(string sQuestName, string qname)
             LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
             InterfaceStates.Buttons.Save.enable = false;
             LAi_SetFightMode(pchar, false);
+			LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], true);
 			Pchar.model="PGG_Whisper_0_NoHat";
 			DoQuestFunctionDelay("WhisperHold", 0.5);
 		break;
@@ -8200,6 +8230,8 @@ void QuestComplete(string sQuestName, string qname)
 		case "ColonyBuilding":
 			SetQuestHeader("ColonyBuilding");
 			AddQuestRecord("ColonyBuilding", "1");
+			AddQuestUserData("ColonyBuilding", "sSex", GetSexPhrase("","а"));
+			AddQuestUserData("ColonyBuilding", "sSex1", GetSexPhrase("ся","ась"));
 			string sArchitecorName = Characters[GetCharacterIndex("Builder")].name + " " + Characters[GetCharacterIndex("Builder")].lastname;
 			AddQuestUserData("ColonyBuilding", "sArchitecorName", sArchitecorName);
 			
@@ -8383,6 +8415,7 @@ void QuestComplete(string sQuestName, string qname)
 // Colony Modification
 		case "ColonyModification":
 			AddQuestRecord("ColonyBuilding", "7");
+			AddQuestUserData("ColonyBuilding", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("ColonyBuilding", "sColonyName", PChar.ColonyBuilding.ColonyName);
 			
 			PChar.ColonyBuilding.Stage.SecondStage = "0";
@@ -9050,6 +9083,24 @@ void QuestComplete(string sQuestName, string qname)
 		// РУДНИКИ - КОНЕЦ
 		////////////////////////////////////////////////////////////////////////////////////////////////
 		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// АКАДЕМИЯ И АРЕНА - НАЧАЛО
+		////////////////////////////////////////////////////////////////////////////////////////////////
+	        case "AcademyLand_Winner":
+			AcademyLandTrainingEnd(true);
+	        break;
+	        
+	        case "AcademyLand_Loose":
+			AcademyLandTrainingEnd(false);
+	        break;
+	        
+	        case "ArenaDuelCheckNewRound":
+	        	ArenaDuelCheckNewRound();
+	        break;
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////
+		// АКАДЕМИЯ И АРЕНА - КОНЕЦ
+		////////////////////////////////////////////////////////////////////////////////////////////////
 		//homo
 		//-->работорговец
 		case "Slavetrader_findTortugaRat"://охрана Гонтьера
@@ -9501,12 +9552,49 @@ void QuestComplete(string sQuestName, string qname)
 		AddQuestRecord("Silence_Price", "6_1");
 	break;
 		//конец История давней дружбы
-		//2 жертвы и главу шпионов.
+		//Евент с искателем лазутчиков Lipsar//
+	case "SeekerFight":
+		sld = CharacterFromID("SpySeeker");
+		LAi_SetImmortal(sld, false);
+		LAi_Group_MoveCharacter(sld, "SpySeeker");
+		LAi_group_SetRelation("SpySeeker", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+		LAi_Group_FightGroups(PLAYER_GROUP, "SpySeeker", true);
+		LAi_SetFightMode(sld, true);
+		LAi_SetFightMode(pchar, true);
+		LAi_Group_SetCheck("SpySeeker","OpenTheDoors");
+	break;
+	case "SpySeekerGood":
+		sld = CharacterFromID("SpySeeker");
+		LAi_SetActorType(sld);
+		LAi_ActorGoToLocation(sld, "reload", "reload1", "none", "", "", "", 5.0);
+		chrDisableReloadToLocation = false;
+	break;
+	//Евент с искателем лазутчиков Lipsar//
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////  	КВЕСТЫ "Проклятие Дальних Морей" НАЧАЛО  	///	 		АВТОР Sinistra				//////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//========================  Квест "Альбрехт".  =======================												
+//========================  Квест "Альбрехт".  =======================	
+		case "PDM_Albreht_Saditsya_na_korabl":
+			sld = CharacterFromID("Albreht_Zalpfer")   //ссылается на персонажа
+			AddPassenger(pchar, sld, false);    // добавить пассажира
+			SetCharacterRemovable(sld, true);   // можно ставить на должность
+			sld.loyality = MAX_LOYALITY;
+			sld.Payment = true;
+			sld.quest.OfficerPrice = sti(pchar.rank)*10;
+			sld.OfficerWantToGo.DontGo = true;
+			sld.rank = 4;
+			SetSelfSkill(sld, 5, 40, 5, 5, 5);
+			SetShipSkill(sld, 5, 5, 5, 5, 5, 35, 5, 5, 5);
+			LAi_SetImmortal(sld, false);
+			sld.HalfImmortal = true;
+			GiveItem2Character(sld, "topor_05");
+			EquipCharacterByItem(sld, "topor_05");
+			
+			bDisableFastReload = false;          //быстрое перемещение
+			chrDisableReloadToLocation = false;      //блокировка всех выходов
+        break;
+
 		case "PDM_Albreht_Vhod":
 			chrDisableReloadToLocation = false;   //блокировка всех выходов
             sld = CharacterFromID("Albreht_Zalpfer");  //ссылается на персонажа
@@ -9886,7 +9974,73 @@ void QuestComplete(string sQuestName, string qname)
 		
 //========================  Квест "Потерянное кольцо".  =======================
 
-// Будущий текст
+		case "PDM_PK_Ubita":
+			AddQuestRecord("PDM_Poteryanoe_Koltso", "4");
+			AddQuestUserData("PDM_Poteryanoe_Koltso", "sSex", GetSexPhrase("","а"));
+			chrDisableReloadToLocation = false;
+			sld = CharacterFromID("Josephine_Lodet")
+			sld.dialog.currentnode   = "Konets";
+			
+			AddCharacterExpToSkill(pchar, "FencingLight", 60);
+			AddCharacterExpToSkill(pchar, "FencingHeavy", 60);
+			AddCharacterExpToSkill(pchar, "Fencing", 60);
+			AddCharacterExpToSkill(pchar, "Pistol", 60);
+			ChangeCharacterReputation(pchar, -10);
+			ChangeCharacterNationReputation(pchar, SPAIN, -5);
+		break;
+		
+//========================  Квест "Непутёвый казначей".  =======================	
+
+		case "PDM_NK_Viktor":
+			AddCharacterExpToSkill(pchar, "FencingLight", 100);
+			AddCharacterExpToSkill(pchar, "FencingHeavy", 100);
+			AddCharacterExpToSkill(pchar, "Fencing", 100);
+			AddCharacterExpToSkill(pchar, "Pistol", 100);
+			AddCharacterExpToSkill(pchar, "Sneak", -50);
+			AddCharacterExpToSkill(pchar, "Commerce", -50);
+			
+			AddQuestRecord("PDM_Neputyovy_kaznachey", "4");
+			
+			sld = CharacterFromID("Andreas_Fickler")
+			sld.dialog.filename   = "Quest/PDM/Neputyovy_kaznachey.c";
+			sld.dialog.currentnode   = "Fickler_11";
+		break;
+		
+		case "PDM_NK_Litsenzia":
+			if (GetDaysContinueNationLicence(HOLLAND) < 30) GiveNationLicence(HOLLAND, 30);
+			if (GetDaysContinueNationLicence(SPAIN) < 30) GiveNationLicence(SPAIN, 30);
+			if (GetDaysContinueNationLicence(ENGLAND) < 30) GiveNationLicence(ENGLAND, 30);
+			if (GetDaysContinueNationLicence(FRANCE) < 30) GiveNationLicence(FRANCE, 30);
+			TakeItemFromCharacter(pchar, "Litsenzia");
+		break;
+		
+		case "PDM_NK_NaKorabl":
+			sld = CharacterFromID("Andreas_Fickler")
+			SetCharacterRemovable(sld, true);
+			sld.loyality = MAX_LOYALITY;
+			sld.Payment = true;
+			sld.quest.OfficerPrice = sti(pchar.rank)*50;
+			sld.OfficerWantToGo.DontGo = true;
+			
+			bDisableFastReload = false;
+			chrDisableReloadToLocation = false;
+		break;
+
+//========================  Квест "Клан Ламбрини".  =======================
+
+		case "PDM_CL_Lodka":
+			bDisableFastReload = false;
+			chrDisableReloadToLocation = false;
+			LAi_LocationFightDisable(loadedLocation, true);
+		break;
+		
+		case "PDM_CL_Antonio_Ubit":
+			sld = CharacterFromID("PDM_Octavio_Lambrini")
+			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+			sld.dialog.currentnode   = "Octavio_2_1";
+			DeleteAttribute(pchar, "questTemp.PDM_CL_Tavern");
+			DeleteAttribute(pchar, "questTemp.PDM_CL_Ishem");
+		break;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   	КВЕСТЫ "Проклятие Дальних Морей" КОНЕЦ
@@ -10099,6 +10253,7 @@ void Flag_PIRATE()
     else { if(IsEntity(worldMap))
         SetSchemeForMap();
     }
+	SendMessage(&worldMap, "ll", MSG_WORLDMAP_FLAG_SET,  sti(pchar.nation));
 }
 
 void Flag_FRANCE()
@@ -10128,6 +10283,7 @@ void Flag_FRANCE()
     else { if(IsEntity(worldMap))
         SetSchemeForMap();
     }
+	SendMessage(&worldMap, "ll", MSG_WORLDMAP_FLAG_SET,  sti(pchar.nation));
 }
 
 void Flag_ENGLAND()
@@ -10156,6 +10312,7 @@ void Flag_ENGLAND()
     else { if(IsEntity(worldMap))
         SetSchemeForMap();
     }
+	SendMessage(&worldMap, "ll", MSG_WORLDMAP_FLAG_SET,  sti(pchar.nation));
 }
 
 void Flag_SPAIN()
@@ -10184,6 +10341,7 @@ void Flag_SPAIN()
     else { if(IsEntity(worldMap))
         SetSchemeForMap();
     }
+	SendMessage(&worldMap, "ll", MSG_WORLDMAP_FLAG_SET,  sti(pchar.nation));
 }
 
 void Flag_HOLLAND()
@@ -10212,6 +10370,7 @@ void Flag_HOLLAND()
     else { if(IsEntity(worldMap))
         SetSchemeForMap();
     }
+	SendMessage(&worldMap, "ll", MSG_WORLDMAP_FLAG_SET,  sti(pchar.nation));
 }
 
 void Flag_Rerise()

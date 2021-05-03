@@ -422,19 +422,6 @@ void LAi_CheckHalfImmortal(aref chr)
 	}
 }
 
-void SecondCharceRefresh(string qName)
-{
-	for(int i = 0; i < MAX_CHARACTERS; i++)
-	{
-		ref chr;
-		makeref(chr,Characters[i]);
-		if(CheckAttribute(chr, "id"))
-		{
-			DeleteAttribute(chr, "Adventurers_Luck");
-		}
-	}
-}
-
 //Убить персонажа, если закончились hp
 void LAi_CheckKillCharacter(aref chr)
 {
@@ -466,6 +453,7 @@ void LAi_CheckKillCharacter(aref chr)
 				{
 					chr.chr_ai.hp =  hitpoints;
 					Log_Info("Судьба дает вам второй шанс!");
+					PlaySound("interface\heartbeat.wav");
 					//Сюда можно поставить юз звука
 					return;
 				}
@@ -478,10 +466,6 @@ void LAi_CheckKillCharacter(aref chr)
 						return;
 					}
 				}
-				PChar.quest.SecondCharceRefresh.win_condition.l1 = "ExitFromLocation";
-				PChar.quest.SecondCharceRefresh.win_condition.l1.location = PChar.location;
-				PChar.quest.SecondCharceRefresh.function = "SecondCharceRefresh";
-				
 			}
 		}
 	if (bHalfImmortalPGG)
@@ -496,7 +480,14 @@ void LAi_CheckKillCharacter(aref chr)
 		LAi_CheckHalfImmortal(chr);
 	}
 
-
+		// Lugger: Тренировки -->
+		bool bArena = CheckAttribute(chr, "LandAcademy") || CheckAttribute(chr, "ArenaAction") || CheckAttribute(chr, "ArenaEtapsAction") || CheckAttribute(chr, "ArenaTournament") || CheckAttribute(chr, "ArenaOdds");
+		if(bArena)
+		{
+			CheckAcademyAndOtherLoosers(chr);
+			return;
+		}
+		// Lugger: Тренировки <--
 		UnmarkCharacter(chr);
 		DeleteAttribute(chr, "quest.questflag");
 
@@ -545,6 +536,10 @@ void LAi_CheckKillCharacter(aref chr)
 			}
 		}
 		
+		if (CheckAttribute(chr, "CantLoot"))
+		{
+			Dead_DelLoginedCharacter(chr);//не обыскивается
+		}
 /* 		if(chr.id == "Mechanic1") //Korsar Maxim - раньше Ведекер мог сдохнуть, но сейчас уже физически не может.
 		{
 			DeleteAttribute(pchar, "VedekerDiscount");
@@ -1264,6 +1259,15 @@ void MakePoisonAttack(aref attack, aref enemy, int iQuantity)
 		if (enemy.index == GetMainCharacterIndex()) Log_SetStringToLog(XI_ConvertString("You've been poisoned"));
 		else Log_SetStringToLog("Персонаж " + GetFullName(enemy) + " отравлен.");
 	}
+	if (attack.index == GetMainCharacterIndex()) // Проводим все махинации с флаконами и счетчиками, если только атакующий - игрок
+	{
+		pchar.questTemp.poisoncount = sti(pchar.questTemp.poisoncount) + 1;
+				
+		// Открываем достижения
+		if(sti(pchar.questTemp.poisoncount) >= 25) UnlockAchievement("poisons", 1);
+		if(sti(pchar.questTemp.poisoncount) >= 75) UnlockAchievement("poisons", 2);
+		if(sti(pchar.questTemp.poisoncount) >= 225) UnlockAchievement("poisons", 3);
+	}
 	//Отравляем персонажа
 	float poison = 0.0;
 	if(CheckAttribute(enemy, "chr_ai.poison"))
@@ -1281,10 +1285,13 @@ void MakePoisonAttackCheckSex(aref attacked, aref enemy)
 	{
 		if (rand(1000) < 150) MakePoisonAttack(enemy, attacked, 30 + rand(20));
 	}
-	
+	if (sti(enemy.chr_ai.special.valueP) != 0)
+	{
+		if (rand(99)<sti(enemy.chr_ai.special.valueP)) MakePoisonAttack(enemy,attacked,20+rand(40));
+	}
 	// Lugger --> травла от клинка.
 	
-	if(CheckAttribute(enemy, "equip.blade"))
+	/*if(CheckAttribute(enemy, "equip.blade"))
 	{
 		string sBlade = enemy.equip.blade;
 		ref rBlade = ItemsFromID(sBlade);
@@ -1309,7 +1316,7 @@ void MakePoisonAttackCheckSex(aref attacked, aref enemy)
 				}
 			}
 		}
-	}
+	}*/
 	
 	// Lugger <--
 }
@@ -1487,7 +1494,7 @@ void MakeSwiftAttack(aref enemy, aref attacked, float coeff) // Резкий удар
 		if(Swift < 1.0) Swift = 1.0;
 	}
 	enemy.chr_ai.Swift = Swift + (1+rand(4)+coeff); // Продолжительность 1+(от 0 до 4)+коэфф
-	FXMarkCharacter(enemy,"FX_Stan");
+	FXMarkCharacter(enemy,"FX_StanS");
 	
 	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
 }
@@ -1503,7 +1510,19 @@ void MushketStun(aref enemy) // Мушкетный стан - Gregg
 		if(understun < 1.0) understun = 1.0;
 	}
 	enemy.chr_ai.understun = understun + 1 + rand(2); // Продолжительность 1+(от 0 до 2)
-	FXMarkCharacter(enemy,"FX_Stan");
+	FXMarkCharacter(enemy,"FX_StanH");
 	
 	//if(stf(enemy.chr_ai.Swift) > 200.0) enemy.chr_ai.Swift = 200.0;
+}
+
+void MakeTraumaAttack(aref enemy, aref attacked) // Травма
+{
+	float Trauma = 0.0;
+	if(CheckAttribute(enemy, "chr_ai.Trauma"))
+	{
+		Trauma = stf(enemy.chr_ai.Trauma);
+		if(Trauma < 1.0) Trauma = 1.0;
+	}
+	enemy.chr_ai.Trauma = Trauma + (20+rand(40)); // Продолжительность 20-60
+	FXMarkCharacter(enemy,"FX_Travma");
 }

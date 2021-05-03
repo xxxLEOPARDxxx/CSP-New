@@ -408,6 +408,26 @@ void LaunchCreateCharacter()
 	}
 }
 
+void LaunchArena(bool bTournamentResult)
+{
+	if(procInterfacePrepare(INTERFACE_ARENA))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_ARENA;
+		InitInterface_B(Interfaces[CurrentInterface].IniFile, bTournamentResult);
+	}
+}
+
+void LaunchAcademyLand()
+{
+	if(procInterfacePrepare(INTERFACE_ACADEMY_LAND))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_ACADEMY_LAND;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
 // Lugger <--
 
 void LaunchNetMenu()
@@ -746,6 +766,16 @@ void LaunchShipyard(ref shipmaster)
 	}
 }
 
+void LaunchShipyard1(ref shipmaster)
+{
+	if(procInterfacePrepare(INTERFACE_SHIPYARD1))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_SHIPYARD1;
+		InitInterface_R(Interfaces[CurrentInterface].IniFile,shipmaster);
+	}
+}
+
 void LaunchDiseaseAlert(int iMode)
 {
 	if(procInterfacePrepare(INTERFACE_DISEASE_ALERT))
@@ -892,6 +922,14 @@ void LaunchLockPicking()
 		nPrevInterface = -1;
 		CurrentInterface = INTERFACE_LOCKPICK;
 		InitInterface_GM(Interfaces[CurrentInterface].IniFile);
+	}
+}
+
+void LaunchPointsEX() {
+	if(procInterfacePrepare(INTERFACE_POINTS_EX)) {
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_POINTS_EX;
+		InitInterface(Interfaces[CurrentInterface].IniFile);
 	}
 }
 
@@ -1050,6 +1088,17 @@ trace("LaunchSpeakInterface, chr.id:" + chr.id + ", whospeak: " + whospeak + ",s
 		CurrentInterface = INTERFACE_SPEAK;
 
 		InitInterface_RIS(Interfaces[CurrentInterface].IniFile, chr, whospeak, sMode);
+	}
+}
+
+void LaunchCraftAll()
+{
+	DelEventHandler("makescrshot","LaunchGameMenuContinue");
+	if(procInterfacePrepare(INTERFACE_CRAFT_ALL))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_CRAFT_ALL;
+		InitInterface_GM(Interfaces[CurrentInterface].IniFile);
 	}
 }
 
@@ -1612,7 +1661,7 @@ void procInfoShow()
 			break;
 
 			case "game prepare":
-				objInfoList[nInfoIdx].picfilename = "loading\StartLoading_"+rand(12)+".tga";
+				objInfoList[nInfoIdx].picfilename = "loading\StartLoading_"+rand(22)+".tga";
 			break;
 
 			case "MainMenuLaunch":
@@ -2206,6 +2255,7 @@ string GetSaveDataString(string label)
 		"@" + GetStringTime(GetTime()) + "  " + GetStringDate( GetDataDay(),GetDataMonth(),GetDataYear() ) + // boal FIX
 		"@" + GetPlayTime() +
 		"@" + GetCurShip() +
+		"@" + GetCurNation() +
 		"@" + LanguageGetLanguage();
 
 	return savedata;
@@ -2337,6 +2387,11 @@ string GetCurShip()
 		return sShip;
 	}
 	else return "1000";
+}
+
+string GetCurNation()
+{
+	return GetNationNameByType(sti(pchar.nation));
 }
 
 void LaunchContrabandTrade(ref ContraTrader, int storeNum)

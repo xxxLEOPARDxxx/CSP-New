@@ -285,7 +285,10 @@ void LAi_tmpl_dialog_CharacterUpdate(aref chr, float dltTime)
 					// if(chr.sex == "woman") snd = "female-citizen";
 					if(chr.sex == "woman") snd = "Gr_Woman_Citizen";
 				}
-				LAi_CharacterPlaySound(chr, snd);
+				if(bCharVoice) // LEO
+				{
+					LAi_CharacterPlaySound(chr, snd);
+				}
 			}
 			chr.chr_ai.tmpl.phrasetime = 5 + rand(1);
 		}else{

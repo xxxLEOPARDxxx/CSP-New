@@ -97,22 +97,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_COFFEE;
 		Islands[n].Trade.Export.id4 = GOOD_OIL;
 		Islands[n].Trade.Export.id5 = GOOD_SILVER;
-		Islands[n].Trade.Export.id6 = GOOD_SUGAR;
-		Islands[n].Trade.Export.id7 = GOOD_PAPRIKA;
 
 		Islands[n].Trade.Import.id1 = GOOD_CINNAMON;
 		Islands[n].Trade.Import.id2 = GOOD_FOOD;
 		Islands[n].Trade.Import.id3 = GOOD_BRICK;
 		Islands[n].Trade.Import.id4 = GOOD_FRUITS;
-		Islands[n].Trade.Import.id5 = GOOD_PLANKS;
-		Islands[n].Trade.Import.id6 = GOOD_COPRA;
-		Islands[n].Trade.Import.id7 = GOOD_ALE;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_LINEN;
 		Islands[n].Trade.Contraband.id3 = GOOD_CHOCOLATE;
-        Islands[n].Trade.Contraband.id4 = GOOD_SAILCLOTH;
-        Islands[n].Trade.Contraband.id5 = GOOD_CLOTHES;
+		
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -176,8 +170,9 @@ void InitIslands()
 		Islands[n].reload.l4.go = "Shore35";
 		Islands[n].reload.l4.emerge = "sea";
 		Islands[n].reload.l4.radius = 300.0;
-		Islands[n].reload.l4.pic = 0;
+		Islands[n].reload.l4.pic = 1;
 		Islands[n].reload.l4.tex = "t1";
+		Islands[n].reload.l4.istown = true;
 
 		Islands[n].reload.l5.label = "Mayak3";
 		Islands[n].reload.l5.name = "reload_4";
@@ -194,24 +189,21 @@ void InitIslands()
 		Islands[n].Trade.Export.id1 = GOOD_CLOTHES;
 		Islands[n].Trade.Export.id2 = GOOD_BRICK;
 		Islands[n].Trade.Export.id3 = GOOD_POWDER;
-		Islands[n].Trade.Export.id4 = GOOD_ALE;
-		Islands[n].Trade.Export.id5 = GOOD_SUGAR;
-		Islands[n].Trade.Export.id6 = GOOD_COFFEE;
-		Islands[n].Trade.Export.id7 = GOOD_RUM;
+		Islands[n].Trade.Export.id4 = GOOD_SUGAR;
+		Islands[n].Trade.Export.id5 = GOOD_COFFEE;
 
 		Islands[n].Trade.Import.id1 = GOOD_MAHOGANY;
 		Islands[n].Trade.Import.id2 = GOOD_EBONY;
 		Islands[n].Trade.Import.id3 = GOOD_SANDAL;
 		Islands[n].Trade.Import.id4 = GOOD_SILK;
 		Islands[n].Trade.Import.id5 = GOOD_LEATHER;
-		Islands[n].Trade.Import.id6 = GOOD_SAILCLOTH;
-		Islands[n].Trade.Import.id7 = GOOD_MEDICAMENT;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_PLANKS;
 		Islands[n].Trade.Contraband.id3 = GOOD_WEAPON;
-        Islands[n].Trade.Contraband.id4 = GOOD_CHOCOLATE;
-        Islands[n].Trade.Contraband.id5 = GOOD_OIL;
+		
+		Islands[n].Trade.Aggressive.id1 = GOOD_LINEN;
+		Islands[n].Trade.Aggressive.id2 = GOOD_SUGAR;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -281,22 +273,17 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_COFFEE;
 		Islands[n].Trade.Export.id4 = GOOD_CINNAMON;
 		Islands[n].Trade.Export.id5 = GOOD_LEATHER;
-		Islands[n].Trade.Export.id6 = GOOD_SUGAR;
-		Islands[n].Trade.Export.id7 = GOOD_LINEN;
 
 		Islands[n].Trade.Import.id1 = GOOD_TOBACCO;
 		Islands[n].Trade.Import.id2 = GOOD_BRICK;
 		Islands[n].Trade.Import.id3 = GOOD_FRUITS;
 		Islands[n].Trade.Import.id4 = GOOD_SAILCLOTH;
 		Islands[n].Trade.Import.id5 = GOOD_WINE;
-		Islands[n].Trade.Import.id6 = GOOD_WEAPON;
-		Islands[n].Trade.Import.id7 = GOOD_POWDER;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_COTTON;
 		Islands[n].Trade.Contraband.id3 = GOOD_SILK;
         Islands[n].Trade.Contraband.id4 = GOOD_COPRA;
-        Islands[n].Trade.Contraband.id5 = GOOD_WHEAT;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -381,23 +368,17 @@ void InitIslands()
 		Islands[n].Trade.Export.id2 = GOOD_FRUITS;
 		Islands[n].Trade.Export.id3 = GOOD_CHOCOLATE;
 		Islands[n].Trade.Export.id4 = GOOD_LINEN;
-		Islands[n].Trade.Export.id5 = GOOD_SANDAL;
-		Islands[n].Trade.Export.id6 = GOOD_WHEAT;
-		Islands[n].Trade.Export.id7 = GOOD_PLANKS;
+
 
 		Islands[n].Trade.Import.id1 = GOOD_EBONY;
 		Islands[n].Trade.Import.id2 = GOOD_BRICK;
 		Islands[n].Trade.Import.id3 = GOOD_GOLD;
 		Islands[n].Trade.Import.id4 = GOOD_SAILCLOTH;
 		Islands[n].Trade.Import.id5 = GOOD_BALLS;
-		Islands[n].Trade.Import.id6 = GOOD_GRAPES;
-		Islands[n].Trade.Import.id7 = GOOD_OIL;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_TOBACCO;
-		Islands[n].Trade.Contraband.id3 = GOOD_POWDER;
-        Islands[n].Trade.Contraband.id4 = GOOD_WEAPON;
-        Islands[n].Trade.Contraband.id5 = GOOD_COTTON;
+		Islands[n].Trade.Contraband.id3 = GOOD_SILK;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -481,23 +462,19 @@ void InitIslands()
 		Islands[n].Trade.Export.id2 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Export.id3 = GOOD_LEATHER;
 		Islands[n].Trade.Export.id4 = GOOD_FOOD;
-		Islands[n].Trade.Export.id5 = GOOD_WINE;
-		Islands[n].Trade.Export.id6 = GOOD_SUGAR;
-		Islands[n].Trade.Export.id7 = GOOD_PAPRIKA;
 
 		Islands[n].Trade.Import.id1 = GOOD_OIL;
 		Islands[n].Trade.Import.id2 = GOOD_COPRA;
 		Islands[n].Trade.Import.id3 = GOOD_BRICK;
 		Islands[n].Trade.Import.id4 = GOOD_SAILCLOTH;
-		Islands[n].Trade.Import.id5 = GOOD_GRAPES;
-		Islands[n].Trade.Import.id6 = GOOD_SILVER;
-		Islands[n].Trade.Import.id7 = GOOD_SILK;
+		Islands[n].Trade.Import.id5 = GOOD_SILVER;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
-		Islands[n].Trade.Contraband.id2 = GOOD_TOBACCO;
-		Islands[n].Trade.Contraband.id3 = GOOD_POWDER;
-        Islands[n].Trade.Contraband.id4 = GOOD_WEAPON;
-        Islands[n].Trade.Contraband.id5 = GOOD_COTTON;
+		Islands[n].Trade.Contraband.id2 = GOOD_POWDER;
+        Islands[n].Trade.Contraband.id3 = GOOD_WEAPON;
+		
+		Islands[n].Trade.Aggressive.id1 = GOOD_TOBACCO;
+		Islands[n].Trade.Aggressive.id2 = GOOD_IRON;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -574,22 +551,20 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_FOOD;
 		Islands[n].Trade.Export.id4 = GOOD_MAHOGANY;
 		Islands[n].Trade.Export.id5 = GOOD_OIL;
-		Islands[n].Trade.Export.id6 = GOOD_LINEN;
-		Islands[n].Trade.Export.id7 = GOOD_COTTON;
 
 		Islands[n].Trade.Import.id1 = GOOD_SUGAR;
 		Islands[n].Trade.Import.id2 = GOOD_BRICK;
 		Islands[n].Trade.Import.id3 = GOOD_SAILCLOTH;
 		Islands[n].Trade.Import.id4 = GOOD_FRUITS;
 		Islands[n].Trade.Import.id5 = GOOD_WEAPON;
-		Islands[n].Trade.Import.id6 = GOOD_CHOCOLATE;
-		Islands[n].Trade.Import.id7 = GOOD_PAPRIKA;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_WINE;
 		Islands[n].Trade.Contraband.id3 = GOOD_TOBACCO;
         Islands[n].Trade.Contraband.id4 = GOOD_CINNAMON;
-        Islands[n].Trade.Contraband.id5 = GOOD_POWDER;
+		
+		Islands[n].Trade.Aggressive.id1 = GOOD_TOOLS;
+		Islands[n].Trade.Aggressive.id2 = GOOD_IRON;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -659,22 +634,19 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_WHEAT;
 		Islands[n].Trade.Export.id4 = GOOD_LEATHER;
 		Islands[n].Trade.Export.id5 = GOOD_COFFEE;
-		Islands[n].Trade.Export.id6 = GOOD_LINEN;
-		Islands[n].Trade.Export.id7 = GOOD_PAPRIKA;
-
+		
 		Islands[n].Trade.Import.id1 = GOOD_SILVER;
 		Islands[n].Trade.Import.id2 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Import.id3 = GOOD_TOBACCO;
 		Islands[n].Trade.Import.id4 = GOOD_MAHOGANY;
 		Islands[n].Trade.Import.id5 = GOOD_BALLS;
-		Islands[n].Trade.Import.id6 = GOOD_SILK;
-		Islands[n].Trade.Import.id7 = GOOD_WEAPON;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_COPRA;
-		Islands[n].Trade.Contraband.id3 = GOOD_OIL;
-        Islands[n].Trade.Contraband.id4 = GOOD_BRICK;
-        Islands[n].Trade.Contraband.id5 = GOOD_EBONY;
+        Islands[n].Trade.Contraband.id3 = GOOD_EBONY;
+		
+		Islands[n].Trade.Aggressive.id1 = GOOD_PLANKS;
+		Islands[n].Trade.Aggressive.id2 = GOOD_CHOCOLATE;
         // boal 16.04.04 <--
         
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
@@ -745,22 +717,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_MAHOGANY;
 		Islands[n].Trade.Export.id4 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Export.id5 = GOOD_LINEN;
-		Islands[n].Trade.Export.id6 = GOOD_LEATHER;
-		Islands[n].Trade.Export.id7 = GOOD_OIL;
 
 		Islands[n].Trade.Import.id1 = GOOD_FOOD;
 		Islands[n].Trade.Import.id2 = GOOD_WHEAT;
 		Islands[n].Trade.Import.id3 = GOOD_GRAPES;
 		Islands[n].Trade.Import.id4 = GOOD_COPRA;
 		Islands[n].Trade.Import.id5 = GOOD_BRICK;
-		Islands[n].Trade.Import.id6 = GOOD_CLOTHES;
-		Islands[n].Trade.Import.id7 = GOOD_SAILCLOTH;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_TOBACCO;
 		Islands[n].Trade.Contraband.id3 = GOOD_WINE;
-        Islands[n].Trade.Contraband.id4 = GOOD_WEAPON;
-        Islands[n].Trade.Contraband.id5 = GOOD_SUGAR;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -837,22 +803,17 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_SANDAL;
 		Islands[n].Trade.Export.id4 = GOOD_POWDER;
 		Islands[n].Trade.Export.id5 = GOOD_TOBACCO;
-		Islands[n].Trade.Export.id6 = GOOD_WHEAT;
-		Islands[n].Trade.Export.id7 = GOOD_GRAPES;
 
 		Islands[n].Trade.Import.id1 = GOOD_WEAPON;
 		Islands[n].Trade.Import.id2 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Import.id3 = GOOD_COPRA;
 		Islands[n].Trade.Import.id4 = GOOD_LEATHER;
 		Islands[n].Trade.Import.id5 = GOOD_CHOCOLATE;
-		Islands[n].Trade.Import.id6 = GOOD_CINNAMON;
-		Islands[n].Trade.Import.id7 = GOOD_BRICK;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_ALE;
 		Islands[n].Trade.Contraband.id3 = GOOD_SILK;
-        Islands[n].Trade.Contraband.id4 = GOOD_FOOD;
-        Islands[n].Trade.Contraband.id5 = GOOD_MAHOGANY;
+        Islands[n].Trade.Contraband.id4 = GOOD_MAHOGANY;
         
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -929,22 +890,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_BOMBS;
 		Islands[n].Trade.Export.id4 = GOOD_PAPRIKA;
 		Islands[n].Trade.Export.id5 = GOOD_MEDICAMENT;
-		Islands[n].Trade.Export.id6 = GOOD_ALE;
-		Islands[n].Trade.Export.id7 = GOOD_KNIPPELS;
 
 		Islands[n].Trade.Import.id1 = GOOD_TOBACCO;
 		Islands[n].Trade.Import.id2 = GOOD_WHEAT;
 		Islands[n].Trade.Import.id3 = GOOD_COTTON;
 		Islands[n].Trade.Import.id4 = GOOD_SILK;
 		Islands[n].Trade.Import.id5 = GOOD_FRUITS;
-		Islands[n].Trade.Import.id6 = GOOD_SUGAR;
-		Islands[n].Trade.Import.id7 = GOOD_SAILCLOTH;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
-		Islands[n].Trade.Contraband.id2 = GOOD_FOOD;
-		Islands[n].Trade.Contraband.id3 = GOOD_WINE;
-        Islands[n].Trade.Contraband.id4 = GOOD_SANDAL;
-        Islands[n].Trade.Contraband.id5 = GOOD_EBONY;
+        Islands[n].Trade.Contraband.id2 = GOOD_SANDAL;
+        Islands[n].Trade.Contraband.id3 = GOOD_EBONY;
         
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -1013,22 +968,17 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_LINEN;
 		Islands[n].Trade.Export.id4 = GOOD_POWDER;
 		Islands[n].Trade.Export.id5 = GOOD_CLOTHES;
-		Islands[n].Trade.Export.id6 = GOOD_ALE;
-		Islands[n].Trade.Export.id7 = GOOD_WEAPON;
 
 		Islands[n].Trade.Import.id1 = GOOD_SUGAR;
 		Islands[n].Trade.Import.id2 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Import.id3 = GOOD_EBONY;
 		Islands[n].Trade.Import.id4 = GOOD_COPRA;
 		Islands[n].Trade.Import.id5 = GOOD_FRUITS;
-		Islands[n].Trade.Import.id6 = GOOD_WINE;
-		Islands[n].Trade.Import.id7 = GOOD_LEATHER;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_WHEAT;
 		Islands[n].Trade.Contraband.id3 = GOOD_COTTON;
         Islands[n].Trade.Contraband.id4 = GOOD_OIL;
-        Islands[n].Trade.Contraband.id5 = GOOD_COFFEE;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -1122,22 +1072,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_BRICK;
 		Islands[n].Trade.Export.id4 = GOOD_SILK;
 		Islands[n].Trade.Export.id5 = GOOD_POWDER;
-		Islands[n].Trade.Export.id6 = GOOD_WINE;
-		Islands[n].Trade.Export.id7 = GOOD_BALLS;
 
 		Islands[n].Trade.Import.id1 = GOOD_PLANKS;
 		Islands[n].Trade.Import.id2 = GOOD_EBONY;
 		Islands[n].Trade.Import.id3 = GOOD_MAHOGANY;
 		Islands[n].Trade.Import.id4 = GOOD_SANDAL;
 		Islands[n].Trade.Import.id5 = GOOD_CLOTHES;
-		Islands[n].Trade.Import.id6 = GOOD_OIL;
-		Islands[n].Trade.Import.id7 = GOOD_GRAPES;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Contraband.id3 = GOOD_LEATHER;
-        Islands[n].Trade.Contraband.id4 = GOOD_CHOCOLATE;
-        Islands[n].Trade.Contraband.id5 = GOOD_COPRA;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -1198,9 +1142,9 @@ void InitIslands()
 		Islands[n].reload.l4.go = "LeFransua_port";
 		Islands[n].reload.l4.emerge = "sea";
 		Islands[n].reload.l4.radius = 600.0;
-		Islands[n].reload.l4.pic = 0;
+		Islands[n].reload.l4.pic = 1;
 		Islands[n].reload.l4.tex = "t1";
-		Islands[n].reload.l1.istown = true;
+		Islands[n].reload.l4.istown = true;
 
 		Islands[n].reload.l5.label = "Shore39";
 		Islands[n].reload.l5.name = "reload_4";
@@ -1216,22 +1160,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_WHEAT;
 		Islands[n].Trade.Export.id4 = GOOD_SUGAR;
 		Islands[n].Trade.Export.id5 = GOOD_TOBACCO;
-		Islands[n].Trade.Export.id6 = GOOD_COTTON;
-		Islands[n].Trade.Export.id7 = GOOD_KNIPPELS;
 
 		Islands[n].Trade.Import.id1 = GOOD_RUM;
 		Islands[n].Trade.Import.id2 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Import.id3 = GOOD_CLOTHES;
 		Islands[n].Trade.Import.id4 = GOOD_BOMBS;
 		Islands[n].Trade.Import.id5 = GOOD_CHOCOLATE;
-		Islands[n].Trade.Import.id6 = GOOD_LEATHER;
-		Islands[n].Trade.Import.id7 = GOOD_LINEN;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
-		Islands[n].Trade.Contraband.id2 = GOOD_PLANKS;
-		Islands[n].Trade.Contraband.id3 = GOOD_FRUITS;
-        Islands[n].Trade.Contraband.id4 = GOOD_MAHOGANY;
-        Islands[n].Trade.Contraband.id5 = GOOD_EBONY;
+        Islands[n].Trade.Contraband.id2 = GOOD_MAHOGANY;
+        Islands[n].Trade.Contraband.id3 = GOOD_EBONY;
         // boal 16.04.04 <--
         
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
@@ -1320,24 +1258,17 @@ void InitIslands()
         Islands[n].Trade.Export.id1 = GOOD_ALE;
 		Islands[n].Trade.Export.id2 = GOOD_RUM;
 		Islands[n].Trade.Export.id3 = GOOD_WINE;
-		Islands[n].Trade.Export.id4 = GOOD_CHOCOLATE;
-		Islands[n].Trade.Export.id5 = GOOD_CINNAMON;
-		Islands[n].Trade.Export.id6 = GOOD_SANDAL;
-		Islands[n].Trade.Export.id7 = GOOD_FOOD;
+		Islands[n].Trade.Export.id4 = GOOD_CINNAMON;
 
 		Islands[n].Trade.Import.id1 = GOOD_FRUITS;
 		Islands[n].Trade.Import.id2 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Import.id3 = GOOD_SAILCLOTH;
 		Islands[n].Trade.Import.id4 = GOOD_TOBACCO;
 		Islands[n].Trade.Import.id5 = GOOD_GRAPES;
-		Islands[n].Trade.Import.id6 = GOOD_BALLS;
-		Islands[n].Trade.Import.id7 = GOOD_WEAPON;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_OIL;
-		Islands[n].Trade.Contraband.id3 = GOOD_COPRA;
-        Islands[n].Trade.Contraband.id4 = GOOD_BRICK;
-        Islands[n].Trade.Contraband.id5 = GOOD_EBONY;
+        Islands[n].Trade.Contraband.id3 = GOOD_EBONY;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -1406,22 +1337,17 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_WINE;
 		Islands[n].Trade.Export.id4 = GOOD_SUGAR;
 		Islands[n].Trade.Export.id5 = GOOD_CLOTHES;
-		Islands[n].Trade.Export.id6 = GOOD_LINEN;
-		Islands[n].Trade.Export.id7 = GOOD_FOOD;
 
 		Islands[n].Trade.Import.id1 = GOOD_GOLD;
 		Islands[n].Trade.Import.id2 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Import.id3 = GOOD_FRUITS;
 		Islands[n].Trade.Import.id4 = GOOD_COTTON;
 		Islands[n].Trade.Import.id5 = GOOD_GRAPES;
-		Islands[n].Trade.Import.id6 = GOOD_SILK;
-		Islands[n].Trade.Import.id7 = GOOD_POWDER;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_OIL;
 		Islands[n].Trade.Contraband.id3 = GOOD_COPRA;
-        Islands[n].Trade.Contraband.id4 = GOOD_BRICK;
-        Islands[n].Trade.Contraband.id5 = GOOD_EBONY;
+        Islands[n].Trade.Contraband.id4 = GOOD_EBONY;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -1692,22 +1618,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_WINE;
 		Islands[n].Trade.Export.id4 = GOOD_SUGAR;
 		Islands[n].Trade.Export.id5 = GOOD_ALE;
-		Islands[n].Trade.Export.id6 = GOOD_LINEN;
-		Islands[n].Trade.Export.id7 = GOOD_CINNAMON;
 
 		Islands[n].Trade.Import.id1 = GOOD_RUM;
 		Islands[n].Trade.Import.id2 = GOOD_BALLS;
 		Islands[n].Trade.Import.id3 = GOOD_SILK;
 		Islands[n].Trade.Import.id4 = GOOD_PAPRIKA;
 		Islands[n].Trade.Import.id5 = GOOD_SANDAL;
-		Islands[n].Trade.Import.id6 = GOOD_LEATHER;
-		Islands[n].Trade.Import.id7 = GOOD_SAILCLOTH;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_BRICK;
 		Islands[n].Trade.Contraband.id3 = GOOD_COPRA;
-        Islands[n].Trade.Contraband.id4 = GOOD_FRUITS;
-        Islands[n].Trade.Contraband.id5 = GOOD_CLOTHES;
 
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -1775,23 +1695,17 @@ void InitIslands()
 		Islands[n].Trade.Export.id2 = GOOD_CHOCOLATE;
 		Islands[n].Trade.Export.id3 = GOOD_GRAPES;
 		Islands[n].Trade.Export.id4 = GOOD_OIL;
-		Islands[n].Trade.Export.id5 = GOOD_PLANKS;
-		Islands[n].Trade.Export.id6 = GOOD_COTTON;
-		Islands[n].Trade.Export.id7 = GOOD_EBONY;
+		Islands[n].Trade.Export.id5 = GOOD_EBONY;
 
 		Islands[n].Trade.Import.id1 = GOOD_CLOTHES;
 		Islands[n].Trade.Import.id2 = GOOD_COFFEE;
 		Islands[n].Trade.Import.id3 = GOOD_MEDICAMENT;
-		Islands[n].Trade.Import.id4 = GOOD_RUM;
-		Islands[n].Trade.Import.id5 = GOOD_FRUITS;
-		Islands[n].Trade.Import.id6 = GOOD_LEATHER;
-		Islands[n].Trade.Import.id7 = GOOD_TOBACCO;
+		Islands[n].Trade.Import.id4 = GOOD_LEATHER;
+		Islands[n].Trade.Import.id5 = GOOD_TOBACCO;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_BRICK;
 		Islands[n].Trade.Contraband.id3 = GOOD_SAILCLOTH;
-        Islands[n].Trade.Contraband.id4 = GOOD_PAPRIKA;
-        Islands[n].Trade.Contraband.id5 = GOOD_SILK;
         
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -1860,22 +1774,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_MAHOGANY;
 		Islands[n].Trade.Export.id4 = GOOD_EBONY;
 		Islands[n].Trade.Export.id5 = GOOD_PLANKS;
-		Islands[n].Trade.Export.id6 = GOOD_SANDAL;
-		Islands[n].Trade.Export.id7 = GOOD_SUGAR;
 
 		Islands[n].Trade.Import.id1 = GOOD_CLOTHES;
 		Islands[n].Trade.Import.id2 = GOOD_BRICK;
 		Islands[n].Trade.Import.id3 = GOOD_MEDICAMENT;
 		Islands[n].Trade.Import.id4 = GOOD_RUM;
 		Islands[n].Trade.Import.id5 = GOOD_FRUITS;
-		Islands[n].Trade.Import.id6 = GOOD_WINE;
-		Islands[n].Trade.Import.id7 = GOOD_WHEAT;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_WEAPON;
 		Islands[n].Trade.Contraband.id3 = GOOD_POWDER;
-        Islands[n].Trade.Contraband.id4 = GOOD_FOOD;
-        Islands[n].Trade.Contraband.id5 = GOOD_LEATHER;
         
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -1936,22 +1844,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_CLOTHES;
 		Islands[n].Trade.Export.id4 = GOOD_SUGAR;
 		Islands[n].Trade.Export.id5 = GOOD_COPRA;
-		Islands[n].Trade.Export.id6 = GOOD_ALE;
-		Islands[n].Trade.Export.id7 = GOOD_PLANKS;
 
 		Islands[n].Trade.Import.id1 = GOOD_BALLS;
 		Islands[n].Trade.Import.id2 = GOOD_GRAPES;
 		Islands[n].Trade.Import.id3 = GOOD_KNIPPELS;
 		Islands[n].Trade.Import.id4 = GOOD_BOMBS;
 		Islands[n].Trade.Import.id5 = GOOD_POWDER;
-		Islands[n].Trade.Import.id6 = GOOD_MEDICAMENT;
-		Islands[n].Trade.Import.id7 = GOOD_WEAPON;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_LEATHER;
 		Islands[n].Trade.Contraband.id3 = GOOD_WINE;
-        Islands[n].Trade.Contraband.id4 = GOOD_RUM;
-        Islands[n].Trade.Contraband.id5 = GOOD_TOBACCO;
          
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -2029,22 +1931,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_LINEN;
 		Islands[n].Trade.Export.id4 = GOOD_SANDAL;
 		Islands[n].Trade.Export.id5 = GOOD_EBONY;
-		Islands[n].Trade.Export.id6 = GOOD_OIL;
-		Islands[n].Trade.Export.id7 = GOOD_COFFEE;
 
 		Islands[n].Trade.Import.id1 = GOOD_PLANKS;
 		Islands[n].Trade.Import.id2 = GOOD_WINE;
 		Islands[n].Trade.Import.id3 = GOOD_RUM;
 		Islands[n].Trade.Import.id4 = GOOD_CHOCOLATE;
 		Islands[n].Trade.Import.id5 = GOOD_PAPRIKA;
-		Islands[n].Trade.Import.id6 = GOOD_POWDER;
-		Islands[n].Trade.Import.id7 = GOOD_COTTON;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_CINNAMON;
 		Islands[n].Trade.Contraband.id3 = GOOD_MEDICAMENT;
-        Islands[n].Trade.Contraband.id4 = GOOD_SILK;
-        Islands[n].Trade.Contraband.id5 = GOOD_FRUITS;
         // boal 16.04.04 <--
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -2122,22 +2018,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_KNIPPELS;
 		Islands[n].Trade.Export.id4 = GOOD_BOMBS;
 		Islands[n].Trade.Export.id5 = GOOD_POWDER;
-		Islands[n].Trade.Export.id6 = GOOD_WINE;
-		Islands[n].Trade.Export.id7 = GOOD_WEAPON;
-
+		
 		Islands[n].Trade.Import.id1 = GOOD_SILK;
 		Islands[n].Trade.Import.id2 = GOOD_COTTON;
 		Islands[n].Trade.Import.id3 = GOOD_SAILCLOTH;
 		Islands[n].Trade.Import.id4 = GOOD_CLOTHES;
 		Islands[n].Trade.Import.id5 = GOOD_TOBACCO;
-		Islands[n].Trade.Import.id6 = GOOD_MAHOGANY;
-		Islands[n].Trade.Import.id7 = GOOD_BRICK;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_COPRA;
 		Islands[n].Trade.Contraband.id3 = GOOD_PAPRIKA;
-        Islands[n].Trade.Contraband.id4 = GOOD_SANDAL;
-        Islands[n].Trade.Contraband.id5 = GOOD_LEATHER;
 
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -2238,22 +2128,16 @@ void InitIslands()
 		Islands[n].Trade.Export.id3 = GOOD_CINNAMON;
 		Islands[n].Trade.Export.id4 = GOOD_WINE;
 		Islands[n].Trade.Export.id5 = GOOD_RUM;
-		Islands[n].Trade.Export.id6 = GOOD_WHEAT;
-		Islands[n].Trade.Export.id7 = GOOD_COTTON;
 
 		Islands[n].Trade.Import.id1 = GOOD_SILVER;
 		Islands[n].Trade.Import.id2 = GOOD_WEAPON;
 		Islands[n].Trade.Import.id3 = GOOD_GOLD;
 		Islands[n].Trade.Import.id4 = GOOD_PAPRIKA;
 		Islands[n].Trade.Import.id5 = GOOD_TOBACCO;
-		Islands[n].Trade.Import.id6 = GOOD_LINEN;
-		Islands[n].Trade.Import.id7 = GOOD_CHOCOLATE;
 
 		Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
 		Islands[n].Trade.Contraband.id2 = GOOD_OIL;
 		Islands[n].Trade.Contraband.id3 = GOOD_SAILCLOTH;
-        Islands[n].Trade.Contraband.id4 = GOOD_COFFEE;
-        Islands[n].Trade.Contraband.id5 = GOOD_LEATHER;
 
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
@@ -2302,7 +2186,46 @@ void InitIslands()
 		Islands[n].InterfaceTextures.t1.v = 1;
 
 		SendMessage(&locator,"le",LM_LOCATE_I,&Islands[n]);
+		
+		
+		
+		
+	/////////////////////////////////////////////////////////////////////////
+	/// Исла де Муэрте
+	/////////////////////////////////////////////////////////////////////////
+		n = n + 1;
+		Islands[n].id = "KhaelRoa";
+		Islands[n].model = "KhaelRoa";
+		Islands[n].filespath.models = "islands\KhaelRoa";
+		Islands[n].refl_model = "KhaelRoa_refl";
+		Islands[n].locators = "KhaelRoa_locators";
+		Islands[n].colonyquantity = 0;
+		Islands[n].TexturePath = "LostShipsCity";
+		Islands[n].visible = true;
+		Islands[n].reload_enable = true;
+		Islands[n].reload.l1.label = "Shore64";
+		Islands[n].reload.l1.name = "reload_1";
+		Islands[n].reload.l1.go = "KhaelRoa_port";
+		Islands[n].reload.l1.emerge = "reload2";
+		Islands[n].reload.l1.radius = 200.0;
+		Islands[n].reload.l1.pic = 0;
+		Islands[n].reload.l1.tex = "t1";
+		
+		Islands[n].reload.l2.label = "Shore64_1";
+		Islands[n].reload.l2.name = "reload_1";
+		Islands[n].reload.l2.go = "";
+		Islands[n].reload.l2.emerge = "";
+		Islands[n].reload.l2.radius = 0.0;
+		Islands[n].reload.l2.pic = 0;
+		Islands[n].reload.l2.tex = "t1";
         
+		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
+		Islands[n].InterfaceTextures.t1.h = 4;
+		Islands[n].InterfaceTextures.t1.v = 1;
+		
+		
+
+		SendMessage(&locator,"le",LM_LOCATE_I,&Islands[n]);
 		iNumIslands = n;
 		Trace("How islands = " + iNumIslands);
 		/////////////////////////////////////////////////////////////////////////////////////////

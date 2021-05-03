@@ -15,7 +15,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	case "outraged":
 		Dialog.Text = NPCharRepPhrase(NPChar, RandSwear() + 
 				RandPhraseSimple("Как ты смеешь меня оскорблять, мерзав"+ GetSexPhrase("ец","ка") +"?!", "Ты дорого заплатишь за свои слова!"), 
-				RandPhraseSimple("Вы задели мою честь, " + GetAddress_Form(NPChar) + "! За это придется заплатить.", "Как вы смеете? Немедленно возьмите свои слова назад!"));
+				RandPhraseSimple("Вы задели мою честь, " + GetAddress_Form(NPChar) + "! За это придётся заплатить.", "Как вы смеете? Немедленно возьмите свои слова назад!"));
 
 		//это такая засада.. чтобы читали текст :)
 		MakeRandomLinkOrderTwo(link, 
@@ -30,14 +30,14 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	case "outraged_1":
 		Dialog.Text = NPCharRepPhrase(NPChar,  
 				RandPhraseSimple("Я тебе уши обрежу!", "Я вырежу тебе сердце!"), 
-				RandPhraseSimple("Я надеюсь, вы немедленно принесете свои извинения, или я за себя не ручаюсь!", "Вы понимаете, что это означает?"));
+				RandPhraseSimple("Я надеюсь, вы немедленно принесёте свои извинения, или я за себя не ручаюсь!", "Вы понимаете, что это означает?"));
 
 		MakeRandomLinkOrderTwo(link,
 					NPCharRepPhrase(pchar, RandSwear() + 
 				RandPhraseSimple("Надеюсь, твоя шпага так же быстра, как твой язык!", "За меня будет говорить мой клинок."), 
 				RandPhraseSimple("Я вызываю вас на дуэль!", "Это дело чести!")), "let_s_duel",
 					NPCharRepPhrase(pchar, 
-				RandPhraseSimple("Пожалуй, я еще не готов"+ GetSexPhrase("","а") +" к встрече с дьяволом!", "Думаю, не стоит так горячиться! Это только слова!"), 
+				RandPhraseSimple("Пожалуй, я ещё не готов"+ GetSexPhrase("","а") +" к встрече с дьяволом!", "Думаю, не стоит так горячиться! Это только слова!"), 
 				RandPhraseSimple("Я тут вспомнил"+ GetSexPhrase("","а") +", меня ждут. Всех благ...", "Ах! Кажется, мой корабль уже отплывает.")), "change_mind");
 		break;
 
@@ -48,7 +48,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			Dialog.Text = "Тебе стоит сначала разобраться с другими, а потом мы поговорим.";
 			if (PChar.questTemp.duel.enemy == NPChar.id)
 			{
-				Dialog.Text = "Мы уже с тобой договорились обо всем.";
+				Dialog.Text = "Мы уже с тобой договорились обо всём.";
 			}
 			link.l1 = RandSwear() + "Как это я забыл"+ GetSexPhrase("","а") +"...";
 			link.l1.go = "exit";
@@ -80,7 +80,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		{
 			Dialog.Text = RandPhraseSimple(Dialog.Text + " Или мы можем выйти в море и посмотреть, кто на что способен!", 
 				"Дуэль?!! Ха, да я раздавлю тебя как блоху! Выбирай, как ты умрешь!");
-			link.l2 = RandPhraseSimple("В море мне нет равных.", "Мой корабль пустит ко дну твое старое корыто!");
+			link.l2 = RandPhraseSimple("В море мне нет равных.", "Мой корабль пустит ко дну твоё старое корыто!");
 			link.l2.go = "sea_duel";
 		}
 		link.l3 = "Я передумал"+ GetSexPhrase("","а") +"...";
@@ -89,13 +89,13 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 
 	//дуэль на подводных лодках :))))
 	case "sea_duel":
-		Dialog.Text = RandPhraseSimple("Что-то не вижу твоего корабля в порту...", "Проваливай, пока не найдешь себе хоть какое-нибудь корыто!!!");
+		Dialog.Text = RandPhraseSimple("Что-то не вижу твоего корабля в порту...", "Проваливай, пока не найдёшь себе хоть какое-нибудь корыто!!!");
 		link.l1 = RandPhraseSimple("Моя ошибка...", "...Тогда я вас покидаю.");
 		link.l1.go = "exit";
 		if (pchar.location.from_sea == GetCurrentTown() + "_town")
 		{
 			Dialog.Text = "Что ж, жду тебя на выходе из бухты...";
-			link.l1 = "Долго не придется ждать.";
+			link.l1 = "Долго не придётся ждать.";
 
 			pchar.questTemp.Duel.enemy = NPChar.id;
 			pchar.questTemp.Duel.Sea_Location = Islands[GetCharacterCurrentIsland(PChar)].id;
@@ -118,7 +118,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		link.l1.go = "fight_off_town";
 		link.l2 = RandPhraseSimple("Ну, если ты так торопишься умереть...", "Проклятье! Я помогу тебе отправиться в ад!!!");
 		link.l2.go = "fight_right_now";
-		link.l3 = "Я передумал...";
+		link.l3 = "Я передумал"+ GetSexPhrase("","а") +"...";
 		link.l3.go = "change_mind";
 
 		if (drand(1))
@@ -127,7 +127,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 				"Тут не лучшее место для разбирательств. Лучше выйдем из города. Через " + pchar.questTemp.Duel.WaitTime + " часа я буду там.");
 			link.l1 = RandPhraseSimple("Слишком много чести! Защищайся!", "Мне некогда! Доставай свой клинок!");
 			link.l1.go = "fight_right_now";
-			link.l2 = RandPhraseSimple("Что ж, давай прогуляемся.", "Пожалуй, ты прав. Встретимся за воротами.");
+			link.l2 = RandPhraseSimple("Что ж, давай прогуляемся.", "Пожалуй, ты прав"+ NPCharSexPhrase(NPChar,"","а") +". Встретимся за воротами.");
 			link.l2.go = "fight_off_town_prep";
 		}
 		break;
@@ -139,7 +139,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		link.l1.go = "fight_right_now";
 		if (drand(1))
 		{
-			Dialog.Text = RandPhraseSimple("Что ж, давай прогуляемся.", "Пожалуй, ты прав. Встретимся за воротами.");
+			Dialog.Text = RandPhraseSimple("Что ж, давай прогуляемся.", "Пожалуй, ты прав"+ NPCharSexPhrase(NPChar,"","а") +". Встретимся за воротами.");
 			link.l1 = RandPhraseSimple("Жду тебя там.", "Не опаздывай.");
 			link.l1.go = "fight_off_town_prep";
 		}
@@ -185,19 +185,19 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		Dialog.Text = "Ну что, ты готов"+ GetSexPhrase("","а") +" отправиться в ад?";
 		link.l1 = "Да. Сейчас посмотрим, кто кого!";
 		link.l1.go = "fight_right_now";
-		link.l2 = "Нет, я решил"+ GetSexPhrase("","а") +" принести тебе извинения. Был"+ GetSexPhrase("","а") +" неправ, вспылил"+ GetSexPhrase("","а") +".";
+		link.l2 = "Нет, я решил"+ GetSexPhrase("","а") +" принести тебе извинения. Был"+ GetSexPhrase("","а") +" неправ"+ GetSexPhrase("","а") +", вспылил"+ GetSexPhrase("","а") +".";
 		link.l2.go = "change_mind";
 		if (drand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))  //WW 
 		{
-			Dialog.Text = RandPhraseSimple("Слушай, я тут подумал и понял, что был неправ. Приношу свои извинения", 
-				"Черт! Это все ром!!! Прости, "+ GetSexPhrase("брат","сестра") +"!");
+			Dialog.Text = RandPhraseSimple("Слушай, я тут подумал"+ NPCharSexPhrase(NPChar,"","а") +" и понял"+ NPCharSexPhrase(NPChar,"","а") +", что был"+ NPCharSexPhrase(NPChar,"","а") +" неправ"+ NPCharSexPhrase(NPChar,"","а") +". Приношу свои извинения", 
+				"Чёрт! Это всё ром!!! Прости, "+ GetSexPhrase("брат","сестра") +"!");
 			link.l1 = NPCharRepPhrase(pchar, 
 				RandPhraseSimple("Ну уж нет, теперь только твоя кровь может принести мне удовлетворение!", "Доставай свою шпагу, и нечего тут сопли распускать!"), 
 				RandPhraseSimple("Нет! Я требую сатисфакции!", "Вы - позор своей семьи! Доставайте свою шпагу!"));
 			link.l1.go = "fight_right_now";
 			link.l2 = NPCharRepPhrase(pchar, 
-				RandPhraseSimple("Что ж, соглас"+ GetSexPhrase("ен","на") +". Погорячились.", "Какие счеты между своими!!"), 
-				RandPhraseSimple("Пожалуй, вы правы. Не стоит проливать кровь по пустякам.", "Мое великодушие не знает границ! Вы прощены!"));
+				RandPhraseSimple("Что ж, соглас"+ GetSexPhrase("ен","на") +". Погорячились.", "Какие счёты между своими!!"), 
+				RandPhraseSimple("Пожалуй, вы правы. Не стоит проливать кровь по пустякам.", "Моё великодушие не знает границ! Вы прощены!"));
 			link.l2.go = "peace";
 		}
 		NextDiag.TempNode = npchar.BackUp.DialogNode;
@@ -231,7 +231,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		if (CheckAttribute(pchar, "questTemp.Duel.End")) LAi_SetWarriorType(NPChar);
 		Dialog.Text = NPCharRepPhrase(NPChar, RandSwear() + 
 				RandPhraseSimple("Тогда проваливай отсюда!", "Скройся тогда. А то я могу передумать."), 
-				RandPhraseSimple("В таком случае, не смею вас больше задерживать!", "Тогда вам лучше уйти, пока я не передумал."));
+				RandPhraseSimple("В таком случае, не смею вас больше задерживать!", "Тогда вам лучше уйти, пока я не передумал"+ NPCharSexPhrase(NPChar,"","а") +"."));
 		link.l1 = "Уже ухожу...";
 		link.l1.go = "peace";
 		break;
@@ -239,7 +239,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	case "after_peace":
 		Dialog.Text = NPCharRepPhrase(NPChar, RandSwear() +
 				RandPhraseSimple("Проваливай отсюда!", "Скройся. А то я могу передумать."),
-				RandPhraseSimple("Чем могу быть полезен?", "Вы что-то хотели?"));
+				RandPhraseSimple("Чем могу быть полез"+ NPCharSexPhrase(NPChar,"ен","на") +"?", "Вы что-то хотели?"));
 		link.l1 = "Я ухожу.";
 		link.l1.go = "peace";
 		break;
@@ -262,7 +262,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	case "duel_nomoney":
 		ChangeCharacterReputation(pchar, 10);
 		PGG_ChangeRelation2MainCharacter(npchar, 20);
-		Dialog.text = "Проклятье, ты это серьезно? Не скажу, что поступил"+NPCharSexPhrase(npchar, "","а")+ " бы также, будь я на твоем месте. Я этого не забуду.";
+		Dialog.text = "Проклятье, ты это серьёзно? Не скажу, что поступил"+NPCharSexPhrase(npchar, "","а")+ " бы также, будь я на твоём месте. Я этого не забуду.";
 		link.l1 = "Иди давай, пока я не передумал"+GetSexPhrase("","а")+".";
 		link.l1.go = "duel_exit";
 		break;
@@ -271,26 +271,18 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		PGG_ChangeRelation2MainCharacter(npchar, -30);
 		AddMoneyToCharacter(pchar, sti(npchar.money)/3);
 		AddMoneyToCharacter(npchar, -sti(npchar.money)/3);
-		Dialog.text = "Ах ты, "+GetSexPhrase("мерзавец","мерзавка")+"! Ну ничего, я еще с тобой поквитаюсь.";
-		link.l1 = "Буду  ждать с нетерпением.";
+		Dialog.text = "Ах ты, "+GetSexPhrase("мерзавец","мерзавка")+"! Ну ничего, я ещё с тобой поквитаюсь.";
+		link.l1 = "Буду ждать с нетерпением.";
 		link.l1.go = "duel_exit";
 		if (!CheckAttribute(npchar, "PGGAi.Boosted"))
 		{
-			int rank = sti(npchar.rank) + (sti(npchar.rank) * 0.2) + MOD_SKILL_ENEMY_RATE;
-			npchar.rank = rank;
-			npchar.perks.list.AgileMan = "1";
-			ApplayNewSkill(npchar, "AgileMan", 0);
-			SetFantomParamFromRank_PPG(npchar, rank, true);
-			int hp = LAi_GetCharacterMaxHP(npchar);
-			LAi_SetHP(npchar, hp*1.7, hp*1.7);
-			npchar.PGGAi.Boosted = true;
+			Train_PPG(npchar, true, true);
 			if (npchar.id == "PsHero_2" && npchar.model=="PGG_Whisper_6")
 			{				
 				GiveItem2Character(npchar, "suit_1");
 				SetEquipedItemToCharacter(npchar, CIRASS_ITEM_TYPE, "suit_1");
 			}
 		}
-		npchar.money = rank * 25000 + rand (1000) - rand(1000);
 		break;
 	case "duel_exit":
 		LAi_SetActorType(npchar);
@@ -303,7 +295,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	case "TreasureHunterPGG":
 		NextDiag.CurrentNode = "Second time";
 		//dialog.text = "Постой-ка, "+ GetSexPhrase("приятель","подруга") +"... Сдается, у тебя есть кое-что интересное. Нужно делиться с близкими найдеными сокровищами.";
-		dialog.text = RandPhraseSimple("Я так и подозревал" + npcharSexPhrase(npchar,"","а") + ", что этот жулик продал больше одной карты. Не зря я его убил" + npcharSexPhrase(npchar,"","а")+".","Постой-ка, "+ GetSexPhrase("приятель","подруга") +". Эта карта - моя. Не знаю, как именно она у тебя оказалась, но у меня ее стащил по пьяни один жулик. Так что эти сокровища тебе не принадлежат. ");
+		dialog.text = RandPhraseSimple("Я так и подозревал" + npcharSexPhrase(npchar,"","а") + ", что этот жулик продал больше одной карты. Не зря я его убил" + npcharSexPhrase(npchar,"","а")+".","Постой-ка, "+ GetSexPhrase("приятель","подруга") +". Эта карта - моя. Не знаю, как именно она у тебя оказалась, но у меня её стащил по пьяни один жулик. Так что эти сокровища тебе не принадлежат. ");
 	    if (PGG_ChangeRelation2MainCharacter(npchar, 0) < 41)
 		{
 			dialog.text = "Ты был"+GetSexPhrase("","а")+" настолько слеп"+GetSexPhrase("","а")+", что не замечал"+GetSexPhrase("","а")+" слежки вплоть до самого сокровища";
@@ -325,7 +317,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
         DialogExit();
         break;
 	case "Cost_Head":
-			dialog.text = "Даже так? Я уже был готов за оружие браться\nНу что же, я не против. Думаю, что " + sti(PChar.HunterCost)/2 + " пиастров меня устроит.";
+			dialog.text = "Даже так? Я уже был"+ NPCharSexPhrase(NPChar,"","а") +" готов"+ NPCharSexPhrase(NPChar,"","а") +" за оружие браться\nНу что же, я не против. Думаю, что " + sti(PChar.HunterCost)/2 + " пиастров меня устроит.";
             if(makeint(Pchar.money) < sti(PChar.HunterCost)/2)
             {
                 Link.l1 = "У меня нет таких денег.";
@@ -340,13 +332,13 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
             }
 	break;	
 	case "NoMoney":
-			dialog.text = "В таком случае разговор окончен!";
+			dialog.text = "В таком случае разговор окончён!";
 			ChangeCharacterReputation(pchar, -15);
 			Link.l1 = "Похоже на то.";
 			Link.l1.go = "battleTreasure"; 
 		break;
 	case "NoMoney_1":
-			dialog.text = "Ну уж нет! Никуда ты с моим кладом не уйдешь!";
+			dialog.text = "Ну уж нет! Никуда ты с моим кладом не уйдёшь!";
 			ChangeCharacterReputation(pchar, -15);
 			Link.l1 = "В таком случае, пришло время отделиться твоей голове от тела.";
 			Link.l1.go = "battleTreasure"; 
@@ -357,8 +349,8 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		ChangeCharacterReputation(pchar, 15);
 		PGG_ChangeRelation2MainCharacter(npchar, 40);
 		chrDisableReloadToLocation = false;
-        dialog.text = "А ты "+GetSexPhrase("неплохой малый","славная девчонка")+"! Благодарю за понимание. Надеюсь, мы еще встретимся, я бы с тобой опрокинул кружку-другую.";
-		Link.l1 = "Заманчивое предложение. Если подвернется случай - обязательно выпьем!";
+        dialog.text = "А ты "+GetSexPhrase("неплохой малый","славная девчонка")+"! Благодарю за понимание. Надеюсь, мы ещё встретимся, я бы с тобой опрокинул"+ NPCharSexPhrase(NPChar,"","а") +" кружку-другую.";
+		Link.l1 = "Заманчивое предложение. Если подвернётся случай - обязательно выпьем!";
 		Link.l1.go = "Cost_Head3";	
         break;
 	case "Cost_Head3":

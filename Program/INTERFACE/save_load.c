@@ -721,13 +721,14 @@ void ShowDataForSave(int nSlot, string picname, int picpointer, string strdata)
 
 	if( strdata != "" )
 	{
-		string facestr, locName, timeStr, language, playtime, curship;
-		if( ParseSaveData(strdata, &facestr, &locName, &timeStr, &language, &playtime, &curship) ) {
+		string facestr, locName, timeStr, language, playtime, curship, nation;
+		if( ParseSaveData(strdata, &facestr, &locName, &timeStr, &language, &playtime, &curship, &nation) ) {
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#"+locName );
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#"+timeStr );
 			g_oSaveList[nSlot].faceinfo = facestr;
 			g_oSaveList[nSlot].playtime = playtime;
 			g_oSaveList[nSlot].curship = curship;
+			g_oSaveList[nSlot].nation = nation;
 		} else {
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#Unknown" );
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#No Time" );
@@ -876,7 +877,7 @@ void procProfileBtnAction()
 	}
 }
 
-bool ParseSaveData(string fullSaveData, ref facestr, ref locationStr, ref timeStr, ref languageID, ref playtime, ref curship)
+bool ParseSaveData(string fullSaveData, ref facestr, ref locationStr, ref timeStr, ref languageID, ref playtime, ref curship, ref nation)
 {
 	string lastStr;
 	if( !GetNextSubStr(fullSaveData, locationStr, &lastStr, "@") ) return false;
@@ -884,6 +885,7 @@ bool ParseSaveData(string fullSaveData, ref facestr, ref locationStr, ref timeSt
 	if( !GetNextSubStr(lastStr, timeStr, &lastStr, "@") ) return false;
 	if( !GetNextSubStr(lastStr, playtime, &lastStr, "@") ) return false;
 	if( !GetNextSubStr(lastStr, curship, &lastStr, "@") ) return false;
+	if( !GetNextSubStr(lastStr, nation, &lastStr, "@") ) return false;
 	GetNextSubStr(lastStr, languageID, &lastStr, "@");
 	return true;
 }
@@ -1190,6 +1192,7 @@ void ReloadSaveInfo()
 	}
 	ShowFaceInfo( info );
 	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"curship") ) SSI(g_oSaveList[nSlot].curship);
+	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"nation") ) SetNewGroupPicture("FLAG_ICON", "NATIONS", g_oSaveList[nSlot].nation);
 	SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 2, playtime );
 
 	if( info == "" ) {

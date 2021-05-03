@@ -36,7 +36,7 @@ void Duel_Prepare_Fight()
 			iTemp = sti(pchar.rank) + rand(MOD_SKILL_ENEMY_RATE);
 			for(i = 0; i < sti(PChar.questTemp.duel.enemyQty); i++)
 			{
-				sld = GetCharacter(NPC_GenerateCharacter("Berglar_Duel"+i, "officer_"+(rand(57)+1), "man", "man", iTemp, PIRATE, 1, true));				
+				sld = GetCharacter(NPC_GenerateCharacter("Berglar_Duel"+i, "officer_"+(rand(63)+1), "man", "man", iTemp, PIRATE, 1, true));				
 				SetFantomParamHunter(sld);
 				PlaceCharacter(sld, "reload", "Clone_location");
 				LAi_SetWarriorType(sld);

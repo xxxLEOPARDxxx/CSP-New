@@ -19,9 +19,6 @@ int Fantom_GenerateEncounterExt(string sGroupName, object oResult, int iEType, i
 	makearef(aWar, rEnc.War);
 	makearef(aMerchant, rEnc.Merchant);
 
-	//iNumMerchantShips = MakeInt(aMerchant.ShipsMin) + rand(MakeInt(aMerchant.ShipsMax) - MakeInt(aMerchant.ShipsMin));
-	//iNumWarShips = MakeInt(aWar.ShipsMin) + rand(MakeInt(aWar.ShipsMax) - MakeInt(aWar.ShipsMin));
-	
 	if(iEType == ENCOUNTER_TYPE_BARREL || iEType == ENCOUNTER_TYPE_BOAT)
 	{
 		ref rFantom = GetFantomCharacter(iNumFantoms);
@@ -135,9 +132,6 @@ int Fantom_GenerateEncounter(string sGroupName, object oResult, int iEType, int 
 	makearef(aWar, rEnc.War);
 	makearef(aMerchant, rEnc.Merchant);
 
-	//iNumMerchantShips = MakeInt(aMerchant.ShipsMin) + rand(MakeInt(aMerchant.ShipsMax) - MakeInt(aMerchant.ShipsMin));
-	//iNumWarShips = MakeInt(aWar.ShipsMin) + rand(MakeInt(aWar.ShipsMax) - MakeInt(aWar.ShipsMin));
-	
 	int iRank = sti(pchar.Rank);
 	Encounter_GetClassesFromRank(iEType, iRank, &iMerchantClassMin, &iMerchantClassMax, &iWarClassMin, &iWarClassMax);
 	
@@ -212,22 +206,6 @@ void Fantom_AddFantomCharacter(string sGroupName, int iShipType, string sFantomT
     	//#20170918-01 Fix for Abordage.Enable
     	DeleteAttribute(rFantom, "Abordage.Enable");
 
-	/*rFantom.fame = rand(70);
-
-	
-	int iNation = sti(rFantom.nation);
-	//trace("Nation of Fantom is " + GetNationNameByType(iNation));
-	iNation = FindEnemyNation2NationWithoutPirates(iNation);
-	if(iNation != -1)
-	{
-		string sNation = GetNationNameByType(iNation);
-		
-		rFantom.reputation.(sNation) = 10;
-		
-		//trace("Nation of Enemy of Fantom is " + sNation);
-		rFantom.bounty.(sNation).money = sti(rFantom.fame)*rand(500);
-	}	
-	*/
 	rFantom.SeaAI.Group.Name = sGroupName;
 	rFantom.Ship.Type = iShipType;
 	rFantom.Ship.Mode = sFantomType;
@@ -253,8 +231,6 @@ void Fantom_SetRandomMoney(ref rFantom, string sFantomType)
 	// ship class
 	int iSClass = GetCharacterShipClass(rFantom);
 
-	// add money
-// boal 20.01.2004 -->
 	switch (sFantomType)
 	{
 		case "trade":
@@ -270,8 +246,6 @@ void Fantom_SetRandomMoney(ref rFantom, string sFantomType)
 			return;
 		break;
 	}
-// boal 20.01.2004 <--
-	//Trace("Fantom index = " + rFantom.index + ", group id = " + rFantom.SeaAI.Group.Name + ", have invalid encounter type = " + sFantomType);
 }
 
 // boal перенес из ВМЛ
@@ -1094,25 +1068,7 @@ void SetShipToFantom(ref _chr, string _type, bool _setgoods)
 			if (Rank >= 15 && Rank <= 20){ShipType = 28 + rand(55);} // 4 - 3 класс
 			if (Rank >= 20 && Rank <= 30){ShipType = 52 + rand(52);} // 3 - 2 класс
 			if (Rank > 30){	ShipType = 84 + rand(40);} // 2 - 1 класс
-		break;
-
-		/*case "war":
-			if (Rank < 11)
-			{
-				ShipType = RandFromThreeDight(SHIP_SLOOP, SHIP_SCHOONER, SHIP_LUGGER);
-			}
-			if (Rank >= 11 && Rank <= 20)
-			{
-				if (Nation == SPAIN) ShipType = RandFromThreeDight(SHIP_CARAVEL, SHIP_BRIG, SHIP_PINNACE);
-				else ShipType = RandFromThreeDight(SHIP_BRIG, SHIP_GALEON_L, SHIP_PINNACE);
-			}
-			if (Rank > 20)
-			{
-				if (Nation == SPAIN) RandFromFiveDight(SHIP_GALEON_H, SHIP_LINESHIP, SHIP_WARSHIP, SHIP_BATTLESHIP, SHIP_MANOWAR);
-				if (Nation == HOLLAND) ShipType = SHIP_GALEON_H;
-				if (Nation == ENGLAND || Nation == FRANCE) ShipType = SHIP_PINNACE;
-			}
-		break;*/
+		break;-
 	}
 	_chr.Ship.Type = GenerateShipExt(ShipType, true, _chr);
 	SetRandomNameToShip(_chr);

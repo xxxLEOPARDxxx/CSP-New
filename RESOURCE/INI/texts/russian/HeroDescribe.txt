@@ -88,8 +88,8 @@ SeaWolf
 (имеет удвоенную скорость обучения команды, 5% бонус к ходовым качествам корабля и пониженный шанс взрыва пушек в бою и от износа)
 }
 
-hero_qty {75}
-ps_hero_qty {75}
+hero_qty {77}
+ps_hero_qty {77}
 
 ;========================================== Metazot - этот отрывок нужно заменить в своем файле описания, чтобы не менять его полностью
 
@@ -142,7 +142,7 @@ hero_2
 Наемница из далекого будущего, попавшая в прошлое в результате неудачного стечения обстоятельств. Устройство, которое она должна была выкрасть для заказчика повредилось в перестрелке и случайным образом активировалось, тем самым закинув наемницу на Карибы. Мир здесь суров и неприветлив, также как и ее родной, так что освоиться в нем не должно стать большой проблемой.
 - Имеет все виды кирас и костюмов.
 - В совершенстве УМЕЕТ ПОЛЬЗОВАТЬСЯ мушкетом.
-- Имеет уникальную квестовую линейку. Для успешного выполнения некоторых квестов НЕ РЕКОМЕНДУЕТСЯ выставлять опцию "Количество кораблей охраны" выше 3.
+- Имеет уникальную квестовую линейку.
 }
 
 heroName_3 {Беатрис}
@@ -247,132 +247,127 @@ hero_6
 - НЕ БУДЕТ пользоваться мушкетом.
 }
 
-heroName_7 {Алекс}
-heroLastname_7 {Эксквемелин}
+heroName_7 {Тёмный Странник}
+heroLastname_7 {}
 
-heroNameGen_7 {Алекса}
-heroLastnameGen_7 {Эксквемелина}
+heroNameGen_7 {Тёмный Странник}
+heroLastnameGen_7 {}
 
-heroNameDat_7 {Алексу}
-heroLastNameDat_7 {Эксквемелину}
+heroNameDat_7 {Тёмный Странник}
+heroLastNameDat_7 {}
 
-heroFace_7 {519}
-heroModel_7  {PGG_Hero_0,PGG_Hero_1,PGG_Hero_2,PGG_Hero_3,PGG_Hero_4,PGG_Hero_5,PGG_Hero_0,PGG_Hero_6,PGG_Hero_7}
+heroFace_7 {480}
+heroModel_7 {PGG_Darkhuman_0,PGG_Darkhuman_1,PGG_Darkhuman_2,PGG_Darkhuman_3,PGG_Darkhuman_4,PGG_Darkhuman_5,PGG_Darkhuman_6,PGG_Darkhuman_7,PGG_Darkhuman_8}
 
-heroType_7 {Рубака}
-heroNation_7 {Голландия}
+heroType_7 {Буканьер}
+heroNation_7 {Англия}
 
 sex_7 {man}
 animation_7 {man}
 
 hero_7
 {
-Прибыл на Карибы с целью сделать состояние торговлей, некоторое время прослужил наемником в Европе. Впрочем, иногда не брезгует скользким путем добывания вожделенных пиастров.
+Об этом человеке в черном балахоне ничего не известно.
 - В совершенстве умеет пользоваться мушкетом.
 - Имеет все виды кирас.
 }
 
-heroName_8 {Барт}
-heroLastname_8 {Португалец}
+heroName_8 {Призрак}
+heroLastname_8 {Джессики}
 
-heroNameGen_8 {Барта}
-heroLastnameGen_8 {Португальца}
+heroNameGen_8 {Призрак}
+heroLastnameGen_8 {Джессики}
 
-heroNameDat_8 {Барту}
-heroLastNameDat_8 {Португальцу}
+heroNameDat_8 {Призрак}
+heroLastNameDat_8 {Джессики}
 
-heroFace_8 {289}
-heroModel_8 {PGG_Port_0,PGG_Port_1,PGG_Port_2,PGG_Port_3,PGG_Port_4,PGG_Port_5,PGG_Port_6,PGG_Port_7,PGG_Port_8}
+heroFace_8 {527}
+heroModel_8 {PGG_Ghost_0,PGG_Ghost_1,PGG_Ghost_2,PGG_Ghost_3,PGG_Ghost_4,PGG_Ghost_5}
 
-heroType_8 {Рубака}
-heroNation_8 {Береговое братство}
+heroType_8 {Фехтовальщик}
+heroNation_8 {Англия}
 
-sex_8 {man}
-animation_8 {man}
+sex_8 {skeleton}
+animation_8 {Jessika}
 
 hero_8
 {
-Известный в этих водах рубака. Хотя удача не всегда была на его стороне, о чем говорят полученные в боях шрамы. Но шрамы только красят настоящего мужчину! Правда же?
-За голову этого известного пирата ГВИК готов отвалить целую кучу золотых дублонов.
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас и костюмов.
+Призрак Джесс. Очень хороший компаньон по отпугиванию в подземелье скелетов))
+- НЕ БУДЕТ пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
-heroName_9 {Лайонел}
-heroLastname_9 {Уофер}
+heroName_9 {Весёлый}
+heroLastname_9 {Роджер}
 
-heroNameGen_9 {Лайонела}
-heroLastnameGen_9 {Уофера}
+heroNameGen_9 {Весёлого}
+heroLastnameGen_9 {Роджера}
 
-heroNameDat_9 {Лайонелу}
-heroLastNameDat_9 {Уоферу}
+heroNameDat_9 {Весёлому}
+heroLastNameDat_9 {Роджеру}
 
-heroFace_9 {512}
-heroModel_9 {PGG_Uof_0,PGG_Uof_1,PGG_Uof_2,PGG_Uof_3,PGG_Uof_4,PGG_Uof_5,PGG_Uof_6,PGG_Uof_7,PGG_Uof_8}
+heroFace_9 {511}
+heroModel_9 {PGG_Skeletcap_0,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
 
-heroType_9 {Буканьер}
-heroNation_9 {Голландия}
+heroType_9 {Рубака}
+heroNation_9 {Франция}
 
-sex_9 {man}
-animation_9 {man}
+sex_9 {skeleton}
+animation_9 {skeleton}
 
 hero_9
 {
-Исследователь новых земель, пират, капер, хирург и судовой врач.
+Роджер Весёлый - широко известный капитан по прозвищу "Мёртвая Голова". Многие завистники и злопыхатели в один голос твердят, что Роджер, мол, чересчур засиделся среди нас и даже зажился. На что никогда не унывающий Весёлый отвечает: "Есть что сказать? Подкрепи сталью свои жалкие тезисы, если не трус!" И очередного обидчика выносят, а Роджер продолжает кутить напропалую, изредка позируя заезжему портретисту... Категорически утверждает, что именно с него рисовали знаменитую эмблему пиратов. Нешапочно знаком со всеми выдающимися корсарами.
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас и костюмов.
+- Имеет все виды кирас.
 }
 
-heroName_10 {Пётр}
-heroLastname_10 {Блэйд}
+heroName_10 {Альберто}
+heroLastname_10 {Каскос}
 
-heroNameGen_10 {Пётра}
-heroLastnameGen_10 {Блэйда}
+heroNameGen_10 {Альберто}
+heroLastnameGen_10 {Каскоса}
 
-heroNameDat_10 {Пётру}
-heroLastNameDat_10 {Блэйду}
+heroNameDat_10 {Альберто}
+heroLastNameDat_10 {Каскосу}
 
+heroFace_10 {525}
+heroModel_10 {PGG_Giant_0,PGG_Giant_1,PGG_Giant_2,PGG_Giant_3,PGG_Giant_4,PGG_Giant_5}
 
-heroFace_10 {501}
-heroModel_10 {PGG_PeBlad_0,PGG_PeBlad_1,PGG_PeBlad_2,PGG_PeBlad_3,PGG_PeBlad_4,PGG_PeBlad_5,PGG_PeBlad_6,PGG_PeBlad_7,PGG_PeBlad_7}
+heroType_10 {Рубака}
+heroNation_10 {Испания}
 
-heroType_10 {Фехтовальщик}
-heroNation_10 {Англия}
-
-sex_10 {man}
-animation_10 {man}
+sex_10 {skeleton}
+animation_10 {Giant}
 
 hero_10
 {
-Этому герою предстоит пройти тяжелейшие испытания, прежде чем стать настоящим морским волком.
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас и костюмов.
+Бывший испанский солдат, участвовавший в походе Кортеса на Теночтитлан, однако после одной из неудачных атак, его схватили ацтеки, и за свой рост и силу, его принесли в жертву богам, после чего превратили его в скелета.
+- Имеет все виды кирас.
+- НЕ БУДЕТ пользоваться мушкетом.
 }
 
-heroName_11 {Джеймс}
-heroLastname_11 {Баллантре}
+heroName_11 {Ужасный}
+heroLastname_11 {}
 
-heroNameGen_11 {Джеймса}
-heroLastnameGen_11 {Баллантре}
+heroNameGen_11 {Ужасный}
+heroLastnameGen_11 {}
 
-heroNameDat_11 {Джеймсу}
-heroLastNameDat_11 {Баллантре}
+heroNameDat_11 {Ужасный}
+heroLastNameDat_11 {}
 
-heroFace_11 {500}
-heroModel_11  {PGG_Ballantre_0,PGG_Ballantre_1,PGG_Ballantre_2,PGG_Ballantre_3,PGG_Ballantre_4,PGG_Ballantre_5,PGG_Ballantre_6,PGG_Ballantre_7,PGG_Ballantre_7}
+heroFace_11 {537}
+heroModel_11 {PGG_Meriman_2}
 
-heroType_11 {Морской Волк}
-heroNation_11 {Франция}
+heroType_11 {Фехтовальщик}
+heroNation_11 {Голландия}
 
-sex_11 {man}
-animation_11 {man}
+sex_11 {skeleton}
+animation_11 {man2_ab}
 
 hero_11
 {
-Наследник шотландского дворянского титула присоедился к восстанию принца Чарльза против власти британской королевской семьи.
-Восставшие потерпели поражение, и Джеймсу приходится скрываться на островах Вест-Индии под защитой французских властей. Куда податься Джэймсу с его бунтарским характером? Конечно же в пираты!
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас и костюмов.
+Скрывался под обликом простого Голландского ученого, но после получения нефритового черепа Юм Симиля, он раскрыл свой истинный облик.
 }
 
 heroName_12 {Диего}
@@ -1050,29 +1045,29 @@ hero_38
 - Имеет все виды кирас.
 }
 
-heroName_39 {Весёлый}
-heroLastname_39 {Роджер}
+heroName_39 {Лайонел}
+heroLastname_39 {Уофер}
 
-heroNameGen_39 {Весёлого}
-heroLastnameGen_39 {Роджера}
+heroNameGen_39 {Лайонела}
+heroLastnameGen_39 {Уофера}
 
-heroNameDat_39 {Весёлому}
-heroLastNameDat_39 {Роджеру}
+heroNameDat_39 {Лайонелу}
+heroLastNameDat_39 {Уоферу}
 
-heroFace_39 {511}
-heroModel_39 {PGG_Skeletcap_0,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
+heroFace_39 {512}
+heroModel_39 {PGG_Uof_0,PGG_Uof_1,PGG_Uof_2,PGG_Uof_3,PGG_Uof_4,PGG_Uof_5,PGG_Uof_6,PGG_Uof_7,PGG_Uof_8}
 
-heroType_39 {Рубака}
-heroNation_39 {Пират}
+heroType_39 {Буканьер}
+heroNation_39 {Голландия}
 
-sex_39 {skeleton}
-animation_39 {skeleton}
+sex_39 {man}
+animation_39 {man}
 
 hero_39
 {
-Роджер Весёлый - широко известный капитан по прозвищу "Мёртвая Голова". Многие завистники и злопыхатели в один голос твердят, что Роджер, мол, чересчур засиделся среди нас и даже зажился. На что никогда не унывающий Весёлый отвечает: "Есть что сказать? Подкрепи сталью свои жалкие тезисы, если не трус!" И очередного обидчика выносят, а Роджер продолжает кутить напропалую, изредка позируя заезжему портретисту... Категорически утверждает, что именно с него рисовали знаменитую эмблему пиратов. Нешапочно знаком со всеми выдающимися корсарами.
+Исследователь новых земель, пират, капер, хирург и судовой врач.
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
+- Имеет все виды кирас и костюмов.
 }
 
 heroName_40 {Альварес}
@@ -1200,52 +1195,56 @@ hero_44
 - Имеет все виды кирас и костюмов.
 }
 
-heroName_45 {Призрак}
-heroLastname_45 {Джессики}
+heroName_45 {Барт}
+heroLastname_45 {Португалец}
 
-heroNameGen_45 {Призрак}
-heroLastnameGen_45 {Джессики}
+heroNameGen_45 {Барта}
+heroLastnameGen_45 {Португальца}
 
-heroNameDat_45 {Призрак}
-heroLastNameDat_45 {Джессики}
+heroNameDat_45 {Барту}
+heroLastNameDat_45 {Португальцу}
 
-heroFace_45 {527}
-heroModel_45 {PGG_Ghost_0,PGG_Ghost_1,PGG_Ghost_2,PGG_Ghost_3,PGG_Ghost_4,PGG_Ghost_5}
+heroFace_45 {289}
+heroModel_45 {PGG_Port_0,PGG_Port_1,PGG_Port_2,PGG_Port_3,PGG_Port_4,PGG_Port_5,PGG_Port_6,PGG_Port_7,PGG_Port_8}
 
-heroType_45 {Фехтовальщик}
-heroNation_45 {Пират}
+heroType_45 {Рубака}
+heroNation_45 {Береговое братство}
 
-sex_45 {skeleton}
-animation_45 {Jessika}
+sex_45 {man}
+animation_45 {man}
 
 hero_45
 {
-Призрак Джесс. Очень хороший компаньон по отпугиванию в подземелье скелетов))
-- НЕ БУДЕТ пользоваться мушкетом.
-- Имеет все виды кирас.
+Известный в этих водах рубака. Хотя удача не всегда была на его стороне, о чем говорят полученные в боях шрамы. Но шрамы только красят настоящего мужчину! Правда же?
+За голову этого известного пирата ГВИК готов отвалить целую кучу золотых дублонов.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас и костюмов.
 }
 
-heroName_46 {Ужасный}
-heroLastname_46 {}
+heroName_46 {Джеймс}
+heroLastname_46 {Баллантре}
 
-heroNameGen_46 {Ужасный}
-heroLastnameGen_46 {}
+heroNameGen_46 {Джеймса}
+heroLastnameGen_46 {Баллантре}
 
-heroNameDat_46 {Ужасный}
-heroLastNameDat_46 {}
+heroNameDat_46 {Джеймсу}
+heroLastNameDat_46 {Баллантре}
 
-heroFace_46 {537}
-heroModel_46 {PGG_Meriman_2}
+heroFace_46 {500}
+heroModel_46  {PGG_Ballantre_0,PGG_Ballantre_1,PGG_Ballantre_2,PGG_Ballantre_3,PGG_Ballantre_4,PGG_Ballantre_5,PGG_Ballantre_6,PGG_Ballantre_7,PGG_Ballantre_7}
 
-heroType_46 {Фехтовальщик}
-heroNation_46 {Пират}
+heroType_46 {Морской Волк}
+heroNation_46 {Франция}
 
-sex_46 {skeleton}
-animation_46 {man2_ab}
+sex_46 {man}
+animation_46 {man}
 
 hero_46
 {
-Скрывался под обликом простого Голландского ученого, но после получения нефритового черепа Юм Симиля, он раскрыл свой истинный облик.
+Наследник шотландского дворянского титула присоедился к восстанию принца Чарльза против власти британской королевской семьи.
+Восставшие потерпели поражение, и Джеймсу приходится скрываться на островах Вест-Индии под защитой французских властей. Куда податься Джэймсу с его бунтарским характером? Конечно же в пираты!
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас и костюмов.
 }
 
 heroName_47 {Элихио}
@@ -1798,29 +1797,30 @@ hero_69
 - НЕ БУДЕТ пользоваться мушкетом.
 }
 
-heroName_70 {Альберто}
-heroLastname_70 {Каскос}
+heroName_70 {Пётр}
+heroLastname_70 {Блэйд}
 
-heroNameGen_70 {Альберто}
-heroLastnameGen_70 {Каскоса}
+heroNameGen_70 {Пётра}
+heroLastnameGen_70 {Блэйда}
 
-heroNameDat_70 {Альберто}
-heroLastNameDat_70 {Каскосу}
+heroNameDat_70 {Пётру}
+heroLastNameDat_70 {Блэйду}
 
-heroFace_70 {525}
-heroModel_70 {PGG_Giant_0,PGG_Giant_1,PGG_Giant_2,PGG_Giant_3,PGG_Giant_4,PGG_Giant_5}
 
-heroType_70 {Рубака}
-heroNation_70 {Пират}
+heroFace_70 {501}
+heroModel_70 {PGG_PeBlad_0,PGG_PeBlad_1,PGG_PeBlad_2,PGG_PeBlad_3,PGG_PeBlad_4,PGG_PeBlad_5,PGG_PeBlad_6,PGG_PeBlad_7,PGG_PeBlad_7}
 
-sex_70 {skeleton}
-animation_70 {Giant}
+heroType_70 {Фехтовальщик}
+heroNation_70 {Англия}
+
+sex_70 {man}
+animation_70 {man}
 
 hero_70
 {
-Бывший испанский солдат, участвовавший в походе Кортеса на Теночтитлан, однако после одной из неудачных атак, его схватили ацтеки, и за свой рост и силу, его принесли в жертву богам, после чего превратили его в скелета.
-- Имеет все виды кирас.
-- НЕ БУДЕТ пользоваться мушкетом.
+Этому герою предстоит пройти тяжелейшие испытания, прежде чем стать настоящим морским волком.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас и костюмов.
 }
 
 heroName_71 {Чани}
@@ -1848,27 +1848,27 @@ hero_71
 - НЕ БУДЕТ пользоваться мушкетом.
 }
 
-heroName_72 {Тёмный Странник}
-heroLastname_72 {}
+heroName_72 {Алекс}
+heroLastname_72 {Эксквемелин}
 
-heroNameGen_72 {Тёмный Странник}
-heroLastnameGen_72 {}
+heroNameGen_72 {Алекса}
+heroLastnameGen_72 {Эксквемелина}
 
-heroNameDat_72 {Тёмный Странник}
-heroLastNameDat_72 {}
+heroNameDat_72 {Алексу}
+heroLastNameDat_72 {Эксквемелину}
 
-heroFace_72 {480}
-heroModel_72 {PGG_Darkhuman_0,PGG_Darkhuman_1,PGG_Darkhuman_2,PGG_Darkhuman_3,PGG_Darkhuman_4,PGG_Darkhuman_5,PGG_Darkhuman_6,PGG_Darkhuman_7,PGG_Darkhuman_8}
+heroFace_72 {519}
+heroModel_72  {PGG_Hero_0,PGG_Hero_1,PGG_Hero_2,PGG_Hero_3,PGG_Hero_4,PGG_Hero_5,PGG_Hero_0,PGG_Hero_6,PGG_Hero_7}
 
-heroType_72 {Буканьер}
-heroNation_72 {Англия}
+heroType_72 {Рубака}
+heroNation_72 {Голландия}
 
 sex_72 {man}
 animation_72 {man}
 
 hero_72
 {
-Об этом человеке в черном балахоне ничего не известно.
+Прибыл на Карибы с целью сделать состояние торговлей, некоторое время прослужил наемником в Европе. Впрочем, иногда не брезгует скользким путем добывания вожделенных пиастров.
 - В совершенстве умеет пользоваться мушкетом.
 - Имеет все виды кирас.
 }
@@ -1946,4 +1946,53 @@ hero_75
 Дерзкая и свободолюбивая корсарка.
 - НЕ БУДЕТ пользоваться мушкетом.
 }
+
+heroName_76 {Шикоба}
+heroLastname_76 {}
+
+heroNameGen_76 {Шикобе}
+heroLastnameGen_76 {}
+
+heroNameDat_76 {Шикобе}
+heroLastNameDat_76 {}
+
+heroFace_76 {544}
+heroModel_76 {PGG_Shicoba_0}
+
+heroType_76 {Фехтовальщик}
+heroNation_76 {Пираты}
+
+sex_76 {woman}
+animation_76 {Milenace}
+
+hero_76
+{
+Индейская девушка-найденыш, выросшая среди пиратов. Пользуется всеобщим уважением и любовью даже среди таких негодяев, как морские разбойники. Рано приобщилась к бандитскому "промыслу", и позже стала одним из пиратских капитанов.
+- НЕ БУДЕТ пользоваться мушкетом.
+}
+
+heroName_77 {Петти}
+heroLastname_77 {}
+
+heroNameGen_77 {Петти}
+heroLastnameGen_77 {}
+
+heroNameDat_77 {Петти}
+heroLastNameDat_77 {}
+
+heroFace_77 {479}
+heroModel_77 {PGG_PettY_0}
+
+heroType_77 {Фехтовальщик}
+heroNation_77 {Пираты}
+
+sex_77 {woman}
+animation_77 {YokoDias}
+
+hero_77
+{
+Заядлая любительница по рассказывать пиратские байки.
+- НЕ БУДЕТ пользоваться мушкетом.
+}
+
 ;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================

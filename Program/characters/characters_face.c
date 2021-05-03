@@ -452,6 +452,7 @@ void FaceMaker(aref rCharacter)
 		case "PGG_ShMor_0":		rCharacter.FaceId = 508; break;
 		case "PGG_Mary":		rCharacter.FaceId = 517; break;
 		case "ozg_green":		rCharacter.FaceId = 287; break;
+		case "PGG_Chard_0":		rCharacter.FaceId = 211; break;
 	}
 }
 

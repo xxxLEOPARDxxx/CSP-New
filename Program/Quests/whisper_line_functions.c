@@ -1,18 +1,18 @@
 
-//////////////////////////////////////////////////////////////////////
-//	Линейка Виспер	начало
-//////////////////////////////////////////////////////////////////////
 void Whisper_StartGame(string qName)
 {
     ref sld;
     Pchar.questTemp.WhisperTutorial = true;
     Pchar.questTemp.WhisperFuture = true;
-    Pchar.BaseNation = SPAIN;
+    Pchar.BaseNation = PIRATE;
     //fix перков флагов
     DeleteAttribute(Pchar, "perks.list.FlagFra");
     DeleteAttribute(Pchar, "perks.list.FlagSpa");
     DeleteAttribute(Pchar, "perks.list.FlagHol");
 	DeleteAttribute(Pchar, "perks.list.FlagEng");
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	Линейка Виспер	начало
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
     SetCharacterPerk(Pchar, "FlagPir");
     Flag_SPAIN();
 
@@ -29,10 +29,12 @@ void Whisper_StartGame(string qName)
     DeleteAttribute(Pchar, "ShipSails.gerald_name");
     Pchar.ship.type = SHIP_NOTUSED;
 	//Одеваемся подходящим образом
-	GiveItem2Character(pchar, "blade14");
-	EquipCharacterByItem(pchar, "blade14");
+	GiveItem2Character(pchar, "blade_whisper");
+	EquipCharacterByItem(pchar, "blade_whisper");
 	GiveItem2Character(pchar, "pistol7shotgun");
 	EquipCharacterByItem(pchar, "pistol7shotgun");
+	GiveItem2Character(pchar, "cirass5");
+	EquipCharacterbyItem(pchar, "cirass5");
     TakeNItems(Pchar, "12_gauge", 99);
     TakeNItems(Pchar, "grapeshot", 99);
 	TakeNItems(Pchar, "potion3", 1);
@@ -53,7 +55,7 @@ void Whisper_StartGame(string qName)
 	//и фасттревел
 	InterfaceStates.DisFastTravel = true;
 	//Виспер недоступна испанская линейка
-	LockQuestLine(characterFromId("spa_guber"));
+	//LockQuestLine(characterFromId("spa_guber"));
 	
 	//Вступительный монолог
 	pchar.questTemp.Whisper.Entered_Dungeon = true;
@@ -63,11 +65,19 @@ void Whisper_StartGame(string qName)
     //Environment.date.month = 7;
     //Environment.date.day = 3;
 	
+	ref _location = &locations[reload_location_index];
+	_location.box1.QuestClosed = true;
+	_location.box2.QuestClosed = true;
+	_location.box3.QuestClosed = true;
+	_location.box4.QuestClosed = true;
 	
 	//Спавним роботов
 	for (int i = 0; i < 10; i++)
 	{
 		sld = GetCharacter(NPC_GenerateCharacter("Robot"+sti(i), "Terminator", "Terminator_Sex", "Terminator", MOD_SKILL_ENEMY_RATE, PIRATE, 0, false));
+		sld.name = "Т-"+(800+rand(150));
+		sld.lastname = "";
+		sld.CantLoot = true;
 		if (rand (1) == 0)
 		{
 			GiveItem2Character(sld, "katar");
@@ -123,13 +133,12 @@ void WhisperScientist(string qName)
 	{
 		sld = CharacterFromID("PsHero_" + i);
 		
-		if(sld.FaceId == 487 || sld.FaceId == 535)
+		if(sld.FaceId == 487 || sld.FaceId == 535 || sld.FaceId == 211)
 		{//Его мы позже наймем оффом, так что убираем из ПГГ
 			sld.willDie = true;
 			LAi_KillCharacter(sld);
 		}
 	}
-	
 	pchar.questTemp.Whisper.Near_Chest = true;	
 	PlayVoice("interface\important_item.wav");
 	StartActorSelfDialog("First time");
@@ -184,39 +193,93 @@ void TeleportBot(string qName)
 }
 void WhisperTeleport(string qName)
 {
+	InterfaceStates.Buttons.Save.enable = false;
 	pchar.questTemp.WhisperLine = false;
 	sld = GetCharacter(NPC_GenerateCharacter("wl_Pirate_Cap", "PGG_Rozencraft", "man", "man", 1, PIRATE, -1, true));
 	sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+	GiveItem2Character(sld, "blade15");
+	EquipCharacterByItem(sld, "blade15");
 	sld.dialog.currentnode = "First time";
 	sld.name = "Эрнан";
 	sld.lastname = " Эстебан";
 	sld.greeting = "GR_ErnanEsteban";
-	//Добавить звуки
-    LAi_SetActorTypeNoGroup(sld);
-    LAi_type_actor_Reset(sld);
-    LAi_ActorDialog(sld, pchar, "", 1.0, 0);
+
+	LAi_SetStayTypeNoGroup(sld);
+	sld.talker = 10;
 	LAi_SetImmortal(sld, true);
-	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto4");
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto11");
 	
 	Group_FindOrCreateGroup("wl_Pirate");
 	Group_AddCharacter("wl_Pirate", sld.id);
+	string cnd, fnk;
+		
+	LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], true);
 	
-	for (i = 0; i < 11; i++)
+	for (i = 1; i < 13; i++)
 	{
-		if (i !=4 && i !=5)
-		{
-			sld = GetCharacter(NPC_GenerateCharacter("wl_Pirate_"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", 1, PIRATE, -1, true));
+			sld = GetCharacter(NPC_GenerateCharacter("wl_Pirate_"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", 3+MOD_SKILL_ENEMY_RATE, PIRATE, -1, true));
 			ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto"+sti(i));
 			Group_AddCharacter("wl_Pirate", sld.id);
 			LAi_SetWarriorType(sld);
+			sld.chr_ai.disableDlg = true;
+			sld.DontClearDead = true;
 			sld.LifeDay = 0;
-		}
+			cnd = "l" + i;
+			fnk = "WhisperBonusChallengeRecheck"+i;
+			//pchar.quest.WhisperBonusChallenge.win_condition.(cnd) = "NPC_Death";
+			//pchar.quest.WhisperBonusChallenge.win_condition.(cnd).character = "wl_Pirate_"+sti(i);
+			//pchar.quest.WhisperBonusChallenge.function = "WhisperBonusChallenge";
+			pchar.quest.(fnk).win_condition.(cnd) = "NPC_Death";
+			pchar.quest.(fnk).win_condition.(cnd).character = "wl_Pirate_"+sti(i);
+			pchar.quest.(fnk).function = "WhisperBonusChallengeReCheck";
 	}
-	
 }
 
 
-void WhisperHold(string qName)
+void WhisperBonusChallengeReCheck(string qName)
+{
+	if (!CheckAttribute(pchar, "Whisper.BonusEnergy"))
+	{
+		int n = 1;
+		for (int i = 1; i < 13; i++)
+		{
+			if(LAi_IsDead(CharacterFromID("wl_Pirate_"+sti(i))))
+			{
+				n++;
+			}
+		}
+		if(n >= 10)
+		{
+			DoQuestFunctionDelay("WhisperBonusChallenge", 0.5);
+		}
+	}
+}
+
+void WhisperBonusChallenge(string qName)
+{
+	AddBonusEnergyToCharacter(pchar, 10);
+	pchar.Whisper.BonusEnergy = true;
+	
+	for (int i = 0; i < 3; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("wl_Pirate_mush"+i, GetPirateMushketerModel(), "man", "mushketer", 777, PIRATE, 0, false));
+		//LAi_SetCharacterUseBullet(sld,"bullet");
+		Group_AddCharacter("wl_Pirate", sld.id);
+		LAi_SetWarriorType(sld);
+		TakeNItems(sld,"potion1", rand(2)+1);
+		LAi_warrior_DialogEnable(sld, false);
+		ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload1");
+		LAi_SetImmortal(sld, true);
+		
+		sld = GetCharacter(NPC_GenerateCharacter("wl_Pirate_sword"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", 777, PIRATE, 0, true));
+		ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto"+sti(i));
+		ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload1");
+		LAi_SetImmortal(sld, true);
+		Group_AddCharacter("wl_Pirate", sld.id);
+		LAi_SetWarriorType(sld);
+	}
+}
+	void WhisperHold(string qName)
 {
     //chrDisableReloadToLocation = true;
     //InterfaceStates.Launched = false;
@@ -252,8 +315,8 @@ void WhisperHoldInit(string qName)
 	sld = CharacterFromID("wl_Pirate_Cap");
 	DeleteAttribute(sld, "equip");
 	ChangeCharacterAddressGroup(sld, "My_Deck", "reload", "reload1");
-	GiveItem2Character(sld, "blade14");
-	EquipCharacterByItem(sld, "blade14");
+	GiveItem2Character(sld, "blade_whisper");
+	EquipCharacterByItem(sld, "blade_whisper");
 	GiveItem2Character(sld, "pistol7shotgun");
 	EquipCharacterByItem(sld, "pistol7shotgun");
     TakeNItems(sld, "GunPowder", 99);
@@ -263,8 +326,6 @@ void WhisperHoldInit(string qName)
     LAi_type_actor_Reset(sld);
     LAi_ActorDialog(sld, pchar, "", 20.0, 0);
 	LAi_SetImmortal(sld, true);
-	
-	
 }
 
 void WhisperLine_Inquisition(string qName)
@@ -410,7 +471,6 @@ void WhisperLine_IncqGuard(string qName)
 		EquipCharacterByItem(sld, "blade4");
 		if (sld.Dialog.Filename == "Incquistors.c")
 		{
-			
 			LAi_SetActorTypeNoGroup(sld);
 			GetCharacterPos(sld, &locx, &locy, &locz);
 			if (LAi_FindNearestLocator("soldiers", locx, locy, locz) == "soldier1")
@@ -1043,7 +1103,7 @@ void WhisperDeSouzaSeaBattle()
     SetCharacterGoods(sld,GOOD_SAILCLOTH,150);
     SetCharacterGoods(sld,GOOD_RUM,200);
     SetCharacterGoods(sld,GOOD_WEAPON,600);
-			
+	SetCharacterGoods(sld,GOOD_MEDICAMENT,300);
 	sld.AlwaysEnemy = true;
 	sld.DontRansackCaptain = true;
 	sld.AlwaysSandbankManeuver = true;
@@ -1085,9 +1145,17 @@ void WhisperWarDogSeaBattle()
 	//SetBaseShipData(sld);
 	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
 	
+	ChangeCharacterAddressGroup(sld, "My_Deck", "reload", "reload1");
+	//GiveItem2Character(sld, "blade_15");
+	EquipCharacterByItem(sld, "blade_15");
+	//GiveItem2Character(sld, "pistol7shotgun");
+	EquipCharacterByItem(sld, "pistol7shotgun");
+    TakeNItems(sld, "blade_whisper", -1);
+    TakeNItems(sld, "blade_whisper", -1);
+	
 	SetCrewQuantityFull(sld);
 	int hcrew = GetMaxCrewQuantity(sld);
-	SetCrewQuantityOverMax(sld, hcrew + 20 * MOD_SKILL_ENEMY_RATE);// Усложним бой
+	SetCrewQuantityOverMax(sld, hcrew + 12 * MOD_SKILL_ENEMY_RATE);// Усложним бой
 	
 	sld.ship.Crew.Morale = 100;
 	ChangeCrewExp(sld, "Sailors", 50 + 5 * MOD_SKILL_ENEMY_RATE);
@@ -1096,11 +1164,14 @@ void WhisperWarDogSeaBattle()
 	
 	TakeNItems(sld, "12_gauge", 99);
     TakeNItems(sld, "grapeshot", 99);
+    //TakeNItems(sld, "bullet", 99);
+	TakeNItems(sld, "Food5", 5);
+	TakeNItems(sld, "potion2", 5);
 	LAi_SetCharacterUseBullet(sld,"grapeshot");
 	sld.SaveItemsForDead = true;
 	GiveItem2Character(sld, "cirass5");
 	EquipCharacterbyItem(sld, "cirass5")
-	LAi_SetHP(sld, 200.0 + 50 * MOD_SKILL_ENEMY_RATE, 200.0 + 50 * MOD_SKILL_ENEMY_RATE);
+	LAi_SetHP(sld, 200.0 + 20 * MOD_SKILL_ENEMY_RATE, 200.0 + 20 * MOD_SKILL_ENEMY_RATE);
 	SetSelfSkill(sld, 80, 80, 80, 80, 80);
 	SetShipSkill(sld, 75, 75, 75, 75, 75, 75, 75, 75, 75);
 	sld.rank = 30;
@@ -1130,6 +1201,7 @@ void WhisperWarDogSeaBattle()
     SetCharacterGoods(sld,GOOD_SAILCLOTH,150);
     SetCharacterGoods(sld,GOOD_RUM,200);
     SetCharacterGoods(sld,GOOD_WEAPON,600);
+	SetCharacterGoods(sld,GOOD_MEDICAMENT,300);
 	
 	sld.AlwaysEnemy = true;
 	sld.DontRansackCaptain = true;
@@ -1148,6 +1220,612 @@ void WhisperWarDogSeaBattle()
 	Group_SetAddress("WarDog", "Terks", "Quest_ships", "quest_ship_7");	
 	SetFunctionNPCDeathCondition("WhisperWarDog_Is_Dead", "wl_Pirate_Cap", false);
 }
+
+void WhisperSpawn_Chard()
+{
+	SetQuestHeader("WhisperChardQuest");
+	AddQuestRecord("WhisperChardQuest", "1");
+	AddQuestUserData("WhisperChardQuest", "sCity", XI_ConvertString("Colony" + pchar.Whisper.EsFriendTown + "Gen")));
+	LAi_LocationFightDisable(&Locations[FindLocation(pchar.Whisper.EsFriendTown+"_tavern_upstairs")], true);
+	LocatorReloadEnterDisable(pchar.Whisper.EsFriendTown+"_tavern", "reload2_back", false);
+	sld = GetCharacter(NPC_GenerateCharacter("W_Chard", "PGG_Chard_0", "man", "man", 1, PIRATE, -1, true));
+	LAi_SetStayType(sld);
+	ChangeCharacterAddressGroup(sld, pchar.Whisper.EsFriendTown+"_tavern_upstairs", "goto", "goto1");
+	sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+	
+	sld.CanTakeMushket = true;
+	sld.HeroModel = "PGG_Chard_0,PGG_Chard_1,PGG_Chard_2,PGG_Chard_3,PGG_Chard_4,PGG_Chard_5";
+	sld.name = "Майкл";
+	sld.lastname = "Чард";
+	//LAi_SetImmortal(sld, true);
+	SetSelfSkill(sld, 50, 50, 50, 50, 100);
+	SetShipSkill(sld, 60, 30, 80, 80, 40, 30, 40, 30, 60);
+	SetSPECIAL(sld, 7, 10, 8, 6, 7, 8, 10);
+	sld.rank = 20;
+	LAi_SetHP(sld, 220.0, 220.0);
+	//sld.greeting = "GR_Lejitos";
+	GiveItem2Character(sld, "blade_whisper");
+	EquipCharacterByItem(sld, "blade_whisper");
+	GiveItem2Character(sld, "cirass4");
+	EquipCharacterbyItem(sld, "cirass4");
+	GiveItem2Character(sld, "pistol4");
+	EquipCharacterbyItem(sld, "pistol4");
+	TakeNItems(sld, "bullet", 10);
+	TakeNItems(sld, "GunPowder", 10);
+	TakeNItems(sld, "Food5", 5);
+	TakeNItems(sld, "potion2", 5);
+	
+	SetCharacterPerk(sld, "FastReload");
+	SetCharacterPerk(sld, "ImmediateReload");
+	SetCharacterPerk(sld, "HullDamageUp");
+	SetCharacterPerk(sld, "SailsDamageUp");
+	SetCharacterPerk(sld, "CriticalShoot");
+	SetCharacterPerk(sld, "ByWorker");
+	SetCharacterPerk(sld, "CrewDamageUp");
+	SetCharacterPerk(sld, "AdvancedDefense");
+	SetCharacterPerk(sld, "CriticalHit");
+	SetCharacterPerk(sld, "HardHitter");
+	SetCharacterPerk(sld, "Gunman");
+	SetCharacterPerk(sld, "GunProfessional");
+	SetCharacterPerk(sld, "SwordplayProfessional");
+	SetCharacterPerk(sld, "Tireless");
+	SetCharacterPerk(sld, "Grus");
+	SetCharacterPerk(sld, "Ciras");
+	SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+}
+
+void WhisperSpawnPortman (ref npchar)
+{
+	//pchar.Whisper.PortmanAtSea = true;
+	int difficulty = 5 * MOD_SKILL_ENEMY_RATE;
+	sld = GetCharacter(NPC_GenerateCharacter("Whisper_Portman_Captain", "off_eng_2", "man", "man", 55, ENGLAND, -1, true));
+	sld.mapEnc.worldMapShip = "quest_ship";
+	sld.mapEnc.Name = "эскадра Ральфа Портмана";
+	sld.mapEnc.type = "trade";
+	FantomMakeCoolFighter(sld, 70, 50 + difficulty, 50 + difficulty, "blade23", "pistol3", 60);
+	FantomMakeCoolSailor(sld, SHIP_UNICORN, "Единорог", CANNON_TYPE_CANNON_LBS32, 50 + difficulty, 50 + difficulty, 50 + difficulty);
+	sld.dialog.filename = "Quest\WhisperLine\Whisper_cabin_dialog.c";
+	sld.DeckDialogNode = "Portman";
+	sld.name 	= "Ральф";
+	sld.lastname = "Портман";
+	sld.AlwaysSandbankManeuver = true;
+	sld.DontRansackCaptain = true;
+	sld.AnalizeShips = true;
+	SetCharacterPerk(sld, "MusketsShoot");
+					
+	sld.ship.Crew.Morale = 50 + difficulty;
+	ChangeCrewExp(sld, "Sailors", 50 + difficulty);
+	ChangeCrewExp(sld, "Cannoners", 50 + difficulty);
+	ChangeCrewExp(sld, "Soldiers", 50 + difficulty);
+
+	GiveItem2Character(sld, "cirass4");
+	EquipCharacterbyItem(sld, "cirass4");
+	GiveItem2Character(sld, "jewelry9");
+	SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+	TakeNItems(sld, "Food5", 5);
+	TakeNItems(sld, "potion2", 5);
+	sld.money = 100000;
+	sld.SaveItemsForDead = true;
+	sld.DontClearDead = true;
+	
+	LAi_group_MoveCharacter(sld, "W_portman");
+	string  sGroup = "Sea_" + sld.id;
+	group_DeleteGroup(sGroup);
+	Group_FindOrCreateGroup(sGroup);
+	Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+	Group_LockTask(sGroup);
+	Group_AddCharacter(sGroup, sld.id);
+	Group_SetGroupCommander(sGroup, sld.id);
+	string targetCity = PGG_FindRandomTownByNation(sti(npchar.nation));
+	while (targetCity == npchar.city)
+	{
+		targetCity = PGG_FindRandomTownByNation(sti(npchar.nation));
+	}
+	AddQuestRecord("WhisperChardQuest", "3");
+	AddQuestUserData("WhisperChardQuest", "sTargetCity", XI_ConvertString("Colony" + targetCity + "Gen")));
+	Map_CreateTrader(npchar.city, targetCity, sld.id, 8);
+	pchar.Whisper.PortmanTargetCity = targetCity;
+	SetFunctionNPCDeathCondition("Whisper_Portman_Is_Dead", sld.id, false);
+	for (int i = 0; i < 2; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("Whisper_Portman_follower"+i, "off_eng_1", "man", "man", 30, ENGLAND, -1, true));
+		FantomMakeCoolFighter(sld, 50, 30 + difficulty, 30 + difficulty, "blade36", "pistol3", 10);
+		FantomMakeCoolSailor(sld, SHIP_SALAMANDER, "", CANNON_TYPE_CANNON_LBS24, 30 + difficulty, 30 + difficulty, 30 + difficulty);
+		SetRandomNameToShip(sld);
+		sld.AlwaysSandbankManeuver = true;
+		sld.DontRansackCaptain = true;
+		sld.AnalizeShips = true;
+		SetCharacterPerk(sld, "MusketsShoot");
+						
+		sld.ship.Crew.Morale = 30 + difficulty;
+		ChangeCrewExp(sld, "Sailors",30 + difficulty);
+		ChangeCrewExp(sld, "Cannoners", 30 + difficulty);
+		ChangeCrewExp(sld, "Soldiers", 30 + difficulty);
+
+		GiveItem2Character(sld, "cirass3");
+		EquipCharacterbyItem(sld, "cirass3");
+		GiveItem2Character(sld, "jewelry9");
+		SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+		TakeNItems(sld, "Food5", 3);
+		TakeNItems(sld, "potion2", 3);
+		sld.money = 30000;
+		sld.SaveItemsForDead = true;
+		sld.DontClearDead = true;
+		
+		LAi_group_MoveCharacter(sld, "W_portman");
+		Group_AddCharacter(sGroup, sld.id);
+	}
+}
+
+void Whisper_Portman_Is_Dead(string qName)
+{
+	DeleteAttribute(pchar, "Whisper.ActiveChardQuest");
+	if (!CheckAttribute(pchar, "Whisper.FoundPortmanJournal"))
+	{
+		AddQuestRecord("WhisperChardQuest", "6");
+		CloseQuestHeader("WhisperChardQuest");
+	}
+}
+
+void WhisperChardShore(string qName)
+{
+	if(CheckAttribute(pchar,"WhisperChardCompanion"))
+	{
+		LocatorReloadEnterDisable("shore26", "boat", true);
+		LocatorReloadEnterDisable("shore27", "boat", true);
+		sld = CharacterFromID("W_Chard");
+		LAi_SetImmortal(sld, true);
+		ChangeCharacterAddressGroup(sld, pchar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
+		chrDisableReloadToLocation = true;
+		LAi_SetActorType(sld);
+		LAi_ActorDialog(sld, pchar, "", -1, 0);
+	}
+	DeleteAttribute(pchar,"WhisperChardCompanion");
+}
+
+void WhisperChardCave(string qName)
+{
+	LocatorReloadEnterDisable("shore26", "boat", true);
+	LocatorReloadEnterDisable("shore27", "boat", true);
+	GiveItem2Character(sld, "blade13");
+	EquipCharacterbyItem(sld, "blade13");
+	sld = CharacterFromID("W_Chard");
+	LAi_SetImmortal(sld, true);
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
+	chrDisableReloadToLocation = true;
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
+
+}
+
+void WhisperEngRevengeWarning(string qName)
+{
+	pchar.questTemp.Whisper.EngRevenge = true;
+	DoQuestCheckDelay("TalkSelf_Quest", 1.0);
+}
+
+void WhisperEnglandRevengel()
+{
+	ref sld;
+	int i;
+	int difficulty = 5 * MOD_SKILL_ENEMY_RATE;
+	for (i = 1; i <= 4; i++)
+    {
+		sld = GetCharacter(NPC_GenerateCharacter("W_Captain0"+i, "off_eng_" + (rand(1) + 1), "man", "man", difficulty, ENGLAND, -1, true));
+		FantomMakeCoolFighter(sld, 50, 30 + difficulty, 30 + difficulty, "blade36", "pistol3", 50);
+		FantomMakeCoolSailor(sld, SHIP_OXFORD, "", CANNON_TYPE_CANNON_LBS24, 40 + difficulty, 40 + difficulty, 40 + difficulty);
+		SetRandomNameToShip(sld);
+		sld.AlwaysSandbankManeuver = true;
+		sld.DontRansackCaptain = true;
+		sld.AnalizeShips = true;
+		SetCharacterPerk(sld, "MusketsShoot");
+						
+		sld.ship.Crew.Morale = 40 + difficulty;
+		ChangeCrewExp(sld, "Sailors",40 + difficulty);
+		ChangeCrewExp(sld, "Cannoners", 40 + difficulty);
+		ChangeCrewExp(sld, "Soldiers", 40 + difficulty);
+
+		GiveItem2Character(sld, "cirass3");
+		EquipCharacterbyItem(sld, "cirass3");
+		SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+		TakeNItems(sld, "Food5", 2);
+		TakeNItems(sld, "potion2", 2);
+		sld.money = 40000;
+		sld.SaveItemsForDead = true;
+		sld.DontClearDead = true;
+		
+		sld.AlwaysEnemy = true;
+		Group_AddCharacter("Coastal_Guards", sld.id);
+		SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
+		Fantom_SetBalls(sld, "pirate");
+		if (MOD_SKILL_ENEMY_RATE!= 10)
+		{
+			if (i == 3) break;
+		}
+    }
+	Group_SetGroupCommander("Coastal_Guards", "W_Captain01");
+	if(pchar.location.from_sea == "shore27")
+	{
+		Group_SetAddress("Coastal_Guards", Islands[GetCharacterCurrentIsland(Pchar)].id, "Quest_ships", "quest_ship_1");
+	}
+	else
+	{
+		Group_SetAddress("Coastal_Guards", Islands[GetCharacterCurrentIsland(Pchar)].id, "", "");
+		Group_SetPursuitGroup("Coastal_Guards", PLAYER_GROUP);
+	}
+	Group_SetTaskAttack("Coastal_Guards", PLAYER_GROUP);
+	Group_LockTask("Coastal_Guards");
+	Flag_PIRATE();
+}
+
+void WhisperSelectRandomUsurer() // Выбор случайного ростовщика по квесту
+{
+	if (CheckAttribute(&colonies[1], "nation"))
+	{
+		int n, nation;
+		int storeArray[MAX_COLONIES];
+		int howStore = 0;
+		string thisTown = FindStringBeforeChar(pchar.location, "_tavern");
+		for(n=0; n<MAX_COLONIES; n++)
+		{			
+			if (colonies[n].nation != thisTown && colonies[n].nation != "none" && sti(colonies[n].nation) != PIRATE && colonies[n].id != "FortOrange" && colonies[n].id != "Havana" && colonies[n].id != "Santiago" && colonies[n].id != "Portroyal" && colonies[n].id != "Villemstad" && colonies[n].id != "Tortuga" && colonies[n].id != "Panama")
+			{           
+				storeArray[howStore] = n;
+				howStore++;
+			}
+		}
+		nation = storeArray[rand(howStore-1)];
+		pchar.Whisper.UsurerId = colonies[nation].id + "_usurer";
+	}
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Линейка Виспер --     конец
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	Линейка Темного Странника	начало
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void DarkHuman_StartGame(string qName)
+{
+	DeleteAttribute(Pchar, "ship");
+    DeleteAttribute(Pchar, "ShipSails.gerald_name");
+    Pchar.ship.type = SHIP_NOTUSED;
+	
+	SetQuestHeader("DarkHumanQuestline");
+	AddQuestRecord("DarkHumanQuestline", "1");
+	
+	//Запретить выход из локации
+	chrDisableReloadToLocation = true;
+	//Заблокировать меню персонажа
+	bDisableCharacterMenu = true;
+	//и фасттревел
+	InterfaceStates.DisFastTravel = true;
+	
+	SetQuestsCharacters();
+	bDisableLandEncounters = true;
+	
+	//ChangeCharacterAddressGroup(pchar, PChar.location, "sit", "sit3");
+	//LAi_SetActorTypeNoGroup(pchar);
+	//LAi_ActorSetSitMode(pchar);
+	pchar.selectedHero = rand(PsHeroQty-2)+2;
+	sld = CharacterFromID("PsHero_" + pchar.selectedHero);
+	ChangeCharacterAddressGroup(pchar, PChar.location, "rld", "aloc12");
+	ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload_hold");
+	
+	sld.dialog.filename = "Quest\WhisperLine\DarkHuman.c";
+	sld.dialog.currentnode = "PGG_transporter";
+	LAi_SetActorType(sld);
+    LAi_ActorDialog(sld, pchar, "", -1, 0);
+	//SetActorDialogAny2Pchar(sld.id, "", -1, 0.0);
+	//LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 0.0);
+	sld.PGGAi.location.town = PGG_FindRandomTownByNation(sti(sld.nation));
+	
+	GiveNationLicence(SPAIN, 45);
+	GiveNationLicence(HOLLAND, 80);
+	Flag_HOLLAND();
+	pchar.money = 1000;
+	GiveItem2Character(pchar, "DHGlove");
+	EquipCharacterbyItem(pchar, "DHGlove");
+}
+
+void DarkHuman_Amatike(string qName)
+{
+	bDisableCharacterMenu = false;
+	sld = CharacterFromID("PsHero_" + pchar.selectedHero);
+	string futureLoc = sld.PGGAi.location.town + "_Tavern";
+	ChangeCharacterAddressGroup(sld, futureLoc, "goto", "goto1");
+	DeleteAttribute(pchar, "selectedHero");
+	DoReloadCharacterToLocation("Shore9","smugglers", "smuggler02");
+	
+	sld = GetCharacter(NPC_GenerateCharacter("DH_mercenary", "officer_" + (rand(62)+2), "man", "man", MOD_SKILL_ENEMY_RATE, PIRATE, -1, true));
+	LAi_SetImmortal(sld, true);
+	ChangeCharacterAddressGroup(sld, "Shore9", "smugglers", "smuggler01");
+	sld.dialog.filename = "Quest\WhisperLine\DarkHuman.c";
+	sld.dialog.currentnode = "DH_mercenary_shore";
+	LAi_SetActorType(sld);
+	Group_AddCharacter(PLAYER_GROUP, sld.id);
+    LAi_ActorDialog(sld, pchar, "", 1.0, 0);
+	//LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", -1);
+	
+	for (int i = 0; i < 4; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("DH_merc_mush" + i, GetPirateMushketerModel(), "man", "mushketer", MOD_SKILL_ENEMY_RATE, PIRATE, -1, true));
+		ChangeCharacterAddressGroup(sld, "Shore9", "smugglers", "smugglerload");
+		LAi_SetWarriorType(sld);
+		LAi_SetActorType(sld);
+		Group_AddCharacter(PLAYER_GROUP, sld.id);
+		TakeNItems(sld,"potion1", rand(2)+1);
+		LAi_warrior_DialogEnable(sld, false);
+
+		sld = GetCharacter(NPC_GenerateCharacter("DH_merc_blade"+sti(i), "pirate_"+sti(rand(25)+1), "man", "man", MOD_SKILL_ENEMY_RATE, PIRATE, -1, true));
+			
+		ChangeCharacterAddressGroup(sld, "Shore9", "smugglers", "smugglerload");
+		LAi_SetWarriorType(sld);
+		LAi_SetActorType(sld);
+		Group_AddCharacter(PLAYER_GROUP, sld.id);
+		TakeNItems(sld,"potion1", rand(2)+1);
+		LAi_warrior_DialogEnable(sld, false);
+	}
+	LocatorReloadEnterDisable("Tenotchitlan_Jungle_03", "reload3_back", true);
+	LocatorReloadEnterDisable("Tenotchitlan_Jungle_02", "reload1_back", true);
+}
+
+void DarkHuman_Temple(string qName)
+{
+	sld = CharacterFromID("DH_mercenary");
+	ChangeCharacterAddressGroup(sld, "Temple", "goto", "goto1");
+	LAi_ActorDialog(sld, pchar, "", 1.0, 0);
+	sld.dialog.currentnode = "DH_mercenary_temple";
+	for (int i = 0; i < 4; i++)
+	{
+		sld = CharacterFromID("DH_merc_mush" + i);
+		ChangeCharacterAddressGroup(sld, "Temple", "goto", "goto2");
+		LAi_SetStayType(sld);
+		sld = CharacterFromID("DH_merc_blade" + i);
+		ChangeCharacterAddressGroup(sld, "Temple", "goto", "goto5");
+		LAi_SetStayType(sld);
+	}
+	
+	string cnd;
+	pchar.maxIndians = 8;
+	if (MOD_SKILL_ENEMY_RATE == 10)
+	{//Сюрприз для невозможки
+		pchar.maxIndians+=2;
+	}
+	for (i = 0; i <= sti(pchar.maxIndians) * 2; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("DHindian"+i, "Canib_"+(rand(5)+1), "man", "man", MOD_SKILL_ENEMY_RATE, PIRATE, 1, true));
+		//SetFantomParamFromRank(sld, 1, true);
+		sld.name = "Калинаго";
+		sld.lastname = "";
+		DeleteAttribute(sld, "equip");
+		DeleteAttribute(sld, "items");
+		string _Blade = GiveRandomBladeByType("indian");
+		LAi_SetHP(sld, 10*MOD_SKILL_ENEMY_RATE, 10*MOD_SKILL_ENEMY_RATE);
+		weaponskill = 2* MOD_SKILL_ENEMY_RATE;
+		SetSelfSkill(sld, weaponskill, weaponskill, weaponskill, weaponskill, weaponskill);
+		GiveItem2Character(sld, _Blade);
+		EquipCharacterbyItem(sld, _Blade);
+
+		LAi_SetStayTypeNoGroup(sld);
+		LAi_group_MoveCharacter(sld, "Jungle_indians");
+		
+		ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload2");
+		cnd = "l" + i;
+		pchar.quest.DarkHuman_Temple_Afterfight.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.DarkHuman_Temple_Afterfight.win_condition.(cnd).character ="DHindian"+i;
+		
+		if (i < sti(pchar.maxIndians))
+		{
+			LAi_KillCharacter(sld);
+		}
+	}
+	PChar.quest.DarkHuman_Temple_Afterfight.function = "DarkHuman_Temple_Afterfight";
+	LAi_group_SetCheck("Jungle_indians", "IndianInJungleClearGroup");
+	
+}
+
+void DarkHuman_Temple_Afterfight(string qName)
+{
+	sld = CharacterFromID("DH_mercenary");
+	Lai_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", 1.0, 0);
+	sld.dialog.currentnode = "DH_mercenary_temple_afterfight";
+	LocatorReloadEnterDisable("Temple", "reload1_back", true);
+	LocatorReloadEnterDisable("Temple", "reload2", false);
+	//CheckAttribute(Items[itemN], "shown")
+	
+	PChar.quest.DarkHuman_Temple_Inside.win_condition.l1 = "location";
+	PChar.quest.DarkHuman_Temple_Inside.win_condition.l1.location = "Temple_Inside";
+	PChar.quest.DarkHuman_Temple_Inside.function = "DarkHuman_Temple_Inside";
+	
+	sld = GetCharacter(NPC_GenerateCharacter("Dark_Incquisitor", "Dark_Incquisitor", "man", "man", MOD_SKILL_ENEMY_RATE/2, PIRATE, 1, false));
+	ChangeCharacterAddressGroup(sld, "Temple_Inside", "goto", "goto9");
+	TakeNItems(sld, "suit_1", 1);
+	GiveItem2Character(sld, "blade22");
+	EquipCharacterByItem(sld, "blade22");
+	sld.SaveItemsForDead = true;
+	LAi_SetActorType(sld);
+	//LAi_ActorDialog(sld, pchar, "", -1.0, 0);
+	sld.dialog.filename = "Quest\WhisperLine\DarkHuman.c";
+	sld.dialog.currentnode = "Dark_Incquisitor";
+	LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+	LAi_SetHP(sld, 5*MOD_SKILL_ENEMY_RATE, 5*MOD_SKILL_ENEMY_RATE);
+	TakeNItems(sld, "GunPowder", -99);
+	sld = GetCharacter(NPC_GenerateCharacter("Dark_Incquisitor1", "sold_spa_"+(rand(7)+1), "man", "man", MOD_SKILL_ENEMY_RATE/2, PIRATE, 1, true));
+	ChangeCharacterAddressGroup(sld, "Temple_Inside", "goto", "goto11");
+	LAi_SetActorType(sld);
+	LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+	LAi_SetHP(sld, 3*MOD_SKILL_ENEMY_RATE, 3*MOD_SKILL_ENEMY_RATE);
+	TakeNItems(sld, "GunPowder", -99);
+	sld = GetCharacter(NPC_GenerateCharacter("Dark_Incquisitor2", "sold_spa_"+(rand(7)+1), "man", "man", MOD_SKILL_ENEMY_RATE/2, PIRATE, 1, true));
+	ChangeCharacterAddressGroup(sld, "Temple_Inside", "goto", "goto13");
+	LAi_SetActorType(sld);
+	LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+	LAi_SetHP(sld, 3*MOD_SKILL_ENEMY_RATE, 3*MOD_SKILL_ENEMY_RATE);
+	TakeNItems(sld, "GunPowder", -99);
+}
+
+void DarkHuman_Temple_Inside(string qName)
+{
+	pchar.CantTakeItems = true;
+	
+	sld = CharacterFromID("Dark_Incquisitor");
+	LAi_ActorDialog(sld, pchar, "", -1.0, 0);
+	chrDisableReloadToLocation = true;
+}
+
+void DarkHuman_Temple_Stash(string qName)
+{
+	//Log_Info("Опа")
+	AddQuestRecord("DarkHumanQuestline", "3");
+	SetQuestHeader("DarkHumanIncquisitorJournal");
+	AddQuestRecord("DarkHumanIncquisitorJournal", "1");
+	chrDisableReloadToLocation = false;
+	
+	PChar.quest.DarkHuman_Temple_Merc_After_Stash.win_condition.l1 = "location";
+	PChar.quest.DarkHuman_Temple_Merc_After_Stash.win_condition.l1.location = "Temple";
+	PChar.quest.DarkHuman_Temple_Merc_After_Stash.function = "DarkHuman_Temple_Merc_After_Stash";
+}
+void DarkHuman_Temple_Merc_After_Stash(string qName)
+{
+	AddQuestRecord("DarkHumanQuestline", "4");
+	chrDisableReloadToLocation = true;
+	sld = CharacterFromID("DH_mercenary");
+	ChangeCharacterAddressGroup(sld, "Temple", "goto", "goto3");
+	Lai_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", -1.0, 0);
+	sld.dialog.currentnode = "DH_mercenary_temple_afterstash";
+	
+	PChar.quest.DarkHuman_Amatike_return.win_condition.l1 = "location";
+	PChar.quest.DarkHuman_Amatike_return.win_condition.l1.location = "Shore9";
+	PChar.quest.DarkHuman_Amatike_return.function = "DarkHuman_Amatike_return";
+}
+void DarkHuman_Amatike_return(string qName)
+{
+	sld = GetCharacter(NPC_GenerateCharacter("DH_sailor", "officer_1", "man", "man", MOD_SKILL_ENEMY_RATE/2, PIRATE, 1, true));
+	ChangeCharacterAddressGroup(sld, "Shore9", "smugglers", "smuggler02");
+	Lai_SetActorType(sld);
+	//LAi_ActorFollow(sld, pchar, "", -1);
+	
+	sld = CharacterFromID("DH_mercenary");
+	ChangeCharacterAddressGroup(sld, "Shore9", "smugglers", "smugglerload");
+	Lai_SetActorType(sld);
+	
+	PChar.quest.DarkHuman_Amatike_return_dialog.win_condition.l1 = "locator";
+	PChar.quest.DarkHuman_Amatike_return_dialog.win_condition.l1.location = "Shore9";
+	PChar.quest.DarkHuman_Amatike_return_dialog.win_condition.l1.locator_group = "encdetector";
+	PChar.quest.DarkHuman_Amatike_return_dialog.win_condition.l1.locator = "enc02";
+	PChar.quest.DarkHuman_Amatike_return_dialog.function = "DarkHuman_Amatike_return_dialog";
+}
+
+void DarkHuman_Amatike_return_dialog(string qName)
+{
+	sld = CharacterFromID("DH_mercenary");
+	LAi_ActorDialog(sld, pchar, "", -1.0, 0);
+	sld.dialog.currentnode = "DH_mercenary_Amatike_return";
+	chrDisableReloadToLocation = true;
+}
+
+void DarkHuman_SK(string qName)
+{
+	CloseQuestHeader("DarkHumanIncquisitorJournal");
+	DoReloadCharacterToLocation("SantaCatalina_exittown","goto", "goto1");
+	DoQuestFunctionDelay("DarkHuman_SK_gate", 2.5);
+}
+void DarkHuman_SK_gate(string qName)
+{
+	LocatorReloadEnterDisable("Tenotchitlan_Jungle_03", "reload3_back", false);
+	LocatorReloadEnterDisable("Tenotchitlan_Jungle_02", "reload1_back", false);
+	// не забыть
+	LocatorReloadEnterDisable("SantaCatalina_town", "reload5_back", true);
+	LocatorReloadEnterDisable("Villemstad_town", "gate_back", true);
+	LocatorReloadEnterDisable("SantaCatalina_exittown", "reload1_back", true);
+	LocatorReloadEnterDisable("SantaCatalina_exittown", "reload2_back", true);
+	AddQuestRecord("DarkHumanQuestline", "5");
+	sld = CharacterFromID("DH_mercenary");
+	LAi_ActorDialog(sld, pchar, "", -1.0, 0);
+	sld.dialog.currentnode = "DH_mercenary_SK_gate";
+	
+	PChar.quest.DarkHuman_SK_tavern_dialog.win_condition.l1 = "location";
+	PChar.quest.DarkHuman_SK_tavern_dialog.win_condition.l1.location = "SantaCatalina_tavern";
+	PChar.quest.DarkHuman_SK_tavern_dialog.function = "DarkHuman_SK_tavern_dialog";
+}
+void DarkHuman_SK_tavern_dialog(string qName)
+{
+	sld = CharacterFromID("DH_mercenary");
+	ChangeCharacterAddressGroup(sld, "SantaCatalina_tavern", "goto", "goto2");
+	LAi_ActorDialog(sld, pchar, "", -1.0, 0);
+	sld.dialog.currentnode = "DH_mercenary_SK_vavern";
+	
+	for (i = 0; i < 4; i++)
+	{
+		sld = CharacterFromID("DH_merc_mush" + i);
+		if (CheckAttribute(sld, "model"))
+		{
+			Lai_SetWarriorType(sld);
+			sld.LifeDay = 0;
+			LAi_warrior_DialogEnable(sld, false);
+		}
+		sld = CharacterFromID("DH_merc_blade" + i);
+		if (CheckAttribute(sld, "model"))
+		{
+			Lai_SetWarriorType(sld);
+			sld.LifeDay = 0;
+			LAi_warrior_DialogEnable(sld, false);
+		}
+	}
+}
+void DarkHuman_Villemstad(string qName)
+{
+	DoReloadCharacterToLocation("Villemstad_town","reload", "reload1_back");
+	sld = CharacterFromID("DH_mercenary");
+	ChangeCharacterAddressGroup(sld, "Villemstad_town", "goto", "goto23");
+	DoQuestFunctionDelay("DarkHuman_Villemstad_merc", 1.5);
+}
+void DarkHuman_Villemstad_merc(string qName)
+{
+	sld = CharacterFromID("DH_mercenary");
+	LAi_ActorDialog(sld, pchar, "", -1.0, 0);
+	sld.dialog.currentnode = "DH_Villemstad_merc";
+	bDisableLandEncounters = false;
+}
+void SpeakAfterKill(string qName)
+{
+	sld = characterFromId(qName);
+	Lai_SetActorTypeNoGroup(sld);
+	LAi_ActorDialog(sld, pchar, "", -1.0, 0);
+}
+
+void DHmessages(string qName)
+{
+	Log_info("Первая - "+(1500 + rand(750)));
+	DoQuestFunctionDelay("DHmessages_wait",1.0);
+	DoQuestFunctionDelay("DHmessages_2",3.0);
+}
+void DHmessages_2(string qName)
+{
+	Log_info("Вторая - "+(1500 + rand(750)));
+	DoQuestFunctionDelay("DHmessages_wait",1.0);
+	DoQuestFunctionDelay("DHmessages_3",3.0);
+}void DHmessages_3(string qName)
+{
+	Log_info("Третья - "+(1500 + rand(750)));
+	DoQuestFunctionDelay("DHmessages_wait",1.0);
+	DoQuestFunctionDelay("DHmessages_4",3.0);
+}void DHmessages_4(string qName)
+{
+	Log_info("Четвертая - "+(1500 + rand(750)));
+	DoQuestFunctionDelay("DHmessages_wait",1.0);
+	DoQuestFunctionDelay("DHmessages_5",3.0);
+}void DHmessages_5(string qName)
+{
+	Log_info("Пятая - "+(1500 + rand(750)));
+}void DHmessages_wait(string qName)
+{
+	Log_info(" - Ожидайте - ");
+}
+//мини замиси в логе
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   -- Линейка Темного Странника --     конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

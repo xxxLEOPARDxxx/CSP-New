@@ -974,6 +974,13 @@ void ProcessDialogEvent()
 			if (!CheckAttribute(npchar, "quest.sexHappend")) npchar.quest.sexHappend = 1;
 			else npchar.quest.sexHappend = sti(npchar.quest.sexHappend) + 1;
 			pchar.GenQuest.BrothelCount = sti(pchar.GenQuest.BrothelCount) + 1; // для Данек
+			if(CheckAttribute(PChar, "chr_ai.HeavyTrauma"))//лечение травмы в борделе - Gregg
+			{      
+				DeleteAttribute(PChar, "chr_ai.TraumaQ");			
+				DeleteAttribute(PChar, "chr_ai.HeavyTrauma");
+				Log_Info("Вы оправились от тяжелой травмы");
+				CheckAndSetOverloadMode(pchar);
+			}
 			//<-- кол-во посещений
 			str = npchar.city;
 			pchar.quest.(str).win_condition.l1 = "ExitFromLocation";

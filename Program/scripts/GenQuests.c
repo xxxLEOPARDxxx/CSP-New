@@ -741,7 +741,7 @@ void ReasonToFast_GenerateHunter() // генерация ОЗГ
 	ref chr;
 		
 	int iRank = sti(pchar.rank) + rand(MOD_SKILL_ENEMY_RATE);
-	chr = GetCharacter(NPC_GenerateCharacter("ReasonToFast_Hunter", "officer_"+(rand(57)+1), "man", "man", iRank, PIRATE, -1, true));
+	chr = GetCharacter(NPC_GenerateCharacter("ReasonToFast_Hunter", "officer_"+(rand(63)+1), "man", "man", iRank, PIRATE, -1, true));
 	FantomMakeCoolFighter(chr, iRank, 80, 80, "topor2", "pistol3", 50);
 	int jewelType = sti(pchar.questTemp.ReasonToFast.p4);
 	string sItem = "jewelry" + jewelType; 
@@ -823,7 +823,7 @@ void ReasonToFast_GenerateVictimShip(int iShipType, int iShipGoods) // генерация
 	int hcrew;
 	int iNation = sti(pchar.questTemp.ReasonToFast.GuardNation);
 	
-	ref chref = GetCharacter(NPC_GenerateCharacter("VictimCap_1", "officer_"+(rand(57)+1), "man", "man", 25, iNation, -1, true));
+	ref chref = GetCharacter(NPC_GenerateCharacter("VictimCap_1", "officer_"+(rand(63)+1), "man", "man", 25, iNation, -1, true));
 
 	chref.Ship.Name = pchar.questTemp.ReasonToFast.ShipName;			
     chref.Ship.Type = GenerateShipExt(iShipType, 1, chref);
@@ -947,7 +947,7 @@ void ReasonToFast_PreparePirateShip(string qName) // генерация пиратского корабл
 		
 	Log_QuestInfo("Генерим пиратский корабль на глобалке.");
 	
-	sld = GetCharacter(NPC_GenerateCharacter("PirateCapt", "officer_"+(rand(57)+1), "man", "man", iRank, PIRATE, 30, true));	
+	sld = GetCharacter(NPC_GenerateCharacter("PirateCapt", "officer_"+(rand(63)+1), "man", "man", iRank, PIRATE, 30, true));	
 	sld.dialog.filename      = "GenQuests_Dialog.c";
 	sld.dialog.currentnode   = "ReasonToFast_FightCap";
 	sTemp = GenerateRandomNameToShip(PIRATE);
@@ -2544,7 +2544,7 @@ void EncGirl_SpeakInRoomEnter(string qName)
 void EncGirl_SetBerglar(string qName)
 {
 	int iTemp = sti(pchar.rank) + rand(5);
-	ref sld = GetCharacter(NPC_GenerateCharacter("Berglar_EncGirl", "officer_"+(rand(57)+1), "man", "man", iTemp, PIRATE, -1, true));
+	ref sld = GetCharacter(NPC_GenerateCharacter("Berglar_EncGirl", "officer_"+(rand(63)+1), "man", "man", iTemp, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, iTemp, 50 + rand(30), 50 + rand(30), "topor2", "pistol6", 50);
 	sld.dialog.filename = "Enc_Rapers_dialog.c";
 	sld.dialog.currentnode = "EncGirl_Berglar";	
@@ -2663,7 +2663,7 @@ void EncGirl_DeliveToParents(string qName)
 void EncGirl_GenerateLover(string qName)
 {
 	int iTemp = sti(pchar.rank) + rand(5);
-	ref sld = GetCharacter(NPC_GenerateCharacter("Lover_EncGirl", "officer_"+(rand(57)+1), "man", "man", iTemp, sti(pchar.GenQuest.EncGirl.nation), -1, true));
+	ref sld = GetCharacter(NPC_GenerateCharacter("Lover_EncGirl", "officer_"+(rand(63)+1), "man", "man", iTemp, sti(pchar.GenQuest.EncGirl.nation), -1, true));
 	sld.name = pchar.GenQuest.EncGirl.sLoverId;
 	sld.lastname = "";
 	FantomMakeCoolFighter(sld, iTemp, 80, 80, "topor2", "pistol6", 50);
@@ -3452,7 +3452,7 @@ void CaptainComission_GeneratePirateShips(string qName)
 		}
 		if(i == 1) 	sTemp = pchar.GenQuest.CaptainComission.ShipName1;
 		else 		sTemp = pchar.GenQuest.CaptainComission.ShipName2;
-		sld = GetCharacter(NPC_GenerateCharacter("CaptainAttack_"+i, "officer_"+(rand(57)+1), "man", "man", Rank, PIRATE, 3, true));
+		sld = GetCharacter(NPC_GenerateCharacter("CaptainAttack_"+i, "officer_"+(rand(63)+1), "man", "man", Rank, PIRATE, 3, true));
 		FantomMakeCoolSailor(sld, ShipType, sTemp, iCannonType, 60 + rand(20), 95, 95);
 		FantomMakeCoolFighter(sld, Rank, 50 + rand(30), 50 + rand(20), Blade, "pistol3", 50);
 		Group_AddCharacter("Pirate_Attack", "CaptainAttack_"+i);
@@ -4186,7 +4186,7 @@ void CaptainComission_ChangeCaptain()
 	aref	arShip1, arShip2;
 	ref chref, sld;
 	
-	chref = GetCharacter(NPC_GenerateCharacter("CapComission_2", "officer_"+(rand(57)+1), "man", "man", iRank, iNation, -1, true));
+	chref = GetCharacter(NPC_GenerateCharacter("CapComission_2", "officer_"+(rand(63)+1), "man", "man", iRank, iNation, -1, true));
 	chref.name = GenerateRandomName_Generator(sti(chref.nation), "man");
 	chref.lastname = "";
 	SetCharacterPerk(chref, "MusketsShoot");
@@ -4720,7 +4720,7 @@ void CaptainComission_EnterToSeaAfterShoreBattle()
     Group_SetType("Pirate_Guards", "pirate");
 	for (int i = 1; i <= 3; i++)
     {
-		sld = GetCharacter(NPC_GenerateCharacter("Pirate_Captain0" + i, "officer_"+(rand(57)+1), "man", "man", 5, PIRATE, 3, true)); 
+		sld = GetCharacter(NPC_GenerateCharacter("Pirate_Captain0" + i, "officer_"+(rand(63)+1), "man", "man", 5, PIRATE, 3, true)); 
 		FantomMakeCoolFighter(sld, makeint(pchar.rank) + rand(10) + 5, 90, 50, "blade25", "pistol3", 80);
 		SetFantomParam(sld);
 		SelectCoastalGuardShip(sld);

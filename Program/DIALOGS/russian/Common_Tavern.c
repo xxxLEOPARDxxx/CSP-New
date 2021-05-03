@@ -170,12 +170,24 @@ void ProcessDialogEvent()
 				////////////////
 				//Линейка Виспер
 				////////////////
-				if(startherotype == 2 && CheckAttribute(pchar, "Whisper.FindDesouza") && !CheckAttribute(pchar,"Whisper.Contraband") && (sti(pchar.money) >= 10000) && pchar.rank >=10 && npchar.nation!=3)
+				if(startherotype == 2 && CheckAttribute(pchar, "Whisper.FindDesouza") && !CheckAttribute(pchar,"Whisper.Contraband") && sti(pchar.money) >= 10000 && npchar.nation!=3)
 				{
-					dialog.Text = "Капитан, не стоит разгуливать в таком виде. Я слыхал инквизиция рыщет в поисках девушки с таким же цветом волос. Тебе бы прикрыться, что ли.";
-					DeleteAttribute(pchar, "Whisper.FindDesouza")
-					Link.l1 = "Это от кого ты такое услышал?";
-					Link.l1.go = "w_find_desouza";
+					bool Whisper_cnd = GetCharacterSkill(pchar,SKILL_SAILING)>= 65 && pchar.rank >=5 && GetCharacterShipClass(PChar) <= 4;
+					if (pchar.rank >=10 || Whisper_cnd)
+					{
+						dialog.Text = "Капитан, не стоит разгуливать в таком виде. Я слыхал инквизиция рыщет в поисках девушки с таким же цветом волос. Тебе бы прикрыться, что ли.";
+						DeleteAttribute(pchar, "Whisper.FindDesouza")
+						Link.l1 = "Это от кого ты такое услышал?";
+						Link.l1.go = "w_find_desouza";
+						break;
+					}
+				}
+				if(CheckAttribute(pchar, "Whisper.NanoCostume") && !CheckAttribute(pchar, "Whisper.AfterWarDog") && sti(RealShips[sti(pchar.Ship.Type)].BaseType) == SHIP_WH_CORVETTE_QUEST)
+				{
+					pchar.Whisper.AfterWarDog = true;
+					dialog.Text = "Приветствую. Это ведь ваш корвет причалил недавно к нам в порт?";
+					Link.l1 = "Ну допустим мой, тебе то что?";
+					Link.l1.go = "w_meet_esteban_friend";
 					break;
 				}
 				// <-- Линейка Виспер
@@ -989,7 +1001,7 @@ void ProcessDialogEvent()
 					{
 						if (drand(8) > 1)
 						{
-							if (!CheckAttribute(PChar, "QuestTemp.AndreAbelQuest_StartQuest") && PChar.location == "FortFrance_tavern"  && pchar.questTemp.piratesLine == "begin" && sti(pchar.rank) > 4) // не взята пиратская линейка 
+							if (!CheckAttribute(PChar, "QuestTemp.AndreAbelQuest_StartQuest") && PChar.location == "FortFrance_tavern" && sti(pchar.rank) > 4) // не взята пиратская линейка 
 							{
 								dialog.text = "Поговори вон с тем парнем, справа от лесницы. У него какие то проблемы";
 								link.l1 = "Спасибо, вот я и наш"+GetSexPhrase("ел","ла")+" работу";
@@ -1105,6 +1117,16 @@ void ProcessDialogEvent()
 		break;
 
 		case "room":
+			//Квест Виспер
+			if (CheckAttribute(pchar, "Whisper.EsFriendTown") && pchar.location == pchar.Whisper.EsFriendTown+"_tavern")
+			{
+				dialog.text = "Простите, капитан, но все места сейчас заняты.";
+				link.l1 = "Жаль...";
+				link.l1.go = "exit";
+				break;
+			}
+			//Квест Виспер
+			
    			/*if (chrDisableReloadToLocation || CheckAttribute(pchar, "questTemp.different.Church_NightGuard")) //кто-то должен подойти к ГГ.
 			{
 				dialog.text = "Сейчас комната занята, " + GetAddress_Form(NPChar) + ", ничем не могу помочь.";
@@ -1642,6 +1664,19 @@ void ProcessDialogEvent()
 			link.l1 = "Ладно, прощай.";
 			link.l1.go = "exit";
 		break;
+		case "w_meet_esteban_friend":
+			dialog.text = "Один мой постоялец спрашивал за вас. Сказал, что ищет капитана 'Пса Войны' для важного дела.";
+			link.l1 = "Что за дело?";
+			link.l1.go = "w_meet_esteban_friend_1";
+		break;
+		case "w_meet_esteban_friend_1":
+			dialog.text = "Можете сами у него узнать. Он сейчас у себя в комнате.";
+			link.l1 = "Заинтриговал. Пойду, поговорю с ним.";
+			link.l1.go = "exit";
+			pchar.Whisper.EsFriendTown = FindStringBeforeChar(npchar.id, "_tavernkeeper");
+			WhisperSpawn_Chard();
+		break;
+		
 		//Виспер
 		
 		//Lipsar Квест История Давней Дружбы

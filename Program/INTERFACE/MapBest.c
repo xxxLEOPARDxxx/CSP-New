@@ -740,19 +740,19 @@ void ShowColonyInfo(int iColony)
 		for (i = 10; i < 35; i++) 
 		{
 			sGood = Goods[i].name;
-			if(refStore.Goods.(sGood).TradeType == T_TYPE_CONTRABAND)
+			if(refStore.Goods.(sGood).TradeType == 3)
 				continue;
 			
 			if(TRADEASSISTANT_MODE == 1)
 			{
-				if(refStore2.Goods.(sGood).TradeType == T_TYPE_CONTRABAND)
+				if(refStore2.Goods.(sGood).TradeType == 3)
 					continue;
 			}		
 			else
 			{
 				sGood = "Gidx" + i;
 				
-				if(arefStore2.(sGood).TradeType == T_TYPE_CONTRABAND)
+				if(arefStore2.(sGood).TradeType == 3)
 					continue;
 			}	
 			

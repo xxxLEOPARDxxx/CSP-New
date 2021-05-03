@@ -1170,6 +1170,12 @@ void ProcessDialogEvent()
                 AddQuestUserData("DELIVERY_TRADE_QUEST", "sGoodGen", GetGoodsNameAlt(iTradeGoods));
 			    AddQuestUserData("DELIVERY_TRADE_QUEST", "sTargetColony",XI_ConvertString("Colony"+pchar.CargoQuest.iTradeColony+"Dat"));
                 CloseQuestHeader("DELIVERY_TRADE_QUEST");
+				
+				pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+				if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+				if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+				if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+				
                 break;
             }
             // блок кидалова нас на бабки <--
@@ -1206,6 +1212,12 @@ void ProcessDialogEvent()
                 
                 AddQuestRecord("DELIVERY_TRADE_QUEST", "Late1Day");
                 CloseQuestHeader("DELIVERY_TRADE_QUEST");
+				
+				pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+				if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+				if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+				if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+				
 				}
 				else
 				{
@@ -1229,6 +1241,12 @@ void ProcessDialogEvent()
                 AddQuestUserData("DELIVERY_TRADE_QUEST", "sGoodGen", GetGoodsNameAlt(iTradeGoods));
 			    AddQuestUserData("DELIVERY_TRADE_QUEST", "sTargetColony",XI_ConvertString("Colony"+pchar.CargoQuest.iTradeColony+"Gen"));
                 CloseQuestHeader("DELIVERY_TRADE_QUEST");
+				
+				pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+				if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+				if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+				if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+				
 				}
 			}
 		break;
@@ -1274,6 +1292,12 @@ void ProcessDialogEvent()
             AddQuestUserData("DELIVERY_TRADE_QUEST", "sGoodGen", GetGoodsNameAlt(iTradeGoods));
 		    AddQuestUserData("DELIVERY_TRADE_QUEST", "sTargetColony",XI_ConvertString("Colony"+pchar.CargoQuest.iTradeColony+"Gen"));
             CloseQuestHeader("DELIVERY_TRADE_QUEST");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 		break;
 		
 		case "generate_quest_not_closed":

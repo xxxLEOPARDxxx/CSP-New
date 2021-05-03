@@ -1,6 +1,3 @@
-// 100% готово
-// Острова
-
 Antigua			{Антигуа}
 Barbados		{Барбадос}
 Bermudes		{Бермуды}
@@ -34,8 +31,6 @@ Trinidad		{Тринидад и Тобаго}
 Mein			{Мэйн}
 
 Tenotchitlan	{оз. Тескоко}
-
-// Локации
 
 SentJons_town		{Сент-Джонс}
 Pirates_town		{Пиратское поселение}
@@ -71,8 +66,6 @@ Estate				{Имение Оглторпа, Англия}
 DesMoines			{Дес-Мойнес}
 Caiman_town			{Кайман}
 Duel Field			{Дуэльное поле}
-
-// Бухты
 
 Shore1		{мыс Бун}
 Shore2		{залив Уиллогби}
@@ -142,8 +135,6 @@ Shore_ship1	{бухта Разбитого корыта}
 Shore_ship2	{залив Гибели}
 Shore_ship3	{мыс Несбывшихся надежд}
 
-// Маяки
-
 Mayak1	{маяк Тринидада и Тобаго}
 Mayak2	{маяк Барбадоса}
 Mayak3	{маяк Порт Рояля}
@@ -157,13 +148,9 @@ Mayak10	{маяк Гаваны}
 Mayak11	{маяк Картахены}
 Mayak12	{маяк Каймана}
 
-// Штурм
-
 Boarding fortyard	{Внутренний двор}
 Boarding bastion1	{Бастион}
 Boarding bastion2	{Бастион}
-
-// Поселений
 
 Bridgetown			{Бриджтаун}
 Bridgetown Town		{Бриджтаун}
@@ -269,14 +256,17 @@ Caiman Town			{Кайман}
 Caiman Fort			{форт Каймана}
 Caiman Port			{порт Каймана}
 
-// Локации
-
 Boarding deck		{Верхняя палуба} 
 Fort inside			{Форт}
 Sea					{Море}
 Jungle				{Джунгли}
 Street				{Улицы}
 ExitTown			{Выход в джунгли}
+Graveyard 			{Кладбище}
+KeepersHouse 		{Дом смотрителя}
+Crypt 				{Склеп}
+CryptBig2 			{Крипта}
+Chapel 				{Часовня}
 Port				{Порт}
 Tavern				{Таверна}
 Store				{Магазин}
@@ -331,58 +321,48 @@ Land Guarding Head House	{дом начальника охранной базы}
 Reefs	{Северные рифы}
 Grotto	{Грот}
 
-// Корабль
-
 cabine			{Каюта}
 My_Campus		{Кают-компания}
 My_Deck_Medium	{Пушечная палуба}
 My_Deck			{Трюм}
 Orlop deck		{Нижняя палуба}
 
-// Квестовики
+Morgan's House		{дом Моргана}
+Morris's House		{дом Джона Морриса}
+Aaron's House		{дом Аарона Мендеса Чумакейро}
+Comendant's House	{дом коменданта Гаваны}
+DEstre House		{дом Анри д'Эстре}
+InesHouse			{дом Инес де Лас Сьеррас}
+Olone House			{дом Франсуа Олоне}
+Ascold House		{дом Аскольда}
+Isabella's House	{дом Изабеллы}
+Rosita's House		{дом Роситы Фернандес}
+Loy_House			{дом Эдварда Лоу}
+Orry_House			{дом Орри Брюса}
+MK_House			{дом Мастера Ключей}
 
-	// Локации
+LostShipsCity		{ГПК}
+LostShipsCity Town	{ГПК}
+LSC South			{Юг Города потерянных кораблей}
+LSC North			{Север Города потерянных кораблей}
+LSC Town			{Улицы ГПК}
 
-	Morgan's House		{дом Моргана}
-	Morris's House		{дом Джона Морриса}
-	Aaron's House		{дом Аарона Мендеса Чумакейро}
-	Comendant's House	{дом коменданта Гаваны}
-	DEstre House		{дом Анри д'Эстре}
-	InesHouse			{дом Инес де Лас Сьеррас}
-	Olone House			{дом Франсуа Олоне}
-	Ascold House		{дом Аскольда}
-	Isabella's House	{дом Изабеллы}
-	Rosita's House		{дом Роситы Фернандес}
-	Loy_House			{дом Эдварда Лоу}
-	Orry_House			{дом Орри Брюса}
-	MK_House			{дом Мастера Ключей}
-
-	LostShipsCity		{ГПК}
-	LostShipsCity Town	{ГПК}
-	LSC South			{Юг Города потерянных кораблей}
-	LSC North			{Север Города потерянных кораблей}
-	LSC Town			{Улицы ГПК}
-
-	// Корабли
-
-	Ava Cabin							{Галеон 'Эва'}
-	Caroline cabin						{Фрегат 'Каролина'}
-	CeresSmithy cabin					{Флейт 'Церес Смити'}
-	EsmeraldaStoreBig cabin				{Галеон 'Эсмеральда'}
-	FenixPlatform cabin					{Платформа 'Феникс'}
-	FernandaDiffIndoor cabin			{Флейт 'Фернандо Диффиндур'}
-	FleuronTavern cabin					{Каравелла 'Флерон'}
-	FurieShipInside2 cabin				{Пинас 'Фурия'}
-	GloriaChurch cabin					{Галеон 'Глория'}
-	PlutoStoreSmall cabin				{Флейт 'Плуто'}
-	ProtectorFisher cabin				{Корвет 'Протектор'}
-	SanAugustineResidence cabin			{Варшип 'Сан Августин'}
-	SanGabrielMechanic cabin			{Барк 'Сан Габриэль'}
-	SantaFlorentinaShipInside4 cabin	{Бриг 'Санта Флорентина'}
-	TartarusPrison cabin				{Бэттлшип 'Тартарус'}
-	VelascoShipInside1 cabin			{Галеон 'Веласко'}
-
-// Теночтитлан
+Ava Cabin							{Галеон 'Эва'}
+Caroline cabin						{Фрегат 'Каролина'}
+CeresSmithy cabin					{Флейт 'Церес Смити'}
+EsmeraldaStoreBig cabin				{Галеон 'Эсмеральда'}
+FenixPlatform cabin					{Платформа 'Феникс'}
+FernandaDiffIndoor cabin			{Флейт 'Фернандо Диффиндур'}
+FleuronTavern cabin					{Каравелла 'Флерон'}
+FurieShipInside2 cabin				{Пинас 'Фурия'}
+GloriaChurch cabin					{Галеон 'Глория'}
+PlutoStoreSmall cabin				{Флейт 'Плуто'}
+ProtectorFisher cabin				{Корвет 'Протектор'}
+SanAugustineResidence cabin			{Варшип 'Сан Августин'}
+SanGabrielMechanic cabin			{Барк 'Сан Габриэль'}
+SantaFlorentinaShipInside4 cabin	{Бриг 'Санта Флорентина'}
+TartarusPrison cabin				{Бэттлшип 'Тартарус'}
+VelascoShipInside1 cabin			{Галеон 'Веласко'}
 
 Tenochtitlan		{Теночтитлан}
 Xochiquetzal		{Храм Шочикецаль}

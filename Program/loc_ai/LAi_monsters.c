@@ -635,6 +635,11 @@ bool LAi_CreateEncounters(ref location)
 		
 		// --------------------------------- Беглые каторжники -------------------------------------
 		case 4:
+		if(CheckAttribute(pchar, "catorga"))
+		{
+			DeleteAttribute(pchar, "catorga");
+			return false;
+		}
 			if(rand(15) > 3 || CheckAttribute(pchar, "GenQuest.Convict") || location.type == "seashore" || location.type == "mayak" ) return false; // LEO
 			// if(rand(15) > 15 || CheckAttribute(pchar, "GenQuest.Convict") || location.type == "seashore" || location.type == "mayak" ) return false;	
 			if(CheckAttribute(location, "onUninhabitedIsland")) return false; // На необитаемых нельзя		
@@ -721,7 +726,8 @@ bool LAi_CreateEncounters(ref location)
 			if(iRnd > 5 && iRnd < 8) pchar.GenQuest.Convict.variant = 2;
 			if(iRnd >= 8) pchar.GenQuest.Convict.variant = 3;				
 			pchar.GenQuest.Convict.var = rand(2);
-			Log_TestInfo("Каторжане: сгенерился квест");			
+			Log_TestInfo("Каторжане: сгенерился квест");	
+			pchar.catorga = "1";
 		break
 		
 					// Dolphin (Корсары: История Пирата)

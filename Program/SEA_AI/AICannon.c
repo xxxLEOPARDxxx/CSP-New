@@ -150,6 +150,7 @@ float Cannon_GetRechargeTime()
 	// boal -->
     fMultiply = AIShip_isPerksUse(aCharacter.TmpPerks.FastReload, 1.0, 0.9);
 	fMultiply = AIShip_isPerksUse(aCharacter.TmpPerks.ImmediateReload, fMultiply, 0.5); 
+	if (CheckAttribute(&RealShips[sti(aCharacter.Ship.Type)], "Tuning.CannonsSpecial")) fMultiply *= 1.2;
 
 	ref refBaseShip = GetRealShip(sti(aCharacter.ship.Type));
 	if (sti(refBaseShip.BaseType) != SHIP_FORT)
@@ -159,6 +160,7 @@ float Cannon_GetRechargeTime()
 		if (sti(aCharacter.index) != GetMainCharacterIndex())
 		{
 		   fReloadTime -= MOD_SKILL_ENEMY_RATE/2; // -10c на невозможном
+		   if(aCharacter.id == "GhostCapt") fReloadTime = fReloadTime/2;
 		}
 		// boal <--
 		float crewQty  = GetCrewQuantity(aCharacter);
@@ -260,6 +262,7 @@ float Cannon_DamageEvent()
 
 	if(CheckCharacterPerk(aCharacter, "SeaWolf") && rand(2) == 0) return 0.0;
 	if(IsEquipCharacterByArtefact(aCharacter, "talisman3")) return 0.0;
+	if (CheckAttribute(&RealShips[sti(aCharacter.Ship.Type)], "Tuning.CannonsSpecial") && rand(4)>0) return 0.0;
 	ref	rCannon = GetCannonByType(sti(aCharacter.Ship.Cannons.Type));
 	
 	float fMaxCHP = stf(rCannon.hp);

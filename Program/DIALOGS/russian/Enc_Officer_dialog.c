@@ -162,13 +162,13 @@ void ProcessDialogEvent()
 				SaveCurrentQuestDateParam("pchar.questTemp.MainHeroWomanSex");
 			}
 			
-            if (PChar.location == Get_My_Cabin() && npchar.id != "Sharp_Sibling")
+            if (PChar.location == Get_My_Cabin() && npchar.id != "Sharp_Sibling" && GetQuestPastDayParam("pchar.questTemp.MainHeroWomanSex") >= 5)
             {
     			if (PChar.sex == "woman" && NPChar.sex == "man")
     			{
 					Link.l5 = RandPhraseSimple("Раз уж мы в каюте давай может...а? Посмотри тут и кровать есть... такая мягенькая...",
 	                                           "Посмотри какая в моей каюте большая кровать. Не хочешь разделить ее со мной?");
-	                if (drand(70) < sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)) && GetQuestPastDayParam("pchar.questTemp.MainHeroWomanSex") >= 5)
+	                if (drand(70) < sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)) || CheckAttribute(npchar, "devoted"))
 	                {
 	                    Link.l5.go = "Love_Sex_Yes";
 	                }
@@ -296,10 +296,38 @@ void ProcessDialogEvent()
 					Link.lcraftMechanic = "Как успехи? Получилось что-то изготовить?";
 					Link.lcraftMechanic.go = "mechanic_craft_ammo_finish";
 				}
+			}
+			
+			if(npchar.id == "W_chinaman" && CheckAttribute(pchar, "Whisper.GiveChinaSword") && CheckCharacterItem(pchar, "blade_china"))
+			{
+				Link.wChinaSword = "Посмотри, что у меня для тебя есть. Было непросто, но все же я достала твой меч.";
+				Link.wChinaSword.go = "w_give_china_sword";
 			}	
             Link.l12 = "Ничего. Вольно.";
             Link.l12.go = "Exit";
         break;
+
+		case "w_give_china_sword":
+			dialog.text = "Я не верить своим глазам... Это и правда он, меч моей семьи. Мне нечего предложить вам взамен, кроме своей вечной преданности. Если доверите охранять вас, я буду защищать вашу жизнь прежде своей.";
+			TakeItemFromCharacter(pchar, "blade_china");
+			if (pchar.equip.blade == "blade_china")
+			{
+				RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
+			}
+			LAi_SetHP(npchar, 100.0 + LAi_GetCharacterMaxHP(npchar), 100.0 + LAi_GetCharacterMaxHP(npchar));
+			AddBonusEnergyToCharacter(npchar, 50);
+			GiveItem2Character(npchar, "blade_china");
+			EquipCharacterByItem(npchar, "blade_china");
+			npchar.Skill.Sailing    = sti(npchar.Skill.Sailing) + 20;
+			npchar.Skill.FencingHeavy  = sti(npchar.Skill.FencingHeavy) + 20;
+			npchar.rank = sti(npchar.rank) + 5;
+			npchar.perks.list.AgileMan = "1";
+			ApplayNewSkill(npchar, "AgileMan", 0);
+			npchar.devoted = true;
+			DeleteAttribute(pchar, "Whisper.GiveChinaSword")
+            link.l1 = "Преданности мне вполне достаточно. Ладно, оставлю тебя наедине с твоей 'игрушкой'.";
+			link.l1.go = "exit";
+		break;
 
 		case "mechanic_craft_ammo_finish":
 		    dialog.text = "Не торопите меня, капитан. Я же говорил вам, когда закончу.";
@@ -951,6 +979,11 @@ void ProcessDialogEvent()
 		case "hire":
 			if(makeint(Pchar.money) >= makeint(Npchar.quest.OfficerPrice))
 			{
+				pchar.questTemp.officercount = sti(pchar.questTemp.officercount) + 1;
+				if(sti(pchar.questTemp.officercount) >= 3) UnlockAchievement("officers", 1);
+				if(sti(pchar.questTemp.officercount) >= 6) UnlockAchievement("officers", 2);
+				if(sti(pchar.questTemp.officercount) >= 10) UnlockAchievement("officers", 3);
+				
 				AddMoneyToCharacter(Pchar, -(makeint(Npchar.quest.OfficerPrice)));
 				Diag.TempNode = "OnboardSoon";
 				dialog.text = "Благодарю вас, капитан. Вы не пожалеете, что отдали мне это золото.";
@@ -2006,10 +2039,14 @@ void ProcessDialogEvent()
 				break;
 			}
 			dialog.Text = "Всё понятно. До " + XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen") + " мне идти " + sti(characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days) + " дней, что мне делать по прибытию?";
-				Link.l1 = "Жди меня на рейде месяц.";
-				Link.l1.go = "CompanionTravel_PrepareStart_2";
-				Link.l2 = "Знаешь, я передумал"+ GetSexPhrase("","а") +". Оставайся со мной, пока-что...";
-				Link.l2.go = "exit";
+			if (sti(characters[sti(NPChar.realcompanionidx)].CompanionTravel.Days) == 1)
+			{
+			dialog.Text = "Всё понятно. До " + XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen") + " рукой подать, я доберусь туда сегодня же. Что мне там делать?";
+			}
+			Link.l1 = "Жди меня на рейде месяц.";
+			Link.l1.go = "CompanionTravel_PrepareStart_2";
+			Link.l2 = "Знаешь, я передумал"+ GetSexPhrase("","а") +". Оставайся со мной, пока-что...";
+			Link.l2.go = "exit";
 		break;
 		
 		case "CompanionTravel_PrepareStart_2":

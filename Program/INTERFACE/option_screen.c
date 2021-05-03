@@ -36,6 +36,8 @@ void InitInterface(string iniName)
 	SetEventHandler("MouseRClickUP","HideInfo",0);
 
 	SetEventHandler("evFaderFrame","FaderFrame",0);
+	
+	SetFormatedText("TEXT_NATIONSPIC_SETTINGS", "»конки наций");
 
 	aref ar; makearef(ar,objControlsState.key_codes);
 	SendMessage(&GameInterface,"lsla",MSG_INTERFACE_MSG_TO_NODE,"KEY_CHOOSER", 0,ar);
@@ -94,6 +96,26 @@ void ProcessOkExit()
 
 void ProcessExit()
 {
+	
+	if(sti(InterfaceStates.EnabledCMControls) == 1)
+	{
+		CI_CreateAndSetControls( "Sailing3Pers", "BICommandsActivate", CI_GetKeyCode("VK_MBUTTON"), 0, true );
+		CI_CreateAndSetControls( "PrimaryLand", "LICommandsActivate", CI_GetKeyCode("VK_MBUTTON"), 0, true );
+		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsConfirm", CI_GetKeyCode("VK_LBUTTON"), 0, true );
+		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsCancel", CI_GetKeyCode("VK_RBUTTON"), 0, false );
+		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsLeft", CI_GetKeyCode("VK_MWHEEL_DOWN"), 0, true );
+		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsRight", CI_GetKeyCode("VK_MWHEEL_UP"), 0, true );
+	}
+	else
+	{
+		CI_CreateAndSetControls( "Sailing3Pers", "BICommandsActivate", CI_GetKeyCode("VK_RETURN"), 0, true );
+		CI_CreateAndSetControls( "PrimaryLand", "LICommandsActivate", CI_GetKeyCode("VK_RETURN"), 0, true );
+		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsConfirm", CI_GetKeyCode("VK_RETURN"), 0, true );
+		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsCancel", CI_GetKeyCode("VK_ESCAPE"), 0, false );
+		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsLeft", CI_GetKeyCode("VK_LEFT"), 0, true );
+		CI_CreateAndSetControls( "BattleInterfaceControls", "BICommandsRight", CI_GetKeyCode("VK_RIGHT"), 0, true );
+	}
+	
 	if( CheckAttribute(&InterfaceStates,"showGameMenuOnExit") && sti(InterfaceStates.showGameMenuOnExit) == true) {
 		IDoExit(RC_INTERFACE_LAUNCH_GAMEMENU);
 		return;
@@ -107,39 +129,6 @@ void ProcessExit()
 
 void IDoExit(int exitCode)
 {
-	/*if (InterfaceStates.NoInt)
-	{
-		if (bSeaActive && !bAbordageStarted)
-		{
-			DeleteBattleInterface();
-		}
-		else
-		{
-			EndBattleLandInterface();
-		}
-	}
-	else
-	{
-		if (bSeaActive && !bAbordageStarted)
-		{
-			if (!IsEntity(BattleInterface))
-			{
-				InitBattleInterface();
-				StartBattleInterface();
-				RefreshBattleInterface();
-			}
-		}
-		else
-		{
-			if (!IsEntity(worldMap))
-			{
-				if (!bLandInterfaceStart)
-				{
-					StartBattleLandInterface();
-				}
-			}
-		}
-	}*/
 	DelEventHandler("evntKeyChoose","procKeyChoose");
 	DelEventHandler("eSlideChange","procSlideChange");
 	DelEventHandler("CheckButtonChange","procCheckBoxChange");
@@ -181,6 +170,7 @@ void IReadVariableAfterInit()
 {
 	GetHerbOptionsData();
 	GetControlsStatesData();
+	GetFlagAllOptionsData();
 
 	int nShowBattleMode = 0;
 	if( CheckAttribute(&InterfaceStates,"ShowBattleMode") ) {
@@ -205,6 +195,12 @@ void IReadVariableAfterInit()
 		nEnabledFXMarks = sti(InterfaceStates.EnabledFXMarks);
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FXMARK_CHECKBOX", 2, 1, nEnabledFXMarks );
+	
+	int nEnabledCMControls = 1;
+	if( CheckAttribute(&InterfaceStates,"EnabledCMControls") ) {
+		nEnabledCMControls = sti(InterfaceStates.EnabledCMControls);
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"CM_CONTROLS_CHECKBOX", 2, 1, nEnabledCMControls );
 
 	int nEnabledShipMarks = 1;
 	if( CheckAttribute(&InterfaceStates,"EnabledShipMarks") ) {
@@ -292,6 +288,13 @@ void IReadVariableAfterInit()
 	{
 		CheckButton_SetState("BOARD_MODE_CHECKBOX", 1, false);
 	}
+	
+	int nCharVoice = 0;
+	if(bCharVoice)
+	{
+		nCharVoice = bCharVoice;
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"CHAR_VOICE_CHECKBOX", 2, 1, nCharVoice );
 	
 }
 
@@ -439,6 +442,12 @@ void procCheckBoxChange()
 			InterfaceStates.EnabledFXMarks = bBtnState;
 		}
 	}
+	if( sNodName == "CM_CONTROLS_CHECKBOX" )
+	{
+		{ // Show battle mode border
+			InterfaceStates.EnabledCMControls = bBtnState;
+		}
+	}
 
 	if( sNodName == "SHIPMARK_CHECKBOX" )
 	{
@@ -526,6 +535,41 @@ void procCheckBoxChange()
 		bBoardMode = false;
 	}
 	
+	if( sNodName == "CHAR_VOICE_CHECKBOX") 
+	{
+		{
+			bCharVoice = bBtnState;
+		}
+	}
+	
+	if( sNodName == "FLAGALLWDM_CHECKBOX" ) 
+	{
+		if( bBtnState == true ) 
+		{
+			switch( nBtnIndex ) 
+			{
+				case 1: 
+					iFlagAllWdm=2; 
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, 2, false );
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, 3, false );
+					worldMap.showFlag.texture = "flagallWDM" + iFlagAllWdm + ".tga";
+				break;
+				case 2: 
+					iFlagAllWdm=1; 
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, 1, false );
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, 3, false );
+					worldMap.showFlag.texture = "flagallWDM" + iFlagAllWdm + ".tga";
+				break;
+				case 3: 
+					iFlagAllWdm=0; 
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, 1, false );
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, 2, false );
+					worldMap.showFlag.texture = "flagallWDM" + iFlagAllWdm + ".tga";
+				break;
+			}
+		}
+		return;
+	}
 }
 
 void procSlideChange()
@@ -871,6 +915,17 @@ void GetHerbOptionsData()
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"HERB_CHECKBOX", 2, nSelBtn, true );
 }
 
+void GetFlagAllOptionsData()
+{
+	int nSelBtn = 0;
+	switch( iFlagAllWdm ) {
+	case 0: nSelBtn=3; break;
+	case 1: nSelBtn=2; break;
+	case 2: nSelBtn=1; break;
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, nSelBtn, true );
+}
+
 void GetControlsStatesData()
 {
 	int nAlwaysRun = 0;
@@ -1044,8 +1099,10 @@ void ShowInfo()
 
 	string sText1, sText2, sText3, sPicture, sGroup, sGroupPicture;
 	sPicture = "none";
-	sGroup = "none";
-	sGroupPicture = "none";
+	// sGroup = "none";
+	// sGroupPicture = "none";
+	int xx = 256;
+	int yy = 256;
 
 	switch (sNode)
 	{
@@ -1072,11 +1129,10 @@ void ShowInfo()
 		break;
 
 		case "HERB_CHECKBOX":
-			sHeader = XI_ConvertString("Herb Quantity");
-			sText1 = XI_ConvertString("Herb Quantity_descr");
-			sText2 = XI_ConvertString("ItCanRedusePerfomance");
-			//sText3 = XI_ConvertString("NeedToExitFromSea");
-		break;
+            sHeader = XI_ConvertString("Herb Quantity");
+            sText1 = XI_ConvertString("Herb Quantity_descr");
+            sText2 = XI_ConvertString("ItCanRedusePerfomance");
+        break;
 
 		case "MUSIC_SLIDE":
 			sHeader = XI_ConvertString("Music Volume");
@@ -1116,6 +1172,9 @@ void ShowInfo()
 		case "BOARD_MODE_CHECKBOX":
 			sHeader = XI_ConvertString("BOARD_MODE");
 			sText1 = XI_ConvertString("BOARD_MODE_descr");
+            sPicture = "INTERFACES\FaqPictures\BOARD_MODE_CHECKBOX.png";
+			xx = 600;
+			yy = 300;
 		break;
 
 		case "BATTLE_MODE_CHECKBOX":
@@ -1131,16 +1190,38 @@ void ShowInfo()
 		case "QUESTMARK_CHECKBOX":
 			sHeader = XI_ConvertString("QuestMark Mode");
 			sText1 = XI_ConvertString("QuestMark Mode_descr");
+            sPicture = "INTERFACES\FaqPictures\QUESTMARK_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
 		break;
 		
 		case "FXMARK_CHECKBOX":
 			sHeader = XI_ConvertString("FXMark Mode");
 			sText1 = XI_ConvertString("FXMark Mode_descr");
+            sPicture = "INTERFACES\FaqPictures\FXMARK_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
+		break;
+		
+		case "CM_CONTROLS_CHECKBOX":
+			sHeader = XI_ConvertString("CMControls Mode");
+			sText1 = XI_ConvertString("CMControls Mode_descr");
+		break;
+
+		case "FLAGALLWDM_CHECKBOX":
+			sHeader = XI_ConvertString("FlagAllWDM");
+			sText1 = XI_ConvertString("FlagAllWDM_descr");
+            sPicture = "INTERFACES\FaqPictures\FLAGALLWDM_CHECKBOX.png";
+			xx = 600;
+			yy = 200;
 		break;
 
 		case "SHIPMARK_CHECKBOX":
 			sHeader = XI_ConvertString("ShipMark Mode");
 			sText1 = XI_ConvertString("ShipMark Mode_descr");
+            sPicture = "INTERFACES\FaqPictures\SHIPMARK_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
 		break;
 
 		case "SIMPLESEA_CHECKBOX":
@@ -1151,31 +1232,49 @@ void ShowInfo()
 		case "SPYGLASSTEX_CHECKBOX":
 			sHeader = XI_ConvertString("SpyglassTextures_title");
 			sText1 = XI_ConvertString("SpyglassTextures_desc");
+            sPicture = "INTERFACES\FaqPictures\SPYGLASSTEX_CHECKBOX.png";
+			xx = 448;
+			yy = 448;
 		break;
 		
 		case "HUDStyle_CHECKBOX":
 			sHeader = XI_ConvertString("HUDStyle_title");
 			sText1 = XI_ConvertString("HUDStyle_desc");
+            sPicture = "INTERFACES\FaqPictures\HUDStyle_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
 		break;
 		
 		case "HUDStyleLand_CHECKBOX":
 			sHeader = XI_ConvertString("HUDStyleLand_title");
 			sText1 = XI_ConvertString("HUDStyleLand_desc");
+            sPicture = "INTERFACES\FaqPictures\HUDStyleLand_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
 		break;
 		
 		case "CannonsHUD_CHECKBOX":
 			sHeader = XI_ConvertString("CannonsHUD_title");
 			sText1 = XI_ConvertString("CannonsHUD_desc");
+            sPicture = "INTERFACES\FaqPictures\CannonsHUD_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
 		break;
 		
 		case "DEADBOXTEXT_CHECKBOX":
 			sHeader = XI_ConvertString("DeadBoxText_title");
 			sText1 = XI_ConvertString("DeadBoxText_desc");
+            sPicture = "INTERFACES\FaqPictures\DEADBOXTEXT_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
 		break;
 		
 		case "ALTFONT_CHECKBOX":
 			sHeader = XI_ConvertString("AltFont_title");
 			sText1 = XI_ConvertString("AltFont_desc");
+            sPicture = "INTERFACES\FaqPictures\ALTFONT_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
 		break;
 		
 		case "NOINT_CHECKBOX":
@@ -1191,6 +1290,15 @@ void ShowInfo()
 		case "ALT_INT_ICONS_CHECKBOX":
 			sHeader = XI_ConvertString("AltIntIcons_title");
 			sText1 = XI_ConvertString("AltIntIcons_desc");
+            sPicture = "INTERFACES\FaqPictures\ALT_INT_ICONS_CHECKBOX.png";
+			xx = 256;
+			yy = 256;
+		break;
+		
+		case "CHAR_VOICE_CHECKBOX":
+			sHeader = XI_ConvertString("CHAR_VOICE_CHECKBOX_header");
+			sText1 = XI_ConvertString("CHAR_VOICE_CHECKBOX_desc");
+            PlayVoice("Kopcapkz\Voices\Traders\Trader_man_0"+rand(9)+".ogg");
 		break;
 		
 		//#20171223-01 Camera perspective option
@@ -1210,7 +1318,7 @@ void ShowInfo()
 		break;
 	}
 
-	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, xx, yy);
 }
 
 void HideInfo()

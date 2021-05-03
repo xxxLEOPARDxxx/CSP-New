@@ -305,10 +305,6 @@ void wdmEnterSeaQuest(string _chrId)
 		AddQuestUserData("HeadHunter", "sNation", NationNameGenitive(sti(NPChar.Nation)));
 		CloseQuestHeader("HeadHunter");
 	}
-	if (findsubstr(_chrId, "GhostCapt" , 0) != -1) // GhostCapt
-	{
-		AddQuestRecord("GhostShipQuest", "3_1");
-	}
 		// homo 19/07/06 GlodFleet
 	if (_chrId == "Head_of_Gold_Squadron")
 	{

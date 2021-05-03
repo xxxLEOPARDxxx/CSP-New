@@ -25,7 +25,8 @@ int FIS_FilterState = 0;
 void InitInterface_RR(string iniName, ref ContraTrader , ref pStore)
 {
  	StartAboveForm(true);
-
+	pchar.Goods.Store.Contraband = true;
+	Log_Info(pchar.Goods.Store.Contraband);
     refStore 		= pStore;
 	refCharacter 	= pchar;
 	refContraChar	= ContraTrader;
@@ -324,6 +325,8 @@ void IDoExit(int exitCode)
 			characters[GetCharacterIndex("Rand_Smug0"+i)].ContrabandInterruption = true;
 		}
 	}
+	DeleteAttribute(pchar,"Goods.Store.Contraband");
+	Log_Info(pchar.Goods.Store.Contraband);
 	AddCharacterExpToSkill(GetMainCharacter(), "Sneak", 100);
 					
 	ChangeContrabandRelation(GetMainCharacter(), 15);

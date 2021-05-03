@@ -11,16 +11,21 @@ void GoldFleet()
     ref sld, chref;
     int iChar = NPC_GenerateCharacter("Head_of_Gold_Squadron", "off_spa_2", "man", "man", 5, SPAIN, 31, true);
     makeref(chref, Characters[iChar]);
-    chref.ship.type = GenerateShipExt(SHIP_LINESHIP, 1, chref);
+    chref.ship.type = GenerateShipExt(SHIP_SP_SANFELIPE, 1, chref);
 	SetBaseShipData(chref);
+	UpgradeShipParameter(chref, "MaxCrew");
+	UpgradeShipParameter(chref, "HP");
     SetCrewQuantityFull(chref);
     Fantom_SetCannons(chref, "war"); //fix
     Fantom_SetBalls(chref, "pirate");
-	Fantom_SetGoods(chref, "war");
+	for( int i = 0; i<9; i++)
+	{
+		AddCharacterGoods(chref, i, 10000);
+	}
 	SetRandomNameToShip(chref);
 	SetFantomParamHunter(chref); //крутые парни
     SetCaptanModelByEncType(chref, "war");//
-	string sGroup = "Sea_"+chref.id
+	string sGroup = "Sea_"+chref.id;
 
 	Group_FindOrCreateGroup(sGroup);
 	Group_SetType(sGroup,"trade");
@@ -28,11 +33,15 @@ void GoldFleet()
     Group_LockTask(sGroup);
 	Group_AddCharacter(sGroup, chref.id);
 	Group_SetGroupCommander(sGroup, chref.id);
-	SetRandGeraldSail(chref, sti(chref.Nation)); // homo Гербы
+	int st = GetCharacterShipType(chref);
+	ref shref;
+	shref = GetRealShip(st);
+	shref.ShipSails.Gerald_Name = "Ing_11";//герб
+	shref.ship.upgrades.sails = 22;//паруса
 	chref.dialog.filename = "Capitans_dialog.c"; // homo 20/01/07
 	chref.dialog.currentnode = "GoldSquadron";
 	chref.DeckDialogNode = "GoldSquadron";
-
+	//parus_usual_18
 	if(!CheckAttribute(pchar, "QuestTemp.GoldFleetMorganaTaken") && rand(3) == 1)
 	{
 		pchar.QuestTemp.GoldFleetMorganaTaken = true;
@@ -42,10 +51,13 @@ void GoldFleet()
 		AddItems(chref, sEquipItem, 1);		
 		EquipCharacterbyItem(chref, sEquipItem);
 		Log_TestInfo("Этот кэп будет вооружен морганой !");
-	} 
-
-    int nfreg = (3+rand(1));
-    int ngal = (4+rand(1));
+	}
+	
+	SetSelfSkill(chref, 100, 100, 100, 100, 90);
+	SetShipSkill(chref, 90, 90, 100, 100, 100, 100, 100, 100, 90);
+	
+    int nfreg = (6+rand(1));
+    int ngal = (5+rand(1));
     GoldCapNum = nfreg + ngal;
 
     for(int k = 1; k <=(nfreg + ngal) ; k++)
@@ -53,34 +65,61 @@ void GoldFleet()
 		iChar = NPC_GenerateCharacter("GoldCap_"+k, "off_spa_2", "man", "man", 5, SPAIN, 31, true);
         makeref(sld, Characters[iChar]);
         if (k <= nfreg)
-        {
+        { 
             sld.Ship.Mode = "war";
-            sld.ship.type = GenerateShipExt(SHIP_FRIGATE+rand(1), 1, sld);
+			if(k < 3)  sld.ship.type = GenerateShipExt(SHIP_SP_SANFELIPE, 1, sld);
+			else sld.ship.type = GenerateShipExt(SHIP_ALEXIS, 1, sld);
     	    SetBaseShipData(sld);
+			SetFantomParamHunter(sld); //крутые парни
+			if(k < 3)
+			{
+				SetSelfSkill(sld, 100, 100, 100, 100, 90);
+				SetShipSkill(sld, 90, 90, 100, 100, 100, 100, 100, 100, 90);
+				UpgradeShipParameter(sld, "MaxCrew");
+				UpgradeShipParameter(sld, "HP");
+			}
             SetCrewQuantityFull(sld);
             Fantom_SetCannons(sld, "war"); //fix
+			st = GetCharacterShipType(sld);
+			shref = GetRealShip(st);
+			shref.ShipSails.Gerald_Name = "spa_2";//герб
+			shref.ship.upgrades.sails = 15;//паруса
             Fantom_SetBalls(sld, "pirate");
-    	    Fantom_SetGoods(sld, "war");
-    	    SetFantomParamHunter(sld); //крутые парни
+    	    for(i = 0; i<10; i++)
+			{
+				if(k < 3) AddCharacterGoods(sld, i, 10000);
+				else AddCharacterGoods(sld,i, 5000);
+			}
             SetCaptanModelByEncType(sld, "war");//
+			else
+			{
+				SetSelfSkill(sld, sti(pchar.skill.FencingLight), sti(pchar.skill.Fencing), sti(pchar.skill.FencingHeavy), sti(pchar.skill.Pistol), sti(pchar.skill.Fortune));
+				SetShipSkill(sld, 80, 80, sti(pchar.skill.Accuracy), sti(pchar.skill.Cannons), 80, sti(pchar.skill.Repair), sti(pchar.skill.Grappling), sti(pchar.skill.Defence), 80);
+			}
 
         }
         else
         {
-            sld.Ship.Mode = "trade";
-            sld.ship.type = GenerateShipExt(SHIP_GALEON_L+(rand(1)*2), 1, sld);
+            sld.Ship.Mode = "war";
+            sld.ship.type = GenerateShipExt(SHIP_GALEON50, 1, sld);
     	    SetBaseShipData(sld);
             SetCrewQuantityFull(sld);
             Fantom_SetCannons(sld, "war"); // fix
-            Fantom_SetBalls(sld, "trade");
+            Fantom_SetBalls(sld, "war");
+			st = GetCharacterShipType(sld);
+			shref = GetRealShip(st);
+			shref.ShipSails.Gerald_Name = "Ing_73"//герб
+			shref.ship.upgrades.sails = 22;//паруса
+			Fantom_SetGoods(sld, "war");
 
             int iSpace = GetCharacterFreeSpace(sld, GOOD_GOLD)
-            iSpace = iSpace / 5;
-            Fantom_SetCharacterGoods(sld, GOOD_GOLD, ((rand(1)+1)*iSpace), 1);
-            Fantom_SetCharacterGoods(sld, GOOD_SILVER, iSpace, 1);
+            iSpace = iSpace * 1/3;
+			AddCharacterGoods(sld, GOOD_GOLD, iSpace * 2);
+            AddCharacterGoods(sld, GOOD_SILVER, iSpace * 2);
             SetFantomParamHunter(sld); //крутые парни
-            SetCaptanModelByEncType(sld, "trade");//
-
+            SetCaptanModelByEncType(sld, "war");//
+			SetSelfSkill(sld, sti(pchar.skill.FencingLight), sti(pchar.skill.Fencing), sti(pchar.skill.FencingHeavy), sti(pchar.skill.Pistol), sti(pchar.skill.Fortune));
+			SetShipSkill(sld, 80, 80, sti(pchar.skill.Accuracy), sti(pchar.skill.Cannons), 80, sti(pchar.skill.Repair), sti(pchar.skill.Grappling), sti(pchar.skill.Defence), 80);
         }
 
         sld.AlwaysEnemy = true;
@@ -172,12 +211,95 @@ void DefeatGoldFleet(string temp)
     AddQuestRecord("Rumour_GoldFleet", 4+rand(2));
     CloseQuestHeader("Rumour_GoldFleet");
     Pchar.quest.EndOfGoldFleet.over = "yes";
+	pchar.questTemp.GoldFleetNum = sti(pchar.questTemp.GoldFleetNum) + 1;
+	if(sti(pchar.questTemp.GoldFleetNum) >= 1) UnlockAchievement("AchGoldFleet", 1);
+	if(sti(pchar.questTemp.GoldFleetNum) >= 3) UnlockAchievement("AchGoldFleet", 2);
+	if(sti(pchar.questTemp.GoldFleetNum) >= 7) UnlockAchievement("AchGoldFleet", 3);
     Pchar.quest.HeadGoldFleetInHavana.over = "yes"; //fix
     Pchar.quest.CheckHavanaGoldFleet.over = "yes"; //fix
     Pchar.quest.LeaveGoldleet.over = "yes"; //fix
     Pchar.GoldfleetInHavana.over = "yes"; //fix
     isGoldFleet = false;
     Log_TestInfo("Defeat GoldFleet");
+	
+	if (rand(2) == 0 && !CheckAttribute(pchar, "DevFleet"))
+	{
+		pchar.DevFleet = true;
+		Log_Info("Штормовая эскадра разработчиков решила поживиться награбленным!");
+		string  sGroup = "Sea_Devs0";
+		group_DeleteGroup(sGroup);
+		Group_FindOrCreateGroup(sGroup);
+		Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+		Group_LockTask(sGroup);
+		for (int i = 0; i < 8; i++)
+		{
+			sld = GetCharacter(NPC_GenerateCharacter("Devs"+i, "pirate_"+sti(rand(25)+1), "man", "man", 55, PIRATE, 8, true));
+			
+			//Модель корабля на глобалке менять здесь
+			sld.mapEnc.worldMapShip = "pirates_manowar";
+			
+			sld.mapEnc.Name = "штормовая эскадра разработчиков, в количестве 8 кораблей";
+			sld.mapEnc.type = "war";
+			FantomMakeCoolSailor(sld, rand(SHIP_WAR_TARTANE), "", CANNON_TYPE_CANNON_LBS8, 100, 100, 100);
+
+			sld.AlwaysEnemy = true;
+			sld.AlwaysSandbankManeuver = true;
+			sld.DontRansackCaptain = true;
+			sld.AnalizeShips = true;
+			
+			sld.ship.Crew.Morale = 100;
+			ChangeCrewExp(sld, "Sailors", 100);
+			ChangeCrewExp(sld, "Cannoners", 100);
+			ChangeCrewExp(sld, "Soldiers", 100);
+			
+			LAi_group_MoveCharacter(sld, "Devs");
+			Group_AddCharacter(sGroup, sld.id);
+			
+			sld.lastname = "";
+			if (i == 0)
+			{
+				sld.name 	= "LEOPARD";
+				sld.Ship.name 	= "LEOPARD";
+				Group_SetGroupCommander(sGroup, sld.id);
+				Map_CreateFastWarrior("", sld.id, 8);
+			}
+			if (i == 1)
+			{
+				sld.name 	= "Gregg";
+				sld.Ship.name 	= "Gregg";
+			}
+			if (i == 2)
+			{
+				sld.name 	= "Googman";
+				sld.Ship.name 	= "Googman";
+			}
+			if (i == 3)
+			{
+				sld.name 	= "BlackThorn";
+				sld.Ship.name 	= "BlackThorn";
+			}
+			if (i == 4)
+			{
+				sld.name 	= "Shaharan";
+				sld.Ship.name 	= "Shaharan";
+			}
+			if (i == 5)
+			{
+				sld.name 	= "Lipsar";
+				sld.Ship.name 	= "Lipsar";
+			}
+			if (i == 6)
+			{
+				sld.name 	= "Sinistra";
+				sld.Ship.name 	= "Sinistra";
+			}
+			if (i == 7)
+			{
+				sld.name 	= "Qwerry, St.";
+				sld.Ship.name 	= "Qwerry, St.";
+			}
+		}
+	}
 }
 
 void RouteGoldFleet()

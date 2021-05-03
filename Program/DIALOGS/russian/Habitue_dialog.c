@@ -593,21 +593,21 @@ void ProcessDialogEvent()
 
 		case "GhostShip_Speak_3_2":
 			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
-			dialog.text = "Мне местные контрабандисты говорили, что вчера он в нашу бухту заходил.";
-			link.l1    = "Прямо здесь, рядом? Он еще там?";
+			dialog.text = "Говорят, что он сейчас около того самого таинственного острова Кхаэль-Роа.";
+			link.l1    = "А скажи мне, где этот остров?";
 			link.l1.go = "GhostShip_Speak_3_3";
 		break;
 
 		case "GhostShip_Speak_3_3":
 			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
-			dialog.text = "Откуда мне знать, в море ушел, наверное. Контрабандисты сами убежали, весь товар потеряли...";
+			dialog.text = "Ходят слухи, что он где-то в треугольнике островов Сан-Мартин, Невис и Антигуа.";
     		if (sti(PChar.GenQuest.GhostShip.KillMe) > 0 || sti(PChar.GenQuest.GhostShip.DeadByMe) > 0)
             {
-                link.l1 = "Что же, попробую его нагнать, наш разговор с ним не закончен!";
+                link.l1 = "Что же, наведаюсь к нему еще раз!";
             }
             else
             {
-				link.l1 = "Что же, попробую его нагнать, посмотреть, что это за призрак.";
+				link.l1 = "Что же, попробую его найти, посмотреть, что это за призрак.";
 			}
 			link.l1.go = "exit_sit";
 			pchar.GenQuest.GhostShip.AskAbout = "2";// вечный генератор

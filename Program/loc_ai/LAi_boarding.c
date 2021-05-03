@@ -85,6 +85,8 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 	//ResetSoundScheme();
 	ResetSound(); // new
 	PauseAllSounds();
+	sTemp = RealShips[sti(echr.Ship.Type)].BaseName;
+	Pchar.Encyclopedia.(sTemp) = "1";										 
 	
 	bQuestCheckProcessFreeze = true;//fix
 	
@@ -179,6 +181,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0); 
 		if (ecrewBak > ecrew) ecrewBak = ecrew;//aw013 
 		PlaySound("INTERFACE\_musketshot_" + rand(3) + ".wav");
+		if (CheckAttribute(RealShips[sti(echr.Ship.Type)],"Tuning.HighBort")) ecrewBak = makeint(ecrewBak/4);
 		ecrew = ecrew - ecrewBak; 
 		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек команды противника."); 
 	} 
@@ -189,6 +192,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0); 
 		if (ecrewBak > mcrew) ecrewBak = mcrew;//aw013 
 		PlaySound("INTERFACE\_musketshot_" + rand(3) + ".wav");
+		if (CheckAttribute(RealShips[sti(mchr.Ship.Type)],"Tuning.HighBort")) ecrewBak = makeint(ecrewBak/4);
 		mcrew = mcrew - ecrewBak; 
 		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек нашей команды."); 
 		Statistic_AddValue(mchr, "DeadCrewBoard", ecrewBak); 
@@ -1185,6 +1189,14 @@ void LAi_BoardingGroupKill()
 	if(group != LAI_GROUP_BRDENEMY) return;
 	// отключим шум абордажа (который включается при аларме в sound.c)
 
+	if (CheckAttribute(pchar, "questTemp.Whisper.KilledPortman"))
+	{
+		Log_Info("Вы находите журнал капитана.");
+		LAi_SetFightMode(PChar, false);
+		PlaySound("interface\important_item.wav");
+		DoQuestCheckDelay("TalkSelf_Quest", 0.8);
+	}
+	
 	PostEvent("LAi_event_boarding_EnableReload", 1000);
 }
 
@@ -1276,6 +1288,15 @@ string LAi_GetBoardingModel(ref rCharacter, ref ani)
 			ani = models.(atr);
 		}
 	}
+	if (GetCharacterItem(rCharacter, "SkullAztec") && rand(1)==0)
+	{
+		if(rand(1)==0)	model = GetRandSkelModel();
+		else			model = GetRandSkelModelClassic();
+		
+		ani = "man";
+		return model;
+	}
+	
 	return model;
 }
 

@@ -397,7 +397,7 @@ ref SetFantomOfficer(string group, string locator, int nation, string enemygroup
     natmod = NationShortName(nation);
     if(nation == PIRATE)
     {
-       emodel = "officer_" + (rand(57) + 1);
+       emodel = "officer_" + (rand(63) + 1);
     }
     else
     {
@@ -472,7 +472,7 @@ void TWN_Capture_Forts()
 
 		if (!CheckAttribute(Pchar, "GenQuestFort.SoundOff"))  // будет для выхода в море и повтора захвата
 		{
-        	PlayVoice("INTERFACE\_GTBoard2.wav");
+        	PlayVoice("INTERFACE\_GTBoard_0.wav");
         	if (isCityHasFort(sld.City))// довесок после форта
             {
             	AddCharacterExpToSkillSquadron(Pchar, "Leadership", 230);
@@ -943,6 +943,14 @@ void TWN_ExitForPay() // мэр дает откуп - табличка прибыли
 	}
 	chrDisableReloadToLocation = false;
 	ClearIslandShips(sld.City); // убрать корабли в порту, сбегли
+	int iStat = (Statistic_AddValue(PChar, "pir_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "eng_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "fra_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "spa_GrabbingTown", 0) +
+			 Statistic_AddValue(PChar, "hol_GrabbingTown", 0));
+	if(iStat >= 5) UnlockAchievement("AchCityRobbery", 1);
+	if(iStat >= 10) UnlockAchievement("AchCityRobbery", 2);
+	if(iStat >= 15) UnlockAchievement("AchCityRobbery", 3);
 	int nBooty;
 	if (CheckAttribute(Pchar, "HalfOfPaymentByCity"))
 	{

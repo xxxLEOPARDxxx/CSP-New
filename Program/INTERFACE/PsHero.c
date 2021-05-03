@@ -1,6 +1,6 @@
-/////////////////////////
-// CSP 2.1.3
-/////////////////////////
+//////////////////////////
+// 		CSP 2.2.0+		//
+//////////////////////////
 
 string totalInfo = "";
 string CurTable, CurRow;
@@ -15,8 +15,12 @@ void InitInterface(string iniName)
 	
     SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
-    SetFormatedText("MAP_CAPTION", XI_ConvertString("titlePsHero"));
-
+	if (!CheckAttribute(pchar, "PGG_killed"))
+	{
+		pchar.PGG_killed = 0;
+	}
+	
+    SetFormatedText("MAP_CAPTION", XI_ConvertString("titlePsHero") + " (" + (PsHeroQty-sti(pchar.PGG_killed))+ " / " + PsHeroQty + ")");
 	SetEventHandler("InterfaceBreak","ProcessBreakExit",0);
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
@@ -93,7 +97,6 @@ void FillTable()
 	GameInterface.TABLE_HERO.hr.td5.scale = 1.0;
 	GameInterface.TABLE_HERO.hr.td6.str = "Местоположение";
 	GameInterface.TABLE_HERO.hr.td6.scale = 1.0;
-	// GameInterface.TABLE_HERO.hr.td7.str = "Пункт назначения";
 	GameInterface.TABLE_HERO.hr.td7.str = "P.I.R.A.T.E.S.";
 	GameInterface.TABLE_HERO.hr.td7.scale = 1.0;
 	GameInterface.TABLE_HERO.hr.td8.str = "Репутация";
@@ -110,11 +113,6 @@ void FillTable()
 		{
 			if(chr.PGGAi.IsPGG != false)
 			{
-				//временно либо офицер, либо компаньон... не работаем с ним.
-				//if (!sti(chr.PGGAi.IsPGG)) continue;
-				//помер, нефиг мертвых качать.
-				//if (LAi_IsDead(chr)) continue;
-				
 				row = "tr" + n;
 				GameInterface.TABLE_HERO.(row).index = i;
 				GameInterface.TABLE_HERO.(row).td1.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chr.faceId + ".tga";
@@ -122,14 +120,16 @@ void FillTable()
 				GameInterface.TABLE_HERO.(row).td1.icon.width = 40;
 				GameInterface.TABLE_HERO.(row).td1.icon.height = 40;
 				GameInterface.TABLE_HERO.(row).td1.icon.offset = "-2, -1";
-				// GameInterface.TABLE_HERO.(row).td1.str = chr.id;
 				GameInterface.TABLE_HERO.(row).td1.scale = 0.8;
 				GameInterface.TABLE_HERO.(row).td2.str = GetFullName(chr);
 				GameInterface.TABLE_HERO.(row).td2.scale = 0.8;
 				GameInterface.TABLE_HERO.(row).td3.str = chr.rank;
 				GameInterface.TABLE_HERO.(row).td3.scale = 1.0;
-				GameInterface.TABLE_HERO.(row).td4.str = XI_ConvertString(Nations[sti(chr.nation)].name);
-				GameInterface.TABLE_HERO.(row).td4.scale = 0.8;
+				GameInterface.TABLE_HERO.(row).td4.icon.group  = "NATIONS";
+				GameInterface.TABLE_HERO.(row).td4.icon.image  = Nations[sti(chr.nation)].Name;
+				GameInterface.TABLE_HERO.(row).td4.icon.width  = 40;
+				GameInterface.TABLE_HERO.(row).td4.icon.height = 40;
+				GameInterface.TABLE_HERO.(row).td4.icon.offset = "4, 0";
 				if (GetCharacterShipType(chr) != SHIP_NOTUSED)
 				{
 					GameInterface.TABLE_HERO.(row).td5.str = XI_ConvertString(RealShips[GetCharacterShipType(chr)].BaseName);
@@ -160,16 +160,6 @@ void FillTable()
 					}
 				}
 				GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
-				/* if (CheckAttribute(chr, "PGGAi.task.target"))
-				{
-					GameInterface.TABLE_HERO.(row).td7.str = XI_ConvertString("Colony"+chr.PGGAi.task.target);
-					GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
-				}
-				else
-				{
-					GameInterface.TABLE_HERO.(row).td7.str = "Находится в колонии";
-					GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
-				} */
 				GameInterface.TABLE_HERO.(row).td7.str = "" + chr.SPECIAL.Strength + " " + chr.SPECIAL.Perception + " "+chr.SPECIAL.Agility + " " + chr.SPECIAL.Charisma + " "+chr.SPECIAL.Intellect + " " + chr.SPECIAL.Endurance   + " " + chr.SPECIAL.Luck;
 				GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
 				GameInterface.TABLE_HERO.(row).td8.str = ""+makeint(chr.reputation);

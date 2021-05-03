@@ -66,6 +66,7 @@ void ProcessDialogEvent()
 			
             SetCharacterGoods(mc,GOOD_FOOD,200);
         	SetCharacterGoods(mc,GOOD_BALLS,300);//2000);
+        	SetCharacterGoods(mc,GOOD_MEDICAMENT,300);//2000);
             SetCharacterGoods(mc,GOOD_GRAPES,300);//700);
             SetCharacterGoods(mc,GOOD_KNIPPELS,300);//700);
             SetCharacterGoods(mc,GOOD_BOMBS,300);//1500);
@@ -211,6 +212,14 @@ void ProcessDialogEvent()
 				Link.l1 = "Не знаю, смогу ли жить дальше после такого. Пойду на пляж, возможно, ещё хоть кто-то выжил.";
 				Link.l1.go = "Exit";
 			}
+			//Старт за нежить
+			if (CheckAttribute(pchar, "questTemp.Undead.Leave_Crypt"))
+			{
+				dialog.Text = "Микту... Мекетлу... М... Что со мной? Я чувствую, что "+GetSexPhrase("должен","должна")+" покинуть это место. Мне нужен корабль. Я слышу зов. Другие. Они ждут взаперти. Нет сил противится. Я иду, бог мёртвых. Я иду.";
+				DeleteAttribute(pchar, "questTemp.Undead.Leave_Crypt");
+				Link.l1 = "Стоит переодеться в эту неприметную одежду, прежде чем посещать мир живых.";
+				Link.l1.go = "Exit_Special";
+			}
 			//Линейка Виспер
 			if (CheckAttribute(pchar, "questTemp.Whisper.Entered_Dungeon"))
 			{
@@ -229,7 +238,7 @@ void ProcessDialogEvent()
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.Escaped_Incquisition"))
 			{
-				dialog.Text = "Кажется, оторвалась от погони. Пришлось бежать из города\nСреди прочего барахла, у тюремщика была карта этого острова. На ней отмечено поселение Пуэрто-Принсипе, что находится недалеко отсюда.";
+				dialog.Text = "Кажется, оторвалась. Пришлось бежать из города\nСреди прочего барахла, у тюремщика была карта этого острова. На ней отмечено поселение Пуэрто-Принсипе, что находится недалеко отсюда.";
 				DeleteAttribute(pchar, "questTemp.Whisper.Escaped_Incquisition");
 				Link.l1 = "Стоит попытать свою удачу там.";
 				Link.l1.go = "exit";
@@ -245,9 +254,15 @@ void ProcessDialogEvent()
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.HoldMonologue"))
 			{
+				string sTemp = ""
 				DeleteAttribute(pchar, "questTemp.Whisper.HoldMonologue");
-				
-				dialog.Text = "Проклятье! Не хватало того, что меня закинуло в прошлое, а машина времени повреждена и находится вместе во всеми моими вещами в лапах этих немытых головорезов. В довесок я еще и в плену, а в ближайшие дни меня ждет публичная казнь.";
+				if (CheckAttribute(pchar, "Whisper.BonusEnergy"))
+				{
+					//DeleteAttribute(pchar, "Whisper.BonusEnergy");
+					sTemp = "\n(Вы в одиночку вырезали половину экипажа на корабле, это навсегда укрепило ваши боевые навыки. Максимальная энергия увеличена на 10 единиц.)"
+				}
+				dialog.Text = "Проклятье! Не хватало того, что меня закинуло в прошлое, а машина времени повреждена и находится вместе во всеми моими вещами в лапах этих немытых головорезов. В довесок я попала в плен, а в ближайшие дни меня наверняка ожидает казнь."+sTemp;
+				pchar.Whisper.BonusEnergy = true;
 				Link.l1 = "Нужно собраться. Я выберусь на свободу, рано или поздно.";
 				Link.l1.go = "exit_incq";
 			}
@@ -277,6 +292,31 @@ void ProcessDialogEvent()
 				DeleteAttribute(pchar, "questTemp.Whisper.SmugPatrol");
 				dialog.Text = "Так и знала! Конечно же сюда заходят патрули, этот торгаш мне лапшу на уши навесил.";
 				Link.l1 = "Нужно поспешить на палубу, пока мне корабль не потопили.";
+				Link.l1.go = "exit";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.Portman_Deck"))
+			{
+				DeleteAttribute(pchar, "questTemp.Whisper.Portman_Deck");
+				dialog.Text = "Не думаю, что я смогу что-то выяснить блуждая по палубе, а в каюту меня не пустят.";
+				Link.l1 = "Остается только один выход - брать на абордаж.";
+				Link.l1.go = "exit";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.KilledPortman"))
+			{
+				DeleteAttribute(pchar, "questTemp.Whisper.KilledPortman");
+				AddQuestRecord("WhisperChardQuest", "7");
+				pchar.Whisper.FoundPortmanJournal = true;
+				dialog.Text = "Хм... В журнале тоже какой-то шифр. Не думаю, что сама разберусь в нём.";
+				Link.l1 = "Нужно отнести его Чарду.";
+				Link.l1.go = "exit";
+			}
+			if (CheckAttribute(pchar, "questTemp.Whisper.EngRevenge"))
+			{
+				AddQuestRecord("WhisperChardQuest", "9");
+				CloseQuestHeader("WhisperChardQuest");
+				DeleteAttribute(pchar, "questTemp.Whisper.EngRevenge");
+				dialog.Text = "Похоже, смерть Портмана разозлила англичан. Я уже вижу на горизонте корабли.";
+				Link.l1 = "Стоит поспешить к шлюпке.";
 				Link.l1.go = "exit";
 			}
 			//Линейка Виспер
@@ -433,19 +473,24 @@ void ProcessDialogEvent()
 					Link.l11 = "Прекратить автоматическое использование еды.";
 					Link.l11.go = "autofood_stop";
 				}
-				if(startHeroType == 2 && CheckAttribute(pchar,"Whisper.HatEnabled"))
+			}
+			if(startHeroType == 2)
+			{
+				if(CheckAttribute(pchar,"Whisper.HatEnabled"))
 				{
 					if (!CheckAttribute(pchar,"Whisper.Equipped"))
 					{
-						Link.l13 = "Прекратить носить шляпу. (Работает не на всех костюмах и кирасах)";
-						Link.l13.go = "WhisperHatUnequip";
+						Link.lWhisperHat = "Прекратить носить шляпу.";
+						Link.lWhisperHat.go = "WhisperHatUnequip";
 					}
 					else
 					{
-						Link.l13 = "Носить шляпу.";
-						Link.l13.go = "WhisperHatEquip";
+						Link.lWhisperHat = "Носить шляпу.";
+						Link.lWhisperHat.go = "WhisperHatEquip";
 					}
 				}
+				Link.lWhisperPortrait = "Сменить портрет.";
+				Link.lWhisperPortrait.go = "WhisperPortrait";
 			}
 			if (bBettaTestMode)
 			{
@@ -1131,15 +1176,92 @@ void ProcessDialogEvent()
 			//AddDialogExitQuest("MainHeroFightModeOn");	
 			Link.l1.go = "Exit_Special";
 		break;
+		case "WhisperPortrait":
+			dialog.Text = "И как же я буду выглядеть сегодня?";
+			Link.l1 = "Вариант 1.";	
+			Link.l1.go = "portrait1";
+			Link.l2 = "Вариант 2.";	
+			Link.l2.go = "portrait2";
+			Link.l3 = "Вариант 3.";	
+			Link.l3.go = "portrait3";
+			Link.l4 = "Вариант 4.";	
+			Link.l4.go = "portrait4";
+			Link.l5 = "Вариант 5.";	
+			Link.l5.go = "portrait5";
+			Link.l6 = "Вариант 6.";	
+			Link.l6.go = "portrait6";
+			Link.l99 = "Пожалуй, оставлю всё как есть.";	
+			Link.l99.go = "Exit";
+		break;
+		case "portrait1":
+			pchar.faceID = "543";
+			dialog.Text = "Гораздо лучше.";
+			Link.l1 = "Все, хватит на сегодня.";	
+			Link.l1.go = "Exit";
+		break;
+		case "portrait2":
+			pchar.faceID = "543_2";
+			dialog.Text = "Гораздо лучше.";
+			Link.l1 = "Все, хватит на сегодня.";	
+			Link.l1.go = "Exit";
+		break;
+		case "portrait3":
+			pchar.faceID = "543_3";
+			dialog.Text = "Гораздо лучше.";
+			Link.l1 = "Все, хватит на сегодня.";	
+			Link.l1.go = "Exit";
+		break;
+		case "portrait4":
+			pchar.faceID = "543_4";
+			dialog.Text = "Гораздо лучше.";
+			Link.l1 = "Все, хватит на сегодня.";	
+			Link.l1.go = "Exit";
+		break;
+		case "portrait5":
+			pchar.faceID = "543_5";
+			dialog.Text = "Гораздо лучше.";
+			Link.l1 = "Все, хватит на сегодня.";	
+			Link.l1.go = "Exit";
+		break;
+		case "portrait6":
+			pchar.faceID = "543_6";
+			dialog.Text = "Гораздо лучше.";
+			Link.l1 = "Все, хватит на сегодня.";	
+			Link.l1.go = "Exit";
+		break;
 		case "WhisperHatUnequip":
 			dialog.Text = "Оставлю ее в каюте, а то голова потеет.";
 			if (Pchar.model=="PGG_Whisper_0")
 			{
 				Pchar.model="PGG_Whisper_0_NoHat";
 			}
+			if (Pchar.model=="PGG_Whisper_1")
+			{
+				Pchar.model="PGG_Whisper_1_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_2")
+			{
+				Pchar.model="PGG_Whisper_2_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_3")
+			{
+				Pchar.model="PGG_Whisper_3_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_4")
+			{
+				Pchar.model="PGG_Whisper_4_NoHat";
+			}
 			if (Pchar.model=="PGG_Whisper_5")
 			{
 				Pchar.model="PGG_Whisper_5_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_5_Cirass")
+			{
+				Pchar.model="PGG_Whisper_5_Cirass_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_6")
+			{
+				Pchar.model="PGG_Whisper_6_NoHat";
 			}
 			if (Pchar.model=="PGG_Whisper_7")
 			{
@@ -1149,7 +1271,7 @@ void ProcessDialogEvent()
 			{
 				Pchar.model="PGG_Whisper_8_NoHat";
 			}
-			pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5_NoHat,PGG_Whisper_6,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
+			pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1_NoHat,PGG_Whisper_2_NoHat,PGG_Whisper_3_NoHat,PGG_Whisper_4_NoHat,PGG_Whisper_5_NoHat,PGG_Whisper_6_NoHat,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
 			pchar.Whisper.Equipped = true;
 			SetNewModelToChar(pchar);
 			Link.l1 = "Все, хватит на сегодня.";	
@@ -1161,9 +1283,33 @@ void ProcessDialogEvent()
 			{
 				Pchar.model="PGG_Whisper_0";
 			}
+			if (Pchar.model=="PGG_Whisper_1_NoHat")
+			{
+				Pchar.model="PGG_Whisper_1";
+			}
+			if (Pchar.model=="PGG_Whisper_2_NoHat")
+			{
+				Pchar.model="PGG_Whisper_2";
+			}
+			if (Pchar.model=="PGG_Whisper_3_NoHat")
+			{
+				Pchar.model="PGG_Whisper_3";
+			}
+			if (Pchar.model=="PGG_Whisper_4_NoHat")
+			{
+				Pchar.model="PGG_Whisper_4";
+			}
 			if (Pchar.model=="PGG_Whisper_5_NoHat")
 			{
 				Pchar.model="PGG_Whisper_5";
+			}
+			if (Pchar.model=="PGG_Whisper_5_Cirass_NoHat")
+			{
+				Pchar.model="PGG_Whisper_5_Cirass";
+			}
+			if (Pchar.model=="PGG_Whisper_6_NoHat")
+			{
+				Pchar.model="PGG_Whisper_6";
 			}
 			if (Pchar.model=="PGG_Whisper_7_NoHat")
 			{

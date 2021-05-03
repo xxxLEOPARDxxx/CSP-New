@@ -102,7 +102,6 @@ void ProcessDialogEvent()
 					if(rand(100) < 90)
 					{
 						pchar.Whisper.IncqGuard_bad = true;
-						Pchar.BaseNation = PIRATE;
 					}
 					npchar.quest.meting = 5;
 					break;
@@ -165,10 +164,546 @@ void ProcessDialogEvent()
 					break;
 				}
 			}
+			if (npchar.id == "W_Chard")
+			{
+				if (!CheckAttribute(npchar, "quest.meting"))
+				{
+					Lai_SetPlayerType(pchar);
+					dialog.text = "Ты еще кто такая? Кажется я бордельных девок к себе в номер не заказывал.";
+					link.l1 = "То есть ты позвал меня сюда только ради того, чтоб поглумиться? Еще одна такая шуточка и 'бордельная девка' вспорет тебе брюхо.";
+					link.l1.go = "meet_chard";
+					npchar.quest.meting = 1;
+					break;
+				}
+				if (npchar.quest.meting == 1)
+				{
+					chrDisableReloadToLocation = false;
+					if (CheckAttribute(pchar, "WhisperWonSword"))
+					{
+						dialog.text = "Поздравляю с победой. А ты неплохо играешь, гораздо лучше местных забулдыг. Забирай свой меч. Неплохой клинок, мне даже ни разу не приходилось его затачивать. А зарезать им я успел немало доходяг, другой бы давно затупился...";
+						link.l1 = "(Забрать меч)";
+						link.l1.go = "chard_get_sword";
+					}
+					else
+					{
+						dialog.text = "Не повезло тебе. Но ты не расстраивайся, такое с каждым может случиться\nВижу, этот клинок тебе очень дорог, я даже жалею, что сам выиграл. Вот что, если ты поможешь мне в одном дельце, я тебе его подарю. Всё равно я уже присмотрел себе новый в местной лавке.";
+						link.l1 = "Какого рода помощь нужна?";
+						link.l1.go = "chard_discuss_quest";
+					}
+					npchar.quest.meting = 2;
+					break;
+				}
+			}
 			NextDiag.TempNode = "First time";
 		break;
 		
+		case "Chinaman_plead":
+			npchar.ChinamanAskedSword = true;
+			WhisperSelectRandomUsurer();
+			dialog.Text = "Капитан, я хотеть бы просить вас об услуге. Можете меня выслушать?";
+			Link.l1 = "Конечно я тебя выслушаю! Ты хороший офицер, ни разу ещё не подводил меня.";
+			Link.l1.go = "Chinaman_plead_1";
+		break;
+		case "Chinaman_plead_1":
+			dialog.Text = "Спасибо за лестные слова, капитан. Тогда слушайте\nПеред тем, как я попасть в рабство, у  меня был меч. Он достался мне от моего отца, а ему - от его отца, и так на протяжении более тысяча лет. Вы понимать, насколько этот меч важен для меня?";
+			Link.l1 = "Понимаю, фамильная реликвия.";
+			Link.l1.go = "Chinaman_plead_2";
+		break;
+		case "Chinaman_plead_2":
+			dialog.Text = "Всё это время я считать, что меч навсегда утерян. Но когда мы зашли в порт, я услышать разговор двух людей. Они говорить про ростовщика-коллекционера редких артефактов из разных частей света. В разговоре как раз шла речь про 'меч с пятью кольцами'. В последний раз правда в моем мече быть девять коцец, но я всё равно уверен, что речь шла про мой. Должно быть эти варвары его испортить. Прошу вас, капитан, помогите вернуть его!";
+			Link.l1 = "Ростовщик, говоришь? Где его искать?";
+			Link.l1.go = "Chinaman_plead_3";
+		break;
+		case "Chinaman_plead_3":
+			sld = characterFromId(pchar.Whisper.UsurerId);
+			//Lai_SetStayType(npchar);
+			dialog.Text = XI_ConvertString("Colony" + sld.city) +". Это место называть те люди.";
+			NextDiag.TempNode = "Hired";
+			npchar.Dialog.Filename = "Enc_Officer_dialog.c";
+			SetQuestHeader("WhisperChinamanRelic");
+			AddQuestRecord("WhisperChinamanRelic", "1");
+			AddQuestUserData("WhisperChinamanRelic", "sCity", XI_ConvertString("Colony" + sld.city+ "Gen"));
+			Link.l1 = "Хорошо, если будем в этом городе, загляну ростовщику.";
+			Link.l1.go = "exit";
+		break;
+		case "Chinaman_plead_4":
+			dialog.Text = "Спасибо вам, капитан. Я знать, что и так уже многим вам обязан. Но если поможете - клянусь, буду верен вам до самого конца.";
+			Link.l1 = "Хорошо, если будем в тех местах, загляну ростовщику.";
+			Link.l1.go = "exit";
+		break;
+		
+		case "chard_waiting_quest_result":
+			dialog.Text = "Ну, как успехи по нашему делу?";
+			if (!CheckAttribute(npchar,"DiscussedEsteban"))
+			{
+				Link.l2 = "А что тебя связывает с Эстебаном? Ты ведь даже не испанец.";
+				Link.l2.go = "chard_discuss_esteban"
+			}
+			if (!CheckAttribute(pchar,"Whisper.FoundPortmanJournal") && !CheckAttribute(pchar,"Whisper.ActiveChardQuest"))
+			{
+				Link.l1 = "Прости, но у меня не вышло его допросить. И документы вытащить тоже. Корабль Портмана пошёл ко дну...";
+				Link.l1.go = "chard_failed"
+				break;
+			}
+			if (CheckAttribute(pchar,"Whisper.FoundPortmanJournal"))
+			{
+				Link.l1 = "Я нашла у Портмана этот журнал. Думаю, там есть ответ на интересующий тебя вопрос.";
+				Link.l1.go = "chard_check_journal"
+				break;
+			}
+			if (CheckAttribute(pchar,"Whisper.BetrayChard"))
+			{
+				Link.l1 = "Мне не очень-то понравилась твоя затея. Ничего личного, но я рассказала о ней Портману. Он предложил награду за возвращение своей книжки.";
+				Link.l1.go = "chard_betrayed"
+				break;
+			}
+			Link.l1 = "Пока что никак.";
+			Link.l1.go = "exit";
+			
+		break;
+		case "chard_check_journal":
+			Log_Info("Вы отдали журнал");
+			PlaySound("interface\important_item.wav");
+			dialog.Text = "Посмотрим... Здесь тоже все зашифровано. Мне понадобится время. Несколько часов. Можешь пока погулять.";
+			Link.l1 = "Я подожду здесь.";
+			Link.l1.go = "chard_check_journal_1";
+		break;
+		case "chard_check_journal_1":
+			dialog.Text = "Не доверяешь мне? Ладно, можешь прилечь пока на кровати.";
+			Link.l1 = "...";
+			Link.l1.go = "chard_check_journal_2";
+		break;
+		case "chard_check_journal_2":
+			chrDisableReloadToLocation = true;
+			LAi_Fade("", "");
+			WaitDate("",0,0,0,12,3);
+			RecalculateJumpTable();
+			RefreshWeather();
+			RefreshLandTime();
+			NextDiag.TempNode = "chard_check_journal_after";
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+		break;
+		case "chard_check_journal_after":
+			AddQuestRecord("WhisperChardQuest", "8");
+			chrDisableReloadToLocation = false;
+			dialog.Text = "Если я правильно понял, клад находится на Доминике. Более точное место скажу как доберёмся туда.";
+			Link.l1 = "Тогда не будем медлить. Готовь свой бриг.";
+			npchar.Ship.Type = GenerateShipExt(SHIP_PDN, true, npchar);
+			npchar.Ship.name = "Любимец удачи";
+			SetBaseShipData(npchar);
+			npchar.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS16;
+			SetCharacterGoods(npchar,GOOD_FOOD,500);
+			SetCharacterGoods(npchar,GOOD_BALLS,500);
+			SetCharacterGoods(npchar,GOOD_GRAPES,500);
+			SetCharacterGoods(npchar,GOOD_KNIPPELS,500);
+			SetCharacterGoods(npchar,GOOD_BOMBS,500);
+			SetCharacterGoods(npchar,GOOD_POWDER,1000);
+			SetCharacterGoods(npchar,GOOD_PLANKS,150);
+			SetCharacterGoods(npchar,GOOD_SAILCLOTH,150);
+			SetCharacterGoods(npchar,GOOD_RUM,200);
+			SetCharacterGoods(npchar,GOOD_WEAPON,250);
+			SetCharacterGoods(npchar,GOOD_MEDICAMENT,300);
+			SetCharacterRemovable(npchar, false);
+			SetCompanionIndex(pchar, -1, sti(NPChar.index));
+			Link.l1.go = "exit_chard_setsail";
+		break;
+		case "exit_chard_setsail":
+			NextDiag.TempNode = "chard_on_dominica";
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			pchar.WhisperChardCompanion = true;
+			DialogExit();
+			LAi_SetActorTypeNoGroup(npchar);
+			LAi_ActorGoToLocation(npchar, "reload", "reload1", pchar.Whisper.EsFriendTown+"_tavern", "", "", "", 7);
+			LocatorReloadEnterDisable(pchar.Whisper.EsFriendTown+"_tavern", "reload2_back", true);
+			LAi_LocationFightDisable(&Locations[FindLocation(pchar.Whisper.EsFriendTown+"_tavern_upstairs")], false);
+			DeleteAttribute(pchar,"Whisper.EsFriendTown");
+			
+			pchar.quest.WhisperChardShore26.win_condition.l1          = "location";
+			pchar.quest.WhisperChardShore26.win_condition.l1.location = "shore26";
+			pchar.quest.WhisperChardShore26.function             = "WhisperChardShore";	
+			pchar.quest.WhisperChardShore27.win_condition.l1          = "location";
+			pchar.quest.WhisperChardShore27.win_condition.l1.location = "shore27";
+			pchar.quest.WhisperChardShore27.function             = "WhisperChardShore";	
+		break;
+		case "chard_on_dominica":
+			dialog.Text = "Вот мы и на месте. Клад совсем рядом, осталось найти грот.";
+			Link.l1 = "Ну пойдём.";
+			Link.l1.go = "chard_follow";
+		break;
+		case "chard_follow":
+			NextDiag.TempNode = "chard_in_cave";
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			chrDisableReloadToLocation = false;
+			LAi_ActorFollowEverywhere(npchar, "", -1);
+			
+			pchar.quest.WhisperChardCave.win_condition.l1          = "location";
+			pchar.quest.WhisperChardCave.win_condition.l1.location = "Dominica_grot";
+			pchar.quest.WhisperChardCave.function             = "WhisperChardCave";
+		break;
+		case "chard_in_cave":
+			if (!CheckAttribute(pchar, "cursed.waitingSkull"))
+			{
+				pchar.cursed.waitingSkull = true;
+				pchar.cursed.lockspawn = true;
+			}
+			if (CheckAttribute(pchar, "WhisperWonSword"))
+			{
+				dialog.Text = "Ха-ха-ха! А этот клинок по мне! Гляди какой широкий. И в руках отдает приятной тяжестью. Загляни в сундук, может и для себя что-то интересное найдёшь.";
+			}
+			else
+			{
+				Log_Info("Вы вернули свою катану");
+				GiveItem2Character(pchar, "blade_whisper");
+				EquipCharacterByItem(pchar, "blade_whisper");
+				PlaySound("interface\important_item.wav");
+				dialog.Text = "Ха-ха-ха! А этот клинок по мне! Гляди какой широкий. И в руках отдает приятной тяжестью. И кстати, я же обещал, отдаю тебе твой меч-пёрышко. Не забудь заглянуть в сундук, может и для себя что-то интересное найдёшь.";
+				
+			}
+			Link.l1 = "Ну ты шустрый! Небось, все самое ценное уже оттуда вытащил. Пойду, гляну...";
+			Link.l1.go = "chard_exit_to_cave_entrance";
+			
+			ref _location = &locations[reload_location_index];
+			//DeleteAttribute(_location, "box1");
+			_location.box1.money = 300000;
+			_location.box1.items.icollection = 1;
+			_location.box1.items.Map_Best = 1;
+			_location.box1.items.suit_2 = 1;
+			//_location.box1.items.indian11 = 1;
+			_location.box1.items.chest = 5;
+			_location.box1.items.chest_quest = 2;
+			_location.box1.items.jewelry1 = 30+rand(5);
+			_location.box1.items.jewelry2 = 30+rand(5);
+			_location.box1.items.jewelry3 = 30+rand(5);
+			_location.box1.items.jewelry4 = 15+rand(5);
+			_location.box1.items.jewelry6 = rand(55);
+			_location.box1.items.jewelry7 = rand(70);
+			_location.box1.items.jewelry10 = rand(55);
+			_location.box1.items.jewelry14 = rand(55);
+			_location.box1.items.jewelry15 = rand(8);
+			_location.box1.items.jewelry18 = rand(90);
+			
+		break;
+		case "chard_exit_to_cave_entrance":
+			chrDisableReloadToLocation = false;
+			NextDiag.TempNode = "chard_cave_entrance";
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			LAi_ActorGoToLocation(npchar, "reload", "reload1", "Dominica_caveentrance", "", "", "", 7);
+			pchar.quest.WhisperChardCave.win_condition.l1          = "location";
+			pchar.quest.WhisperChardCave.win_condition.l1.location = "Dominica_caveentrance";
+			pchar.quest.WhisperChardCave.function             = "WhisperChardCave";
+		break;
+		
+		case "chard_cave_entrance":
+			if (CheckAttribute(pchar, "cursed.lockspawn"))
+			{
+				DeleteAttribute(pchar, "cursed.waitingSkull");
+				DeleteAttribute(pchar, "cursed.lockspawn");
+
+			}
+			pchar.quest.WhisperChardCave.win_condition.l1          = "location";
+			pchar.quest.WhisperChardCave.win_condition.l1.location = pchar.location.from_sea;
+			pchar.quest.WhisperChardCave.function             = "WhisperEngRevengeWarning";
+			LocatorReloadEnterDisable("shore26", "boat", false);
+			LocatorReloadEnterDisable("shore27", "boat", false);
+			WhisperEnglandRevengel();
+			dialog.Text = "Согласись, большой ведь куш мы урвали. Там добычи было столько, что мне даже не жалко поделиться с тобой. Я смогу пропивать это несколько лет. Ну ладно, будем разбегаться?";
+			Link.l2 = "Да, мне тоже надо разобраться со своей долей. Удачи тебе.";
+			Link.l2.go = "chard_exit_to_cave_entrance_1";
+			if (CheckAttribute(pchar, "WhisperWonSword"))
+			{
+				Link.l1 = "Погоди, приятель. Не хочешь и дальше плавать со мной? Уверена, вместе мы найдём ещё немало добычи.";
+				Link.l1.go = "chard_discuss_recruitment";
+			}
+		break;
+		case "chard_discuss_recruitment":
+			dialog.Text = "Хм... Я хожу только с теми, в удаче кого я абсолютно уверен. Ты обыграла меня в карты, но я в них не так силен, как в костях. Давай проверим. Если удача на самом деле тебя любит, то ты выиграешь, а я пойду за тобой хоть на край света. Правила те же, до пяти побед.";
+			Link.l1 = "Хорошо. Играем.";
+			pchar.GenQuest.Dice.npcharIdx = npchar.index;
+            pchar.GenQuest.Dice.iRate     = 0;
+            pchar.GenQuest.Dice.SitType   = false;
+			Link.l1.go = "meet_chard_dice_begin_go";
+			Link.l2 = "Не, не хочу я сегодня играть, давай тогда разбежимся. Удачи тебе.";
+			Link.l2.go = "chard_exit_to_cave_entrance_1";
+		break;
+		case "meet_chard_dice_begin_go":
+			chrDisableReloadToLocation = true;
+			NextDiag.TempNode = "chard_after_dice_game";
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			LaunchDiceGame();
+			Lai_SetStayType(npchar);
+		break;
+		case "chard_after_dice_game":
+			chrDisableReloadToLocation = false;
+			
+			if(CheckAttribute(pchar, "WhisperWonChard"))
+			{
+				LAi_SetImmortal(NPChar, false);
+				SetCharacterRemovable(npchar, true);
+				dialog.Text = "Да, удачи тебе не занимать. Так и быть, я доверяю тебе свою жизнь.";
+				Link.l1 = "Вот и отлично. Сядешь в брандер. Шутка... Пойдём.";
+				Link.l1.go = "chard_hired";
+			}
+			else
+			{
+				dialog.Text = "Похоже, сама судьба вмешалась. Как ни прискорбно, ничего у нас не выйдет.";
+				Link.l1 = "Ну ладно. Тогда удачи тебе.";
+				Link.l1.go = "chard_exit_to_cave_entrance_1";
+			}
+		break;
+		case "chard_exit_to_cave_entrance_1":
+			dialog.Text = "И тебе. Держи всегда туз в рукаве! Вот тебе сувенир на удачу, из моей доли.";
+			npchar.LifeDay = 0;
+			TakeNItems(pchar, "indian11", 1);
+			Log_Info("Вы получили обноски");
+			PlaySound("interface\important_item.wav")
+			Link.l1 = "Спасибо! Прощай.";
+			Link.l1.go = "chard_exit_to_cave_entrance_2";
+		break;
+		case "chard_hired":
+			chrDisableReloadToLocation = false;
+			DialogExit();
+			Lai_SetActorType(npchar);
+			LAi_ActorGoToLocation(npchar, "reload", "reload2_back", "Dominica_grot", "", "", "", 12);
+			SetCharacterPerk(npchar, "Adventurer");
+			NPChar.Payment = true;
+			//npchar.greeting = "Gr_QuestOfficer";
+			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
+			npchar.OfficerWantToGo.DontGo = true; //не пытаться уйти
+			npchar.HalfImmortal = true;  // Контузия
+			npchar.loyality = MAX_LOYALITY;
+			//AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			NPChar.quest.meeting = true;
+			npchar.Dialog.CurrentNode = "hired";
+			npchar.Dialog.Filename = "Enc_Officer_dialog.c";
+		break;
+		case "chard_exit_to_cave_entrance_2":
+			chrDisableReloadToLocation = false;
+			//NextDiag.TempNode = "chard_cave_entrance";
+			//NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			Lai_SetActorType(npchar);
+			LAi_ActorGoToLocation(npchar, "reload", "reload2_back", "Dominica_grot", "", "", "", 12);
+		break;
+		
+		case "chard_failed":
+			dialog.Text = "Эх, мне показалось что ставка верная, однако не стоило тебе доверять. Уйди с глаз моих...";
+			LAi_SetImmortal(NPChar, true);
+			npchar.LifeDay = 0;
+			Link.l1 = "Да не злись ты так, ухожу уже.";
+			Link.l1.go = "exit";
+			LocatorReloadEnterDisable(pchar.Whisper.EsFriendTown+"_tavern", "reload2_back", true);
+			LAi_LocationFightDisable(&Locations[FindLocation(pchar.Whisper.EsFriendTown+"_tavern_upstairs")], false);
+			DeleteAttribute(pchar,"Whisper.EsFriendTown");
+		break;
+		case "chard_betrayed":
+			NPChar.rank = 77;
+			LAi_SetHP(NPChar, 777.0, 777.0);
+			if (CheckAttribute(pchar, "WhisperWonSword"))
+			{
+				NPChar.money = 77777;
+			}
+			else
+			{
+				NPChar.money = 277777;
+			}
+			chrDisableReloadToLocation = true;
+			pchar.Whisper.BetrayChardKill = true;
+			TakeNItems(npchar, "bible", 1);
+			npchar.SaveItemsForDead = true;
+			dialog.Text = "Эх, мне показалось что ставка верная, однако не стоило тебе доверять\nПосмотрим, кому сегодня улыбнется удача. Скрестим клинки!";
+			Link.l1 = "Я вижу, для тебя это такая же игра, как и карты. Тебе же хуже.";
+			Link.l1.go = "chard_fight";
+			LocatorReloadEnterDisable(pchar.Whisper.EsFriendTown+"_tavern", "reload2_back", true);
+			LAi_LocationFightDisable(&Locations[FindLocation(pchar.Whisper.EsFriendTown+"_tavern_upstairs")], false);
+			DeleteAttribute(pchar,"Whisper.EsFriendTown");
+		break;
+		case "chard_fight":
+			Group_FindOrCreateGroup("EnemyFight");
+			LAi_group_SetCheck("EnemyFight", "OpenTheDoors"); 
+			AddDialogExitQuest("MainHeroFightModeOn");
+			DialogExit();
+			LAi_SetWarriorType(NPChar);
+			LAi_SetImmortal(NPChar, false);
+			//ref sld;
+			LAi_group_MoveCharacter(npchar, "EnemyFight");
+			LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+		break;
+		case "chard_discuss_esteban":
+			npchar.DiscussedEsteban = true;
+			dialog.Text = "Мы с ним были давними знакомыми, даже ходили под под одним парусом когда были простыми матросами. Наш капитан набирал в команду всех, не смотря на национальность. Но это было много лет назад. В конце концов Эрнан пошёл служить к себе на родину, а я унаследовал от кэпа корабль\nМы долгое время с тех пор не виделись, но недавно снова встретились и решили разыграть несколько партеек в карты. Похоже, что за годы службы он растерял всю свою былую удачу, так как я обыграл его довольно быстро. В итоге он остался мне должен крупную сумму денег. По старой дружбе, я не стал сильно торопить его с оплатой. Но ему не нравилась сама мысль, что он кому-то должен, тем более мне, так что Эрнан решил, что будет грабить всех без разбора, пока не накопит сумму, что похоже не понравилось его работодателю. А в конце он сказал что пойдёт за бордельным кладом, якобы ценности оттуда с лихвой покроют карточный долг. В существовании этого клада я сомневался, и похоже не зря./nЯ не хотел его оптускать, но Эрнан настаивал на своём. В итоге мы договорились, что он перед отплытием расплатится со мной хотя бы частично. Я забрал этот меч и ещё одну вещицу, но похоже навсегда потерял шанс получить с него оставшуюся сумму.";
+			Link.l1 = "Ты упомянул какую-то вещицу. Что это?";
+			Link.l1.go = "chard_discuss_esteban_1";
+			//Link.l1 = "Ты не собираешься мстить мне за смерть своего друга?";
+			//Link.l1.go = "chard_discuss_esteban_1";
+		break;
+		case "chard_discuss_esteban_1":
+			dialog.Text = "Сам не знаю, мне показалась просто красивой безделушкой. Я ее продал на следующий же день какому-то типу в капюшоне, что вдруг ко мне заявился.";
+			Link.l1 = "Как выглядела эта безделушка?";
+			Link.l1.go = "chard_discuss_esteban_2";
+		break;
+		case "chard_discuss_esteban_2":
+			dialog.Text = "Металлическая пластина, на которую прикрепили кучу стеклянных трубок и рычажков. А еще она была покрыта странными надписями и прочей мишурой.";
+			Link.l1 = "Проклятье, это же моя машина времени!";
+			Link.l1.go = "chard_discuss_esteban_3";
+		break;
+		case "chard_discuss_esteban_3":
+			dialog.Text = "Чего?";
+			Link.l1 = "Ничего. Куда ушел этот твой покупатель?";
+			Link.l1.go = "chard_discuss_esteban_4";
+		break;
+		case "chard_discuss_esteban_4":
+			dialog.Text = "Понятия не имею, после нашей сделки я сам хотел его отыскать и показать еще парочку предметов на продажу, но не смог. Он словно испарился. Ни трактирщик, ни портовый начальник его не видели. Я почти было поверил, что сам его никогда не видел, если бы не тяжесть в моем кошельке. Возможно, он заплатил этим людям кругленькую сумму за молчание.";
+			Link.l1 = "Ясно, опять тупик, но, по крайней мене, у меня появилась надежда. Спасибо за информацию.";
+			Link.l1.go = "exit";
+		break;
+		case "chard_discuss_esteban_old":
+			dialog.Text = "У тебя с ним были свои счеты, я не могу за это осуждать. Да и на Карибах люди убивают друг друга каждый день, мне такое уже стало безразлично. А вот потерять крупного должника - всегда обидно. Но спрашивать с тебя за него я не буду.";
+			Link.l1 = "Ясно.";
+			Link.l1.go = "exit";
+		break;
+		case "chard_discuss_quest":
+			dialog.Text = "Однажды я побывал на Бермудах. Там, в подземелье, я нашёл чей-то клад, полный всяких драгоценностей, а также библию. Ее я поначалу отложил и не обращал внимания, но когда пропил свою долю клада, решил из любопытства полистать. Помимо того, что она вся была написана на латыни или каком-то другом странном языке, в ней не было ничего примечательного. За исключением нескольких подчеркнутых фраз, разбросанных по всей книге. Как я потом понял, это был шифр. Мне с командой понадобилось несколько дней, чтоб его разгадать\nВ этом скрытом послании говорилось о кладе куда больших размеров, собраном усилиями группы корсаров, даже прилагались координаты его местонахождения. Вот только не полные, часть страниц испортилась. Для получения точного места мне не хватает одного числа. Также в книге говорилось о некоем Ральфе Портмане, то ли это товарищ того, кто оставил библию, то ли сам владелец. Возможно это слабая зацепка, да и людей с таким именем на Карибах может быть много, но я все же копнул глубже и узнал, что есть такой капер на службе у англичан. ";
+			Link.l1 = "Ты очень много уже рассказал, но так и не перешел к сути. Я тебе зачем?";
+			Link.l1.go = "chard_discuss_quest_1";
+		break;
+		case "chard_discuss_quest_1":
+			//NextDiag.TempNode = "chard_discuss_quest_1";
+			dialog.Text = "Мне нужно, чтобы ты отыскала этого Портмана и узнала недостающую координату, если такая у него имеется.";
+			Link.l1 = "Почему же ты сам этого не сделаешь?";
+			Link.l1.go = "chard_discuss_quest_2";
+		break;
+		case "chard_discuss_quest_2":
+			dialog.Text = "Видишь ли, в моем владении находится лишь скромный бриг, а у Портмана - несколько фрегатов. Боюсь, если дело дойдёт до боя, от моей лоханки только мокрое место останется. Но твой 'Пёс' без проблем их одолеет.";
+			Link.l1 = "Корвет против группы фрегатов? Что-то я сомневаюсь.";
+			Link.l1.go = "chard_discuss_quest_3";
+		break;
+		case "chard_discuss_quest_3":
+			dialog.Text = "Ты наверное только недавно пересела на 'Пса'. Этот корвет ничем не уступает фрегатам, во многом даже превосходит их. Но если все же сомневаешься в своих силах, можешь навестить Алексуса.";
+			Link.l1 = "Алексус? Кто это?";
+			Link.l1.go = "chard_discuss_quest_4";
+			Link.l2 = "Ладно, я подумаю. Где вообще искать этого англичанина?";
+			Link.l2.go = "chard_discuss_quest_5";
+		break;
+		case "chard_discuss_quest_4":
+			dialog.Text = "Ну как же, мастер-корабел, лучший во всем архипелаге. У него на Бермудах своя верфь есть. Можешь показать ему свой корабль. Хоть 'Пёс' и хорош, я уверен, Алексус найдет способы, как его можно улучшить. Тогда ты без проблем расправишься с любой эскадрой.";
+			Link.l2 = "Ладно, я подумаю. Где вообще искать этого англичанина?";
+			Link.l2.go = "chard_discuss_quest_5";
+		break;
+		case "chard_discuss_quest_5":
+			NextDiag.TempNode = "chard_waiting_quest_result";
+			//SaveCurrentNpcQuestDateParam(pchar,"Whisper.LastSeenPortman");
+			pchar.Whisper.ActiveChardQuest = true;
+			AddQuestRecord("WhisperChardQuest", "2");
+			dialog.Text = "В последний раз я его видел в местных водах, но тогда не решился действовать, а он уплыл. Я думаю, ты без проблем сможешь его найти. Поспрашивай в портовых управлениях, наверняка где-то его видели\nКак справишься - возвращайся сюда. Я совмещу координаты и получу точное место клада.";
+			Link.l2 = "Хорошо, прощай.";
+			Link.l2.go = "exit";
+		break;
+		case "chard_get_sword":
+			Log_Info("Вы вернули свою катану");
+			GiveItem2Character(pchar, "blade_whisper");
+			EquipCharacterByItem(pchar, "blade_whisper");
+			PlaySound("interface\important_item.wav");
+			RemoveCharacterEquip(npchar, BLADE_ITEM_TYPE);
+			DeleteAttribute(npchar, "items");
+			DeleteAttribute(npchar, "equip");
+			GiveItem2Character(npchar, "pistol4");
+			EquipCharacterbyItem(npchar, "pistol4");
+			GiveItem2Character(npchar, "blade39");
+			EquipCharacterByItem(npchar, "blade39");
+			dialog.Text = "Раз уж ты здесь, и корабль неплохой имеешь, не откажешься ли помочь мне в одном дельце?";
+			Link.l1 = "Какого рода помощь нужна?";
+			Link.l1.go = "chard_discuss_quest";
+		break;
+		case "chard_not_played":
+			dialog.Text = "Опять ты? Что, надумала сыграть со мной?";
+			if (sti(pchar.money) >= 200000)
+			{
+				Link.l1 = "Ладно, раздавай карты.";
+				Link.l1.go = "meet_chard_7_cardGame";
+			}
+			Link.l2 = "Нет.";
+			Link.l2.go = "exit";
+		break;
+		case "meet_chard":
+			NextDiag.TempNode = "chard_not_played";
+			dialog.Text = "Я звал тебя? Прости, не припомню. Наверное я был слишком пьян... Ты кто собственно такая?";
+			Link.l1 = "Виспер. Капитан корвета 'Пёс Войны'.";
+			Link.l1.go = "meet_chard_1";
+		break;
+		case "meet_chard_1":
+			dialog.Text = "Капитан? Погоди, а куда подевался Эстебан?";
+			Link.l1 = "Трагически погиб у Теркса. Там на него устроили засаду.";
+			Link.l1.go = "meet_chard_2";
+			Link.l2 = "Я прикончила этого подонка.";
+			Link.l2.go = "meet_chard_3";
+		break;
+		case "meet_chard_2":
+			dialog.Text = "А ведь я говорил ему, что с этим кладом что-то нечистое. Как чуял западню. ";
+			Link.l1 = "(Ваш взгляд привлекает знакомая рукоять клинка, что висит на поясе у незнакомца.) Погоди-ка... Это же мой меч! ";
+			Link.l1.go = "meet_chard_4";
+		break;
+		case "meet_chard_3":
+			dialog.Text = "С тем, что он подонок, не поспоришь\nДа как он посмел умирать, не вернув сначала мне долг?";
+			Link.l1 = "(Ваш взгляд привлекает знакомая рукоять клинка, что висит на поясе у незнакомца.) Погоди-ка... Это же мой меч! ";
+			Link.l1.go = "meet_chard_4";
+		break;
+		case "meet_chard_4":
+			dialog.Text = "Ничего не знаю. Этот клинок мой, я честно выиграл его в карты у Эстебана\nА... Кажется, я понял, кто ты, Виспер. Эстебан ведь говорил про девку, у которой отобрал пистоль и меч. Очень приятно наконец познакомиться, я Майкл Чард. Правда он сказал мне, что прикончил тебя.";
+			Link.l1 = "Как видишь, я живее всех живых, в отличие от этого пустозвона. А теперь отдавай сюда меч! ";
+			Link.l1.go = "meet_chard_5";
+		break;
+		case "meet_chard_5":
+			dialog.Text = "Ишь, чего удумала! Просто так я ничего тебе не дам\nНо все же, этот меч мне не особо по нраву, слишком уж лёгкий, а я люблю более увесистое оружие. Знаешь что? Давай сыграем в карты. Выиграешь - он твой. Выиграю я - заплатишь. Скажем... двести тысяч.";
+			Link.l1 = "Сколько? Ты что, головой ударился?";
+			Link.l1.go = "meet_chard_6";
+			if (sti(pchar.money) >= 200000)
+			{
+				Link.l2 = "Идет, раздавай карты.";
+				Link.l2.go = "meet_chard_7_cardGame";
+			}
+			Link.l3 = "Давай как-нибудь в другой раз.";
+			Link.l3.go = "exit";
+		break;
+		case "meet_chard_6":
+			dialog.Text = "За меньшую сумму я играть не собираюсь. Либо играем, либо вали отсюда.";
+			if (sti(pchar.money) >= 200000)
+			{
+				Link.l1 = "Ладно, раздавай карты.";
+				Link.l1.go = "meet_chard_7_cardGame";
+			}
+			Link.l2 = "Давай как-нибудь в другой раз.";
+			Link.l2.go = "meet_chard_8";
+		break;
+		case "meet_chard_8":
+			dialog.Text = "Возвращайся, если передумаешь.";
+			Link.l1 = "Прощай.";
+			Link.l1.go = "exit";
+		break;
+		case "meet_chard_7_cardGame":
+			NextDiag.TempNode = "First time";
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			dialog.Text = "Вот это по нашему! Играем до пяти побед.";
+			Link.l1 = "Идет.";
+			Link.l1.go = "meet_chard_Cards_begin_go";
+			pchar.GenQuest.Cards.npcharIdx = npchar.index;
+			int iLa_Puesta = 0;
+			pchar.GenQuest.Cards.iRate     = sti(iLa_Puesta);
+            pchar.GenQuest.Cards.SitType   = true;
+		break;
+		case "meet_chard_Cards_begin_go":
+				chrDisableReloadToLocation = true;
+                //Diag.CurrentNode = Diag.TempNode;
+                DialogExit();
+                LaunchCardsGame();
+		break;
+		
 		case "LejitosOff":
+			NPChar.Payment = true;
 			npchar.Dialog.Filename = "Enc_Officer_dialog.c";
 			//npchar.greeting = "Gr_QuestOfficer";
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
@@ -272,7 +807,7 @@ void ProcessDialogEvent()
 			if(GetSquadronGoods(Pchar, GOOD_EBONY) >= 100)
 			{
 				DeleteAttribute(pchar, "Whisper.ContraSmuggler");
-				dialog.Text = "Вижу. Похоже, всё в порядке. Мои рабы... работники, мигом всё выгрузят. Вот твои деньги.";
+				dialog.Text = "Вижу. Похоже, всё в порядке. Мои рабы... то есть работники, мигом всё выгрузят. Вот твои деньги.";
 				AddMoneyToCharacter(PChar, 50000);
 				RemoveCharacterGoods(Pchar, GOOD_EBONY, 100);
 				Link.l1 = "Неплохая сумма, спасибо.";
@@ -457,7 +992,7 @@ void ProcessDialogEvent()
 		case "IncqGuard_bad_go_to_wheel":
 			DialogExit();
 			LAi_ActorGoToLocator(NPChar, "goto", "goto11", "WhisperLine_IncqGuard_bad_speaks", -1);
-			LAi_ActorGoToLocator(PChar, "goto", "goto11", "", 10);
+			LAi_ActorGoToLocator(PChar, "goto", "goto11", "WhisperLine_IncqGuard_bad_speaks", 10);
 			Npchar.dialog.currentnode = "IncqGuard_bad_wheel";
 			//DoQuestFunctionDelay("WhisperLine_IncqGuard_bad_speaks", 5);
 		break;
@@ -500,6 +1035,7 @@ void ProcessDialogEvent()
 			dialog.text = "Беги прямо по коридору к выходу. Остальная стража хватится за оружие, но они все только вернулись после обеда, так что будут неповоротливы. Если поторопишься, они тебя и пальцем тронуть не успеют\nКак только выйдешь из инквизиции, ты сможешь смешаться с толпой в городе, так что дальше твой след потеряется. Но всё-равно, не задерживайся в Сантьяго, так как тебя наверняка будут разыскивать\nОтправляйся в поселение буканьеров, Пуэрто-Принсипе. Когда выйдешь за ворота, дважды сверни по дороге влево, затем направо, окажешься прямо у входа. Там за мои деньги ты сможешь немного обустроиться, если ты не солгала де Соузе и тебе правда некуда податься. Место это не самое безопасное, но всё же там тебя не ждёт неминуемая гибель, как в этой клетке.";
 			link.l1 = "Даже не знаю, смогу ли я когда-то тебя отблагодарить. Ты настоящий рыцарь! Там, откуда я родом такие люди уже вымерли.";
 			link.l1.go = "IncqGuard_4";
+			Pchar.BaseNation = SPAIN;
 			if (CheckAttribute(npchar,"quest.answer_1"))
 			{
 				link.l1 = "Ладно, я готова.";
@@ -587,8 +1123,9 @@ void ProcessDialogEvent()
 			link.l1.go = "PC_1";
 		break;
 		case "PC_1":
-			dialog.text = "Ой, не нравишься ты мне. Вид у тебя уж слишком подозрительный. Ну-ка, ребятки, покажите нашей новой попутчице дорогу в трюм, и хорошенько там свяжите. Потом с ней разберёмся.";
-			link.l1 = "Так просто я не сдамся!";
+			LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], false);
+			dialog.text = "Ой, не нравишься ты мне. Вид у тебя уж слишком подозрительный. Ну-ка, ребятки, покажите нашей новой попутчице дорогу в трюм, и хорошенько там свяжите. Потом с ней разберусь.";
+			link.l1 = "Сдаваться я не собираюсь!";
 			link.l1.go = "PC_fight";
 			link.l2 = "Ведите, всё-равно я вас всех не одолею.";
 			link.l2.go = "PC_nofight";
@@ -596,9 +1133,10 @@ void ProcessDialogEvent()
 		case "PC_fight":
 			AddDialogExitQuest("MainHeroFightModeOn");
 			LAi_group_Attack(NPChar, Pchar);
-			LAi_SetWarriorType(NPChar);
+			LAi_SetActorType(NPChar);
 			LAi_SetCheckMinHP(Pchar, 1, true, "Whisper_PC_CheckHP");
 			DialogExit();
+			LAi_ActorGoToLocation(npchar, "reload", "reload1", "none", "", "", "", -1);
 		break;
 		case "PC_nofight":
 			Pchar.model="PGG_Whisper_0_NoHat";
@@ -606,6 +1144,7 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		case "PC_2":
+			
 			dialog.text = "Сколько потребуется. На вид эти штучки дорого стоят, наверняка у тебя богатые родители. Предлагаю сходить к ним и потребовать выкуп. Как только я получу деньги - ты свободна. Итак, в какой колонии мы сможем их найти?";
 			link.l1 = "Я не из этих мест. У меня здесь нет родных.";
 			link.l1.go = "PC_2_1";
@@ -654,9 +1193,9 @@ void ProcessDialogEvent()
 			dialog.text = "(Вы сами не пострадали, однако этого нельзя сказать об устройстве в ваших руках.Пуля попадает в квантовый выпрямитель частиц, после чего устройство включается и начинает работать произвольным образом, издавая серии тресков и щелчков)";
 			link.l1 = "Дьявол!";
 			link.l1.go = "exit";
-			DoReloadCharacterToLocation("Ship_Deck_Low","goto","goto5");
+			DoReloadCharacterToLocation("Ship_Deck_Big","goto","goto5");
 			PChar.quest.WhisperTeleport.win_condition.l1 = "location";
-			PChar.quest.WhisperTeleport.win_condition.l1.location = "Ship_Deck_Low";
+			PChar.quest.WhisperTeleport.win_condition.l1.location = "Ship_Deck_Big";
 			PChar.quest.WhisperTeleport.function = "WhisperTeleport";
 		break;
 		case "CS":

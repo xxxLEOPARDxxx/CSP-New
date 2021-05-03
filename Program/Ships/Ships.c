@@ -134,27 +134,6 @@ string GetShipLocationID(ref chref)
 			}
 		}
 	}
-	/* if (bBig1)
-	{
-	    if (bMed2 || bBig2) return "BOARDING_BIG_DECK";
-	    return "BOARDING_MEDIUM_DECK";
-	}
-	else
-	{
-	    if (bBig2)
-		{
-		    if (bMed1 || bBig1) return "BOARDING_BIG_DECK";
-		    return "BOARDING_MEDIUM_DECK";
-		}
-	}
-    return "BOARDING_SMALL_DECK"; */
-
-	/*if(!CheckAttribute(&RealShips[st],"AbordageLocation"))
-	{
-		trace("WARNING!!! Ship ("+st+") " + ShipsTypes[st].name + " hav`t attribute AbordageLocation");
-		return "";
-	}
-	return RealShips[st].AbordageLocation;*/
 }
 // boal
 string GetShipCabinID(ref chref)

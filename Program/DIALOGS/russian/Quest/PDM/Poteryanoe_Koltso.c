@@ -68,6 +68,7 @@ void ProcessDialogEvent()
 			link.l2 = "Да, я многое могу порассказать о моих приключениях. Думаю, моя история тебе понравится, Франческа. В одной колонии живёт женщина. Довольно давно она потеряла своего сына...";
 			link.l2.go = "Istoria";
 			PlayVoice("Kopcapkz\Voices\PDM\Francesca.wav");
+			pchar.questTemp.PDM_PK_UvestiNaVerh = "UvestiNaVerh";
 		break;
 		
 		case "SrazuProKoltso":
@@ -92,7 +93,7 @@ void ProcessDialogEvent()
 			dialog.text = "Кольцо мое хочешь? Нет у меня никаких колец! Уходи прочь, прочь!";
 			link.l1 = "Хорошо, я ухожу.";
 			link.l1.go = "exit";
-			link.l2 = "Я мог бы купить у тебя кольцо.>";
+			link.l2 = "Я мог бы купить у тебя кольцо.";
 			link.l2.go = "Kupit_Posle";
 		break;
 
@@ -140,6 +141,7 @@ void ProcessDialogEvent()
 			LAi_CharacterDisableDialog(sld);
 			sld.lifeday = 0;
 			
+			DeleteAttribute(pchar, "questTemp.PDM_PK_UvestiNaVerh");
 			GiveItem2Character(PChar, "PDM_PK_Koltso");
 			AddQuestRecord("PDM_Poteryanoe_Koltso", "4");
 			AddQuestUserData("PDM_Poteryanoe_Koltso", "sSex", GetSexPhrase("","а"));
@@ -172,6 +174,7 @@ void ProcessDialogEvent()
 			ChangeCharacterReputation(pchar, 2);
 			NextDiag.TempNode = "UNasKoltso";
 			
+			DeleteAttribute(pchar, "questTemp.PDM_PK_UvestiNaVerh");
 			GiveItem2Character(PChar, "PDM_PK_Koltso");
 			AddQuestRecord("PDM_Poteryanoe_Koltso", "4");
 			AddQuestUserData("PDM_Poteryanoe_Koltso", "sSex", GetSexPhrase("","а"));
@@ -325,7 +328,62 @@ void ProcessDialogEvent()
 			DialogExit(); 
 		break;
 		
-	
+		case "NaVerhuSFrancheska":
+			dialog.text = "Проходи, не стесняйся, чувствуй себя как дома на ближайшие два часа.";
+			link.l1 = "Нет, Франческа, тебе отсюда не уйти живой.";
+			link.l1.go = "UbitEE";
+			link.l2 = "Иди ко мне, моя рыбка.";
+			link.l2.go = "TrahEE";
+			PlayVoice("Kopcapkz\Voices\PDM\Francesca.wav");
+			sld = CharacterFromID("PDM_PK_Francheska")
+			sld.lifeday = 0;
+		break;
+		
+		case "UbitEE":
+			LAi_LocationFightDisable(loadedLocation, false);
+			Lai_SetPlayerType(pchar);
+			LAi_SetFightMode(pchar, true);
+			
+			sld = CharacterFromID("PDM_PK_Francheska")
+			LAi_SetHP(sld, 20.0, 20.0);
+			LAi_SetImmortal(sld, false);
+			sld.SaveItemsForDead = true
+			RemoveAllCharacterItems(sld, true);
+			GiveItem2Character(sld, "PDM_PK_Koltso");
+			
+			PChar.quest.PDM_PK_Ubita.win_condition.l1 = "item";
+			PChar.quest.PDM_PK_Ubita.win_condition.l1.item = "PDM_PK_Koltso";
+			PChar.quest.PDM_PK_Ubita.win_condition = "PDM_PK_Ubita";
+			
+			DialogExit();
+		break;
+		
+		case "TrahEE":
+			AddDialogExitQuest("PlaySex_1");
+			GiveItem2Character(pchar, "PDM_PK_Koltso");
+			chrDisableReloadToLocation = false;
+			sld = CharacterFromID("Josephine_Lodet")
+			sld.dialog.currentnode   = "Konets";
+			sld = CharacterFromID("PDM_PK_Francheska")
+			sld.dialog.currentnode   = "PosleTraha";
+			
+			AddCharacterExpToSkill(pchar, "Leadership", 200);
+			AddCharacterExpToSkill(pchar, "Sneak", 200);
+			AddCharacterExpToSkill(pchar, "Fortune", 130);
+			AddCharacterHealth(pchar, 10);
+			
+			AddQuestRecord("PDM_Poteryanoe_Koltso", "4");
+			AddQuestUserData("PDM_Poteryanoe_Koltso", "sSex", GetSexPhrase("","а"));
+			DialogExit();
+		break;
+		
+		case "PosleTraha":
+			dialog.text = "Так не хочется тебя отпускать, "+ GetSexPhrase("мой","моя") +" "+ GetSexPhrase("рыцарь","валькирия") +".";
+			link.l1 = "Прощай, Франческа.";
+			link.l1.go = "exit";
+			PlayVoice("Kopcapkz\Voices\PDM\Francesca.wav");
+			LAi_CharacterDisableDialog(sld);
+		break;
 		
 		
 	}

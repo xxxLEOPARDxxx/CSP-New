@@ -173,6 +173,8 @@ void ProcessDialogEvent()
 		case "ColonyBuilding_7":
 			dialog.text = "Гутен таг, "+GetSexPhrase("герр","фрау")+" капитан! С удовольствием вам сообщаю, что строительство вашей колонии завершено! Если вам снова понадобятся мои услуги, вы сможете найти меня в Вашем поселении.";
 			link.l1 = "Отлично, мистер Цальпфер. А теперь прошу меня извинить - дела ждут.";
+			pchar.questTemp.colonystate = sti(pchar.questTemp.colonystate) + 1;
+			UnlockAchievement("AchBuildColony", 1);
 			link.l1.go = "exit";
 			NextDiag.TempNode = "ColonyBuilding_8";
 			AddDialogExitQuest("ColonyBuilding_3");
@@ -238,6 +240,8 @@ void ProcessDialogEvent()
 			dialog.text = "С радостью сообщаю, что расширение колонии ''" + PChar.ColonyBuilding.ColonyName + "'' завершено! С вами было приятно работать, "+GetSexPhrase("герр","фрау")+" капитан. Пожалуй, я побуду тут ещё какое-то время. Если вы захотите снова меня найти - я буду в порту.";
 			link.l1 = "Благодарю вас, " + NPChar.name + ".";
 			link.l1.go = "exit";
+			pchar.questTemp.colonystate = sti(pchar.questTemp.colonystate) + 1;
+			UnlockAchievement("AchBuildColony", 2);
 			NextDiag.TempNode = "First time";
 			AddDialogExitQuest("ColonyModification_4");
 		break;
@@ -369,6 +373,8 @@ void ProcessDialogEvent()
 			dialog.text = "Создание охранной базы для вашей колонии завершено! С вами было приятно работать, "+GetSexPhrase("герр","фрау")+" капитан. Я возвращаюсь домой.";
 			link.l1 = "Спасибо вам за работу, мистер Цальпфер.";
 			link.l1.go = "exit";
+			pchar.questTemp.colonystate = sti(pchar.questTemp.colonystate) + 1;
+			UnlockAchievement("AchBuildColony", 3);
 			NextDiag.TempNode = "First Time";
 			AddDialogExitQuest("ColonyFortBuilding_7");
 		break;

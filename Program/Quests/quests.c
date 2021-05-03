@@ -465,6 +465,19 @@ void CloseQuestHeader(string idQuest)
 	DeleteAttribute(pchar,"QuestInfo."+idQuest);
 	aref newAttr; makearef(newAttr,pchar.QuestInfo.(idQuest));
 	CopyAttributes(newAttr,questRef);
+	
+	if(idQuest == "GhostShipQuest") UnlockAchievement("Ghostship_quest", 3);
+	if(idQuest == "Xebeca_BlueBird") UnlockAchievement("Bluebird_quest", 3);
+	if(idQuest == "ISS_MainLine") UnlockAchievement("LSC_quest", 3);
+	if(idQuest == "Tenochtitlan") UnlockAchievement("Teno_quest", 3);
+	if(idQuest == "ISS_PoorsMurder") UnlockAchievement("Killbeggars_quest", 3);
+	if(idQuest == "Romantic_Line") UnlockAchievement("Isabella_quest", 3);
+	if(idQuest == "MagicCity") UnlockAchievement("Enchantcity_quest", 3);
+	if(idQuest == "BerglarsGang") UnlockAchievement("Berglarsgang_quest", 3);
+	if(idQuest == "Fra_Line_12_EndOfWar") UnlockAchievement("Nation_quest_F", 3);
+	if(idQuest == "Hol_Line_12_OccupyMaracaibo") UnlockAchievement("Nation_quest_H", 3);
+	if(idQuest == "Spa_Line_12_OccupyPortPax") UnlockAchievement("Nation_quest_S", 3);
+	if(idQuest == "Pir_Line_8_Panama") UnlockAchievement("Nation_quest_P", 3);
 }
 bool CheckActiveQuest(string idQuest)
 {

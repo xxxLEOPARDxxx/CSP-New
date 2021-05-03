@@ -1,4 +1,5 @@
 ////  файл для кораблей в порту, море и сторожевиков
+int iCount;
 void GenerateIslandShips(string sIslandID)
 {
 	//trace(sIslandID);
@@ -17,6 +18,7 @@ void GenerateIslandShips(string sIslandID)
 
 	for (int i = 0; i< MAX_COLONIES; i++)
 	{
+		iCount = 1;
 		MainDefenderChar = -1;
 		if (Colonies[i].island == sIslandID)
 		{
@@ -51,7 +53,7 @@ void GenerateIslandShips(string sIslandID)
 					FortDefender = false;
 
 					if (defendersCount == 0) continue;
-					iShipsQuantity = rand(3)+defendersCount;
+					iShipsQuantity = rand(2)+defendersCount;
 					if (CheckAttribute(FortChref,"Fort.Mode"))
 					{
 						if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
@@ -155,7 +157,7 @@ void GenerateIslandShips(string sIslandID)
 					
 					FortDefender = false;
 
-					iShipsQuantity = 1 + rand(2);
+					iShipsQuantity = rand(2);
 					if (CheckAttribute(FortChref,"Fort.Mode"))
 					{
 						if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
@@ -220,22 +222,27 @@ void PlaceCharacterShip(int iChar, int iNation, string sIslandID, int iColonyIdx
 	
 	string sGroup = "IslandGroup" + iChar;
 	string sLocatorGroup = "IslandShips" + iColonyNum;
-	string sLocator = "Ship_"+(rand(4)+2);
+	string sLocator = "Ship_"+(rand(5)+1);
+	if(isFortDefender)
+	{
+		sLocator = "Ship_" + iCount;
+		iCount++;
+	}
 	
 	//ref FortChref = GetFortCommander(colonies[iColonyIdx].id);
 	
-	if(isFortDefender)
+	/* if(isFortDefender)
 	{
 		sGroup = "IslandGroup" + defendersGroup;
 	}
-	
+	 */
 	Group_AddCharacter(sGroup, characters[iChar].id);
 	
 	if(isFortDefender)
 	{
 		//Group_SetGroupCommander(sGroup, FortChref.id);
 		Group_SetGroupCommander(sGroup, characters[defendersGroup].id);
-		sLocator = "Ship_1";
+		// sLocator = "Ship_1";
 	}
 	else
 	{

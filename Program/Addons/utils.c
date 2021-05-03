@@ -1,5 +1,7 @@
 #include "Addons\Korsar_Maxim_func.c"		//Функции Korsar-а Maxim-а
 #include "Addons\LORD_func.c"	        	//Функции LORD-а
+#include "Addons\Academy.c"		// Академия и тренировки
+#include "Addons\Arena.c"		// Поселение фехтовальщиков и множество фич с ними
 #include "Addons\Colony.c"		// Постройка и жизнь колонии
 #include "Addons\ColonyGuarding.c"	// Организация охраны колонии в море
 #include "Addons\Plantation.c"		// Постройка и жизнь плантации
@@ -43,6 +45,9 @@ void SetDamnedDestinyVariable()
 	PChar.SuccessPrice.ReadNotice = false;
 	PChar.SuccessPrice.CreateCharacter = false;
 	PChar.SuccessPrice.CreateCharacter.Model = "Hero1";
+	
+	GenerateArena();
+	AcademyLandInit();
 	
 	ReloadProgressUpdate();
 }
@@ -93,9 +98,28 @@ void EndSelectMainCharacter(ref chr)
 {
 	bDisableCharacterMenu = false;
 	bDisableQuestInterface = false;
-	Log_Info("Ожидайте прогрузки, игра не зависнет.");
+	//Log_Info("Ожидайте прогрузки, игра не зависнет.");
+	SetTimerFunction("StartGameOpenArena", 0, 0, 30);
 	pchar.starttype = startHeroType;
 	LaunchSelectCharacter();
+}
+
+
+void NoFreeze()
+{
+	SetLaunchFrameFormParam("Идёт симуляция ПГГ и генерация сторожей, пожалуйста подождите.", "", 0.1, 2.0);
+	LaunchFrameForm();
+}
+
+void StartGameOpenArena(string qName)
+{
+	Locations[FindLocation("FencingTown_ExitTown")].reload.l1.label = "Arena";
+	Locations[FindLocation("FencingTown_ExitTown")].reload.l1.disable = 1;
+	Locations[FindLocation("FencingTown_ExitTown")].reload.l4.label = "FencingTown";
+	Locations[FindLocation("FencingTown_ExitTown")].reload.l4.disable = 0;
+	
+	Locations[FindLocation("FencingTown_Arena")].id.label = "Arena";
+	Locations[FindLocation("FencingTown_Fort")].id.label = "FencingTown";
 }
 
 void WayBeginning(string _tmp)
@@ -148,7 +172,27 @@ void WayBeginning(string _tmp)
 		DoQuestReloadToLocation("Shore_ship2", "goto", "goto4", "");
 		return;
     }
-	if (startHeroType > 6)
+	if (startHeroType == 7)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "My_Campus";
+    	pchar.quest.Tut_start.function                  = "DarkHuman_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+		Pchar.questTemp.WhisperLine = false;
+		DoQuestReloadToLocation("My_Campus", "goto", "goto5", "");
+		return;
+    }
+	if (startHeroType > 7 && startHeroType <= 11)
+    {
+    	pchar.quest.Tut_start.win_condition.l1          = "location";
+    	pchar.quest.Tut_start.win_condition.l1.location = "Temple_skulls";
+    	pchar.quest.Tut_start.function                  = "Undead_StartGame";
+        Pchar.questTemp.CapBloodLine = false;
+		Pchar.questTemp.WhisperLine = false;
+		DoQuestReloadToLocation("Temple_skulls", "goto", "goto2", "");
+		return;
+    }
+	if (startHeroType > 11)
     {
     	pchar.quest.Tut_start.win_condition.l1          = "location";
     	pchar.quest.Tut_start.win_condition.l1.location = "Ship_deck_Low";
@@ -190,6 +234,12 @@ void SetFoodToCharacter(ref chr, int iQuantity, int iFoodQuantity)
 	}
 }
 
+
+void SetEnergyQty(ref chr, float fQty, float fQtyMax)
+{
+	chr.chr_ai.energy = fQty;
+	chr.chr_ai.energyMax = fQtyMax;
+}
 /////////////////////////////////////////////////////////////////////////////////
 // Переключение режима абордажа
 /////////////////////////////////////////////////////////////////////////////////

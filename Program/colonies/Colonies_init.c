@@ -671,4 +671,22 @@ void InitColonies()
 		colonies[n].StoreNum   = Pirates_STORE; // заглушка
 		colonies[n].from_sea   = "LostShipsCity_town";
 		colonies[n].HasNoFort = true;
+		
+	/////////////////////////////////////////////////////////////////////
+	/// Исла де Муэрте
+	/////////////////////////////////////////////////////////////////////
+		n = n + 1;
+		Colonies[n].id = "KhaelRoa";
+		Colonies[n].visible = false;
+		Colonies[n].smuggling_nation = "none";
+		Colonies[n].nation = "none";
+		Colonies[n].island = "KhaelRoa";
+		Colonies[n].islandLable = "KhaelRoa";
+		Colonies[n].num = "1";
+		colonies[n].map.x = 1698;
+		colonies[n].map.y = 1598;
+		colonies[n].colonylevel = 0;
+		colonies[n].StoreNum   = Pirates_STORE; // заглушка
+		colonies[n].from_sea   = "";
+		colonies[n].HasNoFort = true;		
 }

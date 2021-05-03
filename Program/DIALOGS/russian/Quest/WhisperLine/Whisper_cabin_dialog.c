@@ -28,6 +28,12 @@ void ProcessDialogEvent()
 			DoQuestFunctionDelay("WhisperChinamanCapSpeaksAgain", 0.5);
 			DialogExit();
 		break;
+		case "Exit_portman":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			pchar.questTemp.Whisper.Portman_Deck = true;
+			DoQuestCheckDelay("TalkSelf_Quest", 1.0);
+			DialogExit();
+		break;
 		
 		case "First time":
 			dialog.text = "...";
@@ -80,7 +86,7 @@ void ProcessDialogEvent()
 				if (npchar.quest.meting == 1)
 				{
 					Lai_SetPlayerType(pchar);
-					dialog.Text = "Свою ошибку мы понять слишком поздно. Мы плыть очень долго, люди хотеть есть и пить, многие оказаться без сил от голода и быть не готовыми к тому, что случиться\nОднажды мы увидеть на горизонте корабль. Мы сигналить мир, но они не хотеть слушать. Корабль нападать. Многие наш люди погибли, меня взять в плен и сделать рабом.";
+					dialog.Text = "Какое-то время все идти так, как нам и обещали. Мы долго плыть на запад, минуя множество стран и народов, неизвестных в нашей стране.  Хотя еда которой нас снабжали быть однообразной, радость переполняла нас. Мы дойти до страны песков края мира, который смутно описывал великий адмирал, и пойти даже дальше. Однако, некоторые из нас начать болеть, терять зубы, даже умирать, хотя путешествие не было тяжелым\nКогда мы наконец добраться, голландцы приняли нас не так, как мы того ожидать. Наши корабли отправлять по одному в уединенную бухту. Я заподозрил неладное и приказал команде подготовиться к бою. Но все быть решено уже задолго до этого. Голландцы намочить наш порох, так что наша команда не смогла окачать должного сопротивления. Голландцы отобрать корабль, а меня и команду сделать рабом."; 
 					Link.l1 = "Суровая история. Меня примерно также здесь приняли.";
 					Link.l1.go = "ChinamanSpeak_1_1";
 					npchar.quest.meting = 2;
@@ -103,6 +109,105 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "First time";
 		break;
 
+		case "Portman_Cabin":
+			dialog.Text = "Ты, девушка, совсем страх потеряла? Какого чёрта ты на меня напала?";
+			Link.l1 = "Ты знаешь кое-что, что меня интересует. Координаты острова, где зарыт клад.";
+			Link.l1.go = "Portman_Cabin_1";
+		break;
+		case "Portman_Cabin_1":
+			dialog.Text = "А... Я всё того вора, что обчистил мой схрон на Бермудах. У тебя еще хватило наглости заявляться прямо ко мне? Ничего ты от меня не узнаешь!";
+			Link.l1 = "Тогда я сама всё найду, как с тобой закончу!";
+			Link.l1.go = "Portman_Cabin_fight";
+		break;
+		case "Portman_Cabin_fight":
+			//AddQuestRecord("WhisperQuestline", "8");
+			//CloseQuestHeader("WhisperQuestline");
+			//SetFunctionNPCDeathCondition("Whisper_Portman_Cabin_Is_Dead", npchar.id, false);
+			pchar.questTemp.Whisper.KilledPortman = true;
+			LAi_SetCurHPMax(npchar);
+			QuestAboardCabinDialogExitWithBattle(""); 
+			DialogExit();
+			//AddDialogExitQuest("MainHeroFightModeOn");
+		break;
+		case "Portman":
+			dialog.Text = "Приветствую, прекрасная незнакомка.";
+			Link.l1 = "Здравствуйте, капитан.";
+			Link.l1.go = "Portman_1";
+			
+			if (CheckAttribute(pchar, "Whisper.BetrayChard"))
+			{
+				dialog.Text = "Ну как, этот наглый пират получил заслуженное наказание?";
+				Link.l1 = "Ещё нет.";
+				Link.l1.go = "exit";
+				if (CheckCharacterItem(pchar, "Bible"))
+				{
+					Link.l1 = "А как же. Вот твоя библия.";
+					Link.l1.go = "Portman_betray_chard_1";
+					pchar.Whisper.GotPortmanAx = true;
+				}
+			}
+		break;
+		case "Portman_1":
+			NextDiag.TempNode = "Portman_3";
+			dialog.Text = "Какими судьбами вас занесло на борт моего судна?";
+			//Link.l1 = "Хочу спросить, можно ли обыскать вашу каюту? Дело в том, что мой брат служил у вас и недавно списался на берег, но забыл кое-какие документы.";
+			//Link.l1.go = "Portman_enemy";
+			Link.l1 = "Хочу предупредить, что ваш тайник на Бермудах найден и ограблен одним пиратом. Этот человек охотится и за другими вашими кладами, если такие у вас есть.";
+			Link.l1.go = "Portman_ally";
+			Link.l2 = "Просто осматриваюсь. Подумываю приобрести похожий корабль.";
+			Link.l2.go = "Portman_2";
+		break;
+		case "Portman_2":
+			dialog.Text = "В таком случае, не буду вам мешать. Только прошу вас, не задерживайтесь, нам скоро пора отплывать.";
+			Link.l1 = "Ладно.";
+			Link.l1.go = "exit_portman";
+		break;
+		case "Portman_3":
+			dialog.Text = "Прошу не задерживаться, мы скоро отплываем!";
+			Link.l1 = "Ладно...";
+			Link.l1.go = "exit";
+		break;
+		case "Portman_ally":
+			dialog.Text = "Я в курсе этого. Но имени грабителя не знал, кто это?";
+			Link.l1 = "Авантюриста зовут Майкл Чард. Этот глупец послал меня выбить информацию о ваших тайниках.";
+			Link.l1.go = "Portman_ally_1";
+		break;
+		case "Portman_ally_1":
+			dialog.Text = "Никогда не слышал такого имени. Ну и неважно. Если это правда он, наверняка у него моя библия. Убей этого Чарда и принеси ее.";
+			Link.l1 = "А награда за помощь какая будет?";
+			Link.l1.go = "Portman_ally_2";
+		break;
+		case "Portman_ally_2":
+			AddQuestRecord("WhisperChardQuest", "4");
+			pchar.Whisper.BetrayChard = true;
+			NextDiag.TempNode = "Portman_betray_chard";
+			dialog.Text = "С этим не обижу, поверь мне. Ну все, ступай. Когда сделаешь дело, думаю сможешь без проблем меня найти, раз уже сделала это однажды.";
+			Link.l1 = "Договорились.";
+			Link.l1.go = "exit";
+		break;
+		case "Portman_betray_chard":
+			dialog.Text = "Ну как, этот наглый пират получил заслуженное наказание?";
+			Link.l1 = "Ещё нет.";
+			Link.l1.go = "exit";
+			if (CheckCharacterItem(pchar, "Bible"))
+			{
+				Link.l1 = "Да. Вот твоя библия.";
+				Link.l1.go = "Portman_betray_chard_1";
+				pchar.Whisper.GotPortmanAx = true;
+			}
+		break;
+		case "Portman_betray_chard_1":
+			AddQuestRecord("WhisperChardQuest", "5");
+			CloseQuestHeader("WhisperChardQuest");
+			TakeItemFromCharacter(pchar, "Bible");
+			Log_Info("Вы получили императорский топор");
+			GiveItem2Character(pchar, "topor_emperor");
+			PlaySound("interface\important_item.wav");
+			dialog.Text = "Отлично! Теперь я могу спать спокойно, не боясь что эта падаль опять меня ограбит\nЯ же говорил, что с наградой не обижу. Вот, возьми этот топор. Не спрашивай, откуда я его взял, там таких больше нет. Если он тебе не нравится, можешь продать. Уверен, денег эта штука стоит немалых.";
+			Link.l1 = "Вот это да! Спасибо.";
+			Link.l1.go = "exit";
+		break;
+		
 		case "WarDogCap":
 			dialog.Text = "Снова ты? Я думал ты давно уже сгинула в стенах инквизиции.";
 			Link.l1 = "От меня так просто не избавиться.";
@@ -124,18 +229,21 @@ void ProcessDialogEvent()
 			Link.l1.go = "WarDogCap_3";
 		break;
 		case "WarDogCap_3":
-			dialog.Text = "Чего? А, ты про ту бесполезную железку? Так я её выкинул давно за борт.";
-			Link.l1 = "Что ты сделал, тупица?!";
+			dialog.Text = "Чего? А, ты про ту бесполезную железку? Так я от неё уже избавился.";
+			Link.l1 = "Что ты сделал, тупица?! В каком смысле избавился?";
 			Link.l1.go = "WarDogCap_4";
 		break;
 		case "WarDogCap_4":
-			dialog.Text = "Я не позволю бабе так с собой разговаривать!";
+			dialog.Text = "В том, что больше ты его не увидишь. И я не позволю бабе так с собой разговаривать!";
 			Link.l1 = "Да я тебя закопаю, сволочь!";
 			Link.l1.go = "WarDogCap_fight";
 		break;
 		case "WarDogCap_fight":
 			AddQuestRecord("WhisperQuestline", "8");
 			CloseQuestHeader("WhisperQuestline");
+			
+			UnlockAchievement("WhisperLine", 3);
+			
 			LAi_SetCurHPMax(npchar);
 			QuestAboardCabinDialogExitWithBattle(""); 
 			pchar.Whisper.NanoCostume = true;
@@ -154,11 +262,16 @@ void ProcessDialogEvent()
 		break;
 		case "DeSouza_2":
 			dialog.Text = "И о чём же ты хочешь говорить?";
-			Link.l1 = "Я бы хотела знать, где находится "+GetFullName(characterFromId("wl_Pirate_Cap"))+"?";
+			Link.l1 = "Я прибыла сюда с машиной времени. Это нетипичного вида устройство, вы бы точно его запомнили. Не передавал ли вам Эрнан Эстебан что-то подобное?";
+			Link.l1.go = "DeSouza_3";
+		break;
+		case "DeSouza_2":
+			dialog.Text = "Да, он что-то такое показывал мне в день, когда тебя привёл. Я попросил его поскорее убрать с глаз этот дьявольский предмет, а потом похоронить на дне морском. Не знаю правда, послушал он меня или нет.";
+			Link.l1 = "Очень надеюсь, что нет. А вы знаете где можно найти Эстебана?";
 			Link.l1.go = "DeSouza_3";
 		break;
 		case "DeSouza_3":
-			dialog.Text = "Ха! Я бы тоже хотел это знать. До недавних пор он был образцовым капером, однако в последнее время почувствовал вседозволенность. Ему удалось раздобыть корвет с  характеристиками, равных которым на архипелаге сейчас нет. Он перестал появляться у генерал-губернатора, а его корабль, по слухам, был замечен за грабежами других кораблей Испании. Такое недопустимо, так что генерал-губернатор попросил меня найти его лично и покарать. Этим я и занимаюсь сейчас, а заодно отлавливаю других врагов короны, вроде тебя.";
+			dialog.Text = "Ха! Я бы тоже хотел это знать. До недавних пор он был образцовым капером, однако в последнее время начал делать непозволительные для слуги Испании поступки. Не представляю, что за муха его укусила\nОн перестал появляться у генерал-губернатора, а его корабль, по слухам, был замечен за грабежами других кораблей Испании. Такое недопустимо, так что генерал-губернатор попросил меня найти его лично и покарать. Этим я и занимаюсь сейчас, а заодно отлавливаю других врагов короны, вроде тебя.";
 			Link.l1 = "И что, нет совсем никаких зацепок, где он может быть?";
 			Link.l1.go = "DeSouza_4";
 		break;
@@ -180,8 +293,8 @@ void ProcessDialogEvent()
 		case "DeSouza_7":
 			AddQuestRecord("WhisperQuestline", "7");
 			AddQuestUserData("WhisperQuestline", "sWhCapName", GetFullName(characterFromId("wl_Pirate_Cap")));
-			SetTimerCondition("Whisper_WarDog", 0, 0, 30, false);
-			dialog.Text = "Я заплатил одной бордельной девице, которую часто посещает "+GetFullName(characterFromId("wl_Pirate_Cap"))+", чтобы она пустила ему в ухо один слух, якобы в бухте на Терксе спрятан клад. Он жадный человек, наверняка должен клюнуть. По моим примерным подсчётам, если всё сработало, он должен объявиться там через месяц.";
+			SetTimerCondition("Whisper_WarDog", 0, 0, 7, false);
+			dialog.Text = "Я заплатил одной бордельной девице, которую часто посещает "+GetFullName(characterFromId("wl_Pirate_Cap"))+", чтобы она пустила ему в ухо один слух, якобы в бухте на Терксе спрятан клад. Он жадный человек, наверняка должен клюнуть. По моим примерным подсчётам, если всё сработало, он должен объявиться там через неделю.";
 			Link.l1 = "Коварный и жестокий план, как раз в стиле инквизиции.";
 			Link.l1.go = "DeSouza_8";
 		break;
@@ -208,12 +321,12 @@ void ProcessDialogEvent()
 			Link.l1.go = "ChinamanSpeak_3";
 		break;
 		case "ChinamanSpeak_3":
-			dialog.Text = "Это долгий история\nНа родине круглый год идти война. Император постоянно устраивать призыв в армию. Многие мужчины умирать, так и не познав женщина\nЯ быть капитаном джонки. Мы с командой договориться уплыть прочь, за ночь до крупной битвы\nМы поплыть на запад, в поисках лучшей жизни.";
+			dialog.Text = "Это долгий история\nНа родине круглый год идти война. Император постоянно устраивать призыв в армию. Многие мужчины умирать, так и не познав женщина\nЯ служить под началом адмирала Цзян Инь, который управлять тем что осталось от некогда великой флотилии Чжэн Хэ, что совершать семь великих морских путешествий еще два столетия назад. Мне приказать быть капитаном джонки\nОднажды адмирал собрать доверенных офицеров и капитанов, включая меня, и предложить уйти со службы. Уйти не в пираты, а к голландцы, нации мореходов, таких как мы, таких как Чжэн Хе. адмирал сказать, что они ценить хороших моряков. Многие согласились пойти, несогласные умерли. После этого, мы отправиться сюда, на Карибы, в поисках лучшей жизни.";
 			Link.l1 = "...";
 			Link.l1.go = "Exit_ChiGuard_Speak";
 		break;
 		case "ChinamanSpeak_1_1":
-			dialog.Text = "Меня отправить служить к этим злым людям, что вы встречать на берегу. Они бить меня и заставлять носить тяжести. Я спрятаться от них в трюме этого корабля.";
+			dialog.Text = "Меня перепродавать много раз, пока однажды не отправили служить к этим злым людям, что вы встречать на берегу. Они бить меня и заставлять носить тяжести. Я спрятаться от них в трюме этого корабля.";
 			Link.l1 = "Ага, теперь мне всё ясно. Значит ты - беглый раб.";
 			Link.l1.go = "ChinamanSpeak_1_2";
 		break;
@@ -246,6 +359,7 @@ void ProcessDialogEvent()
 		break;
 		case "ChinamanOff":
 			DialogExit();
+			NPChar.Payment = true;
 			npchar.Dialog.Filename = "Enc_Officer_dialog.c";
 			npchar.greeting = "GR_longway";
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);

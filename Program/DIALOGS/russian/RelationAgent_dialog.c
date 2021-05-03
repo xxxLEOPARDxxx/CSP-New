@@ -268,8 +268,70 @@ void ProcessDialogEvent()
 				Link.l10.go = "City_Buy";
 			}
 			
+			Link.l11 = "я пере"+GetSexPhrase("шел","шла")+" дорогу одному корсару и хочу наладить наши отношени€. ћожете это устроить?";
+			Link.l11.go = "PGG_peace";
+			
 			link.l99 = "«наете, € думаю, что обойдусь своими силами.";
 			link.l99.go = "exit";
+		break;
+		
+		case "PGG_peace":
+			dialog.text = "ќ каком человеке идЄт речь?";
+			for(i=1; i<=PsHeroQty; i++)
+			{
+				sld = CharacterFromID("PsHero_"+i);
+				if (PGG_ChangeRelation2MainCharacter(sld, 0) < 41 && !LAi_IsDead(sld) && sld.PGGAi.location != "Dead" && !IsCompanion(sld) && !IsOfficer(sld))
+				{
+					string attr = sld.ID;
+					string linkPGG = "l" + i;
+					NPChar.Temp.(attr) = attr;
+					Link.(linkPGG) = GetFullName(sld);
+					Link.(linkPGG).go = "PGG_make_peace_with_" + attr;
+				}
+				else
+				{
+					NPChar.Temp.(attr) = "";
+				}
+			}
+			link.lexit = "Ќе бери в голову.";
+			link.lexit.go = "exit";
+		break;
+		
+		int nFind = findSubStr(Dialog.CurrentNode, "PGG_make_peace_with_", 0);
+		string idxVal;
+		string nodName;
+		if(nFind == 0) 
+		{
+            npchar.PGGSelected = strcut(Dialog.CurrentNode, 20, strlen(Dialog.CurrentNode)-1);
+			sld = CharacterFromID(npchar.PGGSelected);
+			npchar.PGGPeaceMoney = ((sti(sld.rank) + sti(pchar.rank))/4 + (60 - PGG_ChangeRelation2MainCharacter(sld, 0))) * 1000;
+			dialog.Text = "ƒа, € слышал, что "+GetFullName(CharacterFromID(npchar.PGGSelected)) +" всей душой желает вам смерти. ƒумаю, € смог бы подобрать "+ NPCharSexPhrase(sld, "ему","ей")+ " подход€щий подарок, чтобы заставить относитьс€ к вам более благосклонно. Ќо эта услуга обойдЄтс€ вам в "+ npchar.PGGPeaceMoney +" пиастров.";
+			if (sti(pchar.money) >= sti(npchar.PGGPeaceMoney))
+			{
+				
+				Link.l1 ="я согла"+GetSexPhrase("сен","сна")+", приступайте.";
+				Link.l1.go = "PGG_peace_made";
+			}
+			Link.l2 = "я передумал"+GetSexPhrase("","а")+", прошу прощени€.";
+            Link.l2.go = "exit";
+            break;
+        }
+		
+		case "PGG_peace_made":
+			sld = CharacterFromID(npchar.PGGSelected);
+			int addPGGrelation = 60 - PGG_ChangeRelation2MainCharacter(sld, 0);
+			PGG_ChangeRelation2MainCharacter(sld, addPGGrelation);
+			addMoneyToCharacter(pchar, -sti(npchar.PGGPeaceMoney));
+			
+			if (CheckAttribute(sld, "PGGAi.Task.SetSail"))
+			{
+				PGG_Disband_Fleet(sld);
+				sld.PGGAi.location.town = PGG_FindRandomTownByNation(sti(sld.nation));
+			}
+			
+			dialog.Text = "—читайте, что всЄ уже улажено. Ћюба€ охота, которую мог"+ NPCharSexPhrase(sld, "","ла")+ " вести на вас "+ GetFullName(sld) +" должна в скором времени прекратитьс€."
+			Link.l1 ="Ѕуду наде€тьс€, что вы правы.";
+			Link.l1.go = "exit";
 		break;
 		
 		case "Licence":

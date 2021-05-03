@@ -202,6 +202,7 @@ void DozorStart()
 	
 	SetQuestHeader("Dozor");
 	AddQuestRecord("Dozor", "1");
+	AddQuestUserData("Dozor", "sSex", GetSexPhrase("","а"));
 	
 	TakeNItems(PChar, "Dozor_Mekakhrom", 1);
 }
@@ -390,6 +391,8 @@ void DozorTerksGrotFindMekakhrom(string qName)
 {
 	PChar.Dozor = "7";
 	AddQuestRecord("Dozor", "6");
+	AddQuestUserData("Dozor", "sSex", GetSexPhrase("","а"));
+	AddQuestUserData("Dozor", "sSex2", GetSexPhrase("ёл","ла"));
 
 	PChar.Dozor.Riddle.CurType = 3;
 	PChar.Dozor.Riddle.CanInterface = 1;
@@ -449,6 +452,7 @@ void DozorToGuadeloupeShore()
 {
 	PChar.Dozor = "12";
 	AddQuestRecord("Dozor", "11");
+	AddQuestUserData("Dozor", "sSex1", GetSexPhrase("ен","на"));
 
 	string sPhrase = PChar.Dozor.Riddle.Type_5.KeyPhrase;
 	string sAnswer = PChar.Dozor.Riddle.Type_5.Answer_1;
@@ -473,6 +477,7 @@ void DozorGuadeloupeShoreGetTask()
 {
 	PChar.Dozor = "13";
 	AddQuestRecord("Dozor", "12");
+	AddQuestUserData("Dozor", "sSex", GetSexPhrase("","а"));
 }
 
 void DozorToDeadShoreInMein()
@@ -515,6 +520,7 @@ void DozorInDeadShoreInMeinFindItem(string qName)
 
 	PChar.Dozor = "16";
 	AddQuestRecord("Dozor", "15");
+	AddQuestUserData("Dozor", "sSex2", GetSexPhrase("ёл","ла"));
 	
 	PChar.Dozor.Riddle.CurType = 7;
 	PChar.Dozor.Riddle.CanInterface = 1;
@@ -648,6 +654,7 @@ void DozorDeadDozorShip(string qName)
 				if(GetCharacterItem(PChar, "Dozor_Mekakhrom") >= 0 && GetCharacterItem(PChar, "Dozor_Key") <= 0)
 				{
 					AddQuestRecord("Dozor", "21");
+					AddQuestUserData("Dozor", "sSex", GetSexPhrase("","а"));
 				}
 			}
 		}
@@ -664,6 +671,7 @@ void DozorToHouse()
 {
 	PChar.Dozor = "19";
 	AddQuestRecord("Dozor", "19");
+	AddQuestUserData("Dozor", "sSex", GetSexPhrase("","а"));
 	
 	PChar.Dozor.Riddle.CurType = 8;
 	PChar.Dozor.Riddle.CanInterface = 1;

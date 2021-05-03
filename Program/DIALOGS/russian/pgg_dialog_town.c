@@ -484,6 +484,13 @@ void ProcessDialogEvent()
 		int iDays = GetQuestPastDayParam("QuestTalk");
 		if (CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
 		{
+			if (findsubstr(npchar.mapEnc.Name, "торговцев" , 0) != -1)
+			{
+				Dialog.Text = "У меня сейчас своих дел хватает. Ты же видишь, что я плыву не одна?";
+				link.l1 = "Понятно...";
+				link.l1.go = "exit";
+				break;
+			}
 			if (rand(100) > 60 && !CheckAttribute(pchar, "GenQuest.PGG_Quest") && GetCharacterShipClass(PChar) <= 4 && iDays > 7)
 			{
 				Dialog.Text = "Что за разговор? Хотя.. Почему бы и нет. Дело или дельце - это мы завсегда!";
@@ -1152,11 +1159,6 @@ void ProcessDialogEvent()
 			DeleteAttribute(Pchar, "PGGShoreQuest");
 			int greedyPGG = 0;
 			string greed = "";
-			if (makeint(NPChar.reputation) < 41 && PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70 && drand(80) > sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)))
-			{
-				greedyPGG = 1;
-				greed = " И не советую тебе рыпаться.";
-			}
 			if (GetCharacterShipClass(NPChar) > GetCharacterShipClass(PChar))
 			{
 				PChar.GenQuest.PGG_Quest.Parts = (GetCharacterShipClass(NPChar) - GetCharacterShipClass(PChar));
@@ -1165,6 +1167,11 @@ void ProcessDialogEvent()
 			}
 			else 
 			{
+				if (makeint(NPChar.reputation) < 41 && PGG_ChangeRelation2MainCharacter(NPChar, 0) < 70 && drand(200) > sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)))
+				{
+					greedyPGG = 2;
+					greed = " И не советую тебе рыпаться.";
+				}
 				PChar.GenQuest.PGG_Quest.Parts = (GetCharacterShipClass(PChar) - GetCharacterShipClass(NPChar));
 				i = sti(PChar.GenQuest.PGG_Quest.Parts)+2+greedyPGG;
 				PChar.GenQuest.PGG_Quest.Goods.Part = MakeInt(sti(PChar.GenQuest.PGG_Quest.Goods.Taken)) - MakeInt(sti(PChar.GenQuest.PGG_Quest.Goods.Taken) / i);

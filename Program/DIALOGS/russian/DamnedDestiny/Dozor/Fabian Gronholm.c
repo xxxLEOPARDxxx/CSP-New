@@ -27,7 +27,7 @@ void ProcessDialogEvent()
 				else
 				{
 					dialog.text = "Ты ещё слишком глуп"+ GetSexPhrase("","а") +", чтобы общаться со мной. Приходи позже...";
-					link.l1 = "Глуп? Да я тебя сейчас!.. Эх, старик.";
+					link.l1 = "Глуп"+ GetSexPhrase("","а") +"? Да я тебя сейчас!.. Эх, старик.";
 					link.l1.go = "exit";
 				}
 				break;

@@ -218,7 +218,7 @@ void InitShips()
 	refShip.MastMultiplier							= 1.6;
 	refship.CanEncounter						= false;
 	refship.Type.Merchant						= false;
-	refship.Type.War							= false;
+	refship.Type.War							= true;
 	refShip.fWindAgainstSpeed					= 10.0;
 	refShip.sea_enchantment						= 4.0;
 	refShip.lowpolycrew							= 3;
@@ -401,7 +401,7 @@ void InitShips()
 	refship.nation.spain	= true;
 
 	///////////////////////////////////////////////////////////////////////////
-	/// Empress			Императрица
+	/// Empress			Джонка
 	///////////////////////////////////////////////////////////////////////////
 	makeref(refShip,ShipsTypes[SHIP_EMPRESS]);
 	refShip.Name            			= "Empress";
@@ -6755,6 +6755,8 @@ void InitShips()
 	refship.nation.spain	= false;
 	refship.nation.holland	= true;
 	refship.nation.pirate	= false;
+	
+	refShip.hullNums = 4; // LEO
 
 	///////////////////////////////////////////////////////////////////////////
 	/// WarGalleon2			Тяж. Воен. Галеон
@@ -10213,11 +10215,11 @@ void InitShips()
 	refShip.MaxCaliber      			= 42;
 	refShip.Weight						= Tonnes2CWT(1800);
 	refShip.Capacity        			= 5200;
-	refShip.CannonsQuantity				= 66;
-	refShip.rcannon 							= 26;
-	refShip.lcannon 							= 26;
+	refShip.CannonsQuantity				= 56;
+	refShip.rcannon 							= 23;
+	refShip.lcannon 							= 23;
 	refShip.fcannon 							= 6;
-	refShip.bcannon 							= 8;
+	refShip.bcannon 							= 4;
 	refShip.MaxCrew         				= 444;
 	refShip.MinCrew         				= 88;
 	refShip.SpeedRate				= 15;

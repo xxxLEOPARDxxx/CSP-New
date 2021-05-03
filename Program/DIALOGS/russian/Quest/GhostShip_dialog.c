@@ -217,9 +217,9 @@ void ProcessDialogEvent()
 		
 		case "GhostCapt_PrizeExit":
 			LAi_SetActorType(NPChar); 
-			LAi_ActorGoToLocation(NPChar, "reload", "reload1", "none", "", "", "GhostShipCapInCabinDied", -1);
+			LAi_ActorGoToLocation(NPChar, "reload", "reload1", "none", "", "", "GhostShipCapInCabinDied", 5.0);
 			LAi_LockFightMode(pchar, false);	
-			chrDisableReloadToLocation = false;
+			DoQuestCheckDelay("OpenTheDoors", 5.0);
 			InterfaceStates.Buttons.Save.enable = true;
 			DialogExit();
 			AddDialogExitQuest("CanEnterToMap"); 

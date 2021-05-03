@@ -363,7 +363,7 @@ void ProcessDialogEvent()
 			pchar.questTemp.pirateVikingQuest = "0";
 		break;
 		case "pirateVikingQuest_1":
-			dialog.text = "Законы братства, Кодекс, пиратская честь… Пфф… Детские шалости это. Ты ещё Либерталию вспомни, которую Шарп построить пытался. Ха-ха! Тут у нас баланс сил существует, власти закрывают глаза на наши делишки, если мы их делишкам не мешаем. А вдруг в Европе мир подпишут? Так и патенты отзовут, а все бравые каперы в один миг преступниками станут. И приплывут карательные эскадры. Нас с тобой ловить. Смекаешь?";
+			dialog.text = "Законы братства, Кодекс, пиратская честь… Пфф… Детские шалости это. Ты ещё Либерталию вспомни, которую Шарп построить пытался. Ха-ха! Тут у нас баланс сил существует, власти закрывают глаза на наши делишки, если мы их делишкам не мешаем. А вдруг в Европе мир подпишут? Так и патенты отзовут, а все бравые каперы в один миг преступниками станут. И приплывут карательные эскадры. Нас с тобой ловить. А такие капитаны, как этот викинг, репутацию нам всем портят. Смекаешь?";
 			link.l1 = "Понял, дал ты мне пищу для размышлений. Где искать этого викинга?";
 			link.l1.go = "pirateVikingQuest_2";
 		break;
@@ -928,6 +928,12 @@ void ProcessDialogEvent()
 			AddQuestRecord("SeekMayorsRing", "7");
 			AddQuestUserData("SeekMayorsRing", "sCity", XI_ConvertString("Colony" + npchar.city + "Gen"));
 			CloseQuestHeader("SeekMayorsRing");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(pchar, "questTemp.different.TakeMayorsRing");
 		break;
 		case "TakeRing_S3":
@@ -949,6 +955,12 @@ void ProcessDialogEvent()
 			AddQuestRecord("SeekMayorsRing", "7");
 			AddQuestUserData("SeekMayorsRing", "sCity", XI_ConvertString("Colony" + npchar.city + "Gen"));
 			CloseQuestHeader("SeekMayorsRing");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(pchar, "questTemp.different.TakeMayorsRing");
 		break;
 		// ---------------------- найти кольцо в борделе ----------------------------
@@ -2496,6 +2508,12 @@ void ProcessDialogEvent()
 		    link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, sti(pchar.GenQuest.(QuestName).Money));
 			CloseQuestHeader("MayorsQuestsList");
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			ChangeCharacterReputation(pchar, 4);
 			ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 1);
 			AddCharacterExpToSkill(PChar, "Leadership", 50);

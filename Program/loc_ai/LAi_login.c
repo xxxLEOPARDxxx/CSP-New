@@ -232,6 +232,11 @@ void LAi_CharacterPostLogin(ref location)
 					Trace("Can't find good locator for follower character <" + chr.id + ">");
 				}
 			}
+			if (findsubstr(chr.model, "ghost" , 0) != -1 )
+			{
+				object persRef = GetCharacterModel(chr);
+				SendMessage(persRef, "ls", MSG_MODEL_SET_TECHNIQUE, "DLightMark");
+			}
 		}
 	}
 	if(!actLoadFlag)
@@ -257,6 +262,7 @@ void LAi_CharacterPostLogin(ref location)
 		CreatDesMoines(location);
 		
 		// Lugger -->
+		CreateArenaCitizens(location);
 		CreateCaimanCitizens(location);
 		CreateCaimanGuardingBase(location);
 		CreateCaimanMinesCitizens(location);
@@ -275,14 +281,53 @@ void LAi_CharacterPostLogin(ref location)
 		{
 			DeleteAttribute(pchar, "MushketSwap");
 		}
-		if(!CheckAttribute(pchar,"quest.SimulatePGGLife") || Pchar.questTemp.CapBloodLine == true)
+		if(bDisableLandEncounters || !CheckAttribute(pchar,"quest.SimulatePGGLife") || Pchar.questTemp.CapBloodLine == true)
 		{
 			pchar.quest.SimulatePGGLife = true;
-			Log_TestInfo("Спавн бродящих пгг заблокирован");
+			//Log_TestInfo("Спавн бродящих пгг заблокирован");
 		}
 		else
 		{
 			SimulatePGGLife();
+		}
+		SecondChanceRefresh();
+		GenerateSpySeeker(location);
+		if(CheckAttribute(pchar,"catorga.on")) DeleteAttribute(pchar,"catorga");
+		if(CheckAttribute(pchar, "catorga")) pchar.catorga.on = "1";
+		if(HasSubStr(location.id,"Crypt") && !HasSubStr(location.id, "Big")) location.id.label = "Crypt";
+		
+		PGG_GraveyardCheckIsPGGHere(location);
+		UniqueHeroEvents();
+	}
+	
+}
+
+void UniqueHeroEvents()
+{
+
+	if (startherotype == 7 && IsEquipCharactersByItem(pchar, "DHGlove") && rand (10) == 0)
+	{
+		Log_info("Обнаружено пять темпоральных червоточин.");
+		Log_info("Расчетное синхронизированное время:");
+		Log_info(" - Ожидайте - ");
+		DoQuestFunctionDelay("DHmessages",4.0);
+	}
+}
+
+void SecondChanceRefresh()
+{
+	for(int i = 0; i < MAX_CHARACTERS; i++)
+	{
+		ref chr;
+		makeref(chr,Characters[i]);
+		if(CheckAttribute(chr, "id"))
+		{
+			DeleteAttribute(chr, "Adventurers_Luck");
+		}
+		if (findsubstr(chr.model, "ghost" , 0) != -1 )
+		{
+			object persRef = GetCharacterModel(chr);
+			SendMessage(persRef, "ls", MSG_MODEL_SET_TECHNIQUE, "DLightMark");
 		}
 	}
 }
@@ -493,3 +538,36 @@ void LAi_PostLoginInit(aref chr)
 		call func(&chr);
 	}
 }
+//Евент с искателем лазутчиков Lipsar//
+void GenerateSpySeeker(ref location)
+{
+		bool bOK = 	CheckAttribute(pchar, "GenQuest.questName") && pchar.GenQuest.questName != "SeekSpy";
+		bool bOK2 = !CheckAttribute(pchar, "GenQuest.questName");
+		if(!CheckAttribute(pchar, "SpySeeker.dayrandom")) pchar.SpySeeker.dayrandom = 0;
+		if(HasSubStr(location.id, "Common") && rand(1000) > 750 && pchar.dayrandom != pchar.SpySeeker.dayrandom && !HasSubStr(location.id, "Crypt")) 
+		{
+			if(bOK || bOK2)
+			{
+				chrDisableReloadToLocation = true;
+				ref rChar = GetCharacter(NPC_GenerateCharacter("SpySeeker", "officer_"+ (1 + drand(63)), "man", "man", pchar.rank, GetCityNation(location.fastreload), -1, false));
+				rChar.Dialog.FileName = "Common_Seeker.c";
+				LAi_SetImmortal(rChar, true);
+				rChar.saveItemsForDead = true;
+				SetCharacterPerk(rChar, "Fencer");
+				FantomMakeCoolFighter(rChar, sti(pchar.rank), sti(PChar.skill.Fencing), sti(PChar.skill.Pistol), BLADE_LONG, "pistol3",100);
+				int iRel = GetNationRelation(GetCityNation(location.fastreload), GetBaseHeroNation());
+				if(iRel == RELATION_ENEMY) pchar.SpySeeker = "Enemy";
+				else pchar.SpySeeker = "Friend";
+				ChangeCharacterAddressGroup(rChar, PChar.location, "goto", "goto1");
+				LAi_SetActorType(rChar);
+				LAi_ActorDialogDelay(rChar, PChar, "", 2.0);
+				rChar.Dialog.CurrentNode = "FirstTime";
+				pchar.SpySeeker.dayrandom = pchar.dayrandom;
+				for(int i = 0; i<2 + rand(2); i++)
+				{
+				GiveItem2Character(rChar, "Lockpick");
+				}
+			}
+		}
+}
+//Евент с искателем лазутчиков Lipsar//

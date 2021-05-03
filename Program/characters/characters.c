@@ -321,6 +321,24 @@ void SetDialogStayIdle(ref character)
 	character.actions.idle.i7 = "dialog_stay7";
 	character.actions.idle.i8 = "dialog_stay8";
 }
+
+void SetNoRun(ref character)
+{
+	character.actions.walk = "walk";
+	character.actions.backwalk = "back walk";
+	character.actions.run = "walk";
+	character.actions.backrun = "back run";
+	character.actions.stsUp = "stairs up";
+	character.actions.stsUpRun = "stairs up";
+	character.actions.stsDown = "stairs down";
+	character.actions.stsDownRun = "stairs down";
+
+	character.actions.fightwalk = "fight walk";
+	character.actions.fightbackwalk = "fight back walk";
+	character.actions.fightrun = "fight walk";
+	character.actions.fightbackrun = "fight back walk";
+}
+
 // boal -->
 void SetOverloadNormWalk(ref character)
 {
@@ -349,6 +367,7 @@ void SetOverloadFight(ref character)
 }
 void CheckAndSetOverloadMode(ref character)
 {
+	if (CheckAttribute(character,"chr_ai.HeavyTrauma")) return;
 	if (CheckAttribute(character, "actions")) // сундуки не трогаем
 	{
         BeginChangeCharacterActions(character);

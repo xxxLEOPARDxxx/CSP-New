@@ -395,9 +395,129 @@ void ProcessDialogEvent()
 				break;
 			}
 			//<--работорговец
+			//Китайская реликвия
+			if(CheckAttribute(pchar, "Whisper.UsurerId") && npchar.id == pchar.Whisper.UsurerId)
+			{
+				if (!CheckAttribute(pchar, "WhisperChSpokeToUsurer"))
+				{
+					link.lWhisper = "Добрый день. До меня дошли сведения, что в вашем распоряжении находится некий древний китайский меч. Это так?";
+					link.lWhisper.go = "Whisper_china_relic";
+				}
+				else
+				{
+					if (CheckCharacterItem(pchar, "topor_emperor"))
+					{
+						link.lWhisper = "Я принесла вам императорский топор.";
+						link.lWhisper.go = "Whisper_china_relic_finish_topor";
+					}
+					if (CheckCharacterItem(pchar, "sculMa1") && CheckCharacterItem(pchar, "sculMa2") && CheckCharacterItem(pchar, "sculMa3"))
+					{
+						link.lWhisper1 = "Я принесла вам три хрустальных черепа.";
+						link.lWhisper1.go = "Whisper_china_relic_finish_sculma";
+					}
+				}
+			}
+			//Нежданное наследство
+			if (CheckAttribute(PChar,"UnexpectedInheritance"))
+            {
+				if(!CheckAttribute(pchar, "UnexpectedInheritance_translator"))
+				{
+					link.lUnexpectedInheritance = "Не оказываете ли Вы услуги перевода? У меня есть занятный документ на латыни.";
+					link.lUnexpectedInheritance.go = "UnexpectedInheritance_translate";
+				}
+				else
+				{
+					if(npchar.id == pchar.UnexpectedInheritance_translator && GetNpcQuestPastDayWOInit(npchar, "UnexpectedInheritance_translate") > 0 && sti(pchar.money) >= 1000)
+					{
+						link.lUnexpectedInheritance = "Не оказываете ли Вы услуги перевода? У меня есть занятный документ на латыни.";
+						link.lUnexpectedInheritance.go = "UnexpectedInheritance_translate_end";
+					}
+				}
+            }
+	
+			
 			NextDiag.TempNode = "First time";
 		break;
 
+		//Нежданное наследство
+		case "UnexpectedInheritance_translate":
+			dialog.text = "Обычно нет, но за десять тысяч...";
+			if(sti(pchar.money) >= 10000)
+			{
+				link.l1 = "Вот ваши деньги.";
+				link.l1.go = "UnexpectedInheritance_translate_end";
+			}
+			link.l2 = "У вас какие-то неадекватные расценки. Я пожалуй пойду.";
+			link.l2.go = "exit";
+			
+		break;
+		
+		case "UnexpectedInheritance_translate_end":
+			dialog.text = "Посмотрим\nХм\nЭто не совсем латынь, это вульгарис. Минутку\nВот, держите.";
+			link.l1 = "Благодарю.";
+			link.l1.go = "exit";
+			AddMoneyToCharacter(pchar, -10000);
+			UnexpectedInheritanceTranslatePart(pchar.UnexpectedInheritance);
+			DeleteAttribute(pchar, "UnexpectedInheritance_translator");
+			DeleteAttribute(pchar, "UnexpectedInheritance");
+			
+		break;
+		
+		//Виспер - Китайская реликвия
+		case "Whisper_china_relic_finish_topor":
+			dialog.text = "Ничего себе! Он выглядит даже более роскошно, чем я себе представлял. Боюсь представить, каким образом он у вас оказался.";
+			TakeItemFromCharacter(pchar, "topor_emperor");
+			Log_Info("Вы отдали императорский топор");
+			PlaySound("interface\important_item.wav");
+			link.l1 = "И не нужно, лучше покажите наконец меч. ";
+			link.l1.go = "Whisper_china_relic_finish";
+		break;
+		case "Whisper_china_relic_finish_sculma":
+			dialog.text = "Вы и в самом деле их нашли?! Если честно, я даже не надеялся. ";
+			TakeItemFromCharacter(pchar, "sculMa1");
+			TakeItemFromCharacter(pchar, "sculMa2");
+			TakeItemFromCharacter(pchar, "sculMa3");
+			Log_Info("Вы отдали хрустальные черепа");
+			PlaySound("interface\important_item.wav");
+			link.l1 = "Теперь я я хочу увидеть меч.";
+			link.l1.go = "Whisper_china_relic_finish";
+		break;
+		case "Whisper_china_relic_finish":
+			DeleteAttribute(pchar, "WhisperChSpokeToUsurer");
+			DeleteAttribute(pchar, "Whisper.UsurerId");
+			pchar.Whisper.GiveChinaSword = true;
+			CloseQuestHeader("WhisperChinamanRelic");
+			GiveItem2Character(pchar, "blade_china");
+			Log_Info("Вы получили китайский меч");
+			PlaySound("interface\important_item.wav");
+			dialog.text = "Конечно! Вот он, красавец. Я постарался сохранить его в хорошем состоянии, так что прошу, осторожней с ним.";
+			link.l1 = "Не беспокойтесь, я передам его тому, кто будет беречь его как зеницу ока - настоящему владельцу. До свидания. ";
+			link.l1.go = "exit";
+		break;
+		case "Whisper_china_relic":
+			dialog.text = "Всё так. Судя по украшениям на клинке, он принадлежал известному и влиятельному роду. А почему вы в  нём заинтересованы?";
+			link.l1 = "Сколько вы за него хотите? Я бы хотела его купить. ";
+			link.l1.go = "Whisper_china_relic_1";
+		break;
+		case "Whisper_china_relic_1":
+			dialog.text = "Купить? Прошу прощения, но я ничего из своей коллекции не продаю.";
+			link.l1 = "Жаль. Тогда, быть может, вы были бы не прочь обменять его на какой-то другой предмет?";
+			link.l1.go = "Whisper_china_relic_2";
+		break;
+		case "Whisper_china_relic_2":
+			dialog.text = "Хм, а это можно. Я уже давно ищу императорский топор. Это золотой, инкрустированный драгоценностями символ власти. Говорят, на Карибах он точно есть у какого-то пирата\nЕщё, я бы хотел получить три хрустальных черепа тольтеков: белый, красный и синий. Если найдёте все три - с радостью обменяюсь с вами.";
+			link.l1 = "Ясно. Есть какая-то зацепка, где эти предметы можно достать?";
+			link.l1.go = "Whisper_china_relic_3";
+		break;
+		case "Whisper_china_relic_3":
+			dialog.text = "Если бы я это знал, то ни о чем вас не просил бы. Но я не тороплю, приходите, когда найдёте. От меча в ближайшее время я избавляться не собираюсь.";
+			pchar.WhisperChSpokeToUsurer = true;
+			AddQuestRecord("WhisperChinamanRelic", "2");
+			link.l1 = "Хорошо, будем искать. До свидания.";
+			link.l1.go = "exit";
+		break;
+		//
+		
 		//<<<<----------генератор -"Судовые документы". ------		
 		case "ShipLetters_Usurer1":
 			pchar.questTemp.different.GiveShipLetters.speakUsurer = true;
@@ -1328,6 +1448,8 @@ void ProcessDialogEvent()
 			Pchar.Quest.Deposits.(NPC_Area).Sum      = sti(Pchar.QuestTemp.Deposits.(NPC_Area).Sum);
 
 			AddMoneyToCharacter(Pchar, -(makeint(Pchar.Quest.Deposits.(NPC_Area).Sum)));
+			pchar.questTemp.depositcount = sti(pchar.questTemp.depositcount) + makeint(Pchar.Quest.Deposits.(NPC_Area).Sum);
+			if(sti(pchar.questTemp.depositcount) >= 50000000) UnlockAchievement("bank_money", 3);
 			// общий долг
 			Pchar.Quest.Deposits.(NPC_Area).Sum = sti(Pchar.Quest.Deposits.(NPC_Area).Result) + sti(Pchar.Quest.Deposits.(NPC_Area).Sum);
 			Pchar.Quest.Deposits.(NPC_Area) = true;
@@ -1349,6 +1471,8 @@ void ProcessDialogEvent()
 
 		case "Deposit_return_1":
 			addMoneyToCharacter(Pchar, makeint(Pchar.Quest.Deposits.(NPC_Area).Result));
+			pchar.questTemp.depositcount = sti(pchar.questTemp.depositcount) - sti(Pchar.Quest.Deposits.(NPC_Area).ClearDeposite);
+			if(sti(pchar.questTemp.depositcount) >= 50000000) UnlockAchievement("bank_money", 3);
 			Dialog.snd = "voice\USDI\USDI035";
 			dialog.text = "Ох... Даже жаль с ними расставаться. Я к ним уже как-то привык. Что же - приходите ко мне еще.";			
 			Link.l1 = "Если понадобится - приду. Счастливо оставаться.";			
@@ -2814,7 +2938,7 @@ int findChestMan(ref NPChar)
 		if (sTemp == "trader")
 		{
             if (NPChar.city == ch.city) continue;
-            if (ch.location == "none") continue;
+            if (ch.location == "none" || ch.City == "Caiman") continue;
             storeArray[howStore] = n;
             howStore++;
             continue;
@@ -2824,7 +2948,7 @@ int findChestMan(ref NPChar)
 		{
             if (NPChar.city == ch.city) continue;
             if (sti(ch.nation) == PIRATE) continue; // пираты не имеют реплик
-            if (ch.location == "none") continue;
+            if (ch.location == "none" || ch.City == "Caiman") continue;
 			if (ch.location != ch.Default) continue; //захвачанных мэров не надо
             storeArray[howStore] = n;
             howStore++;
@@ -2834,7 +2958,7 @@ int findChestMan(ref NPChar)
 		if (sTemp == "shipyarder")
 		{
             if (NPChar.city == ch.city) continue;
-            if (ch.location == "none") continue;
+            if (ch.location == "none" || ch.City == "Caiman") continue;
             storeArray[howStore] = n;
             howStore++;
             continue;
@@ -2843,7 +2967,7 @@ int findChestMan(ref NPChar)
 		if (sTemp == "tavernkeeper")
 		{
             if (NPChar.city == ch.city) continue;
-            if (ch.location == "none") continue;
+            if (ch.location == "none" || ch.City == "Caiman") continue;
             storeArray[howStore] = n;
             howStore++;
             continue;
@@ -2852,7 +2976,7 @@ int findChestMan(ref NPChar)
 		if (sTemp == "Priest")
 		{
             if (NPChar.city == ch.city) continue;
-            if (ch.location == "none") continue;
+            if (ch.location == "none" || ch.City == "Caiman") continue;
             storeArray[howStore] = n;
             howStore++;
             continue;
@@ -2861,7 +2985,7 @@ int findChestMan(ref NPChar)
 		if (sTemp == "usurer")
 		{
             if (NPChar.city == ch.city) continue;
-            if (ch.location == "none") continue;
+            if (ch.location == "none" || ch.City == "Caiman") continue;
             storeArray[howStore] = n;
             howStore++;
             continue;
@@ -2870,7 +2994,7 @@ int findChestMan(ref NPChar)
 		if (sTemp == "PortMan")
 		{
             if (NPChar.city == ch.city) continue;
-            if (ch.location == "none") continue;
+            if (ch.location == "none" || ch.City == "Caiman") continue;
             storeArray[howStore] = n;
             howStore++;
             continue;

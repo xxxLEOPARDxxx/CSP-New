@@ -44,7 +44,7 @@ void LoadActivePerkShower()
 		else objActivePerkShower.Textures.t0.file = "battle_interface\LandCommands.tga";
 		//objActivePerkShower.Textures.t0.file = "battle_interface\LandCommands.tga";
 		objActivePerkShower.Textures.t0.horz = 16;
-		objActivePerkShower.Textures.t0.vert = 2;
+		objActivePerkShower.Textures.t0.vert = 4;
 	}
 
 	aref arPerksRoot,arPerk;

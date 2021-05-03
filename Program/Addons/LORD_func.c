@@ -107,3 +107,40 @@ void LORD_Add_Equip(ref chref, string sItemID)
 		}
 	}
 }
+
+int QWEClearSoiling(ref refCharacter)
+{
+	int Soiling = refCharacter.ship.soiling; 
+	int iClass = sti(RealShips[sti(refCharacter.ship.type)].Class);
+	int sum = 50;
+	
+	switch(iClass)
+	{
+		case 6:
+			sum= 600;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 10)}
+		break; 
+		case 5:
+			sum= 600;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 10)}
+		break; 
+		case 4:
+			sum= 1000;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 15)}
+		break; 
+		case 3:
+			sum= 1500;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 25)}
+		break; 
+		case 2:
+			sum= 1700;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 30)}
+		break; 
+		case 1:
+			sum= 2500;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 35)}
+		break; 
+	}
+
+	return sum;
+}

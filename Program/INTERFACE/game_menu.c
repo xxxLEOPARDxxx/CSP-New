@@ -55,7 +55,7 @@ void InitInterface_gm(string iniName)
 	string text4 = "Стартовые условия";
     SetFormatedText("STARTINFO_TITLE", text4);
 	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum());
-	string text = "Анимация персонажа: "+pchar.model.animation+"\nДозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nНе ограничивать пиратские квесты: "+bNoPirateRestrictions;
+	string text = "Анимация персонажа: "+pchar.model.animation+"\nДозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nНе ограничивать пиратские квесты: "+bNoPirateRestrictions+"\nАльтернативный баланс: "+bAltBalance;
 	SetFormatedText("STARTINFO_TEXT", text);
 	string text3;
 	if (pchar.BaseNation == ENGLAND) text3 = "Англия";
@@ -74,8 +74,10 @@ void InitInterface_gm(string iniName)
 	string text2 = "Характер: "+text5+"\nСложность: "+GetLevelComplexity(MOD_SKILL_ENEMY_RATE)+"\nНация: "+text3+"\nСкорость набора опыта: "+MOD_EXP_RATE+" / 105\nКоличество абордажников: "+MOD_OFFICERS_RATE+"\nВремя исчезновения трупов: "+MOD_DEAD_CLEAR_TIME+"\nКоличество кораблей охраны: "+MOD_DEFENDERS_RATE+"\nЧастота событий: "+iEncountersRate;
 	SetFormatedText("STARTINFO_TEXT2", text2);
 	string text6 = "Количество энкаунтеров: "+iEncountersCountRate+"\nРежим плавания: "+iArcadeSails+"\nПлатные заходы в порт: "+bPortPermission+"\nВзятки стражникам: "+bBribeSoldiers+"\nСнижение порога личных перков: "+bHigherSelfRate+"\nСнижение порога корабельных перков: "+bHigherShipRate+"\nОграничение бонуса навыка офицеров: "+bNoBonusSkillOff+"\nКонтракт на полубессмертие: "+bHalfImmortalPGG;
+	string text7 = "Исследование кораблей: "+bFillEncyShips;
 	
 	SetFormatedText("STARTINFO_TEXT3", text6);
+	SetFormatedText("STARTINFO_TEXT4", text7);
 	SetFormatedText("COPYRIGHTS_TEXT", PROVIDER_TXT);
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga.tx");
 	

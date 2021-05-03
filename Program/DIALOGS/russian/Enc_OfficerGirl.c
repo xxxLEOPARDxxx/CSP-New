@@ -180,23 +180,37 @@ void ProcessDialogEvent()
             Link.l5.go = "stay_follow";
 			
 			// по тек локации определим можно ли тут приказать  -->
-			if(IsEntity(loadedLocation))
+			if (IsEntity(loadedLocation))
+            {
+                if (CheckAttribute(loadedLocation, "fastreload"))
+                {
+                    iTemp = FindColony(loadedLocation.fastreload);
+                    if (iTemp != -1)
+                    {
+                        sld = GetColonyByIndex(iTemp);
+                        if (sti(sld.HeroOwn) == true && !CheckAttribute(sld, "OfficerIdx"))
+                        {
+							if(Locations[FindLocation(PChar.location)].islandId != "Caiman")
+							{
+								NPChar.ColonyIdx = iTemp;
+								Link.l7 = "я назначаю теб€ наместником этого города!";
+								Link.l7.go = "Gover_Hire";
+							}
+                        }
+                    }
+                }
+            }
+			if(PChar.ColonyBuilding.Stage != "0" && PChar.ColonyBuilding.Hovernor == "")
 			{
-				if(CheckAttribute(loadedLocation, "fastreload"))
+				if(CheckAttribute(&Locations[FindLocation(PChar.location)], "islandId"))
 				{
-					iTemp = FindColony(loadedLocation.fastreload);
-					if(iTemp != -1)
+					if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
 					{
-						sld = GetColonyByIndex(iTemp);
-						if(sti(sld.HeroOwn) == true && !CheckAttribute(sld, "OfficerIdx"))
-						{
-							NPChar.ColonyIdx = iTemp;
-							Link.l7 = "я назначаю теб€ наместником этого города!";
-							Link.l7.go = "Gover_Hire";
-						}
+						Link.l8 = "я хочу назначить теб€ управл€ющим колонии ''" + PChar.ColonyBuilding.ColonyName + "'', которую мы построили на острове  айман.";
+						Link.l8.go = "ColonyBuilding_Hovernor_1";
 					}
-				}
-			} 
+				}	
+			}
 			
             link.l9 = ""+ GetSexPhrase("–асслабьс€, красотка, отдыхай","Ќичего. ¬ольно") +".";
 			link.l9.go = "exit";

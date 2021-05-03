@@ -31,14 +31,8 @@ void procBattleCommandSound()
 
 void InitBattleLandInterface()
 {
-	//if( IsEntity(&objLandInterface) ) {
-	//	DeleteClass(&objLandInterface);
-	//}
-	//if(bLandInterfaceStart) {
 	if( IsEntity(&objLandInterface) ) {
 		EndBattleLandInterface();
-		//DeleteEntity(&objLandInterface);
-		//return;
 	}
 	bLandInterfaceStart = false;
 	SetEventHandler(EVENT_LOCATION_LOAD,"StartBattleLandInterface",0);
@@ -132,60 +126,61 @@ ref BLI_CheckCommand()
 
 	switch(commandName)
 	{
-	case "cancel":
-		g_intRetVal = -1;
-	break;
-	case "BI_FastReload":
-		bUsed = SetReloadIcons();
-	break;
-	case "BI_ItemsUse":
-		bUsed = SetUsedPotionIcons();
-	break;
-	case "BI_UseFood":
-		bool bEnableFood = true;
-		if(bEnableFood)
-		{
-			bUsed = SetUsedFoodIcons();
-		}
-		else
-		{
+		case "cancel":
+			g_intRetVal = -1;
+		break;
+		case "BI_FastReload":
+			bUsed = SetReloadIcons();
+		break;
+		case "BI_ItemsUse":
+			bUsed = SetUsedPotionIcons();
+		break;
+		case "BI_UseFood":
+			bool bEnableFood = true;
+			if(bEnableFood)
+			{
+				bUsed = SetUsedFoodIcons();
+			}
+			else
+			{
+				g_intRetVal = 0;
+			}
+		break;	   
+		case "BI_DialogStart":
 			g_intRetVal = 0;
-		}
-	break;	   
-	case "BI_DialogStart":
-		g_intRetVal = 0;
-	break;
-	case "BI_ItemsChange":
-		g_intRetVal = 0;
-	break;
-	case "BI_TakeItem":
-		g_intRetVal = 0;
-	break;
-	case "BI_PlaceItem":
-		g_intRetVal = 0;
-	break;
-	case "BI_OutDoor":
-		g_intRetVal = 0;
-	break;
-	case "BI_UseBox":
-		g_intRetVal = 0;
-	break;
-	// boal
-    case "BI_DeadBox":
-		g_intRetVal = 0;
-	break;
-	case "BI_TalkSelf":
-		g_intRetVal = 0;
-	break;
-	case "BI_ActivateRush":
-		g_intRetVal = 0;
-	break;
-	case "BI_Exit_Deck": //boal
-		g_intRetVal = 0;
-	break;
+		break;
+		case "BI_ItemsChange":
+			g_intRetVal = 0;
+		break;
+		case "BI_TakeItem":
+			g_intRetVal = 0;
+		break;
+		case "BI_PlaceItem":
+			g_intRetVal = 0;
+		break;
+		case "BI_OutDoor":
+			g_intRetVal = 0;
+		break;
+		case "BI_UseBox":
+			g_intRetVal = 0;
+		break;
+		// boal
+		case "BI_DeadBox":
+			g_intRetVal = 0;
+		break;
+		case "BI_TalkSelf":
+			g_intRetVal = 0;
+		break;
+		case "BI_Craft":
+			g_intRetVal = 0;
+		break;
+		case "BI_ActivateRush":
+			g_intRetVal = 0;
+		break;
+		case "BI_Exit_Deck": //boal
+			g_intRetVal = 0;
+		break;
 	}
-
-	//if(!bUsed)	objLandInterface.UserIcons.cancel.enable = true;
 	return &g_intRetVal;
 }
 
@@ -312,6 +307,10 @@ void BLI_ExecuteCommand()
 	case "BI_TalkSelf":
 		DoQuestCheckDelay("TalkSelf_Start", 0.2);
 	break;
+	case "BI_Craft":
+		pchar.questTemp.CraftType = "Blacksmith";
+		LaunchCraftAll();
+	break;
 	case "BI_ActivateRush":
 		ActivateCharacterPerk(pchar,"Rush");
 	break;
@@ -403,7 +402,7 @@ void BLI_SetObjectData()
 	if(InterfaceStates.AltIntIcons) objLandInterface.CommandTextures.list.t0.name = "battle_interface\LandCommands_Konshud.tga";
 	else objLandInterface.CommandTextures.list.t0.name = "battle_interface\LandCommands.tga";
 	objLandInterface.CommandTextures.list.t0.xsize = 16;
-	objLandInterface.CommandTextures.list.t0.ysize = 2;
+	objLandInterface.CommandTextures.list.t0.ysize = 4;
 
  	if(InterfaceStates.AltIntIcons) objLandInterface.CommandTextures.list.t1.name = "battle_interface\LandTarget_SLB_Konshud.tga";
  	else objLandInterface.CommandTextures.list.t1.name = "battle_interface\LandTarget_SLB.tga";
@@ -474,6 +473,7 @@ void BLI_SetObjectData()
 	objLandInterface.Commands.UseFood.texNum		= 0;
 	objLandInterface.Commands.UseFood.event			= "BI_UseFood";
 	objLandInterface.Commands.UseFood.note			= LanguageConvertString(idLngFile, "land_UseFood");
+	
 	objLandInterface.Commands.DialogStart.enable	= true;
  	objLandInterface.Commands.DialogStart.picNum		= 17;
 	objLandInterface.Commands.DialogStart.selPicNum		= 1;
@@ -523,6 +523,14 @@ void BLI_SetObjectData()
 	objLandInterface.Commands.TalkSelf.event		= "BI_TalkSelf";
 	objLandInterface.Commands.TalkSelf.note		    = "ћысли вслух";
 	// диалог сам с собой <--
+	
+	objLandInterface.Commands.Craft.enable	= true;
+ 	objLandInterface.Commands.Craft.picNum	 	= 48;
+	objLandInterface.Commands.Craft.selPicNum	= 32;
+	objLandInterface.Commands.Craft.texNum		= 0;
+	objLandInterface.Commands.Craft.event		= "BI_Craft";
+	objLandInterface.Commands.Craft.note		= "—оздание предмета";
+	
 	objLandInterface.Commands.ActivateRush.enable	= true;
 	objLandInterface.Commands.ActivateRush.picNum	= 28;
 	objLandInterface.Commands.ActivateRush.selPicNum		= 12;
@@ -762,7 +770,6 @@ void BLI_SetObjectData()
 	objLandInterface.textinfo.datatext.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(130 * fHtRatio));
 	objLandInterface.textinfo.datatext.pos.y = RecalculateVIcon(makeint(100 * fHtRatio));
 	RefreshLandTime();
-	//objLandInterface.textinfo.datatext.text = XI_convertString("Date:") + GetQuestBookData(); //GetDataDay()+" "+XI_ConvertString("target_month_" + GetDataMonth())+" "+GetDataYear();
 	objLandInterface.textinfo.datatext.refreshable = true;
 	if(!dialogRun)
 	{
@@ -784,7 +791,7 @@ void BLI_SetObjectData()
 		}
 		string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
 		
-		objLandInterface.imageslist.textinfoback2.texture = "\battle_interface\CharBackIcon.png";
+		objLandInterface.imageslist.textinfoback2.texture = "\battle_interface\CharBackIcon.tga";
 		objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
 		objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,1.0,1.0";
 		objLandInterface.imageslist.textinfoback2.pos = off;
@@ -795,49 +802,6 @@ void BLI_SetObjectData()
 	objLandInterface.textinfo.deadboxinfo.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
 	objLandInterface.textinfo.deadboxinfo.pos.y = RecalculateVIcon(makeint(140 * fHtRatio));
 	objLandInterface.textinfo.deadboxinfo.refreshable = true;
-	//Charge info
-	/*objLandInterface.textinfo.chargetext.font = "interface_button";
-	objLandInterface.textinfo.chargetext.scale = 1.5 * fHtRatio;
-	objLandInterface.textinfo.chargetext.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
-	objLandInterface.textinfo.chargetext.pos.y = RecalculateVIcon(makeint(130 * fHtRatio));
-	objLandInterface.textinfo.chargetext.refreshable = true;
-	//Hp info
-	objLandInterface.textinfo.hptext.font = "interface_button";
-	objLandInterface.textinfo.hptext.scale = 1.3 * fHtRatio;
-	objLandInterface.textinfo.hptext.pos.x = sti(showWindow.left) + RecalculateHIcon(makeint(52 * fHtRatio));
-	objLandInterface.textinfo.hptext.pos.y = RecalculateVIcon(makeint(94 * fHtRatio));
-	objLandInterface.textinfo.hptext.refreshable = true;*/
-
-	/*objLandInterface.imageslist.textinfoback1.texture = "battle_interface\textinfo_back.tga.tx";
-	objLandInterface.imageslist.textinfoback1.color = argb(128,64,64,64);
-	objLandInterface.imageslist.textinfoback1.uv = "0.0,0.0,1.0,0.125";
-	objLandInterface.imageslist.textinfoback1.pos = (sti(showWindow.right) - RecalculateHIcon(188)) + "," +
-		RecalculateVIcon(12) + "," +
-		(sti(showWindow.right) - RecalculateHIcon(20)) + "," +
-		RecalculateVIcon(20);
-	objLandInterface.imageslist.textinfoback2.texture = "battle_interface\textinfo_back.tga.tx";
-	objLandInterface.imageslist.textinfoback2.color = argb(128,64,64,64);
-	objLandInterface.imageslist.textinfoback2.uv = "0.0,0.125,1.0,0.875";
-	objLandInterface.imageslist.textinfoback2.pos = (sti(showWindow.right) - RecalculateHIcon(188)) + "," +
-		RecalculateVIcon(20) + "," +
-		(sti(showWindow.right) - RecalculateHIcon(20)) + "," +
-		RecalculateVIcon(120);
-	objLandInterface.imageslist.textinfoback3.texture = "battle_interface\textinfo_back.tga.tx";
-	objLandInterface.imageslist.textinfoback3.color = argb(128,64,64,64);
-	objLandInterface.imageslist.textinfoback3.uv = "0.0,0.875,1.0,1.0";
-	objLandInterface.imageslist.textinfoback3.pos = (sti(showWindow.right) - RecalculateHIcon(188)) + "," +
-		RecalculateVIcon(120) + "," +
-		(sti(showWindow.right) - RecalculateHIcon(20)) + "," +
-		RecalculateVIcon(128);
-		*/
-	//
-	/*времени в игре нет
-	objLandInterface.textinfo.timetext.font = "interface_normal";
-	objLandInterface.textinfo.timetext.scale = 1.0;
-	objLandInterface.textinfo.timetext.pos.x = RecalculateHIcon(940);
-	objLandInterface.textinfo.timetext.pos.y = RecalculateVIcon(100);
-	objLandInterface.textinfo.timetext.text = makeint(GetHour())+":"+makeint(GetMinute());
-    */
 
     // Ѓто у вас нет, у менІ все есть ;) - boal
     objLandInterface.CommandList.CommandMaxIconQuantity = 15;
@@ -858,14 +822,6 @@ void BLI_SetObjectData()
 	objLandInterface.CommandList.UDArrow_Offset_Up = RecalculateHIcon(makeint(-41 * fHtRatio)) + "," + RecalculateVIcon(makeint(-30 * fHtRatio));
 	objLandInterface.CommandList.UDArrow_Offset_Down = RecalculateHIcon(makeint(-41 * fHtRatio)) + "," + RecalculateVIcon(makeint(46 * fHtRatio));
 
-	// дебилы все равно играть не будут, а нормальным лишнее не нужно boal
-	/*objLandInterface.CommandList.ActiveIcon_Texture = "battle_interface\enter_list.tga.tx";
-	objLandInterface.CommandList.ActiveIcon_Offset = RecalculateHIcon(-49) + ",0";
-	objLandInterface.CommandList.ActiveIcon_Size = RecalculateHIcon(48) + "," + RecalculateVIcon(48);
-	objLandInterface.CommandList.ActiveIcon_UV1 = "0.5,0.0,1.0,1.0";
-	objLandInterface.CommandList.ActiveIcon_UV2 = "0.0,0.0,0.5,1.0";
-	objLandInterface.CommandList.ActiveIcon_Note = XI_ConvertString("MenuNote");*/
-
 	SendMessage(&objLandInterface,"l",MSG_BATTLE_LAND_START);
 }
 
@@ -880,9 +836,6 @@ void RefreshChargeTime()
 	}
 	else
 	{
-		//charge/hp info
-		/*
-		objLandInterface.textinfo.hptext.text = makeint(chr.chr_ai.hp) + "/" +  makeint(chr.chr_ai.hp_max);*/
 		ref chr = &Characters[nMainCharacterIndex];
 		aref chr_ai;
 		makearef(chr_ai, Characters[nMainCharacterIndex].chr_ai);
@@ -971,12 +924,6 @@ void BLI_UpdateObjectData()
 		curCh = GetCharacter(cn);
 		makearef(ar,objLandInterface.data.icons.(attrName));
 		SetCharacterIconData(cn,ar);
-		//ar.picture = curCh.FaceId;
-		//ar.health = LAi_GetCharacterRelHP(curCh);
-		//ar.charge = LAi_GetCharacterRelCharge(curCh);
-		//ar.shootMax = LAi_GetCharacterChargeQuant(curCh);
-		//ar.shootCur = LAi_GetCharacterChargeCur(curCh);
-		//ar.poison = LAi_IsPoison(curCh);
 	}
 
 	PostEvent("evntBLI_Update",BLI_UPDATE_PERIOD);
@@ -1036,16 +983,6 @@ void BLI_SetPossibleCommands()
 			{
 				objLandInterface.Commands.ItemsChange.enable = true;
 			}
-			// грабеж
-			/*
-			else
-			{
-				if( CheckAttribute(&Characters[i],"InterfaceFlags.ItemsChange") &&
-					Characters[i].InterfaceFlags.ItemsChange != "0" )
-				{
-					objLandInterface.Commands.ItemsChange.enable = true;
-				}
-			}   */
 		}
 		// boal 22.01.2004 -->
 		else
@@ -1065,7 +1002,12 @@ void BLI_SetPossibleCommands()
     	objLandInterface.Commands.TalkSelf.enable = true;//boal разговор с каюте сам с собой
     	bUseCommand = true;
     }
-	if(GetCharacterPerkUsing(pchar,"Rush"))
+	if (!LAi_IsFightMode(pchar) && !LAi_grp_alarmactive )
+	{
+    	objLandInterface.Commands.Craft.enable = true;//boal разговор с каюте сам с собой
+    	bUseCommand = true;
+    }
+	if(GetCharacterPerkUsing(pchar,"Rush") && PChar.location != "FencingTown_Arena" && PChar.location != "FencingTown_ExitTown")
 	{
 		objLandInterface.Commands.ActivateRush.enable = true;
 		bUseCommand = true;
@@ -1144,16 +1086,6 @@ void BLI_SetPossibleCommands()
 	}
 }
 
-/*void BLI_evntRefreshCommandMenu()
-{
-	DelEventHandler("frame","BLI_evntRefreshCommandMenu");
-	BLI_RefreshCommandMenu();
-}
-void BLI_RefreshCommandMenu()
-{
-	SendMessage(&objLandInterface,"lllll",BI_IN_SET_COMMAND_MODE,-1,-1,-1,-1,-1);
-}*/
-
 void procFindDialogChar()
 {
 	int dlgChar = -1;
@@ -1203,14 +1135,12 @@ void BLI_ChrEnterToLocation()
 				}
 			}
 		}
-		//SetEventHandler("frame","BLI_evntRefreshCommandMenu",1);
 		LI_CareUpdateCommandList();
 	}
 }
 
 void BLI_ChrExitFromLocation()
 {
-	//SetEventHandler("frame","BLI_evntRefreshCommandMenu",1);
 	LI_CareUpdateCommandList();
 }
 
@@ -1368,13 +1298,15 @@ bool SetReloadIcons()
 				{
 					if (objLandInterface.UserIcons.(fastLocName).note == "ƒом управл€ющего плантацией")
 					{
-						objLandInterface.UserIcons.(fastLocName).pic = 29;
-						objLandInterface.UserIcons.(fastLocName).selpic = 13;
+						objLandInterface.UserIcons.(fastLocName).pic = 50;
+						objLandInterface.UserIcons.(fastLocName).selpic = 34;
+						objLandInterface.UserIcons.(fastLocName).tex = 0;
 					}
 					if (objLandInterface.UserIcons.(fastLocName).note == "ƒом начальника охранной базы")
 					{
-						objLandInterface.UserIcons.(fastLocName).pic = 23;
-						objLandInterface.UserIcons.(fastLocName).selpic = 7;
+						objLandInterface.UserIcons.(fastLocName).pic = 49;
+						objLandInterface.UserIcons.(fastLocName).selpic = 33;
+						objLandInterface.UserIcons.(fastLocName).tex = 0;
 					}
 				}
 				bUse = true;
@@ -1402,32 +1334,9 @@ void SetOfficerTexture(int officerIdx)
 
 void BLI_UpdateOfficers()
 {
-	//Boyer mod
-	/*
-	SetOfficerTexture(0);
-	SetOfficerTexture(1);
-	SetOfficerTexture(2);
-	SetOfficerTexture(3);
-	//Boyer mod for add'l fighters
-	SetOfficerTexture(4);
-	SetOfficerTexture(5);
-	SetOfficerTexture(6);
-	*/
 	for(int i=0;i<=MAX_NUM_FIGHTERS;i++) {
 		SetOfficerTexture(i);
 	}
-	//End Boyer mod
-
-	/*
-	SendMessage(&objLandInterface, "lls", MSG_BATTLE_LAND_SET_ICONTEX, 0, objLandInterface.Parameters.iconTexture0);
-	SendMessage(&objLandInterface, "lls", MSG_BATTLE_LAND_SET_ICONTEX, 1, objLandInterface.Parameters.iconTexture1);
-	SendMessage(&objLandInterface, "lls", MSG_BATTLE_LAND_SET_ICONTEX, 2, objLandInterface.Parameters.iconTexture2);
-	SendMessage(&objLandInterface, "lls", MSG_BATTLE_LAND_SET_ICONTEX, 3, objLandInterface.Parameters.iconTexture3);
-	//Boyer mod for add'l fighters
-	SendMessage(&objLandInterface, "lls", MSG_BATTLE_LAND_SET_ICONTEX, 4, objLandInterface.Parameters.iconTexture4);
-	SendMessage(&objLandInterface, "lls", MSG_BATTLE_LAND_SET_ICONTEX, 5, objLandInterface.Parameters.iconTexture5);
-	SendMessage(&objLandInterface, "lls", MSG_BATTLE_LAND_SET_ICONTEX, 6, objLandInterface.Parameters.iconTexture6);
-	*/
 	for(i=0;i<=MAX_NUM_FIGHTERS;i++) {
 		string sTexture;
 		sTexture = "iconTexture" + i;
@@ -1551,8 +1460,6 @@ void SetCharacterIconData(int chrindex, aref arData)
 	arData.shootMax = LAi_GetCharacterChargeQuant(chref);
 	arData.shootCur = LAi_GetCharacterChargeCur(chref);
 	if( CheckAttribute(chref,"FaceId") ) {
-		//arData.picture = chref.FaceId;
-		// arData.texture = "battle_interface\portraits\face_"+chref.FaceID+".tga";
 		arData.texture = "battle_interface\portraits_csp\face_"+chref.FaceID+".tga";
 		if( CheckAttribute(chref,"FaceUV") ) {
 			arData.uv = chref.FaceUV;
@@ -1567,6 +1474,4 @@ void SetCharacterIconData(int chrindex, aref arData)
 			arData.uv = "0.0,0.0,0.5,1.0";
 		}
 	}
-	//arData.charge = LAi_GetCharacterRelCharge(chref);
-	//arData.poison = LAi_IsPoison(chref);
 }

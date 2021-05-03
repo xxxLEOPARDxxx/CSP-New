@@ -253,6 +253,12 @@ void OpenChest()
 {
 	AddCharacterExpToSkill(PChar, "Fortune", 50);
 	AddCharacterExpToSkill(PChar, "Repair", 50);
+	
+	pchar.questTemp.chestcount = sti(pchar.questTemp.chestcount) + 1;
+	// Открываем достижения
+	if(sti(pchar.questTemp.chestcount) >= 10) UnlockAchievement("AchChest", 1);
+	if(sti(pchar.questTemp.chestcount) >= 25) UnlockAchievement("AchChest", 2);
+	if(sti(pchar.questTemp.chestcount) >= 50) UnlockAchievement("AchChest", 3);
 	string nameitm[10];
 	int itmq[10];
 	

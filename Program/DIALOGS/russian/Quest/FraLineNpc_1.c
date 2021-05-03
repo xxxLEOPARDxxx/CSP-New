@@ -480,7 +480,7 @@ void ProcessDialogEvent()
 			CharacterIntoCompanionAndGoOut(pchar, npchar, "reload", "reload1", 5, false);
 			for (i=1; i<=2; i++)
 			{
-                sld = GetCharacter(NPC_GenerateCharacter("Captain_"+i, "officer_"+(rand(9)+1), "man", "man", 20, FRANCE, -1, true));
+                sld = GetCharacter(NPC_GenerateCharacter("Captain_"+i, "officer_"+(rand(63)+1), "man", "man", 20, FRANCE, -1, true));
                 FantomMakeCoolSailor(sld, SHIP_CORVETTE, "", CANNON_TYPE_CANNON_LBS24, 70, 80, 40);
                 FantomMakeCoolFighter(sld, 20, 90, 70, BLADE_LONG, "pistol4", 120);
 				sld.Dialog.Filename = "Quest\FraLineNpc_2.c";

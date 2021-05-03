@@ -16,6 +16,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				link.l1.go = "SharpPearl_1";
 				SaveCurrentNpcQuestDateParam(npchar, "quest.SharpTime");
 			}
+			if (pchar.questTemp.PDM_PK_UvestiNaVerh == "UvestiNaVerh")
+			{
+				link.l1 = "Послушай, " + npchar.name + ", я хочу провести время с одной из твоих девушек, кажется, её зовут Франческа.";
+				link.l1.go = "PDM_PK_UvestiNaVerh";
+			}
 		break;
 		// капитан Шарп, грабеж жемчужных промыслов
 		case "SharpPearl_1":
@@ -86,6 +91,38 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			LAi_ActorDialog(sld, pchar, "", -1, 0);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
+		break;
+		// Квест "Потерянное кольцо"
+		case "PDM_PK_UvestiNaVerh":
+			dialog.text = "О-о, "+ GetSexPhrase("красавчик","красавица") +", Франческа одна из лучших девушек нашего заведения. За неё тебе придётся заплатить 15000 золотых.";
+			link.l1 = "Да, конечно.";
+			link.l1.go = "PDM_PK_UvestiNaVerh_2";
+			link.l2 = "Я передумал"+ GetSexPhrase("","а") +".";
+			link.l2.go = "exit";
+		break;
+		case "PDM_PK_UvestiNaVerh_2":
+			if (sti(pchar.Money) >= 15000)
+			{		
+				dialog.text = "Отлично, "+ GetSexPhrase("дорогой","дорогая") +". Фраческа будет ждать тебя в комнате для уединения на втором этаже.";
+				link.l1 = "Хех, ну я "+ GetSexPhrase("пошёл","пошла") +"...";
+				link.l1.go = "PDM_PK_UvestiNaVerh_3";
+				AddMoneyToCharacter(pchar, -15000);
+				DeleteAttribute(pchar, "questTemp.PDM_PK_UvestiNaVerh");
+			}
+			else
+			{
+				dialog.text = "";
+				link.l1 = "Послушай, у меня сейчас нет при себе таких денег - но я принесу их тебе попозже..";
+				link.l1.go = "exit";
+			}
+		break;
+		case "PDM_PK_UvestiNaVerh_3":
+			DoQuestReloadToLocation("SantoDomingo_Brothel_room", "reload", "reload1_back", "");
+			sld = CharacterFromID("PDM_PK_Francheska")
+			ChangeCharacterAddressGroup(sld, "SantoDomingo_Brothel_room", "goto", "goto2");
+			sld.dialog.filename   = "Quest/PDM/Poteryanoe_Koltso.c";
+			sld.dialog.currentnode   = "NaVerhuSFrancheska";
+			chrDisableReloadToLocation = true;
 		break;
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

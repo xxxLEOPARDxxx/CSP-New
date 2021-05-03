@@ -438,7 +438,23 @@ void ShowInfoWindow()
 		    sHeader = XI_ConvertString("Ship abilities");
 		    sText1  = GetRPGText("Ship_abilities");
 		break;
+		case "TABBTN_3":
+		    sHeader = XI_ConvertString("All Info Char");
+		    sText1  = GetRPGText("All_Info_Char");
+		break;
 		case "TABLE_OTHER":
+		    sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
+		    sText1  = GetRPGText(GameInterface.(CurTable).(CurRow).UserData.ID);
+		break;
+		case "TABLE_SHIP_OTHERS":
+		    sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
+		    sText1  = GetRPGText(GameInterface.(CurTable).(CurRow).UserData.ID);
+		break;
+		case "TABLE_BLADES_OTHERS":
+		    sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
+		    sText1  = GetRPGText(GameInterface.(CurTable).(CurRow).UserData.ID);
+		break;
+		case "TABLE_CHAR_OTHERS":
 		    sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
 		    sText1  = GetRPGText(GameInterface.(CurTable).(CurRow).UserData.ID);
 		break;
@@ -495,7 +511,7 @@ void FillSkillTables()
 		
     SetFormatedText("TABSTR_1", XI_ConvertString("Personal_abilities") + " " +xi_refCharacter.perks.FreePoints_self);
     SetFormatedText("TABSTR_2", XI_ConvertString("Ship_abilities") + " " + xi_refCharacter.perks.FreePoints_ship);
-    SetControlsTabMode(1);
+    SetControlsTabMode(3);
 
 	GameInterface.TABLE_SPECIAL.select = 0;
 	GameInterface.TABLE_SPECIAL.hr.td1.str = "";
@@ -625,11 +641,11 @@ void FillSkillTables()
 		GameInterface.TABLE_SKILL_2.(row).td5.textoffset = "-1,0";
 
 		GameInterface.TABLE_SKILL_2.(row).td2.str = XI_ConvertString(skillName);
+		
 		skillVal = GetSkillValue(xi_refCharacter, SKILL_TYPE, skillName);
 		GameInterface.TABLE_SKILL_2.(row).td5.str = skillVal;
 		// рассчет драйна
-		diff = GetSummonSkillFromName(xi_refCharacter, skillName) - skillVal;
-
+		diff = GetSummonSkillFromNameSimple(xi_refCharacter, skillName) - skillVal;
 		if (skillVal < SKILL_MAX)
 		{
 			GameInterface.TABLE_SKILL_2.(row).td3.str = makeint(GetSkillValueExp(xi_refCharacter, skillName) * 100.0 / makefloat(skillVal * GetCharacterExpRate(xi_refCharacter, skillName))) + "%";
@@ -661,17 +677,17 @@ void FillSkillTables()
 	GameInterface.TABLE_OTHER.select = 0;
 	GameInterface.TABLE_OTHER.hr.td1.str = "";
 	//Boyer mod
-	//for (i=1; i<=9; i++)
-	for (i=1; i<=6 + MAX_NUM_FIGHTERS; i++)
+	for (i=1; i<=9; i++)
+	// for (i=1; i<=6 + MAX_NUM_FIGHTERS; i++)
 	{
 	    row = "tr" + i;
 
-	    GameInterface.TABLE_OTHER.(row).td1.icon.width = 16;
-    	GameInterface.TABLE_OTHER.(row).td1.icon.height = 16;
+	    GameInterface.TABLE_OTHER.(row).td1.icon.width = 26;
+    	GameInterface.TABLE_OTHER.(row).td1.icon.height = 26;
     	GameInterface.TABLE_OTHER.(row).td1.icon.offset = "-1, 0";
 		GameInterface.TABLE_OTHER.(row).td2.align = "left";
-		GameInterface.TABLE_OTHER.(row).td2.scale = 0.8;
-		GameInterface.TABLE_OTHER.(row).td2.textoffset = "0,0";
+		GameInterface.TABLE_OTHER.(row).td2.scale = 0.9;
+		GameInterface.TABLE_OTHER.(row).td2.textoffset = "5,0";
 		GameInterface.TABLE_OTHER.(row).td3.align = "right";
 	}
 	GameInterface.TABLE_OTHER.tr1.UserData.ID = "Rank";
@@ -679,20 +695,20 @@ void FillSkillTables()
     GameInterface.TABLE_OTHER.tr1.td1.icon.image = "Rank";
 	GameInterface.TABLE_OTHER.tr1.td2.str = XI_ConvertString("Rank");
 	GameInterface.TABLE_OTHER.tr1.td3.str = sti(xi_refCharacter.rank);
-	GameInterface.TABLE_OTHER.tr1.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr1.td3.scale = 0.9;
 	
 	GameInterface.TABLE_OTHER.tr2.UserData.ID = "Life";
 	GameInterface.TABLE_OTHER.tr2.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr2.td1.icon.image = "Life";
 	GameInterface.TABLE_OTHER.tr2.td2.str = XI_ConvertString("Life");
 	GameInterface.TABLE_OTHER.tr2.td3.str = MakeInt(LAi_GetCharacterHP(xi_refCharacter)) + " / " + MakeInt(LAi_GetCharacterMaxHP(xi_refCharacter));
-	GameInterface.TABLE_OTHER.tr2.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr2.td3.scale = 0.9;
 
     GameInterface.TABLE_OTHER.tr3.UserData.ID = "Health";
 	GameInterface.TABLE_OTHER.tr3.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr3.td1.icon.image = "Health";
 	GameInterface.TABLE_OTHER.tr3.td2.str = XI_ConvertString("Health");
-	GameInterface.TABLE_OTHER.tr3.td2.textoffset = "0,-2";
+	// GameInterface.TABLE_OTHER.tr3.td2.textoffset = "0,0";
 	GameInterface.TABLE_OTHER.tr3.td3.str = GetHealthName(xi_refCharacter);
 	GameInterface.TABLE_OTHER.tr3.td3.scale = 0.6;
 	
@@ -709,7 +725,7 @@ void FillSkillTables()
 	GameInterface.TABLE_OTHER.tr4.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr4.td1.icon.image = "Energy";
 	GameInterface.TABLE_OTHER.tr4.td2.str = XI_ConvertString("Energy");
-	GameInterface.TABLE_OTHER.tr4.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr4.td3.scale = 0.9;
 	GameInterface.TABLE_OTHER.tr4.td3.str = sti(Lai_CharacterGetEnergy(xi_refCharacter)) + " / " + sti(LAi_GetCharacterMaxEnergy(xi_refCharacter));
 	diff = sti(LAi_GetCharacterMaxEnergy(xi_refCharacter) - GetCharacterMaxEnergyABSValue(xi_refCharacter));
 	if (diff != 0)
@@ -733,14 +749,14 @@ void FillSkillTables()
     GameInterface.TABLE_OTHER.tr5.td1.icon.image = "Money";
 	GameInterface.TABLE_OTHER.tr5.td2.str = XI_ConvertString("Money");
 	GameInterface.TABLE_OTHER.tr5.td3.str = MakeMoneyShow(sti(xi_refCharacter.Money), MONEY_SIGN,MONEY_DELIVER);
-	GameInterface.TABLE_OTHER.tr5.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr5.td3.scale = 0.9;
 	//GameInterface.TABLE_OTHER.tr5.td3.color = SetAlphaIntoColor(COLOR_MONEY, GetAlphaFromSkill(10));
 
     GameInterface.TABLE_OTHER.tr6.UserData.ID = "Reputation";
 	GameInterface.TABLE_OTHER.tr6.td1.icon.group = "ICONS_CHAR";
     GameInterface.TABLE_OTHER.tr6.td1.icon.image = "Reputation";
 	GameInterface.TABLE_OTHER.tr6.td2.str = XI_ConvertString("Reputation");
-	GameInterface.TABLE_OTHER.tr6.td2.textoffset = "0,-2";
+	// GameInterface.TABLE_OTHER.tr6.td2.textoffset = "0,-2";
 	GameInterface.TABLE_OTHER.tr6.td3.str = XI_ConvertString(GetReputationName(sti(xi_refCharacter.reputation)));
 	GameInterface.TABLE_OTHER.tr6.td3.scale = 0.8;
 	
@@ -749,7 +765,7 @@ void FillSkillTables()
     GameInterface.TABLE_OTHER.tr7.td1.icon.image = "weight";
 	GameInterface.TABLE_OTHER.tr7.td2.str = XI_ConvertString("weight");
 	GameInterface.TABLE_OTHER.tr7.td3.str = FloatToString(GetItemsWeight(xi_refCharacter), 1) + " / "+GetMaxItemsWeight(xi_refCharacter);
-	GameInterface.TABLE_OTHER.tr7.td3.scale = 0.8;
+	GameInterface.TABLE_OTHER.tr7.td3.scale = 0.9;
 	
     GameInterface.TABLE_OTHER.tr8.UserData.ID = "Title";
 	GameInterface.TABLE_OTHER.tr8.td1.icon.group = "ICONS_CHAR";
@@ -758,8 +774,8 @@ void FillSkillTables()
 	DeleteAttribute(&GameInterface, "TABLE_OTHER.tr8.td2");
 	GameInterface.TABLE_OTHER.tr8.td2.str = XI_ConvertString("Title");
 	GameInterface.TABLE_OTHER.tr8.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr8.td2.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr8.td2.textoffset = "0,0";
+	GameInterface.TABLE_OTHER.tr8.td2.scale = 0.9;
+	GameInterface.TABLE_OTHER.tr8.td2.textoffset = "5,0";
 
     DeleteAttribute(&GameInterface, "TABLE_OTHER.tr8.td3");
     GameInterface.TABLE_OTHER.tr8.td3.str = "";
@@ -786,91 +802,7 @@ void FillSkillTables()
     GameInterface.TABLE_OTHER.tr9.td1.icon.image = "NextExp";
 	GameInterface.TABLE_OTHER.tr9.td2.str = XI_ConvertString("NextExp");
 	GameInterface.TABLE_OTHER.tr9.td3.str = "";
-	GameInterface.TABLE_OTHER.tr9.td3.scale = 0.8;
-	
-	GameInterface.TABLE_OTHER.tr10.UserData.ID = "Health_NA";
-	GameInterface.TABLE_OTHER.tr10.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_OTHER.tr10.td1.icon.image = "Health_NA";
-	GameInterface.TABLE_OTHER.tr10.td1.icon.width = 16;
-	GameInterface.TABLE_OTHER.tr10.td1.icon.height = 16;
-	GameInterface.TABLE_OTHER.tr10.td2.str = "Регенерация жизни";
-	GameInterface.TABLE_OTHER.tr10.td2.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr10.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr10.td3.str = ShowStatValue("regenhp")+" в сек.";
-	GameInterface.TABLE_OTHER.tr10.td3.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr10.td3.align = "right";
-	
-	GameInterface.TABLE_OTHER.tr11.UserData.ID = "Poison_NA";
-	GameInterface.TABLE_OTHER.tr11.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_OTHER.tr11.td1.icon.image = "Poison_NA";
-	GameInterface.TABLE_OTHER.tr11.td1.icon.width = 16;
-	GameInterface.TABLE_OTHER.tr11.td1.icon.height = 16;
-	GameInterface.TABLE_OTHER.tr11.td2.str = "Отравление";
-	GameInterface.TABLE_OTHER.tr11.td2.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr11.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr11.td3.str = ShowStatValue("poison")+" сек.";
-	GameInterface.TABLE_OTHER.tr11.td3.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr11.td3.align = "right";
-	
-	GameInterface.TABLE_OTHER.tr12.UserData.ID = "Attack_NA";
-	GameInterface.TABLE_OTHER.tr12.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_OTHER.tr12.td1.icon.image = "Attack_NA";
-	GameInterface.TABLE_OTHER.tr12.td1.icon.width = 16;
-	GameInterface.TABLE_OTHER.tr12.td1.icon.height = 16;
-	GameInterface.TABLE_OTHER.tr12.td2.str = "Кровотечение";
-	GameInterface.TABLE_OTHER.tr12.td2.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr12.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr12.td3.str = ShowStatValue("blooding");
-	GameInterface.TABLE_OTHER.tr12.td3.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr12.td3.align = "right";
-	
-	GameInterface.TABLE_OTHER.tr13.UserData.ID = "LuckySword_NA";
-	GameInterface.TABLE_OTHER.tr13.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_OTHER.tr13.td1.icon.image = "LuckySword_NA";
-	GameInterface.TABLE_OTHER.tr13.td1.icon.width = 16;
-	GameInterface.TABLE_OTHER.tr13.td1.icon.height = 16;
-	GameInterface.TABLE_OTHER.tr13.td2.str = "Резкий удар";
-	GameInterface.TABLE_OTHER.tr13.td2.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr13.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr13.td3.str = ShowStatValue("swiftstrike");
-	GameInterface.TABLE_OTHER.tr13.td3.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr13.td3.align = "right";
-	
-	GameInterface.TABLE_OTHER.tr14.UserData.ID = "AntiDamage_NA";
-	GameInterface.TABLE_OTHER.tr14.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_OTHER.tr14.td1.icon.image = "AntiDamage_NA";
-	GameInterface.TABLE_OTHER.tr14.td1.icon.width = 16;
-	GameInterface.TABLE_OTHER.tr14.td1.icon.height = 16;
-	GameInterface.TABLE_OTHER.tr14.td2.str = "Шанс промаха О/П";
-	GameInterface.TABLE_OTHER.tr14.td2.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr14.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr14.td3.str = ShowStatValue("misschanceheavy");
-	GameInterface.TABLE_OTHER.tr14.td3.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr14.td3.align = "right";
-	
-	GameInterface.TABLE_OTHER.tr15.UserData.ID = "Critical_NA";
-	GameInterface.TABLE_OTHER.tr15.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_OTHER.tr15.td1.icon.image = "Critical_NA";
-	GameInterface.TABLE_OTHER.tr15.td1.icon.width = 16;
-	GameInterface.TABLE_OTHER.tr15.td1.icon.height = 16;
-	GameInterface.TABLE_OTHER.tr15.td2.str = "Шанс/урон крита";
-	GameInterface.TABLE_OTHER.tr15.td2.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr15.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr15.td3.str = ShowStatValue("crit");
-	GameInterface.TABLE_OTHER.tr15.td3.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr15.td3.align = "right";
-	
-	GameInterface.TABLE_OTHER.tr16.UserData.ID = "Time_NA";
-	GameInterface.TABLE_OTHER.tr16.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_OTHER.tr16.td1.icon.image = "Time_NA";
-	GameInterface.TABLE_OTHER.tr16.td1.icon.width = 16;
-	GameInterface.TABLE_OTHER.tr16.td1.icon.height = 16;
-	GameInterface.TABLE_OTHER.tr16.td2.str = "Время перезарядки";
-	GameInterface.TABLE_OTHER.tr16.td2.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr16.td2.align = "left";
-	GameInterface.TABLE_OTHER.tr16.td3.str = "-"+ShowStatValue("recharge");
-	GameInterface.TABLE_OTHER.tr16.td3.scale = 0.8;
-	GameInterface.TABLE_OTHER.tr16.td3.align = "right";
+	GameInterface.TABLE_OTHER.tr9.td3.scale = 0.9;
 	
 	// прорисовка
 	Table_UpdateWindow("TABLE_SPECIAL");
@@ -886,61 +818,63 @@ string ShowStatValue(string type)
 	switch (type)
 	{
 		case "crit":
-			int critvalue = 0;
-			bool addluck = false;
-			if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
-			{
-				critvalue += 5;
-				addluck = true;
-			}
-			if(IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
-			{
-				critvalue += 15;
-				addluck = true;
-			}
-			if(!IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
-			{
-				if(IsCharacterPerkOn(xi_refCharacter, "CriticalHit"))
-				{
-					critvalue += 5;
-					addluck = true;
-				}
-			}
-			if (addluck) critvalue += GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L);
-			int critdamage = 100 + (GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L)*5);
-			return its(critvalue)+"%/"+its(critdamage)+"%";
+			return CheckForSpecial(type);
 		break;
 		case "regenhp":
 			string value = FloatToString(GetCharacterRegenHP(xi_refCharacter, false),2);
 			return value;
 		break;
-		case "misschanceheavy":
-			/*float fMultiplier = 1.6666667;
+		case "energychar":
+			float fMultiplierE = 1.6666667;
 			if(CheckCharacterPerk(xi_refCharacter, "Energaiser")) // скрытый перк боссов и ГГ
 			{
-				fMultiplier = fMultiplier * 1.5;
+				fMultiplierE = fMultiplierE * 1.5;
 			}
 			if(CheckCharacterPerk(xi_refCharacter, "Tireless")) 
 			{
-				fMultiplier = fMultiplier * 1.15;
+				fMultiplierE = fMultiplierE * 1.15;
 			}
-			return FloatToString(fMultiplier,2);*/
-			float coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
-			return FloatToString(20.0-(coeff*4),1)+"%/"+FloatToString(40.0-(coeff*4),1)+"%";
+			return FloatToString(fMultiplierE,2);
+		break;
+		case "accuracy":
+			int accuracy = makeint(LAi_GunCalcProbability(xi_refCharacter, 0.01)*100.0);
+			if (accuracy > 100) return "100%";
+			else return accuracy+"%";
+		break;
+		case "gundamage":
+			float min = 0.0;
+			float max = 0.0;
+			if(CheckAttribute(xi_refCharacter, "chr_ai.dmggunmin"))
+			{
+				min = stf(xi_refCharacter.chr_ai.dmggunmin);
+			}
+			if(CheckAttribute(xi_refCharacter, "chr_ai.dmggunmax"))
+			{
+				max = stf(xi_refCharacter.chr_ai.dmggunmax);
+			}
+			return makeint((min + (max - min)*(LAi_GetCharacterGunLevel(xi_refCharacter)*0.5))) + " ед.";
+		break;
+		case "breakchance":
+			return CheckForSpecial(type);
 		break;
 		case "blooding":
-			if (CheckAttribute(xi_refCharacter,"equip.blade"))
-			{
-				if(HasSubStr(xi_refCharacter.equip.blade, "blade32")) return FloatToString(12.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20),1)+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
-			}
-			return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20),1)+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
+			return CheckForSpecial(type);
 		break;
 		case "swiftstrike":
-			return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+			return CheckForSpecial(type);
 		break;
 		case "poison":
 			if (CheckAttribute(xi_refCharacter,"chr_ai.poison")) return its(sti(FloatToString(xi_refCharacter.chr_ai.poison,0)));
 			else return "0";
+		break;
+		case "stun":
+			return CheckForSpecial(type);
+		break;
+		case "trauma":
+			return CheckForSpecial(type);
+		break;
+		case "poisonattack":
+			return CheckForSpecial(type);
 		break;
 		case "recharge":
 			string rechargetime = "0";
@@ -972,8 +906,214 @@ string ShowStatValue(string type)
 			}
 			return rechargetime+"%/"+retime+" сек.";
 		break;
+		case "shipspeed":
+			float fMultiplier = FindShipSpeedBonus(xi_refCharacter);
+			return ""+FloatToString((fMultiplier)*100,2)+"%";
+		break;
+		case "shipturn":
+			float fMultiplierT = FindShipTurnRateBonus(xi_refCharacter);
+			return ""+FloatToString((fMultiplierT)*100.0,2)+"%";
+		break;
+		case "shipchargetime":
+			float fMultiC = Cannon_GetRechargeTimeValue(xi_refCharacter);
+			return ""+FloatToString(fMultiC,1)+" cек.";
+		break;
 	}
 	return "";
+}
+
+string CheckForSpecial(string type)
+{
+	string weaponID = GetCharacterEquipByGroup(xi_refCharacter, BLADE_ITEM_TYPE);
+	int critvalue = 0;
+	bool addluck = false;
+	int critdamage = 100;
+	float coeff = 0.0;
+	int blod = 0;
+	if (weaponID != "")
+	{
+		aref weapon;
+		Items_FindItem(weaponID, &weapon);
+		if (CheckAttribute(weapon,"special"))
+		{
+			switch (type)
+			{
+				case "blooding":
+					if (CheckAttribute(weapon,"special.valueB")) blod += sti(weapon.special.valueB);
+					if (LAi_GetBladeFencingType(xi_refCharacter) == "FencingLight")
+					{
+						return FloatToString(2.5+blod+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20),1)+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
+					}
+					else return FloatToString(makefloat(blod),1)+"%/"+(FloatToString(10.0+15.0,1))+" сек.";
+				break;
+				case "crit":
+					if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
+					{
+						critvalue += 5;
+						addluck = true;
+					}
+					if(IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
+					{
+						critvalue += 10;
+						addluck = true;
+					}
+					if(IsCharacterPerkOn(xi_refCharacter, "CriticalHit"))
+					{
+						critvalue += 5;
+						addluck = true;
+					}
+					if (CheckAttribute(weapon,"special.valueCrB")) critvalue += sti(weapon.special.valueCrB);
+					if (addluck) critvalue += GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L);
+					critdamage = 100 + (GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L)*5);
+					return its(critvalue)+"%/"+its(critdamage)+"%"
+				break;
+				case "swiftstrike":
+					if (LAi_GetBladeFencingType(xi_refCharacter) == "Fencing")
+					{
+						if (CheckAttribute(weapon,"special.valueSS"))
+						{
+							return FloatToString(2.5+sti(weapon.special.valueSS)+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+						}						
+						return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+					}
+					else
+					{
+						if (CheckAttribute(weapon,"special.valueSS"))
+						{
+							return FloatToString(sti(weapon.special.valueSS),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+						}						
+						else return FloatToString(0.0,1)+"%/"+(FloatToString(0.0,1))+" сек.";
+					}
+					
+				break;
+				case "breakchance":
+					float BB = 0.0;
+					float CB = 0.0;
+					if (CheckAttribute(weapon,"special.valueBB")) BB = sti(weapon.special.valueBB);
+					if (CheckAttribute(weapon,"special.valueCB")) CB = sti(weapon.special.valueCB);
+					if (LAi_GetBladeFencingType(xi_refCharacter) == "FencingHeavy")
+					{
+						coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
+						if(HasSubStr(xi_refCharacter.equip.blade, "topor")) return FloatToString(15.0+BB+(coeff*4),1)+"%/"+FloatToString(15.0+CB+(coeff*4),1)+"%";
+						return FloatToString(10.0+BB+(coeff*4),1)+"%/"+FloatToString(10.0+CB+(coeff*4),1)+"%";
+					}
+					else return FloatToString(makefloat(BB),1)+"%/"+FloatToString(makefloat(CB),1)+"%";
+				break;
+				case "stun":
+					int stunchance = 0;
+					if (CheckAttribute(weapon,"special.valueStS")) stunchance = sti(weapon.special.valueStS);
+					return stunchance+"%/1-3 сек.";
+				break;
+				case "trauma":
+					int trauma = 0;
+					if (CheckAttribute(weapon,"special.valueT")) trauma = sti(weapon.special.valueT);
+					return trauma+"%/20-60 сек.";
+				break;
+				case "poisonattack":
+					int poisonattackV = 0;
+					if (CheckAttribute(weapon,"special.valueP")) poisonattackV = sti(weapon.special.valueP);
+					return poisonattackV+"%/50-110 сек.";
+				break;
+			}
+		}
+		else
+		{
+			switch (type)
+			{
+				case "blooding":
+					return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20),1)+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
+				break;
+				case "crit":
+					if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
+					{
+						critvalue += 5;
+						addluck = true;
+					}
+					if(IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
+					{
+						critvalue += 15;
+						addluck = true;
+					}
+					if(!IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
+					{
+						if(IsCharacterPerkOn(xi_refCharacter, "CriticalHit"))
+						{
+							critvalue += 5;
+							addluck = true;
+						}
+					}
+					if (addluck) critvalue += GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L);
+					critdamage = 100 + (GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L)*5);
+					return its(critvalue)+"%/"+its(critdamage)+"%"
+				break;
+				case "swiftstrike":
+					return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+				break;
+				case "breakchance":
+					coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
+					if(HasSubStr(xi_refCharacter.equip.blade, "topor")) return FloatToString(15.0+(coeff*4),1)+"%/"+FloatToString(15.0+(coeff*4),1)+"%";
+					return FloatToString(10.0+(coeff*4),1)+"%/"+FloatToString(10.0+(coeff*4),1)+"%";
+				break;
+				case "stun":
+					return 0+"%";
+				break;
+				case "trauma":
+					return 0+"%";
+				break;
+				case "poisonattack":
+					return 0+"%";
+				break;
+			}
+		}
+	}
+	else
+	{
+		switch (type)
+		{
+			case "blooding":
+				return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20),1)+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
+			break;
+			case "crit":
+				if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
+				{
+					critvalue += 5;
+					addluck = true;
+				}
+				if(IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
+				{
+					critvalue += 15;
+					addluck = true;
+				}
+				if(!IsCharacterPerkOn(xi_refCharacter, "SwordplayProfessional"))
+				{
+					if(IsCharacterPerkOn(xi_refCharacter, "CriticalHit"))
+					{
+						critvalue += 5;
+						addluck = true;
+					}
+				}
+				if (addluck) critvalue += GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L);
+				critdamage = 100 + (GetCharacterSPECIALSimple(xi_refCharacter, SPECIAL_L)*5);
+				return its(critvalue)+"%/"+its(critdamage)+"%"
+			break;
+			case "swiftstrike":
+				return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+			break;
+			case "breakchance":
+				coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
+				return FloatToString(10.0+(coeff*4),1)+"%/"+FloatToString(10.0+(coeff*4),1)+"%";
+			break;
+			case "stun":
+				return 0+"%";
+			break;
+			case "trauma":
+				return 0+"%";
+			break;
+			case "poisonattack":
+				return 0+"%";
+			break;
+		}
+	}
 }
 
 void CS_TableSelectChange()
@@ -1074,19 +1214,37 @@ void procTabChange()
 		SetControlsTabMode( 2 );
 		return;
 	}
+	if( sNodName == "TABBTN_3" )
+	{
+		SetControlsTabMode( 3 );
+		return;
+	}
 }
 
 void SetControlsTabMode(int nMode)
 {
 	int nColor1 = argb(255,196,196,196);
 	int nColor2 = nColor1;
+	int nColor3 = nColor1;
 
 	string sPic1 = "TabSelected";
 	string sPic2 = sPic1;
+	string sPic3 = sPic1;
 
 	switch (nMode)
 	{
 		case 1: //
+			SetNodeUsing("STR_6",false);
+			SetNodeUsing("STR_7",false);
+			SetNodeUsing("TABLE_CHAR_OTHERS",false);
+			SetNodeUsing("TABLE_BLADES_OTHERS",false);
+			SetNodeUsing("TABLE_SHIP_OTHERS",false);
+			SetNodeUsing("SUBSTRATE6",false);
+			SetNodeUsing("SUBSTRATE7",false);
+			SetNodeUsing("SCROLL_PERKS",true);
+			SetFormatedText("STR_4", "Способности");
+			SetFormatedText("STR_6", "");
+			SetFormatedText("STR_7", "");
 			sPic1 = "TabDeSelected";
 			nColor1 = argb(255,255,255,255);
 			// порог опыта
@@ -1097,6 +1255,17 @@ void SetControlsTabMode(int nMode)
             GameInterface.TABLE_OTHER.tr9.td3.str = sti(xi_refCharacter.perks.FreePoints_self_exp)+ "/" + GetFreePoints_SelfRate(xi_refCharacter);
 		break;
 		case 2:
+			SetNodeUsing("STR_6",false);
+			SetNodeUsing("STR_7",false);
+			SetNodeUsing("TABLE_CHAR_OTHERS",false);
+			SetNodeUsing("TABLE_BLADES_OTHERS",false);
+			SetNodeUsing("TABLE_SHIP_OTHERS",false);
+			SetNodeUsing("SUBSTRATE6",false);
+			SetNodeUsing("SUBSTRATE7",false);
+			SetNodeUsing("SCROLL_PERKS",true);
+			SetFormatedText("STR_4", "Способности");
+			SetFormatedText("STR_6", "");
+			SetFormatedText("STR_7", "");
 			sPic2 = "TabDeSelected";
 			nColor2 = argb(255,255,255,255);
 			// порог опыта
@@ -1106,16 +1275,247 @@ void SetControlsTabMode(int nMode)
             }
             GameInterface.TABLE_OTHER.tr9.td3.str = sti(xi_refCharacter.perks.FreePoints_ship_exp)+ "/" + GetFreePoints_ShipRate(xi_refCharacter);
 		break;
+		case 3:
+			SetNodeUsing("STR_6",true);
+			SetNodeUsing("STR_7",true);
+			SetNodeUsing("TABLE_CHAR_OTHERS",true);
+			SetNodeUsing("TABLE_BLADES_OTHERS",true);
+			SetNodeUsing("TABLE_SHIP_OTHERS",true);
+			SetNodeUsing("SUBSTRATE6",true);
+			SetNodeUsing("SUBSTRATE7",true);
+			SetNodeUsing("SCROLL_PERKS",false);
+			SetFormatedText("STR_4", "Характеристики");
+			SetFormatedText("STR_6", "Доп. свойства ХО");
+			SetFormatedText("STR_7", "Характеристики КУ");
+			sPic3 = "TabDeSelected";
+			nColor3 = argb(255,255,255,255);
+            GameInterface.TABLE_OTHER.tr9.td3.str = "";
+			UpdateStatsValues();
+		break;
 	}
     Table_UpdateWindow("TABLE_OTHER"); // порог опыта
     
 	SetNewGroupPicture("TABBTN_1", "TABS", sPic1);
 	SetNewGroupPicture("TABBTN_2", "TABS", sPic2);
+	SetNewGroupPicture("TABBTN_3", "TABS", sPic3);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_1", 8,0,nColor1);
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_2", 8,0,nColor2);
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"TABSTR_3", 8,0,nColor3);
 
 	FillControlsList(nMode);
 	HideSkillChanger();
+}
+
+void UpdateStatsValues()
+{
+	//-----------------> Характеристикики персонажа
+	GameInterface.TABLE_CHAR_OTHERS.hr.td1.str = "";
+	GameInterface.TABLE_CHAR_OTHERS.tr1.UserData.ID = "HealthChar";
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_CHAR_OTHERS.tr1.td1.icon.image = "HealthChar";
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td1.icon.width = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td1.icon.height = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td2.str = "Реген. жизни";
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td2.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td2.align = "left";
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td3.str = ShowStatValue("regenhp");
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td3.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr1.td3.align = "right";
+	
+	GameInterface.TABLE_CHAR_OTHERS.hr.td1.str = "";
+	GameInterface.TABLE_CHAR_OTHERS.tr2.UserData.ID = "EnergyChar";
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_CHAR_OTHERS.tr2.td1.icon.image = "EnergyChar";
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td1.icon.width = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td1.icon.height = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td2.str = "Реген. энергии";
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td2.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td2.align = "left";
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td3.str = ShowStatValue("energychar")+" в сек.";
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td3.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr2.td3.align = "right";
+	
+	GameInterface.TABLE_CHAR_OTHERS.tr3.UserData.ID = "PoisonChar";
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_CHAR_OTHERS.tr3.td1.icon.image = "PoisonChar";
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td1.icon.width = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td1.icon.height = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td2.str = "Отравление";
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td2.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td2.align = "left";
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td3.str = ShowStatValue("poison")+" сек.";
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td3.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr3.td3.align = "right";
+	
+	GameInterface.TABLE_CHAR_OTHERS.tr4.UserData.ID = "ReloadGun";
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_CHAR_OTHERS.tr4.td1.icon.image = "ReloadGun";
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td1.icon.width = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td1.icon.height = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td2.str = "Время перезарядки";
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td2.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td2.align = "left";
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td3.str = "-"+ShowStatValue("recharge");
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td3.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr4.td3.align = "right";
+	
+	GameInterface.TABLE_CHAR_OTHERS.tr5.UserData.ID = "AccuracyGun";
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td1.icon.group = "ICONS_SPEC_NA";
+    GameInterface.TABLE_CHAR_OTHERS.tr5.td1.icon.image = "AccuracyGun";
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td1.icon.width = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td1.icon.height = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td2.str = "Точность выстрела";
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td2.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td2.align = "left";
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td3.str = ShowStatValue("accuracy");
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td3.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr5.td3.align = "right";
+	
+	GameInterface.TABLE_CHAR_OTHERS.hr.td1.str = "";
+	GameInterface.TABLE_CHAR_OTHERS.tr6.UserData.ID = "GunDamage";
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td1.icon.group = "ICONS_SPEC_NA";
+    GameInterface.TABLE_CHAR_OTHERS.tr6.td1.icon.image = "GunDamage";
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td1.icon.width = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td1.icon.height = 20;
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td2.str = "Мощность выстрела";
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td2.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td2.align = "left";
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td3.str = ShowStatValue("gundamage");
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td3.scale = 0.8;
+	GameInterface.TABLE_CHAR_OTHERS.tr6.td3.align = "right";
+	//<----------------- Характеристикики персонажа
+	
+	//-----------------> Дополнительные свойства ХО
+	GameInterface.TABLE_BLADES_OTHERS.hr.td1.str = "";
+	GameInterface.TABLE_BLADES_OTHERS.tr1.UserData.ID = "Blood";
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_BLADES_OTHERS.tr1.td1.icon.image = "Blood";
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td1.icon.width = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td1.icon.height = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td2.str = "Кровотечение";
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td2.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td2.align = "left";
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td3.str = ShowStatValue("blooding");
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td3.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr1.td3.align = "right";
+	
+	GameInterface.TABLE_BLADES_OTHERS.tr2.UserData.ID = "StanS";
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_BLADES_OTHERS.tr2.td1.icon.image = "StanS";
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td1.icon.width = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td1.icon.height = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td2.str = "Резкий удар";
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td2.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td2.align = "left";
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td3.str = ShowStatValue("swiftstrike");
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td3.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr2.td3.align = "right";
+	
+	GameInterface.TABLE_BLADES_OTHERS.tr3.UserData.ID = "BlockKirass";
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_BLADES_OTHERS.tr3.td1.icon.image = "BlockKirass";
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td1.icon.width = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td1.icon.height = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td2.str = "Пробитие Б/К";
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td2.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td2.align = "left";
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td3.str = ShowStatValue("breakchance");
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td3.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr3.td3.align = "right";
+	
+	GameInterface.TABLE_BLADES_OTHERS.tr4.UserData.ID = "CriticalChance";
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_BLADES_OTHERS.tr4.td1.icon.image = "CriticalChance";
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td1.icon.width = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td1.icon.height = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td2.str = "Шанс/урон крита";
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td2.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td2.align = "left";
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td3.str = ShowStatValue("crit");
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td3.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr4.td3.align = "right";
+	
+	GameInterface.TABLE_BLADES_OTHERS.tr5.UserData.ID = "StanH";
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_BLADES_OTHERS.tr5.td1.icon.image = "StanH";
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td1.icon.width = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td1.icon.height = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td2.str = "Оглушение";
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td2.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td2.align = "left";
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td3.str = ShowStatValue("stun");
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td3.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr5.td3.align = "right";
+	
+	GameInterface.TABLE_BLADES_OTHERS.tr6.UserData.ID = "Travma";
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_BLADES_OTHERS.tr6.td1.icon.image = "Travma";
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td1.icon.width = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td1.icon.height = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td2.str = "Травмирование";
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td2.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td2.align = "left";
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td3.str = ShowStatValue("trauma");
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td3.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr6.td3.align = "right";
+	
+	GameInterface.TABLE_BLADES_OTHERS.tr7.UserData.ID = "Poison";
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_BLADES_OTHERS.tr7.td1.icon.image = "Poison";
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td1.icon.width = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td1.icon.height = 20;
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td2.str = "Ядовитый клинок";
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td2.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td2.align = "left";
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td3.str = ShowStatValue("poisonattack");
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td3.scale = 0.8;
+	GameInterface.TABLE_BLADES_OTHERS.tr7.td3.align = "right";
+	//<----------------- Дополнительные свойства ХО
+	
+	//-----------------> Корабельные характеристики
+	GameInterface.TABLE_SHIP_OTHERS.hr.td1.str = "";
+	GameInterface.TABLE_SHIP_OTHERS.tr1.UserData.ID = "SpeedBonus";
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.image = "SpeedBonus";
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.width = 20;
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.height = 20;
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td2.str = "Скорость";
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td2.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td2.align = "left";
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td3.str = ShowStatValue("shipspeed");
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td3.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td3.align = "right";
+	
+	GameInterface.TABLE_SHIP_OTHERS.hr.td1.str = "";
+	GameInterface.TABLE_SHIP_OTHERS.tr2.UserData.ID = "ManevrBonus";
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_SHIP_OTHERS.tr2.td1.icon.image = "ManevrBonus";
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td1.icon.width = 20;
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td1.icon.height = 20;
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td2.str = "Маневренность";
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td2.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td2.align = "left";
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td3.str = ShowStatValue("shipturn");
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td3.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.tr2.td3.align = "right";
+	
+	GameInterface.TABLE_SHIP_OTHERS.hr.td1.str = "";
+	GameInterface.TABLE_SHIP_OTHERS.tr3.UserData.ID = "ChargeTime";
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td1.icon.group = "SHIP_STATE_ICONS";
+    GameInterface.TABLE_SHIP_OTHERS.tr3.td1.icon.image = "Cannons";
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td1.icon.width = 20;
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td1.icon.height = 20;
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td2.str = "Время зарядки";
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td2.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td2.align = "left";
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td3.str = ShowStatValue("shipchargetime");
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td3.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.tr3.td3.align = "right";
+	//<----------------- Корабельные характеристики
+	
+	Table_UpdateWindow("TABLE_CHAR_OTHERS");
+	Table_UpdateWindow("TABLE_BLADES_OTHERS");
+	Table_UpdateWindow("TABLE_SHIP_OTHERS");
 }
 
 void FillControlsList(int nMode)

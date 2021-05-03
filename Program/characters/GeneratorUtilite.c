@@ -35,11 +35,11 @@ void SetFantomParamFromRank_PPG(ref NPchar, int  rank, bool setEquip)   //WW
     SetRandSPECIAL_PGG(Npchar);
     CalculateSkillsFromRank(Npchar, rank);
     SetFantomHP(NPchar);
-    if (setEquip)
+	if (setEquip)
     {
 	    LAi_NPC_Equip(NPchar, sti(NPchar.rank), true, true);
     }
-	SetCharacterPerk(NPchar, PerksChars());
+	//SetCharacterPerk(NPchar, PerksChars());
 	/*if (IsCharacterPerkOn(NPchar, "Ciras") && rand(4)==0)
 	{
 		string cirnum;
@@ -54,6 +54,78 @@ void SetFantomParamFromRank_PPG(ref NPchar, int  rank, bool setEquip)   //WW
 		NPchar.cirassId = Items_FindItemIdx(cirnum);
 		Log_TestInfo("Персонаж "+NPchar.name+" получил кирасу "+cirnum);
 	} */
+}
+void Train_PPG(ref NPchar, bool setEquip bool increaseRank)   //WW
+{
+	string prevPerk = "Adventurer";
+	if (IsCharacterPerkOn(NPchar, "Adventurer")) { prevPerk = "Adventurer";}
+	if (IsCharacterPerkOn(NPchar, "SeaWolf")) { prevPerk = "SeaWolf";}
+	if (IsCharacterPerkOn(NPchar, "Agent")) { prevPerk = "Agent";}
+	if (IsCharacterPerkOn(NPchar, "Grunt")) { prevPerk = "Grunt";}
+	if (IsCharacterPerkOn(NPchar, "Fencer")) { prevPerk = "Fencer";}
+	if (IsCharacterPerkOn(NPchar, "Trader")) { prevPerk = "Trader";}
+	if (IsCharacterPerkOn(NPchar, "Buccaneer")) { prevPerk = "Buccaneer";}
+	
+	int rank, hp;
+	if (increaseRank)
+	{
+		if (!CheckAttribute(NPchar, "PGGAi.Boosted"))
+		{
+			rank = sti(NPchar.rank) + (sti(NPchar.rank) * 0.2) + MOD_SKILL_ENEMY_RATE;
+			NPchar.cirassId = Items_FindItemIdx("cirass"+(rand(3)+2));
+			CalculateSkillsFromRank(Npchar, rank);
+			Npchar.rank = rank;
+			hp = LAi_GetCharacterMaxHP(NPchar);
+			LAi_SetHP(NPchar, hp*1.7, hp*1.7);
+			SetCharacterPerk(NPchar, prevPerk);
+			NPchar.PGGAi.Boosted = true;
+		}
+		int moneyboost = sti(NPchar.rank) * 25000 + rand(1000) - rand(1000);
+		PGG_AddMoneyToCharacter(NPchar, moneyboost);
+	}
+	else
+	{
+		rank = sti(pchar.rank) + 10;
+		CalculateSkillsFromRank(Npchar, rank);
+		Npchar.rank = rank;
+		hp = LAi_GetCharacterMaxHP(NPchar);
+		LAi_SetHP(NPchar, hp*1.6, hp*1.6);
+		SetCharacterPerk(NPchar, prevPerk);
+		NPchar.PGGAi.Boosted = true;
+		NPchar.money = 0;
+	}
+
+	if (setEquip)
+	{
+		LAi_NPC_Equip(NPchar, sti(NPchar.rank), true, true);
+	}
+	
+	if (sti(NPchar.SPECIAL.Strength) < 10) {NPchar.SPECIAL.Strength   = sti(NPchar.SPECIAL.Strength)+rand(1);}
+	if (sti(NPchar.SPECIAL.Endurance) < 10) {NPchar.SPECIAL.Endurance  = sti(NPchar.SPECIAL.Endurance)+rand(1);}
+	if (sti(NPchar.SPECIAL.Intellect) < 10) {NPchar.SPECIAL.Intellect  = sti(NPchar.SPECIAL.Intellect)+rand(1);}
+	if (sti(NPchar.SPECIAL.Agility) < 10) {NPchar.SPECIAL.Agility    = sti(NPchar.SPECIAL.Agility)+rand(1);}
+	if (sti(NPchar.SPECIAL.Luck) < 10) {NPchar.SPECIAL.Luck       = sti(NPchar.SPECIAL.Luck)+rand(1);}
+	
+	NPchar.perks.list.AgileMan = "1";
+	ApplayNewSkill(NPchar, "AgileMan", 0);
+	
+	if (increaseRank)
+	{
+		int sailing = sti(Npchar.skill.Sailing) + 20;
+		Npchar.rank = sti(Npchar.rank)+1;
+		if (sailing > 100)
+		{
+			Npchar.skill.Sailing = 100
+		}
+		else
+		{
+			Npchar.skill.Sailing = sailing;
+		}
+	}
+	
+	TakeNItems(NPchar, "Food5", 5);
+	TakeNItems(NPchar, "potion2", 5);
+	AddBonusEnergyToCharacter (NPchar, 15);
 }
 
 // расчитать скилы заданного ранга, типа как от ГГ в будущем (ранг у НПС будет приблизительно, зависит от сложности)

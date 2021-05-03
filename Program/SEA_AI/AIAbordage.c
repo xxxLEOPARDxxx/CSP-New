@@ -269,7 +269,7 @@ void Sea_AbordageStartNow(int _iAbordageMode, int _iAbordageCharacter, bool _bPl
 	PauseAllSounds();
    //ResetSoundScheme();
 	//ResetSound(); // new
-    PlayVoice("INTERFACE\_GTBoard2.wav"); // boal
+    PlayVoice("INTERFACE\_GTBoard_"+rand(6)+".wav"); // boal
     pchar.abordage_active = 1;  // чтоб два раза подряд не жали
 	//PlayStereoSound("abordage");
 

@@ -748,6 +748,8 @@ void SaveStartGameParam()
     optref.StartGameParam.iEncountersRate        = iEncountersRate;
 	optref.StartGameParam.iEncountersCountRate   = iEncountersCountRate;
 	optref.StartGameParam.iArcadeSails           = iArcadeSails;
+	optref.StartGameParam.bAltBalance          	 = bAltBalance;
+	optref.StartGameParam.bFillEncyShips         = bFillEncyShips;
     // иначе сброс галки может быть optref.StartGameParam.bWorldAlivePause       = bWorldAlivePause;
 
     optref.StartGameParam.HeroType         = NullCharacter.HeroParam.HeroType;
@@ -858,6 +860,10 @@ void LoadStartGameParam()
 	{
 		startHeroType = sti(optref.StartGameParam.CurHeroNum);
 	}
+	if (CheckAttribute(optref, "StartGameParam.bAltBalance"))
+	{
+    	bAltBalance = sti(optref.StartGameParam.bAltBalance);
+    }
 }
 void LoadPlayerProfileDefault()
 {
@@ -909,6 +915,40 @@ string GetLevelComplexity(int _Level_Complexity)
             return XI_ConvertString("m_Complexity_10");
             break;
     }
+}
+
+string GetAchievementName(string ach_name, int level) // Получим имя достижения (Rasteador) (ver 0.3.0)
+{
+	int lngFileID = LanguageOpenFile("AchievementsDescr.txt");
+	string describeStr = "";
+	
+	describeStr = LanguageConvertString(lngFileID, ach_name + "_" + level);
+	LanguageCloseFile(lngFileID);
+	
+	return describeStr;
+}
+
+string GetAchievementDescrible(string ach_name, int level) // Получим описание достижения (Rasteador) (ver 0.3.0)
+{
+	int lngFileID = LanguageOpenFile("AchievementsDescr.txt");
+	string describeStr = "";
+	
+	describeStr = LanguageConvertString(lngFileID, ach_name + "_" + level + "_descr");
+	LanguageCloseFile(lngFileID);
+	
+	return describeStr;
+}
+
+string GetAchievementIcon(string ach_name) // Получим описание достижения (Rasteador) (ver 0.3.0)
+{
+	int lngFileID = LanguageOpenFile("AchievementsDescr.txt");
+	string describeStr = "";
+	
+	describeStr = LanguageConvertString(lngFileID, ach_name + "_icon");
+	Log_info(describeStr);
+	LanguageCloseFile(lngFileID);
+	
+	return describeStr;
 }
 
 string GetItemDescribe(int iGoodIndex)

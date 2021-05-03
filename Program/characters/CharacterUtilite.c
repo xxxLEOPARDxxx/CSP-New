@@ -400,16 +400,6 @@ int GetCharacterShipType(ref _refCharacter)
 		if(iShipType != SHIP_NOTUSED)
 		{
             return iShipType;
-			/*
-			int iRealShipType = sti(RealShips[iShipType].basetype);
-			if(iRealShipType == SHIP_BOAT)
-			{
-				return iShipType;
-			}
-			if(iRealShipType >=0 && iRealShipType < SHIP_TYPES_QUANTITY_WITH_FORT)
-			{
-				return iShipType;
-			} */
 		}
 	}
 	return SHIP_NOTUSED;
@@ -1071,6 +1061,7 @@ int SetCompanionIndex(ref _refCharacter,int _CompanionNum, int _CompanionIdx)
 
 	// to_do CheckCompanionSkillsUp(_CompanionIdx);
 	Event(EVENT_CHANGE_COMPANIONS,"");
+	if(GetCompanionQuantity(_refCharacter) >= COMPANION_MAX-1) UnlockAchievement("ships", 3);
 	return _CompanionIdx;
 }
 int RemoveCharacterCompanion(ref _refCharacter, ref refCompanion)
@@ -1296,11 +1287,50 @@ int AddMoneyToCharacter(ref _refCharacter,int _Money)
 				Statistic_AddValue(Pchar, "Money_spend", abs(_Money));
 			}
 		}
+		// Открываем достижение
+		if(sti(_refCharacter.Money) >= 1000000) UnlockAchievement("money", 1);
+		if(sti(_refCharacter.Money) >= 5000000)	UnlockAchievement("money", 2);
+		if(sti(_refCharacter.Money) >= 15000000) UnlockAchievement("money", 3);
 	}
 	// boal <--
 	return newMoney;
 }
 
+void AddAchievementPoints(int points) // Даем очки достижений
+{
+	pchar.ach_points = sti(pchar.ach_points)+points;
+	Log_Info("Всего очков достижений у вас: " + pchar.ach_points);
+}
+
+void UnlockAchievement(string ach_name, int level) // Открываем достижениие
+{
+	int points;
+	
+	if(sti(pchar.achievements.(ach_name)) == level) return; // Не даем дважды открыть один и тот же уровень достижения
+	
+	if(sti(pchar.achievements.(ach_name)) == 3)
+	{
+		if((level == 2) || (level == 1)) return;
+	}
+	
+	if(sti(pchar.achievements.(ach_name)) == 2)
+	{
+		if(level == 1) return;
+	}
+	
+	
+	string achievement = GetAchievementName(ach_name, level);
+	
+	if(level == 1) points = 25;
+	if(level == 2) points = 50;
+	if(level == 3) points = 100;
+	
+	Log_Info("Открыто достижение '" + achievement + "' (+" + points + " очков)");
+    PlaySound("interface\AchievementComplite.wav");
+	
+	pchar.achievements.(ach_name) = level;
+	AddAchievementPoints(points);
+}
 void SetBaseShipData(ref refCharacter)
 {
     int  i;
@@ -1331,6 +1361,11 @@ void SetBaseShipData(ref refCharacter)
 
 		refShip.HP = refBaseShip.HP;
 		refShip.SP = refBaseShip.SP;
+		
+		if (!CheckAttribute(refShip,"soiling"))
+		{
+			refShip.soiling = 0;
+		}
 
 		refShip.Pos.x = 0;
 		refShip.Pos.y = 0;
@@ -1584,6 +1619,21 @@ void SetBaseFellows(object refCharacter)
 	}
 }
 
+// Выполняем достижение
+// ===>
+
+void PerformAchievement(string AchID, string AchStep, string LogAch)
+{
+	if(pchar.questTemp.Achievements.(AchID).(AchStep) != "true")
+	{
+		pchar.questTemp.Achievements.(AchID).(AchStep) = "true"; // Запоминаем, что достижение выполнено
+		Log_Info("Выполнено достижение: ''" +LogAch+"''"); // Выводим в лог
+		
+		pchar.questTemp.Achievements.Points = sti(pchar.questTemp.Achievements.Points) + (sti(AchStep)*15); // Даем "очки достижений"
+	}
+}
+
+// <===
 // Items Utilite
 int GetChrItemQuantity(ref _refCharacter)
 {
@@ -2396,7 +2446,13 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 		if(CheckAttribute(arItm, "blade.colorend"))	{colore = sti(arItm.blade.colorend);}
 		//SendMessage(chref, "lsfll", MSG_CHARACTER_SETBLADE, modelName, liveTime, colors, colore);
 		SendMessage(chref, "llsfll", MSG_CHARACTER_SETBLADE, 0, modelName, liveTime, colors, colore);
-
+		
+		if (CheckAttribute(arItm,"special")) SetWeaponsSpecials(chref,arItm);
+		else
+		{
+			UnsetSpecialAttributes(chref);
+		}
+		
 		if(CheckAttribute(arItm,"dmg_min"))
 		{	LAi_BladeSetDamageMin(chref,stf(arItm.dmg_min));
 		} else
@@ -2447,6 +2503,55 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 	}
 }
 
+void UnsetSpecialAttributes(ref chr)
+{
+	chr.chr_ai.special.valueBB = 0;
+	chr.chr_ai.special.valueCrB = 0;
+	chr.chr_ai.special.valueCB = 0;
+	chr.chr_ai.special.valueSS = 0;
+	chr.chr_ai.special.valueStS = 0;
+	chr.chr_ai.special.valueT = 0;
+	chr.chr_ai.special.valueB = 0;
+	chr.chr_ai.special.valueP = 0;
+}
+
+void SetWeaponsSpecials(ref chr, ref arItm)
+{
+	UnsetSpecialAttributes(chr);
+	if (CheckAttribute(arItm,"special.valueBB"))
+	{
+		chr.chr_ai.special.valueBB = sti(arItm.special.valueBB);
+	}
+	if (CheckAttribute(arItm,"special.valueCrB"))
+	{
+		chr.chr_ai.special.valueCrB = sti(arItm.special.valueCrB);
+	}
+	if (CheckAttribute(arItm,"special.valueCB"))
+	{
+		chr.chr_ai.special.valueCB = sti(arItm.special.valueCB);
+	}
+	if (CheckAttribute(arItm,"special.valueSS"))
+	{
+		chr.chr_ai.special.valueSS = sti(arItm.special.valueSS);
+	}
+	if (CheckAttribute(arItm,"special.valueStS"))
+	{
+		chr.chr_ai.special.valueStS = sti(arItm.special.valueStS);
+	}
+	if (CheckAttribute(arItm,"special.valueT"))
+	{
+		chr.chr_ai.special.valueT = sti(arItm.special.valueT);
+	}
+	if (CheckAttribute(arItm,"special.valueB"))
+	{
+		chr.chr_ai.special.valueB = sti(arItm.special.valueB);
+	}
+	if (CheckAttribute(arItm,"special.valueP"))
+	{
+		chr.chr_ai.special.valueP = sti(arItm.special.valueP);
+	}
+}
+
 // коэф траты энергии от веса сабли
 float GetEnergyBladeDrain(float _weight)
 {
@@ -2474,7 +2579,7 @@ void EquipCharacterByItem(ref chref, string itemID)
 		if(oldItemID==itemID) return;
 	}
 
-	if (chref.model.animation == "mushketer" || chref.model.animation == "mushketer_whisper")
+	if (findsubstr(chref.model.animation, "mushketer" , 0) != -1)
 	{
 		if(groupName == BLADE_ITEM_TYPE && itemID != "unarmed") return;
 		
@@ -3272,9 +3377,18 @@ bool SetMainCharacterToMushketer(string sMushket, bool _ToMushketer) // если _To
 		PChar.IsMushketer.MushketID = sMushket; // Запомним, какой мушкет надели
 		PChar.IsMushketer.LastGunID = sLastGun; // Запомним ID предыдущего пистоля
 		PChar.model = PChar.model + "_mush";
-		if (startherotype == 2)
+		if (pchar.sex == "woman")
 		{
-			PChar.model.animation = "mushketer_whisper"; // Сменим анимацию
+			aref weapon;
+			Items_FindItem(sMushket, &weapon);
+			if (CheckAttribute(weapon, "fromHip"))
+			{
+				PChar.model.animation = "mushketer_whisper_short"; // Сменим анимацию
+			}
+			else
+			{
+				PChar.model.animation = "mushketer_whisper"; // Сменим анимацию
+			}
 		}
 		else
 		{
@@ -3419,7 +3533,7 @@ bool StoreOfficers_Ascold(ref refCh)
 	int i, idx;
 	// сохраним офицеров
 	makearef( arTmp, refCh.Fellows.Old.Officers );
-	for(i = 1; i < 4; i++ )
+	for(i = 1; i < MAX_NUM_FIGHTERS; i++ )
 	{
 		idx = GetOfficersIndex(refCh,i);
 		if( idx == -1 ) continue;

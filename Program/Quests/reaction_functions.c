@@ -1143,7 +1143,7 @@ void PQ6_ShoreBattle(string qName)
 	for (i=1; i<=(MOD_SKILL_ENEMY_RATE + 3); i++)
     {
         iTemp = 15 + rand(10);
-		sld = GetCharacter(NPC_GenerateCharacter("QuestPirate_"+i, "officer_"+(rand(57)+1), "man", "man", iTemp, PIRATE, -1, true));
+		sld = GetCharacter(NPC_GenerateCharacter("QuestPirate_"+i, "officer_"+(rand(63)+1), "man", "man", iTemp, PIRATE, -1, true));
         FantomMakeCoolFighter(sld, iTemp, 80, 80, BLADE_LONG, "pistol3", 50);
         LAi_SetWarriorType(sld);
         LAi_group_MoveCharacter(sld, "EnemyFight");
@@ -1193,7 +1193,7 @@ void PQ6_JungleBattle()
 	for (i=1; i<=(MOD_SKILL_ENEMY_RATE + 3); i++)
     {
         iTemp = 17 + rand(10);
-		sld = GetCharacter(NPC_GenerateCharacter("QuestPirate2_"+i, "officer_"+(rand(57)+1), "man", "man", iTemp, PIRATE, -1, true));
+		sld = GetCharacter(NPC_GenerateCharacter("QuestPirate2_"+i, "officer_"+(rand(63)+1), "man", "man", iTemp, PIRATE, -1, true));
         FantomMakeCoolFighter(sld, iTemp, 90, 90, "topor2", "pistol6", 100);
         LAi_SetWarriorType(sld);
         LAi_group_MoveCharacter(sld, "EnemyFight");
@@ -1653,7 +1653,7 @@ void PQ8_controlShore48(string qName)
 		//офицеры Соукинса
         for (i=1; i<=3; i++)
         {
-            sld = GetCharacter(NPC_GenerateCharacter("RSofficer_"+i, "officer_"+(rand(57)+1), "man", "man", 30, PIRATE, -1, true));
+            sld = GetCharacter(NPC_GenerateCharacter("RSofficer_"+i, "officer_"+(rand(63)+1), "man", "man", 30, PIRATE, -1, true));
             FantomMakeCoolFighter(sld, 30, 90, 90, "blade28", "pistol4", 100);
 			LAi_SetWarriorType(sld);
 			LAi_warrior_DialogEnable(sld, false);
@@ -2445,7 +2445,7 @@ void WaitressFack_Enter(string qName)
 	if (pchar.questTemp.different.FackWaitress.Kick == "0")
 	{	//подстава
 		iTemp = sti(pchar.rank) + rand(MOD_SKILL_ENEMY_RATE);
-		sld = GetCharacter(NPC_GenerateCharacter("BerglarWairessQuest", "officer_"+(rand(57)+1), "man", "man", iTemp, PIRATE, -1, true));
+		sld = GetCharacter(NPC_GenerateCharacter("BerglarWairessQuest", "officer_"+(rand(63)+1), "man", "man", iTemp, PIRATE, -1, true));
 		FantomMakeCoolFighter(sld, iTemp, 80, 80, "topor2", "pistol6", 50);
 		sld.dialog.Filename = "Quest\ForAll_dialog.c";
 		sld.dialog.currentnode = "WaitressBerglar";	
@@ -5646,7 +5646,7 @@ void Teno_clearGroups(string qName)
 	LAi_group_Delete("AztecCitizenGroup");
 	LAi_group_Delete("MontesumaGroup");
 	LAi_group_Delete("teno_monsters_group");
-	ChangeItemDescribe("SkullAztec", "itmdescr_SkullAztecAdd");
+	//ChangeItemDescribe("SkullAztec", "itmdescr_SkullAztecAdd");
 	AddQuestRecord("Tenochtitlan", "6");
 	CloseQuestHeader("Tenochtitlan");
 }
@@ -5803,6 +5803,7 @@ void Blood_StartGame(string qName)
     locations[n].notCloseCommonHouse = true;
     n = FindLocation("Bridgetown_tavern"); //homo fix
     DeleteAttribute(&locations[n], "habitues");
+	colonies[FindColony("Bridgetown")].DontSetShipInPort = true;
     //Обираем до нитки
     RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
     RemoveCharacterEquip(pchar, GUN_ITEM_TYPE);
@@ -7828,6 +7829,8 @@ void RestoreBridgetown()
         CloseQuestHeader("FishermanQuest");
         CloseQuestHeader("UsurerQuest");
         CloseQuestHeader("PirateQuest");
+		
+		UnlockAchievement("CapBladLine", 3);
 
 }
 
@@ -7928,7 +7931,7 @@ void Slavetrader_CreateSlaveShips(string qName)//создание кораблей в бухте
 				iCannonType = CANNON_TYPE_CANNON_LBS32;
 			break;  				
 		}
-		sld = GetCharacter(NPC_GenerateCharacter("CaptainSlaveAttack_"+i, "officer_"+(rand(57)+1), "man", "man", Rank, PIRATE, 3, true));//создание кэпа
+		sld = GetCharacter(NPC_GenerateCharacter("CaptainSlaveAttack_"+i, "officer_"+(rand(63)+1), "man", "man", Rank, PIRATE, 3, true));//создание кэпа
 		if (i == 1)
 		{
 		FantomMakeCoolSailor(sld, ShipType, "", iCannonType, 70, 50, 50);//создание кораблей
@@ -10207,26 +10210,20 @@ void MaksCome(string qName)
 	sld = CharacterFromID("Maks");
 	LAi_SetImmortal(sld, false);
 	ChangeCharacterAddressGroup(sld, Pchar.Luke.City.Loc, "reload", "reload1");
+	SelAllPerksToNotPchar(sld);
 	LAi_group_MoveCharacter(sld, "Maks");
 	LAi_SetPlayerType(pchar);
 	LAi_group_FightGroups("Maks", LAI_GROUP_PLAYER, true);
-	DoQuestFunctionDelay("AddGuardians", 2.0);
+	LAi_group_SetCheck("Maks","AddGuardians");
 	EndLookAfterCharacter();
 	LAi_SetFightMode(pchar, true);
-}
-void AddGuardians(string qName)
-{
-	for (int i = 0; i < 3; i++)
-	{
-		sTemp = "off_" + NationShortName(sti(Colonies[FindColony(Pchar.Luke.City)].nation)) + "_" + i;
-		sld = GetCharacter(NPC_GenerateCharacter("Maks_Guard" + i, sTemp, "man", "man", 30, sti(Colonies[FindColony(Pchar.Luke.City)].nation), -1, false));
-		SelAllPerksToNotPchar(sld);
-		FantomMakeCoolFighter(sld, 30, 90, 90, "blade28", "pistol5",300);
-		ChangeCharacterAddressGroup(sld, Pchar.Luke.City.Loc, "goto", "goto"+i);
-		LAi_group_MoveCharacter(sld, "Maks");
-	}
-	LAi_group_FightGroups("Maks", LAI_GROUP_PLAYER, true);
-	LAi_group_SetCheck("Maks", "QuestEnd1");
+	sld.SaveItemsForDead = true;
+	GiveItem2Character(sld,"book3_5");
+	GiveItem2Character(sld,"book3_12");
+	GiveItem2Character(sld,"cirass5");
+	EquipCharacterByItem(sld, "cirass5");
+	RemoveItems(sld, "cirass5", 1);
+	sld.DontClearDead = true;
 }
 void LukesEscape(string qName)
 {
@@ -10544,6 +10541,22 @@ void PDM_ONV_Kazn_4(string qName)
 	sld.lifeday = 0;
 }
 //Sinistra Охота на ведьму <--
+
+//Sinistra Клан Ламбрини -->
+void PDM_CL_Sadis_Pokupatel(string qName)
+{
+	sld = CharacterFromID("PDM_CL_Pokupatel")
+	ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_base2");
+	LAi_SetSitType(sld);
+}
+void PDM_CL_Sadis_Octavio(string qName)
+{
+	sld = CharacterFromID("PDM_Octavio_Lambrini")
+	ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_front2");
+	LAi_SetSitType(sld);
+}
+//Sinistra Клан Ламбрини <--
+
 //Blackthorn Викинг
 void PirateVikingQuest_Captain_Is_Dead(string qName)
 {
@@ -10594,5 +10607,231 @@ void ReloadMyGun(string qName)
 		ref rItm = ItemsFromID(sGun); 
 		int iCharge = iGetPistolChargeNum(pchar, LAi_GunSetChargeQuant(pchar,sti(rItm.chargeQ)));
 		//pchar.chr_ai.charge = iCharge;
+	}
+}
+// Нежданное наследство
+void UnexpectedInheritance()
+{
+	sld = GetCharacter(NPC_GenerateCharacter("UI_girl", "girl_1", "woman", "woman", 1, FRANCE, -1, false));
+	LAI_SetStayType(sld);
+	sld.talker = 10;
+	LAi_group_MoveCharacter(sld, "France_citizens");
+	sld.Dialog.Filename = "Quest\UnexpectedInheritance.c";
+	sld.dialog.currentnode = "Girl";
+	ChangeCharacterAddressGroup(sld, "BasTer_town", "patrol", "patrol12");
+}
+
+void UnexpectedInheritanceGetPartTwo(string qName)
+{
+	Log_Info("Вы нашли пергамент с текстом на латыни");
+	PlaySound("interface\important_item.wav");
+	AddQuestRecord("UnexpectedInheritance", "3");
+	AddQuestUserData("UnexpectedInheritance", "sSex", GetSexPhrase("ый","ая"));
+	ref locLoad = &locations[reload_location_index];
+	locLoad.box1.items.indian22 = 1;
+	
+	pchar.UnexpectedInheritance = "part2";
+}
+void UnexpectedInheritanceGetPartThree(string qName)
+{
+	Log_Info("Вы нашли пергамент с текстом на латыни и половинку карты");
+	PlaySound("interface\important_item.wav");
+	AddQuestRecord("UnexpectedInheritance", "5");
+	ref locLoad = &locations[reload_location_index];
+	locLoad.private1.items.indian20 = 1;
+	
+	pchar.UnexpectedInheritance = "part3";
+}
+void UnexpectedInheritanceGetPartFour(string qName)
+{
+	chrDisableReloadToLocation = false;
+	Log_Info("На трупе был кусок пергамента");
+	PlaySound("interface\important_item.wav");
+	AddQuestRecord("UnexpectedInheritance", "7");
+	
+	pchar.UnexpectedInheritance = "part4";
+}
+void UnexpectedInheritanceGetPartFive(string qName)
+{
+	Log_Info("В сундуке пусто");
+	//PlaySound("interface\important_item.wav");
+	AddQuestRecord("UnexpectedInheritance", "9");
+	
+	pchar.UnexpectedInheritanceFort = true;
+}
+void UnexpectedInheritanceEnd(string qName)
+{
+	chrDisableReloadToLocation = false;
+	AddQuestRecord("UnexpectedInheritance", "11");
+	CloseQuestHeader("UnexpectedInheritance");
+}
+void UnexpectedInheritanceSeaBattle()
+{
+	sld = GetCharacter(NPC_GenerateCharacter("UICap", "officer_17", "man", "man", 55, PIRATE, -1, true));
+	sld.Ship.Type = GenerateShipExt(SHIP_MORDAUNT, true, sld);
+	SetRandomNameToShip(sld);
+	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
+	
+	SetCrewQuantityFull(sld);
+	int hcrew = GetMaxCrewQuantity(sld);
+	SetCrewQuantityOverMax(sld, hcrew + 12 * MOD_SKILL_ENEMY_RATE);// Усложним бой
+	
+	sld.ship.Crew.Morale = 100;
+	ChangeCrewExp(sld, "Sailors", 5 + 5 * MOD_SKILL_ENEMY_RATE);
+	ChangeCrewExp(sld, "Cannoners", 5 + 5 * MOD_SKILL_ENEMY_RATE);
+	ChangeCrewExp(sld, "Soldiers", 5 + 5 * MOD_SKILL_ENEMY_RATE);
+
+	sld.money = 100000;
+	sld.SaveItemsForDead = true;
+	TakeNItems(sld, "Food5", 5);
+	TakeNItems(sld, "potion2", 5);
+	sld.SaveItemsForDead = true;
+	EquipCharacterbyItem(sld, "cirass5")
+	LAi_SetHP(sld, 200.0 + 20 * MOD_SKILL_ENEMY_RATE, 200.0 + 20 * MOD_SKILL_ENEMY_RATE);
+	SetSelfSkill(sld, 80, 80, 80, 80, 80);
+	SetShipSkill(sld, 75, 75, 75, 75, 75, 75, 75, 75, 75);
+	sld.rank = 30;
+	if (MOD_SKILL_ENEMY_RATE > 2)
+	{
+		SetHalfPerksToChar(sld, true);
+	}
+	SetCharacterPerk(sld, "MusketsShoot");
+	SetCharacterPerk(sld, "CannonProfessional");
+	if (MOD_SKILL_ENEMY_RATE == 10)
+	{
+		sld.rank = 60;
+		SetSelfSkill(sld, 100, 100, 100, 100, 100);
+		SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100);
+		//LAi_SetHP(sld, 1000.0, 1000.0);
+	}
+	SetFoodToCharacter(sld, 3, 20);	
+	SetSPECIAL(sld, 10, 10, 10, 10, 10, 10, 10);
+
+    SetCharacterGoods(sld,GOOD_FOOD,500);
+    SetCharacterGoods(sld,GOOD_BALLS,1000);
+    SetCharacterGoods(sld,GOOD_GRAPES,1000);
+    SetCharacterGoods(sld,GOOD_KNIPPELS,1000);
+    SetCharacterGoods(sld,GOOD_BOMBS,1000);
+    SetCharacterGoods(sld,GOOD_POWDER,3000);
+    SetCharacterGoods(sld,GOOD_PLANKS,150);
+    SetCharacterGoods(sld,GOOD_SAILCLOTH,150);
+    SetCharacterGoods(sld,GOOD_RUM,200);
+    SetCharacterGoods(sld,GOOD_WEAPON,600);
+	SetCharacterGoods(sld,GOOD_MEDICAMENT,300);
+	
+	sld.AlwaysEnemy = true;
+	sld.DontRansackCaptain = true;
+	sld.AlwaysSandbankManeuver = true;
+	Group_FindOrCreateGroup("UI_seabattle");
+	Group_SetType("UI_seabattle", "pirate");
+	Group_AddCharacter("UI_seabattle", sld.id);
+	Group_SetGroupCommander("UI_seabattle", sld.id);
+	SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
+	
+	LAi_SetImmortal(sld, false);
+	Group_SetPursuitGroup("UI_seabattle", PLAYER_GROUP);
+	Group_SetTaskAttack("UI_seabattle", PLAYER_GROUP);
+	Group_LockTask("UI_seabattle");
+	Group_SetAddress("UI_seabattle", "Dominica", "Quest_ships", "quest_ship_7");
+}
+void UnexpectedInheritanceGrottoPirates(string qName)
+{
+	chrDisableReloadToLocation = true;
+	Group_FindOrCreateGroup("UIPirates");
+	for (int i = 1; i <= MOD_SKILL_ENEMY_RATE; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("UI_pirate"+i, "pirate_"+(rand(20)+1), "man", "man", 55, PIRATE, -1, true));
+		if (i == 1)
+		{
+			sld.model = "officer_25";
+			LAI_SetStayType(sld);
+			sld.talker = 10;
+			sld.Dialog.Filename = "Quest\UnexpectedInheritance.c";
+			sld.dialog.currentnode = "GrottoPirate";
+			ChangeCharacterAddressGroup(sld, "Dominica_Grot", "goto", "goto1");
+			TakeNItems(sld, "chest", 5);
+			sld.SaveItemsForDead = true;
+			pchar.quest.UnexpectedInheritanceGetPartFour.win_condition.l1 = "NPC_Death";
+			pchar.quest.UnexpectedInheritanceGetPartFour.win_condition.l1.character ="UI_pirate1";
+			PChar.quest.UnexpectedInheritanceGetPartFour.function = "UnexpectedInheritanceGetPartFour";
+		}
+		else
+		{
+			ChangeCharacterAddressGroup(sld, "Dominica_Grot", "monsters", "monster1");
+			LAI_SetWarriorType(sld);
+		}
+		LAi_group_MoveCharacter(sld, "UIPirates");
+	}
+}
+void UnexpectedInheritanceTerks(string part)
+{
+	chrDisableReloadToLocation = true;
+	Group_FindOrCreateGroup("UISkeletons");
+	for (int i = 1; i <= MOD_SKILL_ENEMY_RATE; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("UI_skel"+i, "Skel"+(rand(3)+1), "skeleton", "skeleton", 50, PIRATE, -1, true));
+		if (i == 1)
+		{
+			sld.model = "BSUnd5";
+			FantomMakeCoolFighter(sld, 50, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), "grape_mushket", MOD_SKILL_ENEMY_RATE*4);
+			LAi_SetHP(sld, 500*MOD_SKILL_ENEMY_RATE, 500*MOD_SKILL_ENEMY_RATE);
+			sld.SaveItemsForDead = true;
+			sld.cirassId = Items_FindItemIdx("cirass5");  // предмета нет, но влияение есть
+			LAI_SetStayType(sld);
+			sld.talker = 10;
+			sld.Dialog.Filename = "Quest\UnexpectedInheritance.c";
+			sld.dialog.currentnode = "GrottoSkeleton";
+			ChangeCharacterAddressGroup(sld, "Terks_Grot", "monsters", "monster3");
+			//TakeNItems(sld, "chest", 5);
+			sld.SaveItemsForDead = true;
+			pchar.quest.UnexpectedInheritanceEnd.win_condition.l1 = "NPC_Death";
+			pchar.quest.UnexpectedInheritanceEnd.win_condition.l1.character ="UI_skel1";
+			PChar.quest.UnexpectedInheritanceEnd.function = "UnexpectedInheritanceEnd";
+		}
+		else
+		{
+			ChangeCharacterAddressGroup(sld, "Terks_Grot", "monsters", "monster1");
+			LAi_KillCharacter(sld);
+		}
+		LAi_group_MoveCharacter(sld, "UIPirates");
+	}
+}
+void UnexpectedInheritanceTranslatePart(string part)
+{
+	if (part == "part1")
+	{
+		AddQuestRecord("UnexpectedInheritance", "2");
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1 = "locator";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.location = "Mayak9";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.locator_group = "box";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.locator = "box1";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.function = "UnexpectedInheritanceGetPartTwo";
+	}
+	if (part == "part2")
+	{
+		AddQuestRecord("UnexpectedInheritance", "4");
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1 = "locator";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.location = "FortOrange_town";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.locator_group = "box";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.locator = "private1";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.function = "UnexpectedInheritanceGetPartThree";
+	}
+	if (part == "part3")
+	{
+		AddQuestRecord("UnexpectedInheritance", "6");
+		UnexpectedInheritanceSeaBattle();
+		
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1 = "location";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.location = "Dominica_Grot";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.function = "UnexpectedInheritanceGrottoPirates";
+	}
+	if (part == "part4")
+	{
+		AddQuestRecord("UnexpectedInheritance", "8");
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1 = "locator";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.location = "FortFrance_fort";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.locator_group = "box";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.locator = "box1";
+		pchar.quest.UnexpectedInheritanceGetPartTwo.function = "UnexpectedInheritanceGetPartFive";
 	}
 }

@@ -101,7 +101,13 @@ void ProcessDialogEvent()
 				Link.l2.go = "exit";
 				break;
 			}
-			
+			if (IsEquipCharactersByItem(pchar, "DHGlove") && npchar.quest.BadMeeting != lastspeak_date)
+			{
+				Dialog.Text = "Ты... колдун! Как ты посмел, грязный нечестивец, явиться в храм Божий?! Исчадие ада, гнев Господень да падет на тебя!";
+				Link.l1 = "Колдун говоришь... А собственно почему колдун?";
+				Link.l1.go = "DHreaction";
+				break;
+			}
 			if (startherotype == 2 && npchar.quest.BadMeeting != lastspeak_date && npchar.quest.Fooled != lastspeak_date && GetCharacterEquipSuitID(pchar)!= "suit_1" && 80 > sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)))
 			{
 				Dialog.Text = "Твои глаза... Покинь храм Господа, исчадие ада! Нам с тобой не о чем говорить!";
@@ -179,13 +185,21 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "First time";
 		break;
 		
+		case "DHreaction":
+			dialog.text = "Убирайся! Мне не о чем с тобой говорить!";
+			link.l1 = "Мда... ты же просто дурачок.";
+			link.l1.go = "exit";
+			ChangeCharacterNationReputation(pchar, sti(NPChar.nation), -5);
+			npchar.quest.BadMeeting = lastspeak_date;
+		break;
+		
 		case "fool_priest":
 			if (drand(80) > sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)))
 			{
 				dialog.text = "Тебе не обмануть меня! Прочь отсюда, дабы не осквернять своим присутствием храм Божий!";
 				link.l1 = "Дьявол!";
 				link.l1.go = "exit";
-				AddCharacterExpToSkill(pchar, SKILL_LEADERSHIP, 10);
+				AddCharacterExpToSkill(pchar, SKILL_LEADERSHIP, 5 + 5 * sti(pchar.rank));
 				ChangeCharacterReputation(pchar, -1);
 				npchar.quest.BadMeeting = lastspeak_date;
 			}
@@ -193,7 +207,7 @@ void ProcessDialogEvent()
 			{
 				dialog.text = "Простите великодушно, не узнал. Как простой священник может услужить такому небесному созданию?";
 				link.l1 = "Есть один вопрос.";
-				AddCharacterExpToSkill(pchar, SKILL_LEADERSHIP, 100);
+				AddCharacterExpToSkill(pchar, SKILL_LEADERSHIP, 50 + 10 * sti(pchar.rank));
 				link.l1.go = "node_3";
 				npchar.quest.Fooled = lastspeak_date;
 				
@@ -910,6 +924,23 @@ void ProcessDialogEvent()
 						link.l4.go = "LukePoison";
 				}
             }
+			// BlackThorn - Нежданное наследство
+			if (CheckAttribute(PChar,"UnexpectedInheritance"))
+            {
+				if(!CheckAttribute(pchar, "UnexpectedInheritance_translator"))
+				{
+					link.l10 = "Святой отец, мне попал в руки один интересный текст. Он на латыни. Могу я попросить Вас сделать перевод?";
+					link.l10.go = "UnexpectedInheritance_translate";
+				}
+				else
+				{
+					if(npchar.id == pchar.UnexpectedInheritance_translator && GetNpcQuestPastDayWOInit(npchar, "UnexpectedInheritance_translate") > 0 && sti(pchar.money) >= 1000)
+					{
+						link.l10 = "Святой отец, я по поводу перевода. И вот, пожалуйста, возьмите на нужды прихода.";
+						link.l10.go = "UnexpectedInheritance_translate_end";
+					}
+				}
+            }
             //==> Вставка Эдди, квест Аззи, возможность сдачи лампы.
             if (CheckCharacterItem(pchar, "Azzy_bottle"))
             {
@@ -947,6 +978,32 @@ void ProcessDialogEvent()
 			//<== ночной сторож в церкви
 			link.l99 = "Я передумал"+ GetSexPhrase("","а") +", меня ждут дела.";
 			link.l99.go = "exit";
+		break;
+
+		case "UnexpectedInheritance_translate":
+			dialog.text = "Прошу прощения, но я оказываю такие услуги только своим друзьям и истинным верующим. Вас я не могу отнести ни к тем, ни к другим.";
+			link.l1 = "Очень жаль.";
+			link.l1.go = "exit";
+			if (sti(pchar.reputation) > (REPUTATION_NEUTRAL + 10))  // кибальчиш
+			{
+				dialog.text = "Хорошо, я посмотрю. Приходите завтра, "+GetSexPhrase("сын мой","дочь моя")+", и не забывайте о нуждающихся.";
+				SaveCurrentNpcQuestDateParam(npchar, "UnexpectedInheritance_translate");
+				pchar.UnexpectedInheritance_translator = npchar.id;
+				link.l1 = "Благодарю вас, святой отец.";
+				link.l1.go = "exit";
+			}
+			
+		break;
+		
+		case "UnexpectedInheritance_translate_end":
+			dialog.text = "Благослови вас Господь. Вот, что у меня получилось.";
+			link.l1 = "Спасибо, отче.";
+			link.l1.go = "exit";
+			AddMoneyToCharacter(pchar, -1000);
+			UnexpectedInheritanceTranslatePart(pchar.UnexpectedInheritance);
+			DeleteAttribute(pchar, "UnexpectedInheritance_translator");
+			DeleteAttribute(pchar, "UnexpectedInheritance");
+			
 		break;
 
 		case "prihod":
@@ -1065,7 +1122,7 @@ void ProcessDialogEvent()
 			
 		case "GenQuest_Church_1_Dialog_1_2":	// Сцена 2б-а и 2б-б
 			// Генерим кэпа -->
-			sld = GetCharacter(NPC_GenerateCharacter("ChurchGenQuest1_Cap", "officer_" + (rand(57)+1), "man", "man", 15, NPChar.nation, -1, true));
+			sld = GetCharacter(NPC_GenerateCharacter("ChurchGenQuest1_Cap", "officer_" + (rand(63)+1), "man", "man", 15, NPChar.nation, -1, true));
 			FantomMakeCoolFighter(sld, 35, 40, 35, "blade24", "pistol3", 30);
 			FantomMakeCoolSailor(sld, 7 + rand(2), "", CANNON_TYPE_CANNON_LBS24, 75, 70, 65);
 			sld.Abordage.Enable = false;
@@ -1284,6 +1341,12 @@ void ProcessDialogEvent()
 			AddQuestRecordEx(sTitle, "Church_DestroyGhost", "3");
 			AddQuestUserData(sTitle, "sSex", GetSexPhrase("ся","ась"));
 			CloseQuestHeader(sTitle);
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(npchar, "quest.DestroyGhost");
 			//#20170727-01 Bug fix church skeleton quest infinite reputation
 			//Attribute set in SetSkeletonsToLocation, QuestsUtilite.c
@@ -1357,6 +1420,12 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			sTitle = pchar.questTemp.different.Church_NightGuard + "Church_NightGuard";
 			CloseQuestHeader(sTitle);
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(pchar, "questTemp.different.Church_NightGuard");
 			ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 5);
 			OfficersReaction("good");
@@ -1370,6 +1439,12 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			sTitle = pchar.questTemp.different.Church_NightGuard + "Church_NightGuard";
 			CloseQuestHeader(sTitle);
+			
+			pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+			if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+			if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+			if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
+			
 			DeleteAttribute(pchar, "questTemp.different.Church_NightGuard");
 			ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 5);
 			OfficersReaction("good");

@@ -1259,7 +1259,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
         case "Step_12_5":
             dialog.text = "Не удивляйтесь! Но давайте все по порядку.\n"+
                           "С огромным удовольствием должен сообщить, что ваши заслуги перед отечеством оценены в должной мере.\n"+
-                          "Я имею честь сообщить о возведении вас в рыцарское звание. Отныне перед вашим именем всегда должна будет употребляться приставка сэр.\n"+
+                          "Я имею честь сообщить о возведении вас в рыцарское звание. Отныне перед вашим именем всегда должна будет употребляться приставка "+ GetSexPhrase("сэр","дама") +".\n"+
                           "Также, в результате проведенного расследования деятельности Мэдифорда, найдено его огромное состояние. Часть этих денег принадлежит вам, сэр. Это триста тысяч золотом. Извольте получить.";
             link.l1 = "Благодарю вас. Надеюсь, что и далее я смогу быть так же "+ GetSexPhrase("полезен","полезна") +" Его Величеству.";
             link.l1.go = "Step_12_6";
@@ -1267,10 +1267,17 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 
         case "Step_12_6":
             dialog.text = "Я так же рассчитываю на это.\n"+
-                          "Надеюсь, что с вашим участием, сэр, Карибское море станет более английским. И не забывайте, что Испания нам не враг. Пока, во всяком случае...";
+                          "Надеюсь, что с вашим участием, "+ GetSexPhrase("сэр","дама") +", Карибское море станет более английским. И не забывайте, что Испания нам не враг. Пока, во всяком случае...";
             link.l1 = "Я "+ GetSexPhrase("понял","поняла") +", сэр. Приложу все усилия для процветания английских колоний в Карибском море.";
             link.l1.go = "exit";
+			if (PChar.sex == "woman")
+			{
+			pchar.name = "дама " + pchar.name;
+			}
+			else
+			{
 			pchar.name = "сэр " + pchar.name;
+			}
             AddMoneyToCharacter(pchar, 300000);
             AddTitleNextRate(sti(NPChar.nation), 4);
 			ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 20);
@@ -1278,6 +1285,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             DeleteAttribute(pchar, "questTemp.Waiting_time");
             pchar.questTemp.State = "EndOfQuestLine";
 			bWorldAlivePause   = false; // Конец линейки
+			UnlockAchievement("Nation_quest_P", 3);
         break;
         
         

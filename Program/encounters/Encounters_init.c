@@ -231,18 +231,18 @@ void InitEncounters()
 	Enc_ExcludeNation(rEnc, SPAIN);
 	Enc_ExcludeNation(rEnc, HOLLAND);
 
-	Enc_AddClasses(rEnc, 1, 0, 0, 5, 7);
-	Enc_AddClasses(rEnc, 1000,0, 0, 5, 7);
+	Enc_AddClasses(rEnc, 1, 0, 0, 5, 6);
+	Enc_AddClasses(rEnc, 1000,0, 0, 5, 6);
 
 	///////////////////////////////////////////////////////////////////////////////////////
-	/// 1-4 пирата
+	/// 2-4 пирата
 	///////////////////////////////////////////////////////////////////////////////////////
 	makeref(rEnc, EncountersTypes[ENCOUNTER_TYPE_PIRATE_MEDIUM]);
 	rEnc.Type = ENCOUNTER_WAR;
 	rEnc.MinRank = 3;
 	rEnc.MaxRank = 1000;
-	rEnc.worldMapShip = "sloop";
-	Enc_AddShips(rEnc, "War", 1, 4);
+	rEnc.worldMapShip = "bark";
+	Enc_AddShips(rEnc, "War", 2, 4);
 	Enc_ExcludeNation(rEnc, ENGLAND);
 	Enc_ExcludeNation(rEnc, FRANCE);
 	Enc_ExcludeNation(rEnc, SPAIN);
@@ -252,14 +252,14 @@ void InitEncounters()
 	Enc_AddClasses(rEnc, 1000,0, 0, 3, 6);
 	
 	///////////////////////////////////////////////////////////////////////////////////////
-	/// 2-6 пирата
+	/// 3-6 пирата
 	///////////////////////////////////////////////////////////////////////////////////////
 	makeref(rEnc, EncountersTypes[ENCOUNTER_TYPE_PIRATE_LARGE]);
 	rEnc.Type = ENCOUNTER_WAR;
 	rEnc.MinRank = 4;
 	rEnc.MaxRank = 1000;
-	rEnc.worldMapShip = "bark";
-	Enc_AddShips(rEnc, "War", 2, 6);
+	rEnc.worldMapShip = "frigate";
+	Enc_AddShips(rEnc, "War", 3, 6);
 	Enc_ExcludeNation(rEnc, ENGLAND);
 	Enc_ExcludeNation(rEnc, FRANCE);
 	Enc_ExcludeNation(rEnc, SPAIN);

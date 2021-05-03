@@ -119,6 +119,20 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 
     SetNewGroupPicture("CREW_PICTURE", "SHIP_STATE_ICONS", "Crew");
 	SetNewGroupPicture("CREW_PICTURE2", "SHIP_STATE_ICONS", "Crew");
+	
+    SetNewGroupPicture("EXTRAHULLON1", "SHIP_UPGRADES", "EXTRAHULLON");
+    SetNewGroupPicture("EXTRASAILON1", "SHIP_UPGRADES", "EXTRASAILON");
+    SetNewGroupPicture("EXTRAGUNSON1", "SHIP_UPGRADES", "EXTRAGUNSON");
+    SetNewGroupPicture("EXTRAHULLKRENGON1", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
+    SetNewGroupPicture("EXTRACAPACITYON1", "SHIP_UPGRADES", "EXTRACAPACITYON");
+    SetNewGroupPicture("EXTRABIGSIDESON1", "SHIP_UPGRADES", "EXTRABIGSIDESON");
+
+    SetNewGroupPicture("EXTRAHULLON2", "SHIP_UPGRADES", "EXTRAHULLON");
+    SetNewGroupPicture("EXTRASAILON2", "SHIP_UPGRADES", "EXTRASAILON");
+    SetNewGroupPicture("EXTRAGUNSON2", "SHIP_UPGRADES", "EXTRAGUNSON");
+    SetNewGroupPicture("EXTRAHULLKRENGON2", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
+    SetNewGroupPicture("EXTRACAPACITYON2", "SHIP_UPGRADES", "EXTRACAPACITYON");
+    SetNewGroupPicture("EXTRABIGSIDESON2", "SHIP_UPGRADES", "EXTRABIGSIDESON");
 
     SetNewGroupPicture("Money_PIC", "ICONS_CHAR", "Money");
 
@@ -665,6 +679,30 @@ void OnShipScrollChange()
 		}
 		}
 	}
+	if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON1", "SHIP_UPGRADES", "EXTRAHULLON");
+	else SetNewGroupPicture("EXTRAHULLON1", "SHIP_UPGRADES", "EXTRAHULLOFF");
+	if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.SailsSpecial")) SetNewGroupPicture("EXTRASAILON1", "SHIP_UPGRADES", "EXTRASAILON");
+	else SetNewGroupPicture("EXTRASAILON1", "SHIP_UPGRADES", "EXTRASAILOFF");
+	if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.CannonsSpecial")) SetNewGroupPicture("EXTRAGUNSON1", "SHIP_UPGRADES", "EXTRAGUNSON");
+	else SetNewGroupPicture("EXTRAGUNSON1", "SHIP_UPGRADES", "EXTRAGUNSOFF");
+	if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.CuBot")) SetNewGroupPicture("EXTRAHULLKRENGON1", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
+	else SetNewGroupPicture("EXTRAHULLKRENGON1", "SHIP_UPGRADES", "EXTRAHULLKRENGOFF");
+	if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.BotPack")) SetNewGroupPicture("ExtraCapacityOn1", "SHIP_UPGRADES", "ExtraCapacityOn");
+	else SetNewGroupPicture("ExtraCapacityOn1", "SHIP_UPGRADES", "ExtraCapacityOff");
+	if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.HighBort")) SetNewGroupPicture("ExtraBigSidesOn1", "SHIP_UPGRADES", "ExtraBigSidesOn");
+	else SetNewGroupPicture("ExtraBigSidesOn1", "SHIP_UPGRADES", "ExtraBigSidesOff");
+	if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON2", "SHIP_UPGRADES", "EXTRAHULLON");
+	else SetNewGroupPicture("EXTRAHULLON2", "SHIP_UPGRADES", "EXTRAHULLOFF");
+	if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.SailsSpecial")) SetNewGroupPicture("EXTRASAILON2", "SHIP_UPGRADES", "EXTRASAILON");
+	else SetNewGroupPicture("EXTRASAILON2", "SHIP_UPGRADES", "EXTRASAILOFF");
+	if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CannonsSpecial")) SetNewGroupPicture("EXTRAGUNSON2", "SHIP_UPGRADES", "EXTRAGUNSON");
+	else SetNewGroupPicture("EXTRAGUNSON2", "SHIP_UPGRADES", "EXTRAGUNSOFF");
+	if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CuBot")) SetNewGroupPicture("EXTRAHULLKRENGON2", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
+	else SetNewGroupPicture("EXTRAHULLKRENGON2", "SHIP_UPGRADES", "EXTRAHULLKRENGOFF");
+	if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.BotPack")) SetNewGroupPicture("ExtraCapacityOn2", "SHIP_UPGRADES", "ExtraCapacityOn");
+	else SetNewGroupPicture("ExtraCapacityOn2", "SHIP_UPGRADES", "ExtraCapacityOff");
+	if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort")) SetNewGroupPicture("ExtraBigSidesOn2", "SHIP_UPGRADES", "ExtraBigSidesOn");
+	else SetNewGroupPicture("ExtraBigSidesOn2", "SHIP_UPGRADES", "ExtraBigSidesOff");
 }
 
 void ShowShipInfo(ref chr, string sAdd)
@@ -713,6 +751,8 @@ void ShowInfoWindow()
 	string sAttributeName, sCharacter;
 	int nChooseNum = -1;
 	int iShip;
+	int xx = 256;
+	int yy = 256;
 	ref refBaseShip;
 	ref Cannon;
 	ref chr;
@@ -856,10 +896,134 @@ void ShowInfoWindow()
 				}
 			}
 		break;
+		
+		// LEO - чудим с доп инфой (надо доработать немного)
+		case "EXTRAHULLON1":
+			sHeader = XI_ConvertString("EXTRAHULLON");
+			sText1 = GetConvertStr("SUP_HULL_descr", "ShipsDescribe.txt");
+
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.HullSpecial")) sGroupPicture = "EXTRAHULLON";
+			else sGroupPicture = "EXTRAHULLOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRASAILON1":
+			sHeader = XI_ConvertString("EXTRASAILON");
+			sText1 = GetConvertStr("SUP_SAIL_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.SailsSpecial")) sGroupPicture = "EXTRASAILON";
+			else sGroupPicture = "EXTRASAILOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRAGUNSON1":
+			sHeader = XI_ConvertString("EXTRAGUNSON");
+			sText1 = GetConvertStr("SUP_CANNONS_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.CannonsSpecial")) sGroupPicture = "EXTRAGUNSON";
+			else sGroupPicture = "EXTRAGUNSOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRAHULLKRENGON1":
+			sHeader = XI_ConvertString("EXTRAHULLKRENGON");
+			sText1 = GetConvertStr("SUP_HULLCOPPER_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.CuBot")) sGroupPicture = "EXTRAHULLKRENGON";
+			else sGroupPicture = "EXTRAHULLKRENGOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRACAPACITYON1":
+			sHeader = XI_ConvertString("EXTRACAPACITYON");
+			sText1 = GetConvertStr("SUP_CAPACITY_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.BotPack")) sGroupPicture = "EXTRACAPACITYON";
+			else sGroupPicture = "EXTRACAPACITYOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRABIGSIDESON1":
+			sHeader = XI_ConvertString("EXTRABIGSIDESON");
+			sText1 = GetConvertStr("SUP_BIGSIDES_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(pchar.Ship.Type)],"Tuning.HighBort")) sGroupPicture = "EXTRABIGSIDESON";
+			else sGroupPicture = "EXTRABIGSIDESOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		
+		//не гг
+		case "EXTRAHULLON2":
+			sHeader = XI_ConvertString("EXTRAHULLON");
+			sText1 = GetConvertStr("SUP_HULL_descr", "ShipsDescribe.txt");
+
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial")) sGroupPicture = "EXTRAHULLON";
+			else sGroupPicture = "EXTRAHULLOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRASAILON2":
+			sHeader = XI_ConvertString("EXTRASAILON");
+			sText1 = GetConvertStr("SUP_SAIL_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.SailsSpecial")) sGroupPicture = "EXTRASAILON";
+			else sGroupPicture = "EXTRASAILOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRAGUNSON2":
+			sHeader = XI_ConvertString("EXTRAGUNSON");
+			sText1 = GetConvertStr("SUP_CANNONS_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CannonsSpecial")) sGroupPicture = "EXTRAGUNSON";
+			else sGroupPicture = "EXTRAGUNSOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRAHULLKRENGON2":
+			sHeader = XI_ConvertString("EXTRAHULLKRENGON");
+			sText1 = GetConvertStr("SUP_HULLCOPPER_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CuBot")) sGroupPicture = "EXTRAHULLKRENGON";
+			else sGroupPicture = "EXTRAHULLKRENGOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRACAPACITYON2":
+			sHeader = XI_ConvertString("EXTRACAPACITYON");
+			sText1 = GetConvertStr("SUP_CAPACITY_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.BotPack")) sGroupPicture = "EXTRACAPACITYON";
+			else sGroupPicture = "EXTRACAPACITYOFF";
+			xx = 256;
+			yy = 256;
+		break;
+		case "EXTRABIGSIDESON2":
+			sHeader = XI_ConvertString("EXTRABIGSIDESON");
+			sText1 = GetConvertStr("SUP_BIGSIDES_descr", "ShipsDescribe.txt");
+			
+			sGroup = "SHIP_UPGRADES";
+			if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort")) sGroupPicture = "EXTRABIGSIDESON";
+			else sGroupPicture = "EXTRABIGSIDESOFF";
+			xx = 256;
+			yy = 256;
+		break;
 	}
 	if (bShowHint)
 	{
-		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 64, 64);
+		CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, xx, yy);
 	}
 }
 
@@ -1127,6 +1291,7 @@ void DropGoodsToSeaFromInterface(int iGoodIndex, int iQuantity)
 	if (CheckAttribute(pchar, "Ship.Cargo.Goods."+sGood))
 	{
 		RemoveCharacterGoods(pchar, iGoodIndex, iQuantity);
+		if(CheckAttribute(pchar, "Goods." + sGood + ".Bought.Coeff.Qty")) pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) - iQuantity;
 		if (bSeaActive && !bAbordageStarted)  // море, но не каюта
 		{
 			iQuantity = iQuantity / sti(Goods[iGoodIndex].Units);
@@ -1256,7 +1421,7 @@ void GoToShipChange() // нажатие ОК на табличке ок-отмена
 		break;
 
 		case "ShipChangeCaptanRemove":  // снять кэпа
-			sld = GetCharacter(NPC_GenerateCharacter("DeadShipCap", "off_hol_2", "man", "man", 60, sti(pchar.nation), 0, true)); // фантом, на время
+			sld = GetCharacter(NPC_GenerateCharacter("DeadShipCap"+xi_refCharacter.id, "off_hol_2", "man", "man", 60, sti(pchar.nation), 0, true)); // фантом, на время
 			sld.faceId = 666;
 			sld.name = "";
 			sld.lastname = "";
@@ -1276,6 +1441,16 @@ void GoToShipChange() // нажатие ОК на табличке ок-отмена
 			RemoveCharacterCompanion(pchar, xi_refCharacter);
 			AddPassenger(pchar, xi_refCharacter, false);
 			DelBakSkill();
+			for(int i = 0; i < GOODS_QUANTITY; i++)
+				{
+					string sGood = Goods[i].Name;
+					if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
+					if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+					{
+						sld.Goods.(sGood).Bought.Coeff.Qty = xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty;
+						xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = 0;
+					}
+				}
 			// снимем компаньона в офы <--
 			xi_refCharacter = sld;
 			ExitShipChangeMenu();
@@ -1414,6 +1589,16 @@ void ShowOtherClick()
 void SwapProcess()
 {
 	SeaAI_SwapShipsAttributes(pchar, xi_refCharacter, true);
+	for(int i = 0; i < GOODS_QUANTITY; i++)
+	{
+		string sGood = Goods[i].Name;
+		if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
+		if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+		{
+			pchar.Goods.(sGood).Bought.Coeff.Qty = xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty;
+			xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = 0;
+		}
+	}
 	//if (xi_refCharacter.id == refEnemyCharacter.id)
 	//{
 	//	SeaAI_SwapShipAfterAbordage(pchar, xi_refCharacter);
@@ -1465,7 +1650,16 @@ void AcceptAddOfficer()
 			RemovePassenger(pchar, sld);
 			// снимем пассажира <--
 			SetCompanionIndex(pchar, -1, iChar);
-
+			for(int i = 0; i < GOODS_QUANTITY; i++)
+				{
+					string sGood = Goods[i].Name;
+					if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
+					if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+					{
+						sld.Goods.(sGood).Bought.Coeff.Qty = xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty;
+						xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = 0;
+					}
+				}
 			xi_refCharacter = sld;
 			DelBakSkill();
 		}
@@ -1600,6 +1794,12 @@ void TakeAllGoods()
 			qty = AddCharacterGoodsSimple(pchar, idx, GetCargoGoods(xi_refCharacter, idx));
 			if (qty > 0)
 			{
+				string sGood = Goods[idx].Name;
+				if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+				{
+					xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) - qty;
+					pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) + qty;
+				}
 				RemoveCharacterGoodsSelf(xi_refCharacter, idx, qty);
 			}
 			else
@@ -1708,11 +1908,18 @@ void TakeGoods(int inc)
 		if (inc > GetCargoGoods(xi_refCharacter, idx)) inc = GetCargoGoods(xi_refCharacter, idx);
 		if (inc > 0)
 		{
+			string sGood = Goods[idx].Name;
 			qty = AddCharacterGoodsSimple(pchar, idx, inc);
 			if (qty > 0)
 			{
 				RemoveCharacterGoodsSelf(xi_refCharacter, idx, qty);
 			}
+			if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+			{
+				xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) - qty;
+				pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) + qty;
+			}
+				
 			OnShipScrollChange();
 			SetGoodsArrows();
 			ShipSituation_SetQuestSituation(ShipSituation_1);
@@ -1734,10 +1941,16 @@ void GiveGoods(int inc)
 		if (inc > GetCargoGoods(pchar, idx)) inc = GetCargoGoods(pchar, idx);
 		if (inc > 0)
 		{
+			string sGood = Goods[idx].Name;
 			qty = AddCharacterGoodsSimple(xi_refCharacter, idx, inc);
 			if (qty > 0)
 			{
 				RemoveCharacterGoodsSelf(pchar, idx, qty);
+			}
+			if(CheckAttribute(pchar, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+			{
+				xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) + qty;
+				pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) - qty;
 			}
 			OnShipScrollChange();
 			SetGoodsArrows();

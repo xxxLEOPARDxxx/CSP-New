@@ -1165,6 +1165,79 @@ int LocationInitCommonLoc(int n)
 	locations[n].reload.l1.label = "Beach";
 	locations[n].locators_radius.reload.reload1 = 2.0;
 	n = n + 1;
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// крипта большая - 2
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "Common_CryptBig2";
+	locations[n].id.label = "CryptBig2";
+	locations[n].image = "loading\inside\CryptBig2.tga";
+	locations[n].MustSetReloadBack = true;
+	//Town sack
+	locations[n].townsack = "";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "Dungeon";
+	locations[n].fastreload = "";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\inside\crypt_2_2_inside\";
+	locations[n].models.always.cryptbig = "crypt_2_2_inside";
+	locations[n].models.always.back = "..\inside_back";
+	locations[n].models.always.locators = "crypt_2_2_inside_locators";
+	//Day
+	locations[n].models.day.charactersPatch = "crypt_2_2_inside_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "crypt_2_2_inside_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	Locations[n].lockWeather = "Inside";
+	Locations[n].QuestlockWeather = "23 Hour";
+	locations[n].environment.sea = "false";
+	locations[n].environment.weather.rain = false;
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "none";
+	locations[n].reload.l1.emerge = "none";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "";
+	n = n + 1;
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// крипта малая
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "Common_Crypt";
+	locations[n].id.label = "Crypt";
+	locations[n].image = "loading\inside\Crypt.tga";
+	locations[n].MustSetReloadBack = true;
+	//Town sack
+	locations[n].townsack = "";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "Dungeon";
+	locations[n].fastreload = "";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\inside\crypt_inside\";
+	locations[n].models.always.crypt = "crypt_inside";
+	locations[n].models.always.locators = "crypt_inside_locators";
+
+	locations[n].models.always.back = "..\inside_back";
+	//Day
+	locations[n].models.day.charactersPatch = "crypt_inside_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "crypt_inside_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	Locations[n].lockWeather = "Inside";
+	Locations[n].QuestlockWeather = "23 Hour";
+	locations[n].environment.sea = "false";
+	locations[n].environment.weather.rain = false;
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "none";
+	locations[n].reload.l1.emerge = "none";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "";
+	n = n + 1;
 
 	return n;
 }

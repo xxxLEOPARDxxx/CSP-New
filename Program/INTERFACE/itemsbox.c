@@ -1364,7 +1364,7 @@ void onGetAllBtnClick()
 			else
 			{
 				int maxWeight = GetMaxItemsWeight(refCharacter);
-				maxItemsToAdd = makeint((maxWeight-fCharWeight)/itemWeight);
+				maxItemsToAdd = makeint((maxWeight-GetItemsWeight(refCharacter))/itemWeight);
 				
 				if(maxItemsToAdd < iItemsQty) iItemsQty = maxItemsToAdd;
 				// <-- Учет перегруза

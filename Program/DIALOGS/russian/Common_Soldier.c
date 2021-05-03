@@ -47,6 +47,14 @@ void ProcessDialogEvent()
 		
 		case "First time":			
             NextDiag.TempNode = "First time";
+			// заглушка на нежить
+			if (pchar.sex == "Skeleton" && GetCharacterEquipSuitID(pchar)!= "suit_1")
+			{
+				dialog.text = RandPhraseSimple("Живые мертвецы в городе?! К оружию!!!", "Сгинь, нечистая сила!!!");
+				link.l1 = "За эту дерзость я заберу твою дущу, глупец!";
+				link.l1.go = "fight"; 
+				break;
+			}
 			if (GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY && sti(NPChar.nation) != PIRATE)
 			{
 				// заглушка на пирата
@@ -331,6 +339,11 @@ void ProcessDialogEvent()
 		break;
 		//============================== ноды на разборки при распознавании =========================
 		case "PegYou":
+		if (GetQuestPastDayParam("questTemp.LastBribe") > 0 || !CheckAttribute(pchar, "BribePrice"))
+		{
+			SaveCurrentQuestDateParam("questTemp.LastBribe");
+			pchar.BribePrice = bribe_price;
+		}
 		if (IsCharacterPerkOn(pchar, "Adventurer") || IsCharacterPerkOn(pchar, "Agent"))
 		{
 			dialog.text = RandPhraseSimple("Сдается мне, что это обман... Давай-ка пройдем в комендатуру, "+ GetSexPhrase("голубчик","голубушка") +", там разберемся...", "Хм, что-то подсказывает мне, что ты не "+ GetSexPhrase("тот","та") +", за кого себя выдаешь... Немедленно сдайте оружие, " + GetAddress_Form(npchar) + ", и следуйте за мной для дальнейшего разбирательства!");
@@ -342,7 +355,7 @@ void ProcessDialogEvent()
 			}
 			if(bBribeSoldiers == true)
 			{
-				if(makeint(Pchar.money) >= bribe_price)
+				if(makeint(Pchar.money) >= sti(pchar.BribePrice))
 				{
 					link.l2 = RandPhraseSimple("Тут рядом кошель валялся, случаем не ваш? Ух, а он тяжелый, зараза! Вот, держите и больше не теряйте. Кстати, я могу идти?", "Вы меня раскусили. На самом деле я просто странствую по Карибам и раздаю деньги нуждающимся. Говорят, страже мало платят? Это необходимо исправлять. Начнем с вас. Вот, держите. Теперь все в порядке?");
 					link.l2.go = "NotPegYou_2";
@@ -353,7 +366,7 @@ void ProcessDialogEvent()
 		{
 			if(bBribeSoldiers == true)
 			{
-				if(makeint(Pchar.money) >= bribe_price)
+				if(makeint(Pchar.money) >= sti(pchar.BribePrice))
 				{
 					link.l2 = RandPhraseSimple("Тут рядом кошель валялся, случаем не ваш? Ух, а он тяжелый, зараза! Вот, держите и больше не теряйте. Кстати, я могу идти?", "Вы меня раскусили. На самом деле я просто странствую по Карибам и раздаю деньги нуждающимся. Говорят, страже мало платят? Это необходимо исправлять. Начнем с вас. Вот, держите. Теперь все в порядке?");
 					link.l2.go = "NotPegYou_2";
@@ -380,7 +393,7 @@ void ProcessDialogEvent()
 		if(bBribeSoldiers == true)
 			{
 
-				if(makeint(Pchar.money) >= bribe_price)
+				if(makeint(Pchar.money) >= sti(pchar.BribePrice))
 				{
 					link.l2 = RandPhraseSimple("Тут рядом кошель валялся, случаем не ваш? Ух, а он тяжелый, зараза! Вот, держите и больше не теряйте. Кстати, я могу идти?", "Вы меня раскусили. На самом деле я просто странствую по Карибам и раздаю деньги нуждающимся. Говорят, страже мало платят? Это необходимо исправлять. Начнем с вас. Вот, держите. Теперь все в порядке?");
 					link.l2.go = "NotPegYou_2";
@@ -418,17 +431,25 @@ void ProcessDialogEvent()
 			dialog.text = RandPhraseSimple("А вот за это спасибо вам, " + GetAddress_Form(pchar) + "." + " На прощание, дам вам бесплатный совет: загляните к нашему портовому начальнику и попросите какую-нибудь бумажку. Сразу легче жить станет.", "Я думаю, в вашем кошеле найдется гораздо больше монет, " + GetAddress_Form(pchar) + ", но ладно, я сегодня добрый." + " На прощание, дам вам бесплатный совет: загляните к нашему портовому начальнику и попросите какую-нибудь бумажку. Сразу легче жить станет.");
 			link.l1 = "До свидания.";
 			link.l1.go = "exit";
-			AddMoneyToCharacter(Pchar, -bribe_price);
+			AddMoneyToCharacter(Pchar, -sti(pchar.BribePrice));
+			
+			pchar.questTemp.bribescount = sti(pchar.questTemp.bribescount) +1;
+			if(sti(pchar.questTemp.bribescount) >= 5) UnlockAchievement("AchVzyatka", 1);
+			if(sti(pchar.questTemp.bribescount) >= 25) UnlockAchievement("AchVzyatka", 2);
+			if(sti(pchar.questTemp.bribescount) >= 50) UnlockAchievement("AchVzyatka", 3);
+			
+			pchar.BribePrice = sti(pchar.BribePrice) * 1.33;
+			
 			if (!CheckAttribute(pchar,"questTemp.stels.landSolder"))
-		{
-			AddCharacterExpToSkill(pchar, SKILL_COMMERCE, 60);
-			pchar.questTemp.stels.landSolder = GetDataDay();
-		} 
-		if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
-		{
-			AddCharacterExpToSkill(pchar, SKILL_COMMERCE, 60);
-			pchar.questTemp.stels.landSolder = GetDataDay();
-		}
+			{
+				AddCharacterExpToSkill(pchar, SKILL_COMMERCE, 60);
+				pchar.questTemp.stels.landSolder = GetDataDay();
+			} 
+			if (sti(pchar.questTemp.stels.landSolder) != GetDataDay())
+			{
+				AddCharacterExpToSkill(pchar, SKILL_COMMERCE, 60);
+				pchar.questTemp.stels.landSolder = GetDataDay();
+			}
 		break;
 		case "LicenceOk":
 			iTemp = GetDaysContinueNationLicence(sti(npchar.nation));
@@ -604,6 +625,7 @@ void ProcessDialogEvent()
 			link.l2.go = "fight";
 			npchar.greeting = "soldier_common";
 			NextDiag.TempNode = "First Time";
+			if(NPChar.chr_ai.type == "guardian") link.l1.go = "First Time";
 		break;
 
 	}

@@ -2,20 +2,21 @@
 #include "interface\character_all.h"
 
 int nCurScrollOfficerNum;
+int iEQUIP_SET = 0;
 string sMapDescribe;//переменная для текста описания карты
 bool bMapCross;
 float fOffsetX, fOffsetY;
+string sEType[10] = {"blade","spyglass","cirass","BackPack","talisman","jewelry_indian_left","jewelry_indian_right","indian_center","idols_left","idols_right"};
 
 void InitInterface(string iniName)
 {
 	InterfaceStack.SelectMenu_node = "LaunchItems"; // запоминаем, что звать по Ф2
 	GameInterface.title = "titleItems";
-	
 	xi_refCharacter = pchar;
-	
+
 	FillCharactersScroll();
 	FillPassengerScroll();
-	
+
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
 	SetEventHandler("InterfaceBreak","ProcessExitCancel",0);
@@ -25,21 +26,21 @@ void InitInterface(string iniName)
 	SetEventHandler("ShowInfoWindow","ShowInfoWindow",0);
 	SetEventHandler("ShowMapDesc","ShowMapDesc",0);
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
-	
+
 	SetEventHandler("ExitOfficerMenu","ExitOfficerMenu",0);
 	SetEventHandler("OfficerChange","OfficerChange",0);
 	SetEventHandler("acceptaddofficer","AcceptAddOfficer",0);
 	SetEventHandler("ExitRemoveOfficerMenu","ExitRemoveOfficerMenu",0);
 	SetEventHandler("AcceptRemoveOfficer","AcceptRemoveOfficer",0);
-	
+
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
 	SetEventHandler("eTabControlPress","procTabChange",0);
 	SetEventHandler("ExitMapWindow","ExitMapWindow",0);
 	SetEventHandler("ExitItemFromCharacterWindow","ExitItemFromCharacterWindow",0);
-	
+
 	SetEventHandler("ShowItemFromCharacterWindow","ShowItemFromCharacterWindow",0);
 	SetEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT", 0);
-	
+
 	SetEventHandler("ShowBladeEquipInfo", "ShowBladeEquipInfo", 0);
 	SetEventHandler("ShowGunEquipInfo", "ShowGunEquipInfo", 0);
 	SetEventHandler("ShowSpyglassEquipInfo", "ShowSpyglassEquipInfo", 0);
@@ -52,6 +53,24 @@ void InitInterface(string iniName)
 	SetEventHandler("Show3EquipInfo", "Show3EquipInfo", 0);
 	SetEventHandler("Show4EquipInfo", "Show4EquipInfo", 0);
 	SetEventHandler("Show5EquipInfo", "Show5EquipInfo", 0);
+	SetEventHandler("ClickShow1", "ClickShow1", 0);
+	SetEventHandler("ClickShow2", "ClickShow2", 0);
+	SetEventHandler("ClickShow3", "ClickShow3", 0);
+	SetEventHandler("ClickShow4", "ClickShow4", 0);
+	SetEventHandler("ClickShow5", "ClickShow5", 0);
+	SetEventHandler("ClickBook", "ClickBook", 0);
+	SetEventHandler("ClickTalisman", "ClickTalisman", 0);
+	SetEventHandler("ClickBackPack", "ClickBackPack", 0);
+	SetEventHandler("ClickMushket", "ClickMushket", 0);
+	SetEventHandler("ClickCirass", "ClickCirass", 0);
+	SetEventHandler("ClickSpyGlass", "ClickSpyGlass", 0);
+	SetEventHandler("ClickGun", "ClickGun", 0);
+	SetEventHandler("ClickSaber", "ClickSaber", 0);
+	SetEventHandler("CheckButtonChange", "CheckButtonChange", 0);
+	SetEventHandler("SaveEquipSet", "SaveEquipSet", 0);
+	SetEventHandler("SaveSETName", "SaveSETName", 0);
+	SetEventHandler("ShowEditBox", "ShowEditBox", 0);
+	SetEventHandler("HideEditBox", "HideEditBox", 0);
 
 	switch (xi_refCharacter.sex)
 	{
@@ -65,6 +84,7 @@ void InitInterface(string iniName)
 
 	XI_RegistryExitKey("IExit_F2");
 	SetVariable();
+	HideEditBox();
 	SetNewGroupPicture("Weight_PIC", "ICONS_CHAR", "weight");
 	SetNewGroupPicture("Money_PIC", "ICONS_CHAR", "Money");
 }
@@ -79,7 +99,7 @@ void FillPassengerScroll()
 	ref _refCurChar;
 	aref pRef, pRef2;
 	bool  ok;
-	
+
 	DeleteAttribute(&GameInterface, "PASSENGERSLIST");
 
 	nCurScrollOfficerNum = -1;
@@ -220,7 +240,7 @@ void AcceptAddOfficer()
 	int iCurrentNode = nCurScrollNum;
 	bool bNeedFollow = false;
 	bool bOk;
-	
+
 	string attributeName2 = "pic"+(nCurScrollOfficerNum+1);
 	int iChar = sti(GameInterface.PASSENGERSLIST.(attributeName2).character);
 	sld = &characters[iChar];
@@ -274,7 +294,7 @@ void AcceptAddOfficer()
 			//SetCharacterTask_FollowCharacter(&Characters[iChar], PChar);
 			if (bNeedFollow) // только для офов
 			{
-														
+
 				//if (Characters[iChar].location.group == "sit")
 				//{// найм прямо в таверне
 				//if (bOk && IsEntity(loadedLocation) && !CheckAttribute(loadedLocation, "DisableOfficers"))
@@ -347,7 +367,7 @@ void AcceptRemoveOfficer()
 	}
 	attributeName2 = GetOfficerTypeByNum(nCurScrollNum);
 	DeleteAttribute(&characters[iChar], attributeName2); // совместитель дожности
-	
+
 	FillCharactersScroll();
 	GameInterface.CHARACTERS_SCROLL.current = iCurrentNode;
 	ExitRemoveOfficerMenu();
@@ -369,21 +389,21 @@ void IDoExit(int exitCode)
 	DelEventHandler("ShowInfoWindow","ShowInfoWindow");
 	DelEventHandler("ShowMapDesc","ShowMapDesc");
 	DelEventHandler("MouseRClickUp","HideInfoWindow");
-	
+
 	DelEventHandler("ExitOfficerMenu","ExitOfficerMenu");
 	DelEventHandler("OfficerChange","OfficerChange");
 	DelEventHandler("acceptaddofficer","AcceptAddOfficer");
 	DelEventHandler("ExitRemoveOfficerMenu","ExitRemoveOfficerMenu");
 	DelEventHandler("AcceptRemoveOfficer","AcceptRemoveOfficer");
-	
+
 	DelEventHandler("TableSelectChange", "TableSelectChange");
 	DelEventHandler("eTabControlPress","procTabChange");
 	DelEventHandler("ExitMapWindow","ExitMapWindow");
 	DelEventHandler("ExitItemFromCharacterWindow","ExitItemFromCharacterWindow");
 	DelEventHandler("ShowItemFromCharacterWindow","ShowItemFromCharacterWindow");
-	
+
 	DelEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT");
-	
+
 	DelEventHandler("ShowBladeEquipInfo", "ShowBladeEquipInfo");
 	DelEventHandler("ShowGunEquipInfo", "ShowGunEquipInfo");
 	DelEventHandler("ShowSpyglassEquipInfo", "ShowSpyglassEquipInfo");
@@ -396,6 +416,24 @@ void IDoExit(int exitCode)
 	DelEventHandler("Show3EquipInfo", "Show3EquipInfo");
 	DelEventHandler("Show4EquipInfo", "Show4EquipInfo");
 	DelEventHandler("Show5EquipInfo", "Show5EquipInfo");
+	DelEventHandler("ClickShow1", "ClickShow1");
+	DelEventHandler("ClickShow2", "ClickShow2");
+	DelEventHandler("ClickShow3", "ClickShow3");
+	DelEventHandler("ClickShow4", "ClickShow4");
+	DelEventHandler("ClickShow5", "ClickShow5");
+	DelEventHandler("ClickBook", "ClickBook");
+	DelEventHandler("ClickTalisman", "ClickTalisman");
+	DelEventHandler("ClickBackPack", "ClickBackPack");
+	DelEventHandler("ClickMushket", "ClickMushket");
+	DelEventHandler("ClickCirass", "ClickCirass");
+	DelEventHandler("ClickSpyGlass", "ClickSpyGlass");
+	DelEventHandler("ClickGun", "ClickGun");
+	DelEventHandler("ClickSaber", "ClickSaber");
+	DelEventHandler("CheckButtonChange", "CheckButtonChange");
+	DelEventHandler("SaveEquipSet", "SaveEquipSet");
+	DelEventHandler("SaveSETName", "SaveSETName");
+	DelEventHandler("ShowEditBox", "ShowEditBox");
+	DelEventHandler("HideEditBox", "HideEditBox");
 
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -413,7 +451,7 @@ void ProcessCommandExecute()
 {
 	string comName = GetEventData();
 	string nodName = GetEventData();
-	
+
 	int  iItemIndex = 0;
 	ref itm;
 	switch(nodName)
@@ -424,7 +462,7 @@ void ProcessCommandExecute()
 				EquipPress();
 			}
 		break;
-		
+
 		case "I_CHARACTER_2":
 			if(comName=="click")
 			{
@@ -485,37 +523,37 @@ void ProcessCommandExecute()
 			{
 				iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 				itm = &Items[iItemIndex];
-				
+
 						ADD_BUTTON(itm.id);
 			}
 		break;
-		
+
 		case "QTY_ADD_ALL_BUTTON":
 			if(comName=="activate" || comName=="click")
 			{
 				iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 				itm = &Items[iItemIndex];
-				
+
 						ADD_ALL_BUTTON(itm.id);
 			}
 		break;
-		
+
 		case "QTY_REMOVE_BUTTON":
 			if(comName=="activate" || comName=="click")
 			{
 				iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 				itm = &Items[iItemIndex];
-				
+
 						REMOVE_BUTTON(itm.id);
 			}
 		break;
-		
+
 		case "QTY_REMOVE_ALL_BUTTON":
 			if(comName=="activate" || comName=="click")
 			{
 				iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 				itm = &Items[iItemIndex];
-				
+
 						REMOVE_ALL_BUTTON(itm.id);
 			}
 		break;
@@ -542,6 +580,8 @@ void ProcessCommandExecute()
 
 void ProcessFrame()
 {
+	if (GetCurrentNode() != "EDIT_BOX1") HideEditBox();
+
 	if (sti(GameInterface.CHARACTERS_SCROLL.current)!=nCurScrollNum && GetCurrentNode() == "CHARACTERS_SCROLL")
 	{
 		nCurScrollNum = sti(GameInterface.CHARACTERS_SCROLL.current);
@@ -559,7 +599,7 @@ void ProcessFrame()
 void SetButtonsState()
 {
 	string attributeName = "pic" + (nCurScrollNum+1);
-	
+
 	if(GameInterface.CHARACTERS_SCROLL.(attributeName).character != "0")
 	{
 		int iCharacter = sti(GameInterface.CHARACTERS_SCROLL.(attributeName).character);
@@ -577,7 +617,7 @@ void SetButtonsState()
 	}
 	else
 	{
-		xi_refCharacter = pchar;
+	xi_refCharacter = pchar;
 	SetVariable();
 	}
 }
@@ -589,19 +629,21 @@ void SetVariable()
 	SortItems(xi_refCharacter);
 	// сортировка -->
 	SetControlsTabMode(1);
+	for (int i=1;i<7;i++) {FillSetName(i);}//Заполняем имена комплектов снаряжения
 	HideItemInfo();
 	SetFormatedText("Weight_TEXT", XI_ConvertString("weight") + ": " + FloatToString(GetItemsWeight(xi_refCharacter), 1) + " / "+GetMaxItemsWeight(xi_refCharacter));
 	SetFormatedText("Money_TEXT", MakeMoneyShow(sti(xi_refCharacter.Money), MONEY_SIGN,MONEY_DELIVER));
-	if (sti(xi_refCharacter.index) == sti(pchar.index))
-	{
-		SetNodeUsing("EQUIP_BUTTON" , true);
-		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
-	}
-	else
-	{
-		SetNodeUsing("EQUIP_BUTTON" , true);
-		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
-	}
+
+	if (!checkattribute(xi_refCharacter, "selectedSet")) xi_refCharacter.selectedSet = 1;//первое открытие
+	
+	if (iEQUIP_SET == sti(xi_refCharacter.selectedSet)) ReEquipCharacter();//обновляем экипировку при открытии инвентаря - могло добавиться недостающее пока бегали где-то
+	else 
+		{
+		iEQUIP_SET = sti(xi_refCharacter.selectedSet);
+		CheckButton_SetState("CHECK_EQUIP_SET", iEQUIP_SET, true);//тут тоже будет ReEquipCharacter()
+		}
+	SetNodeUsing("EQUIP_BUTTON" , true);
+	SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 }
 
 void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
@@ -613,7 +655,7 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 	bool ok, ok2 = true;
 	aref rootItems, arItem;
 	aref  curItem;
-	
+
 	GameInterface.TABLE_ITEMS.hr.td1.str = "Наименование предметов";
 	GameInterface.TABLE_ITEMS.hr.td1.scale = 0.8;
 	GameInterface.TABLE_ITEMS.hr.td2.str = "Вес шт.";
@@ -627,7 +669,7 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 	n = 1;
 	idLngFile = LanguageOpenFile("ItemsDescribe.txt");
 	Table_Clear("TABLE_ITEMS", false, true, false);
-	
+
 	// Заполним вещами от нас
 	makearef(rootItems, xi_refCharacter.Items);
 	for (i=0; i<GetAttributesNum(rootItems); i++)
@@ -654,11 +696,11 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 			ok = ok || arItem.ItemType == "MAP";
 			if (_mode == 3 && ok && ok2) continue;
 			if (_mode == 4 && arItem.ItemType != "MAP") continue;
-			
+
 			if (GetCharacterItem(xi_refCharacter, sGood) > 0)
-			{		
+			{
 				GameInterface.TABLE_ITEMS.(row).index = GetItemIndex(arItem.id);
-				
+
 				GameInterface.TABLE_ITEMS.(row).td1.icon.group = arItem.picTexture;
 				GameInterface.TABLE_ITEMS.(row).td1.icon.image = "itm" + arItem.picIndex;
 				GameInterface.TABLE_ITEMS.(row).td1.icon.offset = "-2, 0";
@@ -674,10 +716,10 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 				GameInterface.TABLE_ITEMS.(row).td4.str   = FloatToString(stf(arItem.Weight) * sti(GameInterface.TABLE_ITEMS.(row).td3.str), 1);
 				GameInterface.TABLE_ITEMS.(row).td4.scale = 0.9;
 				n++;
-			}	
+			}
 		}
 	}
-	
+
 	Table_UpdateWindow("TABLE_ITEMS");
 	LanguageCloseFile(idLngFile);
 	if (_mode == 1)
@@ -686,13 +728,13 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 	}
 }
 
-void FillItemsSelected() 
+void FillItemsSelected()
 {
 	int	i;
 	string sGood;
 	int iLastGunItem;
 	ref rLastGunItem;
-	
+
 	// Скроем по умолчанию
 	SetNodeUsing("ITEM_1", false);
 	SetNodeUsing("ITEM_2", false);
@@ -708,22 +750,22 @@ void FillItemsSelected()
 	SetNodeUsing("ITEM_12", false);
 	SetNodeUsing("ITEM_13", false);
 	SetNodeUsing("ITEM_14", false);
-	
+
 	for (i = 0; i< TOTAL_ITEMS; i++)
 	{
 		if(!CheckAttribute(&Items[i], "ID"))
 		{
 			continue;
 		}
-		
+
 		sGood = Items[i].id;
-		
+
 		if (GetCharacterItem(xi_refCharacter, sGood) > 0)
-		{	
+		{
 			/// экипировка
 			if (IsEquipCharacterByItem(xi_refCharacter, sGood))
 			{
-				switch (Items[i].groupID) 
+				switch (Items[i].groupID)
 				{
 					case BLADE_ITEM_TYPE:
 						SetNewGroupPicture("ITEM_1", Items[i].picTexture, "itm" + Items[i].picIndex);
@@ -743,7 +785,7 @@ void FillItemsSelected()
 								SetNewGroupPicture("ITEM_2", rLastGunItem.picTexture, "itm" + rLastGunItem.picIndex);
 								SetNodeUsing("ITEM_2" , true);
 							}
-							
+
 							rLastGunItem = &Items[GetItemIndex(xi_refCharacter.IsMushketer.MushketID)];
 							SetNodeUsing("ITEM_5", true);
 							SetNewGroupPicture("ITEM_5", rLastGunItem.picTexture, "itm" + rLastGunItem.picIndex);
@@ -797,7 +839,7 @@ void FillItemsSelected()
 					break;
 				}
 			}
-		}		
+		}
 	}
 	SetFormatedText("Weight_TEXT", XI_ConvertString("weight") + ": " + FloatToString(GetItemsWeight(xi_refCharacter), 1) + " / "+GetMaxItemsWeight(xi_refCharacter));
 }
@@ -809,27 +851,27 @@ float _GetAttackFactor(ref rBlade, string sType, ref kPerk)
 	float kAttackDmg = 1.0;
 	float min = stf(rBlade.dmg_min);
 	float max  = stf(rBlade.dmg_max);
-	
+
 	float HeavyW = 1.0;//модификатор урона для тяжа
 	float fgtlevel = 0.0;
-	fgtlevel = GetCharacterSkill(xi_refCharacter, rBlade.FencingType); //определение скила по типу меча								   
+	fgtlevel = GetCharacterSkill(xi_refCharacter, rBlade.FencingType); //определение скила по типу меча
 	fgtlevel = fgtlevel/SKILL_MAX;//вычисление флоата
-	
+
 	//float bladeDmg = min + (max - min)*frandSmall(LAi_GetCharacterFightLevel(pchar));
 	float bladeDmg = min + (max - min)*fgtlevel;
-	
+
 	switch(sType)
 	{
 		case "fast":
 		kAttackDmg = 0.7;
 		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
-		
-		case "force": 	
+
+		case "force":
 		kAttackDmg = 1.0;
 		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
-		
+
 		case "round":
 		kAttackDmg = 0.6;
 		if(CheckCharacterPerk(xi_refCharacter, "BladeDancer"))
@@ -838,19 +880,19 @@ float _GetAttackFactor(ref rBlade, string sType, ref kPerk)
 		}
 		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
-	
+
 		case "break":
 		kAttackDmg = 3.0;
 		if (rBlade.FencingType == "FencingHeavy") HeavyW = 5.0;
 		break;
-		
+
 		case "fient":
 		kAttackDmg = 0.5;
 		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
 	}
 	float dmg = bladeDmg * kAttackDmg * HeavyW;
-	
+
 	return dmg;
 }
 void ShowInfoWindow()
@@ -876,7 +918,7 @@ void ShowInfoWindow()
 	sText1  = "Здесь Вы можете получить информацию об имеющихся предметах, изучить инвентарь или изменить экипировку главного героя. "+
 			  "Так же можно посмотреть состояние инвентаря офицеров, компаньонов и пассажиров. Выбор оружия они делают сами при экипировке их новым снаряжением. "+
 			  "Обмен предметами со своими офицерами осуществляется на суше через команду 'Обмен'.";
-	
+
 	if(sCurrentNode == "TABLE_ITEMS")
 	{
 		int iGoodIndex = sti(GameInterface.(CurTable).(CurRow).index);
@@ -887,13 +929,13 @@ void ShowInfoWindow()
 			{
 				sHeader = "Урон клинка"
 				sText1 = "";
-			
+
 				iText2Color = argb(255,120-30*(sti(rBlade.quality)+1),150,17);
-				
+
 				int ControlsLngFile = LanguageOpenFile("ControlsNames.txt");
 				float aSkill = LAi_GetCharacterFightLevel(pchar);
 				float kAttackDmg, kPerk;
-				
+
 				string sAttackTypes[5];
 				sAttackTypes[0] = "fast";
 				sAttackTypes[1] = "force";
@@ -904,20 +946,29 @@ void ShowInfoWindow()
 				for(int index=0; index<5; index++)
 				{
 					kAttackDmg = _GetAttackFactor(rBlade, sAttackTypes[index], &kPerk);
-					
+
 					sText2 += LanguageConvertString(ControlsLngFile, "ChrAttack" + sAttackTypes[index]) + " ";
 					sText2 += MakeInt(kAttackDmg);
-						
+
 					sText2 += "\n\n";
 				}
-				
+
 				sGroup = rBlade.picTexture;
 				sGroupPicture = "itm" + rBlade.picIndex;
-				
+
 				LanguageCloseFile(ControlsLngFile);
 			}
 		}
 	}
+
+	if(sCurrentNode == "CHECK_EQUIP_SET")
+	{
+	sHeader = "Выбор комплекта снаряжения";
+	sText1  = "Здесь Вы можете одним нажатием ЛКМ сменить комплект снаряжения. Сохранение изменений комплектов снаряжения происходит при выходе из интефейса предметов или при смене комплекта на другой. ";
+	}
+//\nЕсли в инвентаре будут отсутствовать запомненные ранее для комплекта предметы, они не сотрутся из комплекта; если позже недостающий предмет появится, он будет снова экипироваться при смене на свой комплект снаряжения.
+//текст заменить - неграмотно!
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, iText2Color, "", 0, "", 0, "-1", sGroup, sGroupPicture, 64, 64);
 }
 void HideInfoWindow()
@@ -931,7 +982,6 @@ void TableSelectChange()
 	iSelected = GetEventData();
 	CurTable = sControl;
 	CurRow   =  "tr" + (iSelected);
-	
 	// отрисовка инфы
 	SetItemInfo();
 }
@@ -939,13 +989,12 @@ void TableSelectChange()
 void SetItemInfo()
 {
 	int iGoodIndex = sti(GameInterface.(CurTable).(CurRow).index);
-
 	SetFormatedText("INFO_TEXT", GetItemDescribe(iGoodIndex));
 	SetNewGroupPicture("INFO_PIC", Items[iGoodIndex].picTexture, "itm" + Items[iGoodIndex].picIndex);
 	SetNodeUsing("INFO_TEXT", true);
 	SetNodeUsing("INFO_PIC", true);
 	SetVAligmentFormatedText("INFO_TEXT");
-	
+
 	SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 	SetSelectable("EQUIP_BUTTON",ThisItemCanBeEquip(&Items[iGoodIndex]));
 }
@@ -1017,7 +1066,7 @@ void SetControlsTabMode(int nMode)
 			nColor4 = argb(255,255,255,255);
 		break;
 	}
-	
+
 	SetNewGroupPicture("TABBTN_1", "TABS", sPic1);
 	SetNewGroupPicture("TABBTN_2", "TABS", sPic2);
 	SetNewGroupPicture("TABBTN_3", "TABS", sPic3);
@@ -1046,7 +1095,7 @@ bool ThisItemCanBeEquip( aref arItem )
 	{
 		return false;
 	}
-	if (arItem.groupID == AMMO_ITEM_TYPE) 
+	if (arItem.groupID == AMMO_ITEM_TYPE)
 	{
 		if (arItem.ID == "GunPowder" || arItem.ID == "shotgun_cartridge" || arItem.ID == "GunCap_colt" || arItem.ID == "12_gauge") return false;
 		SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
@@ -1055,39 +1104,39 @@ bool ThisItemCanBeEquip( aref arItem )
 	{
 		return false;
 	}
-	if(arItem.id == "MapsAtlas") 
+	if(arItem.id == "MapsAtlas")
 	{
 		return true;
 	}
-	if (arItem.groupID == GUN_ITEM_TYPE) 
+	if (arItem.groupID == GUN_ITEM_TYPE)
 	{
-		if (!IsMainCharacter(xi_refCharacter) && !CheckAttribute(xi_refCharacter, "CanTakeMushket") && HasSubStr(arItem.id, "mushket")) 
+		if (!IsMainCharacter(xi_refCharacter) && !CheckAttribute(xi_refCharacter, "CanTakeMushket") && HasSubStr(arItem.id, "mushket"))
 		{
 			return false;
-		}	
+		}
 		if (!CheckAttribute(arItem,"chargeQ") )
 		{
 			return false;
 		}
 		int chrgQ = sti(arItem.chargeQ);
-		
+
 		if (chrgQ == 2 && !IsCharacterPerkOn(xi_refCharacter,"Gunman") )
 		{
 			return false;
 		}
-		
+
 		if (chrgQ >= 4 && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") )
 		{
 			return false;
 		}
 		if(arItem.id == "mushket2x2") return false; // Мушкет квестового офа
-		
+
 		// Для мушкетов нужен соответствующий перк
-		if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman") && !HasSubStr(arItem.id, "mushket_drob"))
+		if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman")&& !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") && !HasSubStr(arItem.id, "mushket_drob"))
 		{
 			return false;
 		}
-		
+
 		if(arItem.id == "mushket_Shtuzer" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
 		{
 			return false;
@@ -1096,13 +1145,13 @@ bool ThisItemCanBeEquip( aref arItem )
 		{
 			return false;
 		}
-		
+
 		// Нельзя экипировать мушкет в непредназначенных для этого локациях (Таверна)
 		if(HasSubStr(arItem.id, "mushket") && !CanEquipMushketOnLocation(xi_refCharacter.Location))
 		{
 			return false;
 		}
-		
+
 		if (HasSubStr(arItem.id, "mushket") && IsMainCharacter(xi_refCharacter) && !IsPCharHaveMushketerModel())
 		{
 			return false;
@@ -1123,7 +1172,7 @@ bool ThisItemCanBeEquip( aref arItem )
 		{
 			return false;
 		}
-		
+
 		if (HasSubStr(arItem.id, "chest")) SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#Взломать");
 		else SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 	}
@@ -1167,7 +1216,7 @@ void EquipPress()
 	ref itmRef = &Items[iGoodIndex];
 	string totalInfo;
 	int  i;
-	
+
 	if (CheckAttribute(itmRef, "groupID"))
 	{
 		string itmGroup = itmRef.groupID;
@@ -1196,7 +1245,7 @@ void EquipPress()
 				SetVAligmentFormatedText("MAP_TEXT");
 				ShowMapWindow();
 				return;
-			}	
+			}
 			//pchar.I_MAP_SHOW = true;
 			//pchar.I_MAP_SHOW_ITEM = itmRef.id;
 			//PostEvent("InterfaceBreak", 400);
@@ -1277,7 +1326,7 @@ void EquipPress()
 					AddQuestRecord("RingCapBook", "1");
 					pchar.questTemp.LSC.Ring.ReadCapBook = "true";
 				}
-				
+
 				if(HasSubStr(itmRef.id, "chest") && xi_refCharacter.id == pchar.id)
 				{
 					if(CheckCharacterItem(xi_refCharacter, "Lockpick"))
@@ -1329,7 +1378,7 @@ void EquipPress()
 								SetOfficerToMushketer(xi_refCharacter, itmRef.id, false);
 							}
 						}
-						
+
 					}
 				}
 				else
@@ -1387,11 +1436,11 @@ void EquipPress()
 					}
 					else
 					{
-						if (itmGroup == AMMO_ITEM_TYPE) 
+						if (itmGroup == AMMO_ITEM_TYPE)
 						{
 							string sGun = GetCharacterEquipByGroup(xi_refCharacter, GUN_ITEM_TYPE);
 							if (itmRef.ID == "bullet" || itmRef.ID == "cartridge")
-							{	
+							{
 								if (sGun == "pistol3" || sGun == "howdah" || sGun == "pistol8" || sGun == "pistol_grapebok" || sGun == "mushket6" || sGun == "grape_mushket")
 								{
 									PlaySound("interface\knock.wav");
@@ -1399,7 +1448,7 @@ void EquipPress()
 								}
 							}
 							if (itmRef.ID == "grapeshot")
-							{	
+							{
 								if (sGun != "pistol3" && sGun != "howdah" && sGun != "pistol8" && sGun != "pistol_grapebok" && sGun != "mushket6" && sGun != "mushket_drob" && sGun != "pistol7shotgun")
 								{
 									PlaySound("interface\knock.wav");
@@ -1407,7 +1456,7 @@ void EquipPress()
 								}
 							}
 							if (itmRef.ID == "GunEchin")
-							{	
+							{
 								if (sGun != "howdah" && sGun != "pistol8" && sGun != "mushket6")
 								{
 									PlaySound("interface\knock.wav");
@@ -1415,7 +1464,7 @@ void EquipPress()
 								}
 							}
 							if (itmRef.ID == "harpoon")
-							{	
+							{
 								if (sGun != "pistol8")
 								{
 									PlaySound("interface\knock.wav");
@@ -1423,7 +1472,7 @@ void EquipPress()
 								}
 							}
 							if (itmRef.ID == "powder_pellet" || itmRef.ID == "grenade")
-							{	
+							{
 								if (sGun != "grape_mushket")
 								{
 									PlaySound("interface\knock.wav");
@@ -1448,7 +1497,7 @@ void EquipPress()
 			SetItemInfo();
 		}
 	}
-} 
+}
 
 void ExitMapWindow()
 {
@@ -1519,16 +1568,16 @@ void SetMapCross(string _MapLocId)
 
 void ShowMapDesc()
 {
-	if (bMapCross)	
+	if (bMapCross)
 		{
 		SetFormatedText("MAP_TEXT", sMapDescribe);
 		SetVAligmentFormatedText("MAP_TEXT");
-		bMapCross = false; 
+		bMapCross = false;
 		}
-	else	
+	else
 		{
 		SetFormatedText("MAP_TEXT", "");
-		bMapCross = true; 
+		bMapCross = true;
 		}
 }
 
@@ -1557,7 +1606,7 @@ void ExitItemFromCharacterWindow()
 	SetNodeUsing("QTY_REMOVE_ALL_BUTTON", false);
 
 	GameInterface.qty_edit.str = 0;
-		
+
 	SetCurrentNode("TABLE_ITEMS");
 }
 
@@ -1569,7 +1618,7 @@ void ShowItemFromCharacterWindow()
 	}
 
 	int  iIndex = sti(GameInterface.(CurTable).(CurRow).index);
-	
+
 	XI_WindowShow("ITEM_FROM_CHARACTER_WINDOW", true);
 	XI_WindowDisable("ITEM_FROM_CHARACTER_WINDOW", false);
 	XI_WindowDisable("MAIN_WINDOW", true);
@@ -1584,7 +1633,7 @@ void ShowItemFromCharacterWindow()
 
 	SetCurrentNode("ITEM_FROM_CHARACTER_TEXT");
 	SetCurrentNode("ITEM_FROM_CHARACTER_NAME");
-	
+
 	ref itm = &Items[iIndex];
 
 	string sTexture = itm.picTexture;
@@ -1596,22 +1645,34 @@ void ShowItemFromCharacterWindow()
 	int lngFileID = LanguageOpenFile("ItemsDescribe.txt");
 	string sGood = itm.name;
 	string sGoodName = LanguageConvertString(lngFileID, sGood);
-	
+
 	SetFormatedText("ITEM_FROM_CHARACTER_TEXT", GetItemDescribe(iIndex));
 	SetFormatedText("ITEM_FROM_CHARACTER_NAME", "Выкинуть предмет: " + sGoodName);
-	
+
 	string sItem = itm.id;
 	int iQuantity = sti(GameInterface.qty_edit.str);
 	float fItemQuantity = iQuantity*stf(itm.Weight);
 	float fWeight = GetItemsWeight(PChar) - fItemQuantity;
-	
+
 	if(iQuantity <= 0)
 	{
 		fItemQuantity = GetItemsWeight(PChar);
 	}
-	
-	SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(PChar));
-	
+
+
+	aref arTest;
+	makearef(arTest, itm);
+	string sTemp = "";
+	int attrQ = GetAttributesNum(arTest);
+	for(i=0; i<attrQ; i++)
+	{
+	sTemp = GetAttributeValue(GetAttributeN(arTest,i));
+	log_info(GetAttributeName(GetAttributeN(arTest,i)) + " = " + sTemp);
+	}
+
+
+SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(PChar));
+
 	LanguageCloseFile(lngFileID);
 }
 
@@ -1653,14 +1714,14 @@ void ChangeQTY_EDIT(string sItem)
 	int iQuantity = sti(GameInterface.qty_edit.str);
 	float fItemQuantity = iQuantity*stf(itm.Weight);
 	float fWeight = GetItemsWeight(PChar) - fItemQuantity;
-	
+
 	if(iQuantity <= 0)
 	{
 		fItemQuantity = GetItemsWeight(PChar);
 	}
-	
+
 	SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(PChar));
-	
+
 }
 
 void REMOVE_ALL_BUTTON(string sItem)  // выкинуть все
@@ -1685,17 +1746,17 @@ void ADD_ALL_BUTTON(string sItem)  // сбросить
 void REMOVE_BUTTON(string sItem)  // выкинуть
 {
 	ref PChar = GetMainCharacter();
-	
+
 	if(IsQuestUsedItem(sItem))
 	{
 		return;
 	}
-	
+
 	if(GetCharacterItem(PChar, sItem) >= 1)
 	{
 		GameInterface.qty_edit.str = (sti(GameInterface.qty_edit.str) + 1);
 	}
-	
+
 	if(sti(GameInterface.qty_edit.str) > GetCharacterItem(PChar, sItem))
 	{
 		GameInterface.qty_edit.str = GetCharacterItem(PChar, sItem);
@@ -1706,56 +1767,50 @@ void REMOVE_BUTTON(string sItem)  // выкинуть
 void ADD_BUTTON(string sItem)  // не выкидывать
 {
 	GameInterface.qty_edit.str = (sti(GameInterface.qty_edit.str) - 1);
-	
+
 	if(sti(GameInterface.qty_edit.str) < 0)
 	{
 		GameInterface.qty_edit.str = 0;
 	}
-	
+
 	ChangeQTY_EDIT(sItem);
 }
 
 void RemoveItemsQuantity()
 {
 	ref PChar = GetMainCharacter();
-	
+
 	int  iIndex = sti(GameInterface.(CurTable).(CurRow).index);
 	ref itm = &Items[iIndex];
-	
+
 	ChangeQTY_EDIT(itm.id);
-	
+
 	int iQuantity = sti(GameInterface.qty_edit.str);
-	
+
 	if(iQuantity <= 0)
 	{
 		return;
 	}
-	
+
 	TakeNItems(PChar, itm.id, -iQuantity);
-	
+
 	ExitItemFromCharacterWindow();
 	SetVariable();
 }
 
 void ShowBladeEquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.blade"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.blade == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.blade")) return;
+	if(xi_refCharacter.equip.blade == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "blade");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1763,32 +1818,26 @@ void ShowBladeEquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void ShowGunEquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.gun"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.gun == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.gun")) return;
+	if(xi_refCharacter.equip.gun == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "gun");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1796,32 +1845,26 @@ void ShowGunEquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void ShowSpyglassEquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.spyglass"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.spyglass == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.spyglass")) return;
+	if(xi_refCharacter.equip.spyglass == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "spyglass");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1829,32 +1872,26 @@ void ShowSpyglassEquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void ShowBackPackEquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.BackPack"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.BackPack == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.BackPack")) return;
+	if(xi_refCharacter.equip.BackPack == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "BackPack");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1862,32 +1899,26 @@ void ShowBackPackEquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void ShowTalismanEquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.talisman"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.talisman == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.talisman")) return;
+	if(xi_refCharacter.equip.talisman == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "talisman");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1895,32 +1926,26 @@ void ShowTalismanEquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void ShowCirassEquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.cirass"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.cirass == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.cirass")) return;
+	if(xi_refCharacter.equip.cirass == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "cirass");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1928,32 +1953,26 @@ void ShowCirassEquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void ShowBookEquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.book"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.book == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.book")) return;
+	if(xi_refCharacter.equip.book == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "book");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1961,32 +1980,26 @@ void ShowBookEquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void Show1EquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.jewelry_indian_left"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.jewelry_indian_left == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.jewelry_indian_left")) return;
+	if(xi_refCharacter.equip.jewelry_indian_left == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "jewelry_indian_left");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -1994,32 +2007,26 @@ void Show1EquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void Show2EquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.jewelry_indian_right"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.jewelry_indian_right == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.jewelry_indian_right")) return;
+	if(xi_refCharacter.equip.jewelry_indian_right == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "jewelry_indian_right");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -2027,32 +2034,26 @@ void Show2EquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void Show3EquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.indian_center"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.indian_center == "")
-	{
-		return;
-	}
+  	if(!CheckAttribute(xi_refCharacter, "equip.indian_center")) return;
+	if(xi_refCharacter.equip.indian_center == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "indian_center");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -2060,32 +2061,26 @@ void Show3EquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void Show4EquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.idols_left"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.idols_left == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.idols_left")) return;
+	if(xi_refCharacter.equip.idols_left == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "idols_left");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -2093,32 +2088,26 @@ void Show4EquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
 void Show5EquipInfo()
 {
-	if(!CheckAttribute(xi_refCharacter, "equip.idols_right"))
-	{
-		return;
-	}
-	if(xi_refCharacter.equip.idols_right == "")
-	{
-		return;
-	}
+	if(!CheckAttribute(xi_refCharacter, "equip.idols_right")) return;
+	if(xi_refCharacter.equip.idols_right == "") return;
 
 	int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
-	
+
 	string sHeader, sText1, sText2, sText3, sPicture;
 	string sGroup, sGroupPicture;
-	
+
 	string sItem = GetCharacterEquipByGroup(xi_refCharacter, "idols_right");
 	ref itm = ItemsFromID(sItem);
-		
+
 	sGroup = itm.picTexture;
 	sGroupPicture = "itm" + itm.picIndex;
 
@@ -2126,94 +2115,160 @@ void Show5EquipInfo()
 
 	sHeader = itm.name;
 	sHeader = LanguageConvertString(idLngFile, sHeader);
-	
+
 	sText1 = GetItemDescribe(FindItem(sItem));
-		
+
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, argb(255,255,192,192), sText3, argb(255,192,255,192), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 100, 100);
 	LanguageCloseFile(idLngFile);
 }
 
-void ClickSaber()
+void ClickSaber()		{ClickItem("ITEM_1", "blade", 2);}
+void ClickGun()			{ClickItem("ITEM_2", "gun", 2);}
+void ClickSpyGlass()	{ClickItem("ITEM_3", "spyglass", 2);}
+void ClickCirass()		{ClickItem("ITEM_4", "cirass", 2);}
+void ClickMushket()		{ClickItem("ITEM_5", "gun", 2);}
+void ClickBackPack()	{ClickItem("ITEM_6", "BackPack", 2);}
+void ClickTalisman()	{ClickItem("ITEM_7", "talisman", 2);}
+void ClickBook()		{ClickItem("ITEM_9", "book", 3);}
+void ClickShow1()		{ClickItem("ITEM_10", "jewelry_indian_left", 3);}
+void ClickShow2()		{ClickItem("ITEM_11", "jewelry_indian_right", 3);}
+void ClickShow3()		{ClickItem("ITEM_8", "indian_center", 3);}
+void ClickShow4()		{ClickItem("ITEM_12", "idols_left", 3);}
+void ClickShow5()		{ClickItem("ITEM_13", "idols_right", 3);}
+
+void ClickItem(string sItem, string sEquipType, int _tabNum)
 {
-	ClickItem("ITEM_1");
+	string sTemp, row;
+
+	if(!CheckAttribute(xi_refCharacter, "equip." + sEquipType)) return;
+	if(xi_refCharacter.equip.(sEquipType) == "") return;
+	string sCurItem = GetCharacterEquipByGroup(xi_refCharacter, sEquipType);
+	int iGoodIndex = GetItemIndex(sCurItem);
+	SetControlsTabMode(_tabNum);//выбираем вкладку с нужным
+	for (int q=1;q<1000;q++)
+	{
+	row = "tr" + q;
+	if (!checkattribute(&GameInterface,"TABLE_ITEMS." + row)) break;//кончились строки таблицы, конец цикла
+	if (iGoodIndex == sti(GameInterface.TABLE_ITEMS.(row).index) )
+		{
+		Event("TableSelectChange", "sll", "TABLE_ITEMS", q, 1);//выбираем в таблице предмет снаряжения
+		GameInterface.TABLE_ITEMS.select = q;
+		if (q<5) q=5;
+		GameInterface.TABLE_ITEMS.top = q-5;//стараемся красиво проскроллить таблицу на этот предмет
+		Table_UpdateWindow("TABLE_ITEMS");
+		SetCurrentNode("TABLE_ITEMS");
+		break;
+		}
+	}
 }
 
-void ClickGun()
+void CheckButtonChange()
 {
-	ClickItem("ITEM_2");
+	string sControl = GetEventData();
+	int iSelectedCB = GetEventData();
+	int iNewState = GetEventData();
+//========================================//
+	if (sControl == "CHECK_EQUIP_SET")
+	{
+		HideEditBox();
+		iEQUIP_SET = iSelectedCB;
+		ReEquipCharacter();
+		return;
+	}
 }
 
-void ClickSpyGlass()
+void ReEquipCharacter()
 {
-	ClickItem("ITEM_3");
+	xi_refCharacter.selectedSet = iEQUIP_SET;//запоминаем выбор сэта
+	string sSET = "Set" + iEQUIP_SET;
+	if (!checkattribute(xi_refCharacter, sSET)) return; //не было сохранения этого комплекта
+
+	string sTemp;
+	for (int q=0;q<10;q++)
+	{
+	sTemp = sEType[q];
+		if(xi_refCharacter.(sSET).(sTemp) != GetCharacterEquipByGroup(xi_refCharacter, sTemp))//если другой предмет, то снимаем старый, одеваем сохранённый
+		{
+			RemoveCharacterEquip(xi_refCharacter, sTemp);
+			if (xi_refCharacter.(sSET).(sTemp) != "") {EquipCharacterByItem(xi_refCharacter, xi_refCharacter.(sSET).(sTemp));}
+		}
+	}
+	FillItemsSelected();//обновляем картинки на кукле
 }
 
-void ClickCirass()
+void SaveEquipSet()
 {
-	ClickItem("ITEM_4");
+	string sSET = "Set" + iEQUIP_SET;//Set1, Set2, Set3
+	xi_refCharacter.(sSET) = 1; //помечаем, что в этом комплекте что-то сохранено
+	if (!checkattribute(xi_refCharacter, sSET + ".nameset")) xi_refCharacter.(sSET).nameset = "Комплект " + iEQUIP_SET;//в первый раз записываем "Комплект N"
+	string sTemp;
+	ShowEditBox();
+	for (int q=0;q<10;q++)
+	{
+	sTemp = sEType[q];
+	xi_refCharacter.(sSET).(sTemp) = GetCharacterEquipByGroup(xi_refCharacter, sTemp);
+	}
+	//книгу не запоминаем, потому что не надо
+	//огнестрел не запоминаем, потому что сложно (пистоль+мушкет+патроны + нестандартные ситуации)
+/*
+//TODO - запоминать и огнестрел
+//фрагмент кода для информации о способе хранения, но ещё надо разобраться как экипировать
+					case GUN_ITEM_TYPE:
+						ref itms = ItemsFromID(xi_refCharacter.chr_ai.bullet);									//пули
+						if(CheckAttribute(xi_refCharacter, "IsMushketer"))
+						{
+							iLastGunItem = GetItemIndex(xi_refCharacter.IsMushketer.LastGunID);					//пистолет, который может быть под мушкетом
+							// Покажем картинку старого пистоля, если он еще есть
+							if(iLastGunItem != -1 && GetCharacterItem(xi_refCharacter, xi_refCharacter.IsMushketer.LastGunID) > 0)
+							{
+								rLastGunItem = &Items[iLastGunItem];
+								SetNewGroupPicture("ITEM_2", rLastGunItem.picTexture, "itm" + rLastGunItem.picIndex);
+								SetNodeUsing("ITEM_2" , true);
+							}
+
+							rLastGunItem = &Items[GetItemIndex(xi_refCharacter.IsMushketer.MushketID)];			//мушкет
+							SetNodeUsing("ITEM_5", true);
+							SetNewGroupPicture("ITEM_5", rLastGunItem.picTexture, "itm" + rLastGunItem.picIndex);
+						}
+						else
+						{
+							SetNewGroupPicture("ITEM_2", Items[i].picTexture, "itm" + Items[i].picIndex);
+							SetNodeUsing("ITEM_2" , true);
+							SetNodeUsing("ITEM_5" , false); // Мушкет не юзается - уберем картинку
+						}
+					break;
+
+*/
 }
 
-void ClickMushket()
+void FillSetName(int iNum)
 {
-	ClickItem("ITEM_5");
+	string sSET = "Set" + iNum;
+	string sName;
+	if (!checkattribute(xi_refCharacter, sSET))	sName = "Комплект " + iNum;	else sName = xi_refCharacter.(sSET).nameset;
+	GameInterface.EDIT_BOX1.str = sName;
+	SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"CHECK_EQUIP_SET", 1, iNum, sName);
 }
 
-void ClickBackPack()
+void SaveSETName()
 {
-	ClickItem("ITEM_6");
+	string sSET = "Set" + iEQUIP_SET;
+	xi_refCharacter.(sSET).nameset = GameInterface.EDIT_BOX1.str;
+	FillSetName(iEQUIP_SET);
+	HideEditBox();
 }
 
-void ClickTalisman()
+void ShowEditBox()
 {
-	ClickItem("ITEM_7");
+	string sSET = "Set" + iEQUIP_SET;
+	if (!checkattribute(xi_refCharacter, sSET))	GameInterface.EDIT_BOX1.str = "Комплект " + iEQUIP_SET;	else GameInterface.EDIT_BOX1.str = xi_refCharacter.(sSET).nameset;
+	SetNodeUsing("EDIT_BOX1" , true);
+	SetNodeUsing("EDIT_BOX1_FRAME" , true);
+	SetCurrentNode("EDIT_BOX1");
 }
 
-void ClickBook()
+void HideEditBox()
 {
-	ClickItem("ITEM_9");
-}
-
-void ClickShow1()
-{
-	ClickItem("ITEM_8");
-}
-
-void ClickShow2()
-{
-	ClickItem("ITEM_10");
-}
-
-void ClickShow3()
-{
-	ClickItem("ITEM_11");
-}
-
-void ClickShow4()
-{
-	ClickItem("ITEM_12");
-}
-
-void ClickShow5()
-{
-	ClickItem("ITEM_13");
-}
-
-void ClickItem(string sItem)
-{
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_1", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_2", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_4", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_3", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_5", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_6", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_7", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_9", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_8", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_10", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_11", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_12", 5, 0);
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"ITEM_13", 5, 0);
-
-	string sNode = sItem;
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,sNode, 5, 1);
+	SetNodeUsing("EDIT_BOX1" , false);
+	SetNodeUsing("EDIT_BOX1_FRAME" , false);
 }

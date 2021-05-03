@@ -329,10 +329,6 @@ int GetNeedHoleFromDmg(float sailDmg, float sailDmgMax, int maxHoleCount)
 //  номер группы; затем идут максимальное возможное число дырок в
 //  парусе, текуща€ маска дырок и число дополнительных дырок)
 //================================================================
-/*int RandomHole2Sail(int chrIdx, string reyName, int groupNum, int maxHole, int holeData, int addHoleQ)
-{
-	return holeData;
-}*/
 
 //================================================================
 // ѕолучить повреждение в парусах исход€ из имеющихс€ дырок
@@ -415,8 +411,6 @@ void InitTimerInterface()
 	objTimerInterface.timeroffset = "0,0,0,0";
 	objTimerInterface.timerbackuv = "0.0,0.0,1.0,0.5";
 	objTimerInterface.timerforeuv = "0.0,0.5,1.0,1.0";
-	//objTimerInterface.timerbacktexture = "battle_interface\progressbar.tga.tx";
-	//objTimerInterface.timerforetexture = "battle_interface\progressbar.tga.tx";
 	objTimerInterface.timerbackcolor = argb(255,128,128,128);
 	objTimerInterface.timerforecolor = argb(255,128,128,128);
 	CreateEntity( &objTimerInterface, "BITimer" );

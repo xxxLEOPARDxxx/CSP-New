@@ -43,6 +43,8 @@
 #include "Loc_ai\types\LAi_groundSit.c"
 // Оглушенные
 #include "Loc_ai\types\LAi_stunned.c"
+//Обезьяна-монстр
+#include "Loc_ai\types\LAi_monkey.c"
 
 //------------------------------------------------------------------------------------------
 //Player
@@ -155,6 +157,10 @@ void LAi_SetWarriorType(aref chr)
 	chr.chr_ai.type = LAI_DEFAULT_TYPE;
 	LAi_type_warrior_Init(chr);
 	LAi_group_MoveCharacter(chr, LAI_GROUP_GUARDS);
+	if(chr.model == "monkey")
+	{
+		LAi_SetMonkeyTypeNoGroup(chr);
+	}
 //	if (!IsOfficer(chr))
 //	{
 //		LAi_SetAdjustFencingSkill(chr, -4.0, 2.0);
@@ -166,6 +172,10 @@ void LAi_SetWarriorTypeNoGroup(aref chr)
 {
 	chr.chr_ai.type = LAI_DEFAULT_TYPE;
 	LAi_type_warrior_Init(chr);
+	if(chr.model == "monkey")
+	{
+		LAi_SetMonkeyTypeNoGroup(chr);
+	}
 }
 
 
@@ -456,4 +466,23 @@ void LAi_SetStunnedTypeNoGroup(aref chr)
 {
 	chr.chr_ai.type = LAI_DEFAULT_TYPE;
 	LAi_type_Stunned_Init(chr);
+}
+
+//------------------------------------------------------------------------------------------
+//Monkey
+//------------------------------------------------------------------------------------------
+
+//Установить персонажу тип обезьяны-монстра
+void LAi_SetMonkeyType(aref chr)
+{
+	chr.chr_ai.type = LAI_DEFAULT_TYPE;
+	LAi_type_monkey_Init(chr);
+	LAi_group_MoveCharacter(chr, LAI_GROUP_MONSTERS);
+}
+
+//Установить персонажу тип обезьяны-монстра, без перемещения в группу
+void LAi_SetMonkeyTypeNoGroup(aref chr)
+{
+	chr.chr_ai.type = LAI_DEFAULT_TYPE;
+	LAi_type_monkey_Init(chr);
 }

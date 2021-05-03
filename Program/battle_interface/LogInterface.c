@@ -186,7 +186,7 @@ void CreateLandActionsEnvironment()
 	if(InterfaceStates.AltIntIcons) ILogAndActions.ActiveActions.TextureName = "battle_interface\LandCommands_Konshud.tga";
 	else  ILogAndActions.ActiveActions.TextureName = "battle_interface\LandCommands.tga";
 	ILogAndActions.ActiveActions.horzQ = 16;
-	ILogAndActions.ActiveActions.vertQ = 2;
+	ILogAndActions.ActiveActions.vertQ = 4;
 	ILogAndActions.ActiveActions.width = RecalculateHIcon(makeint(48 * fHtRatio));
 	ILogAndActions.ActiveActions.height = RecalculateVIcon(makeint(48 * fHtRatio));
 	ILogAndActions.ActiveActions.left = sti(showWindow.right) - RecalculateHIcon(makeint(284 * fHtRatio));
@@ -232,7 +232,8 @@ void CreateWorldMapActionsEnvironment()
     float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
 	ILogAndActions.type = "map";
 
-	ILogAndActions.ActiveActions.TextureName = "battle_interface\WorldMapCommands.tga";
+	if(InterfaceStates.AltIntIcons) ILogAndActions.ActiveActions.TextureName = "battle_interface\WorldMapCommands_Konshud.tga";
+	else ILogAndActions.ActiveActions.TextureName = "battle_interface\WorldMapCommands.tga";
 	ILogAndActions.ActiveActions.horzQ = 8;
 	ILogAndActions.ActiveActions.vertQ = 2;
 	ILogAndActions.ActiveActions.width = RecalculateHIcon(makeint(48 * fHtRatio));

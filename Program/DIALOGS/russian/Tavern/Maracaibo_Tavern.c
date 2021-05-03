@@ -14,6 +14,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				link.l1 = "Я бы "+ GetSexPhrase("хотел","хотела") +" узнать кое-что.";
 				link.l1.go = "MCTavernMar";
 			}
+			if (pchar.questTemp.PDM_CL_Tavern == "Tavern")		//Квест ***Клан Ламбрини***
+			{
+				link.l1 = "Я ищу сеньора Антонио де Гальвеса, не подскажешь, где мне его можно найти?";
+				link.l1.go = "PDM_CL_IshemAntonio";
+			}
 		break;
 		//зачарованный город
 		case "MCTavernMar":
@@ -31,6 +36,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = "Что ж, информации немного, но и на том спасибо.";
 			link.l1.go = "exit";
 			pchar.questTemp.MC = "toDesMoines";
+		break;
+		//Квест ***Клан Ламбрини***
+		case "PDM_CL_IshemAntonio":
+			dialog.text = "Конечно знаю, это командир береговой охраны Маракайбо. Его корабль 'Эль Тибурон' стоит в порту. Почти всё своё время он проводит у себя в каюте, но с 12 до 4 часов дня его можно встретить и в городе. Замечательный человек, благодаря ему была полностью искоренена контрабанда в наших водах.";
+			link.l1 = "Спасибо тебе за информацию, "+npchar.name+". Мне пора.";
+			link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_CL_Tavern");
 		break;
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

@@ -78,6 +78,12 @@ void InitInterfaceTables()
 	SetArraySize(&Interfaces,INTERFACE_QUANTITY+3);
 
 	// Lugger -->
+	// Arena
+	Interfaces[INTERFACE_ARENA].SectionName = "interface\Arena.c";
+	Interfaces[INTERFACE_ARENA].IniFile = "INTERFACES\Arena.ini";
+	// Academy Land
+	Interfaces[INTERFACE_ACADEMY_LAND].SectionName = "interface\AcademyLand.c";
+	Interfaces[INTERFACE_ACADEMY_LAND].IniFile = "INTERFACES\AcademyLand.ini";
 	// Быстрая продажа
 	Interfaces[INTERFACE_QUICKLY_TRADER].SectionName = "interface\QuicklyTrade.c";
 	Interfaces[INTERFACE_QUICKLY_TRADER].IniFile = "INTERFACES\QuicklyTrade.ini";
@@ -121,6 +127,8 @@ void InitInterfaceTables()
 	Interfaces[INTERFACE_SHIP_CHOOSE].IniFile = "INTERFACES\ship.ini";
 	Interfaces[INTERFACE_SHIPYARD].SectionName = "interface\shipyard.c";
 	Interfaces[INTERFACE_SHIPYARD].IniFile = "INTERFACES\shipyard.ini";
+	Interfaces[INTERFACE_SHIPYARD1].SectionName = "interface\shipyard1.c";
+	Interfaces[INTERFACE_SHIPYARD1].IniFile = "INTERFACES\shipyard1.ini";
 	Interfaces[INTERFACE_CHARACTER].SectionName = "interface\character.c";
 	Interfaces[INTERFACE_CHARACTER].IniFile = "INTERFACES\character.ini";
 	Interfaces[INTERFACE_CHARACTER_ALL].SectionName = "interface\character_all.c";
@@ -287,5 +295,12 @@ void InitInterfaceTables()
 	//Взлом замков
 	Interfaces[INTERFACE_LOCKPICK].SectionName = "interface\lockpicking.c";
     Interfaces[INTERFACE_LOCKPICK].IniFile = "INTERFACES\lockpicking.ini";
+	
+	Interfaces[INTERFACE_POINTS_EX].SectionName = "interface\pointsshop.c";
+    Interfaces[INTERFACE_POINTS_EX].IniFile = "INTERFACES\pointsshop.ini";
+
+	Interfaces[INTERFACE_CRAFT_ALL].SectionName = "interface\craft_all.c";
+    Interfaces[INTERFACE_CRAFT_ALL].IniFile = "INTERFACES\craft_all.ini";
+	// boal <--
 	
 }

@@ -264,9 +264,9 @@ void DoTakeAbordageGoods(ref rOneChr, ref rSecChr)
 		for (i=0; i < GOODS_QUANTITY; i++)
 		{
 			itmp = GetCargoGoods(rSecChr, i);
-			if (itmp > 0 && sti(Goods[i].Cost) > maxPrice)
+			if (itmp > 0 && sti(Goods[i].Cost) * itmp/Goods[i].Units > maxPrice)
 			{
-				maxPrice = sti(Goods[i].Cost);
+				maxPrice = sti(Goods[i].Cost) * itmp/Goods[i].Units;
 				iGood = i;
 			}
 		}

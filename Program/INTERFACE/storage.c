@@ -523,6 +523,7 @@ void TransactionOK()
 	int nTradeQuantity;
 	confirmChangeQTY_EDIT();
 	nTradeQuantity = sti(GameInterface.qty_edit.str);
+	string sGood = Goods[iCurGoodsIdx].Name;
 	if (BuyOrSell == 0)
 	{
 	    EndTooltip();
@@ -532,16 +533,36 @@ void TransactionOK()
     
  	if (BuyOrSell == 1) // BUY
 	{
+		refCharacter.Goods.(sGood).Bought.Coeff.Stored = sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) - nTradeQuantity;
+		if(refCharacter.Goods.(sGood).Bought.Coeff == "0") 
+		{
+			refCharacter.Goods.(sGood).Bought.Coeff.Time = sti(refCharacter.Goods.(sGood).Bought.Coeff.Time) - GetQuestPastDayParam("Goods_Clear_"+sGood);
+			SaveCurrentQuestDateParam("Goods_Clear_"+sGood);
+			if(sti(refCharacter.Goods.(sGood).Bought.Coeff.Time) <= 0) refCharacter.Goods.(sGood).Bought.Coeff = "1";
+		}
+		if(refCharacter.Goods.(sGood).Bought.Coeff == "1") refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) + nTradeQuantity;
 		SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty - nTradeQuantity);
 		AddCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);		
     	WaitDate("",0,0,0,0,5);
 	}
  	else
 	{ // SELL
+		refCharacter.Goods.(sGood).Bought.Coeff.Stored = sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) + nTradeQuantity;
+		switch(sti(refCharacter.Goods.(sGood).Bought.Coeff)) 
+		{
+			case 0:
+			refCharacter.Goods.(sGood).Bought.Coeff.Time = 10;
+			SaveCurrentQuestDateParam("Goods_Clear_"+sGood);
+			break;
+			case 1:
+				refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) - nTradeQuantity;
+			break;
+		}		
       	SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty + nTradeQuantity);
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);				
-    	WaitDate("",0,0,0,0,5);        
+    	WaitDate("",0,0,0,0,5);  	
 	}
+	
 	AddToTable();
 	EndTooltip();
 	ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния

@@ -764,6 +764,11 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
     			DeleteAttribute(Pchar, "quest.LoanChestTimer");
     			AddQuestRecord("Gen_LoanTakeChest", "3");
                 CloseQuestHeader("Gen_LoanTakeChest");
+				
+				pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+				if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+				if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+				if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
 			}
 			else
 			{

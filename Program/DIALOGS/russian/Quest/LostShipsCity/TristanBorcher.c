@@ -368,7 +368,7 @@ void ProcessDialogEvent()
 		break;
 		case "SeekCrew_1":
 			dialog.text = "И у вас действительно есть корабль на плаву?";
-			link.l1 = "Да, у меня есть корвет, подготовленный к отплытию.";
+			link.l1 = "Да, у меня есть фрегат, подготовленный к отплытию.";
 			link.l1.go = "SeekCrew_2";
 		break;
 		case "SeekCrew_2":

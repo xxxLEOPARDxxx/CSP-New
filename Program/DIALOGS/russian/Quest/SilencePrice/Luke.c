@@ -55,6 +55,7 @@ void ProcessDialogEvent()
     case "StartQuest_3":
         dialog.text = "Хех! А я уж думал совсем с ума сошел, и это не ты. Пойдем в таверну, посидим, поболтаем!";
         link.l1 = "Ха! С радостью!";
+		DeleteAttribute(NPChar, "quest");
         AddDialogExitQuest("Taverna");
     break;
     case "StartQuest_4":

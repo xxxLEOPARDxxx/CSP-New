@@ -562,6 +562,9 @@ void FillBoxForTreasureSuper(ref item)
 				case 20:
 					itmName = "talisman1";
 					break;
+				case 21:
+					itmName = "topor_emperor";
+					break;
 			}
 			/*if (itmName == "idol" && CheckAttribute(pchar, "QuestTemp.IdolUseYet"))
 			{
@@ -913,13 +916,16 @@ void  GhostShipOnMap()
     }
     else
     {
-        sld.ship.hp = 52000; // 13 процентов
+        sld.ship.hp = 50000; // 13 процентов
     }
-
+	GiveItem2Character(sld,"talisman3");
+	EquipCharacterByItem(sld,"talisman3");
     SetCrewQuantityOverMax(sld, 666);
     sld.mapEnc.type = "war";
     sld.mapEnc.Name = "Летучий голландец";
-	sld.mapEnc.worldMapShip = "pirates_manowar";
+	sld.mapEnc.worldMapShip = "Flying_Dutchman";
+	SelAllPerksToNotPCHAR(sld);
+	DeleteAttribute(sld,"perks.list.ShipEscape");
 
     sld.ship.Crew.Morale = 90;
     ChangeCrewExp(sld, "Sailors", 100);
@@ -927,10 +933,10 @@ void  GhostShipOnMap()
 	ChangeCrewExp(sld, "Soldiers", 100);
 
     Fantom_SetBalls(sld, "pirate");
-    Fantom_SetCharacterGoods(sld, GOOD_BALLS,  3900 + rand(300), 0);
-	Fantom_SetCharacterGoods(sld, GOOD_BOMBS,  2900 + rand(300), 0);
-	Fantom_SetCharacterGoods(sld, GOOD_POWDER, 6900 + rand(300), 0);
-
+    Fantom_SetCharacterGoods(sld, GOOD_BALLS,  4900 + rand(300), 0);
+	Fantom_SetCharacterGoods(sld, GOOD_BOMBS,  5900 + rand(300), 0);
+	Fantom_SetCharacterGoods(sld, GOOD_POWDER, 12000 + rand(300), 0);
+	
     LAi_SetCurHPMax(sld); // если он умер
     string sGroup = "Sea_GhostCapt";  // приставка "Sea_" + ИД важна
     Group_FindOrCreateGroup(sGroup);
@@ -938,11 +944,15 @@ void  GhostShipOnMap()
     Group_SetGroupCommander(sGroup, "GhostCapt");
 
     SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
-    Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+    Group_SetTaskAttack(sGroup, PLAYER_GROUP);
     Group_LockTask(sGroup);
-
-    Map_CreateWarrior("", "GhostCapt", 3);
     
+	Group_SetAddress(sGroup,"KhaelRoa","quest_ships","Quest_ship_"+(1+rand(7)));
+	
+	Pchar.quest.GhostShip_Start.win_condition.l1 = "location";
+	Pchar.quest.GhostShip_Start.win_condition.l1.location = "KhaelRoa";
+	Pchar.quest.GhostShip_Start.win_condition = "GhostShip_Start";
+	
     Pchar.quest.GhostShip_Dead.win_condition.l1 = "NPC_Death";
 	Pchar.quest.GhostShip_Dead.win_condition.l1.character = "GhostCapt";
 	Pchar.quest.GhostShip_Dead.win_condition = "GhostShip_Dead";
@@ -1103,7 +1113,6 @@ void GhostShipInit()
 	LAi_SetHP(sld, 666, 666);
 	SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
     sld.SuperShooter  = true;
-    
 	DeleteAttribute(sld, "items");
 	GiveItem2Character(sld, "topor2");
 	EquipCharacterByItem(sld, "topor2");

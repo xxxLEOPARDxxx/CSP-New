@@ -95,8 +95,10 @@ void WorldSituationsUpdate()
 			PChar.DayRandom2 = dayRandom2;
 			Log_TestInfo("dayRandom2 == " + dayRandom2);
 			
+			ChangeImport();
 			CheckOfficersHPMinus(); //Korsar Maxim - ежедневное обновление дней для выздоровления офов
 			CheckBook(); //Книги - Gregg
+			CheckTrauma();//Тяжёлая травма
 		break;
 		
 		case 1:
@@ -459,7 +461,52 @@ void CheckBook()//Проверка книги только на глобалке - Gregg
 				string sEquipItem = GetCharacterEquipByGroup(pchar, BOOK_ITEM_TYPE);
 				RemoveCharacterEquip(pchar, BOOK_ITEM_TYPE);
 				RemoveItems(pchar, sEquipItem, 1);
+				
+				pchar.questTemp.bookcount = sti(pchar.questTemp.bookcount) + 1;
+				// Открываем достижения
+				if(sti(pchar.questTemp.bookcount) >= 3) UnlockAchievement("books", 1);
+				if(sti(pchar.questTemp.bookcount) >= 6) UnlockAchievement("books", 2);
+				if(sti(pchar.questTemp.bookcount) >= 10) UnlockAchievement("books", 3);
 			}
 		}
 	}
+}
+
+void CheckTrauma() //тяжёлая травма - Lipsar и Gregg
+{
+    /*string sTmp;
+    ref chr;
+    aref arTmp;
+    int i, idx;
+    // сохраним офицеров
+    makearef( arTmp, refCh.Fellows.Old.Officers );
+    for(i = 1; i < MAX_NUM_FIGHTERS; i++ )
+    {
+        idx = GetOfficersIndex(refCh,i);
+        if( idx != -1 ) 
+        {
+            chr = GetCharacter(idx);
+            if(CheckAttribute(chr, "chr_ai.HeavyTrauma")) 
+            {
+                chr.chr_ai.HeavyTrauma = sti(chr.chr_ai.HeavyTrauma) - 1;
+                if(sti(chr.chr_ai.HeavyTrauma) <= 0) 
+                {
+                    DeleteAttribute(chr, "chr_ai.HeavyTrauma");
+                    Log_Info("Офицер" + chr.Name + "оправился от тяжелой травмы");
+					CheckAndSetOverloadMode(chr);
+                }
+            }
+        }
+    }*/
+    if(CheckAttribute(PChar, "chr_ai.HeavyTrauma"))//только ГГ, так как здоровье меняется только у ГГ
+    {        
+        PChar.chr_ai.HeavyTrauma = sti(PChar.chr_ai.HeavyTrauma) - 1;
+        if(sti(PChar.chr_ai.HeavyTrauma) <= 0) 
+        {
+			DeleteAttribute(PChar, "chr_ai.TraumaQ");
+            DeleteAttribute(PChar, "chr_ai.HeavyTrauma");
+            Log_Info("Вы оправились от тяжелой травмы");
+			CheckAndSetOverloadMode(pchar);
+        }
+    }
 }

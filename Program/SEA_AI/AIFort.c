@@ -125,8 +125,6 @@ void Fort_Login(int iIslandIndex)
 			ref rCharacter = GetCharacter(iFortCharacter);
 			int iNation = sti(rCharacter.nation);
 			if(CheckAttribute(rCharacter,"Ship.LastBallCharacter")) DeleteAttribute(rCharacter,"Ship.LastBallCharacter");
-			/*int iRelation = GetNationRelation2MainCharacter(iNation);
-			SetCharacterRelationBoth(nMainCharacterIndex, iFortCharacter, iRelation); */
 
             // boal 22.04.05 сброс всех отношений -->
 			if (sti(rCharacter.nation) != PIRATE)
@@ -197,8 +195,6 @@ void Fort_Login(int iIslandIndex)
 			AIFort.MinCannonDamageDistance = MIN_CANNON_DAMAGE_DISTANCE;		// in meters
 			rCharacter.Ship.Crew.MinRatio = 1.0;
 			rCharacter.Ship.Name = XI_ConvertString(arLocator.fortname);
-			//trace("Fort Login rCharacter.Ship.Type is " + rCharacter.Ship.Type);
-			//rCharacter.Ship.Type = SHIP_FORT;
 			rCharacter.Ship.Crew.Morale = 70;
 	        if (iFortMode == FORT_NORMAL)
 			{
@@ -318,18 +314,6 @@ float Fort_CannonDamage()
 	}
 	//<---Lipsar для ИИ сторожей
 
-	/*if(sti(rBallCharacter.index) == nMainCharacterIndex)
-	{
-		int iFortNation = sti(rFortCharacter.nation);
-		int iOurNation = sti(rBallCharacter.nation);
-
-		if(iOurNation == iFortNation && iOurNation != PIRATE)
-		{
-			//ChangeCharacterNation(rBallCharacter, PIRATE);  // to_do
-			ChangeCharacterReputation(rBallCharacter, -50, iFortNation); // to_do
-		}
-	} */
-
 	aFortLabel = GetEventData();
 
 	iNumAllCannons = GetEventData();
@@ -361,14 +345,10 @@ float Fort_CannonDamage()
 	float fCrewDamage = stf(rBall.DamageCrew) * fCannonDamageMultiply * 0.6;
 
 	rFortCharacter.Ship.HP = (1.0 - MakeFloat(iNumDamagedCannons) / MakeFloat(iNumAllCannons)) * stf(rFortCharacter.Fort.HP);
-	//rFortCharacter.Ship.Crew.Quantity = stf(rFortCharacter.Ship.Crew.Quantity) - fCrewDamage;
-	//if (sti(rFortCharacter.Ship.Crew.Quantity) < 10) rFortCharacter.Ship.Crew.Quantity = 10;
 	Ship_ApplyCrewHitpoints(rFortCharacter, fCrewDamage);
 
 	float fDamagePiece = fHullDamage;// не нужно тут ранд, все честно, попал - молодец + (frnd() - 0.5) * fHullDamage * 0.4;
-	//Log_info("fDamage " + fDamage + " fDistance " + fDistance + " fDistanceMul" + fDistanceMul + " fHullDamage " + fHullDamage);
 	fDamage = (fDamage + fDamagePiece);
-	//Log_info("fDamagePiece " + fDamage);
 	if (iBallCharacterIndex == nMainCharacterIndex)
 	{
 		int iRelation = SeaAI_GetRelation(iFortCharacterIndex, iBallCharacterIndex);
@@ -384,18 +364,6 @@ float Fort_CannonDamage()
 				SetCharacterRelationBoth(iBallCharacterIndex, iFortCharacterIndex, RELATION_ENEMY);
 				SetNationRelation2MainCharacter(sti(rFortCharacter.Nation), RELATION_ENEMY);
 				UpdateRelations();
-				
-				/*int iIslandGroupIndex = Group_FindGroup("IslandGroup");
-				if (iIslandGroupIndex >= 0)
-				{
-					int iCommander = Group_GetGroupCommander("IslandGroup");
-					trace ("IslandGroup Commander is  character " + iCommander);
-					if (iCommander >0)
-					{
-						SetCharacterRelationBoth(iCommander,nMainCharacterIndex,RELATION_ENEMY);
-						UpdateRelations();
-					}
-				}   */ // to_do
 			}
 
 			rFortCharacter.Fort.PlayerDamage = fCurPlayerDamage;
@@ -427,22 +395,6 @@ float Fort_CannonDamage()
 			fDamage = 1.0;
 			
 			CreateParticleSystem("SmallSmoke", x, y, z, -1.57, 0.0, 0.0, 0);
-
-			/*switch (rand(2))
-			{
-				case 0:
-					CreateParticleSystem("ShipFire", x, y, z, -1.57, 0.0, 0.0, 0);
-					//CreateParticleSystem("fort_smoke", x, y, z, -1.57, 0.0, 0.0, 0);
-				break;
-				case 1:
-					CreateParticleSystem("ShipFire1", x, y, z, -1.57, 0.0, 0.0, 0);
-					//CreateParticleSystem("fort_gray_smoke", x, y, z, -1.57, 0.0, 0.0, 0);
-				break;
-				case 1:
-					CreateParticleSystem("ShipFire2", x, y, z, -1.57, 0.0, 0.0, 0);
-					//CreateParticleSystem("fort_gray_smoke", x, y, z, -1.57, 0.0, 0.0, 0);
-				break;
-			}*/
 		}
 		else
 		{
@@ -455,10 +407,6 @@ float Fort_CannonDamage()
 			object oRes;
 			string sCannonString = LanguageConvertString(iSeaSectionLang, "Fort_cannon");
 			Log_SetStringToLog(sCannonString);
-			//string sExp = iExp;
-
-			//Event(PARSE_STRING, "asls", &oRes, sCannonString, 1, sExp);
-			//Log_SetStringToLog(oRes.Str);
 		}
         if (!bImmortal)
         {
@@ -563,10 +511,6 @@ void Fort_CheckAttributes(ref rCharacter)
 		Trace("Fort Error: Fort.Cannons.Type.3 can't find in character " + rCharacter.Name);
 		rCharacter.Fort.Cannons.Type.3 = -1;//CANNON_TYPE_CANNON_LBS48; 
 	}
-
-	/*rCharacter.Fort.Cannons.Type.1 = -1;
-	rCharacter.Fort.Cannons.Type.2 = -1;
-	rCharacter.Fort.Cannons.Type.3 = CANNON_TYPE_MORTAR; */
 	rCharacter.Ship.Cannons.Charge.Type = GOOD_BOMBS;  // всегда бомбы   boal
 }
 

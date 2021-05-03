@@ -1165,6 +1165,11 @@ void wdmInitWorldMap()
 	worldMap.islands.SantaCatalina.Shore54.position.z = -484.106;
 	worldMap.islands.SantaCatalina.Shore55.position.x = -736.763;
 	worldMap.islands.SantaCatalina.Shore55.position.z = -756.295;
+	
+	worldMap.islands.KhaelRoa.position.x = 810.6678;
+	worldMap.islands.KhaelRoa.position.z = 298.6671;	
+	worldMap.islands.KhaelRoa.Shore64.position.x = 810.6678;
+	worldMap.islands.KhaelRoa.Shore64.position.z = 298.6671;
 
 	worldMap.islands.LostShipsCity.position.x = -938.667;
 	worldMap.islands.LostShipsCity.position.z = 938.654;

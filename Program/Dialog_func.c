@@ -27,7 +27,7 @@ void Set_inDialog_Attributes()
 		Address_Form.Spa = "сеньорита";
 		Address_Form.Fra = "мадмуазэль";
 		Address_Form.Eng = "мисс";
-		Address_Form.Hol = "госпожа";
+		Address_Form.Hol = "мефрау";
 		Address_Form.Pir = "мисс";
 	}
 	Address_Form.Spa.Title1 = "Корсар";
@@ -63,7 +63,7 @@ void Set_inDialog_Attributes()
 	Address_Form.Spa.woman = "сеньора";
 	Address_Form.Fra.woman = "мадам";
 	Address_Form.Eng.woman = "миссис";
-	Address_Form.Hol.woman = "госпожа";
+	Address_Form.Hol.woman = "мефрау";
 	Address_Form.Pir.woman = "миссис";
 
 	Address_Form.Spa.man = "сеньор";

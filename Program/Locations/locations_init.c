@@ -33,6 +33,7 @@
 #include "locations\init\Pearl.c"
 #include "locations\init\Tenotchitlan.c"
 #include "locations\init\LostShipsCity.c"
+#include "locations\init\KhaelRoa.c"
 #include "locations\init\OldWorld.c"
 
 void InitLocations()
@@ -297,8 +298,13 @@ void InitLocations()
 	Locations[0].IslandsList.OldWorld.begin = n;
 	n = LocationInitOldWorld(n);
 	Locations[0].IslandsList.OldWorld.end = n;
+	
 	Trace("OldWorld locations " + n);
 	// <--
+	Locations[0].IslandsList.KhaelRoa.begin = n;
+	n = LocationInitKhaelRoa(n);
+	Locations[0].IslandsList.KhaelRoa.end = n;
+	Trace("KhaelRoa locations " + n);
 
 	n = LocationInitCommonLoc(n);
 	Trace("Common locations " + n);
