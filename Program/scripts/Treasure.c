@@ -490,7 +490,7 @@ void FillBoxForTreasureSuper(ref item)
 		itmName = "";
 		while (itmName == "" && i < 15)
 		{
-            switch (rand(20))
+            switch (rand(21))
 			{
                 case 0:
                 	itmName = GetGeneratedItem("blade13");
@@ -512,13 +512,11 @@ void FillBoxForTreasureSuper(ref item)
 				break;
 				case 6:
                     itmName = GetGeneratedItem("topor2"); // to_do
-					//itmName = "map_good";
 				break;
 				case 7:
         			itmName = "spyglass4";
 				break;
 				case 8:
-        			//itmName = "cirass5";
         			itmName = "cirass3";
 				break;
 				case 9:
@@ -526,12 +524,7 @@ void FillBoxForTreasureSuper(ref item)
 				break;
 				case 10:
         			itmName = "cirass4";
-        			/*if (GetCharacterItem(Pchar, "cirass5") > 0)
-        			{
-                        itmName = "";
-        			} */
 				break;
-
 				case 11:
         			itmName = "spyglass5";
 				break;
@@ -555,21 +548,17 @@ void FillBoxForTreasureSuper(ref item)
 				break;
 				case 18:
 					itmName = "BackPack5";
-					break;
+				break;
 				case 19:
 					itmName = "talisman8";
-					break;
+				break;
 				case 20:
 					itmName = "talisman1";
-					break;
+				break;
 				case 21:
 					itmName = "topor_emperor";
-					break;
+				break;
 			}
-			/*if (itmName == "idol" && CheckAttribute(pchar, "QuestTemp.IdolUseYet"))
-			{
-			    itmName = "";
-			} */
 			if (GetCharacterItem(Pchar, itmName) > 0)
 		    {
           		itmName = "";

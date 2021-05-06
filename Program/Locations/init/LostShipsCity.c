@@ -807,6 +807,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private3.items.potionwine = 5;
 	locations[n].private3.items.Mineral3 = 1;
 	locations[n].private3.items.Mineral4 = 2;
+	locations[n].private3.items.CompCraft_Scissors = 1;
 
 	n = n + 1;
 
@@ -1125,6 +1126,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private2.items.jewelry8 = 6;
 	locations[n].private2.items.mineral2 = 2;
 	locations[n].private2.items.mineral3 = 400;
+	locations[n].private2.items.CompCraft_Parchment = 29;
 
 	locations[n].private3.key = "key3";
 	locations[n].private3.money = 270300;
@@ -1404,6 +1406,8 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private3.items.potionrum = 161;
 	locations[n].private3.items.potionwine = 140;
 	locations[n].private3.items.mineral10 = 35;
+	locations[n].private3.items.CompCraft_EnergyTobacco = 9;
+	locations[n].private3.items.CompCraft_StrengthTobacco = 16;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1606,6 +1610,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private1.items.mineral3 = 12;
 	locations[n].private1.items.mineral5 = 2;
 	locations[n].private1.items.mineral8 = 1;
+	locations[n].private1.items.CompCraft_HealthTobacco = 11;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1712,6 +1717,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private3.items.mineral7 = 2;
 	locations[n].private3.items.indian9 = 1;
 	locations[n].private3.items.indian13 = 3;
+	locations[n].private3.items.CompCraft_Flint = 30;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1776,6 +1782,8 @@ int LocationInitLostShipsCity(int n)
 	//ключи для сундуков и предметы внутри
 	locations[n].private1.key = "key1";
 	locations[n].private1.money = 1;
+	locations[n].private1.items.CompCraft_Tools = 37;
+	locations[n].private1.items.CompCraft_Nails = 37;
 	locations[n].private1.items.map_maine_2 = 1;
 	locations[n].private1.items.potion2 = 2;
 	locations[n].private1.items.potion5 = 3;
@@ -1893,6 +1901,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private1.items.blade14 = 1;
 	locations[n].private1.items.bullet = 189;
 	locations[n].private1.items.GunPowder = 122;
+	locations[n].private1.items.CompCraft_Sulfur = 14;
 	locations[n].private1.items.pistol1 = 2;
 
 	locations[n].private2.key = "key2";
@@ -1921,6 +1930,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private4.items.bullet = 11;
 	locations[n].private4.items.blade4 = 2;
 	locations[n].private4.items.blade5 = 3;
+	locations[n].private4.items.slave_01 = 27;
 
 	locations[n].private5.key = "key3";
 	locations[n].private5.money = 72368;
@@ -1929,6 +1939,8 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private5.items.mineral3 = 1;
 	locations[n].private5.items.bullet = 121;
 	locations[n].private5.items.GunPowder = 98;
+	locations[n].private5.items.CompCraft_PowderMixture = 126;
+	locations[n].private5.items.CompCraft_SulfurCrush = 94;
 	locations[n].private5.items.spyglass4 = 1;
 	locations[n].private5.items.blade28 = 1;
 
@@ -2047,12 +2059,14 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private1.items.potion3 = 4;
 	locations[n].private1.items.mineral3 = 2;
 	locations[n].private1.items.mineral7 = 1;
+	locations[n].private1.items.CompCraft_Locksmith = 1;
 
 	locations[n].private2.key = "key3";
 	locations[n].private2.money = 366430;
 	locations[n].private2.items.indian2 = 2;
 	locations[n].private2.items.indian8 = 1;
 	locations[n].private2.items.indian14 = 1;
+	locations[n].private2.items.CompCraft_Magnesium = 27;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2157,6 +2171,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private2.items.mineral8 = 3;
 	locations[n].private2.items.indian4 = 23;
 	locations[n].private2.items.indian2 = 1;
+	locations[n].private2.items.CompCraft_Grindstone = 19;
 
 	locations[n].private3.key = "key3";
 	locations[n].private3.money = 72700;
@@ -2374,6 +2389,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private3.items.jewelry15 = 15;
 	locations[n].private3.items.jewelry5 = 35;
 	locations[n].private2.items.map_hisp = 1;
+	locations[n].private1.items.CompCraft_Lead = 22;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

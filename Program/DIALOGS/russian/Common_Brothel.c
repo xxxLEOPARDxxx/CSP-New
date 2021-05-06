@@ -169,10 +169,37 @@ void ProcessDialogEvent()
 				SaveCurrentNpcQuestDateParam(npchar, "TakeMayorsRing");
 			}
 			//<<-- квест поиска кольца мэра
+			if (CheckAttribute(pchar,"drugstaken") && pchar.drugstaken >= 3)
+			{
+				link.l6 = "Что-то неважно я себя чувствую. Кажется, третья трубка была лишней.";
+				link.l6.go = "tubeheal";
+			}
 			link.l9 = "Ничем. Я уже ухожу.";
 			link.l9.go = "exit";
 			NextDiag.TempNode = "First time";
 		break;
+		
+		case "tubeheal":
+			pchar.questTemp.drugsprice = 1000*MOD_SKILL_ENEMY_RATE;
+			dialog.text = "Похоже, ты и впрямь укурил"+GetSexPhrase("ся","ась")+" какой-то дряни, капитан. К счастью, я могу тебе помочь. Но это займёт некоторое время и будет стоить тебе "+pchar.questTemp.drugsprice+" пиастров. Согла"+ GetSexPhrase("сен","сна")+"?";
+			if (sti(pchar.money) >= sti(pchar.questTemp.drugsprice))
+			{
+				link.l1 = "Что угодно, лишь бы это прошло.";
+				link.l1.go = "tubeheal_1";		
+			}
+			link.l2 = "Пожалуй нет.";
+			link.l2.go = "exit";
+		break;
+		
+		case "tubeheal_1":
+			AddMoneyToCharacter(pchar,-sti(pchar.questTemp.drugsprice));
+			ClearDrugs();
+			WasteTime(12);
+			dialog.text = "Ну вот, теперь выглядишь гораздо лучше. Полагаю, самочувствие тоже на высоте теперь?";
+			link.l1 = "Однозначно! Премного благода"+GetSexPhrase("рен.","рна.");
+			link.l1.go = "exit";
+		break;
+		
 		case "ShipLetters_1":
 				pchar.questTemp.different.GiveShipLetters.speakBrothelMadam = true;
 				dialog.text = RandPhraseSimple("Чего ты хочешь, красавчик?","Слушаю Вас внимательно, капитан.");

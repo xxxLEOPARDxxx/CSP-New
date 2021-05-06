@@ -1,16 +1,16 @@
 //////////////////////////////////////// Спец свойства ХО ///////////////////////////////////////////////////
 
 /* 
-	itm.special.valueBB = 100; 	//Пролом блока
-	itm.special.valueCrB = 100; //Буст крита
-	itm.special.valueCB = 100; 	//Пролом кирасы
-	itm.special.valueSS = 100; 	//Резкий удар
-	itm.special.valueStS = 100; //Стан
-	itm.special.valueT = 100; 	//Травмы
-	itm.special.valueB = 100; 	//Кровоток
-	itm.special.valueP = 100; 	//Отравление
+	itm.special.valueBB = 100; 	// Пролом блока
+	itm.special.valueCrB = 100; // Буст крита
+	itm.special.valueCB = 100; 	// Пролом кирасы
+	itm.special.valueSS = 100; 	// Резкий удар
+	itm.special.valueStS = 100; // Стан
+	itm.special.valueT = 100; 	// Травмы
+	itm.special.valueB = 100; 	// Кровоток
+	itm.special.valueP = 100; 	// Отравление
 	
-	itm.points_shop = 1; //атрибут для ачивок
+	itm.points_shop = 1; // Атрибут для магазина ачивок
 */
 
 //////////////////////////////////////// Спец свойства ХО ///////////////////////////////////////////////////
@@ -19,16 +19,26 @@
 
 /*  Это всё нужно дописывать для определённого итема, чтобы он появился в списке крафта
 
-    itm.CraftedItem = "grenade";
-    itm.CraftFor = "Blacksmith";
-    itm.ComponentsNum = 2;
-    itm.Component1 = "bullet";
-    itm.Component1Num = 5;
-    itm.Component2 = "gunpowder";
-    itm.Component2Num = 5;
+	itm.PerkReq = 1;				// Требование перка для открытия рецепта
+    itm.CraftedItem = "grenade"; 	// Айди создаваемого предемета
+    itm.CraftFor = "Blacksmith"; 	// Форма крафта
+	itm.ResultNum = 2;				// Количество получаемых компонентов
+    itm.ComponentsNum = 2;		 	// Количество компонентов
+    itm.Component1 = "bullet";	 	// Айди первого компонента
+    itm.Component1Num = 5;		 	// Количество требуемых компонентов
+    itm.Component2 = "gunpowder";	// Айди второго компонента
+    itm.Component2Num = 5;			// Количество требуемых компонентов
 */
 
 //////////////////////////////////////// Крафт ///////////////////////////////////////////////////
+
+//////////////////////////////////////// Стрелковое ///////////////////////////////////////////////////
+/*	
+	//требования для экипировки огнестрела. Если нет - нет и требований 
+	itm.ReqPerk = "Gunman";
+	itm.ReqPerk = "GunProfessional";
+*/
+//////////////////////////////////////// Стрелковое ///////////////////////////////////////////////////
 
 int InitItems()
 {
@@ -490,7 +500,6 @@ int InitItems()
 	itm.Generation.Weight.max = 0.0;
 	n++;
 	
-    // boal 21.05.2004 -->
     makeref(itm,Items[n]);
 	itm.id = "rabble"; // кочерга
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -523,7 +532,31 @@ int InitItems()
 	itm.Generation.Weight.min = 4.0;
 	itm.Generation.Weight.max = 4.0;
 	n++;
-	// boal 21.05.2004 <--
+	
+    makeref(itm,Items[n]);
+	itm.id = "slave_01"; // Гарпун
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_slave_01";
+	itm.describe = "itmdescr_slave_01";
+	itm.model = "kocherg";
+	itm.folder = "items";
+	itm.picIndex = 11;
+	itm.picTexture = "ITEMS_15";
+	itm.price = 150;
+	itm.Weight = 1.0;
+	itm.dmg_min = 1.0;
+	itm.dmg_max = 25.0;
+	itm.piercing = 5;
+	itm.minlevel = 0;
+	itm.rare = 0.1;
+	itm.block = 19;
+	itm.param.time = 0.05;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingLight";
+	itm.ItemType = "WEAPON";
+	itm.quality = "poor";
+	n++;
 	
 	// ГПК Дага
 	makeref(itm,Items[n]);
@@ -704,7 +737,6 @@ int InitItems()
     itm.FencingType = "FencingLight";
     itm.ItemType = "WEAPON";
 	itm.quality = "excellent";
-	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	// для патча 1.2.5 фиксируем статы
 
 	n++;
@@ -1019,6 +1051,84 @@ int InitItems()
 	itm.Generation.dmg_max.max = 69.0;
 	itm.Generation.Weight.min = 2.2;
 	itm.Generation.Weight.max = 2.5;
+	n++;
+	
+	// ККС, Стокката
+	makeref(itm,Items[n]);
+	itm.id = "blade45";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blade45";
+	itm.describe = "itmdescr_blade45";
+	itm.folder = "items";
+	itm.model = "blade45";
+	itm.picIndex = 9;
+	itm.picTexture = "ITEMS_16";
+	// boal 19.01.2004 -->
+	itm.price = 10000;
+	itm.Weight = 2.6 + fRandSmall(0.3);
+	// boal 19.01.2004 <--
+	itm.dmg_min = 10.0 + rand(2);
+	itm.dmg_max = 48.0 + rand(4);
+	itm.piercing = 99.0;
+	itm.special.valueStS = 4; // Стан
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 99.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingLight";
+	itm.ItemType = "WEAPON";
+	itm.quality = "ordinary";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 10.0;
+	itm.Generation.dmg_min.max = 12.0;
+	itm.Generation.dmg_max.min = 48.0;
+	itm.Generation.dmg_max.max = 52.0;
+	itm.Generation.Weight.min = 2.6;
+	itm.Generation.Weight.max = 2.9;
+	n++;
+	
+	// ГПК Паппенхаймер
+    makeref(itm,Items[n]);
+	itm.id = "blade26";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blade26";
+	itm.describe = "itmdescr_blade26";
+	itm.folder = "items";
+	itm.model = "blade26";
+	itm.picIndex = 2;
+	itm.picTexture = "ITEMS_8";
+	// boal 19.01.2004 -->
+	itm.price = 2500;
+	itm.Weight = 2.4 + fRandSmall(0.4); // 4.7;
+	// boal 19.01.2004 <--
+	itm.dmg_min = 16.0 + rand(3); // 24.0;
+	itm.dmg_max = 63.0 + rand(5); // 70.0;
+	itm.piercing = 88.0;
+	itm.special.valueCrB = 6; //Буст крита
+	itm.special.valueStS = 6; //Стан
+	itm.special.valueCB = 6; //Пролом кирасы
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 72.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingLight";
+	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 16.0;
+	itm.Generation.dmg_min.max = 19.0;
+	itm.Generation.dmg_max.min = 63.0;
+	itm.Generation.dmg_max.max = 68.0;
+	itm.Generation.Weight.min = 2.4;
+	itm.Generation.Weight.max = 2.8;
 	n++;
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1485,46 +1595,6 @@ int InitItems()
 	itm.Generation.Weight.max = 4.8;
 	n++;
 	
-	// ГПК Паппенхаймер
-    makeref(itm,Items[n]);
-	itm.id = "blade26";
-	itm.groupID = BLADE_ITEM_TYPE;
-	itm.name = "itmname_blade26";
-	itm.describe = "itmdescr_blade26";
-	itm.folder = "items";
-	itm.model = "blade26";
-	itm.picIndex = 2;
-	itm.picTexture = "ITEMS_8";
-	// boal 19.01.2004 -->
-	itm.price = 2500;
-	itm.Weight = 4.1 + fRandSmall(0.2); // 4.7;
-	// boal 19.01.2004 <--
-	itm.dmg_min = 23.0 + rand(3); // 24.0;
-	itm.dmg_max = 80.0 + rand(15); // 70.0;
-	itm.piercing = 88.0;
-	itm.special.valueCrB = 12; //Буст крита
-	itm.special.valueStS = 6; //Стан
-	itm.special.valueCB = 6; //Пролом кирасы
-	itm.minlevel = 1;
-	itm.rare = 0.0001;
-	itm.block = 72.0;
-	itm.param.time = 0.1;
-	itm.param.colorstart = argb(64, 64, 64, 64);
-	itm.param.colorend = argb(0, 32, 32, 32);
-	itm.FencingType = "Fencing";
-	itm.ItemType = "WEAPON";
-	itm.quality = "excellent";
-	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	itm.Generation.qty = 5;
-	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 23.0;
-	itm.Generation.dmg_min.max = 26.0;
-	itm.Generation.dmg_max.min = 80.0;
-	itm.Generation.dmg_max.max = 95.0;
-	itm.Generation.Weight.min = 4.1;
-	itm.Generation.Weight.max = 4.3;
-	n++;
-	
 	// Gregg Катар
 	makeref(itm,Items[n]);
 	itm.id = "katar";
@@ -1683,11 +1753,50 @@ int InitItems()
 	itm.Generation.Weight.max = 4.8;
 	n++;
 	
+	// ККС, Офицерский Клеванг
+    makeref(itm,Items[n]);
+	itm.id = "blade46";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blade46";
+	itm.describe = "itmdescr_blade46";
+	itm.folder = "items";
+	itm.model = "blade46";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_16";
+	// boal 19.01.2004 -->
+	itm.price = 2500;
+	itm.Weight = 4.3 + fRandSmall(0.6);
+	// boal 19.01.2004 <--
+	itm.dmg_min = 18.0 + rand(5);
+	itm.dmg_max = 70.0 + rand(4);
+	itm.piercing = 88.0;
+	itm.special.valueStS = 4; //Стан
+	itm.special.valueCrB = 10; //Буст крита
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 72.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "Fencing";
+	itm.ItemType = "WEAPON";
+	itm.quality = "good";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 18.0;
+	itm.Generation.dmg_min.max = 23.0;
+	itm.Generation.dmg_max.min = 70.0;
+	itm.Generation.dmg_max.max = 74.0;
+	itm.Generation.Weight.min = 4.3;
+	itm.Generation.Weight.max = 4.9;
+	n++;
+	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//													ОРУЖИЕ БОЛЬШОГО ВЕСА
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// ГПК 1.2.3 Reblading - "Строевой фальшион", бывшый "Катцбальгер"
+	// ГПК Строевой фальшион
 	makeref(itm,Items[n]);
 	itm.id = "blade10";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1724,7 +1833,7 @@ int InitItems()
 	itm.Generation.Weight.max = 11.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Кортелач", бывшый "Палаш"
+	// ГПК Кортелач
     makeref(itm,Items[n]);
 	itm.id = "blade35";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1761,7 +1870,7 @@ int InitItems()
 	itm.Generation.Weight.max = 11.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Госсемесер", бывшый "Мальтийский меч"
+	// ГПК Госсемесер
 	makeref(itm,Items[n]);
 	itm.id = "blade8";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1800,7 +1909,7 @@ int InitItems()
 	itm.Generation.Weight.max = 10.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Риттершверт", бывшый "Шотландский палаш"
+	// ГПК Риттершверт
 	makeref(itm,Items[n]);
 	itm.id = "blade11";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1879,7 +1988,7 @@ int InitItems()
 	itm.Generation.Weight.max = 9.5;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Боевой топор", бывшый "Топор"
+	// ГПК Боевой топор
     makeref(itm,Items[n]);
 	itm.id = "topor1";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1916,7 +2025,7 @@ int InitItems()
 	itm.Generation.Weight.max = 11.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Сторта", бывшый "Итальянский меч"
+	// ГПК Сторта
 	makeref(itm,Items[n]);
 	itm.id = "blade15";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1956,7 +2065,7 @@ int InitItems()
 	itm.Generation.Weight.max = 10.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Рейтарский палаш", бывшый "Испанский меч"
+	// ГПК Рейтарский палаш
 	makeref(itm,Items[n]);
 	itm.id = "blade16";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1995,7 +2104,7 @@ int InitItems()
 	itm.Generation.Weight.max = 10.0;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Клеймор", бывшый "Фламберг"
+	// ГПК Клеймор
 	makeref(itm,Items[n]);
 	itm.id = "blade17";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -2072,7 +2181,7 @@ int InitItems()
 	itm.Generation.Weight.max = 9.5;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Бастард", бывшый "Фальчион"
+	// ГПК Бастард
 	makeref(itm,Items[n]);
 	itm.id = "blade21";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -2484,6 +2593,7 @@ int InitItems()
 	itm.accuracy = 60;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "good";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2533,6 +2643,7 @@ int InitItems()
 	itm.accuracy = 60;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2557,6 +2668,7 @@ int InitItems()
 	itm.accuracy = 40;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "good";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2581,6 +2693,7 @@ int InitItems()
 	itm.accuracy = 40;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2605,6 +2718,7 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "good";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2629,6 +2743,7 @@ int InitItems()
 	itm.accuracy = 40;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2644,7 +2759,7 @@ int InitItems()
 	itm.picTexture = "CSP_GUNS2";
 	itm.price = 100000;
 	// boal 19.01.2004 -->
-	itm.Weight = 12;
+	itm.Weight = 14;
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
 	itm.chargespeed = 16;
@@ -2653,9 +2768,10 @@ int InitItems()
 	itm.accuracy = 50;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
-	itm.points_shop = 1;
+	itm.points_shop = 1750;
 	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
@@ -2679,6 +2795,7 @@ int InitItems()
 	itm.accuracy = 30;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	itm.fromHip = true;//для выбора другой анимации
@@ -2704,6 +2821,7 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "good";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2728,6 +2846,7 @@ int InitItems()
 	itm.accuracy = 90;
 	itm.minlevel = 10;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2752,6 +2871,7 @@ int InitItems()
 	itm.accuracy = 100;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	itm.fromHip = true;//для выбора другой анимации
@@ -2777,6 +2897,7 @@ int InitItems()
 	itm.accuracy = 75;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.ItemType = "WEAPON";
 	itm.fromHip = true;//для выбора другой анимации
 	n++;
@@ -2801,6 +2922,7 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	itm.fromHip = true;//для выбора другой анимации
@@ -2826,6 +2948,7 @@ int InitItems()
 	itm.accuracy = 70;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	itm.fromHip = true;//для выбора другой анимации
@@ -2876,6 +2999,7 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "Gunman";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2900,6 +3024,7 @@ int InitItems()
 	itm.accuracy = 100;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -2982,14 +3107,8 @@ int InitItems()
 	itm.model = "purse";
 	itm.picIndex = 15;
 	itm.picTexture = "ITEMS_4";
-//	itm.shown = 0;
-    // boal 19.01.2004 -->
 	itm.price = 1000;
 	itm.Weight = 0.1;
-	//itm.Monster.rare = 0.05;
-    //itm.Monster.min = 1;
-    //itm.Monster.max = 10;
-    // boal 19.01.2004 <--
     itm.ItemType = "QUESTITEMS";
 	n++;
 
@@ -3000,11 +3119,26 @@ int InitItems()
 	itm.model = "";
 	itm.picIndex = 5;
 	itm.picTexture = "ITEMS_4";
-//	itm.shown = 0;
 	itm.price = 47000;
-	// boal 19.01.2004 -->
 	itm.Weight = 50;
-	// boal 19.01.2004 <--
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "icollection";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 6;
+    itm.Component1 = "jewelry1";
+    itm.Component1Num = 10;
+    itm.Component2 = "jewelry2";
+    itm.Component2Num = 10;
+    itm.Component3 = "jewelry3";
+    itm.Component3Num = 10;
+    itm.Component4 = "jewelry4";
+    itm.Component4Num = 10;
+    itm.Component5 = "jewelry14";
+    itm.Component5Num = 10;
+    itm.Component6 = "jewelry15";
+    itm.Component6Num = 10;
 	n++;
 
 	// boal для генератора -->
@@ -3706,6 +3840,7 @@ int InitItems()
 	itm.price = 0;
 	itm.ItemType = "QUESTITEMS";
 	n++;
+	
 	//homo
     makeref(itm,Items[n]);
 	itm.id = "MsStid_ring"; // Колечко
@@ -3759,6 +3894,7 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
@@ -3774,12 +3910,7 @@ int InitItems()
 	itm.picTexture = "ITEMS_14";
 	itm.shown = 1;
 	itm.price = 25000;
-	//ложим в храм
-	//itm.startLocation = "Temple_round";
-	//itm.startLocator = "item1";
-	// boal 19.01.2004 -->
 	itm.Weight = 9;
-	// boal 19.01.2004 <--
 	itm.chargeQ = 4;
 	itm.chargespeed = 52;
 	itm.dmg_min = 100.0;
@@ -3787,10 +3918,36 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
+	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;
-	
+
+    makeref(itm,Items[n]);
+	itm.id = "mushket_seadevil";  // Морской Дьявол
+	itm.groupID = GUN_ITEM_TYPE;
+	itm.name = "itmname_mushket_seadevil";
+	itm.describe = "itmdescr_mushket_seadevil";
+	itm.folder = "items";
+	itm.model = "seadevil";
+	itm.picIndex = 3;
+	itm.picTexture = "CSP_GUNS2";
+	itm.shown = 1;
+	itm.price = 125000;
+	itm.Weight = 18;
+	itm.chargeQ = 3;
+	itm.chargespeed = 65;
+	itm.dmg_min = 200.0;
+	itm.dmg_max = 400.0;
+	itm.accuracy = 100;
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.ReqPerk = "GunProfessional";
+	itm.quality = "excellent";
+	itm.ItemType = "WEAPON";
+	itm.fromHip = true;//для выбора другой анимации
+	n++;
+
     makeref(itm,Items[n]);
 	itm.id = "Ascold_rabble"; // монтировка
 	itm.name = "itmname_Ascold_rabble";
@@ -4891,36 +5048,28 @@ int InitItems()
 //POTIONS
 
 	makeref(itm,Items[n]);
-	itm.id = "potion1";
+	itm.id = "potion1"; // Лечебное зелье
 	itm.name = "itmname_potion1";
 	itm.describe = "itmdescr_potion1";
 	itm.model = "potion";
 	itm.picIndex = 7;
 	itm.picTexture = "ITEMS_1";
-//	itm.shown = false;
-    // boal 19.01.2004 -->
 	itm.price = 100;
 	itm.Weight = 0.8;
-
     itm.Solder_o.rare = 0.3;
     itm.Solder_o.min = 2;
     itm.Solder_o.max = 6;
-    
     itm.Solder.rare = 0.1;
     itm.Solder.min = 1;
     itm.Solder.max = 3;
-    
     itm.Warrior.rare = 0.1;
     itm.Warrior.min = 1;
     itm.Warrior.max = 4;
- 
     itm.Monster.rare = 0.1;
     itm.Monster.min = 1;
     itm.Monster.max = 7;
-
-  // boal 19.01.2004 <--
 	itm.potion.pic = 21;
-	itm.potion.tex = 0; // battle_interface\useditems1.tga
+	itm.potion.tex = 0;
 	itm.potion.health = 40.0;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
@@ -4929,70 +5078,65 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "potion2";
+	itm.id = "potion2"; // Эликсир
 	itm.name = "itmname_potion2";
 	itm.describe = "itmdescr_potion2";
 	itm.model = "potionbig";
 	itm.picIndex = 1;
 	itm.picTexture = "ITEMS_1";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 500;
 	itm.Weight = 1;
-
     itm.Solder_o.rare = 0.3;
     itm.Solder_o.min = 1;
     itm.Solder_o.max = 3;
-
     itm.Solder.rare = 0.1;
     itm.Solder.min = 1;
     itm.Solder.max = 1;
-
     itm.Warrior.rare = 0.1;
     itm.Warrior.min = 1;
     itm.Warrior.max = 3;
- 
     itm.Monster.rare = 0.1;
     itm.Monster.min = 1;
     itm.Monster.max = 5;
-
-  // boal 19.01.2004 <--
 	itm.potion.pic = 22;
-	itm.potion.tex = 0; // battle_interface\useditems1.tga
+	itm.potion.tex = 0;
 	itm.potion.health = 150.0;
-	itm.potion.health.speed = 8; // скорость выпивания
+	itm.potion.health.speed = 8;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.SortIndex = 2;
 	itm.ItemType = "SUPPORT";
+
+    itm.CraftedItem = "potion2";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 2;
+    itm.Component1 = "potion1";
+    itm.Component1Num = 4;
+    itm.Component2 = "indian16";
+    itm.Component2Num = 0;
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "potion3";
+	itm.id = "potion3"; // Противоядие
 	itm.name = "itmname_potion3";
 	itm.describe = "itmdescr_potion3";
 	itm.model = "Antidote";
 	itm.picIndex = 5;
 	itm.picTexture = "ITEMS_1";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 200;
 	itm.Weight = 0.4;
-
     itm.Solder_o.rare = 0.05;
     itm.Solder_o.min = 1;
     itm.Solder_o.max = 1;
-
     itm.Solder.rare = 0.05;
     itm.Solder.min = 1;
     itm.Solder.max = 1;
-
     itm.Warrior.rare = 0.05;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-    // boal 19.01.2004 <--
 	itm.potion.pic = 23;
-	itm.potion.tex = 0; // battle_interface\useditems2.tga
+	itm.potion.tex = 0;
 	itm.potion.antidote = true;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -5001,77 +5145,74 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "potion4";
+	itm.id = "potion4"; // Микстура
 	itm.name = "itmname_potion4";
 	itm.describe = "itmdescr_potion4";
 	itm.model = "balsam";
 	itm.picIndex = 4;
 	itm.picTexture = "ITEMS_1";
-	// boal 19.01.2004 -->
 	itm.price = 900;
 	itm.Weight = 0.4;
-
     itm.Solder.rare = 0.05;
     itm.Solder.min = 1;
     itm.Solder.max = 1;
-    
     itm.Solder_o.rare = 0.05;
     itm.Solder_o.min = 1;
     itm.Solder_o.max = 3;
-
     itm.Monster.rare = 0.05;
     itm.Monster.min = 1;
     itm.Monster.max = 3;
-
     itm.Warrior.rare = 0.05;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-
-     // boal 19.01.2004 <--
 	itm.potion.pic = 24;
-	itm.potion.tex = 0; // battle_interface\useditems1.tga
+	itm.potion.tex = 0;
 	itm.potion.health = 130.0;
-	itm.potion.health.speed = 8; // скорость выпивания
+	itm.potion.health.speed = 8;
 	itm.potion.antidote = true;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.SortIndex = 2;
 	itm.ItemType = "SUPPORT";
+
+	itm.PerkReq = 1;
+    itm.CraftedItem = "potion4";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "potion3";
+    itm.Component1Num = 1;
+    itm.Component2 = "potionrum";
+    itm.Component2Num = 2;
+    itm.Component3 = "indian16";
+    itm.Component3Num = 0;
 	n++;
 
 //-----------ADDED BY VERRUCKT BROTHEL MOD------------------
 	makeref(itm,Items[n]);
-	itm.id = "potionrum";
+	itm.id = "potionrum"; // Бутылка рома
 	itm.name = "itmname_potionrum";
 	itm.describe = "itmdescr_potionrum";
     itm.model = "balsam";
 	itm.picIndex = 3;
 	itm.picTexture = "ITEMS_1";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 150;
 	itm.Weight = 2;
-
     itm.Solder_o.rare = 0.1;
     itm.Solder_o.min = 1;
     itm.Solder_o.max = 1;
-
     itm.Solder.rare = 0.2;
     itm.Solder.min = 1;
     itm.Solder.max = 1;
-
     itm.Warrior.rare = 0.2;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-    // boal 19.01.2004 <--
 	itm.potion.pic = 25;
-	itm.potion.tex = 0; // battle_interface\useditems3.tga
+	itm.potion.tex = 0;
 	itm.potion.health = 50.0;
 	itm.potion.antidote = true;
-	//navy -->
 	itm.potion.drunk = 51;
 	itm.potion.drunk.time = 5600;
-	//<--
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.SortIndex = 2;
@@ -5079,68 +5220,149 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "potionwine";
+	itm.id = "potionwine"; // Отличное вино
 	itm.name = "itmname_potionwine";
 	itm.describe = "itmdescr_potionwine";
     itm.model = "balsam";
 	itm.picIndex = 6;
 	itm.picTexture = "ITEMS_1";
-	// boal 19.01.2004 -->
 	itm.price = 500;
 	itm.Weight = 1;
-
     itm.Solder_o.rare = 0.3;
     itm.Solder_o.min = 1;
     itm.Solder_o.max = 1;
-
     itm.Solder.rare = 0.1;
     itm.Solder.min = 1;
     itm.Solder.max = 1;
-
     itm.Warrior.rare = 0.05;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-    // boal 19.01.2004 <--
 	itm.potion.pic = 26;
-	itm.potion.tex = 0; // battle_interface\useditems3.tga
+	itm.potion.tex = 0;
 	itm.potion.health = 175.0;
-	itm.potion.health.speed = 7; // скорость выпивания
-	//navy -->
+	itm.potion.health.speed = 7;
 	itm.potion.drunk = 15;
 	itm.potion.drunk.time = 8000;
-	//<--
 	itm.minlevel = 1;
 	itm.rare = 0.1;
 	itm.SortIndex = 2;
 	itm.ItemType = "SUPPORT";
+
+    itm.CraftedItem = "potionwine";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "potion5";
+    itm.Component1Num = 7;
+    itm.Component2 = "indian4";
+    itm.Component2Num = 1;
+    itm.Component3 = "indian16";
+    itm.Component3Num = 0;
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "potion5";
+	itm.id = "potion5"; // Виноград
 	itm.name = "itmname_potion5";
 	itm.describe = "itmdescr_potion5";
     itm.model = "balsam";
 	itm.picIndex = 12;
 	itm.picTexture = "ITEMS_7";
-	// boal 19.01.2004 -->
 	itm.price = 30;
 	itm.Weight = 0.4;
-
     itm.Solder.rare = 0.1;
     itm.Solder.min = 1;
     itm.Solder.max = 9;
-
     itm.Warrior.rare = 0.1;
     itm.Warrior.min = 1;
     itm.Warrior.max = 9;
-    // boal 19.01.2004 <--
 	itm.potion.pic = 27;
-	itm.potion.tex = 0; // battle_interface\useditems3.tga
+	itm.potion.tex = 0;
 	itm.potion.health = 25.0;
 	itm.minlevel = 1;
 	itm.rare = 0.2;
 	itm.SortIndex = 2;
 	itm.ItemType = "SUPPORT";
+	n++;
+
+	// Трубка здоровья
+	makeref(itm,Items[n]);
+	itm.id = "HealthTube";
+	itm.name = "itmname_HealthTube";
+	itm.describe = "itmdescr_HealthTube";
+	itm.model = "1";
+	itm.picIndex = 15;
+	itm.picTexture = "ITEMS_18";
+	itm.price = 300;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "SUPPORT";
+
+	itm.PerkReq = 1;
+    itm.CraftedItem = "HealthTube";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "CompCraft_HealthTobacco";
+    itm.Component1Num = 1;
+    itm.Component2 = "Mineral7";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Scissors";
+    itm.Component3Num = 0;
+	n++;
+
+	// Трубка энергии
+	makeref(itm,Items[n]);
+	itm.id = "EnergyTube";
+	itm.name = "itmname_EnergyTube";
+	itm.describe = "itmdescr_EnergyTube";
+	itm.model = "1";
+	itm.picIndex = 14;
+	itm.picTexture = "ITEMS_18";
+	itm.price = 300;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "SUPPORT";
+
+	itm.PerkReq = 1;
+    itm.CraftedItem = "EnergyTube";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "CompCraft_EnergyTobacco";
+    itm.Component1Num = 1;
+    itm.Component2 = "Mineral7";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Scissors";
+    itm.Component3Num = 0;
+	n++;
+
+	// Трубка силы
+	makeref(itm,Items[n]);
+	itm.id = "StrengthTube";
+	itm.name = "itmname_StrengthTube";
+	itm.describe = "itmdescr_StrengthTube";
+	itm.model = "1";
+	itm.picIndex = 13;
+	itm.picTexture = "ITEMS_18";
+	itm.price = 300;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "SUPPORT";
+
+	itm.PerkReq = 1;
+    itm.CraftedItem = "StrengthTube";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "CompCraft_StrengthTobacco";
+    itm.Component1Num = 1;
+    itm.Component2 = "Mineral7";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Scissors";
+    itm.Component3Num = 0;
 	n++;
 
 //JEWELRY
@@ -5299,67 +5521,77 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "jewelry6";
+	itm.id = "jewelry6"; // Серебряное кольцо с сапфиром
 	itm.name = "itmname_jewelry6";
 	itm.describe = "itmdescr_jewelry6";
 	itm.model = "sapphire";
 	itm.picIndex = 6;
 	itm.picTexture = "ITEMS_2";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 100;
 	itm.Weight = 0.1;
-
     itm.Solder.rare = 0.01;
     itm.Solder.min = 1;
     itm.Solder.max = 1;
-
     itm.Warrior.rare = 0.01;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-
     itm.Citizen.rare = 0.1;
     itm.Citizen.min = 1;
     itm.Citizen.max = 1;
-
     itm.Citizen_f.rare = 0.3;
     itm.Citizen_f.min = 1;
     itm.Citizen_f.max = 1;
-    // boal 19.01.2004 <--
 	itm.minlevel = 0;
 	itm.rare = 0.1;
+
+	itm.PerkReq = 1;
+    itm.CraftedItem = "jewelry6";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 5;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "jewelry1";
+    itm.Component1Num = 1;
+    itm.Component2 = "jewelry17";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Tools";
+    itm.Component3Num = 0;
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "jewelry7";
+	itm.id = "jewelry7"; // Золотое кольцо с изумрудом
 	itm.name = "itmname_jewelry7";
 	itm.describe = "itmdescr_jewelry7";
 	itm.model = "sapphire";
 	itm.picIndex = 7;
 	itm.picTexture = "ITEMS_2";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 200;
 	itm.Weight = 0.1;
-
     itm.Solder_o.rare = 0.1;
     itm.Solder_o.min = 1;
     itm.Solder_o.max = 1;
-
     itm.Monster.rare = 0.05;
     itm.Monster.min = 1;
     itm.Monster.max = 1;
-
     itm.Warrior.rare = 0.05;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-
     itm.Citizen_f.rare = 0.2;
     itm.Citizen_f.min = 1;
     itm.Citizen_f.max = 1;
-    // boal 19.01.2004 <--
 	itm.minlevel = 0;
 	itm.rare = 0.1;
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "jewelry7";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 3;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "jewelry4";
+    itm.Component1Num = 1;
+    itm.Component2 = "jewelry5";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Tools";
+    itm.Component3Num = 0;
 	n++;
 
 	makeref(itm,Items[n]);
@@ -5370,26 +5602,20 @@ int InitItems()
 	itm.model = "sapphire";
 	itm.picIndex = 8;
 	itm.picTexture = "ITEMS_2";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 10;
 	itm.Weight = 0.1;
     itm.Solder.rare = 0.1;
     itm.Solder.min = 1;
     itm.Solder.max = 1;
-    
     itm.Warrior.rare = 0.15;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-
     itm.Citizen.rare = 0.15;
     itm.Citizen.min = 1;
     itm.Citizen.max = 1;
-
     itm.Citizen_f.rare = 0.25;
     itm.Citizen_f.min = 1;
     itm.Citizen_f.max = 1;
-    // boal 19.01.2004 <--
 	itm.minlevel = 0;
 	itm.rare = 0.2;
 	n++;
@@ -5428,40 +5654,43 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "jewelry10";
+	itm.id = "jewelry10"; // Золотое кольцо с сапфиром
 	itm.name = "itmname_jewelry10";
 	itm.describe = "itmdescr_jewelry10";
 	itm.model = "emerald";
 	itm.picIndex = 10;
 	itm.picTexture = "ITEMS_2";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 170;
 	itm.Weight = 0.1;
-
     itm.Solder_o.rare = 0.2;
     itm.Solder_o.min = 1;
     itm.Solder_o.max = 1;
-    
     itm.Monster.rare = 0.3;
     itm.Monster.min = 1;
     itm.Monster.max = 1;
-
-
     itm.Warrior.rare = 0.02;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-
     itm.Citizen.rare = 0.1;
     itm.Citizen.min = 1;
     itm.Citizen.max = 1;
-
     itm.Citizen_f.rare = 0.3;
     itm.Citizen_f.min = 1;
     itm.Citizen_f.max = 1;
-    // boal 19.01.2004 <--
 	itm.minlevel = 1;
 	itm.rare = 0.1;
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "jewelry10";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 4;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "jewelry1";
+    itm.Component1Num = 1;
+    itm.Component2 = "jewelry5";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Tools";
+    itm.Component3Num = 0;
 	n++;
 
 	makeref(itm,Items[n]);
@@ -5659,87 +5888,91 @@ int InitItems()
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "jewelry17";  // серебро
+	itm.id = "jewelry17";  // Серебряный слиток
 	itm.name = "itmname_jewelry17";
 	itm.describe = "itmdescr_jewelry17";
 	itm.model = "pursel";
 	itm.picIndex = 4;
 	itm.picTexture = "ITEMS_7";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 110;
 	itm.Weight = 0.5;
-
     itm.Monster.rare = 0.1;
     itm.Monster.min = 1;
     itm.Monster.max = 5;
-
     itm.Warrior.rare = 0.05;
     itm.Warrior.min = 1;
     itm.Warrior.max = 3;
-
     itm.Citizen.rare = 0.1;
     itm.Citizen.min = 1;
     itm.Citizen.max = 1;
-
     itm.Solder.rare = 0.05;
     itm.Solder.min = 1;
     itm.Solder.max = 1;
-    // boal 19.01.2004 <--
 	itm.minlevel = 1;
 	itm.rare = 0.05;
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "jewelry18";
+	itm.id = "jewelry18"; // Золотое кольцо с рубином
 	itm.name = "itmname_jewelry18";
 	itm.describe = "itmdescr_jewelry18";
 	itm.model = "pursel";
 	itm.picIndex = 10;
 	itm.picTexture = "ITEMS_7";
-//	itm.shown = false;
-	// boal 19.01.2004 -->
 	itm.price = 330;
 	itm.Weight = 0.1;
-
     itm.Solder_o.rare = 0.2;
     itm.Solder_o.min = 1;
     itm.Solder_o.max = 1;
-
     itm.Monster.rare = 0.1;
     itm.Monster.min = 1;
     itm.Monster.max = 1;
-
     itm.Warrior.rare = 0.05;
     itm.Warrior.min = 1;
     itm.Warrior.max = 1;
-
     itm.Citizen_f.rare = 0.25;
     itm.Citizen_f.min = 1;
     itm.Citizen_f.max = 1;
-    // boal 19.01.2004 <--
 	itm.minlevel = 0;
 	itm.rare = 0.1;
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "jewelry10";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 2;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "jewelry3";
+    itm.Component1Num = 1;
+    itm.Component2 = "jewelry5";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Tools";
+    itm.Component3Num = 0;
 	n++;
 
-    makeref(itm,Items[n]);
-	itm.id = "bullet"; // boal это пуля "mineral1";
+    makeref(itm,Items[n]); // Свинцовые пули
+	itm.id = "bullet";
 	itm.groupID = AMMO_ITEM_TYPE;
-	itm.name = "itmname_bullet"; //"itmname_mineral1";
-	itm.describe = "itmdescr_bullet";//"itmdescr_mineral1";
+	itm.name = "itmname_bullet";
+	itm.describe = "itmdescr_bullet";
 	itm.model = "pursel";
 	itm.picIndex = 6;
 	itm.picTexture = "ITEMS_8";
-//	itm.shown = false;
-	itm.price = 4;//560;
+	itm.price = 4;
 	itm.Weight = 0.1;
 	itm.minlevel =0;
 	itm.rare = 0.3;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+    itm.CraftedItem = "bullet";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 4;
+    itm.ComponentsNum = 1;
+    itm.Component1 = "CompCraft_Lead";
+    itm.Component1Num = 1;
 	n++;
 	
-	makeref(itm,Items[n]); // Warship. Порох
+	makeref(itm,Items[n]); // Порох
 	itm.id = "GunPowder";
 	itm.groupID = AMMO_ITEM_TYPE;
 	itm.name = "itmname_GunPowder";
@@ -5759,20 +5992,26 @@ int InitItems()
 	n++;
 	
 	makeref(itm,Items[n]);
-	itm.id = "grapeshot"; // boal это пуля "mineral1";
+	itm.id = "grapeshot"; // Картечь
 	itm.groupID = AMMO_ITEM_TYPE;
-	itm.name = "itmname_grapeshot"; //"itmname_mineral1";
-	itm.describe = "itmdescr_grapeshot";//"itmdescr_mineral1";
+	itm.name = "itmname_grapeshot";
+	itm.describe = "itmdescr_grapeshot";
 	itm.model = "pursel";
 	itm.picIndex = 3;
 	itm.picTexture = "ITEMS_17";
-//	itm.shown = false;
-	itm.price = 4;//560;
+	itm.price = 4;
 	itm.Weight = 0.1;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+    itm.CraftedItem = "grapeshot";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 1;
+    itm.Component1 = "CompCraft_Lead";
+    itm.Component1Num = 1;
 	n++;
 	
 	makeref(itm,Items[n]); // бумажный патрон
@@ -5790,6 +6029,16 @@ int InitItems()
 	itm.rare = 0.001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+    itm.CraftedItem = "cartridge";
+    itm.CraftFor = "Blacksmith";
+    itm.ComponentsNum = 3;
+    itm.Component1 = "bullet";
+    itm.Component1Num = 1;
+    itm.Component2 = "GunPowder";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Parchment";
+    itm.Component3Num = 1;
 	n++;
 	
 	makeref(itm,Items[n]); // петарда
@@ -5808,13 +6057,19 @@ int InitItems()
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
 	
-    itm.CraftedItem = "grenade";
+    itm.CraftedItem = "powder_pellet";
     itm.CraftFor = "Blacksmith";
-    itm.ComponentsNum = 2;
-    itm.Component1 = "bullet";
-    itm.Component1Num = 50;
-    itm.Component2 = "gunpowder";
-    itm.Component2Num = 50;
+    itm.ComponentsNum = 5;
+    itm.Component1 = "CompCraft_Magnesium";
+    itm.Component1Num = 2;
+    itm.Component2 = "CompCraft_SulfurCrush";
+    itm.Component2Num = 3;
+    itm.Component3 = "CompCraft_PowderMixture";
+    itm.Component3Num = 2;
+    itm.Component4 = "CompCraft_Flint";
+    itm.Component4Num = 1;
+    itm.Component5 = "CompCraft_Tools";
+    itm.Component5Num = 0;
 	n++;
 	
 	makeref(itm,Items[n]); // граната
@@ -5833,16 +6088,23 @@ int InitItems()
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
 	
+	itm.PerkReq = 1;
     itm.CraftedItem = "grenade";
     itm.CraftFor = "Blacksmith";
-    itm.ComponentsNum = 2;
-    itm.Component1 = "bullet";
-    itm.Component1Num = 150;
-    itm.Component2 = "gunpowder";
-    itm.Component2Num = 150;
+    itm.ComponentsNum = 5;
+    itm.Component1 = "CompCraft_Lead";
+    itm.Component1Num = 4;
+    itm.Component2 = "CompCraft_SulfurCrush";
+    itm.Component2Num = 6;
+    itm.Component3 = "CompCraft_PowderMixture";
+    itm.Component3Num = 4;
+    itm.Component4 = "CompCraft_Flint";
+    itm.Component4Num = 2;
+    itm.Component5 = "CompCraft_Locksmith";
+    itm.Component5Num = 0;
 	n++;
 	
-	makeref(itm,Items[n]); // гарпун
+	makeref(itm,Items[n]); // Стрела
 	itm.id = "harpoon"; 
 	itm.groupID = AMMO_ITEM_TYPE;
 	itm.name = "itmname_harpoon";
@@ -5854,12 +6116,23 @@ int InitItems()
 	itm.Weight = 1.0;
 	itm.usepowder = true;
 	itm.minlevel = 0;
-	itm.rare = 0.01;
+	itm.rare = 0.2;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "harpoon";
+    itm.CraftFor = "Blacksmith";
+    itm.ComponentsNum = 3;
+    itm.Component1 = "slave_01";
+    itm.Component1Num = 1;
+    itm.Component2 = "CompCraft_Grindstone";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Locksmith";
+    itm.Component3Num = 0;
 	n++;
 	
-	makeref(itm,Items[n]); // капсюли для Кольта
+	makeref(itm,Items[n]); // Капсюли
 	itm.id = "GunCap_colt"; 
 	itm.groupID = AMMO_ITEM_TYPE;
 	itm.name = "itmname_GunCap_colt";
@@ -5875,7 +6148,7 @@ int InitItems()
 	itm.ItemType = "SUPPORT";
 	n++;
 	
-	makeref(itm,Items[n]); // картридж для Кольта
+	makeref(itm,Items[n]); // Револьверный картридж
 	itm.id = "shotgun_cartridge"; 
 	itm.groupID = AMMO_ITEM_TYPE;
 	itm.name = "itmname_shotgun_cartridge";
@@ -5889,6 +6162,20 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "shotgun_cartridge";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 4;
+    itm.Component1 = "shotgun_bullet";
+    itm.Component1Num = 1;
+    itm.Component2 = "GunCap_colt";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_PowderMixture";
+    itm.Component3Num = 4;
+    itm.Component4 = "CompCraft_Locksmith";
+    itm.Component4Num = 0;
 	n++;
 	
 	makeref(itm,Items[n]); // ежовый заряд
@@ -5905,9 +6192,40 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+    itm.CraftedItem = "GunEchin";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 5;
+    itm.Component1 = "CompCraft_Nails";
+    itm.Component1Num = 2;
+    itm.Component2 = "CompCraft_SulfurCrush";
+    itm.Component2Num = 6;
+    itm.Component3 = "gunpowder";
+    itm.Component3Num = 4;
+    itm.Component4 = "CompCraft_Parchment";
+    itm.Component4Num = 2;
+    itm.Component5 = "CompCraft_Flint";
+    itm.Component5Num = 1;
 	n++;
 	
-	makeref(itm,Items[n]); // гильзы для шотгана
+	makeref(itm,Items[n]); // Револьверные пули
+	itm.id = "shotgun_bullet"; 
+	itm.groupID = AMMO_ITEM_TYPE;
+	itm.name = "itmname_shotgun_bullet";
+	itm.describe = "itmdescr_shotgun_bullet";
+	itm.model = "1";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 100;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.0001;
+	itm.SortIndex = 1;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	makeref(itm,Items[n]); // Гильзы 12 калибра
 	itm.id = "12_gauge"; 
 	itm.groupID = AMMO_ITEM_TYPE;
 	itm.name = "itmname_12_gauge";
@@ -5921,6 +6239,18 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "12_gauge";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "GunCap_colt";
+    itm.Component1Num = 1;
+    itm.Component2 = "CompCraft_PowderMixture";
+    itm.Component2Num = 4;
+    itm.Component3 = "CompCraft_Locksmith";
+    itm.Component3Num = 0;
 	n++;
 	
 	makeref(itm,Items[n]); //Korsar Maxim - Отмычка для взлома
@@ -7046,7 +7376,7 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
-	itm.points_shop = 1; //атрибут для ачивок
+	itm.points_shop = 500; //атрибут для ачивок
 	n++;
 
 	makeref(itm,Items[n]);
@@ -7065,10 +7395,10 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
-	itm.points_shop = 1; //атрибут для ачивок
+	itm.points_shop = 250; //атрибут для ачивок
 	n++;
-	//Обереги
 	
+	/////////////////// Обереги
 	makeref(itm,Items[n]);
 	itm.id = "talisman1"; // Маска Кукулькана
 	itm.groupID = TALISMAN_ITEM_TYPE;
@@ -7334,7 +7664,7 @@ int InitItems()
 	itm.Weight = 11.5 + fRandSmall(1.5); // 15.0;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 50.0 + rand(10); // 45.0;
-	itm.dmg_max = 180.0 + rand(20); // 140.0;
+	itm.dmg_max = 160.0 + rand(40); // 140.0;
 	itm.piercing = 110.0;
 	itm.special.valueT = 5; //Травмы
 	itm.special.valueStS = 5; //Стан
@@ -7352,7 +7682,7 @@ int InitItems()
 	itm.Generation.qty = 5;
 	itm.Generation.dmg_min.min = 50.0;
 	itm.Generation.dmg_min.max = 60.0;
-	itm.Generation.dmg_max.min = 180.0;
+	itm.Generation.dmg_max.min = 160.0;
 	itm.Generation.dmg_max.max = 200.0;
 	itm.Generation.Weight.min = 11.5;
 	itm.Generation.Weight.max = 13.0;
@@ -7370,13 +7700,13 @@ int InitItems()
 	itm.picTexture = "ITEMS_14";
 	// boal 19.01.2004 -->
 	itm.price = 10000;
-	itm.Weight = 2.3;// 3.5;
+	itm.Weight = 2.7;// 3.5;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 25.0;// 20.0;
+	itm.dmg_min = 20.0;// 20.0;
 	itm.dmg_max = 75.0;// 60.0;
 	itm.piercing = 100;
-	itm.special.valueCrB = 9; //Буст крита
-	itm.special.valueSS = 9; //Резкий удар
+	itm.special.valueStS = 12; //Стан
+	itm.special.valueSS = 6; //Резкий удар
 	//itm.special.valueBB = 15; //Пролом блока
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
@@ -7387,15 +7717,6 @@ int InitItems()
 	itm.FencingType = "FencingLight";
 	itm.ItemType = "WEAPON";
 	itm.quality = "excellent";
-	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	itm.Generation.qty = 5;
-	itm.Generation.price = true; // Флаг "генерить цену"
-	itm.Generation.dmg_min.min = 25.0;
-	itm.Generation.dmg_min.max = 25.0;
-	itm.Generation.dmg_max.min = 75.0;
-	itm.Generation.dmg_max.max = 75.0;
-	itm.Generation.Weight.min = 2.3;
-	itm.Generation.Weight.max = 2.3;
 	// для патча 1.2.5 фиксируем статы
 	n++;
 	
@@ -8363,7 +8684,7 @@ int InitItems()
     itm.Weight = 0.1;
     itm.ItemType = "QUESTITEMS";
     n++;
-	
+
 	// Билет на арену
 	makeref(itm,Items[n]);
 	itm.id = "ArenaBilet";
@@ -8378,56 +8699,298 @@ int InitItems()
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
 	n++;
+
+	// Листья здоровья
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_HealthTobacco";
+	itm.name = "itmname_CompCraft_HealthTobacco";
+	itm.describe = "itmdescr_CompCraft_HealthTobacco";
+	itm.model = "1";
+	itm.picIndex = 12;
+	itm.picTexture = "ITEMS_18";
+	itm.price = 2500;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Трава энергии
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_EnergyTobacco";
+	itm.name = "itmname_CompCraft_EnergyTobacco";
+	itm.describe = "itmdescr_CompCraft_EnergyTobacco";
+	itm.model = "1";
+	itm.picIndex = 8;
+	itm.picTexture = "ITEMS_18";
+	itm.price = 2400;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Табак силы
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_StrengthTobacco";
+	itm.name = "itmname_CompCraft_StrengthTobacco";
+	itm.describe = "itmdescr_CompCraft_StrengthTobacco";
+	itm.model = "1";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_18";
+	itm.price = 2300;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Гвозди
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Nails";
+	itm.name = "itmname_CompCraft_Nails";
+	itm.describe = "itmdescr_CompCraft_Nails";
+	itm.model = "1";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_14";
+	itm.price = 10;
+	itm.Weight = 0.05;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Магний
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Magnesium";
+	itm.name = "itmname_CompCraft_Magnesium";
+	itm.describe = "itmdescr_CompCraft_Magnesium";
+	itm.model = "1";
+	itm.picIndex = 2;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 50;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Кремень
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Flint";
+	itm.name = "itmname_CompCraft_Flint";
+	itm.describe = "itmdescr_CompCraft_Flint";
+	itm.model = "1";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 50;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Свинец
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Lead";
+	itm.name = "itmname_CompCraft_Lead";
+	itm.describe = "itmdescr_CompCraft_Lead";
+	itm.model = "1";
+	itm.picIndex = 9;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 30;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Сера
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Sulfur";
+	itm.name = "itmname_CompCraft_Sulfur";
+	itm.describe = "itmdescr_CompCraft_Sulfur";
+	itm.model = "1";
+	itm.picIndex = 13;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 10;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Измельчённая сера
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_SulfurCrush";
+	itm.name = "itmname_CompCraft_SulfurCrush";
+	itm.describe = "itmdescr_CompCraft_SulfurCrush";
+	itm.model = "1";
+	itm.picIndex = 14;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 10;
+	itm.Weight = 0.05;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
 	
+    itm.CraftedItem = "CompCraft_SulfurCrush";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 3;
+    itm.ComponentsNum = 1;
+    itm.Component1 = "CompCraft_Sulfur";
+    itm.Component1Num = 1;
+	n++;
+
+	// Пороховая смесь
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_PowderMixture";
+	itm.name = "itmname_CompCraft_PowderMixture";
+	itm.describe = "itmdescr_CompCraft_PowderMixture";
+	itm.model = "1";
+	itm.picIndex = 15;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 10;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	
+    itm.CraftedItem = "CompCraft_PowderMixture";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 2;
+    itm.ComponentsNum = 2;
+    itm.Component1 = "CompCraft_SulfurCrush";
+    itm.Component1Num = 1;
+    itm.Component2 = "CompCraft_Magnesium";
+    itm.Component2Num = 1;
+	n++;
+
+	// Пергамент
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Parchment";
+	itm.name = "itmname_CompCraft_Parchment";
+	itm.describe = "itmdescr_CompCraft_Parchment";
+	itm.model = "1";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_17";
+	itm.price = 10;
+	itm.Weight = 0.02;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Оселок
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Grindstone";
+	itm.name = "itmname_CompCraft_Grindstone";
+	itm.describe = "itmdescr_CompCraft_Grindstone";
+	itm.model = "1";
+	itm.picIndex = 8;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 100;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Ножницы
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Scissors";
+	itm.name = "itmname_CompCraft_Scissors";
+	itm.describe = "itmdescr_CompCraft_Scissors";
+	itm.model = "1";
+	itm.picIndex = 14;
+	itm.picTexture = "ITEMS_10";
+	itm.price = 1000;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Набор инструментов
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Tools";
+	itm.name = "itmname_CompCraft_Tools";
+	itm.describe = "itmdescr_CompCraft_Tools";
+	itm.model = "1";
+	itm.picIndex = 11;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 10000;
+	itm.Weight = 1.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Слесарный набор
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Locksmith";
+	itm.name = "itmname_CompCraft_Locksmith";
+	itm.describe = "itmdescr_CompCraft_Locksmith";
+	itm.model = "1";
+	itm.picIndex = 12;
+	itm.picTexture = "ITEMS_16";
+	itm.price = 50000;
+	itm.Weight = 5.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
 	//InitGunExt(id,	sAttr,  sBullet,  sGunPowder, DmgMin_NC, DmgMax_NC, DmgMin_C, DmgMax_C, EnergyP_NC, EnergyP_C, Stun_NC, Stun_C, MultiDamage, MisFire, SelfDamage, Explosion,Accuracy,ChargeSpeed,isDefault);
-	InitGunExt(		 "pistol1", "t1",  	     "cartridge",               "",  20.0, 100.0,  20.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 8, 0);	
+	InitGunExt(		 "pistol1", "t1",  	     "cartridge",               "",  20.0, 100.0,  20.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30,  8, 0);	
 	InitGunExt(		 "pistol1", "t2", 		    "bullet",      "gunpowder",  20.0, 100.0,  30.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 16, 1);	
 	InitGunExt( 	 "pistol2", "t1", 	     "cartridge",     			"",  30.0, 120.0,  30.0, 120.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 40, 12, 0);
 	InitGunExt(		 "pistol2", "t2", 		    "bullet",      "gunpowder",  30.0, 120.0,  30.0, 120.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 40, 24, 1);	
-	InitGunExt(		 "pistol3", "t1", 	     "grapeshot",      "gunpowder",  50.0, 150.0,  35.0, 135.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 20, 40, 1);	
+	InitGunExt(		 "pistol3", "t1", 	     "grapeshot",      "gunpowder",  50.0,  90.0,  40.0,  90.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 20, 24, 1);	
 	InitGunExt(		 "pistol4", "t1", 	     "cartridge",               "",  40.0, 140.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 28, 0);	
 	InitGunExt(		 "pistol4", "t2", 		    "bullet",      "gunpowder",  40.0, 140.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 56, 1);	
 	InitGunExt(		 "pistol5", "t1", 	     "cartridge",               "",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 16, 0);	
 	InitGunExt(		 "pistol5", "t2", 		    "bullet",      "gunpowder",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 32, 1);	
-	InitGunExt(		 "pistol6", "t1", 	     "cartridge",               "",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 20, 0);	
-	InitGunExt(		 "pistol6", "t2", 		    "bullet",      "gunpowder",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 40, 1);		
-	InitGunExt(		 "pistol7", "t1", "shotgun_cartridge",   "GunCap_colt",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 52, 1);
-	InitGunExt(		 "pistol7shotgun", "t1",  "grapeshot",      "12_gauge",  80.0, 200.0,  50.0, 180.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 80, 52, 1);	
-	InitGunExt(		 "pistol7shotgun", "t2", 	 "bullet",      "12_gauge",  100.0, 300.0,  100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 52, 0);
-	InitGunExt(		 "pistol8", "t1", 	     "grapeshot",      "gunpowder",  50.0,  100.0,  50.0,  100.0,  5.0,  5.0, 1, 1, 1, 0, 1, 1, 50, 40, 1);	
-	InitGunExt(		 "pistol8", "t2", 		   "harpoon",      "gunpowder", 150.0, 250.0, 150.0, 250.0, 20.0, 20.0, 0, 1, 0, 0, 0, 0, 20, 40, 0);	
-	InitGunExt(		 "pistol8", "t3", 		  "GunEchin",               "", 120.0, 220.0, 120.0, 220.0, 20.0, 20.0, 0, 1, 1, 0, 0, 0, 20, 40, 0);		
-	InitGunExt(		 "pistol9", "t1", 	     "cartridge",               "",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 30, 0);	
-	InitGunExt(		 "pistol9", "t2", 		    "bullet",      "gunpowder",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 65, 1);
-	InitGunExt( 	 "pistol_grapebok", "t1", 	 "grapeshot",  "gunpowder",  45.0, 135.0,  30.0,  90.0,  0.0,  0.0, 0, 1, 1, 0, 1, 1, 40, 40, 1);
-	InitGunExt(		 "howdah", "t1",               "grapeshot","gunpowder",  50.0,  85.0,  40.0,  70.0,  5.0,  5.0, 1, 1, 1, 0, 0, 1, 50, 40, 1);		
-    InitGunExt(		 "howdah", "t2",               "GunEchin",          "", 115.0, 215.0, 115.0, 215.0, 20.0, 20.0, 0, 1, 1, 0, 0, 0,  20, 40, 0);
+	InitGunExt(		 "pistol6", "t1", 	     "cartridge",               "",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 20, 0);
+	InitGunExt(		 "pistol6", "t2", 		    "bullet",      "gunpowder",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 40, 1);
+	InitGunExt(		 "pistol7", "t1","shotgun_cartridge",   			"", 100.0, 300.0, 100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 52, 1);
+	InitGunExt(		 "pistol7shotgun", "t1", "grapeshot",       "12_gauge",  80.0, 200.0,  50.0, 180.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 80, 52, 1);	
+	InitGunExt(		 "pistol7shotgun", "t2", 	"bullet",       "12_gauge", 100.0, 300.0, 100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 52, 0);
+	InitGunExt(		 "pistol8", "t1", 	     "grapeshot",      "gunpowder",  50.0, 100.0,  50.0, 100.0,  5.0,  5.0, 1, 1, 1, 0, 1, 1, 50, 20, 1);	
+	InitGunExt(		 "pistol8", "t2", 		   "harpoon",      "gunpowder", 150.0, 250.0, 150.0, 250.0,  20.0, 20.0,0, 1, 0, 0, 0, 0, 20, 35, 0);	
+	InitGunExt(		 "pistol8", "t3", 		  "GunEchin",               "", 120.0, 220.0, 120.0, 220.0,  20.0, 20.0,0, 1, 1, 0, 0, 0, 20, 30, 0);		
+	InitGunExt(		 "pistol9", "t1", 	     "cartridge",               "",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 25, 0);	
+	InitGunExt(		 "pistol9", "t2", 		    "bullet",      "gunpowder",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 50, 1);
+	InitGunExt( 	 "pistol_grapebok", "t1","grapeshot",      "gunpowder",  30.0, 110.0,  30.0, 110.0,  0.0,  0.0, 0, 1, 1, 0, 1, 1, 40, 40, 1);
+	InitGunExt(		 "howdah", "t1",         "grapeshot",      "gunpowder",  50.0,  85.0,  40.0,  70.0,  5.0,  5.0, 1, 1, 1, 0, 0, 1, 50, 40, 1);		
+    InitGunExt(		 "howdah", "t2",          "GunEchin",               "", 115.0, 215.0, 115.0, 215.0,  20.0, 20.0,0, 1, 1, 0, 0, 0, 20, 60, 0);
 	
-	InitGunExt(		"mushket", "t1", 	             "cartridge",               "", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 20, 0);	
-	InitGunExt(		"mushket", "t2", 		            "bullet",      "gunpowder", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 40, 1);
-	InitGunExt(		"mushket2", "t1", 	             "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 90, 20, 0);	
-	InitGunExt(		"mushket2", "t2", 		            "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 90, 40, 1);	
-	InitGunExt(		"mushket_spanish", "t1", 	     "cartridge",               "", 60.0, 180.0, 60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100, 30, 0);	
-	InitGunExt(		"mushket_spanish", "t2", 		    "bullet",      "gunpowder", 60.0, 180.0, 60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100, 60, 1);
-	InitGunExt(		"mushket_english", "t1", 	     "cartridge",               "", 40.0, 170.0, 40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 75, 16, 0);	
-	InitGunExt(		"mushket_english", "t2", 		    "bullet",      "gunpowder", 40.0, 170.0, 40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 75, 32, 1);
-	InitGunExt(		"mushket_france", "t1", 	     "cartridge",               "", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 40, 0);	
-	InitGunExt(		"mushket_france", "t2", 		    "bullet",      "gunpowder", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 80, 1);
-	InitGunExt(		"mushket_holland", "t1", 	     "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 70, 30, 0);	
-	InitGunExt(		"mushket_holland", "t2", 		    "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 70, 60, 1);
-	InitGunExt(		"mushket_SeaCarbine", "t1", 	     "cartridge",           "", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 20, 0);	
-	InitGunExt(		"mushket_SeaCarbine", "t2", 		    "bullet",  "gunpowder", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 40, 1);
-	InitGunExt(		"mushket2x2", "t1", 	             "cartridge",           "", 90.0, 290.0, 90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 12, 0);	
-	InitGunExt(		"mushket2x2", "t2", 		            "bullet",  "gunpowder", 90.0, 290.0, 90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 80, 24, 1);
-	InitGunExt(		"mushket_Shtuzer", "t1", 	     "cartridge",               "", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100, 40, 0);	
-	InitGunExt(		"mushket_Shtuzer", "t2", 		    "bullet",      "gunpowder", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100, 60, 1);
-	InitGunExt(		"mushket_drob", "t1", 	         "grapeshot",      "gunpowder",  60.0, 110.0,  70.0,  120.0,  0.0,  0.0, 0, 1, 1, 0, 1, 1, 70, 25, 0);
-	InitGunExt(		"mushket_drob", "t2", 	         "cartridge",               "", 60.0, 110.0, 60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 70, 25, 0);	
-	InitGunExt(		"mushket_drob", "t3", 		        "bullet",      "gunpowder",  60.0, 110.0,  60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 70, 25, 1);
-	InitGunExt(		"grape_mushket", "t1", 	               "grenade",           "", 100.0, 200.0,  80.0, 180.0, 10.0, 10.0, 1, 1, 1, 0, 1, 1,100, 50, 1);	
-	InitGunExt(		"grape_mushket", "t2",            "powder_pellet",          "",  15.0, 115.0,   5.0, 105.0,100.0, 80.0, 1, 1, 1, 0, 1, 1,100, 50, 0);
-	InitGunExt(		"mushket6", "t1", 	             "grapeshot",      "gunpowder",  90.0, 155.0,  50.0, 100.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1, 70, 30, 1);	
-	InitGunExt(		"mushket6", "t2", 	              "GunEchin",               "", 115.0, 180.0,  65.0, 115.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1, 60, 25, 0);
+	InitGunExt(		"mushket", "t1", 	             "cartridge",               "", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  20, 0);	
+	InitGunExt(		"mushket", "t2", 		            "bullet",      "gunpowder", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  40, 1);
+	InitGunExt(		"mushket2", "t1", 	             "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  90,  35, 0);	
+	InitGunExt(		"mushket2", "t2", 		            "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  90,  55, 1);	
+	InitGunExt(		"mushket_spanish", "t1", 	     "cartridge",               "",  60.0, 180.0,  60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  30, 0);	
+	InitGunExt(		"mushket_spanish", "t2", 		    "bullet",      "gunpowder",  60.0, 180.0,  60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  60, 1);
+	InitGunExt(		"mushket_english", "t1", 	     "cartridge",               "",  40.0, 170.0,  40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  75,  16, 0);	
+	InitGunExt(		"mushket_english", "t2", 		    "bullet",      "gunpowder",  40.0, 170.0,  40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  75,  32, 1);
+	InitGunExt(		"mushket_france", "t1", 	     "cartridge",               "", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  40, 0);	
+	InitGunExt(		"mushket_france", "t2", 		    "bullet",      "gunpowder", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  80, 1);
+	InitGunExt(		"mushket_holland", "t1", 	     "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  70,  30, 0);	
+	InitGunExt(		"mushket_holland", "t2", 		    "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  70,  60, 1);
+	InitGunExt(		"mushket_SeaCarbine", "t1", 	 "cartridge", 		        "", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  30, 0);	
+	InitGunExt(		"mushket_SeaCarbine", "t2", 		"bullet",  	   "gunpowder", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  50, 1);
+	InitGunExt(		"mushket2x2", "t1", 	         "cartridge",               "",  90.0, 290.0,  90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  12, 0);	
+	InitGunExt(		"mushket2x2", "t2", 		        "bullet",  	   "gunpowder",  90.0, 290.0,  90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  24, 1);
+	InitGunExt(		"mushket_Shtuzer", "t1", 	     "cartridge",               "", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  40, 0);	
+	InitGunExt(		"mushket_Shtuzer", "t2", 		    "bullet",      "gunpowder", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  60, 1);
+	InitGunExt(		"mushket_drob", "t1", 	         "grapeshot",      "gunpowder",  60.0, 100.0,  70.0, 120.0,  0.0,  0.0, 0, 1, 1, 0, 1, 1,  35,  25, 0);
+	InitGunExt(		"mushket_drob", "t2", 	         "cartridge",               "",  50.0, 130.0,  60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  70,  12, 0);	
+	InitGunExt(		"mushket_drob", "t3", 		        "bullet",      "gunpowder",  60.0, 130.0,  60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  60,  20, 1);
+	InitGunExt(		"grape_mushket", "t1", 	           "grenade",           	"", 100.0, 200.0,  80.0, 180.0, 10.0, 10.0, 1, 1, 1, 0, 1, 1, 100,  50, 1);	
+	InitGunExt(		"grape_mushket", "t2",       "powder_pellet",          		"",  15.0, 115.0,   5.0, 105.0,100.0, 80.0, 1, 1, 1, 0, 1, 1, 100,  50, 0);
+	InitGunExt(		"mushket6", "t1", 	             "grapeshot",      "gunpowder",  90.0, 100.0,  50.0, 100.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1,  70,  50, 1);	
+	InitGunExt(		"mushket6", "t2", 	              "GunEchin",               "", 115.0, 180.0,  65.0, 115.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1,  60,  45, 0);
+	InitGunExt(		"mushket_seadevil", "t1","shotgun_cartridge", 				"", 200.0, 375.0, 200.0, 375.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 100,  65, 1);
 	
 	trace("Всего предметов (размерность массива) "+n);
 	trace("Всего заскриптованных предметов - " + iScriptItemCount);

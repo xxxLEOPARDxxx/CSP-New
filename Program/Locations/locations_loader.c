@@ -82,7 +82,7 @@ void SetCamShuttle(ref loc) // boal вынес в метод
 			if (fshut < 0.2) ftmp = 0.05;
 			if(!CheckAttribute(Pchar,"Drunked.Today"))
 			{
-				Log_Info("Что-то я перепил...");
+				//Log_Info("Что-то я перепил...");
 			}
 			else 
 			{

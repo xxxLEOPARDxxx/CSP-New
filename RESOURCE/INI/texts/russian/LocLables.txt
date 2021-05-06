@@ -28,6 +28,7 @@ SantaCatalina	{Санта-Каталина}
 Terks			{Теркс}
 Tortuga			{Тортуга}
 Trinidad		{Тринидад и Тобаго}
+Reefs			{Риф скелета}
 Mein			{Мэйн}
 
 Tenotchitlan	{оз. Тескоко}
@@ -379,3 +380,5 @@ TempleGreatInside	{Храм Великой Жизненной Силы}
 TempleRoundInside	{Храм Белых Богов}
 TempleSecondInside	{Жертвенный храм}
 TempleUnderwater	{Лабиринт}
+DeckWithReefs		{Бухта проклятых}
+MountainPath		{Ущелье дьявола}

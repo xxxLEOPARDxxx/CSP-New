@@ -404,6 +404,7 @@ int CreateJamaicaCharacters(int n)
 	ch.id		= "PortRoyal_Graveyard_Watcher";
 	ch.model    = "LeoMaskett";
 	ch.sex      = "man";
+	ch.model.animation = "man";
 	ch.City = "PortRoyal";
 	ch.location	= "PortRoyal_KeepersHouse";
 	ch.location.group = "goto";

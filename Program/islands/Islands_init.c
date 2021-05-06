@@ -1504,6 +1504,36 @@ void InitIslands()
 
 		SendMessage(&locator,"le",LM_LOCATE_I,&Islands[n]);
 
+	/////////////////////////////////////////////////////////////////////////
+    /// Reefs
+    /////////////////////////////////////////////////////////////////////////
+        n = n + 1;
+        Islands[n].id = "Reefs";
+        Islands[n].model = "Reefs";
+        Islands[n].filespath.models = "islands\Reefs";
+        Islands[n].refl_model = "Reefs_refl";
+        Islands[n].locators = "Reefs_locators";
+        Islands[n].TexturePath = "Reefs";
+        Islands[n].LoadGroup.g1 = "IslandShips1";
+        Islands[n].colonyquantity = 0;
+
+        Islands[n].reload.l1.label = "DeckWithReefs";
+        Islands[n].reload.l1.name = "reload_1";
+        Islands[n].reload.l1.go = "DeckWithReefs";
+        Islands[n].reload.l1.emerge = "reload1";
+        Islands[n].reload.l1.radius = 600.0;
+        Islands[n].reload.l1.pic = 0;
+        Islands[n].reload.l1.tex = "t1";
+
+        Islands[n].reload.l2.label = "MountainPath";
+        Islands[n].reload.l2.name = "reload_2";
+        Islands[n].reload.l2.go = "MountainPath";
+        Islands[n].reload.l2.emerge = "reload1";
+        Islands[n].reload.l2.radius = 600.0;
+        Islands[n].reload.l2.pic = 0;
+        Islands[n].reload.l2.tex = "t1";
+
+        SendMessage(&locator,"le",LM_LOCATE_I,&Islands[n]);
 
 	/////////////////////////////////////////////////////////////////////////
 	/// Caiman

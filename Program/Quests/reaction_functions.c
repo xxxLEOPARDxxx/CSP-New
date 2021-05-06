@@ -3461,7 +3461,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	SetCharacterPerk(sld, "AdvancedDefense");
 	SetCharacterPerk(sld, "CriticalHit");
 	SetCharacterPerk(sld, "Ciras");
-	SetCharacterPerk(sld, "Grus");
+	//SetCharacterPerk(sld, "Grus");
 	SetCharacterPerk(sld, "Rush");
 	SetCharacterPerk(sld, "Tireless");
 	SetCharacterPerk(sld, "HardHitter");
@@ -6279,7 +6279,7 @@ void CapBloodLine_q1(string qName)
     SetShipSkill(sld, 45, 30, 15, 15, 10, 40, 45, 30, 20);
    	SetCharacterPerk(sld, "AdvancedDefense");
 	SetCharacterPerk(sld, "CriticalHit");
-	SetCharacterPerk(sld, "Grus");
+	//SetCharacterPerk(sld, "Grus");
 	SetCharacterPerk(sld, "Rush");
 	SetCharacterPerk(sld, "Tireless");
 	SetCharacterPerk(sld, "HardHitter");
@@ -10661,6 +10661,7 @@ void UnexpectedInheritanceGetPartFive(string qName)
 }
 void UnexpectedInheritanceEnd(string qName)
 {
+	InterfaceStates.Buttons.Save.enable = true;
 	chrDisableReloadToLocation = false;
 	AddQuestRecord("UnexpectedInheritance", "11");
 	CloseQuestHeader("UnexpectedInheritance");
@@ -10773,7 +10774,7 @@ void UnexpectedInheritanceTerks(string part)
 		if (i == 1)
 		{
 			sld.model = "BSUnd5";
-			FantomMakeCoolFighter(sld, 50, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), "grape_mushket", MOD_SKILL_ENEMY_RATE*4);
+			FantomMakeCoolFighter(sld, 50, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), "pistol8", MOD_SKILL_ENEMY_RATE*4);
 			LAi_SetHP(sld, 500*MOD_SKILL_ENEMY_RATE, 500*MOD_SKILL_ENEMY_RATE);
 			sld.SaveItemsForDead = true;
 			sld.cirassId = Items_FindItemIdx("cirass5");  // предмета нет, но влияение есть
@@ -10833,5 +10834,32 @@ void UnexpectedInheritanceTranslatePart(string part)
 		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.locator_group = "box";
 		pchar.quest.UnexpectedInheritanceGetPartTwo.win_condition.l1.locator = "box1";
 		pchar.quest.UnexpectedInheritanceGetPartTwo.function = "UnexpectedInheritanceGetPartFive";
+	}
+}
+
+void scareOfficers(int minSkill)
+{
+	int i, idx;
+	for(i = 1; i <= MAX_NUM_FIGHTERS; i++ )
+	{
+		if (CheckOfficersPerk(pchar, "IronWill"))
+	    {
+			minSkill = minSkill * 0.7;
+		}
+		idx = GetOfficersIndex(pchar,i);
+		if( idx == -1 ) continue;
+		sld = GetCharacter(idx);
+		if (sld.location == pchar.location )
+		{
+			if(minSkill + drand(30+i) > sti(GetSummonSkillFromName(sld, SKILL_LEADERSHIP)))
+			{
+				ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "goto",  "goto1");
+				Log_Info("Офицер "+GetFullName(sld)+" напуган"+NPCharSexPhrase(sld,"","а")+ " и убегает!");
+			}
+			else
+			{
+				Log_Info("Офицер "+GetFullName(sld)+" переборол"+NPCharSexPhrase(sld,"","а")+ " свой страх!");
+			}
+		}
 	}
 }

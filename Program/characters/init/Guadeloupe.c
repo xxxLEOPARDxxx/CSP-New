@@ -185,6 +185,7 @@ int CreateGuadeloupeCharacters(int n)
 	ch.id		= "BasTer_Graveyard_Watcher";
 	ch.model    = "LeoMaskett";
 	ch.sex      = "man";
+	ch.model.animation = "man";
 	ch.City = "BasTer";
 	ch.location	= "BasTer_KeepersHouse";
 	ch.location.group = "goto";

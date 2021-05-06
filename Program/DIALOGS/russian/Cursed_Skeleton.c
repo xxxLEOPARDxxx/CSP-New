@@ -24,6 +24,7 @@ void ProcessDialogEvent()
 		case "First time":
 			if (npchar.quest.meeting == "0")
 			{
+				scareOfficers(50);
 				dialog.text = "Как ты смеешь нарушать покой в моей гробнице, смертн"+ GetSexPhrase("ый","ая")+"? Да еще и роешься в моих вещах! Стоит преподать тебе урок.";
 				npchar.quest.meeting = "1";
 				link.l1 = "Вот черт, я думал" +GetSexPhrase("","а")+" что здесь никто не живет. Прошу прощения, я сейчас же уйду.";

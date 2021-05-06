@@ -527,8 +527,44 @@ void GiveItemToTrader(aref ch)
 	if(irand == 1) AddItems(ch, "indian13", Rand(4) + 1);
 	irand = rand(9);
 	if(irand == 1) AddItems(ch, "indian16", Rand(4) + 1);
-
-	// генерация карт	
+	
+	// Gregg - пытался как мог ----->
+	irand = rand(50);
+	if(irand == 1  && rank >=10) AddItems(ch, "CompCraft_HealthTobacco", Rand(2));	// Листья здоровья
+	irand = rand(50);
+	if(irand == 1  && rank >=10) AddItems(ch, "CompCraft_EnergyTobacco", Rand(2));	// Трава энергии
+	irand = rand(50);
+	if(irand == 1  && rank >=10) AddItems(ch, "CompCraft_StrengthTobacco", Rand(2));	// Табак силы
+	irand = rand(9);
+	if(irand == 1) AddItems(ch, "CompCraft_Nails", Rand(10) + 10);	// Гвозди
+	irand = rand(6);
+	if(irand == 1) AddItems(ch, "CompCraft_Magnesium", Rand(10) + 1);	// Магний
+	irand = rand(6);
+	if(irand == 1) AddItems(ch, "CompCraft_Flint", Rand(5) + 2);	// Кремень
+	irand = rand(6);
+	if(irand == 1) AddItems(ch, "CompCraft_Lead", Rand(10) + 1);	// Свинец
+	irand = rand(6);
+	if(irand == 1) AddItems(ch, "CompCraft_Sulfur", Rand(5) + 2);	// Сера
+	irand = rand(4);
+	if(irand == 1  && rank >=5) AddItems(ch, "CompCraft_Grindstone", Rand(7) + 3);	// Оселок
+	irand = rand(9);
+	if(irand == 1) AddItems(ch, "CompCraft_Scissors", 1);	// Ножницы
+	irand = rand(4);
+	if(irand == 1  && rank >=5) AddItems(ch, "slave_01", Rand(7) + 3);	// Гарпун
+	if (HasSubStr(ch.id,"_trader"))
+	{
+		irand = rand(2);
+		if(irand == 1) AddItems(ch, "CompCraft_Parchment", Rand(10) + 5);	// Пергамент
+		irand = rand(9);
+		if(irand == 1) AddItems(ch, "CompCraft_SulfurCrush", Rand(5) + 5);	// Измельчённая сера
+		if(irand == 2) AddItems(ch, "CompCraft_PowderMixture", Rand(5) + 5);	// Пороховая смесь
+		irand = rand(19);
+		if(irand == 1  && rank >=5) AddItems(ch, "CompCraft_Tools", 1);	// Набор инструментов
+		if(irand == 2  && rank >=5) AddItems(ch, "CompCraft_Locksmith", 1);	// Слесарный набор
+	}
+	//<----
+	
+	// генерация карт
 	GenerateMaps(ch, 75, 150);
 	
 	//тотемы

@@ -1,20 +1,11 @@
-// 100% готово
-// Уведомления в море
+Ship_critical		{Критическое попадание!}
+Ship_sunk			{%1 "%2" потоплен. +%3 опыта.}
+Ship_sunk_other		{%1 "%2" потоплен.}
+Ship_got_good		{%1 ц %2 поднято на борт}
+Ship_cant_got_good	{Нет места для %1}
 
-	// Море
-
-	Ship_critical		{Критическое попадание!}
-	Ship_sunk			{%1 "%2" потоплен. +%3 опыта.}
-	Ship_sunk_other		{%1 "%2" потоплен.}
-	Ship_got_good		{%1 ц %2 поднято на борт}
-	Ship_cant_got_good	{Нет места для %1}
-
-	// Форт
-
-	Fort_destroy	{Форт %1 разрушен. +%2 опыта.}
-	Fort_cannon		{Орудие форта уничтожено!}
-
-// Грузы
+Fort_destroy	{Форт %1 разрушен. +%2 опыта.}
+Fort_cannon		{Орудие форта уничтожено!}
 
 seg_Balls		{Ядер}
 seg_Grapes		{Картечи}
@@ -51,8 +42,6 @@ seg_Silver		{Серебра}
 seg_Powder		{Пороха}
 seg_Brick		{Кирпичей}
 seg_Medicament	{Лекарства}
-
-// Орудия
 
 seg_Cannon_8	{Пушек 8ф.}
 seg_Cannon_12	{Пушек 12ф.}

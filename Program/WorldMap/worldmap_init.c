@@ -226,6 +226,11 @@ void wdmInitWorldMap()
 	worldMap.labels.Tenotchitlan.locator = "Tenotchitlan";
 	worldMap.labels.Tenotchitlan.text = CheckingTranslate(idLngFile,"Tenotchitlan");
 
+	worldMap.labels.Reefs.type = "Island";
+	worldMap.labels.Reefs.id = "Reefs";
+	worldMap.labels.Reefs.locator = "Reefs";
+	worldMap.labels.Reefs.text = CheckingTranslate(idLngFile,"Reefs");
+
 	//-------  TOWN ----------------------------------------------------
 	
 	worldMap.labels.Bridgetown_town.type = "Town";
@@ -1170,6 +1175,11 @@ void wdmInitWorldMap()
 	worldMap.islands.KhaelRoa.position.z = 298.6671;	
 	worldMap.islands.KhaelRoa.Shore64.position.x = 810.6678;
 	worldMap.islands.KhaelRoa.Shore64.position.z = 298.6671;
+
+	worldMap.islands.Reefs.position.x = 0.0;
+	worldMap.islands.Reefs.position.z = 170.0;	
+	// worldMap.islands.Reefs.Shore64.position.x = 810.6678;
+	// worldMap.islands.Reefs.Shore64.position.z = 298.6671;
 
 	worldMap.islands.LostShipsCity.position.x = -938.667;
 	worldMap.islands.LostShipsCity.position.z = 938.654;

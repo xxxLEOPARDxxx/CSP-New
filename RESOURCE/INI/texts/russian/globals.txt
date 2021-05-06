@@ -1,5 +1,3 @@
-// 100% готово
-// Квестовые сообщения
 
 QUEST_MESSAGE1	{Колония Эль Каймано окупирована.}
 QUEST_MESSAGE2	{Колония Эль Каймано захвачена.}
@@ -13,8 +11,6 @@ QUEST_MESSAGE9	{Вы теперь один на один с этим жестоким миром!}
 QUEST_MESSAGE10	{Пирату без чувства милосердия}
 QUEST_MESSAGE11	{предназначается особая награда!}
 QUEST_MESSAGE12	{К сожалению вы, уже наняли слишком много офицеров! Нанять нового вы сможете только после увольнения кого-либо из офицеров!}
-
-// Обращения
 
 Address_Form_Eng	{Сэр}
 Address_FormFEng	{Мисс}
@@ -38,8 +34,6 @@ Address_FormPirW	{Хозяйка}
 
 Address_Form_Por	{Сеньор}
 
-// Реплики
-
 Swear_1		{Лопни моя селезёнка!}
 Swear_2		{Проклятье!}
 Swear_3		{О мой бог!}
@@ -54,15 +48,11 @@ Swear_11	{Святая мадоннa!}
 Swear_12	{О боже!}
 Swear_13	{О, небеса!}
 
-// Приветствие
-
 TimeGreeting	{Добрый день}
 TimeGreeting_2	{Доброе утро}
 TimeGreeting_3	{Прошу прощения}
 TimeGreeting_4	{Славная ночь}
 TimeGreeting_5	{Здравствуй}
-
-// ??
 
 Antigua			{Антигуа}
 Barbados		{Барбадос}
@@ -89,15 +79,11 @@ Bridgetown		{Бриджтаун}
 SanJuan			{Сан-Хуан}
 SantiagoVega	{Саньтяго Вега}
 
-// Должности
-
 OFFIC_TYPE_NAVIGATOR	{Штурман}
 OFFIC_TYPE_BOATSWAIN	{Боцман}
 OFFIC_TYPE_CANNONEER	{Канонир}
 OFFIC_TYPE_FIRSTMATE	{Врач}
 OFFIC_TYPE_QMASTER		{Квартирмейстер}
-
-// Нации
 
 England		{Англичанин}
 France		{Француз}
@@ -105,8 +91,6 @@ Spain		{Испанец}
 Holland		{Голландец}
 Pirate		{Пират}
 Smuggler	{Контрабандист}
-
-// Звания
 
 Title_0		{Нет}
 Title_1_Pir	{Пират}
@@ -118,8 +102,6 @@ Title_2		{Коммандующий}
 Title_3		{Капитан}
 Title_4		{Командор}
 Title_5		{Адмирал}
-
-// Идёт цепочка, не трогать
 
 NationKingsCrownEng		{English throne}
 NationKingsCrownFra		{French crown}

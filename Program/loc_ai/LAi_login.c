@@ -206,14 +206,16 @@ bool LAi_CharacterLogin(aref chr, string locID)
 
 void LAi_CharacterPostLogin(ref location)
 {
+	ref chr;
+	int idx;
 	//Расставляем последователей
 	for(int i = 0; i < LAi_numloginedcharacters; i++)
 	{
-		int idx = LAi_loginedcharacters[i];
+		idx = LAi_loginedcharacters[i];
 		if(idx >= 0)
 		{
 			//Просматриваем последователей
-			ref chr = &Characters[idx];
+			chr = &Characters[idx];
 			if(CheckAttribute(chr, "location.follower") != false)
 			{
 				//Получим координаты игрока
@@ -298,10 +300,65 @@ void LAi_CharacterPostLogin(ref location)
 		
 		PGG_GraveyardCheckIsPGGHere(location);
 		UniqueHeroEvents();
+		CheckHighOnDrugs();
 	}
 	
 }
 
+void CheckHighOnDrugs()
+{
+	ref chr;
+	int idx;
+	if (CheckAttribute(pchar, "HighOnDrugs"))
+	{
+		if (pchar.sex == "woman")
+		{
+			PlaySound("interface\baba_kxe_kxe.wav");
+		}
+		else
+		{
+			PlaySound("interface\man_kxe_kxe.wav");
+		}
+		pchar.GenQuest.CamShuttle = 1;
+		for(int j = 0; j < LAi_numloginedcharacters; j++)
+		{
+			idx = LAi_loginedcharacters[j];
+			if(idx >= 0)
+			{
+				chr = &Characters[idx];
+				if(!CheckAttribute(chr, "BeforeDrugsModel") && chr.model.animation == "man")
+				{
+					chr.BeforeDrugsModel = chr.model;
+					switch (rand(2))
+					{
+						case 0: 
+							chr.model = GetRandSkelModel();
+						break;
+						case 1: 
+							chr.model = GetRandSkelModelClassic();
+						break;
+						case 2: 
+							chr.model = "Canib_"+(rand(5)+1);
+						break
+					}
+					if (rand(10) == 0)
+					{
+						switch (rand(1))
+						{
+							case 0: 
+								chr.model = "PotCMobCap";
+							break;
+							case 1: 
+								chr.model = "Canib_boss";
+							break;
+						}
+					}
+					SetNewModelToChar(chr);
+				}
+			}
+		}
+	}
+}
 void UniqueHeroEvents()
 {
 

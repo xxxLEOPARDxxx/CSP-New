@@ -3697,7 +3697,7 @@ void OfficersFollow()
 	}
 }
 
-void OfficersFree()
+/*void OfficersFree()
 {
 	int idx;
 	for(int i=1; i<=MAX_NUM_FIGHTERS; i++)
@@ -3708,7 +3708,23 @@ void OfficersFree()
 			LAi_tmpl_walk_go(offchar);
 		}
 	}
+}*/
+
+void OfficersFree()
+{
+    int idx;
+    for(int i=1; i<=MAX_NUM_FIGHTERS; i++)
+    {
+        idx = GetOfficersIndex(PChar,i);
+        if (idx != -1) 
+        {
+            ref offchar = GetCharacter(idx);
+            if(bAbordageStarted) SetCharacterTask_GotoPoint(offchar, "rld", LAi_FindFreeRandomLocator("rld"));
+            else LAi_tmpl_walk_go(offchar);
+        }
+    }
 }
+
 //Boyer mod #20170318-25 for applying item equip logic after an officer receives new perk
 void CharacterCheckEquipAll(ref refCharacter)
 {

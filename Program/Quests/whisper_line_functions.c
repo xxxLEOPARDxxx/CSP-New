@@ -1269,7 +1269,7 @@ void WhisperSpawn_Chard()
 	SetCharacterPerk(sld, "GunProfessional");
 	SetCharacterPerk(sld, "SwordplayProfessional");
 	SetCharacterPerk(sld, "Tireless");
-	SetCharacterPerk(sld, "Grus");
+	//SetCharacterPerk(sld, "Grus");
 	SetCharacterPerk(sld, "Ciras");
 	SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 }

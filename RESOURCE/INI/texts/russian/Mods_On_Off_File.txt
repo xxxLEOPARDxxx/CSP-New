@@ -1,4 +1,3 @@
-// 100% готово
 // Pay for Save Load  - платный сэйв/лоад. Сумма платежа = Ранг ГГ*(Pay For Save Load Money Qty)}
 
 Pay For Save Load			{Off}

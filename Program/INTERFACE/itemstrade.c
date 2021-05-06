@@ -292,6 +292,7 @@ void AddToTable()
 		{
 			continue;
 		}
+		if (IsQuestUsedItem(Items[i].id)) continue;
 		
 		sGood = Items[i].id;
 		// проверка на экипировку, их не продаем
@@ -329,6 +330,7 @@ void AddToTable()
 	{
         row = "tr" + n;
 		sGood = Items[i].id;
+		if (IsQuestUsedItem(Items[i].id)) continue;
 		// проверка на экипировку, их не продаем
 		leftQty  = GetCharacterFreeItem(refCharacter, sGood);
 		rightQty = GetCharacterFreeItem(refStoreChar, sGood);

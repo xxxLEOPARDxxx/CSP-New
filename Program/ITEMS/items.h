@@ -27,6 +27,7 @@
 #define SPECIAL_ITEM_TYPE	    "special"
 #define TALISMAN_ITEM_TYPE 		"talisman"
 #define BOOK_ITEM_TYPE 			"book"
+#define CRAFTCOMPONENTS 		"craft"
 
 #define JEWELRY_INDIAN_LEFT_ITEM_TYPE 		"jewelry_indian_left"
 #define JEWELRY_INDIAN_RIGHT_ITEM_TYPE 		"jewelry_indian_right"
@@ -36,7 +37,7 @@
 
 // indexes for items` array
 #define TOTAL_ITEMS				1000 // Warship 08.05.09 - Ќова€ система предметов
-#define ITEMS_QUANTITY			  364  // не забываем мен€ть номер
+#define ITEMS_QUANTITY			  387  // не забываем мен€ть номер
 #define MAX_BUTTONS               64
 #define RANDITEMS_QUANTITY    	  45
 #define BUTTON_ACTIVATION_TIME	  1000

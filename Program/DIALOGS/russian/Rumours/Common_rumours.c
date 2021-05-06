@@ -254,7 +254,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		if (CheckAttribute(pchar, "PGG_killed") && sti(pchar.PGG_killed) > 4 && pchar.PGG_killed != pchar.PGG_killed_known)
 		{
 			pchar.PGG_killed_known = pchar.PGG_killed;
-			dialog.text = "Говорят, что в наших водах "+GetSexPhrase("завелся охотник на честных корсаров, ","завелась охотница на честных корсаров")+ GetFullName(pchar)+GetSexPhrase(" его "," её") + " звать. Число душ, отправленных на тот свет этой личностью уже достигло " + pchar.PGG_killed + ". Все уважаемые в этих местах люди. Брр... Что-то меня мутить начинает. То ли из-за рома, то ли всей этой истории...";
+			dialog.text = "Говорят, что в наших водах "+GetSexPhrase("завелся охотник на честных корсаров, ","завелась охотница на честных корсаров, ")+ GetFullName(pchar)+GetSexPhrase(" его "," её") + " звать. Число душ, отправленных на тот свет этой личностью уже достигло " + pchar.PGG_killed + ". Все уважаемые в этих местах люди. Брр... Что-то меня мутить начинает. То ли из-за рома, то ли всей этой истории...";
 		}
 		
 		//BlackThorn викинг

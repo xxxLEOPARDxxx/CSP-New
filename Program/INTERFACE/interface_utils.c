@@ -911,6 +911,34 @@ void SetFoodShipInfo(ref chr, string _textName)
 	}
 }
 
+void SetSquadronFoodShipInfo(ref chr, string _textName)
+{
+	int iColor, iFood;
+	string sText;
+	
+	SetFormatedText(_textName, "");
+	if (sti(chr.ship.type) != SHIP_NOTUSED)
+	{
+		sText = "Провианта на:\n корабле / в эскадре\n на ";
+		iFood = CalculateShipFood(chr);
+		sText = sText + iFood+" / "+FindRussianDaysString(CalculateFood());
+		SetFormatedText(_textName, sText);
+		if(iFood >= 5)
+		{
+			iColor = argb(255,255,255,192);
+		}
+		if(iFood > 10)
+		{
+			iColor = argb(255,192,255,192);
+		}
+		if(iFood < 5)
+		{
+			iColor = argb(255,255,192,192);
+		}
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, _textName, 8,-1,iColor);	
+	}
+}
+
 // Warship 11.07.09 Вывести в текстовое поле инфу о количестве дней, на сколько хватит рому на судне
 void SetRumShipInfo(ref _character, String _node)
 {
@@ -921,7 +949,7 @@ void SetRumShipInfo(ref _character, String _node)
 
 	if(sti(_character.ship.type) != SHIP_NOTUSED)
 	{
-		text = "Рому на корабле на ";
+		text = "Рома на корабле на ";
 		rum = CalculateShipRum(_character);
 		text = text + FindRussianDaysString(rum);
 		SetFormatedText(_node, text);

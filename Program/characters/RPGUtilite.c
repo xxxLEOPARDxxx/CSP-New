@@ -101,9 +101,13 @@ void AddBonusEnergyToCharacter(ref _refCharacter, int iEnrg)
 	SetEnergyToCharacter(_refCharacter);
 }
 
-void RemoveBonusEnergyFromCharacter(ref _refCharacter)
+void RemoveBonusEnergyFromCharacter(ref _refCharacter, int howMuch)
 {
-	DeleteAttribute(_refCharacter, "bonusEnergy");
+	_refCharacter.bonusEnergy = sti(_refCharacter.bonusEnergy) - howMuch;
+	if (sti(_refCharacter.bonusEnergy) <= 0)
+	{
+		DeleteAttribute(_refCharacter, "bonusEnergy");
+	}
 	SetEnergyToCharacter(_refCharacter);
 }
 //Korsar Maxim <-- добавляем и убираем бонусную энергию для перса
@@ -291,7 +295,7 @@ int ApplayNavyPenaltyToSkill(ref _refCharacter, string skillName, int sumSkill)
     }
 	else
 	{
-		if (CheckAttribute(_refCharacter,"chr_ai.Trauma")) sumSkill = sumSkill - 20; //штраф от травмы - Gregg
+		if (CheckAttribute(_refCharacter,"chr_ai.Trauma")) sumSkill = sumSkill - makeint(sumSkill*0.4); //штраф от травмы - Gregg
 	}
     return  sumSkill;
 }
@@ -610,7 +614,6 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 		if(sti(pchar.questTemp.traumacount) >= 50) UnlockAchievement("AchTravma", 1);
 		if(sti(pchar.questTemp.traumacount) >= 150) UnlockAchievement("AchTravma", 2);
 		if(sti(pchar.questTemp.traumacount) >= 300) UnlockAchievement("AchTravma", 3);
-		
 	}
 	
     // трем кэш
@@ -762,6 +765,51 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 			}
 		}
     }
+}
+
+void ClearHPTubeEffect(string qName)
+{
+	float nphp = LAi_GetCharacterMaxHP(pchar) + GetCharacterAddHPValue(pchar);
+	LAi_SetHP(pchar,nphp-sti(pchar.PerkValue.HPBONUS),nphp-sti(pchar.PerkValue.HPBONUS));
+	DeleteAttribute(pchar,"chr_ai.bonushptube");
+	DeleteAttribute(pchar,"PerkValue.HPBONUS");
+}
+
+void ClearENTubeEffect(string qName)
+{
+	DeleteAttribute(pchar,"chr_ai.bonusentube");
+	RemoveBonusEnergyFromCharacter(pchar, sti(pchar.tubeBonusEnergy));
+	RestoreModelsBeforeDrugs();
+}
+
+void ClearSTubeEffect(string qName)
+{
+	DeleteAttribute(pchar,"chr_ai.bonusweighttube");
+	RestoreModelsBeforeDrugs();
+}
+
+void ClearDrugs()
+{
+	DeleteAttribute(pchar,"drugstaken");
+	RestoreModelsBeforeDrugs();
+}
+
+void RestoreModelsBeforeDrugs()
+{
+	Log_Info("Кажись отпустило");
+	DeleteAttribute(pchar, "HighOnDrugs")
+	DeleteAttribute(pchar, "GenQuest.CamShuttle")
+	for(int i = 0; i < MAX_CHARACTERS; i++)
+	{
+		ref chr;
+		makeref(chr,Characters[i]);
+		if(CheckAttribute(chr, "BeforeDrugsModel"))
+		{
+			chr.model = chr.BeforeDrugsModel;
+			DeleteAttribute(chr, "BeforeDrugsModel");
+			SetNewModelToChar(chr);
+		}
+	}
 }
 // по специал распередить скилы
 void InitStartParam(ref _chref)
@@ -1087,6 +1135,7 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 
 	if (bHero)
 	{
+		if (CheckAttribute(pchar,"drugstaken") && pchar.drugstaken >= 3) skillN -= 50; //штраф от перекура
 		if (skillName == "Leadership")
 		{
 			if (CheckAttribute(pchar,"LeadershipLose"))	skillN -= 200;
@@ -1585,7 +1634,9 @@ int GetMaxItemsWeight(ref _chref)
 	if (CheckAttribute(_chref, "Skill.Fencing"))
     {
         int iBonus = 0;
-        if (IsCharacterPerkOn(_chref, "Grus")) iBonus = 30;
+        //if (IsCharacterPerkOn(_chref, "Grus")) iBonus = 30;
+		if (IsCharacterPerkOn(_chref, "EnergyPlus")) iBonus = 30;
+		if (IsCharacterPerkOn(_chref, "EnergyPlusFixed")) iBonus = 30;
 		if (IsCharacterPerkOn(_chref, "Trader")) iBonus += 35;
 		// Lugger -->
 	        if(CheckAttribute(_chref, "equip.backpack"))
@@ -1600,6 +1651,7 @@ int GetMaxItemsWeight(ref _chref)
 	        }
 		// Lugger <--
         //опасная рекурсия  если писать GetCharacterSPECIAL
+		if (CheckAttribute(_chref, "chr_ai.bonusweighttube")) iBonus += 60 + sti(_chref.rank);
         iBonus = iBonus + CHAR_ITEMS_WEIGHT + GetCharacterSPECIALSimple(_chref, SPECIAL_S)*(GetCharacterSPECIALSimple(_chref, SPECIAL_E) + 12 - MOD_SKILL_ENEMY_RATE);
         return  iBonus;
     }
@@ -1852,8 +1904,9 @@ void SetNewDayHealth()
 
     mainChr.Health.Damg = 0.0;
 
-    if (IsCharacterPerkOn(mainChr, "Medic"))
-    {
+    //if (IsCharacterPerkOn(mainChr, "Medic"))
+    if (IsCharacterPerkOn(mainChr, "HPPlusFixed"))
+	{
         add = 1;
     }
     if (damg >= (maxhp / 1.5) )
@@ -2459,7 +2512,7 @@ void SetAllAchievements(int level)
 	pchar.achievements.Mummydust_quest = level; // Выполнение квеста "Поиски порошка мумии" 100
 	pchar.achievements.Isabella_quest = level; // Выполнение квеста "История прекрасной Изабеллы" 100
 	if(Pchar.questTemp.CapBloodLine == 1) pchar.achievements.CapBladLine = level; // Выполнение линейки Блада 100
-	if(CheckAttribute(Pchar,"questTemp.WhisperFuture")) pchar.achievements.WhisperLine = level; // Выполнение линейки Виспер 100
+	if(startherotype == 2) pchar.achievements.WhisperLine = level; // Выполнение линейки Виспер 100
 	pchar.achievements.Nation_quest_E = level; // Выполнение национальной линейки квестов 100 ---
 	pchar.achievements.Nation_quest_F = level; // Выполнение национальной линейки квестов 100 ---
 	pchar.achievements.Nation_quest_H = level; // Выполнение национальной линейки квестов 100 ---

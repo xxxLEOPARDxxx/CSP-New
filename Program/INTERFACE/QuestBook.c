@@ -2213,7 +2213,7 @@ void AddToTable(string _tabName, string type)
 			GameInterface.(_tabName).hr.td1.scale = 1.1;
 			GameInterface.(_tabName).hr.td2.str = "Урон мин/макс";
 			GameInterface.(_tabName).hr.td2.scale = 1.1;
-			GameInterface.(_tabName).hr.td3.str = "Патроны";
+			GameInterface.(_tabName).hr.td3.str = "Патроны, требования";
 			GameInterface.(_tabName).hr.td3.scale = 1.1;
 			GameInterface.(_tabName).hr.td4.str = "Точность";
 			GameInterface.(_tabName).hr.td4.scale = 1.1;
@@ -2278,7 +2278,8 @@ void AddToTable(string _tabName, string type)
 				break;
 				case "gun":
 				GameInterface.(_tabName).(row).td2.str = GetGunDamage(Items[i]);
-				GameInterface.(_tabName).(row).td3.str = GetAmmoTypes(Items[i]);
+				GameInterface.(_tabName).(row).td3.scale = 0.9;
+				GameInterface.(_tabName).(row).td3.str = GetAmmoTypes(Items[i])+"\n"+GetPerkInfo(Items[i]);
 				GameInterface.(_tabName).(row).td4.str = GetAccuracy(Items[i]);
 				GameInterface.(_tabName).(row).td5.str = GetRecharge(Items[i]);
 				break;
@@ -2303,6 +2304,17 @@ void AddToTable(string _tabName, string type)
 	}
 	LanguageCloseFile(idLngFile);
 	Table_UpdateWindow(_tabName);
+}
+
+string GetPerkInfo(ref itm)
+{
+	if (CheckAttribute(itm,"ReqPerk"))
+	{
+		if (itm.ReqPerk == "Gunman") return "***\nТребуется перк 'Стрелок'.";
+		if (itm.ReqPerk == "GunProfessional") return "***\nТребуется перк 'Мушкетёр'.";
+	}
+	else return "***\nНе требует специальных навыков.";
+	return "";
 }
 
 string GetSpecialStrings(ref itm)

@@ -1,4 +1,3 @@
-//100% готово
 //Hero: Part_HeroPart  + (10 - Complex)*Part_Complex + (7 - ClassShip)* Part_CompanionShipPerClass^QtyShip
 //Crew: Part_Officer * QtyOff + Part_Companion*QtyComp + Part_Crew * QtyCrew
 

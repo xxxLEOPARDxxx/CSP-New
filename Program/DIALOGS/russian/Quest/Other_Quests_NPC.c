@@ -795,7 +795,7 @@ void ProcessDialogEvent()
 			SetCharacterPerk(sld, "SwordplayProfessional");
 			SetCharacterPerk(sld, "ShipTurnRateUp");
 			SetCharacterPerk(sld, "ShipSpeedUp");
-			SetCharacterPerk(sld, "Medic");
+			//SetCharacterPerk(sld, "Medic");
 			sld.quest.OfficerPrice = sti(pchar.rank)*500;
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
 			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти

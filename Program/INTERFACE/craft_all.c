@@ -8,13 +8,19 @@ void InitInterface_gm(string iniName)
 {
 	lngFileID = LanguageOpenFile("ItemsDescribe.txt");
 	CraftType = pchar.questTemp.CraftType;
+	DeleteAttribute(pchar,"questTemp.CRAFT_ITEMS."+CraftType);
 	makearef(craft,pchar.questTemp.CRAFT_ITEMS.(CraftType));
-	
+	bool HasPerk = IsCharacterPerkOn(pchar, "Craft");
 	
 	for (i = 0; i < ITEMS_QUANTITY; i++) {
+		if (CheckAttribute(&Items[i], "PerkReq") && !HasPerk) continue;
 		if (CheckAttribute(&Items[i], "CraftedItem")) {
 			string recipe = Items[i].id;
 			pchar.questTemp.CRAFT_ITEMS.Blacksmith.(recipe).id = recipe;
+		}
+		if (CheckAttribute(&Items[i], "ResultNum")) {
+			string result = Items[i].ResultNum;
+			pchar.questTemp.CRAFT_ITEMS.Blacksmith.(recipe).ResultNum = result;
 		}
 	}
 	
@@ -85,6 +91,9 @@ void FillItemsTab() // Заполнить таблицу выученных чертежей
 	
 	string row;
 	GameInterface.ITEMS_LIST.hr.td2.str = "Доступные рецепты";
+	GameInterface.ITEMS_LIST.hr.td2.scale = 0.9;
+	GameInterface.ITEMS_LIST.hr.td3.str = "Кол-во";
+	GameInterface.ITEMS_LIST.hr.td3.scale = 0.9;
 
 	for(int i=0; i<num; i++)
 	{
@@ -93,11 +102,14 @@ void FillItemsTab() // Заполнить таблицу выученных чертежей
 		
 		GameInterface.ITEMS_LIST.(row).td1.icon.group = Items[GetItemIndex(drawning.ID)].picTexture;
 		GameInterface.ITEMS_LIST.(row).td1.icon.image = "itm" + Items[GetItemIndex(drawning.ID)].picIndex;
-		GameInterface.ITEMS_LIST.(row).td1.icon.offset = "0, 0";
+		GameInterface.ITEMS_LIST.(row).td1.icon.offset = "-2, 0";
 		GameInterface.ITEMS_LIST.(row).td1.icon.width = 48;
 		GameInterface.ITEMS_LIST.(row).td1.icon.height = 48;
 		GameInterface.ITEMS_LIST.(row).td2.str = LanguageConvertString(lngFileID, Items[GetItemIndex(drawning.ID)].name);
-		GameInterface.ITEMS_LIST.(row).td2.scale = 1.0;
+		GameInterface.ITEMS_LIST.(row).td2.scale = 0.9;
+		if (CheckAttribute(Items[GetItemIndex(drawning.ID)],"ResultNum")) GameInterface.ITEMS_LIST.(row).td3.str = Items[GetItemIndex(drawning.ID)].ResultNum;
+		else GameInterface.ITEMS_LIST.(row).td3.str = 1;
+		GameInterface.ITEMS_LIST.(row).td3.scale = 0.9;
 	}
 	
 	Table_UpdateWindow("ITEMS_LIST");
@@ -147,7 +159,9 @@ void ProcessCommandExecute()
 
 void CreateItem()
 {
-	TakeNItems(pchar, draw.ID, qnt); // Выдаем создаваемый предмет
+	DumpAttributes(draw);
+	if (CheckAttribute(draw,"ResultNum")) TakeNItems(pchar, draw.ID, qnt*sti(draw.ResultNum));
+	else TakeNItems(pchar, draw.ID, qnt); // Выдаем создаваемый предмет
 	
 	int qntCom;
 	int drIDX = GetItemIndex(draw.ID);
@@ -162,7 +176,7 @@ void CreateItem()
 		string CIN = "Component"+i+"Num";
 		qntCom = sti(Items[drIDX].(CIN)) * qnt;
 		ComIDX = GetItemIndex(Items[drIDX].(CI));
-		
+		if (Items[drIDX].(CIN) == "0") continue;
 		if(CraftType == "Blacksmith" || CraftType == "Jewelry")
 		{
 			for(n = 1; n <= qntCom; n++)
@@ -177,7 +191,9 @@ void CreateItem()
 		}
 	}
 	
-	Log_Info("Создан предмет '" + LanguageConvertString(lngFileID, Items[drIDX].name) + "' в кол-ве " + qnt + " ед.");
+	if (CheckAttribute(draw,"ResultNum")) Log_Info("Создан предмет '" + LanguageConvertString(lngFileID, Items[drIDX].name) + "' в кол-ве " + qnt*sti(draw.ResultNum) + " ед.");
+	else  Log_Info("Создан предмет '" + LanguageConvertString(lngFileID, Items[drIDX].name) + "' в кол-ве " + qnt + " ед.");
+    PlaySound("Interface\Craft.wav");
 	
 	int addedEXP;
 	float AlchemyModificator = 1.0;
@@ -234,7 +250,6 @@ void SetCraftInfo(int idx)
 		{
 			GameInterface.COMPONENTS_LIST.(row).td1.color = argb(255,255,171,171);
 			GameInterface.COMPONENTS_LIST.(row).td2.color = argb(255,255,171,171);
-			
 			if(craftOn) craftOn = false;
 		}
 		else
@@ -242,6 +257,15 @@ void SetCraftInfo(int idx)
 			GameInterface.COMPONENTS_LIST.(row).td1.color = argb(255,196,255,196);
 			GameInterface.COMPONENTS_LIST.(row).td2.color = argb(255,196,255,196);
 		}
+		
+		if (Items[craftable].(CIN) == "0" && GetCharacterItem(pchar, Items[craftable].(CI)) == 0)
+		{
+			GameInterface.COMPONENTS_LIST.(row).td1.color = argb(255,255,171,171);
+			GameInterface.COMPONENTS_LIST.(row).td2.color = argb(255,255,171,171);
+			if(craftOn) craftOn = false;
+			GameInterface.COMPONENTS_LIST.(row).td2.str = "Отсутствует";
+		}			
+		if (Items[craftable].(CIN) == "0" && GetCharacterItem(pchar, Items[craftable].(CI)) >= 1) GameInterface.COMPONENTS_LIST.(row).td2.str = "В наличии";
 		
 		GameInterface.COMPONENTS_LIST.(row).td1.icon.group = Items[itmidx].picTexture;
 		GameInterface.COMPONENTS_LIST.(row).td1.icon.image = "itm" + Items[itmidx].picIndex;

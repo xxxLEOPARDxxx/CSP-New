@@ -1023,7 +1023,12 @@ string GetItemDescribe(int iGoodIndex)
 				else sTemp2 = dmg31c+"/"+dmg32c+"/"+dmg33c;
 				describeStr += "Оружие: "+sTemp1+","+ NewStr()+"Время перезарядки "+sTemp2+" сек., точность "+sTemp + NewStr() + "При стрельбе используются: " + ammotype + NewStr();
 			}
-			
+			if (CheckAttribute(arItm,"ReqPerk"))
+			{
+				if (arItm.ReqPerk == "Gunman") describeStr += "Для использования требуется навык 'Стрелок'."+ NewStr();
+				if (arItm.ReqPerk == "GunProfessional") describeStr += "Для использования требуется навык 'Мушкетер'."+ NewStr();
+			}
+			else describeStr += "Не требует специальных навыков."+ NewStr();
 		}
 		if(arItm.groupID == BACKPACK_ITEM_TYPE)
 		{	

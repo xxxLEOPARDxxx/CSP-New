@@ -521,31 +521,12 @@ void OnShipScrollChange()
 		// еда -->
 		int iColor, iFood;
 		string sText;
-		// в эскадре
-		if (GetCompanionQuantity(pchar) > 1) // больше 1 ГГ
-		{
-			sText = "Провианта в эскадре на ";
-			iFood = CalculateFood();
-			sText = sText + FindRussianDaysString(iFood);
-			SetFormatedText("FOOD", sText);
-			if(iFood >= 5)
-			{
-				iColor = argb(255,255,255,192);
-			}
-			if(iFood > 10)
-			{
-				iColor = argb(255,192,255,192);
-			}
-			if(iFood < 5)
-			{
-				iColor = argb(255,255,192,192);
-			}
-			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FOOD", 8,-1,iColor);
-		}
-		// еда -->
 		// на одном корабле
 		SetFoodShipInfo(xi_refCharacter, "FOOD_SHIP");
+		// в эскадре
+		if (GetCompanionQuantity(pchar) > 1) SetSquadronFoodShipInfo(xi_refCharacter, "FOOD_SHIP"); // больше 1 ГГ
 		// еда <--
+		SetRumShipInfo(xi_refCharacter,"FOOD");
 		if (GetRemovable(xi_refCharacter)) // считаем только своих, а то вских сопровождаемых кормить!!!
 		{
 		    // для каждого корабля учитываем класс и считаем отдельно

@@ -984,6 +984,8 @@ int LocationInitTenotchitlan(int n)
 	//каменные сундуки
 	locations[n].private1.closed = true;
 	locations[n].private1.items.KnifeAztec = 1;
+	locations[n].private1.items.shotgun_cartridge = 5;
+	locations[n].private1.items.GunCap_colt = 5;
 	locations[n].private1.items.indian1 = 5;
 	locations[n].private1.items.indian2 = 7;
 	locations[n].private1.items.indian3 = 11;

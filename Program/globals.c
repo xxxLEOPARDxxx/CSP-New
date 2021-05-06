@@ -97,7 +97,7 @@ int     MAX_CHARACTERS   = 10;
 #define BOAT_CHARACTER               999
 
 #define MAX_LOCATIONS		800 // boal //700
-#define MAX_ISLANDS   31
+#define MAX_ISLANDS   32
 #define MAX_COLONIES  35
 
 #define LSC_MAX_TAVERN		12

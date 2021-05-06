@@ -1091,6 +1091,10 @@ void FillControlsList(int nMode)
 
 bool ThisItemCanBeEquip( aref arItem )
 {
+	if (HasSubStr(arItem.id,"Tube"))
+	{
+		return true;
+	}
 	if( !CheckAttribute(arItem,"groupID") )
 	{
 		return false;
@@ -1118,7 +1122,7 @@ bool ThisItemCanBeEquip( aref arItem )
 		{
 			return false;
 		}
-		int chrgQ = sti(arItem.chargeQ);
+		/*int chrgQ = sti(arItem.chargeQ);
 
 		if (chrgQ == 2 && !IsCharacterPerkOn(xi_refCharacter,"Gunman") )
 		{
@@ -1128,23 +1132,30 @@ bool ThisItemCanBeEquip( aref arItem )
 		if (chrgQ >= 4 && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") )
 		{
 			return false;
-		}
+		}*/
 		if(arItem.id == "mushket2x2") return false; // Мушкет квестового офа
 
 		// Для мушкетов нужен соответствующий перк
-		if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman")&& !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") && !HasSubStr(arItem.id, "mushket_drob"))
+		//if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman")&& !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") && !HasSubStr(arItem.id, "mushket_drob"))
+		if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman") && !HasSubStr(arItem.id, "mushket_drob"))
 		{
 			return false;
 		}
+		
+		if (CheckAttribute(arItem,"ReqPerk"))
+		{
+			if (arItem.ReqPerk == "Gunman" && !IsCharacterPerkOn(xi_refCharacter,"Gunman") && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional")) return false;
+			if (arItem.ReqPerk == "GunProfessional" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional")) return false;
+		}
 
-		if(arItem.id == "mushket_Shtuzer" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
+		/*if(arItem.id == "mushket_Shtuzer" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
 		{
 			return false;
 		}
 		if(arItem.id == "mushket2" && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional"))
 		{
 			return false;
-		}
+		}*/
 
 		// Нельзя экипировать мушкет в непредназначенных для этого локациях (Таверна)
 		if(HasSubStr(arItem.id, "mushket") && !CanEquipMushketOnLocation(xi_refCharacter.Location))
@@ -1497,8 +1508,105 @@ void EquipPress()
 			SetItemInfo();
 		}
 	}
+	if (HasSubStr(itmRef.id,"Tube") && IsMainCharacter(xi_refCharacter))
+	{
+		switch (itmRef.id)
+		{
+			case "HealthTube": 
+				if (!CheckAttribute(pchar, "chr_ai.bonushptube"))
+				{
+					pchar.chr_ai.bonushptube = 0;
+					pchar.PerkValue.HPBONUS = 50+rand(50)+sti(pchar.rank);
+					float nphpp = LAi_GetCharacterMaxHP(pchar) + GetCharacterAddHPValue(pchar)+sti(pchar.PerkValue.HPBONUS);
+					LAi_SetHP(pchar,nphpp,nphpp);
+					SetTimerFunction("ClearHPTubeEffect",0,0,1);
+				}
+				else return;
+			break;
+			case "EnergyTube":
+				if (!CheckAttribute(pchar, "chr_ai.bonusentube"))
+				{
+					pchar.chr_ai.bonusentube = 0;
+					pchar.tubeBonusEnergy = 30+rand(20)+sti(pchar.rank);
+					AddBonusEnergyToCharacter(pchar,sti(pchar.tubeBonusEnergy));
+					SetTimerFunction("ClearENTubeEffect",0,0,1);
+				}
+				else return;
+			break;
+			case "StrengthTube": 
+				if (!CheckAttribute(pchar, "chr_ai.bonusweighttube"))
+				{
+					pchar.chr_ai.bonusweighttube = 0;
+					SetTimerFunction("ClearSTubeEffect",0,0,1);
+				}
+				else return;
+			break;
+		}
+		int drugEffects = 0;
+		if (CheckAttribute(pchar,"chr_ai.bonusentube")) drugEffects++;
+		if (CheckAttribute(pchar,"chr_ai.bonusweighttube")) drugEffects++;
+		if (CheckAttribute(pchar,"chr_ai.bonushptube")) drugEffects++;
+		if (drugEffects == 2 && rand(20) == 0) GetHigh();
+		if (drugEffects == 2 && rand(4) == 0) GetHigh();
+		if (drugEffects == 3) GetHigh();
+		
+		if (CheckAttribute(pchar,"drugstaken")) pchar.drugstaken = sti(pchar.drugstaken)+1;
+		else {pchar.drugstaken = 1; SetTimerFunction("ClearHPTubeEffect",0,0,10);}
+		DumpAttributes(pchar);
+		ApplayNewSkill(pchar, "", 0);
+		TakeNItems(pchar, itmRef.id, -1);
+		FillItemsTable(1);
+		
+	}
 }
-
+void GetHigh()
+{
+	Log_Info("Кажется, последняя затяжка была лишней");
+	pchar.HighOnDrugs = true;
+	if (pchar.sex == "woman")
+	{
+		PlaySound("interface\baba_kxe_kxe.wav");
+	}
+	else
+	{
+		PlaySound("interface\man_kxe_kxe.wav");
+	}
+	
+	for(int i = 0; i < MAX_CHARACTERS; i++)
+	{
+		ref chr;
+		makeref(chr,Characters[i]);
+		if(!CheckAttribute(chr, "BeforeDrugsModel") && chr.model.animation == "man")
+		{
+			chr.BeforeDrugsModel = chr.model;
+			switch (rand(2))
+			{
+				case 0: 
+					chr.model = GetRandSkelModel();
+				break;
+				case 1: 
+					chr.model = GetRandSkelModelClassic();
+				break;
+				case 2: 
+					chr.model = "Canib_"+(rand(5)+1);
+				break
+			}
+			if (rand(10) == 0)
+			{
+				switch (rand(1))
+				{
+					case 0: 
+						chr.model = "PotCMobCap";
+					break;
+					case 1: 
+						chr.model = "Canib_boss";
+					break;
+				}
+			}
+			SetNewModelToChar(chr);
+		}
+	}
+}
 void ExitMapWindow()
 {
 	XI_WindowShow("MAP_WINDOW", false);

@@ -703,6 +703,7 @@ void FillSkillTables()
 	GameInterface.TABLE_OTHER.tr2.td2.str = XI_ConvertString("Life");
 	GameInterface.TABLE_OTHER.tr2.td3.str = MakeInt(LAi_GetCharacterHP(xi_refCharacter)) + " / " + MakeInt(LAi_GetCharacterMaxHP(xi_refCharacter));
 	GameInterface.TABLE_OTHER.tr2.td3.scale = 0.9;
+	if (CheckAttribute(xi_refCharacter,"chr_ai.bonushptube")) GameInterface.TABLE_OTHER.tr2.td3.color = argb(255,196,255,196);
 
     GameInterface.TABLE_OTHER.tr3.UserData.ID = "Health";
 	GameInterface.TABLE_OTHER.tr3.td1.icon.group = "ICONS_CHAR";
@@ -766,6 +767,7 @@ void FillSkillTables()
 	GameInterface.TABLE_OTHER.tr7.td2.str = XI_ConvertString("weight");
 	GameInterface.TABLE_OTHER.tr7.td3.str = FloatToString(GetItemsWeight(xi_refCharacter), 1) + " / "+GetMaxItemsWeight(xi_refCharacter);
 	GameInterface.TABLE_OTHER.tr7.td3.scale = 0.9;
+	if (CheckAttribute(xi_refCharacter,"chr_ai.bonusweighttube")) GameInterface.TABLE_OTHER.tr7.td3.color = argb(255,196,255,196);
 	
     GameInterface.TABLE_OTHER.tr8.UserData.ID = "Title";
 	GameInterface.TABLE_OTHER.tr8.td1.icon.group = "ICONS_CHAR";
@@ -833,6 +835,10 @@ string ShowStatValue(string type)
 			if(CheckCharacterPerk(xi_refCharacter, "Tireless")) 
 			{
 				fMultiplierE = fMultiplierE * 1.15;
+			}
+			if(CheckAttribute(xi_refCharacter, "bonusEnergy")) 
+			{
+				fMultiplierE = fMultiplierE * 2;
 			}
 			return FloatToString(fMultiplierE,2);
 		break;

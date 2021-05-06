@@ -31,7 +31,7 @@ void SelAllPerksToNotPChar(ref _ch)
 	_ch.perks.list.CriticalHit = "1";
 	_ch.perks.list.Ciras = "1";
 	_ch.perks.list.SwordplayProfessional = "1";
-	_ch.perks.list.Grus = "1";
+	//_ch.perks.list.Grus = "1";
 	_ch.perks.list.Rush = "1";
 	_ch.perks.list.Tireless = "1";
 	_ch.perks.list.HardHitter = "1";
@@ -40,7 +40,7 @@ void SelAllPerksToNotPChar(ref _ch)
 	_ch.perks.list.Gunman = "1";
 	_ch.perks.list.GunProfessional = "1";
 	_ch.perks.list.IronWill = "1";
-	_ch.perks.list.Medic = "1";
+	//_ch.perks.list.Medic = "1";
 	_ch.perks.list.HPPlus = "1";
 	_ch.perks.list.EnergyPlus = "1";
 	_ch.perks.list.Trustworthy = "1";
@@ -96,7 +96,7 @@ void SelAllPerksToChar(ref _ch, bool _isOfficer)
 	_ch.perks.list.Ciras = "1";
 	_ch.perks.list.SwordplayProfessional = "1";
 	_ch.perks.list.AgileMan = "1";
-	_ch.perks.list.Grus = "1";
+	//_ch.perks.list.Grus = "1";
 	_ch.perks.list.Rush = "1";
 	_ch.perks.list.Tireless = "1";
 	_ch.perks.list.HardHitter = "1";
@@ -106,7 +106,8 @@ void SelAllPerksToChar(ref _ch, bool _isOfficer)
 	_ch.perks.list.GunProfessional = "1";
 	_ch.perks.list.IronWill = "1";
 	_ch.perks.list.SharedExperience = "1";
-	_ch.perks.list.Medic = "1";
+	//_ch.perks.list.Medic = "1";
+	_ch.perks.list.Craft = "1";
 	_ch.perks.list.HPPlusFixed = "1";
 	_ch.perks.list.EnergyPlusFixed = "1";
 	_ch.perks.list.Trustworthy = "1";
@@ -1744,7 +1745,7 @@ void PoormansInit()
 	sld.greeting = "cit_common";
 	SetCharacterPerk(sld, "AdvancedDefense");
 	SetCharacterPerk(sld, "HPPlus");
-	SetCharacterPerk(sld, "Medic");
+	//SetCharacterPerk(sld, "Medic");
 	SetCharacterPerk(sld, "GunProfessional");
 	DeleteAttribute(sld, "Items");
 	GiveItem2Character(sld, "unarmed");

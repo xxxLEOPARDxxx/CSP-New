@@ -477,13 +477,13 @@ float GetShipMaxNeededValue(int iShipType, string _param)
 }
 */
 ////////////////////////////////////////////////////////////////////////
-string descF1 = "Золото + 50 000";
+string descF1 = "Золото + 500 000";
 
 void CalculateInfoDataF1()
 {
 	// тут высчитываем нужную информацию и выводим в totalInfo - Инициализация -->
 	totalInfo = descF1;
-	Pchar.money = sti(Pchar.money) + 50000;
+	Pchar.money = sti(Pchar.money) + 500000;
 	/*Pchar.quest.SetTreasureHunter.win_condition.l1          = "location";
                 Pchar.quest.SetTreasureHunter.win_condition.l1.location = Pchar.location.from_sea;
                 Pchar.quest.SetTreasureHunter.win_condition             = "SetTreasureHunter";

@@ -1713,7 +1713,9 @@ void RepairStatShow()
 	SetFormatedText("REPAIR_QTY_S", (sp+RepairSail) + "%");
 	if(sti(xi_refCharacter.ship.soiling) == 0)
 	{
-		SetFormatedText("REPAIR_Soiling_TEXT" , "не требуется");
+		//SetFormatedText("REPAIR_Soiling_TEXT" , "не требуется");
+		SetNodeUsing("REPAIR_Soiling_CHECKBOX",false);
+		SetNodeUsing("REPAIR_Soiling_TEXT",false);
 	}else{
 		SetFormatedText("REPAIR_Soiling_TEXT" , FindRussianMoneyString(GetChrClearSoilingCoast()));
 	}

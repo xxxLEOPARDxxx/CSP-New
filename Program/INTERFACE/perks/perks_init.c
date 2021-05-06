@@ -81,6 +81,10 @@ void extrnInitPerks()
 	ChrPerksList.list.Buldozer.BaseType = "self";
 	ChrPerksList.list.Buldozer.PlayerOnly = true;
 	
+	ChrPerksList.list.Craft.descr = "perkCraft";
+	ChrPerksList.list.Craft.BaseType = "self";
+	ChrPerksList.list.Craft.PlayerOnly = true;
+	
 	ChrPerksList.list.Gunman.descr = "perkGunman";
 	ChrPerksList.list.Gunman.BaseType = "self";
 
@@ -88,13 +92,13 @@ void extrnInitPerks()
 	ChrPerksList.list.GunProfessional.condition.Gunman = true;
 	ChrPerksList.list.GunProfessional.BaseType = "self";
 
-	ChrPerksList.list.Grus.descr = "perkGrus";
-	ChrPerksList.list.Grus.BaseType = "self";
+	//ChrPerksList.list.Grus.descr = "perkGrus";
+	//ChrPerksList.list.Grus.BaseType = "self";
 
- 	ChrPerksList.list.Medic.descr = "perkMedic";
+ 	/*ChrPerksList.list.Medic.descr = "perkMedic";
 	ChrPerksList.list.Medic.condition.AdvancedDefense = true;
 	ChrPerksList.list.Medic.BaseType = "self";
-	ChrPerksList.list.Medic.PlayerOnly = true;
+	ChrPerksList.list.Medic.PlayerOnly = true;*/
 	
 	ChrPerksList.list.ByWorker.descr = "perkByWorker";
 	ChrPerksList.list.ByWorker.BaseType = "self";

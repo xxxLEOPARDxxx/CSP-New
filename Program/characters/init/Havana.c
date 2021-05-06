@@ -184,6 +184,7 @@ int CreateHavanaCharacters(int n)
 	ch.id		= "Havana_Graveyard_Watcher";
 	ch.model    = "LeoMaskett";
 	ch.sex      = "man";
+	ch.model.animation = "man";
 	ch.City = "Havana";
 	ch.location	= "Havana_KeepersHouse";
 	ch.location.group = "goto";

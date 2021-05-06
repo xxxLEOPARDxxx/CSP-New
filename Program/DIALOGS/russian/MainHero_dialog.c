@@ -1,6 +1,6 @@
 void ProcessDialogEvent()
 {
-	ref NPChar;
+	ref NPChar, mc;
 	aref Link, NextDiag;
 
 	DeleteAttribute(&Dialog,"Links");
@@ -56,7 +56,7 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;	
 			DialogExit_Self();
 			
-			ref mc = GetMainCharacter();
+			mc = GetMainCharacter();
 
 			mc.Ship.Type = GenerateShipExt(SHIP_SOPHIE, true, mc);
 			mc.Ship.name="Черная Вдова";
@@ -226,8 +226,19 @@ void ProcessDialogEvent()
 				dialog.Text = "Координаты совпадают. Кажется, я на месте. Похоже на древние катакомбы. Им лет 300, а то и больше. Надеюсь, ничего не обвалится мне на голову.";
 				bMonstersGen = true;
 				DeleteAttribute(pchar, "questTemp.Whisper.Entered_Dungeon");
-				Link.l1 = "(Перечитать сообщение от заказчика)";
-				Link.l1.go = "Whisper_mission_1";
+				if (bBettaTestMode)
+                {
+			        link.l1 = "BetaTest - пропустить и начать игру.";
+			        link.l1.go = "Whisper_Finish";
+					Link.l2 = "(Перечитать сообщение от заказчика)";
+					Link.l2.go = "Whisper_mission_1";
+
+                }
+				else
+				{
+					Link.l1 = "(Перечитать сообщение от заказчика)";
+					Link.l1.go = "Whisper_mission_1";
+				}
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.Inside_Incquisition"))
 			{
@@ -1175,6 +1186,40 @@ void ProcessDialogEvent()
 			DeleteAttribute(pchar, "questTemp.Whisper.Entered_Dungeon");
 			//AddDialogExitQuest("MainHeroFightModeOn");	
 			Link.l1.go = "Exit_Special";
+		break;
+		case "Whisper_Finish":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit_Self();
+			Pchar.BaseNation = FRANCE;
+			Flag_FRANCE();
+			chrDisableReloadToLocation = false;
+			bDisableCharacterMenu = false;
+			InterfaceStates.DisFastTravel = false;
+			pchar.Whisper.NanoCostume = true;
+			pchar.questTemp.WhisperLine = false;
+			pchar.Whisper.HatEnabled = true;
+			//initMainCharacterItem();
+            mc = GetMainCharacter();
+
+			mc.Ship.Type = GenerateShipExt(SHIP_SOPHIE, true, mc);
+			mc.Ship.name="Черная Вдова";
+			SetBaseShipData(mc);
+			mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS12;
+			SetCrewQuantityFull(mc);
+			
+            SetCharacterGoods(mc,GOOD_FOOD,200);
+        	SetCharacterGoods(mc,GOOD_BALLS,300);//2000);
+        	SetCharacterGoods(mc,GOOD_MEDICAMENT,300);//2000);
+            SetCharacterGoods(mc,GOOD_GRAPES,300);//700);
+            SetCharacterGoods(mc,GOOD_KNIPPELS,300);//700);
+            SetCharacterGoods(mc,GOOD_BOMBS,300);//1500);
+            SetCharacterGoods(mc,GOOD_POWDER,1000);
+            SetCharacterGoods(mc,GOOD_PLANKS,50);
+            SetCharacterGoods(mc,GOOD_SAILCLOTH,50);
+            SetCharacterGoods(mc,GOOD_RUM,40);//600);
+            SetCharacterGoods(mc,GOOD_WEAPON,200);//2000);
+            SetCharacterGoods(mc,GOOD_EBONY,100);//2000);
+            DoReloadCharacterToLocation(Pchar.HeroParam.Location, Pchar.HeroParam.Group, Pchar.HeroParam.Locator);
 		break;
 		case "WhisperPortrait":
 			dialog.Text = "И как же я буду выглядеть сегодня?";

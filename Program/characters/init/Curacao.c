@@ -188,6 +188,7 @@ int CreateCuracaoCharacters(int n)
 	ch.id		= "Villemstad_Graveyard_Watcher";
 	ch.model    = "LeoMaskett";
 	ch.sex      = "man";
+	ch.model.animation = "man";
 	ch.City = "Villemstad";
 	ch.location	= "Villemstad_KeepersHouse";
 	ch.location.group = "goto";

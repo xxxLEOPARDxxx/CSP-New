@@ -1014,6 +1014,7 @@ void InitShips()
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;	
+	refship.fWindAgainstSpeed 			= 5.0;
 	refShip.lowpolycrew 				= 9;
 	
 	refship.Rocking.y 					= 0.45;
@@ -3350,6 +3351,7 @@ void InitShips()
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
+	refship.fWindAgainstSpeed 			= 5.0;
 	
 	refShip.lowpolycrew					= 12;
 
@@ -3946,6 +3948,7 @@ void InitShips()
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= false;
+	refship.fWindAgainstSpeed 			= 3.0;
 	refShip.lowpolycrew 				= 20;
 
 	refship.Rocking.y = 0.5;
@@ -4252,6 +4255,7 @@ void InitShips()
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
+	refship.fWindAgainstSpeed 			= 8.0;
 	refShip.lowpolycrew					= 21;
 	refship.WindAgainstSpeed   			= 8.8;
 	refship.CabinType          			= "Cabin_Medium2";
@@ -6555,6 +6559,7 @@ void InitShips()
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
+	refship.fWindAgainstSpeed 			= 5.0;
 
 	refShip.lowpolycrew 				= 20;
 	
@@ -6711,6 +6716,7 @@ void InitShips()
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
+	refship.fWindAgainstSpeed = 5.0;
 	refShip.lowpolycrew 				= 20;
 	refship.Rocking.y 					= 0.4;
 	refship.Rocking.az 					= 0.035;	
@@ -6927,6 +6933,7 @@ void InitShips()
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
 	refship.Type.War					= true;	
+	refship.fWindAgainstSpeed 			= 4.0;
 	refShip.lowpolycrew 				= 20;
 	
 	refship.Rocking.y 					= 0.4;
@@ -7463,6 +7470,7 @@ void InitShips()
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= false;
 	refship.Type.War					= true;
+	refship.fWindAgainstSpeed 			= 4.0;
 	
 	refShip.lowpolycrew 				= 24;
 
