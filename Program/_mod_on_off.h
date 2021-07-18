@@ -2,7 +2,7 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2 ATR  "
-#define VERSION_NUMBER2       "CSP v2.2.0b (Лето 2021)"
+#define VERSION_NUMBER2       "CSP v2.2.0b1 (Лето 2021)"
 #define VERSION_NUMBER3       ""
 #define PROVIDER_TXT            "LEOPARD's team - MaelStrom edition"
 #define VERSION_NUM      99910  // текущий номер
@@ -100,6 +100,9 @@ bool 	bCharVoice                 = false;
 
 // платный сайв-лоад
 //bool    bPayForSaveLoad           = true;
+
+// Скейлинг интерфейса
+int screenscaling = BI_COMPARE_HEIGHT;
 
 // Lugger: Режим дополнения -->
 bool bAddonMode = true;

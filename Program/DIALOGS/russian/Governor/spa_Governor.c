@@ -1553,6 +1553,9 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             link.l1 = "Грасиас, ваше превосходительство. Аста луэго!";
             link.l1.go = "PDM_ONV_Nagrada";
 			AddMoneyToCharacter(pchar, 200000);
+			AddBonusEnergyToCharacter(pchar, 15);
+			PlaySound("Interface\new_level.wav");
+			Log_info("Ваша энергия увеличилась на 15 навсегда.");
         break;
 		
 		case "PDM_ONV_Nagrada":

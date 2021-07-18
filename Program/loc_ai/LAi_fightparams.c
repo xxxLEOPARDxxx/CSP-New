@@ -211,7 +211,7 @@ string RecalculateMushketHitsType(aref attack)
 
 //–асчитать полученный опыт при ударе саблей
 //#20200522-01
-float LAi_CalcExperienceForBlade(aref attack, aref enemy, string attackType, float dmg, bool isBlocked, bool blockSave)
+float LAi_CalcExperienceForBlade(aref attack, aref enemy, string attackType, bool isBlocked,float dmg, bool blockSave)
 {
 	if (stf(enemy.chr_ai.hp) < dmg)
 	{

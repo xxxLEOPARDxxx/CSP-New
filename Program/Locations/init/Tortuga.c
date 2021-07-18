@@ -979,7 +979,7 @@ int LocationInitTortuga(int n)
 	locations[n].locators_radius.reload.reload3_back = 2.0;
 
 	locations[n].reload.l2.name = "reload2_back";
-	locations[n].reload.l2.go = "Tortuga_jungle_01";
+	locations[n].reload.l2.go = "Tortuga_jungle_02";
 	locations[n].reload.l2.emerge = "reload2";
 	locations[n].reload.l2.autoreload = "1";
 	locations[n].reload.l2.label = "Jungle";
@@ -1086,7 +1086,55 @@ int LocationInitTortuga(int n)
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Джунгли
+	// Джунгли (скозной пролёт)
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "Tortuga_jungle_02";
+	locations[n].id.label = "Jungle";
+	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
+	//Sound
+	locations[n].type = "jungle";
+ 	locations[n].islandId = "Tortuga";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\Outside\Jungles\Jungle10";
+	Locations[n].models.always.jungle = "jungle10";	
+	Locations[n].models.always.locators = "jungle10_locators";		
+	Locations[n].models.always.grassPatch = "jungle10_grass";
+	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";	
+	Locations[n].models.always.l1 = "plan1";
+	Locations[n].models.always.l1.level = 9;
+	Locations[n].models.always.l1.tech = "LocationModelBlend";
+	Locations[n].models.always.l2 = "plan2";
+	Locations[n].models.always.l2.level = 8;
+	Locations[n].models.always.l2.tech = "LocationModelBlend";
+	Locations[n].models.always.l3 = "plan3";
+	Locations[n].models.always.l3.level = 7;
+	Locations[n].models.always.l3.tech = "LocationModelBlend";	
+	//Day
+	locations[n].models.day.charactersPatch = "jungle10_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "jungle10_patch";	
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "false";
+	//Reload map
+	locations[n].reload.l1.name = "reload1_back";
+	locations[n].reload.l1.go = "Tortuga_jungle_01";
+	locations[n].reload.l1.emerge = "reload2";
+	locations[n].reload.l1.autoreload = "1";
+	locations[n].reload.l1.label = "Jungle";
+	locations[n].locators_radius.reload.reload1_back = 2;
+
+	locations[n].reload.l2.name = "reload2_back";
+	locations[n].reload.l2.go = "Tortuga_ExitTown";
+	locations[n].reload.l2.emerge = "reload2";
+	locations[n].reload.l2.autoreload = "1";
+	locations[n].reload.l2.label = "ExitTown";
+	locations[n].locators_radius.reload.reload2_back = 2;
+	n = n + 1;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Джунгли (тройник)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Tortuga_jungle_01";
 	locations[n].id.label = "Jungle";
@@ -1126,8 +1174,8 @@ int LocationInitTortuga(int n)
 	locations[n].locators_radius.reload.reload1_back = 2;
 
 	locations[n].reload.l2.name = "reload2_back";
-	locations[n].reload.l2.go = "Tortuga_ExitTown";
-	locations[n].reload.l2.emerge = "reload2";
+	locations[n].reload.l2.go = "Tortuga_jungle_02";
+	locations[n].reload.l2.emerge = "reload1";
 	locations[n].reload.l2.autoreload = "1";
 	locations[n].reload.l2.label = "ExitTown";
 	locations[n].locators_radius.reload.reload2_back = 2;

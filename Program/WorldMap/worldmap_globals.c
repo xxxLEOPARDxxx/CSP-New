@@ -89,6 +89,21 @@ void Map_CreateSlowMerch(string beginLocator, string characterID, int TimeOut)
 	pchar.worldmap.shipcounter = sti(pchar.worldmap.shipcounter) + 1;
 }
 
+void Map_CreateHunter(string beginLocator, string characterID, int TimeOut)
+{
+	aref encField = wdmFindOrCreateQuestEncounter(characterID);
+	encField.type = "hunter";
+	encField.characterID = characterID;
+	encField.beginlocator = beginlocator;
+	encField.TimeOut = TimeOut;
+	worldMap.addQuestEncounters = "updateQuest";
+	if(!CheckAttribute(pchar, "worldmap.shipcounter"))
+	{
+		pchar.worldmap.shipcounter = 0;
+	}
+	pchar.worldmap.shipcounter = sti(pchar.worldmap.shipcounter) + 1;
+}
+
 //<---Lipsar
 
 //военный (догон€ющий). TimeOut в дн€х, если -1, то неиспользуетьс€.

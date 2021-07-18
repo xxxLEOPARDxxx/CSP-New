@@ -172,8 +172,8 @@ void QuestComplete(string sQuestName, string qname)
 			{
 	            if (i == 1)
 				{
-					sld = characterFromID(pchar.chosenHero);
-					DeleteAttribute(pchar,"chosenHero");
+					sld = characterFromID(pchar.chosenTreasureHero);
+					DeleteAttribute(pchar,"chosenTreasureHero");
 				}
 				else
 				{
@@ -225,8 +225,8 @@ void QuestComplete(string sQuestName, string qname)
 			{
 	            if (i == 1)
 				{
-					sld = characterFromID(pchar.chosenHero);
-					DeleteAttribute(pchar,"chosenHero");
+					sld = characterFromID(pchar.chosenTreasureHero);
+					DeleteAttribute(pchar,"chosenTreasureHero");
 				}
 				else
 				{
@@ -1148,6 +1148,9 @@ void QuestComplete(string sQuestName, string qname)
 				"Грохоту было - весь город переполошился, а в местной лавке крышу ядром проломило! Да только без толку всё. Местные-то - скупщики значит, в джунглях спрятались, а капитан морем ушёл. Как есть, с носом нашу эскадру оставил! Так из бухты вырулил - любой лоцман позавидует!", Pchar.quest.contraband.City, 3, 5, "");	
 		break;
 
+		case "ContraSneakGot":
+			DeleteAttribute(pchar,"quest.Contraband.SneakGot");
+		break;
 		case "Rand_ContrabandAtSeaEnded":
 			StopCoastalGuardPursuit();
 			
@@ -2164,6 +2167,40 @@ void QuestComplete(string sQuestName, string qname)
 						iModel[ShipType] = "";
 					}
 				} 				
+			}
+		break;
+		
+		case "Kamikazi":
+			if (rand(1))
+			{
+				chrDisableReloadToLocation = true;
+				Pchar.GenQuest.Hunter2Pause = true; // ОЗГи на паузу.			
+				LAi_group_Delete("EnemyFight");
+				sTemp = pchar.GenQuest.questName;
+				pchar.quest.(sTemp).over = "yes"; //снимаем текущее многоразовое прерывание					
+				location = &locations[reload_location_index];
+				LAi_LocationFightDisable(location, true);      //лочим возможность начать драку до диалог, это лишнее
+				encGroup = LAi_FindRandomLocator("encdetector");
+				sTemp = "locators." + encGroup;
+				makearef(arAll, location.(sTemp));
+				
+				iMainGang = NPC_GenerateCharacter("MayorQuestGang_0", "Skel_6", "skeleton", "man2_ab", 100, PIRATE, 0, true);
+				sld = &characters[iMainGang];
+				sld.name = pchar.GenQuest.DestroyGang.name;  //имя главаря
+				sld.lastname = pchar.GenQuest.DestroyGang.lastname;
+				sld.dialog.filename = "Kamikazi.c";
+				sld.dialog.currentnode = "Kamikazi";
+				sld.greeting = ""; 
+				sld.SaveItemsForDead   = true; // сохранять на трупе вещи
+				sld.DontClearDead = true;  // не убирать труп через 200с
+				LAi_SetActorType(sld);
+				SetFantomParamFromRank(sld, Rank, true);
+				//Получим локатор для логина
+				attrName = GetAttributeName(GetAttributeN(arAll, 1));
+				ChangeCharacterAddressGroup(sld, location.id, encGroup, attrName);					
+				LAi_SetActorType(sld);
+				LAi_ActorDialog(sld, pchar, "", -1, 0); 
+				PlaySound("Interface\P_Kamikadze_SS.wav");
 			}
 		break;
 
@@ -3195,6 +3232,12 @@ void QuestComplete(string sQuestName, string qname)
                 LAi_group_SetAlarm(pchar.tmpKillGroup, LAI_GROUP_PLAYER, 0.0);
                 DeleteAttribute(pchar, "tmpKillGroup");
             }
+        break;
+		//Довакин
+		case "Dovahkiin":
+            PlaySound("Interface\P_Dovahkiin.wav");
+			Log_TestInfo("должен быть звук");
+			pchar.Dovahkiin = 1;
         break;
 		case "PGGLeft":
 			Log_TestInfo("ПГГ ушел");
@@ -7478,7 +7521,6 @@ void QuestComplete(string sQuestName, string qname)
 			{
 			    QuestSetCurrentNode("Isabella", "NewLife_afterSex");
 			    LAi_SetStayType(CharacterFromID("Isabella"));
-			    break;
 			}
 			//квест официантки
 			if (pchar.questTemp.different == "FackWaitress_facking")
@@ -7497,7 +7539,6 @@ void QuestComplete(string sQuestName, string qname)
 				}
 				pchar.money = sti(pchar.money) / sti(pchar.questTemp.different.FackWaitress.Kick);
 				chrDisableReloadToLocation = false;
-				break;
 			}
 			//квест развода хозяйки борделя
 			if (pchar.questTemp.different == "HostessSex" && CheckAttribute(pchar, "questTemp.different.HostessSex.city"))
@@ -9643,13 +9684,13 @@ void QuestComplete(string sQuestName, string qname)
 		case "PDM_Pobeda_nad_Callow":
 			AddQuestRecord("PDM_Cursed_Idol", "6");							//Квест под номером в СЖ
 			CloseQuestHeader("PDM_Cursed_Idol"); 								//Закончить квест в СЖ
-			AddCharacterExpToSkill(PChar, "Leadership", 40);
-    		AddCharacterExpToSkill(PChar, "Sailing", 40);
-    		AddCharacterExpToSkill(PChar, "Accuracy", 20);
-    		AddCharacterExpToSkill(PChar, "Cannons", 20);
-			AddCharacterExpToSkill(PChar, "Repair", 20);
-    		AddCharacterExpToSkill(PChar, "Defence", 20);
-    		AddCharacterExpToSkill(PChar, "Sneak", 20);
+			AddCharacterExpToSkill(PChar, "Leadership", 100);
+    		AddCharacterExpToSkill(PChar, "Sailing", 100);
+    		AddCharacterExpToSkill(PChar, "Accuracy", 100);
+    		AddCharacterExpToSkill(PChar, "Cannons", 100);
+			AddCharacterExpToSkill(PChar, "Repair", 100);
+    		AddCharacterExpToSkill(PChar, "Defence", 100);
+    		AddCharacterExpToSkill(PChar, "Sneak", 100);
 			PChar.quest.PDM_NEPobeda_nad_Callow.over = "yes";
 		break;
 		
@@ -10032,14 +10073,67 @@ void QuestComplete(string sQuestName, string qname)
 			bDisableFastReload = false;
 			chrDisableReloadToLocation = false;
 			LAi_LocationFightDisable(loadedLocation, true);
+			LAi_group_SetRelation("", LAI_GROUP_PLAYER, LAI_GROUP_FRIEND);
 		break;
 		
 		case "PDM_CL_Antonio_Ubit":
+			sld = CharacterFromID("PDM_CL_Antonio")
+			LAi_KillCharacter(sld);
+			sld = CharacterFromID("PDM_CL_Anto2")
+			LAi_KillCharacter(sld);
 			sld = CharacterFromID("PDM_Octavio_Lambrini")
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Octavio_2_1";
 			DeleteAttribute(pchar, "questTemp.PDM_CL_Tavern");
 			DeleteAttribute(pchar, "questTemp.PDM_CL_Ishem");
+			AddQuestRecord("PDM_Clan_Lambrini", "3");
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("ен","на"));
+		break;
+		
+		case "PDM_CL_PVT":
+			sld = CharacterFromID("PDM_CL_Pokupatel")
+			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+			sld.dialog.currentnode   = "Pokupatel_1_1";
+			LAi_SetSitType(sld);
+			LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
+			ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_base2");
+		break;
+		
+		case "PDM_CL_Na_Plyaj":
+			sld = CharacterFromID("PDM_CL_Antonio3")
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", 0, 0);
+			sld.lifeday = 0;
+			sld.dialog.currentnode   = "Antonio_6_1";		
+		break;
+		
+		case "PDM_CL_Na_Plyaj_2":
+			LAi_SetPlayerType(pchar);
+			sld = CharacterFromID("PDM_CL_Pokupatel")
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", 0, 0);
+			sld.lifeday = 0;
+			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+			sld.dialog.currentnode   = "Pokupatel_6_1";		
+		break;
+		
+		case "PDM_CL_Finish":
+			LAi_SetFightMode(pchar, false);
+			
+			sld = CharacterFromID("PDM_CL_Antonio3")
+			ChangeCharacterAddressGroup(sld, "PortRoyal_town", "none", "");
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Antonio4", "SpaOfficer2", "man", "man", Rank, SPAIN, -1, false));
+			sld.name = "Антонио";
+			sld.lastname = "де Гальвес";
+			sld.greeting = "GR_Spainguard";
+			sld.equip.blade = "blade39";
+			ChangeCharacterAddressGroup(sld, "Shore37", "goto", "goto7");
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", -1, 0);
+			sld.lifeday = 0;
+			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+			sld.dialog.currentnode   = "Antonio_8_1";
 		break;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

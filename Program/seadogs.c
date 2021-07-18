@@ -240,6 +240,7 @@ void ProcessCameraPosAng()
 
 void proc_break_video()
 {
+	PictureAsVideoBreak();
 	if (sti(InterfaceStates.videoIdx) != 1)
 	{
 	}
@@ -247,6 +248,7 @@ void proc_break_video()
 
 void Main()
 {
+	screenscaling = BI_COMPARE_HEIGHT;
     LayerCreate("realize", 1);
 	LayerCreate("sea_realize", 1);
 	LayerCreate("net_realize", 1);
@@ -717,6 +719,8 @@ int actLoadFlag = 0;
 void OnLoad()
 {
 	actLoadFlag = 1;
+	
+	if(screenscaling < 50) screenscaling = BI_COMPARE_HEIGHT;
 	
 	bYesBoardStatus=false;
 	DeleteClass(&IBoardingStatus);
@@ -1409,12 +1413,12 @@ void ProcessControls()
 				pchar.mushket.timer = true;
 				LAi_SetFightMode(pchar, false);
 				LAi_SetActorType(pchar);
-				if(pchar.model.animation == "man_fast" || pchar.model.animation == "YokoDias_fast") 
+				if(pchar.model.animation == "man_fast" || pchar.model.animation == "YokoDias_fast" || pchar.model.animation == "Milenace_fast") 
 				{
 					PostEvent("Event_SwapWeapon", 1400);
 					DoQuestFunctionDelay("ReloadMyGun", 1.5);
 				}
-				if(pchar.model.animation == "man" || pchar.model.animation == "YokoDias")
+				if(pchar.model.animation == "man" || pchar.model.animation == "YokoDias" || pchar.model.animation == "Milenace")
 				{
 					PostEvent("Event_SwapWeapon", 1800);
 					DoQuestFunctionDelay("ReloadMyGun", 1.9);
@@ -1663,7 +1667,7 @@ void ProcessControls()
 		
 		case "Say": // KEY_Y
 			// Интерфейс автозакупки товаров
-			if(bLandInterfaceStart && IsPCharHaveTreasurer() && CheckAttribute(PChar, "TransferGoods.Enable")) // Если есть казначей, включена автозакупка и ГГ находится на суше
+			if(bLandInterfaceStart && IsPCharHaveTreasurer()) // Если есть казначей и ГГ находится на суше
 				LaunchTransferGoodsScreen();
 		break;
         case "TeleportActive":
@@ -1853,6 +1857,7 @@ void GameOver(string sName)
 
 	InitSound();
 	SetEventHandler(EVENT_END_VIDEO,"LaunchMainMenu_afterVideo",0);
+	SetEventHandler("Control Activation","proc_break_video",0);
 	FadeOutMusic(3);
 	// PlayStereoOGG("music_ship_dead");
 	switch(sName)

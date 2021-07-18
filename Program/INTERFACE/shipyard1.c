@@ -6,7 +6,7 @@ int iTunPoints = 8;
 int iTimeMake, iShipPoints, iQBorders, iPriceOrder;
 int iQMAX, iQMIN, iFreeSP, iFreeTP;
 bool Tune_Sheme[10] = {0,0,0,0,0,0,0,0,0,0};//элементы 0(заголовок таблицы) и 2(паруса) пропускаем. просто для удобства
-float Ship_Sheme[11] = {0.0,0.0,0.0,-2.0,0.0,0.0,0.0,0.0,0.0,0.0,-10.0};//тип флоат, чтоб не преобразовывать лишний раз при умножении на коэффициент, по факту - целые
+float Ship_Sheme[11] = {0.0,0.0,0.0,-1.0,0.0,0.0,0.0,0.0,0.0,0.0,-10.0};//тип флоат, чтоб не преобразовывать лишний раз при умножении на коэффициент, по факту - целые
 int CannonTypes[16] = {1000,7,0,8,1,9,2,10,3,11,4,12,5,13,6,14};// #define CANNON_TYPE_CULVERINE_LBS8	0, #define CANNON_TYPE_CANNON_LBS8		7
 
 string CurTable, CurRow, sNation;
@@ -36,11 +36,11 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	if (refNPCShipyard.id != "Pirates_shipyarder") {iYarderSkill = (sti(refNPCShipyard.reputation) + 11)/2+50; iTunPoints = (iYarderSkill-8)/22;}
 	//берём за навык кораблестроения репутацию верфиста и приводим к отрезку (56:100)
 
-	iShipPoints = -1 + iYarderSkill/6 - (MOD_SKILL_ENEMY_RATE)/3;//целые переменные делятся с округлением вниз
-	iQBorders = 1 + (iShipPoints+11)/3;
-	if (iQBorders > 8) iQBorders = 8;
-	iQMAX = iQBorders - 2;
-	iQMIN = -iQBorders - 2;
+	iShipPoints = 6 + iYarderSkill/6 - (MOD_SKILL_ENEMY_RATE)/3;//целые переменные делятся с округлением вниз
+	iQBorders = (iShipPoints+10)/3;
+	if (iQBorders > 9) iQBorders = 9;
+	iQMAX = iQBorders - 1;
+	iQMIN = -iQBorders - 1;
 	iFreeSP = iShipPoints;
 	iFreeTP = iTunPoints;
 
@@ -76,7 +76,7 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	SetFormatedText("HERO_RANK",refNPCShipyard.Rank);
 
 	SetFormatedText("HERO_SKILL","" + iYarderSkill);
-	SetFormatedText("HERO_QBORDERS", iQBorders*25/2 + "%");
+	SetFormatedText("HERO_QBORDERS", iQBorders*100/9 + "%");
 	SetFormatedText("HERO_SHIPPOINTS",iFreeSP + "/" + iShipPoints);
 	SetFormatedText("HERO_TUNPOINTS",iFreeTP + "/" + iTunPoints);
 
@@ -171,6 +171,8 @@ void FillOrderShip(int _iShipBaseType)
 	aref refShip;
 	makearef(refShip, refNPCShipyard.Ship);
 
+	if (!CheckAttribute(refShip,"soiling")) refShip.soiling = 0;//чтоб не срало в лог об отсутствии
+
 	if(!CheckAttribute(refNPCShipyard, "ship.upgrades"))
 	{
 		refNPCShipyard.ship.upgrades.hull = 1;
@@ -213,7 +215,7 @@ void FillShipParam()
 		DeleteAttribute(rRealShip, "Tuning");//просто затираем записи об апгрейдах
 
 		rRealShip.HP = stf(rBaseShip.HP) * (1 + Ship_Sheme[1]/100);
-		rRealShip.MastMultiplier = stf(rBaseShip.MastMultiplier) - 15*(Ship_Sheme[3]+2)/400;//прочность мачт без коэфф 0,8
+		rRealShip.MastMultiplier = stf(rBaseShip.MastMultiplier) - (Ship_Sheme[3]+1)/30;//прочность мачт без коэфф 0,8
 		rRealShip.SpeedRate = stf(rBaseShip.SpeedRate) * (1 + Ship_Sheme[4]/100);
 		rRealShip.TurnRate = stf(rBaseShip.TurnRate) * (1 + Ship_Sheme[5]/100);
 		rRealShip.WindAgainstSpeed = stf(rBaseShip.WindAgainstSpeed) * (1 + Ship_Sheme[6]/100);
@@ -584,6 +586,14 @@ void ShowMessageInfo()
 	SetCurrentNode("MSG_CANCEL");
 }
 
+void GetBortName(string _sBort, string _sBort_real, int BortNumb)
+{
+	if (BortNumb == 1) {_sBort = "rcannon"; _sBort_real = "cannonr"; return;}
+	if (BortNumb == 2) {_sBort = "lcannon"; _sBort_real = "cannonl"; return;}
+	if (BortNumb == 3) {_sBort = "fcannon"; _sBort_real = "cannonf"; return;}
+	if (BortNumb == 4) {_sBort = "bcannon"; _sBort_real = "cannonb"; return;}
+}
+
 void DoBuyShip()
 {
 	AddMoneyToCharacter(pchar, -iPriceOrder);
@@ -608,6 +618,51 @@ void DoBuyShip()
 	chref.location = "";
 	chref.location.group = "";
 	chref.location.locator = "";
+
+	if (Ship_Sheme[10] == -10) //если пушки не выбраны, ставим 8фт и обнуляем их кол-во
+	{
+		int maxQty;
+		string sBort, sBort_real, attr;
+
+		chref.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS8;
+
+		sBort = "rcannon"; 
+		sBort_real = "cannonr";
+		maxQty = GetBortCannonsMaxQty(chref, sBort);
+		for (i = 0; i < maxQty; i++)
+		{
+			attr = "c" + i;
+			chref.Ship.Cannons.borts.(sBort).damages.(attr) = 1.0;//нет пушки
+			chref.Ship.Cannons.borts.(sBort_real).damages.(attr) = 1.0;//нет пушки
+		}
+		sBort = "lcannon"; 
+		sBort_real = "cannonl";
+		maxQty = GetBortCannonsMaxQty(chref, sBort);
+		for (i = 0; i < maxQty; i++)
+		{
+			attr = "c" + i;
+			chref.Ship.Cannons.borts.(sBort).damages.(attr) = 1.0;//нет пушки
+			chref.Ship.Cannons.borts.(sBort_real).damages.(attr) = 1.0;//нет пушки
+		}
+		sBort = "fcannon"; 
+		sBort_real = "cannonf";
+		maxQty = GetBortCannonsMaxQty(chref, sBort);
+		for (i = 0; i < maxQty; i++)
+		{
+			attr = "c" + i;
+			chref.Ship.Cannons.borts.(sBort).damages.(attr) = 1.0;//нет пушки
+			chref.Ship.Cannons.borts.(sBort_real).damages.(attr) = 1.0;//нет пушки
+		}
+		sBort = "bcannon"; 
+		sBort_real = "cannonb";
+		maxQty = GetBortCannonsMaxQty(chref, sBort);
+		for (i = 0; i < maxQty; i++)
+		{
+			attr = "c" + i;
+			chref.Ship.Cannons.borts.(sBort).damages.(attr) = 1.0;//нет пушки
+			chref.Ship.Cannons.borts.(sBort_real).damages.(attr) = 1.0;//нет пушки
+		}
+	}
 
 	string sTemp, sTemp2;
 	if (!FState_Material && iFreeTP<iTunPoints)//запоминаем число нужных материалов и записываем их судовой журнал
@@ -924,41 +979,4 @@ void CalcTuningPrice()
 	Tun_Mater2[i] = makeint((7-shipClass)/2 * fQuestShip);
 	if (Tun_Mater2[i] < 1) Tun_Mater2[i] = 1;
 	Tun_Mater3[i] = makeint((100 * cannonQ * MOD_SKILL_ENEMY_RATE + 4000 * ((7-shipClass) * MOD_SKILL_ENEMY_RATE)) * fQuestShip);
-}
-
-int GetTradeItemPrice(int itmIdx, int tradeType)//TODO - эту функцию перенести из журнала и торговли и отсюда в утилиты
-{
-	int itmprice = 0;
-	if(itmIdx<0 || itmIdx>TOTAL_ITEMS) return 0;
-
-	if(CheckAttribute(&Items[itmIdx],"price"))
-	{
-		itmprice = sti(Items[itmIdx].price);
-	}
-
-	float skillDelta = GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE);
-	float skillModify;
-	if(tradeType == PRICE_TYPE_BUY)
-	{
-		skillModify = 1.4 - skillDelta*0.019;
-		if(CheckAttribute(&Items[itmIdx],"groupID"))
-		{
-			if(Items[itmIdx].groupID == BLADE_ITEM_TYPE || Items[itmIdx].groupID == GUN_ITEM_TYPE) skillModify *= 10.0;
-		}
-		if(CheckOfficersPerk(pchar,"Trader")) { skillModify -= 0.05; }
-		
-		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ skillModify -= 0.2; }
-		else
-		{
-			if(CheckOfficersPerk(pchar,"BasicCommerce"))	{ skillModify -= 0.1; }
-		}
-	}
-	else
-	{
-		skillModify = 0.75 + skillDelta*0.019;
-		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	skillModify += 0.05;
-		if(CheckOfficersPerk(pchar,"Trader")) { skillModify += 0.05; }
-	}
-
-	return makeint(makefloat(itmprice)*skillModify);
 }

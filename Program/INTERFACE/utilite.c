@@ -218,6 +218,23 @@ string GetFaceGroupName(int charIdx)
 	return "FACE128_"+Characters[charIdx].FaceID;
 }
 
+string GetMinifiedFaceGroupName(int charIdx)
+{
+    if(charIdx<0) {return "EMPTYFACE";}
+    return "%_"+Characters[charIdx].FaceID;
+}
+
+string PrepareMinifiedFaceString(string facestr)
+{
+    string preparedFacestr = facestr;
+
+    while(HasSubStr(preparedFacestr, "%")) {
+        preparedFacestr = strreplace(preparedFacestr, "%", "FACE128");
+    }
+
+    return preparedFacestr;
+}
+
 string GetFacePictureName(int charIdx)
 {
 	if(charIdx<0) return "emptyface";
@@ -921,10 +938,10 @@ string GetAchievementName(string ach_name, int level) // Получим имя достижения 
 {
 	int lngFileID = LanguageOpenFile("AchievementsDescr.txt");
 	string describeStr = "";
-	
+
 	describeStr = LanguageConvertString(lngFileID, ach_name + "_" + level);
 	LanguageCloseFile(lngFileID);
-	
+
 	return describeStr;
 }
 
@@ -932,10 +949,10 @@ string GetAchievementDescrible(string ach_name, int level) // Получим описание д
 {
 	int lngFileID = LanguageOpenFile("AchievementsDescr.txt");
 	string describeStr = "";
-	
+
 	describeStr = LanguageConvertString(lngFileID, ach_name + "_" + level + "_descr");
 	LanguageCloseFile(lngFileID);
-	
+
 	return describeStr;
 }
 
@@ -943,11 +960,11 @@ string GetAchievementIcon(string ach_name) // Получим описание достижения (Raste
 {
 	int lngFileID = LanguageOpenFile("AchievementsDescr.txt");
 	string describeStr = "";
-	
+
 	describeStr = LanguageConvertString(lngFileID, ach_name + "_icon");
 	Log_info(describeStr);
 	LanguageCloseFile(lngFileID);
-	
+
 	return describeStr;
 }
 
@@ -958,17 +975,17 @@ string GetItemDescribe(int iGoodIndex)
 	int    lngFileID = LanguageOpenFile("ItemsDescribe.txt");
     string describeStr = "";
 	string ammotype = "";
- 
+
 	if (CheckAttribute(arItm, "groupID"))
 	{
 		//aw013 -->
-		/*if(arItm.groupID == CIRASS_ITEM_TYPE) 
-		{ 
+		/*if(arItm.groupID == CIRASS_ITEM_TYPE)
+		{
 			float fItmShield = stf(arItm.CirassLevel) * 100.0;
 			describeStr += "Защита " + FloatToString(fItmShield, 2) + " проц." + newStr();
 		}*/
 		//aw013 <--
-		
+
 		if(arItm.groupID == GUN_ITEM_TYPE)
 		{
 			if(CheckAttribute(arItm,"type.t1") && !CheckAttribute(arItm,"type.t2") && !CheckAttribute(arItm,"type.t3"))
@@ -1031,7 +1048,7 @@ string GetItemDescribe(int iGoodIndex)
 			else describeStr += "Не требует специальных навыков."+ NewStr();
 		}
 		if(arItm.groupID == BACKPACK_ITEM_TYPE)
-		{	
+		{
 			float fBackPackWeight = stf(arItm.BackPackWeight);
 			string sBackPackWeight = FloatToString(fBackPackWeight, 1);
 			describeStr += GetAssembledString(LanguageConvertString(lngFileID,"BackPackWeight"), arItm) + newStr();
@@ -1076,16 +1093,16 @@ string GetItemDescribe(int iGoodIndex)
 		{
 			describeStr += NewStr() + LanguageConvertString(lngFileID, "Energy parameters")+":";
 			if (stf(arItm.Food.energy) >= 0)
-			{	
+			{
 				describeStr += " + " + sti(arItm.Food.energy) +"\n";
-			} 
+			}
 			else
-			{	
+			{
 				describeStr += " " + sti(arItm.Food.energy) +"\n";
 			}
 		}
 	}
-	//aw013 --> 
+	//aw013 -->
 	float fItmPrice;
 	if (arItm.price != 0 && arItm.Weight != 0) fItmPrice = stf(arItm.price) / stf(arItm.Weight);
 	else fItmPrice=0;
@@ -1102,7 +1119,7 @@ string GetItemDescribe(int iGoodIndex)
 			}
 		}
 	}
-	//aw013 <-- 
+	//aw013 <--
 
 	LanguageCloseFile(lngFileID);
 

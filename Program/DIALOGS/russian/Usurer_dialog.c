@@ -405,7 +405,7 @@ void ProcessDialogEvent()
 				}
 				else
 				{
-					if (CheckCharacterItem(pchar, "topor_emperor"))
+					if (sti(pchar.Items.topor_emperor)>0)
 					{
 						link.lWhisper = "Я принесла вам императорский топор.";
 						link.lWhisper.go = "Whisper_china_relic_finish_topor";
@@ -466,7 +466,11 @@ void ProcessDialogEvent()
 		//Виспер - Китайская реликвия
 		case "Whisper_china_relic_finish_topor":
 			dialog.text = "Ничего себе! Он выглядит даже более роскошно, чем я себе представлял. Боюсь представить, каким образом он у вас оказался.";
-			TakeItemFromCharacter(pchar, "topor_emperor");
+			pchar.Items.topor_emperor = sti(pchar.Items.topor_emperor)-1;
+			if (pchar.equip.blade == "topor_emperor")
+			{
+				RemoveCharacterEquip(pchar, BLADE_ITEM_TYPE);
+			}
 			Log_Info("Вы отдали императорский топор");
 			PlaySound("interface\important_item.wav");
 			link.l1 = "И не нужно, лучше покажите наконец меч. ";

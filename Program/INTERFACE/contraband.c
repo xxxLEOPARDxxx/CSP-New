@@ -25,8 +25,9 @@ int FIS_FilterState = 0;
 void InitInterface_RR(string iniName, ref ContraTrader , ref pStore)
 {
  	StartAboveForm(true);
+
 	pchar.Goods.Store.Contraband = true;
-	Log_Info(pchar.Goods.Store.Contraband);
+	//Log_Info(pchar.Goods.Store.Contraband);
     refStore 		= pStore;
 	refCharacter 	= pchar;
 	refContraChar	= ContraTrader;
@@ -51,6 +52,14 @@ void InitInterface_RR(string iniName, ref ContraTrader , ref pStore)
     FillShipsScroll();
 
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
+
+	if (checkattribute(pchar, "ContraFilter")) FIS_FilterState = sti(pchar.ContraFilter); else FIS_FilterState = 0; 
+	switch (FIS_FilterState)
+	{
+	case FIS_ALL: SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_ALL", 2, 1, 1); break;
+	case FIS_SHIP: SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_SHIP", 2, 1, 1); break;
+	case FIS_STORE: SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_STORE", 2, 1, 1); break;
+	}
 
 	CreateString(true,"ShipName","",FONT_NORMAL,COLOR_MONEY, 405,108,SCRIPT_ALIGN_CENTER,1.0);
 
@@ -316,6 +325,7 @@ void ShowGoodsInfo(int iGoodIndex)
 
 void IDoExit(int exitCode)
 {
+	pchar.ContraFilter = FIS_FilterState;
 	if(GetSummonSkillFromName(GetMainCharacter(), "Sneak") < Rand(120) && !CheckAttribute(pchar,"ContraInter"))
 	{
 		PChar.GenQuest.contraTravel.PatrolFight = true;
@@ -326,8 +336,13 @@ void IDoExit(int exitCode)
 		}
 	}
 	DeleteAttribute(pchar,"Goods.Store.Contraband");
-	Log_Info(pchar.Goods.Store.Contraband);
-	AddCharacterExpToSkill(GetMainCharacter(), "Sneak", 100);
+	//Log_Info(pchar.Goods.Store.Contraband);
+	if (!CheckAttribute(pchar,"quest.Contraband.SneakGot"))
+	{
+		pchar.quest.Contraband.SneakGot = true;
+		AddCharacterExpToSkill(Pchar, "Sneak", 100);
+		SetTimerCondition("ContraSneakGot", 0, 0, 1, false);
+	}
 					
 	ChangeContrabandRelation(GetMainCharacter(), 15);
     OfficersReaction("bad");

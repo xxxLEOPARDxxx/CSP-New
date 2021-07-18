@@ -544,6 +544,8 @@ void GiveItemToTrader(aref ch)
 	irand = rand(6);
 	if(irand == 1) AddItems(ch, "CompCraft_Lead", Rand(10) + 1);	// Свинец
 	irand = rand(6);
+	if(irand == 1) AddItems(ch, "CompCraft_Copper", Rand(8) + 1);	// Медь
+	irand = rand(6);
 	if(irand == 1) AddItems(ch, "CompCraft_Sulfur", Rand(5) + 2);	// Сера
 	irand = rand(4);
 	if(irand == 1  && rank >=5) AddItems(ch, "CompCraft_Grindstone", Rand(7) + 3);	// Оселок
@@ -561,6 +563,7 @@ void GiveItemToTrader(aref ch)
 		irand = rand(19);
 		if(irand == 1  && rank >=5) AddItems(ch, "CompCraft_Tools", 1);	// Набор инструментов
 		if(irand == 2  && rank >=5) AddItems(ch, "CompCraft_Locksmith", 1);	// Слесарный набор
+		if(irand == 2  && rank >=5) AddItems(ch, "CompCraft_Puleleyka", 1);	// Пулелейка
 	}
 	//<----
 	

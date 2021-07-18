@@ -46,6 +46,7 @@ void ProcessDialogEvent()
 			WhisperPirateTownBattleMortality();
 			//AddDialogExitQuest("MainHeroFightModeOn");	
 			DialogExit_Self();
+			ChangeWhisperHeroModel();
 		break;
 		case "exit_WhisperIncq":
 			NextDiag.CurrentNode = NextDiag.TempNode;	
@@ -199,7 +200,7 @@ void ProcessDialogEvent()
 			//Старт за Мэри и Шарля
 			if (CheckAttribute(pchar, "questTemp.SharleMary.Entered_Shore"))
 			{
-				dialog.Text = "Матерь Небесная, вот это шторм был... Кровь... У меня голова разбита... Черт возьми, всё как в тумане. "+GetSexPhrase("Мэри! Где Мэри?!","Шарль! Где Шарль?!")+" На песке ни досок, ни трупов. «Фортуна» погибла или дрейфует где то в море. К дьяволу, их всех.";
+				dialog.Text = "Матерь Небесная, вот это шторм был... Кровь... У меня голова разбита... Черт возьми, всё как в тумане. "+GetSexPhrase("Мэри! Где Мэри?!","Шарль! Где Шарль?!")+" На песке ни досок, ни трупов. 'Фортуна' погибла или дрейфует где то в море. К дьяволу их всех!";
 				DeleteAttribute(pchar, "questTemp.SharleMary.Entered_Shore");
 				Link.l1 = "Мне нужно найти "+GetSexPhrase("Мэри.","Шарля.");
 				Link.l1.go = "Exit_Special";
@@ -215,7 +216,7 @@ void ProcessDialogEvent()
 			//Старт за нежить
 			if (CheckAttribute(pchar, "questTemp.Undead.Leave_Crypt"))
 			{
-				dialog.Text = "Микту... Мекетлу... М... Что со мной? Я чувствую, что "+GetSexPhrase("должен","должна")+" покинуть это место. Мне нужен корабль. Я слышу зов. Другие. Они ждут взаперти. Нет сил противится. Я иду, бог мёртвых. Я иду.";
+				dialog.Text = "Микту... Мекетлу... М... Что со мной? Я чувствую, что "+GetSexPhrase("должен","должна")+" покинуть это место. Мне нужен корабль. Я слышу зов. Другие. Они ждут взаперти. Нет сил противиться. Я иду, бог мёртвых. Я иду.";
 				DeleteAttribute(pchar, "questTemp.Undead.Leave_Crypt");
 				Link.l1 = "Стоит переодеться в эту неприметную одежду, прежде чем посещать мир живых.";
 				Link.l1.go = "Exit_Special";
@@ -280,12 +281,15 @@ void ProcessDialogEvent()
 			if (CheckAttribute(pchar, "questTemp.Whisper.GetHat"))
 			{
 				DeleteAttribute(pchar, "questTemp.Whisper.GetHat");
-				dialog.Text = "Похоже, его задело шальной пулей. ";
+				dialog.Text = "Похоже, его задело шальной пулей\nЯ позаимствую шпагу, в данный момент она мне гораздо нужнее, чем ему\nИ шляпа у него красивая...";
 				GiveItem2Character(pchar, "blade19");
 				EquipCharacterByItem(pchar, "blade19");
 				Pchar.model="PGG_Whisper_0";
 				pchar.Whisper.HatEnabled = true;
-				Link.l1 = "Мне жаль, приятель. Твои шпагу со шляпой я заберу, в данный момент они мне гораздо нужнее, чем тебе. Надеюсь, ты не в обиде.";
+				TakeNItems(PChar, "hatWhisper", 1);
+				EquipCharacterByItem(pchar, "hatWhisper");
+				
+				Link.l1 = "Мне жаль что все так вышло, приятель. Надеюсь, ты не в обиде.";
 				Link.l1.go = "exit_WhisperTownbattle";
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.AfterTownBattle"))
@@ -487,7 +491,7 @@ void ProcessDialogEvent()
 			}
 			if(startHeroType == 2)
 			{
-				if(CheckAttribute(pchar,"Whisper.HatEnabled"))
+				if(CheckCharacterItem(pchar,"hatWhisper"))
 				{
 					if (!CheckAttribute(pchar,"Whisper.Equipped"))
 					{
@@ -498,6 +502,19 @@ void ProcessDialogEvent()
 					{
 						Link.lWhisperHat = "Носить шляпу.";
 						Link.lWhisperHat.go = "WhisperHatEquip";
+					}
+				}
+				if(CheckCharacterItem(pchar,"glasses"))
+				{
+					if (IsEquipCharacterByItem(pchar, "glasses"))
+					{
+						Link.lWhisperGlasses = "Прекратить носить очки.";
+						Link.lWhisperGlasses.go = "WhisperGlassesUnequip";
+					}
+					else
+					{
+						Link.lWhisperGlasses = "Носить очки.";
+						Link.lWhisperGlasses.go = "WhisperGlassesEquip";
 					}
 				}
 				Link.lWhisperPortrait = "Сменить портрет.";
@@ -772,7 +789,7 @@ void ProcessDialogEvent()
 	            {
 	                if (pchar.location == "Panama_ExitTown")
 					{
-						Dialog.Text = "Не-е-ет, я не сумасшедший. Это же Панама! Взять ее НЕВОЗМОЖНО!!! Надо валить отсюда, а то точно дождусь черной метки...";
+						Dialog.Text = "Не-е-ет, я не сумасшедш"+ GetSexPhrase("ий","ая")+". Это же Панама! Взять ее НЕВОЗМОЖНО!!! Надо валить отсюда, а то точно дождусь черной метки...";
 	    				Link.l1 = "...";
 	    				Link.l1.go = "exit";
 					}
@@ -1097,7 +1114,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Или же найти помошника?";
 			Link.l1 = "Пожалуй, я и сам"+GetSexPhrase("","а")+" справлюсь.";
 			Link.l1.go = "ColonyBuilding_Hovernor_2";
-			Link.l2 = "Я передумал.";
+			Link.l2 = "Я передумал"+ GetSexPhrase("","а")+".";
 			Link.l2.go = "Exit";
 		break;
 	        case "ColonyBuilding_Hovernor_2":
@@ -1112,7 +1129,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Просмотреть текущее состояние дел колонии " + PChar.ColonyBuilding.ColonyName + ".";
 			Link.l1 = "Нужно детально изучить текущее состояние дел.";
 			Link.l1.go = "ColonyBuilding_Hovernor_3";
-			Link.l2 = "Что-то мне не по душе это сухопутная жизнь.";
+			Link.l2 = "Что-то мне не по душе эта сухопутная жизнь.";
 			Link.l2.go = "ColonyBuilding_Hovernor_4";
 			Link.l3 = "Ничего не предпринимать.";
 			Link.l3.go = "Exit";
@@ -1197,7 +1214,17 @@ void ProcessDialogEvent()
 			InterfaceStates.DisFastTravel = false;
 			pchar.Whisper.NanoCostume = true;
 			pchar.questTemp.WhisperLine = false;
-			pchar.Whisper.HatEnabled = true;
+			pchar.Whisper.HatEnabled = false;
+			
+			TakeNItems(PChar, "hatWhisper", 1);
+			TakeNItems(PChar, "glasses", 1);
+			
+			SetQuestHeader("WhisperContraband");
+			AddQuestRecord("WhisperContraband", "1");
+			pchar.Whisper.Contraband = true;
+			pchar.Whisper.FindDesouza = true;
+			SetTimerCondition("W_Smuggling", 0, 0, 60, false);
+			
 			//initMainCharacterItem();
             mc = GetMainCharacter();
 
@@ -1235,6 +1262,8 @@ void ProcessDialogEvent()
 			Link.l5.go = "portrait5";
 			Link.l6 = "Вариант 6.";	
 			Link.l6.go = "portrait6";
+			Link.l7 = "Вариант 7.";	
+			Link.l7.go = "portrait7";
 			Link.l99 = "Пожалуй, оставлю всё как есть.";	
 			Link.l99.go = "Exit";
 		break;
@@ -1274,101 +1303,41 @@ void ProcessDialogEvent()
 			Link.l1 = "Все, хватит на сегодня.";	
 			Link.l1.go = "Exit";
 		break;
-		case "WhisperHatUnequip":
-			dialog.Text = "Оставлю ее в каюте, а то голова потеет.";
-			if (Pchar.model=="PGG_Whisper_0")
-			{
-				Pchar.model="PGG_Whisper_0_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_1")
-			{
-				Pchar.model="PGG_Whisper_1_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_2")
-			{
-				Pchar.model="PGG_Whisper_2_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_3")
-			{
-				Pchar.model="PGG_Whisper_3_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_4")
-			{
-				Pchar.model="PGG_Whisper_4_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_5")
-			{
-				Pchar.model="PGG_Whisper_5_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_5_Cirass")
-			{
-				Pchar.model="PGG_Whisper_5_Cirass_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_6")
-			{
-				Pchar.model="PGG_Whisper_6_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_7")
-			{
-				Pchar.model="PGG_Whisper_7_NoHat";
-			}
-			if (Pchar.model=="PGG_Whisper_8")
-			{
-				Pchar.model="PGG_Whisper_8_NoHat";
-			}
-			pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1_NoHat,PGG_Whisper_2_NoHat,PGG_Whisper_3_NoHat,PGG_Whisper_4_NoHat,PGG_Whisper_5_NoHat,PGG_Whisper_6_NoHat,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
-			pchar.Whisper.Equipped = true;
-			SetNewModelToChar(pchar);
+		case "portrait7":
+			pchar.faceID = "543_7";
+			dialog.Text = "Гораздо лучше.";
 			Link.l1 = "Все, хватит на сегодня.";	
 			Link.l1.go = "Exit";
 		break;
+		case "WhisperHatUnequip":
+			dialog.Text = "Оставлю ее в каюте, а то голова потеет.";
+			ref hatRef = ItemsFromID("hatWhisper");
+			string itmGroup = hatRef.groupID;
+			RemoveCharacterEquip(pchar, itmGroup);
+			ChangeWhisperHeroModel();
+			Link.l1 = "С этим разобрались.";	
+			Link.l1.go = "TalkSelf_Main";
+		break;
 		case "WhisperHatEquip":
 			dialog.Text = "Вот, так гораздо лучше.";
-			if (Pchar.model=="PGG_Whisper_0_NoHat")
-			{
-				Pchar.model="PGG_Whisper_0";
-			}
-			if (Pchar.model=="PGG_Whisper_1_NoHat")
-			{
-				Pchar.model="PGG_Whisper_1";
-			}
-			if (Pchar.model=="PGG_Whisper_2_NoHat")
-			{
-				Pchar.model="PGG_Whisper_2";
-			}
-			if (Pchar.model=="PGG_Whisper_3_NoHat")
-			{
-				Pchar.model="PGG_Whisper_3";
-			}
-			if (Pchar.model=="PGG_Whisper_4_NoHat")
-			{
-				Pchar.model="PGG_Whisper_4";
-			}
-			if (Pchar.model=="PGG_Whisper_5_NoHat")
-			{
-				Pchar.model="PGG_Whisper_5";
-			}
-			if (Pchar.model=="PGG_Whisper_5_Cirass_NoHat")
-			{
-				Pchar.model="PGG_Whisper_5_Cirass";
-			}
-			if (Pchar.model=="PGG_Whisper_6_NoHat")
-			{
-				Pchar.model="PGG_Whisper_6";
-			}
-			if (Pchar.model=="PGG_Whisper_7_NoHat")
-			{
-				Pchar.model="PGG_Whisper_7";
-			}
-			if (Pchar.model=="PGG_Whisper_8_NoHat")
-			{
-				Pchar.model="PGG_Whisper_8";
-			}
-			pchar.HeroModel  = "PGG_Whisper_0,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5,PGG_Whisper_6,PGG_Whisper_7,PGG_Whisper_8";
-			DeleteAttribute(pchar,"Whisper.Equipped");
-			SetNewModelToChar(pchar);
-			Link.l1 = "Все, хватит на сегодня.";	
-			Link.l1.go = "Exit";
+			EquipCharacterByItem(pchar, "hatWhisper");
+			ChangeWhisperHeroModel();
+			Link.l1 = "С этим разобрались.";	
+			Link.l1.go = "TalkSelf_Main";
+		break;
+		case "WhisperGlassesUnequip":
+			dialog.Text = "Что-то у меня уже глаза побаливают, пожалуй, сниму очки.";
+			ref glassesRef = ItemsFromID("glasses");
+			string gItmGroup = glassesRef.groupID;
+			RemoveCharacterEquip(pchar, gItmGroup);
+			Link.l1 = "С этим разобрались.";	
+			Link.l1.go = "TalkSelf_Main";
+		break;
+		case "WhisperGlassesEquip":
+			dialog.Text = "Вот, так гораздо лучше.";
+			EquipCharacterByItem(pchar, "glasses");
+			Link.l1 = "С этим разобрались.";	
+			Link.l1.go = "TalkSelf_Main";
 		break;
 		
 	}

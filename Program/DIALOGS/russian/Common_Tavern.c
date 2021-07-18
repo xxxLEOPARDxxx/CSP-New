@@ -74,6 +74,19 @@ void ProcessDialogEvent()
                 }
                 break;
     		}
+			
+			if (drand2(100)==0 && sti(pchar.rank) >= 20)
+			{
+				if (!CheckAttribute(pchar,"questTemp.UniquePirate.Barbarigo") || !CheckAttribute(pchar,"questTemp.UniquePirate.BlackBeard") || !CheckAttribute(pchar,"questTemp.UniquePirate.Levasser"))
+				{
+					dialog.text = "Капитан, у меня тут завалялась карта сокровищ, наверняка очень ценная. Интересует?";
+					link.l1 = "Само собой! Сколько просишь?";
+					link.l1.go = "SpecialMapBuy";
+					link.l2 = "Обойдусь, пожалуй. Мало ли чья мазня, вдруг вообще подделка.";
+					link.l2.go = "exit";
+					break;
+				}
+			}
 
 			//зачарованный город -->
 			if (pchar.questTemp.MC == "toCaracas" && npchar.city == "Caracas")
@@ -218,6 +231,31 @@ void ProcessDialogEvent()
 				Link.l4 = "Увы, я уже ухожу, " + NPChar.name + ". До встречи.";
 				Link.l4.go = "exit";
 			}
+		break;
+		
+		case "SpecialMapBuy":
+			pchar.questTemp.SpecialMapPrice = 100000+drand(50000);
+			aref item;
+			Items_FindItem("map_full", &item);
+			string type = GetUniquePirateName();
+			FillMapForUniqueTreasure(item, type);
+			type = GetUniquePirateNameString(type);
+			dialog.Text = "Дешевле, чем за "+pchar.questTemp.SpecialMapPrice+" пиастров не уступлю. По слухам, это карта сокровищ самого "+type+". Если бы не таверна, может и попробовал бы снарядить команду на поиски.";
+			if (sti(pchar.money)>sti(pchar.questTemp.SpecialMapPrice))
+			{
+				link.l1 = "Карамба, славная однако цена. Что-ж, беру.";
+				link.l1.go = "SpecialMapBuy_1";
+			}
+			link.l2 = "За такую-то цену? Нашёл "+GetSexPhrase("дурака.","дурочку.")+" Бывай!";
+			link.l2.go = "exit";
+		break;
+		
+		case "SpecialMapBuy_1":
+			AddMoneyToCharacter(pchar,-sti(pchar.questTemp.SpecialMapPrice));
+			GiveItem2Character(pchar, "map_full");
+			dialog.Text = "Держите, надеюсь оно будет того стоить. Удачного кладоискательства, капитан!";
+			link.l1 = "Благодарю.";
+			link.l1.go = "exit";
 		break;
 		
 		case "Meeting":

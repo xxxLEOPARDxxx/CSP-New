@@ -108,7 +108,7 @@ void ProcessDialogEvent()
 				Link.l1.go = "DHreaction";
 				break;
 			}
-			if (startherotype == 2 && npchar.quest.BadMeeting != lastspeak_date && npchar.quest.Fooled != lastspeak_date && GetCharacterEquipSuitID(pchar)!= "suit_1" && 80 > sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)))
+			if (startherotype == 2 && npchar.quest.BadMeeting != lastspeak_date && npchar.quest.Fooled != lastspeak_date && !IsEquipCharacterByItem(pchar, "glasses") && 80 > sti(GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)))
 			{
 				Dialog.Text = "Твои глаза... Покинь храм Господа, исчадие ада! Нам с тобой не о чем говорить!";
 				Link.l2 = "Ты заблуждаешься, святой отец. Я ангел небесный, и спустилась на землю дабы исполнить поручение Господне.";
@@ -163,7 +163,7 @@ void ProcessDialogEvent()
 				Link.l2 = "Ты мне не отец, и не смей так больше обращаться.";
 				Link.l2.go = "node_2";
 
-				if (startherotype == 2 && GetCharacterEquipSuitID(pchar)!= "suit_1")
+				if (startherotype == 2 && !IsEquipCharacterByItem(pchar, "glasses"))
 				{
 					Dialog.Text = "Мой ангел! Чем я могу помочь?";
 					Link.l2 = "Ничем, я уже ухожу.";
@@ -224,7 +224,7 @@ void ProcessDialogEvent()
 
 		case "node_3":
 			dialog.text = "Да благословит Господь вас и дела ваши... Вы пришли ко мне с какой-то целью?";
-			if (startherotype == 2 && GetCharacterEquipSuitID(pchar)!= "suit_1")
+			if (startherotype == 2 && !IsEquipCharacterByItem(pchar, "glasses"))
 			{
 				dialog.text = "Я к вашим услугам. Все, что угодно.";
 			}
@@ -774,7 +774,7 @@ void ProcessDialogEvent()
 		
 		
 		case "donation":
-			if (startherotype != 2)
+			if (startherotype != 2 || IsEquipCharacterByItem(pchar, "glasses"))
 			{
 				dialog.Text = "Конечно, "+ GetSexPhrase("сын мой","дочь моя") +". Сколько ты желаешь пожертвовать Святой Церкви?";
 				Link.l1 = "Простите, святой отец, но пожертвования не будет.";
@@ -798,11 +798,6 @@ void ProcessDialogEvent()
 			else
 			{
 				dialog.Text = "Нет нужды. Одно ваше появление здесь уже стоит дороже любых денег.";
-				Link.l1 = "Как знаешь. тогда еще вопрос...";
-				Link.l1.go = "node_3";
-				
-				if (GetCharacterEquipSuitID(pchar) == "suit_1" && npchar.quest.Fooled != lastspeak_date)
-				dialog.Text = "Я вижу ты и сама нуждаешься больше других. Я не приму твоих денег.";
 				Link.l1 = "Как знаешь. тогда еще вопрос...";
 				Link.l1.go = "node_3";
 				

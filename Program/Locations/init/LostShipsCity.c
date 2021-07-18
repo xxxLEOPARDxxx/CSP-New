@@ -1782,7 +1782,8 @@ int LocationInitLostShipsCity(int n)
 	//ключи для сундуков и предметы внутри
 	locations[n].private1.key = "key1";
 	locations[n].private1.money = 1;
-	locations[n].private1.items.CompCraft_Tools = 37;
+	locations[n].private1.items.CompCraft_Tools = 1;
+	locations[n].private1.items.CompCraft_Copper = 26;
 	locations[n].private1.items.CompCraft_Nails = 37;
 	locations[n].private1.items.map_maine_2 = 1;
 	locations[n].private1.items.potion2 = 2;
@@ -2184,6 +2185,7 @@ int LocationInitLostShipsCity(int n)
 	locations[n].private3.items.jewelry9 = 15;
 	locations[n].private3.items.jewelry2 = 2;
 	locations[n].private3.items.jewelry15 = 5;
+	locations[n].private3.items.CompCraft_Puleleyka = 1;
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

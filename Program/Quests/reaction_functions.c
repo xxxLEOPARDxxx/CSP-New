@@ -4401,7 +4401,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.lastname = "";
 	GiveItem2Character(sld, "unarmed");
 	EquipCharacterbyItem(sld, "unarmed");;
-	sld.location	= "Shore19";
+	sld.location	= "none";
 	sld.location.group = "goto";
 	sld.location.locator = "goto1"; 
 	sld.dialog.filename   = "Quest\LostShipsCity\Crab.c";
@@ -10543,6 +10543,33 @@ void PDM_ONV_Kazn_4(string qName)
 //Sinistra Охота на ведьму <--
 
 //Sinistra Клан Ламбрини -->
+void PDM_CL_Ubrat_Lodku(string qName)
+{
+	int Rank = sti(pchar.rank) - 4 + MOD_SKILL_ENEMY_RATE;
+	if (Rank < 1) Rank = 1;
+	int Sila = 70 + MOD_SKILL_ENEMY_RATE * 3;
+	int DopHP = 60 + MOD_SKILL_ENEMY_RATE * 12;
+	
+	sld = CharacterFromID("PDM_CL_Antonio")
+	LAi_KillCharacter(sld);
+	sld = CharacterFromID("PDM_CL_Anto2")
+	LAi_KillCharacter(sld);
+	
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Antonio3", "SpaOfficer2", "man", "man", Rank, SPAIN, -1, false));
+	sld.name = "Антонио";
+	sld.lastname = "де Гальвес";
+	sld.greeting = "GR_Spainguard";
+	FantomMakeCoolFighter(sld, Rank, Sila, Sila, "", "pistol2", DopHP);
+	sld.equip.blade = "blade39";
+	sld.nonTable = true;
+	LAi_SetSitType(sld);
+	sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+	sld.dialog.currentnode   = "Antonio_2_1";
+	LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+	sld.city = "Maracaibo";
+	ChangeCharacterAddressGroup(sld, "Maracaibo_church", "sit", "sit16");
+	LAi_SetLoginTime(sld, 9.0, 13.00);
+}
 void PDM_CL_Sadis_Pokupatel(string qName)
 {
 	sld = CharacterFromID("PDM_CL_Pokupatel")
@@ -10554,6 +10581,13 @@ void PDM_CL_Sadis_Octavio(string qName)
 	sld = CharacterFromID("PDM_Octavio_Lambrini")
 	ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_front2");
 	LAi_SetSitType(sld);
+}
+void PDM_CL_Pokupatel_Uhodit(string qName)
+{
+	sld = characterFromID("PDM_CL_Pokupatel");
+	LAi_SetActorType(sld);
+	ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "tables", "stay3");
+	LAi_ActorGoToLocation(sld, "reload", "reload1_back", "none", "", "", "", -1);
 }
 //Sinistra Клан Ламбрини <--
 

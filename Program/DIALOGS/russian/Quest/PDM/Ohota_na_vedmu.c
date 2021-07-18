@@ -18,7 +18,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "First_time":							//Автор Sinistra
-			if (pchar.rank >= 15 && sti(pchar.items.patent_spa) == 1)
+			if (pchar.rank >= 12 && sti(pchar.items.patent_spa) == 1)
 			{
 				dialog.text = "Приветствую вас, "+ GetSexPhrase("сэр","леди")+". Меня зовут Бартоломью Ольстер. Кстати, вы не видели Карлу, девушку из таверны? Она куда-то пропала...";
 				link.l1 = "Нет, я не знаю, кто она, и уж тем более - где она. Но вы говорите как англичанин - скажите, как вы попали сюда?";
@@ -26,14 +26,14 @@ void ProcessDialogEvent()
 				link.l2 = "Не знаю. Быть может вам стоит поискать в таверне - это было бы логично.";
 				link.l2.go = "Bartolom";
 			}
-			if (pchar.rank >= 15 && sti(pchar.items.patent_spa) != 1)
+			if (pchar.rank >= 12 && sti(pchar.items.patent_spa) != 1)
 			{
 				dialog.text = "Вы состоите на государственной службе Испании? Нет? Тогда мне с вами не о чем разговаривать.";
 				link.l1 = "Понятно. Тогда я "+ GetSexPhrase("пошёл","пошла")+".";
 				link.l1.go = "exit";
 				NextDiag.TempNode = "First_time";
 			}
-			if (pchar.rank >= 1 && pchar.rank <= 14)
+			if (pchar.rank >= 1 && pchar.rank <= 11)
 			{
 				dialog.text = "Извините меня, но вы ещё слишком "+ GetSexPhrase("зелёный","зелёная")+", чтобы я с вами разговаривал.";
 				link.l1 = "Хорошо, я тогда приду позже, когда подрасту.";
@@ -375,9 +375,9 @@ void ProcessDialogEvent()
 			link.l1 = "Желаю вам удачи, Карла! До встречи.";
 			link.l1.go = "Dobro_Final";
 			NextDiag.TempNode = "Carla_Final_Again";
-			AddBonusEnergyToCharacter(pchar, 40);
+			AddBonusEnergyToCharacter(pchar, 15);
 			PlaySound("Interface\new_level.wav");
-			Log_info("Ваша энергия увеличилась на 40 навсегда.");
+			Log_info("Ваша энергия увеличилась на 15 навсегда.");
 		break;
 		
 		case "Dobro_Final":

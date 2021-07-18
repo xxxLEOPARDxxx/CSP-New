@@ -373,6 +373,10 @@ void LAi_CheckHalfImmortal(aref chr)
 		{
 			rOff.ImmortalOfficer = true;
 		}
+		if (CheckAttribute(chr, "ChinamanAskedSword"))
+		{
+			rOff.ChinamanAskedSword = true;
+		}
 		int healing_time = makeint(LAi_GetCharacterMaxHP(chr)/10);//время от хп
 		if (CheckOfficersPerk(pchar, "EmergentSurgeon")) healing_time -= makeint(healing_time/10*3);//снижения от перков врачей
 		else
@@ -404,7 +408,7 @@ void LAi_CheckHalfImmortal(aref chr)
 			 
 		//LAi_SetCurHPMax(rOff);
 		AddPassenger(pchar, rOff, false);
-		if (rOff.model.animation == "mushketer")
+		if (findsubstr(rOff.model.animation, "mushketer" , 0) != -1)
 		{
 			rOff.IsMushketer = true;
 			rOff.CanTakeMushket = true;

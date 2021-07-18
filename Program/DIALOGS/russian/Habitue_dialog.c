@@ -593,14 +593,14 @@ void ProcessDialogEvent()
 
 		case "GhostShip_Speak_3_2":
 			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
-			dialog.text = "Говорят, что он сейчас около того самого таинственного острова Кхаэль-Роа.";
-			link.l1    = "А скажи мне, где этот остров?";
+			dialog.text = "Говорят, что он сейчас около таинственного острова Кхаэль-Роа.";
+			link.l1    = "А скажи мне, любезный, где искать этот остров?";
 			link.l1.go = "GhostShip_Speak_3_3";
 		break;
 
 		case "GhostShip_Speak_3_3":
 			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
-			dialog.text = "Ходят слухи, что он где-то в треугольнике островов Сан-Мартин, Невис и Антигуа.";
+			dialog.text = "Ходят слухи, что он где-то в треугольнике, что образуют острова Сан-Мартин, Невис и Антигуа.";
     		if (sti(PChar.GenQuest.GhostShip.KillMe) > 0 || sti(PChar.GenQuest.GhostShip.DeadByMe) > 0)
             {
                 link.l1 = "Что же, наведаюсь к нему еще раз!";

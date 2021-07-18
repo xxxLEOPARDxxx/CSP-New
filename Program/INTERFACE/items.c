@@ -1263,7 +1263,7 @@ void EquipPress()
 			if (itmRef.id == "map_full" || itmRef.id == "map_part1" || itmRef.id == "map_part2")
 			{// клады
 				SetNewPicture("MAP_PICTURE", "interfaces\Maps\map_1.tga");
-				if (GetCharacterItem(pchar, "map_part1")>0  && GetCharacterItem(pchar, "map_part2")>0)
+				if (GetCharacterItem(pchar, "map_part1")>0  && GetCharacterItem(pchar, "map_part2")>0 && GetCharacterItem(pchar, "map_full")<=0)
 				{
 					TakeNItems(xi_refCharacter, "map_part1", -1);
 					TakeNItems(xi_refCharacter, "map_part2", -1);
@@ -1305,6 +1305,13 @@ void EquipPress()
 						itmRef.MaplocName = totalInfo;
 
 						totalInfo = GetConvertStr("type_full_" + itmRef.MapTypeIdx, "MapDescribe.txt");
+						
+						if (CheckAttribute(itmRef,"uniquep"))
+						{
+							string pirname = GetUniquePirateNameString(itmRef.uniquep);
+							totalInfo = "Это #sMapIslName#. На карте указано место спрятанного клада - это #sMaplocName#.\nСудя по всему - это подлинная карта сокровищ легендарного пирата "+pirname+"."
+						}
+						
 						totalInfo = GetAssembledString(totalInfo, itmRef);
 						sMapDescribe = totalinfo;//в глобальную переменную, чтобы можно было в другой функции показывать/скрывать текст
 						SetMapCross(itmRef.MapLocId);
@@ -1397,6 +1404,10 @@ void EquipPress()
 					if(IsEquipCharacterByItem(xi_refCharacter, itmRef.id))
 					{
 						RemoveCharacterEquip(xi_refCharacter, itmGroup);
+						if (CheckAttribute(itmRef, "HeadAccessory"))
+						{
+							SetNewModelToChar(xi_refCharacter);
+						}
 						if (itmGroup == BOOK_ITEM_TYPE && IsMainCharacter(xi_refCharacter)) // Книги, снятие - Gregg
 						{
 							DeleteAttribute(xi_refCharacter,"booktime");
@@ -1499,6 +1510,10 @@ void EquipPress()
 							SetNewGroupPicture("ITEM_14", itms.picTexture, "itm" + itms.picIndex);
 							return;
 						}
+					}
+					if (itmRef.id == "hatWhisper")
+					{
+						ChangeWhisperHeroModel();
 					}
 				}
 			}
@@ -1720,11 +1735,6 @@ void ExitItemFromCharacterWindow()
 
 void ShowItemFromCharacterWindow()
 {
-	if(sti(xi_refCharacter.index) != nMainCharacterIndex)
-	{
-		return;
-	}
-
 	int  iIndex = sti(GameInterface.(CurTable).(CurRow).index);
 
 	XI_WindowShow("ITEM_FROM_CHARACTER_WINDOW", true);
@@ -1755,16 +1765,17 @@ void ShowItemFromCharacterWindow()
 	string sGoodName = LanguageConvertString(lngFileID, sGood);
 
 	SetFormatedText("ITEM_FROM_CHARACTER_TEXT", GetItemDescribe(iIndex));
-	SetFormatedText("ITEM_FROM_CHARACTER_NAME", "Выкинуть предмет: " + sGoodName);
+	if(sti(xi_refCharacter.index) != nMainCharacterIndex) SetFormatedText("ITEM_FROM_CHARACTER_NAME", "Передать предмет: " + sGoodName);
+	else SetFormatedText("ITEM_FROM_CHARACTER_NAME", "Выкинуть предмет: " + sGoodName);
 
 	string sItem = itm.id;
 	int iQuantity = sti(GameInterface.qty_edit.str);
 	float fItemQuantity = iQuantity*stf(itm.Weight);
-	float fWeight = GetItemsWeight(PChar) - fItemQuantity;
+	float fWeight = GetItemsWeight(xi_refCharacter) - fItemQuantity;
 
 	if(iQuantity <= 0)
 	{
-		fItemQuantity = GetItemsWeight(PChar);
+		fItemQuantity = GetItemsWeight(xi_refCharacter);
 	}
 
 
@@ -1779,7 +1790,7 @@ void ShowItemFromCharacterWindow()
 	}
 
 
-SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(PChar));
+SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(xi_refCharacter));
 
 	LanguageCloseFile(lngFileID);
 }
@@ -1799,15 +1810,15 @@ void ChangeQTY_EDIT(string sItem)
 		GameInterface.qty_edit.str = 0;
 	}
 
-	if(sti(GameInterface.qty_edit.str) > GetCharacterItem(PChar, sItem))
+	if(sti(GameInterface.qty_edit.str) > GetCharacterItem(xi_refCharacter, sItem))
 	{
-		GameInterface.qty_edit.str = GetCharacterItem(PChar, sItem);
+		GameInterface.qty_edit.str = GetCharacterItem(xi_refCharacter, sItem);
 	}
 
 
-	if(IsEquipCharacterByItem(PChar, sItem))
+	if(IsEquipCharacterByItem(xi_refCharacter, sItem))
 	{
-		if(sti(GameInterface.qty_edit.str) >= GetCharacterItem(PChar, sItem))
+		if(sti(GameInterface.qty_edit.str) >= GetCharacterItem(xi_refCharacter, sItem))
 		{
 			GameInterface.qty_edit.str = sti(GameInterface.qty_edit.str) - 1;
 		}
@@ -1821,14 +1832,14 @@ void ChangeQTY_EDIT(string sItem)
 	ref itm = ItemsFromID(sItem);
 	int iQuantity = sti(GameInterface.qty_edit.str);
 	float fItemQuantity = iQuantity*stf(itm.Weight);
-	float fWeight = GetItemsWeight(PChar) - fItemQuantity;
+	float fWeight = GetItemsWeight(xi_refCharacter) - fItemQuantity;
 
 	if(iQuantity <= 0)
 	{
-		fItemQuantity = GetItemsWeight(PChar);
+		fItemQuantity = GetItemsWeight(xi_refCharacter);
 	}
 
-	SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(PChar));
+	SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(xi_refCharacter));
 
 }
 
@@ -1839,7 +1850,7 @@ void REMOVE_ALL_BUTTON(string sItem)  // выкинуть все
 		return;
 	}
 
-	int iQuantity = GetCharacterItem(PChar, sItem);
+	int iQuantity = GetCharacterItem(xi_refCharacter, sItem);
 
 	GameInterface.qty_edit.str = iQuantity;
 	ChangeQTY_EDIT(sItem);
@@ -1853,21 +1864,19 @@ void ADD_ALL_BUTTON(string sItem)  // сбросить
 
 void REMOVE_BUTTON(string sItem)  // выкинуть
 {
-	ref PChar = GetMainCharacter();
-
 	if(IsQuestUsedItem(sItem))
 	{
 		return;
 	}
 
-	if(GetCharacterItem(PChar, sItem) >= 1)
+	if(GetCharacterItem(xi_refCharacter, sItem) >= 1)
 	{
 		GameInterface.qty_edit.str = (sti(GameInterface.qty_edit.str) + 1);
 	}
 
-	if(sti(GameInterface.qty_edit.str) > GetCharacterItem(PChar, sItem))
+	if(sti(GameInterface.qty_edit.str) > GetCharacterItem(xi_refCharacter, sItem))
 	{
-		GameInterface.qty_edit.str = GetCharacterItem(PChar, sItem);
+		GameInterface.qty_edit.str = GetCharacterItem(xi_refCharacter, sItem);
 	}
 	ChangeQTY_EDIT(sItem);
 }
@@ -1886,7 +1895,6 @@ void ADD_BUTTON(string sItem)  // не выкидывать
 
 void RemoveItemsQuantity()
 {
-	ref PChar = GetMainCharacter();
 
 	int  iIndex = sti(GameInterface.(CurTable).(CurRow).index);
 	ref itm = &Items[iIndex];
@@ -1900,7 +1908,8 @@ void RemoveItemsQuantity()
 		return;
 	}
 
-	TakeNItems(PChar, itm.id, -iQuantity);
+	TakeNItems(xi_refCharacter, itm.id, -iQuantity);
+	if(sti(xi_refCharacter.index) != nMainCharacterIndex) TakeNItems(PChar, itm.id, iQuantity);
 
 	ExitItemFromCharacterWindow();
 	SetVariable();
@@ -2360,6 +2369,7 @@ void FillSetName(int iNum)
 
 void SaveSETName()
 {
+	if(GameInterface.EDIT_BOX1.lastkey == " ") return;
 	string sSET = "Set" + iEQUIP_SET;
 	xi_refCharacter.(sSET).nameset = GameInterface.EDIT_BOX1.str;
 	FillSetName(iEQUIP_SET);

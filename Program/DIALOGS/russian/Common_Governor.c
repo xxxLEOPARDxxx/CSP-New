@@ -461,8 +461,10 @@ void ProcessDialogEvent()
 			LAi_SetFightMode(PChar, true);
 			Flag_PIRATE();
 			LAi_SetImmortal(CharacterFromID("Andre_Abel_Quest_Officer_1"), false);
-			LAi_SetActorType(CharacterFromID("Andre_Abel_Quest_Officer_1"));
-			LAi_ActorAttack(CharacterFromID("Andre_Abel_Quest_Officer_1"), PChar, "");
+			sTemp = "hol_guard";
+			LAi_group_MoveCharacter(CharacterFromID("Andre_Abel_Quest_Officer_1"), sTemp);
+			LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups(sTemp, LAI_GROUP_PLAYER, true);
 			QuestSetCurrentNode("Henry Morgan", "Andre_Abel_Quest_Morgan_Dialog_16");
 			LAi_Group_Attack(PChar, CharacterFromID("hol_guber"));
 			AddQuestRecord("Andre_Abel_Quest", "16");

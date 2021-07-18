@@ -79,54 +79,94 @@ void CalculateInfoData()
 {
 	// тут высчитываем нужную информацию и выводим в totalInfo - Инициализация -->
 	totalInfo = "Это отладчик. Позволяет выполнять заданные скриптологом функции. Кнопки: "+NewStr();
-	totalInfo = totalInfo + "F1 - " + descF1 + NewStr() +
-	                        "F2 - " + descF2 + NewStr() +
-	                        "F3 - " + descF3 + NewStr() +
-	                        "F4 - " + descF4 + NewStr() +
-	                        "F5 - " + descF5 + NewStr() +
-	                        "F6 - " + descF6 + NewStr() +
-	                        "F7 - " + descF7 + NewStr() +
-	                        "F8 - " + descF8 + NewStr() +
-	                        "F9 - " + descF9 + NewStr() +
-	                        "F10 - " + descF10 + NewStr() +
-	                        "F11 - " + descF11 + NewStr() +
-	                        "F12 - " + descF12 + NewStr() +
-	                        "F13 - " + descF13 + NewStr() +
-	                        "F14 - " + descF14 + NewStr() +
-	                        "F15 - " + descF15 + NewStr() +
-	                        "F16 - " + descF16 + NewStr() +
-	                        "F17 - " + descF17 + NewStr() +
-	                        "F18 - " + descF18 + NewStr() +
-                            "F19 - " + descF19 + NewStr() +
-                            "F20 - " + descF20 + NewStr() +
-                            "F21 - " + descF21 + NewStr() +
-                            "F22 - " + descF22 + NewStr() +
-                            "F23 - " + descF23 + NewStr() +
-	                        "F24 - " + descF24 + NewStr() +
-	                        "F25 - " + descF25 + NewStr() +
-	                        "F26 - " + descF26 + NewStr() +
-	                        "F27 - " + descF27 + NewStr() +
-	                        "F28 - " + descF28 + NewStr() +
-	                        "F29 - " + descF29 + NewStr() +
-	                        "F30 - " + descF30 + NewStr() +
-							"F31 - " + descF31 + NewStr() +
-	                        "F32 - " + descF32 + NewStr() +
-							"F33 - " + descF33 + NewStr() +
-	                        "F34 - " + descF34 + NewStr() +
-							"F35 - " + descF35 + NewStr() +
-	                        "F36 - " + descF36 + NewStr() +
-	                        "F37 - " + descF37 + NewStr() +
-	                        "F38 - " + descF38 + NewStr() +
-	                        "F39 - " + descF39 + NewStr() +
-	                        "F40 - " + descF40 + NewStr() +
-                            "F41 - " + descF41 + NewStr() +
-                            "F42 - " + descF42 + NewStr() +
-                            "F43 - " + descF43 + NewStr() +
-	                        "F44 - " + descF44 + NewStr() +
-	                        "F45 - " + descF45 + NewStr() +
-	                        "F46 - " + descF46 + NewStr() +
-	                        "F47 - " + descF47 + NewStr() +
-							"F48 - " + descF48;
+	totalInfo = totalInfo + "1 - " + descF1 + NewStr() +
+	                        "2 - " + descF2 + NewStr() +
+	                        "3 - " + descF3 + NewStr() +
+	                        "4 - " + descF4 + NewStr() +
+	                        "5 - " + descF5 + NewStr() +
+	                        "6 - " + descF6 + NewStr() +
+	                        "7 - " + descF7 + NewStr() +
+	                        "8 - " + descF8 + NewStr() +
+	                        "9 - " + descF9 + NewStr() +
+	                        "10 - " + descF10 + NewStr() +
+	                        "11 - " + descF11 + NewStr() +
+	                        "12 - " + descF12 + NewStr() +
+	                        "13 - " + descF13 + NewStr() +
+	                        "14 - " + descF14 + NewStr() +
+	                        "15 - " + descF15 + NewStr() +
+	                        "16 - " + descF16 + NewStr() +
+	                        "17 - " + descF17 + NewStr() +
+	                        "18 - " + descF18 + NewStr() +
+                            "19 - " + descF19 + NewStr() +
+                            "20 - " + descF20 + NewStr() +
+                            "21 - " + descF21 + NewStr() +
+                            "22 - " + descF22 + NewStr() +
+                            "23 - " + descF23 + NewStr() +
+	                        "24 - " + descF24 + NewStr() +
+	                        "25 - " + descF25 + NewStr() +
+	                        "26 - " + descF26 + NewStr() +
+	                        "27 - " + descF27 + NewStr() +
+	                        "28 - " + descF28 + NewStr() +
+	                        "29 - " + descF29 + NewStr() +
+	                        "30 - " + descF30 + NewStr() +
+							"31 - " + descF31 + NewStr() +
+	                        "32 - " + descF32 + NewStr() +
+							"33 - " + descF33 + NewStr() +
+	                        "34 - " + descF34 + NewStr() +
+							"35 - " + descF35 + NewStr() +
+	                        "36 - " + descF36 + NewStr() +
+	                        "37 - " + descF37 + NewStr() +
+	                        "38 - " + descF38 + NewStr() +
+	                        "39 - " + descF39 + NewStr() +
+	                        "40 - " + descF40 + NewStr() +
+                            "41 - " + descF41 + NewStr() +
+                            "42 - " + descF42 + NewStr() +
+                            "43 - " + descF43 + NewStr() +
+	                        "44 - " + descF44 + NewStr() +
+	                        "45 - " + descF45 + NewStr() +
+	                        "46 - " + descF46 + NewStr() +
+	                        "47 - " + descF47 + NewStr() +
+							"48 - " + descF48 + NewStr() +
+							"49 - " + descF49 + NewStr() +
+							"50 - " + descF50 + NewStr() +
+							"51 - " + descF51 + NewStr() +
+							"52 - " + descF52 + NewStr() +
+							"53 - " + descF53 + NewStr() +
+							"54 - " + descF54 + NewStr() +
+							"55 - " + descF55 + NewStr() +
+							"56 - " + descF56 + NewStr() +
+							"57 - " + descF57 + NewStr() +
+							"58 - " + descF58 + NewStr() +
+							"59 - " + descF59 + NewStr() +
+							"60 - " + descF60 + NewStr() +
+							"61 - " + descF61 + NewStr() +
+							"62 - " + descF62 + NewStr() +
+							"63 - " + descF63 + NewStr() +
+							"64 - " + descF64 + NewStr() +
+							"65 - " + descF65 + NewStr() +
+							"66 - " + descF66 + NewStr() +
+							"67 - " + descF67 + NewStr() +
+							"68 - " + descF68 + NewStr() +
+							"69 - " + descF69 + NewStr() +
+							"70 - " + descF70 + NewStr() +
+							"71 - " + descF71 + NewStr() +
+							"72 - " + descF72 + NewStr() +
+							"73 - " + descF73 + NewStr() +
+							"74 - " + descF74 + NewStr() +
+							"75 - " + descF75 + NewStr() +
+							"76 - " + descF76 + NewStr() +
+							"77 - " + descF77 + NewStr() +
+							"78 - " + descF78 + NewStr() +
+							"79 - " + descF79 + NewStr() +
+							"80 - " + descF80 + NewStr() +
+							"81 - " + descF81 + NewStr() +
+							"82 - " + descF82 + NewStr() +
+							"83 - " + descF83 + NewStr() +
+							"84 - " + descF84 + NewStr() +
+							"85 - " + descF85 + NewStr() +
+							"86 - " + descF86 + NewStr() +
+							"87 - " + descF87 + NewStr() +
+							"88 - " + descF88;
 	// перевод строки (по другому у меня не вышло) +LanguageConvertString(idLngFile,"new_string");
     // тут высчитываем нужную информацию и выводим в totalInfo <--
 }
@@ -333,31 +373,31 @@ void ProcCommand()
 		      CalculateInfoDataF30();
 		  }
 	    break;
-	    case "B_31":
+	    case "B_F31":
 		if(comName=="activate" || comName=="click")
 		{
 			CalculateInfoDataF31();
 		}
 	    break;
-	    case "B_32":
+	    case "B_F32":
 		if(comName=="activate" || comName=="click")
 		{
 			CalculateInfoDataF32();
 		}
 	    break;
-		case "B_33":
+		case "B_F33":
 		if(comName=="activate" || comName=="click")
 		{
 			CalculateInfoDataF33();
 		}
 	    break;	
-		case "B_34":
+		case "B_F34":
 		if(comName=="activate" || comName=="click")
 		{
 			CalculateInfoDataF34();
 		}
 	    break;
-		case "B_35":
+		case "B_F35":
 		if(comName=="activate" || comName=="click")
 		{
 			CalculateInfoDataF35();
@@ -416,29 +456,285 @@ void ProcCommand()
 		{
 			CalculateInfoDataF44();
 		}
-	    break;	
-		case "B_F45":
+	    break;
+	    case "B_F45":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF45();
+		  }
+	    break;
+	    case "B_F46":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF46();
+		  }
+	    break;
+	    case "B_F47":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF47();
+		  }
+	    break;
+	    case "B_F48":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF48();
+		  }
+	    break;
+	    case "B_F49":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF49();
+		  }
+	    break;
+
+	    case "B_F50":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF50();
+		  }
+	    break;
+
+	    case "B_F51":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF51();
+		  }
+	    break;
+
+	    case "B_F52":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF52();
+		  }
+	    break;
+
+	    case "B_F53":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF53();
+		  }
+	    break;
+
+	    case "B_F54":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF54();
+		  }
+	    break;
+
+	    case "B_F55":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF55();
+		  }
+	    break;
+
+	    case "B_F56":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF56();
+		  }
+	    break;
+
+	    case "B_F57":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF57();
+		  }
+	    break;
+
+	    case "B_F58":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF58();
+		  }
+	    break;
+
+	    case "B_F59":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF59();
+		  }
+	    break;
+
+	    case "B_F60":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF60();
+		  }
+	    break;
+
+	    case "B_F61":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF61();
+		  }
+	    break;
+
+	    case "B_F62":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF62();
+		  }
+	    break;
+	    
+	    case "B_F63":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF63();
+		  }
+	    break;
+
+        case "B_F64":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF64();
+		  }
+	    break;
+	    
+	    case "B_F65":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF65();
+		  }
+	    break;
+	    case "B_F66":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF66();
+		  }
+	    break;
+	    case "B_F67":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF67();
+		  }
+	    break;
+	    case "B_F68":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF68();
+		  }
+	    break;
+	    case "B_F69":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF69();
+		  }
+	    break;
+	    case "B_F70":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF70();
+		  }
+	    break;
+	    case "B_F71":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF71();
+		  }
+	    break;
+	    case "B_F72":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF72();
+		  }
+	    break;
+	    case "B_F73":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF73();
+		  }
+	    break;
+	    case "B_F74":
+		  if(comName=="activate" || comName=="click")
+		  {
+		      CalculateInfoDataF74();
+		  }
+	    break;
+	    case "B_F75":
 		if(comName=="activate" || comName=="click")
 		{
-			CalculateInfoDataF45();
-		}
-	    break;	
-		case "B_F46":
-		if(comName=="activate" || comName=="click")
-		{
-			CalculateInfoDataF46();
-		}
-	    break;	
-		case "B_F47":
-		if(comName=="activate" || comName=="click")
-		{
-			CalculateInfoDataF47();
+			CalculateInfoDataF75();
 		}
 	    break;
-		case "B_F48":
+	    case "B_F76":
 		if(comName=="activate" || comName=="click")
 		{
-			CalculateInfoDataF48();
+			CalculateInfoDataF76();
+		}
+	    break;
+		case "B_F77":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF77();
+		}
+	    break;	
+		case "B_F78":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF78();
+		}
+	    break;
+		case "B_F79":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF79();
+		}
+	    break;
+		case "B_F80":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF80();
+		}
+	    break;	
+		case "B_F81":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF81();
+		}
+	    break;	
+		case "B_F82":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF82();
+		}
+	    break;	
+		case "B_F83":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF83();
+		}
+	    break;	
+		case "B_F84":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF84();
+		}
+	    break;	
+		case "B_F85":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF85();
+		}
+	    break;	
+		case "B_F86":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF86();
+		}
+	    break;	
+		case "B_F87":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF87();
+		}
+	    break;	
+		case "B_F88":
+		if(comName=="activate" || comName=="click")
+		{
+			CalculateInfoDataF88();
 		}
 	    break;
 	    case "B_BETA":
@@ -457,53 +753,22 @@ void ProcCommand()
 	
 	CalculateCheatsInfo(); // Статистика по читам
 }
-/*
-float GetShipMaxNeededValue(int iShipType, string _param)
-{
-	float NeededValue = makefloat(GetBaseShipParamFromType(iShipType, _param));
-	switch (_param)
-	{
-		case "speedrate":
-			NeededValue += ((0.77 + frandSmall(0.3)) * (NeededValue/10.0)); 
-		break;
-		case "turnrate":
-			NeededValue += ((0.77 + frandSmall(0.3)) * (NeededValue/10.0)); 
-		break;
-		case "capacity":
-			NeededValue += ((0.77 + frandSmall(0.3)) * (NeededValue/8.0)); 
-		break;
-	}
-	return NeededValue;
-}
-*/
+
 ////////////////////////////////////////////////////////////////////////
 string descF1 = "Золото + 500 000";
 
 void CalculateInfoDataF1()
 {
-	// тут высчитываем нужную информацию и выводим в totalInfo - Инициализация -->
 	totalInfo = descF1;
 	Pchar.money = sti(Pchar.money) + 500000;
-	/*Pchar.quest.SetTreasureHunter.win_condition.l1          = "location";
-                Pchar.quest.SetTreasureHunter.win_condition.l1.location = Pchar.location.from_sea;
-                Pchar.quest.SetTreasureHunter.win_condition             = "SetTreasureHunter";
-      */
-	//Characters[GetCharacterIndex("Luisa Drake")].perks.list.Ciras = "1";
 	totalInfo = totalInfo + GetAssembledString(" Денег у #sName#а теперь #dmoney#",	Pchar);
-    // тут высчитываем нужную информацию и выводим в totalInfo <--
     totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
     SetFormatedText("INFO_TEXT",totalInfo);
 
-	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F1", 1);
-/*	
-	for(int i = 0; i < 30; i++)
-	{
-		trace("Needed Value = " + GetShipMaxNeededValue(SHIP_SLOOP, "speedrate"));	
-	}
-*/	
 }
+
 ////////////////////////////////////////////////////////////////////////
 string descF2 = "CreateSiege";
 
@@ -523,7 +788,7 @@ void CalculateInfoDataF2()
 	Statistic_AddValue(PChar, "Cheats.F2", 1);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF3 = "ID текущей локации +коорд     ";
+string descF3 = "ID текущей локации + коорд ";
 
 void CalculateInfoDataF3()
 {
@@ -1424,7 +1689,7 @@ void CalculateInfoDataF30()
 	Statistic_AddValue(PChar, "Cheats.F30", 1);
 }
 
-string descF31 = "Арабелла, 32 калибр, полная прокачка ГГ, все перки, предметы+у.рюкзак";
+string descF31 = "Арабелла, 32 калибр, полная прокачка ГГ, все перки, предметы + уникальный рюкзак";
 void CalculateInfoDataF31()
 {
 	ref mc;
@@ -1433,7 +1698,7 @@ void CalculateInfoDataF31()
 	mc = GetMainCharacter();
 	SetRandSelfSkill(mc, 100, 100);
 	SetRandShipSkill(mc, 100, 100);
-	mc.rank = 20;
+	mc.rank = 25;
 //	mc.Ship.Type = GenerateShipExt(SHIP_CORVETTE_QUEST, true, mc);
 	mc.Ship.Type = GenerateShipExt(SHIP_ARABELLA, true, mc);
 //	mc.Ship.Type = GenerateShipExt(SHIP_FRIGATEQUEEN, true, mc);
@@ -1479,7 +1744,7 @@ void CalculateInfoDataF31()
 	
 	AddItems(mc, "bullet", 50);
 	AddItems(mc, "GunPowder", 50);
-//	AddItems(mc, "Map_Best", 1);
+	AddItems(mc, "Map_Best", 1);
 	AddItems(mc, "cirass5", 1);
 
 	EquipCharacterbyItem(mc, "spyglass5");
@@ -1992,7 +2257,7 @@ void CalculateInfoDataF44()
 	Statistic_AddValue(PChar, "Cheats.F44", 1);
 }
 
-string descF45 = "обновление массива: островов, локаций, колоний, кораблей, вещей (не работает сука)";
+string descF45 = "обновление массива: островов, локаций, колоний, кораблей, вещей";
 void CalculateInfoDataF45()
 {
 	totalInfo = descF45;
@@ -2012,13 +2277,18 @@ void CalculateInfoDataF45()
 	Statistic_AddValue(PChar, "Cheats.F45", 1);
 }
 
-string descF46 = "Нет назначений";
+string descF46 = "Позиция игрока на суше";
 void CalculateInfoDataF46()
 {
+	float locx0, locy0, locz0, locAy0;
+	GetCharacterPos(pchar, &locx0, &locy0, &locz0);
+	GetCharacterAy(pchar, &locAy0);
+
 	totalInfo = descF46;
- 	
-	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
-	
+  
+ 	totalInfo = totalInfo + "locX: " + locx0 + " | locY: " + locy0 + " | locZ: " + locz0 + " | locAy: " + locAy0 + "Команда отработала успешно!";
+
+	trace("reload,reload1," + cos(-stf(locAy0)) + ",0," + sin(-stf(locAy0)) + ",0,1,0," + sin(stf(locAy0)) + ",0," + cos(stf(locAy0)) + "," + locx0 + "," + locy0 + "," + locz0 + ",1,0,0,0,0,0,0,0,0,");
 	SetFormatedText("INFO_TEXT", totalInfo);
 	
 	// Статистика по читам
@@ -2049,6 +2319,526 @@ void CalculateInfoDataF48()
 	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F48", 1);
+}
+
+string descF49 = "Нет назначений";
+void CalculateInfoDataF49()
+{
+	totalInfo = descF49;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F49", 1);
+}
+
+string descF50 = "Нет назначений";
+void CalculateInfoDataF50()
+{
+	totalInfo = descF50;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F50", 1);
+}
+
+string descF51 = "Нет назначений";
+void CalculateInfoDataF51()
+{
+	totalInfo = descF51;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F51", 1);
+}
+
+string descF52 = "Нет назначений";
+void CalculateInfoDataF52()
+{
+	totalInfo = descF52;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F52", 1);
+}
+
+string descF53 = "Нет назначений";
+void CalculateInfoDataF53()
+{
+	totalInfo = descF53;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F53", 1);
+}
+
+string descF54 = "Нет назначений";
+void CalculateInfoDataF54()
+{
+	totalInfo = descF54;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F54", 1);
+}
+
+string descF55 = "Нет назначений";
+void CalculateInfoDataF55()
+{
+	totalInfo = descF55;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F55", 1);
+}
+
+string descF56 = "Нет назначений";
+void CalculateInfoDataF56()
+{
+	totalInfo = descF56;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F56", 1);
+}
+
+string descF57 = "Нет назначений";
+void CalculateInfoDataF57()
+{
+	totalInfo = descF57;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F57", 1);
+}
+
+string descF58 = "Нет назначений";
+void CalculateInfoDataF58()
+{
+	totalInfo = descF58;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F58", 1);
+}
+
+string descF59 = "Нет назначений";
+void CalculateInfoDataF59()
+{
+	totalInfo = descF59;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F59", 1);
+}
+
+string descF60 = "Нет назначений";
+void CalculateInfoDataF60()
+{
+	totalInfo = descF60;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F60", 1);
+}
+
+string descF61 = "Нет назначений";
+void CalculateInfoDataF61()
+{
+	totalInfo = descF61;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F61", 1);
+}
+
+string descF62 = "Нет назначений";
+void CalculateInfoDataF62()
+{
+	totalInfo = descF62;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F62", 1);
+}
+
+string descF63 = "Нет назначений";
+void CalculateInfoDataF63()
+{
+	totalInfo = descF63;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F63", 1);
+}
+
+string descF64 = "Нет назначений";
+void CalculateInfoDataF64()
+{
+	totalInfo = descF64;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F64", 1);
+}
+
+string descF65 = "Нет назначений";
+void CalculateInfoDataF65()
+{
+	totalInfo = descF65;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F65", 1);
+}
+
+string descF66 = "Нет назначений";
+void CalculateInfoDataF66()
+{
+	totalInfo = descF66;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F66", 1);
+}
+
+string descF67 = "Нет назначений";
+void CalculateInfoDataF67()
+{
+	totalInfo = descF67;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F67", 1);
+}
+
+string descF68 = "Нет назначений";
+void CalculateInfoDataF68()
+{
+	totalInfo = descF68;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F68", 1);
+}
+
+string descF69 = "Нет назначений";
+void CalculateInfoDataF69()
+{
+	totalInfo = descF69;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F69", 1);
+}
+
+string descF71 = "Нет назначений";
+void CalculateInfoDataF71()
+{
+	totalInfo = descF71;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F71", 1);
+}
+
+string descF70 = "Нет назначений";
+void CalculateInfoDataF70()
+{
+	totalInfo = descF70;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F70", 1);
+}
+
+string descF72 = "Нет назначений";
+void CalculateInfoDataF72()
+{
+	totalInfo = descF72;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F72", 1);
+}
+
+string descF73 = "Нет назначений";
+void CalculateInfoDataF73()
+{
+	totalInfo = descF73;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F73", 1);
+}
+
+string descF74 = "Нет назначений";
+void CalculateInfoDataF74()
+{
+	totalInfo = descF74;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F74", 1);
+}
+
+string descF75 = "Нет назначений";
+void CalculateInfoDataF75()
+{
+	totalInfo = descF75;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F75", 1);
+}
+
+string descF76 = "Нет назначений";
+void CalculateInfoDataF76()
+{
+	totalInfo = descF76;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F76", 1);
+}
+
+string descF77 = "Нет назначений";
+void CalculateInfoDataF77()
+{
+	totalInfo = descF77;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F77", 1);
+}
+
+string descF78 = "Нет назначений";
+void CalculateInfoDataF78()
+{
+	totalInfo = descF78;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F78", 1);
+}
+
+string descF79 = "Нет назначений";
+void CalculateInfoDataF79()
+{
+	totalInfo = descF79;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F79", 1);
+}
+
+string descF80 = "Нет назначений";
+void CalculateInfoDataF80()
+{
+	totalInfo = descF80;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F80", 1);
+}
+
+string descF81 = "Нет назначений";
+void CalculateInfoDataF81()
+{
+	totalInfo = descF81;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F81", 1);
+}
+
+string descF82 = "Нет назначений";
+void CalculateInfoDataF82()
+{
+	totalInfo = descF82;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F82", 1);
+}
+
+string descF83 = "Нет назначений";
+void CalculateInfoDataF83()
+{
+	totalInfo = descF83;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F83", 1);
+}
+
+string descF84 = "Нет назначений";
+void CalculateInfoDataF84()
+{
+	totalInfo = descF84;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F84", 1);
+}
+
+string descF85 = "Нет назначений";
+void CalculateInfoDataF85()
+{
+	totalInfo = descF85;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F85", 1);
+}
+
+string descF86 = "Нет назначений";
+void CalculateInfoDataF86()
+{
+	totalInfo = descF86;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F86", 1);
+}
+
+string descF87 = "Нет назначений";
+void CalculateInfoDataF87()
+{
+	totalInfo = descF87;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F87", 1);
+}
+
+string descF88 = "Нет назначений";
+void CalculateInfoDataF88()
+{
+	totalInfo = descF88;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F88", 1);
 }
 
 //создать "тушка для битья"

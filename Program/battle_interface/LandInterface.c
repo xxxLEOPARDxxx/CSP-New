@@ -374,7 +374,7 @@ void EndBattleLandInterface()
 void BLI_SetObjectData()
 {
     //#20180714-01
-    float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    float fHtRatio = stf(Render.screen_y) / screenscaling;
     int fTmp, fTmp2;
 	DeleteAttribute(&objLandInterface,"");
 
@@ -437,6 +437,7 @@ void BLI_SetObjectData()
 	objIconsNote.1x15 = LanguageConvertString(idLngFile, "go_minehouse");
 	objIconsNote.1x16 = LanguageConvertString(idLngFile, "go_planthouse");
 	objIconsNote.1x17 = LanguageConvertString(idLngFile, "go_forthouse");
+	objIconsNote.1x18 = LanguageConvertString(idLngFile, "go_graveyard");
 	// список команд
 	objLandInterface.Commands.Cancel.enable		= false;
 	objLandInterface.Commands.Cancel.picNum		= 1;
@@ -567,14 +568,15 @@ void BLI_SetObjectData()
 		fTmp = makeint(64.0 * fHtRatio);
 		objLandInterface.ManSign.backiconsize		= fTmp + "," + fTmp;
 
-		objLandInterface.ManSign.alarmtexturename		= "battle_interface\alarmback.tga.tx";
+		objLandInterface.ManSign.alarmtexturename		= "battle_interface\AlarmQ.tga";
 		objLandInterface.ManSign.alarmhighcolor			= argb(255,168,28,28);
 		objLandInterface.ManSign.alarmlowcolor			= argb(64,168,28,28);
 		objLandInterface.ManSign.alarmuptime			= 0.5;
 		objLandInterface.ManSign.alarmdowntime			= 1.5;
 		objLandInterface.ManSign.alarmuv				= "0.0,0.0,1.0,1.0";
-		objLandInterface.ManSign.alarmoffset			= "0.0,-15.0";
-		fTmp = makeint(108.0 * fHtRatio);
+		objLandInterface.ManSign.alarmoffset			= "-11.0,-11.0";
+		fTmp = makeint(62.0 * fHtRatio);
+		// fTmp2 = makeint(-11.0 * fHtRatio);
 		objLandInterface.ManSign.alarmiconsize		= fTmp + "," + fTmp;
 
 		objLandInterface.ManSign.manstatetexturename	= "battle_interface\ShipHP_SP.tga";
@@ -583,16 +585,16 @@ void BLI_SetObjectData()
 		objLandInterface.ManSign.manenegryuv			= "0.5,0.109,1.0,0.6875";
 		
 		fTmp = makeint(-30.5 * fHtRatio);
-		fTmp2 = makeint(-14.0 * fHtRatio);
+		fTmp2 = makeint(-13.5 * fHtRatio);
 		objLandInterface.ManSign.manhpoffset			= fTmp + "," + fTmp2;
-		fTmp = makeint(33.5 * fHtRatio);
-		fTmp2 = makeint(-14.0 * fHtRatio);
+		fTmp = makeint(54.0 * fHtRatio);
+		fTmp2 = makeint(69.0 * fHtRatio);
+		objLandInterface.ManSign.manhpiconsize		= fTmp + "," + fTmp2;
+		fTmp = makeint(34.0 * fHtRatio);
+		fTmp2 = makeint(-13.5 * fHtRatio);
 		objLandInterface.ManSign.manenegryoffset		= fTmp + "," + fTmp2;
 		fTmp = makeint(54.0 * fHtRatio);
-		fTmp2 = makeint(70.0 * fHtRatio);
-		objLandInterface.ManSign.manhpiconsize		= fTmp + "," + fTmp2;
-		fTmp = makeint(54.0 * fHtRatio);
-		fTmp2 = makeint(70.0 * fHtRatio);
+		fTmp2 = makeint(69.0 * fHtRatio);
 		objLandInterface.ManSign.manenergyiconsize	= fTmp + "," + fTmp2;
 
 		objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge_CSP.tga"; // LEO: Тут у нас другой GUI
@@ -607,76 +609,82 @@ void BLI_SetObjectData()
 		fTmp = makeint(80.0 * fHtRatio);
 		fTmp2 = makeint(20.0 * fHtRatio);
 		objLandInterface.ManSign.gunchargeiconsize	= fTmp + "," + fTmp2;
-		objLandInterface.ManSign.manfacecolor			= argb(255,128,128,128);
 		
+		objLandInterface.ManSign.manfacecolor			= argb(255,128,128,128);
 		fTmp = makeint(-10.0 * fHtRatio);
-		fTmp2 = makeint(-11.0 * fHtRatio);
+		fTmp2 = makeint(-10.0 * fHtRatio);
 		objLandInterface.ManSign.manfaceoffset		= fTmp + "," + fTmp2;
 		fTmp = makeint(64.0 * fHtRatio);
 		objLandInterface.ManSign.manfaceiconsize		= fTmp + "," + fTmp;
-		objLandInterface.ManSign.commandlistverticaloffset = -40 * fHtRatio;
+		objLandInterface.ManSign.commandlistverticaloffset = -36 * fHtRatio;
 		fTmp = makeint(60.0 * fHtRatio);
 		fTmp2 = makeint(85.0 * fHtRatio);
 	}
 	else
 	{
-		objLandInterface.ManSign.backtexturename		= "battle_interface\ShipBackIcon.tga";
+		
+		///////////////////////////////////////////////////////////////////
+		/// НОВЫЙ HUD НА ЗАМЕНУ СТАНДАРТНОГО BY JOHNNY88
+		///////////////////////////////////////////////////////////////////
+		
+		// подложка иконки ГГ и офицеров
+		objLandInterface.ManSign.backtexturename		= "battle_interface\CharBackIcon.tga";
 		objLandInterface.ManSign.backcolor				= argb(255,128,128,128);
 		objLandInterface.ManSign.backuv					= "0.0,0.0,1.0,1.0";
-		objLandInterface.ManSign.backoffset				= "0.0,0.0";
-		fTmp = makeint(108.0 * fHtRatio);
-		objLandInterface.ManSign.backiconsize		= fTmp + "," + fTmp;
+		objLandInterface.ManSign.backoffset				= "0.0,-15.0";
+		fTmp 											= makeint(90.0 * fHtRatio);
+		objLandInterface.ManSign.backiconsize			= fTmp + "," + fTmp;
 
-		objLandInterface.ManSign.alarmtexturename		= "battle_interface\alarmback.tga.tx";
+		objLandInterface.ManSign.alarmtexturename		= "battle_interface\AlarmBack.tga";
 		objLandInterface.ManSign.alarmhighcolor			= argb(255,168,28,28);
 		objLandInterface.ManSign.alarmlowcolor			= argb(64,168,28,28);
 		objLandInterface.ManSign.alarmuptime			= 0.5;
 		objLandInterface.ManSign.alarmdowntime			= 1.5;
 		objLandInterface.ManSign.alarmuv				= "0.0,0.0,1.0,1.0";
-		objLandInterface.ManSign.alarmoffset			= "0.0,0.0";
-		fTmp = makeint(108.0 * fHtRatio);
-		objLandInterface.ManSign.alarmiconsize		= fTmp + "," + fTmp;
+		objLandInterface.ManSign.alarmoffset			= "1.0,-14.0";
+		fTmp 											= makeint(92.0 * fHtRatio);
+		objLandInterface.ManSign.alarmiconsize			= fTmp + "," + fTmp;
 
-		objLandInterface.ManSign.manstatetexturename	= "battle_interface\ShipState.tga.tx";		  
+		objLandInterface.ManSign.manstatetexturename	= "battle_interface\Char_State.tga";		  
 		objLandInterface.ManSign.manstatecolor			= argb(255,128,128,128);
-		objLandInterface.ManSign.manhpuv				= "0.0,0.109,0.5,0.6875";
-		objLandInterface.ManSign.manenegryuv			= "0.5,0.109,1.0,0.6875";
+		objLandInterface.ManSign.manhpuv				= "0.0,0.13,0.72,0.89";
+		objLandInterface.ManSign.manenegryuv			= "0.28,0.12,1.0,0.89";
 
-		fTmp = makeint(-26.0 * fHtRatio);
-		fTmp2 = makeint(-9.0 * fHtRatio);
+		fTmp 											= makeint(-14.0 * fHtRatio);		// положение индикатора ХП по горизнтали
+		fTmp2 											= makeint(-12.0 * fHtRatio);		// положение индикатора ХП по вертикали
 		objLandInterface.ManSign.manhpoffset			= fTmp + "," + fTmp2;
-		fTmp = makeint(29.0 * fHtRatio);
-		fTmp2 = makeint(-9.0 * fHtRatio);
+		fTmp 											= makeint(62.0 * fHtRatio);			// размереры индикатора ХП
+		fTmp2 											= makeint(68.0 * fHtRatio);
+		objLandInterface.ManSign.manhpiconsize			= fTmp + "," + fTmp2;
+		fTmp 											= makeint(14.0 * fHtRatio);			// положение индикатора энергии по горизнтали	
+		fTmp2 											= makeint(-12.0 * fHtRatio);		// положение индикатора энергии по вертикали
 		objLandInterface.ManSign.manenegryoffset		= fTmp + "," + fTmp2;
-		fTmp = makeint(54.0 * fHtRatio);
-		fTmp2 = makeint(61.0 * fHtRatio);
-		objLandInterface.ManSign.manhpiconsize		= fTmp + "," + fTmp2;
-		fTmp = makeint(54.0 * fHtRatio);
-		fTmp2 = makeint(61.0 * fHtRatio);
-		objLandInterface.ManSign.manenergyiconsize	= fTmp + "," + fTmp2;
+		fTmp 											= makeint(62.0 * fHtRatio);			// размереры индикатора энергии
+		fTmp2 											= makeint(68.0 * fHtRatio);		
+		objLandInterface.ManSign.manenergyiconsize		= fTmp + "," + fTmp2;
 
-		objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge.tga"; // LEO: Тут у нас другой GUI
-		objLandInterface.ManSign.gunchargecolor			= argb(255,70, 130, 180);
+		objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge.tga";
+		objLandInterface.ManSign.gunchargecolor			= argb(255,0, 250, 154);
 		objLandInterface.ManSign.gunchargebackcolor		= argb(255,0, 0, 0);
 		objLandInterface.ManSign.gunchargeuv			= "0.0,0.0,1.0,1.0";
 		objLandInterface.ManSign.gunchargeprogress		= "0.0625, 0.219, 0.359, 0.5, 0.641, 0.781, 0.983";
 
-		fTmp = makeint(-10.0 * fHtRatio);
-		fTmp2 = makeint(-44.0 * fHtRatio);
+		fTmp = makeint(0.0 * fHtRatio);
+		fTmp2 = makeint(-47.0 * fHtRatio);
 		objLandInterface.ManSign.gunchargeoffset		= fTmp + "," + fTmp2;
-		fTmp = makeint(54.0 * fHtRatio);
-		fTmp2 = makeint(14.0 * fHtRatio);
-		objLandInterface.ManSign.gunchargeiconsize	= fTmp + "," + fTmp2;
+		fTmp = makeint(66.0 * fHtRatio);
+		fTmp2 = makeint(15.0 * fHtRatio);
+		objLandInterface.ManSign.gunchargeiconsize		= fTmp + "," + fTmp2;
 		objLandInterface.ManSign.manfacecolor			= argb(255,128,128,128);
 
-		fTmp = makeint(-10.0 * fHtRatio);
-		fTmp2 = makeint(-11.0 * fHtRatio);
-		objLandInterface.ManSign.manfaceoffset		= fTmp + "," + fTmp2;
-		fTmp = makeint(54.0 * fHtRatio);
+		fTmp 											= makeint(-1.0 * fHtRatio);
+		fTmp2											= makeint(-12.0 * fHtRatio);
+		objLandInterface.ManSign.manfaceoffset			= fTmp + "," + fTmp2;
+		fTmp 											= makeint(60.0 * fHtRatio);
 		objLandInterface.ManSign.manfaceiconsize		= fTmp + "," + fTmp;
-		objLandInterface.ManSign.commandlistverticaloffset = -40 * fHtRatio;
-		fTmp = makeint(60.0 * fHtRatio);
-		fTmp2 = makeint(95.0 * fHtRatio);
+		objLandInterface.ManSign.commandlistverticaloffset = -36 * fHtRatio;
+		fTmp 											= makeint(60.0 * fHtRatio);
+		fTmp2 											= makeint(85.0 * fHtRatio);
 	}
 
 	for(i = 1; i<=MAX_NUM_FIGHTERS + 1; i++) {
@@ -771,49 +779,59 @@ void BLI_SetObjectData()
 	objLandInterface.textinfo.datatext.pos.y = RecalculateVIcon(makeint(100 * fHtRatio));
 	RefreshLandTime();
 	objLandInterface.textinfo.datatext.refreshable = true;
+// плашка дозарядки пистолета
 	if(!dialogRun)
 	{
 		int fTmp3;
 		int fTmp4;
 		if(InterfaceStates.HUDStyleLand)
 		{
-			fTmp = makeint(20.0 * fHtRatio);
-			fTmp2 = makeint(96.0 * fHtRatio);
-			fTmp3 = makeint(80.0 * fHtRatio);
-			fTmp4 = makeint(80.0 * fHtRatio);
+			fTmp = makeint(19.0 * fHtRatio); 	// left
+			fTmp2 = makeint(96.0 * fHtRatio); 	// top
+			fTmp3 = makeint(81.0 * fHtRatio); 	// right
+			fTmp4 = makeint(80.0 * fHtRatio); 	// bottom
 		}
 		else
 		{
-			fTmp = makeint(24.0 * fHtRatio);
-			fTmp2 = makeint(106.0 * fHtRatio);
-			fTmp3 = makeint(76.0 * fHtRatio);
-			fTmp4 = makeint(94.0 * fHtRatio);
+			fTmp = makeint(15.0 * fHtRatio); 	// left
+			fTmp2 = makeint(-7.0 * fHtRatio); 	// top
+			fTmp3 = makeint(102.0 * fHtRatio); 	// right
+			fTmp4 = makeint(93.0 * fHtRatio); 	// bottom
 		}
 		string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
 		
-		objLandInterface.imageslist.textinfoback2.texture = "\battle_interface\CharBackIcon.tga";
+		if(InterfaceStates.HUDStyleLand)
+		{
+		objLandInterface.imageslist.textinfoback2.texture = "battle_interface\CharGunBackIcon.tga";
 		objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
-		objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,1.0,1.0";
+		objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,0.96,1.0";
 		objLandInterface.imageslist.textinfoback2.pos = off;
+		}
+		else
+		{
+		objLandInterface.imageslist.textinfoback2.texture = "battle_interface\Char_State_Guncharge.tga";
+		objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
+		objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,0.96,1.0";
+		objLandInterface.imageslist.textinfoback2.pos = off;
+		}
 	}
 
 	objLandInterface.textinfo.deadboxinfo.font = "interface_button";
 	objLandInterface.textinfo.deadboxinfo.scale = 1.3 * fHtRatio;
-	objLandInterface.textinfo.deadboxinfo.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170 * fHtRatio));
+	objLandInterface.textinfo.deadboxinfo.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(130 * fHtRatio));
 	objLandInterface.textinfo.deadboxinfo.pos.y = RecalculateVIcon(makeint(140 * fHtRatio));
 	objLandInterface.textinfo.deadboxinfo.refreshable = true;
 
-    // ®то у вас нет, у мен§ все есть ;) - boal
-    objLandInterface.CommandList.CommandMaxIconQuantity = 15;
+	objLandInterface.CommandList.CommandMaxIconQuantity = 15;
 	objLandInterface.CommandList.CommandIconSpace = 1;
-	objLandInterface.CommandList.CommandIconLeft = makeint(108 * fHtRatio);//157;
-	objLandInterface.CommandList.CommandIconWidth = RecalculateHIcon(makeint(64 * fHtRatio));
-	objLandInterface.CommandList.CommandIconHeight = RecalculateVIcon(makeint(64 * fHtRatio));
+	objLandInterface.CommandList.CommandIconLeft = makeint(110 * fHtRatio);//157;
+	objLandInterface.CommandList.CommandIconWidth = RecalculateHIcon(makeint(54 * fHtRatio));
+	objLandInterface.CommandList.CommandIconHeight = RecalculateVIcon(makeint(54 * fHtRatio));
 
 	objLandInterface.CommandList.CommandNoteFont = "interface_button";
 	objLandInterface.CommandList.CommandNoteColor = argb(255,255,255,255);
-	objLandInterface.CommandList.CommandNoteScale = 1.5 * fHtRatio;
-	objLandInterface.CommandList.CommandNoteOffset = RecalculateHIcon(0) + "," + RecalculateVIcon(makeint(-56 * fHtRatio));
+	objLandInterface.CommandList.CommandNoteScale = 1.2 * fHtRatio;
+	objLandInterface.CommandList.CommandNoteOffset = RecalculateHIcon(0) + "," + RecalculateVIcon(makeint(-50 * fHtRatio));
 
 	objLandInterface.CommandList.UDArrow_Texture = "battle_interface\arrowly.tga.tx";
 	objLandInterface.CommandList.UDArrow_UV_Up = "0.0,1.0,1.0,0.0";
@@ -856,7 +874,7 @@ void RefreshChargeTime()
 			}
 			float gunchm = 1.0;
 			if(InterfaceStates.HUDStyleLand) DrawCharacterHPEx(makefloat(0.42/makefloat(gunchm)*makefloat(gunch)),0.1);
-			else DrawCharacterHPExx(makefloat(0.35/makefloat(gunchm)*makefloat(gunch)),0.1);
+			else DrawCharacterHPExx(makefloat(0.35/makefloat(gunchm)*makefloat(gunch)),0.35);
 		}
 	}
 	if (InterfaceStates.DeadBoxText)
@@ -1294,6 +1312,12 @@ bool SetReloadIcons()
 				objLandInterface.UserIcons.(fastLocName).location = curloc.location;
 				objLandInterface.UserIcons.(fastLocName).note = GetNodeForIcon(1+sti(curloc.tex), sti(curloc.pic));
 				if(!CheckAttribute(Locations[idxloc],"islandId")) Locations[idxloc].islandId = 0;
+				if (HasSubStr(objLandInterface.UserIcons.(fastLocName).note,"Кладбище"))
+				{
+					objLandInterface.UserIcons.(fastLocName).pic = 51;
+					objLandInterface.UserIcons.(fastLocName).selpic = 35;
+					objLandInterface.UserIcons.(fastLocName).tex = 0;
+				}
 				if (Locations[idxloc].islandId == "Caiman")
 				{
 					if (objLandInterface.UserIcons.(fastLocName).note == "Дом управляющего плантацией")
@@ -1460,7 +1484,8 @@ void SetCharacterIconData(int chrindex, aref arData)
 	arData.shootMax = LAi_GetCharacterChargeQuant(chref);
 	arData.shootCur = LAi_GetCharacterChargeCur(chref);
 	if( CheckAttribute(chref,"FaceId") ) {
-		arData.texture = "battle_interface\portraits_csp\face_"+chref.FaceID+".tga";
+		if(InterfaceStates.HUDStyleLand) arData.texture = "battle_interface\portraits_csp\face_"+chref.FaceID+".tga";
+		else arData.texture = "battle_interface\portraits\face_"+chref.FaceID+".tga";
 		if( CheckAttribute(chref,"FaceUV") ) {
 			arData.uv = chref.FaceUV;
 		} else {

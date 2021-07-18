@@ -643,6 +643,9 @@ void InstallShip(int iGuardian, int iCharacter)
 	chr.CaimanGuardian = true;
 	chr.DontCheckFlag = true;
 
+	//14.05.2021 evil_bars: удал€ем аттрибут, т.к. он провер€етс€ в Addons/ColonyGuarding.c/CheckDeadColonyGuard() и удал€ет корабли
+	if(CheckAttribute(chr,"ship.shipsink")) { DeleteAttribute(chr,"ship.shipsink"); }
+
 	chr.AlwaysFriend = true;
 	chr.Ship.Mode = "war";
 	

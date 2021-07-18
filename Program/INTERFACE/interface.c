@@ -1820,7 +1820,7 @@ void SetShowWindowParameters(bool TVused, int w,int h, int l,int t,int r,int b)
 
 int RecalculateHIcon(int curHSize)
 {
-	return curHSize;
+	return makeint(curHSize);
 }
 
 int RecalculateVIcon(int curVSize)
@@ -2196,56 +2196,56 @@ string GetSaveDataString(string label)
 
 	// officers pictures
 	if( GetOfficersIndex(pchar,0) < 0 ) { fighter1 = "*";
-	} else { fighter1 = GetFaceGroupName( GetOfficersIndex(pchar,0) );
+	} else { fighter1 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,0) );
 	}
 	if( GetOfficersIndex(pchar,1) < 0 ) { fighter2 = "*";
-	} else { fighter2 = GetFaceGroupName( GetOfficersIndex(pchar,1) );
+	} else { fighter2 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,1) );
 	}
 	if( GetOfficersIndex(pchar,2) < 0 ) { fighter3 = "*";
-	} else { fighter3 = GetFaceGroupName( GetOfficersIndex(pchar,2) );
+	} else { fighter3 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,2) );
 	}
 	if( GetOfficersIndex(pchar,3) < 0 ) { fighter4 = "*";
-	} else { fighter4 = GetFaceGroupName( GetOfficersIndex(pchar,3) );
+	} else { fighter4 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,3) );
 	}
 	if( GetOfficersIndex(pchar,4) < 0 ) { fighter5 = "*";
-	} else { fighter5 = GetFaceGroupName( GetOfficersIndex(pchar,4) );
+	} else { fighter5 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,4) );
 	}
 	if( GetOfficersIndex(pchar,5) < 0 ) { fighter6 = "*";
-	} else { fighter6 = GetFaceGroupName( GetOfficersIndex(pchar,5) );
+	} else { fighter6 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,5) );
 	}
 	if( GetOfficersIndex(pchar,6) < 0 ) { fighter7 = "*";
-	} else { fighter7 = GetFaceGroupName( GetOfficersIndex(pchar,6) );
+	} else { fighter7 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,6) );
 	}
 	if( GetOfficersIndex(pchar,7) < 0 ) { fighter8 = "*";
-	} else { fighter8 = GetFaceGroupName( GetOfficersIndex(pchar,7) );
+	} else { fighter8 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,7) );
 	}
 	if( GetOfficersIndex(pchar,8) < 0 ) { fighter9 = "*";
-	} else { fighter9 = GetFaceGroupName( GetOfficersIndex(pchar,8) );
+	} else { fighter9 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,8) );
 	}
 	if( GetOfficersIndex(pchar,9) < 0 ) { fighter10 = "*";
-	} else { fighter10 = GetFaceGroupName( GetOfficersIndex(pchar,9) );
+	} else { fighter10 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,9) );
 	}
 	if( GetOfficersIndex(pchar,10) < 0 ) { fighter11 = "*";
-	} else { fighter11 = GetFaceGroupName( GetOfficersIndex(pchar,10) );
+	} else { fighter11 = GetMinifiedFaceGroupName( GetOfficersIndex(pchar,10) );
 	}
 	// specials pictures
 	if( !CheckAttribute(pchar,"Fellows.Passengers.navigator") || sti(pchar.Fellows.Passengers.navigator)<0 ) { navigator = "*";
-	} else { navigator = GetFaceGroupName( sti(pchar.Fellows.Passengers.navigator) );
+	} else { navigator = GetMinifiedFaceGroupName( sti(pchar.Fellows.Passengers.navigator) );
 	}
 	if( !CheckAttribute(pchar,"Fellows.Passengers.boatswain") || sti(pchar.Fellows.Passengers.boatswain)<0 ) { boatswain = "*";
-	} else { boatswain = GetFaceGroupName( sti(pchar.Fellows.Passengers.boatswain) );
+	} else { boatswain = GetMinifiedFaceGroupName( sti(pchar.Fellows.Passengers.boatswain) );
 	}
 	if( !CheckAttribute(pchar,"Fellows.Passengers.cannoner") || sti(pchar.Fellows.Passengers.cannoner)<0 ) { cannoner = "*";
-	} else { cannoner = GetFaceGroupName( sti(pchar.Fellows.Passengers.cannoner) );
+	} else { cannoner = GetMinifiedFaceGroupName( sti(pchar.Fellows.Passengers.cannoner) );
 	}
 	if( !CheckAttribute(pchar,"Fellows.Passengers.doctor") || sti(pchar.Fellows.Passengers.doctor)<0 ) { doctor = "*";
-	} else { doctor = GetFaceGroupName( sti(pchar.Fellows.Passengers.doctor) );
+	} else { doctor = GetMinifiedFaceGroupName( sti(pchar.Fellows.Passengers.doctor) );
 	}
 	if( !CheckAttribute(pchar,"Fellows.Passengers.treasurer") || sti(pchar.Fellows.Passengers.treasurer)<0 ) { treasurer = "*";
-	} else { treasurer = GetFaceGroupName( sti(pchar.Fellows.Passengers.treasurer) );
+	} else { treasurer = GetMinifiedFaceGroupName( sti(pchar.Fellows.Passengers.treasurer) );
 	}
 	if( !CheckAttribute(pchar,"Fellows.Passengers.carpenter") || sti(pchar.Fellows.Passengers.carpenter)<0 ) { carpenter = "*";
-	} else { carpenter = GetFaceGroupName( sti(pchar.Fellows.Passengers.carpenter) );
+	} else { carpenter = GetMinifiedFaceGroupName( sti(pchar.Fellows.Passengers.carpenter) );
 	}
 //GetCurLocationName()
 	string savedata = label +

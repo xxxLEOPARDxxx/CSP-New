@@ -26,6 +26,7 @@ void ProcessDialogEvent()
 			dialog.text = "Здравствуйте, капитан " + sName + ". Надеюсь, у вас найдётся свободное время для разговора?";
 			link.l1 = "Приветствую, сударь. А что случилось?";
 			link.l1.go = "Duelist_1_2";
+            PlayVoice("Voice\Russian\cit_quest_" +(1 + rand(3))+".wav");
 		break;
 
 		case "Duelist_1_2":
@@ -136,6 +137,7 @@ void ProcessDialogEvent()
 			dialog.text = "Капитан! Умоляю вас, помогите!";
 			link.l1 = "Сударыня, прошу вас, успокойтесь. Что случилось?";
 			link.l1.go = "Wife_2";
+            PlayVoice("Kopcapkz\Voices\Events\Jungle_woman_hlp_0" +rand(9)+".wav");
 		break;
 		
 		case "Wife_2":
@@ -232,6 +234,7 @@ void ProcessDialogEvent()
 			dialog.text = "Что здесь произошло?";
 			link.l1 = "Кто вы такие?";
 			link.l1.go = "Relative_2";
+            PlayVoice("Kopcapkz\Voices\Events\Captive_0"+(1 + rand(9))+".wav");
 		break;
 		
 		case "Relative_2":

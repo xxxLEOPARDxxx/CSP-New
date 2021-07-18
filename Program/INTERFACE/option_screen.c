@@ -3,8 +3,36 @@ int g_ControlsLngFile = -1;
 
 bool g_bToolTipStarted = false;
 
+float 	fHUDRatio 	= 1.0;
+int 	iHUDBase 	= screenscaling;
+int 	newBase 	= screenscaling;
+
+#define BI_LOW_RATIO 	0.25
+#define BI_HI_RATIO 	4.0
+#define BI_DIF_RATIO 	3.75
+
+int CalcHUDBase(float fSlider, float MyScreen)
+{
+    float fRes = BI_DIF_RATIO * fSlider;
+    float curBase = MyScreen / (BI_LOW_RATIO + fRes);
+
+    return makeint(curBase + 0.5);
+}
+
+float CalcHUDSlider(float fRatio)
+{
+    float fRes = fRatio - BI_LOW_RATIO;
+    fRes /= BI_DIF_RATIO;
+
+    return fRes;
+}
+
 void InitInterface(string iniName)
 {
+	fHUDRatio = stf(Render.screen_y) / screenscaling;
+    iHUDBase = makeint(screenscaling);
+    newBase = iHUDBase;
+	
 	g_nCurControlsMode = -1;
 	GameInterface.title = "titleOptions";
 	g_ControlsLngFile = LanguageOpenFile("ControlsNames.txt");
@@ -72,6 +100,13 @@ void InitInterface(string iniName)
     sMsg = "#"+ FloatToString(fCamRad, 1);
     //CamRadMax is 24 in coll.
     SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "TITLES_STR", 1, 24, sMsg);
+	
+	fHUDRatio = stf(Render.screen_y) / screenscaling;
+	float sl = CalcHUDSlider(fHUDRatio);
+	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "HUD_SLIDE", 2, makeint(sl * 100.0));
+	GameInterface.nodes.hud_slide.value = sl;
+	iHUDBase = CalcHUDBase(sl, stf(Render.screen_y));
+	SetFormatedText("HUD_DESCRIP_TEXT", Render.screen_y + "  / " + newBase + " : " + fHUDRatio);
 }
 
 void ProcessCancelExit()
@@ -82,6 +117,8 @@ void ProcessCancelExit()
 
 void ProcessOkExit()
 {
+	screenscaling = newBase;
+	
 	SaveGameOptions();
 	ProcessExit();
 	Event("eventChangeOption");
@@ -598,6 +635,10 @@ void procSlideChange()
 	}
 	if( sNodeName == "CAM_RAD_SLIDE" ) {
 		ChangeRadDetail();
+		return;
+	}
+	if( sNodeName == "HUD_SLIDE" ) {
+		ChangeHUDDetail();
 		return;
 	}
 	if( sNodeName=="MUSIC_SLIDE" || sNodeName=="SOUND_SLIDE" || sNodeName=="DIALOG_SLIDE" ) {
@@ -1148,6 +1189,11 @@ void ShowInfo()
 			sHeader = XI_ConvertString("Dialog Volume");
 			sText1 = XI_ConvertString("Dialog Volume_descr");
 		break;
+		
+		case "HUD_SLIDE":
+			sHeader = XI_ConvertString("HUD_SLIDE");
+			sText1 = XI_ConvertString("HUD_SLIDE_descr");
+		break;
 
 		case "ALWAYS_RUN_CHECKBOX":
 			sHeader = XI_ConvertString("Always Run");
@@ -1398,5 +1444,16 @@ void FaderFrame()
 
 	if( nCurTime<nTotalTime ) {
 		PostEvent("evFaderFrame",nDeltaTime,"lll",nTotalTime,nCurTime,nDeltaTime);
+	}
+}
+
+void ChangeHUDDetail()
+{
+    float sl = stf(GameInterface.nodes.hud_slide.value);
+	newBase = CalcHUDBase(sl, stf(Render.screen_y));
+	if( newBase != iHUDBase) 
+	{
+        fHUDRatio = stf(Render.screen_y) / newBase;
+		SetFormatedText("HUD_DESCRIP_TEXT", Render.screen_y + "  / " + newBase + " : " + fHUDRatio);
 	}
 }

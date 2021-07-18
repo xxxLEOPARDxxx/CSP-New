@@ -115,7 +115,10 @@ void InitInterface_RS(string iniName, ref itemsRef, string faceID)
 	FillCharactersScroll();
 	
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
-	
+
+	if (checkattribute(pchar, "iCurrentTabMode")) iCurrentTabMode = sti(pchar.iCurrentTabMode); 
+	SetControlsTabMode(iCurrentTabMode);
+
 	CreateString(true, "CharName", "", FONT_NORMAL, COLOR_MONEY, 405, 108, SCRIPT_ALIGN_CENTER, 1.0);
 	
 	InterfaceInitButtons(refCharacter);
@@ -419,6 +422,8 @@ void ProcessCancelExit()
 
 void IDoExit(int exitCode)
 {
+	pchar.iCurrentTabMode = iCurrentTabMode; 
+
 	ref arCurChar;
 	string sCurArroyID;
 	// boal проверка на перегруз 21.01.2004 -->
@@ -1058,95 +1063,14 @@ void OnTableClick()
 //todo - устанавливать стрелочку направления сортировки по запомненным значениям переменных - но тут нужно как-то узнавать ширину колонок таблицы, чтобы пересчитать координаты???
 //todo - не забыть, что может быть несколько таблиц на одном интерфейсе - надо ещё и последнюю таблицы запоминать и сбрасывать(?) сортировку при смене или запоминать для каждой?
 		if (iColumn == 3) 
-			SortTable(sControl, iColumn, 1, bLastSort, iLinesCount); 	
+			SortTable(sControl, iColumn, 1, bLastSort, iLinesCount);//3 колонка - текстовая	
 		else 
-			SortTable(sControl, iColumn, 0, !bLastSort, iLinesCount);
+			SortTable(sControl, iColumn, 0, !bLastSort, iLinesCount);//остальные колонки - числа
 		}
 //вызывать направление сортировки разными действиями - ЛКМ/ПКМ??
 //<-- mod tablesort
 	Table_UpdateWindow(sControl);
 }
-
-//--> mod tablesort
-void SortTable(string sControl,int iColumn, bool bIsString, bool bAsc, int _iLinesCount)//todo - вынести в общедоступный файл interface_utils
-{
-	bool bNoSize;
-	if (_iLinesCount < 1) {bNoSize = true; _iLinesCount = 998;} else bNoSize = false;
-	log_info("");
-	string sColumn = "td" + iColumn;
-	int m, n;
-	string sCurRow, sNextRow, sRow; 
-	sRow = "tr" + 999;//пузырёк
-	aref aCurRow, aNextRow, aRow; 
-
-	for (m = 0; m < _iLinesCount-2; m++)
-	{
-		for (n = 0; n < _iLinesCount-2; n++)
-		{
-		sCurRow = "tr" + (n + 1);
-		sNextRow = "tr" + (n + 2);
-		if (bNoSize) {if (!checkattribute(&GameInterface,sControl + "." + sNextRow)) {_iLinesCount = n+2; bNoSize = false; break;}}
-//находим число строк - проверить, что это оптимально, и что мусорное значение не сломает//TODO - обязательно разобраться!!! ВАЖНО!!!
-
-//TODO - убрать это деление на строки, автоматически 
-		if (bIsString)//строки
-			{
-			if (bAsc)//по возрастанию
-				{
-				if (strcmp (GameInterface.(sControl).(sCurRow).(sColumn).str, GameInterface.(sControl).(sNextRow).(sColumn).str)>0)
-					{
-					makearef(aRow, GameInterface.(sControl).(sRow));
-					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
-					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
-					CopyAttributes(aRow, aCurRow);
-					CopyAttributes(aCurRow, aNextRow);
-					CopyAttributes(aNextRow, aRow);
-					}
-				}
-				else//по убыванию
-				{
-				if (strcmp (GameInterface.(sControl).(sCurRow).(sColumn).str, GameInterface.(sControl).(sNextRow).(sColumn).str)<0)
-					{
-					makearef(aRow, GameInterface.(sControl).(sRow));
-					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
-					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
-					CopyAttributes(aRow, aCurRow);
-					CopyAttributes(aCurRow, aNextRow);
-					CopyAttributes(aNextRow, aRow);
-					}
-				}
-			}
-			else//числа
-			{
-			if (bAsc)//по возрастанию
-				{	
-				if (stf(GameInterface.(sControl).(sCurRow).(sColumn).str) > stf(GameInterface.(sControl).(sNextRow).(sColumn).str))
-					{
-					makearef(aRow, GameInterface.(sControl).(sRow));
-					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
-					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
-					CopyAttributes(aRow, aCurRow);
-					CopyAttributes(aCurRow, aNextRow);
-					CopyAttributes(aNextRow, aRow);
-					}
-				}
-				else
-				{
-				if (stf(GameInterface.(sControl).(sCurRow).(sColumn).str) < stf(GameInterface.(sControl).(sNextRow).(sColumn).str))
-					{
-					makearef(aRow, GameInterface.(sControl).(sRow));
-					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
-					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
-					CopyAttributes(aRow, aCurRow);
-					CopyAttributes(aCurRow, aNextRow);
-					CopyAttributes(aNextRow, aRow);
-					}
-				}
-			}
-		}
-	}
-}
-//<-- mod tablesort
 
 void ChangePosTable()
 {

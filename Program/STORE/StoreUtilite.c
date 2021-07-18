@@ -771,7 +771,8 @@ void ChangeImport()
 				}
 				for (j = 0; j < GOODS_QUANTITY; j++)
 				{
-					if(j > 34 && j < 51 && j != 32) continue;
+					if(j > 34 && j < 51) continue;
+					if (j == 32) continue;
 					goodName = Goods[j].Name;
 					
 					gModifierExport = sti(sti(Goods[j].Norm)*0.6);							
@@ -802,7 +803,7 @@ void ChangeImport()
 							pRef.Goods.(goodName).Quantity =  sti(sti(pRef.Goods.(goodName).Quantity)*1.2);
 						break;
 					}
-					if (j < 10)
+					if (j < 11)
 					{//Расходники восстанавливаются чуток быстрее
 						if (sti(pRef.Goods.(goodName).Quantity) < 250 * sti(Goods[j].Units))
 						{
@@ -829,7 +830,7 @@ void ChangeImport()
 						iType = rand(1);
 					}
 					//импорт
-					if (goodsQty < gModifierImport && pRef.Goods.(goodName).TradeType != "2" && pRef.Goods.(goodName).TradeType != "3" && pRef.Goods.(goodName).TradeType != "6")
+					if (j > 10 && goodsQty < gModifierImport && pRef.Goods.(goodName).TradeType != "2" && pRef.Goods.(goodName).TradeType != "3" && pRef.Goods.(goodName).TradeType != "6")
 					{
 						if (sti(pRef.Goods.(goodName).TradeType) != 1)
 						{

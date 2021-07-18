@@ -174,7 +174,7 @@ void ProcessDialogEvent()
 		break;
 			
 		case "Andre_Abel_In_PortPax":
-			dialog.text = "Спасибо, капитан, вы меня очень выручили. Я оплачу ваши 3000 серебряными слитками - не возражаете?";
+			dialog.text = "Спасибо, капитан, вы меня очень выручили. Я оплачу ваши услуги серебряными слитками, тут даже больше, чем три тысячи. Не возражаете?";
 			link.l1 = "Нет, конечно... Слушайте, а зачем вам понадобилось сопровождение? Ведь ни ваше судно, ни содержимое трюма особой ценности не представляют.";
 			link.l1.go = "Andre_Abel_In_PortPax_2";
 			Group_DeleteGroup("Andre_Abel_Quest_Pirates_Ships"); // На всякий случай
@@ -351,7 +351,7 @@ void ProcessDialogEvent()
 		break;
 			
 		case "Andre_Abel_In_Tavern_Quest_Complete_2":
-			dialog.text = "Вот и славно. Торговая лицензия " + XI_ConvertString(Nations[sti(NPChar.LicenceNation)].Name + "Gen") + " у меня есть только на 40 дней. Не забудь, что входить в порт нужно под дружественным флагом... Да ты и сам это прекрасно знаешь.";
+			dialog.text = "Вот и славно. Торговая лицензия " + XI_ConvertString(Nations[sti(NPChar.LicenceNation)].Name + "Gen") + " у меня есть только на 40 дней. Не забудь, что входить в порт нужно под дружественным флагом... Да ты и сам"+ GetSexPhrase("","а")+" это прекрасно знаешь.";
 			link.l1 = "Знаю конечно! Спасибо... Слушай, а откуда у тебя лицензии всех государств?";
 			link.l1.go = "Andre_Abel_In_Tavern_Quest_Complete_3";
 		break;

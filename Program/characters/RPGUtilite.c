@@ -1215,6 +1215,10 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_F_LIGHT, "Totem_8", 5);				// {Тотем Тлалока}						(+5 легкое оружие)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_F_HEAVY, "Totem_9", 5); 				// {Тотем Майяуэль}						(+5 тяжелое оружие)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SNEAK, "Dozor_Mirror", 15);			// {Карманное зеркало}					(+15 к скрытности)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SAILING, "hatWhisper", 5);			// {Карманное зеркало}					(+15 к скрытности)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_LEADERSHIP, "hatWhisper", 5);			// {Карманное зеркало}					(+15 к скрытности)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_GRAPPLING, "hatWhisper", 5);			// {Карманное зеркало}					(+15 к скрытности)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SNEAK, "hatWhisper", -5);				// {Карманное зеркало}					(+15 к скрытности)
 		
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_DEFENCE, "Totem_3", 5);				// {Тотем Кецалькоатля} 				(+5 защита)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_ACCURACY, "Totem_4", 5);				// {Тотем Мишкоатля}					(+5 меткость)
@@ -1223,6 +1227,10 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 		skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SAILING, "Totem_12", 5);				// {Тотем Синтеотля}					(+5 к навигации)
 		skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_REPAIR, "Totem_15", 5);				// {Тотем Шипе-Тотеку}					(+5 к починке)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SAILING, "Dozor_Storm", 15);			// {Санта-Мария}						(+15 к навигации)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SNEAK, "glasses", 15);				// {Санта-Мария}						(+15 к навигации)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_PISTOL, "glasses", -5);				// {Санта-Мария}						(+15 к навигации)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_ACCURACY, "glasses", -5);				// {Санта-Мария}						(+15 к навигации)
+    	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_CANNONS, "glasses", -5);				// {Санта-Мария}						(+15 к навигации)
 		///////////// Иконки справа (Тотемы ацтеков/бижутерия) <--
 		
 		///////////// Дют бафы/дебафы из инвентаря -->
@@ -2056,7 +2064,7 @@ string GetNationReputation(ref chref, int _Nation)
 
 string GetNationReputationName(int _Nation, int i)
 {
-	if (i <= -10)  return "Награда за голову " + (-i*1000);
+	if (i <= -10)  return "Награда за голову " + (-i*10000);
     if (i < 0 )    return "Враждебная";
     if (i <= 20 )  return "Нейтральная";
     if (i <= 50 )  return "Хорошая";
@@ -2507,10 +2515,10 @@ void SetAllAchievements(int level)
 	pchar.achievements.Enchantcity_quest = level; // Выполнение квеста "Зачарованный город" 100
 	
 	pchar.achievements.Killbeggars_quest = level; // Выполнение квеста "Убить всех нищих" 100
-	pchar.achievements.Bluebird_quest = level; // Выполнение квеста "Уничтожить шебеку СП" 100
+	if(!bNoPirateRestrictions && Pchar.BaseNation != PIRATE) pchar.achievements.Bluebird_quest = level; // Выполнение квеста "Уничтожить шебеку СП" 100
 	pchar.achievements.Berglarsgang_quest = level; // Выполнение квеста "Банда грабителей и убийц Остина" 100
 	pchar.achievements.Mummydust_quest = level; // Выполнение квеста "Поиски порошка мумии" 100
-	pchar.achievements.Isabella_quest = level; // Выполнение квеста "История прекрасной Изабеллы" 100
+	if(pchar.sex != "woman") pchar.achievements.Isabella_quest = level; // Выполнение квеста "История прекрасной Изабеллы" 100
 	if(Pchar.questTemp.CapBloodLine == 1) pchar.achievements.CapBladLine = level; // Выполнение линейки Блада 100
 	if(startherotype == 2) pchar.achievements.WhisperLine = level; // Выполнение линейки Виспер 100
 	pchar.achievements.Nation_quest_E = level; // Выполнение национальной линейки квестов 100 ---

@@ -248,9 +248,14 @@ void SetSchemeForLocation (ref loc)
 				}
 			break;
 			
-			case "inca_temple": // не используется
-				SetSoundScheme("inca_temple");
-				SetMusicAlarm("music_teno_inside");
+			case "Labirint": // не используется
+				SetSoundScheme("dungeon");
+				SetMusicAlarm("music_Labirint");
+			break;
+			
+			case "Alcove": // не используется
+				SetSoundScheme("teno_inside");
+				SetMusicAlarm("music_Alcove");
 			break;
 			
 			case "questisland":
@@ -417,6 +422,16 @@ void SetSchemeForLocation (ref loc)
 			case "teno_inside":
 				SetSoundScheme("teno_inside");
 				SetMusicAlarm("music_teno_inside");
+			break;
+			
+			case "MountainPath":
+				SetSoundScheme("land");
+				SetMusicAlarm("music_MountainPath");
+			break;
+			
+			case "DeckWithReefs":
+				SetSoundScheme("land");
+				SetMusicAlarm("music_DeckWithReefs");
 			break;
 		}
 	}
@@ -709,6 +724,9 @@ void Sound_OnAlarm(bool _alarmed)
 	if (alarmed != 0)
 	{ //alarm on!
 		if (loadedLocation.id == "FencingTown_Arena") SetMusic("music_bitva_arena");
+		else SetMusic("music_bitva");
+		
+		if (loadedLocation.id == "MountainPath") SetMusic("music_MountainPathFight");
 		else SetMusic("music_bitva");
 	}
 	else

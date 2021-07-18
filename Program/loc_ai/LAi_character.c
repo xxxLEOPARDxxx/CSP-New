@@ -491,17 +491,19 @@ bool LAi_SetReincarnationRankStep(aref _chr, int _step)
 //------------------------------------------------------------------------------------------
 
 //Проиграть звук
-void LAi_CharacterPlaySound(aref chr, string soundname)
+/* void LAi_CharacterPlaySound(aref chr, string soundname)
 {
 	SendMessage(chr, "s", soundname);
-}
+} */
 
-/* //Проиграть звук
+//Проиграть звук
 void LAi_CharacterPlaySound(aref chr, string soundname)
 {
-	InitSound();
-	return SendMessage(chr, "lslllll",MSG_SOUND_PLAY_NORET, soundname, SOUND_WAV_STEREO, VOLUME_SPEECH, false, false, false);
-} */
+	float x, y, z;
+	GetCharacterPos(chr, &x, &y, &z);
+	//InitSound();
+	SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY_NORET, soundname, SOUND_WAV_3D, VOLUME_SPEECH, false, false, false, 0, x, y, z);
+}
 
 //Переключиться в режим боя и обратно
 void LAi_SetFightMode(aref chr, bool isFightMode)
@@ -957,7 +959,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 					if (!CheckAttribute(chr, "blooding.hp") || hp < sti(chr.blooding.hp)-1.0)
 					{
 						chr.blooding.hp = hp;
-						LAi_CharacterPlaySound(chr, "blooddrop");
+						// LAi_CharacterPlaySound(chr, "blooddrop"); // LEO: Вырубил нахер. А то крипота какая то была с ёба-звуками.
 						LaunchBlood(chr, 1.6, true);
 						SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, hp, MakeFloat(MakeInt(chr.chr_ai.hp)), MakeFloat(MakeInt(chr.chr_ai.hp_max)));
 					}

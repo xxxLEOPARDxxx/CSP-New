@@ -5,7 +5,7 @@ object objActivePerkShower;
 void InitActivePerkShower()
 {
     //#20200706-01
-    float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    float fHtRatio = stf(Render.screen_y) / screenscaling;
 	objActivePerkShower.ShowParam.PosRect.left		= sti(showWindow.right) - RecalculateHIcon(makeint((48+132) * fHtRatio));
 	objActivePerkShower.ShowParam.PosRect.top		= RecalculateVIcon(makeint(445* fHtRatio));
 	objActivePerkShower.ShowParam.PosRect.right		= sti(showWindow.right) - RecalculateHIcon(makeint(48* fHtRatio));

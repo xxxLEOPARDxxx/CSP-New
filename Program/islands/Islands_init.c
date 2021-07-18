@@ -2216,12 +2216,9 @@ void InitIslands()
 		Islands[n].InterfaceTextures.t1.v = 1;
 
 		SendMessage(&locator,"le",LM_LOCATE_I,&Islands[n]);
-		
-		
-		
-		
+
 	/////////////////////////////////////////////////////////////////////////
-	/// Исла де Муэрте
+	/// Кхаэль Роа
 	/////////////////////////////////////////////////////////////////////////
 		n = n + 1;
 		Islands[n].id = "KhaelRoa";
@@ -2233,27 +2230,26 @@ void InitIslands()
 		Islands[n].TexturePath = "LostShipsCity";
 		Islands[n].visible = true;
 		Islands[n].reload_enable = true;
+		
 		Islands[n].reload.l1.label = "Shore64";
 		Islands[n].reload.l1.name = "reload_1";
 		Islands[n].reload.l1.go = "KhaelRoa_port";
 		Islands[n].reload.l1.emerge = "reload2";
-		Islands[n].reload.l1.radius = 200.0;
+		Islands[n].reload.l1.radius = 300.0;
 		Islands[n].reload.l1.pic = 0;
 		Islands[n].reload.l1.tex = "t1";
 		
 		Islands[n].reload.l2.label = "Shore64_1";
 		Islands[n].reload.l2.name = "reload_1";
-		Islands[n].reload.l2.go = "";
-		Islands[n].reload.l2.emerge = "";
-		Islands[n].reload.l2.radius = 0.0;
+		Islands[n].reload.l2.go = "KhaelRoa_port";
+		Islands[n].reload.l2.emerge = "reload2";
+		Islands[n].reload.l2.radius = 1.0;
 		Islands[n].reload.l2.pic = 0;
 		Islands[n].reload.l2.tex = "t1";
         
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;
 		Islands[n].InterfaceTextures.t1.v = 1;
-		
-		
 
 		SendMessage(&locator,"le",LM_LOCATE_I,&Islands[n]);
 		iNumIslands = n;

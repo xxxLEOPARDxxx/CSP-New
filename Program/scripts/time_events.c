@@ -201,12 +201,39 @@ void Tut_Continue()
     LAi_SetFightMode(Pchar, false);
     LAi_LockFightMode(pchar, true);
 
-	sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Pirate_9", "man", "man", 1, PIRATE, 0, false));
-    sld.name 	= "Сандро";
-    sld.lastname 	= "Торн";
-    sld.Dialog.CurrentNode = "First time";
-    sld.dialog.filename = "Quest\StartGame_dialog.c";
-    sld.greeting = "Teacher_pirat";
+	if(rand(99)==0) 
+	{
+		switch (rand(1))
+		{
+			case 0:
+				sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Skelt", "man", "man2_ab", 1, PIRATE, 0, false));
+				sld.name 	= "T-800";
+				sld.lastname 	= "";
+				sld.Dialog.CurrentNode = "Alt_start";
+				sld.dialog.filename = "Quest\StartGame_dialog.c";
+				sld.greeting = "";
+			break;
+			case 1:
+				StopSound(0,0);
+				PlayStereoOGG("Music\necroTown.ogg");
+				sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Skel_5", "man", "man2_ab", 1, PIRATE, 0, false));
+				sld.name 	= "Некромант";
+				sld.lastname 	= "Сандро";
+				sld.Dialog.CurrentNode = "Alt_start2";
+				sld.dialog.filename = "Quest\StartGame_dialog.c";
+				sld.greeting = "";
+			break;
+		}
+	}
+	else
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Pirate_9", "man", "man", 1, PIRATE, 0, false));
+		sld.name 	= "Сандро";
+		sld.lastname 	= "Торн";
+		sld.Dialog.CurrentNode = "First time";
+		sld.dialog.filename = "Quest\StartGame_dialog.c";
+		sld.greeting = "Teacher_pirat";
+	}
 
     SetSPECIAL(sld, 9,8,10,3,6,10,4);
     InitStartParam(sld);
@@ -498,6 +525,11 @@ void CheckTrauma() //тяжёлая травма - Lipsar и Gregg
             }
         }
     }*/
+	if(CheckAttribute(PChar, "chr_ai.Trauma"))//только ГГ, так как здоровье меняется только у ГГ
+    {
+		DeleteAttribute(PChar, "chr_ai.Trauma");
+		Log_Info("Вы оправились от травмы");
+	}
     if(CheckAttribute(PChar, "chr_ai.HeavyTrauma"))//только ГГ, так как здоровье меняется только у ГГ
     {        
         PChar.chr_ai.HeavyTrauma = sti(PChar.chr_ai.HeavyTrauma) - 1;

@@ -428,7 +428,7 @@ type = normal
 start_time = 3153
 end_time = 3163
 
-speed = 1.5
+speed = 4.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -440,7 +440,7 @@ type = normal
 start_time = 665
 end_time = 697
 
-speed = 1.5
+speed = 4.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -453,7 +453,7 @@ type = normal
 start_time = 3165
 end_time = 3186
 
-speed = 1.2
+speed = 4.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -464,7 +464,7 @@ type = normal
 start_time = 3186
 end_time = 3210
 
-speed = 1.2
+speed = 4.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -475,7 +475,7 @@ type = normal
 start_time = 3210
 end_time = 3232
 
-speed = 1.2
+speed = 4.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -486,7 +486,7 @@ type = normal
 start_time = 3186
 end_time = 3210
 
-speed = 1.2
+speed = 4.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -497,7 +497,7 @@ type = normal
 start_time = 3210
 end_time = 3232
 
-speed = 1.2
+speed = 4.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -508,7 +508,7 @@ type = normal
 start_time = 3165
 end_time = 3186
 
-speed = 1.2
+speed = 4.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -519,7 +519,7 @@ type = normal
 start_time = 213
 end_time = 228
 
-speed = 1.5
+speed = 4.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -530,7 +530,7 @@ type = normal
 start_time = 3165
 end_time = 3186
 
-speed = 1.2
+speed = 4.2
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -706,6 +706,31 @@ data = "Probability", "0.05"
 
 
 [fight stand_6]
+loop = true
+type = normal
+start_time = 3422
+end_time = 3456
+
+speed = 1.2
+
+data = "Blend time", "0.4"		; sec
+
+data = "Probability", "0.2"
+
+[fight stand_7]
+loop = true
+type = normal
+start_time = 3384
+end_time = 3422
+
+speed = 1.2
+
+data = "Blend time", "0.4"		; sec
+
+data = "Probability", "0.05"
+
+
+[fight stand_8]
 loop = true
 type = normal
 start_time = 3422

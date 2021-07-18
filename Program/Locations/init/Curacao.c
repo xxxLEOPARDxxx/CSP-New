@@ -744,6 +744,7 @@ int LocationInitCuracao(int n)
 	locations[n].image = "loading\Graveyard.tga";
 	//Town sack
 	locations[n].townsack = "Villemstad";
+	locations[n].fastreload = "Villemstad";
 	//Sound
 	locations[n].type = "dungeon";
 	locations[n].islandId = "Curacao";

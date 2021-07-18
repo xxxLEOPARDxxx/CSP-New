@@ -52,77 +52,78 @@ void GenerateIslandShips(string sIslandID)
 					
 					FortDefender = false;
 
-					if (defendersCount == 0) continue;
-					iShipsQuantity = rand(2)+defendersCount;
-					if (CheckAttribute(FortChref,"Fort.Mode"))
+					if (defendersCount != 0);
 					{
-						if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
+						iShipsQuantity = rand(2)+defendersCount;
+						if (CheckAttribute(FortChref,"Fort.Mode"))
 						{
-							iShipsQuantity = 0; 
-							continue;
+							if(sti(FortChref.Fort.Mode) == FORT_ABORDAGE || sti(FortChref.Fort.Mode) == FORT_DEAD || iNation == PIRATE) 
+							{
+								iShipsQuantity = 0; 
+								continue;
+							}
 						}
-					}
-					colonies[i].AlreadyGen = true;
-					for (j = 0; j < iShipsQuantity; j++)
-					{
-						sTemp = "off_" + NationShortName(iNation) + "_" + i;
-						if(defendersCount > 0) iChar = NPC_GenerateCharacter("FortDefender"+i+j, sTemp, "man","man", 30, iNation, -1, true);
-						else iChar = NPC_GenerateCharacter("Officer"+i + (j-defendersCount), "pirate", "man","man", sti(pchar.rank) + 5, iNation, -1, true);
+						colonies[i].AlreadyGen = true;
+						for (j = 0; j < iShipsQuantity; j++)
+						{
+							sTemp = "off_" + NationShortName(iNation) + "_" + i;
+							if(defendersCount > 0) iChar = NPC_GenerateCharacter("FortDefender"+i+j, sTemp, "man","man", 30, iNation, -1, true);
+							else iChar = NPC_GenerateCharacter("Officer"+i + (j-defendersCount), "pirate", "man","man", sti(pchar.rank) + 5, iNation, -1, true);
+							
+							if(defendersCount > 0) FortDefender = true;
+							else FortDefender = false;
+							
+							
+							if(defendersCount > 0 && MainDefenderChar == -1) MainDefenderChar = iChar;
+							chr = GetCharacter(iChar);
+							
+							if(defendersCount > 0) CreateFortDefenders(chr, iNation);
+							else chr.Ship.Type = GenerateShipExt(28 + rand (4), 1, chr);
 						
-						if(defendersCount > 0) FortDefender = true;
-						else FortDefender = false;
-						
-						
-						if(defendersCount > 0 && MainDefenderChar == -1) MainDefenderChar = iChar;
-						chr = GetCharacter(iChar);
-						
-						if(defendersCount > 0) CreateFortDefenders(chr, iNation);
-						else chr.Ship.Type = GenerateShipExt(28 + rand (4), 1, chr);
-					
-						PlaceCharacterShip(iChar, iNation, sIslandID, i, FortDefender, MainDefenderChar);
-						
-						characters[iChar].IslandShips = Colonies[i].id; // номер города, чтоб тереть по захвату города to_do
-						if (iNation == PIRATE)
-						{ // нащ город
-							characters[iChar].AlwaysFriend        = true;
-							SetCharacterRelationBoth(iChar, GetMainCharacterIndex(), RELATION_FRIEND);
-						}
-						
-						if(defendersCount > 0) characters[iChar].Ship.Mode = "war";
-						else characters[iChar].Ship.Mode = "pirate";
-						
-						if (rand(4) == 1 || GetCharacterShipClass(&characters[iChar]) == 1) SetRandGeraldSail(chr, iNation);
-						
-						characters[iChar].AlwaysSandbankManeuver = true;  // тупым запрет тонуть об берег
-						
-						characters[iChar].AnalizeShips = true; //анализить вражеские корабли
-						
-						characters[iChar].location.from_sea = colonies[i].from_sea;
-						
-						if(defendersCount > 0) SetCaptanModelByEncType(chr, "war");
-						else SetCaptanModelByEncType(chr, "pirate");
-						
-						Fantom_SetCannons(chr, characters[iChar].Ship.Mode);
-						
-						Fantom_SetBalls(chr, characters[iChar].Ship.Mode);
-						
-						SetRandomNameToShip(chr);
-						
-						SetBaseShipData(chr);
-						
-						AddItems(chr,"potion2",10);
-						
-						if(defendersCount > 0) SetCrewQuantityFull(chr);
-						else SetCrewQuantity(chr, GetOptCrewQuantity(chr));
-						
-						
-						
-						if(defendersCount < 0) SetSeaFantomParam(chr, "pirate");
-						
-						Ship_FlagRefresh(chr);
-						
-						
-						if(defendersCount > 0)
+							PlaceCharacterShip(iChar, iNation, sIslandID, i, FortDefender, MainDefenderChar);
+							
+							characters[iChar].IslandShips = Colonies[i].id; // номер города, чтоб тереть по захвату города to_do
+							if (iNation == PIRATE)
+							{ // нащ город
+								characters[iChar].AlwaysFriend        = true;
+								SetCharacterRelationBoth(iChar, GetMainCharacterIndex(), RELATION_FRIEND);
+							}
+							
+							if(defendersCount > 0) characters[iChar].Ship.Mode = "war";
+							else characters[iChar].Ship.Mode = "pirate";
+							
+							if (rand(4) == 1 || GetCharacterShipClass(&characters[iChar]) == 1) SetRandGeraldSail(chr, iNation);
+							
+							characters[iChar].AlwaysSandbankManeuver = true;  // тупым запрет тонуть об берег
+							
+							characters[iChar].AnalizeShips = true; //анализить вражеские корабли
+							
+							characters[iChar].location.from_sea = colonies[i].from_sea;
+							
+							if(defendersCount > 0) SetCaptanModelByEncType(chr, "war");
+							else SetCaptanModelByEncType(chr, "pirate");
+							
+							Fantom_SetCannons(chr, characters[iChar].Ship.Mode);
+							
+							Fantom_SetBalls(chr, characters[iChar].Ship.Mode);
+							
+							SetRandomNameToShip(chr);
+							
+							SetBaseShipData(chr);
+							
+							AddItems(chr,"potion2",10);
+							
+							if(defendersCount > 0) SetCrewQuantityFull(chr);
+							else SetCrewQuantity(chr, GetOptCrewQuantity(chr));
+							
+							
+							
+							if(defendersCount < 0) SetSeaFantomParam(chr, "pirate");
+							
+							Ship_FlagRefresh(chr);
+							
+							
+							if(defendersCount > 0)
 							{
 								SelAllPerksToNotPchar(chr);	
 								if(CheckAttribute(chr,"perks.list.ShipEscape")) DeleteAttribute(chr,"perks.list.ShipEscape");
@@ -144,11 +145,13 @@ void GenerateIslandShips(string sIslandID)
 								SetSelfSkill(chr, 100, 100, 100, 100, 90);
 								SetShipSkill(chr, 90, 90, 90, 90, 100, 90, 90, 90, 90);
 							}
+								
+							SetCharacterPerk(chr, PerksChars());
 							
-						SetCharacterPerk(chr, PerksChars());
-						
-						if(defendersCount > 0) defendersCount = defendersCount - 1;		
+							if(defendersCount > 0) defendersCount = defendersCount - 1;		
+						}
 					}
+					
 				}
 				if (!CheckAttribute(&colonies[i], "GenShipDate") || GetNpcQuestPastDayParam(&colonies[i], "GenShipDate") > 0) //торгаши
 				{

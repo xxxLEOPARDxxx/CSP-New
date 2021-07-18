@@ -124,7 +124,7 @@ void Log_SetEternalString(string strLog)
 void CreateLogEnvironment()
 {
     //#20180714-01
-    float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    float fHtRatio = stf(Render.screen_y) / screenscaling;
 	ILogAndActions.Log.width = sti(showWindow.sw)/2;
 	ILogAndActions.Log.height = sti(showWindow.sh)- makeint(80 * fHtRatio);
 	ILogAndActions.Log.right = sti(showWindow.right) - RecalculateHIcon(makeint(340 * fHtRatio));
@@ -140,7 +140,7 @@ void CreateLogEnvironment()
 void CreateSeaActionsEnvironment()
 {
     //#20180714-01
-    float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    float fHtRatio = stf(Render.screen_y) / screenscaling;
 	ILogAndActions.type = "sea";
 	if(InterfaceStates.AltIntIcons) ILogAndActions.ActiveActions.TextureName = "battle_interface\List_icons_Konshud.tga";
 	else ILogAndActions.ActiveActions.TextureName = "battle_interface\list_icons.tga";
@@ -180,7 +180,7 @@ void CreateSeaActionsEnvironment()
 void CreateLandActionsEnvironment()
 {
     //#20180714-01
-    float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    float fHtRatio = stf(Render.screen_y) / screenscaling;
 	ILogAndActions.type = "land";
 
 	if(InterfaceStates.AltIntIcons) ILogAndActions.ActiveActions.TextureName = "battle_interface\LandCommands_Konshud.tga";
@@ -229,7 +229,7 @@ void CreateWorldMapActionsEnvironment()
 	DeleteClass(&IBoardingStatus);
 	DeleteAttribute(&IBoardingStatus,"");
     //#20180714-01
-    float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    float fHtRatio = stf(Render.screen_y) / screenscaling;
 	ILogAndActions.type = "map";
 
 	if(InterfaceStates.AltIntIcons) ILogAndActions.ActiveActions.TextureName = "battle_interface\WorldMapCommands_Konshud.tga";
@@ -299,22 +299,20 @@ void DrawCharacterHP(float myHP,float enemyHP)
 
 void DrawCharacterHPEx(float myHP,float enemyHP)
 {
-	float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+	float fHtRatio = stf(Render.screen_y) / screenscaling;
     int fTmp, fTmp2;
     
     if(bYesBoardStatus==false)
     {
         CreateEntity(&IBoardingStatus,"IBoardingStatus");
-        // fTmp = makeint(29.5 * fHtRatio);
-        fTmp = makeint(25.0 * fHtRatio);
+        fTmp = makeint(24.0 * fHtRatio);
         IBoardingStatus.myLeft = fTmp + "," + fTmp2;
-        // fTmp = makeint(98.0 * fHtRatio);
         fTmp = makeint(86.0 * fHtRatio);
         IBoardingStatus.myTop = fTmp + "," + fTmp2;
 		IBoardingStatus.enemyLeft = sti(showWindow.left)+230+73+makeint((14.0/1280.0*stf(showWindow.right)-4.0)/2.0);
 		IBoardingStatus.enemyTop = -1000;
-		IBoardingStatus.height = RecalculateVIcon(4)*fHtRatio;
-		IBoardingStatus.width = RecalculateVIcon(121)*fHtRatio;
+		IBoardingStatus.height = RecalculateVIcon(6)*fHtRatio;
+		IBoardingStatus.width = RecalculateVIcon(132)*fHtRatio;
 		IBoardingStatus.myColor = argb(255,200,200,200);
 		IBoardingStatus.enemyColor = argb(255,128,0,0);
 		SendMessage(&IBoardingStatus,"l",LOG_INIT_CHARCTER_HP);
@@ -333,22 +331,22 @@ void DrawCharacterHPEx(float myHP,float enemyHP)
 
 void DrawCharacterHPExx(float myHP,float enemyHP)
 {
-	float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+	float fHtRatio = stf(Render.screen_y) / screenscaling;
     int fTmp, fTmp2;
     
     if(bYesBoardStatus==false)
     {
         CreateEntity(&IBoardingStatus,"IBoardingStatus");
-        fTmp = makeint(29.5 * fHtRatio);
+        fTmp = makeint(41 * fHtRatio);
         IBoardingStatus.myLeft = fTmp + "," + fTmp2;
-        fTmp = makeint(98.0 * fHtRatio);
+        IBoardingStatus.enemyLeft = fTmp + "," + fTmp2;
+        fTmp = makeint(79.5 * fHtRatio);
         IBoardingStatus.myTop = fTmp + "," + fTmp2;
-		IBoardingStatus.enemyLeft = sti(showWindow.left)+230+73+makeint((14.0/1280.0*stf(showWindow.right)-4.0)/2.0);
-		IBoardingStatus.enemyTop = -1000;
-		IBoardingStatus.height = RecalculateVIcon(4)*fHtRatio;
-		IBoardingStatus.width = RecalculateVIcon(121)*fHtRatio;
-		IBoardingStatus.myColor = argb(255,200,200,200);
-		IBoardingStatus.enemyColor = argb(255,128,0,0);
+		IBoardingStatus.enemyTop = fTmp + "," + fTmp2;
+        IBoardingStatus.height = RecalculateVIcon(10)*fHtRatio;
+        IBoardingStatus.width = RecalculateVIcon(110)*fHtRatio;
+        IBoardingStatus.myColor = argb(255,0, 250, 154);
+        IBoardingStatus.enemyColor = argb(55,90, 90, 90);
 		SendMessage(&IBoardingStatus,"l",LOG_INIT_CHARCTER_HP);
 		bYesBoardStatus = true;
 	}

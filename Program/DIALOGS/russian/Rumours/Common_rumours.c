@@ -254,7 +254,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		if (CheckAttribute(pchar, "PGG_killed") && sti(pchar.PGG_killed) > 4 && pchar.PGG_killed != pchar.PGG_killed_known)
 		{
 			pchar.PGG_killed_known = pchar.PGG_killed;
-			dialog.text = "Говорят, что в наших водах "+GetSexPhrase("завелся охотник на честных корсаров, ","завелась охотница на честных корсаров, ")+ GetFullName(pchar)+GetSexPhrase(" его "," её") + " звать. Число душ, отправленных на тот свет этой личностью уже достигло " + pchar.PGG_killed + ". Все уважаемые в этих местах люди. Брр... Что-то меня мутить начинает. То ли из-за рома, то ли всей этой истории...";
+			dialog.text = "Говорят, что в наших водах "+GetSexPhrase("завелся охотник на честных корсаров, ","завелась охотница на честных корсаров, ") + GetFullName(pchar)+GetSexPhrase(" его "," её") + " звать. Число душ, отправленных на тот свет этой личностью уже достигло " + pchar.PGG_killed + ". Все уважаемые в этих местах люди. Брр... Что-то меня мутить начинает. То ли из-за рома, то ли всей этой истории...";
 		}
 		
 		//BlackThorn викинг
@@ -268,7 +268,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 					{
 						if (GetSquadronGoods(Pchar, GOOD_EBONY) >= 400 || GetSquadronGoods(Pchar, GOOD_SILK) >= 1000 || GetSquadronGoods(Pchar, GOOD_SILVER) >= 600) 
 						{
-							dialog.text = "Вижу, вы - вывалый купец, капитан, немало передряг повидали. Но все же, хоть я сам не моряк, но дал бы вам совет - не выходите сегодня в море. В окрестных водах видели пиратскую щебеку, которая как раз охотится на людей вроде вас.";
+							dialog.text = "Вижу, вы - бывалый купец, капитан, немало передряг повидали. Но все же, хоть я сам не моряк, но дал бы вам совет - не выходите сегодня в море. В окрестных водах видели пиратскую щебеку, которая как раз охотится на людей вроде вас.";
 							link.l1 = "Ха! Напугал ежа иголкой. Да если мне эта щебека попадется, то считай она уже на дне. Ладно, бывай.";
 							link.l1.go = "exit_sit";
 							AddQuestRecord("pirateVikingQuest", "6");
@@ -337,7 +337,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 				}
 				if (pchar.questTemp.pirateVikingQuest == "2")
 				{
-					dialog.text = "Не советую вам выходить в море, капитан. Обычно там только пираты покою не давали, а сейчас завелись ещё и самые настоящие викинги! Один купец до последнего не хотел расставаться с серебром в своем трюме, наивно надеясь, что сможет дать им отпор. Он заплатил жизнями своей команды. С обломками его корабля, в местную бухту недавно прибило бедолагу, матроса, который чудом выжил. Он и рассказал мне эту историю. Говорит, лично видел этих зверей. Все до единого в рогатых шлемах!";
+					dialog.text = "Не советую вам выходить в море, капитан. Обычно там только пираты покою не давали, а сейчас завелись ещё и самые настоящие викинги! Один купец до последнего не хотел расставаться с серебром в своем трюме, наивно надеясь, что сможет дать им отпор. Он заплатил жизнями своей команды. С обломками его корабля, в местную бухту недавно прибило бедолагу, матроса, который чудом выжил. Он и рассказал мне эту историю. Говорит, лично видел этих зверей. Здоровенные, злющие и на языке непонятном говорят!";
 					AddQuestRecord("pirateVikingQuest", "3");
 					pchar.questTemp.pirateVikingQuest = "3";
 					pchar.LastHearedViking = npchar.city;
@@ -1204,7 +1204,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		//механика арестовали, диалоги мужика
 		case "MechanicIsPrison_man":
 			dialog.text = "А-а, ну вот и вы, наконец...";
-			link.l1 = "В чем дело? Почему вы еще не на корвете?... А где Механик?";
+			link.l1 = "В чем дело? Почему вы еще не на фрегате?... А где Механик?";
 			link.l1.go = "MechanicIsPrison_man_1";
 		break;
 		case "MechanicIsPrison_man_1":
@@ -1214,7 +1214,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		break;
 		case "MechanicIsPrison_man_2":
 			dialog.text = "А без Механика нам не обойтись?";
-			link.l1 = "Ведекер нам нужен. На корвет мы попасть сможем, а вот освободить его без Хенрика не выйдет.";
+			link.l1 = "Ведекер нам нужен. На фрегат мы попасть сможем, а вот освободить его без Хенрика не выйдет.";
 			link.l1.go = "MechanicIsPrison_man_3";
 		break;
 		case "MechanicIsPrison_man_3":
@@ -1239,7 +1239,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		//механика арестовали, диалоги бабы
 		case "MechanicIsPrison_woman":
 			dialog.text = "А-а, ну вот и вы, наконец...";
-			link.l1 = "В чем дело? Почему вы еще не на корвете?... А где Механик?";
+			link.l1 = "В чем дело? Почему вы еще не на фрегате?... А где Механик?";
 			link.l1.go = "MechanicIsPrison_man_1";
 		break;
 		case "MechanicIsPrison_woman_1":
@@ -1249,7 +1249,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		break;
 		case "MechanicIsPrison_woman_2":
 			dialog.text = "А без Механика нам не обойтись?";
-			link.l1 = "Ведекер нам нужен. На корвет мы попасть сможем, а вот освободить его без Хенрика не выйдет.";
+			link.l1 = "Ведекер нам нужен. На корабль мы попасть сможем, а вот освободить его без Хенрика не выйдет.";
 			link.l1.go = "MechanicIsPrison_man_3";
 		break;
 		case "MMechanicIsPrison_woman_3":

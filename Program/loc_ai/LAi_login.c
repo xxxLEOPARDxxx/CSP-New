@@ -601,7 +601,7 @@ void GenerateSpySeeker(ref location)
 		bool bOK = 	CheckAttribute(pchar, "GenQuest.questName") && pchar.GenQuest.questName != "SeekSpy";
 		bool bOK2 = !CheckAttribute(pchar, "GenQuest.questName");
 		if(!CheckAttribute(pchar, "SpySeeker.dayrandom")) pchar.SpySeeker.dayrandom = 0;
-		if(HasSubStr(location.id, "Common") && rand(1000) > 750 && pchar.dayrandom != pchar.SpySeeker.dayrandom && !HasSubStr(location.id, "Crypt")) 
+		if(HasSubStr(location.id, "Common") && rand(1000) > 750 && pchar.dayrandom != pchar.SpySeeker.dayrandom && !HasSubStr(location.id, "Crypt") && GetCityNation(location.fastreload) != 4) 
 		{
 			if(bOK || bOK2)
 			{

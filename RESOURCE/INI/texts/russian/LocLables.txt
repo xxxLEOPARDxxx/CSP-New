@@ -29,6 +29,7 @@ Terks			{Теркс}
 Tortuga			{Тортуга}
 Trinidad		{Тринидад и Тобаго}
 Reefs			{Риф скелета}
+KhaelRoa		{Кхаэль Роа}
 Mein			{Мэйн}
 
 Tenotchitlan	{оз. Тескоко}
@@ -132,6 +133,8 @@ Shore60		{мыс Галера}
 Shore61		{Тепейакак}
 Shore62		{Истапалапу}
 Shore63		{залив Сан Мигель}
+Shore64		{пляж Кхаэль Роа}
+Shore64_1	{ }
 Shore_ship1	{бухта Разбитого корыта}
 Shore_ship2	{залив Гибели}
 Shore_ship3	{мыс Несбывшихся надежд}
@@ -279,6 +282,7 @@ PortOffice			{Портовое управление}
 Church				{Церковь}
 Incquisitio			{Инквизиция}
 Incas Temple		{Храм Инков}
+Labirint			{Лабиринт}
 Usurer House		{дом ростовщика}
 House				{дом}
 Room				{Комната}
@@ -302,6 +306,7 @@ Brothel Room		{Комната уединения}
 Village				{Деревня}
 Plantation			{Плантация}
 UnderWater			{Под водой}
+Alcove				{Альков}
 
 BuilderHouse				{дом Архитектора}
 Canyon						{Каньон}

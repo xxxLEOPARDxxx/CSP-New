@@ -40,18 +40,6 @@ bool locDisableUpdateTime = false;
 
 int FindLocation(string id)
 {
-	/*
-	for(int i = 0; i < nLocationsNum; i++)
-	{
-		if(Locations[i].id == id)
-		{
-			return i;
-		}
-	}
-
-	return -1;
-	*/
-
 	return NativeFindLocation(&locations, id);
 }
 
@@ -255,6 +243,7 @@ bool LoadLocation(ref loc)
                         dropSea = false;
                     break;
                 }
+				if (CheckAttribute(loc, "id.label") && loc.id.label == "Alcove") dropSea = false;
                 if(dropSea)
                     CreateSea("execute","realize");
             }
@@ -606,6 +595,7 @@ bool LoadLocation(ref loc)
 					SendMessage(loc, "ls", MSG_LOCATION_EX_MSG, "AddEagle");
 				}
 			}
+			//ящерецы
 			if(rand(100) < 95)
 			{
 				crtAnimals = true;
@@ -617,6 +607,7 @@ bool LoadLocation(ref loc)
 					SendMessage(loc, "ls", MSG_LOCATION_EX_MSG, "AddLizards");
 				}
 			}
+			// рысы
 			if(rand(100) < 50)
 			{
 				if(IsDay())
@@ -668,7 +659,7 @@ bool LoadLocation(ref loc)
         }
         // boal <--
 	}
-    float resizeRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    float resizeRatio = stf(Render.screen_y) / screenscaling;
     SendMessage(loadedLocation, "lsf", MSG_LOCATION_EX_MSG, "resizeRatio", resizeRatio);
     // boal debug info -->
 	if (bLocatorShow)
@@ -680,28 +671,9 @@ bool LoadLocation(ref loc)
         VisibleLocatorsGroup(loc.showLocatorGrp, 1.0, 15.0, 255, 0, 255, 0);
     // boal debug info <--
 
-	//DumpAttributes(loc);
-	//SendMessage(Sound,"lf",MSG_SOUND_SET_MASTER_VOLUME,1.0);
-
-	//VisibleLocatorsGroup("torchlightes_o", 0.1, 15.0, 55, 0, 0, 255);
-	/*
-	VisibleLocatorsGroup("candles", 1.0, 15.0, 255, 255, 255, 55);
-	VisibleLocatorsGroup("candles_medium", 1.0, 15.0, 255, 255, 255, 55);
-	VisibleLocatorsGroup("chandeliers", 1.0, 15.0, 255, 128, 0, 128);
-	VisibleLocatorsGroup("torchlightes", 1.0, 15.0, 255, 255, 155, 0);
-	VisibleLocatorsGroup("outside", 1.0, 15.0, 255, 155, 155, 255);
-	VisibleLocatorsGroup("fonar", 1.0, 15.0, 255, 155, 255, 155);
-	VisibleLocatorsGroup("heaters", 1.0, 15.0, 255, 155, 255, 155);
-	VisibleLocatorsGroup("incas_light", 1.0, 15.0, 255, 155, 255, 255);
-	VisibleLocatorsGroup("incas_sky", 1.0, 15.0, 255, 0, 255, 255);
-	*/
-
 	Item_OnLoadLocation(loc.id);
 
 	ReloadProgressUpdate();
-
-	//ResumeAllSounds();
-	//SetSchemeForLocation(loc);
 
 	if (isNoBoarding) { Island_Start(); }
 
@@ -765,7 +737,7 @@ bool LoadLocation(ref loc)
 		}
 	}
 	// ADDED BY VANO
-
+	if (CheckAttribute(pchar,"chr_ai.HeavyTrauma")) SetNoRun(pchar);
 	return 1;
 }
 
@@ -954,14 +926,7 @@ bool LocLoadModel(aref loc, string sat, string addition)
 	{
 		if (loc.(attr) == "1")
 		{
-			/*if (!isEntity(&Island))
-			{
-				CreateEntity(&Island, "Island");
-				LayerAddObject("realize", &Island, 65529);
-			}
-
-			SendMessage(&Island, "liss", MSG_LOCATION_ADD_MODEL, &mdl, loc.id, loc.filespath.models);*/
-			//Trace("<> Model " + attr + ", have a foam!!!");
+			
 		}
 	}
 	//—тавим модификаторы
@@ -1295,19 +1260,8 @@ void LocationTimeUpdateFunc()
 	// boal -->
 	if (locTmpTime > 9)//14)
 	{
-		/*if (LAi_IsFightMode(GetMainCharacter()) && LAi_group_IsActivePlayerAlarm())
-		{
-			if (locTmpTime > 29)
-			{
-				CalcLocalTime(6);
-				RefreshLandTime();
-			}
-		}
-		else
-		{ */
 		    CalcLocalTime(3);
 		    RefreshLandTime();
-		//}
 	}
 	// boal <--
 }

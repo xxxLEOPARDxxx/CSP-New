@@ -378,7 +378,7 @@ void ShowCirassOnCharacter(ref chref, string groupID, string itemID)
             if (CheckAttribute(arItm, "model"))
             {
                 chref.model = GetSubStringByNum(chref.HeroModel, sti(arItm.model));
-				if (startherotype == 2 && sti(arItm.model) == 5 && findsubstr(chref.HeroModel, "Whisper" , 0) != -1 &&  !CheckAttribute(pchar, "Whisper.NanoCostume"))
+				if (startherotype == 2 && sti(arItm.model) == 5 && findsubstr(chref.HeroModel, "Whisper" , 0) != -1 && CheckCharacterItem(pchar,"hatWhisper") &&  !CheckAttribute(pchar, "Whisper.NanoCostume"))
 				{
 					chref.model = "PGG_Whisper_5_Cirass"
 				}
@@ -655,7 +655,7 @@ void SelectMainCharacter(bool bLeft)
 		if (FState_SEX[1] && sSex == "woman") {continue;}
 		if (FState_SEX[2] && sSex == "skeleton") {continue;}
 		sName = LanguageConvertString(idLngFile, "heroName_" + startHeroType);
-		if (FState_ANIM) {if (sAnim == "man" || sAnim == "skeleton" || sName == "Виспер") {} else continue;}
+		if (FState_ANIM) {if (sAnim == "man" || sAnim == "skeleton" || sAnim == "YokoDias"  || sAnim == "Milenace") {} else continue;}
 		break;//выходим из цикла, если все иф не сработали = перс подходит
 	}
 

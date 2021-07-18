@@ -564,7 +564,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 
@@ -573,7 +573,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec	
 	
@@ -583,7 +583,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec	
 	
@@ -591,7 +591,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec		
 	
@@ -599,7 +599,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec				
 
@@ -607,7 +607,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec	
 
@@ -615,7 +615,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec	
 
@@ -623,7 +623,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec	
 	
@@ -631,7 +631,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec	
 	
@@ -639,7 +639,7 @@ animation = crabBigKing.an
 	type = pingpong
 	start_time = 162
 	end_time = 166
-	speed = 2.0
+	speed = 4.0
 	loop = false	
 	data = "Blend time", "0.2"		; sec	
 		

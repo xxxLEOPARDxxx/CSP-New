@@ -80,6 +80,11 @@ void ProcessDialogEvent()
 			// только наняли <--
    			dialog.text = "Что вы хотите, капитан?";
 			if (NPChar.id == "James_Callow") NPChar.faceid = 287;
+			
+			if (NPChar.id == "Tichingitu")
+			{
+				dialog.text = "Тичингиту слушать вас, капитан "+pchar.name+"!";
+			}
 			// диалог компаньона на корабле.
 			if (CheckAttribute(NPChar, "IsCompanionClone"))
 			{
@@ -123,17 +128,8 @@ void ProcessDialogEvent()
 			    Link.l8 = "Дай мне полный отчёт о корабле, " + GetStrSmallRegister(XI_ConvertString("treasurer")) + ".";
 			    Link.l8.go = "QMASTER_1";
 			        
-			    // Warship. Автозакупка товара
-			    if(!CheckAttribute(PChar, "TransferGoods.Enable"))
-			    {
-				    Link.l11 = "Я хочу, чтобы во время стоянки в колонии, ты закупал товары.";
-				    Link.l11.go = "TransferGoodsEnable";
-			    }
-			    else
-			    {
-				    Link.l11 = "Знаешь, закупать товары в колониях не нужно.";
-				    Link.l11.go = "TransferGoodsDisable";
-			    }
+			    Link.l11 = "Давай обсудим, какое количество товаров и предметов нужно закупать в магазинах.";
+			    Link.l11.go = "TransferGoodsEnable";
 			}
 			
 			if (npchar.id != "Sharp_Sibling" && npchar.id != "SharleMary")
@@ -319,7 +315,11 @@ void ProcessDialogEvent()
 			GiveItem2Character(npchar, "blade_china");
 			EquipCharacterByItem(npchar, "blade_china");
 			npchar.Skill.Sailing    = sti(npchar.Skill.Sailing) + 20;
+			if (sti(npchar.Skill.Sailing) > 100) npchar.Skill.Sailing = 100;
 			npchar.Skill.FencingHeavy  = sti(npchar.Skill.FencingHeavy) + 20;
+			if (sti(npchar.Skill.FencingHeavy) > 100) npchar.Skill.FencingHeavy = 100;
+			npchar.perks.FreePoints_self = sti(npchar.perks.FreePoints_self) + 1;
+			npchar.perks.FreePoints_ship = sti(npchar.perks.FreePoints_ship) + 2;
 			npchar.rank = sti(npchar.rank) + 5;
 			npchar.perks.list.AgileMan = "1";
 			ApplayNewSkill(npchar, "AgileMan", 0);
@@ -583,36 +583,10 @@ void ProcessDialogEvent()
         // приколы <--
 		
 		case "TransferGoodsEnable":
-			if(sti(PChar.Ship.Type) == SHIP_NOTUSED)
-	        {
-				dialog.text = "Капитан, какие товары?! Нужно сначала корабль где-нибудь раздобыть!";
-				Link.l1 = "Да, ты прав.";
-				Link.l1.go = "Exit";
-				Diag.TempNode = "Hired";
-				break;
-	        }
-	        	
-			PChar.TransferGoods.Enable = true;
-		//	PChar.TransferGoods.TreasurerID = NPChar.id;
-			Dialog.text = "Будет исполнено, "+GetAddress_Form(pchar)+" капитан!";
-			Link.l1 = "Вольно.";
-			Link.l1.go = "TransferGoodsEnable_2";
-        break;
-        	
-		case "TransferGoodsEnable_2":
 			Diag.CurrentNode = "Hired";
 			DialogExit();
 			LaunchTransferGoodsScreen(); // Интерфейс автозакупки товаров
 		break;
-		
-		case "TransferGoodsDisable":
-			DeleteAttribute(PChar, "TransferGoods.Enable");
-			Dialog.text = "Будет исполнено, "+GetAddress_Form(pchar)+" капитан.";
-			Link.l1 = "Вольно.";
-			Link.l1.go = "exit";
-			Diag.TempNode = "Hired";
-		break;
-
         
 		case "ShowParam_exit":
 			Diag.CurrentNode = "OnceAgain";
@@ -1021,7 +995,7 @@ void ProcessDialogEvent()
             Link.l1.go = "Exit";
             Diag.TempNode = "Hired";
         break;
-        
+		
         // boal 05.09.03 offecer need to go to abordage -->
         case "stay_follow":
             dialog.text = "Какие будут приказания?";
@@ -1030,10 +1004,36 @@ void ProcessDialogEvent()
             Link.l2 = "Следуй за мной и не отставай!";
             Link.l2.go = "Boal_Follow";
             // boal 05.09.03 offecer need to go to abordage <--
-			if (npchar.id == "OffMushketer")
+			
+			if (findsubstr(npchar.model, "PGG" , 0) != -1 && !CheckAttribute(npchar, "CanTakeMushket"))
 			{
-				Link.l3 = "Я хочу, чтобы ты держался на определенном расстоянии от цели.";
+				Link.l3 = "Можно ли тебе доверить мушкет?";
+				Link.l3.go = "CheckMushket";
+			}
+			if (findsubstr(npchar.model.animation, "mushketer" , 0) != -1)
+			{
+				Link.l3 = "Я хочу, чтобы ты держал"+NPCharSexPhrase(npchar,"ся","ась")+" на определенном расстоянии от цели.";
 				Link.l3.go = "TargetDistance";
+			}
+		break;
+
+		case "CheckMushket":
+			if (findsubstr(npchar.model.animation, "man" , 0) != -1 || findsubstr(npchar.model.animation, "YokoDias" , 0) != -1 || findsubstr(npchar.model.animation, "Milenace" , 0) != -1) 
+			{
+				if (findsubstr(npchar.model.animation, "man2_ab" , 0) == -1)	Npchar.CanTakeMushket = true;
+			}
+			
+			if (CheckAttribute(npchar, "CanTakeMushket"))
+			{
+				dialog.text = "Конечно, капитан!";
+				Link.l1 = "Замечательно, тогда по возможности что-то тебе подберём.";
+				Link.l1.go = "exit";
+			}
+			else
+			{
+				dialog.text = "Лучше не надо, капитан. Вас еще ненароком подстрелю.";
+				Link.l1 = "Жаль, очень жаль...";
+				Link.l1.go = "exit";
 			}
 		break;
 
@@ -1062,13 +1062,13 @@ void ProcessDialogEvent()
 			}
 			if (iTemp > 20)
 			{
-				dialog.text = "Я кажется говорил, что более 20 метров от цели мне держаться нельзя.";
+				dialog.text = "Я кажется говорил"+NPCharSexPhrase(npchar, "","а")+", что более 20 метров от цели мне держаться нельзя.";
 				link.l1 = "Хорошо, держись на расстоянии в 20 метров.";
 				link.l1.go = "exit";
 				npchar.MusketerDistance = 20.0;
 				break;
 			}
-			dialog.text = "Задачу понял, принимаю к сведению.";
+			dialog.text = "Задачу понял"+NPCharSexPhrase(npchar, "","а")+", принимаю к сведению.";
 			link.l1 = "Хорошо.";
 			link.l1.go = "exit";
 			npchar.MusketerDistance = iTemp;
@@ -1814,7 +1814,7 @@ void ProcessDialogEvent()
 			dialog.Text = "К какому именно?";
 				Link.l1 = "Бермуды";
 				Link.l1.go = "TravelToPirates";
-				Link.l2 = "Ле Француа";
+				Link.l2 = "Ле Франсуа";
 				Link.l2.go = "TravelToLeFransua";
 				Link.l3 = "Ла Вега";
 				Link.l3.go = "TravelToLaVega";
@@ -1822,7 +1822,7 @@ void ProcessDialogEvent()
 				Link.l4.go = "TravelToPuertoPrincipe";	
 				Link.l5 = "Форт Оранж";
 				Link.l5.go = "TravelToFortOrange";
-				Link.l6 = "Знаешь, пока останься, я передумал.";
+				Link.l6 = "Знаешь, пока останься, я передумал"+ GetSexPhrase("","а")+".";
 				Link.l6.go = "exit";
 		break;
 		case "TravelToNomanIslands":
@@ -1833,7 +1833,7 @@ void ProcessDialogEvent()
 				Link.l2.go = "TravelToDominica";
 				Link.l3 = "Теркс";
 				Link.l3.go = "TravelToTerks";			
-				Link.l4 = "Знаешь, пока останься, я передумал.";
+				Link.l4 = "Знаешь, пока останься, я передумал"+ GetSexPhrase("","а")+".";
 				Link.l4.go = "exit";
 		break;
 		
@@ -1850,7 +1850,7 @@ void ProcessDialogEvent()
 			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Caiman" + "Gen")+", капитан?";
 			Link.l1 = "Да, именно так.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
         break;
 		case "TravelToDominica":
@@ -1866,7 +1866,7 @@ void ProcessDialogEvent()
 			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Dominica" + "Gen")+", капитан?";
 			Link.l1 = "Да, именно так.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
         break; 
 		case "TravelToTerks":
@@ -1882,7 +1882,7 @@ void ProcessDialogEvent()
 			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Terks" + "Gen")+", капитан?";
 			Link.l1 = "Да, именно так.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
         break; 
 		case "TravelToLaVega":
@@ -1898,7 +1898,7 @@ void ProcessDialogEvent()
 			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
 			Link.l1 = "Да, именно так.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
         break; 
 		case "TravelToPuertoPrincipe":
@@ -1914,7 +1914,7 @@ void ProcessDialogEvent()
 			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
 			Link.l1 = "Да, именно так.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
         break; 
 		case "TravelToFortOrange":
@@ -1930,7 +1930,7 @@ void ProcessDialogEvent()
 			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
 			Link.l1 = "Да, именно так.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
         break;
 		case "TravelToPirates":
@@ -1946,7 +1946,7 @@ void ProcessDialogEvent()
 			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
 			Link.l1 = "Да, именно так.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
         break;	
 		case "TravelToLeFransua":
@@ -1962,7 +1962,7 @@ void ProcessDialogEvent()
 			dialog.Text = "И так, Вы хотите чтоб я оправился до "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
 			Link.l1 = "Да, именно так.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
         break;
 		
@@ -1985,7 +1985,7 @@ void ProcessDialogEvent()
 			dialog.Text = "Вы выбрали колонию "+XI_ConvertString("Colony" + characters[sti(NPChar.realcompanionidx)].CompanionTravel.ToColonyID + "Gen")+", капитан?";
 			Link.l1 = "Да, именно её.";
             Link.l1.go = "CompanionTravel_PrepareStart";
-			Link.l2 = "Нет, я передумал, не бери в голову.";
+			Link.l2 = "Нет, я передумал"+ GetSexPhrase("","а")+", не бери в голову.";
             Link.l2.go = "exit";
             break;
         }
@@ -2073,7 +2073,7 @@ void ProcessDialogEvent()
 		case "CompanionTravel_ToSquadron":
 			if(GetCompanionQuantity(PChar) < COMPANION_MAX)
 			{
-				dialog.text = "Я тоже этого желаю. Отныне мой корабль снова под вашим покровительством, кэп.";
+				dialog.text = "Я тоже этого желаю. Отныне мой корабль снова под вашим командованием, кэп.";
 					Link.l1 = "Хорошо.";
 					Link.l1.go = "exit";
 					Diag.TempNode = "hired";

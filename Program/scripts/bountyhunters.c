@@ -43,7 +43,8 @@ void SeaHunterCheck()
             Group_SetGroupCommander(sGroup, sCapId+ "1");
             Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
             Group_LockTask(sGroup);
-            Map_CreateWarrior("", sCapId + "1", 8);
+			//Lipsar подпилил функцию							  
+            Map_CreateHunter("", sCapId + "1", 8);// LEO: Тестируем. Будет душно, вырубим, либо переделаем на здоровый лад.
         }
     }
 }

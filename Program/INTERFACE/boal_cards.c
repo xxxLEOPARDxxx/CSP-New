@@ -16,6 +16,8 @@ int bStartGame;
 
 int iTurnGame;
 int iHeroLose, iHeroWin;
+int randPlaceCoinSize = 30;
+int randPlaceCoin[99];
 
 void InitInterface(string iniName)
 {
@@ -130,6 +132,8 @@ void InitInterface(string iniName)
 	SetFormatedText("INFO_TEXT_DATE", GetQuestBookData());
     iHeroLose = 0;
     iHeroWin  = 0;
+	
+	GameInterface.strings.Beta_WinLose = "Побед: " +iHeroWin + " Поражений: " +iHeroLose);
 }
 
 void ProcessBreakExit()
@@ -491,8 +495,13 @@ void BetaInfo()
         GameInterface.strings.Beta_N       = "Beta_N " + CountCardsN();
         GameInterface.strings.Beta_Next    = "Beta_Next " + NextCardPack();
         GameInterface.strings.Beta_MoneyN  = "Beta_MoneyN " + MakeMoneyShow(iMoneyN, MONEY_SIGN,MONEY_DELIVER);
-    }
-	GameInterface.strings.Beta_WinLose = "Побед: " + (Statistic_AddValue(Pchar, "GameCards_Win", 0)+iHeroWin) + " Поражений: " + (Statistic_AddValue(Pchar, "GameCards_Lose", 0)+iHeroLose);
+    
+		GameInterface.strings.Beta_WinLose = "Побед: " + (Statistic_AddValue(Pchar, "GameCards_Win", 0)+iHeroWin) + " Поражений: " + (Statistic_AddValue(Pchar, "GameCards_Lose", 0)+iHeroLose);
+	}
+	else
+	{
+		GameInterface.strings.Beta_WinLose = "Побед: " +iHeroWin + " Поражений: " +iHeroLose);
+	}
 }
 int NextCardPack()
 {
@@ -540,7 +549,7 @@ void ShowMoney()
 {
 	if (npchar.id == "W_Chard")
 	{
-		for (int wCoins = 0; wCoins < 18; wCoins++)
+		for (int wCoins = 0; wCoins < randPlaceCoinSize; wCoins++)
 		{
 			if(wCoins < 10)
 			{
@@ -549,10 +558,14 @@ void ShowMoney()
 			}
 			else
 			{
-				if (wCoins > 11 && wCoins < 15) money_s = "silver";
+				if (wCoins > 11 && wCoins < 19) money_s = "silver";
 				else money_s = "gold";
 			}
-			CreateImage("Money_"+(18+wCoins),"CARDS",money_s, 350+wCoins*3, 280-wCoins*3, 350+wCoins*3 + smxy, 280-wCoins*3 + smxy);
+			if ( randPlaceCoin[wCoins] == 0)
+			{
+				randPlaceCoin[wCoins] = rand(120)+1;
+			}
+			CreateImage("Money_"+(18+wCoins),"CARDS",money_s, 250+randPlaceCoin[wCoins]+wCoins*3, 230+randPlaceCoin[wCoins]-wCoins*3, 250+randPlaceCoin[wCoins]+wCoins*3 + smxy, 230+randPlaceCoin[wCoins]-wCoins*3 + smxy);
 		}
 		GameInterface.strings.Money        = MakeMoneyShow(iMoneyP-200000,MONEY_SIGN,MONEY_DELIVER);
 		GameInterface.strings.MoneyInChest = MakeMoneyShow(200000,MONEY_SIGN,MONEY_DELIVER);

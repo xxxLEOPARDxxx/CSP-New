@@ -154,7 +154,7 @@ void ProcessDialogEvent()
 			dialog.text = "Э нет, я не беру взяток от торговцев. И я обязательно доложу о вас сеньору Алькальду!";
 			link.l1 = "Ламбрини был прав на счёт вас! (напасть)";
 			link.l1.go = "Antonio_Bitva";
-			link.l2 = "Что вы сказали бы, если бы я предоставил вам возможность поймать или потопить корабль Ламбрини?";
+			link.l2 = "Что вы сказали бы, если бы я предоставил"+ GetSexPhrase("","а") +" вам возможность поймать или потопить корабль Ламбрини?";
 			link.l2.go = "Antonio_1_6";
 			link.l3 = "Что же, тогда прощайте.";
 			link.l3.go = "exit";
@@ -162,12 +162,12 @@ void ProcessDialogEvent()
 		
 		case "Antonio_1_6":
 			dialog.text = "Я бы отдал за это мою правую руку. Но это невозможно, увы. Он уже подкупил, кажется, каждого таможенника на Карибах. Что я могу сделать в одиночку?";
-			link.l1 = "Ламбрини предложил мне помочь ему избавиться от вас. Он уверен, что ему в одиночку с вами не справиться, но я мог бы сделать это.";
+			link.l1 = "Ламбрини предложил мне помочь ему избавиться от вас. Он уверен, что ему в одиночку с вами не справиться, но я мог"+ GetSexPhrase("","ла") +" бы сделать это.";
 			link.l1.go = "Antonio_1_7";
 		break;
 		
 		case "Antonio_1_7":
-			dialog.text = "Если вы работаете на контрабандистов, то нам с вами разговаривать не о чем, сеньор. Прощайте.";
+			dialog.text = "Если вы работаете на контрабандистов, то нам с вами разговаривать не о чем, сеньор"+ GetSexPhrase("","ита") +". Прощайте.";
 			link.l1 = "Э, погодите - вы меня даже не выслушали. Я могу сказать Ламбрини, что утопил"+ GetSexPhrase("","а") +" ваш корабль. После этого, он рано или поздно приплывёт сюда, думая, что ему больше ничего не грозит. А вы сможете подстеречь его в бухте, или рядом с ней.";
 			link.l1.go = "Antonio_1_8";
 			link.l2 = "Ну тогда прощайте.";
@@ -204,6 +204,12 @@ void ProcessDialogEvent()
 			DeleteAttribute(pchar, "questTemp.PDM_CL_Tavern");
 			DeleteAttribute(pchar, "questTemp.PDM_CL_Ishem");
 			PChar.quest.PDM_CL_Antonio_Ubit.over = "yes";
+			sld = CharacterFromID("PDM_CL_Antonio")
+			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+			sld.dialog.currentnode   = "Antonio_1_12";
+			AddQuestRecord("PDM_Clan_Lambrini", "4");
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("","а"));
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex2", GetSexPhrase("ся","ась"));
 			
 			DialogExit();
 		break;

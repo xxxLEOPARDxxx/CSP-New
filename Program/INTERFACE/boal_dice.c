@@ -141,6 +141,7 @@ void InitInterface(string iniName)
 	SetFormatedText("INFO_TEXT_DATE", GetQuestBookData());
     // новая игра
     NewGameBegin(true);
+	GameInterface.strings.Beta_WinLose = "Побед: " +iHeroWin + " Поражений: " +iHeroLose);
 }
 
 void ProcessBreakExit()
@@ -419,8 +420,13 @@ void BetaInfo()
         GameInterface.strings.Beta_DiceP  = "Beta_DiceP Type: " + DiceState.Hero.Result.Type + " Rate1: " + DiceState.Hero.Result.Rate1 + " Rate2: " +DiceState.Hero.Result.Rate2;
         GameInterface.strings.Beta_TXT    = "dir_i_start " + dir_i_start + " dir_i " + dir_i + " Position " + bStartGame;
         if (CheckAttribute(NPchar, "Quest.DiceCheats")) GameInterface.strings.Beta_WinLose = GameInterface.strings.Beta_WinLose + " Cheats " + NPchar.Quest.DiceCheats;
-    }
-	GameInterface.strings.Beta_WinLose = "Побед: " + (Statistic_AddValue(Pchar, "GameDice_Win", 0) + iHeroWin)+ " Поражений: " + (Statistic_AddValue(Pchar, "GameDice_Lose", 0) + iHeroLose)+ " Игр: " + iTurnGame;
+    
+		GameInterface.strings.Beta_WinLose = "Побед: " + (Statistic_AddValue(Pchar, "GameDice_Win", 0) + iHeroWin)+ " Поражений: " + (Statistic_AddValue(Pchar, "GameDice_Lose", 0) + iHeroLose)+ " Игр: " + iTurnGame;
+	}
+	else
+	{
+		GameInterface.strings.Beta_WinLose = "Побед: " +iHeroWin + " Поражений: " +iHeroLose);
+	}
 }
 
 // сдать карту

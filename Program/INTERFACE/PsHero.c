@@ -9,6 +9,9 @@ ref chr;
 
 int iSelected; // курсор в таблице		
 
+int lastsort = 0;
+bool blastsort;
+
 void InitInterface(string iniName)
 {
  	StartAboveForm(true);
@@ -24,6 +27,7 @@ void InitInterface(string iniName)
 	SetEventHandler("InterfaceBreak","ProcessBreakExit",0);
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
+	SetEventHandler("OnTableClick", "OnTableClick", 0);
 	SetEventHandler("ShowPGGInfo","ShowPGGInfo",0);
 	SetEventHandler("exitCancel","ProcessCancelExit",0);
 	SetEventHandler("ievnt_command","ProcCommand",0);
@@ -48,6 +52,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("InterfaceBreak","ProcessBreakExit");
 	DelEventHandler("MouseRClickUp","HideInfoWindow");
 	DelEventHandler("TableSelectChange", "TableSelectChange");
+	DelEventHandler("OnTableClick", "OnTableClick");
 	DelEventHandler("ShowPGGInfo","ShowPGGInfo");
 	DelEventHandler("exitCancel","ProcessCancelExit");
 	DelEventHandler("ievnt_command","ProcCommand");
@@ -125,11 +130,14 @@ void FillTable()
 				GameInterface.TABLE_HERO.(row).td2.scale = 0.8;
 				GameInterface.TABLE_HERO.(row).td3.str = chr.rank;
 				GameInterface.TABLE_HERO.(row).td3.scale = 1.0;
+				GameInterface.TABLE_HERO.(row).td4.str = chr.nation;
 				GameInterface.TABLE_HERO.(row).td4.icon.group  = "NATIONS";
 				GameInterface.TABLE_HERO.(row).td4.icon.image  = Nations[sti(chr.nation)].Name;
 				GameInterface.TABLE_HERO.(row).td4.icon.width  = 40;
 				GameInterface.TABLE_HERO.(row).td4.icon.height = 40;
 				GameInterface.TABLE_HERO.(row).td4.icon.offset = "4, 0";
+				GameInterface.TABLE_HERO.(row).td4.scale = 0;
+
 				if (GetCharacterShipType(chr) != SHIP_NOTUSED)
 				{
 					GameInterface.TABLE_HERO.(row).td5.str = XI_ConvertString(RealShips[GetCharacterShipType(chr)].BaseName);
@@ -224,4 +232,31 @@ void HideInfoWindow()
 {
 	CloseTooltip();
 	ExitRPGHint();
+}
+
+void OnTableClick()
+{
+	string sControl = GetEventData();
+	int iRow = GetEventData();
+	int iColumn = GetEventData();
+
+	string sRow = "tr" + (iRow + 1);
+//--> mod tablesort
+	if (!SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, sControl, 1 )) 
+		{
+		if (iColumn == 1 || iColumn == 7) return;//эти колонки не сортируем //ПИРАТЕС пока что не сортируем - сортировка будет по силе и восприятию только, надо менять таблицу или придумывать что-то другое
+
+		if (lastsort == iColumn) {bLastSort = !bLastSort;} else {lastsort = iColumn; bLastSort = 1;}//запоминаем сортировку и меняем направление сортировки, если это повторный клик по колонке
+//todo - разобраться, как заблокировать активацию двойного клика на заголовке - подменять его на ординарные как-то
+//todo - устанавливать стрелочку направления сортировки по запомненным значениям переменных - но тут нужно как-то узнавать ширину колонок таблицы, чтобы пересчитать координаты???
+//todo - не забыть, что может быть несколько таблиц на одном интерфейсе - надо ещё и последнюю таблицы запоминать и сбрасывать(?) сортировку при смене или запоминать для каждой?
+
+		if (iColumn == 3 || iColumn == 4 || iColumn == 8 || iColumn == 9 || iColumn == 10) 
+			SortTable(sControl, iColumn, 0, !bLastSort, PsHeroQty + 1 - sti(pchar.PGG_killed));//числа
+		else 
+			SortTable(sControl, iColumn, 1, bLastSort, PsHeroQty + 1 - sti(pchar.PGG_killed));//текст
+		}
+//вызывать направление сортировки разными действиями - ЛКМ/ПКМ??
+//<-- mod tablesort
+	Table_UpdateWindow(sControl);
 }

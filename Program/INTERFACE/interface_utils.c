@@ -972,3 +972,120 @@ void SetRumShipInfo(ref _character, String _node)
 		SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, _node, 8, -1, color);	
 	}
 }
+
+int GetTradeItemPrice(int itmIdx, int tradeType)
+{
+	int itmprice = 0;
+	if(itmIdx<0 || itmIdx>TOTAL_ITEMS) return 0;
+
+	if(CheckAttribute(&Items[itmIdx],"price"))
+	{
+		itmprice = sti(Items[itmIdx].price);
+	}
+
+	float skillDelta = GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE);
+	float skillModify;
+	if(tradeType == PRICE_TYPE_BUY)
+	{
+		skillModify = 1.4 - skillDelta*0.019;
+		if(CheckAttribute(&Items[itmIdx],"groupID"))
+		{
+			if(Items[itmIdx].groupID == BLADE_ITEM_TYPE || Items[itmIdx].groupID == GUN_ITEM_TYPE) skillModify *= 10.0;
+		}
+		if(CheckOfficersPerk(pchar,"Trader")) { skillModify -= 0.05; }
+
+		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ skillModify -= 0.2; }
+		else
+		{
+			if(CheckOfficersPerk(pchar,"BasicCommerce"))	{ skillModify -= 0.1; }
+		}
+	}
+	else
+	{
+		skillModify = 0.75 + skillDelta*0.019;
+		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	skillModify += 0.05;
+		if(CheckOfficersPerk(pchar,"Trader")) { skillModify += 0.05; }
+	}
+
+	return makeint(makefloat(itmprice)*skillModify);
+}
+
+//--> mod tablesort
+void SortTable(string sControl,int iColumn, bool bIsString, bool bAsc, int _iLinesCount)
+{
+	bool bNoSize;
+	if (_iLinesCount < 1) {bNoSize = true; _iLinesCount = 998;} else bNoSize = false;//если число строк не передано, ставим 998 строк для цикла
+	string sColumn = "td" + iColumn;
+	int m, n;
+	string sCurRow, sNextRow, sRow; 
+	sRow = "tr" + 999;//пузырёк
+	aref aCurRow, aNextRow, aRow; 
+
+	for (m = 0; m < _iLinesCount-2; m++)
+	{
+		for (n = 0; n < _iLinesCount-2; n++)
+		{
+		sCurRow = "tr" + (n + 1);
+		sNextRow = "tr" + (n + 2);
+		if (bNoSize) {if (!checkattribute(&GameInterface,sControl + "." + sNextRow)) {_iLinesCount = n+2; bNoSize = false; break;}}//если число строк не было указано, проверяем, не кончилась ли таблица
+//находим число строк - проверить, что это оптимально, и что мусорное значение не сломает//TODO - обязательно разобраться!!! ВАЖНО!!!
+
+//TODO - убрать это деление на строки, автоматически определять - текст или число сортируем
+		if (bIsString)//строки
+			{
+			if (bAsc)//по возрастанию
+				{
+				if (strcmp (GameInterface.(sControl).(sCurRow).(sColumn).str, GameInterface.(sControl).(sNextRow).(sColumn).str)>0)
+					{
+					makearef(aRow, GameInterface.(sControl).(sRow));
+					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
+					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
+					CopyAttributes(aRow, aCurRow);
+					CopyAttributes(aCurRow, aNextRow);
+					CopyAttributes(aNextRow, aRow);
+					}
+				}
+				else//по убыванию
+				{
+				if (strcmp (GameInterface.(sControl).(sCurRow).(sColumn).str, GameInterface.(sControl).(sNextRow).(sColumn).str)<0)
+					{
+					makearef(aRow, GameInterface.(sControl).(sRow));
+					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
+					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
+					CopyAttributes(aRow, aCurRow);
+					CopyAttributes(aCurRow, aNextRow);
+					CopyAttributes(aNextRow, aRow);
+					}
+				}
+			}
+			else//числа
+			{
+			if (bAsc)//по возрастанию
+				{	
+				if (stf(GameInterface.(sControl).(sCurRow).(sColumn).str) > stf(GameInterface.(sControl).(sNextRow).(sColumn).str))
+					{
+					makearef(aRow, GameInterface.(sControl).(sRow));
+					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
+					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
+					CopyAttributes(aRow, aCurRow);
+					CopyAttributes(aCurRow, aNextRow);
+					CopyAttributes(aNextRow, aRow);
+					}
+				}
+				else
+				{
+				if (stf(GameInterface.(sControl).(sCurRow).(sColumn).str) < stf(GameInterface.(sControl).(sNextRow).(sColumn).str))
+					{
+					makearef(aRow, GameInterface.(sControl).(sRow));
+					makearef(aCurRow, GameInterface.(sControl).(sCurRow));
+					makearef(aNextRow, GameInterface.(sControl).(sNextRow));
+					CopyAttributes(aRow, aCurRow);
+					CopyAttributes(aCurRow, aNextRow);
+					CopyAttributes(aNextRow, aRow);
+					}
+				}
+			}
+		}
+	}
+}
+//<-- mod tablesort

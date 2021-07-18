@@ -167,6 +167,30 @@ void wdmEvent_AddQuestEncounters()
 				worldMap.(encPath).quest.event = "Map_WarriorEnd";
 				worldMap.(encPath).quest.chrID = at.characterID;
 			}
+			if(at.type == "hunter")//энка ОЗГ Lipsar по аналогии из ккс
+			{			
+				if(!GenerateMapEncounter_Alone(at.characterID, &idx))
+				{
+					PostEvent("Map_WarriorEnd", 100, "s", at.characterID);
+					return;
+				}
+				//Создаём в карте энкоунтера
+				encID = "";
+				//if(!wdmCreateFollowShipByIndex(1.0, idx, &encID, at.beginlocator, sti(at.TimeOut)))
+				ref refChar = CharacterFromID(at.characterID);
+				string sRep = NationShortName(sti(refChar.nation))+"hunter";
+				if(!wdmCreateRealFollowShipByIndex(1.1 + sti(pchar.reputation.(sRep))/100, idx, &encID, sti(at.TimeOut)))
+				{
+					PostEvent("Map_WarriorEnd", 100, "s", at.characterID);
+					return;
+				}
+				//Путь до энкоунтера
+				encPath = "encounters." + encID;
+				//Сохраняем принадлежность к квестовым энкоунтеров
+				
+				worldMap.(encPath).quest.event = "Map_WarriorEnd";
+				worldMap.(encPath).quest.chrID = at.characterID;
+			}
 			if(at.type == "battle")
 			{
 				//wdmQuestCreateBattle(at.characterID, sti(at.iEnemyNation), sti(at.TimeOut));

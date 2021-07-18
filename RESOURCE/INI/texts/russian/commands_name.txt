@@ -75,6 +75,7 @@ go_duel			{Дуэль}
 go_townexit		{Выход из города}
 go_fort			{Форт}
 go_storehouse	{Склад}
+go_graveyard	{Кладбище}
 
 go_planthouse	{Дом управляющего плантацией}
 go_forthouse	{Дом начальника охранной базы}

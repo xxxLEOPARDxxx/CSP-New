@@ -51,11 +51,6 @@ void ProcessDialogEvent()
 				link.l2 = "Да перед тобой сама "+pchar.name+". Капитан, благородная разбойница, путешественница во времени и побывавшая в самом сердце инквизиции. А имя 'Ламбрини' мне ничего не говорит.";
 				link.l2.go = "Octavio_1_2";
 			}
-			if (pchar.name == "Виктория")
-			{
-				link.l2 = "Да перед тобой сама "+pchar.name+". Весьма отбитая на голову девушка, что в одиночку, только прибыв на Карибы, прибила в честном бою ацтекского Бога мёртвых и она, на секундочку, состоит на службе Голландии, являясь патентованным капером, так что не надо гнать на Голландию, она ещё будет править на Карибах. А имя 'Ламбрини' мне ничего не говорит.";
-				link.l2.go = "Octavio_1_2";
-			}
 			if (pchar.lastname == "Шарп")
 			{
 				link.l3 = "Моё имя "+GetFullName(pchar)+" - я "+ GetSexPhrase("сын","дочь") +" известного пирата, Николаса Шарпа. А имя 'Ламбрини' мне ничего не говорит.";
@@ -101,10 +96,6 @@ void ProcessDialogEvent()
 			if (pchar.name == "Виспер")
 			{
 				dialog.text = "Так это ТЫ насолила де Соузу, что весь Сантьяго стоял на ушах! Неплохо! Если ты действительно так хороша, как о тебе говорят, то можно и побеседовать.";
-			}
-			if (pchar.name == "Виктория")
-			{
-				dialog.text = "Ты одолела ацтекского Бога мёртвых? Неплохо! Если ты действительно так хороша, как о тебе говорят, то можно и побеседовать.";
 			}
 			if (pchar.lastname == "Шарп")
 			{
@@ -173,10 +164,6 @@ void ProcessDialogEvent()
 			{
 				dialog.text = "Это не столь важно. Убей его, приколоти к своему бушприту, скорми акулам, скорми англичанам, или подкупи его - это неважно. Но мы не можем игнорировать такой вкусный кусочек, как Маракайбо. Другие контрабандисты избегают Маракайбо. Они боятся испанцев - и не без оснований. Если ты и вправду смогла насолить де Соузу, то с этим парнем ты тем более легко разделаешься.";
 			}
-			if (pchar.name == "Виктория")
-			{
-				dialog.text = "Это не столь важно. Убей его, приколоти к своему бушприту, скорми акулам, скорми англичанам, или подкупи его - это неважно. Но мы не можем игнорировать такой вкусный кусочек, как Маракайбо. Другие контрабандисты избегают Маракайбо. Они боятся испанцев - и не без оснований. Если ты и вправду победила ацтекского Бога мёртвых, то с этим парнем ты тем более легко разделаешься.";
-			}
 			if (pchar.lastname == "Шарп")
 			{
 				dialog.text = "Это не столь важно. Убей его, приколоти к своему бушприту, скорми акулам, скорми англичанам, или подкупи его - это неважно. Но мы не можем игнорировать такой вкусный кусочек, как Маракайбо. Другие контрабандисты избегают Маракайбо. Они боятся испанцев - и не без оснований. Но если ты хоть вполовину так "+ GetSexPhrase("хитёр","хитра") +", каким был твой отец - ты с ним справишься.";
@@ -224,10 +211,6 @@ void ProcessDialogEvent()
 			{
 				dialog.text = "Йо-хо, девочка с фиолетовыми волосами! Говоришь, как истинная Виспер. Мало слов, много дела. Теперь я не дам и сантима за жизнь этого де Гальвеса. Иди - и возвращайся, когда позаботишься о нём.";
 			}
-			if (pchar.name == "Виктория")
-			{
-				dialog.text = "Йо-хо, блондиночка! Говоришь, как истинная голландская корсарка. Мало слов, много дела. Теперь я не дам и сантима за жизнь этого де Гальвеса. Иди - и возвращайся, когда позаботишься о нём.";
-			}
 			if (pchar.lastname == "Шарп")
 			{
 				dialog.text = "Йо-хо, "+ GetSexPhrase("мальчик","девочка") +"! Да ты мне напоминаешь своего отца, истинного Шарпа. Мало слов, много дела. Теперь я не дам и сантима за жизнь этого де Гальвеса. Иди - и возвращайся, когда позаботишься о нём.";
@@ -269,6 +252,13 @@ void ProcessDialogEvent()
 			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
 			sld.city = "Maracaibo";
 			ChangeCharacterAddressGroup(sld,"Maracaibo_town","goto","goto13");
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Anto2", "SpaOfficer2", "man", "man", Rank, SPAIN, -1, false));	//ВТОРОЙ
+			sld.name = "Антонио";
+			sld.lastname = "де Гальвес";
+			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "", "pistol2", DopHP);
+			sld.equip.blade = "blade39";
+			sld.greeting = "GR_Spainguard";
 			if (pchar.rank <= 9)
 			{
 				FantomMakeCoolSailor(sld, SHIP_BRIGHEAVY, "Эль Тибурон", CANNON_TYPE_CULVERINE_LBS16, 100, 100, 100);
@@ -304,9 +294,9 @@ void ProcessDialogEvent()
 			sld.AnalizeShips = true;
 			Group_FindOrCreateGroup("PDM_el_tib");					//Название группы
 			Group_SetType("PDM_el_tib", "war");						//Тип поведения
-			Group_AddCharacter("PDM_el_tib", "PDM_CL_Antonio");		//Добавить капитана
+			Group_AddCharacter("PDM_el_tib", "PDM_CL_Anto2");		//Добавить капитана
 			
-			Group_SetGroupCommander("PDM_el_tib", "PDM_CL_Antonio");
+			Group_SetGroupCommander("PDM_el_tib", "PDM_CL_Anto2");
 			Group_SetTaskAttack("PDM_el_tib", PLAYER_GROUP);
 			Group_SetAddress("PDM_el_tib", "Maracaibo", "quest_ships", "reload_fort1");	//Установить местоположение
 			Group_LockTask("PDM_el_tib");
@@ -315,8 +305,16 @@ void ProcessDialogEvent()
 			PChar.quest.PDM_CL_Antonio_Ubit.win_condition.l1.character = "PDM_CL_Antonio";
 			PChar.quest.PDM_CL_Antonio_Ubit.win_condition = "PDM_CL_Antonio_Ubit";
 			
+			PChar.quest.PDM_CL_Antonio_Ubit2.win_condition.l1 = "NPC_Death";
+			PChar.quest.PDM_CL_Antonio_Ubit2.win_condition.l1.character = "PDM_CL_Anto2";
+			PChar.quest.PDM_CL_Antonio_Ubit2.win_condition = "PDM_CL_Antonio_Ubit";
+			
 			pchar.questTemp.PDM_CL_Ishem = "Ishem";
 			pchar.questTemp.PDM_CL_Tavern = "Tavern";
+			
+			SetQuestHeader("PDM_Clan_Lambrini");
+			AddQuestRecord("PDM_Clan_Lambrini", "1");
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("","а"));
 		break;
 		
 		case "Octavio_1_10_EsheRaz":
@@ -377,10 +375,6 @@ void ProcessDialogEvent()
 			{
 				dialog.text = "Ха, девочка! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь ты напакостила самому де Соузу. Вот твои " + Plata1 + ". И все мои проблемы позади.";
 			}
-			if (pchar.name == "Виктория")
-			{
-				dialog.text = "Ха, девочка! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь ты победила самого Бога мёртвых. Вот твои " + Plata1 + ". И все мои проблемы позади.";
-			}
 			if (pchar.lastname == "Шарп")
 			{
 				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь ты "+ GetSexPhrase("сын","дочь") +" Николаса Шарпа, великого пирата. Вот твои " + Plata1 + ". И все мои проблемы позади.";
@@ -426,6 +420,7 @@ void ProcessDialogEvent()
 			AddCharacterExpToSkill(pchar, "Defence", 130);
 			AddCharacterExpToSkill(pchar, "Repair", 130);
 			NextDiag.TempNode = "Octavio_2_3_EsheRaz";
+			CloseQuestHeader("PDM_Clan_Lambrini");
 		break;
 		
 		case "Octavio_2_3_EsheRaz":
@@ -445,7 +440,7 @@ void ProcessDialogEvent()
 			dialog.text = "Э нет, я не беру взяток от торговцев. И я обязательно доложу о вас сеньору Алькальду!";
 			link.l1 = "Ламбрини был прав на счёт вас! (напасть)";
 			link.l1.go = "Antonio_Bitva";
-			link.l2 = "Что вы сказали бы, если бы я предоставил вам возможность поймать или потопить корабль Ламбрини?";
+			link.l2 = "Что вы сказали бы, если бы я предоставил"+ GetSexPhrase("","а") +" вам возможность поймать или потопить корабль Ламбрини?";
 			link.l2.go = "Antonio_1_6";
 			link.l3 = "Что же, тогда прощайте.";
 			link.l3.go = "exit";
@@ -453,12 +448,12 @@ void ProcessDialogEvent()
 		
 		case "Antonio_1_6":
 			dialog.text = "Я бы отдал за это мою правую руку. Но это невозможно, увы. Он уже подкупил, кажется, каждого таможенника на Карибах. Что я могу сделать в одиночку?";
-			link.l1 = "Ламбрини предложил мне помочь ему избавиться от вас. Он уверен, что ему в одиночку с вами не справиться, но я мог бы сделать это.";
+			link.l1 = "Ламбрини предложил мне помочь ему избавиться от вас. Он уверен, что ему в одиночку с вами не справиться, но я мог"+ GetSexPhrase("","ла") +" бы сделать это.";
 			link.l1.go = "Antonio_1_7";
 		break;
 		
 		case "Antonio_1_7":
-			dialog.text = "Если вы работаете на контрабандистов, то нам с вами разговаривать не о чем, сеньор. Прощайте.";
+			dialog.text = "Если вы работаете на контрабандистов, то нам с вами разговаривать не о чем, сеньор"+ GetSexPhrase("","ита") +". Прощайте.";
 			link.l1 = "Э, погодите - вы меня даже не выслушали. Я могу сказать Ламбрини, что утопил"+ GetSexPhrase("","а") +" ваш корабль. После этого, он рано или поздно приплывёт сюда, думая, что ему больше ничего не грозит. А вы сможете подстеречь его в бухте, или рядом с ней.";
 			link.l1.go = "Antonio_1_8";
 			link.l2 = "Ну тогда прощайте.";
@@ -491,6 +486,9 @@ void ProcessDialogEvent()
 			DeleteAttribute(pchar, "questTemp.PDM_CL_Tavern");
 			DeleteAttribute(pchar, "questTemp.PDM_CL_Ishem");
 			PChar.quest.PDM_CL_Antonio_Ubit.over = "yes";
+			AddQuestRecord("PDM_Clan_Lambrini", "4");
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("","а"));
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex2", GetSexPhrase("ся","ась"));
 			
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
@@ -553,13 +551,11 @@ void ProcessDialogEvent()
 			AddCharacterExpToSkill(pchar, "Sneak", 160);
 			AddCharacterExpToSkill(pchar, "Sailing", 100);
 			
-			sld = CharacterFromID("PDM_CL_Antonio")
-			sld.nonTable = true;
-			LAi_SetSitType(sld);
-			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
-			sld.dialog.currentnode   = "Antonio_2_1";
-			ChangeCharacterAddressGroup(sld, "Maracaibo_church", "sit", "sit16");
-			LAi_SetLoginTime(sld, 9.0, 13.00);
+			PChar.quest.PDM_CL_Ubrat_Lodku.win_condition.l1 = "ExitFromLocation";
+			PChar.quest.PDM_CL_Ubrat_Lodku.win_condition.l1.location = PChar.location;
+			PChar.quest.PDM_CL_Ubrat_Lodku.function = "PDM_CL_Ubrat_Lodku";
+			AddQuestRecord("PDM_Clan_Lambrini", "5");
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("","а"));
 		break;
 		
 		case "Octavio_3_3_EsheRaz":
@@ -594,15 +590,17 @@ void ProcessDialogEvent()
 			LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
 			ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_front2");
 			
-			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Pokupatel", "PGG_Barrows_0", "man", "man", 10, PIRATE, -1, false));
-			sld.name	= "Линкольн";
-			sld.lastname	= "Бэрроуз";
-				
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Pokupatel", "PGG_Victori_8", "woman", "YokoDias", 10, PIRATE, -1, false));
+			sld.name	= "Виктория";
+			sld.lastname	= "";
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_1_1";
 			LAi_SetSitType(sld);
 			LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
 			ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_base2");
+			
+			AddQuestRecord("PDM_Clan_Lambrini", "6");
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("","а"));
 		break;
 		
 		case "Antonio_2_3_EsheRaz":
@@ -676,33 +674,26 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Pokupatel_2_6":
-			if (npchar.sex == "woman")
-			{
-				dialog.text = "(обращается к Октавио) Я обязательно приду, пупсик.";
-				link.l1 = "";
-				link.l1.go = "Pokupatel_2_7";
-			}
-			if (npchar.sex == "man")
-			{
-				dialog.text = "(обращается к Октавио) Я скоро подведу туда корабль, это будет сделка что надо.";
-				link.l1 = "";
-				link.l1.go = "Pokupatel_2_7";
-			}
+			dialog.text = "(обращается к Октавио) Я обязательно приду, пупсик.";
+			link.l1 = "";
+			link.l1.go = "Pokupatel_2_7";
 		break;
 		
 		case "Pokupatel_2_7":
 			sld = characterFromID("PDM_Octavio_Lambrini");
 			LAi_CharacterDisableDialog(sld);
 			sld = characterFromID("PDM_CL_Pokupatel");
-			LAi_SetActorType(sld);
-			ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "tables", "stay3");
-			LAi_ActorGoToLocation(sld, "reload", "reload1_back", "none", "", "", "", -1);
-			sld = CharacterFromID("PDM_CL_Antonio")
+			LAi_CharacterDisableDialog(sld);
+			DoQuestFunctionDelay("PDM_CL_Pokupatel_Uhodit", 1.5);
+			sld = CharacterFromID("PDM_CL_Antonio3")
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Antonio_5_1";
 			LAi_SetPlayerType(pchar);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
+			
+			AddQuestRecord("PDM_Clan_Lambrini", "7");
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("","а"));
 		break;
 		
 		
@@ -714,30 +705,194 @@ void ProcessDialogEvent()
 		
 		case "Antonio_5_2":
 			dialog.text = "Нет! Мы дадим ему провести сделку. Они все соберутся в бухте, вместе с ценным товаром, думая, что им ничего не угрожает. Тут-то появляемся мы и арестовываем всех. А вы смогли узнать, где они собираются вершить свои тёмные дела?";
-			link.l1 = "Они собираются в бухте Гуахира.";
+			link.l1 = "Ламбрини говорил про бухту Гуахира.";
 			link.l1.go = "Antonio_5_3";
+			Pchar.GenQuest.Hunter2Pause = true;
 		break;
 		
 		case "Antonio_5_3":
-			dialog.text = "Отлично! Осталось определиться, мы устроим облаву со стороны джунглей и застанем их врасплох, или мы пойдём морем и возьмём на абордаж их корабли?";
-			link.l1 = "Пойдём через джунгли.";
+			dialog.text = "Отлично! Мы устроим облаву со стороны джунглей и застанем их врасплох. В путь!";
+			link.l1 = "(отправиться на пляж)";
 			link.l1.go = "Antonio_J_1";
-			link.l2 = "Лучше на кораблях, так будет быстрее.";
-			link.l2.go = "Antonio_M_1";
 		break;
 		
 		case "Antonio_J_1":
-			dialog.text = "(Продолжение следует...)";
-			link.l1 = "Вперёд!";
-			link.l1.go = "exit";
+			DialogExit();
+			
+			LocatorReloadEnterDisable("Shore37", "reload1_back", true);
+			LocatorReloadEnterDisable("Shore37", "boat", true);
+			
+			sld = CharacterFromID("PDM_CL_Antonio3")
+			LAi_SetActorType(sld);
+			ChangeCharacterAddressGroup(sld, "Shore37", "officers", "reload1_1");
+			LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+			
+			for (i=1; i<=2; i++)	//испанцы
+			{
+				sTemp = "sold_spa_"+(rand(7)+1);					
+				sld = GetCharacter(NPC_GenerateCharacter("SraDruzya_"+i, sTemp, "man", "man", Rank, SPAIN, -1, true));
+				FantomMakeCoolFighter(sld, Rank, 30, 30, "blade10", "", 20);
+				LAi_SetActorType(sld);
+				LAi_CharacterDisableDialog(sld);
+				LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+				ChangeCharacterAddressGroup(sld, "Shore37", "reload",  "reload1_back");
+			}
+			
+			for (i=3; i<=6; i++)	//пираты м контрабандисты 1
+			{
+				sTemp = "pirate_"+(rand(24)+1);					
+				sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_PirVrag_"+i, sTemp, "man", "man", Rank, SPAIN, -1, true));
+				FantomMakeCoolFighter(sld, Rank, 30, 30, "blade10", "", 20);
+				LAi_SetActorType(sld);
+				LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
+				ChangeCharacterAddressGroup(sld, "Shore37", "goto",  "goto5");
+			}
+			
+			for (i=7; i<=10; i++)	//пираты м контрабандисты 2
+			{
+				sTemp = "pirate_"+(rand(24)+1);					
+				sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_PirVrag_"+i, sTemp, "man", "man", Rank, SPAIN, -1, true));
+				FantomMakeCoolFighter(sld, Rank, 30, 30, "blade10", "", 20);
+				LAi_SetActorType(sld);
+				LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
+				ChangeCharacterAddressGroup(sld, "Shore37", "goto",  "goto6");
+			}
+			
+			for (i=11; i<=14; i++)	//пираты м контрабандисты 3
+			{
+				sTemp = "pirate_"+(rand(24)+1);					
+				sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_PirVrag_"+i, sTemp, "man", "man", Rank, SPAIN, -1, true));
+				FantomMakeCoolFighter(sld, Rank, 30, 30, "blade10", "", 20);
+				LAi_SetActorType(sld);
+				LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
+				ChangeCharacterAddressGroup(sld, "Shore37", "reload",  "sea");
+			}
+			
+			DoQuestReloadToLocation("Shore37", "goto", "goto1", "PDM_CL_Na_Plyaj");
+			AddGeometryToLocation("Shore37", "smg");
+			pchar.location.from_sea = "Shore37";
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_Octavio_Lambrini", "barmen_3", "man", "man", 10, PIRATE, -1, false));
+			LAi_SetActorType(sld);
+			sld.name	= "Октавио";
+			sld.lastname	= "Ламбрини";
+			FantomMakeCoolFighter(sld, Rank, 80, 80, "blade33", "pistol2", 250);
+			LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
+			ChangeCharacterAddressGroup(sld, "Shore37", "goto", "goto7");
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Pokupatel", "PGG_Victori_8", "woman", "YokoDias", 10, PIRATE, -1, false));
+			LAi_SetActorType(sld);
+			sld.name	= "Виктория";
+			sld.lastname	= "";
+			FantomMakeCoolFighter(sld, Rank, 90, 90, "blade38", "pistol4", 500);
+			AddMoneyToCharacter(sld, 100000);
+			AddItems(sld, "jewelry1", rand(20)+20);
+			AddItems(sld, "jewelry2", rand(20)+20);
+			AddItems(sld, "jewelry3", rand(20)+20);
+			AddItems(sld, "jewelry4", rand(20)+20);
+			AddItems(sld, "jewelry5", rand(20)+20);
+			AddItems(sld, "suit_3", 1);
+			AddItems(sld, "indian5", 1);
+			sld.SaveItemsForDead = true;
+			LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
+			ChangeCharacterAddressGroup(sld, "Shore37", "goto", "goto7");
 		break;
 		
-		case "Antonio_M_1":
-			dialog.text = "Тогда не стоит медлить. Держим курс к бухте Гуахира! (Продолжение следует...)";
+		case "Antonio_6_1":
+			dialog.text = "Мы на месте. А вон и наши ламбринята... Даже не верится, что скоро мы положим этому конец. Веди отряд, мы за тобой.";
 			link.l1 = "Вперёд!";
-			link.l1.go = "exit";
+			link.l1.go = "Antonio_6_2";
 		break;
 		
+		case "Antonio_6_2":
+			DialogExit();
+			
+			LAi_SetActorType(pchar);
+			LAi_ActorRunToLocator(pchar, "enc01", "enc01_03", "PDM_CL_Na_Plyaj_2", -1);
+		break;
+		
+		case "Pokupatel_6_1":
+			dialog.text = "А вы что здесь забыли?";
+			link.l1 = "Кажется, здесь происходит что-то незаконное.";
+			link.l1.go = "Pokupatel_6_2";
+		break;
+		
+		case "Pokupatel_6_2":
+			dialog.text = "Нет-нет, сеньор"+ GetSexPhrase("","ита") +". Мы с друзьями просто отдыхаем у моря.";
+			link.l1 = "Что вы мне рассказываете! Я не слеп"+ GetSexPhrase("ой","ая") +"! Следуйте за нами - вы арестованы, а товар конфискован!";
+			link.l1.go = "Pokupatel_6_3";
+		break;
+		
+		case "Pokupatel_6_3":
+			dialog.text = "Скорее, я выпущу вам кишки!";
+			link.l1 = "Сначала, я выпущу своего внутреннего зверя!";
+			link.l1.go = "Pokupatel_6_4";
+		break;
+		
+		case "Pokupatel_6_4":
+			DialogExit();
+			
+			AddDialogExitQuest("MainHeroFightModeOn");
+
+			for (i=3; i<=14; i++)	//пираты м контрабандисты
+			{
+				sld = CharacterFromID("PDM_CL_PirVrag_"+i)				
+				LAi_SetWarriorType(sld);
+				LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
+			}
+			for (i=19; i<=27; i++)	//испанцы 1
+			{
+				sTemp = "sold_spa_"+(rand(7)+1);					
+				sld = GetCharacter(NPC_GenerateCharacter("SraDruzya_"+i, sTemp, "man", "man", Rank, SPAIN, -1, true));
+				FantomMakeCoolFighter(sld, Rank, 28, 28, "blade10", "", 16);
+				LAi_SetWarriorType(sld);
+				LAi_CharacterDisableDialog(sld);
+				LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+				ChangeCharacterAddressGroup(sld, "Shore37", "goto", "goto4");
+				sld.lifeday = 0;
+			}
+			for (i=1; i<=2; i++)	//испанцы 2
+			{
+				sld = CharacterFromID("SraDruzya_"+i)				
+				LAi_SetWarriorType(sld);
+				LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+				sld.lifeday = 0;
+			}
+			
+			sld = CharacterFromID("PDM_Octavio_Lambrini")
+			LAi_SetWarriorType(sld);
+			LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
+			
+			sld = CharacterFromID("PDM_CL_Pokupatel")
+			LAi_SetWarriorType(sld);
+			LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
+			
+			sld = CharacterFromID("PDM_CL_Antonio3")
+			LAi_SetWarriorType(sld);
+			LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+			
+			LAi_group_SetRelation("PDM_CL_PirVrag_Status", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("PDM_CL_PirVrag_Status", LAI_GROUP_PLAYER, false);
+			LAi_group_SetCheck("PDM_CL_PirVrag_Status", "PDM_CL_Finish");			
+		break;
+		
+		case "Antonio_8_1":
+			dialog.text = "Не могу поверить, у нас получилось! Пусть мы сегодня и победили, но старший сын Ламбрини займёт его место и продолжит дело отца. Боюсь, контрабандисткая секта будет вечно приносить вред Великой Испании.";
+			link.l1 = "Октавио Ламбрини больше нет, что насчёт награды?";
+			link.l1.go = "Antonio_8_2";
+		break;
+		
+		case "Antonio_8_2":
+			dialog.text = "Да, конечно, серьор Алькальда выделил вам " + Plata2 + " золотых. Я даю их вам лично в руки. Адиос!";
+			link.l1 = "Благодарю, Антонио. Удачи вам!";
+			link.l1.go = "exit";
+			AddMoneyToCharacter(pchar, sti(Plata2));
+			LocatorReloadEnterDisable("Shore37", "reload1_back", false);
+			LocatorReloadEnterDisable("Shore37", "boat", false);
+			CloseQuestHeader("PDM_Clan_Lambrini");
+			ChangeCharacterNationReputation(pchar, SPAIN, 8);
+			ChangeCharacterReputation(pchar, 5);
+		break;
 		
 	}
 }

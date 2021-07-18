@@ -42,7 +42,7 @@ void ProcessDialogEvent()
                                                     LinkRandPhrase("Приятно познакомиться, капитан " + PChar.name,
                                                                     "Рад"+NPCharSexPhrase(NPChar, " ", "а ")+" нашему знакомству, " + GetAddress_Form(NPChar) + " " + PChar.lastname,
                                                                      "Очень приятно, капитан " + PChar.name) + ". Но вряд ли вы просто хотели узнать мое имя, не так ли?");
-				link.l1 = PCharRepPhrase("Хотел кое-что узнать об этом городишке!", "Хотел узнать кое-что о городе.");
+				link.l1 = PCharRepPhrase("Хот"+ GetSexPhrase("ел","ела") +" кое-что узнать об этом городишке!", "Хот"+ GetSexPhrase("ел","ела") +" узнать кое-что о городе.");
 				link.l1.go = "new question";
  				link.l2 = RandPhraseSimple("У меня есть вопрос к тебе.", "Мне нужна информация.");
 				link.l2.go = "quests";//(перессылка в файл города)
@@ -61,12 +61,12 @@ void ProcessDialogEvent()
                                                                     "Рад"+NPCharSexPhrase(NPChar, " ", "а ")+" нашему знакомству, " + GetAddress_Form(NPChar) + " " + PChar.lastname,
                                                                      "Очень приятно, капитан " + PChar.name) + ". Но вряд ли вы просто хотели узнать мое имя, не так ли?");
 
-            	link.l1 = PCharRepPhrase("Хотел кое-что узнать об этом городишке!", "Хотел узнать кое-что о городе.");
+            	link.l1 = PCharRepPhrase("Хот"+ GetSexPhrase("ел","ела") +" кое-что узнать об этом городишке!", "Хот"+ GetSexPhrase("ел","ела") +" узнать кое-что о городе.");
 			link.l1.go = "new question";
             		Link.l2 = RandPhraseSimple("У меня есть вопрос к тебе.", "Мне нужна информация.");
 			Link.l2.go = "quests";
 			
-			Link.l5 = PCharRepPhrase(RandPhraseSimple("Тебе послышалось, я пойду.", "Нет, ничего - просто шел в таверну."),
+			Link.l5 = PCharRepPhrase(RandPhraseSimple("Тебе послышалось, я пойду.", "Нет, ничего - просто ш"+ GetSexPhrase("ел","ла") +" в таверну."),
                                         RandPhraseSimple("Ладно, ничего. Удачи!", "Просто осматриваю город. До свидания."));
 			Link.l5.go = "exit";
 			NextDiag.TempNode = "Meeting";
@@ -83,14 +83,14 @@ void ProcessDialogEvent()
 
             		link.l1 = RandPhraseSimple("Есть важное дело!", "У меня к вам дело.");
 			link.l1.go = "quests";
-			link.l2 = PCharRepPhrase(RandPhraseSimple("Тебе послышалось, я пойду.", "Нет, ничего - просто шел в таверну."),
+			link.l2 = PCharRepPhrase(RandPhraseSimple("Тебе послышалось, я пойду.", "Нет, ничего - просто ш"+ GetSexPhrase("ел","ла") + " в таверну."),
                                         RandPhraseSimple("Ладно, ничего. Удачи!", "Просто осматриваю город. До свидания."));
 			link.l2.go = "exit";
 		break;
 		
 		case "quests":
             		dialog.text = RandPhraseSimple("Какие вопросы?", "Что вам угодно?");
-			link.l1 = RandPhraseSimple("Я передумал...", "Сейчас мне не о чем говорить");
+			link.l1 = RandPhraseSimple("Я передум"+ GetSexPhrase("ал","ала") + "...", "Сейчас мне не о чем говорить");
 		    	link.l1.go = "exit";
 		break;
 
@@ -103,8 +103,8 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				dialog.text = NPCharSexPhrase(NPChar, "Острожней на поворотах, приятель, когда бежишь с оружием в руках. Я ведь могу и занервничать...", "Мне не нравится, когда мужчины ходят передо мной с оружием на изготовку. Это меня пугает...");
-				link.l1 = RandPhraseSimple("Понял.", "Убираю.");
+				dialog.text = NPCharSexPhrase(NPChar, "Острожней на поворотах, капитан, когда бежишь с оружием в руках. Я ведь могу и занервничать...", "Мне не нравится, когда люди ходят передо мной с оружием на изготовку. Это меня пугает...");
+				link.l1 = RandPhraseSimple("Пон"+ GetSexPhrase("ял","яла") +".", "Убираю.");
 			}
 			link.l1.go = "exit";
 			NextDiag.TempNode = "First Time";

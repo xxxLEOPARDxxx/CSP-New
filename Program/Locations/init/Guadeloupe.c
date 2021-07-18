@@ -636,6 +636,7 @@ int LocationInitGuadeloupe(int n)
 	locations[n].image = "loading\Graveyard.tga";
 	//Town sack
 	locations[n].townsack = "BasTer";
+	locations[n].fastreload = "BasTer";
 	//Sound
 	locations[n].type = "dungeon";
 	locations[n].islandId = "Guadeloupe";

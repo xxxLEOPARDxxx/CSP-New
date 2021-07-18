@@ -558,6 +558,31 @@ int InitItems()
 	itm.quality = "poor";
 	n++;
 	
+	makeref(itm,Items[n]);
+	itm.id = "monkrab"; // оружие макак и крабов
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_monkrab";
+	itm.describe = "itmdescr_monkrab";
+	itm.model = "unarmed";
+	itm.folder = "items";
+	itm.picIndex = 11;
+	itm.picTexture = "ITEMS_1";
+	itm.price = 100000;
+	itm.Weight = 3.0;
+	itm.dmg_min = 15.0;
+	itm.dmg_max = 60.0;
+	itm.piercing = 100;
+	itm.minlevel = 0;
+	itm.rare = 0.001;
+	itm.block = 100;
+	itm.param.time = 0.05;
+	itm.special.valueP = 20; //Яд
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingLight";
+	itm.ItemType = "WEAPON";
+	n++;
+	
 	// ГПК Дага
 	makeref(itm,Items[n]);
 	itm.id = "blade5";  //Кинжал
@@ -1713,7 +1738,7 @@ int InitItems()
 	itm.Generation.Weight.max = 5.4;
 	n++;
 	
-	// ККС, Сторта
+	// ККС, Сторта Барбариго
     makeref(itm,Items[n]);
 	itm.id = "blade41";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1751,6 +1776,44 @@ int InitItems()
 	itm.Generation.dmg_max.max = 85.0;
 	itm.Generation.Weight.min = 4.2;
 	itm.Generation.Weight.max = 4.8;
+	n++;
+	
+	// ГПК Фламберж Полутроручный
+	makeref(itm,Items[n]);
+	itm.id = "blade201";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blade201";
+	itm.describe = "itmdescr_blade201";
+	itm.folder = "items";
+	itm.model = "blade201";
+	itm.picIndex = 2;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 3000;
+	itm.Weight = 4.2 + fRandSmall(0.4);
+	itm.dmg_min = 23.0 + rand(3);
+	itm.dmg_max = 80.0 + rand(10);
+	itm.piercing = 90.0;
+	itm.special.valueCrB = 7;// Буст крита
+	itm.special.valueSS = 10;//Резкий удар
+	itm.special.valueB = 7;//Кровоток
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 92.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "Fencing";
+	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	// Warship 08.05.09 - Новая система предметов, параметры для генерации
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 23.0;
+	itm.Generation.dmg_min.max = 26.0;
+	itm.Generation.dmg_max.min = 80.0;
+	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.Weight.min = 4.2;
+	itm.Generation.Weight.max = 4.6;
 	n++;
 	
 	// ККС, Офицерский Клеванг
@@ -2301,6 +2364,43 @@ int InitItems()
 	itm.Generation.Weight.max = 9.7;
 	n++;
 	
+	// ГПК Цвайхандер
+    makeref(itm,Items[n]);
+	itm.id = "blade202";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blade202";
+	itm.describe = "itmdescr_blade202";
+	itm.folder = "items";
+	itm.model = "blade202";
+	itm.picIndex = 3;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 3000;
+	itm.Weight = 9.4 + fRandSmall(0.3); // 9.3;
+	itm.dmg_min = 28.0 + rand(7); // 28.0;
+	itm.dmg_max = 110.0 + rand(10); // 100.0;
+	itm.piercing = 85.0;
+	itm.special.valueBB = 7; //Пролом блока
+	itm.special.valueSS = 6; //Резкий удар
+	itm.special.valueT = 7; //Травмы
+	itm.minlevel = 1;
+	itm.rare = 0.0001;
+	itm.block = 75.0;
+	itm.param.time = 0.1;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "FencingHeavy";
+	itm.ItemType = "WEAPON";
+	itm.quality = "good";
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 28.0;
+	itm.Generation.dmg_min.max = 35.0;
+	itm.Generation.dmg_max.min = 110.0;
+	itm.Generation.dmg_max.max = 120.0;
+	itm.Generation.Weight.min = 9.4;
+	itm.Generation.Weight.max = 9.7;
+	n++;
+	
 	// ККС, Кханда
     makeref(itm,Items[n]);
 	itm.id = "blade42";
@@ -2420,7 +2520,7 @@ int InitItems()
 	itm.Generation.Weight.max = 10.5;
 	n++;
 	
-	// ГПК 1.2.3 Reblading - "Рейтарский чекан", бывшая "Секира"
+	// ГПК "Рейтарский чекан
 	makeref(itm,Items[n]);
 	itm.id = "topor2";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -2771,7 +2871,7 @@ int InitItems()
 	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
-	itm.points_shop = 1750;
+	itm.points_shop = 1800;
 	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
@@ -2798,6 +2898,7 @@ int InitItems()
 	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
+	itm.points_shop = 1500; //атрибут для ачивок
 	itm.fromHip = true;//для выбора другой анимации
 	n++;
 
@@ -2898,6 +2999,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
 	itm.ReqPerk = "Gunman";
+	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	itm.fromHip = true;//для выбора другой анимации
 	n++;
@@ -3441,6 +3543,37 @@ int InitItems()
 	itm.price = 0;
 	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
+	n++; 
+	
+	makeref(itm,Items[n]); // Шляпа капитана "Чёрной Вдовы"
+	itm.id = "hatWhisper";
+	itm.groupID = IDOLS_LEFT_ITEM_TYPE;
+	itm.name = "itmname_hatWhisper";
+	itm.describe = "itmdescr_hatWhisper";
+	itm.model = "sapphire";
+	itm.picIndex = 5;
+	itm.picTexture = "ITEMS_19";
+	// boal 19.01.2004 -->
+	itm.Weight = 2.0;
+	itm.price = 0;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	n++;	
+	
+	makeref(itm,Items[n]); // Очки
+	itm.id = "glasses";
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
+	itm.name = "itmname_glasses";
+	itm.describe = "itmdescr_glasses";
+	itm.model = "sapphire";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_19";
+	// boal 19.01.2004 -->
+	itm.Weight = 2.0;
+	itm.price = 0;
+	// boal 19.01.2004 <--
+	itm.ItemType = "QUESTITEMS";
+	itm.HeadAccessory = "glasses";
 	n++;	
 
 	makeref(itm,Items[n]);
@@ -3524,6 +3657,7 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.0001;
 	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
 	itm.fromHip = true;//для выбора другой анимации
 	n++;
 
@@ -3945,7 +4079,7 @@ int InitItems()
 	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
-	itm.fromHip = true;//для выбора другой анимации
+	//itm.fromHip = true;//для выбора другой анимации
 	n++;
 
     makeref(itm,Items[n]);
@@ -6146,6 +6280,18 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "GunCap_colt";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 4;
+    itm.ComponentsNum = 3;
+    itm.Component1 = "CompCraft_Copper";
+    itm.Component1Num = 2;
+    itm.Component2 = "CompCraft_Magnesium";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_Puleleyka";
+    itm.Component3Num = 0;
 	n++;
 	
 	makeref(itm,Items[n]); // Револьверный картридж
@@ -6162,6 +6308,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	itm.points_shop = 20; //атрибут для ачивок
 	
 	itm.PerkReq = 1;
     itm.CraftedItem = "shotgun_cartridge";
@@ -6192,6 +6339,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	itm.points_shop = 10; //атрибут для ачивок
 	
     itm.CraftedItem = "GunEchin";
     itm.CraftFor = "Blacksmith";
@@ -6223,6 +6371,16 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "shotgun_bullet";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 4;
+    itm.ComponentsNum = 2;
+    itm.Component1 = "CompCraft_Lead";
+    itm.Component1Num = 2;
+    itm.Component2 = "CompCraft_Puleleyka";
+    itm.Component2Num = 0;
 	n++;
 	
 	makeref(itm,Items[n]); // Гильзы 12 калибра
@@ -6239,6 +6397,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
+	itm.points_shop = 20; //атрибут для ачивок
 	
 	itm.PerkReq = 1;
     itm.CraftedItem = "12_gauge";
@@ -6253,22 +6412,18 @@ int InitItems()
     itm.Component3Num = 0;
 	n++;
 	
-	makeref(itm,Items[n]); //Korsar Maxim - Отмычка для взлома
+	makeref(itm,Items[n]); // Отмычка
 	itm.id = "Lockpick";
 	itm.name = "itmname_Lockpick";
 	itm.describe = "itmdescr_Lockpick";
 	itm.model = "pursel";
 	itm.picIndex = 3;
 	itm.picTexture = "ITEMS_14";
-	//itm.shown = 0;
-	// boal 19.01.2004 -->
 	itm.Weight = 0.1;
 	itm.price = 15;
-	// boal 19.01.2004 <--
 	itm.minlevel =0;
 	itm.rare = 0.2;
 	itm.SortIndex = 1;
-	itm.ItemType = "SUPPORT";
 	n++;
 
 	makeref(itm,Items[n]);
@@ -6522,7 +6677,7 @@ int InitItems()
 
 	makeref(itm,Items[n]);
 	itm.id = "sculMa1";
-	itm.name = "itmname_sculMa1";
+	itm.name = "itmname_sculMa1"; // Белый хрустальный череп
 	itm.describe = "itmdescr_sculMa1";
 	itm.model = "pursel";
 	itm.picIndex = 11;
@@ -6533,11 +6688,12 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.minlevel =5;
 	itm.rare = 0.01;
+	itm.points_shop = 750; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
 	itm.id = "sculMa2";
-	itm.name = "itmname_sculMa2";
+	itm.name = "itmname_sculMa2"; // Розовый хрустальный череп
 	itm.describe = "itmdescr_sculMa2";
 	itm.model = "pursel";
 	itm.picIndex = 12;
@@ -6548,11 +6704,12 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.minlevel =1;
 	itm.rare = 0.01;
+	itm.points_shop = 750; // Атрибут для магазина ачивок
 	n++;
 
 	makeref(itm,Items[n]);
 	itm.id = "sculMa3";
-	itm.name = "itmname_sculMa3";
+	itm.name = "itmname_sculMa3"; // Голубой хрустальный череп
 	itm.describe = "itmdescr_sculMa3";
  	itm.model = "pursel";
 	itm.picIndex = 13;
@@ -6563,6 +6720,7 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.minlevel =1;
 	itm.rare = 0.01;
+	itm.points_shop = 750; // Атрибут для магазина ачивок
 	n++;
 
 //INDIAN TRINKETS
@@ -7357,7 +7515,6 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
-	itm.points_shop = 1; //атрибут для ачивок
 	n++;
 
 	makeref(itm,Items[n]);
@@ -7376,7 +7533,6 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
-	itm.points_shop = 500; //атрибут для ачивок
 	n++;
 
 	makeref(itm,Items[n]);
@@ -7394,8 +7550,7 @@ int InitItems()
 	itm.CirassLevel = 0.0;
 	itm.minlevel = 20;
 	itm.rare = 0.001;
-	itm.ItemType = "SUPPORT";
-	itm.points_shop = 250; //атрибут для ачивок
+	itm.ItemType = "SUPPORT"
 	n++;
 	
 	/////////////////// Обереги
@@ -7439,6 +7594,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.kind = "cannoner";
+	itm.points_shop = 2500; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7453,6 +7609,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.kind = "boatswain";
+	itm.points_shop = 2500; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7481,6 +7638,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.kind = "carpenter";
+	itm.points_shop = 2500; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7495,6 +7653,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.kind = "fighter";
+	itm.points_shop = 2500; // Атрибут для магазина ачивок
 	n++;
 	
 	// ККС Нааб-те
@@ -7771,11 +7930,9 @@ int InitItems()
 	itm.model = "topor_emperor";
 	itm.picIndex = 14;
 	itm.picTexture = "ITEMS_14";
-	// boal 19.01.2004 -->
 	itm.price = 100000;
-	itm.Weight = 10.5 + fRandSmall(0.5);
-	// boal 19.01.2004 <--
-	itm.dmg_min = 35.0 + rand(7);
+	itm.Weight = 10.0 + fRandSmall(1.0);
+	itm.dmg_min = 40.0 + rand(10);
 	itm.dmg_max = 120.0+ rand(10);
 	itm.piercing = 100.0;
 	itm.special.valueT = 5; //Травмы
@@ -7790,14 +7947,14 @@ int InitItems()
 	itm.FencingType = "FencingHeavy";
 	itm.ItemType = "WEAPON";
 	itm.quality = "excellent";
-	// Warship 08.05.09 - Новая система предметов, параметры для генерации
-	/*itm.Generation.qty = 5;
-	itm.Generation.dmg_min.min = 45.0;
-	itm.Generation.dmg_min.max = 52.0;
-	itm.Generation.dmg_max.min = 140.0;
-	itm.Generation.dmg_max.max = 150.0;
-	itm.Generation.Weight.min = 10.5;
-	itm.Generation.Weight.max = 11.0;*/
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 40.0;
+	itm.Generation.dmg_min.max = 50.0;
+	itm.Generation.dmg_max.min = 120.0;
+	itm.Generation.dmg_max.max = 130.0;
+	itm.Generation.Weight.min = 10.0;
+	itm.Generation.Weight.max = 11.0;
 	n++;
 	/////////////////////////////////////////////////////////
 	/////		-->		CSP Книги 56 штук				/////
@@ -8805,6 +8962,21 @@ int InitItems()
 	itm.ItemType = "CRAFTCOMPONENTS";
 	n++;
 
+	// Медь
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Copper";
+	itm.name = "itmname_CompCraft_Copper";
+	itm.describe = "itmdescr_CompCraft_Copper";
+	itm.model = "1";
+	itm.picIndex = 1;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 80;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
 	// Сера
 	makeref(itm,Items[n]);
 	itm.id = "CompCraft_Sulfur";
@@ -8936,6 +9108,21 @@ int InitItems()
 	itm.picTexture = "ITEMS_16";
 	itm.price = 50000;
 	itm.Weight = 5.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Пулелейка
+	makeref(itm,Items[n]);
+	itm.id = "CompCraft_Puleleyka";
+	itm.name = "itmname_CompCraft_Puleleyka";
+	itm.describe = "itmdescr_CompCraft_Puleleyka";
+	itm.model = "1";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_18";
+	itm.price = 50000;
+	itm.Weight = 3.0;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "CRAFTCOMPONENTS";

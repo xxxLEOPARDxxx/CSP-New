@@ -1292,6 +1292,7 @@ int LocationInitJamaica(int n)
 	locations[n].Graveyard = true;
 	//Town sack
 	locations[n].townsack = "PortRoyal";
+	locations[n].fastreload = "PortRoyal";
 	//Sound
 	locations[n].type = "dungeon";
 	locations[n].islandId = "Jamaica";

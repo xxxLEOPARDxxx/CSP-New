@@ -154,10 +154,10 @@ int GetItemPrice(int itmIdx) {
 	if (itmIdx < 0 || itmIdx > ITEMS_QUANTITY)
 		return 0;
 
-	if (CheckAttribute(&Items[itmIdx], "price"))
-		itmprice = sti(Items[itmIdx].price);
+	if (CheckAttribute(&Items[itmIdx], "points_shop"))
+		itmprice = sti(Items[itmIdx].points_shop);
 	
-	return makeint(itmprice / rate);
+	return itmprice;
 }
 
 void ProcessBreakExit() {

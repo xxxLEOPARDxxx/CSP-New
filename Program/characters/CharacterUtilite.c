@@ -2324,6 +2324,7 @@ void RemoveCharacterEquip(ref chref, string groupID)
 {
 	DeleteAttribute(chref,"equip."+groupID);
 	SetEquipedItemToCharacter(chref,groupID,"");
+	SetNewModelToChar(chref);
 }
 
 void RemoveOfficerEquip(ref chref, string groupID)
@@ -2334,6 +2335,7 @@ void RemoveOfficerEquip(ref chref, string groupID)
 	SetEquipedItemToCharacter(chref,groupID,"");
 	TakeItemFromCharacter(chref, sItemID);
 	GiveItem2Character(pchar, sItemID);
+	SetNewModelToChar(chref);
 }
 
 void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
@@ -2572,13 +2574,14 @@ void EquipCharacterByItem(ref chref, string itemID)
 		GiveItem2Character(chref, "unarmed");
 		itemID = "unarmed";
 	}
+	
 	string groupName = arItm.groupID;
 	if(groupName != MAPS_ITEM_TYPE) // ugeen - для атласа карт  18.06.09
 	{
 		string oldItemID = GetCharacterEquipByGroup(chref, groupName);
 		if(oldItemID==itemID) return;
 	}
-
+	
 	if (findsubstr(chref.model.animation, "mushketer" , 0) != -1)
 	{
 		if(groupName == BLADE_ITEM_TYPE && itemID != "unarmed") return;
@@ -2621,6 +2624,11 @@ void EquipCharacterByItem(ref chref, string itemID)
 	}
 	if(groupName==GUN_ITEM_TYPE && sti(chref.index)==GetMainCharacterIndex())
 	{	LAi_GunSetUnload(chref);
+	}
+	if (CheckAttribute(arItm, "HeadAccessory"))
+	{
+		chref.HeadAccessory = arItm.HeadAccessory;
+		SetNewModelToChar(chref);
 	}
 	// boal -->
 	/*if (groupName == SPYGLASS_ITEM_TYPE && sti(chref.index)==GetMainCharacterIndex())// && bSeaActive)
@@ -2673,6 +2681,119 @@ void EquipOfficerByItem(ref chref, string itemID)
 	{	LAi_GunSetUnload(chref);
 	}
 	*/
+}
+
+void ChangeWhisperHeroModel()
+{
+	if (startherotype == 2)
+	{
+		bool isMush = false;
+		if (findsubstr(PChar.model, "_mush" , 0) != -1)
+		{
+			PChar.model = FindStringBeforeChar(PChar.model, "_mush");
+			isMush = true;
+		}
+		if(IsEquipCharacterByItem(pchar, "hatWhisper"))
+		{
+			if (Pchar.model=="PGG_Whisper_0_NoHat")
+			{
+				Pchar.model="PGG_Whisper_0";
+			}
+			if (Pchar.model=="PGG_Whisper_1_NoHat")
+			{
+				Pchar.model="PGG_Whisper_1";
+			}
+			if (Pchar.model=="PGG_Whisper_2_NoHat")
+			{
+				Pchar.model="PGG_Whisper_2";
+			}
+			if (Pchar.model=="PGG_Whisper_3_NoHat")
+			{
+				Pchar.model="PGG_Whisper_3";
+			}
+			if (Pchar.model=="PGG_Whisper_4_NoHat")
+			{
+				Pchar.model="PGG_Whisper_4";
+			}
+			if (Pchar.model=="PGG_Whisper_5_NoHat")
+			{
+				Pchar.model="PGG_Whisper_5";
+			}
+			if (Pchar.model=="PGG_Whisper_5_Cirass_NoHat")
+			{
+				Pchar.model="PGG_Whisper_5_Cirass";
+			}
+			if (Pchar.model=="PGG_Whisper_6_NoHat")
+			{
+				Pchar.model="PGG_Whisper_6";
+			}
+			if (Pchar.model=="PGG_Whisper_7_NoHat")
+			{
+				Pchar.model="PGG_Whisper_7";
+			}
+			if (Pchar.model=="PGG_Whisper_8_NoHat")
+			{
+				Pchar.model="PGG_Whisper_8";
+			}
+			if (isMush)
+			{
+				Pchar.model = Pchar.model + "_mush";
+			}
+			pchar.HeroModel  = "PGG_Whisper_0,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5,PGG_Whisper_6,PGG_Whisper_7,PGG_Whisper_8";
+			DeleteAttribute(pchar,"Whisper.Equipped");
+			SetNewModelToChar(pchar);
+		}
+		else
+		{
+			if (Pchar.model=="PGG_Whisper_0")
+			{
+				Pchar.model="PGG_Whisper_0_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_1")
+			{
+				Pchar.model="PGG_Whisper_1_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_2")
+			{
+				Pchar.model="PGG_Whisper_2_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_3")
+			{
+				Pchar.model="PGG_Whisper_3_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_4")
+			{
+				Pchar.model="PGG_Whisper_4_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_5")
+			{
+				Pchar.model="PGG_Whisper_5_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_5_Cirass")
+			{
+				Pchar.model="PGG_Whisper_5_Cirass_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_6")
+			{
+				Pchar.model="PGG_Whisper_6_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_7")
+			{
+				Pchar.model="PGG_Whisper_7_NoHat";
+			}
+			if (Pchar.model=="PGG_Whisper_8")
+			{
+				Pchar.model="PGG_Whisper_8_NoHat";
+			}
+			if (isMush)
+			{
+				Pchar.model = Pchar.model + "_mush";
+			}
+			pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1_NoHat,PGG_Whisper_2_NoHat,PGG_Whisper_3_NoHat,PGG_Whisper_4_NoHat,PGG_Whisper_5_NoHat,PGG_Whisper_6_NoHat,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
+			pchar.Whisper.Equipped = true;
+			SetNewModelToChar(pchar);
+		}
+	}
 }
 
 void ExecuteCharacterEquip(ref chref)
@@ -3438,6 +3559,16 @@ bool IsPCharHaveMushketerModel()
 	
 	if(HasSubStr(sModel, "Blad") || 
 	HasSubStr(sModel, "Whisper") || 
+	HasSubStr(sModel, "PGG_Anamaria") || 
+	HasSubStr(sModel, "PGG_Angellica") || 
+	HasSubStr(sModel, "PGG_Beatric") || 
+	HasSubStr(sModel, "PGG_Cirilla") || 
+	HasSubStr(sModel, "PGG_Isabella") || 
+	HasSubStr(sModel, "PGG_Mary") || 
+	HasSubStr(sModel, "PGG_Rumba") || 
+	HasSubStr(sModel, "YokoDias") || 
+	HasSubStr(sModel, "PGG_PettY") || 
+	HasSubStr(sModel, "PGG_Shicoba") || 
 	HasSubStr(sModel, "PGG_Black") || 
 	HasSubStr(sModel, "PGG_Benito") || 
 	HasSubStr(sModel, "PGG_Sharp") || 
@@ -3482,6 +3613,7 @@ bool IsPCharHaveMushketerModel()
 	HasSubStr(sModel, "PGG_Lejitos_GPK") || 
 	HasSubStr(sModel, "PGG_Vincento") || 
 	HasSubStr(sModel, "PGG_Alvares") || 
+	HasSubStr(sModel, "PGG_Natan") || 
 	HasSubStr(sModel, "PGG_Darkhuman") || 
 	HasSubStr(sModel, "PGG_Rozencraft"))
 	{

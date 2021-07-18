@@ -675,12 +675,16 @@ void selectAchievements() // Отображаем окно достижений
 	HideQuests();
 	HideStatistic();
 	
+	if(sti(pchar.Money) >= 1000000) UnlockAchievement("money", 1);
+	if(sti(pchar.Money) >= 5000000)	UnlockAchievement("money", 2);
+	if(sti(pchar.Money) >= 15000000) UnlockAchievement("money", 3);
+
 	SetNodeUsing("ACHIEVEMENTS_INFO_FADER",true);
 	SetNodeUsing("ACHIEVEMENTS_INFO_DUST",true);
 	SetNodeUsing("ACHIEVEMENTS_INFO_FRAME",true);
 	SetNodeUsing("TABLE_ACHIEVEMENTS",true);
 	SetNodeUsing("SCROLL_ACHIEVEMENTS",true);
-	
+
 	SetNodeUsing("SHIP_INFO_FADER",false);
 	SetNodeUsing("SHIP_INFO_DUST",false);
 	SetNodeUsing("SHIP_INFO_FRAME",false);
@@ -737,10 +741,10 @@ void selectAchievements() // Отображаем окно достижений
 	SetNodeUsing("BONUSITEM_TABLE_LIST_SCROLL",false);
 	SetNodeUsing("BONUSITEM_TABLE_LIST",false);
 	SetNodeUsing("BONUSITEM_CLASS",false);
-	
+
 	FillATableHeader();
 	FillATableInfo();
-	
+
 	SetNodeUsing("ACHIEVEMENTS_STR",true);
 	SetNodeUsing("POINTS_EXCHANGE",true);
 	SetFormatedText("ACHIEVEMENTS_INFO_FRAME_CAPTION", "Система достижений с возможностью получения различных наград");
@@ -826,7 +830,7 @@ void ShowPGGInfo()
 	SetFormatedText("OFFICER_NAME", GetFullName(chrefspp));
 	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp.faceId + ".tga");
 	SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
-	
+
     if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");
 	else SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLOFF");
 	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.SailsSpecial")) SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILON");
@@ -848,7 +852,7 @@ void ShowPGGInfo()
 
 // Обмен очков достижений
 void PointsEX() {
-	IDoExit(RC_INTERFACE_POINTS_EX);		   
+	IDoExit(RC_INTERFACE_POINTS_EX);
 }
 
 void FillATableHeader() // Заполним заголовок таблицы достижений
@@ -874,87 +878,89 @@ void FillATableInfo() // Заполним таблицу достижений информацией
 	if(bPortPermission) z++;
 	if(bBribeSoldiers) z++;
 	if(startherotype == 1 || startherotype == 2) z++;
-	
+	if (pchar.sex == "woman") z--;
+	if (bNoPirateRestrictions || Pchar.BaseNation == PIRATE) z--;
+
     for(n = 1; n < z+1; n++)
     {
     	row = "tr" + n;
-		
+
 		// Размеры текста
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.scale = 1.1;
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.scale = 0.85;
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td3.scale = 0.75;
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.scale = 0.8;
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td5.scale = 0.9;
-		
+
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "-";
 	}
-	
+
 	aref aroot,arcur;
 	makearef(aroot,pchar.achievements);
-	
+
 	string attrname;
 	int i;
-	
+
 	// Сортировка по уровню выполненных достижений
 	for(i=0; i<z; i++)
 	{
 		arcur = GetAttributeN(aroot,i);
-		
+
 		attrname = GetAttributeName(arcur);
 		if(sti(pchar.achievements.(attrname)) == 3) SetTableRowByAchievement(attrname, sti(pchar.achievements.(attrname)));
 	}
-	
+
 	for(i=0; i<z; i++)
 	{
 		arcur = GetAttributeN(aroot,i);
-		
+
 		attrname = GetAttributeName(arcur);
 		if(sti(pchar.achievements.(attrname)) == 2) SetTableRowByAchievement(attrname, sti(pchar.achievements.(attrname)));
 	}
-	
+
 	for(i=0; i<z; i++)
 	{
 		arcur = GetAttributeN(aroot,i);
-		
+
 		attrname = GetAttributeName(arcur);
 		if(sti(pchar.achievements.(attrname)) == 1) SetTableRowByAchievement(attrname, sti(pchar.achievements.(attrname)));
 	}
-	
+
 	for(i=0; i<z; i++)
 	{
 		arcur = GetAttributeN(aroot,i);
-		
+
 		attrname = GetAttributeName(arcur);
 		if(sti(pchar.achievements.(attrname)) == 0) SetTableRowByAchievement(attrname, sti(pchar.achievements.(attrname)));
 	}
-	
+
 	Table_UpdateWindow("TABLE_ACHIEVEMENTS");
 }
 
 void SetTableRowByAchievement(string ach_id, int level)
 {
 	string row;
-	
+
 	rownumberach++
 	row = "tr" + rownumberach;
-	
+
 	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.width = 64;
 	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.height = 64;
 	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.offset = "-2, 0";
 	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.group = "ACHIEVEMENTS";
-	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = GetAchievementIcon(ach_id);	
+	GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = GetAchievementIcon(ach_id);
 
 	if(ach_id == "WhisperLine")
 	{
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.group = "FACE128_543";
-		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = "face";	
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = "face";
 	}
 	if(ach_id == "CapBladLine")
 	{
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.group = "FACE128_221";
-		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = "face";	
+		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.icon.image = "face";
 	}
-	
+
 	if(level == 3)
 	{
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "";
@@ -967,7 +973,7 @@ void SetTableRowByAchievement(string ach_id, int level)
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td3.str = GetAchievementDescrible(ach_id, level);
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = "Выполнено";
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 100";
-		
+
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td2.color = argb(255,196,255,196);
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td3.color = argb(255,196,255,196);
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.color = argb(255,196,255,196);
@@ -976,8 +982,8 @@ void SetTableRowByAchievement(string ach_id, int level)
 	}
 	else
 	{
-		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest" 
-		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest" 
+		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest"
+		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest"
 		|| ach_id == "ships" || ach_id == "bank_money" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchShipSearch")
 		{
 			// GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "1 ур.";
@@ -1001,7 +1007,7 @@ void SetTableRowByAchievement(string ach_id, int level)
 			if(level == 2) GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 100";
 			if(level == 1) GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 50";
 			if(level == 0) GameInterface.TABLE_ACHIEVEMENTS.(row).td5.str = "+ 25";
-			
+
 			if(level == 2)
 			{
 				GameInterface.TABLE_ACHIEVEMENTS.(row).td1.color = argb(255,9,110,255);
@@ -1010,7 +1016,7 @@ void SetTableRowByAchievement(string ach_id, int level)
 				GameInterface.TABLE_ACHIEVEMENTS.(row).td4.color = argb(255,179,171,255);
 				GameInterface.TABLE_ACHIEVEMENTS.(row).td5.color = argb(255,179,171,255);
 			}
-			
+
 			if(level == 1)
 			{
 				GameInterface.TABLE_ACHIEVEMENTS.(row).td1.color = argb(255,255,110,9);
@@ -1020,9 +1026,9 @@ void SetTableRowByAchievement(string ach_id, int level)
 				GameInterface.TABLE_ACHIEVEMENTS.(row).td5.color = argb(255,255,171,171)
 			}
 		}
-		
+
 		string strprogress;
-		
+
 		if((level == 2) || (level == 1) || (level == 0))
 		{
 			if(ach_id == "rank") strprogress = "Ранг персонажа:";
@@ -1055,14 +1061,14 @@ void SetTableRowByAchievement(string ach_id, int level)
 			if(ach_id == "AchShipSearch") strprogress = "Исследовано кораблей:";
 			if(ach_id == "AchGoldFleet") strprogress = "Золотых флотов потоплено:";
 			if(ach_id == "AchSityRobbery") strprogress = "Городов разграблено:";
-			
+
 			strprogress = strprogress + "\n";
 		}
-		
+
 		int monstersall = sti(pchar.Statistic.Monster_s)+sti(pchar.Statistic.Monster_g);
 		int killsall = sti(pchar.Statistic.Solder_s)+sti(pchar.Statistic.Citizen_s)+sti(pchar.Statistic.Warrior_s)+sti(pchar.Statistic.Monster_s)+sti(pchar.Statistic.Solder_g)+sti(pchar.Statistic.Citizen_g)+sti(pchar.Statistic.Warrior_g)+sti(pchar.Statistic.Monster_g);
 		int killshipsall = sti(pchar.Statistic.KillShip_1)+sti(pchar.Statistic.KillShip_2)+sti(pchar.Statistic.KillShip_3)+sti(pchar.Statistic.KillShip_4)+sti(pchar.Statistic.KillShip_5)+sti(pchar.Statistic.KillShip_6)+sti(pchar.Statistic.KillShip_7)+sti(pchar.Statistic.AbordShip_1)+sti(pchar.Statistic.AbordShip_2)+sti(pchar.Statistic.AbordShip_3)+sti(pchar.Statistic.AbordShip_4)+sti(pchar.Statistic.AbordShip_5)+sti(pchar.Statistic.AbordShip_6)+sti(pchar.Statistic.AbordShip_7)+sti(pchar.Statistic.KillAbordShip_1)+sti(pchar.Statistic.KillAbordShip_2)+sti(pchar.Statistic.KillAbordShip_3)+sti(pchar.Statistic.KillAbordShip_4)+sti(pchar.Statistic.KillAbordShip_5)+sti(pchar.Statistic.KillAbordShip_6)+sti(pchar.Statistic.KillAbordShip_7);
-		
+
 		if(level == 2)
 		{
 			if(ach_id == "rank") strprogress = strprogress + sti(pchar.rank) + " / 40";
@@ -1098,7 +1104,7 @@ void SetTableRowByAchievement(string ach_id, int level)
 			 Statistic_AddValue(PChar, "hol_GrabbingTown", 0)) + " / 15"
 			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
 		}
-		
+
 		if(level == 1)
 		{
 			if(ach_id == "rank") strprogress = strprogress + sti(pchar.rank) + " / 25";
@@ -1134,7 +1140,7 @@ void SetTableRowByAchievement(string ach_id, int level)
 			 Statistic_AddValue(PChar, "hol_GrabbingTown", 0)) + " / 10"
 			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
 		}
-		
+
 		if(level == 0)
 		{
 			if(ach_id == "rank") strprogress = strprogress + sti(pchar.rank) + " / 10";
@@ -1173,10 +1179,10 @@ void SetTableRowByAchievement(string ach_id, int level)
 			 Statistic_AddValue(PChar, "hol_GrabbingTown", 0)) + " / 5";
 			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
 		}
-		
+
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
-		
-		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest" 
+
+		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest"
 		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest" || ach_id == "CapBladLine" || ach_id == "WhisperLine")
 		{
 			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = "Не завершено...";
@@ -1766,8 +1772,8 @@ void FillShipPlaceTable(string _tabName)
 void FillPriceListTown(string _tabName)
 {
 	int	 i, cn, n, StoreNum;
-	ref	 chref;
-	string  row, firstId, CityId;
+	ref	 chref, npchar;
+	string  row, firstId, firstIdX, CityId;
 	aref	curItem;
 	ref	 rCity;
 	ref		refStorage;
@@ -1789,34 +1795,59 @@ void FillPriceListTown(string _tabName)
 	for (i=1; i<MAX_CHARACTERS; i++)
 	{
 		makeref(chref, Characters[i]);
-		if (CheckAttribute(chref, "Storage.Activate"))
+		if (CheckAttribute(chref, "Storage.Activate"))//склады
 		{
 			row = "tr" + cn;
 			CityId = chref.city;
 			rCity = GetColonyByIndex(FindColony(CityId));
 			StoreNum = GetStorage(CityId);
 			refStorage = &stores[StoreNum];
-			if (n == 0) firstId = rCity.id;
+			if (n == 0) {firstId = rCity.id; firstIdX = 0;}
 			GameInterface.(_tabName).(row).UserData.CityID  = rCity.id;
-			GameInterface.(_tabName).(row).UserData.CityIDX = cn;
+			//GameInterface.(_tabName).(row).UserData.CityIDX = cn;//это зачем запоминается? порядковый номер строки таблицы.
+			GameInterface.(_tabName).(row).UserData.CityIDX = 0;//склад
 			GameInterface.(_tabName).(row).td1.icon.group  = "NATIONS";
 			GameInterface.(_tabName).(row).td1.icon.image  = Nations[sti(rCity.nation)].Name;
 			GameInterface.(_tabName).(row).td1.icon.width  = 26;
 			GameInterface.(_tabName).(row).td1.icon.height = 26;
 			GameInterface.(_tabName).(row).td1.icon.offset = "0, 3";
-			GameInterface.(_tabName).(row).td2.str = GetConvertStr(rCity.id + " Town", "LocLables.txt");
-			GameInterface.(_tabName).(row).td2.scale = 0.85;
-			GameInterface.(_tabName).(row).td3.str = GetConvertStr(rCity.islandLable, "LocLables.txt");
-			GameInterface.(_tabName).(row).td3.scale = 0.8;
+			GameInterface.(_tabName).(row).td2.str = "Склад торговца";
+			GameInterface.(_tabName).(row).td2.scale = 0.8;
+			GameInterface.(_tabName).(row).td3.str = GetConvertStr(rCity.islandLable, "LocLables.txt") + "\n" + GetConvertStr(rCity.id + " Town", "LocLables.txt");
+			GameInterface.(_tabName).(row).td3.scale = 0.65;
 			GameInterface.(_tabName).(row).td4.str = GetStorageUsedWeight(refStorage) + " / " + iMaxGoodsStore;
 			GameInterface.(_tabName).(row).td4.scale = 0.8;
 			GameInterface.(_tabName).(row).td5.str = GetNpcQuestPastMonthParam(chref, "Storage.Date") * sti(chref.MoneyForStorage);
 			GameInterface.(_tabName).(row).td5.scale = 0.8;
 			cn++;
 		}
+		if (CheckAttribute(chref, "ShipInStockMan"))//корабли в ПУ
+		{
+			row = "tr" + cn;
+			npchar = &characters[GetCharacterIndex(chref.ShipInStockMan)];
+			CityId = npchar.city;
+			rCity = GetColonyByIndex(FindColony(CityId));
+			if (n == 0) {firstId = chref.id; firstIdX = 1;}
+			GameInterface.(_tabName).(row).UserData.CityID  = chref.id;
+			GameInterface.(_tabName).(row).UserData.CityIDX = 1;//корабль
+			GameInterface.(_tabName).(row).td1.icon.group  = "NATIONS";
+			GameInterface.(_tabName).(row).td1.icon.image  = Nations[sti(rCity.nation)].Name;
+			GameInterface.(_tabName).(row).td1.icon.width  = 26;
+			GameInterface.(_tabName).(row).td1.icon.height = 26;
+			GameInterface.(_tabName).(row).td1.icon.offset = "0, 3";
+			GameInterface.(_tabName).(row).td2.str = "ПУ, " + XI_ConvertString(RealShips[sti(chref.Ship.Type)].BaseName) + "\n'" + chref.Ship.Name + "'";
+			GameInterface.(_tabName).(row).td2.scale = 0.6;
+			GameInterface.(_tabName).(row).td3.str = GetConvertStr(rCity.islandLable, "LocLables.txt") + "\n" + GetConvertStr(rCity.id + " Town", "LocLables.txt");
+			GameInterface.(_tabName).(row).td3.scale = 0.65;
+			GameInterface.(_tabName).(row).td4.str = RecalculateCargoLoad(chref) + " / " + GetCargoMaxSpace(chref);
+			GameInterface.(_tabName).(row).td4.scale = 0.8;
+			GameInterface.(_tabName).(row).td5.str = GetNpcQuestPastMonthParam(chref, "ShipInStockMan.Date") * sti(chref.ShipInStockMan.MoneyForShip);
+			GameInterface.(_tabName).(row).td5.scale = 0.8;
+			cn++;
+		}
 	}
 	Table_UpdateWindow(_tabName);
-	FillPriceList("TABLE_GOODS", firstId);
+	FillPriceList("TABLE_GOODS", firstId, firstIdX);
 }
 
 void TableSelectChange()
@@ -1828,7 +1859,7 @@ void TableSelectChange()
 	NullSelectTable("TABLE_GOODS");
 	if (CurTable == "TABLE_CITY")
 	{
-		FillPriceList("TABLE_GOODS", GameInterface.(CurTable).(CurRow).UserData.CityID);
+		FillPriceList("TABLE_GOODS", GameInterface.(CurTable).(CurRow).UserData.CityID, GameInterface.(CurTable).(CurRow).UserData.CityIDX);
 	}
 	if(CurTable == "SHIP_TABLE_LIST_LEFT") {Last_Left_Ship = sti(GameInterface.(CurTable).(CurRow).index); SetShipOTHERTableInfo("SHIP_TABLE_OTHER_LEFT");}//запоминаем новый выбранный корабль и обновляем таблицу
 	if(CurTable == "SHIP_TABLE_LIST_RIGHT") {Last_Right_Ship = sti(GameInterface.(CurTable).(CurRow).index); SetShipOTHERTableInfo("SHIP_TABLE_OTHER_RIGHT");}
@@ -1843,16 +1874,15 @@ void NullSelectTable(string sControl)
 	}
 }
 
-void FillPriceList(string _tabName, string  attr1)
+void FillPriceList(string _tabName, string  attr1, string attr2)
 {
 	string  sGoods;
 	int		StoreNum, iStoreQ;
 	int	 i, n;
 	ref	 nulChr;
 	string  row;
-	ref 	chref;
 	ref		refStorage;
-
+	Table_Clear(_tabName, false, true, false);
 	// шапка -->
 	GameInterface.(_tabName).select = 0;
 	GameInterface.(_tabName).hr.td1.str = XI_ConvertString("Good name");
@@ -1867,16 +1897,16 @@ void FillPriceList(string _tabName, string  attr1)
 	n = 1;
 	if (attr1 != "")
 	{
-		StoreNum = GetStorage(attr1);
+		if (attr2 == "1") StoreNum = GetCharacterIndex(attr1); else StoreNum = GetStorage(attr1);
 		if(StoreNum > 0)
 		{
-			refStorage = &stores[StoreNum];
+			
+			if (attr2 == "1") refStorage = &characters[StoreNum]; else refStorage = &stores[StoreNum];
 			for (i = 0; i < GOODS_QUANTITY; i++)
 			{
 				row = "tr" + n;
-				sGoods = "Gidx" + i;
-				iStoreQ = GetStorageGoodsQuantity(refStorage, i);
-				if(iStoreQ == 0) continue;
+				if (attr2 == "1") iStoreQ = GetCargoGoods(refStorage, i); else iStoreQ = GetStorageGoodsQuantity(refStorage, i);
+				if (iStoreQ == 0) continue;
 				GameInterface.(_tabName).(row).UserData.ID = Goods[i].name;
 				GameInterface.(_tabName).(row).UserData.IDX = i;
 				GameInterface.(_tabName).(row).td1.icon.group = "GOODS";
@@ -1925,7 +1955,7 @@ void FillShipInfoEncy(string _tabName)
 	makeref(refBaseShip,ShipsTypes[i]);
 	sShip = refBaseShip.Name;
 	chrefsp.Ship.Type = sShip;
-	if (!CheckAttribute(Pchar,"Encyclopedia."+sShip) && bFillEncyShips) continue;											 
+	if (!CheckAttribute(Pchar,"Encyclopedia."+sShip) && bFillEncyShips) continue;
 
 	int nClass = sti(refBaseShip.Class);
 	string snation;
@@ -1947,13 +1977,13 @@ void FillShipInfoEncy(string _tabName)
 	GameInterface.(_tabName).(sRow).td2.str = XI_Convertstring(sShip);
 	GameInterface.(_tabName).(sRow).td2.scale = 0.8;
 	GameInterface.(_tabName).(sRow).td3.str = sti(refBaseShip.Class);
-	
+
 	if (refBaseShip.Type.War == true) spectypes = "Военный";
 	if (refBaseShip.Type.Merchant == true) spectypes = "Торговый";
 	if (refBaseShip.Type.Merchant == true && refBaseShip.Type.War == true) spectypes = "Универс.";
 	GameInterface.(_tabName).(sRow).td4.str = spectypes;
 	GameInterface.(_tabName).(sRow).td4.scale = 0.8;
-	
+
 	k++;
 	if(!CheckAttribute(refBaseShip,"QuestShip") && bFillEncyShips) pchar.questTemp.shipsearchcount = k;
 	}
@@ -1970,7 +2000,7 @@ void FillShipInfoEncy(string _tabName)
 int FindLastShip(string _tabName)
 {
 	int q;
-	string sRow; 
+	string sRow;
 	if (_tabName == "SHIP_TABLE_LIST_LEFT")
 	{
 		for (q = 0; q<(SHIP_TYPES_QUANTITY+1);q++)
@@ -2000,7 +2030,7 @@ void SetShipOTHERTableInfo(string _tabName)
 	int iShip;
 	if (_tabName == "SHIP_TABLE_OTHER_LEFT") iShip = Last_Left_Ship; else iShip = Last_Right_Ship;
 	Table_Clear(_tabName, false, true, false);
-	
+
 	if (iShip > -1)
 	{
 		int	 i;
@@ -2009,18 +2039,18 @@ void SetShipOTHERTableInfo(string _tabName)
 		ref refBaseShip;
 		makeref(refBaseShip,ShipsTypes[iShip]);
 		sShip = refBaseShip.Name;
-	
+
 		GameInterface.(_tabName).select = 0;
 		string std1, std2, std3, std4, sleft, sright;
 		std1 = "td1"; std2 = "td2"; std3 = "td3"; std4 = "td4"; sleft = "left"; sright = "right";
 		if (_tabName == "SHIP_TABLE_OTHER_RIGHT")
 		{std1 = "td4"; std2 = "td3"; std3 = "td2"; std4 = "td1"; sleft = "right"; sright = "left";}
-	
+
 		GameInterface.(_tabName).hr.(std1).str = "";
 		for (i=1; i<=10; i++)
 		{
 			row = "tr" + i;
-	
+
 			GameInterface.(_tabName).(row).(std1).icon.width = 24;
 			GameInterface.(_tabName).(row).(std1).icon.height = 24;
 			GameInterface.(_tabName).(row).(std1).icon.offset = "2, 1";
@@ -2035,66 +2065,66 @@ void SetShipOTHERTableInfo(string _tabName)
 		GameInterface.(_tabName).tr1.(std1).icon.image = "Hull";
 		GameInterface.(_tabName).tr1.(std2).str = XI_ConvertString("Hull");
 		GameInterface.(_tabName).tr1.(std3).str = sti(refBaseShip.hp);
-	
+
 		GameInterface.(_tabName).tr2.UserData.ID = "Sails";
 		GameInterface.(_tabName).tr2.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr2.(std1).icon.image = "Sails";
 		GameInterface.(_tabName).tr2.(std2).str = XI_ConvertString("Sails");
 		GameInterface.(_tabName).tr2.(std3).str = sti(refBaseShip.sp);
-	
+
 		GameInterface.(_tabName).tr3.UserData.ID = "MastHP";
 		GameInterface.(_tabName).tr3.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr3.(std1).icon.image = "MastHP";
 		GameInterface.(_tabName).tr3.(std2).str = XI_ConvertString("MastHP");
 		GameInterface.(_tabName).tr3.(std3).str = FloatToString(stf(refBaseShip.MastMultiplier),2);
-	
+
 		GameInterface.(_tabName).tr4.UserData.ID = "Speed";
 		GameInterface.(_tabName).tr4.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr4.(std1).icon.image = "Speed";
 		GameInterface.(_tabName).tr4.(std2).str = XI_ConvertString("Speed");
-	
+
 		GameInterface.(_tabName).tr4.(std3).str = FloatToString(stf(refBaseShip.SpeedRate),2);
-	
-	
+
+
 		GameInterface.(_tabName).tr5.UserData.ID = "Maneuver";
 		GameInterface.(_tabName).tr5.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr5.(std1).icon.image = "Maneuver";
 		GameInterface.(_tabName).tr5.(std2).str = XI_ConvertString("Maneuver");
-	
+
 		GameInterface.(_tabName).tr5.(std3).str = FloatToString(stf(refBaseShip.TurnRate),2);
-	
-	
+
+
 		GameInterface.(_tabName).tr6.UserData.ID = "AgainstWind";
 		GameInterface.(_tabName).tr6.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr6.(std1).icon.image = "AgainstWind";
 		GameInterface.(_tabName).tr6.(std2).str = XI_ConvertString("AgainstWind");
 		GameInterface.(_tabName).tr6.(std3).str = FloatToString(stf(refBaseShip.WindAgainstSpeed),2);
-	
-	
+
+
 		GameInterface.(_tabName).tr7.UserData.ID = "Capacity";
 		GameInterface.(_tabName).tr7.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr7.(std1).icon.image = "Capacity";
 		GameInterface.(_tabName).tr7.(std2).str = XI_ConvertString("Capacity");
 		GameInterface.(_tabName).tr7.(std3).str = refBaseShip.Capacity;
-	
+
 		GameInterface.(_tabName).tr8.UserData.ID = "Crew";
 		GameInterface.(_tabName).tr8.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr8.(std1).icon.image = "Crew";
 		GameInterface.(_tabName).tr8.(std2).str = XI_ConvertString("Crew");
 		GameInterface.(_tabName).tr8.(std3).str = sti(refBaseShip.MinCrew) +"/" + sti(refBaseShip.OptCrew);
-	
+
 		GameInterface.(_tabName).tr9.UserData.ID = "sCannons";
 		GameInterface.(_tabName).tr9.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr9.(std1).icon.image = "Caliber";
 		GameInterface.(_tabName).tr9.(std2).str = XI_ConvertString("sCannons"); //XI_ConvertString("Caliber");
 		GameInterface.(_tabName).tr9.(std3).str = XI_ConvertString("caliber" + refBaseShip.MaxCaliber)
-	
-	
+
+
 		GameInterface.(_tabName).tr10.UserData.ID = "CannonType";
 		GameInterface.(_tabName).tr10.(std1).icon.group = "ICONS_CHAR";
 		GameInterface.(_tabName).tr10.(std1).icon.image = "Cannons";
 		GameInterface.(_tabName).tr10.(std2).str = XI_ConvertString("Cannon" + "s2");
-	
+
 		if (refBaseShip.CannonsQuantity == 0)
 		{
 			GameInterface.(_tabName).tr10.(std3).str = "Нет пушек";
@@ -2356,43 +2386,6 @@ string GetSpecialStrings(ref itm)
 	return info;
 }
 
-int GetTradeItemPrice(int itmIdx, int tradeType)
-{
-	int itmprice = 0;
-	if(itmIdx<0 || itmIdx>TOTAL_ITEMS) return 0;
-
-	if(CheckAttribute(&Items[itmIdx],"price"))
-	{
-		itmprice = sti(Items[itmIdx].price);
-	}
-
-	float skillDelta = GetSummonSkillFromNameToOld(pchar, SKILL_COMMERCE);
-	float skillModify;
-	if(tradeType == PRICE_TYPE_BUY)
-	{
-		skillModify = 1.4 - skillDelta*0.019;
-		if(CheckAttribute(&Items[itmIdx],"groupID"))
-		{
-			if(Items[itmIdx].groupID == BLADE_ITEM_TYPE || Items[itmIdx].groupID == GUN_ITEM_TYPE) skillModify *= 10.0;
-		}
-		if(CheckOfficersPerk(pchar,"Trader")) { skillModify -= 0.05; }
-
-		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ skillModify -= 0.2; }
-		else
-		{
-			if(CheckOfficersPerk(pchar,"BasicCommerce"))	{ skillModify -= 0.1; }
-		}
-	}
-	else
-	{
-		skillModify = 0.75 + skillDelta*0.019;
-		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	skillModify += 0.05;
-		if(CheckOfficersPerk(pchar,"Trader")) { skillModify += 0.05; }
-	}
-
-	return makeint(makefloat(itmprice)*skillModify);
-}
-
 void HideInfoWindowEncy()
 {
 	SetNodeUsing("SHIP_INFO_FADER",false);
@@ -2597,7 +2590,7 @@ void ProcessFilter()
 	if (sControl == "BONUSITEM_CLASS")
 	{
 	FState_Bonus = -1 + iSelectedCB;
-	
+
 	AddToTable("BONUSITEM_TABLE_LIST", "BonusItem");
 	return;
 	}

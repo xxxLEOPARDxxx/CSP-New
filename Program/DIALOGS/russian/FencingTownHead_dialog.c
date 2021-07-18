@@ -14,18 +14,18 @@ void ProcessDialogEvent()
 	{
 		case "First time":
 			dialog.text = "С кем имею честь разговаривать?";
-			link.l1 = "Э-э... Меня зовут " + PChar.name + " " + PChar.lastname + ", я - капитан судна ''" + PChar.Ship.Name + "''.";
+			link.l1 = "Э-э... Меня зовут " + GetFullName(pchar) + " , я - капитан судна ''" + PChar.Ship.Name + "''.";
 			link.l1.go = "talk_1";
 			NextDiag.TempNode = "First time";
 		break;
 
 		case "meeting":
-			dialog.text = "Чем обязан, капитан " + PChar.name + " " + PChar.lastname + "?";
+			dialog.text = "Чем обязан, капитан " + GetFullName(pchar) + " ?";
 			link.l1 = "Хотелось бы узнать насчёт предстоящих поединков.";
 			link.l1.go = "ArenaBattle_1";
 			link.l2 = "Хотелось бы потренироваться.";
 			link.l2.go = "academy";
-			link.l3 = "Хотел только повидать вас, " + NPChar.name + " " + NPChar.lastname + ". До встречи.";
+			link.l3 = "Хотелось только повидать вас, " + NPChar.name + " " + NPChar.lastname + ". До встречи.";
 			link.l3.go = "exit";
 			NextDiag.TempNode = "meeting";
 		break;
@@ -37,7 +37,7 @@ void ProcessDialogEvent()
 			if(GetCharacterItem(PChar, "ArenaBilet") > 0)
 			{
 				dialog.text = "Капитан, вы собирались пойти и посмотреть соревнования.";
-				link.l1 = "Ах-да, я забыл.";
+				link.l1 = "Ах-да, и правда.";
 				link.l1.go = "exit";
 				break;
 			}
@@ -70,7 +70,7 @@ void ProcessDialogEvent()
 						}
 						else
 						{
-							dialog.text = "К сожалению, капитан " + PChar.lastname + ", пока поединков не ожидается.";
+							dialog.text = "К сожалению, капитан " + GetFullName(pchar) + ", пока поединков не ожидается.";
 							link.l1 = "Жаль. Тогда, до встречи!";
 							link.l1.go = "exit";
 						}
@@ -79,7 +79,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				dialog.text = "К сожалению, капитан " + PChar.lastname + ", пока поединков не ожидается.";
+				dialog.text = "К сожалению, капитан " + GetFullName(pchar) + ", пока поединков не ожидается.";
 				link.l1 = "Жаль. Тогда, до встречи!";
 				link.l1.go = "exit";
 			}
@@ -88,7 +88,7 @@ void ProcessDialogEvent()
 
 		case "ArenaBattle_2":
 			dialog.text = "Желаешь принять участие в поединке или попытаться заработать немного денег?";
-			link.l1 = "Я бы с удовольствием принял участие или сделал бы ставку.";
+			link.l1 = "Я бы с удовольствием приня"+ GetSexPhrase("л","ла") +" участие или сдел"+ GetSexPhrase("ал","ала") +" бы ставку.";
 			link.l1.go = "ArenaBattle_3";
 			link.l3 = "Если это возможно, то хотелось бы просто понаблюдать за этим.";
 			link.l3.go = "ArenaBattle_5";
@@ -106,7 +106,7 @@ void ProcessDialogEvent()
 			
 			if(sti(PChar.money) >= iMoney)
 			{
-				link.l1 = "Я согласен. Вот они, твои " + iMoney + " золотых.";
+				link.l1 = "Я соглас"+ GetSexPhrase("ен","на") +". Вот они, твои " + iMoney + " золотых.";
 				link.l1.go = "ArenaBattle_6";
 			}
 			else
@@ -136,7 +136,7 @@ void ProcessDialogEvent()
 			if(GetCharacterItem(PChar, "ArenaBilet") > 0)
 			{
 				dialog.text = "Капитан, вы собирались пойти и посмотреть соревнования.";
-				link.l1 = "Ах-да, я забыл.";
+				link.l1 = "Ах-да, и правда.";
 				link.l1.go = "exit";
 				break;
 			}
@@ -189,7 +189,7 @@ void ProcessDialogEvent()
 		/////////////////////////////////////////////////////////////////////////////////////////
 		case "talk_1":
 			dialog.text = "Рад знакомству, капитан. Зовут меня " + NPChar.name + " " + NPChar.lastname + ". Хм.. Честно говоря, не слыхал о вас. Как же вас сюда занесло, капитан?";
-			link.l1 = "Ну, как сказать. Мне свойственно обследовать ранее невиданные территории. Именно поэтому я нашёл ваше поселение здесь. Но, что это за поселение?";
+			link.l1 = "Ну, как сказать. Мне свойственно обследовать ранее невиданные территории. Именно поэтому я наш"+ GetSexPhrase("ёл","ла") +" ваше поселение здесь. Но, что это за поселение?";
 			link.l1.go = "talk_2";
 		break;
 
@@ -207,7 +207,7 @@ void ProcessDialogEvent()
 
 		case "talk_4":
 			dialog.text = "Прошло много времени, пока мы оправились от такого бедствия, тем более оставшись одни на необитаемом острове. Приходилось питаться растениями и насекомыми. Но со временем нам удалось построить это поселение, а позже, немного окрепнув, мы стали проводить бесконечные тренировки, и те строители и рабы, которые чуть не умерли с голода и едва держали шпагу в руках, благодаря неимоверной выдержке и желанию смогли неплохо обучиться исскуству фехтования. \n Вскоре наш городок заметили неизвестные проплывавшие мимо корабли, и о нашем поселении начали расходиться слухи по всем Карибам. Прошло время, и теперь можно сказать, что если бы не то несчастье, приключившиеся с нами - возможно ничего этого и не было, а те рабы продолжали гнить, работая на толстых торгашей в невыносимых условиях, а мы так и делили бы гроши между собой, преклоняясь перед своим капитаном... \n Теперь здесь время от времени проводятся различные турниры - от дуэлей до полноценных турниров, а также возможность делать ставки. Участвовать вы можете лишь заплатив, но если победите - все деньги станут вашими! Ну и конечно, мы можем предоставить вам людей для различного типа тренировок. За небольшую плату, разумеется.";
-			link.l1 = "Очень интересно! Думаю, я смог бы воспользоваться вашими услугами.";
+			link.l1 = "Очень интересно! Думаю, я смо"+ GetSexPhrase("г","гла") +" бы воспользоваться вашими услугами.";
 			link.l1.go = "meeting";
 			NextDiag.TempNode = "meeting";
 		break;
@@ -215,7 +215,7 @@ void ProcessDialogEvent()
 
 		// На арене -->
 		case "FightInArena_1":
-			dialog.text = "Приветствую тебя, капитан " + PChar.lastname + ". Тебе предстоит сразиться с достойным соперником\n Дуэль проходит в несколько раундов: до трёх побед одного из участников. Желаю удачи!";
+			dialog.text = "Приветствую тебя, капитан " + GetFullName(pchar) + ". Тебе предстоит сразиться с достойным соперником\n Дуэль проходит в несколько раундов: до трёх побед одного из участников. Желаю удачи!";
 			link.l1 = "Благодарю за информацию, " + NPChar.lastname + ".";
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("ArenaDuelTalkWithEnemy");
@@ -226,7 +226,7 @@ void ProcessDialogEvent()
 			{
 				case 0:
 					dialog.text = LinkRandPhrase("Вы проиграли, капитан " + GetNameLugger(PChar, "f") + "! Возможно, в следующий раз вы окажетесь сильнее!", "Очень жаль, что вы потерпели неудачу, капитан " + GetNameLugger(PChar, "l") + ".", "Эх, вам совсем чуть-чуть не хватило до победы! Ну что ж, возможно в следующий раз вам повезёт больше.");
-					link.l1 = LinkRandPhrase("Эх.. Не повезло.", "Но ты видел как я ему тогда зарядил?!", "Глупости - эта ваша арена!");
+					link.l1 = LinkRandPhrase("Эх.. Не повезло.", "Но ты видел как я ему тогда заряди"+ GetSexPhrase("л","ла") +"?!", "Глупости - эта ваша арена!");
 					link.l1.go = "exit";
 					AddDialogExitQuestFunction("ArenaDuelTheEnd");
 				break;
@@ -242,7 +242,7 @@ void ProcessDialogEvent()
 		break;
 	
 		case "FightInArena_3":
-			dialog.text = LinkRandPhrase("Ха-ха-ха! Добро пожаловать в ад, капитан " + PChar.lastname + "! Тебе придёться серьёзно постараться, чтобы выйти из этой схватки с отшельниками природы победителем.", "Ну что, готов к схватке с отродьями чёрта?", "Ах, вот и вы, капитан. Хе-хе, ну что ж - зрители ждут.");;
+			dialog.text = LinkRandPhrase("Ха-ха-ха! Добро пожаловать в ад, капитан " + GetFullName(pchar) + "! Тебе придёться серьёзно постараться, чтобы выйти из этой схватки с отшельниками природы победителем.", "Ну что, гото"+ GetSexPhrase("в","ва") +" к схватке с отродьями дьявола?", "Ах, вот и вы, капитан. Хе-хе, ну что ж - зрители ждут.");
 			link.l1 = LinkRandPhrase("И не таких видали.", "Я изрешечу их в вермишель!", "Приготовь денежки, приятель.");
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("StartArenaEtapsBattle");
@@ -260,7 +260,7 @@ void ProcessDialogEvent()
 			
 				case 1:
 					dialog.text = LinkRandPhrase("Как вы их! Почаще бы таких бойцов! Вы честно заработали свой выигрыш. Вот, теперь эти " + sti(PChar.Arena.Etaps.Prize) + " золотых по праву принадлежат вам. Приходите ещё.", "Да-а, не ожидал я от вас такой прыти. Да вы молодец - не каждый смельчак выйдет на бой с этими тварюгами. Вот ваш выигрыш - " + sti(PChar.Arena.Etaps.Prize) + " золотых.", "Они едва не рассыпались от твоего клинка! Вот это сеча была! Вот ваш выигрыш - " + sti(PChar.Arena.Etaps.Prize) + " золотых.");
-					link.l1 = LinkRandPhrase("Хех. Никому не по силам одолеть меня!", "Закажите для меня партию этих тварей. Обязательно ещё приду!", "А ты видел как я тому крабу клешню отрубил?!");
+					link.l1 = LinkRandPhrase("Хех. Никому не по силам одолеть меня!", "Закажите для меня партию этих тварей. Обязательно ещё приду!", "А ты видел как я тому крабу клешню отруби"+ GetSexPhrase("л","ла") +"?!");
 					link.l1.go = "exit";
 					AddMoneyToCharacter(PChar, sti(PChar.Arena.Etaps.Prize));
 					AddDialogExitQuestFunction("ArenaEtapsTheEnd");
@@ -269,7 +269,8 @@ void ProcessDialogEvent()
 		break;
 	
 		case "FightInArena_5":
-			dialog.text = LinkRandPhrase("А вот и вы, капитан " + PChar.name + " " + PChar.lastname + "! Что ж, вы как раз вовремя - все участники в сборе и нет никаких препятствий тому, чтобы начать уже наш турнир.", "Приветствую вас, капитан " + GetNameLugger(PChar, "f") + ". Вас ждут очень тяжёлые схватки - это я вам обещаю. Ну, если вы, конечно, первый раунд пройдёте. Ха-ха!", "Надеюсь, что вы дадите жару этим зазнайкам, капитан " + GetNameLugger(PChar, "l") + ".");
+			dialog.text = LinkRandPhrase("А вот и вы, капитан " + GetFullName(pchar) + "! Что ж, вы как раз вовремя - все участники в сборе и нет никаких препятствий тому, чтобы начать уже наш турнир.", "Приветствую вас, капитан " + GetNameLugger(PChar, "f") + ". Вас ждут очень тяжёлые схватки - это я вам обещаю. Ну, если вы, конечно, первый раунд пройдёте. Ха-ха!", "Надеюсь, что вы дадите жару этим зазнайкам, капитан " + GetNameLugger(PChar, "l") + ".");
+            PlayVoice("Kopcapkz\Voices\Arena\ArenaHead_"+rand(7)+".wav");
 			link.l1 = LinkRandPhrase("Передай этим участникам, что у них никаких шансов в схватке со мной!", "Давай уже начинать - мне не терпится кого-нибудь уделать!", "Приз будет моим - даже не сомневайся.");
 			AddDialogExitQuestFunction("ArenaTournamentTalkWithRandEnemy");
 		break;
@@ -280,29 +281,122 @@ void ProcessDialogEvent()
 			{
 				case 0:
 					dialog.text = LinkRandPhrase("Да-а, турнир удался на славу! Вы достойно сражались, капитан! Но удача была не на вашей стороне. Будем ждать вас вновь - быть может, в следующий раз вы окажетесь победителем.", "Я надеялся на вас, кэп, а вас чуть по полу не размазали! Тьфу.", "Эх, вот не повезло. Наверное вы просто не выспались.");
-					link.l1 = LinkRandPhrase("Просто я немного, кхм, приболел... До свидания.", "Соперник использовал запрещённые приёмы - я буду жаловаться.", "Ну ничего, я ещё вернусь.");
+					link.l1 = LinkRandPhrase("Просто я немного, кхм, приболе"+ GetSexPhrase("л","ла") +"... До свидания.", "Соперник использовал запрещённые приёмы - я буду жаловаться.", "Ну ничего, я ещё вернусь.");
 					link.l1.go = "exit";
 					AddDialogExitQuestFunction("ArenaTournamentTheEnd");
 				break;
 			
 				case 1:
-					dialog.text = LinkRandPhrase("Да-а, турнир удался на славу. И вы стали его победителем! Признаюсь честно, я не мог оторвать глаз от того, как вы управляетесь с оружием! Теперь эти " + sti(PChar.Arena.Tournament.Money) + " золотых по праву принадлежат вам.", "Капитан, вы - чемпион! Такого умения обращаться с оружием не ожидали даже самые яростные соперники! Возьмите ваш приз - эти " + sti(PChar.Arena.Tournament.Money) + " золотых.", "Да вы их всех чуть в ласкуты не разорвали! Вот это хватка! Эти " + sti(PChar.Arena.Tournament.Money) + " золотых по праву ваши.");
-					link.l1 = LinkRandPhrase("Неужели ты во мне сомневался!", "Я ещё не раз покажу, кто здесь главный. А сейчас - отдыхать.", "Ха-ха-ха, жалкие насекомые! Таких соперников я на абордаже щёлкаю как орехи. Кстати, орехи полезны для здоровья.");
-					link.l1.go = "exit";
 					AddMoneyToCharacter(PChar, sti(PChar.Arena.Tournament.Money));
-					
+			
 					pchar.questTemp.tournamentcount = sti(pchar.questTemp.tournamentcount) + 1;
 					if(sti(pchar.questTemp.tournamentcount) >= 1) UnlockAchievement("AchTurnir", 1);
 					if(sti(pchar.questTemp.tournamentcount) >= 3) UnlockAchievement("AchTurnir", 2);
 					if(sti(pchar.questTemp.tournamentcount) >= 10) UnlockAchievement("AchTurnir", 3);
 					
+					bool nopirate = false;
+					if (!CheckAttribute(pchar,"questTemp.UniquePirate.Barbarigo") || !CheckAttribute(pchar,"questTemp.UniquePirate.BlackBeard") || !CheckAttribute(pchar,"questTemp.UniquePirate.Levasser")) nopirate = true;
+					if (sti(pchar.questTemp.tournamentcount) == 3 && nopirate)
+					{
+						aref item;
+						Items_FindItem("map_full", &item);
+						string type = GetUniquePirateName();
+						FillMapForUniqueTreasure(item, type);
+						type = GetUniquePirateNameString(type);
+						GiveItem2Character(pchar, "map_full");
+						dialog.text = LinkRandPhrase("Да-а, турнир удался на славу. И вы стали его победителем! Признаюсь честно, я не мог оторвать глаз от того, как вы управляетесь с оружием! Теперь эти " + sti(PChar.Arena.Tournament.Money) + " золотых по праву принадлежат вам.", "Капитан, вы - чемпион! Такого умения обращаться с оружием не ожидали даже самые яростные соперники! Возьмите ваш приз - эти " + sti(PChar.Arena.Tournament.Money) + " золотых.", "Да вы их всех чуть в ласкуты не разорвали! Вот это хватка! Эти " + sti(PChar.Arena.Tournament.Money) + " золотых по праву ваши.");
+						dialog.text = dialog.text + "\nТак как вы стали уже трёхкратным победителем турнира, мы решили приготовить кое-что особенное... Это будет карта сокровищ, что по слухам, она принадлежала знаменитому "+type+". Полагаю, вам будет по силам разыскать то, что спрятал этот злодей.";
+						link.l1 = "Вот это поистене королевский подарок с вашей стороны! Премного благодар"+GetSexPhrase("ен!","на!");
+						link.l1.go = "exit";
+					}
+					else
+					{
+						dialog.text = LinkRandPhrase("Да-а, турнир удался на славу. И вы стали его победителем! Признаюсь честно, я не мог оторвать глаз от того, как вы управляетесь с оружием! Теперь эти " + sti(PChar.Arena.Tournament.Money) + " золотых по праву принадлежат вам.", "Капитан, вы - чемпион! Такого умения обращаться с оружием не ожидали даже самые яростные соперники! Возьмите ваш приз - эти " + sti(PChar.Arena.Tournament.Money) + " золотых.", "Да вы их всех чуть в ласкуты не разорвали! Вот это хватка! Эти " + sti(PChar.Arena.Tournament.Money) + " золотых по праву ваши.");
+						int randreward = drand2(100);
+						string reward;
+						if (randreward < 6)
+						{
+							int quality = 1;
+							if (pchar.rank <= 6) quality = 1;
+							if (pchar.rank >= 12) quality = 2;
+							if (pchar.rank >= 18) quality = 3;
+							if (pchar.rank > 24) quality = 4;
+							reward = "book"+quality+"_"+sti(drand(13)+1);
+						}
+						if (randreward >5 && randreward < 17)
+						{
+							switch (drand(11))
+							{
+								case 0: reward = "blade19"; break;
+								case 1: reward = "blade22"; break;
+								case 2: reward = "blade36"; break;
+								case 3: reward = "blade37"; break;
+								case 4: reward = "blade31"; break;
+								case 5: reward = "blade34"; break;
+								case 6: reward = "blade40"; break;
+								case 7: reward = "blade46"; break;
+								case 8: reward = "blade15"; break;
+								case 9: reward = "blade21"; break;
+								case 10: reward = "blade42"; break;
+								case 11: reward = "topor2"; break;
+							}
+						}
+						if (randreward >16 && randreward < 28)
+						{
+							switch (drand(4))
+							{
+								case 0: reward = "pistol6"; break;
+								case 1: reward = "pistol_grapebok"; break;
+								case 2: reward = "pistol9"; break;
+								case 3: reward = "mushket"; break;
+								case 4: reward = "mushket_drob"; break;
+							}
+						}
+						if (randreward >17 && randreward < 39)
+						{
+							switch (drand(2))
+							{
+								case 0: reward = "cirass2"; break;
+								case 1: reward = "cirass3"; break;
+								case 2: reward = "cirass4"; break;
+							}
+						}
+						if (randreward >38 && randreward < 50)
+						{
+							switch (drand(7))
+							{
+								case 0: reward = "indian1"; break;
+								case 1: reward = "indian10"; break;
+								case 2: reward = "indian15"; break;
+								case 3: reward = "indian18"; break;
+								case 4: reward = "indian19"; break;
+								case 5: reward = "indian20"; break;
+								case 6: reward = "indian21"; break;
+								case 7: reward = "indian22"; break;
+							}
+						}
+						if (randreward > 49)
+						{
+							GiveItem2Character(pchar,"Chest");
+							reward = "icollection";
+						}
+						GiveItem2Character(pchar,reward);
+						
+						int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+						aref item1;
+						Items_FindItem(reward, &item1);
+						dialog.text = dialog.text + "\nПомимо денежного приза, мы также решили сделать вам особый подарок за победу. Это "+LanguageConvertString(idLngFile, item1.name)+".";
+						LanguageCloseFile(idLngFile);
+						link.l1 = LinkRandPhrase("Неужели ты во мне сомневался!", "Я ещё не раз покажу, кто здесь главный. А сейчас - отдыхать.", "Ха-ха-ха, жалкие насекомые! Таких соперников я на абордаже щёлкаю как орехи. Кстати, орехи полезны для здоровья.");
+						link.l1.go = "exit";
+					}
 					AddDialogExitQuestFunction("ArenaTournamentTheEnd");
 				break;
 			}
 		break;
 		
 		case "FightInArena_8":
-			dialog.text = LinkRandPhrase("А-а, вот и вы, капитан " + PChar.lastname + ". Рад видеть вас тут. Надеюсь, что вам сегодня повезёт.", "А-а, вот и вы, капитан " + PChar.lastname + ". Ваша ставка должна непременно сыграть!", "А-а, вот и вы, капитан " + PChar.lastname + ". Думаю, что сегодня удача повернётся к вам лицом, а не как в прошлый раз...") + " Займите ваше место - пройдите в-о-о-о-н туда ...(показывает влево)... и поднимитесь на башню.";
+			dialog.text = LinkRandPhrase("А-а, вот и вы, капитан " + GetFullName(pchar) + ". Рад видеть вас тут. Надеюсь, что вам сегодня повезёт.", "А-а, вот и вы, капитан " + PChar.lastname + ". Ваша ставка должна непременно сыграть!", "А-а, вот и вы, капитан " + PChar.lastname + ". Думаю, что сегодня удача повернётся к вам лицом, а не как в прошлый раз...") + " Займите ваше место - пройдите в-о-о-о-н туда ...(показывает влево)... и поднимитесь на башню.";
 			link.l1 = LinkRandPhrase("Это не удача - а холодный расчёт. Вот увидишь, я выиграю.", "Удача меня ещё никогда не покидала.", "Приготовьте мои денежки.");
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("StartArenaOddsContinue");
@@ -320,7 +414,7 @@ void ProcessDialogEvent()
 			
 				case 1:
 					dialog.text = LinkRandPhrase("Да-а, бои были что-надо! Кроме того, ваша ставка сыграла и теперь эти " + sti(PChar.Arena.Odds.Prize) + " золотых по праву принадлежат вам. Честное слово, я был другого мнения о исходе поединков, но, похоже, я ещё слишком мало знаю о соотношении сил...", "Вот это да! Никто не предвещал такого хода событий, а вы смогли верно назвать победителя! Браво, браво! Вот ваши " + sti(PChar.Arena.Odds.Prize) + " золотых в качестве выигрыша.", "Ну вы капитан и знаток! Так разобраться в соотношении сил дуэлянтов! Вот это да! Никто не предвещал такого хода событий, а вы смогли верно назвать победителя! Браво, браво! Вот ваши " + sti(PChar.Arena.Odds.Prize) + " золотых!");
-					link.l1 = LinkRandPhrase("Хе-хе, учись пока я жив.", "Ну так, мастерство не пропьёшь. Советую иногда слушать и других.", "Благодарю. Обязательно сюда вернусь.");
+					link.l1 = LinkRandPhrase("Хе-хе, учись пока я жи"+ GetSexPhrase("в","ва") +".", "Ну так, мастерство не пропьёшь. Советую иногда слушать и других.", "Благодарю. Обязательно сюда вернусь.");
 					link.l1.go = "exit";
 					AddMoneyToCharacter(PChar, sti(PChar.Arena.Odds.Prize));
 					AddDialogExitQuestFunction("ArenaOddsTheEnd");
@@ -330,28 +424,28 @@ void ProcessDialogEvent()
 	
 		case "FightInArena_10":
 			
-			dialog.text = LinkRandPhrase("А вот и вы, " + PChar.name + " " + PChar.lastname + "! Добро пожаловать на наши поединки. Надеюсь, вам понравится наше мероприятие.", "Приветствую, кэп. Сегодня у нас намечаются очень серьёзные поединки.", "Я уверен, вам понравится наше мероприятие.") + " Займите ваше место - пройдите в-о-о-о-н туда ...(показывает влево)... и поднимитесь на башню.";
-			link.l1 = LinkRandPhrase("Я тоже рад оказаться здесь. С удовольствием займу своё место.", "Надеюсь, здесь проводят серьёзные поединки, а не песочницу делят.", "Давай, начинай уже своё мероприятие.");
+			dialog.text = LinkRandPhrase("А вот и вы, " + GetFullName(pchar) + "! Добро пожаловать на наши поединки. Надеюсь, вам понравится наше мероприятие.", "Приветствую, кэп. Сегодня у нас намечаются очень серьёзные поединки.", "Я уверен, вам понравится наше мероприятие.") + " Займите ваше место - пройдите в-о-о-о-н туда ...(показывает влево)... и поднимитесь на башню.";
+			link.l1 = LinkRandPhrase("Я тоже ра"+ GetSexPhrase("д","да") +" оказаться здесь. С удовольствием займу своё место.", "Надеюсь, здесь проводят серьёзные поединки, а не песочницу делят.", "Давай, начинай уже своё мероприятие.");
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("StartArenaOddsContinue");
 		break;
 	
 		case "FightInArena_11":
 			dialog.text = LinkRandPhrase("Да-а, поединки явно удались! Я не успевал восхищаться умением этих людей обращаться с оружием. Будем рады повторной встрече. А пока, до новых поединков!", "Да-а, ребята явно не оплошали - какой накал страстей, какое умение!", "Зря вы сами не поучаствовали в наших мероприятиях.");
-			link.l1 = LinkRandPhrase("Мне не меньше чем вам понравились поединки. Спасибо, и до свидания.", "Да, бои вышли что надо. С удовольствием ещё раз приду сюда.", "Архг! В следующий раз сам поучаствую в этих мероприятиях - тогда посмотрят, что такое настоящий поединок.");
+			link.l1 = LinkRandPhrase("Мне не меньше чем вам понравились поединки. Спасибо, и до свидания.", "Да, бои вышли что надо. С удовольствием ещё раз приду сюда.", "Архг! В следующий раз са"+ GetSexPhrase("м","ма") +" поучаствую в этих мероприятиях - тогда посмотрят, что такое настоящий поединок.");
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("ArenaOddsTheEnd");
 		break;
 	
 		case "EnemyFightInArena_1":
-			dialog.text = LinkRandPhrase("Ну что, готов отдать свои деньги мне? Жду-не дождусь твоего поражения.", "Да я порву тебя в клочья, жалкий недоносок!", "Приготовься уйти ни с чем, неудачник!");
+			dialog.text = LinkRandPhrase("Ну что, гот"+ GetSexPhrase("ов","ова") +" отдать свои деньги мне? Жду-не дождусь твоего поражения.", "Да я порву тебя в клочья, насекомое!", "Приготовься уйти ни с чем, ничтожество!");
 			link.l1 = LinkRandPhrase("Хех. Не зарекайся, мой друг. Приступим к делу.", "Заткни свою пасть, гнилой кокос. Сейчас я тебя на тряпки пущу.", "Ха-ха, сейчас посмотрим, кто из нас уйдёт ни с чем.");
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("ArenaDuelStartBattleWithEnemy");
 		break;
 	
 		case "FightInArena_6":
-			dialog.text = RandSwear() + " " + LinkRandPhrase("В схватке со мной тебя ждёт только неудача!", PChar.name + " " + PChar.lastname + "?! Я порву тебя на куски, если ты будешь у меня на пути!", "Эй, ты! Сейчас ты пожалеешь, что пришёл сюда!");
+			dialog.text = RandSwear() + " " + LinkRandPhrase("В схватке со мной тебя ждёт только неудача!",+ GetFullName(pchar) + "?! Я порву тебя на куски, если ты будешь у меня на пути!", "Эй, ты! Сейчас ты пожалеешь, что приш"+ GetSexPhrase("ёл","ла") +" сюда!");
 			link.l1 = LinkRandPhrase("Сейчас ты уйдёшь отсюда ни с чем!", "Ха-ха, жалкий недоносок будет со мной спорить?", "Сейчас я тебя...");
 			link.l1.go = "exit";
 			AddDialogExitQuestFunction("ArenaTournamentGo");

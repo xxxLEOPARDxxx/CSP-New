@@ -532,4 +532,8 @@ void SetOZGModel(ref Chref)
 void Characters_RefreshModel(ref rChar)
 {
 	SendMessage(rChar, "lss", MSG_CHARACTER_SETMODEL, rChar.model, rChar.model.animation);
+	if (CheckAttribute(rChar, "HeadAccessory") && IsEquipCharacterByItem(rChar, rChar.HeadAccessory))
+	{
+		SendMessage(rChar,"lsss",MSG_CHARACTER_SETHEAD,rChar.model, rChar.HeadAccessory, "pscripts\HeadGear.ini");
+	}
 }

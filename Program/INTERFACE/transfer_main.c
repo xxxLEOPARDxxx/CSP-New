@@ -1444,7 +1444,10 @@ void GoToShipChange() // нажатие ОК на табличке ок-отмена
 			for(int i = 0; i < GOODS_QUANTITY; i++)
 				{
 					string sGood = Goods[i].Name;
-					if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
+					if (CheckAttribute(Goods[i],"Type")) 
+					{
+						if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
+					}
 					if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
 					{
 						sld.Goods.(sGood).Bought.Coeff.Qty = xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty;
@@ -1592,7 +1595,10 @@ void SwapProcess()
 	for(int i = 0; i < GOODS_QUANTITY; i++)
 	{
 		string sGood = Goods[i].Name;
-		if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
+		if (CheckAttribute(Goods[i],"Type")) 
+		{
+			if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
+		}
 		if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
 		{
 			pchar.Goods.(sGood).Bought.Coeff.Qty = xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty;

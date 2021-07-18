@@ -35,6 +35,7 @@
 #include "locations\init\LostShipsCity.c"
 #include "locations\init\KhaelRoa.c"
 #include "locations\init\OldWorld.c"
+#include "locations\init\ReefsSkeleton.c"
 
 void InitLocations()
 {
@@ -305,6 +306,11 @@ void InitLocations()
 	n = LocationInitKhaelRoa(n);
 	Locations[0].IslandsList.KhaelRoa.end = n;
 	Trace("KhaelRoa locations " + n);
+
+	Locations[0].IslandsList.Reefs.begin = n;
+	n = LocationInitReefs(n);
+	Locations[0].IslandsList.Reefs.end = n;
+	Trace("Reefs locations " + n);
 
 	n = LocationInitCommonLoc(n);
 	Trace("Common locations " + n);

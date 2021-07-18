@@ -288,6 +288,9 @@ void SetCraftInfo(int idx)
 	{
 		for(int n = 1; n <= sti(Items[craftable].ComponentsNum); n++)
 		{
+			CI = "Component"+n;
+			CIN = "Component"+n+"Num";
+			if (Items[craftable].(CIN) == "0" && GetCharacterItem(pchar, Items[craftable].(CI)) >= 1) continue;
 			if(n == 1)
 			{
 				qntMAX = GetCharacterItem(pchar, Items[craftable].(CI)) / sti(Items[craftable].(CIN));

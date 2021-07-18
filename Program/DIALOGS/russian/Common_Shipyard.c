@@ -238,7 +238,7 @@ void ProcessDialogEvent()
 					}
 					if (CheckAttribute(pchar,"GenQuest.Findship.Shipyarder.OK") && sti(pchar.GenQuest.Findship.Shipyarder.OK) == 1)
 					{
-						link.l13 = "Я доставил вам корабль типа ''"+GetStrSmallRegister(XI_ConvertString(GetBaseShipParamFromType(sti(pchar.GenQuest.Findship.Shipyarder.ShipType), "Name")))+"'', как вы просили.";
+						link.l13 = "Я доставил"+ GetSexPhrase("","а") +" вам корабль типа ''"+GetStrSmallRegister(XI_ConvertString(GetBaseShipParamFromType(sti(pchar.GenQuest.Findship.Shipyarder.ShipType), "Name")))+"'', как вы просили.";
 						link.l13.go = "Findship_check";
 					}// <-- генератор Призонер
 				}

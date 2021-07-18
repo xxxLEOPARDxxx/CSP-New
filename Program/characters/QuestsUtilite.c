@@ -687,6 +687,11 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 			Log_TestInfo("У этого кэпа в сундуке будет ключ Моргана!");
 		}
 		
+		if(startherotype == 2 && !CheckCharacterItem(pchar,"glasses") && drand(100) < 25)
+		{
+			_location.box1.items.glasses = 1;
+		}
+		
 		if(rand(50) == 0)
 		{
 			switch (rand(3))
@@ -1404,6 +1409,14 @@ void SetNewModelToChar(ref chref)
             //SendMessage(chref, "llsfll", MSG_CHARACTER_SETBLADE, 0, chref.equip.blade, liveTime, colors, colore);
             SendMessage(chref, "llsfll", MSG_CHARACTER_SETBLADE, 0, modelName, liveTime, colors, colore);
         }
+		if (CheckAttribute(chref, "HeadAccessory") && IsEquipCharacterByItem(chref, chref.HeadAccessory))
+		{
+			SendMessage(chref,"lsss",MSG_CHARACTER_SETHEAD, chref.model, chref.HeadAccessory, "pscripts\HeadGear.ini");
+		}
+		else
+		{
+			SendMessage(chref,"lsss",MSG_CHARACTER_SETHEAD, chref.model, "", "pscripts\HeadGear.ini");
+		}
     }
 }
 // функции из квест_реакшн
@@ -2936,6 +2949,7 @@ void SetSkeletonsToLocation(aref _location)
 		DeleteAttribute(_location, "DestroyGhost");
 		LAi_LocationDisableMonGenTimer(_location.id, 3); //монстров не генерить 3 дня
 		LAi_group_SetCheck(LAI_GROUP_MONSTERS, "OpenTheDoors");
+		if (!CheckAttribute(pchar,"Dovahkiin") && rand(3)==0) LAi_group_SetCheck(LAI_GROUP_MONSTERS, "Dovahkiin");
 		AddQuestRecordEx(_location.id + "Church_DestroyGhost", "Church_DestroyGhost", "2");
 	}
 	else
@@ -2985,9 +2999,9 @@ void QuestCheckTakeBoxes(ref itemsRef)
 		DeleteAttribute(PChar, "treasurelocation");
 		
 		pchar.questTemp.treasurecount = sti(pchar.questTemp.treasurecount) + 1;
-		if(sti(pchar.questTemp.officercount) >= 5) UnlockAchievement("AchTreasure", 1);
-		if(sti(pchar.questTemp.officercount) >= 15) UnlockAchievement("AchTreasure", 2);
-		if(sti(pchar.questTemp.officercount) >= 30) UnlockAchievement("AchTreasure", 3);
+		if(sti(pchar.questTemp.treasurecount) >= 5) UnlockAchievement("AchTreasure", 1);
+		if(sti(pchar.questTemp.treasurecount) >= 15) UnlockAchievement("AchTreasure", 2);
+		if(sti(pchar.questTemp.treasurecount) >= 30) UnlockAchievement("AchTreasure", 3);
 		
 		//eddy. для безконфликтности квестов
 

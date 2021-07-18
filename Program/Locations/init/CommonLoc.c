@@ -823,6 +823,84 @@ int LocationInitCommonLoc(int n)
 	n = n + 1;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "CommonPackhouse_3";
+	locations[n].id.label = "packhouse";
+	locations[n].image = "loading\inside\Storage_"+rand(3)+".tga";
+	locations[n].MustSetReloadBack = true;
+	locations[n].packhouse = true;
+	//Town sack
+	locations[n].townsack = "";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "house";
+	locations[n].fastreload = "";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\inside\sklad02";
+	locations[n].models.always.locators = "sklad02_locators";
+	locations[n].models.always.modelSklad = "sklad02";
+	locations[n].models.always.modelSklad.level = 65538;
+	
+	locations[n].models.always.back = "..\inside_back";
+	locations[n].models.always.back.level = 65529;
+	//Day
+	locations[n].models.day.charactersPatch = "sklad02_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "sklad02_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	Locations[n].lockWeather = "Inside";
+	Locations[n].QuestlockWeather = "23 Hour";
+	locations[n].environment.sea = "false";
+	locations[n].environment.weather.rain = false;
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "none";
+	locations[n].reload.l1.emerge = "none";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "";
+	n = n + 1;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "CommonPackhouse_4";
+	locations[n].id.label = "packhouse";
+	locations[n].image = "loading\inside\Storage_"+rand(3)+".tga";
+	locations[n].MustSetReloadBack = true;
+	locations[n].packhouse = true;
+	//Town sack
+	locations[n].townsack = "";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "house";
+	locations[n].fastreload = "";
+	//Models
+	//Always
+	locations[n].filespath.models = "locations\inside\sklad03";
+	locations[n].models.always.locators = "sklad03_locators";
+	locations[n].models.always.modelSklad = "sklad03";
+	locations[n].models.always.modelSklad.level = 65538;
+	
+	locations[n].models.always.back = "..\inside_back";
+	locations[n].models.always.back.level = 65529;
+	//Day
+	locations[n].models.day.charactersPatch = "sklad03_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "sklad03_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	Locations[n].lockWeather = "Inside";
+	Locations[n].QuestlockWeather = "23 Hour";
+	locations[n].environment.sea = "false";
+	locations[n].environment.weather.rain = false;
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "none";
+	locations[n].reload.l1.emerge = "none";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "";
+	n = n + 1;
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Residence 1-5 and Back Hall
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "CommonResidence_1";

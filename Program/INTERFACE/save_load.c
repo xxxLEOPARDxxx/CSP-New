@@ -399,7 +399,7 @@ void ProcDeleteProfile()
 void DeleteProfile(string profileName)
 {
 	string oldpath = "";
-	
+
 	// Warship 08.07.09 fix - ошибка езка об отсутствии атрибута
 	if(CheckAttribute(GameInterface, "SavePath"))
 	{
@@ -523,7 +523,7 @@ void procSaveClick()
 {
 	int iComIdx = GetEventData();
 	string sNodName = GetEventData();
-	
+
 	if( sNodName == "SAVEIMG1" ) { SelectSaveImage( g_nFirstSaveIndex + 0 ); return; }
 	if( sNodName == "SAVEIMG2" ) { SelectSaveImage( g_nFirstSaveIndex + 1 ); return; }
 	if( sNodName == "SAVEIMG3" ) { SelectSaveImage( g_nFirstSaveIndex + 2 ); return; }
@@ -625,7 +625,7 @@ void FillSaveList(int nFirstSaveIndex)
 		ReloadSaveInfo();
 		return;
 	}
-	
+
 	if( bNoRebuildSaveList && (nDelta==-SLOTS_IN_LINE-SLOTS_IN_LINE-SLOTS_IN_LINE) )
 	{
 		// перенос верхней линии записей вниз
@@ -638,7 +638,7 @@ void FillSaveList(int nFirstSaveIndex)
 		ReloadSaveInfo();
 		return;
 	}
-	
+
 	if( bNoRebuildSaveList && (nDelta==-SLOTS_IN_LINE-SLOTS_IN_LINE-SLOTS_IN_LINE-SLOTS_IN_LINE) )
 	{
 		// перенос верхней линии записей вниз
@@ -725,7 +725,7 @@ void ShowDataForSave(int nSlot, string picname, int picpointer, string strdata)
 		if( ParseSaveData(strdata, &facestr, &locName, &timeStr, &language, &playtime, &curship, &nation) ) {
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#"+locName );
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#"+timeStr );
-			g_oSaveList[nSlot].faceinfo = facestr;
+			g_oSaveList[nSlot].faceinfo = PrepareMinifiedFaceString(facestr);
 			g_oSaveList[nSlot].playtime = playtime;
 			g_oSaveList[nSlot].curship = curship;
 			g_oSaveList[nSlot].nation = nation;
@@ -1008,7 +1008,7 @@ void LaunchCustomSaveGame()
 
 	XI_WindowDisable("MAIN_WINDOW", true);
 	XI_WindowDisable("CUSTOM_SAVE_WINDOW", false);
-	XI_WindowShow("CUSTOM_SAVE_WINDOW", true);    
+	XI_WindowShow("CUSTOM_SAVE_WINDOW", true);
 
 	GameInterface.CUSTOM_SAVE_NAME.str = saveName;
 	SetFormatedText("CUSTOM_SAVE_MSG", "¬ведите им€ сохран€емой игры:");
@@ -1036,11 +1036,11 @@ void ProcessCustomSaveAction()
 			PostEvent("evntSave",0,"ss", GetSaveDirectory() + PlayerProfile.name+"\"+saveName, sSaveDescriber);
             // Warship Fix свечени§
 			ExitSaveCustomGame();
-			IDoExit(RC_INTERFACE_SAVELOAD_EXIT);			
+			IDoExit(RC_INTERFACE_SAVELOAD_EXIT);
 		}
-		if( sNodName == "CUSTOM_SAVE_BTN_CANCEL" ) {			
+		if( sNodName == "CUSTOM_SAVE_BTN_CANCEL" ) {
 			ExitSaveCustomGame();
-		}		
+		}
 	}
 }
 

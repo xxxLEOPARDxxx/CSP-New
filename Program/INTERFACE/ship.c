@@ -629,7 +629,7 @@ void confirmShipChangeName()
 	xi_refcharacter.ship.name = GameInterface.edit_box.str;
 	GameInterface.edit_box.str = xi_refcharacter.ship.name;
 	//SetCurrentNode("SHIP_INFO_TEXT");
-	SetCurrentNode("SHIPS_SCROLL");
+	if(GameInterface.EDIT_BOX.lastkey != " ") SetCurrentNode("SHIPS_SCROLL");
 }
 
 void CheckForRename()

@@ -391,6 +391,24 @@ void SelectRColony()
 			setWDMPointXZ("PortoBello_town");
 			DoQuestReloadToLocation("Panama_town", "reload", "reload1", "");
 		}
+		if (fMouseX >= 973.0 && fMouseX <= 1031.0 && fMouseY >= 908.0 && fMouseY <= 966.0)
+		{
+			setCharacterShipLocation(pchar, "MountainPath");
+			setWDMPointXZ("MountainPath");
+			DoQuestReloadToLocation("MountainPath", "reload", "reload1", "");
+		}
+		if (fMouseX >= 1079.0 && fMouseX <= 1135.0 && fMouseY >= 792.0 && fMouseY <= 861.0)
+		{
+			setCharacterShipLocation(pchar, "DeckWithReefs");
+			setWDMPointXZ("DeckWithReefs");
+			DoQuestReloadToLocation("DeckWithReefs", "reload", "reload1", "");
+		}
+		if (fMouseX >= 1811.0 && fMouseX <= 1883.0 && fMouseY >= 714.0 && fMouseY <= 780.0)
+		{
+			setCharacterShipLocation(pchar, "KhaelRoa_port");
+			setWDMPointXZ("KhaelRoa_port");
+			DoQuestReloadToLocation("KhaelRoa_port", "reload", "reload1", "");
+		}
 	}
 }
 

@@ -169,6 +169,109 @@ void FillMapForTreasure(ref item)
     }
 }
 
+void FillMapForUniqueTreasure(ref item, string type)
+{
+	item.MapIslId   = GetIslandForTreasure();
+	item.MapLocId   = GetLocationForTreasure(item.MapIslId);
+	item.MapBoxId   = GetBoxForTreasure(item.MapIslId, item.MapLocId);
+	item.MapTypeIdx = 0;
+	item.uniquep = type;
+
+	// генерим клад
+	DeleteAttribute(item, "BoxTreasure");
+
+	FillBoxForTreasure(item, rand(1));
+	FillBoxForTreasureAddition(item);
+	Xzibit(item);
+	FillBoxForTreasureSuper(item);
+	FillBoxForTreasureSuper(item);
+	BookAdd(1, item);//книги в клад 1 уровня
+	BookAdd(2, item);//книги в клад 2 уровня
+	Log_TestInfo("treasure "+type);
+	
+	switch (type)
+	{
+		case "Barbarigo": 
+			item.BoxTreasure.gold = 400000+rand(600000); 
+			item.BoxTreasure.blade41 = 1; 
+			item.BoxTreasure.cirass5 = 1; 
+		break;	
+		case "BlackBeard": 
+			item.BoxTreasure.gold = 800000+rand(200000); 
+			item.BoxTreasure.jewelry5 = 900+rand(100); 
+			item.BoxTreasure.howdah = 1; 
+		break;	
+		case "Levasser": 
+			item.BoxTreasure.gold = 600000+rand(400000); 
+			item.BoxTreasure.jewelry1 = 250+rand(150); 
+			item.BoxTreasure.jewelry2 = 250+rand(150); 
+			item.BoxTreasure.jewelry3 = 250+rand(150); 
+			item.BoxTreasure.jewelry4 = 250+rand(150); 
+			item.BoxTreasure.grape_mushket = 1; 
+		break;	
+	}
+
+	Pchar.quest.SetTreasureFromMap.win_condition.l1          = "location";
+	Pchar.quest.SetTreasureFromMap.win_condition.l1.location = item.MapLocId;
+	Pchar.quest.SetTreasureFromMap.win_condition             = "SetTreasureFromMap";
+}
+
+string GetUniquePirateName()
+{
+	int count = -1;
+	string name[3]; 
+	/*if (!CheckAttribute(pchar,"questTemp.UniquePirate.Barbarigo"))
+	{
+		pchar.questTemp.UniquePirate.Barbarigo = 1;
+		return "Barbarigo";
+	}
+	if (!CheckAttribute(pchar,"questTemp.UniquePirate.BlackBeard"))
+	{
+		pchar.questTemp.UniquePirate.BlackBeard = 1;
+		return "BlackBeard";
+	}
+	if (!CheckAttribute(pchar,"questTemp.UniquePirate.Levasser"))
+	{
+		pchar.questTemp.UniquePirate.Levasser = 1;
+		return "Levasser";
+	}*/
+	if (!CheckAttribute(pchar,"questTemp.UniquePirate.Barbarigo"))
+	{
+		count++;
+		name[count]="Barbarigo";
+	}
+	if (!CheckAttribute(pchar,"questTemp.UniquePirate.BlackBeard"))
+	{
+		count++;
+		name[count]="BlackBeard";
+	}
+	if (!CheckAttribute(pchar,"questTemp.UniquePirate.Levasser"))
+	{
+		count++;
+		name[count]="Levasser";
+	}
+	if (count == -1) return "";
+	else
+	{
+		string resultname = name[rand(count)];
+		pchar.questTemp.UniquePirate.(resultname) = 1;
+		return resultname;
+	}		
+	
+	return "";
+}
+
+string GetUniquePirateNameString(string type)
+{
+	switch (type)
+	{
+		case "Barbarigo": return "Агостино Барбариго"; break;
+		case "BlackBeard": return "Чёрной Бороды"; break;
+		case "Levasser": return "Левассера"; break;
+	}
+	return "";
+}
+
 void BookAdd(int value, ref item)//книги - Gregg
 {
 	switch (value)
@@ -618,7 +721,7 @@ void SetTreasureBoxFromMap()
 							else
 							{
 								heroSelected = 0;
-								pchar.chosenHero = sld.id;
+								pchar.chosenTreasureHero = sld.id;
 								PGG_Disband_Fleet(sld);
 							}
 						}
@@ -630,6 +733,7 @@ void SetTreasureBoxFromMap()
 					if(heroSelected == 0)
 					{
 						Pchar.quest.SetTreasureHunter.function    = "SetPGGTreasureHunter";
+						Log_TestInfo("Вас встретит ПГГ " + pchar.chosenTreasureHero);
 					}
 					else
 					{
@@ -658,6 +762,7 @@ void SetTreasureBoxFromMap()
         loc.(box).Treasure =  true; // признак сокровища в сундуке
 
         DeleteAttribute(item, "MapIslId");
+		DeleteAttribute(item, "uniquep");
         TakeNItems(Pchar, "map_full", -1);
     }
 }
@@ -783,8 +888,9 @@ void SetPGGTreasureHunter(string temp)
     {
 		if (i == 1)
 		{
-			sld = CharacterFromID(pchar.chosenHero);
+			sld = CharacterFromID(pchar.chosenTreasureHero);
 			sld.Dialog.CurrentNode = "TreasureHunterPGG";
+			sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
 		}
 		else
 		{
@@ -806,7 +912,7 @@ void SetPGGTreasureHunter(string temp)
 		}
 		
         LAi_SetActorTypeNoGroup(sld);
-        LAi_SetCheckMinHP(sld, (LAi_GetCharacterHP(sld) - 1), false, "Battle_Hunters_Land");
+        LAi_SetCheckMinHP(sld, (LAi_GetCharacterHP(sld) - 1), false, "Battle_PGGHunters_Land");
         if (PlaceCharacter(sld, "goto", "random_must_be_near") == "" && i == 1) // fix если вдруг нет в локации
         {
             ok = false;
@@ -828,7 +934,7 @@ void SetPGGTreasureHunter(string temp)
         //#20180912-02 Fix
         PChar.HunterCost.Qty = j; //i;
         PChar.HunterCost.TempHunterType = "";
-        sld = characterFromID(pchar.chosenHero);
+        sld = CharacterFromID(pchar.chosenTreasureHero);
         LAi_type_actor_Reset(sld);
         LAi_ActorDialog(sld, pchar, "", 4.0, 0);
 		chrDisableReloadToLocation = true;

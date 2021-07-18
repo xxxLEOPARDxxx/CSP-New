@@ -46,6 +46,9 @@
 #define FRP_FORT_HOUSE		17
 #define FRT_FORT_HOUSE		0
 
+#define FRP_GRAVEYARD		18
+#define FRT_GRAVEYARD		0
+
 
 
 void initFastReloadTable()
@@ -188,6 +191,10 @@ void initFastReloadTable()
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
 	curTable.l11.location = "PortRoyal_prison";
+	
+	curTable.l12.pic = FRP_GRAVEYARD;
+	curTable.l12.tex = FRT_GRAVEYARD;
+	curTable.l12.location = "PortRoyal_Graveyard";
 
 	makearef(curTable,objFastReloadTable.table.FortOrange);
 	// store
@@ -291,6 +298,10 @@ void initFastReloadTable()
 	curTable.l10.pic = FRP_PRISON;
 	curTable.l10.tex = FRT_PRISON;
 	curTable.l10.location = "Villemstad_prison";
+	
+	curTable.l11.pic = FRP_GRAVEYARD;
+	curTable.l11.tex = FRT_GRAVEYARD;
+	curTable.l11.location = "Villemstad_Graveyard";
 
 	makearef(curTable,objFastReloadTable.table.BasTer);
 	// store
@@ -333,6 +344,10 @@ void initFastReloadTable()
 	curTable.l10.pic = FRP_PRISON;
 	curTable.l10.tex = FRT_PRISON;
 	curTable.l10.location = "BasTer_prison";
+	
+	curTable.l11.pic = FRP_GRAVEYARD;
+	curTable.l11.tex = FRT_GRAVEYARD;
+	curTable.l11.location = "BasTer_Graveyard";
 
 	makearef(curTable,objFastReloadTable.table.Santiago);
 	// store
@@ -517,6 +532,10 @@ void initFastReloadTable()
 	curTable.l10.pic = FRP_PRISON;
 	curTable.l10.tex = FRT_PRISON;
 	curTable.l10.location = "Havana_prison";
+	
+	curTable.l11.pic = FRP_GRAVEYARD;
+	curTable.l11.tex = FRT_GRAVEYARD;
+	curTable.l11.location = "Havana_Graveyard";
 
 	makearef(curTable,objFastReloadTable.table.Charles);
 	// store

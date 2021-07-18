@@ -342,6 +342,7 @@ int MakeSiegeSquadron(int ination)
 int SetSiegeShip(ref rChar)
 {
     int SiegeShips, hcrew, rez;
+	bool man = false;
     aref aData;
     makearef(aData, NullCharacter.Siege);
 
@@ -350,6 +351,7 @@ int SetSiegeShip(ref rChar)
         SiegeShips = SHIP_MANOWAR;
         aData.imanofwars = sti(aData.imanofwars) - 1;
         rez = SiegeShips;
+		man = true;
     }
     else
     {
@@ -372,7 +374,10 @@ int SetSiegeShip(ref rChar)
     Fantom_SetCannons(rChar, "war");
     Fantom_SetBalls(rChar, "war");
     Fantom_SetGoods(rChar, "war");
-
+	
+	if (man) rez = makeint(rez*19/124);
+	else rez = makeint(rez*15/87);
+	
     return rez;
 }
 
@@ -418,7 +423,6 @@ void CreateSiege(string tmp)
         trace("Attak "+aData.colony);
         //Log_TestInfo
         trace("SiegeHP: "+aData.SiegeHP);
-        ClearIslandShips(aData.colony);
         BeginSiegeMap(NationShortName(sti(aData.nation))+"SiegeCap_1");
         aData.isSiege = 1;
     }
@@ -716,6 +720,7 @@ void  EndOfTheSiege(string tmp)
             {
                 SetNull2StoreMan(rColony)// нулим магазин при захвате города эскадрой
                 SetNull2Deposit(aData.colony);// нулим ростовщиков
+				ClearIslandShips(aData.colony);
                 
                 SiegeRumourEx("ѕечальные вести дл€ "+ NationNameGenitive(sti(aData.conation))+" - нам не удалось отсто€ть нашу колонию! ‘орт был разрушен "+NationNameSK(sti(aData.nation))+"ими корабл€ми, а город разграблен. ѕосле чего враг покинул воды колонии.", aData.Colony, sti(aData.conation), -1, 15, 3, "citizen,habitue,trader,tavern");
                 SiegeRumour("√овор€т, что "+NationNameSK(sti(aData.nation))+"а€ эскадра, после длительной осады, захватила "+NationNameSK(sti(aData.conation))+"ую колонию "+GetConvertStr(aData.Colony+" Town", "LocLables.txt")+". ѕосле того, как город был разграблен - "+NationNameSK(sti(aData.nation))+"а€ эскадра покинула воды колонии.", "", sti(aData.conation)+10, sti(aData.nation)+10, 30, 3);
@@ -792,7 +797,7 @@ void SiegeClear(string tmp)
         Group_SetAddressNone(sGroup);
         Group_DeleteGroup(sGroup);
         aData.isSiege = 0;
-		Log_TestInfo("Ѕыла сн€та осада с "+rColony.id+". ѕримерно через неделю при логине форта должны перезаселитьс€ сторожевики.");
+		Log_TestInfo("Ѕыла сн€та осада с "+rColony.id+". ѕримерно через неделю при логине форта должны перезаселитьс€ сторожевики, если форт падал.");
 		DeleteAttribute(rColony, "AlreadyGen");
     }
 }

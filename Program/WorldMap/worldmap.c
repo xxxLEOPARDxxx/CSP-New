@@ -112,7 +112,7 @@ void wdmTimeUpdate()
 
 void wdmCreateWorldMap()
 {
-    float fHtRatio = stf(Render.screen_y) / BI_COMPARE_HEIGHT;
+    float fHtRatio = stf(Render.screen_y) / screenscaling;
 	wdmLockReload = false;
 	//Уберём все сообщения для игрока
 	ClearAllLogStrings();

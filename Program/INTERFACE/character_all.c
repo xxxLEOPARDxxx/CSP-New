@@ -2,9 +2,11 @@
 #include "interface\character_all.h"
 
 int nCurScrollOfficerNum;
+int iCurTab;
 
 void InitInterface(string iniName)
 {
+	if (checkattribute(pchar, "iCurTab")) iCurTab = sti(pchar.iCurTab); else {iCurTab = 3; pchar.iCurTab = 3;}
     xi_refCharacter = pchar;
 	FindFreeRandomOfficer();
 	InterfaceStack.SelectMenu_node = "LaunchMainCharacter"; // запоминаем, что звать по Ф2
@@ -44,7 +46,7 @@ void InitInterface(string iniName)
     SetCurrentNode("CHARACTERS_SCROLL");
     SetNodeUsing("CHARACTERS_SCROLL",true);
     SetFormatedText("LOYALITY_STR", XI_ConvertString("Loyality"));
-    //SetControlsTabMode(1);
+    //SetControlsTabMode(3);
     HideSkillChanger();
 }
 
@@ -55,6 +57,7 @@ void ProcessExitCancel()
 
 void IDoExit(int exitCode)
 {
+	pchar.iCurTab = iCurTab;
 	DelEventHandler("InterfaceBreak","ProcessExitCancel");
 	DelEventHandler("exitCancel","ProcessExitCancel");
     DelEventHandler("ievnt_command","ProcessCommandExecute");
@@ -511,7 +514,7 @@ void FillSkillTables()
 		
     SetFormatedText("TABSTR_1", XI_ConvertString("Personal_abilities") + " " +xi_refCharacter.perks.FreePoints_self);
     SetFormatedText("TABSTR_2", XI_ConvertString("Ship_abilities") + " " + xi_refCharacter.perks.FreePoints_ship);
-    SetControlsTabMode(3);
+	SetControlsTabMode();
 
 	GameInterface.TABLE_SPECIAL.select = 0;
 	GameInterface.TABLE_SPECIAL.hr.td1.str = "";
@@ -1210,25 +1213,18 @@ void procTabChange()
 	int iComIndex = GetEventData();
 	string sNodName = GetEventData();
 	SetCurrentNode("TABLE_PERKS");
-	if( sNodName == "TABBTN_1" )
-	{
-		SetControlsTabMode( 1 );
-		return;
-	}
-	if( sNodName == "TABBTN_2" )
-	{
-		SetControlsTabMode( 2 );
-		return;
-	}
-	if( sNodName == "TABBTN_3" )
-	{
-		SetControlsTabMode( 3 );
-		return;
-	}
+	if( sNodName == "TABBTN_1" ) iCurTab = 1;
+	if( sNodName == "TABBTN_2" ) iCurTab = 2;
+	if( sNodName == "TABBTN_3" ) iCurTab = 3;
+	SetControlsTabMode();
+	return;
+
 }
 
-void SetControlsTabMode(int nMode)
+//void SetControlsTabMode(int nMode)
+void SetControlsTabMode()
 {
+	int nMode = iCurTab;
 	int nColor1 = argb(255,196,196,196);
 	int nColor2 = nColor1;
 	int nColor3 = nColor1;
@@ -2118,7 +2114,7 @@ void AcceptPerk()
     }
     if (SetCharacterPerk(xi_refCharacter, perkName))
     {   // перерисуем персонажа
-    	FillSkillTables();	
+    	FillSkillTables();
     }
     // перерисуем все -->
     SetFormatedText("TABSTR_1", XI_ConvertString("Personal_abilities") + " " +xi_refCharacter.perks.FreePoints_self);

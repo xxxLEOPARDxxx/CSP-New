@@ -361,5 +361,82 @@ void ProcessDialogEvent()
 			link.l2     = "Нет, я уже все понял"+ GetSexPhrase("","а") +".";
 			link.l2.go  = "Finish_1";
 		break;
+		
+		//Альтернативные старты
+		case "Alt_start":
+			EndQuestMovie();
+			LAi_LockFightMode(Pchar, false);
+			LAi_SetActorTypeNoGroup(Pchar);
+			LAi_ActorTurnToCharacter(Pchar, NPChar);
+			dialog.text = "О, гляди-ка кто проснулся! Я уж подумал, что ты "+ GetSexPhrase("сдох!","сдохла!");
+			link.l = "Какого хрена происходит, ты ещё кто?";
+			link.l.go = "Alt_start_2";
+		break;
+		
+		case "Alt_start_2":
+			if (pchar.sex != woman) PlaySound("Interface\Welcome_Fucking_Event2_"+rand(1)+".wav");
+			else PlaySound("Interface\Welcome_Fucking_Event1_"+rand(1)+".wav");
+			dialog.text = "Добро пожаловать на Карибы, " + GetSexPhrase("сучий потрох!","плешивая мразь!")+" А кто я? Не твоего ума дело! Глюк твой я.";
+			link.l = "Ничего не помню... Какие ещё Карибы?";
+			link.l.go = "Alt_start_3";
+		break;
+		
+		case "Alt_start_3":
+			dialog.text = "Господи, с "+GetSexPhrase("каким же идиотом","какой же дурой")+" я свазялся на свою голову... Собирай мозги в кучу, быстро!";
+			link.l = "(создание своего типа героя)";
+			link.l.go = "ChangePIRATES_Alt";
+		break;
+		
+		case "ChangePIRATES_Alt":
+            LAi_SetCitizenTypeNoGroup(NPChar);
+            LAi_SetPlayerType(pchar);
+			NextDiag.CurrentNode = "Alt_start_4";
+			DialogExit();
+			pchar.SystemInfo.ChangePIRATES = true;
+			LaunchCharacter(pchar);
+		break;
+		
+		case "Alt_start_4":
+			dialog.text = "Молодец! А теперь проваливай в порт, проветрись!";
+			link.l = "(негромко)Ну ты и уёбище!";
+			link.l.go = "Finish_2";
+		break;
+		
+		case "Alt_start2":
+			EndQuestMovie();
+			LAi_LockFightMode(Pchar, false);
+			LAi_SetActorTypeNoGroup(Pchar);
+			LAi_ActorTurnToCharacter(Pchar, NPChar);
+			dialog.text = "Приветствую тебя, герой! Наши поиски 'Амулета Некроманта', близки к завершению.";
+			link.l = "Что здесь происходит?! Какой амулет? Что ты такое?";
+			link.l.go = "Alt_start2_2";
+		break;
+		
+		case "Alt_start2_2":
+			dialog.text = "Минутку... Проверка... Вот дерьмо! Ошибся. Приятной игры, простите за неполадки! Досвидания!";
+			link.l = "Стой! Как это понимать? А как же обучение? Распределение PIRATES?";
+			link.l.go = "Alt_start2_3";
+		break;
+		
+		case "Alt_start2_3":
+			dialog.text = "Ну ладно, ладно. Кто ты по жизни?";
+			link.l = "(создание своего типа героя)";
+			link.l.go = "ChangePIRATES_Alt2";
+		break;
+		
+		case "ChangePIRATES_Alt2":
+            LAi_SetCitizenTypeNoGroup(NPChar);
+            LAi_SetPlayerType(pchar);
+			NextDiag.CurrentNode = "Alt_start2_4";
+			DialogExit();
+			pchar.SystemInfo.ChangePIRATES = true;
+			LaunchCharacter(pchar);
+		break;
+		
+		case "Alt_start2_4":
+			dialog.text = "Определил"+GetSexPhrase("ся","ась")+"? Всё, отправляйся в порт, приходи в себя. Всего хорошего!";
+			link.l = "Ничего не понимаю. Ну ладно...";
+			link.l.go = "Finish_2";
+		break;
 	}
 }

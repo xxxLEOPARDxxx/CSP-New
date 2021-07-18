@@ -173,6 +173,12 @@ bool CreateCharacter(ref character)
 	SetDefaultFight(character);
 	EndChangeCharacterActions(character);
 	//}
+	
+	if (CheckAttribute(character, "HeadAccessory") && IsEquipCharacterByItem(character, character.HeadAccessory))
+	{
+		SendMessage(character,"lsss",MSG_CHARACTER_SETHEAD,character.model, character.HeadAccessory, "pscripts\HeadGear.ini");
+	}
+	
 	return true;
 }
 
@@ -324,6 +330,7 @@ void SetDialogStayIdle(ref character)
 
 void SetNoRun(ref character)
 {
+	BeginChangeCharacterActions(character);
 	character.actions.walk = "walk";
 	character.actions.backwalk = "back walk";
 	character.actions.run = "walk";
@@ -337,6 +344,7 @@ void SetNoRun(ref character)
 	character.actions.fightbackwalk = "fight back walk";
 	character.actions.fightrun = "fight walk";
 	character.actions.fightbackrun = "fight back walk";
+	EndChangeCharacterActions(character);
 }
 
 // boal -->
@@ -367,7 +375,7 @@ void SetOverloadFight(ref character)
 }
 void CheckAndSetOverloadMode(ref character)
 {
-	if (CheckAttribute(character,"chr_ai.HeavyTrauma")) return;
+	if (CheckAttribute(character,"chr_ai.HeavyTrauma")) return;	
 	if (CheckAttribute(character, "actions")) // сундуки не трогаем
 	{
         BeginChangeCharacterActions(character);

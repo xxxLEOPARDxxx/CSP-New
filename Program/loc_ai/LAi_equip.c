@@ -179,7 +179,7 @@ void LAi_NPC_MushketerEquip(ref chr)
 
 string LAi_NPC_EquipBladeSelection(int rank)
 {
-	// boal 13.03.2004 -->
+	/* // boal 13.03.2004 -->
     int min = rank - 8;
 	if(min < 0) min = 0;
 	int max = rank + 4;
@@ -193,12 +193,31 @@ string LAi_NPC_EquipBladeSelection(int rank)
         min = 20;
         max = 31;
     }
-    // boal 13.03.2004 <--
+    // boal 13.03.2004 <-- */
+	int prank = sti(pchar.rank);
+	int max,min;
+	if (prank < 15) // ранг ГГ <15 (ржавое и обычное, в теории синее на граничных)
+	{
+		min = rank - 8;
+		if(min < 0) min = 0;
+		max = rank + 4; 
+	}
+	if (prank >= 15) // ранг ГГ 15+ (синее сплошняком)
+	{
+		min = 18
+		max = 30; 
+	}
+	if (prank >= 25) // ранг ГГ 25+ (синее+красное, примерно поровну) LEO: Не, я имел ввиду именно с 25 ранга ГГ, а не с 30. Там имелось ввиду, что к 30 рангу уже лейт гейм, а ставить жёска надо именно с 25 :)
+	{
+		min = 26
+		max = 47; 
+	}
+	
 	int sel = rand(max - min) + min;
 	string blade = GetGeneratedItem("blade7");
 	switch(sel)
 	{
-		// "плохое" оружие
+		// "Ржавое" оружие
 		case 0:
 			blade = GetGeneratedItem("blade1"); 
 		break;
@@ -230,7 +249,7 @@ string LAi_NPC_EquipBladeSelection(int rank)
 			blade = GetGeneratedItem("blade17"); 
 		break;
 
-		// "ординарное" оружие
+		// "Обычное" оружие
 		case 10:
 			blade = GetGeneratedItem("blade6"); 
 		break;
@@ -256,7 +275,7 @@ string LAi_NPC_EquipBladeSelection(int rank)
 			blade = GetGeneratedItem("blade18"); 
 		break;		
 		
-		// "хорошее" оружие
+		// "Редкое" оружие
 		case 18:
 			blade = GetGeneratedItem("Blade15"); 
 		break;		
@@ -278,29 +297,77 @@ string LAi_NPC_EquipBladeSelection(int rank)
 		case 24:
 			blade = GetGeneratedItem("topor2"); 
 		break;
-		
-		// "отличное" оружие		
-	    case 25:
-			blade = GetGeneratedItem("blade13"); 
+		case 25:
+			blade = GetGeneratedItem("blade36"); 
 		break;
 		case 26:
-			blade = GetGeneratedItem("blade20"); 
+			blade = GetGeneratedItem("blade37"); 
 		break;
 		case 27:
-			blade = GetGeneratedItem("blade23"); 
+			blade = GetGeneratedItem("blade39"); 
 		break;
-	    case 28:
-			blade = GetGeneratedItem("blade24"); 
+		case 28:
+			blade = GetGeneratedItem("blade40"); 
 		break;
 		case 29:
-			blade = GetGeneratedItem("blade25"); 
-		break;		
+			blade = GetGeneratedItem("blade42"); 
+		break;
 		case 30:
+			blade = GetGeneratedItem("blade46"); 
+		break;
+		
+		// "Уникальное" оружие		
+	    case 31:
+			blade = GetGeneratedItem("blade13"); 
+		break;
+		case 32:
+			blade = GetGeneratedItem("blade20"); 
+		break;
+		case 33:
+			blade = GetGeneratedItem("blade23"); 
+		break;
+	    case 34:
+			blade = GetGeneratedItem("blade24"); 
+		break;
+		case 35:
+			blade = GetGeneratedItem("blade25"); 
+		break;
+		case 36:
 			blade = GetGeneratedItem("blade30"); 
 		break;
-		case 31:
+		case 37:
 			blade = GetGeneratedItem("blade33"); 
-		break;		
+		break;
+		case 38:
+			blade = GetGeneratedItem("topor_emperor"); 
+		break;
+		case 39:
+			blade = GetGeneratedItem("blade14"); 
+		break;
+		case 40:
+			blade = GetGeneratedItem("blade27"); 
+		break;
+		case 41:
+			blade = GetGeneratedItem("blade32"); 
+		break;
+		case 42:
+			blade = GetGeneratedItem("blade38"); 
+		break;
+		case 43:
+			blade = GetGeneratedItem("blade26"); 
+		break;
+		case 44:
+			blade = GetGeneratedItem("blade41"); 
+		break;
+		case 45:
+			blade = GetGeneratedItem("blade28"); 
+		break;
+		case 46:
+			blade = GetGeneratedItem("blade43"); 
+		break;
+		case 47:
+			blade = GetGeneratedItem("blade44"); 
+		break;
 	}
 	return blade;
 }

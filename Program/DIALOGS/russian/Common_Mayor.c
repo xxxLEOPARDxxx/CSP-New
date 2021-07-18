@@ -1471,11 +1471,23 @@ void ProcessDialogEvent()
 							link.l1.go = "All_Found";		
 						break;
 						case "Execute":
-							dialog.text = RandPhraseSimple("Итак, что скажете? Вы сумели уничтожить указанного бандита? " + GetFullName(arName) + " наконец убит?", "Скажите мне только одно - " + GetFullName(arName) + " жив или мертв?");
-							link.l1 = "Он мертв, " + GetAddress_FormToNPC(NPChar) + ".";
-							link.l1.go = "All_Execute";		
-							AddCharacterExpToSkill(PChar, "Leadership", 60);
-							AddCharacterExpToSkill(PChar, "Sneak", 20);
+							if (CheckAttribute(pchar,"Kamikazi") && pchar.Kamikazi == "Meet")
+							{
+								dialog.text = "Что? Вы еще живы, капитан?";
+								link.l1 = "Так вы знали, что по джунглям бродит скелет, который мог взорвать любого встречного? Ну вы и сволочь!";
+								link.l1.go = "All_Execute_1";	
+								AddCharacterExpToSkill(PChar, "Leadership", 500);
+								AddCharacterExpToSkill(PChar, "Sneak", 500);
+							}
+							else
+							{
+								dialog.text = RandPhraseSimple("Итак, что скажете? Вы сумели уничтожить указанного бандита? " + GetFullName(arName) + " наконец убит?", "Скажите мне только одно - " + GetFullName(arName) + " жив или мертв?");
+								link.l1 = "Он мертв, " + GetAddress_FormToNPC(NPChar) + ".";
+								link.l1.go = "All_Execute";		
+								AddCharacterExpToSkill(PChar, "Leadership", 60);
+								AddCharacterExpToSkill(PChar, "Sneak", 20);
+							}
+							
 						break;
 					}
 				}
@@ -2231,7 +2243,8 @@ void ProcessDialogEvent()
 				link.l1.go = "exit";
 				pchar.quest.DestroyGang.win_condition.l1 = "location";
 				pchar.quest.DestroyGang.win_condition.l1.location = pchar.GenQuest.DestroyGang.Location;
-				pchar.quest.DestroyGang.win_condition = "DestroyGang_fight";
+				if (!CheckAttribute(pchar,"Kamikazi") && rand(99)==0) pchar.quest.DestroyGang.win_condition = "Kamikazi";
+				else pchar.quest.DestroyGang.win_condition = "DestroyGang_fight";
 				pchar.quest.DestroyGang.again = true; //тупо дожидаться своего часа бандиты не будут
 				SetTimerCondition("AllMayorsQuests_Late", 0, 0, sti(pchar.GenQuest.DestroyGang.Terms), false);
 				//==> энкаунтеров в квестовой локации не будет 
@@ -2503,9 +2516,20 @@ void ProcessDialogEvent()
 		break;
 		case "All_Execute_1":
 			QuestName = pchar.GenQuest.questName;
-			dialog.text = RandPhraseSimple("Ну, вот и славно. Можете заходить ко мне еще, возможно, я найду для вас работу.", "Ну что же, прекрасно! Пожалуй, я буду еще предлагать вам работу подобного рода.");
-			link.l1 = RandPhraseSimple("Отлично.", "Прекрасно.");
-		    link.l1.go = "exit";
+			if (CheckAttribute(pchar,"Kamikazi") && pchar.Kamikazi == "Meet")
+			{
+				dialog.text =  "Радуйся, что вообще выжил"+GetSexPhrase("","а")+". Это Карибы, детка!";
+				link.l1 = "Пошёл ты нахрен, козёл!";
+				link.l1.go = "exit";
+				pchar.Kamikazi = "Done";
+			}
+			else
+			{
+				dialog.text = RandPhraseSimple("Ну, вот и славно. Можете заходить ко мне еще, возможно, я найду для вас работу.", "Ну что же, прекрасно! Пожалуй, я буду еще предлагать вам работу подобного рода.");
+				link.l1 = RandPhraseSimple("Отлично.", "Прекрасно.");
+				link.l1.go = "exit";
+			}
+			
 			AddMoneyToCharacter(pchar, sti(pchar.GenQuest.(QuestName).Money));
 			CloseQuestHeader("MayorsQuestsList");
 			
@@ -2613,9 +2637,12 @@ string GetSpyLocation(ref npchar)
     aref	arCommon, arRld, arRld2;
     int	i, n, Qty, Qty2;
 	string LocId; 
+	string islandId, islandId2;
 	string	storeArray [50];
 	int howStore = 0;
-    makearef(arRld, Locations[FindLocation(npchar.city + "_town")].reload);
+	int locationId = FindLocation(npchar.city + "_town");
+    makearef(arRld, Locations[locationId].reload);
+	islandId = Locations[locationId].islandId;
 	Qty = GetAttributesNum(arRld);
     if (CheckAttribute(pchar, "questTemp.jailCanMove.Deliver.locationId")) //если взят квест по доставке малявы
 	{
@@ -2658,16 +2685,21 @@ string GetSpyLocation(ref npchar)
 			}
 			if (arCommon.label != "Sea")
 			{	
-				makearef(arRld2, Locations[FindLocation(LocId)].reload);
-				Qty2 = GetAttributesNum(arRld2);
-				for (n=0; n<Qty2; n++)
-				{
-    				arCommon = GetAttributeN(arRld2, n);
-					LocId = arCommon.go;
-					if (findsubstr(LocId, "Common" , 0) != -1 && LocId != "CommonPackhouse_1" && LocId != "CommonPackhouse_2")
-    				{
-						storeArray[howStore] = LocId;
-						howStore++; 					
+				int locationId2 = FindLocation(LocId);
+				makearef(arRld2, Locations[locationId2].reload);
+				islandId2 = Locations[locationId2].islandId;
+
+				if (islandId == islandId2) {
+					Qty2 = GetAttributesNum(arRld2);
+					for (n = 0; n < Qty2; n++)
+					{
+						arCommon = GetAttributeN(arRld2, n);
+						LocId = arCommon.go;
+						if (findsubstr(LocId, "Common", 0) != -1 && LocId != "CommonPackhouse_1" && LocId != "CommonPackhouse_2")
+						{
+							storeArray[howStore] = LocId;
+							howStore++;
+						}
 					}
 				}
 			}	

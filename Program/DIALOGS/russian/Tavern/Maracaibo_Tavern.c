@@ -43,6 +43,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = "Спасибо тебе за информацию, "+npchar.name+". Мне пора.";
 			link.l1.go = "exit";
 			DeleteAttribute(pchar, "questTemp.PDM_CL_Tavern");
+			AddQuestRecord("PDM_Clan_Lambrini", "2");
+			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("","а"));
 		break;
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

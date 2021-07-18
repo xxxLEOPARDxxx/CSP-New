@@ -170,7 +170,7 @@ void csmLootCollector()
 		for (i = 0; i < Dead_Char_num; i++)
 		{
 			rDeadman = &Dead_Characters[i];
-
+			
 			if (!csmCA(rDeadman, "id"))
 				continue;
 
@@ -191,9 +191,18 @@ void csmLootCollector()
 				{
 					if (!csmCA(rLoc, "csmBoxLC.items." + sAttr))
 						rLoc.csmBoxLC.items.(sAttr) = 0;
+					
+					aref weapon;
+					Items_FindItem(sAttr, &weapon);
+					if(CheckAttribute(weapon,"quality") && weapon.quality == "excellent") // ugeen --> на обычных трупах топовое оружие не даем !!!
+					{
+						rDeadman.items.(sAttr) = 0;
+						continue;
+					}
 
 					rLoc.csmBoxLC.items.(sAttr) = makeint(sti(rLoc.csmBoxLC.items.(sAttr)) + makeint(GetAttributeValue(arItem)));
 					rDeadman.items.(sAttr) = 0;
+					
 				}
 			}
 

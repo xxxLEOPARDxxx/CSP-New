@@ -7595,6 +7595,8 @@ void InitShips()
 	refship.nation.holland	= true;
 	refship.nation.pirate	= false;
 	refship.nation.spain	= true;
+	
+	refship.hullNums = 5; // LEO
 
 	///////////////////////////////////////////////////////////////////////////
 	/// Couronne			Фра. Воен. Галеон
@@ -8381,7 +8383,7 @@ void InitShips()
 	refShip.lcannon 							= 37;
 	refShip.fcannon 							= 2;
 	refShip.bcannon 							= 2;
-	refShip.MaxCrew         				= 550;
+	refShip.MaxCrew         				= 650;
 	refShip.MinCrew         				= 136;
 	refShip.SpeedRate				= 11;
 	refShip.TurnRate        		= 30;
@@ -9396,7 +9398,7 @@ void InitShips()
 	refShip.SpeedRate				= 9.5;
 	refShip.TurnRate        		= 25;
 	refShip.Price           			= 2700000;
-	refShip.HP              				= 10500;
+	refShip.HP              				= 13000;
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;

@@ -272,12 +272,8 @@ void ProcessDialogEvent()
 			break;
 		}
 		pchar.questTemp.HiringOfficerIDX = NPChar.index;
-		if (NPChar.model.animation == "man") Npchar.CanTakeMushket = true;
-		if (HasSubStr(NPChar.model, "Whisper"))
-		{
-			NPChar.CanTakeMushket = true;
-			if(npchar.model == "PGG_Whisper_6") EquipCharacterByItem(NPChar, "suit_1");
-		}
+		if (NPChar.model.animation == "man" || NPChar.model.animation == "YokoDias" || NPChar.model.animation == "Milenace") Npchar.CanTakeMushket = true;
+		if(npchar.model == "PGG_Whisper_6") EquipCharacterByItem(NPChar, "suit_1");
 		AddMoneyToCharacter(pchar, -(makeint(NPChar.Quest.Officer.Price)));
 		AddDialogExitQuestFunction("PGG_BecomeHiredOfficer");
 		NPChar.loyality = MakeInt(PGG_ChangeRelation2MainCharacter(NPChar, 0)*0.3);
@@ -344,12 +340,8 @@ void ProcessDialogEvent()
 			NPChar.PGGAi.location.town = "none";
 			NPChar.Dialog.TempNode = "hired";
 			NPChar.Dialog.FileName = "Enc_Officer_dialog.c";
-			if (NPChar.model.animation == "man") Npchar.CanTakeMushket = true;
-			if (HasSubStr(NPChar.model, "Whisper"))
-			{
-				NPChar.CanTakeMushket = true;
-				if(npchar.model == "PGG_Whisper_6") EquipCharacterByItem(NPChar, "suit_1");
-			}
+			if (NPChar.model.animation == "man" || NPChar.model.animation == "YokoDias" || NPChar.model.animation == "Milenace") Npchar.CanTakeMushket = true;
+			if(npchar.model == "PGG_Whisper_6") EquipCharacterByItem(NPChar, "suit_1");
             NPChar.Payment = true;
             NPChar.Money   = 0;
             SetBaseShipData(NPChar);
