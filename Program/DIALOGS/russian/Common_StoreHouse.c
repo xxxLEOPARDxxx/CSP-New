@@ -27,7 +27,7 @@ void ProcessDialogEvent()
 		case "StoreHouse_Details":
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
-			LaunchStoreHouse(STORE_HOUSE);
+			LaunchStorage(STORE_HOUSE);
 		break;
 		
 		case "StoreHouse_Details2":

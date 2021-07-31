@@ -361,7 +361,8 @@ void LAi_ApplyCharacterDamage(aref chr, int dmg)
 //ККС - Jason: самовосстанавливающийся абордажник
 void LAi_CheckHalfImmortal(aref chr)
 {
-	if(CheckAttribute(chr, "HalfImmortal"))
+	// if(CheckAttribute(chr, "HalfImmortal"))
+	if(CheckAttribute(chr, "HalfImmortal") && IsOfficer(chr))
 	{	
 		ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", chr.sex, chr.model.animation, 1, sti(chr.nation), -1, false));
 		ChangeAttributesFromCharacter(rOff, chr, true);

@@ -237,6 +237,7 @@ void ProcessDialogEvent()
         break;
 		//<-- приказы
 		
+		
 		//--> задать дистанцию стрельбы
 		case "TargetDistance":
 			dialog.text = "На каком именно, капитан? Укажите в метрах, но не более 20-ти.";
@@ -354,7 +355,31 @@ void ProcessDialogEvent()
             Link.l1.go = "Boal_Stay";
             Link.l2 = "Следуй за мной и не отставай!";
             Link.l2.go = "Boal_Follow";
+			if (!CheckAttribute(npchar,"AboardRestriction"))
+			{
+				Link.l4 = "Прошу тебя не участвовать в абордажах. Побереги себя.";
+				Link.l4.go = "AboardRestriction";
+			}
+			else
+			{
+				Link.l4 = "Я передумал, можешь участвовать в абордажах.";
+				Link.l4.go = "AboardAllowed";
+			}
         break;
+		
+		case "AboardRestriction":
+			npchar.AboardRestriction = true;
+			dialog.text = "Так точно капитан. Не буду участвовать в абордажах, пока вы снова не разрешите.";
+            Link.l1 = "Ну и хорошо.";
+            Link.l1.go = "exit";
+		break;
+		
+		case "AboardAllowed":
+			DeleteAttribute(npchar,"AboardRestriction");
+			dialog.text = "Так точно капитан. Буду участвовать в абордажах с текущего момента.";
+            Link.l1 = "Ну и хорошо.";
+            Link.l1.go = "exit";
+		break;
         
         case "Boal_Stay":
             Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);

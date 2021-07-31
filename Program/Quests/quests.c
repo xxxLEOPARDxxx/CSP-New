@@ -1931,7 +1931,7 @@ void CalculateCheatsInfo() // Для статистики по читам. Используется в интерфейсе
 		int iCurCheatCount = Statistic_AddValue(PChar, "Cheats." + sCheat, 0);
 		if(iCurCheatCount == 0) continue; // Если чит не юзался - пропускаем
 		if(HasSubStr(sCheat, "F"))
-			AddLineToFormatedText("INFO_TEXT2", XI_ConvertString("D_" + sCheat) + " - " + iCurCheatCount + " раз.");
+			AddLineToFormatedText("INFO_TEXT2", XI_ConvertString("B_" + sCheat) + " - " + iCurCheatCount + " раз.");
 		else
 			AddLineToFormatedText("INFO_TEXT2", sCheat + " - " + iCurCheatCount + " раз.");
 			

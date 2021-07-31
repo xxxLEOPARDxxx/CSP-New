@@ -393,7 +393,7 @@ void ProcessCommandExecute()
 			}
 			if (comName=="rclick")
 			{
-				GiveCrew(10);
+				if (GetCrewQuantity(xi_refCharacter) < GetMinCrewQuantity(xi_refCharacter))	GiveCrew(GetMinCrewQuantity(xi_refCharacter)-GetCrewQuantity(xi_refCharacter));
 			}
 		break;
 
@@ -404,7 +404,7 @@ void ProcessCommandExecute()
 			}
 			if (comName=="rclick")
 			{
-				TakeCrew(10);
+				if (GetCrewQuantity(pchar) < GetMinCrewQuantity(pchar)) TakeCrew(GetMinCrewQuantity(pchar)-GetCrewQuantity(pchar));
 			}
 		break;
 
@@ -1920,7 +1920,7 @@ void TakeGoods(int inc)
 			{
 				RemoveCharacterGoodsSelf(xi_refCharacter, idx, qty);
 			}
-			if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+			if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty") && sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) > 0) 
 			{
 				xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) - qty;
 				pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) + qty;
@@ -1953,11 +1953,12 @@ void GiveGoods(int inc)
 			{
 				RemoveCharacterGoodsSelf(pchar, idx, qty);
 			}
-			if(CheckAttribute(pchar, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+			if(CheckAttribute(pchar, "Goods." + sGood + ".Bought.Coeff.Qty") && sti(pchar.Goods.(sGood).Bought.Coeff.Qty) > 0) 
 			{
 				xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) + qty;
 				pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) - qty;
 			}
+			if(pchar.Goods.(sGood).Bought.Coeff == "0") xi_refCharacter.Goods.(sGood).Bought.Coeff = "0";
 			OnShipScrollChange();
 			SetGoodsArrows();
 			ShipSituation_SetQuestSituation(ShipSituation_1);

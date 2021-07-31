@@ -2272,9 +2272,11 @@ void ProcessDialogEvent()
 		case "SeekSpy_agree":
 			//(rand(1))
 			bool boko = (rand(36) < GetCharacterSPECIALSimple(PChar, SPECIAL_E) + GetCharacterSPECIALSimple(PChar, SPECIAL_S) + GetCharacterSPECIALSimple(PChar, SPECIAL_A))     //WW 
+			bool orange = false;
+			if (npchar.city == "FortOrange") orange = true;
 			if  (IsCharacterPerkOn(pchar, "Fencer") || IsCharacterPerkOn(pchar, "Grunt") || boko)   //WW 
-			{  			
-				if (rand(100)<10)
+			{	
+				if (rand(100)<10 || orange)
 				{//шпион гуляет по городу
 					pchar.GenQuest.SeekSpy.Location = npchar.city + "_town"; //определяем локацию
 					pchar.GenQuest.SeekSpy.City = rand(1); //флаг шпион в городе, ренд - кто будет подсказывать в таверне

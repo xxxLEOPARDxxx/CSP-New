@@ -178,7 +178,17 @@ void ProcCommand()
 	            REMOVE_ALL_BUTTON();
 			}
 		break;
+		case "QTY_STORAGE_REMOVE_GOOD":
+	        REMOVE_ALL_GOOD();
+		break;
 	}
+}
+
+void REMOVE_ALL_GOOD()
+{
+	SetStorageGoods(refStore, iCurGoodsIdx, 0);
+	iStoreQty = 0;
+	AddToTable();
 }
 
 void DoPostExit()
@@ -533,12 +543,16 @@ void TransactionOK()
     
  	if (BuyOrSell == 1) // BUY
 	{
-		refCharacter.Goods.(sGood).Bought.Coeff.Stored = sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) - nTradeQuantity;
-		if(refCharacter.Goods.(sGood).Bought.Coeff == "0") 
+		if(CheckAttribute(refCharacter,"Goods."+sGood+".Bought.Coeff.Stored") && sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) > 0) 
 		{
 			refCharacter.Goods.(sGood).Bought.Coeff.Time = sti(refCharacter.Goods.(sGood).Bought.Coeff.Time) - GetQuestPastDayParam("Goods_Clear_"+sGood);
 			SaveCurrentQuestDateParam("Goods_Clear_"+sGood);
-			if(sti(refCharacter.Goods.(sGood).Bought.Coeff.Time) <= 0) refCharacter.Goods.(sGood).Bought.Coeff = "1";
+			if(sti(refCharacter.Goods.(sGood).Bought.Coeff.Time) <= 0) 
+			{
+				refCharacter.Goods.(sGood).Bought.Coeff = "1";
+				refCharacter.Goods.(sGood).Bought.Coeff.Stored = sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) - nTradeQuantity;
+			}
+			else refCharacter.Goods.(sGood).Bought.Coeff = "0";
 		}
 		if(refCharacter.Goods.(sGood).Bought.Coeff == "1") refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) + nTradeQuantity;
 		SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty - nTradeQuantity);
@@ -547,16 +561,16 @@ void TransactionOK()
 	}
  	else
 	{ // SELL
-		refCharacter.Goods.(sGood).Bought.Coeff.Stored = sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) + nTradeQuantity;
-		switch(sti(refCharacter.Goods.(sGood).Bought.Coeff)) 
+		if (sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) <= 0) 
 		{
-			case 0:
+			refCharacter.Goods.(sGood).Bought.Coeff.Stored = sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) + nTradeQuantity;
 			refCharacter.Goods.(sGood).Bought.Coeff.Time = 10;
 			SaveCurrentQuestDateParam("Goods_Clear_"+sGood);
-			break;
-			case 1:
-				refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) - nTradeQuantity;
-			break;
+		}
+		else
+		{
+			refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) - nTradeQuantity;
+			if(sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) < 0) refCharacter.Goods.(sGood).Bought.Coeff.Qty = "0";
 		}		
       	SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty + nTradeQuantity);
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);				

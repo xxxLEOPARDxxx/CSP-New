@@ -60,6 +60,7 @@ void InitInterface(string iniName)
 	SetEventHandler("ShowFoodWindow","ShowFoodWindow",0);
 	SetEventHandler("ShowBonusItemWindow","ShowBonusItemWindow",0);
 	SetEventHandler("PointsEX","PointsEX",0);
+	SetEventHandler("HideEncWindows","HideEncWindows",0);
 	sMessageMode = "";
 	string sDate = " ";
 	sDate = GetDateString();
@@ -70,6 +71,7 @@ void InitInterface(string iniName)
 	SetControlsTabMode(1);
 
 	InitTableHeader();
+	SetNodeUsing("EXIT_ENC_BTN",false);
 }
 
 void XI_SetQuestData(bool qtitle)
@@ -102,6 +104,57 @@ void ShowButtons()
 {
 
 }
+
+void HideEncWindows()
+{
+	XI_WindowShow("ENC_INFO_SHIP",false);
+	XI_WindowShow("ENC_INFO_BLADE",false);
+	XI_WindowShow("ENC_INFO_GUN",false);
+	XI_WindowShow("ENC_INFO_FOOD",false);
+	XI_WindowShow("ENC_INFO_BONUSITEM",false);
+	XI_WindowShow("ENC_INFO_ACHIEVEMENTS",false);
+
+	SetNodeUsing("TABBTN_QUEST",true);
+	SetNodeUsing("TABSTR_QUEST",true);
+	SetNodeUsing("TABBTN_QUESTARJ",true);
+	SetNodeUsing("TABSTR_QUESTARJ",true);
+	SetNodeUsing("TABBTN_INFO",true);
+	SetNodeUsing("TABSTR_INFO",true);
+	SetNodeUsing("TABBTN_CASHBOOK",true);
+	SetNodeUsing("TABSTR_CASHBOOK",true);
+	SetNodeUsing("TABBTN_SHIP_PLACE",true);
+	SetNodeUsing("TABSTR_SHIP_PLACE",true);
+	SetNodeUsing("TABBTN_STATISTIC",true);
+	SetNodeUsing("TABSTR_STATISTIC",true);
+	SetNodeUsing("TABBTN_STOREBOOK",true);
+	SetNodeUsing("TABSTR_STOREBOOK",true);
+
+	SetNodeUsing("I_CHARACTER_2",true);
+	SetNodeUsing("I_CHARACTER",true);
+	SetNodeUsing("I_SHIP_2",true);
+	SetNodeUsing("I_SHIP",true);
+	SetNodeUsing("I_NATIONS_2",true);
+	SetNodeUsing("I_NATIONS",true);
+	SetNodeUsing("I_TRADEBOOK_2",true);
+	SetNodeUsing("I_TRADEBOOK",true);
+	SetNodeUsing("I_ITEMS_2",true);
+	SetNodeUsing("I_ITEMS",true);
+
+	SetNodeUsing("QUEST_TITLE",true);
+	SetNodeUsing("SHIP_TABLE_LIST_LEFT",false);
+	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",false);
+	HideAchievements();
+	SetNodeUsing("ACHIEVEMENTS_STR",false);
+	SetNodeUsing("ACHIEVEMENTS_INFO_FRAME_CAPTION",false);
+	SetNodeUsing("POINTS_EXCHANGE",false);
+	SetControlsTabMode( 3 );
+	XI_WindowShow("ENCYCLOPEDIA_INFO_BUTTONS", true);
+	XI_WindowDisable("ENCYCLOPEDIA_INFO_BUTTONS", false);
+	
+	SetNodeUsing("EXIT_ENC_BTN",false);
+	SetNodeUsing("EXIT_BTN",true);
+}
+
 //инфа о кораблях
 void ShowShipsWindow()
 {
@@ -143,6 +196,8 @@ void ShowShipsWindow()
 	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",true);
 	FillShipInfoEncy("SHIP_TABLE_LIST_LEFT");
 	FillShipInfoEncy("SHIP_TABLE_LIST_RIGHT");
+	SetNodeUsing("EXIT_ENC_BTN",true);
+	SetNodeUsing("EXIT_BTN",false);
 }
 
 void ShowBladeWindow()
@@ -182,6 +237,8 @@ void ShowBladeWindow()
 
 	SetNodeUsing("QUEST_TITLE",false);
 	AddToTable("BLADE_TABLE_LIST", "blade");
+	SetNodeUsing("EXIT_ENC_BTN",true);
+	SetNodeUsing("EXIT_BTN",false);
 }
 
 void ShowGunWindow()
@@ -221,6 +278,8 @@ void ShowGunWindow()
 
 	SetNodeUsing("QUEST_TITLE",false);
 	AddToTable("GUN_TABLE_LIST", "gun");
+	SetNodeUsing("EXIT_ENC_BTN",true);
+	SetNodeUsing("EXIT_BTN",false);
 }
 
 void ShowFoodWindow()
@@ -260,6 +319,8 @@ void ShowFoodWindow()
 
 	SetNodeUsing("QUEST_TITLE",false);
 	AddToTable("FOOD_TABLE_LIST", "food");
+	SetNodeUsing("EXIT_ENC_BTN",true);
+	SetNodeUsing("EXIT_BTN",false);
 }
 
 void ShowBonusItemWindow()
@@ -269,7 +330,7 @@ void ShowBonusItemWindow()
 	XI_WindowShow("ENC_INFO_GUN",false);
 	XI_WindowShow("ENC_INFO_FOOD",false);
 	XI_WindowShow("ENC_INFO_BONUSITEM",true);
-	XI_WindowShow("ENC_INFO_ACHIEVEMENTS",true);
+	XI_WindowShow("ENC_INFO_ACHIEVEMENTS",false);
 
 	SetNodeUsing("TABBTN_QUEST",false);
 	SetNodeUsing("TABSTR_QUEST",false);
@@ -299,6 +360,8 @@ void ShowBonusItemWindow()
 
 	SetNodeUsing("QUEST_TITLE",false);
 	AddToTable("BONUSITEM_TABLE_LIST", "BonusItem");
+	SetNodeUsing("EXIT_ENC_BTN",true);
+	SetNodeUsing("EXIT_BTN",false);
 }
 
 void HideQuests()
@@ -460,6 +523,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("ShowFoodWindow","ShowFoodWindow");
 	DelEventHandler("ShowBonusItemWindow","ShowBonusItemWindow");
 	DelEventHandler("PointsEX", "PointsEX");
+	DelEventHandler("HideEncWindows", "HideEncWindows");
 
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -749,6 +813,9 @@ void selectAchievements() // Отображаем окно достижений
 	SetNodeUsing("POINTS_EXCHANGE",true);
 	SetFormatedText("ACHIEVEMENTS_INFO_FRAME_CAPTION", "Система достижений с возможностью получения различных наград");
 	SetFormatedText("ACHIEVEMENTS_STR", "Очков достижений: " + sti(pchar.ach_points)); // Очки достижений
+	
+	SetNodeUsing("EXIT_ENC_BTN",true);
+	SetNodeUsing("EXIT_BTN",false);
 }
 
 void selectShipPlace()
@@ -880,6 +947,7 @@ void FillATableInfo() // Заполним таблицу достижений информацией
 	if(startherotype == 1 || startherotype == 2) z++;
 	if (pchar.sex == "woman") z--;
 	if (bNoPirateRestrictions || Pchar.BaseNation == PIRATE) z--;
+	if (bFillEncyShips) z++;
 
     for(n = 1; n < z+1; n++)
     {
@@ -2150,6 +2218,9 @@ void SetShipOTHERTableInfo(string _tabName)
 		if (!bQuest && refBaseShipL.nation.holland == true) SetNewPicture("S_NATION_H_L", "loading\Enc_Hol.tga"); else SetNewPicture("S_NATION_H_L", "");
 		if (!bQuest && refBaseShipL.nation.spain == true) SetNewPicture("S_NATION_S_L", "loading\Enc_Spa.tga"); else SetNewPicture("S_NATION_S_L", "");
 		if (!bQuest && refBaseShipL.nation.pirate == true) SetNewPicture("S_NATION_P_L", "loading\Enc_Pir.tga"); else SetNewPicture("S_NATION_P_L", "");
+		
+		if (bBettaTestMode) {if (_tabName == "SHIP_TABLE_OTHER_LEFT") SetFormatedText("SHIP_INFO_TEXT_LEFT", "ИД корабля: "+refBaseShipL.name+"\n"+GetConvertStr(sShip, "ShipsDescribe.txt"));}
+		else {if (_tabName == "SHIP_TABLE_OTHER_LEFT") SetFormatedText("SHIP_INFO_TEXT_LEFT", GetConvertStr(sShip, "ShipsDescribe.txt"));} 
 	}
 	if (Last_Right_Ship>-1)
 	{
@@ -2161,11 +2232,11 @@ void SetShipOTHERTableInfo(string _tabName)
 		if (!bQuest && refBaseShipR.nation.holland == true) SetNewPicture("S_NATION_H_R", "loading\Enc_Hol.tga"); else SetNewPicture("S_NATION_H_R", "");
 		if (!bQuest && refBaseShipR.nation.spain == true) SetNewPicture("S_NATION_S_R", "loading\Enc_Spa.tga"); else SetNewPicture("S_NATION_S_R", "");
 		if (!bQuest && refBaseShipR.nation.pirate == true) SetNewPicture("S_NATION_P_R", "loading\Enc_Pir.tga"); else SetNewPicture("S_NATION_P_R", "");
+		
+		if (bBettaTestMode) {if (_tabName == "SHIP_TABLE_OTHER_RIGHT") SetFormatedText("SHIP_INFO_TEXT_RIGHT", "ИД корабля: "+refBaseShipR.name+"\n"+GetConvertStr(sShip, "ShipsDescribe.txt"));}
+		else {if (_tabName == "SHIP_TABLE_OTHER_RIGHT") SetFormatedText("SHIP_INFO_TEXT_RIGHT", GetConvertStr(sShip, "ShipsDescribe.txt"));} 
 	}
 //<--показываем флаги
-	if (_tabName == "SHIP_TABLE_OTHER_LEFT") SetFormatedText("SHIP_INFO_TEXT_LEFT", GetConvertStr(sShip, "ShipsDescribe.txt"));
-	if (_tabName == "SHIP_TABLE_OTHER_RIGHT") SetFormatedText("SHIP_INFO_TEXT_RIGHT", GetConvertStr(sShip, "ShipsDescribe.txt"));
-
 	Table_UpdateWindow(_tabName);
 }
 

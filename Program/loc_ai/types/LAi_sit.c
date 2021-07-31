@@ -66,6 +66,11 @@ void LAi_type_sit_CharacterUpdate(aref chr, float dltTime)
 			}
 			
 		}
+		else
+		{
+			chr.quest.questflag.model = "";
+			chr.quest.questflag.technique = ""; 
+		}
 		if(chr.chr_ai.tmpl != LAI_TMPL_DIALOG && !CheckAttribute(chr, "nonTable"))
 		{
 			time = 20;

@@ -146,6 +146,30 @@ void wdmEvent_AddQuestEncounters()
 				worldMap.(encPath).quest.event = "Map_WarriorEnd";
 				worldMap.(encPath).quest.chrID = at.characterID;
 			}
+			if(at.type == "tradehunter")//быстрый энкаутер по фрахту Lipsar 
+			{			
+				if(!GenerateMapEncounter_Alone(at.characterID, &idx))
+				{
+					PostEvent("Map_WarriorEnd", 100, "s", at.characterID);
+					return;
+				}
+				//Создаём в карте энкоунтера
+				encID = "";
+				//if(!wdmCreateFollowShipByIndex(1.0, idx, &encID, at.beginlocator, sti(at.TimeOut)))
+				int iPrise = sti(pchar.CargoQuest.iMoney);
+				if (sti(pchar.CargoQuest.iMoney) > 50000) iPrise = Makeint(sti(pchar.CargoQuest.iMoney) / 50000)* 0.1;
+				else iPrise = 0;
+				if(!wdmCreateRealFollowShipByIndex(1.4 + iPrise, idx, &encID, sti(at.TimeOut)))
+				{
+					PostEvent("Map_WarriorEnd", 100, "s", at.characterID);
+					return;
+				}
+				//Путь до энкоунтера
+				encPath = "encounters." + encID;
+				//Сохраняем принадлежность к квестовым энкоунтеров
+				worldMap.(encPath).quest.event = "Map_WarriorEnd";
+				worldMap.(encPath).quest.chrID = at.characterID;
+			}
 			if(at.type == "shipwrecked")//медленный энкаутер торговца Lipsar по аналогии из ккс
 			{			
 				if(!GenerateMapEncounter_Alone(at.characterID, &idx))

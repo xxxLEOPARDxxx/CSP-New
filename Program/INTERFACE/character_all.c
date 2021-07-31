@@ -1171,11 +1171,11 @@ void SetSkillArrows()
         {
 			if (CurTable == "TABLE_SKILL_1")
 			{
-				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLDown",0, 705, 284 + 20*(iSelected-1), 732, 284 + 20 + 20*(iSelected-1), 0);
+				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLDown",0, 740, 284 + 20*(iSelected-1), 760, 284 + 20 + 20*(iSelected-1), 0);
 			}
 			else
 			{
-				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLDown",0, 705, 450 + 20*(iSelected-1), 732, 450 + 20 + 20*(iSelected-1), 0);
+				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLDown",0, 740, 449 + 20*(iSelected-1), 760, 449 + 20 + 20*(iSelected-1), 0);
 			}
 			SetNodeUsing("B_SKILLDown", true);
         }
@@ -1183,11 +1183,11 @@ void SetSkillArrows()
         {
             if (CurTable == "TABLE_SKILL_1")
 			{
-				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLUP",0, 728, 284 + 20*(iSelected-1),755, 284 + 20 + 20*(iSelected-1), 0);
+				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLUP",0, 780, 284 + 20*(iSelected-1),800, 284 + 20 + 20*(iSelected-1), 0);
 			}
 			else
 			{
-				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLUP",0, 728, 450 + 20*(iSelected-1),755, 450 + 20 + 20*(iSelected-1), 0);
+				SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLUP",0, 780, 449 + 20*(iSelected-1),800, 449 + 20 + 20*(iSelected-1), 0);
 			}
             SetNodeUsing("B_SKILLUP",  true);
         }
@@ -1197,12 +1197,12 @@ void SetSkillArrows()
 	{
 	    if (GetSkillValue(xi_refCharacter, SPECIAL_TYPE, GameInterface.(CurTable).(CurRow).UserData.ID) > 1)
         {
-			SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLDown",0,705,128 + 19*(iSelected-1), 732, 128 + 19 + 19*(iSelected-1), 0);
+			SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLDown",0,735,128 + 19*(iSelected-1), 755, 128 + 19 + 19*(iSelected-1), 0);
 			SetNodeUsing("B_SKILLDown", true);
         }
         if (GetSkillValue(xi_refCharacter, SPECIAL_TYPE, GameInterface.(CurTable).(CurRow).UserData.ID) < SPECIAL_MAX)
         {
-			SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLUP",0, 728,128 + 19*(iSelected-1),755,128 + 19 + 19*(iSelected-1), 0);
+			SendMessage(&GameInterface,"lsllllll", MSG_INTERFACE_MSG_TO_NODE,"B_SKILLUP",0, 780,128 + 19*(iSelected-1),800,128 + 19 + 19*(iSelected-1), 0);
             SetNodeUsing("B_SKILLUP",  true);
         }
 	}

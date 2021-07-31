@@ -1351,6 +1351,7 @@ void ArenaTournamentStartNewBattle()
 	}
 	if(attack.id != PChar.id && enemy.id != PChar.id) SetTimeScale(6.0);
 	else SetTimeScale(1.0);
+	if (CheckAttribute(PChar,"ArenaOdds")) SetTimeScale(1.0);
 	if(attack.id == PChar.id || enemy.id == PChar.id)
 	{
 		string sQuest = "AT_LooserDetector_" + sti(PChar.Arena.Tournament.Temp.Stage) + "_" + sti(PChar.Arena.Tournament.Temp.StageTemp);

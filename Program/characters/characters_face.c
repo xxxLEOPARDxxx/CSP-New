@@ -329,7 +329,7 @@ void FaceMaker(aref rCharacter)
 		case "whore_4":			rCharacter.FaceId = 167; break;
 		// 1.2.3 -->
 		case "Daniel":			rCharacter.FaceId = 170; break;
-		case "Researcher":		rCharacter.FaceId = 168; break;
+		case "Researcher":		rCharacter.FaceId = 222; break;
 		// 1.2.3 <--
 		case "mushketer_1":		rCharacter.FaceId = 80; break;
 		case "mushketer_2":		rCharacter.FaceId = 77; break;

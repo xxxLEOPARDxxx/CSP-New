@@ -34,7 +34,8 @@
 
 //////////////////////////////////////// Стрелковое ///////////////////////////////////////////////////
 /*	
-	//требования для экипировки огнестрела. Если нет - нет и требований 
+	Требования для экипировки огнестрела. Если нет - нет и требований
+	
 	itm.ReqPerk = "Gunman";
 	itm.ReqPerk = "GunProfessional";
 */
@@ -1635,7 +1636,7 @@ int InitItems()
 	itm.Weight = 4.0 + fRandSmall(0.5); // 4.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 35.0 + rand(5); // 6.0;
-	itm.dmg_max = 90.0 + rand(30); // 45.0;
+	itm.dmg_max = 70.0 + rand(30); // 45.0;
 	itm.piercing = 50;
 	itm.special.valueCB = 16; //Пролом кирасы
 	itm.special.valueSS = 4; //Резкий удар
@@ -3154,6 +3155,7 @@ int InitItems()
 	itm.price = 0;
 	n++;
 
+	// Сундук
 	makeref(itm,Items[n]);
 	itm.id = "Chest";
 	itm.groupID = SPECIAL_ITEM_TYPE;
@@ -3166,6 +3168,33 @@ int InitItems()
 	itm.Weight = 15;
 	n++;	
 	
+	// Малый сундук
+	makeref(itm,Items[n]);
+	itm.id = "Chest_treasure";
+	itm.groupID = SPECIAL_ITEM_TYPE;
+	itm.name = "itmname_chest_treasure";
+	itm.describe = "itmdescr_chest_treasure";
+	itm.model = "stat1";
+	itm.picIndex = 6;
+	itm.picTexture = "ITEMS_14";
+	itm.price = 1500; 
+	itm.Weight = 5 + fRandSmall(3.0);
+	n++;	
+	
+	// Сундук ремесленника
+	makeref(itm,Items[n]);
+	itm.id = "chest_Craftsmans";
+	itm.groupID = SPECIAL_ITEM_TYPE;
+	itm.name = "itmname_chest_Craftsmans";
+	itm.describe = "itmdescr_chest_Craftsmans";
+	itm.model = "stat1";
+	itm.picIndex = 6;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 1500;
+	itm.Weight = 7 + fRandSmall(4.5);
+	n++;
+
+	// Cундук со снаряжением
 	makeref(itm,Items[n]);
 	itm.id = "Chest_ammo";
 	itm.groupID = SPECIAL_ITEM_TYPE;
@@ -3175,31 +3204,20 @@ int InitItems()
 	itm.picIndex = 5;
 	itm.picTexture = "ITEMS_14";
 	itm.price = 1500;
-	itm.Weight = 9;
+	itm.Weight = 9 + fRandSmall(6.0);
 	n++;	
 	
-	makeref(itm,Items[n]);
-	itm.id = "Chest_treasure";
-	itm.groupID = SPECIAL_ITEM_TYPE;
-	itm.name = "itmname_chest_treasure";
-	itm.describe = "itmdescr_chest_treasure";
-	itm.model = "stat1";
-	itm.picIndex = 4;
-	itm.picTexture = "ITEMS_14";
-	itm.price = 1500; 
-	itm.Weight = 10;
-	n++;	
-	
+	// Странный сундук
 	makeref(itm,Items[n]);
 	itm.id = "Chest_quest";
 	itm.groupID = SPECIAL_ITEM_TYPE;
 	itm.name = "itmname_chest_quest";
 	itm.describe = "itmdescr_chest_quest";
 	itm.model = "stat1";
-	itm.picIndex = 6;
+	itm.picIndex = 4;
 	itm.picTexture = "ITEMS_14";
 	itm.price = 1500;
-	itm.Weight = 5;
+	itm.Weight = 6 + fRandSmall(3.5);
 	n++;
 
 	makeref(itm,Items[n]);
@@ -3524,7 +3542,7 @@ int InitItems()
 	itm.picIndex = 5;
 	itm.picTexture = "ITEMS_12";
 	// boal 19.01.2004 -->
-	itm.Weight = 0.3;
+	itm.Weight = 0.01;
 	itm.price = 0;
 	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
@@ -3554,7 +3572,7 @@ int InitItems()
 	itm.picIndex = 5;
 	itm.picTexture = "ITEMS_19";
 	// boal 19.01.2004 -->
-	itm.Weight = 2.0;
+	itm.Weight = 0.01;
 	itm.price = 0;
 	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
@@ -3569,7 +3587,7 @@ int InitItems()
 	itm.picIndex = 4;
 	itm.picTexture = "ITEMS_19";
 	// boal 19.01.2004 -->
-	itm.Weight = 2.0;
+	itm.Weight = 0.01;
 	itm.price = 0;
 	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
@@ -5497,6 +5515,69 @@ int InitItems()
     itm.Component2Num = 1;
     itm.Component3 = "CompCraft_Scissors";
     itm.Component3Num = 0;
+	n++;
+	
+	// Дурно пахнущие грибы
+	makeref(itm,Items[n]);
+	itm.id = "StrangeMushrooms";
+	itm.name = "itmname_StrangeMushrooms";
+	itm.describe = "itmdescr_StrangeMushrooms";
+	itm.model = "1";
+	itm.picIndex = 7;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 500;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "SUPPORT";
+	n++;
+	
+	// Подозрительного цвета жидкость
+	makeref(itm,Items[n]);
+	itm.id = "StrangePotion";
+	itm.name = "itmname_StrangePotion";
+	itm.describe = "itmdescr_StrangePotion";
+	itm.model = "1";
+	itm.picIndex = 8;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 500;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "SUPPORT";
+	n++;	
+	
+	// Убойная смесь
+	makeref(itm,Items[n]);
+	itm.id = "StrangeElixir";
+	itm.name = "itmname_StrangeElixir";
+	itm.describe = "itmdescr_StrangeElixir";
+	itm.model = "1";
+	itm.picIndex = 9;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 500;
+	itm.Weight = 0.01;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "SUPPORT";
+	
+	itm.PerkReq = 1;
+    itm.CraftedItem = "StrangeElixir";
+    itm.CraftFor = "Blacksmith";
+	itm.ResultNum = 1;
+    itm.ComponentsNum = 6;
+    itm.Component1 = "StrangeMushrooms";
+    itm.Component1Num = 1;
+    itm.Component2 = "StrangePotion";
+    itm.Component2Num = 1;
+    itm.Component3 = "CompCraft_StrengthTobacco";
+    itm.Component3Num = 5;
+    itm.Component4 = "CompCraft_SulfurCrush";
+    itm.Component4Num = 3;
+    itm.Component5 = "indian20";
+    itm.Component5Num = 0;
+    itm.Component6 = "indian21";
+    itm.Component6Num = 0;
 	n++;
 
 //JEWELRY
@@ -7550,7 +7631,7 @@ int InitItems()
 	itm.CirassLevel = 0.0;
 	itm.minlevel = 20;
 	itm.rare = 0.001;
-	itm.ItemType = "SUPPORT"
+	itm.ItemType = "SUPPORT";
 	n++;
 	
 	/////////////////// Обереги
@@ -9126,6 +9207,96 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "CRAFTCOMPONENTS";
+	n++;
+
+	// Уникальный чертёж
+	makeref(itm,Items[n]);
+	itm.id = "Ship_Print_6";
+	itm.name = "itmname_Ship_Print_6";
+	itm.describe = "itmdescr_Ship_Print_6";
+	itm.picIndex = 10;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 1000;
+	itm.Weight = 1.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	itm.points_shop = 135; // Атрибут для магазина ачивок
+	n++;
+
+	// Уникальный чертёж
+	makeref(itm,Items[n]);
+	itm.id = "Ship_Print_5";
+	itm.name = "itmname_Ship_Print_5";
+	itm.describe = "itmdescr_Ship_Print_5";
+	itm.picIndex = 11;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 1000;
+	itm.Weight = 1.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	itm.points_shop = 180; // Атрибут для магазина ачивок
+	n++;
+
+	// Уникальный чертёж
+	makeref(itm,Items[n]);
+	itm.id = "Ship_Print_4";
+	itm.name = "itmname_Ship_Print_4";
+	itm.describe = "itmdescr_Ship_Print_4";
+	itm.picIndex = 12;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 1000;
+	itm.Weight = 1.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	itm.points_shop = 260; // Атрибут для магазина ачивок
+	n++;
+
+	// Уникальный чертёж
+	makeref(itm,Items[n]);
+	itm.id = "Ship_Print_3";
+	itm.name = "itmname_Ship_Print_3";
+	itm.describe = "itmdescr_Ship_Print_3";
+	itm.picIndex = 13;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 1000;
+	itm.Weight = 1.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	itm.points_shop = 400; // Атрибут для магазина ачивок
+	n++;
+
+	// Уникальный чертёж
+	makeref(itm,Items[n]);
+	itm.id = "Ship_Print_2";
+	itm.name = "itmname_Ship_Print_2";
+	itm.describe = "itmdescr_Ship_Print_2";
+	itm.picIndex = 14;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 1000;
+	itm.Weight = 1.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	itm.points_shop = 700; // Атрибут для магазина ачивок
+	n++;
+
+	// Уникальный чертёж
+	makeref(itm,Items[n]);
+	itm.id = "Ship_Print_1";
+	itm.name = "itmname_Ship_Print_1";
+	itm.describe = "itmdescr_Ship_Print_1";
+	itm.picIndex = 15;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 1000;
+	itm.Weight = 1.0;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	itm.points_shop = 1300; // Атрибут для магазина ачивок
 	n++;
 
 	//InitGunExt(id,	sAttr,  sBullet,  sGunPowder, DmgMin_NC, DmgMax_NC, DmgMin_C, DmgMax_C, EnergyP_NC, EnergyP_C, Stun_NC, Stun_C, MultiDamage, MisFire, SelfDamage, Explosion,Accuracy,ChargeSpeed,isDefault);

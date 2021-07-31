@@ -126,6 +126,40 @@ void WayBeginning(string _tmp)
 {
 	DeleteAttribute(pchar,"cirassID");
 	initNewMainCharacter();
+	Pchar.quest.AlcoveTP.win_condition.l1 = "location";
+	Pchar.quest.AlcoveTP.win_condition.l1.location = "Treasure_alcove";
+	Pchar.quest.AlcoveTP.win_condition = "recharge_portals";
+	
+	for (int k = 0; k < 99; k++)//рандомизация сундуков НИ
+	{
+		chest_ammo[k] = rand(999);
+		chest_treasure[k] = rand(999);
+		chest_quest[k] = rand(999);
+		chest_craftsmans[k] = rand(999);
+		chest_ammo2[k] = rand(999);
+		chest_treasure2[k] = rand(999);
+		chest_quest2[k] = rand(999);
+		chest_craftsmans2[k] = rand(999);
+	}
+	for (k = 1; k < 30; k++)//рандомизация сундуков НИ
+	{
+		if (k >= 1 && k < 6) shipspool[k] = 3 + rand(11);
+		if (k >= 6 && k < 11) shipspool[k] = 15 + rand(12);
+		if (k >= 11 && k < 16) shipspool[k] = 28 + rand(23);
+		if (k >= 16 && k < 21) shipspool[k] = 52 + rand(31);
+		if (k >= 21 && k < 26) shipspool[k] = 84 + rand(20);
+		if (k >= 26 && k < 31) shipspool[k] = 105 + rand(19);
+	}
+	
+	pchar.chest_ammo = 0;
+	pchar.chest_treasure = 0;
+	pchar.chest_quest = 0;
+	pchar.chest_craftsmans = 0;
+	pchar.chest_ammo2 = 0;
+	pchar.chest_treasure2 = 0;
+	pchar.chest_quest2 = 0;
+	pchar.chest_craftsmans2 = 0;
+	
 	if (startHeroType == 1) //21/07/07 homo для Блада даем другое начало
     {
     	pchar.quest.Tut_start.win_condition.l1          = "location";

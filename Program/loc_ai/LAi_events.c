@@ -305,7 +305,7 @@ void LAi_CharacterFire()
 			if(findCh.chr_ai.group != LAI_GROUP_PLAYER)
 			{
 				LAi_ApplyCharacterFireDamage(attack, &Characters[idx], kDist );
-				Log_Info(Characters[idx].name);
+				// Log_Info(Characters[idx].name);
 			}	
 			
 			if(CheckAttribute(attack, "chr_ai.stun" ) && sti(attack.chr_ai.stun) > 0 && !LAi_IsFightMode(enemy) && !IsMainCharacter(enemy))

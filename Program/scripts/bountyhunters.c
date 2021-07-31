@@ -87,7 +87,7 @@ void SetShipHunter(ref Hunter)
     hcrew = GetMaxCrewQuantity(Hunter);
     SetCrewQuantity(Hunter, hcrew);
     SetCrewQuantityFull(Hunter); // to_do
-	RealShips[sti(Hunter.ship.type)].ship.upgrades.sails = 24 + rand(9); // LEO: Спец. паруса ОЗГ
+	RealShips[sti(Hunter.ship.type)].ship.upgrades.sails = 24 + rand(13); // LEO: Спец. паруса ОЗГ
 	Hunter.OZG = true;
     
     DeleteAttribute(Hunter,"ship.sails");

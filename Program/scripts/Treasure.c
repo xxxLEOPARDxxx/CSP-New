@@ -288,13 +288,14 @@ void BookAdd(int value, ref item)//книги - Gregg
 	}
 }
 
-void Xzibit(ref item)
+void Xzibit(ref item)//сундучный метод
 {
-	switch (rand(2))
+	switch (rand(3))
 	{
 		case 0: item.BoxTreasure.Chest_ammo = 1; break;
 		case 1: item.BoxTreasure.Chest_treasure = 1; break;
 		case 2: item.BoxTreasure.Chest_quest = 1; break;
+		case 3: item.BoxTreasure.Chest_Craftsmans = 1; break;
 	}
 }
 
@@ -797,7 +798,7 @@ void  TraderHunterOnMap()
     Group_SetGroupCommander(sGroup, sCapId+ "1");
     Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
     Group_LockTask(sGroup);
-    Map_CreateWarrior("", sCapId + "1", 8);
+	Map_CreateFastTradeHunter("", sCapId + "1", 8);
 }
 
 void SetTreasureHunter(string temp)

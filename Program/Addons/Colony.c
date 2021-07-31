@@ -1459,8 +1459,8 @@ void CreateSeaDefenceColony()
 		
 		FaceMaker(chr);
 		
-		iShipType = GetShipTypeForColonyBattleSea();
-		chr.Ship.Type = GenerateShip(iShipType, false);
+		iShipType = GetShipTypeForColonyBattleSea(chr);
+		chr.Ship.Type = GenerateShipExt(iShipType, false, chr);
 		chr.AlwaysEnemy        = true;
 		chr.Coastal_Captain    = true;
 		chr.ShipTaskLock = true;
@@ -1533,7 +1533,7 @@ void CreateSeaDefenceColony()
 	}
 	
 	PChar.ColonyBuilding.Defence.End = iEnd;
-	PChar.ColonyBuilding.Defence.KillShips = rand(3) + 1;
+	PChar.ColonyBuilding.Defence.KillShips = rand(1) * rand(1) * rand(1);
 	
 	int iTime = 10 + rand(5) - iGuardianClass;
 	if(iTime < 7) { iTime = 7; } 
@@ -1612,7 +1612,7 @@ void BattleSeaDefenceColony(string _tmp)
 			for(q=1; q<=Group_GetCharactersNum("ColonySeaAttacker"); q++)
 			{
 				iCharacter = Group_GetCharacterIndexR(Group_GetGroupByID("ColonySeaAttacker"), i);
-				Group_SetEnemyToCharacter(sGroup, iCharacter);
+				//Group_SetEnemyToCharacter(sGroup, iCharacter);
 			}
 			
 			Group_SetTaskAttack(sGroup, "ColonySeaAttacker");
@@ -1738,7 +1738,7 @@ void ClearBattleSeaColony(string qName)
 		sNationName = GetNationNameByType(iNation) + "Abl";
 		AddQuestUserData("MY_COLONY", "sNationName", XI_ConvertString(sNationName));
 		
-		ChangeColonyPopulation((-rand(100)+100), true);
+		ChangeColonyPopulation((-rand(100)-100), true);
 		ChangeColonySoldiers(0, true);
 		ChangeColonyMorale(0, true);
 		ChangeColonyMoney(0, true);
@@ -2372,29 +2372,31 @@ string GetColonyBuildDestroy()
 	return "Store";
 }
 
-int GetShipTypeForColonyBattleSea()
+int GetShipTypeForColonyBattleSea(ref Hunter)
 {
-	switch(rand(3))
-	{
-	
-		case 0: 
-			return SHIP_LINESHIP;
-		break;
-	
-		case 1: 
-			return SHIP_WARSHIP;
-		break;
-	
-		case 2: 
-			return SHIP_BATTLESHIP;
-		break;
-	
-		case 3: 
-			return SHIP_MANOWAR;
-		break;
-	}
-	
-	return SHIP_FRIGATE;
+    int Squadron, hcrew;
+
+    int j, q;
+    object rShip;
+    bool bOk = false;
+    int iNation = sti(Hunter.nation);
+    aref aNation; 
+    string sAttr;
+    
+    while(!bOk)
+    {
+        Squadron = 100 + rand(24); // LEO: Чуть-чуть 2 класс и остальное 1 класс
+
+        rShip = GetShipByType(Squadron);
+        makearef(aNation, rShip.nation); 
+        q = GetAttributesNum(aNation);
+        for(j = 0; j < q; j++) 
+        { 
+            sAttr = GetAttributeName(GetAttributeN(aNation, j)); 
+            if(GetNationTypeByName(sAttr) == iNation && rShip.nation.(sAttr) == true) bOk = true; 
+        } 
+    }
+    return Squadron;
 }
 
 /////////////////////////////////////////////////////////////////////////////////

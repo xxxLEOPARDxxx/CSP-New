@@ -1546,7 +1546,7 @@ void SetBaseShipData(ref refCharacter)
 	//Mett: nation sails —-> 
 	if(sti(refCharacter.nation) == PIRATE) 
 	{ 
-		refBaseShip.ship.upgrades.sails = 34 + rand(50); // LEO: пиратские паруса 
+		refBaseShip.ship.upgrades.sails = 38 + rand(50); // LEO: пиратские паруса 
 	} 
 		else refBaseShip.ship.upgrades.sails = 1 + rand(22); // LEO: все остальные 
 	// <-—
@@ -3493,7 +3493,6 @@ bool SetMainCharacterToMushketer(string sMushket, bool _ToMushketer) // если _To
 		if(!CanEquipMushketOnLocation(PChar.Location)) return false;
 		
 		sLastGun = GetCharacterEquipByGroup(PChar, GUN_ITEM_TYPE);
-		PChar.DefaultAnimation = PChar.model.Animation;
 		PChar.IsMushketer = true; // Ставим флаг "ГГ - мушкетер"
 		PChar.IsMushketer.MushketID = sMushket; // Запомним, какой мушкет надели
 		PChar.IsMushketer.LastGunID = sLastGun; // Запомним ID предыдущего пистоля
@@ -3523,7 +3522,8 @@ bool SetMainCharacterToMushketer(string sMushket, bool _ToMushketer) // если _To
 	else // Делаем ГГ обычным фехтовальщиком
 	{
 		PChar.model = FindStringBeforeChar(PChar.model, "_mush"); // Вернем модель и анимацию
-		PChar.model.Animation = PChar.DefaultAnimation;
+		if (IsCharacterPerkOn(pchar,"AgileMan")) PChar.model.Animation = MainChAnim+"_fast";
+		else PChar.model.Animation = MainChAnim;
 		Characters_RefreshModel(PChar);
 		RemoveCharacterEquip(PChar, GUN_ITEM_TYPE); // Снимим мушкет
 		if(PChar.IsMushketer.LastGunID != "" && GetCharacterItem(PChar, PChar.IsMushketer.LastGunID) > 0)

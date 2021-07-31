@@ -39,7 +39,7 @@ void InitInterface(string iniName)
     SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
 	// boal ver num -->
-    CreateString(true,"VerNum", VERSION_NUMBER1 + GetVerNum(), FONT_NORMAL, COLOR_NORMAL, 200, 580, SCRIPT_ALIGN_RIGHT, 1.2);
+    CreateString(true,"VerNum", VERSION_NUMBER1 + GetVerNum(), FONT_NORMAL, COLOR_NORMAL, 240, 580, SCRIPT_ALIGN_RIGHT, 1.2);
     // boal ver num <--
 	
 	SetEventHandler("backgroundcommand","ProcCommand",0);

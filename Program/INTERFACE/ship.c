@@ -605,7 +605,7 @@ void OnShipScrollChange()
 		}else{
 			sSoil = sSoil + "%";
 		}
-		sText = "к маневренности: "+sSoil;
+		sText = "К маневренности: "+sSoil;
 		SetFormatedText("SoilM_TEXT", sText);
 		
 	}

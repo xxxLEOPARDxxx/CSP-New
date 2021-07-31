@@ -99,9 +99,6 @@ void InitInterfaceTables()
 	// Мекахром
 	Interfaces[INTERFACE_MEKAKHROM].SectionName = "interface\Mekakhrom.c";
 	Interfaces[INTERFACE_MEKAKHROM].IniFile = "INTERFACES\Mekakhrom.ini";
-	// Store House
-	Interfaces[INTERFACE_STOREHOUSE].SectionName = "interface\StoreHouse.c";
-	Interfaces[INTERFACE_STOREHOUSE].IniFile = "INTERFACES\StoreHouse.ini";
 	// Plantation Interface
 	Interfaces[INTERFACE_PLANTATION].SectionName = "interface\Plantation.c";
 	Interfaces[INTERFACE_PLANTATION].IniFile = "INTERFACES\Plantation.ini";
@@ -129,6 +126,8 @@ void InitInterfaceTables()
 	Interfaces[INTERFACE_SHIPYARD].IniFile = "INTERFACES\shipyard.ini";
 	Interfaces[INTERFACE_SHIPYARD1].SectionName = "interface\shipyard1.c";
 	Interfaces[INTERFACE_SHIPYARD1].IniFile = "INTERFACES\shipyard1.ini";
+	Interfaces[INTERFACE_SHIPYARD2].SectionName = "interface\shipyard2.c";
+	Interfaces[INTERFACE_SHIPYARD2].IniFile = "INTERFACES\shipyard2.ini";
 	Interfaces[INTERFACE_CHARACTER].SectionName = "interface\character.c";
 	Interfaces[INTERFACE_CHARACTER].IniFile = "INTERFACES\character.ini";
 	Interfaces[INTERFACE_CHARACTER_ALL].SectionName = "interface\character_all.c";

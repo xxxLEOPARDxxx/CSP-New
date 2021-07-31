@@ -1015,6 +1015,30 @@ void ProcessDialogEvent()
 				Link.l3 = "я хочу, чтобы ты держал"+NPCharSexPhrase(npchar,"с€","ась")+" на определенном рассто€нии от цели.";
 				Link.l3.go = "TargetDistance";
 			}
+			if (!CheckAttribute(npchar,"AboardRestriction"))
+			{
+				Link.l4 = "ѕрошу теб€ не участвовать в абордажах. ѕобереги себ€.";
+				Link.l4.go = "AboardRestriction";
+			}
+			else
+			{
+				Link.l4 = "я передумал, можешь участвовать в абордажах.";
+				Link.l4.go = "AboardAllowed";
+			}
+		break;
+		
+		case "AboardRestriction":
+			npchar.AboardRestriction = true;
+			dialog.text = "“ак точно капитан. Ќе буду участвовать в абордажах, пока вы снова не разрешите.";
+            Link.l1 = "Ќу и хорошо.";
+            Link.l1.go = "exit";
+		break;
+		
+		case "AboardAllowed":
+			DeleteAttribute(npchar,"AboardRestriction");
+			dialog.text = "“ак точно капитан. Ѕуду участвовать в абордажах с текущего момента.";
+            Link.l1 = "Ќу и хорошо.";
+            Link.l1.go = "exit";
 		break;
 
 		case "CheckMushket":

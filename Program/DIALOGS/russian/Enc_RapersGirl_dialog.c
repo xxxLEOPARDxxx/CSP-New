@@ -1201,7 +1201,7 @@ void ProcessDialogEvent()
 		
 		case "Node_251":
 			pchar.GenQuest.EncGirl.sLoverId = GenerateRandomName(sti(npchar.nation), "man"); 
-			dialog.text = "Нет!.. нет, капитан, я люблю " + pchar.GenQuest.EncGirl.sLoverId + " и, кроме него, никого не хочу знать! А отец против! говорит, что он в поселении " + XI_ConvertString("Colony" + pchar.GenQuest.EncGirl.city) + " приезжий и никогда не найдёт здесь работу, вот-вот по миру пойдёт и меня за собой поведёт. А мне хоть на край света лишь бы с ним рядом... Отведите меня к нему, прошу вас.";
+			dialog.text = "Нет!.. нет, капитан, я люблю человека по имени " + pchar.GenQuest.EncGirl.sLoverId + " и, кроме него, никого не хочу знать! А отец против! говорит, что он в поселении " + XI_ConvertString("Colony" + pchar.GenQuest.EncGirl.city) + " приезжий и никогда не найдёт здесь работу, вот-вот по миру пойдёт и меня за собой поведёт. А мне хоть на край света лишь бы с ним рядом... Отведите меня к нему, прошу вас.";
 			link.l1 = "Ладно, пошли. По дороге подумаю, куда тебя девать...";
 			link.l1.go = "Node_252";
 		break;

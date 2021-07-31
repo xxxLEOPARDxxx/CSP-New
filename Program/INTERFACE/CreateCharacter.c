@@ -780,7 +780,7 @@ void UpdateHeroInfo()
 {
 	int idLngFile = LanguageOpenFile("HeroDescribe.txt");
 	totalInfo1 = LanguageConvertString(idLngFile, "hero_" + startHeroType);
-	SetFormatedText("INFO_TEXT", totalInfo1);
+	SetFormatedText("INFO_TEXT", totalInfo1+"\nНомер ПГГ: "+startHeroType);
     SetVAligmentFormatedText("INFO_TEXT");
 	LanguageCloseFile(idLngFile);
 }

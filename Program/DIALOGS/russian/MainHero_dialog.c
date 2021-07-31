@@ -350,11 +350,8 @@ void ProcessDialogEvent()
 			}
 //navy <--
 	        Dialog.Text = RandPhraseSimple("Хм... Что бы мне сейчас хотелось сделать?", "Чем бы заняться?");
-		//Boyer add
 		if(!bDisableMapEnter && !CheckAttribute(pchar,"GenQuest.CannotWait") && CheckSaveGameEnabled() == true) // 21.03.09 Warship fix Во время линейки Блада отдыхать нельзя
 	    {
-			Link.l4 = "Подождать 2 часа.";
-	    		Link.l4.go = "TalkSelf_WasteTime";
 				if(PChar.Dozor != "0" && PChar.Dozor != "END")
 				{
 					if(sti(PChar.Dozor.Riddle.CanInterface) == 1)
@@ -364,7 +361,6 @@ void ProcessDialogEvent()
 					}
 				}
 		}
-		//End Boyer add
 	        if (!bDisableMapEnter && pchar.location == Get_My_Cabin())
 	        {
 	        	// Для отдыха теперь есть отдельный интерфейс
@@ -766,13 +762,6 @@ void ProcessDialogEvent()
 			TavernWaitDate("wait_day");
 			DialogExit_Self();
 		break;
-		//Boyer add
-		case "TalkSelf_WasteTime":
-			NextDiag.CurrentNode = NextDiag.TempNode;
-			WasteTime(2);
-			DialogExit_Self();
-		break;
-		//End Boyer add
 		//  захват города
 		case "TalkSelf_TownAttack":
             bOk = (GetPartyCrewQuantity(Pchar, true) >= 500) || bBettaTestMode;

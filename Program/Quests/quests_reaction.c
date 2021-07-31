@@ -1069,6 +1069,21 @@ void QuestComplete(string sQuestName, string qname)
 		case "Whisper_WarDog":
 			WhisperWarDogSeaBattle();
 		break;
+		//Black Sails
+		//ОЗГ от Гатри
+		case "Gatri_Hunters":
+			if (CheckAttribute(pchar, "BSStart"))
+			{
+				ChangeCharacterHunterScore(pchar, "enghunter", 200);
+				ChangeCharacterHunterScore(pchar, "frahunter", 200);
+				ChangeCharacterHunterScore(pchar, "spahunter", 200);
+				ChangeCharacterHunterScore(pchar, "holhunter", 200);
+				if (!CheckAttribute(pchar, "BSPrologue.GatriHunters"))	AddQuestRecord("BSPrologue", "4");
+				else AddQuestRecord("BSPrologue", "5");
+				SetTimerCondition("Gatri_Hunters", 0, 0, 30, false);// Повторяем до завершения квеста
+				pchar.BSPrologue.GatriHunters = true;
+			}
+		break;
         ////////////////////////////////////////////////////////////////////////
 		//  Служебный квест контрабандистов - ограничение по времени
 		////////////////////////////////////////////////////////////////////////
@@ -10150,6 +10165,132 @@ void QuestComplete(string sQuestName, string qname)
 			RemoveAllCharacterItems(sld, true);
 			GiveItem2Character(sld, "topor_05");
 			EquipCharacterbyItem(sld, "topor_05"); // 151012
+		break;
+		
+		case "recharge_portals":
+			pchar.quest.first_portal.win_condition.l1 = "locator";
+			pchar.quest.first_portal.win_condition.l1.location = "Treasure_alcove";
+			pchar.quest.first_portal.win_condition.l1.locator_group = "teleport";
+			pchar.quest.first_portal.win_condition.l1.locator = "teleport1";
+			pchar.quest.first_portal.win_condition = "first_portal";
+
+			pchar.quest.second_portal.win_condition.l1 = "locator";
+			pchar.quest.second_portal.win_condition.l1.location = "Treasure_alcove";
+			pchar.quest.second_portal.win_condition.l1.locator_group = "teleport";
+			pchar.quest.second_portal.win_condition.l1.locator = "teleport2";
+			pchar.quest.second_portal.win_condition = "second_portal";
+
+			pchar.quest.third_portal.win_condition.l1 = "locator";
+			pchar.quest.third_portal.win_condition.l1.location = "Treasure_alcove";
+			pchar.quest.third_portal.win_condition.l1.locator_group = "teleport";
+			pchar.quest.third_portal.win_condition.l1.locator = "teleport3";
+			pchar.quest.third_portal.win_condition = "third_portal";
+
+			pchar.quest.fourth_portal.win_condition.l1 = "locator";
+			pchar.quest.fourth_portal.win_condition.l1.location = "Treasure_alcove";
+			pchar.quest.fourth_portal.win_condition.l1.locator_group = "teleport";
+			pchar.quest.fourth_portal.win_condition.l1.locator = "teleport4";
+			pchar.quest.fourth_portal.win_condition = "fourth_portal";
+
+			pchar.quest.fifth_portal.win_condition.l1 = "locator";
+			pchar.quest.fifth_portal.win_condition.l1.location = "Treasure_alcove";
+			pchar.quest.fifth_portal.win_condition.l1.locator_group = "teleport";
+			pchar.quest.fifth_portal.win_condition.l1.locator = "teleport5";
+			pchar.quest.fifth_portal.win_condition = "fifth_portal";
+			
+			pchar.quest.monster_portal.win_condition.l1 = "locator";
+			pchar.quest.monster_portal.win_condition.l1.location = "Treasure_alcove";
+			pchar.quest.monster_portal.win_condition.l1.locator_group = "teleport";
+			pchar.quest.monster_portal.win_condition.l1.locator = "teleport0";
+			pchar.quest.monster_portal.win_condition = "monster_portal";
+		break;
+
+		case "empting_portals":
+			pchar.quest.first_portal.over = "yes";
+			pchar.quest.second_portal.over = "yes";
+			pchar.quest.third_portal.over = "yes";
+			pchar.quest.fourth_portal.over = "yes";
+			pchar.quest.fifth_portal.over = "yes";
+			pchar.quest.monster_portal.over = "yes";
+		break;
+
+		case "first_portal":
+			LAi_QuestDelay("empting_portals", 0.0);
+			LAi_fade("teleport_1_2", "");
+			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
+		break;
+
+		case "second_portal":
+			LAi_QuestDelay("empting_portals", 0.0);
+			LAi_fade("teleport_2_1", "");
+			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
+		break;
+
+		case "third_portal":
+			LAi_QuestDelay("empting_portals", 0.0);
+			LAi_fade("teleport_3_4", "");
+			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
+		break;
+
+		case "fourth_portal":
+			LAi_QuestDelay("empting_portals", 0.0);
+			LAi_fade("teleport_4_3", "");
+			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
+		break;
+
+		case "fifth_portal":
+			LAi_QuestDelay("empting_portals", 0.0);
+			LAi_fade("teleport_5_treasure", "");
+			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
+		break;
+
+		case "teleport_1_2":
+			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport2");
+			LAi_QuestDelay("recharge_portals", 2.0);
+		break;
+
+		case "teleport_2_1":
+			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport1");
+			LAi_QuestDelay("recharge_portals", 2.0);
+		break;
+
+		case "teleport_3_4":
+			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport4");
+			LAi_QuestDelay("recharge_portals", 2.0);
+		break;
+
+		case "teleport_4_3":
+			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport3");
+			LAi_QuestDelay("recharge_portals", 2.0);
+		break;
+
+		case "teleport_5_treasure":
+			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport6");
+			//LAi_QuestDelay("recharge_portals", 1.0);
+		break;
+		
+		case "monster_portal":
+			//LAi_QuestDelay("empting_portals", 0.0);
+			LAi_fade("", "monster_generate_in_alcove");
+			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
+			LAi_QuestDelay("recharge_portals", 2.0);
+		break;
+
+		case "monster_generate_in_alcove":
+			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport0");
+			
+			for (i=1; i<=3; i++)
+            {
+                sld = GetCharacter(NPC_GenerateCharacter("Skeletoon"+rand(999), "Skel"+(rand(3)+1), "skeleton", "skeleton", 25, PIRATE, 0, true));
+                FantomMakeCoolFighter(sld, 25, 80, 60, BLADE_LONG, "pistol3", 70);
+            	LAi_SetWarriorType(sld);
+                LAi_group_MoveCharacter(sld, "monsters");
+                GetCharacterPos(pchar, &locx, &locy, &locz);
+				sTemp = LAi_FindNearestFreeLocator("monsters", locx, locy, locz);
+               	ChangeCharacterAddressGroup(sld, "Treasure_alcove", "monsters", sTemp);
+            }
+			LAi_group_SetLookRadius("monsters", 30.0);
+			LAi_group_FightGroups("monsters", LAI_GROUP_PLAYER, true);
 		break;
 	}
 }

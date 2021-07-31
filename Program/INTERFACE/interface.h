@@ -1,8 +1,8 @@
-#define INTERFACE_QUANTITY				76
+#define INTERFACE_QUANTITY				77
 
 #define INTERFACE_STORE					0
 #define INTERFACE_SHIPYARD				1
-#define INTERFACE_CHARACTER				2  // просмотр НПС и выбор специал
+#define INTERFACE_CHARACTER				2  // просмотр НПС и выбор специалc
 #define INTERFACE_MAINMENU				3
 #define INTERFACE_HIRECREW				4
 #define INTERFACE_RANSACK_MAIN			5 // более не при делах, но где-то идут проверки на определение, вызов  INTERFACE_TRANSFER_MAIN по сути, но с поправкой на море и абордаж
@@ -88,6 +88,8 @@
 #define INTERFACE_CRAFT_ALL				73
 #define	INTERFACE_ARENA				74
 #define	INTERFACE_ACADEMY_LAND			75
+
+#define INTERFACE_SHIPYARD2				76
 
 #define RC_INTERFACE_DO_NOTHING			-1
 

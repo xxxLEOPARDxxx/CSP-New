@@ -253,279 +253,653 @@ void OpenChest()
 {
 	AddCharacterExpToSkill(PChar, "Fortune", 50);
 	AddCharacterExpToSkill(PChar, "Repair", 50);
-	
+	TakeItemFromCharacter(pchar, chestID);
 	pchar.questTemp.chestcount = sti(pchar.questTemp.chestcount) + 1;
 	// Открываем достижения
 	if(sti(pchar.questTemp.chestcount) >= 10) UnlockAchievement("AchChest", 1);
 	if(sti(pchar.questTemp.chestcount) >= 25) UnlockAchievement("AchChest", 2);
 	if(sti(pchar.questTemp.chestcount) >= 50) UnlockAchievement("AchChest", 3);
-	string nameitm[10];
-	int itmq[10];
-	
-	int iRand;
-	
-	for (i = 0; i < 10; i++)
+	string nameitm[35];
+	int itmq[35];
+	int value;
+	int value_alt;
+	switch (chestID)
 	{
-		nameitm[i] = "";
+		case "Chest_treasure":
+			value = chest_treasure[sti(pchar.Chest_treasure)];
+			pchar.Chest_treasure = sti(pchar.Chest_treasure) + 1;
+			if (sti(pchar.Chest_treasure) > 99) pchar.Chest_treasure = 0;
+			value_alt = chest_treasure2[sti(pchar.Chest_treasure2)];
+			pchar.Chest_treasure2 = sti(pchar.Chest_treasure2) + 1;
+			if (sti(pchar.Chest_treasure2) > 99) pchar.Chest_treasure2 = 0;
+		break;
+		case "Chest_Craftsmans":
+			value = chest_craftsmans[sti(pchar.Chest_Craftsmans)];
+			pchar.Chest_Craftsmans = sti(pchar.Chest_Craftsmans) + 1;
+			if (sti(pchar.Chest_Craftsmans) > 99) pchar.Chest_Craftsmans = 0;
+			value_alt = chest_craftsmans2[sti(pchar.Chest_Craftsmans2)];
+			pchar.Chest_Craftsmans2 = sti(pchar.Chest_Craftsmans2) + 1;
+			if (sti(pchar.Chest_Craftsmans2) > 99) pchar.Chest_Craftsmans2 = 0;
+		break;
+		case "Chest_ammo": 
+			value = chest_ammo[sti(pchar.chest_ammo)];
+			pchar.chest_ammo = sti(pchar.chest_ammo) + 1;
+			if (sti(pchar.chest_ammo) > 99) pchar.chest_ammo = 0;
+			value_alt = chest_ammo2[sti(pchar.chest_ammo2)];
+			pchar.chest_ammo2 = sti(pchar.chest_ammo2) + 1;
+			if (sti(pchar.chest_ammo2) > 99) pchar.chest_ammo2 = 0;
+		break;
+		case "Chest_quest":
+			value = chest_quest[sti(pchar.Chest_quest)];
+			pchar.Chest_quest = sti(pchar.Chest_quest) + 1;
+			if (sti(pchar.Chest_quest) > 99) pchar.Chest_quest = 0;
+			value_alt = chest_quest2[sti(pchar.Chest_quest2)];
+			pchar.Chest_quest2 = sti(pchar.Chest_quest2) + 1;
+			if (sti(pchar.Chest_quest2) > 99) pchar.Chest_quest2 = 0;
+		break;
+	}
+	int value2 = 999 - value;
+	int value3 = 999 - value_alt;
+	//В каждом сундуке может сгенерироваться до 10 предметов (массивы с индексом от 0 до 9) по текущей логике. Задействовано максимум 4 слота пока.
+	
+	if(chestID == "Chest_treasure") // Малый
+	{
+		switch (makeint(value/111))
+		{
+			case 0:
+				nameitm[1] = "jewelry4"; // Изумруд
+				itmq[1] = 10;
+				nameitm[2] = "jewelry8"; // Бронзовое кольцо
+				itmq[2] = 10;
+				nameitm[3] = "jewelry9"; // Бронзовый крестик
+				itmq[3] = 10;
+				nameitm[4] = "jewelry15"; // Изумрудные подвески
+				itmq[4] = 10;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 4000;
+			break;
+			case 1:
+				nameitm[1] = "jewelry1"; // Сапфир
+				itmq[1] = 10;
+				nameitm[2] = "jewelry2"; // Алмаз
+				itmq[2] = 10;
+				nameitm[3] = "jewelry3"; // Рубин
+				itmq[3] = 10;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 18000;
+			break;
+			case 2:
+				nameitm[1] = "jewelry5"; // Золотой слиток
+				itmq[1] = 4;
+				nameitm[2] = "jewelry6"; // Серебряное кольцо с сапфиром
+				itmq[2] = 9;
+				nameitm[3] = "jewelry7"; // Золотое кольцо с изумрудом
+				itmq[3] = 8;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 12000;
+			break;
+			case 3:
+				nameitm[1] = "jewelry10"; // Золотое кольцо с сапфиром
+				itmq[1] = 10;
+				nameitm[2] = "jewelry11"; // Большая жемчужина
+				itmq[2] = 10;
+				nameitm[3] = "jewelry12"; // Маленькая жемчужина
+				itmq[3] = 10;
+				nameitm[4] = "jewelry13"; // Камея
+				itmq[4] = 10;
+				nameitm[5] = "jewelry14"; // Золотая брошь
+				itmq[5] = 10;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 6000;
+			break;
+			case 4:
+				nameitm[1] = "jewelry16"; // Ожерелье
+				itmq[1] = 10;
+				nameitm[2] = "jewelry17"; // Серебряный слиток
+				itmq[2] = 5;
+				nameitm[3] = "jewelry18"; // Золотое кольцо с рубином
+				itmq[3] = 3;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 16000;
+			break;
+			case 5:
+				nameitm[1] = "jewelry5"; // Золотой слиток
+				itmq[1] = 7;
+				nameitm[2] = "jewelry7"; // Золотое кольцо с изумрудом
+				itmq[2] = 8;
+				nameitm[3] = "jewelry10"; // Золотое кольцо с сапфиром
+				itmq[3] = 10;
+				nameitm[4] = "jewelry14"; // Золотая брошь
+				itmq[4] = 10;
+				nameitm[5] = "jewelry18"; // Золотое кольцо с рубином
+				itmq[5] = 6;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 10000;
+			break;
+			case 6:
+				nameitm[1] = "jewelry6"; // Серебряное кольцо с сапфиром
+				itmq[1] = 20;
+				nameitm[2] = "jewelry17"; // Серебряный слиток
+				itmq[2] = 20;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 20000;
+			break;
+			case 7:
+				nameitm[1] = "jewelry6"; // Серебряное кольцо с сапфиром
+				itmq[1] = 15;
+				nameitm[2] = "jewelry7"; // Золотое кольцо с изумрудом
+				itmq[2] = 15;
+				nameitm[3] = "jewelry8"; // Бронзовое кольцо
+				itmq[3] = 15;
+				nameitm[4] = "jewelry10"; // Золотое кольцо с сапфиром
+				itmq[4] = 15;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 7000;
+			break;
+			case 8:
+				nameitm[1] = "jewelry5"; // Золотой слиток
+				itmq[1] = 25;
+				nameitm[2] = "jewelry11"; // Большая жемчужина
+				itmq[2] = 25;
+				nameitm[3] = "jewelry12"; // Маленькая жемчужина
+				itmq[3] = 25;
+				nameitm[4] = "jewelry17"; // Серебряный слиток
+				itmq[4] = 25;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 1000;
+			break;
+			case 9:
+				nameitm[1] = "jewelry8"; // Бронзовое кольцо
+				itmq[1] = 10;
+				nameitm[2] = "jewelry9"; // Бронзовый крестик
+				itmq[2] = 10;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 15000;
+			break;
+			case 10:
+				nameitm[1] = "jewelry8"; // Бронзовое кольцо
+				itmq[1] = 10;
+				nameitm[2] = "jewelry9"; // Бронзовый крестик
+				itmq[2] = 10;
+				nameitm[9] = "gold"; // Золото
+				itmq[9] = 15000;
+			break;
+		}
+		if (itmq[0] > 0) itmq[0] += makeint(value/50);
+		if (itmq[1] > 0) itmq[1] += makeint(value/50);
+		if (itmq[2] > 0) itmq[2] += makeint(value/50);
+		if (itmq[3] > 0) itmq[3] += makeint(value/50);
+		if (itmq[4] > 0) itmq[4] += makeint(value/50);
+		if (itmq[5] > 0) itmq[5] += makeint(value/50);
+		itmq[9] += makeint(value/3);
+		if (value < 100) {nameitm[3] = "Mineral2"; itmq[3] = 1;}
+		if (value >= 200 && value < 400) {nameitm[3] = "Mineral4"; itmq[3] = 1;}
+		if (value >= 800) {nameitm[3] = "Mineral8"; itmq[3] = 1;}
 	}
 	
-	if(chestID == "Chest") // Обычный сундук с монетами (ростовщик, клады)
+	if(chestID == "Chest_Craftsmans") // Ремесленника
 	{
-		TakeItemFromCharacter(pchar, chestID);
+		switch (makeint(value/83))
+		{
+			case 0:
+				nameitm[1] = "CompCraft_Parchment"; // Бумага
+				itmq[1] = 150;
+			break;
+			case 1:
+				nameitm[1] = "CompCraft_Nails"; // Гвозди
+				itmq[1] = 50;
+				nameitm[2] = "CompCraft_Lead"; // Свинец
+				itmq[2] = 12;
+				nameitm[3] = "CompCraft_Grindstone"; // Оселок
+				itmq[3] = 5;
+			break;
+			case 2:
+				nameitm[1] = "CompCraft_Magnesium"; // Магний
+				itmq[1] = 10;
+				nameitm[2] = "CompCraft_Flint"; // Кремень
+				itmq[2] = 11;
+				nameitm[3] = "CompCraft_Copper"; // Медь
+				itmq[3] = 15;
+				nameitm[4] = "CompCraft_Sulfur"; // Сера
+				itmq[4] = 17;
+			break;
+			case 3:
+				nameitm[1] = "CompCraft_SulfurCrush"; // Измельчённая сера
+				itmq[1] = 30;
+				nameitm[2] = "CompCraft_PowderMixture"; // Пороховая смесь
+				itmq[2] = 31;
+				nameitm[3] = "CompCraft_Parchment"; // Бумага
+				itmq[3] = 32;
+			break;
+			case 4:
+				nameitm[1] = "CompCraft_Nails"; // Гвозди
+				itmq[1] = 200;
+				nameitm[2] = "CompCraft_Parchment"; // Бумага
+				itmq[2] = 100;
+			break;
+			case 5:
+				nameitm[1] = "CompCraft_Copper"; // Медь
+				itmq[1] = 83;
+			break;
+			case 6:
+				nameitm[1] = "CompCraft_Flint"; // Кремень
+				itmq[1] = 45;
+			break;
+			case 7:
+				nameitm[1] = "CompCraft_Magnesium"; // Магний
+				itmq[1] = 57;
+			break;
+			case 8:
+				nameitm[1] = "CompCraft_Nails"; // Гвозди
+				itmq[1] = 10;
+				nameitm[2] = "CompCraft_Magnesium"; // Магний
+				itmq[2] = 10;
+				nameitm[3] = "CompCraft_Flint"; // Кремень
+				itmq[3] = 10;
+				nameitm[4] = "CompCraft_Lead"; // Свинец
+				itmq[4] = 10;
+				nameitm[5] = "CompCraft_Copper"; // Медь
+				itmq[5] = 10;
+				nameitm[6] = "CompCraft_Sulfur"; // Сера
+				itmq[6] = 10;
+				nameitm[7] = "CompCraft_SulfurCrush"; // Измельчённая сера
+				itmq[7] = 10;
+				nameitm[8] = "CompCraft_PowderMixture"; // Пороховая смесь сера
+				itmq[8] = 10;
+				nameitm[9] = "CompCraft_Parchment"; // Бумага
+				itmq[9] = 10;
+				nameitm[10] = "CompCraft_Grindstone"; // Оселок
+				itmq[10] = 5;
+			break;
+			case 9:
+				nameitm[1] = "CompCraft_SulfurCrush"; // Измельчённая сера
+				itmq[1] = 100;
+				nameitm[2] = "CompCraft_PowderMixture"; // Пороховая смесь сера
+				itmq[2] = 100;
+			break;
+			case 10:
+				nameitm[1] = "CompCraft_Grindstone"; // Оселок
+				itmq[1] = 15;
+			break;
+			case 11:
+				nameitm[1] = "slave_01"; // Гарпун
+				itmq[1] = 15;
+			break;
+			case 12:
+				nameitm[1] = "CompCraft_Grindstone"; // Оселок
+				itmq[1] = 11;
+				nameitm[2] = "slave_01"; // Гарпун
+				itmq[2] = 12;
+			break;
+			case 13:
+				nameitm[1] = "CompCraft_Grindstone"; // Оселок
+				itmq[1] = 11;
+				nameitm[2] = "slave_01"; // Гарпун
+				itmq[2] = 12;
+			break;
+		}
+		if (itmq[0] > 0) itmq[0] += makeint(value/50);
+		if (itmq[1] > 0) itmq[1] += makeint(value/50);
+		if (itmq[2] > 0) itmq[2] += makeint(value/50);
+		if (itmq[3] > 0) itmq[3] += makeint(value/50);
+		if (itmq[4] > 0) itmq[4] += makeint(value/50);
+		if (itmq[5] > 0) itmq[5] += makeint(value/50);
+		if (itmq[6] > 0) itmq[6] += makeint(value/50);
+		if (itmq[7] > 0) itmq[7] += makeint(value/50);
+		if (itmq[8] > 0) itmq[8] += makeint(value/50);
+		if (itmq[9] > 0) itmq[9] += makeint(value/50);
+		if (itmq[10] > 0) itmq[10] += makeint(value/50);
 		
-		if(drand(1) == 0)
-		{
-			nameitm[0] = "gold";
-			itmq[0] = 12000 + drand(10)*1000;
-		}
-		else
-		{
-			nameitm[0] = "gold";
-			itmq[0] = 6000 + drand(4)*1000;
-			
-			if(drand1(2) == 0)
-			{
-				nameitm[1] = "jewelry1";
-				itmq[1] = 1 + drand(9);
-			}
-			
-			if(drand2(2) == 0)
-			{
-				nameitm[2] = "jewelry2";
-				itmq[2] = 1 + drand(2);
-			}
-			
-			if(drand(2) == 0)
-			{
-				if(drand(1) == 0)
-				{
-					if(drand(1) == 0)
-					{
-						nameitm[4] = "jewelry4";
-						itmq[4] = 1 + drand1(4);
-					}
-					else
-					{
-						nameitm[4] = "jewelry3";
-						itmq[4] = 1 + drand1(6);
-					}
-				}
-				else
-				{
-					nameitm[4] = "jewelry17";
-					itmq[4] = 1 + drand1(40);
-				}
-			}
-		}
+		if (value < 333) {nameitm[11] = "CompCraft_HealthTobacco"; itmq[11] = 1;}
+		if (value >= 333 && value < 666) {nameitm[12] = "CompCraft_EnergyTobacco"; itmq[12] = 1;}
+		if (value >= 666) {nameitm[13] = "CompCraft_StrengthTobacco"; itmq[13] = 1;}
+		if (value >= 700) {nameitm[14] = "CompCraft_Scissors"; itmq[14] = 1;}
 	}
 	
-	if(chestID == "Chest_ammo") // Оруженый сундук
+	if(chestID == "Chest_ammo") // Снаряжение
 	{
-		TakeItemFromCharacter(pchar, chestID);
-		
-		if(drand(1) == 0)
+		switch (makeint(value/59)) // от 0 до 14
 		{
-			string weapon = "";
-			switch(drand1(3))
-			{
-				case 0: weapon = "blade5";
-				break;
-				case 1: weapon = "pistol1";
-				break;
-				case 2: weapon = "pistol2";
-				break;
-				case 3: weapon = "pistol3";
-				break;
-				
-			}
-			nameitm[0] = weapon;
-			itmq[0] = 1;
-			
-			if(pchar.rank >= 15 && drand1(6) == 1)
-			{
-		    	nameitm[1] = "pistol6";
-		    	itmq[1] = 1;
-			}
-			else
-			{
-				if(drand1(6) == 2)
-				{
-					string weapon1 = "";
-					switch(drand2(3))
-					{
-						case 0: weapon1 = "blade5";
-						break;
-						case 1: weapon1 = "pistol1";
-						break;
-						case 2: weapon1 = "pistol2";
-						break;
-						case 3: weapon1 = "pistol3";
-						break;
-						
-					}
-			    	nameitm[1] = weapon1;
-			        itmq[1] = 1;
-				}
-			}
+			case 0:
+				nameitm[1] = "bullet"; // Свинцовые пули
+				itmq[1] = 37;
+				nameitm[2] = "gunpowder"; // Гранулированный порох
+				itmq[2] = 35;
+				nameitm[4] = "grapeshot"; // Картечь
+				itmq[4] = 33;
+				nameitm[5] = "cartridge"; // Бумажный патрон
+				itmq[5] = 31;
+			break;
+			case 1:
+				nameitm[1] = "bullet"; // Свинцовые пули
+				itmq[1] = 52;
+				nameitm[2] = "gunpowder"; // Гранулированный порох
+				itmq[2] = 55;
+			break;
+			case 2:
+				nameitm[1] = "bullet"; // Свинцовые пули
+				itmq[1] = 154;
+				nameitm[2] = "gunpowder"; // Гранулированный порох
+				itmq[2] = 151;
+			break;
+			case 3:
+				nameitm[1] = "grapeshot"; // Картечь
+				itmq[1] = 53;
+				nameitm[2] = "cartridge"; // Бумажный патрон
+				itmq[2] = 31;
+			break;
+			case 4:
+				nameitm[1] = "grapeshot"; // Картечь
+				itmq[1] = 155;
+				nameitm[2] = "cartridge"; // Бумажный патрон
+				itmq[2] = 101;
+			break;
+			case 5:
+				nameitm[1] = "powder_pellet"; // Петарда
+				itmq[1] = 10;
+				nameitm[2] = "grenade"; // Граната
+				itmq[2] = 5;
+			break;
+			case 6:
+				nameitm[1] = "powder_pellet"; // Петарда
+				itmq[1] = 32;
+				nameitm[2] = "grenade"; // Граната
+				itmq[2] = 15;
+			break;
+			case 7:
+				nameitm[1] = "powder_pellet"; // Петарда
+				itmq[1] = 50;
+			break;
+			case 8:
+				nameitm[2] = "grenade"; // Граната
+				itmq[2] = 32;
+			break;
+			case 9:
+				nameitm[1] = "harpoon"; // Стрела
+				itmq[1] = 16;
+			break;
+			case 10:
+				nameitm[1] = "harpoon"; // Стрела
+				itmq[1] = 26;
+			break;
+			case 11:
+				nameitm[1] = "GunEchin"; // Ежовый заряд
+				itmq[1] = 15;
+			break;
+			case 12:
+				nameitm[1] = "GunEchin"; // Ежовый заряд
+				itmq[1] = 28;
+			break;
+			case 13:
+				nameitm[1] = "bullet"; // Свинцовые пули
+				itmq[1] = 52;
+				nameitm[2] = "gunpowder"; // Гранулированный порох
+				itmq[2] = 54;
+				nameitm[3] = "grapeshot"; // Картечь
+				itmq[3] = 31;
+				nameitm[4] = "cartridge"; // Бумажный патрон
+				itmq[4] = 23;
+				nameitm[5] = "powder_pellet"; // Петарда
+				itmq[5] = 11;
+				nameitm[6] = "grenade"; // Граната
+				itmq[6] = 5;
+				nameitm[7] = "harpoon"; // Стрела
+				itmq[7] = 5;
+				nameitm[8] = "GunEchin"; // Ежовый заряд
+				itmq[8] = 5;
+			break;
+			case 14:
+				nameitm[1] = "potion1"; // Лечебное зелье
+				itmq[1] = 31;
+				nameitm[2] = "potion2"; // Эликсир
+				itmq[2] = 15;
+				nameitm[3] = "potionrum"; // Бутылка рома
+				itmq[3] = 23;
+			break;
+			case 15:
+				nameitm[1] = "potion1"; // Лечебное зелье
+				itmq[1] = 72;
+			break;
+			case 16:
+				nameitm[1] = "potion2"; // Эликсир
+				itmq[1] = 31;
+			break;
+			case 17:
+				nameitm[1] = "potionrum"; // Бутылка рома
+				itmq[1] = 43;
+			break;
+			case 18:
+				nameitm[3] = "potionrum"; // Бутылка рома
+				itmq[3] = 43;
+			break;
 		}
-		else
-		{
-			iRand = 30 + drand1(20);
-			
-			nameitm[0] = "bullet";
-			itmq[0] = iRand;
-			
-			nameitm[1] = "gunpowder";
-			itmq[1] = iRand;
-			
-			if(drand(2) == 0)
-			{
-				nameitm[2] = "potion1";
-				itmq[2] = 3 + drand1(3);
-			}
-			
-			if(drand(2) == 0)
-			{
-				if(drand(1) == 0)
-				{
-					if(drand(1) == 0)
-					{
-						nameitm[3] = "potion2";
-						itmq[3] = 2 + drand1(2);
-					}
-					else
-					{
-						nameitm[3] = "jewelry3";
-						itmq[3] = 2 + drand1(6);
-					}
-				}
-				else
-				{
-					nameitm[3] = "jewelry17";
-					itmq[3] = 1 + drand1(40);
-				}
-			}
-		}
-	}	
-	
-	if(chestID == "Chest_treasure") // Малый сундук
-	{
-		TakeItemFromCharacter(pchar, chestID);
-		
-		if(drand(1) == 0)
-		{
-			nameitm[0] = "gold";
-			itmq[0] = 22000 + drand1(10)*2000;
-		}
-		else
-		{
-			nameitm[0] = "gold";
-			itmq[0] = 10000 + drand1(4)*2000;
-			
-			if(drand1(1) == 0)
-			{
-				nameitm[1] = "jewelry5";
-				itmq[1] = 21 + rand(9);
-			}
-			
-			if(drand2(2) == 0)
-			{
-				nameitm[2] = "jewelry2";
-				itmq[2] = 11 + drand(2);
-			}
-			
-			if(drand1(2) == 0)
-			{
-				if(drand1(1) == 0)
-				{
-					if(drand1(1) == 0)
-					{
-						nameitm[4] = "jewelry4";
-						itmq[4] = 26 + drand2(4);
-					}
-					else
-					{
-						nameitm[4] = "jewelry3";
-						itmq[4] = 24 + drand2(6);
-					}
-				}
-				else
-				{
-					nameitm[4] = "jewelry17";
-					itmq[4] = 15 + drand(45);
-				}
-			}
-		}
+		if (itmq[0] > 0) itmq[0] += makeint(value/50);
+		if (itmq[1] > 0) itmq[1] += makeint(value/50);
+		if (itmq[2] > 0) itmq[2] += makeint(value/50);
+		if (itmq[3] > 0) itmq[3] += makeint(value/50);
+		if (itmq[4] > 0) itmq[4] += makeint(value/50);
+		if (itmq[5] > 0) itmq[5] += makeint(value/50);
+		if (itmq[6] > 0) itmq[6] += makeint(value/50);
+		if (itmq[7] > 0) itmq[7] += makeint(value/50);
+		if (itmq[8] > 0) itmq[8] += makeint(value/50);
+		if (itmq[9] > 0) itmq[9] += makeint(value/50);
+		if (value >= 800) {nameitm[9] = "GunCap_colt"; itmq[9] = 5;}
 	}
 	
-	if(chestID == "Chest_quest") // Квестовый сундук
+	if(chestID == "Chest_quest") // Странный
 	{
-		iRand = drand1(6);
-		
-		TakeItemFromCharacter(pchar, chestID);
-		
-		if(drand(1) == 0)
+		switch (makeint(value/62))
 		{
-			nameitm[0] = "gold";
-			itmq[0] = 50000 + drand1(10)*2500;
-		}
-		else
-		{
-			nameitm[0] = "gold";
-			itmq[0] = 6000 + drand2(4)*1000;
-			
-			if(iRand == 1)
-			{
-				nameitm[1] = "pistol6";
+			case 0:
+				nameitm[0] = "indian4"; // Глиняный кувшин
+				itmq[0] = 1;
+				nameitm[1] = "indian8"; // Серебряный кубок
 				itmq[1] = 1;
-			}
-			if(iRand == 4)
-			{
-				nameitm[2] = "pistol5";
+				nameitm[2] = "indian9"; // Алебастровый сосуд
 				itmq[2] = 1;
-			}
-			
-			if(drand2(2) == 0)
-			{
-				if(drand2(1) == 0)
-				{
-					if(drand2(1) == 0)
-					{
-						if(!CheckSkull("Sculma3"))
-						{
-					    	nameitm[4] = "Sculma3";
-				    		itmq[4] = 1;
-						}
-						else
-						{
-							nameitm[4] = "indian20";
-				    		itmq[4] = 1;
-						}
-					}
-					else
-					{
-						nameitm[4] = "indian21";
-						itmq[4] = 1;
-					}
-				}
-				else
-				{
-					nameitm[4] = "indian22";
-					itmq[4] = 1;
-				}
-			}
+				nameitm[3] = "indian13"; // Древняя курительница
+				itmq[3] = 1;
+				nameitm[4] = "indian16"; // Раскрашенный сосуд
+				itmq[4] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 9000;
+			break;
+			case 1:
+				nameitm[0] = "indian3"; // Нефритовая маска
+				itmq[0] = 1;
+				nameitm[1] = "indian5"; // Двойная маска
+				itmq[1] = 1;
+				nameitm[2] = "indian10"; // Оберег Эхекатля
+				itmq[2] = 1;
+				nameitm[3] = "indian2"; // Пугающая фигурка
+				itmq[3] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 10000;
+			break;
+			case 2:
+				nameitm[0] = "indian6"; // Амулет Шиукоатля
+				itmq[0] = 1;
+				nameitm[1] = "indian7"; // Идол Великой Матери
+				itmq[1] = 1;
+				nameitm[2] = "indian12"; // Кубок-тотем Тепейоллотля
+				itmq[2] = 1;
+				nameitm[3] = "indian14"; // Чаша Ололиуки
+				itmq[3] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 11000;
+			break;
+			case 3:
+				nameitm[0] = "indian18"; // Идол Атлауа
+				itmq[0] = 1;
+				nameitm[1] = "indian19"; // Статуэтка Тлалока
+				itmq[1] = 1;
+				nameitm[2] = "indian21"; // Церемониальный сосуд
+				itmq[2] = 1;
+				nameitm[3] = "indian22"; // Голова воина племени майя
+				itmq[3] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 12000;
+			break;
+			case 4:
+				nameitm[0] = "indian15"; // Базальтовая голова
+				itmq[0] = 1;
+				nameitm[1] = "indian17"; // Тельная ладанка
+				itmq[1] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 13000;
+			break;
+			case 5:
+				nameitm[0] = "indian1"; // Оберег Тлальчитонатиу
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 27000;
+			break;
+			case 6:
+				nameitm[0] = "indian2"; // Пугающая фигурка
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 36000;
+			break;
+			case 7:
+				nameitm[0] = "indian3"; // Нефритовая маска
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 25000;
+			break;
+			case 8:
+				nameitm[0] = "indian5"; // Двойная маска
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 24000;
+			break;
+			case 9:
+				nameitm[0] = "indian6"; // Амулет Шиукоатля
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 14000;
+			break;
+			case 10:
+				nameitm[0] = "indian7"; // Идол Великой Матери
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 15000;
+			break;
+			case 11:
+				nameitm[0] = "indian12"; // Кубок-тотем Тепейоллотля
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 16000;
+			break;
+			case 12:
+				nameitm[0] = "indian14"; // Чаша Ололиуки
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 17000;
+			break;
+			case 13:
+				nameitm[0] = "indian18"; // Идол Атлауа
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 18000;
+			break;
+			case 14:
+				nameitm[0] = "indian19"; // Статуэтка Тлалока
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 19000;
+			break;
+			case 15:
+				nameitm[0] = "indian21"; // Церемониальный сосуд
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 23000;
+			break;
+			case 16:
+				nameitm[0] = "indian22"; // Голова воина племени майя
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 22000;
+			break;
+			case 17:
+				nameitm[0] = "indian22"; // Голова воина племени майя
+				itmq[0] = 1;
+				nameitm[30] = "gold"; // Золото
+				itmq[30] = 21000;
+			break;
 		}
+		itmq[30] += makeint(value/3);
+		
+        if (value >= 1 && value < 80) {nameitm[15] = "BackPack2"; itmq[15] = 1;}     		// Обычный рюкзак
+        if (value_alt >= 80 && value_alt < 160) {nameitm[15] = "BackPack3"; itmq[15] = 1;}  // Хороший рюкзак
+        if (value2 >= 160 && value2 < 240) {nameitm[15] = "BackPack4"; itmq[15] = 1;} 		// Отличный рюкзак
+		
+        if (value3 >= 240 && value3 < 320) {nameitm[15] = "cirass2"; itmq[15] = 1;}     	// Рейтарский панцирь
+        if (value >= 320 && value < 400) {nameitm[15] = "cirass3"; itmq[15] = 1;}     		// Гвардейская кираса
+        if (value_alt >= 400 && value_alt < 480) {nameitm[15] = "cirass4"; itmq[15] = 1;}   // Офицерская кираса
+		
+        if (value2 >= 480 && value2 < 560) {nameitm[15] = "Totem_1"; itmq[15] = 1;}     	// Тотем Шочикецаль
+        if (value3 >= 560 && value3 < 640) {nameitm[15] = "Totem_2"; itmq[15] = 1;}     	// Тотем Миктлантекутли
+        if (value >= 640 && value < 720) {nameitm[15] = "Totem_3"; itmq[15] = 1;}     		// Тотем Кецалькоатля
+        if (value_alt >= 720 && value_alt < 800) {nameitm[15] = "Totem_4"; itmq[15] = 1;}   // Тотем Мишкоатля
+        if (value2 >= 800 && value2 < 880) {nameitm[15] = "Totem_7"; itmq[15] = 1;}     	// Тотем Уицилопочтли
+        if (value3 >= 880 && value3 < 999) {nameitm[15] = "Totem_8"; itmq[15] = 1;}     	// Тотем Тлалока
+		
+        if (value >= 1 && value < 40) {nameitm[16] = "blade19"; itmq[16] = 1;}     			// Маринера ЛО
+        if (value_alt >= 40 && value_alt < 80) {nameitm[16] = "blade22"; itmq[16] = 1;}     // Испанская рапира ЛО
+        if (value2 >= 80 && value2 < 120) {nameitm[16] = "blade36"; itmq[16] = 1;}     		// Саксенфедер ЛО
+        if (value3 >= 120 && value3 < 160) {nameitm[16] = "blade37"; itmq[16] = 1;}     	// Персидская сабля ЛО
+		
+        if (value >= 160 && value < 200) {nameitm[16] = "blade31"; itmq[16] = 1;}     		// Шамшир СО
+        if (value_alt >= 200 && value_alt < 240) {nameitm[16] = "blade34"; itmq[16] = 1;}   // Скаллоп СО
+        if (value2 >= 240 && value2 < 280) {nameitm[16] = "blade39"; itmq[16] = 1;}    		// Скимитар СО
+        if (value3 >= 280 && value3 < 320) {nameitm[16] = "blade40"; itmq[16] = 1;}    		// Мадонна СО
+        if (value >= 320 && value < 360) {nameitm[16] = "blade46"; itmq[16] = 1;}    		// Офицерский клеванг СО
+		
+        if (value_alt >= 360 && value_alt < 400) {nameitm[16] = "blade15"; itmq[16] = 1;}   // Сторта ТО
+        if (value2 >= 400 && value2 < 440) {nameitm[16] = "blade21"; itmq[16] = 1;}    		// Бастард ТО
+        if (value3 >= 440 && value3 < 480) {nameitm[16] = "blade202"; itmq[16] = 1;}     	// Цвайхандер ТО
+        if (value >= 480 && value < 520) {nameitm[16] = "blade42"; itmq[16] = 1;}     		// Кханда ТО
+        if (value_alt >= 520 && value_alt < 560) {nameitm[16] = "topor2"; itmq[16] = 1;}    // Рейтарский чекан ТО
+		
+        if (value2 >= 560 && value2 < 600) {nameitm[16] = "blade23"; itmq[16] = 1;}       	// Бретта ЛО
+        if (value3 >= 600 && value3 < 640) {nameitm[16] = "blade32"; itmq[16] = 1;}     	// Фламберж ЛО
+        if (value >= 640 && value < 680) {nameitm[16] = "blade26"; itmq[16] = 1;}     		// Паппенхаймер ЛО
+		
+        if (value_alt >= 680 && value_alt < 720) {nameitm[16] = "blade30"; itmq[16] = 1;}   // Нобиль СО
+        if (value2 >= 720 && value2 < 760) {nameitm[16] = "blade24"; itmq[16] = 1;}     	// Чиавона СО
+        if (value3 >= 760 && value3 < 800) {nameitm[16] = "blade25"; itmq[16] = 1;}     	// Карабела СО
+		
+        if (value >= 800 && value < 840) {nameitm[16] = "blade13"; itmq[16] = 1;}     		// Кракемарт ТО
+        if (value_alt >= 840 && value_alt < 880) {nameitm[16] = "blade20"; itmq[16] = 1;}   // Клейбэг ТО
+        if (value2 >= 880 && value2 < 920) {nameitm[16] = "blade33"; itmq[16] = 1;}     	// Валлонская шпага ТО
+        if (value3 >= 920 && value3 < 999) {nameitm[16] = "blade28"; itmq[16] = 1;}     	// Танат ТО
+		
+		if (value >= 1 && value < 150) {nameitm[17] = "pistol_grapebok"; 		itmq[17] = 1;} // Трёхствольный дробовик
+		if (value_alt >= 200 && value_alt < 350) {nameitm[17] = "pistol6"; 		itmq[17] = 1;} // Бок-пистолет
+		if (value2 >= 400 && value2 < 550) {nameitm[17] = "pistol9"; 			itmq[17] = 1;} // Двузарядный пистолет
+		if (value3 >= 600 && value3 < 750) {nameitm[17] = "pistol4"; 			itmq[17] = 1;} // Четырёхствольный пистолет
+		if (value >= 800 && value < 900) {nameitm[17] = "pistol5"; 				itmq[17] = 1;} // Бретерский пистолет
+		if (value_alt >= 900 && value_alt < 950) {nameitm[17] = "mushket"; 		itmq[17] = 1;} // Фитильный мушкет
+		if (value >= 950 && value < 999) {nameitm[17] = "Arguebuse"; 			itmq[17] = 1;} // Аркебуза
+		
+		if (value >= 10 && value < 30) {nameitm[18] = "mushket_spa"; 			itmq[18] = 1;} // Испанский мушкетон
+		if (value_alt >= 150 && value_alt < 170) {nameitm[18] = "mushket_eng"; 	itmq[18] = 1;} // Английский мушкетон
+		if (value >= 600 && value < 620) {nameitm[18] = "mushket_fra"; 			itmq[18] = 1;} // Французcкий мушкетон
+		if (value_alt >= 900 && value_alt < 920) {nameitm[18] = "mushket_hol"; 	itmq[18] = 1;} // Голландский мушкетон
 	}
-	
-	for (i = 0; i < 10; i++)
+	// LEO: Вот выскажусь. Как же я заебался впиливать эту ссаную херню с сундуками. А вот всякие хейтеры потом будут подпёздывать, что мы тип ток готовое пиздим. Сукины вы дети. Если бы вы знали, сколько мы делаем уже эти ёбанные сундуки (и это ток сундуки), чтобы они были ахуенно разнообразны и избавив вас от сейвскама, чтобы вы не могли рандомить их.
+	// LEO: Вот реально, я рот эбал эту рутину. Чот в 2013 году, когда я начинал моделить кораблики в иксах и делал это каждый день и всирал кучу времени, мне тогда было как то похуй. Сейчас чот мне как то немного жалко потраченного времени, конкретно на такую вот рутину. Но сук, это же и для себя делается в первую очередь. Один раз сделать ЗБС и потом играть-кайфовать. Т.ч. я всё еще в деле и едем дальше :)
+	// LEO: Ну и да, без Gregg я бы тут вообще лицо сломал фейспалмом с этой логики и кода в целом. Но оно всё работает и работает как швейцарские часы.
+	for (i = 0; i < 35; i++)
 	{
+		if (itmq[i] == 0) continue;
 		if(nameitm[i] != "")
 		{
 			if(nameitm[i] == "gold") AddMoneyToCharacter(pchar, itmq[i]);
 			else 
 			{
 		    	if(HasSubstr(nameitm[i], "blade"))TakeNItems(pchar, GetGeneratedItem(nameitm[i]), itmq[i]);
-		    	TakeNItems(pchar, nameitm[i], itmq[i]);
+		    	else TakeNItems(pchar, nameitm[i], itmq[i]);
 			}
 			
 			if(i == 0) nameitm[i] = "- " + GetConvertStr("itmname_"+nameitm[i], "ItemsDescribe.txt") + " в количестве " + itmq[i];
@@ -535,7 +909,7 @@ void OpenChest()
 	
 	TakeNItems(pchar, "Lockpick", -1);
 	EngineLayersOffOn(true);
-	CreateTooltip("#" + "Содержимое сундука", "Вы открыли сундук и нашли следующие предметы:", argb(255,255,255,255), "", argb(255,255,192,192), nameitm[0]+nameitm[1]+nameitm[2]+nameitm[3]+nameitm[4]+nameitm[5]+nameitm[6]+nameitm[7]+nameitm[8]+nameitm[9], argb(255,255,255,255), "", argb(255,255,255,255), "none", "none", "none", 64, 64);
+	CreateTooltip("#" + "Содержимое сундука", "Вы открыли сундук и нашли следующие предметы:", argb(255,255,255,255), "", argb(255,255,192,192), nameitm[0]+nameitm[1]+nameitm[2]+nameitm[3]+nameitm[4]+nameitm[5]+nameitm[6]+nameitm[7]+nameitm[8]+nameitm[9]+nameitm[10]+nameitm[11]+nameitm[12]+nameitm[13]+nameitm[14]+nameitm[15]+nameitm[16]+nameitm[17]+nameitm[18]+nameitm[19]+nameitm[20]+nameitm[21]+nameitm[22]+nameitm[23]+nameitm[24]+nameitm[25]+nameitm[26]+nameitm[27]+nameitm[28]+nameitm[29]+nameitm[30], argb(255,255,255,255), "", argb(255,255,255,255), "none", "none", "none", 64, 64);
 }
 
 void ShowInfo()

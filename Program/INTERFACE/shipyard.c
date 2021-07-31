@@ -8,6 +8,7 @@ ref refNPCShipyard;
 int shipIndex;
 int upgradevalue;
 int uptype = 0;
+string SellState = "Max";
 
 int nCurScrollOfficerNum;
 
@@ -78,6 +79,9 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	SetEventHandler("BuyShipEvent","BuyShipEvent",0);
 	SetEventHandler("ClickREPAIR_Soiling","ClickREPAIR_Soiling",0);
 	SetEventHandler("OpenShipUp","OpenShipUp",0);
+	SetEventHandler("CloseShipUp", "CloseShipUp",0);
+	SetEventHandler("ExitChangeHullMenu", "ExitChangeHullMenu",0);
+	SetEventHandler("CheckButtonChange","procCheckBoxChange",0);
     //////////////////
     EI_CreateFrame("SHIP_BIG_PICTURE_BORDER",156,40,366,275); // tak from SHIP_BIG_PICTURE
     EI_CreateHLine("SHIP_BIG_PICTURE_BORDER", 161,246,361,1, 4);
@@ -149,6 +153,9 @@ void IDoExit(int exitCode)
 	DelEventHandler("BuyShipEvent","BuyShipEvent");
 	DelEventHandler("ClickREPAIR_Soiling","ClickREPAIR_Soiling");
 	DelEventHandler("OpenShipUp","OpenShipUp");
+	DelEventHandler("CloseShipUp","CloseShipUp");
+	DelEventHandler("ExitChangeHullMenu", "ExitChangeHullMenu");
+	DelEventHandler("CheckButtonChange","procCheckBoxChange");
 	
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -168,6 +175,17 @@ void ProcessCommandExecute()
 
     switch(nodName)
 	{
+		case "MSG_CREW_CHECKBOX":
+			if (comName=="rclick")
+			{
+				string sText1, sText2, sText3, sPicture, sGroup, sGroupPicture;
+				sText1 = "При выборе варианта ''Распределить до максимальной команды по кораблям'' в случае продажи корабля оставшаяся на нём команда распределяется по всем остальным кораблям поочерёдно, начиная с флагмана. При этом команда заполняется до перегруза. Навыки и мораль команды при этом перерассчитываются.";
+				sText2 = "При выборе варианта ''Распределить до оптимальной команды по кораблям'' в случае продажи корабля оставшаяся на нём команда распределяется по всем остальным кораблям поочерёдно, начиная с флагмана. При этом команда заполняется до оптимальной, без перегруза.  Навыки и мораль команды при этом перерассчитываются.";
+				sText3 = "При выборе варианта ''Уволить в таверну'' в случае продажи корабля оставшаяся на нём команда отправляется в таверну, сливаясь по умениям с уже наличествующими там претендентами в команду.";
+				sPicture = "none";
+			    CreateTooltip("#" + "Увольнение команды", sText1, argb(255,255,255,255), sText2, argb(255,255,255,255), sText3, argb(255,255,255,255), "", argb(255,255,255,255), sPicture, sGroup, sGroupPicture, 256, 256);
+			}
+		break;
         case "BUTTON_SELL":
 			if (comName=="click" || comName=="activate")
 			{
@@ -185,7 +203,28 @@ void ProcessCommandExecute()
 		case "BUTTON_PAINT":
 			if (comName=="click" || comName=="activate")
 			{
-			    ShowMessageInfo2();
+			    ShowChangeHullMenu();
+			}
+		break;
+		
+		case "CHANGE_HULL_LEFT":
+			if(comName=="click")
+			{
+				SelectChangeHull(true);	
+			}
+		break;
+		
+		case "CHANGE_HULL_RIGHT":
+			if(comName=="click")
+			{
+				SelectChangeHull(false);
+			}
+		break;
+		
+		case "CHANGE_HULL_OK":
+			if(comName=="click")
+			{
+				SetNewHullToCharacterShip();	
 			}
 		break;
 		
@@ -278,6 +317,24 @@ void ProcessCommandExecute()
 			    RepairAll();
 			}
 		break;
+	}
+}
+
+void procCheckBoxChange()
+{
+	string sNodName = GetEventData();
+	int nBtnIndex = GetEventData();
+	int bBtnState = GetEventData();
+
+	if( sNodName == "MSG_CREW_CHECKBOX" ) {
+		if( bBtnState==true ) {
+			switch( nBtnIndex ) {
+			case 1: SellState="Max"; break;
+			case 2: SellState="Opt" break;
+			case 3: SellState="Fire" break;
+			}
+		}
+		return;
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -785,7 +842,7 @@ void TableSelectChange()
 			case 1:
 				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == true && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == false)
 				{
-					SetSelectable("SHIPSUP_DOUP", true);
+					if (sti(pchar.money)>=upgradevalue && upsq < 3) SetSelectable("SHIPSUP_DOUP", true);
 				}
 				else
 				{
@@ -799,7 +856,7 @@ void TableSelectChange()
 			case 3:
 				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == true && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == false)
 				{
-					SetSelectable("SHIPSUP_DOUP", true);
+					if (sti(pchar.money)>=upgradevalue && upsq < 3) SetSelectable("SHIPSUP_DOUP", true);
 				}
 				else
 				{
@@ -813,7 +870,7 @@ void TableSelectChange()
 			case 5:
 				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == false && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true)
 				{
-					SetSelectable("SHIPSUP_DOUP", true);
+					if (sti(pchar.money)>=upgradevalue && upsq < 3) SetSelectable("SHIPSUP_DOUP", true);
 				}
 				else
 				{
@@ -871,20 +928,26 @@ void ExitMsgMenu()
 	sMessageMode = "";
 }
 
-void ShowMsgMenu()
+void ShowMsgMenu(bool change)
 {
 	XI_WindowShow("MSG_WINDOW", true);
 	XI_WindowDisable("MSG_WINDOW", false);
 	XI_WindowDisable("MAIN_WINDOW", true);
+	
+	if (change) SetNodeUsing("MSG_CREW_CHECKBOX",false);
+	else SetNodeUsing("MSG_CREW_CHECKBOX",true);
 
 	SetCurrentNode("MSG_CANCEL");
 }
 
 void ShowOtherClick()
 {
-	if (GameInterface.(CurTable).(CurRow).UserData.ID == "CannonType")
+	if (CheckAttribute(GameInterface,CurTable+"."+CurRow+".UserData"))
 	{
-		ShowCannonsMenu();
+		if (GameInterface.(CurTable).(CurRow).UserData.ID == "CannonType")
+		{
+			ShowCannonsMenu();
+		}
 	}
 }
 
@@ -1357,17 +1420,21 @@ void ShowMessageInfo()
 	if (bBuy)
 	{
 		if (iMoney < 0) add = "-";
-		SetFormatedText("MSG_WINDOW_TEXT", "Купить корабль за " + add + FindRussianMoneyString(abs(iMoney)) + "?");
+		SetFormatedText("MSG_WINDOW_TEXT", "");
+		SetFormatedText("MSG_WINDOW_TEXT2", "");
+		SetFormatedText("MSG_WINDOW_TEXT3", "Купить корабль за " + add + FindRussianMoneyString(abs(iMoney)) + "?");
 		SetSelectable("MSG_OK", true);
 		sMessageMode = "ShipBuy";
 	}
 	else
 	{
 	    SetFormatedText("MSG_WINDOW_TEXT", "Продать корабль за " + add + FindRussianMoneyString(abs(iMoney)) + "?");
+		SetFormatedText("MSG_WINDOW_TEXT2", "Как поступить с оставшейся на корабле командой?");
+		SetFormatedText("MSG_WINDOW_TEXT3", "");
 		SetSelectable("MSG_OK", true);
 		sMessageMode = "ShipSell";
 	}
-	ShowMsgMenu();
+	ShowMsgMenu(bBuy);
 }
 
 //#20180922-01
@@ -1409,7 +1476,7 @@ void ShowMessageInfo2()
     }
     SetFormatedText("MSG_WINDOW_TEXT", sText);
     sMessageMode = "ShipPaint";
-	ShowMsgMenu();
+	//ShowMsgMenu();
 }
 
 void MessageOk()
@@ -1456,6 +1523,9 @@ void DoSellShip(bool _refresh)
 		{
 	    	if (sti(chref.index) != GetMainCharacterIndex())
 	    	{
+				if (SellState == "Max") SendCrewToPchar(chref);
+				if (SellState == "Opt") SendOptCrewToPchar(chref);
+				if (SellState == "Fire") FireCrew(chref);
 	            RemoveCharacterCompanion(pchar, chref);
 				AddPassenger(pchar, chref, false);
 				DelBakSkill();
@@ -1476,6 +1546,260 @@ void DoSellShip(bool _refresh)
     		RefreshShipLists();
     	}
 	}
+}
+
+void SendCrewToPchar(ref chref)
+{
+	int i, cn;
+	ref chreff;
+	if (GetCrewQuantity(pchar) < GetMaxCrewQuantity(pchar))
+	{
+		int crewn = GetMaxCrewQuantity(pchar) - GetCrewQuantity(pchar);
+		float fTemp =  stf(GetCrewQuantity(pchar) + crewn);
+		float fTemp2 =  stf(GetCrewQuantity(pchar) + GetCrewQuantity(chref));
+		
+		if (GetCrewQuantity(chref)>crewn)
+		{
+			pchar.Ship.Crew.Exp.Sailors   = (stf(pchar.Ship.Crew.Exp.Sailors)*GetCrewQuantity(pchar) +
+												stf(chref.Ship.Crew.Exp.Sailors)*crewn) / fTemp;
+			pchar.Ship.Crew.Exp.Cannoners   = (stf(pchar.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(pchar) +
+													stf(chref.Ship.Crew.Exp.Cannoners)*crewn) / fTemp;
+			pchar.Ship.Crew.Exp.Soldiers   = (stf(pchar.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(pchar) +
+														stf(chref.Ship.Crew.Exp.Soldiers)*crewn) / fTemp;
+			pchar.Ship.Crew.morale   = (stf(pchar.Ship.Crew.morale)*GetCrewQuantity(pchar) +
+														stf(chref.Ship.Crew.morale)*crewn) / fTemp;
+														
+			SetCrewQuantity(pchar,GetMaxCrewQuantity(pchar));
+			Log_Info("Часть команды с проданного корабля перешла на ваш корабль.");
+			crewn = GetCrewQuantity(chref)-crewn;
+			if (crewn > 0)
+			{
+				for(i=1; i<COMPANION_MAX; i++)
+				{
+					cn = GetCompanionIndex(PChar, i);
+					if(cn > 0 && crewn > 0)
+					{
+						chreff = GetCharacter(cn);
+						if (crewn != 0) crewn = SendCrewToShip(chref, chreff, crewn);
+					}
+				}
+				if (crewn > 0) SendCrewToTavern(chref, crewn);
+				
+			}
+		}
+		else 
+		{
+			pchar.Ship.Crew.Exp.Sailors   = (stf(pchar.Ship.Crew.Exp.Sailors)*GetCrewQuantity(pchar) +
+												stf(chref.Ship.Crew.Exp.Sailors)*GetCrewQuantity(chref)) / fTemp2;
+			pchar.Ship.Crew.Exp.Cannoners   = (stf(pchar.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(pchar) +
+													stf(chref.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(chref)) / fTemp2;
+			pchar.Ship.Crew.Exp.Soldiers   = (stf(pchar.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(pchar) +
+														stf(chref.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(chref)) / fTemp2;
+
+			pchar.Ship.Crew.morale   = (stf(pchar.Ship.Crew.morale)*GetCrewQuantity(pchar) +
+														stf(chref.Ship.Crew.morale)*GetCrewQuantity(chref)) / fTemp2;
+			SetCrewQuantity(pchar,GetCrewQuantity(pchar)+GetCrewQuantity(chref)); 
+			Log_Info("Команда с проданного корабля перешла на ваш корабль.");
+		}
+	}
+	else
+	{
+		int creww = GetCrewQuantity(chref);
+		for(i=1; i<COMPANION_MAX; i++)
+		{
+			cn = GetCompanionIndex(PChar, i);
+			if(cn > 0 && creww > 0)
+			{
+				chreff = GetCharacter(cn);
+				creww = SendCrewToShip(chref, chreff, creww);
+			}
+		}
+		if (creww > 0) SendCrewToTavern(chref, creww);
+	}
+}
+
+int SendCrewToShip(ref chref, ref chreff, int crewnum)
+{
+	int crewn = GetMaxCrewQuantity(chreff) - GetCrewQuantity(chreff);
+	if (crewn == 0) return crewnum;
+	float fTemp =  stf(GetCrewQuantity(chreff) + crewn);
+	float fTemp2 =  stf(GetCrewQuantity(chreff) + crewnum);
+	
+	if (crewnum>crewn)
+	{
+		chreff.Ship.Crew.Exp.Sailors   = (stf(chreff.Ship.Crew.Exp.Sailors)*GetCrewQuantity(chreff) +
+											stf(chref.Ship.Crew.Exp.Sailors)*crewn) / fTemp;
+		chreff.Ship.Crew.Exp.Cannoners   = (stf(chreff.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(chreff) +
+												stf(chref.Ship.Crew.Exp.Cannoners)*crewn) / fTemp;
+		chreff.Ship.Crew.Exp.Soldiers   = (stf(chreff.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(chreff) +
+													stf(chref.Ship.Crew.Exp.Soldiers)*crewn) / fTemp;
+		chreff.Ship.Crew.morale   = (stf(chreff.Ship.Crew.morale)*GetCrewQuantity(chreff) +
+													stf(chref.Ship.Crew.morale)*crewn) / fTemp;
+													
+		SetCrewQuantity(chreff,GetMaxCrewQuantity(chreff));
+		Log_Info("Часть команды с проданного корабля перешла на корабль компаньона "+chreff.name+" "+chreff.lastname+".");
+		crewn = crewnum-crewn;
+	}
+	else 
+	{
+		chreff.Ship.Crew.Exp.Sailors   = (stf(chreff.Ship.Crew.Exp.Sailors)*GetCrewQuantity(chreff) +
+											stf(chref.Ship.Crew.Exp.Sailors)*crewnum) / fTemp2;
+		chreff.Ship.Crew.Exp.Cannoners   = (stf(chreff.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(chreff) +
+												stf(chref.Ship.Crew.Exp.Cannoners)*crewnum) / fTemp2;
+		chreff.Ship.Crew.Exp.Soldiers   = (stf(chreff.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(chreff) +
+													stf(chref.Ship.Crew.Exp.Soldiers)*crewnum) / fTemp2;
+
+		chreff.Ship.Crew.morale   = (stf(chreff.Ship.Crew.morale)*GetCrewQuantity(chreff) +
+													stf(chref.Ship.Crew.morale)*crewnum) / fTemp2;
+		SetCrewQuantity(chreff,GetCrewQuantity(chreff)+crewnum); 
+		Log_Info("Команда с проданного корабля перешла на корабль компаньона "+chreff.name+" "+chreff.lastname+".");
+		crewn = 0;
+	}
+	return crewn;
+}
+
+void SendCrewToTavern(ref chref, int crewn)
+{
+	ref refTown = GetColonyByIndex(FindColony(loadedLocation.fastreload));
+	float fTemp3 =  stf(GetCrewQuantity(refTown) + crewn);
+	refTown.Ship.Crew.Exp.Sailors   = (stf(refTown.Ship.Crew.Exp.Sailors)*GetCrewQuantity(refTown) + 
+											stf(chref.Ship.Crew.Exp.Sailors)*crewn) / fTemp3;
+	refTown.Ship.Crew.Exp.Cannoners   = (stf(refTown.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(refTown) + 
+											stf(chref.Ship.Crew.Exp.Cannoners)*crewn) / fTemp3;
+	refTown.Ship.Crew.Exp.Soldiers   = (stf(refTown.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(refTown) + 
+											stf(chref.Ship.Crew.Exp.Soldiers)*crewn) / fTemp3;
+	refTown.Ship.Crew.Morale   = (stf(refTown.Ship.Crew.Morale)*GetCrewQuantity(refTown) + 
+											stf(chref.Ship.Crew.Morale)*crewn) / fTemp3;
+	refTown.Ship.Crew.Quantity = sti(refTown.Ship.Crew.Quantity) + crewn;				
+	Log_Info("Оставшаяся команда с проданного корабля отправилась в увольнение.")
+}
+
+void SendOptCrewToPchar(ref chref)
+{
+	int i, cn;
+	ref chreff;
+	if (GetCrewQuantity(pchar) < GetOptCrewQuantity(pchar))
+	{
+		int crewn = GetOptCrewQuantity(pchar) - GetCrewQuantity(pchar);
+		float fTemp =  stf(GetCrewQuantity(pchar) + crewn);
+		float fTemp2 =  stf(GetCrewQuantity(pchar) + GetCrewQuantity(chref));
+		
+		if (GetCrewQuantity(chref)>crewn)
+		{
+			pchar.Ship.Crew.Exp.Sailors   = (stf(pchar.Ship.Crew.Exp.Sailors)*GetCrewQuantity(pchar) +
+												stf(chref.Ship.Crew.Exp.Sailors)*crewn) / fTemp;
+			pchar.Ship.Crew.Exp.Cannoners   = (stf(pchar.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(pchar) +
+													stf(chref.Ship.Crew.Exp.Cannoners)*crewn) / fTemp;
+			pchar.Ship.Crew.Exp.Soldiers   = (stf(pchar.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(pchar) +
+														stf(chref.Ship.Crew.Exp.Soldiers)*crewn) / fTemp;
+			pchar.Ship.Crew.morale   = (stf(pchar.Ship.Crew.morale)*GetCrewQuantity(pchar) +
+														stf(chref.Ship.Crew.morale)*crewn) / fTemp;
+														
+			SetCrewQuantity(pchar,GetOptCrewQuantity(pchar));
+			Log_Info("Часть команды с проданного корабля перешла на ваш корабль.");
+			crewn = GetCrewQuantity(chref)-crewn;
+			if (crewn > 0)
+			{
+				for(i=1; i<COMPANION_MAX; i++)
+				{
+					cn = GetCompanionIndex(PChar, i);
+					if(cn > 0 && crewn > 0)
+					{
+						chreff = GetCharacter(cn);
+						if (crewn != 0) crewn = SendOptCrewToShip(chref, chreff, crewn);
+					}
+				}
+				if (crewn > 0) SendCrewToTavern(chref, crewn);
+				
+			}
+		}
+		else 
+		{
+			pchar.Ship.Crew.Exp.Sailors   = (stf(pchar.Ship.Crew.Exp.Sailors)*GetCrewQuantity(pchar) +
+												stf(chref.Ship.Crew.Exp.Sailors)*GetCrewQuantity(chref)) / fTemp2;
+			pchar.Ship.Crew.Exp.Cannoners   = (stf(pchar.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(pchar) +
+													stf(chref.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(chref)) / fTemp2;
+			pchar.Ship.Crew.Exp.Soldiers   = (stf(pchar.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(pchar) +
+														stf(chref.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(chref)) / fTemp2;
+
+			pchar.Ship.Crew.morale   = (stf(pchar.Ship.Crew.morale)*GetCrewQuantity(pchar) +
+														stf(chref.Ship.Crew.morale)*GetCrewQuantity(chref)) / fTemp2;
+			SetCrewQuantity(pchar,GetCrewQuantity(pchar)+GetCrewQuantity(chref)); 
+			Log_Info("Команда с проданного корабля перешла на ваш корабль.");
+		}
+	}
+	else
+	{
+		int creww = GetCrewQuantity(chref);
+		for(i=1; i<COMPANION_MAX; i++)
+		{
+			cn = GetCompanionIndex(PChar, i);
+			if(cn > 0 && creww > 0)
+			{
+				chreff = GetCharacter(cn);
+				creww = SendOptCrewToShip(chref, chreff, creww);
+			}
+		}
+		if (creww > 0) SendCrewToTavern(chref, creww);
+	}
+}
+
+int SendOptCrewToShip(ref chref, ref chreff, int crewnum)
+{
+	if (GetCrewQuantity(chreff) >= GetOptCrewQuantity(chreff)) return crewnum;
+	int crewn = GetOptCrewQuantity(chreff) - GetCrewQuantity(chreff);
+	if (crewn == 0) return crewnum;
+	float fTemp =  stf(GetCrewQuantity(chreff) + crewn);
+	float fTemp2 =  stf(GetCrewQuantity(chreff) + crewnum);
+	
+	if (crewnum>crewn)
+	{
+		chreff.Ship.Crew.Exp.Sailors   = (stf(chreff.Ship.Crew.Exp.Sailors)*GetCrewQuantity(chreff) +
+											stf(chref.Ship.Crew.Exp.Sailors)*crewn) / fTemp;
+		chreff.Ship.Crew.Exp.Cannoners   = (stf(chreff.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(chreff) +
+												stf(chref.Ship.Crew.Exp.Cannoners)*crewn) / fTemp;
+		chreff.Ship.Crew.Exp.Soldiers   = (stf(chreff.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(chreff) +
+													stf(chref.Ship.Crew.Exp.Soldiers)*crewn) / fTemp;
+		chreff.Ship.Crew.morale   = (stf(chreff.Ship.Crew.morale)*GetCrewQuantity(chreff) +
+													stf(chref.Ship.Crew.morale)*crewn) / fTemp;
+													
+		SetCrewQuantity(chreff,GetOptCrewQuantity(chreff));
+		Log_Info("Часть команды с проданного корабля перешла на корабль компаньона "+chreff.name+" "+chreff.lastname+".");
+		crewn = crewnum-crewn;
+	}
+	else 
+	{
+		chreff.Ship.Crew.Exp.Sailors   = (stf(chreff.Ship.Crew.Exp.Sailors)*GetCrewQuantity(chreff) +
+											stf(chref.Ship.Crew.Exp.Sailors)*crewnum) / fTemp2;
+		chreff.Ship.Crew.Exp.Cannoners   = (stf(chreff.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(chreff) +
+												stf(chref.Ship.Crew.Exp.Cannoners)*crewnum) / fTemp2;
+		chreff.Ship.Crew.Exp.Soldiers   = (stf(chreff.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(chreff) +
+													stf(chref.Ship.Crew.Exp.Soldiers)*crewnum) / fTemp2;
+
+		chreff.Ship.Crew.morale   = (stf(chreff.Ship.Crew.morale)*GetCrewQuantity(chreff) +
+													stf(chref.Ship.Crew.morale)*crewnum) / fTemp2;
+		SetCrewQuantity(chreff,GetCrewQuantity(chreff)+crewnum); 
+		Log_Info("Команда с проданного корабля перешла на корабль компаньона "+chreff.name+" "+chreff.lastname+".");
+		crewn = 0;
+	}
+	return crewn;
+}
+
+void FireCrew(ref chref)
+{
+	int crewn = GetCrewQuantity(chref);
+	ref refTown = GetColonyByIndex(FindColony(loadedLocation.fastreload));
+	float fTemp3 =  stf(GetCrewQuantity(refTown) + crewn);
+	refTown.Ship.Crew.Exp.Sailors   = (stf(refTown.Ship.Crew.Exp.Sailors)*GetCrewQuantity(refTown) + 
+											stf(chref.Ship.Crew.Exp.Sailors)*crewn) / fTemp3;
+	refTown.Ship.Crew.Exp.Cannoners   = (stf(refTown.Ship.Crew.Exp.Cannoners)*GetCrewQuantity(refTown) + 
+											stf(chref.Ship.Crew.Exp.Cannoners)*crewn) / fTemp3;
+	refTown.Ship.Crew.Exp.Soldiers   = (stf(refTown.Ship.Crew.Exp.Soldiers)*GetCrewQuantity(refTown) + 
+											stf(chref.Ship.Crew.Exp.Soldiers)*crewn) / fTemp3;
+	refTown.Ship.Crew.Morale   = (stf(refTown.Ship.Crew.Morale)*GetCrewQuantity(refTown) + 
+											stf(chref.Ship.Crew.Morale)*crewn) / fTemp3;
+	refTown.Ship.Crew.Quantity = sti(refTown.Ship.Crew.Quantity) + crewn;				
+	Log_Info("Оставшаяся команда с проданного корабля отправилась в увольнение.")
 }
 
 void RefreshShipLists()
@@ -1904,6 +2228,16 @@ int GetChrClearSoilingCoast()
 	return sum;
 }
 
+void CloseShipUp()
+{
+	XI_WindowShow("MAIN_WINDOW", true);
+	XI_WindowDisable("MAIN_WINDOW", false);
+	XI_WindowShow("SHIPSUP_WINDOW", false);
+	XI_WindowDisable("SHIPSUP_WINDOW", true);
+	SetNodeUsing("MAIN_WINDOW", true);
+	SetNodeUsing("SHIPSUP_WINDOW", false);
+}
+
 void OpenShipUp()
 {
 	int upsq = 0;
@@ -2126,3 +2460,137 @@ void DoUpgrade()
 	timeUpgrade = timePreUpgrade;
 	OpenShipUp();
 }
+
+// Lugger: Смена разцветки корпуса -->
+void ExitChangeHullMenu()
+{
+	HideChangeHullMenu();
+	OnShipScrollChange();
+}
+
+void HideChangeHullMenu()
+{
+	XI_WindowShow("CHANGE_HULL_WINDOW", false);
+	XI_WindowDisable("CHANGE_HULL_WINDOW", true);
+	XI_WindowDisable("MAIN_WINDOW", false);
+	SetCurrentNode("TABLE_OTHER");
+	sMessageMode = "";
+}
+
+void ShowChangeHullMenu()
+{
+	ref rShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
+
+	XI_WindowShow("CHANGE_HULL_WINDOW", true);
+	XI_WindowDisable("CHANGE_HULL_WINDOW", false);
+	XI_WindowDisable("MAIN_WINDOW", true);
+	SetCurrentNode("CHANGE_Hull_CANCEL");
+	
+	ref refShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
+	int iCurrentType = sti(refShip.Ship.Upgrades.Hull);
+	PChar.ChangeHull.Type = iCurrentType;
+	
+	SetChangeHullInfo();
+}
+
+void SetChangeHullInfo()
+{
+    	SetFormatedText("CHANGE_SAILS_TYPE_CAPTION_TEXT", "Корпус: ");
+    	
+	ref rShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
+    	string sShipName = rShip.name;
+    	
+    	string sTypeName = "Hull" + sti(PChar.ChangeHull.Type);
+	
+	string sTexture = GetShipTexturesForChangeHull();
+	SetNewPicture("CHANGE_HULL_TYPE", "ships\" + sShipName + "\" + sTypeName + "\" + sTexture);
+	
+	int iMoney = CalculateHullChangePrice(sti(rShip.Class));
+    	SetFormatedText("CHANGE_HULL_MONEY", "Цена: " + iMoney);
+	
+	if(sti(PChar.money) > iMoney)
+	{
+		SetSelectable("CHANGE_HULL_OK", true);
+	}
+	else
+	{
+		SetSelectable("CHANGE_HULL_OK", false);
+	}
+}
+
+string GetShipTexturesForChangeHull()
+{
+	ref rShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
+    	string sShipName = rShip.name;
+		
+	int Hulls = LanguageOpenFile("Hulls.txt");
+	string sTex = LanguageConvertString(Hulls, sShipName);
+	LanguageCloseFile(Hulls);
+	
+	return sTex;
+}
+
+void SelectChangeHull(bool bLeft)
+{
+	ref rShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
+    	string sShipName = rShip.name;
+    
+	int iMax = 3;
+	if (CheckAttribute(rShip,"hullNums")) iMax = sti(rShip.hullNums);
+	
+	if(bLeft)
+	{
+		PChar.ChangeHull.Type = sti(PChar.ChangeHull.Type) - 1;
+		
+		if(sti(PChar.ChangeHull.Type) < 1)
+		{
+			PChar.ChangeHull.Type = iMax;
+		}
+	}
+	else
+	{
+		PChar.ChangeHull.Type = sti(PChar.ChangeHull.Type) + 1;
+		
+		if(sti(PChar.ChangeHull.Type) > iMax)
+		{
+			PChar.ChangeHull.Type = 1;
+		}
+	}
+	
+	SetChangeHullInfo();
+}
+		
+void SetNewHullToCharacterShip()
+{
+	ref refShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
+	
+	int iMoney = CalculateHullChangePrice(sti(refShip.Class));
+	AddMoneyToCharacter(PChar, -iMoney);
+	
+	refShip.Ship.Upgrades.Hull = sti(PChar.ChangeHull.Type);
+	
+	ExitChangeHullMenu();
+}
+
+int CalculateHullChangePrice(int value)
+{
+	switch (value)
+	{
+		case 7: return 1000+drand(500);
+		break;
+		case 6: return 5000+drand(2500);
+		break;
+		case 5: return 10000+drand(5000);
+		break;
+		case 4: return 20000+drand(10000);
+		break;
+		case 3: return 35000+drand(17500);
+		break;
+		case 2: return 50000+drand(25000);
+		break;
+		case 1: return 100000+drand(50000);
+		break;
+	}
+}
+
+// Lugger: Смена разцветки корпуса <--

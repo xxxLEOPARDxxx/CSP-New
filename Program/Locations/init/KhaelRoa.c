@@ -419,7 +419,7 @@ int LocationInitKhaelRoa(int n)
 	Locations[n].id = "Treasure_Alcove";
 	Locations[n].filespath.models = "locations\Incas Temple\Alcove\";
 	//Sound
-	Locations[n].image = "loading\inside\Labirint.tga";
+	Locations[n].image = "loading\inside\Alcove.tga";
 	locations[n].type = "Alcove";
 	locations[n].id.label = "Alcove";
 	Locations[n].environment.weather = "true";

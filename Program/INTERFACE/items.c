@@ -1095,6 +1095,15 @@ bool ThisItemCanBeEquip( aref arItem )
 	{
 		return true;
 	}
+	if (HasSubStr(arItem.id,"Strange"))
+	{
+		if (!CheckAttribute(xi_refCharacter, "StrangeMushrooms")) xi_refCharacter.StrangeMushrooms = 0;
+		if (!CheckAttribute(xi_refCharacter, "StrangePotion")) xi_refCharacter.StrangePotion = 0;
+
+		if (arItem.id ==  "StrangeMushrooms" && sti(xi_refCharacter.StrangeMushrooms) < 5) return true;
+		else {if (arItem.id ==  "StrangePotion" && sti(xi_refCharacter.StrangePotion) < 5) return true;}
+		else {if (arItem.id ==  "StrangeElixir" && !CheckAttribute(xi_refCharacter, "StrangeElixir")) return true;}
+	}
 	if( !CheckAttribute(arItem,"groupID") )
 	{
 		return false;
@@ -1174,6 +1183,10 @@ bool ThisItemCanBeEquip( aref arItem )
 		//aw013	if(arItem.groupID==BLADE_ITEM_TYPE || arItem.groupID==SPYGLASS_ITEM_TYPE || arItem.groupID==PATENT_ITEM_TYPE)
 		if(arItem.groupID==PATENT_ITEM_TYPE)	//aw013
 		{
+			if (CheckAttribute(pchar,"questTemp.Ascold"))
+			{
+				if (pchar.questTemp.Ascold == "ReciveInformationManowar" || pchar.questTemp.Ascold == "Ascold_ImMummy")	return true;
+			}
 			return false;
 		}
 	}
@@ -1345,7 +1358,7 @@ void EquipPress()
 					pchar.questTemp.LSC.Ring.ReadCapBook = "true";
 				}
 
-				if(HasSubStr(itmRef.id, "chest") && xi_refCharacter.id == pchar.id)
+				if(HasSubStr(itmRef.id, "chest") && itmRef.id != "Chest" && xi_refCharacter.id == pchar.id)
 				{
 					if(CheckCharacterItem(xi_refCharacter, "Lockpick"))
 					{
@@ -1521,6 +1534,62 @@ void EquipPress()
 			SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
 			SetSelectable("EQUIP_BUTTON",ThisItemCanBeEquip(&Items[iGoodIndex]));
 			SetItemInfo();
+		}
+	}
+	if (HasSubStr(itmRef.id,"Strange"))
+	{
+		int strangeHpBonus = 5;
+		int strangeEnBonus = 2;
+		if (HasSubStr(xi_refCharacter.model,"Lejitos") || HasSubStr(xi_refCharacter.model,"Shicoba") || xi_refCharacter.id == "Tichingitu")
+		{
+			//Персонажи с индейским прошлым получают более сильный эффект
+			strangeHpBonus = 10;
+			strangeEnBonus = 4;
+		}
+		
+		if (itmRef.id == "StrangeMushrooms" && sti(xi_refCharacter.StrangeMushrooms) < 5)
+		{
+			LAi_SetHP (xi_refCharacter,1,LAi_GetCharacterMaxHP(xi_refCharacter) + strangeHpBonus);
+			xi_refCharacter.StrangeMushrooms = sti(xi_refCharacter.StrangeMushrooms)+1;
+			PlaySound("interface\heartbeat.wav");
+			if (IsMainCharacter(xi_refCharacter)) Log_Info("Ваше максимальное здоровье увеличено на "+strangeHpBonus+"!");
+			else Log_Info(GetFullName(xi_refCharacter)+" увеличивает максимальное здоровье на "+strangeHpBonus+"!")
+			DumpAttributes(pchar);
+			ApplayNewSkill(pchar, "", 0);
+			TakeNItems(xi_refCharacter, itmRef.id, -1);
+			FillItemsTable(1);
+		}
+		else
+		{
+			if (itmRef.id == "StrangePotion" && sti(xi_refCharacter.StrangePotion) < 5)
+			{
+				LAi_SetHP (xi_refCharacter,1,LAi_GetCharacterMaxHP(xi_refCharacter));
+				AddBonusEnergyToCharacter(xi_refCharacter,strangeEnBonus);
+				xi_refCharacter.StrangePotion = sti(xi_refCharacter.StrangePotion)+1;
+				PlaySound("interface\heartbeat.wav");
+				if (IsMainCharacter(xi_refCharacter)) Log_Info("Ваша максимальная энергия увеличилась на "+strangeEnBonus+"!");
+				else {Log_Info(GetFullName(xi_refCharacter)+" увеличивает максимальную энергию на "+strangeEnBonus+"!")}
+				DumpAttributes(pchar);
+				ApplayNewSkill(pchar, "", 0);
+				TakeNItems(xi_refCharacter, itmRef.id, -1);
+				FillItemsTable(1);
+			}
+			else
+			{
+				if (itmRef.id == "StrangeElixir" && !CheckAttribute(xi_refCharacter, "StrangeElixir"))
+				{
+					xi_refCharacter.StrangeElixir = true;
+					LAi_SetHP (xi_refCharacter,1,LAi_GetCharacterMaxHP(xi_refCharacter));
+					PlaySound("interface\heartbeat.wav");
+					if (IsMainCharacter(xi_refCharacter)) Log_Info("Ваш урон в ближнем бою навсегда увеличен на десять процентов!");
+					else {Log_Info(GetFullName(xi_refCharacter)+" навсегда увеличивает урон в ближнем бою на десять процентов!")}
+					DumpAttributes(pchar);
+					ApplayNewSkill(pchar, "", 0);
+					TakeNItems(xi_refCharacter, itmRef.id, -1);
+					FillItemsTable(1);
+				}
+			}
+			else PlaySound("interface\knock.wav");
 		}
 	}
 	if (HasSubStr(itmRef.id,"Tube") && IsMainCharacter(xi_refCharacter))
@@ -1778,18 +1847,6 @@ void ShowItemFromCharacterWindow()
 		fItemQuantity = GetItemsWeight(xi_refCharacter);
 	}
 
-
-	aref arTest;
-	makearef(arTest, itm);
-	string sTemp = "";
-	int attrQ = GetAttributesNum(arTest);
-	for(i=0; i<attrQ; i++)
-	{
-	sTemp = GetAttributeValue(GetAttributeN(arTest,i));
-	log_info(GetAttributeName(GetAttributeN(arTest,i)) + " = " + sTemp);
-	}
-
-
 SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(xi_refCharacter));
 
 	LanguageCloseFile(lngFileID);
@@ -1801,6 +1858,7 @@ void confirmChangeQTY_EDIT()
 	int iItemIndex = sti(GameInterface.(CurTable).(CurRow).index);
 	ref itm = &Items[iItemIndex];
 	ChangeQTY_EDIT(itm.id);
+	CheckAndSetOverloadMode(GetMainCharacter());
 }
 
 void ChangeQTY_EDIT(string sItem)

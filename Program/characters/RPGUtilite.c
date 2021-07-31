@@ -2681,7 +2681,8 @@ void initNewMainCharacter()
 	AddQuestRecordInfo("Tutorial_Sharp", "1");
 	AddQuestRecordInfo("Tutorial_Fight_Info", "1");
 	//Boyer add from GOF for quizzes
-	AddQuestRecordInfo("Tutorial_ChangeLog", "1");
+	AddQuestRecordInfo("Tutorial_ChangeLog_CSP", "1");
+	AddQuestRecordInfo("Tutorial_WhoIsQUESTS_CSP", "1");
 
 	ReloadProgressUpdate();
 	pchar.questTemp.Achievements.Points = "0" // Очки достижений на ноль

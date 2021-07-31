@@ -51,7 +51,7 @@ void ProcessDialogEvent()
 			{
                 if (CheckAttribute(pchar, "questTemp.State.Store") || CheckAttribute(pchar, "questTemp.State.Usurer"))
                 {
-                    dialog.text = "Рад видеть тебя, " + GetFullName(pchar) + ". Ты готов"+ GetSexPhrase("","а") +" отчитаться по заднию?";
+                    dialog.text = "Рад видеть тебя, " + GetFullName(pchar) + ". Ты готов"+ GetSexPhrase("","а") +" отчитаться по заданию?";
         			link.l1 = "Монсеньор, я навестил"+ GetSexPhrase("","а") +" всех указанных вами людей.";
         			link.l1.go = "Step_S2_12";
         			link.l2 = "Пожалуй, нет еще, монсеньор. Я еще поработаю над этим...";

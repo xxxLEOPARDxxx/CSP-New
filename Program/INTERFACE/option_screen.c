@@ -1287,8 +1287,8 @@ void ShowInfo()
 			sHeader = XI_ConvertString("HUDStyle_title");
 			sText1 = XI_ConvertString("HUDStyle_desc");
             sPicture = "INTERFACES\FaqPictures\HUDStyle_CHECKBOX.png";
-			xx = 256;
-			yy = 256;
+			xx = 600;
+			yy = 300;
 		break;
 		
 		case "HUDStyleLand_CHECKBOX":

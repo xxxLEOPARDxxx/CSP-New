@@ -340,24 +340,6 @@ void GenerateRumourAoP()//(string sType, int iArgument1, int iArgument2, int iAr
 			Rumours[iNumber].area = "tavern";
 			Rumours[iNumber].isquest = 1;
 		break;
-		/*case "colony_upgrade":
-			iInfoColony = iArgument2;
-			string sStep = "l"+iArgument3;
-			sTypeInfo = ColonyUpgrades[iArgument1].(sStep).name;
-
-			FormatColonyString(iArgument2, 1, &sParam);
-
-			FormatNationString(iArgument3, 1, &sParam);
-
-			sUpgrade = XI_ConvertString(ColonyUpgrades[iArgument1].(sStep).name);
-			string sUpgradeAcc = XI_ConvertString(ColonyUpgrades[iArgument1].(sStep).name + "Acc");
-
-			sParam = DialogAddParamToStr(sParam, "sUpgrade", sUpgrade);
-			sParam = DialogAddParamToStr(sParam, "sUpgradeAcc", sUpgradeAcc);
-
-			sStringID = "SelectColonyUpgradeRumour" + rand(2);
-			sResult = DialogAssembleStr(sStringID, sParam);
-		break;*/
 	}
 
 	Rumours[iNumber].text = sResult;
@@ -369,10 +351,6 @@ void GenerateRumourAoP()//(string sType, int iArgument1, int iArgument2, int iAr
 	{
 		Rumours[iNumber].colony = iInfoColony;
 	}
-	/*else  // Philippe
-	{
-		DeleteAttribute(&Rumours[iNumber], "colony");
-	}*/
 	if(sType != "-1")
 	{
 		Rumours[iNumber].colony.fieldupdate = sTypeInfo;
@@ -384,21 +362,6 @@ void GenerateRumourAoP()//(string sType, int iArgument1, int iArgument2, int iAr
 
 int CheckRumourAoPPosition()// Dernier
 {
-//======================================================
-  /*   object RandNations[MAX_NATIONS];
-	int m = 0;
-	for(int i = 0; i < MAX_NATIONS - 2; i++)
-	{
-		if(i != iNation)
-		{
-			RandNations[m].nation = i;
-			m++;
-		}
-	}
-	m = rand(m - 1);
-	int iResultNation = sti(RandNations[m].nation);
-	return iResultNation;*/
-//=============================================================
     int itext;
 	for(int i = 0; i < MAX_RUMOURS; i++)
 	{
@@ -416,11 +379,6 @@ void EmptyAllRumours()
 int itext, iquestbook, idate, iisquest;
 	for (int i=0; i<MAX_RUMOURS; i++)
 	{
-		/*DeleteAttribute(&Rumours[i], "text");
-		DeleteAttribute(&Rumours[i], "questbook");
-		DeleteAttribute(&Rumours[i], "date");
-		DeleteAttribute(&Rumours[i], "isquest");*/
-
         DeleteAttribute(itext, "text");
 		DeleteAttribute(iquestbook, "questbook");
 		DeleteAttribute(idate, "date");

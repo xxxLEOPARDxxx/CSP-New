@@ -1840,17 +1840,18 @@ void SetParameterData()
 	BattleInterface.MessageIcons.texture = "battle_interface\MessageIcons.tga";
 	BattleInterface.MessageIcons.TexHSize = 2;
 	BattleInterface.MessageIcons.TexVSize = 2;
-
+	
+	// Цифры ветра и текущей скорости
 	BattleInterface.navigation.aspectRatio				= showWindow.aspectRatio;
-	BattleInterface.navigation.navigatorWidth			= RecalculateHIcon(makeint(256 * fHtRatio));
-	BattleInterface.navigation.navigatorHeight			= RecalculateVIcon(makeint(256 * fHtRatio));
+	BattleInterface.navigation.navigatorWidth			= RecalculateHIcon(makeint(216 * fHtRatio));
+	BattleInterface.navigation.navigatorHeight			= RecalculateVIcon(makeint(216 * fHtRatio));
 	BattleInterface.navigation.rightPos					= sti(showWindow.right) + RecalculateHIcon(makeint(-10 * fHtRatio));
 	BattleInterface.navigation.topPos					= sti(showWindow.top) - RecalculateVIcon(makeint(24 * fHtRatio));
 	BattleInterface.navigation.speedShowFont			= "bold_numbers";
-	BattleInterface.navigation.speedOutYOffset			= RecalculateVIcon(makeint(216 * fHtRatio));
-	BattleInterface.navigation.shipSpeedXOffset			= RecalculateHIcon(makeint(30 * fHtRatio));
-	BattleInterface.navigation.windSpeedXOffset			= RecalculateHIcon(makeint(-30 * fHtRatio));
-	BattleInterface.navigation.fontScale				= 0.8 * fHtRatio;
+	BattleInterface.navigation.speedOutYOffset			= RecalculateVIcon(makeint(180 * fHtRatio));
+	BattleInterface.navigation.shipSpeedXOffset			= RecalculateHIcon(makeint(25 * fHtRatio));
+	BattleInterface.navigation.windSpeedXOffset			= RecalculateHIcon(makeint(-25 * fHtRatio));
+	BattleInterface.navigation.fontScale				= 0.7 * fHtRatio;
 	BattleInterface.navigation.windWidth				= makeint(32 * fHtRatio);
 	BattleInterface.navigation.windHeight				= makeint(128 * fHtRatio);
 	
@@ -1867,7 +1868,7 @@ void SetParameterData()
 	BattleInterface.navigation.forwardChargeEndAngle	= 378;
 	BattleInterface.navigation.backwardChargeBegAngle	= 198;
 	BattleInterface.navigation.backwardChargeEndAngle	= 162;
-	BattleInterface.navigation.mapRadius				= makeint(55 * fHtRatio);
+	BattleInterface.navigation.mapRadius				= makeint(48 * fHtRatio);
 	BattleInterface.navigation.horizontRadius			= 400;
 	BattleInterface.navigation.minScale					= 0.5;
 	BattleInterface.navigation.maxScale					= 4;
@@ -1885,90 +1886,100 @@ void SetParameterData()
 	BattleInterface.navigation.argbBackMaxColor			= argb(255,0,0,128);
 	BattleInterface.navigation.argbBackMinColor			= argb(0,0,0,128);
 	BattleInterface.navigation.shipShowRadius			= 8.0;
-	//
-	if(InterfaceStates.AltIntIcons) BattleInterface.navigation.chargeTexture = "battle_interface\list_icon2_Konshud.tga";
-	else BattleInterface.navigation.chargeTexture			= "battle_interface\list_icon2.tga";
+	
+	// Боеприпасы
+	if(InterfaceStates.AltIntIcons) BattleInterface.navigation.chargeTexture 			= "battle_interface\list_icon2_Konshud.tga";
+	else BattleInterface.navigation.chargeTexture							 			= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.chargeTextureGreed		= "8,8";
-	BattleInterface.navigation.chargePos				= RecalculateHIcon(makeint(-30* fHtRatio))+","+RecalculateVIcon(makeint(290* fHtRatio));
-	BattleInterface.navigation.chargePictureSize		= RecalculateHIcon(makeint(48* fHtRatio))+","+RecalculateVIcon(makeint(48* fHtRatio));
-	//Mett: порох TODO
+	BattleInterface.navigation.chargePos				= RecalculateHIcon(makeint(-25* fHtRatio))+","+RecalculateVIcon(makeint(220* fHtRatio));
+	BattleInterface.navigation.chargePictureSize		= RecalculateHIcon(makeint(40* fHtRatio))+","+RecalculateVIcon(makeint(40* fHtRatio));
+	
+	// Порох
 	if(InterfaceStates.AltIntIcons) BattleInterface.navigation.powderTexture			= "battle_interface\list_icon2_Konshud.tga";
-	else BattleInterface.navigation.powderTexture			= "battle_interface\list_icon2.tga";
+	else BattleInterface.navigation.powderTexture										= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.powderTextureGreed		= "8,8";
-	BattleInterface.navigation.powderPos				= RecalculateHIcon(makeint(30* fHtRatio))+","+RecalculateVIcon(makeint(290* fHtRatio));
-	BattleInterface.navigation.powderPictureSize		= RecalculateHIcon(makeint(48* fHtRatio))+","+RecalculateVIcon(makeint(48* fHtRatio));
-	//
+	BattleInterface.navigation.powderPos				= RecalculateHIcon(makeint(25* fHtRatio))+","+RecalculateVIcon(makeint(220* fHtRatio));
+	BattleInterface.navigation.powderPictureSize		= RecalculateHIcon(makeint(40* fHtRatio))+","+RecalculateVIcon(makeint(40* fHtRatio));
+	
+	// Скорость
 	if(InterfaceStates.AltIntIcons) BattleInterface.navigation.sailstateTexture			= "battle_interface\list_icon2_Konshud.tga";
-	else BattleInterface.navigation.sailstateTexture			= "battle_interface\list_icon2.tga";
+	else BattleInterface.navigation.sailstateTexture									= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.sailstateTextureGreed	= "8,8";
-	BattleInterface.navigation.sailstatePos				= RecalculateHIcon(makeint(30* fHtRatio))+","+RecalculateVIcon(makeint(190* fHtRatio));
-	BattleInterface.navigation.sailstatePictureSize		= RecalculateHIcon(makeint(48* fHtRatio))+","+RecalculateVIcon(makeint(48* fHtRatio));
-	//
+	BattleInterface.navigation.sailstatePos				= RecalculateHIcon(makeint(25* fHtRatio))+","+RecalculateVIcon(makeint(160* fHtRatio));
+	BattleInterface.navigation.sailstatePictureSize		= RecalculateHIcon(makeint(40* fHtRatio))+","+RecalculateVIcon(makeint(40* fHtRatio));
+	
+	// Ветер
 	if(InterfaceStates.AltIntIcons) BattleInterface.navigation.windStateTexture			= "battle_interface\list_icon2_Konshud.tga";
-	else BattleInterface.navigation.windStateTexture			= "battle_interface\list_icon2.tga";
+	else BattleInterface.navigation.windStateTexture									= "battle_interface\list_icon2.tga";
 	BattleInterface.navigation.windTextureGreed			= "8,8";
-	BattleInterface.navigation.windPos					= RecalculateHIcon(makeint(-30* fHtRatio))+","+RecalculateVIcon(makeint(190* fHtRatio));
-	BattleInterface.navigation.windPictureSize			= RecalculateHIcon(makeint(48* fHtRatio))+","+RecalculateVIcon(makeint(48* fHtRatio));
+	BattleInterface.navigation.windPos					= RecalculateHIcon(makeint(-25* fHtRatio))+","+RecalculateVIcon(makeint(160* fHtRatio));
+	BattleInterface.navigation.windPictureSize			= RecalculateHIcon(makeint(40* fHtRatio))+","+RecalculateVIcon(makeint(40* fHtRatio));
 
+	// Дата
 	BattleInterface.textinfo.Date.font = "interface_button";
-	BattleInterface.textinfo.Date.scale = 1.2 * fHtRatio;
-	BattleInterface.textinfo.Date.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(138* fHtRatio));
-	BattleInterface.textinfo.Date.pos.y = RecalculateVIcon(makeint(210* fHtRatio));
+	BattleInterface.textinfo.Date.scale = 1.0 * fHtRatio;
+	BattleInterface.textinfo.Date.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(120* fHtRatio));
+	BattleInterface.textinfo.Date.pos.y = RecalculateVIcon(makeint(170* fHtRatio));
 	BattleInterface.textinfo.Date.text = XI_convertString("Date:")+GetQuestBookData();//GetDataDay()+" "+XI_ConvertString("target_month_" + GetDataMonth())+" "+GetDataYear();
 	BattleInterface.textinfo.Date.refreshable = true;
-	//
+	
+	// Локация
 	BattleInterface.textinfo.Location.font = "interface_button";
-	BattleInterface.textinfo.Location.scale = 1.2* fHtRatio;
-	BattleInterface.textinfo.Location.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(138* fHtRatio));
-	BattleInterface.textinfo.Location.pos.y = RecalculateVIcon(makeint(234* fHtRatio));
+	BattleInterface.textinfo.Location.scale = 1.0* fHtRatio;
+	BattleInterface.textinfo.Location.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(120* fHtRatio));
+	BattleInterface.textinfo.Location.pos.y = RecalculateVIcon(makeint(190* fHtRatio));
 	BattleInterface.textinfo.Location.text = GetBILocationName();	// Display MoorName or region name in location
 	BattleInterface.textinfo.Location.refreshable = true;			// Enable updates
-	//
+	
+	//Скорость LEO: (убрал стрингу)
 	BattleInterface.textinfo.Speed.font = "interface_button";
-	BattleInterface.textinfo.Speed.scale = 1.3 * fHtRatio;
+	BattleInterface.textinfo.Speed.scale = 1.0 * fHtRatio;
 	BattleInterface.textinfo.Speed.color = argb(255,255,255,255);
-	//BattleInterface.textinfo.Speed.shadow = false;
 	BattleInterface.textinfo.Speed.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(138* fHtRatio));
 	BattleInterface.textinfo.Speed.pos.y = RecalculateVIcon(makeint(337* fHtRatio));
-	BattleInterface.textinfo.Speed.text = XI_convertString("Speed");
-	//
+	BattleInterface.textinfo.Speed.text = ""/* XI_convertString("Speed") */;
+	
+	// Боеприпасы
 	BattleInterface.textinfo.Ammo.font = "bold_numbers";
-	BattleInterface.textinfo.Ammo.scale = 0.8 * fHtRatio;
+	BattleInterface.textinfo.Ammo.scale = 0.7 * fHtRatio;
 	BattleInterface.textinfo.Ammo.color = argb(255,255,255,255);
-	// BattleInterface.textinfo.Ammo.shadow = false;
-	BattleInterface.textinfo.Ammo.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170* fHtRatio));
-	BattleInterface.textinfo.Ammo.pos.y = RecalculateVIcon(makeint(420* fHtRatio));
+	BattleInterface.textinfo.Ammo.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(144* fHtRatio));
+	BattleInterface.textinfo.Ammo.pos.y = RecalculateVIcon(makeint(325* fHtRatio));
 	BattleInterface.textinfo.Ammo.text = XI_convertString("Ammunition");
 	BattleInterface.textinfo.Ammo.refreshable = true;
-	//Mett: мониторим порох
+	
+	// Порох
 	BattleInterface.textinfo.Powder.font = "bold_numbers";
-	BattleInterface.textinfo.Powder.scale = 0.8 * fHtRatio;
+	BattleInterface.textinfo.Powder.scale = 0.7 * fHtRatio;
 	BattleInterface.textinfo.Powder.color = argb(255,255,255,255);
-	BattleInterface.textinfo.Powder.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(109* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
-	BattleInterface.textinfo.Powder.pos.y = RecalculateVIcon(makeint(419* fHtRatio));//RecalculateVIcon(402);
+	BattleInterface.textinfo.Powder.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(94* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
+	BattleInterface.textinfo.Powder.pos.y = RecalculateVIcon(makeint(325* fHtRatio));//RecalculateVIcon(402);
 	BattleInterface.textinfo.Powder.text = XI_convertString("Powder");
 	BattleInterface.textinfo.Powder.refreshable = true;
-	//мониторим доски и парусину
+	
+	// Доски
 	BattleInterface.textinfo.Planks.font = "bold_numbers";
-	BattleInterface.textinfo.Planks.scale = 0.8 * fHtRatio;
+	BattleInterface.textinfo.Planks.scale = 0.7 * fHtRatio;
 	BattleInterface.textinfo.Planks.color = argb(255,255,255,255);
-	BattleInterface.textinfo.Planks.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(170* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
-	BattleInterface.textinfo.Planks.pos.y = RecalculateVIcon(makeint(503* fHtRatio));//RecalculateVIcon(402);
+	BattleInterface.textinfo.Planks.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(144* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
+	BattleInterface.textinfo.Planks.pos.y = RecalculateVIcon(makeint(388* fHtRatio));//RecalculateVIcon(402);
 	BattleInterface.textinfo.Planks.text = XI_convertString("Planks");
 	BattleInterface.textinfo.Planks.refreshable = true;
+	
+	// Парусина
 	BattleInterface.textinfo.Sailcloth.font = "bold_numbers";
-	BattleInterface.textinfo.Sailcloth.scale = 0.8 * fHtRatio;
+	BattleInterface.textinfo.Sailcloth.scale = 0.7 * fHtRatio;
 	BattleInterface.textinfo.Sailcloth.color = argb(255,255,255,255);
-	BattleInterface.textinfo.Sailcloth.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(109* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
-	BattleInterface.textinfo.Sailcloth.pos.y = RecalculateVIcon(makeint(503* fHtRatio));//RecalculateVIcon(402);
+	BattleInterface.textinfo.Sailcloth.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(94* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
+	BattleInterface.textinfo.Sailcloth.pos.y = RecalculateVIcon(makeint(388* fHtRatio));//RecalculateVIcon(402);
 	BattleInterface.textinfo.Sailcloth.text = XI_convertString("Sailcloth");
 	BattleInterface.textinfo.Sailcloth.refreshable = true;
-	//<---
-	//ставим иконки доскам и парусине
-	int fTmp = sti(showWindow.right) - RecalculateHIcon(makeint(144* fHtRatio));
-	int fTmp2 = sti(showWindow.top) + RecalculateVIcon(makeint(452* fHtRatio));
-	int fTmp3 = sti(showWindow.right) - RecalculateHIcon(makeint(192* fHtRatio));
-	int fTmp4 = sti(showWindow.top) + RecalculateVIcon(makeint(500* fHtRatio));
+	
+	//ставим иконки доскам и парусине --->
+	int fTmp = sti(showWindow.right) - RecalculateHIcon(makeint(123* fHtRatio));
+	int fTmp2 = sti(showWindow.top) + RecalculateVIcon(makeint(346* fHtRatio));
+	int fTmp3 = sti(showWindow.right) - RecalculateHIcon(makeint(163* fHtRatio));
+	int fTmp4 = sti(showWindow.top) + RecalculateVIcon(makeint(386* fHtRatio));
 	string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
 	if(InterfaceStates.AltIntIcons) BattleInterface.imageslist.textinfoback2.texture = "\battle_interface\Icon_Planks_Konshud.tga";
 	else BattleInterface.imageslist.textinfoback2.texture = "\battle_interface\Icon_Planks.tga";
@@ -1976,8 +1987,8 @@ void SetParameterData()
 	BattleInterface.imageslist.textinfoback2.uv = "0.0,0.0,1.0,1.0";
 	BattleInterface.imageslist.textinfoback2.pos = off;
 	
-	fTmp = sti(showWindow.right) - RecalculateHIcon(makeint(84* fHtRatio));
-	fTmp3 = sti(showWindow.right) - RecalculateHIcon(makeint(132* fHtRatio));
+	fTmp = sti(showWindow.right) - RecalculateHIcon(makeint(73* fHtRatio));
+	fTmp3 = sti(showWindow.right) - RecalculateHIcon(makeint(113* fHtRatio));
 	off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
 	if(InterfaceStates.AltIntIcons) BattleInterface.imageslist.textinfoback3.texture = "\battle_interface\Icon_Sailcloth_Konshud.tga";
 	else BattleInterface.imageslist.textinfoback3.texture = "\battle_interface\Icon_Sailcloth.tga";
@@ -1985,35 +1996,36 @@ void SetParameterData()
 	BattleInterface.imageslist.textinfoback3.uv = "0.0,0.0,1.0,1.0";
 	BattleInterface.imageslist.textinfoback3.pos = off;
 	//<---
+	
 	//Рисуем интерфейс пушек
 	if(InterfaceStates.CannonsHUD)
 	{
 		BattleInterface.textinfo.CannonsNumL.font = "bold_numbers";
-		BattleInterface.textinfo.CannonsNumL.scale = 0.65 * fHtRatio;
+		BattleInterface.textinfo.CannonsNumL.scale = 0.55 * fHtRatio;
 		BattleInterface.textinfo.CannonsNumL.color = argb(255,255,255,255);
-		BattleInterface.textinfo.CannonsNumL.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(250* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
-		BattleInterface.textinfo.CannonsNumL.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(99* fHtRatio));;//RecalculateVIcon(402);
+		BattleInterface.textinfo.CannonsNumL.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(212* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
+		BattleInterface.textinfo.CannonsNumL.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(80* fHtRatio));;//RecalculateVIcon(402);
 		BattleInterface.textinfo.CannonsNumL.refreshable = true;
 		
 		BattleInterface.textinfo.CannonsNumR.font = "bold_numbers";
-		BattleInterface.textinfo.CannonsNumR.scale = 0.65 * fHtRatio;
+		BattleInterface.textinfo.CannonsNumR.scale = 0.55 * fHtRatio;
 		BattleInterface.textinfo.CannonsNumR.color = argb(255,255,255,255);
-		BattleInterface.textinfo.CannonsNumR.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(28* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
-		BattleInterface.textinfo.CannonsNumR.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(99* fHtRatio));;//RecalculateVIcon(402);
+		BattleInterface.textinfo.CannonsNumR.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(26* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
+		BattleInterface.textinfo.CannonsNumR.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(80* fHtRatio));;//RecalculateVIcon(402);
 		BattleInterface.textinfo.CannonsNumR.refreshable = true;
 		
 		BattleInterface.textinfo.CannonsNumB.font = "bold_numbers";
-		BattleInterface.textinfo.CannonsNumB.scale = 0.65 * fHtRatio;
+		BattleInterface.textinfo.CannonsNumB.scale = 0.55 * fHtRatio;
 		BattleInterface.textinfo.CannonsNumB.color = argb(255,255,255,255);
-		BattleInterface.textinfo.CannonsNumB.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(138* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
-		BattleInterface.textinfo.CannonsNumB.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(190* fHtRatio));;//RecalculateVIcon(402);
+		BattleInterface.textinfo.CannonsNumB.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(120* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
+		BattleInterface.textinfo.CannonsNumB.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(158* fHtRatio));;//RecalculateVIcon(402);
 		BattleInterface.textinfo.CannonsNumB.refreshable = true;
 		
 		BattleInterface.textinfo.CannonsNumF.font = "bold_numbers";
-		BattleInterface.textinfo.CannonsNumF.scale = 0.65 * fHtRatio;
+		BattleInterface.textinfo.CannonsNumF.scale = 0.55 * fHtRatio;
 		BattleInterface.textinfo.CannonsNumF.color = argb(255,255,255,255);
-		BattleInterface.textinfo.CannonsNumF.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(138* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
-		BattleInterface.textinfo.CannonsNumF.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(2* fHtRatio));;//RecalculateVIcon(402);
+		BattleInterface.textinfo.CannonsNumF.pos.x = sti(showWindow.right) - RecalculateHIcon(makeint(120* fHtRatio));//sti(showWindow.right) - RecalculateHIcon(104);
+		BattleInterface.textinfo.CannonsNumF.pos.y = sti(showWindow.top) + RecalculateVIcon(makeint(0* fHtRatio));;//RecalculateVIcon(402);
 		BattleInterface.textinfo.CannonsNumF.refreshable = true;
 	}
 	else
@@ -2077,30 +2089,30 @@ void SetParameterData()
 		BattleInterface.ShipIcon.backtexturename		= "battle_interface\Ship_Border.tga"; // Основа
 		BattleInterface.ShipIcon.backcolor				= argb(255,128,128,128);
 		BattleInterface.ShipIcon.backuv					= "0.0,0.0,1.0,1.0";
-		BattleInterface.ShipIcon.backoffset				= "0,-15";
+		BattleInterface.ShipIcon.backoffset				= "0,0";
 		BattleInterface.ShipIcon.backiconsize			= RecalculateHIcon(makeint(80* fHtRatio))+","+RecalculateVIcon(makeint(80* fHtRatio));	
 
 		// Количество команды
 		BattleInterface.ShipIcon.sailorfontid			= "bold_numbers";
 		BattleInterface.ShipIcon.sailorfontcolor		= argb(255,255,255,255); // Цвет количества матросов
 		BattleInterface.ShipIcon.sailorfontscale		= 0.65 * fHtRatio;
-		BattleInterface.ShipIcon.sailorfontoffset		= RecalculateHIcon(makeint(0* fHtRatio))+","+RecalculateVIcon(makeint(28* fHtRatio));
+		BattleInterface.ShipIcon.sailorfontoffset		= RecalculateHIcon(makeint(0* fHtRatio))+","+RecalculateVIcon(makeint(42* fHtRatio));
 
 		// Название корабля
 		BattleInterface.ShipIcon.shipnamefontid			= "interface_normal";
 		BattleInterface.ShipIcon.shipnamefontcolor		= argb(255,255,255,255); // Цвет имени корабля
-		BattleInterface.ShipIcon.shipnamefontscale		= 1.1 * fHtRatio;
-		BattleInterface.ShipIcon.shipnamefontoffset		= RecalculateHIcon(makeint(0* fHtRatio))+","+RecalculateVIcon(makeint(-69* fHtRatio));						 
+		BattleInterface.ShipIcon.shipnamefontscale		= 1.0 * fHtRatio;
+		BattleInterface.ShipIcon.shipnamefontoffset		= RecalculateHIcon(makeint(0* fHtRatio))+","+RecalculateVIcon(makeint(-56* fHtRatio));						 
 
 		BattleInterface.ShipIcon.shipstatetexturename	= "battle_interface\ShipHP_SP.tga"; // Полоски HP/SP
 		BattleInterface.ShipIcon.shipstatecolor			= argb(255,128,128,128);
 		
 		BattleInterface.ShipIcon.shiphpuv				= "0.0,0.109,0.5,0.6875";
-		BattleInterface.ShipIcon.shiphpoffset			= RecalculateHIcon(-27.5* fHtRatio)+","+RecalculateVIcon(-16.5* fHtRatio);	
+		BattleInterface.ShipIcon.shiphpoffset			= RecalculateHIcon(-27.5* fHtRatio)+","+RecalculateVIcon(-3.5* fHtRatio);	
 		BattleInterface.ShipIcon.shiphpiconsize			= RecalculateHIcon(makeint(64* fHtRatio))+","+RecalculateVIcon(makeint(88* fHtRatio));	
 		
 		BattleInterface.ShipIcon.shipspuv				= "0.5,0.109,1.0,0.6875";
-		BattleInterface.ShipIcon.shipspoffset			= RecalculateHIcon(54.5* fHtRatio)+","+RecalculateVIcon(-16.5* fHtRatio);	
+		BattleInterface.ShipIcon.shipspoffset			= RecalculateHIcon(54.5* fHtRatio)+","+RecalculateVIcon(-3.5* fHtRatio);	
 		BattleInterface.ShipIcon.shipspiconsize			= RecalculateHIcon(makeint(64* fHtRatio))+","+RecalculateVIcon(makeint(88* fHtRatio));	
 
 		BattleInterface.ShipIcon.shipclasstexturename	= ""; // Класс кораблей "звездочки"
@@ -2112,7 +2124,7 @@ void SetParameterData()
 
 		BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2.tga"; // Иконка корабля
 		BattleInterface.ShipIcon.shipcolor				= argb(255,128,128,128);
-		BattleInterface.ShipIcon.shipoffset				= RecalculateHIcon(makeint(0* fHtRatio))+","+RecalculateVIcon(makeint(-13* fHtRatio));	
+		BattleInterface.ShipIcon.shipoffset				= RecalculateHIcon(makeint(0* fHtRatio))+","+RecalculateVIcon(makeint(0* fHtRatio));	
 		BattleInterface.ShipIcon.shipiconsize			= RecalculateHIcon(makeint(86* fHtRatio))+","+RecalculateVIcon(makeint(86* fHtRatio));	
 		BattleInterface.ShipIcon.xsize = 32;
 		BattleInterface.ShipIcon.ysize = 32;
@@ -2177,11 +2189,11 @@ void SetParameterData()
 		BattleInterface.ShipIcon.shipstatetexturename	= "battle_interface\ShipState.tga"; // Полоски HP/SP
 		BattleInterface.ShipIcon.shipstatecolor			= argb(255,128,128,128);
 		BattleInterface.ShipIcon.shiphpuv				= "0.0,0.153,0.68,0.815";
-		BattleInterface.ShipIcon.shiphpoffset			= RecalculateHIcon(makeint(-17* fHtRatio))+","+RecalculateVIcon(makeint(-2* fHtRatio));
+		BattleInterface.ShipIcon.shiphpoffset			= RecalculateHIcon(-17* fHtRatio)+","+RecalculateVIcon(-2* fHtRatio);
 		BattleInterface.ShipIcon.shiphpiconsize			= RecalculateHIcon(makeint(78* fHtRatio))+","+RecalculateVIcon(makeint(75* fHtRatio));
 		
 		BattleInterface.ShipIcon.shipspuv				= "0.32,0.149,1.0,0.816";
-		BattleInterface.ShipIcon.shipspoffset			= RecalculateHIcon(makeint(16* fHtRatio))+","+RecalculateVIcon(makeint(-2* fHtRatio));
+		BattleInterface.ShipIcon.shipspoffset			= RecalculateHIcon(16* fHtRatio)+","+RecalculateVIcon(-2* fHtRatio);
 		BattleInterface.ShipIcon.shipspiconsize			= RecalculateHIcon(makeint(78* fHtRatio))+","+RecalculateVIcon(makeint(75* fHtRatio));
 
 		BattleInterface.ShipIcon.shipclasstexturename	= ""; // Класс кораблей "звездочки"
@@ -2470,59 +2482,62 @@ ref procGetSailTextureData()
 					case 31:sUpgrade = "usual_27";	break;
 					case 32:sUpgrade = "usual_28";	break;
 					case 33:sUpgrade = "usual_29";	break;
-					case 34:sUpgrade = "usual_30";	break; // LEO: <-- Все корабли используют
+					case 34:sUpgrade = "usual_30";	break;
+					case 35:sUpgrade = "usual_31";	break;
+					case 36:sUpgrade = "usual_32";	break;
+					case 37:sUpgrade = "usual_33";	break; // LEO: <-- Все корабли используют
 					
-					case 35:sUpgrade = "sail_torn_black_pirate_1";		break; // LEO: --> Только пираты
-					case 36:sUpgrade = "sail_torn_black_pirate_2";		break;
-					case 37:sUpgrade = "sail_torn_black_pirate_3";		break;
-					case 38:sUpgrade = "sail_torn_black_pirate_4";		break;
-					case 39:sUpgrade = "sail_torn_black_pirate_5";		break;
-					case 40:sUpgrade = "sail_torn_black_pirate_6";		break;
-					case 41:sUpgrade = "sail_torn_black_pirate_7";		break;
-					case 42:sUpgrade = "sail_torn_black_pirate_8";		break;
-					case 43:sUpgrade = "sail_torn_black_pirate_9";		break;
-					case 44:sUpgrade = "sail_torn_black_pirate_10";		break;
-					case 45:sUpgrade = "sail_torn_black_pirate_11";		break;
-					case 46:sUpgrade = "sail_torn_black_pirate_12";		break;
-					case 47:sUpgrade = "sail_torn_black_pirate_13";		break;
-					case 48:sUpgrade = "sail_torn_black_pirate_14";		break;
-					case 49:sUpgrade = "sail_whole_black_pirate_1";		break;
-					case 50:sUpgrade = "sail_whole_black_pirate_2";		break;
-					case 51:sUpgrade = "sail_whole_black_pirate_3";		break;
-					case 52:sUpgrade = "sail_whole_black_pirate_4";		break;
-					case 53:sUpgrade = "sail_whole_black_pirate_5";		break;
-					case 54:sUpgrade = "sail_whole_black_pirate_6";		break;
-					case 55:sUpgrade = "sail_whole_black_pirate_7";		break;
-					case 56:sUpgrade = "sail_whole_black_pirate_8";		break;
-					case 57:sUpgrade = "sail_whole_black_pirate_9";		break;
-					case 58:sUpgrade = "sail_whole_black_pirate_10";	break;
-					case 59:sUpgrade = "sail_whole_black_pirate_11";	break;
-					case 60:sUpgrade = "sail_whole_black_pirate_12";	break;
-					case 61:sUpgrade = "sail_whole_black_pirate_13";	break;
-					case 62:sUpgrade = "sail_whole_black_pirate_14";	break;
-					case 63:sUpgrade = "sail_whole_black_pirate_15";	break;
-					case 64:sUpgrade = "sail_whole_black_pirate_16";	break;
-					case 65:sUpgrade = "sail_whole_black_pirate_17";	break;
-					case 66:sUpgrade = "sail_whole_white_pirate_1";		break;
-					case 67:sUpgrade = "sail_whole_white_pirate_2";		break;
-					case 68:sUpgrade = "sail_whole_white_pirate_3";		break;
-					case 69:sUpgrade = "sail_whole_white_pirate_4";		break;
-					case 70:sUpgrade = "sail_whole_white_pirate_5";		break;
-					case 71:sUpgrade = "sail_whole_white_pirate_6";		break;
-					case 72:sUpgrade = "sail_whole_white_pirate_7";		break;
-					case 73:sUpgrade = "sail_whole_white_pirate_8";		break;
-					case 74:sUpgrade = "sail_whole_white_pirate_9";		break;
-					case 75:sUpgrade = "sail_whole_white_pirate_10";	break;
-					case 76:sUpgrade = "sail_whole_white_pirate_11";	break;
-					case 77:sUpgrade = "sail_whole_white_pirate_12";	break;
-					case 78:sUpgrade = "sail_whole_white_pirate_13";	break;
-					case 79:sUpgrade = "sail_whole_white_pirate_14";	break;
-					case 80:sUpgrade = "sail_whole_white_pirate_15";	break;
-					case 81:sUpgrade = "sail_whole_white_pirate_16";	break;
-					case 82:sUpgrade = "sail_whole_white_pirate_17";	break;
-					case 83:sUpgrade = "sail_whole_white_pirate_18";	break;
-					case 84:sUpgrade = "sail_whole_white_pirate_19";	break;
-					case 85:sUpgrade = "sail_whole_white_pirate_20";	break; // LEO: <-- Только пираты
+					case 38:sUpgrade = "sail_torn_black_pirate_1";		break; // LEO: --> Только пираты
+					case 39:sUpgrade = "sail_torn_black_pirate_2";		break;
+					case 40:sUpgrade = "sail_torn_black_pirate_3";		break;
+					case 41:sUpgrade = "sail_torn_black_pirate_4";		break;
+					case 42:sUpgrade = "sail_torn_black_pirate_5";		break;
+					case 43:sUpgrade = "sail_torn_black_pirate_6";		break;
+					case 44:sUpgrade = "sail_torn_black_pirate_7";		break;
+					case 45:sUpgrade = "sail_torn_black_pirate_8";		break;
+					case 46:sUpgrade = "sail_torn_black_pirate_9";		break;
+					case 47:sUpgrade = "sail_torn_black_pirate_10";		break;
+					case 48:sUpgrade = "sail_torn_black_pirate_11";		break;
+					case 49:sUpgrade = "sail_torn_black_pirate_12";		break;
+					case 50:sUpgrade = "sail_torn_black_pirate_13";		break;
+					case 51:sUpgrade = "sail_torn_black_pirate_14";		break;
+					case 52:sUpgrade = "sail_whole_black_pirate_1";		break;
+					case 53:sUpgrade = "sail_whole_black_pirate_2";		break;
+					case 54:sUpgrade = "sail_whole_black_pirate_3";		break;
+					case 55:sUpgrade = "sail_whole_black_pirate_4";		break;
+					case 56:sUpgrade = "sail_whole_black_pirate_5";		break;
+					case 57:sUpgrade = "sail_whole_black_pirate_6";		break;
+					case 58:sUpgrade = "sail_whole_black_pirate_7";		break;
+					case 59:sUpgrade = "sail_whole_black_pirate_8";		break;
+					case 60:sUpgrade = "sail_whole_black_pirate_9";		break;
+					case 61:sUpgrade = "sail_whole_black_pirate_10";	break;
+					case 62:sUpgrade = "sail_whole_black_pirate_11";	break;
+					case 63:sUpgrade = "sail_whole_black_pirate_12";	break;
+					case 64:sUpgrade = "sail_whole_black_pirate_13";	break;
+					case 65:sUpgrade = "sail_whole_black_pirate_14";	break;
+					case 66:sUpgrade = "sail_whole_black_pirate_15";	break;
+					case 67:sUpgrade = "sail_whole_black_pirate_16";	break;
+					case 68:sUpgrade = "sail_whole_black_pirate_17";	break;
+					case 69:sUpgrade = "sail_whole_white_pirate_1";		break;
+					case 70:sUpgrade = "sail_whole_white_pirate_2";		break;
+					case 71:sUpgrade = "sail_whole_white_pirate_3";		break;
+					case 72:sUpgrade = "sail_whole_white_pirate_4";		break;
+					case 73:sUpgrade = "sail_whole_white_pirate_5";		break;
+					case 74:sUpgrade = "sail_whole_white_pirate_6";		break;
+					case 75:sUpgrade = "sail_whole_white_pirate_7";		break;
+					case 76:sUpgrade = "sail_whole_white_pirate_8";		break;
+					case 77:sUpgrade = "sail_whole_white_pirate_9";		break;
+					case 78:sUpgrade = "sail_whole_white_pirate_10";	break;
+					case 79:sUpgrade = "sail_whole_white_pirate_11";	break;
+					case 80:sUpgrade = "sail_whole_white_pirate_12";	break;
+					case 81:sUpgrade = "sail_whole_white_pirate_13";	break;
+					case 82:sUpgrade = "sail_whole_white_pirate_14";	break;
+					case 83:sUpgrade = "sail_whole_white_pirate_15";	break;
+					case 84:sUpgrade = "sail_whole_white_pirate_16";	break;
+					case 85:sUpgrade = "sail_whole_white_pirate_17";	break;
+					case 86:sUpgrade = "sail_whole_white_pirate_18";	break;
+					case 87:sUpgrade = "sail_whole_white_pirate_19";	break;
+					case 88:sUpgrade = "sail_whole_white_pirate_20";	break; // LEO: <-- Только пираты
 				}
 				nationFileName = "ships\parus_" + sUpgrade + ".tga";
 			
@@ -2530,9 +2545,6 @@ ref procGetSailTextureData()
 				BI_objRetValue.geraldTex = "";//"ships\gerald\chuckskull.tga";
 				BI_objRetValue.sailscolor = argb(255,255,255,255);  // белый парус
 			
-				//BI_objRetValue.geraldTexPointer = 0; // (IDirect3DTexture8*)
-				
-				//if (CheckAttribute(&characters[chrIdx], "ShipSails.SailsColor"))
 				if (CheckAttribute(shref, "ShipSails.SailsColor")) // 1.2.3 цвет теперь атрибут корабля, а не НПС
 				{
 					BI_objRetValue.sailscolor = sti(shref.ShipSails.SailsColor);
@@ -2595,7 +2607,7 @@ ref procGetSailTextureData()
 					case 1:	sUpgrade = "common";	break; // LEO: --> Все корабли используют
 					case 2: sUpgrade = "pat";		break;
 					case 3:	sUpgrade = "silk";		break;
-					case 4: sUpgrade = "silkblack";	break; // Sea Boss
+					case 4: sUpgrade = "silkblack";	break;
 					case 5:	sUpgrade = "usual_1";	break;
 					case 6:	sUpgrade = "usual_2";	break;
 					case 7:	sUpgrade = "usual_3";	break;
@@ -2625,7 +2637,10 @@ ref procGetSailTextureData()
 					case 31:sUpgrade = "usual_27";	break;
 					case 32:sUpgrade = "usual_28";	break;
 					case 33:sUpgrade = "usual_29";	break;
-					case 34:sUpgrade = "usual_30";	break; // LEO: <-- Все корабли используют
+					case 34:sUpgrade = "usual_30";	break;
+					case 35:sUpgrade = "usual_31";	break;
+					case 36:sUpgrade = "usual_32";	break;
+					case 37:sUpgrade = "usual_33";	break; // LEO: <-- Все корабли используют
 					else sUpgrade = "common";	break;
 				}
 				nationFileName = "ships\parus_" + sUpgrade + ".tga";

@@ -171,6 +171,8 @@ bool LAi_CharacterLogin(aref chr, string locID)
 		res = call func(chr);
 	}
 	if(res == false) return false;
+	//#20210221-01
+	chr.isLogin = true;
 	chr.chr_ai.login = true;
 	LAi_AddLoginedCharacter(chr);
 
@@ -301,10 +303,30 @@ void LAi_CharacterPostLogin(ref location)
 		PGG_GraveyardCheckIsPGGHere(location);
 		UniqueHeroEvents();
 		CheckHighOnDrugs();
+		CheckLootCollector();
+		CheckBSFinish();
 	}
 	
 }
 
+void CheckBSFinish()
+{
+	//Если ЧП еще не пройдены, ставим мир обратно на паузу
+	if(!bWorldAlivePause && !CheckAttribute(pchar, "BSFinish"))
+	{
+		pchar.BSStart = true;
+		bWorldAlivePause = true;
+	}
+}
+void CheckLootCollector()
+{
+	if (CheckCharacterPerk(pchar, "AboardCollector"))
+	{
+		csmHideLootCollectorBox(true);
+		pchar.CSM.LootCollector.Enable = true;
+		pchar.CSM.LootCollector.CanBeRun = true;
+	}
+}
 void CheckHighOnDrugs()
 {
 	ref chr;
@@ -601,6 +623,7 @@ void GenerateSpySeeker(ref location)
 		bool bOK = 	CheckAttribute(pchar, "GenQuest.questName") && pchar.GenQuest.questName != "SeekSpy";
 		bool bOK2 = !CheckAttribute(pchar, "GenQuest.questName");
 		if(!CheckAttribute(pchar, "SpySeeker.dayrandom")) pchar.SpySeeker.dayrandom = 0;
+		if(CheckAttribute(pchar,"questTemp.CapBloodLine")) return;
 		if(HasSubStr(location.id, "Common") && rand(1000) > 750 && pchar.dayrandom != pchar.SpySeeker.dayrandom && !HasSubStr(location.id, "Crypt") && GetCityNation(location.fastreload) != 4) 
 		{
 			if(bOK || bOK2)

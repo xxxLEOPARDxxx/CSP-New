@@ -207,6 +207,8 @@ void LocAi_PostInit(ref loc)
 		if(idx >= 0)
 		{
 			LAi_PostLoginInit(&Characters[idx]);
+			//#20210221-01
+			DeleteAttribute(&Characters[idx], "isLogin");
 		}
 	}
 	LAi_restoreStates = false;

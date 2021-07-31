@@ -699,7 +699,7 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 				case 0: _location.box1.items.Chest_ammo = 1; break;
 				case 1: _location.box1.items.Chest_treasure = 1; break;
 				case 2: _location.box1.items.Chest_quest = 1; break;
-				case 3: _location.box1.items.chest = 1; break;
+				case 3: _location.box1.items.Chest_Craftsmans = 1; break;
 			}
 			Log_TestInfo("xzibit");
 		}
@@ -1364,7 +1364,8 @@ void SetNewModelToChar(ref chref)
     {
     	if(CheckAttribute(chref, "model"))
         {
-            SendMessage(chref, "lss",   MSG_CHARACTER_SETMODEL, chref.model, chref.model.animation);
+			if(chref.model == "") chref.model = "none";
+			SendMessage(chref, "lss",   MSG_CHARACTER_SETMODEL, chref.model, chref.model.animation);
 			if (findsubstr(chref.model, "ghost" , 0) != -1 )
 			{
 				object persRef = GetCharacterModel(chref);
@@ -2528,7 +2529,6 @@ void OfficerGirlInit()
 	sld.rank 	= 17;
     sld.reputation = 70; // good девочка
 	sld.alignment = "good";
-	sld.HalfImmortal = true;  // Контузия
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
 	sld.HeroModel = "PGG_YokoDias_0,PGG_YokoDias_1,PGG_YokoDias_2,PGG_YokoDias_3,PGG_YokoDias_4,PGG_YokoDias_5,PGG_YokoDias_6,PGG_YokoDias_7,PGG_YokoDias_8";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--
@@ -2588,7 +2588,6 @@ void OfficerGirlInit()
 	AddItems(sld, "GunPowder", rand(20)+20);
     sld.Payment = true;
     sld.HoldEquip = false; // не отдавать саблю и пистоль
-	sld.HalfImmortal = true;  // Контузия
 
 	sld.location	= "PuertoPrincipe_town";
 	sld.location.group = "goto";
@@ -2649,7 +2648,6 @@ void OfficerMushketerInit()
 	AddItems(sld, "GunPowder", 100);
     sld.Payment = true;
     sld.HoldEquip = false; // не отдавать саблю и пистоль
-	sld.HalfImmortal = true;  // Контузия
 	sld.location	= "Shore59";
 	sld.location.group = "goto";
 	sld.location.locator = "goto3";
@@ -2695,7 +2693,6 @@ void OfficerMushketerInit()
 	AddItems(sld, "GunPowder", 100);
     sld.Payment = true;
     sld.HoldEquip = false; // не отдавать саблю и пистоль
-	sld.HalfImmortal = true;  // Контузия
 	sld.location	= "Santodomingo_town";
 	sld.location.group = "goto";
 	sld.location.locator = "goto10";

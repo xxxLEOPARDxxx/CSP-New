@@ -1075,13 +1075,13 @@ void CalculateInfoDataF9()
 	SetCharacterGoods(pchar, GOOD_BOMBS, 2000);;
 	SetCharacterGoods(pchar, GOOD_FOOD, 6000);
 	SetCharacterGoods(pchar, GOOD_POWDER, 3000);
-	SetCharacterGoods(pchar, GOOD_SLAVES, 1000);
+	SetCharacterGoods(pchar, GOOD_SLAVES, 3000);
 	SetCharacterGoods(pchar, GOOD_BRICK, 2500);
 	SetCharacterGoods(pchar, GOOD_MAHOGANY, 1500);
 	SetCharacterGoods(pchar, GOOD_EBONY, 1500);
 	SetCharacterGoods(pchar, GOOD_PLANKS, 3000);
 	SetCharacterGoods(pchar, GOOD_TOOLS, 1500);
-	SetCharacterGoods(pchar, GOOD_MEDICAMENT, 1000);
+	SetCharacterGoods(pchar, GOOD_MEDICAMENT, 10000);
 	
 	totalInfo = totalInfo + NewStr() + NewStr() +
                 "Команда отработала успешно!";
@@ -2295,12 +2295,18 @@ void CalculateInfoDataF46()
 	Statistic_AddValue(PChar, "Cheats.F46", 1);
 }
 
-string descF47 = "Нет назначений";
+string descF47 = "Выдать 20 сундуков и 20 отмычек";
 void CalculateInfoDataF47()
 {
 	totalInfo = descF47;
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	AddItems(pchar, "chest_ammo", 5);
+	AddItems(pchar, "chest_treasure", 5);
+	AddItems(pchar, "chest_quest", 5);
+	AddItems(pchar, "chest_craftsmans", 5);
+	AddItems(pchar, "lockpick", 20);
 	
 	SetFormatedText("INFO_TEXT", totalInfo);
 	
@@ -2594,19 +2600,6 @@ void CalculateInfoDataF69()
 	Statistic_AddValue(PChar, "Cheats.F69", 1);
 }
 
-string descF71 = "Нет назначений";
-void CalculateInfoDataF71()
-{
-	totalInfo = descF71;
- 	
-	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
-	
-	SetFormatedText("INFO_TEXT", totalInfo);
-	
-	// Статистика по читам
-	Statistic_AddValue(PChar, "Cheats.F71", 1);
-}
-
 string descF70 = "Нет назначений";
 void CalculateInfoDataF70()
 {
@@ -2618,6 +2611,19 @@ void CalculateInfoDataF70()
 	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F70", 1);
+}
+
+string descF71 = "Нет назначений";
+void CalculateInfoDataF71()
+{
+	totalInfo = descF71;
+ 	
+	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	SetFormatedText("INFO_TEXT", totalInfo);
+	
+	// Статистика по читам
+	Statistic_AddValue(PChar, "Cheats.F71", 1);
 }
 
 string descF72 = "Нет назначений";

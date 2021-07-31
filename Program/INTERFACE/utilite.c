@@ -962,7 +962,7 @@ string GetAchievementIcon(string ach_name) // Получим описание достижения (Raste
 	string describeStr = "";
 
 	describeStr = LanguageConvertString(lngFileID, ach_name + "_icon");
-	Log_info(describeStr);
+	Log_TestInfo(describeStr);
 	LanguageCloseFile(lngFileID);
 
 	return describeStr;

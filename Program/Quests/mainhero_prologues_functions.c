@@ -309,6 +309,8 @@ void Undead_StartGame(string qName)
     DeleteAttribute(Pchar, "ShipSails.gerald_name");
     Pchar.ship.type = SHIP_NOTUSED;
 	
+	WaitDate("",0,0,0,24 - sti(environment.time),5);
+	
 	SetQuestsCharacters();
 	
 	LAi_LockFightMode(Pchar, false);

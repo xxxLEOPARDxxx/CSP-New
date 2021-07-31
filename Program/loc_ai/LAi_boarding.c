@@ -486,6 +486,7 @@ void LAi_LoadLocation(string locationID, int locType)
 				if(idx < 0) continue;
 				//Log_TestInfo("Load Off " + Characters[idx].id);
 				if (logined > maxLocators) break;
+				if (CheckAttribute(characters[idx],"AboardRestriction")) continue;
 
 	            // boal 05.09.03 offecer need to go to abordage -->
 //			    if(makeint(Characters[idx].AbordageMode) == 0) continue;	// не берем

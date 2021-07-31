@@ -2251,7 +2251,7 @@ int GetShipPriceByTTH(int iType, ref rChar)
 			{
 				ref rCannon = GetCannonByType(sti(rChar.Ship.Cannons.Type));
 				if (CheckAttribute(rCannon,"Cost")) cannon_price = sti(rCannon.Cost);
-				else {cannon_price = 0; if (CurrentInterface != INTERFACE_SHIPYARD1) log_info("ОШИБКА 1500-404 - сделайте скрин и отправьте разработчикам краткое описание ситуации и сохранение");}
+				else {cannon_price = 0; if (CurrentInterface != INTERFACE_SHIPYARD1 && CurrentInterface != INTERFACE_SHIPYARD2) log_info("ОШИБКА 1500-404 - сделайте скрин и отправьте разработчикам краткое описание ситуации и сохранение");}
 				//меняю цену с 1500 на 0, чтобы цена корабля без пушек при заказе считалась правильно. - лог для отслеживания, что эта ветка кода только при заказе корабля используется и исправление ничего не сломало
 			}
 			else

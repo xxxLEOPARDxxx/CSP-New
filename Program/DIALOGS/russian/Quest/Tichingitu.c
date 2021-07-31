@@ -162,14 +162,38 @@ void ProcessDialogEvent()
             dialog.Text = " акие быть приказани€?";
 			if (CheckAttribute(npchar, "IsMushketer"))
 			{
-				Link.l4 = "я хочу, чтобы ты держалс€ на определенном рассто€нии от цели.";
-				Link.l4.go = "TargetDistance";
+				Link.l3 = "я хочу, чтобы ты держалс€ на определенном рассто€нии от цели.";
+				Link.l3.go = "TargetDistance";
 			}
             Link.l1 = "—той здесь!";
             Link.l1.go = "Boal_Stay";
             Link.l2 = "—ледуй за мной и не отставай!";
             Link.l2.go = "Boal_Follow";	
-		break;	
+			if (!CheckAttribute(npchar,"AboardRestriction"))
+			{
+				Link.l4 = "ѕрошу теб€ не участвовать в абордажах. ѕобереги себ€.";
+				Link.l4.go = "AboardRestriction";
+			}
+			else
+			{
+				Link.l4 = "я передумал, можешь участвовать в абордажах.";
+				Link.l4.go = "AboardAllowed";
+			}
+		break;
+		
+		case "AboardRestriction":
+			npchar.AboardRestriction = true;
+			dialog.text = "“ак точно капитан. Ќе буду участвовать в абордажах, пока вы снова не разрешите.";
+            Link.l1 = "Ќу и хорошо.";
+            Link.l1.go = "exit";
+		break;
+		
+		case "AboardAllowed":
+			DeleteAttribute(npchar,"AboardRestriction");
+			dialog.text = "“ак точно капитан. Ѕуду участвовать в абордажах с текущего момента.";
+            Link.l1 = "Ќу и хорошо.";
+            Link.l1.go = "exit";
+		break;
 		
         case "Boal_Stay":
             Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);

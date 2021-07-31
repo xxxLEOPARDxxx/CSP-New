@@ -808,6 +808,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	//Наносим повреждение
 	if (IsEquipCharacterByArtefact(attack, "talisman1")) dmg *= 1.1; //Пернатый Змей
 	if(IsCharacterPerkOn(attack, "Grunt")) dmg *= 1.15; //Рубака
+	if(CheckAttribute(attack, "StrangeElixir")) dmg *= 1.1; //Убойная смесь
 	LAi_ApplyCharacterDamage(enemy, MakeInt(dmg + 0.5));
 	/*if(!IsCharacterPerkOn(attack, "Grunt"))
 	{

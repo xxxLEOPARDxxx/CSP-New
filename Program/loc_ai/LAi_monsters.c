@@ -786,13 +786,18 @@ bool LAi_CreateEncounters(ref location)
 					TakeNItems(chr, "jewelry11", (rand(34)+1));
 			        TakeNItems(chr, "jewelry12", (rand(49)+1));
 					
-					iRand = rand(4);
+					iRand = rand(5);
 					if(iRand == 0) TakeNItems(chr, "jewelry1", (rand(24)+1));
 					if(iRand == 1) TakeNItems(chr, "jewelry2", (rand(24)+1));
 					if(iRand == 2) TakeNItems(chr, "jewelry3", (rand(24)+1));
 					if(iRand == 3) TakeNItems(chr, "jewelry4", (rand(24)+1));
 					if(iRand == 4) TakeNItems(chr, "jewelry5", (rand(24)+1));
-					
+					if(iRand == 5) 
+					{
+						if (rand(1) == 0) TakeNItems(chr, "StrangeMushrooms", 1);
+						else TakeNItems(chr, "StrangePotion", 1);
+						chr.SaveItemsForDead  = true;
+					}
 					
 					iRand = rand(25);
 					if(iRand == 5) TakeNItems(chr, "indian18", (rand(24)+1));
@@ -828,6 +833,13 @@ bool LAi_CreateEncounters(ref location)
                     SetCharacterPerk(chr, "Tireless");
                     SetCharacterPerk(chr, "CriticalHit");
 					SetCharacterPerk(chr, "HardHitter");
+					if(rand(19 - (sti(pchar.rank))/5) == 0)
+					{
+						if (rand(1) == 0) TakeNItems(chr, "StrangeMushrooms", 1);
+						else TakeNItems(chr, "StrangePotion", 1);
+						chr.SaveItemsForDead  = true; 
+					}
+					
 				}
 				DeleteAttribute(chr, "items.spyglass3");
 				

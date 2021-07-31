@@ -2,9 +2,9 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2 ATR  "
-#define VERSION_NUMBER2       "CSP v2.2.0b1 (Лето 2021)"
+#define VERSION_NUMBER2       "CSP v2.2.0b1 (31.07.2021)"
 #define VERSION_NUMBER3       ""
-#define PROVIDER_TXT            "LEOPARD's team - MaelStrom edition"
+#define PROVIDER_TXT            "LEOPARD's team - MaelStrom Engine"
 #define VERSION_NUM      99910  // текущий номер
 #define VERSION_NUM_PRE  99910  // последний совместмый
 
@@ -130,6 +130,16 @@ int MOD_DEFENDERS_RATE   = 4;
 #define MOD_DEAD_CLEAR           "On"
 int MOD_DEAD_CLEAR_TIME = 100; // in sec.
 string MainChAnim = "";
+int chest_ammo[99];
+int chest_treasure[99];
+int chest_quest[99];
+int chest_craftsmans[99];
+int chest_ammo2[99];
+int chest_treasure2[99];
+int chest_quest2[99];
+int chest_craftsmans2[99];
+
+int shipspool[30];
 
 #define CHAR_ITEMS_WEIGHT        70
 

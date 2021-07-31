@@ -22,7 +22,7 @@ void SetStartColonyGuarding()
 	PChar.Colony.Guardians.Plantation.AutoCrewHire = false;
 }
 
-int FindGaimanGuardingNum(ref chr)
+int FindCaimanGuardingNum(ref chr)
 {
 	if(!CheckAttribute(chr, "id"))
 	{
@@ -276,7 +276,7 @@ void KillColonyGuarding(int iNum)
 		Group_DeleteGroup(sGroup);
 	}
 	
-	SetCharacterShipLocation(chr, "None");
+	ChangeCharacterAddressGroup(chr, "none", "none", "none");
 	PChar.Colony.Guardians.(sShip) = -1;
 	PChar.Colony.Guardians.(sShip).Active = false;
 }
@@ -291,7 +291,7 @@ void RemoveColonyGuardingFromSquadron(ref chr)
 	if(CheckAttribute(chr, "DontCheckFlag")) 	{ DeleteAttribute(chr, "DontCheckFlag"); }
 	if(CheckAttribute(chr, "ShipEnemyDisable")) 	{ DeleteAttribute(chr, "ShipEnemyDisable"); }
 	
-	int iNum = FindGaimanGuardingNum(chr);
+	int iNum = FindCaimanGuardingNum(chr);
 	
 	string sShip = "Ship" + iNum;
 	PChar.Colony.Guardians.(sShip) = -1;

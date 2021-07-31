@@ -17,6 +17,8 @@ void LoginCharactersInLocation(ref loc)
 	{
 		for(i = 0; i < MAX_CHARS_IN_LOC; i++)
 		{
+			if(CheckAttribute(&Characters[LOC_FANTOM_CHARACTERS + i], "isLogin"))
+                	continue;
             DelBakSkillAttr(&Characters[LOC_FANTOM_CHARACTERS + i]); // boal оптимизация скилов
             ClearCharacterExpRate(&Characters[LOC_FANTOM_CHARACTERS + i]);
 			LoginCharacter(&Characters[LOC_FANTOM_CHARACTERS + i], locID);
@@ -26,6 +28,9 @@ void LoginCharactersInLocation(ref loc)
 	// boal пленники в трюм  и фантомы на палубе
 	for(i = FANTOM_CHARACTERS; i < TOTAL_CHARACTERS; i++)
 	{
+		//#20210221-01
+		if(CheckAttribute(&Characters[i], "isLogin"))
+				continue;
         DelBakSkillAttr(&Characters[i]); // boal оптимизация скилов
         ClearCharacterExpRate(&Characters[i]);
         LoginCharacter(&Characters[i], locID);

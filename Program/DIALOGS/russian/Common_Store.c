@@ -83,6 +83,17 @@ void ProcessDialogEvent()
 				NextDiag.TempNode = "First time";
 				break;
             }
+			if (npchar.id != "Pirates_trader" && CheckAttribute(pchar, "BSStart"))
+			{
+				//Black sails
+				if(pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "over")
+				{
+					dialog.text = "Капитан, ничего личного, но очень влиятельная особа запретила вести дела с вами. Никаких сделок, извините.";
+					link.l1 = "Простите, но я не понимаю. Что произошло?";
+					link.l1.go = "BS_NPVK_2";
+				}
+				break;
+			}
             dialog.text = NPCharRepPhrase(npchar, "Новый клиент - новое золото. "
 							+ LinkRandPhrase("Деньги не имеют запаха. ", "Пиастры не пахнут. ","Одной добродетелью сыт не будешь! ")+
 							+GetFullName(npchar)+  " к вашим услугам!",
@@ -94,6 +105,38 @@ void ProcessDialogEvent()
 			NextDiag.TempNode = "Second time";
 		break;
 
+		//Black sails
+		case "BS_NPVK_2":
+            dialog.text = "Обратитесь к мисс Гатри, она недавно прибыла с Нассау и взяла под контроль сделки с призами. Сам Джекман к ней с поклоном заходит.";
+            link.l1 = "Хм. Гатри… Что – то знакомое. Хорошо, до встречи.";
+			link.l1.go = "exit";
+		
+			sld = CharacterFromID("Pirates_trader");
+			if(sld.lastname != "Гатри")
+			{
+				sld.model = "horse02";
+				sld.model.animation = "woman";
+				sld.name = "Элеонора";
+				sld.lastname = "Гатри";
+				sld.greeting = "Gr_officiant";
+				sld.Dialog.FileName = "Quest\BlackSails\NePluyjVKolodec.c";
+				sld.Dialog.CurrentNode = "BS_NPVK_3";
+				SetQuestHeader("BSPrologue");
+				AddQuestRecord("BSPrologue", "1");
+				
+				for (i = 1; i < 4; i++)
+				{
+					sld = GetCharacter(NPC_GenerateCharacter("gatri_grunt"+i, GetPirateMushketerModel(), "man", "mushketer", 777, PIRATE, -1, false));
+					LAi_SetWarriorType(sld);
+					LAi_warrior_DialogEnable(sld, false);
+					ChangeCharacterAddressGroup(sld, "Pirates_store", "goto", "goto"+i);
+					LAi_SetImmortal(sld, true);
+					LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
+				}
+			}
+		break;
+		//Black sails
+		
 		case "second time":
 			if (LAi_group_GetPlayerAlarm() > 0)
 			{
@@ -106,6 +149,19 @@ void ProcessDialogEvent()
 				link.l1.go = "fight";
 				break;
 			}
+			
+			if (npchar.id != "Pirates_trader" && CheckAttribute(pchar, "BSStart"))
+			{
+				//Black sails
+				if(pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "over")
+				{
+					dialog.text = "Капитан, ничего личного, но очень влиятельная особа запретила вести дела с вами. Никаких сделок, извините.";
+					link.l1 = "Простите, но я не понимаю. Что произошло?";
+					link.l1.go = "BS_NPVK_2";
+				}
+				break;
+			}
+			
             /*if (GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY && sti(NPChar.nation) != PIRATE)
 			{
 				dialog.text = NPCharRepPhrase(npchar,

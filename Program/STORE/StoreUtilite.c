@@ -101,8 +101,8 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 	{
 		return 0;
 	}
-	if (CheckAttribute(pchar,"ContraInter")) Log_Info(pchar.ContraInter);
-	else Log_Info("Нет атрибута ContraInter");
+	if (CheckAttribute(pchar,"ContraInter")) Log_TestInfo(pchar.ContraInter);
+	else Log_TestInfo("Нет атрибута ContraInter");											  
 	float _TradeSkill = GetSummonSkillFromNameToOld(pchar,SKILL_COMMERCE); // 0..10.0
 	aref refGoods;
 	string tmpstr = Goods[_Goods].name;
@@ -160,14 +160,14 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 	if (MakeInt(basePrice*tradeModify*skillModify + 0.5) < 1) return 1;
 	// boal 23.01.2004 <--
 	if(CheckAttribute(pchar,"Goods.Store.Contraband")) return MakeInt(basePrice*tradeModify*skillModify*_qty  + 0.5);
-
-	if(CheckAttribute(chref,"Goods") && CheckAttribute(pchar,"Goods"))
+	
+	if(CheckAttribute(chref,"Goods."+tmpstr))
 	{
-		if(sti(pchar.Goods.(tmpstr).Bought.Coeff.Qty) < sti(GetCargoGoods(chref,_Goods)) && _PriceType == PRICE_TYPE_SELL)
+		if(sti(chref.Goods.(tmpstr).Bought.Coeff.Qty) < sti(GetCargoGoods(chref,_Goods)) && _PriceType == PRICE_TYPE_SELL)
 		{
 			chref.Goods.(tmpstr).Bought.Coeff = "0";
 		}
-		if(sti(chref.Goods.(tmpstr).Bought.Coeff.Qty) == sti(GetCargoGoods(chref,_Goods)) && _PriceType == PRICE_TYPE_SELL) chref.Goods.(tmpstr).Bought.Coeff = "1";
+		if(sti(chref.Goods.(tmpstr).Bought.Coeff.Qty) >= sti(GetCargoGoods(chref,_Goods)) && _PriceType == PRICE_TYPE_SELL) chref.Goods.(tmpstr).Bought.Coeff = "1";
 		if(chref.Goods.(tmpstr).Bought.Coeff == "0" && _PriceType == PRICE_TYPE_SELL) return MakeInt(basePrice*tradeModify*skillModify*_qty  + 0.5)/2;
 	}
 	
@@ -772,7 +772,7 @@ void ChangeImport()
 				for (j = 0; j < GOODS_QUANTITY; j++)
 				{
 					if(j > 34 && j < 51) continue;
-					if (j == 32) continue;
+					if (j == 32) continue;  
 					goodName = Goods[j].Name;
 					
 					gModifierExport = sti(sti(Goods[j].Norm)*0.6);							
@@ -978,7 +978,7 @@ void ChangeImport()
 						break;
 					}
 				}
-				Log_TestInfo("Обновление цен в" + " " + pRef.Colony);
+				// Log_TestInfo("Обновление цен в" + " " + pRef.Colony);
 			}
 			SaveCurrentQuestDateParam("ChangeImport"+i);
 		}

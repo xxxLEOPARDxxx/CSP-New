@@ -1254,8 +1254,11 @@ void ProcessControls()
 		}
 		if (PChar.location == "FencingTown_Arena" || PChar.location == "FencingTown_ExitTown")
 		{
-			Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
-			return;
+			if (InterfaceStates.Buttons.Save.enable == false)
+			{
+				Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
+				return;
+			}
 		}
 		
 		DeleteAttribute(pchar, "pause");
@@ -1356,8 +1359,11 @@ void ProcessControls()
 			}
 			if (PChar.location == "FencingTown_Arena" || PChar.location == "FencingTown_ExitTown")
 			{
-				Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
-				return;
+				if (InterfaceStates.Buttons.Save.enable == false)
+				{
+					Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
+					return;
+				}
 			}
 			if(IsPerkIntoList("TimeSpeed"))
 			{
@@ -1377,8 +1383,11 @@ void ProcessControls()
 		case "VK_PAUSETimePause":
 			if (PChar.location == "FencingTown_Arena" && PChar.location == "FencingTown_ExitTown")
 			{
-				Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
-				return;
+				if (InterfaceStates.Buttons.Save.enable == false)
+				{
+					Log_SetStringToLog("В данный момент запрещены манипуляции временным потоком.");
+					return;
+				}
 			}
 			if (!CheckAttribute(pchar, "pause"))
 			{
@@ -1681,34 +1690,28 @@ void ProcessControls()
 		    }
 		break;
 		case "BOAL_ControF5":
-		    if (MOD_BETTATESTMODE == "On")
-		    {
+            if (MOD_BETTATESTMODE == "On")
+            {
                 if(LoadSegment("Debuger.c"))
-            	{
+                {
                     ActiveF5Control();
-            		UnloadSegment("Debuger.c");
-            	}
-		    }
-			else
-			{
-				Statistic_AddValue(PChar, "Cheats.F5", 1);
-			}
-		break;
-		case "BOAL_ControF7":
-		    // по F7 вызывает окно отладчика
-		    if (MOD_BETTATESTMODE == "On")
-		    {
+                    UnloadSegment("Debuger.c");
+                }
+                Statistic_AddValue(PChar, "Cheats.F5", 1);
+            }
+        break;
+        case "BOAL_ControF7":
+            // по F7 вызывает окно отладчика
+            if (MOD_BETTATESTMODE == "On")
+            {
                 if(LoadSegment("Debuger.c"))
-            	{
+                {
                     ActiveF7Control();
-            		UnloadSegment("Debuger.c");
-            	}
-		    }
-			else
-			{
-				Statistic_AddValue(PChar, "Cheats.F7", 1);
-			}			
-		break;
+                    UnloadSegment("Debuger.c");
+                }
+                Statistic_AddValue(PChar, "Cheats.F7", 1);
+            }        
+        break;
         case "BOAL_Control2": // F12
             //Найти ближайшего видимого персонажа в заданном радиусе
             if(LoadSegment("Debuger.c"))

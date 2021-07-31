@@ -96,16 +96,12 @@ void SetCurrentProfile( string sProfileName )
 {
 	currentProfile = sProfileName;
 	PlayerProfile.name = sProfileName;
-	// fill save list
 	DeleteAttribute( &g_oSaveContainer,"" );
 	int nSaveNum = 0;
 	string saveName;
 	int nSaveSize;
 	string attr;
 	GameInterface.SavePath = GetSaveDirectory() + currentProfile;
-//	if( IsEntity(scrshot) ) {
-//		scrshot.SavePath = "SAVE" + "\" + currentProfile;
-//	}
 	while( SendMessage(&GameInterface,"llee",MSG_INTERFACE_SAVE_FILE_FIND,nSaveNum,&saveName,&nSaveSize)!=0 )
 	{
 		attr = "s" + nSaveNum;
@@ -123,9 +119,7 @@ void SetCurrentProfile( string sProfileName )
 		SelectSaveImage( 0 );
 	}
 	SetClickable("SAVESCROLL",g_nSaveQuantity>MAX_SAVE_SLOTS);
-	// show profile name
 	SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 1, "#"+XI_ConvertString("ProfileName")+": " + currentProfile );
-	// read option from profile
 	LoadGameOptions();
 }
 
@@ -721,14 +715,17 @@ void ShowDataForSave(int nSlot, string picname, int picpointer, string strdata)
 
 	if( strdata != "" )
 	{
-		string facestr, locName, timeStr, language, playtime, curship, nation;
-		if( ParseSaveData(strdata, &facestr, &locName, &timeStr, &language, &playtime, &curship, &nation) ) {
+		string facestr, locName, timeStr, language, playtime, curship, nation, difficulty, money, rank;
+		if( ParseSaveData(strdata, &facestr, &locName, &timeStr, &language, &playtime, &curship, &nation, &difficulty, &money, &rank) ) {
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#"+locName );
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#"+timeStr );
 			g_oSaveList[nSlot].faceinfo = PrepareMinifiedFaceString(facestr);
 			g_oSaveList[nSlot].playtime = playtime;
 			g_oSaveList[nSlot].curship = curship;
 			g_oSaveList[nSlot].nation = nation;
+			g_oSaveList[nSlot].difficulty = difficulty;
+			g_oSaveList[nSlot].money = money;
+			g_oSaveList[nSlot].rank = rank;
 		} else {
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+1, "#Unknown" );
 			SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVENOTES", 1, nSlot*3+2, "#No Time" );
@@ -877,7 +874,7 @@ void procProfileBtnAction()
 	}
 }
 
-bool ParseSaveData(string fullSaveData, ref facestr, ref locationStr, ref timeStr, ref languageID, ref playtime, ref curship, ref nation)
+bool ParseSaveData(string fullSaveData, ref facestr, ref locationStr, ref timeStr, ref languageID, ref playtime, ref curship, ref nation, ref difficulty, ref money, ref rank)
 {
 	string lastStr;
 	if( !GetNextSubStr(fullSaveData, locationStr, &lastStr, "@") ) return false;
@@ -886,6 +883,9 @@ bool ParseSaveData(string fullSaveData, ref facestr, ref locationStr, ref timeSt
 	if( !GetNextSubStr(lastStr, playtime, &lastStr, "@") ) return false;
 	if( !GetNextSubStr(lastStr, curship, &lastStr, "@") ) return false;
 	if( !GetNextSubStr(lastStr, nation, &lastStr, "@") ) return false;
+	if( !GetNextSubStr(lastStr, difficulty, &lastStr, "@") ) return false;
+	if( !GetNextSubStr(lastStr, money, &lastStr, "@") ) return false;
+	if( !GetNextSubStr(lastStr, rank, &lastStr, "@") ) return false;
 	GetNextSubStr(lastStr, languageID, &lastStr, "@");
 	return true;
 }
@@ -1178,12 +1178,33 @@ void SSI(string shipTexture)
 	else SetNewPicture("SHIP_ICON", "");
 }
 
+string GetFlagName(string value)
+{
+	switch (value)
+	{
+		case "England": return "Англия";
+		break;
+		case "France": return "Франция";
+		break;
+		case "Holland": return "Голландия";
+		break;
+		case "Spain": return "Испания";
+		break;
+		case "Pirate": return "Береговое Братство";
+		break;
+	}
+	return "Нет";
+}
+
 void ReloadSaveInfo()
 {
 	int nSlot = g_nCurrentSaveIndex - g_nFirstSaveIndex;
 	string info = "";
 	string playtime = "#";
 	string curship = "#";
+	SetFormatedText("DIFFICULTY", "Неизвестна");
+	SetFormatedText("MONEY", "0");
+	SetFormatedText("RANK", "0");
 	if( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"faceinfo") ) {
 		info = g_oSaveList[nSlot].faceinfo;
 		if( g_oSaveList[nSlot].playtime != "" ) {
@@ -1192,7 +1213,10 @@ void ReloadSaveInfo()
 	}
 	ShowFaceInfo( info );
 	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"curship") ) SSI(g_oSaveList[nSlot].curship);
-	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"nation") ) SetNewGroupPicture("FLAG_ICON", "NATIONS", g_oSaveList[nSlot].nation);
+	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"nation") ) {SetNewGroupPicture("FLAG_ICON", "NATIONS", g_oSaveList[nSlot].nation); SetFormatedText("FLAG_TEXT", "Нация: "+GetFlagName(g_oSaveList[nSlot].nation));}
+	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"difficulty") ) SetFormatedText("DIFFICULTY", "Сложность: "+GetLevelComplexity(sti(g_oSaveList[nSlot].difficulty)));
+	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"money") ) SetFormatedText("MONEY", "Денег: "+FindRussianMoneyString(sti(g_oSaveList[nSlot].money)));
+	if ( nSlot>=0 && nSlot<MAX_SAVE_SLOTS && CheckAttribute(&g_oSaveList[nSlot],"rank") ) SetFormatedText("RANK", "Ранг: "+g_oSaveList[nSlot].rank);
 	SendMessage( &GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE, "SAVEINFO", 1, 2, playtime );
 
 	if( info == "" ) {

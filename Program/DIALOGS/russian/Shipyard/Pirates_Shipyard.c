@@ -161,6 +161,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		if (quantityMatherial2 < 1) quantityMatherial2 = 1;
 	}
 	
+	int iTemp;
+	string attr, attrLoc;
 	int amount;
 	ref shTo;
     string sTemp;
@@ -1892,7 +1894,36 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				link.l1 = "Послушайте, мне нужно знать одну вещь касательно вашего подземелья...";
 				link.l1.go = "BlueBird_1";
 			}
+			if (CheckCharacterItem(pchar, "Ship_Print_1")) NPChar.print1 = 0;
+			if (CheckCharacterItem(pchar, "Ship_Print_2")) NPChar.print2 = 0;
+			if (CheckCharacterItem(pchar, "Ship_Print_3")) NPChar.print3 = 0;
+			if (CheckCharacterItem(pchar, "Ship_Print_4")) NPChar.print4 = 0;
+			if (CheckCharacterItem(pchar, "Ship_Print_5")) NPChar.print5 = 0;
+			if (CheckCharacterItem(pchar, "Ship_Print_6")) NPChar.print6 = 0;
+			if (CheckCharacterItem(pchar, "Ship_Print_1") || CheckCharacterItem(pchar, "Ship_Print_2") || CheckCharacterItem(pchar, "Ship_Print_3") || CheckCharacterItem(pchar, "Ship_Print_4") || CheckCharacterItem(pchar, "Ship_Print_5") || CheckCharacterItem(pchar, "Ship_Print_6"))
+            {
+				if (!CheckAttribute(npchar, "questTemp.ShipOrderTime"))
+				{
+					link.l3 = "Я тут добыл что-то необычное и оно весьма похоже на чертёж, не взглянёте?";
+					link.l3.go = "blueprint";
+				}
+				
+			}
         // <== Перехват на квесты
+		break;
+		
+		case "blueprint":
+			dialog.text = "Хм... Вы принесли мне довольно занятную вещь. Нет, это не чертёж в привычном понимании вещей. Это комплекс конструктивных решений в кораблестроительстве, причём очень необычный. С его помощью можно добиться максимума возможностей какого угодно корабля. Если хотите, я за вознаграждение могу попробовать создать какой-нибудь корабль. Ну так как?"
+			link.l1 = "Само собой, давайте приступим.";
+			link.l1.go = "blueprint_ordership";
+			link.l2 = "Это конечно очень интересно, но пожалуй в другой раз.";
+			link.l2.go = "exit";
+		break;
+		
+		case "blueprint_ordership":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			LaunchShipyard2(npchar);
 		break;
 //*************************** Генератор - "Найденные судовые документы" **************
 		

@@ -62,6 +62,11 @@ void LAi_type_citizen_CharacterUpdate(aref chr, float dltTime)
 					chr.quest.questflag.model = "exclamationmarkY";
 					chr.quest.questflag.technique = "RandItem"; 
 				}
+				else
+				{
+					chr.quest.questflag.model = "";
+					chr.quest.questflag.technique = ""; 
+				}
 			}
 			else
 			{

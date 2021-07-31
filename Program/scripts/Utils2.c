@@ -63,7 +63,7 @@ void TestAttr()
 // Пылесосит весь лут с трупов и сундуков в абордажной локации, помещает все собранное добро в спецсундук и запускает его обыск
 void csmLootCollector()
 {
-	if (!IsEntity(&loadedLocation) || !LAi_IsBoardingProcess() || !csmCA(pchar, "CSM.LootCollector.Enable") || !csmCA(pchar, "CSM.LootCollector.CanBeRun"))
+	if (!IsEntity(&loadedLocation) || !csmCA(pchar, "CSM.LootCollector.Enable") || !csmCA(pchar, "CSM.LootCollector.CanBeRun"))
 		return;
 
 	if (!csmCA(loadedLocation, "type") || loadedLocation.type == "boarding_cabine" || loadedLocation.type == "residence" || sti(InterfaceStates.Launched) != 0)
@@ -103,6 +103,8 @@ void csmLootCollector()
 	arLC.radius = 3.0;
 	rLoc.locators_radius.box.csmBoxLC = 2.0;
 
+	if (LAi_IsBoardingProcess())
+	{
 	makearef(arBoxes, rLoc.locators.box);
 	iBoxes = GetAttributesNum(arBoxes);
 
@@ -161,7 +163,8 @@ void csmLootCollector()
 			if (rand (2) == 0)	rLoc.csmBoxLC.items.Food3 = makeint(rLoc.csmBoxLC.items.Food3) + rand (3);//сыр
 			if (rand (3) == 0)	rLoc.csmBoxLC.items.Food4 = makeint(rLoc.csmBoxLC.items.Food4) + rand (2);//рыба
 			if (rand (3) == 0)	rLoc.csmBoxLC.items.Food5 = makeint(rLoc.csmBoxLC.items.Food5) + rand (2);//мясо
-			if (rand (100) == 0)	rLoc.csmBoxLC.items.chest_quest = 1;//странный сундук
+			if (rand (99) == 0)	rLoc.csmBoxLC.items.chest_quest = 1;//странный сундук
+		}
 		}
 	}
 

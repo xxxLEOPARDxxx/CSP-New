@@ -26,7 +26,7 @@ void BIManager_Init()
 	BIManager.cursors.list.c0.index = 0;
 	BIManager.cursors.list.c0.xoffset = 0;
 	BIManager.cursors.list.c0.yoffset = 0;
-	BIManager.cursors.list.c0.texture = "INTERFACES\cursor32.tga.tx";
+	BIManager.cursors.list.c0.texture = "INTERFACES\cursor32.tga";
 	BIManager.cursors.list.c0.uv = "0.0,0.0,0.99,0.99";
 
 	CreateEntity(&BIManager,"BI_InterfaceManager");

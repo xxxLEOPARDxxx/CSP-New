@@ -376,6 +376,20 @@ void CreateCitizens(aref loc)
 			{
                 sType = NationShortName(iNation) + "_mush_" + i;
 			}
+			
+			if (CheckAttribute(loadedLocation,"fastreload")) 
+			{
+				if (loadedLocation.fastreload == "Caiman")
+				{
+					if (CheckAttribute(PChar,"ColonyBuilding.SoldiersType"))
+					{
+						if(PChar.ColonyBuilding.SoldiersType == "officer") { sType = "officer_" + (rand(63) + 1)+ "_mush";}
+						if(PChar.ColonyBuilding.SoldiersType == "pirate") { sType = GetPirateMushketerModel();}
+						if(PChar.ColonyBuilding.SoldiersType == "nation") { iNation = PChar.ColonyBuilding.ColonyNation; sType = NationShortName(iNation) + "_mush_" + i; iNation = PIRATE}
+					}
+				}				
+			}
+			
 			chr = GetCharacter(NPC_GenerateCharacter("GenChar_", sType, "man", "mushketer", sti(pchar.rank), iNation, 2, false));
 			chr.id = "GenChar_" + chr.index;	
 			chr.reputation = (1 + rand(44) + rand(44));// репа всем горожанам

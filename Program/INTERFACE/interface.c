@@ -95,7 +95,7 @@ void LaunchTavernWaitScreen() // Интерфейс отдыха
 	{
 		nPrevInterface = -1;
 		CurrentInterface = INTERFACE_TAVERN_WAIT;
-		InitInterface(Interfaces[CurrentInterface].IniFile);
+		InitInterface_GM(Interfaces[CurrentInterface].IniFile);
 	}
 }
 
@@ -772,6 +772,16 @@ void LaunchShipyard1(ref shipmaster)
 	{
 		nPrevInterface = -1;
 		CurrentInterface = INTERFACE_SHIPYARD1;
+		InitInterface_R(Interfaces[CurrentInterface].IniFile,shipmaster);
+	}
+}
+
+void LaunchShipyard2(ref shipmaster)
+{
+	if(procInterfacePrepare(INTERFACE_SHIPYARD2))
+	{
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_SHIPYARD2;
 		InitInterface_R(Interfaces[CurrentInterface].IniFile,shipmaster);
 	}
 }
@@ -2256,6 +2266,9 @@ string GetSaveDataString(string label)
 		"@" + GetPlayTime() +
 		"@" + GetCurShip() +
 		"@" + GetCurNation() +
+		"@" + GetCurDifficulty() +
+		"@" + GetCurMoney() +
+		"@" + GetCurRank() +
 		"@" + LanguageGetLanguage();
 
 	return savedata;
@@ -2373,7 +2386,7 @@ string GetPlayTime()
 	if( days>0 ) {
 		sPlayTime = days + "days - ";
 	}
-	sPlayTime += InterfaceStates.GameTime.hour + " hours " + InterfaceStates.GameTime.min + " min.";
+	sPlayTime += InterfaceStates.GameTime.hour + "ч " + InterfaceStates.GameTime.min + "м";
 	return sPlayTime;
 }
 
@@ -2392,6 +2405,21 @@ string GetCurShip()
 string GetCurNation()
 {
 	return GetNationNameByType(sti(pchar.nation));
+}
+
+string GetCurDifficulty()
+{
+	return its(MOD_SKILL_ENEMY_RATE);
+}
+
+string GetCurMoney()
+{
+	return pchar.money;
+}
+
+string GetCurRank()
+{
+	return pchar.rank;
 }
 
 void LaunchContrabandTrade(ref ContraTrader, int storeNum)
