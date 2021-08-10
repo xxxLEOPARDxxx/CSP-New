@@ -83,11 +83,11 @@ void ProcessDialogEvent()
 			Link.l1.go = "DH_Villemstad_shipyarder_6";
 		break;
 		case "DH_Villemstad_shipyarder_6":
-			dialog.Text = "15 тысяч и она ваша. Честно скажу, желающих выкупить ее, у меня нет, так что несколько недель, я смогу и потерпеть.";
+			dialog.Text = "25 тысяч и она ваша. Честно скажу, желающих выкупить ее, у меня нет, так что несколько недель, я смогу и потерпеть.";
 			NextDiag.TempNode = "DH_Villemstad_shipyarder_wait_money";
 			Link.l1 = "Что ж, возьму, как только появятся деньги.";
 			Link.l1.go = "exit";
-			if(sti(pchar.money) >= 15000 && CheckAttribute(pchar, "DH_mercLeft"))
+			if(sti(pchar.money) >= 25000 && CheckAttribute(pchar, "DH_mercLeft"))
 			{
 				Link.l1 = "Беру.";
 				Link.l1.go = "DH_Villemstad_shipyarder_getship";
@@ -97,18 +97,32 @@ void ProcessDialogEvent()
 			dialog.Text = "Принесли деньги?.";
 			Link.l1 = "Пока нет, нужно ещё уладить кое-какие дела.";
 			Link.l1.go = "exit";
-			if(sti(pchar.money) >= 15000 && CheckAttribute(pchar, "DH_mercLeft"))
+			if(sti(pchar.money) >= 25000 && CheckAttribute(pchar, "DH_mercLeft"))
 			{
 				Link.l1 = "Да.";
 				Link.l1.go = "DH_Villemstad_shipyarder_getship";
 			}
 		break;
 		case "DH_Villemstad_shipyarder_getship":
-			AddMoneyToCharacter(pchar, -15000);
+			PChar.quest.DHRaceAgainstTime.win_condition.l1 = "location";
+			PChar.quest.DHRaceAgainstTime.win_condition.l1.location = "LaVega_town";
+			PChar.quest.DHRaceAgainstTime.function = "DHRaceAgainstTime";
+			SetQuestHeader("DHRaceAgainstTime");
+			AddQuestRecord("DHRaceAgainstTime", "1");
+			
+			AddMoneyToCharacter(pchar, -25000);
 			DeleteAttribute(pchar, "DH_mercLeft");
 			pchar.location.from_sea = "Villemstad_town"
 			setWDMPointXZ(pchar.location.from_sea);  // коорд на карте
 			pchar.Ship.Type = GenerateShipExt(SHIP_EMPRESS, 0, pchar);
+			ref shTo = &RealShips[sti(Pchar.Ship.Type)];
+			shTo.SpeedRate        = 17.0;
+			shTo.HP = 1900;
+			shTo.WindAgainstSpeed = 7.35;
+			shTo.TurnRate = 53.0;
+			shTo.MaxCrew = 120;
+			shTo.MastMultiplier = 1.45;
+			shTo.Capacity = 1300;
 			SetBaseShipData(pchar);
 			pchar.Ship.Name = RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple(RandPhraseSimple("Быстрый вепрь", "Боевой тигр"), "Транспортер"), "Антилопа"), "Экстра"), "Молния"), "Дельфин"), "Загадочный"), "Ужасный");
 			SetCrewQuantityFull(pchar);
@@ -216,6 +230,9 @@ void ProcessDialogEvent()
 		break;
 		case "DH_Villemstad_usurer_8":
 			LAi_SetOwnerTypeNoGroup(npchar);
+			
+			DeleteAttribute(pchar,"BlockOstin");
+			
 			Log_Info("Вы получили хрустальный череп.");
 			PlaySound("interface\important_item.wav");
 			TakeNItems(pchar, "sculMa"+(drand(2)+1), 1);
@@ -278,6 +295,7 @@ void ProcessDialogEvent()
 			Link.l1.go = "DH_SK_smuggler_1";
 		break;
 		case "DH_SK_smuggler_1":
+			LocatorReloadEnterDisable("SantaCatalina_town", "gate_back", false);
 			dialog.Text = "Кюрасао значит, это можно. Два человека, тоже не проблема. Деньги на бочку.";
 			Link.l1 = "Получи.";
 			Link.l1.go = "DH_SK_smuggler_2";
@@ -304,6 +322,9 @@ void ProcessDialogEvent()
 			dialog.Text = "Добрались.";
 			Link.l1 = "Черт, целых тридцать дней! Не думал, что это займет столько времени!";
 			Link.l1.go = "DH_mercenary_SK_gate_1";
+			PChar.quest.DHLockSK.win_condition.l1 = "location";
+			PChar.quest.DHLockSK.win_condition.l1.location = "SantaCatalina_town";
+			PChar.quest.DHLockSK.function = "DHLockSK";
 		break;
 		case "DH_mercenary_SK_gate_1":
 			LAi_group_MoveCharacter(npchar, LAI_GROUP_PLAYER);
@@ -311,6 +332,7 @@ void ProcessDialogEvent()
 			LAi_ActorFollowEverywhere(npchar, "", -1);
 		
 			chrDisableReloadToLocation = false;
+			pchar.BlockOstin = true;
 			dialog.Text = "Я думаю теперь вы понимаете, почему мы запросили такую цену.";
 			Link.l1 = "Да, пожалуй.";
 			Link.l1.go = "exit";
@@ -504,6 +526,23 @@ void ProcessDialogEvent()
 			PChar.quest.DarkHuman_Temple_Stash.win_condition.l1.locator_group = "item";
 			PChar.quest.DarkHuman_Temple_Stash.win_condition.l1.locator = "item1";
 			PChar.quest.DarkHuman_Temple_Stash.function = "DarkHuman_Temple_Stash";
+		break;
+		
+		case "DH_Ambush":
+			dialog.Text = "Вот мы и встретились, дружок. Нам велели брать тебя живым, по возможности. Так что бросай оружие!";
+			Link.l1 = "Вот еще, лучше скажи мне, кто вас нанял?";
+			Link.l1.go = "DH_Ambush_1";
+		break;
+		case "DH_Ambush_1":
+			dialog.Text = "Я сказал, бросай оружие!";
+			Link.l1 = "Я вижу, диалог у нас не идет... Что же поступим по-другому.";
+			Link.l1.go = "DH_Ambush_fight";
+		break;
+		case "DH_Ambush_fight":
+			LAi_SetWarriorTypeNoGroup(npchar);
+			DialogExit();
+			AddDialogExitQuest("MainHeroFightModeOn");
+			LAi_group_Attack(NPChar, Pchar);
 		break;
 		
 		case "DH_mercenary_temple_afterfight":

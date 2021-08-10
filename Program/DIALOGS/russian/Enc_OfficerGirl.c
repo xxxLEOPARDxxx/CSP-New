@@ -386,6 +386,7 @@ void ProcessDialogEvent()
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			Npchar.CanTakeMushket = true;
+			npchar.HalfImmortal = true;
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;

@@ -89,6 +89,9 @@ void ProcessDialogEvent()
 		makearef(arTo, compref.ship);
 		makearef(arFrom, chref.Ship);
 		CopyAttributes(arTo, arFrom);
+		makearef(arTo, compref.Goods);
+		makearef(arFrom, chref.Goods);
+		CopyAttributes(arTo, arFrom);
 		// снимем пассажира -->
 		CheckForReleaseOfficer(iChar);//увольнение офицера с должностей, если он не просто пассажир
 		RemovePassenger(pchar, compref);
@@ -225,9 +228,10 @@ void ProcessDialogEvent()
 				Link.l2.go = "node_4";
 				Link.l13 = LinkRandPhrase("  вам наверн€ка обращаютс€ купцы, подыскивающие сопровождение дл€ своих кораблей. Ќет ли таких сегодн€?","Ќет ли у вас на примете пассажиров, желающих добратьс€ до другой колонии?","” мен€ отличный корабль, и € хочу подзаработать эскортом купцов или доставкой пассажиров. Ќет ли у вас таких?"));
 				Link.l13.go = "work_PU";
+			}
 				Link.l3 = "ћогу € оставить один из своих кораблей на врем€?";
 				Link.l3.go = "ShipStock_1";
-			}
+
 			if (sti(NPChar.Portman) > 0)
 			{
 				Link.l4 = "я хочу забрать свой корабль обратно.";
@@ -1649,6 +1653,10 @@ void ProcessDialogEvent()
 
 			makearef(arTo, chref.ship);
 			makearef(arFrom, compref.Ship);
+			CopyAttributes(arTo, arFrom);
+
+			makearef(arTo, chref.Goods);//xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty
+			makearef(arFrom, compref.Goods);
 			CopyAttributes(arTo, arFrom);
 
 			compref.ship.type = SHIP_NOTUSED;

@@ -63,6 +63,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Smuggling_exit":
+			PChar.CurrentSmuggler = npchar.id;
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			PlaceSmugglersOnShore(Pchar.quest.contraband.CurrentPlace);
 			Pchar.quest.Contraband.active = true;
@@ -85,6 +86,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "First time":			
+		UpdateSmugglers();
 		//ОЗГ
 			if (!CheckAttribute(pchar, "questTemp.Headhunter"))
 			{
@@ -538,6 +540,14 @@ void ProcessDialogEvent()
 		break;
 
 		case "Meeting_3":
+			if (sti(npchar.SmugglingMoney) < 200000)
+			{
+				Dialog.Text = "Я ещё не продал твою предыдущую партию. У меня пока нет денег на новый товар, приходи через месяц-другой.";
+				Link.l1 = "Я ведь могу и другого клиента найти, знаешь ли... Ну ладно, бывай.";
+            	Link.l1.go = "exit";
+				break;
+			}
+			
 			if (CheckCharacterPerk(pchar, "UnlimitedContra")) 
 			{
 				if (npchar.quest.trade_date != lastspeak_date)
@@ -809,21 +819,31 @@ void ProcessDialogEvent()
 		
 		case "AntiPGGContra":
 			AddMoneyToCharacter(pchar,-1000);
-			npchar.quest.trade_date = lastspeak_date;
-			Pchar.quest.contraband.CurrentPlace = SelectSmugglingLocation();
-			Pchar.quest.contraband.City = NPChar.city;
-			if (Pchar.quest.contraband.CurrentPlace != "None")//boal fix
+			bool canDeal = GetCompanionQuantity(pchar) == 1 && sti(RealShips[sti(pchar.ship.type)].Class) > 2
+			if (CheckCharacterPerk(pchar, "UnlimitedContra") || canDeal) 
 			{
-				if (ChangeContrabandRelation(pchar, 0) >= 70)
+				npchar.quest.trade_date = lastspeak_date;
+				Pchar.quest.contraband.CurrentPlace = SelectSmugglingLocation();
+				Pchar.quest.contraband.City = NPChar.city;
+				if (Pchar.quest.contraband.CurrentPlace != "None")//boal fix
 				{
-					Dialog.Text = "Я знаю, с тобой можно иметь дело. Мы будем ждать тебя в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+					if (ChangeContrabandRelation(pchar, 0) >= 70)
+					{
+						Dialog.Text = "Я знаю, с тобой можно иметь дело. Мы будем ждать тебя в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+					}
+					else
+					{
+						Dialog.Text = "Хм... Возможно, покупатель и найдется. Мы будем ждать вас в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
+					}
+					Link.l1 = "Хорошо. До встречи.";
+					Link.l1.go = "Smuggling_exit";
 				}
-				else
-				{
-					Dialog.Text = "Хм... Возможно, покупатель и найдется. Мы будем ждать вас в месте, называющемся " + GetConvertStr(Pchar.quest.contraband.CurrentPlace, "LocLables.txt") + ".";
-				}
-				Link.l1 = "Хорошо. До встречи.";
-				Link.l1.go = "Smuggling_exit";
+			}
+			else
+			{
+				Dialog.Text = "Постой, так у нас ничего не выйдет! Ты бы еще на королевском мановаре явил"+ GetSexPhrase("ся","ась") +". Приходи на небольшом корабле, и только одном, тогда и поговорим. А деньги твои я заберу, в качестве платы за совет.";
+				Link.l1 = RandSwear();
+				Link.l1.go = "exit";
 			}
 		break;
 		

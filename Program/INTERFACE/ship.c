@@ -5,7 +5,7 @@ int shipIndex;
 
 string CurTable, CurRow;
 int iSelected; // курсор в таблице
-
+int iColor2;
 // дл€ выкидывани€
 int iShipQty, iUnits, iCurGoodsIdx;
 
@@ -16,7 +16,7 @@ void InitInterface_R(string iniName, ref _chr) // _chr нужно дл€ читового просмо
 	GameInterface.title = "titleShip";
 
 	xi_refCharacter = _chr;
-
+	iColor2 = argb(255,128,96,96);//цвет ворованного
 	FillShipsScroll();
 
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
@@ -508,12 +508,12 @@ void OnShipScrollChange()
 			RecalculateCargoLoad(xi_refCharacter);
 			xi_refCharacter.Ship.Cargo.RecalculateCargoLoad = 0;
 		}
-		ref refBaseShip = GetRealShip(iShip);
-		string sShip = refBaseShip.BaseName;
+		ref refShip = GetRealShip(iShip);
+		string sShip = refShip.BaseName; 
 		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + sShip + ".tga.tx");
 
 		GameInterface.edit_box.str = xi_refCharacter.ship.name;
-		SetFormatedText("SHIP_RANK", refBaseShip.Class);
+		SetFormatedText("SHIP_RANK", refShip.Class);
 		FillGoodsTable();
 
 		SetShipOTHERTable("TABLE_OTHER", xi_refCharacter);
@@ -575,39 +575,21 @@ void OnShipScrollChange()
 		else SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOff");
 		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort")) SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOn");
 		else SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOff");
-		string sSoil = "";
-		float SoilS,SoilM;
-		int SoilN;
+		float SoilS, SoilM;
 		if( !CheckAttribute(xi_refCharacter, "ship.soiling")){ xi_refCharacter.ship.soiling = 0;}
-		SoilN = xi_refCharacter.ship.soiling;
-		SoilS = 100-(FindShipSpeed(xi_refCharacter)/(stf(refBaseShip.SpeedRate)/100));
-		SoilM = (1-FindShipTurnRate(xi_refCharacter))*100;
-		sSoil = SoilN +"%";
+		SoilS = 100*(1 - ShipSpeedBonusFromSoiling(xi_refCharacter));
+		SoilM = 100*(1 - ShipTurnRateBonusFromSoiling(xi_refCharacter));
+		string sSoil = xi_refCharacter.ship.soiling +"%";
 
 		sText = "«агр€знение дна: ";
 		SetFormatedText("Soil_TEXT", sText);
 		SetFormatedText("SoilN_TEXT", sSoil);
-
-		sSoil = fts(SoilS, 3);
-		if(SoilS  - sti(SoilS) == 0)
-		{
-			sSoil = sSoil + "0%";
-		}else{
-			sSoil = sSoil + "%";
-		}
-		sText = "Ўтраф к скорости: "+sSoil;
+		if (SoilS < 0.1) sSoil = "0%"; else sSoil = fts(SoilS, 3) + "%";
+		sText = "Ўтраф к скорости: " + sSoil;
 		SetFormatedText("SoilS_TEXT", sText);
-			
-		sSoil = fts(SoilM, 3);
-		if(SoilM  - sti(SoilM) == 0)
-		{
-			sSoil = sSoil + "0%";
-		}else{
-			sSoil = sSoil + "%";
-		}
-		sText = "  маневренности: "+sSoil;
+		if (SoilM < 0.1) sSoil = "0%"; else sSoil = fts(SoilM, 3) + "%";
+		sText = "к маневренности: " + sSoil;
 		SetFormatedText("SoilM_TEXT", sText);
-		
 	}
 	else
 	{
@@ -881,10 +863,12 @@ void ShowRPGHint()
 void FillGoodsTable()
 {
 	int n, i, qty;
-	string row;
+	string row, newrow;
 	ref rShip;
 	string sGood;
 	aref refGoods;
+	aref aCurRow, aNextRow; 
+	int baseCost, baseWeight;
 
 	n = 1;
 	if (!CheckAttribute(&GameInterface, "TABLE_LIST.BackUp"))
@@ -895,8 +879,11 @@ void FillGoodsTable()
 	}
     for (i = 0; i< GOODS_QUANTITY; i++)
 	{
+
         row = "tr" + n;
 		sGood = Goods[i].name;
+		baseCost = makeint(Goods[i].Cost);
+		baseWeight = makeint(Goods[i].Weight);
 		qty = GetCargoGoods(xi_refCharacter, i);
 		if (qty <= 0) continue; // только не нули
 
@@ -915,6 +902,23 @@ void FillGoodsTable()
 		GameInterface.TABLE_LIST.(row).td1.textoffset = "10,0";
 		GameInterface.TABLE_LIST.(row).td1.str = XI_ConvertString(sGood);
 		GameInterface.TABLE_LIST.(row).td1.scale = 0.88;
+		if (xi_refCharacter.Goods.(sGood).Bought.Coeff == "0" && baseCost/baseWeight > 45)
+		{
+			if (sti(pchar.Goods.(sGood).Bought.Coeff.Qty) == 0) {newrow = row;}//честного нет, строка с честным не требуетс€
+			else 
+			{
+			n++
+			newrow = "tr" + n;//втора€ строка с ворованным
+			makearef(aCurRow, GameInterface.TABLE_LIST.(row));
+			makearef(aNextRow, GameInterface.TABLE_LIST.(newrow));
+			CopyAttributes(aNextRow, aCurRow);
+			GameInterface.TABLE_LIST.(row).td2.str = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty);
+			GameInterface.TABLE_LIST.(row).td3.str = GetGoodWeightByType(i, sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty));
+			}
+			GameInterface.TABLE_LIST.(newrow).td1.color = iColor2;
+			GameInterface.TABLE_LIST.(newrow).td2.str = qty - sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty);
+			GameInterface.TABLE_LIST.(newrow).td3.str = GetGoodWeightByType(i, qty - sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty));
+		}
 		n++;
 	}
 }
@@ -1110,7 +1114,15 @@ void DropGoodsToSeaFromInterface(int iGoodIndex, int iQuantity)
 	if (CheckAttribute(xi_refCharacter, "Ship.Cargo.Goods."+sGood))
 	{
 		RemoveCharacterGoods(xi_refCharacter, iGoodIndex, iQuantity);
-		if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) - iQuantity;
+		if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
+			{
+			if (GetCargoGoods(xi_refCharacter, iGoodIndex) - sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) < iQuantity) 
+				{
+				sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) = GetCargoGoods(xi_refCharacter, iGoodIndex) - iQuantity;
+				xi_refCharacter.Goods.(sGood).Bought.Coeff = "1";//всЄ ворованное выкинули, осталось честное
+				Table_UpdateWindow("TABLE_LIST");//убираем из таблицы строчку ворованного
+				}
+			}
 		if (bSeaActive && !bAbordageStarted)  // море, но не каюта
 		{
 			iQuantity = iQuantity / sti(Goods[iGoodIndex].Units);

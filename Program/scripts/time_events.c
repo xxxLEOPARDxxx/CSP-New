@@ -96,6 +96,7 @@ void WorldSituationsUpdate()
 			Log_TestInfo("dayRandom2 == " + dayRandom2);
 			
 			ChangeImport();
+			UpdateSmugglers();
 			CheckOfficersHPMinus(); //Korsar Maxim - ежедневное обновление дней для выздоровления офов
 			CheckBook(); //Книги - Gregg
 			CheckTrauma();//Тяжёлая травма

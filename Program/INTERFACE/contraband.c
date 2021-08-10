@@ -8,6 +8,7 @@ float 	fShipWeight, fStoreWeight;
 int 	iMaxGoodsStore = 50000;
 bool nocheck = true;
 
+
 bool 	bShowChangeWin = false;
 int  	BuyOrSell = 0; // 1-buy -1 sell
 string 	sChrId;
@@ -25,7 +26,7 @@ int FIS_FilterState = 0;
 void InitInterface_RR(string iniName, ref ContraTrader , ref pStore)
 {
  	StartAboveForm(true);
-
+	sld = CharacterFromId(PChar.CurrentSmuggler);
 	pchar.Goods.Store.Contraband = true;
 	//Log_Info(pchar.Goods.Store.Contraband);
     refStore 		= pStore;
@@ -244,6 +245,7 @@ void TransactionOK()
 		AddCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);
 		moneyback = makeint(iShipPrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5);
 		pchar.money = sti(pchar.money)  - moneyback;
+		sld.SmugglingMoney = sti(sld.SmugglingMoney) + moneyback;
 		Statistic_AddValue(Pchar, "Money_spend", moneyback);
         AddCharacterExpToSkill(pchar, "Commerce", moneyback / 800.0);
     	WaitDate("",0,0,0, 0, 15);
@@ -255,6 +257,7 @@ void TransactionOK()
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);
 		moneyback = makeint(iStorePrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5);
   		pchar.money = sti(pchar.money)  + moneyback;
+		sld.SmugglingMoney = sti(sld.SmugglingMoney) - moneyback;
 		Statistic_AddValue(Pchar, "Money_get", moneyback);
         AddCharacterExpToSkill(pchar, "Commerce", moneyback / 1600.0);
 		
@@ -399,8 +402,8 @@ void SetVariable()
 	sMaxGoodsStore = XI_ConvertString("contraband");
 
 	SetFormatedText("STORE_CAPACITY", sMaxGoodsStore);
-
-	sText = XI_ConvertString("OurMoney") + " " + FindRussianMoneyString(sti(pchar.money));
+	
+	sText = XI_ConvertString("OurMoney") + " " + FindRussianMoneyString(sti(pchar.money)) +  ", золото контрабандистов: " + FindRussianMoneyString(sti(sld.SmugglingMoney));
 	SetFormatedText("OUR_GOLD", sText);
 
 	if (CheckAttribute(refCharacter, "ship.name"))
@@ -755,6 +758,11 @@ void ChangeQTY_EDIT()
 		        GameInterface.qty_edit.str = makeint(iWeight / fWeight * iUnits );
 		        iWeight = GetGoodWeightByType(iCurGoodsIdx, sti(GameInterface.qty_edit.str));
 		        GameInterface.qty_edit.str = makeint(iWeight / fWeight * iUnits ); // округдение
+		    }
+			if (makeint(iStorePrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5) > sti(sld.SmugglingMoney))
+		    {
+		        GameInterface.qty_edit.str = makeint(sti(sld.SmugglingMoney)*iUnits / iStorePrice);
+		        iWeight = GetGoodWeightByType(iCurGoodsIdx, sti(GameInterface.qty_edit.str));
 		    }
 		    // проверка на колво доступное <--
 		    SetFormatedText("QTY_TypeOperation", "ѕродать");

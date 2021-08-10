@@ -83,7 +83,7 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			AddQuestRecord("BSPrologue", "2");
 			pchar.BSPrologue.GatriGold = 600;
-			SetTimerCondition("Gatri_Hunters", 0, 0, 30, false);//Отсчет времени до НЗГ
+			SetTimerCondition("Gatri_Hunters", 0, 0, 30, true);//Отсчет времени до НЗГ
 			NextDiag.TempNode = "BS_NPVK_10";
 		break;
 		
@@ -103,7 +103,7 @@ void ProcessDialogEvent()
 			int ammount = GetSquadronGoods(Pchar, GOOD_GOLD);
 			if (sti(pchar.BSPrologue.GatriGold) > ammount)
 			{
-				RemoveCharacterGoods(Pchar, GOOD_EBONY, ammount);
+				RemoveCharacterGoods(Pchar, GOOD_GOLD, ammount);
 				pchar.BSPrologue.GatriGold = sti(pchar.BSPrologue.GatriGold) - ammount;
 				dialog.text = "Неплохое начало, вам осталось ещё "+pchar.BSPrologue.GatriGold+" мер.";
 				link.l1 = "Ну, я пош"+ GetSexPhrase("ёл","ла") +".";
@@ -111,7 +111,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				RemoveCharacterGoods(Pchar, GOOD_EBONY, sti(pchar.BSPrologue.GatriGold));
+				RemoveCharacterGoods(Pchar, GOOD_GOLD, sti(pchar.BSPrologue.GatriGold));
 				dialog.text = "Вижу, здесь все. На данный момент, наши разногласия улажены. Всегда рада видеть исполнительного и смекалистого добытчика. Заходите ещё!";
 				if (CheckAttribute(pchar, "BSPrologue.GatriHunters"))
 				{
@@ -124,6 +124,7 @@ void ProcessDialogEvent()
 		break;	
 		
 		case "end_quest":
+			SaveCurrentQuestDateParam("BSPrologueEnded");
 			AddQuestRecord("BSPrologue", "3");
 			CloseQuestHeader("BSPrologue");
 			DeleteAttribute(pchar, "BSStart")//Снимаем блокировку торгашей и ежемесячное начисление НЗГ

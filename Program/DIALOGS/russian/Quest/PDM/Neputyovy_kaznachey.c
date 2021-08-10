@@ -10,12 +10,14 @@ void ProcessDialogEvent()
 	makearef(Link, Dialog.Links);
 	makearef(NextDiag, NPChar.Dialog);
 	
-	int Plata1 = 25000 * MOD_SKILL_ENEMY_RATE * 0.32;
-	int Plata2 = 25000 * MOD_SKILL_ENEMY_RATE * 0.48;
+	int Plata1 = 14000 * MOD_SKILL_ENEMY_RATE * 0.21;
+	int Plata2 = 14000 * MOD_SKILL_ENEMY_RATE * 0.31;
 	
-	pchar.PDM_NK_Plata2.Money = 25000 * MOD_SKILL_ENEMY_RATE * 0.48;
+	pchar.PDM_NK_Plata2.Money = 14000 * MOD_SKILL_ENEMY_RATE * 0.31;
 	
-	int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE * 2;
+	int Sila = 25 + MOD_SKILL_ENEMY_RATE * 2.5;
+	int DopHP = 40 + MOD_SKILL_ENEMY_RATE * 8;
+	int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE * 0.8;
 	if (Rank < 1) Rank = 1;
 	
 	switch(Dialog.CurrentNode)
@@ -209,9 +211,11 @@ void ProcessDialogEvent()
 			link.l1 = "ћеньше слов - к делу!";
 			link.l1.go = "fight_right_now";
 			sld = CharacterFromID("PDM_NK_Viktor")
-			sld.cirassId = Items_FindItemIdx("cirass1");
-			sld.equip.blade = "blade39";
-			FantomMakeCoolFighter(sld, Rank, 70, 70, "", "pistol2", 120);
+			if (MOD_SKILL_ENEMY_RATE >= 1 && MOD_SKILL_ENEMY_RATE <= 3) sld.equip.blade = "blade3";
+			if (MOD_SKILL_ENEMY_RATE >= 4 && MOD_SKILL_ENEMY_RATE <= 6) sld.equip.blade = "blade18";
+			if (MOD_SKILL_ENEMY_RATE >= 7 && MOD_SKILL_ENEMY_RATE <= 10) sld.equip.blade = "blade39";
+			if (MOD_SKILL_ENEMY_RATE <= 6) FantomMakeCoolFighter(sld, Rank, Sila, Sila, "", "Pistol1", DopHP);
+			if (MOD_SKILL_ENEMY_RATE >= 7) FantomMakeCoolFighter(sld, Rank, Sila, Sila, "", "Pistol2", DopHP);
 			sld.SaveItemsForDead = true;
 			AddMoneyToCharacter(sld, 15000);
 			GiveItem2Character(sld, "Litsenzia");
@@ -256,10 +260,13 @@ void ProcessDialogEvent()
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
 			sld.rank = 9;
-			SetSPECIAL(sld, 3, 6, 4, 9, 10, 7, 5);
+			SetSPECIAL(sld, 3, 6, 4, 9, 10, 7, 6);
 			SetSelfSkill(sld, 5, 5, 5, 5, 5);
-			SetShipSkill(sld, 30, 60, 5, 5, 5, 5, 5, 5, 30);
+			if (MOD_SKILL_ENEMY_RATE >= 1 && MOD_SKILL_ENEMY_RATE <= 3) SetShipSkill(sld, 15, 40, 5, 5, 5, 5, 5, 5, 15);
+			if (MOD_SKILL_ENEMY_RATE >= 4 && MOD_SKILL_ENEMY_RATE <= 6) SetShipSkill(sld, 24, 50, 5, 5, 5, 5, 5, 5, 24);
+			if (MOD_SKILL_ENEMY_RATE >= 7 && MOD_SKILL_ENEMY_RATE <= 10) SetShipSkill(sld, 30, 60, 5, 5, 5, 5, 5, 5, 30);
 			SetCharacterPerk(sld, "BasicCommerce");
+			if (MOD_SKILL_ENEMY_RATE >= 7) SetCharacterPerk(sld, "AdvancedCommerce");
 			LAi_SetImmortal(sld, false);
 			sld.HalfImmortal = true;
 		break;

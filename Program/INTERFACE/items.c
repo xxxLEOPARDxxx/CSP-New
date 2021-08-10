@@ -1199,6 +1199,7 @@ bool ThisItemCanBeEquip( aref arItem )
 
 		if (HasSubStr(arItem.id, "chest")) SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#Взломать");
 		else SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that"));
+		if (arItem.id == "Chest") {SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"EQUIP_BUTTON",0, "#"+XI_ConvertString("Equip that")); return false;}
 	}
 	if (IsMainCharacter(xi_refCharacter) || CheckAttribute(xi_refCharacter, "CanTakeMushket"))
 	{
@@ -1846,6 +1847,18 @@ void ShowItemFromCharacterWindow()
 	{
 		fItemQuantity = GetItemsWeight(xi_refCharacter);
 	}
+
+
+	aref arTest;
+	makearef(arTest, itm);
+	string sTemp = "";
+	int attrQ = GetAttributesNum(arTest);
+	for(i=0; i<attrQ; i++)
+	{
+	sTemp = GetAttributeValue(GetAttributeN(arTest,i));
+	log_testinfo(GetAttributeName(GetAttributeN(arTest,i)) + " = " + sTemp);
+	}
+
 
 SetFormatedText("ITEM_FROM_CHARACTER_WEIGHT_TEXT", XI_ConvertString("weight") + ": " + FloatToString(fWeight, 1) + " / "+GetMaxItemsWeight(xi_refCharacter));
 

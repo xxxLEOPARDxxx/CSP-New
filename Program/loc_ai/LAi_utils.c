@@ -368,6 +368,8 @@ void LAi_CheckHalfImmortal(aref chr)
 		ChangeAttributesFromCharacter(rOff, chr, true);
 		if (CheckAttribute(chr,"PerkValue.HPPlus")) rOff.PerkValue.HPPlus = 0;
 		if (CheckAttribute(chr,"HeroModel")) rOff.HeroModel = chr.HeroModel;
+		if (CheckAttribute(chr, "DontChangeBlade")) rOff.DontChangeBlade = true;
+		if (CheckAttribute(chr, "DontChangeGun")) rOff.DontChangeGun = true;
 		rOff.id = chr.id;
 		rOff.HalfImmortal = true;
 		if (CheckAttribute(chr, "ImmortalOfficer"))
@@ -1037,6 +1039,23 @@ void Dead_AddLoginedCharacter(aref chr)
 	        DelBakSkillAttr(mchr); // boal оптимизация скилов
 	        ClearCharacterExpRate(mchr);
 	        DeleteAttribute(chr, "SaveItemsForDead");// убрать чтоб не было случайно потом
+			
+			string delItem;
+			
+			//BlackThorn - залоченные пушки лутать нельзя
+			if (CheckAttribute(chr, "DontChangeBlade"))
+			{
+				itemID = chr.equip.blade;
+				count = GetCharacterItem(chref, itemID);
+				RemoveItems(chref, itemID, count);
+			}
+			if (CheckAttribute(chr, "DontChangeGun"))
+			{
+				itemID = chr.equip.gun;
+				count = GetCharacterItem(chref, itemID);
+				RemoveItems(chref, itemID, count);
+			}
+			
 	        //BLI_UpdateOfficers();// fix проверки на офов, не пропадала иконка
 			// Генерим предметы
 			for(value = 0; value < ITEMS_QUANTITY; value++)

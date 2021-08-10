@@ -63,6 +63,9 @@ void ProcCommand()
 {
 	string comName = GetEventData();
 	string nodName = GetEventData();
+	
+	RankUptade();
+	HpUptade();
 
 	switch(nodName)
 	{
@@ -685,10 +688,10 @@ void GetEnemyDetails()
 	if(iSkill > 100) { iSkill = 100; }
 	if(iSkill < 20) { iSkill = 20; }
 	
-	if(iRank > 50) { iRank = 50; }
+	if(iRank > sti(pchar.rank)+10) { iRank = sti(pchar.rank)+10; }
 	if(iRank < 5) { iRank = 5; }
 	
-	if(iHp > 5000) { iHp = 5000; }
+	if(iHp > 500) { iHp = 500; }
 	if(iHp < 30) { iHp = 30; }
 	
 	if(iEnergy > 300) { iEnergy = 300; }
@@ -704,7 +707,7 @@ void RankUptade()
 {
 	int iString = sti(GameInterface.SET_RANK.str);
 
-	if(iString > 50) { iString = 50; }
+	if(iString > sti(pchar.rank)+10) { iString = sti(pchar.rank)+10; }
 	if(iString < 5) { iString = 5; }
 	
 	GameInterface.SET_RANK.str = iString;
@@ -724,7 +727,7 @@ void HpUptade()
 {
 	int iString = sti(GameInterface.SET_HP.str);
 
-	if(iString > 5000) { iString = 5000; }
+	if(iString > 500) { iString = 500; }
 	if(iString < 30) { iString = 30; }
 	
 	GameInterface.SET_HP.str = iString;

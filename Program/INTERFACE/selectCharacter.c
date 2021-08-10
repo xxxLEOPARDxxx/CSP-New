@@ -209,6 +209,14 @@ void SetByDefault()
 	{
 		CheckButton_SetState("CHECK_ALTERNATIVE_BALANCE",1,false);
 	}
+	if(bDifficultyWeight)
+	{
+		CheckButton_SetState("CHECK_DIFFICULTY_WEIGHT",1,true);
+	}
+	else
+	{
+		CheckButton_SetState("CHECK_DIFFICULTY_WEIGHT",1,false);
+	}
 }
 
 void IProcessFrame()
@@ -387,10 +395,59 @@ void IProcessFrame()
 	{
 		bAltBalance = false;
 	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_DIFFICULTY_WEIGHT", 3, 1))
+	{
+		bDifficultyWeight = true;
+	}
+	else
+	{
+		bDifficultyWeight = false;
+	}
 }
 
 void exitCancel()
 {
+	pchar.perks.list.Ciras = "1";
+	pchar.perks.list.GunMan = "1";
+	pchar.perks.list.GunProfessional = "1";
+	loadedLocation.box1.items.letter_A = 1;
+	loadedLocation.box1.items.Ship_Print_1 = 1;
+	loadedLocation.box1.items.Ship_Print_2 = 1;
+	loadedLocation.box1.items.Ship_Print_3 = 1;
+	loadedLocation.box1.items.Ship_Print_4 = 1;
+	loadedLocation.box1.items.Ship_Print_5 = 1;
+	loadedLocation.box1.items.Ship_Print_6 = 1;
+	loadedLocation.box1.items.talisman1 = 1;
+	loadedLocation.box1.items.talisman2 = 1;
+	loadedLocation.box1.items.talisman3 = 1;
+	loadedLocation.box1.items.talisman4 = 1;
+	loadedLocation.box1.items.talisman6 = 1;
+	loadedLocation.box1.items.talisman7 = 1;
+	loadedLocation.box1.items.talisman8 = 1;
+	
+	loadedLocation.box2.items.letter_A = 1;
+	loadedLocation.box2.items.blade38 = 1;
+	loadedLocation.box2.items.blade41 = 1;
+	loadedLocation.box2.items.blade28 = 1;
+	loadedLocation.box2.items.cirass5 = 1;
+	loadedLocation.box2.items.spyglass5 = 1;
+	loadedLocation.box2.items.pistol8 = 1;
+	loadedLocation.box2.items.mushket_seadevil = 1;
+	loadedLocation.box2.items.mushket_spanish = 1;
+	loadedLocation.box2.items.mushket_english = 1;
+	loadedLocation.box2.items.mushket_france = 1;
+	loadedLocation.box2.items.mushket_holland = 1;
+	loadedLocation.box2.items.BackPack5 = 1;
+	loadedLocation.box2.items.katar = 1;
+	loadedLocation.box2.items.book4_1 = 1;
+	loadedLocation.box2.items.book4_2 = 1;
+	loadedLocation.box2.items.book4_3 = 1;
+	loadedLocation.box2.items.book4_4 = 1;
+	loadedLocation.box2.items.blade_whisper = 1;
+	loadedLocation.box2.items.GunEchin = 50;
+	loadedLocation.box2.items.gold = 50000000;
+	ChangeItemDescribe("letter_A", "letter_B");
+	
 	if( CheckAttribute(&InterfaceStates,"showGameMenuOnExit") && sti(InterfaceStates.showGameMenuOnExit) == true)
 	{
 		isOkExit = true;
@@ -949,6 +1006,11 @@ void ShowInfo()
 		case "CHECK_ALTERNATIVE_BALANCE":
 			sHeader = XI_ConvertString("CHECK_ALTERNATIVE_BALANCE");
 			sText1 = GetRPGText("CHECK_ALTERNATIVE_BALANCE_hint");
+		break;
+		
+		case "CHECK_DIFFICULTY_WEIGHT":
+			sHeader = XI_ConvertString("DifficultyWeight");
+			sText1 = GetRPGText("DifficultyWeight_hint");
 		break;
 		
 		case "CHECK_LOWERSHIP":

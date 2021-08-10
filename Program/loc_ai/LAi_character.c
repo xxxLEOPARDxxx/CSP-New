@@ -686,6 +686,7 @@ bool LAi_SetCharacterUseBullet(ref rChar, string sBullet)
 				if(CheckAttribute(rItm,"accuracy"))										LAi_GunSetAccuracy(rChar,stf(rItm.accuracy)*0.01);
 				else																	LAi_GunSetAccuracy(rChar,0.0);
 			
+				rChar.curammo = sBullet;
 				return true;	
 			}
 		}
@@ -727,7 +728,7 @@ string LAi_SetCharacterDefaultBulletType(ref rChar)
 {
 	string sAttr;
 	string sBulletType = "";
-	int iNum;
+	int iNum, i;
 	bool isBulletSet = false;
 	aref rType;
 	string sGun = GetCharacterEquipByGroup(rChar, GUN_ITEM_TYPE);
@@ -736,16 +737,33 @@ string LAi_SetCharacterDefaultBulletType(ref rChar)
 		ref rItm = ItemsFromID(sGun); 
 		makearef(rType, rItm.type);
 		iNum = GetAttributesNum(rType);
-		for (int i = 0; i < iNum; i++)
+		if(CheckAttribute(rChar,"curammo"))
 		{
-			sAttr = GetAttributeName(GetAttributeN(rType, i));
-			if(sti(rItm.type.(sAttr).Default) > 0)
+			for (i = 0; i < iNum; i++)
 			{
-				sBulletType = rItm.type.(sAttr).bullet;
-				isBulletSet = LAi_SetCharacterUseBullet(rChar, sBulletType);
+				sAttr = GetAttributeName(GetAttributeN(rType, i));
+				if (rItm.type.(sAttr).bullet == rChar.curammo) 
+				{
+					sBulletType = rItm.type.(sAttr).bullet;
+					isBulletSet = LAi_SetCharacterUseBullet(rChar, sBulletType);
+					break;
+				}
+			}
+		}
+		if (sBulletType == "")
+		{
+			for (i = 0; i < iNum; i++)
+			{
+				sAttr = GetAttributeName(GetAttributeN(rType, i));
+				if(sti(rItm.type.(sAttr).Default) > 0)
+				{
+					sBulletType = rItm.type.(sAttr).bullet;
+					isBulletSet = LAi_SetCharacterUseBullet(rChar, sBulletType);
+				}
 			}
 		}
 		if(!isBulletSet) trace("can't set default bullet for character id " + rChar.id);
+		else rChar.curammo = sBulletType;
 	}			
 	return sBulletType;
 }

@@ -157,6 +157,16 @@ void Sea_AbordageLoad(int _iAbordageMode, bool _bMCAbordageInitiator)
 	{
 		return;
 	}
+	
+	ref		rIsland;
+	string sPlayerLocation = pchar.location;
+	int iIslandIndex = FindIsland(sPlayerLocation);
+	if (iIslandIndex >= 0)
+	{
+		rIsland = GetIslandByIndex(iIslandIndex);
+	}
+	if (rIsland.id == "KhaelRoa" && CheckAttribute(pchar,"GhostCap.Fight") && !CheckAttribute(pchar,"GenQuest.GhostShip.LastBattle")) return;
+	
 	if(!CheckAttribute(pchar, "abordage_active"))
 	{
 		if( !CheckAttribute(pchar,"abordage_active_count") )

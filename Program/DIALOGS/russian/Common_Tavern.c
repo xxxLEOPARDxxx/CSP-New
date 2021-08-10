@@ -204,6 +204,16 @@ void ProcessDialogEvent()
 					break;
 				}
 				// <-- Линейка Виспер
+				// ЧП
+				if(GetQuestPastDayParam("BSPrologueEnded") > (7) && sti(npchar.nation) == PIRATE && npchar.id != "Pirates_tavernkeeper" && !CheckAttribute(pchar,"BSOnTheHorizon"))
+				{
+					pchar.BSOnTheHorizon = true;
+					dialog.text = "Эй, а не тебя ли разыскивает наша надежда и опора, светлоликая мисс Гатри?";
+					link.l1 = "О Боже! Что на этот раз?";
+					link.l1.go = "BS_CPNG_2";
+					break;
+				}
+				// ЧП
 				
 				dialog.Text = LinkRandPhrase("Эй, " + GetAddress_Form(NPChar) + " " + PChar.name + "! " + TimeGreeting() + ".",
                                     "О, какие у нас гости! Рад видеть вас, " + GetAddress_Form(NPChar) + " " + PChar.name + ".",
@@ -231,6 +241,18 @@ void ProcessDialogEvent()
 				Link.l4 = "Увы, я уже ухожу, " + NPChar.name + ". До встречи.";
 				Link.l4.go = "exit";
 			}
+		break;
+		
+		case "BS_CPNG_2":
+            dialog.text = "Понятия не имею. Но её посыльный очень убедительно просил передать капитану "+pchar.name+", что "+ GetSexPhrase("его","её") +" ждут в магазине Бермуд. И на месте этого капитана, я бы не стал медлить.";
+            link.l1 = "Хорошо, я понял"+ GetSexPhrase("","а") +".";
+			link.l1.go = "exit";
+			SetQuestHeader("BSOnTheHorizon");
+			AddQuestRecord("BSOnTheHorizon", "1");
+			
+			PChar.quest.BSOnTheHorizon_start.win_condition.l1 = "location";
+			PChar.quest.BSOnTheHorizon_start.win_condition.l1.location = "Pirates_town";
+			PChar.quest.BSOnTheHorizon_start.function = "BSOnTheHorizon_start";
 		break;
 		
 		case "SpecialMapBuy":
@@ -377,14 +399,14 @@ void ProcessDialogEvent()
 			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
 			ok = sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok;
 			
-			/* здесь убираю условие 
+			// здесь убираю условие 
 			if (!ok)
 			{
 				Dialog.text = "А на что тебе матросы? Что-то не вижу твоего корабля в порту.";
 				link.l1 = RandPhraseSimple("Точно... я его пришвартовал"+ GetSexPhrase("","а") +" не в том месте.", "Забыл"+ GetSexPhrase("","а") +" войти в порт...");
 				link.l1.go = "exit";
 				break;
-			} */
+			}
 			//здесь меняю дату 
             if (makeint(environment.time) > 24.0 || makeint(environment.time) < 0.0)
 			{
@@ -1164,6 +1186,14 @@ void ProcessDialogEvent()
 				break;
 			}
 			//Квест Виспер
+			
+			if (CheckAttribute(pchar,"ContraInterruptWaiting"))
+			{
+				dialog.text = "Простите, но я сейчас не могу сдать комнату. Буквально пару минут назад в таверну ворвалась толпа солдат и принялась обыскивать мои комнаты. Контрабандистов ищут, знаете ли. Только бизнес мне портят своими разборками... Приходите позже, капитан. ";
+				link.l1 = "Ясно.";
+				link.l1.go = "exit";
+				break;
+			}
 			
    			/*if (chrDisableReloadToLocation || CheckAttribute(pchar, "questTemp.different.Church_NightGuard")) //кто-то должен подойти к ГГ.
 			{

@@ -926,7 +926,8 @@ bool GetCanShipWreck(aref loc)
 void GenerateShipWreck(aref loc)
 {
 	bool bCan = GetCanShipWreck(loc);
-	if(!bCan && !bBettaTestMode) { return; }
+	// if(!bCan && !bBettaTestMode) { return; }
+	if(!bCan) { return; }
 	PChar.GenerateShipWreck.Block = true;
 	
 	Log_TestInfo("Сгенерирован квест 'Кораблекрушение'. На карте подплывёт корабль.");

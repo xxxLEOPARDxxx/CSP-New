@@ -127,7 +127,13 @@ void ProcCommand()
 			{
 	            REMOVE_ALL_BUTTON();
 			}
-		break;	
+		break;
+		case "QTY_ADD_BUTTON":
+			if(comName=="rclick")
+			{
+				ADD_MIN_BUTTON();
+			}
+		break;
 	}
 }
 
@@ -475,6 +481,15 @@ void ChangeQTY_EDIT()
 		refTown.Ship.Crew.Quantity = sti(refTown.Ship.Crew.Quantity) - BuyOrSell*sti(GameInterface.qty_edit.str));	
 	}
     SetVariable(); // обновим экран
+}
+
+void ADD_MIN_BUTTON()  // купить все
+{
+	GetBackupQty();	// вернем все как было
+	if (!GetRemovable(refCharacter)) return;
+	if (sti(GameInterface.qty_edit.str) < GetMinCrewQuantity(refCharacter)) GameInterface.qty_edit.str = GetMinCrewQuantity(refCharacter);
+	BuyOrSell = 0;
+	ChangeQTY_EDIT();
 }
 
 void REMOVE_ALL_BUTTON()  // продать все (уволить)

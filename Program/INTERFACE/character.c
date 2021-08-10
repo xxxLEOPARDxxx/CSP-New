@@ -282,6 +282,10 @@ void ShowInfoWindow()
 		    sHeader = XI_ConvertString("Ship abilities");
 		    sText1  = GetRPGText("Ship_abilities");
 		break;
+		case "TABBTN_3":
+		    sHeader = XI_ConvertString("All Info Char");
+		    sText1  = GetRPGText("All_Info_Char");
+		break;
 		case "TABLE_OTHER":
 		    sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
 		    sText1  = GetRPGText(GameInterface.(CurTable).(CurRow).UserData.ID);
@@ -822,8 +826,8 @@ string CheckForSpecial(string type)
 					if (LAi_GetBladeFencingType(xi_refCharacter) == "FencingHeavy")
 					{
 						coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
-						if(HasSubStr(xi_refCharacter.equip.blade, "topor")) return FloatToString(15.0+BB+(coeff*4),1)+"%/"+FloatToString(15.0+CB+(coeff*4),1)+"%";
-						return FloatToString(10.0+BB+(coeff*4),1)+"%/"+FloatToString(10.0+CB+(coeff*4),1)+"%";
+						if(HasSubStr(xi_refCharacter.equip.blade, "topor")) return FloatToString(8.0+BB+(coeff*2),1)+"%/"+FloatToString(8.0+CB+(coeff*2),1)+"%";
+						return FloatToString(5.0+BB+(coeff*2),1)+"%/"+FloatToString(5.0+CB+(coeff*2),1)+"%";
 					}
 					else return FloatToString(makefloat(BB),1)+"%/"+FloatToString(makefloat(CB),1)+"%";
 				break;
@@ -849,7 +853,11 @@ string CheckForSpecial(string type)
 			switch (type)
 			{
 				case "blooding":
-					return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20),1)+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
+					if (LAi_GetBladeFencingType(xi_refCharacter) == "FencingLight")
+					{
+						return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20),1)+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
+					}
+					else return "0%/0.0 сек.";
 				break;
 				case "crit":
 					if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
@@ -875,12 +883,20 @@ string CheckForSpecial(string type)
 					return its(critvalue)+"%/"+its(critdamage)+"%"
 				break;
 				case "swiftstrike":
-					return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+					if (LAi_GetBladeFencingType(xi_refCharacter) == "Fencing")
+					{
+						return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+					}
+					else return "0%/0.0 сек.";
 				break;
 				case "breakchance":
-					coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
-					if(HasSubStr(xi_refCharacter.equip.blade, "topor")) return FloatToString(15.0+(coeff*4),1)+"%/"+FloatToString(15.0+(coeff*4),1)+"%";
-					return FloatToString(10.0+(coeff*4),1)+"%/"+FloatToString(10.0+(coeff*4),1)+"%";
+					if (LAi_GetBladeFencingType(xi_refCharacter) == "FencingHeavy")
+					{
+						coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
+						if(HasSubStr(xi_refCharacter.equip.blade, "topor")) return FloatToString(8.0+(coeff*2),1)+"%/"+FloatToString(8.0+(coeff*2),1)+"%";
+						return FloatToString(5.0+(coeff*2),1)+"%/"+FloatToString(5.0+(coeff*2),1)+"%";
+					}
+					else return "0%/0%";
 				break;
 				case "stun":
 					return 0+"%";
@@ -899,7 +915,7 @@ string CheckForSpecial(string type)
 		switch (type)
 		{
 			case "blooding":
-				return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20),1)+"%/"+(FloatToString(10.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingLight"))/20)*5,1))+" сек.";
+				return "0%/0.0 сек.";
 			break;
 			case "crit":
 				if(IsCharacterPerkOn(xi_refCharacter, "Fencer"))
@@ -925,11 +941,10 @@ string CheckForSpecial(string type)
 				return its(critvalue)+"%/"+its(critdamage)+"%"
 			break;
 			case "swiftstrike":
-				return FloatToString(2.5+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1)+"%/"+(FloatToString(5.0+(makefloat(GetCharacterSkillSimple(xi_refCharacter,"Fencing"))/20),1))+" сек.";
+				return "0%/0.0 сек.";
 			break;
 			case "breakchance":
-				coeff = makefloat(GetCharacterSkillSimple(xi_refCharacter,"FencingHeavy"))/20;
-				return FloatToString(10.0+(coeff*4),1)+"%/"+FloatToString(10.0+(coeff*4),1)+"%";
+				return "0%/0%";
 			break;
 			case "stun":
 				return 0+"%";

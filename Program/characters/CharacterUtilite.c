@@ -2411,23 +2411,8 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 		SendMessage(chref,"ls",MSG_CHARACTER_SETGUN,modelName);
 		if(itemID != "")
 		{
-			if(CheckAttribute(chref,"chr_ai.sGun") && itemID == chref.chr_ai.sGun)
-			{
-				if(CheckAttribute(chref,"chr_ai.bullet"))
-				{
-					LAi_SetCharacterUseBullet(chref, chref.chr_ai.bullet);
-				}
-				else
-				{
-					LAi_SetCharacterDefaultBulletType(chref);
-					LAi_GunSetUnload(chref);
-				}
-			}
-			else
-			{
-				LAi_SetCharacterDefaultBulletType(chref);
-				LAi_GunSetUnload(chref);
-			}
+			LAi_SetCharacterDefaultBulletType(chref);
+			if(CheckAttribute(chref,"chr_ai.sGun") && itemID != chref.chr_ai.sGun) LAi_GunSetUnload(chref);
 		}
 		else
 		{				
@@ -2500,6 +2485,9 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 				}	
 			}	
 		}			
+	break;
+	case AMMO_ITEM_TYPE:
+		chref.curammo = arItm.id;
 	break;
 	// <-- ugeen
 	}
@@ -2576,6 +2564,10 @@ void EquipCharacterByItem(ref chref, string itemID)
 	}
 	
 	string groupName = arItm.groupID;
+	
+	if (groupName == BLADE_ITEM_TYPE && CheckAttribute(chref, "DontChangeBlade")) return;
+	if (groupName == GUN_ITEM_TYPE && CheckAttribute(chref, "DontChangeGun")) return;
+	
 	if(groupName != MAPS_ITEM_TYPE) // ugeen - для атласа карт  18.06.09
 	{
 		string oldItemID = GetCharacterEquipByGroup(chref, groupName);
@@ -2649,6 +2641,11 @@ void EquipOfficerByItem(ref chref, string itemID)
 		itemID = "unarmed";
 		
 	}
+	
+	string groupName = arItm.groupID;
+	if (groupName == BLADE_ITEM_TYPE && CheckAttribute(chref, "DontChangeBlade")) return;
+	if (groupName == GUN_ITEM_TYPE && CheckAttribute(chref, "DontChangeGun")) return;
+	
 	int iItemQuantity = 0;
 	if( !CheckCharacterItem(chref, itemID))
 	{

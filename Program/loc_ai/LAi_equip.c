@@ -37,7 +37,7 @@ void LAi_NPC_Equip(ref chr, int rank, bool isWeapons, bool isGun)
 		string blade;
 		if (CheckAttribute(chr, "CityType") && chr.CityType == "soldier")
 		{   // у солдат в городе свои сабли
-			blade = LAi_Soldier_EquipBlade();
+			blade = LAi_Soldier_EquipBlade(sti(chr.rank));
 		}
 		else
 		{
@@ -181,22 +181,22 @@ string LAi_NPC_EquipBladeSelection(int rank)
 {
 	int prank = sti(pchar.rank);
 	int max,min;
-	if (prank < 5) // ранг ГГ <5 (ржавое)
+	if (prank < 4) // ранг ГГ <5 (ржавое)
 	{
 		min = 0;
 		max = 12;
 	}
-	if (prank >= 5) // ранг ГГ <5 (обычное)
+	if (prank >= 4) // ранг ГГ <5 (обычное)
 	{
 		min = 10;
 		max = 17;
 	}
-	if (prank >= 15) // ранг ГГ 15+ (синее сплошняком)
+	if (prank >= (15 - MOD_SKILL_ENEMY_RATE)) // ранг ГГ 15+ (синее сплошняком) - минусуются ранги, в зависимости от сложности. Чем выше сложность, тем раньше начнут появляться бесы с ёбо-пушками.
 	{
 		min = 18;
 		max = 31;
 	}
-	if (prank >= 25) // ранг ГГ 25+ (синее+красное, примерно поровну) LEO: Не, я имел ввиду именно с 25 ранга ГГ, а не с 30. Там имелось ввиду, что к 30 рангу уже лейт гейм, а ставить жёска надо именно с 25 :)
+	if (prank >= (25 - MOD_SKILL_ENEMY_RATE)) // ранг ГГ 25+ (синее+красное, примерно поровну) LEO: Не, я имел ввиду именно с 25 ранга ГГ, а не с 30. Там имелось ввиду, что к 30 рангу уже лейт гейм, а ставить жёска надо именно с 25 :)
 	{
 		min = 28;
 		max = 42;
@@ -346,38 +346,171 @@ string LAi_NPC_EquipBladeSelection(int rank)
 	return blade;
 }
 // казенная сабля солдат в городе
-string LAi_Soldier_EquipBlade()
+string LAi_Soldier_EquipBlade(int rank)
 {
-	string blade = GetGeneratedItem("blade7");
-	switch (rand(8))
+	int prank = sti(pchar.rank);
+	int max,min;
+	if (prank < 4) // ранг ГГ <5 (ржавое)
 	{
+		min = 0;
+		max = 12;
+	}
+	if (prank >= 4) // ранг ГГ <5 (обычное)
+	{
+		min = 10;
+		max = 17;
+	}
+	if (prank >= (15 - MOD_SKILL_ENEMY_RATE)) // ранг ГГ 15+ (синее сплошняком)
+	{
+		min = 18;
+		max = 31;
+	}
+	if (prank >= (25 - MOD_SKILL_ENEMY_RATE)) // ранг ГГ 25+ (синее+красное, примерно поровну) LEO: Не, я имел ввиду именно с 25 ранга ГГ, а не с 30. Там имелось ввиду, что к 30 рангу уже лейт гейм, а ставить жёска надо именно с 25 :)
+	{
+		min = 28;
+		max = 42;
+	}
+	
+	int sel = rand(max - min) + min;
+	string blade = GetGeneratedItem("blade7");
+	switch(sel)
+	{
+		// "Ржавое" оружие
 		case 0:
-			blade = GetGeneratedItem("blade1"); // Канонирский тесак
-			break;
-	    case 1:
-			blade = GetGeneratedItem("Blade2"); // Венецианская шпага
-			break;
+			blade = GetGeneratedItem("topor1"); // Боевой топор
+		break;
+		case 1:
+			blade = GetGeneratedItem("topor3"); // Клевец
+		break;
 		case 2:
-			blade = GetGeneratedItem("Blade3"); // Кайман
-			break;
-		case 3:
-			blade = GetGeneratedItem("Blade4"); // Пехотная сабля
-			break;
+			blade = GetGeneratedItem("blade1"); // Канонирский тесак
+		break;
+	    case 3:
+			blade = GetGeneratedItem("Blade2"); // Венецианская шпага
+		break;
 		case 4:
-			blade = GetGeneratedItem("blade6"); // Скорпион
-			break;
+			blade = GetGeneratedItem("Blade3"); // Кайман
+		break;
 		case 5:
-			blade = GetGeneratedItem("Blade9"); // Сарагоса
-			break;
+			blade = GetGeneratedItem("Blade4"); // Пехотная сабля
+		break;
 		case 6:
-			blade = GetGeneratedItem("Blade7"); // Бильбо
-			break;
+			blade = GetGeneratedItem("Blade5"); // Дага
+		break;
 		case 7:
 			blade = GetGeneratedItem("Blade10"); // Строевой фальшион
-			break;
+		break;
 		case 8:
+			blade = GetGeneratedItem("blade17"); // Клеймор
+		break;
+		case 9:
 			blade = GetGeneratedItem("Blade35"); // Кортелач
-			break;
+		break;
+
+		// "Обычное" оружие
+		case 10:
+			blade = GetGeneratedItem("blade6"); // Скорпион
+		break;
+		case 11:
+			blade = GetGeneratedItem("Blade7"); // Бильбо
+		break;
+		case 12:
+			blade = GetGeneratedItem("Blade8"); // Госсемесер
+		break;		
+		case 13:
+			blade = GetGeneratedItem("Blade9"); // Сарагоса
+		break;
+		case 14:
+			blade = GetGeneratedItem("blade11"); // Риттершверт
+		break;		
+		case 15:
+			blade = GetGeneratedItem("blade12"); // Катцбальгер
+		break;
+		case 16:
+			blade = GetGeneratedItem("blade16"); // Рейтарский палаш
+		break;
+	    case 17:
+			blade = GetGeneratedItem("blade18"); // Висельник
+		break;		
+		
+		// "Редкое" оружие
+		case 18:
+			blade = GetGeneratedItem("topor2"); // Рейтарский чекан
+		break;
+		case 19:
+			blade = GetGeneratedItem("Blade15"); // Сторта
+		break;
+		case 20:
+			blade = GetGeneratedItem("blade19"); // Маринера
+		break;
+		case 21:
+			blade = GetGeneratedItem("blade21"); // Бастард
+		break;
+		case 22:
+			blade = GetGeneratedItem("blade22"); // Испанская рапира
+		break;
+		case 23:
+			blade = GetGeneratedItem("blade31"); // Шамшир
+		break;
+		case 24:
+			blade = GetGeneratedItem("blade34"); // Скаллоп
+		break;
+		case 25:
+			blade = GetGeneratedItem("blade36"); // Саксенфедер
+		break;
+		case 26:
+			blade = GetGeneratedItem("blade37"); // Персидская сабля
+		break;
+		case 27:
+			blade = GetGeneratedItem("blade39"); // Скимитар
+		break;
+		case 28:
+			blade = GetGeneratedItem("blade40"); // Мадонна
+		break;
+		case 29:
+			blade = GetGeneratedItem("blade42"); // Кханда
+		break;
+		case 30:
+			blade = GetGeneratedItem("blade46"); // Офицерский клеванг
+		break;
+		case 31:
+			blade = GetGeneratedItem("blade202"); // Цвайхандер
+		break;
+		
+		// "Уникальное" оружие		
+	    case 32:
+			blade = GetGeneratedItem("blade13"); // Кракемарт
+		break;
+		case 33:
+			blade = GetGeneratedItem("blade14"); // Катана
+		break;
+		case 34:
+			blade = GetGeneratedItem("blade20"); // Клейбэг
+		break;
+		case 35:
+			blade = GetGeneratedItem("blade23"); // Бретта
+		break;
+	    case 36:
+			blade = GetGeneratedItem("blade24"); // Чиавона
+		break;
+		case 37:
+			blade = GetGeneratedItem("blade25"); // Карабела
+		break;
+		case 38:
+			blade = GetGeneratedItem("blade26"); // Паппенхаймер
+		break;
+		case 39:
+			blade = GetGeneratedItem("blade28"); // Танат
+		break;
+		case 40:
+			blade = GetGeneratedItem("blade30"); // Нобиль
+		break;
+		case 41:
+			blade = GetGeneratedItem("blade32"); // Фламберж
+		break;
+		case 42:
+			blade = GetGeneratedItem("blade33"); // Валлонская шпага
+		break;
 	}
 	return blade;
 }

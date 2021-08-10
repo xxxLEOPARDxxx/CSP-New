@@ -188,7 +188,7 @@ void ProcessDialogEvent()
 		case "25":
 			dialog.text = "Похоже, я бесполезно трачу своё время. В последний раз предлагаю тебе. Да или нет?";
 			
-			if(sti(PChar.money) >= 20000)
+			NPChar.NeedMoney = 20000;
 			{
 				link.l1 = "Хорошо я соглас"+ GetSexPhrase("ен","на") +".";
 				link.l1.go = "26";
@@ -201,6 +201,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "26":
+	        if(sti(PChar.money) >= sti(NPChar.NeedMoney))
 			dialog.text = "Вот так бы сразу. Вот держи, это первый Мекахром, в нём информация о первой загадке. Удачи!";
 			link.l1 = "И тебе удачи. Прощай.";
 			link.l1.go = "exit";
@@ -217,7 +218,7 @@ void ProcessDialogEvent()
 		
 		case "28":
 			dialog.text = "Наш"+ GetSexPhrase("ёл","ла") +" деньги?";
-			if(sti(PChar.money) >= 20000)
+			NPChar.NeedMoney = 20000;
 			{
 				link.l1 = "Все 20 000 здесь.";
 				link.l1.go = "26";

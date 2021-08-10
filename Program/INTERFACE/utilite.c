@@ -767,6 +767,7 @@ void SaveStartGameParam()
 	optref.StartGameParam.iArcadeSails           = iArcadeSails;
 	optref.StartGameParam.bAltBalance          	 = bAltBalance;
 	optref.StartGameParam.bFillEncyShips         = bFillEncyShips;
+	optref.StartGameParam.bDifficultyWeight      = bDifficultyWeight;
     // иначе сброс галки может быть optref.StartGameParam.bWorldAlivePause       = bWorldAlivePause;
 
     optref.StartGameParam.HeroType         = NullCharacter.HeroParam.HeroType;
@@ -880,6 +881,10 @@ void LoadStartGameParam()
 	if (CheckAttribute(optref, "StartGameParam.bAltBalance"))
 	{
     	bAltBalance = sti(optref.StartGameParam.bAltBalance);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bDifficultyWeight"))
+	{
+    	bDifficultyWeight = sti(optref.StartGameParam.bDifficultyWeight);
     }
 }
 void LoadPlayerProfileDefault()

@@ -28,8 +28,6 @@ void InitInterface_gm(string iniName)
 
 	InterfaceStates.showGameMenuOnExit = true;
 
-	//EI_CreateFrame("MENU_BORDERS",257,117,542,438);
-
 	if(CheckAttribute(&InterfaceStates,"Buttons.Resume.enable") && sti(InterfaceStates.Buttons.Resume.enable) == true)
 	{
 		SetSelectable("MB_RESUME", true);
@@ -56,7 +54,6 @@ void InitInterface_gm(string iniName)
     SetFormatedText("STARTINFO_TITLE", text4);
 	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum());
 	string text = "Анимация персонажа: "+pchar.model.animation+"\nДозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nНе ограничивать пиратские квесты: "+bNoPirateRestrictions+"\nАльтернативный баланс: "+bAltBalance;
-	SetFormatedText("STARTINFO_TEXT", text);
 	string text3;
 	if (pchar.BaseNation == ENGLAND) text3 = "Англия";
 	if (pchar.BaseNation == FRANCE) text3 = "Франция";
@@ -72,20 +69,15 @@ void InitInterface_gm(string iniName)
 	if (IsCharacterPerkOn(pchar, "Agent")) text5 = "Тайный Агент";
 	if (IsCharacterPerkOn(pchar, "SeaWolf")) text5 = "Морской Волк";
 	string text2 = "Характер: "+text5+"\nСложность: "+GetLevelComplexity(MOD_SKILL_ENEMY_RATE)+"\nНация: "+text3+"\nСкорость набора опыта: "+MOD_EXP_RATE+" / 105\nКоличество абордажников: "+MOD_OFFICERS_RATE+"\nВремя исчезновения трупов: "+MOD_DEAD_CLEAR_TIME+"\nКоличество кораблей охраны: "+MOD_DEFENDERS_RATE+"\nЧастота событий: "+iEncountersRate;
-	SetFormatedText("STARTINFO_TEXT2", text2);
 	string text6 = "Количество энкаунтеров: "+iEncountersCountRate+"\nРежим плавания: "+iArcadeSails+"\nПлатные заходы в порт: "+bPortPermission+"\nВзятки стражникам: "+bBribeSoldiers+"\nСнижение порога личных перков: "+bHigherSelfRate+"\nСнижение порога корабельных перков: "+bHigherShipRate+"\nОграничение бонуса навыка офицеров: "+bNoBonusSkillOff+"\nКонтракт на полубессмертие: "+bHalfImmortalPGG;
-	string text7 = "Исследование кораблей: "+bFillEncyShips;
+	string text7 = "Исследование кораблей: "+bFillEncyShips/* +"\nВлияние сложности на переносимый вес: "+bDifficultyWeight */;
 	
-	SetFormatedText("STARTINFO_TEXT3", text6);
-	SetFormatedText("STARTINFO_TEXT4", text7);
+	SetFormatedText("STARTINFO_TEXT1", text+"\n"+text2+"\n"+text6+"\n"+text7);
 	SetFormatedText("COPYRIGHTS_TEXT", PROVIDER_TXT);
 	SetNewPicture("LOGO", "Interfaces\SL_logo.tga.tx");
 	
 
 	if(LAi_IsBoardingProcess())	SetSelectable("MB_RESUME",false);
-
-	//XI_RegistryExitKey("IExit_Escape");
-	//XI_RegistryExitKey("IExit_F1");
 }
 
 
@@ -179,6 +171,31 @@ void ProcessCommandExecute()
 				ShowConfirmWindow(false);
 			}
 
+			break;
+			
+		case "MB_STARTINFO_OPEN":
+			if (comName == "click" || comName == "activate")
+			{
+				XI_WindowDisable("MAIN_WINDOW",true);
+				XI_WindowShow("MAIN_WINDOW", false);
+				XI_WindowDisable("STARTINFO_WINDOW",false);
+				XI_WindowShow("STARTINFO_WINDOW", true);
+				SetNodeUsing("FRAME_COPYRIGHTS", false);
+				SetNodeUsing("CIRCLE1", true);
+				SetNodeUsing("CIRCLE2", true);
+				SetNodeUsing("CIRCLE3", true);
+			}
+			break;
+			
+		case "STARTINFO_EXIT":
+			if (comName == "click" || comName == "activate")
+			{
+				XI_WindowDisable("MAIN_WINDOW",false);
+				XI_WindowShow("MAIN_WINDOW", true);
+				XI_WindowDisable("STARTINFO_WINDOW",true);
+				XI_WindowShow("STARTINFO_WINDOW", false);
+				SetNodeUsing("FRAME_COPYRIGHTS", true);
+			}
 			break;
 	}
 

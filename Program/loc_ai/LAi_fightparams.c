@@ -69,30 +69,51 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 	//if (sti(attack.index) == GetMainCharacterIndex()) Log_Info(attackType);
 	switch(attackType)
 	{
-		case "fast":
-			if(isBlocked && blockSave)
+		case "fast": // быстрая атака
+		if(isBlocked)
 			{
-				kAttackDmg = 0.0;
+                if(blockSave) 
+				{
+                    kAttackDmg = 0.0;
+                }
+				else 
+				{
+                    kAttackDmg = 0.5;
+				}
 			}
 			else
 			{
 				kAttackDmg = 0.7;
 			}
-			break;
-		case "force":
-			if(isBlocked && blockSave)
+		break;
+		case "force": // обычная атака
+			if(isBlocked)
 			{
-				kAttackDmg = 0.0;
+                if(blockSave) 
+				{
+                    kAttackDmg = 0.0;
+                }
+				else 
+				{
+                    kAttackDmg = 0.6;
+				}
 			}
 			else
 			{
 				kAttackDmg = 1.0;
 			}
-			break;
-		case "round":
-			if(isBlocked && blockSave)
+		break;
+		case "round": // круговая атака
+			if(isBlocked)
 			{
-				kAttackDmg = 0.0;
+                if(blockSave) 
+				{
+                    kAttackDmg = 0.0;
+                }
+				else 
+				{
+                    kAttackDmg = 0.4;
+				}
 			}
 			else
 			{
@@ -103,10 +124,9 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 				kAttackDmg = kAttackDmg * 1.3;
 			}
 			break;
-		case "break":
+		case "break": // пробивающая блок
 			if(isBlocked)
 			{
-				//#20200510-03
                 if(blockSave) 
 				{
                     kAttackDmg = 1.0;
@@ -253,10 +273,6 @@ float LAi_CalcExperienceForBlade(aref attack, aref enemy, string attackType, boo
 float LAi_CalcUseEnergyForBlade(aref character, string actionType)
 {
 	float energy = 0.0;
-	if(IsCharacterPerkOn(character, "Rush"))
-	{
-		return energy;
-	}
 	switch(actionType)
 	{
 		case "fast":
@@ -572,32 +588,6 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 			blockSave = false;
 		}
 	}
-	if(IsCharacterPerkOn(attack, "Rush"))
-	{
-		/*kDmg = 3.0;
-		bool heavyw = false;
-		if (fencing_type == "FencingHeavy") heavyw = true;//тяжёлое ли оружие
-		if (heavyw)
-		{
-			if (35+20-(coeff*4)-GetCharacterSPECIALSimple(attack, SPECIAL_L)>rand(99) && attackType != "break")//шанс промаха
-			{
-				Log_SetStringToLog("Вы промахнулись!");
-				return;
-			}
-			if (attackType == "break" && 35+40-(coeff*4)-GetCharacterSPECIALSimple(attack, SPECIAL_L)>rand(99))
-			{
-				Log_SetStringToLog("Вы промахнулись!");
-				return;
-			}
-		}
-		if (!heavyw && 35-GetCharacterSPECIALSimple(attack, SPECIAL_L)>rand(99))
-		{
-			Log_SetStringToLog("Вы промахнулись!");
-			return;
-		}*/
-		blockSave = false;
-		isBlocked = false;
-	}
 	//<---Пробитие блоков тяжёлым оружием
 	//Вычисляем повреждение
 	float dmg = LAi_CalcDamageForBlade(attack, enemy, attackType, isBlocked, blockSave);
@@ -660,6 +650,10 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		}
 	}*/
 	float kDmg = 1.0;
+	if(IsCharacterPerkOn(attack, "Rush"))
+	{
+		kDmg = 2.0;
+	}
 	float kDmgRush = 1.0;
 	if(IsCharacterPerkOn(enemy, "Rush"))
 	{
@@ -1070,7 +1064,7 @@ bool CheckForBlockBreak(ref attack, ref enemy, bool type)
 	if (type)
 	{
 		float coeff = makefloat(GetCharacterSkillSimple(attack,"FencingHeavy"))/20;
-		if (HasSubStr(attack.equip.blade, "topor") && rand(99)<15.0+(coeff*4.0)+valueBB) //15+%
+		if (HasSubStr(attack.equip.blade, "topor") && rand(99)<8.0+(coeff*2.0)+valueBB) //15+%
 		{
 			if(sti(attack.index) == GetMainCharacterIndex())
 			{
@@ -1084,7 +1078,7 @@ bool CheckForBlockBreak(ref attack, ref enemy, bool type)
 			}
 			bbreak = true;
 		}
-		if (!HasSubStr(attack.equip.blade, "topor") && rand(99)<10.0+(coeff*4.0)+valueBB) //10+%
+		if (!HasSubStr(attack.equip.blade, "topor") && rand(99)<5.0+(coeff*2.0)+valueBB) //10+%
 		{
 			if(sti(attack.index) == GetMainCharacterIndex())
 			{
@@ -1131,7 +1125,7 @@ bool CheckForCirassBreak(ref attack, ref enemy, bool type)
 		float coeff = makefloat(GetCharacterSkillSimple(attack,"FencingHeavy"))/20;
 		if (CheckAttribute(enemy, "cirassId") && !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
 		{
-			if (HasSubStr(attack.equip.blade, "topor") && rand(99)<15.0+valueCB+(coeff*4.0)) //15%
+			if (HasSubStr(attack.equip.blade, "topor") && rand(99)<8.0+valueCB+(coeff*2.0)) //15%
 			{
 				cirign = true;
 				// Log_TestInfo("топор");
@@ -1146,7 +1140,7 @@ bool CheckForCirassBreak(ref attack, ref enemy, bool type)
 					PlaySound("interface\Breaking_"+rand(5)+".wav");
 				}
 			}
-			if (!HasSubStr(attack.equip.blade, "topor") && rand(99)<10.0+valueCB+(coeff*4.0)) //10%
+			if (!HasSubStr(attack.equip.blade, "topor") && rand(99)<5.0+valueCB+(coeff*2.0)) //10%
 			{
 				cirign = true;
 				// Log_TestInfo("тяж");

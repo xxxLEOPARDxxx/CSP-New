@@ -280,6 +280,7 @@ void ProcessDialogEvent()
 
 		//--> найм
         case "Exit_hire_Saxon":
+			npchar.HalfImmortal = true;
 			AddMoneyToCharacter(Pchar, -40000);
 			npchar.MusketerDistance = 10;
 			TakeNItems(npchar, "Mineral7", 1);
@@ -287,11 +288,14 @@ void ProcessDialogEvent()
 			TakeNItems(npchar, "potionwine", 1);
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			npchar.Dialog.FileName = "Enc_Officer_dialog.c";
+			NPChar.Dialog.TempNode = "hired";
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;
 		
 		case "Exit_hire_Lostpirate":
+			npchar.HalfImmortal = true;
 			TakeNItems(pchar, "Mineral4", 5);
 			Log_Info("Вы получили бакланов");
 			PlaySound("interface\important_item.wav");
@@ -299,6 +303,8 @@ void ProcessDialogEvent()
 			TakeNItems(npchar, "Mineral2", 1);
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(Npchar.id);
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
+			npchar.Dialog.FileName = "Enc_Officer_dialog.c";
+			NPChar.Dialog.TempNode = "hired";
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 			locations[FindLocation("Shore59")].DisableEncounters = false; //энкаутеры в бухте откроем

@@ -29,8 +29,13 @@ void ProcessDialogEvent()
         //------------- первая боевка --------------
 		case "First time":
             dialog.text = "Постой, "+ GetSexPhrase("приятель","подруга") +"... Будь добр"+ GetSexPhrase("","а") +", скажи мне, как тебя зовут?";
-            link.l1 = GetFullName(pchar) + " собственной персоной. А что такое?";
-            link.l1.go = "Step1_1";
+            if (!CheckAttribute(pchar, "BlockOstin"))
+			{
+				link.l1 = GetFullName(pchar) + " собственной персоной. А что такое?";
+				link.l1.go = "Step1_1";
+			}
+			link.l2 = "Простите, но я сейчас ничего не покупаю и не продаю. До свидания.";
+			link.l2.go = "exit";
         break;
  		case "Step1_1":
         	dialog.text = "Ага, ты-то мне и нуж"+ GetSexPhrase("ен","на") +"...";
@@ -83,8 +88,13 @@ void ProcessDialogEvent()
         //------------ вторая боевка ----------------
         case "Second time":
             dialog.text = "Скажите, я могу отнять минуту вашего времени?";
-            link.l1 = "Можете.";
-            link.l1.go = "Step2_1";
+			if (!CheckAttribute(pchar, "BlockOstin"))
+			{
+				link.l1 = "Можете.";
+				link.l1.go = "Step2_1";
+			}
+			link.l2 = "Простите, но я сейчас ничего не покупаю и не продаю. До свидания.";
+			link.l2.go = "exit";
         break;
         case "Step2_1":
             dialog.text = "Ваше имя...";
@@ -127,8 +137,13 @@ void ProcessDialogEvent()
         //------------ третья встреча, сумасшедший ----------------
         case "Third time":
             dialog.text = "Берегись оптиматов, "+ GetSexPhrase("приятель","подруга") +"!";
-            link.l1 = "Чего?";
-            link.l1.go = "Step3_1";
+			if (!CheckAttribute(pchar, "BlockOstin"))
+			{
+				link.l1 = "Чего?";
+				link.l1.go = "Step3_1";
+			}
+			link.l2 = "С дороги, а не то я позову стражу, сумасшедший!";
+			link.l2.go = "exit";
         break;
         case "Step3_1":
             dialog.text = "Сулланские проскрипции - откровенное зло! Знал бы он, что это сотворит с империей...";
@@ -182,8 +197,13 @@ void ProcessDialogEvent()
         //------------ четвертая встреча ----------------
         case "Fourth time":
             dialog.text = "Здравствуйте, " + GetAddress_Form(NPChar) + ".";
-            link.l1 = "Здравствуйте. Чем обязан"+ GetSexPhrase("","а") +"?";
-            link.l1.go = "Step4_1";
+			if (!CheckAttribute(pchar, "BlockOstin"))
+			{
+				link.l1 = "Здравствуйте. Чем обязан"+ GetSexPhrase("","а") +"?";
+				link.l1.go = "Step4_1";
+			}
+			link.l2 = "Простите, но я сейчас ничего не покупаю и не продаю. До свидания.";
+			link.l2.go = "exit";
         break;
         case "Step4_1":
             dialog.text = "Послушайте, у меня есть для вас вещица, которая бесспорно вас заинтересует. И по сходной цене!";
@@ -250,8 +270,13 @@ void ProcessDialogEvent()
         //------------ пятая встреча ----------------
         case "Fifth time":
             dialog.text = "Здравствуйте, " + GetAddress_Form(NPChar) + ". Скажите, не вы ли т"+ GetSexPhrase("от","а") +" знаменит"+ GetSexPhrase("ый капитан","ая женщина-капитан") +", что привез"+ GetSexPhrase("","ла") +" из Старого Света крупный груз копры?";
-            link.l1 = "Нет, я не занимаюсь транзитными перевозками в Старый Свет.";
-            link.l1.go = "Step5_1";
+			if (!CheckAttribute(pchar, "BlockOstin"))
+			{
+				link.l1 = "Нет, я не занимаюсь транзитными перевозками в Старый Свет.";
+				link.l1.go = "Step5_1";
+			}
+			link.l2 = "Простите, но я сейчас ничего не покупаю и не продаю. До свидания.";
+			link.l2.go = "exit";
         break;
         case "Step5_1":
             dialog.text = "Ах, как жаль, как жаль! Я хотел предложить "+ GetSexPhrase("этому капитану","ей") +" в крайней степени выгодную сделку.";
@@ -328,8 +353,13 @@ void ProcessDialogEvent()
         //------------ шестая встреча ----------------
         case "Sixth time":
             dialog.text = "Здравствуйте " + GetAddress_Form(NPChar) + ". Скажите, вы капитан " + GetFullName(pchar) + "?";
-            link.l1 = "Да, так меня зовут.";
-            link.l1.go = "Step6_1";
+			if (!CheckAttribute(pchar, "BlockOstin"))
+			{
+				link.l1 = "Да, так меня зовут.";
+				link.l1.go = "Step6_1";
+			}
+			link.l2 = "Простите, но я сейчас ничего не покупаю и не продаю. До свидания.";
+			link.l2.go = "exit";
         break;
         case "Step6_1":
 			dialog.text = "У меня для вас сообщение: некто Остин хочет с вами увидеться.";

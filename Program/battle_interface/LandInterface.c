@@ -958,6 +958,8 @@ void BLI_SetPossibleCommands()
 	int chrMode = SendMessage(pchar,"ls",MSG_CHARACTER_EX_MSG,"IsFightMode");
 
 	bool bTmpBool;
+	bool bTmpBool2;
+	bool bTmpBool3;
 	bool bUseCommand = false;
 	int i;
 	aref rootcom,curcom;
@@ -986,6 +988,11 @@ void BLI_SetPossibleCommands()
 			{
 				i = sti(sNation);
 				bTmpBool = (GetNationRelation2MainCharacter(i) == RELATION_ENEMY) || GetRelation2BaseNation(i) == RELATION_ENEMY;
+				string SNK = SKILL_SNEAK;
+				int skillSNK = sti(pchar.Skill.(SNK));
+				bTmpBool2 = skillSNK >= 50 && CheckNationLicence(i);
+				bTmpBool3 = GetNationRelation2MainCharacter(i) != RELATION_ENEMY;
+				if (bTmpBool2 && bTmpBool3) bTmpBool = false;
 				if (bTmpBool && (i != PIRATE))// && !CheckAttribute(pchar, "CheckStateOk"))
 				{
 					bTmpBool = false;

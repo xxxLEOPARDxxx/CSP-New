@@ -673,7 +673,7 @@ int InitItems()
 	itm.Weight = 2.7 + fRandSmall(0.2); // 2.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 10.0 + rand(2); // 8.0;
-	itm.dmg_max = 46.0 + rand(4); // 46.0;
+	itm.dmg_max = 45.0 + rand(5); // 46.0;
 	itm.piercing = 15;
 	itm.special.valueCrB = 4; //Буст крита
 	itm.minlevel = 1;
@@ -690,7 +690,7 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 10.0;
 	itm.Generation.dmg_min.max = 12.0;
-	itm.Generation.dmg_max.min = 46.0;
+	itm.Generation.dmg_max.min = 45.0;
 	itm.Generation.dmg_max.max = 50.0;
 	itm.Generation.Weight.min = 2.7;
 	itm.Generation.Weight.max = 2.9;
@@ -711,7 +711,7 @@ int InitItems()
 	itm.Weight = 2.5 + fRandSmall(0.4); // 2.8;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 10.0 + rand(2); // 10.0;
-	itm.dmg_max = 48.0 + rand(4); // 45.0;
+	itm.dmg_max = 45.0 + rand(5); // 45.0;
 	itm.piercing = 20;
 	itm.special.valueSS = 4; //Резкий удар
 	itm.minlevel = 1;
@@ -728,8 +728,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 10.0;
 	itm.Generation.dmg_min.max = 12.0;
-	itm.Generation.dmg_max.min = 48.0;
-	itm.Generation.dmg_max.max = 52.0;
+	itm.Generation.dmg_max.min = 45.0;
+	itm.Generation.dmg_max.max = 50.0;
 	itm.Generation.Weight.min = 2.5;
 	itm.Generation.Weight.max = 2.9;
 	n++;
@@ -782,7 +782,7 @@ int InitItems()
 	itm.Weight = 2.5 + fRandSmall(0.2); // 2.6;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(2);// 12.0;
-	itm.dmg_max = 53.0 + rand(2);// 50.0;
+	itm.dmg_max = 50.0 + rand(5);// 50.0;
 	itm.piercing = 20;
 	itm.special.valueCrB = 7; //Буст крита
 	itm.special.valueStS = 4; //Стан
@@ -800,7 +800,7 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"	
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 14.0;
-	itm.Generation.dmg_max.min = 53.0;
+	itm.Generation.dmg_max.min = 50.0;
 	itm.Generation.dmg_max.max = 55.0;
 	itm.Generation.Weight.min = 2.5;
 	itm.Generation.Weight.max = 2.7;
@@ -821,7 +821,7 @@ int InitItems()
 	itm.Weight = 2.5 + fRandSmall(0.2); // 2.7;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(2); // 13.0;
-	itm.dmg_max = 53.0 + rand(2); // 53.0;
+	itm.dmg_max = 50.0 + rand(5); // 53.0;
 	itm.piercing = 44;
 	itm.special.valueCrB = 4; //Буст крита
 	itm.special.valueStS = 7; //Стан
@@ -839,7 +839,7 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 14.0;
-	itm.Generation.dmg_max.min = 53.0;
+	itm.Generation.dmg_max.min = 50.0;
 	itm.Generation.dmg_max.max = 55.0;
 	itm.Generation.Weight.min = 2.5;
 	itm.Generation.Weight.max = 2.7;
@@ -978,7 +978,7 @@ int InitItems()
 	itm.Weight = 2.3 + fRandSmall(0.2);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(4);
-	itm.dmg_max = 50.0 + rand(5);
+	itm.dmg_max = 45.0 + rand(10);
 	itm.piercing = 99.0;
 	itm.special.valueBB = 7; //Пролом блока
 	itm.special.valueSS = 4; //Резкий удар
@@ -996,7 +996,7 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 16.0;
-	itm.Generation.dmg_max.min = 50.0;
+	itm.Generation.dmg_max.min = 45.0;
 	itm.Generation.dmg_max.max = 55.0;
 	itm.Generation.Weight.min = 2.3;
 	itm.Generation.Weight.max = 2.5;
@@ -1094,7 +1094,7 @@ int InitItems()
 	itm.Weight = 2.6 + fRandSmall(0.3);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 10.0 + rand(2);
-	itm.dmg_max = 48.0 + rand(4);
+	itm.dmg_max = 45.0 + rand(5);
 	itm.piercing = 99.0;
 	itm.special.valueStS = 4; // Стан
 	itm.minlevel = 1;
@@ -1111,8 +1111,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 10.0;
 	itm.Generation.dmg_min.max = 12.0;
-	itm.Generation.dmg_max.min = 48.0;
-	itm.Generation.dmg_max.max = 52.0;
+	itm.Generation.dmg_max.min = 45.0;
+	itm.Generation.dmg_max.max = 50.0;
 	itm.Generation.Weight.min = 2.6;
 	itm.Generation.Weight.max = 2.9;
 	n++;
@@ -1324,7 +1324,7 @@ int InitItems()
 	itm.Weight = 4.5 + fRandSmall(0.5); // 4.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(3); // 13.0;
-	itm.dmg_max = 52.0 + rand(6); // 55.0;
+	itm.dmg_max = 55.0 + rand(5); // 55.0;
 	itm.piercing = 18;
 	itm.special.valueSS = 3; //Резкий удар
 	itm.special.valueBB = 3; //Пролом блока
@@ -1342,8 +1342,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 52.0;
-	itm.Generation.dmg_max.max = 58.0;
+	itm.Generation.dmg_max.min = 55.0;
+	itm.Generation.dmg_max.max = 60.0;
 	itm.Generation.Weight.min = 4.5;
 	itm.Generation.Weight.max = 5.0;
 	n++;
@@ -1363,7 +1363,7 @@ int InitItems()
 	itm.Weight = 4.5 + fRandSmall(0.5); // 6;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(3); // 14.0;
-	itm.dmg_max = 52.0 + rand(6); // 65.0;
+	itm.dmg_max = 55.0 + rand(5); // 65.0;
 	itm.piercing = 30;
 	itm.special.valueStS = 6; //Стан
 	itm.minlevel = 1;
@@ -1380,8 +1380,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 52.0;
-	itm.Generation.dmg_max.max = 58.0;
+	itm.Generation.dmg_max.min = 55.0;
+	itm.Generation.dmg_max.max = 60.0;
 	itm.Generation.Weight.min = 4.5;
 	itm.Generation.Weight.max = 5.0;
 	n++;
@@ -1401,7 +1401,7 @@ int InitItems()
 	itm.Weight = 4.5 + fRandSmall(0.5); // 5.4;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(3); // 16.0;
-	itm.dmg_max = 52.0 + rand(6); // 60.0;
+	itm.dmg_max = 55.0 + rand(5); // 60.0;
 	itm.piercing = 35;
 	itm.special.valueCrB = 4; //Буст крита
 	itm.special.valueSS = 2; //Резкий удар
@@ -1419,8 +1419,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 52.0;
-	itm.Generation.dmg_max.max = 58.0;
+	itm.Generation.dmg_max.min = 55.0;
+	itm.Generation.dmg_max.max = 60.0;
 	itm.Generation.Weight.min = 4.5;
 	itm.Generation.Weight.max = 5.0;
 	n++;
@@ -1440,7 +1440,7 @@ int InitItems()
 	itm.Weight = 4.1 + fRandSmall(0.4); // 4.1;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 20.0 + rand(5); // 18.0;
-	itm.dmg_max = 75.0 + rand(15); // 63.0;
+	itm.dmg_max = 80.0 + rand(10); // 63.0;
 	itm.piercing = 55.0;
 	itm.special.valueCrB = 8; //Буст крита
 	itm.special.valueCB = 8; //Пролом кирасы
@@ -1459,7 +1459,7 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 20.0;
 	itm.Generation.dmg_min.max = 25.0;
-	itm.Generation.dmg_max.min = 75.0;
+	itm.Generation.dmg_max.min = 80.0;
 	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 4.1;
 	itm.Generation.Weight.max = 4.5;
@@ -1480,7 +1480,7 @@ int InitItems()
 	itm.Weight = 4.6 + fRandSmall(0.2); // 4.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5); // 19.0;
-	itm.dmg_max = 60.0 + rand(13); // 64.0;
+	itm.dmg_max = 65.0 + rand(10); // 64.0;
 	itm.piercing = 50.0;
 	itm.special.valueBB = 7; //Пролом блока
 	itm.special.valueCrB = 7; //Буст крита
@@ -1498,8 +1498,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 23.0;
-	itm.Generation.dmg_max.min = 60.0;
-	itm.Generation.dmg_max.max = 73.0;
+	itm.Generation.dmg_max.min = 65.0;
+	itm.Generation.dmg_max.max = 75.0;
 	itm.Generation.Weight.min = 4.6;
 	itm.Generation.Weight.max = 4.8;
 	n++;
@@ -1519,7 +1519,7 @@ int InitItems()
 	itm.Weight = 4.1 + fRandSmall(0.4); // 4.3;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 20.0 + rand(5); // 20.0;
-	itm.dmg_max = 75.0 + rand(15); // 66.0;
+	itm.dmg_max = 80.0 + rand(10); // 66.0;
 	itm.piercing = 58.0;
 	itm.special.valueSS = 12; //Резкий удар
 	itm.special.valueStS = 12; //Стан
@@ -1537,7 +1537,7 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 20.0;
 	itm.Generation.dmg_min.max = 25.0;
-	itm.Generation.dmg_max.min = 75.0;
+	itm.Generation.dmg_max.min = 80.0;
 	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 4.1;
 	itm.Generation.Weight.max = 4.5;
@@ -1558,7 +1558,7 @@ int InitItems()
 	itm.Weight = 4.1 + fRandSmall(0.4); // 4.2;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 20.0 + rand(5); // 21.0;
-	itm.dmg_max = 85.0 + rand(5); // 65.0;
+	itm.dmg_max = 80.0 + rand(5); // 65.0;
 	itm.piercing = 60.0;
 	itm.special.valueCB = 12; //Пролом кирасы
 	itm.special.valueBB = 12; //Пролом блока
@@ -1576,8 +1576,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 20.0;
 	itm.Generation.dmg_min.max = 25.0;
-	itm.Generation.dmg_max.min = 85.0;
-	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.dmg_max.min = 80.0;
+	itm.Generation.dmg_max.max = 85.0;
 	itm.Generation.Weight.min = 4.1;
 	itm.Generation.Weight.max = 4.5;
 	n++;
@@ -1597,7 +1597,7 @@ int InitItems()
 	itm.Weight = 4.6 + fRandSmall(0.2); // 5.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5); // 23.0;
-	itm.dmg_max = 60.0 + rand(13); // 70.0;
+	itm.dmg_max = 65.0 + rand(10); // 70.0;
 	itm.piercing = 90.0;
 	itm.special.valueStS = 5; //Стан
 	itm.special.valueSS = 9; //Резкий удар
@@ -1615,8 +1615,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 23.0;
-	itm.Generation.dmg_max.min = 60.0;
-	itm.Generation.dmg_max.max = 73.0;
+	itm.Generation.dmg_max.min = 65.0;
+	itm.Generation.dmg_max.max = 75.0;
 	itm.Generation.Weight.min = 4.6;
 	itm.Generation.Weight.max = 4.8;
 	n++;
@@ -1636,7 +1636,7 @@ int InitItems()
 	itm.Weight = 4.0 + fRandSmall(0.5); // 4.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 35.0 + rand(5); // 6.0;
-	itm.dmg_max = 70.0 + rand(30); // 45.0;
+	itm.dmg_max = 70.0 + rand(20); // 45.0;
 	itm.piercing = 50;
 	itm.special.valueCB = 16; //Пролом кирасы
 	itm.special.valueSS = 4; //Резкий удар
@@ -1656,7 +1656,7 @@ int InitItems()
 	itm.Generation.dmg_min.min = 35.0;
 	itm.Generation.dmg_min.max = 40.0;
 	itm.Generation.dmg_max.min = 70.0;
-	itm.Generation.dmg_max.max = 100.0;
+	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 4.0;
 	itm.Generation.Weight.max = 4.5;
 	n++;
@@ -1676,7 +1676,7 @@ int InitItems()
 	itm.Weight = 4.0 + fRandSmall(0.6);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5);
-	itm.dmg_max = 55.0 + rand(17);
+	itm.dmg_max = 60.0 + rand(10);
 	itm.piercing = 88.0;
 	itm.special.valueCB = 5; //Пролом кирасы
 	itm.special.valueBB = 5; //Пролом блока
@@ -1695,8 +1695,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 25.0;
-	itm.Generation.dmg_max.min = 55.0;
-	itm.Generation.dmg_max.max = 72.0;
+	itm.Generation.dmg_max.min = 60.0;
+	itm.Generation.dmg_max.max = 70.0;
 	itm.Generation.Weight.min = 4.0;
 	itm.Generation.Weight.max = 4.6;
 	n++;
@@ -1716,7 +1716,7 @@ int InitItems()
 	itm.Weight = 4.6 + fRandSmall(0.8);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5);
-	itm.dmg_max = 55.0 + rand(20);
+	itm.dmg_max = 65.0 + rand(15);
 	itm.piercing = 88.0;
 	itm.special.valueStS = 14; //Стан
 	itm.minlevel = 1;
@@ -1733,8 +1733,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 23.0;
-	itm.Generation.dmg_max.min = 55.0;
-	itm.Generation.dmg_max.max = 75.0;
+	itm.Generation.dmg_max.min = 65.0;
+	itm.Generation.dmg_max.max = 80.0;
 	itm.Generation.Weight.min = 4.6;
 	itm.Generation.Weight.max = 5.4;
 	n++;
@@ -1754,7 +1754,7 @@ int InitItems()
 	itm.Weight = 4.2 + fRandSmall(0.6);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 24.0 + rand(2);
-	itm.dmg_max = 75.0 + rand(10);
+	itm.dmg_max = 80.0 + rand(10);
 	itm.piercing = 88.0;
 	itm.special.valueStS = 10; //Стан
 	itm.special.valueSS = 10; //Резкий удар
@@ -1773,13 +1773,13 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 24.0;
 	itm.Generation.dmg_min.max = 26.0;
-	itm.Generation.dmg_max.min = 75.0;
-	itm.Generation.dmg_max.max = 85.0;
+	itm.Generation.dmg_max.min = 80.0;
+	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 4.2;
 	itm.Generation.Weight.max = 4.8;
 	n++;
 	
-	// ГПК Фламберж Полутроручный
+	// ГПК Фламберг Полутроручный
 	makeref(itm,Items[n]);
 	itm.id = "blade201";
 	itm.groupID = BLADE_ITEM_TYPE;
@@ -1792,7 +1792,7 @@ int InitItems()
 	itm.price = 3000;
 	itm.Weight = 4.2 + fRandSmall(0.4);
 	itm.dmg_min = 23.0 + rand(3);
-	itm.dmg_max = 80.0 + rand(10);
+	itm.dmg_max = 75.0 + rand(10);
 	itm.piercing = 90.0;
 	itm.special.valueCrB = 7;// Буст крита
 	itm.special.valueSS = 10;//Резкий удар
@@ -1811,8 +1811,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 23.0;
 	itm.Generation.dmg_min.max = 26.0;
-	itm.Generation.dmg_max.min = 80.0;
-	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.dmg_max.min = 75.0;
+	itm.Generation.dmg_max.max = 85.0;
 	itm.Generation.Weight.min = 4.2;
 	itm.Generation.Weight.max = 4.6;
 	n++;
@@ -1832,7 +1832,7 @@ int InitItems()
 	itm.Weight = 4.3 + fRandSmall(0.6);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 18.0 + rand(5);
-	itm.dmg_max = 70.0 + rand(4);
+	itm.dmg_max = 68.0 + rand(10);
 	itm.piercing = 88.0;
 	itm.special.valueStS = 4; //Стан
 	itm.special.valueCrB = 10; //Буст крита
@@ -1850,8 +1850,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 18.0;
 	itm.Generation.dmg_min.max = 23.0;
-	itm.Generation.dmg_max.min = 70.0;
-	itm.Generation.dmg_max.max = 74.0;
+	itm.Generation.dmg_max.min = 68.0;
+	itm.Generation.dmg_max.max = 78.0;
 	itm.Generation.Weight.min = 4.3;
 	itm.Generation.Weight.max = 4.9;
 	n++;
@@ -1875,7 +1875,7 @@ int InitItems()
 	itm.Weight = 9.0 + fRandSmall(2.0);  // 7;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(3); // 10.0;
-	itm.dmg_max = 55.0 + rand(10); // 60.0;
+	itm.dmg_max = 50.0 + rand(10); // 60.0;
 	itm.piercing = 50;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -1891,8 +1891,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 55.0;
-	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.dmg_max.min = 50.0;
+	itm.Generation.dmg_max.max = 60.0;
 	itm.Generation.Weight.min = 9.0;
 	itm.Generation.Weight.max = 11.0;
 	n++;
@@ -1912,7 +1912,7 @@ int InitItems()
 	itm.Weight = 9.0 + fRandSmall(2.0); // 9;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(3); // 10.0;
-	itm.dmg_max = 55.0 + rand(10); // 60.0;
+	itm.dmg_max = 50.0 + rand(10); // 60.0;
 	itm.piercing = 65.0;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -1928,8 +1928,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 55.0;
-	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.dmg_max.min = 50.0;
+	itm.Generation.dmg_max.max = 60.0;
 	itm.Generation.Weight.min = 9.0;
 	itm.Generation.Weight.max = 11.0;
 	n++;
@@ -1949,7 +1949,7 @@ int InitItems()
 	itm.Weight = 8.5 + fRandSmall(1.5); // 7.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 15.0 + rand(5); // 14.0;
-	itm.dmg_max = 75.0 + rand(15); // 65.0;
+	itm.dmg_max = 60.0 + rand(10); // 65.0;
 	itm.piercing = 35;
 	itm.special.valueT = 3; //Травмы
 	itm.special.valueBB = 7; //Пролом блока
@@ -1967,8 +1967,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 15.0;
 	itm.Generation.dmg_min.max = 20.0;
-	itm.Generation.dmg_max.min = 75.0;
-	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.dmg_max.min = 60.0;
+	itm.Generation.dmg_max.max = 70.0;
 	itm.Generation.Weight.min = 8.5;
 	itm.Generation.Weight.max = 10.0;
 	n++;
@@ -1988,7 +1988,7 @@ int InitItems()
 	itm.Weight = 8.5 + fRandSmall(1.5); // 8;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 15.0 + rand(5); // 16.0;
-	itm.dmg_max = 75.0 + rand(15); // 70.0;
+	itm.dmg_max = 60.0 + rand(10); // 70.0;
 	itm.piercing = 60;
 	itm.special.valueT = 3; //Травмы
 	itm.special.valueSS = 7; //Резкий удар
@@ -2006,8 +2006,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 15.0;
 	itm.Generation.dmg_min.max = 20.0;
-	itm.Generation.dmg_max.min = 75.0;
-	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.dmg_max.min = 60.0;
+	itm.Generation.dmg_max.max = 70.0;
 	itm.Generation.Weight.min = 8.5;
 	itm.Generation.Weight.max = 10.0;
 	n++;
@@ -2027,7 +2027,7 @@ int InitItems()
 	itm.Weight = 9.0 + fRandSmall(0.5);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 35.0 + rand(10);
-	itm.dmg_max = 140.0 + rand(10);
+	itm.dmg_max = 100.0 + rand(10);
 	itm.piercing = 65;
 	itm.special.valueT = 10; //Травмы
 	itm.special.valueSS = 10; //Резкий удар
@@ -2046,8 +2046,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 35.0;
 	itm.Generation.dmg_min.max = 45.0;
-	itm.Generation.dmg_max.min = 140.0;
-	itm.Generation.dmg_max.max = 150.0;
+	itm.Generation.dmg_max.min = 100.0;
+	itm.Generation.dmg_max.max = 110.0;
 	itm.Generation.Weight.min = 9.0;
 	itm.Generation.Weight.max = 9.5;
 	n++;
@@ -2067,7 +2067,7 @@ int InitItems()
 	itm.Weight = 9.0 + fRandSmall(2.0); // 10;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(3); // 10.0;
-	itm.dmg_max = 55.0 + rand(10); // 60.0;
+	itm.dmg_max = 50.0 + rand(10); // 60.0;
 	itm.piercing = 70.0;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -2083,8 +2083,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 55.0;
-	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.dmg_max.min = 50.0;
+	itm.Generation.dmg_max.max = 60.0;
 	itm.Generation.Weight.min = 9.0;
 	itm.Generation.Weight.max = 11.0;
 	n++;
@@ -2104,7 +2104,7 @@ int InitItems()
 	itm.Weight = 8.5 + fRandSmall(1.5); // 8.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 24.0 + rand(6); // 22.0;
-	itm.dmg_max = 95.0 + rand(15); // 75.0;
+	itm.dmg_max = 75.0 + rand(15); // 75.0;
 	itm.piercing = 55;
 	itm.special.valueT = 6; //Травмы
 	itm.special.valueCrB = 4; //Буст крита
@@ -2123,8 +2123,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 24.0;
 	itm.Generation.dmg_min.max = 30.0;
-	itm.Generation.dmg_max.min = 95.0;
-	itm.Generation.dmg_max.max = 110.0;
+	itm.Generation.dmg_max.min = 75.0;
+	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 8.5;
 	itm.Generation.Weight.max = 10.0;
 	n++;
@@ -2144,7 +2144,7 @@ int InitItems()
 	itm.Weight = 8.5 + fRandSmall(1.5); // 9.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 15.0 + rand(5); // 22.0;
-	itm.dmg_max = 75.0 + rand(15); // 80.0;
+	itm.dmg_max = 60.0 + rand(10); // 80.0;
 	itm.piercing = 45;
 	itm.special.valueT = 3; //Травмы
 	itm.special.valueCrB = 7; //Буст крита
@@ -2162,8 +2162,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 15.0;
 	itm.Generation.dmg_min.max = 20.0;
-	itm.Generation.dmg_max.min = 75.0;
-	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.dmg_max.min = 60.0;
+	itm.Generation.dmg_max.max = 70.0;
 	itm.Generation.Weight.min = 8.5;
 	itm.Generation.Weight.max = 10.0;
 	n++;
@@ -2183,7 +2183,7 @@ int InitItems()
 	itm.Weight = 9.0 + fRandSmall(2.0); // 11.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 12.0 + rand(3); // 24.0;
-	itm.dmg_max = 55.0 + rand(10); // 90.0;
+	itm.dmg_max = 50.0 + rand(10); // 90.0;
 	itm.piercing = 65;
 	itm.minlevel = 1;
 	itm.rare = 0.1;
@@ -2199,8 +2199,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 12.0;
 	itm.Generation.dmg_min.max = 15.0;
-	itm.Generation.dmg_max.min = 55.0;
-	itm.Generation.dmg_max.max = 65.0;
+	itm.Generation.dmg_max.min = 50.0;
+	itm.Generation.dmg_max.max = 60.0;
 	itm.Generation.Weight.min = 9.0;
 	itm.Generation.Weight.max = 11.0;
 	n++;
@@ -2220,7 +2220,7 @@ int InitItems()
 	itm.Weight = 9.0 + fRandSmall(0.5); // 8.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 35.0 + rand(10); // 25.0;
-	itm.dmg_max = 140.0 + rand(10); // 93.0;
+	itm.dmg_max = 100.0 + rand(10); // 93.0;
 	itm.piercing = 65;
 	itm.special.valueT = 10; //Травмы
 	itm.special.valueSS = 15; //Резкий удар
@@ -2239,8 +2239,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 35.0;
 	itm.Generation.dmg_min.max = 45.0;
-	itm.Generation.dmg_max.min = 140.0;
-	itm.Generation.dmg_max.max = 150.0;
+	itm.Generation.dmg_max.min = 100.0;
+	itm.Generation.dmg_max.max = 110.0;
 	itm.Generation.Weight.min = 9.0;
 	itm.Generation.Weight.max = 9.5;
 	n++;
@@ -2260,7 +2260,7 @@ int InitItems()
 	itm.Weight = 8.5 + fRandSmall(1.5); // 10.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 25.0 + rand(7); // 26.0;
-	itm.dmg_max = 90.0 + rand(20); // 100.0;
+	itm.dmg_max = 70.0 + rand(20); // 100.0;
 	itm.piercing = 75;
 	itm.special.valueT = 10; //Травмы
 	itm.special.valueCB = 5; //Пролом кирасы
@@ -2279,8 +2279,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 25.0;
 	itm.Generation.dmg_min.max = 32.0;
-	itm.Generation.dmg_max.min = 90.0;
-	itm.Generation.dmg_max.max = 110.0;
+	itm.Generation.dmg_max.min = 70.0;
+	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 8.5;
 	itm.Generation.Weight.max = 10.0;
 	n++;
@@ -2300,7 +2300,7 @@ int InitItems()
 	itm.Weight = 9.0 + fRandSmall(0.5); // 9;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 35.0 + rand(10); // 27.0;
-	itm.dmg_max = 140.0 + rand(10); // 95.0;
+	itm.dmg_max = 100.0 + rand(10); // 95.0;
 	itm.piercing = 70.0;
 	itm.special.valueT = 5; //Травмы
 	itm.special.valueCB = 15; //Пролом кирасы
@@ -2319,8 +2319,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 35.0;
 	itm.Generation.dmg_min.max = 45.0;
-	itm.Generation.dmg_max.min = 140.0;
-	itm.Generation.dmg_max.max = 150.0;
+	itm.Generation.dmg_max.min = 100.0;
+	itm.Generation.dmg_max.max = 110.0;
 	itm.Generation.Weight.min = 9.0;
 	itm.Generation.Weight.max = 9.5;
 	n++;
@@ -2340,7 +2340,7 @@ int InitItems()
 	itm.Weight = 9.4 + fRandSmall(0.3); // 9.3;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 40.0 + rand(10); // 28.0;
-	itm.dmg_max = 130.0 + rand(10); // 100.0;
+	itm.dmg_max = 90.0 + rand(10); // 100.0;
 	itm.piercing = 85.0;
 	itm.special.valueT = 15; //Травмы
 	itm.special.valueCB = 10; //Пролом кирасы
@@ -2359,8 +2359,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 40.0;
 	itm.Generation.dmg_min.max = 50.0;
-	itm.Generation.dmg_max.min = 130.0;
-	itm.Generation.dmg_max.max = 140.0;
+	itm.Generation.dmg_max.min = 90.0;
+	itm.Generation.dmg_max.max = 100.0;
 	itm.Generation.Weight.min = 9.4;
 	itm.Generation.Weight.max = 9.7;
 	n++;
@@ -2378,7 +2378,7 @@ int InitItems()
 	itm.price = 3000;
 	itm.Weight = 9.4 + fRandSmall(0.3); // 9.3;
 	itm.dmg_min = 28.0 + rand(7); // 28.0;
-	itm.dmg_max = 110.0 + rand(10); // 100.0;
+	itm.dmg_max = 90.0 + rand(10); // 100.0;
 	itm.piercing = 85.0;
 	itm.special.valueBB = 7; //Пролом блока
 	itm.special.valueSS = 6; //Резкий удар
@@ -2396,8 +2396,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 28.0;
 	itm.Generation.dmg_min.max = 35.0;
-	itm.Generation.dmg_max.min = 110.0;
-	itm.Generation.dmg_max.max = 120.0;
+	itm.Generation.dmg_max.min = 90.0;
+	itm.Generation.dmg_max.max = 100.0;
 	itm.Generation.Weight.min = 9.4;
 	itm.Generation.Weight.max = 9.7;
 	n++;
@@ -2417,7 +2417,7 @@ int InitItems()
 	itm.Weight = 10.0 + fRandSmall(1.0);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 35.0 + rand(5);
-	itm.dmg_max = 105.0 + rand(5);
+	itm.dmg_max = 85.0 + rand(5);
 	itm.piercing = 85.0;
 	itm.special.valueCrB = 10; //Буст крита
 	itm.special.valueT = 10; //Травмы
@@ -2435,8 +2435,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 35.0;
 	itm.Generation.dmg_min.max = 40.0;
-	itm.Generation.dmg_max.min = 105.0;
-	itm.Generation.dmg_max.max = 110.0;
+	itm.Generation.dmg_max.min = 85.0;
+	itm.Generation.dmg_max.max = 90.0;
 	itm.Generation.Weight.min = 10.0;
 	itm.Generation.Weight.max = 11.0;
 	n++;
@@ -2456,7 +2456,7 @@ int InitItems()
 	itm.Weight = 9.1 + fRandSmall(0.5);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 35.0 + rand(15);
-	itm.dmg_max = 150.0 + rand(15);
+	itm.dmg_max = 110.0 + rand(15);
 	itm.piercing = 85.0;
 	itm.special.valueT = 8; //Травмы
 	itm.special.valueStS = 12; //Стан
@@ -2475,8 +2475,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 35.0;
 	itm.Generation.dmg_min.max = 50.0;
-	itm.Generation.dmg_max.min = 150.0;
-	itm.Generation.dmg_max.max = 165.0;
+	itm.Generation.dmg_max.min = 110.0;
+	itm.Generation.dmg_max.max = 125.0;
 	itm.Generation.Weight.min = 9.1;
 	itm.Generation.Weight.max = 9.6;
 	n++;
@@ -2496,7 +2496,7 @@ int InitItems()
 	itm.Weight = 9.5 + fRandSmall(1.0);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 40.0 + rand(15);
-	itm.dmg_max = 140.0 + rand(20);
+	itm.dmg_max = 100.0 + rand(20);
 	itm.piercing = 85.0;
 	itm.special.valueT = 10; //Травмы
 	itm.special.valueCB = 6; //Пролом кирасы
@@ -2515,8 +2515,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 40.0;
 	itm.Generation.dmg_min.max = 55.0;
-	itm.Generation.dmg_max.min = 140.0;
-	itm.Generation.dmg_max.max = 160.0;
+	itm.Generation.dmg_max.min = 100.0;
+	itm.Generation.dmg_max.max = 120.0;
 	itm.Generation.Weight.min = 9.5;
 	itm.Generation.Weight.max = 10.5;
 	n++;
@@ -2536,7 +2536,7 @@ int InitItems()
 	itm.Weight = 12.5 + fRandSmall(1.5); // 12.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 32.0 + rand(8); // 35.0;
-	itm.dmg_max = 120.0 + rand(15); // 120.0;
+	itm.dmg_max = 100.0 + rand(15); // 120.0;
 	itm.piercing = 95.0;
 	itm.special.valueT = 5; //Травмы
 	itm.special.valueCB = 15; //Пролом кирасы
@@ -2554,8 +2554,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 32.0;
 	itm.Generation.dmg_min.max = 40.0;
-	itm.Generation.dmg_max.min = 120.0;
-	itm.Generation.dmg_max.max = 135.0;
+	itm.Generation.dmg_max.min = 100.0;
+	itm.Generation.dmg_max.max = 115.0;
 	itm.Generation.Weight.min = 12.5;
 	itm.Generation.Weight.max = 14.0;
 	n++;
@@ -2575,7 +2575,7 @@ int InitItems()
 	itm.Weight = 12.5 + fRandSmall(1.5); // 15.0;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 32.0 + rand(8); // 45.0;
-	itm.dmg_max = 120.0 + rand(15); // 140.0;
+	itm.dmg_max = 100.0 + rand(15); // 140.0;
 	itm.piercing = 95.0;
 	itm.special.valueT = 6; //Травмы
 	itm.special.valueCrB = 6; //Буст крита
@@ -2594,8 +2594,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 32.0;
 	itm.Generation.dmg_min.max = 40.0;
-	itm.Generation.dmg_max.min = 120.0;
-	itm.Generation.dmg_max.max = 135.0;
+	itm.Generation.dmg_max.min = 100.0;
+	itm.Generation.dmg_max.max = 115.0;
 	itm.Generation.Weight.min = 12.5;
 	itm.Generation.Weight.max = 14.0;
 	n++;
@@ -2809,10 +2809,8 @@ int InitItems()
 	itm.picIndex = 15;
 	itm.picTexture = "CSP_GUNS2";
 	itm.price = 5200;
-	// boal 19.01.2004 -->
 	itm.Weight = 3.2;
-	// boal 19.01.2004 <--
-	itm.chargeQ = 1;
+	itm.chargeQ = 2;
 	itm.chargespeed = 16;
 	itm.dmg_min = 50.0;
 	itm.dmg_max = 160.0;
@@ -2956,8 +2954,8 @@ int InitItems()
 	makeref(itm,Items[n]);
 	itm.id = "mushket_spanish"; //Испанский мушкетон
 	itm.groupID = GUN_ITEM_TYPE;
-	itm.name = "itmname_mushket_spa";
-	itm.describe = "itmdescr_mushket_spa";
+	itm.name = "itmname_mushket_spanish";
+	itm.describe = "itmdescr_mushket_spanish";
 	itm.folder = "items";
 	itm.model = "mushket_spanish";
 	itm.picIndex = 2;
@@ -2982,8 +2980,8 @@ int InitItems()
     makeref(itm,Items[n]);
 	itm.id = "mushket_english"; //Английский Мушкетон
 	itm.groupID = GUN_ITEM_TYPE;
-	itm.name = "itmname_mushket_eng";
-	itm.describe = "itmdescr_mushket_eng";
+	itm.name = "itmname_mushket_english";
+	itm.describe = "itmdescr_mushket_english";
 	itm.folder = "items";
 	itm.model = "mushket_english";
 	itm.picIndex = 3;
@@ -3008,8 +3006,8 @@ int InitItems()
     makeref(itm,Items[n]);
 	itm.id = "mushket_france"; //Французский мушкетон 
 	itm.groupID = GUN_ITEM_TYPE;
-	itm.name = "itmname_mushket_fra";
-	itm.describe = "itmdescr_mushket_fra";
+	itm.name = "itmname_mushket_france";
+	itm.describe = "itmdescr_mushket_france";
 	itm.folder = "items";
 	itm.model = "mushket_france";
 	itm.picIndex = 4;
@@ -3034,8 +3032,8 @@ int InitItems()
     makeref(itm,Items[n]);
 	itm.id = "mushket_holland"; //Голландский мушкетон 
 	itm.groupID = GUN_ITEM_TYPE;
-	itm.name = "itmname_mushket_hol";
-	itm.describe = "itmdescr_mushket_hol";
+	itm.name = "itmname_mushket_holland";
+	itm.describe = "itmdescr_mushket_holland";
 	itm.folder = "items";
 	itm.model = "mushket_holland";
 	itm.picIndex = 5;
@@ -7827,8 +7825,8 @@ int InitItems()
 	itm.price = 150;
 	itm.Weight = 4.5 + fRandSmall(1.5); // 6;
 	// boal 19.01.2004 <--
-	itm.dmg_min = 13.0 + rand(6); // 10.0;
-	itm.dmg_max = 52.0 + rand(5); // 60.0;
+	itm.dmg_min = 14.0 + rand(5); // 10.0;
+	itm.dmg_max = 50.0 + rand(5); // 60.0;
 	itm.piercing = 24.0;
 	itm.special.valueCB = 6; //Пролом кирасы
 	itm.minlevel = 1;
@@ -7842,10 +7840,10 @@ int InitItems()
 	itm.quality = "ordinary";
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
-	itm.Generation.dmg_min.min = 13.0;
+	itm.Generation.dmg_min.min = 14.0;
 	itm.Generation.dmg_min.max = 19.0;
-	itm.Generation.dmg_max.min = 52.0;
-	itm.Generation.dmg_max.max = 57.0;
+	itm.Generation.dmg_max.min = 50.0;
+	itm.Generation.dmg_max.max = 55.0;
 	itm.Generation.Weight.min = 4.5;
 	itm.Generation.Weight.max = 6.0;
 	n++;
@@ -7865,7 +7863,7 @@ int InitItems()
 	itm.Weight = 12.0 + fRandSmall(2.5); // 15.0;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 50.0 + rand(10); // 45.0;
-	itm.dmg_max = 170.0 + rand(10); // 140.0;
+	itm.dmg_max = 120.0 + rand(10); // 140.0;
 	itm.piercing = 105.0;
 	itm.special.valueSS = 15; //Резкий удар
 	itm.special.valueCrB = 5; //Буст крита
@@ -7883,8 +7881,8 @@ int InitItems()
 	itm.Generation.qty = 5;
 	itm.Generation.dmg_min.min = 50.0;
 	itm.Generation.dmg_min.max = 60.0;
-	itm.Generation.dmg_max.min = 170.0;
-	itm.Generation.dmg_max.max = 180.0;
+	itm.Generation.dmg_max.min = 120.0;
+	itm.Generation.dmg_max.max = 130.0;
 	itm.Generation.Weight.min = 12.0;
 	itm.Generation.Weight.max = 14.5;
 	n++;
@@ -7904,7 +7902,7 @@ int InitItems()
 	itm.Weight = 11.5 + fRandSmall(1.5); // 15.0;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 50.0 + rand(10); // 45.0;
-	itm.dmg_max = 160.0 + rand(40); // 140.0;
+	itm.dmg_max = 120.0 + rand(30); // 140.0;
 	itm.piercing = 110.0;
 	itm.special.valueT = 5; //Травмы
 	itm.special.valueStS = 5; //Стан
@@ -7922,8 +7920,8 @@ int InitItems()
 	itm.Generation.qty = 5;
 	itm.Generation.dmg_min.min = 50.0;
 	itm.Generation.dmg_min.max = 60.0;
-	itm.Generation.dmg_max.min = 160.0;
-	itm.Generation.dmg_max.max = 200.0;
+	itm.Generation.dmg_max.min = 120.0;
+	itm.Generation.dmg_max.max = 150.0;
 	itm.Generation.Weight.min = 11.5;
 	itm.Generation.Weight.max = 13.0;
 	n++;
@@ -7943,7 +7941,7 @@ int InitItems()
 	itm.Weight = 2.7;// 3.5;
 	// boal 19.01.2004 <--
 	itm.dmg_min = 20.0;// 20.0;
-	itm.dmg_max = 75.0;// 60.0;
+	itm.dmg_max = 72.0;// 60.0;
 	itm.piercing = 100;
 	itm.special.valueStS = 12; //Стан
 	itm.special.valueSS = 6; //Резкий удар
@@ -7975,7 +7973,7 @@ int InitItems()
 	itm.Weight = 9.5 + fRandSmall(0.5);
 	// boal 19.01.2004 <--
 	itm.dmg_min = 40.0 + rand(10);
-	itm.dmg_max = 135.0 + rand(25);
+	itm.dmg_max = 95.0 + rand(25);
 	itm.piercing = 100;
 	itm.special.valueT = 10; //Травмы
 	itm.special.valueSS = 5; //Резкий удар
@@ -7994,8 +7992,8 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 40.0;
 	itm.Generation.dmg_min.max = 50.0;
-	itm.Generation.dmg_max.min = 135.0;
-	itm.Generation.dmg_max.max = 160.0;
+	itm.Generation.dmg_max.min = 95.0;
+	itm.Generation.dmg_max.max = 120.0;
 	itm.Generation.Weight.min = 9.5;
 	itm.Generation.Weight.max = 10.0;
 	// для патча 1.2.5 фиксируем статы
@@ -8012,9 +8010,9 @@ int InitItems()
 	itm.picIndex = 14;
 	itm.picTexture = "ITEMS_14";
 	itm.price = 100000;
-	itm.Weight = 10.0 + fRandSmall(1.0);
+	itm.Weight = 9.0 + fRandSmall(2.0);
 	itm.dmg_min = 40.0 + rand(10);
-	itm.dmg_max = 120.0+ rand(10);
+	itm.dmg_max = 80.0+ rand(10);
 	itm.piercing = 100.0;
 	itm.special.valueT = 5; //Травмы
 	itm.special.valueStS = 10; //Стан
@@ -8032,9 +8030,9 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 40.0;
 	itm.Generation.dmg_min.max = 50.0;
-	itm.Generation.dmg_max.min = 120.0;
-	itm.Generation.dmg_max.max = 130.0;
-	itm.Generation.Weight.min = 10.0;
+	itm.Generation.dmg_max.min = 80.0;
+	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.Weight.min = 9.0;
 	itm.Generation.Weight.max = 11.0;
 	n++;
 	/////////////////////////////////////////////////////////
@@ -9299,54 +9297,96 @@ int InitItems()
 	itm.points_shop = 1300; // Атрибут для магазина ачивок
 	n++;
 
+	// Бумаги с координатами
+	makeref(itm,Items[n]);
+	itm.id = "BS_PaperCoord";
+	itm.name = "itmname_BS_PaperCoord";
+	itm.describe = "itmdescr_BS_PaperCoord";
+	itm.picIndex = 1;
+	itm.picTexture = "ITEMS_20";
+	itm.price = 10;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	// Судовой журнал Флинта
+	makeref(itm,Items[n]);
+	itm.id = "BS_QBFlint";
+	itm.name = "itmname_BS_QBFlint";
+	itm.describe = "itmdescr_BS_QBFlint";
+	itm.picIndex = 2;
+	itm.picTexture = "ITEMS_20";
+	itm.price = 10;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
+	// Марк Аврелий "Размышления"
+	makeref(itm,Items[n]);
+	itm.id = "BS_MarkAvreliy";
+	itm.name = "itmname_BS_MarkAvreliy";
+	itm.describe = "itmdescr_BS_MarkAvreliy";
+	itm.picIndex = 3;
+	itm.picTexture = "ITEMS_20";
+	itm.price = 10;
+	itm.Weight = 0.1;
+	itm.minlevel = 0;
+	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+
 	//InitGunExt(id,	sAttr,  sBullet,  sGunPowder, DmgMin_NC, DmgMax_NC, DmgMin_C, DmgMax_C, EnergyP_NC, EnergyP_C, Stun_NC, Stun_C, MultiDamage, MisFire, SelfDamage, Explosion,Accuracy,ChargeSpeed,isDefault);
-	InitGunExt(		 "pistol1", "t1",  	     "cartridge",               "",  20.0, 100.0,  20.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30,  8, 0);	
-	InitGunExt(		 "pistol1", "t2", 		    "bullet",      "gunpowder",  20.0, 100.0,  30.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 16, 1);	
+	InitGunExt(		 "pistol1", "t1",  	     "cartridge",               "",  20.0, 100.0,  20.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30,  8, 0);
+	InitGunExt(		 "pistol1", "t2", 		    "bullet",      "gunpowder",  20.0, 100.0,  30.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30, 16, 1);
 	InitGunExt( 	 "pistol2", "t1", 	     "cartridge",     			"",  30.0, 120.0,  30.0, 120.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 40, 12, 0);
-	InitGunExt(		 "pistol2", "t2", 		    "bullet",      "gunpowder",  30.0, 120.0,  30.0, 120.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 40, 24, 1);	
-	InitGunExt(		 "pistol3", "t1", 	     "grapeshot",      "gunpowder",  50.0,  90.0,  40.0,  90.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 20, 24, 1);	
-	InitGunExt(		 "pistol4", "t1", 	     "cartridge",               "",  40.0, 140.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 28, 0);	
-	InitGunExt(		 "pistol4", "t2", 		    "bullet",      "gunpowder",  40.0, 140.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 56, 1);	
-	InitGunExt(		 "pistol5", "t1", 	     "cartridge",               "",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 16, 0);	
-	InitGunExt(		 "pistol5", "t2", 		    "bullet",      "gunpowder",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 32, 1);	
+	InitGunExt(		 "pistol2", "t2", 		    "bullet",      "gunpowder",  30.0, 120.0,  30.0, 120.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 40, 24, 1);
+	InitGunExt(		 "pistol3", "t1", 	     "grapeshot",      "gunpowder",  20.0,  80.0,  40.0,  90.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 20, 24, 1);
+	InitGunExt(		 "pistol4", "t1", 	     "cartridge",               "",  40.0, 140.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 28, 0);
+	InitGunExt(		 "pistol4", "t2", 		    "bullet",      "gunpowder",  40.0, 140.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 56, 1);
+	InitGunExt(		 "pistol5", "t1", 	     "cartridge",               "",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 16, 0);
+	InitGunExt(		 "pistol5", "t2", 		    "bullet",      "gunpowder",  45.0, 170.0,  45.0, 170.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 32, 1);
 	InitGunExt(		 "pistol6", "t1", 	     "cartridge",               "",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 20, 0);
 	InitGunExt(		 "pistol6", "t2", 		    "bullet",      "gunpowder",  35.0, 130.0,  35.0, 130.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 60, 40, 1);
 	InitGunExt(		 "pistol7", "t1","shotgun_cartridge",   			"", 100.0, 300.0, 100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 52, 1);
-	InitGunExt(		 "pistol7shotgun", "t1", "grapeshot",       "12_gauge",  80.0, 200.0,  50.0, 180.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 80, 52, 1);	
+	InitGunExt(		 "pistol7shotgun", "t1", "grapeshot",       "12_gauge",  80.0, 200.0,  50.0, 180.0,  0.0,  0.0, 0, 1, 1, 2, 1, 1, 80, 52, 1);
 	InitGunExt(		 "pistol7shotgun", "t2", 	"bullet",       "12_gauge", 100.0, 300.0, 100.0, 300.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 80, 52, 0);
-	InitGunExt(		 "pistol8", "t1", 	     "grapeshot",      "gunpowder",  50.0, 100.0,  50.0, 100.0,  5.0,  5.0, 1, 1, 1, 0, 1, 1, 50, 20, 1);	
-	InitGunExt(		 "pistol8", "t2", 		   "harpoon",      "gunpowder", 150.0, 250.0, 150.0, 250.0,  20.0, 20.0,0, 1, 0, 0, 0, 0, 20, 35, 0);	
-	InitGunExt(		 "pistol8", "t3", 		  "GunEchin",               "", 120.0, 220.0, 120.0, 220.0,  20.0, 20.0,0, 1, 1, 0, 0, 0, 20, 30, 0);		
-	InitGunExt(		 "pistol9", "t1", 	     "cartridge",               "",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 25, 0);	
+	InitGunExt(		 "pistol8", "t1", 	     "grapeshot",      "gunpowder",  50.0, 100.0,  50.0, 100.0,  5.0,  5.0, 1, 1, 1, 0, 1, 1, 50, 20, 1);
+	InitGunExt(		 "pistol8", "t2", 		   "harpoon",      "gunpowder", 150.0, 250.0, 150.0, 250.0,  20.0, 20.0,0, 1, 0, 0, 0, 0, 20, 35, 0);
+	InitGunExt(		 "pistol8", "t3", 		  "GunEchin",               "", 120.0, 220.0, 120.0, 220.0,  20.0, 20.0,0, 1, 1, 0, 0, 0, 20, 30, 0);
+	InitGunExt(		 "pistol9", "t1", 	     "cartridge",               "",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 25, 0);
 	InitGunExt(		 "pistol9", "t2", 		    "bullet",      "gunpowder",  50.0, 160.0,  40.0, 140.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 45, 50, 1);
 	InitGunExt( 	 "pistol_grapebok", "t1","grapeshot",      "gunpowder",  30.0, 110.0,  30.0, 110.0,  0.0,  0.0, 0, 1, 1, 0, 1, 1, 40, 40, 1);
-	InitGunExt(		 "howdah", "t1",         "grapeshot",      "gunpowder",  50.0,  85.0,  40.0,  70.0,  5.0,  5.0, 1, 1, 1, 0, 0, 1, 50, 40, 1);		
+	InitGunExt(		 "howdah", "t1",         "grapeshot",      "gunpowder",  50.0,  85.0,  40.0,  70.0,  5.0,  5.0, 1, 1, 1, 0, 0, 1, 50, 40, 1);
     InitGunExt(		 "howdah", "t2",          "GunEchin",               "", 115.0, 215.0, 115.0, 215.0,  20.0, 20.0,0, 1, 1, 0, 0, 0, 20, 60, 0);
 	
-	InitGunExt(		"mushket", "t1", 	             "cartridge",               "", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  20, 0);	
+	InitGunExt(		"mushket", "t1", 	             "cartridge",               "", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  20, 0);
 	InitGunExt(		"mushket", "t2", 		            "bullet",      "gunpowder", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  40, 1);
-	InitGunExt(		"mushket2", "t1", 	             "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  90,  35, 0);	
-	InitGunExt(		"mushket2", "t2", 		            "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  90,  55, 1);	
-	InitGunExt(		"mushket_spanish", "t1", 	     "cartridge",               "",  60.0, 180.0,  60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  30, 0);	
+	InitGunExt(		"mushket2", "t1", 	             "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  90,  35, 0);
+	InitGunExt(		"mushket2", "t2", 		            "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  90,  55, 1);
+	InitGunExt(		"mushket_spanish", "t1", 	     "cartridge",               "",  60.0, 180.0,  60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  30, 0);
 	InitGunExt(		"mushket_spanish", "t2", 		    "bullet",      "gunpowder",  60.0, 180.0,  60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  60, 1);
-	InitGunExt(		"mushket_english", "t1", 	     "cartridge",               "",  40.0, 170.0,  40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  75,  16, 0);	
+	InitGunExt(		"mushket_english", "t1", 	     "cartridge",               "",  40.0, 170.0,  40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  75,  16, 0);
 	InitGunExt(		"mushket_english", "t2", 		    "bullet",      "gunpowder",  40.0, 170.0,  40.0, 170.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  75,  32, 1);
-	InitGunExt(		"mushket_france", "t1", 	     "cartridge",               "", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  40, 0);	
+	InitGunExt(		"mushket_france", "t1", 	     "cartridge",               "", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  40, 0);
 	InitGunExt(		"mushket_france", "t2", 		    "bullet",      "gunpowder", 150.0, 290.0, 150.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  80, 1);
-	InitGunExt(		"mushket_holland", "t1", 	     "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  70,  30, 0);	
+	InitGunExt(		"mushket_holland", "t1", 	     "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  70,  30, 0);
 	InitGunExt(		"mushket_holland", "t2", 		    "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  70,  60, 1);
-	InitGunExt(		"mushket_SeaCarbine", "t1", 	 "cartridge", 		        "", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  30, 0);	
+	InitGunExt(		"mushket_SeaCarbine", "t1", 	 "cartridge", 		        "", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  30, 0);
 	InitGunExt(		"mushket_SeaCarbine", "t2", 		"bullet",  	   "gunpowder", 135.0, 235.0, 135.0, 235.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  50, 1);
-	InitGunExt(		"mushket2x2", "t1", 	         "cartridge",               "",  90.0, 290.0,  90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  12, 0);	
+	InitGunExt(		"mushket2x2", "t1", 	         "cartridge",               "",  90.0, 290.0,  90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  12, 0);
 	InitGunExt(		"mushket2x2", "t2", 		        "bullet",  	   "gunpowder",  90.0, 290.0,  90.0, 290.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  24, 1);
-	InitGunExt(		"mushket_Shtuzer", "t1", 	     "cartridge",               "", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  40, 0);	
+	InitGunExt(		"mushket_Shtuzer", "t1", 	     "cartridge",               "", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  40, 0);
 	InitGunExt(		"mushket_Shtuzer", "t2", 		    "bullet",      "gunpowder", 200.0, 300.0, 200.0, 300.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  60, 1);
 	InitGunExt(		"mushket_drob", "t1", 	         "grapeshot",      "gunpowder",  60.0, 100.0,  70.0, 120.0,  0.0,  0.0, 0, 1, 1, 0, 1, 1,  35,  25, 0);
-	InitGunExt(		"mushket_drob", "t2", 	         "cartridge",               "",  50.0, 130.0,  60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  70,  12, 0);	
+	InitGunExt(		"mushket_drob", "t2", 	         "cartridge",               "",  50.0, 130.0,  60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  70,  12, 0);
 	InitGunExt(		"mushket_drob", "t3", 		        "bullet",      "gunpowder",  60.0, 130.0,  60.0, 110.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  60,  20, 1);
-	InitGunExt(		"grape_mushket", "t1", 	           "grenade",           	"", 100.0, 200.0,  80.0, 180.0, 10.0, 10.0, 1, 1, 1, 0, 1, 1, 100,  50, 1);	
+	InitGunExt(		"grape_mushket", "t1", 	           "grenade",           	"", 100.0, 200.0,  80.0, 180.0, 10.0, 10.0, 1, 1, 1, 0, 1, 1, 100,  50, 1);
 	InitGunExt(		"grape_mushket", "t2",       "powder_pellet",          		"",  15.0, 115.0,   5.0, 105.0,100.0, 80.0, 1, 1, 1, 0, 1, 1, 100,  50, 0);
-	InitGunExt(		"mushket6", "t1", 	             "grapeshot",      "gunpowder",  90.0, 100.0,  50.0, 100.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1,  70,  50, 1);	
+	InitGunExt(		"mushket6", "t1", 	             "grapeshot",      "gunpowder",  90.0, 100.0,  50.0, 100.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1,  70,  50, 1);
 	InitGunExt(		"mushket6", "t2", 	              "GunEchin",               "", 115.0, 180.0,  65.0, 115.0, 20.0, 20.0, 1, 1, 1, 0, 0, 1,  60,  45, 0);
 	InitGunExt(		"mushket_seadevil", "t1","shotgun_cartridge", 				"", 200.0, 375.0, 200.0, 375.0,  0.0,  0.0, 1, 0, 0, 2, 0, 0, 100,  65, 1);
 	

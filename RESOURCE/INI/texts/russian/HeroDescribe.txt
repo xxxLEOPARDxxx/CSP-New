@@ -88,10 +88,10 @@ SeaWolf
 (имеет удвоенную скорость обучения команды, 5% бонус к ходовым качествам корабля и пониженный шанс взрыва пушек в бою и от износа)
 }
 
-hero_qty {77}
-ps_hero_qty {77}
+hero_qty {49}
+ps_hero_qty {49}
 
-;========================================== Metazot - этот отрывок нужно заменить в своем файле описания, чтобы не менять его полностью
+;========================================== [ Corsairs Ship Pack ] (Квестовые и прологовые ПГГ) ==========================================
 
 heroName_1 {Питер}
 heroLastname_1 {Блад}
@@ -369,6 +369,8 @@ hero_11
 Скрывался под обликом простого Голландского ученого, но после получения нефритового черепа Юм Симиля, он раскрыл свой истинный облик.
 }
 
+;========================================== [ Corsairs Ship Pack ] (Квестовые и прологовые ПГГ) ==========================================
+
 heroName_12 {Диего}
 heroLastname_12 {Эспиноза}
 
@@ -394,29 +396,28 @@ hero_12
 - Имеет все виды кирас и костюмов.
 }
 
-heroName_13 {Джессика}
-heroLastname_13 {Брэдфорд}
+heroName_13 {Петти}
+heroLastname_13 {}
 
-heroNameGen_13 {Джессики}
-heroLastnameGen_13 {Брэдфорд}
+heroNameGen_13 {Петти}
+heroLastnameGen_13 {}
 
-heroNameDat_13 {Джессике}
-heroLastNameDat_13 {Брэдфорд}
+heroNameDat_13 {Петти}
+heroLastNameDat_13 {}
 
-heroFace_13 {244}
-heroModel_13 {PGG_jess0,PGG_jess1,PGG_jess2,PGG_jess3,PGG_jess4,PGG_jess5,PGG_jess6,PGG_jess7,PGG_jess8}
+heroFace_13 {479}
+heroModel_13 {PGG_PettY_0}
 
 heroType_13 {Фехтовальщик}
-heroNation_13 {Англия}
+heroNation_13 {Пираты}
 
 sex_13 {woman}
-animation_13 {Jessika}
+animation_13 {YokoDias}
 
 hero_13
 {
-После предательства Белтропа она поклялась, что больше ни в чём не уступит мужчинам и станет успешным капитаном корсарской эскадры. Нужно признать, что у неё это неплохо получается, и правительства многих стран уже назначили награду за её прекрасную головку.
-- НЕ БУДЕТ пользоваться мушкетом.
-- Имеет все виды кирас и костюмов.
+Заядлая любительница по рассказывать пиратские байки.
+- В совершенстве умеет пользоваться мушкетом.
 }
 
 heroName_14 {Якоб}
@@ -465,7 +466,6 @@ animation_15 {YokoDias}
 hero_15
 {
 «Какая собака может быть без блох, а какая торговля - без разбойников», - так рассуждала безжалостная морская разбойница. Виктория буквально впилась в торговые артерии Кариб, грабила портовые города и прибрежные поселения. Несчастные вглядывались в бескрайние водные просторы, теша себя смутной надеждой, что беда пройдет стороной. Но, как знать, как знать...
-- НЕ БУДЕТ пользоваться мушкетом.
 - Имеет все виды кирас и костюмов.
 }
 
@@ -579,7 +579,7 @@ heroNameDat_20 {Эдди}
 heroLastNameDat_20 {Блэк}
 
 heroFace_20 {489}
-heroModel_20 {PGG_Black_0,PGG_Black_0,PGG_Black_0,PGG_Black_0,PGG_Black_1,PGG_Black_1}
+heroModel_20 {PGG_Black_0,PGG_Black_1,PGG_Black_2,PGG_Black_3,PGG_Black_4,PGG_Black_5}
 
 heroType_20 {Рубака}
 heroNation_20 {Испания}
@@ -644,29 +644,28 @@ hero_22
 - Имеет все виды кирас.
 }
 
-heroName_23 {Джон}
-heroLastname_23 {Истерлинг}
+heroName_23 {Шикоба}
+heroLastname_23 {}
 
-heroNameGen_23 {Джона}
-heroLastnameGen_23 {Истерлинга}
+heroNameGen_23 {Шикобе}
+heroLastnameGen_23 {}
 
-heroNameDat_23 {Джону}
-heroLastNameDat_23 {Истерлингу}
+heroNameDat_23 {Шикобе}
+heroLastNameDat_23 {}
 
-heroFace_23 {216}
-heroModel_23 {PGG_Isterling_0,PGG_Isterling_1,PGG_Isterling_2,PGG_Isterling_3,PGG_Isterling_4,PGG_Isterling_5}
+heroFace_23 {544}
+heroModel_23 {PGG_Shicoba_0}
 
-heroType_23 {Авантюрист}
-heroNation_23 {Англия}
+heroType_23 {Фехтовальщик}
+heroNation_23 {Пираты}
 
-sex_23 {man}
-animation_23 {man}
+sex_23 {woman}
+animation_23 {Milenace}
 
 hero_23
 {
-Известный в этих водах рубака. Хотя удача не всегда была на его стороне, о чем говорят полученные в боях шрамы. Но шрамы только красят настоящего мужчину! Правда же?
+Индейская девушка-найденыш, выросшая среди пиратов. Пользуется всеобщим уважением и любовью даже среди таких негодяев, как морские разбойники. Рано приобщилась к бандитскому "промыслу", и позже стала одним из пиратских капитанов.
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
 }
 
 heroName_24 {Линкольн}
@@ -769,29 +768,28 @@ hero_27
 - Имеет все виды кирас.
 }
 
-heroName_28 {Майкл}
-heroLastname_28 {Чард}
+heroName_28 {Анжелика}
+heroLastname_28 {Шарп}
 
-heroNameGen_28 {Майкла}
-heroLastnameGen_28 {Чарда}
+heroNameGen_28 {Анжелике}
+heroLastnameGen_28 {Шарп}
 
-heroNameDat_28 {Майклу}
-heroLastNameDat_28 {Чарду}
+heroNameDat_28 {Анжелике}
+heroLastNameDat_28 {Шарп}
 
-heroFace_28 {211}
-heroModel_28 {PGG_Chard_0,PGG_Chard_1,PGG_Chard_2,PGG_Chard_3,PGG_Chard_4,PGG_Chard_5}
+heroFace_28 {242}
+heroModel_28 {PGG_Angellica}
 
-heroType_28 {Морской Волк}
+heroType_28 {Фехтовальщик}
 heroNation_28 {Англия}
 
-sex_28 {man}
-animation_28 {man}
+sex_28 {woman}
+animation_28 {Milenace}
 
 hero_28
 {
-Человек смелый, быстрый и решительный. Задумать дело, организовать его и выполнить - это для него три обязательных пункта любой операции.
+Дерзкая и свободолюбивая корсарка.
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
 }
 
 heroName_29 {Йохан}
@@ -819,54 +817,52 @@ hero_29
 - Имеет все виды кирас.
 }
 
-heroName_30 {Ричард}
-heroLastname_30 {Флитвуд}
+heroName_30 {Александр}
+heroLastname_30 {Московит}
 
-heroNameGen_30 {Ричарда}
-heroLastnameGen_30 {Флитвуда}
+heroNameGen_30 {Александра}
+heroLastnameGen_30 {Московита}
 
-heroNameDat_30 {Ричарду}
-heroLastNameDat_30 {Флитвуду}
+heroNameDat_30 {Александру}
+heroLastNameDat_30 {Московиту}
 
-heroFace_30 {485}
-heroModel_30 {PGG_Fleetwood_0,PGG_Fleetwood_1,PGG_Fleetwood_2,PGG_Fleetwood_3,PGG_Fleetwood_4,PGG_Fleetwood_5}
+heroFace_30 {532}
+heroModel_30 {PGG_Moscovit}
 
-heroType_30 {Морской Волк}
-heroNation_30 {Франция}
+heroType_30 {Рубака}
+heroNation_30 {Англия}
 
 sex_30 {man}
-animation_30 {man}
+animation_30 {Moscovit}
 
 hero_30
 {
-Английский капер, связан с английской военной разведкой, регулярно пускает на дно корабли Голландской Вест-Индской Компании. Капитан брига "Валькирия".
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
+Русский купец, попавший на карибы волею судьбы. Человек крепкого ума и телосложения. Отлично справляется с тяжелым оружием. (Особенно с оглоблей)
 }
 
-heroName_31 {Фокс}
-heroLastname_31 {}
+heroName_31 {Мишель}
+heroLastname_31   {де Граммон}
 
-heroNameGen_31 {Фокса}
-heroLastnameGen_31 {}
+heroNameGen_31 {Мишеля}
+heroLastnameGen_31 {де Граммона}
 
-heroNameDat_31 {Фоксу}
-heroLastNameDat_31 {}
+heroNameDat_31 {Мишелю}
+heroLastNameDat_31 {де Граммону}
 
-heroFace_31 {524}
-heroModel_31 {PGG_Fox_0,PGG_Fox_1,PGG_Fox_2,PGG_Fox_3,PGG_Fox_4,PGG_Fox_5}
+heroFace_31 {215}
+heroModel_31  {PGG_Resc_0,PGG_Resc_1,PGG_Resc_2,PGG_Resc_3,PGG_Resc_4,PGG_Resc_5,PGG_Resc_6,PGG_Resc_7,PGG_Resc_8}
 
-heroType_31 {Буканьер}
-heroNation_31 {Англия}
+heroType_31 {Морской Волк} 
+heroNation_31 {Франция}
 
 sex_31 {man}
 animation_31 {man}
 
 hero_31
 {
-Полковник, командир английских "морских лис"!
+Cын французского дворянина. Здесь, на Карибах, ему предстоит обрести себя, открыть новые черты характера, столкнуться с ложью, хитростью и коварством, найти свою любовь, познать непознанное и преодолеть все препятствия на пути к поставленной цели...
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
+- Имеет все виды кирас и костюмов.
 }
 
 heroName_32 {Серж}
@@ -894,103 +890,101 @@ hero_32
 - Имеет все виды кирас.
 }
 
-heroName_33 {Фольке}
-heroLastname_33 {Деллюк}
+heroName_33 {Лара}
+heroLastname_33 {МакАртур}
 
-heroNameGen_33 {Фольке}
-heroLastnameGen_33 {Деллюка}
+heroNameGen_33 {Ларе}
+heroLastnameGen_33 {МакАртур}
 
-heroNameDat_33 {Фольке}
-heroLastnameDat_33 {Деллюку}
+heroNameDat_33 {Ларе}
+heroLastNameDat_33 {МакАртур}
 
-heroFace_33 {481}
-heroModel_33 {PGG_DeLuck_0,PGG_DeLuck_1,PGG_DeLuck_2,PGG_DeLuck_3,PGG_DeLuck_4,PGG_DeLuck_5}
+heroFace_33 {488}
+heroModel_33 {PGG_Rumba_0,PGG_Rumba_1,PGG_Rumba_2,PGG_Rumba_3,PGG_Rumba_4,PGG_Rumba_5}
 
-heroType_33 {Буканьер}
-heroNation_33 {Голл}
+heroType_33 {Фехтовальщик}
+heroNation_33 {Англия}
 
-sex_33 {man}
-animation_33 {man}
+sex_33 {woman}
+animation_33 {Milenace}
 
 hero_33
 {
-Служил наемником в Голландском флоте. Из-за неуплаты долгов ростовщику Сен-Пьера был заточен в тюрьму.
+Дерзкая и свободолюбивая Лара носит прозвище "Румба" за свой энергичный и весёлый характер, доставшийся ей от матери. От своего отца же унаследовала поистине железный характер, стальную волю и явный талант к морскому делу, не говоря про её любовь к холодным и огнестрельным оружиям, кроме мушкетов. С такими способностями она обязательно впишет себя в историю Карибских островов.
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
 }
 
-heroName_34 {Анри}
-heroLastname_34 {Тибо}
+heroName_34	{Натаниэль}
+heroLastname_34	{Хаук}
 
-heroNameGen_34 {Анри}
-heroLastnameGen_34 {Тибо}
+heroNameGen_34	{Натаниэля}
+heroLastnameGen_34	{Хаука}
 
-heroNameDat_34 {Анри}
-heroLastNameDat_34 {Тибо}
+heroNameDat_34		{Натаниэлю}
+heroLastNameDat_34	{Хауку}
 
-heroFace_34 {494}
-heroModel_34 {PGG_Tibo_0,PGG_Tibo_1,PGG_Tibo_2,PGG_Tibo_3,PGG_Tibo_4,PGG_Tibo_5}
+heroFace_34	{528}
+heroModel_34	{PGG_Natan_0,PGG_Natan_1,PGG_Natan_2,PGG_Natan_3,PGG_Natan_4,PGG_Natan_5,PGG_Natan_6,PGG_Natan_7,PGG_Natan_8}
 
-heroType_34 {Тайный агент}
-heroNation_34 {Франция}
+heroType_34	{Торговец}
+heroNation_34	{Англия}
 
-sex_34 {man}
-animation_34 {man}
+sex_34		{man}
+animation_34	{man}
 
 hero_34
-{
-Племянник Лавассера, бывшего губернатора Тортуги. 
+{Натаниэль прошел сквозь множество приключений, преград и опасностей, уготованных ему Судьбой. Но не смотря на тяжелейшие испытания, ничто не сломило славного морского волка. Его имя известно практически любому на Карибском архипелаге, и более того, далеко за его пределами. У кого-то это имя ассоциируется с храбростью, благородством и немыслимой отвагой, кто-то только заслышав его, представляет кровожадного пирата, которому не ведомы доброта и сострадание. Тем не менее, Натаниэль - один из самых уважаемых и авторитетных баронов и капитанов Берегового Братства. Пираты, команда и офицерский состав уважают своего главаря и не раздумывая идут за ним хоть в рай, хоть в ад.
 - В совершенстве умеет пользоваться мушкетом.
 - Имеет все виды кирас.
 }
 
-heroName_35 {Хьюго}
-heroLastname_35 {Авенделл}
+heroName_35 {Цирилла}
+heroLastname_35 {}
 
-heroNameGen_35 {Хьюго}
-heroLastnameGen_35 {Авенделла}
+heroNameGen_35 {Цириллу}
+heroLastnameGen_72 {}
 
-heroNameDat_35 {Хьюго}
-heroLastNameDat_35 {Авенделлу}
+heroNameDat_35 {Цирилле}
+heroLastNameDat_35 {}
 
-heroFace_35 {490}
-heroModel_35 {PGG_Hugh_0,PGG_Hugh_1,PGG_Hugh_2,PGG_Hugh_3,PGG_Hugh_4,PGG_Hugh_5}
+heroFace_35 {542}
+heroModel_35 {PGG_Cirilla_0,PGG_Cirilla_1,PGG_Cirilla_2,PGG_Cirilla_3,PGG_Cirilla_4,PGG_Cirilla_5,PGG_Cirilla_6,PGG_Cirilla_7,PGG_Cirilla_8}
 
-heroType_35 {Торговец}
-heroNation_35 {Англия}
+heroType_35 {Фехтовальщик}
+heroNation_35 {Пираты}
 
-sex_35 {man}
-animation_35 {man}
+sex_35 {woman}
+animation_35 {YokoDias}
 
 hero_35
 {
-Спившийся охотник за головами.
-- В совершенстве умеет пользоваться мушкетом.
+Ушибленная на голову, скачет между мирами как блоха с тулупа на тулуп. Перевозя на себе болезни убивающие миллионы.
 - Имеет все виды кирас.
+- В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_36 {Клод}
-heroLastname_36 {Дюран}
+heroName_36 {Мари}
+heroLastname_36 {Брэдфорд}
 
-heroNameGen_36 {Клода}
-heroLastnameGen_36 {Дюрана}
+heroNameGen_36 {Мари}
+heroLastnameGen_36 {Брэдфорд}
 
-heroNameDat_36 {Клоду}
-heroLastNameDat_36 {Дюрану}
+heroNameDat_36 {Мари}
+heroLastNameDat_36 {Брэдфорд}
 
-heroFace_36 {497}
-heroModel_36 {PGG_Claude_Durand_0,PGG_Claude_Durand_1,PGG_Claude_Durand_2,PGG_Claude_Durand_3,PGG_Claude_Durand_4,PGG_Claude_Durand_5}
+heroFace_36 {534}
+heroModel_36 {PGG_MaryBred_0,PGG_MaryBred_1,PGG_MaryBred_2,PGG_MaryBred_3,PGG_MaryBred_4,PGG_MaryBred_5}
 
-heroType_36 {Буканьер}
+heroType_36 {Фехтовальщик}
 heroNation_36 {Голландия}
 
-sex_36 {man}
-animation_36 {man}
+sex_36 {woman}
+animation_36 {Jessika}
 
 hero_36
 {
-Наёмник.
-- В совершенстве умеет пользоваться мушкетом.
+Сестра Джессики Брэдфорд.
+- НЕ БУДЕТ пользоваться мушкетом.
 - Имеет все виды кирас.
 }
 
@@ -1044,79 +1038,78 @@ hero_38
 - Имеет все виды кирас.
 }
 
-heroName_39 {Лайонел}
-heroLastname_39 {Уофер}
+heroName_39 {Лоуренс}
+heroLastname_39 {Белтроп}
 
-heroNameGen_39 {Лайонела}
-heroLastnameGen_39 {Уофера}
+heroNameGen_39 {Лоуренса}
+heroLastnameGen_39 {Белтропа}
 
-heroNameDat_39 {Лайонелу}
-heroLastNameDat_39 {Уоферу}
+heroNameDat_39 {Лоуренсу}
+heroLastNameDat_39 {Белтропу}
 
-heroFace_39 {512}
-heroModel_39 {PGG_Uof_0,PGG_Uof_1,PGG_Uof_2,PGG_Uof_3,PGG_Uof_4,PGG_Uof_5,PGG_Uof_6,PGG_Uof_7,PGG_Uof_8}
+heroFace_39 {536}
+heroModel_39 {PGG_Baltrop_GPK}
 
-heroType_39 {Буканьер}
-heroNation_39 {Голландия}
+heroType_39 {Рубака}
+heroNation_39 {Англия}
 
 sex_39 {man}
 animation_39 {man}
 
 hero_39
 {
-Исследователь новых земель, пират, капер, хирург и судовой врач.
+Капитан Бучер - одни считали его исчадием ада, другие восхищались его отчаянной храбростью и везением, позволявшим уходить от любых погонь на своем фрегате с гордым названием "Нептун". То было давно, но Морской Волк не потерял хватку, хоть и переосмыслил свои взгляды на многие вещи. Или нет?
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас и костюмов.
 }
 
-heroName_40 {Альварес}
-heroLastname_40 {Ортего}
+heroName_40 {Алекс}
+heroLastname_40 {Эксквемелин}
 
-heroNameGen_40 {Альвареса}
-heroLastnameGen_40 {Ортего}
+heroNameGen_40 {Алекса}
+heroLastnameGen_40 {Эксквемелина}
 
-heroNameDat_40 {Альваресу}
-heroLastNameDat_40 {Ортего}
+heroNameDat_40 {Алексу}
+heroLastNameDat_40 {Эксквемелину}
 
-heroFace_40 {492}
-heroModel_40 {PGG_Alvares_0,PGG_Alvares_1,PGG_Alvares_2,PGG_Alvares_3,PGG_Alvares_4,PGG_Alvares_5}
+heroFace_40 {519}
+heroModel_40  {PGG_Hero_0,PGG_Hero_1,PGG_Hero_2,PGG_Hero_3,PGG_Hero_4,PGG_Hero_5,PGG_Hero_0,PGG_Hero_6,PGG_Hero_7}
 
-heroType_40 {Авантюрист}
-heroNation_40 {Англия}
+heroType_40 {Рубака}
+heroNation_40 {Голландия}
 
 sex_40 {man}
 animation_40 {man}
 
 hero_40
 {
-Уже немолодой смотритель маяка, подавшийся в карибские корсары.
+Прибыл на Карибы с целью сделать состояние торговлей, некоторое время прослужил наемником в Европе. Впрочем, иногда не брезгует скользким путем добывания вожделенных пиастров.
 - В совершенстве умеет пользоваться мушкетом.
 - Имеет все виды кирас.
 }
 
-heroName_41 {Шарп}
+heroName_41 {Чани}
 heroLastname_41 {}
 
-heroNameGen_41 {Шарп}
+heroNameGen_41 {Чани}
 heroLastnameGen_41 {}
 
-heroNameDat_41 {Шарп}
+heroNameDat_41 {Чани}
 heroLastNameDat_41 {}
 
-heroFace_41 {541}
-heroModel_41 {PGG_Sharp_0,PGG_Sharp_1,PGG_Sharp_2,PGG_Sharp_3,PGG_Sharp_4,PGG_Sharp_5}
+heroFace_41 {400}
+heroModel_41 {PGG_Chani}
 
 heroType_41 {Авантюрист}
-heroNation_41 {Англия}
+heroNation_41 {Пираты}
 
-sex_41 {man}
-animation_41 {man}
+sex_41 {woman}
+animation_41 {Chani}
 
 hero_41
 {
-Легендарный капитан Шарп.
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
+Чани, дочь вождя племени – смелая и исполненная гордости девушка. Всю свою жизнь она провела в деревне, и ей вовсе не по нраву как Инквизиция с ее видами на новые территории, так и грабители-пираты, нагло вторгшиеся на ее родину.  Изо всех сил она старается уберечь соплеменников от опасностей и зла, что каждый день все ближе приближается как извне, так и изнутри племени.
+В поисках ответов на свои вопросы, она понимает, что стать капитаном корабля - единственная возможность остановить надвигающуюся беду...
+- НЕ БУДЕТ пользоваться мушкетом.
 }
 
 heroName_42 {Святой отец}
@@ -1270,257 +1263,271 @@ hero_47
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_48 {Уилл}
-heroLastname_48 {Тёрнер}
+heroName_48 {Пётр}
+heroLastname_48 {Блэйд}
 
-heroNameGen_48 {Уилла}
-heroLastnameGen_48 {Тёрнера}
+heroNameGen_48 {Пётра}
+heroLastnameGen_48 {Блэйда}
 
-heroNameDat_48 {Уиллу}
-heroLastNameDat_48 {Тёрнеру}
+heroNameDat_48 {Пётру}
+heroLastNameDat_48 {Блэйду}
 
-heroFace_48 {520}
-heroModel_48 {PGG_Will}
+
+heroFace_48 {501}
+heroModel_48 {PGG_PeBlad_0,PGG_PeBlad_1,PGG_PeBlad_2,PGG_PeBlad_3,PGG_PeBlad_4,PGG_PeBlad_5,PGG_PeBlad_6,PGG_PeBlad_7,PGG_PeBlad_7}
 
 heroType_48 {Фехтовальщик}
 heroNation_48 {Англия}
 
 sex_48 {man}
-animation_48 {man2_ab}
+animation_48 {man}
 
 hero_48
 {
-Раньше он был простым кузнецом в Порт Рояле, но обстояельства сделали из него настоящего морского волка.
-- НЕ БУДЕТ пользоваться мушкетом.
+Этому герою предстоит пройти тяжелейшие испытания, прежде чем стать настоящим морским волком.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас и костюмов.
 }
 
-heroName_49 {Михаэль}
-heroLastname_49 {Розенкрафт}
+heroName_49 {Милен}
+heroLastname_49 {}
 
-heroNameGen_49 {Михаэля}
-heroLastnameGen_49 {Розенкрафта}
+heroNameGen_49 {Милен}
+heroLastnameGen_49 {}
 
-heroNameDat_49 {Михаэлю}
-heroLastNameDat_49 {Розенкрафту}
+heroNameDat_49 {Милен}
+heroLastNameDat_49 {}
 
-heroFace_49 {496}
-heroModel_49 {PGG_Rozencraft}
+heroFace_49 {538}
+heroModel_49 {PGG_BeatriceZ}
 
-heroType_49 {Морской Волк}
-heroNation_49 {Испания}
+heroType_49 {Фехтовальщик}
+heroNation_49 {Франция}
 
-sex_49 {man}
-animation_49 {man}
+sex_49 {woman}
+animation_49 {Milenace}
 
 hero_49
 {
+Бывшая Французская дворянка, ставшая в последствии знаменитой корсаркой на Карибском Архипелаге
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_50 {Норман}
-heroLastname_50 {}
+;========================================== [ Corsairs Ship Pack ] (Ниже начинается лютый шлак из хер пойми чего) ==========================================
 
-heroNameGen_50 {Нормана}
-heroLastnameGen_50 {}
+heroName_50 {Ричард}
+heroLastname_50 {Флитвуд}
 
-heroNameDat_50 {Норману}
-heroLastNameDat_50 {}
+heroNameGen_50 {Ричарда}
+heroLastnameGen_50 {Флитвуда}
 
-heroFace_50 {533}
-heroModel_50 {PGG_Norman_2}
+heroNameDat_50 {Ричарду}
+heroLastNameDat_50 {Флитвуду}
 
-heroType_50 {Фехтовальщик}
-heroNation_50 {Испания}
+heroFace_50 {485}
+heroModel_50 {PGG_Fleetwood_0,PGG_Fleetwood_1,PGG_Fleetwood_2,PGG_Fleetwood_3,PGG_Fleetwood_4,PGG_Fleetwood_5}
+
+heroType_50 {Морской Волк}
+heroNation_50 {Франция}
 
 sex_50 {man}
-animation_50 {man2_ab}
+animation_50 {man}
 
 hero_50
 {
-Одноногий Норман (Вариант 2).
-- НЕ БУДЕТ пользоваться мушкетом.
-}
-
-heroName_51 {Чарли}
-heroLastname_51 {Книппель}
-
-heroNameGen_51 {Чарли}
-heroLastnameGen_51 {Книппеля}
-
-heroNameDat_51 {Чарли}
-heroLastNameDat_51 {Книппелю}
-
-heroFace_51 {498}
-heroModel_51 {PGG_Kneepel}
-
-heroType_51 {Морской Волк}
-heroNation_51 {Пират}
-
-sex_51 {man}
-animation_51 {man2_ab}
-
-hero_51
-{
-Опытный канонир и давний знакомый Ричарда Флитвуда. В рукопашном бою он неважен, но вморском ему нет равных!
-- НЕ БУДЕТ пользоваться мушкетом.
-}
-
-heroName_52 {Даниэль}
-heroLastname_52 {Хаук}
-
-heroNameGen_52 {Даниэль}
-heroLastnameGen_52 {Хаук}
-
-heroNameDat_52 {Даниэль}
-heroLastNameDat_52 {Хаук}
-
-heroFace_52 {491}
-heroModel_52 {PGG_Danny}
-
-heroType_52 {Тайный агент}
-heroNation_52 {Пират}
-
-sex_52 {woman}
-animation_52 {Danielle}
-
-hero_52
-{
-Та самая Даниэль Хаук.
-- НЕ БУДЕТ пользоваться мушкетом.
-}
-
-heroName_53 {Мари}
-heroLastname_53 {Брэдфорд}
-
-heroNameGen_53 {Мари}
-heroLastnameGen_53 {Брэдфорд}
-
-heroNameDat_53 {Мари}
-heroLastNameDat_53 {Брэдфорд}
-
-heroFace_53 {534}
-heroModel_53 {PGG_MaryBred_0,PGG_MaryBred_1,PGG_MaryBred_2,PGG_MaryBred_3,PGG_MaryBred_4,PGG_MaryBred_5}
-
-heroType_53 {Фехтовальщик}
-heroNation_53 {Голландия}
-
-sex_53 {woman}
-animation_53 {Jessika}
-
-hero_53
-{
-Сестра Джессики Брэдфорд.
-- НЕ БУДЕТ пользоваться мушкетом.
+Английский капер, связан с английской военной разведкой, регулярно пускает на дно корабли Голландской Вест-Индской Компании. Капитан брига "Валькирия".
+- В совершенстве умеет пользоваться мушкетом.
 - Имеет все виды кирас.
 }
 
-heroName_54 {Абрахам}
-heroLastname_54 {Норман}
+heroName_51 {Фольке}
+heroLastname_51 {Деллюк}
 
-heroNameGen_54 {Абрахама}
-heroLastnameGen_54 {Нормана}
+heroNameGen_51 {Фольке}
+heroLastnameGen_51 {Деллюка}
 
-heroNameDat_54 {Абрахаму}
-heroLastNameDat_54 {Норману}
+heroNameDat_51 {Фольке}
+heroLastnameDat_51 {Деллюку}
 
-heroFace_54 {493}
-heroModel_54 {PGG_Norman}
+heroFace_51 {481}
+heroModel_51 {PGG_DeLuck_0,PGG_DeLuck_1,PGG_DeLuck_2,PGG_DeLuck_3,PGG_DeLuck_4,PGG_DeLuck_5}
+
+heroType_51 {Буканьер}
+heroNation_51 {Голл}
+
+sex_51 {man}
+animation_51 {man}
+
+hero_51
+{
+Служил наемником в Голландском флоте. Из-за неуплаты долгов ростовщику Сен-Пьера был заточен в тюрьму.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
+}
+
+heroName_52 {Анри}
+heroLastname_52 {Тибо}
+
+heroNameGen_52 {Анри}
+heroLastnameGen_52 {Тибо}
+
+heroNameDat_52 {Анри}
+heroLastNameDat_52 {Тибо}
+
+heroFace_52 {494}
+heroModel_52 {PGG_Tibo_0,PGG_Tibo_1,PGG_Tibo_2,PGG_Tibo_3,PGG_Tibo_4,PGG_Tibo_5}
+
+heroType_52 {Тайный агент}
+heroNation_52 {Франция}
+
+sex_52 {man}
+animation_52 {man}
+
+hero_52
+{
+Племянник Лавассера, бывшего губернатора Тортуги. 
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
+}
+
+heroName_53 {Клод}
+heroLastname_53 {Дюран}
+
+heroNameGen_53 {Клода}
+heroLastnameGen_53 {Дюрана}
+
+heroNameDat_53 {Клоду}
+heroLastNameDat_53 {Дюрану}
+
+heroFace_53 {497}
+heroModel_53 {PGG_Claude_Durand_0,PGG_Claude_Durand_1,PGG_Claude_Durand_2,PGG_Claude_Durand_3,PGG_Claude_Durand_4,PGG_Claude_Durand_5}
+
+heroType_53 {Буканьер}
+heroNation_53 {Голландия}
+
+sex_53 {man}
+animation_53 {man}
+
+hero_53
+{
+Наёмник.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
+}
+
+heroName_54 {Джессика}
+heroLastname_54 {Брэдфорд}
+
+heroNameGen_54 {Джессики}
+heroLastnameGen_54 {Брэдфорд}
+
+heroNameDat_54 {Джессике}
+heroLastNameDat_54 {Брэдфорд}
+
+heroFace_54 {244}
+heroModel_54 {PGG_jess0,PGG_jess1,PGG_jess2,PGG_jess3,PGG_jess4,PGG_jess5,PGG_jess6,PGG_jess7,PGG_jess8}
 
 heroType_54 {Фехтовальщик}
-heroNation_54 {Пират}
+heroNation_54 {Англия}
 
-sex_54 {man}
-animation_54 {man2_ab}
+sex_54 {woman}
+animation_54 {Jessika}
 
 hero_54
 {
-Раньше он был знаменитым пиратом, но полученные травмы в виде потери ноги, запястья и глаза, сделали его просто бывалым на вид моряком.
+После предательства Белтропа она поклялась, что больше ни в чём не уступит мужчинам и станет успешным капитаном корсарской эскадры. Нужно признать, что у неё это неплохо получается, и правительства многих стран уже назначили награду за её прекрасную головку.
+- НЕ БУДЕТ пользоваться мушкетом.
+- Имеет все виды кирас и костюмов.
 }
 
-heroName_55 {Гектор}
-heroLastname_55 {Барбосса}
+heroName_55 {Джон}
+heroLastname_55 {Истерлинг}
 
-heroNameGen_55 {Гектора}
-heroLastnameGen_55 {Барбоссы}
+heroNameGen_55 {Джона}
+heroLastnameGen_55 {Истерлинга}
 
-heroNameDat_55 {Гектору}
-heroLastNameDat_55 {Барбоссе}
+heroNameDat_55 {Джону}
+heroLastNameDat_55 {Истерлингу}
 
-heroFace_55 {521}
-heroModel_55 {PGG_pirat10}
+heroFace_55 {216}
+heroModel_55 {PGG_Isterling_0,PGG_Isterling_1,PGG_Isterling_2,PGG_Isterling_3,PGG_Isterling_4,PGG_Isterling_5}
 
-heroType_55 {Фехтовальщик}
-heroNation_55 {Пират}
+heroType_55 {Авантюрист}
+heroNation_55 {Англия}
 
 sex_55 {man}
-animation_55 {man2_ab}
+animation_55 {man}
 
 hero_55
 {
-Его имя овеяно легендами и небылицами. Говорят, что он некогда обладал бессмертием, но променял его на обычную жизнь, чтобы вновь почувствовать её вкус... 
-- НЕ БУДЕТ пользоваться мушкетом.
+Известный в этих водах рубака. Хотя удача не всегда была на его стороне, о чем говорят полученные в боях шрамы. Но шрамы только красят настоящего мужчину! Правда же?
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
-heroName_56 {Вудро}
-heroLastname_56 {Доггерти}
+heroName_56 {Майкл}
+heroLastname_56 {Чард}
 
-heroNameGen_56 {Вудро}
-heroLastnameGen_56 {Доггерти}
+heroNameGen_56 {Майкла}
+heroLastnameGen_56 {Чарда}
 
-heroNameDat_56 {Вудро}
-heroLastNameDat_56 {Доггерти}
+heroNameDat_56 {Майклу}
+heroLastNameDat_56 {Чарду}
 
-heroFace_56 {495}
-heroModel_56 {PGG_Doggerty}
+heroFace_56 {211}
+heroModel_56 {PGG_Chard_0,PGG_Chard_1,PGG_Chard_2,PGG_Chard_3,PGG_Chard_4,PGG_Chard_5}
 
-heroType_56 {Фехтовальщик}
-heroNation_56 {Пират}
+heroType_56 {Морской Волк}
+heroNation_56 {Англия}
 
 sex_56 {man}
 animation_56 {man}
 
 hero_56
 {
+Человек смелый, быстрый и решительный. Задумать дело, организовать его и выполнить - это для него три обязательных пункта любой операции.
 - В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
-heroName_57 {Элизабет}
-heroLastname_57 {Суонн}
+heroName_57 {Фокс}
+heroLastname_57 {}
 
-heroNameGen_57 {Элизабет}
-heroLastnameGen_57 {Суонн}
+heroNameGen_57 {Фокса}
+heroLastnameGen_57 {}
 
-heroNameDat_57 {Элизабет}
-heroLastNameDat_57 {Суонн}
+heroNameDat_57 {Фоксу}
+heroLastNameDat_57 {}
 
-heroFace_57 {504}
-heroModel_57 {PGG_Daniell7}
+heroFace_57 {524}
+heroModel_57 {PGG_Fox_0,PGG_Fox_1,PGG_Fox_2,PGG_Fox_3,PGG_Fox_4,PGG_Fox_5}
 
-heroType_57 {Авантюрист}
+heroType_57 {Буканьер}
 heroNation_57 {Англия}
 
-sex_57 {woman}
-animation_57 {Danielle}
+sex_57 {man}
+animation_57 {man}
 
 hero_57
 {
-Очаровательная, но оттого не менее коварная дочь губернатора Ямайки. Покинула отчий дом не по своей воле, но так сложилось, что горько-солёные брызги моря она предпочла приторной сладости изысканных лакомств. Элизабет умеет не только страстно любить - она умеет и бесстрастно убивать.
-- НЕ БУДЕТ пользоваться мушкетом.
+Полковник, командир английских "морских лис"!
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
-heroName_58 {Лоуренс}
-heroLastname_58 {Белтроп}
+heroName_58 {Хьюго}
+heroLastname_58 {Авенделл}
 
-heroNameGen_58 {Лоуренса}
-heroLastnameGen_58 {Белтропа}
+heroNameGen_58 {Хьюго}
+heroLastnameGen_58 {Авенделла}
 
-heroNameDat_58 {Лоуренсу}
-heroLastNameDat_58 {Белтропу}
+heroNameDat_58 {Хьюго}
+heroLastNameDat_58 {Авенделлу}
 
-heroFace_58 {536}
-heroModel_58 {PGG_Baltrop_GPK}
+heroFace_58 {490}
+heroModel_58 {PGG_Hugh_0,PGG_Hugh_1,PGG_Hugh_2,PGG_Hugh_3,PGG_Hugh_4,PGG_Hugh_5}
 
-heroType_58 {Рубака}
+heroType_58 {Торговец}
 heroNation_58 {Англия}
 
 sex_58 {man}
@@ -1528,337 +1535,336 @@ animation_58 {man}
 
 hero_58
 {
-Капитан Бучер - одни считали его исчадием ада, другие восхищались его отчаянной храбростью и везением, позволявшим уходить от любых погонь на своем фрегате с гордым названием "Нептун". То было давно, но Морской Волк не потерял хватку, хоть и переосмыслил свои взгляды на многие вещи. Или нет?
+Спившийся охотник за головами.
 - В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
 }
 
-heroName_59 {Селеста}
-heroLastname_59 {Кортес}
+heroName_59 {Лайонел}
+heroLastname_59 {Уофер}
 
-heroNameGen_59 {Селесты}
-heroLastnameGen_59 {Кортес}
+heroNameGen_59 {Лайонела}
+heroLastnameGen_59 {Уофера}
 
-heroNameDat_59 {Селесте}
-heroLastNameDat_59 {Кортес}
+heroNameDat_59 {Лайонелу}
+heroLastNameDat_59 {Уоферу}
 
-heroFace_59 {516}
-heroModel_59 {PGG_Daniell5}
+heroFace_59 {512}
+heroModel_59 {PGG_Uof_0,PGG_Uof_1,PGG_Uof_2,PGG_Uof_3,PGG_Uof_4,PGG_Uof_5,PGG_Uof_6,PGG_Uof_7,PGG_Uof_8}
 
-heroType_59 {Авантюрист}
-heroNation_59 {Испания}
+heroType_59 {Буканьер}
+heroNation_59 {Голландия}
 
-sex_59 {woman}
-animation_59 {Danielle}
+sex_59 {man}
+animation_59 {man}
 
 hero_59
 {
-Красавица из рода знаменитого Эрнана Кортеса. Несмотря на благородное происхождение, отнюдь не заносчива. Родилась на Эспаньоле, потому знает архипелаг, как свои пять пальцев. С детства сопровождала отца, чиновника морского ведомства, во всех его путешествиях. Двадцати пяти лет от роду, купив небольшое судно и набрав команду таких же, как и она, сорвиголов, отправилась на поиски приключений. 
-- НЕ БУДЕТ пользоваться мушкетом.
+Исследователь новых земель, пират, капер, хирург и судовой врач.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас и костюмов.
 }
 
-heroName_60 {Хуан}
-heroLastname_60 {Чахотка}
+heroName_60 {Альварес}
+heroLastname_60 {Ортего}
 
-heroNameGen_60 {Хуана}
-heroLastnameGen_60 {Чахотки}
+heroNameGen_60 {Альвареса}
+heroLastnameGen_60 {Ортего}
 
-heroNameDat_60 {Хуану}
-heroLastnameDat_60 {Чахотке}
+heroNameDat_60 {Альваресу}
+heroLastNameDat_60 {Ортего}
 
-heroFace_60 {482}
-heroModel_60 {PGG_HuanTubercul}
+heroFace_60 {492}
+heroModel_60 {PGG_Alvares_0,PGG_Alvares_1,PGG_Alvares_2,PGG_Alvares_3,PGG_Alvares_4,PGG_Alvares_5}
 
 heroType_60 {Авантюрист}
-heroNation_60 {Голландия}
+heroNation_60 {Англия}
 
 sex_60 {man}
 animation_60 {man}
 
 hero_60
 {
-Хуан по прозвищу "Чахотка" - грязный пират и мошенник, так же работорговец из шайки берберийских пиратов, орудовавших в водах Марокко. Юный кастилец проявился, как безпощадный мерзавец, который не брезговал ничем ради собственного обогащения, даже работорговлей. В этот же период за свои деяния Хуан получает прозвище "Чахотка", созвучное с названием ужасной болезни, которая может годами мучать свою жертву, прежде чем окончательно её добить, что в вполне может соответствовать его характеру и методам.
-- В совершенстве умеет пользоваться мушкетом.
-}
-
-heroName_61	{Натаниэль}
-heroLastname_61	{Хаук}
-
-heroNameGen_61	{Натаниэля}
-heroLastnameGen_61	{Хаука}
-
-heroNameDat_61		{Натаниэлю}
-heroLastNameDat_61	{Хауку}
-
-heroFace_61	{528}
-heroModel_61	{PGG_Natan_0,PGG_Natan_1,PGG_Natan_2,PGG_Natan_3,PGG_Natan_4,PGG_Natan_5,PGG_Natan_6,PGG_Natan_7,PGG_Natan_8}
-
-heroType_61	{Торговец}
-heroNation_61	{Англия}
-
-sex_61		{man}
-animation_61	{man}
-
-hero_61
-{Натаниэль прошел сквозь множество приключений, преград и опасностей, уготованных ему Судьбой. Но не смотря на тяжелейшие испытания, ничто не сломило славного морского волка. Его имя известно практически любому на Карибском архипелаге, и более того, далеко за его пределами. У кого-то это имя ассоциируется с храбростью, благородством и немыслимой отвагой, кто-то только заслышав его, представляет кровожадного пирата, которому не ведомы доброта и сострадание. Тем не менее, Натаниэль - один из самых уважаемых и авторитетных баронов и капитанов Берегового Братства. Пираты, команда и офицерский состав уважают своего главаря и не раздумывая идут за ним хоть в рай, хоть в ад.
+Уже немолодой смотритель маяка, подавшийся в карибские корсары.
 - В совершенстве умеет пользоваться мушкетом.
 - Имеет все виды кирас.
 }
 
-heroName_62 {Изабелла}
-heroLastname_62 {Кортес}
+heroName_61 {Шарп}
+heroLastname_61 {}
 
-heroNameGen_62 {Изабеллы}
-heroLastnameGen_62 {Кортес}
+heroNameGen_61 {Шарп}
+heroLastnameGen_61 {}
 
-heroNameDat_62 {Изабелле}
-heroLastNameDat_62 {Кортес}
+heroNameDat_61 {Шарп}
+heroLastNameDat_61 {}
 
-heroFace_62 {513}
-heroModel_62 {PGG_Daniell3}
+heroFace_61 {561}
+heroModel_61 {PGG_Sharp_0,PGG_Sharp_1,PGG_Sharp_2,PGG_Sharp_3,PGG_Sharp_4,PGG_Sharp_5}
+
+heroType_61 {Авантюрист}
+heroNation_61 {Англия}
+
+sex_61 {man}
+animation_61 {man}
+
+hero_61
+{
+Легендарный капитан Шарп.
+- В совершенстве умеет пользоваться мушкетом.
+- Имеет все виды кирас.
+}
+
+heroName_62 {Уилл}
+heroLastname_62 {Тёрнер}
+
+heroNameGen_62 {Уилла}
+heroLastnameGen_62 {Тёрнера}
+
+heroNameDat_62 {Уиллу}
+heroLastNameDat_62 {Тёрнеру}
+
+heroFace_62 {520}
+heroModel_62 {PGG_Will}
 
 heroType_62 {Фехтовальщик}
-heroNation_62 {Испания}
+heroNation_62 {Англия}
 
-sex_62 {woman}
-animation_62 {Danielle}
+sex_62 {man}
+animation_62 {man2_ab}
 
 hero_62
+{
+Раньше он был простым кузнецом в Порт Рояле, но обстояельства сделали из него настоящего морского волка.
+- НЕ БУДЕТ пользоваться мушкетом.
+}
+
+heroName_63 {Михаэль}
+heroLastname_63 {Розенкрафт}
+
+heroNameGen_63 {Михаэля}
+heroLastnameGen_63 {Розенкрафта}
+
+heroNameDat_63 {Михаэлю}
+heroLastNameDat_63 {Розенкрафту}
+
+heroFace_63 {636}
+heroModel_63 {PGG_Rozencraft}
+
+heroType_63 {Морской Волк}
+heroNation_63 {Испания}
+
+sex_63 {man}
+animation_63 {man}
+
+hero_63
+{
+- В совершенстве умеет пользоваться мушкетом.
+}
+
+heroName_64 {Норман}
+heroLastname_64 {}
+
+heroNameGen_64 {Нормана}
+heroLastnameGen_64 {}
+
+heroNameDat_64 {Норману}
+heroLastNameDat_64 {}
+
+heroFace_64 {533}
+heroModel_64 {PGG_Norman_2}
+
+heroType_64 {Фехтовальщик}
+heroNation_64 {Испания}
+
+sex_64 {man}
+animation_64 {man2_ab}
+
+hero_64
+{
+Одноногий Норман (Вариант 2).
+- НЕ БУДЕТ пользоваться мушкетом.
+}
+
+heroName_65 {Чарли}
+heroLastname_65 {Книппель}
+
+heroNameGen_65 {Чарли}
+heroLastnameGen_65 {Книппеля}
+
+heroNameDat_65 {Чарли}
+heroLastNameDat_65 {Книппелю}
+
+heroFace_65 {498}
+heroModel_65 {PGG_Kneepel}
+
+heroType_65 {Морской Волк}
+heroNation_65 {Пират}
+
+sex_65 {man}
+animation_65 {man2_ab}
+
+hero_65
+{
+Опытный канонир и давний знакомый Ричарда Флитвуда. В рукопашном бою он неважен, но вморском ему нет равных!
+- НЕ БУДЕТ пользоваться мушкетом.
+}
+
+heroName_66 {Даниэль}
+heroLastname_66 {Хаук}
+
+heroNameGen_66 {Даниэль}
+heroLastnameGen_66 {Хаук}
+
+heroNameDat_66 {Даниэль}
+heroLastNameDat_66 {Хаук}
+
+heroFace_66 {491}
+heroModel_66 {PGG_Danny}
+
+heroType_66 {Тайный агент}
+heroNation_66 {Пират}
+
+sex_66 {woman}
+animation_66 {Danielle}
+
+hero_66
+{
+Та самая Даниэль Хаук.
+- НЕ БУДЕТ пользоваться мушкетом.
+}
+
+heroName_67 {Абрахам}
+heroLastname_67 {Норман}
+
+heroNameGen_67 {Абрахама}
+heroLastnameGen_67 {Нормана}
+
+heroNameDat_67 {Абрахаму}
+heroLastNameDat_67 {Норману}
+
+heroFace_67 {493}
+heroModel_67 {PGG_Norman}
+
+heroType_67 {Фехтовальщик}
+heroNation_67 {Пират}
+
+sex_67 {man}
+animation_67 {man2_ab}
+
+hero_67
+{
+Раньше он был знаменитым пиратом, но полученные травмы в виде потери ноги, запястья и глаза, сделали его просто бывалым на вид моряком.
+}
+
+heroName_68 {Гектор}
+heroLastname_68 {Барбосса}
+
+heroNameGen_68 {Гектора}
+heroLastnameGen_68 {Барбоссы}
+
+heroNameDat_68 {Гектору}
+heroLastNameDat_68 {Барбоссе}
+
+heroFace_68 {521}
+heroModel_68 {PGG_pirat10}
+
+heroType_68 {Фехтовальщик}
+heroNation_68 {Пират}
+
+sex_68 {man}
+animation_68 {man2_ab}
+
+hero_68
+{
+Его имя овеяно легендами и небылицами. Говорят, что он некогда обладал бессмертием, но променял его на обычную жизнь, чтобы вновь почувствовать её вкус... 
+- НЕ БУДЕТ пользоваться мушкетом.
+}
+
+heroName_69 {Вудро}
+heroLastname_69 {Доггерти}
+
+heroNameGen_69 {Вудро}
+heroLastnameGen_69 {Доггерти}
+
+heroNameDat_69 {Вудро}
+heroLastNameDat_69 {Доггерти}
+
+heroFace_69 {495}
+heroModel_69 {PGG_Doggerty}
+
+heroType_69 {Фехтовальщик}
+heroNation_69 {Пират}
+
+sex_69 {man}
+animation_69 {man}
+
+hero_69
+{
+- В совершенстве умеет пользоваться мушкетом.
+}
+
+heroName_70 {Элизабет}
+heroLastname_70 {Суонн}
+
+heroNameGen_70 {Элизабет}
+heroLastnameGen_70 {Суонн}
+
+heroNameDat_70 {Элизабет}
+heroLastNameDat_70 {Суонн}
+
+heroFace_70 {504}
+heroModel_70 {PGG_Daniell7}
+
+heroType_70 {Авантюрист}
+heroNation_70 {Англия}
+
+sex_70 {woman}
+animation_70 {Danielle}
+
+hero_70
+{
+Очаровательная, но оттого не менее коварная дочь губернатора Ямайки. Покинула отчий дом не по своей воле, но так сложилось, что горько-солёные брызги моря она предпочла приторной сладости изысканных лакомств. Элизабет умеет не только страстно любить - она умеет и бесстрастно убивать.
+- НЕ БУДЕТ пользоваться мушкетом.
+}
+
+heroName_71 {Селеста}
+heroLastname_71 {Кортес}
+
+heroNameGen_71 {Селесты}
+heroLastnameGen_71 {Кортес}
+
+heroNameDat_71 {Селесте}
+heroLastNameDat_71 {Кортес}
+
+heroFace_71 {516}
+heroModel_71 {PGG_Daniell5}
+
+heroType_71 {Авантюрист}
+heroNation_71 {Испания}
+
+sex_71 {woman}
+animation_71 {Danielle}
+
+hero_71
 {
 Красавица из рода знаменитого Эрнана Кортеса. Несмотря на благородное происхождение, отнюдь не заносчива. Родилась на Эспаньоле, потому знает архипелаг, как свои пять пальцев. С детства сопровождала отца, чиновника морского ведомства, во всех его путешествиях. Двадцати пяти лет от роду, купив небольшое судно и набрав команду таких же, как и она, сорвиголов, отправилась на поиски приключений. 
 - НЕ БУДЕТ пользоваться мушкетом.
 }
 
-heroName_63 {Селеста}
-heroLastname_63 {Диас}
+heroName_72 {Хуан}
+heroLastname_72 {Чахотка}
 
-heroNameGen_63 {Селесты}
-heroLastnameGen_63 {Диас}
+heroNameGen_72 {Хуана}
+heroLastnameGen_72 {Чахотки}
 
-heroNameDat_63 {Селесте}
-heroLastnameDat_63 {Диас}
+heroNameDat_72 {Хуану}
+heroLastnameDat_72 {Чахотке}
 
-heroFace_63 {518}
-heroModel_63 {PGG_Daniell1}
+heroFace_72 {482}
+heroModel_72 {PGG_HuanTubercul}
 
-heroType_63 {Фехтовальщик}
-heroNation_63 {Испания}
-
-sex_63 {woman}
-animation_63 {Danielle}
-
-hero_63
-{
-Смелая, неудержимая и очень привлекательная девушка. Не боится опасностей, любит приключения и морские путешествия, которые, собственно, и привели её на карибы.
-- НЕ БУДЕТ пользоваться мушкетом.
-}
-
-heroName_64 {Лонгвэй}
-heroLastname_64 {}
-
-heroNameGen_64 {Лонгвэй}
-heroLastnameGen_64 {}
-
-heroNameDat_64 {Лонгвэй}
-heroLastNameDat_64 {}
-
-heroFace_64 {487}
-heroModel_64 {PGG_Longway}
-
-heroType_64 {Авантюрист}
-heroNation_64 {Голландия}
-
-sex_64 {man}
-animation_64 {man}
-
-hero_64
-{
-Лонгвэй хорошо справляется с упралением шебеками и в фехтовании китайским оружием, а поскольку и того, и того на карибах мало, ему придётся учиться всему с нуля.
-- В совершенстве умеет пользоваться мушкетом.
-}
-
-heroName_65 {Лара}
-heroLastname_65 {МакАртур}
-
-heroNameGen_65 {Ларе}
-heroLastnameGen_65 {МакАртур}
-
-heroNameDat_65 {Ларе}
-heroLastNameDat_65 {МакАртур}
-
-heroFace_65 {488}
-heroModel_65 {PGG_Rumba_0,PGG_Rumba_1,PGG_Rumba_2,PGG_Rumba_3,PGG_Rumba_4,PGG_Rumba_5}
-
-heroType_65 {Фехтовальщик}
-heroNation_65 {Англия}
-
-sex_65 {woman}
-animation_65 {Milenace}
-
-hero_65
-{
-Дерзкая и свободолюбивая Лара носит прозвище "Румба" за свой энергичный и весёлый характер, доставшийся ей от матери. От своего отца же унаследовала поистине железный характер, стальную волю и явный талант к морскому делу, не говоря про её любовь к холодным и огнестрельным оружиям, кроме мушкетов. С такими способностями она обязательно впишет себя в историю Карибских островов.
-- В совершенстве умеет пользоваться мушкетом.
-}
-
-heroName_66 {Алонсо}
-heroLastname_66   {де Мальдонадо}
-
-heroNameGen_66 {Алонсо}
-heroLastnameGen_66 {де Мальдонадо}
-
-heroNameDat_66 {Алонсо}
-heroLastNameDat_66 {де Мальдонадо}
-
-heroFace_66 {484}
-heroModel_66  {PGG_Alonso}
-
-heroType_66 {Фехтовальщик}
-heroNation_66 {Испания}
-
-sex_66 {man}
-animation_66 {man}
-
-hero_66
-{
-Испанский командир, который позаботится о том, чтобы враги Испании были повержены.
-- В совершенстве умеет пользоваться мушкетом.
-}
-
-heroName_67 {Софи}
-heroLastname_67 {}
-
-heroNameGen_67 {Софи}
-heroLastnameGen_67 {}
-
-heroNameDat_67 {Софи}
-heroLastNameDat_67 {}
-
-heroFace_67 {515}
-heroModel_67 {PGG_Daniell2}
-
-heroType_67 {Авантюрист}
-heroNation_67 {Испания}
-
-sex_67 {woman}
-animation_67 {Danielle}
-
-hero_67
-{
-Когда-то её звали Софи Армаль, но проишествие, которое произошло с ней много лет назад заставило её забыть свою фамилию, и начать жизнь с нуля.
-- НЕ БУДЕТ пользоваться мушкетом.
-}
-
-heroName_68 {Александр}
-heroLastname_68 {Московит}
-
-heroNameGen_68 {Александра}
-heroLastnameGen_68 {Московита}
-
-heroNameDat_68 {Александру}
-heroLastNameDat_68 {Московиту}
-
-heroFace_68 {532}
-heroModel_68 {PGG_Moscovit}
-
-heroType_68 {Рубака}
-heroNation_68 {Англия}
-
-sex_68 {man}
-animation_68 {Moscovit}
-
-hero_68
-{
-Русский купец, попавший на карибы волею судьбы. Человек крепкого ума и телосложения. Отлично справляется с тяжелым оружием. (Особенно с оглоблей)
-}
-
-heroName_69 {Милен}
-heroLastname_69 {}
-
-heroNameGen_69 {Милен}
-heroLastnameGen_69 {}
-
-heroNameDat_69 {Милен}
-heroLastNameDat_69 {}
-
-heroFace_69 {538}
-heroModel_69 {PGG_BeatriceZ}
-
-heroType_69 {Фехтовальщик}
-heroNation_69 {Франция}
-
-sex_69 {woman}
-animation_69 {Milenace}
-
-hero_69
-{
-Бывшая Французская дворянка, ставшая в последствии знаменитой корсаркой на Карибском Архипелаге
-- В совершенстве умеет пользоваться мушкетом.
-}
-
-heroName_70 {Пётр}
-heroLastname_70 {Блэйд}
-
-heroNameGen_70 {Пётра}
-heroLastnameGen_70 {Блэйда}
-
-heroNameDat_70 {Пётру}
-heroLastNameDat_70 {Блэйду}
-
-
-heroFace_70 {501}
-heroModel_70 {PGG_PeBlad_0,PGG_PeBlad_1,PGG_PeBlad_2,PGG_PeBlad_3,PGG_PeBlad_4,PGG_PeBlad_5,PGG_PeBlad_6,PGG_PeBlad_7,PGG_PeBlad_7}
-
-heroType_70 {Фехтовальщик}
-heroNation_70 {Англия}
-
-sex_70 {man}
-animation_70 {man}
-
-hero_70
-{
-Этому герою предстоит пройти тяжелейшие испытания, прежде чем стать настоящим морским волком.
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас и костюмов.
-}
-
-heroName_71 {Чани}
-heroLastname_71 {}
-
-heroNameGen_71 {Чани}
-heroLastnameGen_71 {}
-
-heroNameDat_71 {Чани}
-heroLastNameDat_71 {}
-
-heroFace_71 {400}
-heroModel_71 {PGG_Chani}
-
-heroType_71 {Авантюрист}
-heroNation_71 {Пираты}
-
-sex_71 {woman}
-animation_71 {Chani}
-
-hero_71
-{
-Чани, дочь вождя племени – смелая и исполненная гордости девушка. Всю свою жизнь она провела в деревне, и ей вовсе не по нраву как Инквизиция с ее видами на новые территории, так и грабители-пираты, нагло вторгшиеся на ее родину.  Изо всех сил она старается уберечь соплеменников от опасностей и зла, что каждый день все ближе приближается как извне, так и изнутри племени.
-В поисках ответов на свои вопросы, она понимает, что стать капитаном корабля - единственная возможность остановить надвигающуюся беду...
-- НЕ БУДЕТ пользоваться мушкетом.
-}
-
-heroName_72 {Алекс}
-heroLastname_72 {Эксквемелин}
-
-heroNameGen_72 {Алекса}
-heroLastnameGen_72 {Эксквемелина}
-
-heroNameDat_72 {Алексу}
-heroLastNameDat_72 {Эксквемелину}
-
-heroFace_72 {519}
-heroModel_72  {PGG_Hero_0,PGG_Hero_1,PGG_Hero_2,PGG_Hero_3,PGG_Hero_4,PGG_Hero_5,PGG_Hero_0,PGG_Hero_6,PGG_Hero_7}
-
-heroType_72 {Рубака}
+heroType_72 {Авантюрист}
 heroNation_72 {Голландия}
 
 sex_72 {man}
@@ -1866,131 +1872,126 @@ animation_72 {man}
 
 hero_72
 {
-Прибыл на Карибы с целью сделать состояние торговлей, некоторое время прослужил наемником в Европе. Впрочем, иногда не брезгует скользким путем добывания вожделенных пиастров.
+Хуан по прозвищу "Чахотка" - грязный пират и мошенник, так же работорговец из шайки берберийских пиратов, орудовавших в водах Марокко. Юный кастилец проявился, как безпощадный мерзавец, который не брезговал ничем ради собственного обогащения, даже работорговлей. В этот же период за свои деяния Хуан получает прозвище "Чахотка", созвучное с названием ужасной болезни, которая может годами мучать свою жертву, прежде чем окончательно её добить, что в вполне может соответствовать его характеру и методам.
 - В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас.
 }
 
-heroName_73 {Цирилла}
-heroLastname_73 {}
+heroName_73 {Изабелла}
+heroLastname_73 {Кортес}
 
-heroNameGen_73 {Цириллу}
-heroLastnameGen_72 {}
+heroNameGen_73 {Изабеллы}
+heroLastnameGen_73 {Кортес}
 
-heroNameDat_73 {Цирилле}
-heroLastNameDat_73 {}
+heroNameDat_73 {Изабелле}
+heroLastNameDat_73 {Кортес}
 
-heroFace_73 {542}
-heroModel_73 {PGG_Cirilla_0,PGG_Cirilla_1,PGG_Cirilla_2,PGG_Cirilla_3,PGG_Cirilla_4,PGG_Cirilla_5,PGG_Cirilla_6,PGG_Cirilla_7,PGG_Cirilla_8}
+heroFace_73 {513}
+heroModel_73 {PGG_Daniell3}
 
 heroType_73 {Фехтовальщик}
-heroNation_73 {Пираты}
+heroNation_73 {Испания}
 
 sex_73 {woman}
-animation_73 {YokoDias}
+animation_73 {Danielle}
 
 hero_73
 {
-Ушибленная на голову, скачет между мирами как блоха с тулупа на тулуп. Перевозя на себе болезни убивающие миллионы.
-- Имеет все виды кирас.
-- В совершенстве умеет пользоваться мушкетом.
+Красавица из рода знаменитого Эрнана Кортеса. Несмотря на благородное происхождение, отнюдь не заносчива. Родилась на Эспаньоле, потому знает архипелаг, как свои пять пальцев. С детства сопровождала отца, чиновника морского ведомства, во всех его путешествиях. Двадцати пяти лет от роду, купив небольшое судно и набрав команду таких же, как и она, сорвиголов, отправилась на поиски приключений. 
+- НЕ БУДЕТ пользоваться мушкетом.
 }
 
-heroName_74 {Мишель}
-heroLastname_74   {де Граммон}
+heroName_74 {Селеста}
+heroLastname_74 {Диас}
 
-heroNameGen_74 {Мишеля}
-heroLastnameGen_74 {де Граммона}
+heroNameGen_74 {Селесты}
+heroLastnameGen_74 {Диас}
 
-heroNameDat_74 {Мишелю}
-heroLastNameDat_74 {де Граммону}
+heroNameDat_74 {Селесте}
+heroLastnameDat_74 {Диас}
 
-heroFace_74 {215}
-heroModel_74  {PGG_Resc_0,PGG_Resc_1,PGG_Resc_2,PGG_Resc_3,PGG_Resc_4,PGG_Resc_5,PGG_Resc_6,PGG_Resc_7,PGG_Resc_8}
+heroFace_74 {518}
+heroModel_74 {PGG_Daniell1}
 
-heroType_74 {Морской Волк} 
-heroNation_74 {Франция}
+heroType_74 {Фехтовальщик}
+heroNation_74 {Испания}
 
-sex_74 {man}
-animation_74 {man}
+sex_74 {woman}
+animation_74 {Danielle}
 
 hero_74
 {
-Cын французского дворянина. Здесь, на Карибах, ему предстоит обрести себя, открыть новые черты характера, столкнуться с ложью, хитростью и коварством, найти свою любовь, познать непознанное и преодолеть все препятствия на пути к поставленной цели...
-- В совершенстве умеет пользоваться мушкетом.
-- Имеет все виды кирас и костюмов.
+Смелая, неудержимая и очень привлекательная девушка. Не боится опасностей, любит приключения и морские путешествия, которые, собственно, и привели её на карибы.
+- НЕ БУДЕТ пользоваться мушкетом.
 }
 
-heroName_75 {Анжелика}
-heroLastname_75 {Шарп}
+heroName_75 {Лонгвэй}
+heroLastname_75 {}
 
-heroNameGen_75 {Анжелике}
-heroLastnameGen_75 {Шарп}
+heroNameGen_75 {Лонгвэй}
+heroLastnameGen_75 {}
 
-heroNameDat_75 {Анжелике}
-heroLastNameDat_75 {Шарп}
+heroNameDat_75 {Лонгвэй}
+heroLastNameDat_75 {}
 
-heroFace_75 {242}
-heroModel_75 {PGG_Angellica}
+heroFace_75 {487}
+heroModel_75 {PGG_Longway}
 
-heroType_75 {Фехтовальщик}
-heroNation_75 {Англия}
+heroType_75 {Авантюрист}
+heroNation_75 {Голландия}
 
-sex_75 {woman}
-animation_75 {Milenace}
+sex_75 {man}
+animation_75 {man}
 
 hero_75
 {
-Дерзкая и свободолюбивая корсарка.
+Лонгвэй хорошо справляется с упралением шебеками и в фехтовании китайским оружием, а поскольку и того, и того на карибах мало, ему придётся учиться всему с нуля.
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_76 {Шикоба}
-heroLastname_76 {}
+heroName_76 {Алонсо}
+heroLastname_76   {де Мальдонадо}
 
-heroNameGen_76 {Шикобе}
-heroLastnameGen_76 {}
+heroNameGen_76 {Алонсо}
+heroLastnameGen_76 {де Мальдонадо}
 
-heroNameDat_76 {Шикобе}
-heroLastNameDat_76 {}
+heroNameDat_76 {Алонсо}
+heroLastNameDat_76 {де Мальдонадо}
 
-heroFace_76 {544}
-heroModel_76 {PGG_Shicoba_0}
+heroFace_76 {484}
+heroModel_76  {PGG_Alonso}
 
 heroType_76 {Фехтовальщик}
-heroNation_76 {Пираты}
+heroNation_76 {Испания}
 
-sex_76 {woman}
-animation_76 {Milenace}
+sex_76 {man}
+animation_76 {man}
 
 hero_76
 {
-Индейская девушка-найденыш, выросшая среди пиратов. Пользуется всеобщим уважением и любовью даже среди таких негодяев, как морские разбойники. Рано приобщилась к бандитскому "промыслу", и позже стала одним из пиратских капитанов.
+Испанский командир, который позаботится о том, чтобы враги Испании были повержены.
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_77 {Петти}
+heroName_77 {Софи}
 heroLastname_77 {}
 
-heroNameGen_77 {Петти}
+heroNameGen_77 {Софи}
 heroLastnameGen_77 {}
 
-heroNameDat_77 {Петти}
+heroNameDat_77 {Софи}
 heroLastNameDat_77 {}
 
-heroFace_77 {479}
-heroModel_77 {PGG_PettY_0}
+heroFace_77 {515}
+heroModel_77 {PGG_Daniell2}
 
-heroType_77 {Фехтовальщик}
-heroNation_77 {Пираты}
+heroType_77 {Авантюрист}
+heroNation_77 {Испания}
 
 sex_77 {woman}
-animation_77 {YokoDias}
+animation_77 {Danielle}
 
 hero_77
 {
-Заядлая любительница по рассказывать пиратские байки.
-- В совершенстве умеет пользоваться мушкетом.
+Когда-то её звали Софи Армаль, но проишествие, которое произошло с ней много лет назад заставило её забыть свою фамилию, и начать жизнь с нуля.
+- НЕ БУДЕТ пользоваться мушкетом.
 }
-
-;========================================== [ LEOPARD ] (Добавляем новых ПГГ) ==========================================

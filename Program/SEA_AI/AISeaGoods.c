@@ -54,12 +54,12 @@ void AISeaGoods_ShipDead()
 
 		if (rand(1) == 0 && iSwimQuantity >= 2)
 		{
-			AISeaGoods_AddGood(rCharacter, GetAttributeName(aGood), sModel, fTime * 60.0, iSwimQuantity);
+			AISeaGoods_AddGood(rCharacter, GetAttributeName(aGood), sModel, fTime * 60.0, makeint(iSwimQuantity / 2));
+			AISeaGoods_AddGood(rCharacter, GetAttributeName(aGood), sModel, fTime * 60.0, makeint(iSwimQuantity / 2)); // две бочки на один товар
 		}
 		else
 		{
-			AISeaGoods_AddGood(rCharacter, GetAttributeName(aGood), sModel, fTime * 60.0, makeint(iSwimQuantity / 2));
-			AISeaGoods_AddGood(rCharacter, GetAttributeName(aGood), sModel, fTime * 60.0, makeint(iSwimQuantity / 2)); // две бочки на один товар
+			AISeaGoods_AddGood(rCharacter, GetAttributeName(aGood), sModel, fTime * 60.0, iSwimQuantity);
 		}
 	}
 }
@@ -71,7 +71,7 @@ void AISeaGoods_AddGood(ref rCharacter, string sGood, string sModel, float fTime
 	//Trace("Add good : " + sGood + ", rCharacter.id = " + rCharacter.id + ", iQuantity = " + iQuantity);
 
 	// calculate random position
-		float fAng = stf(rCharacter.Ship.Ang.y) + PI + (frnd() - 0.5) * PI;
+		float fAng = stf(rCharacter.Ship.Ang.y) + PI + (frnd() - 0.5) * PI/2;
 		float fDist = stf(rCharacter.Ship.BoxSize.z) / 2.0 + frnd() * 10.0;
 		//float x = (frnd() - 0.5) * 20.0;
 		//float z = (frnd() - 0.5) * 40.0;
@@ -93,7 +93,7 @@ void AISeaGoods_AddGood_Special(ref rCharacter, string sGood, string sModel, flo
 	if (!bSeaActive) return;
 	
 	float fAng = stf(pchar.Ship.Ang.y) + PI + (frnd() - 0.5) * PI;
-	float fDist = stf(pchar.Ship.BoxSize.z) / 2.0 + frnd() * 10.0 + 20.0 + makefloat(rand(70));
+	float fDist = stf(pchar.Ship.BoxSize.z) / 2.0 + 20.0 + makefloat(rand(30));
 	
 	AISeaGoods.Good = sGood;
 	AISeaGoods.Pos.x = stf(pchar.Ship.Pos.x) + fDist * sin(fAng);

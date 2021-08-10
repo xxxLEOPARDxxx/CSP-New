@@ -352,7 +352,7 @@ void ProcessDialogEvent()
                         break;
         			}
         			// море и солдаты на суше НЕЗАВИСИМЫ!!!
-        			if(GetSummonSkillFromNameToOld(Pchar, SKILL_SNEAK) < Rand(12))
+        			if(GetSummonSkillFromNameToOld(Pchar, SKILL_SNEAK) < dRand(12))
         			{
                         SetCoastalGuardPursuit();
         			}

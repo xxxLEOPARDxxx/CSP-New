@@ -1194,6 +1194,7 @@ void ProcessControls()
 				{
 					ActivateCharacterPerk(pchar, "Rush");
 					PlayVoice(GetSexPhrase("interface\Bers_"+rand(5)+".wav","interface\Bersf_"+rand(4)+".wav"));
+					pchar.chr_ai.energy    = pchar.chr_ai.energyMax;
 				}
                 else
                 {
@@ -1557,6 +1558,7 @@ void ProcessControls()
             {
 		        ActivateCharacterPerk(pchar, "Rush");
 				PlayVoice(GetSexPhrase("interface\Bers_"+rand(5)+".wav","interface\Bersf_"+rand(4)+".wav"));
+				pchar.chr_ai.energy    = pchar.chr_ai.energyMax;
 		    }
             else
             {

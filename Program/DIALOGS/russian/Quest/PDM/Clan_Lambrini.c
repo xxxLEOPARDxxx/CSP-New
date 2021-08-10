@@ -350,6 +350,7 @@ void ProcessDialogEvent()
 			link.l2.go = "Antonio_1_4";
 			link.l3 = "Мне пора.";
 			link.l3.go = "exit";
+			NextDiag.TempNode = "Antonio_1_1";
 		break;
 		
 		case "Antonio_Bitva":
@@ -367,6 +368,14 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Octavio_2_2":
+			if (pchar.reputation >= 75)
+			{
+				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь о тебе все говорят как о честном человеке. Вот твои " + Plata1 + ". И все мои проблемы позади.";
+			}
+			if (pchar.reputation <= 25)
+			{
+				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь о тебе все говорят как о безжалостном человеке. Вот твои " + Plata1 + ". И все мои проблемы позади.";
+			}
 			if (pchar.name == "Питер" && pchar.lastname == "Блад")
 			{
 				dialog.text = "Ха, мальчик! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь ты спаситель Бриджтауна от испанцев. Вот твои " + Plata1 + ". И все мои проблемы позади.";
@@ -390,14 +399,6 @@ void ProcessDialogEvent()
 			if (pchar.lastname == "Кортес")
 			{
 				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь в тебе течёт кровь Эрнана Кортеса, великого конкистадора. Вот твои " + Plata1 + ". И все мои проблемы позади.";
-			}
-			if (pchar.reputation >= 75)
-			{
-				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь о тебе все говорят как о честном человеке. Вот твои " + Plata1 + ". И все мои проблемы позади.";
-			}
-			if (pchar.reputation <= 25)
-			{
-				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь о тебе все говорят как о безжалостном человеке. Вот твои " + Plata1 + ". И все мои проблемы позади.";
 			}
 			link.l1 = "Да, теперь никто не помешает тебе торговать в Маракайбо, Октавио. Прощай.";
 			link.l1.go = "exit";
@@ -508,6 +509,14 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Octavio_3_2":
+			if (pchar.reputation >= 75)
+			{
+				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь о тебе все говорят как о честном человеке. Вот твои " + Plata1 + ". И все мои проблемы позади.";
+			}
+			if (pchar.reputation <= 25)
+			{
+				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь о тебе все говорят как о безжалостном человеке. Вот твои " + Plata1 + ". И все мои проблемы позади.";
+			}
 			if (pchar.name == "Питер" && pchar.lastname == "Блад")
 			{
 				dialog.text = "Ха, мальчик! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь ты спаситель Бриджтауна от испанцев. Вот твои " + Plata1 + ". И все мои проблемы позади.";
@@ -531,14 +540,6 @@ void ProcessDialogEvent()
 			if (pchar.lastname == "Кортес")
 			{
 				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь в тебе течёт кровь Эрнана Кортеса, великого конкистадора. Вот твои " + Plata1 + ". И все мои проблемы позади.";
-			}
-			if (pchar.reputation >= 75)
-			{
-				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь о тебе все говорят как о честном человеке. Вот твои " + Plata1 + ". И все мои проблемы позади.";
-			}
-			if (pchar.reputation <= 25)
-			{
-				dialog.text = "Ха, "+ GetSexPhrase("мальчик","девочка") +"! Тебе следовало бы принести его голову в доказательство. Вот был бы славный сувенир. Но я верю тебе и так - разумеется, ведь о тебе все говорят как о безжалостном человеке. Вот твои " + Plata1 + ". И все мои проблемы позади.";
 			}
 			link.l1 = "Да, теперь никто не помешает тебе торговать в Маракайбо, Октавио. Прощай.";
 			link.l1.go = "exit";
@@ -625,14 +626,10 @@ void ProcessDialogEvent()
 		
 		case "Pokupatel_2_1":
 			sld = characterFromID("PDM_CL_Pokupatel");
-			LAi_SetActorType(sld);
-			SetActorDialogAny2Pchar(sld.id, "", 0.0, 0.0);
-			LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 0.0);
-			DoQuestFunctionDelay("PDM_CL_Sadis_Pokupatel", 0.06);
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_2_2";
-			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
+			DoQuestFunctionDelay("PDM_CL_Pokupatel_Speech", 0);
 		break;
 		
 		case "Pokupatel_2_2":
@@ -644,14 +641,10 @@ void ProcessDialogEvent()
 		
 		case "Pokupatel_2_3":
 			sld = characterFromID("PDM_Octavio_Lambrini");
-			LAi_SetActorType(sld);
-			SetActorDialogAny2Pchar(sld.id, "", 0.0, 0.0);
-			LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 0.0);
-			DoQuestFunctionDelay("PDM_CL_Sadis_Octavio", 0.06);
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_2_4";
-			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
+			DoQuestFunctionDelay("PDM_CL_Octavio_Speech", 0);
 		break;
 		
 		case "Pokupatel_2_4":
@@ -663,14 +656,10 @@ void ProcessDialogEvent()
 		
 		case "Pokupatel_2_5":
 			sld = characterFromID("PDM_CL_Pokupatel");
-			LAi_SetActorType(sld);
-			SetActorDialogAny2Pchar(sld.id, "", 0.0, 0.0);
-			LAi_ActorFollow(sld, pchar, "ActorDialog_Any2Pchar", 0.0);
-			DoQuestFunctionDelay("PDM_CL_Sadis_Pokupatel", 0.06);
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_2_6";
-			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
+			DoQuestFunctionDelay("PDM_CL_Pokupatel_Speech", 0);
 		break;
 		
 		case "Pokupatel_2_6":

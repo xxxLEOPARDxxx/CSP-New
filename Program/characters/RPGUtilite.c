@@ -45,10 +45,6 @@ float GetCharacterMaxEnergyValue(ref _refCharacter)
 	{
 		ret = ret + 60;
 	} 
-	/*if (CheckAttribute(_refCharacter, "PerkValue.EnergyPlus"))
-	{
-  		ret = ret + stf(_refCharacter.PerkValue.EnergyPlus);
-	}*/
 	if (CheckCharacterPerk(_refCharacter, "EnergyPlusFixed"))
 	{
   		ret = ret + 45;
@@ -72,10 +68,6 @@ float GetCharacterMaxEnergyABSValue(ref _refCharacter)
 	{
 		ret = ret + 60;
 	}  
-	/*if (CheckAttribute(_refCharacter, "PerkValue.EnergyPlus"))
-	{
-  		ret = ret + stf(_refCharacter.PerkValue.EnergyPlus);
-	}*/
 	if (CheckCharacterPerk(_refCharacter, "EnergyPlusFixed"))
 	{
   		ret = ret + 45;
@@ -727,11 +719,6 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 
         if (CheckCharacterPerk(_chref, "EnergyPlus"))
 		{
-		    /*if (!CheckAttribute(_chref, "PerkValue.EnergyPlus"))
-			{
-		  		_chref.PerkValue.EnergyPlus = 0;
-			}
-			_chref.PerkValue.EnergyPlus = sti(_chref.PerkValue.EnergyPlus) + 1;*/
 			SetEnergyToCharacter(_chref);
 		}
 		if (CheckCharacterPerk(_chref, "EnergyPlusFixed"))
@@ -1249,34 +1236,6 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
 		skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_F_HEAVY, "KnifeAztec", -20);			// {Обсидиановый церемониальный нож} 	(-30 пистолеты, -20 во все остальные типы оружия)
 		///////////// Дют бафы/дебафы из инвентаря <--
 
-		/* if(IsEquipCharacterByItem(_refCharacter, "cirass1"))
-		{
-			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass1", -5);
-		}
-		
-		if(IsEquipCharacterByItem(_refCharacter, "cirass2"))
-		{
-			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass2", -5);
-		}	
-
-		if(IsEquipCharacterByItem(_refCharacter, "cirass3"))
-		{
-			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass3", -10);
-			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "cirass3", 5);
-		}
-
-		if(IsEquipCharacterByItem(_refCharacter, "cirass4"))
-		{
-			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass4", -15);
-			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "cirass4", 7);
-		}
-
-		if(IsEquipCharacterByItem(_refCharacter, "cirass5"))
-		{
-			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_SNEAK, "cirass5", -20);
-			skillN = skillN + SetCharacterSkillByItem(_refCharacter, skillName, SKILL_LEADERSHIP, "cirass5", 10);
-		} */
-	
 		// Warship 25.10.08 Новый учет одежды
 		skillN += SetCharacterSkillBySuit(_refCharacter, skillName);
 		
@@ -1660,7 +1619,8 @@ int GetMaxItemsWeight(ref _chref)
 		// Lugger <--
         //опасная рекурсия  если писать GetCharacterSPECIAL
 		if (CheckAttribute(_chref, "chr_ai.bonusweighttube")) iBonus += 60 + sti(_chref.rank);
-        iBonus = iBonus + CHAR_ITEMS_WEIGHT + GetCharacterSPECIALSimple(_chref, SPECIAL_S)*(GetCharacterSPECIALSimple(_chref, SPECIAL_E) + 12 - MOD_SKILL_ENEMY_RATE);
+        if (bDifficultyWeight) iBonus = iBonus + CHAR_ITEMS_WEIGHT + GetCharacterSPECIALSimple(_chref, SPECIAL_S)*(GetCharacterSPECIALSimple(_chref, SPECIAL_E) + 12 - MOD_SKILL_ENEMY_RATE);
+		else iBonus = iBonus + CHAR_ITEMS_WEIGHT + GetCharacterSPECIALSimple(_chref, SPECIAL_S)*(GetCharacterSPECIALSimple(_chref, SPECIAL_E) + 12);
         return  iBonus;
     }
     else
@@ -2129,33 +2089,6 @@ void setWDMPointXZ(string _location)
 	}
 	// координаты на гловал карте <--
 }
-
-// копируем в НПС другого НПС
-/*void ChangeAttributesFromCharacter(ref CopyChref, ref PastChref, bool _dialogCopy)
-{
-    aref arToChar;
-    aref arFromChar;
-    int  idx;
-    string sID, sDial, sDNode;
-    idx    = sti(CopyChref.index);
-    sID    = CopyChref.id;
-    sDial  = "";
-    sDNode = "";
-    if (!_dialogCopy && CheckAttribute(CopyChref, "Dialog.Filename"))
-	{
-	    sDial   = CopyChref.Dialog.Filename;
-	    sDNode  = CopyChref.Dialog.CurrentNode;
-	}
-	DeleteAttribute(CopyChref, "");
-	CopyAttributes(CopyChref, PastChref);  // точное копирование структур НПС
-	CopyChref.index = idx;
-	CopyChref.id    = sID;
-	if (!_dialogCopy)
-	{
-	    CopyChref.Dialog.Filename     = sDial;
-	    CopyChref.Dialog.CurrentNode  = sDNode;
-	}
-} */
 // нужно не перекрывать еще и признаки фантома
 void ChangeAttributesFromCharacter(ref CopyChref, ref PastChref, bool _dialogCopy)
 {
@@ -2680,7 +2613,6 @@ void initNewMainCharacter()
 	AddQuestRecordInfo("Tenochtitlan_info", "1");
 	AddQuestRecordInfo("Tutorial_Sharp", "1");
 	AddQuestRecordInfo("Tutorial_Fight_Info", "1");
-	//Boyer add from GOF for quizzes
 	AddQuestRecordInfo("Tutorial_ChangeLog_CSP", "1");
 	AddQuestRecordInfo("Tutorial_WhoIsQUESTS_CSP", "1");
 

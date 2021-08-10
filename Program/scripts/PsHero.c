@@ -342,8 +342,8 @@ void PGG_DailyUpdateEx(int i)
 			if (CheckAttribute(chr, "PGGAi.Task.days") && sti(chr.PGGAi.Task.Target.days) <= GetNpcQuestPastDayParam(chr, "PGGAi.Task.days"))
 			{
 				PGG_Disband_Fleet(chr);
-				Log_TestInfo(GetHeroName(sti(chr.PGGAi.HeroNum))+" прибывает в" + 
-				chr.PGGAi.Task.Target);
+				//Log_TestInfo(GetHeroName(sti(chr.PGGAi.HeroNum))+" прибывает в" + 
+				//chr.PGGAi.Task.Target);
 				Map_ReleaseQuestEncounter(chr.id);
 				group_DeleteGroup(chr.id+"_Group");
 				DeleteAttribute(chr, "PGGAi.ActiveQuest");
@@ -730,8 +730,8 @@ void PGG_SetUpForTask(ref chr)
 			int iGoods;
 			int iSpace;
 			
-			if (PGG_ChangeRelation2MainCharacter(chr, 0) < 51 && rand(100) == 0 && sti(pchar.money) >= sti(chr.rank)*10000+100000 && GetCharacterShipClass(chr) <= GetCharacterShipClass(PChar))
-			{//Любой пгг с шансом 1 процент будет охотиться за нами
+			if (PGG_ChangeRelation2MainCharacter(chr, 0) < 51 && sti(chr.reputation) < 15 && rand(500) == 5 && sti(pchar.money) >= sti(chr.rank)*10000+100000 && GetCharacterShipClass(chr) <= GetCharacterShipClass(PChar))
+			{//Любой пгг с определенным шансом будет охотиться за нами
 				chr.AlwaysEnemy = true;
 				chr.PGG_Hunter = true;
 				chr.DontRansackCaptain = true;
@@ -874,8 +874,8 @@ void PGG_SetUpForTask(ref chr)
 			{
 				DeleteAttribute(chr, "PGG_warrior");
 				Map_CreateTrader(chr.PGGAi.location.town, sColony, chr.id, daysQty);
-				Log_TestInfo(GetHeroName(sti(chr.PGGAi.HeroNum))+" отправляется в " + 
-				chr.PGGAi.Task.Target + " из "+chr.PGGAi.location.town+", доплывет за " + sti(chr.PGGAi.Task.Target.days) + " дней");
+				//Log_TestInfo(GetHeroName(sti(chr.PGGAi.HeroNum))+" отправляется в " + 
+				//chr.PGGAi.Task.Target + " из "+chr.PGGAi.location.town+", доплывет за " + sti(chr.PGGAi.Task.Target.days) + " дней");
 			}
 			Fantom_SetBalls(chr, "pirate");
 			chr.PGGAi.Task.SetSail =  true;		

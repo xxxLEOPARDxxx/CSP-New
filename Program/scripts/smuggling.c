@@ -405,28 +405,36 @@ void SetCoastalGuardPursuit()
 	int i;
 	int iNation = sti(pchar.GenQuest.Contraband.GuardNation);// Нация патруля
 	string Model;
-	
-	for (i = 1; i <= 3; i++)
-    {
-        Model = "off_" + NationShortName(iNation) + "_" + (rand(1) + 1);
-		Smuggler = GetCharacter(NPC_GenerateCharacter("Coastal_Captain0" + i, Model, "man", "man", 5, iNation, 3, true)); // 3 дня, потом сами пропадут
-		SetFantomParam(Smuggler);
-		SelectCoastalGuardShip(Smuggler);
-		// 1.2.3 хардкор! Smuggler.Coastal_Captain = true; // если по нему палить, НЗГ не будет
-		Smuggler.AlwaysEnemy = true;
-		Smuggler.DontRansackCaptain = true;
-		Smuggler.AlwaysSandbankManeuver = true;
-		Group_addCharacter("Coastal_Guards", Smuggler.id);
-		SetCharacterRelationBoth(sti(Smuggler.index), GetMainCharacterIndex(), RELATION_ENEMY);
-		if (makeint(Pchar.rank) < 6 && i == 1 && GetCompanionQuantity(Pchar) == 1) break;
-		if (makeint(Pchar.rank) < 9 && i == 2 && GetCompanionQuantity(Pchar) < 3) break;
-    }
-	Group_SetGroupCommander("Coastal_Guards", "Coastal_Captain01");
+	if (CheckCharacterPerk(pchar, "UnlimitedContra") && GetCompanionQuantity(pchar) == 1 && sti(RealShips[sti(pchar.ship.type)].Class) > 2) 
+	{
+		Log_TestInfo("Џерк спас от патрулЯ");
+	}
+	else
+	{
+		if (CheckAttribute(pchar, "SmugglingFlag")) pchar.nation = PIRATE;
+		pchar.ContraInterruptWaiting = true;
+		for (i = 1; i <= 3; i++)
+		{
+			Model = "off_" + NationShortName(iNation) + "_" + (rand(1) + 1);
+			Smuggler = GetCharacter(NPC_GenerateCharacter("Coastal_Captain0" + i, Model, "man", "man", 5, iNation, 3, true)); // 3 дня, потом сами пропадут
+			SetFantomParam(Smuggler);
+			SelectCoastalGuardShip(Smuggler);
+			// 1.2.3 хардкор! Smuggler.Coastal_Captain = true; // если по нему палить, НЗГ не будет
+			Smuggler.AlwaysEnemy = true;
+			Smuggler.DontRansackCaptain = true;
+			Smuggler.AlwaysSandbankManeuver = true;
+			Group_addCharacter("Coastal_Guards", Smuggler.id);
+			SetCharacterRelationBoth(sti(Smuggler.index), GetMainCharacterIndex(), RELATION_ENEMY);
+			if (makeint(Pchar.rank) < 6 && i == 1 && GetCompanionQuantity(Pchar) == 1) break;
+			if (makeint(Pchar.rank) < 9 && i == 2 && GetCompanionQuantity(Pchar) < 3) break;
+		}
+		Group_SetGroupCommander("Coastal_Guards", "Coastal_Captain01");
 
-	Group_SetPursuitGroup("Coastal_Guards", PLAYER_GROUP);
-	Group_SetAddress("Coastal_Guards", Islands[GetCharacterCurrentIsland(Pchar)].id, "", "");
-	Group_SetTaskAttack("Coastal_Guards", PLAYER_GROUP);
-	Group_LockTask("Coastal_Guards");
+		Group_SetPursuitGroup("Coastal_Guards", PLAYER_GROUP);
+		Group_SetAddress("Coastal_Guards", Islands[GetCharacterCurrentIsland(Pchar)].id, "", "");
+		Group_SetTaskAttack("Coastal_Guards", PLAYER_GROUP);
+		Group_LockTask("Coastal_Guards");
+	}
 }
 
 

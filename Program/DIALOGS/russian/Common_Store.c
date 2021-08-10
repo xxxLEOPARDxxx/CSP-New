@@ -114,7 +114,7 @@ void ProcessDialogEvent()
 			sld = CharacterFromID("Pirates_trader");
 			if(sld.lastname != "Гатри")
 			{
-				sld.model = "horse02";
+				sld.model = "BS_Gatry";
 				sld.model.animation = "woman";
 				sld.name = "Элеонора";
 				sld.lastname = "Гатри";
@@ -821,6 +821,11 @@ void ProcessDialogEvent()
 							link.l7 = "Можно ли арендовать у вас склад?";
 							link.l7.go = "storage_rent";
 						}
+						if(CheckAttribute(NPChar,"Storage.NoActivate") && !CheckAttribute(NPChar,"Storage.Activate"))
+						{
+							link.l7 = "Я хотел бы вновь арендовать у вас склад.";
+							link.l7.go = "storage_rent";
+						}
 					}
 					
 				}
@@ -1403,10 +1408,12 @@ int findStoreMan(ref NPChar, int delta)
 //--> расчет аренды склада
 int GetStoragePriceExt(ref NPChar, ref chref)
 {
-	float fLeadership = 1.5 - GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)/120.0; // учитываем авторитет
+	/* float fLeadership = 1.5 - GetSummonSkillFromName(pchar, SKILL_LEADERSHIP)/120.0; // учитываем авторитет
 	float fCommerce = 1.5 - GetSummonSkillFromName(pchar, SKILL_COMMERCE)/120.0; // учитываем торговлю
 	
-	int price = makeint(2000 * MOD_SKILL_ENEMY_RATE * fLeadership * fCommerce);
+	int price = makeint(2000 * MOD_SKILL_ENEMY_RATE * fLeadership * fCommerce); */
+	
+	int price = makeint(2000 * MOD_SKILL_ENEMY_RATE);
 	
 	return price;
 }

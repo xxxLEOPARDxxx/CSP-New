@@ -7,7 +7,7 @@ void InitGoods()
 	Goods[GOOD_BALLS].Weight		= 1;
 	Goods[GOOD_BALLS].Units			= 20;
 	Goods[GOOD_BALLS].SpeedV0		= 1.0;
-	Goods[GOOD_BALLS].DamageHull	= 1.0;
+	Goods[GOOD_BALLS].DamageHull	= 1.5;
 	Goods[GOOD_BALLS].DamageRig		= 0.07;
 	Goods[GOOD_BALLS].DamageCrew	= 0.025;
 	Goods[GOOD_BALLS].AfraidWater = 0;    // рудимент от к3
@@ -53,7 +53,7 @@ void InitGoods()
 
 	Goods[GOOD_SAILCLOTH].Name		= "Sailcloth";
 	Goods[GOOD_SAILCLOTH].Weight	= 2;
-	Goods[GOOD_SAILCLOTH].Cost		= 5;
+	Goods[GOOD_SAILCLOTH].Cost		= 25;
 	Goods[GOOD_SAILCLOTH].Units		= 10;
 	Goods[GOOD_SAILCLOTH].Swim.Model= "roll_of_materials";
 	Goods[GOOD_SAILCLOTH].Swim.Time	= 45; // boal 10
@@ -63,7 +63,7 @@ void InitGoods()
 
 	Goods[GOOD_PLANKS].Name		    = "Planks";
 	Goods[GOOD_PLANKS].Weight	    = 3;
-	Goods[GOOD_PLANKS].Cost		    = 8;
+	Goods[GOOD_PLANKS].Cost		    = 40;
 	Goods[GOOD_PLANKS].Units	    = 10;
 	Goods[GOOD_PLANKS].Swim.Model	= "roll_of_planks";
 	Goods[GOOD_PLANKS].Swim.Time	= 45; // boal 15
@@ -83,7 +83,7 @@ void InitGoods()
 
 	Goods[GOOD_EBONY].Name		    = "Ebony";
 	Goods[GOOD_EBONY].Weight	    = 5;
-	Goods[GOOD_EBONY].Cost		    = 190;
+	Goods[GOOD_EBONY].Cost		    = 333;
 	Goods[GOOD_EBONY].Units		    = 1;
 	Goods[GOOD_EBONY].canbecontraband	= 1;
 	Goods[GOOD_EBONY].Swim.Model	= "roll_of_planks";
@@ -93,7 +93,7 @@ void InitGoods()
 
 	Goods[GOOD_CHOCOLATE].Name		= "Chocolate";
 	Goods[GOOD_CHOCOLATE].Weight	= 2;
-	Goods[GOOD_CHOCOLATE].Cost		= 50;
+	Goods[GOOD_CHOCOLATE].Cost		= 75;
 	Goods[GOOD_CHOCOLATE].Units		= 1;
 	Goods[GOOD_CHOCOLATE].Swim.Model= "bale";
 	Goods[GOOD_CHOCOLATE].Swim.Time	= 25;
@@ -111,7 +111,7 @@ void InitGoods()
 
 	Goods[GOOD_WINE].Name		    = "Wine";
 	Goods[GOOD_WINE].Weight	        = 2;
-	Goods[GOOD_WINE].Cost		    = 45;
+	Goods[GOOD_WINE].Cost		    = 68;
 	Goods[GOOD_WINE].Units		    = 1;
 	Goods[GOOD_WINE].Swim.Model	    = "barrel";
 	Goods[GOOD_WINE].Swim.Time	    = 30;
@@ -150,7 +150,7 @@ void InitGoods()
 
 	Goods[GOOD_COFFEE].Name		    = "Coffee";
 	Goods[GOOD_COFFEE].Weight	    = 2;
-	Goods[GOOD_COFFEE].Cost		    = 93;
+	Goods[GOOD_COFFEE].Cost		    = 85;
 	Goods[GOOD_COFFEE].Units	    = 1;
 	Goods[GOOD_COFFEE].Swim.Model	= "sack";
 	Goods[GOOD_COFFEE].Swim.Time	= 25;
@@ -170,7 +170,7 @@ void InitGoods()
 
 	Goods[GOOD_CINNAMON].Name	    = "Cinnamon";
 	Goods[GOOD_CINNAMON].Weight	    = 2;
-	Goods[GOOD_CINNAMON].Cost	    = 37;
+	Goods[GOOD_CINNAMON].Cost	    = 55;
 	Goods[GOOD_CINNAMON].Units	    = 1;
 	Goods[GOOD_CINNAMON].Swim.Model	= "bale";
 	Goods[GOOD_CINNAMON].Swim.Time	= 25;
@@ -200,7 +200,7 @@ void InitGoods()
 
 	Goods[GOOD_FRUITS].Name		    = "Fruits";
 	Goods[GOOD_FRUITS].Weight	    = 1;
-	Goods[GOOD_FRUITS].Cost		    = 16;
+	Goods[GOOD_FRUITS].Cost		    = 14;
 	Goods[GOOD_FRUITS].Units	    = 1;
 	Goods[GOOD_FRUITS].Swim.Model	= "box";
 	Goods[GOOD_FRUITS].Swim.Time	= 25;
@@ -218,7 +218,7 @@ void InitGoods()
 
 	Goods[GOOD_SILK].Name	        = "Silk";
 	Goods[GOOD_SILK].Weight	        = 1;
-	Goods[GOOD_SILK].Cost	        = 62;
+	Goods[GOOD_SILK].Cost	        = 93;
 	Goods[GOOD_SILK].Units	        = 1;
 	Goods[GOOD_SILK].Swim.Model	    = "roll_of_rolls";
 	Goods[GOOD_SILK].Swim.Time	    = 30;
@@ -227,7 +227,7 @@ void InitGoods()
 
 	Goods[GOOD_CLOTHES].Name	    = "Clothes";
 	Goods[GOOD_CLOTHES].Weight	    = 1;
-	Goods[GOOD_CLOTHES].Cost	    = 41;
+	Goods[GOOD_CLOTHES].Cost	    = 33;
 	Goods[GOOD_CLOTHES].Units	    = 10;
 	Goods[GOOD_CLOTHES].Swim.Model	= "bale";
 	Goods[GOOD_CLOTHES].Swim.Time	= 30;
@@ -245,7 +245,7 @@ void InitGoods()
 
 	Goods[GOOD_SANDAL].Name		    = "Sandal";
 	Goods[GOOD_SANDAL].Weight	    = 3;
-	Goods[GOOD_SANDAL].Cost		    = 160;
+	Goods[GOOD_SANDAL].Cost		    = 240;
 	Goods[GOOD_SANDAL].Units	    = 1;
 	Goods[GOOD_SANDAL].Swim.Model	= "box";
 	Goods[GOOD_SANDAL].Swim.Time	= 45;
@@ -307,7 +307,7 @@ void InitGoods()
 	
 	Goods[GOOD_IRON].Name		    = "Iron";
 	Goods[GOOD_IRON].Weight	    	= 2;
-	Goods[GOOD_IRON].Cost	        = 115;
+	Goods[GOOD_IRON].Cost	        = 138;
 	Goods[GOOD_IRON].Units	    = 1;
 	Goods[GOOD_IRON].AfraidWater = 0;
 	Goods[GOOD_IRON].canbecontraband	= 0;
@@ -332,7 +332,7 @@ void InitGoods()
 			
 	Goods[GOOD_FOOD].Name		    = "Food";
 	Goods[GOOD_FOOD].Weight	        = 1;
-	Goods[GOOD_FOOD].Cost	        = 90;
+	Goods[GOOD_FOOD].Cost	        = 36;
 	Goods[GOOD_FOOD].Units	        = 10;
 	Goods[GOOD_FOOD].Swim.Model	    = "barrel";
 	Goods[GOOD_FOOD].Swim.Time	    = 45;

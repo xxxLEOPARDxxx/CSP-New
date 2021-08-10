@@ -213,6 +213,16 @@ void FaceMaker(aref rCharacter)
 		case "pirate_13":		rCharacter.FaceId = 171; break;
 		case "pirate_14":		rCharacter.FaceId = 172; break;
 		case "pirate_15":		rCharacter.FaceId = 173; break;
+		// --> Сюжетка Чёрных парусов
+		case "BS_Billy":		rCharacter.FaceId = 300; break;
+		case "BS_Bony":			rCharacter.FaceId = 301; break;
+		case "BS_Flint":		rCharacter.FaceId = 302; break;
+		case "BS_Gatry":		rCharacter.FaceId = 303; break;
+		case "BS_Maks":			rCharacter.FaceId = 304; break;
+		case "BS_Rakham":		rCharacter.FaceId = 305; break;
+		case "BS_Silver":		rCharacter.FaceId = 306; break;
+		case "BS_Vein":			rCharacter.FaceId = 307; break;
+		// <-- Сюжетка Чёрных парусов
 		case "pirate_16":		rCharacter.FaceId = 435; break;
 		case "pirate_17":		rCharacter.FaceId = 439; break;
 		case "pirate_18":		rCharacter.FaceId = 440; break;

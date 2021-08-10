@@ -281,7 +281,8 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 							sld.mapEnc.Name = "щебека 'Драккар'";
 							sld.mapEnc.type = "war";
 							FantomMakeCoolFighter(sld, 80, 100, 100, "topor_viking", "pistol3", 600);
-							FantomMakeCoolSailor(sld, SHIP_XEBEKVT, "Драккар", CANNON_TYPE_CANNON_LBS24, 100, 100, 100);
+							//FantomMakeCoolSailor(sld, SHIP_XEBEKVT, "Драккар", CANNON_TYPE_CANNON_LBS24, 100, 100, 100);
+							FantomMakeCoolestSailor(sld, SHIP_XEBEKVT, "Драккар", CANNON_TYPE_CANNON_LBS24, 100, 100, 100);
 							
 							sld.name 	= "Рагнар";
 							sld.lastname = "Лотброк";

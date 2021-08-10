@@ -2,7 +2,7 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2 ATR  "
-#define VERSION_NUMBER2       "CSP v2.2.0b1 (31.07.2021)"
+#define VERSION_NUMBER2       "CSP v2.2.0b2 (08.08.2021)"
 #define VERSION_NUMBER3       ""
 #define PROVIDER_TXT            "LEOPARD's team - MaelStrom Engine"
 #define VERSION_NUM      99910  // текущий номер
@@ -79,6 +79,8 @@ bool 	bHigherShipRate				= true;
 bool 	bQuestMark 					= false;
 // -10 личного порога
 bool 	bHigherSelfRate 			= true;
+// влияние сложности на переносимый вес
+bool 	bDifficultyWeight 			= true;
 // Найм полубессмертного ПГГ
 bool 	bHalfImmortalPGG 			= false;
 // Сбор денег за швартовку

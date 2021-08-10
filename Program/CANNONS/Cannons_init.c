@@ -119,7 +119,6 @@ void InitCannons()
 	rCannon.SizeMultiply = 2.2;
 	rCannon.HeightMultiply = 1.0;
 	rCannon.DamageMultiply = 24;
-	//rCannon.TradeOff = true;
 	rCannon.hp = 55.0;
 	InitBaseCannons_CalcSpeedV0(&rCannon,800.0);
 	
@@ -139,7 +138,6 @@ void InitCannons()
 	rCannon.SizeMultiply = 2.2;
 	rCannon.HeightMultiply = 1.0;
 	rCannon.DamageMultiply = 28;
-	//rCannon.TradeOff = true;
 	rCannon.hp = 55.0;
 	InitBaseCannons_CalcSpeedV0(&rCannon,850.0);
 	
@@ -254,7 +252,6 @@ void InitCannons()
 	rCannon.SizeMultiply = 2.2;
 	rCannon.HeightMultiply = 1.0;
 	rCannon.DamageMultiply = 32;
-	//rCannon.TradeOff = true;
 	rCannon.hp = 60.0;
 	InitBaseCannons_CalcSpeedV0(&rCannon,700.0);
 	
@@ -274,29 +271,8 @@ void InitCannons()
 	rCannon.SizeMultiply = 2.2;
 	rCannon.HeightMultiply = 1.0;
 	rCannon.DamageMultiply = 36;
-	//rCannon.TradeOff = true;
 	rCannon.hp = 60.0;
 	InitBaseCannons_CalcSpeedV0(&rCannon,750.0);
-	
-	/*makeref(rCannon,Cannon[CANNON_TYPE_CANNON_LBS36]);
-	rCannon.type = CANNON_NAME_SPECIAL_CANNON;
-	rCannon.caliber = 36;
-	rCannon.name = "caliber36";
-	rCannon.picture = "cannons10";
-	rCannon.Sound = "fort_cannon_fire";
-	rCannon.ReloadTime = 120;
-	rCannon.Cost = 500;
-	rCannon.Weight = 90;
-	rCannon.FireAngMax = 0.60;
-	rCannon.FireAngMin = -0.35;
-	rCannon.TimeSpeedMultiply = 1.0;
-	rCannon.BigBall = 0;
-	rCannon.SizeMultiply = 1.0;
-	rCannon.HeightMultiply = 0.6;
-	rCannon.DamageMultiply = 8.0;
-	rCannon.TradeOff = true;
-	rCannon.hp = 65.0;
-	InitBaseCannons_CalcSpeedV0(&rCannon,800.0);    */
 	
 	makeref(rCannon,Cannon[CANNON_TYPE_CANNON_LBS42]);
 	rCannon.type = CANNON_NAME_CANNON;
@@ -329,7 +305,7 @@ void InitCannons()
 	rCannon.Weight = 24;
 	rCannon.FireAngMax = 0.60;
 	rCannon.FireAngMin = -0.45;
-	rCannon.DamageMultiply = 48.0;
+	rCannon.DamageMultiply = 96.0;
 	rCannon.TimeSpeedMultiply = 1.0;
 	rCannon.BigBall = 0;
 	rCannon.SizeMultiply = 2.8;
@@ -337,24 +313,4 @@ void InitCannons()
 	rCannon.TradeOff = true;
 	rCannon.hp = 80.0;
 	InitBaseCannons_CalcSpeedV0(&rCannon,900.0);
-
-	/*makeref(rCannon,Cannon[CANNON_TYPE_MORTAR]);
-	rCannon.type = CANNON_NAME_MORTAR;
-	rCannon.caliber = 92;
-	rCannon.name = "caliber92";
-	rCannon.picture = "cannons13";
-	rCannon.Sound = "fort_cannon_fire";
-	rCannon.ReloadTime = 240;
-	rCannon.Cost = 2000;
-	rCannon.Weight = 160;
-	rCannon.FireAngMax = 0.80;
-	rCannon.FireAngMin = -0.35;
-	rCannon.DamageMultiply = 25.0;
-	rCannon.TimeSpeedMultiply = 0.8;
-	rCannon.BigBall = 1;
-	rCannon.SizeMultiply = 5.0;
-	rCannon.HeightMultiply = 0.6;
-	rCannon.TradeOff = true;
-	rCannon.hp = 80.0;
-	InitBaseCannons_CalcSpeedV0(&rCannon,650.0);    */
 }

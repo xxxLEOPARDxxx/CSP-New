@@ -36,7 +36,7 @@ void Whisper_StartGame(string qName)
 	GiveItem2Character(pchar, "cirass5");
 	EquipCharacterbyItem(pchar, "cirass5");
     TakeNItems(Pchar, "12_gauge", 99);
-    TakeNItems(Pchar, "grapeshot", 99);
+    TakeNItems(Pchar, "grapeshot", 18 - MOD_SKILL_ENEMY_RATE);
 	TakeNItems(Pchar, "potion3", 1);
     TakeNItems(Pchar, "potion2", 3);
     TakeNItems(Pchar, "potion1", 4);
@@ -51,7 +51,7 @@ void Whisper_StartGame(string qName)
 	//Запретить выход из локации
 	chrDisableReloadToLocation = true;
 	//Заблокировать меню персонажа
-	bDisableCharacterMenu = true;
+	//bDisableCharacterMenu = true;
 	//и фасттревел
 	InterfaceStates.DisFastTravel = true;
 	//Виспер недоступна испанская линейка
@@ -715,6 +715,10 @@ void WhisperPirateTownBattle(string qName)
 }
 void WhisperKillNineFingers(string qName)
 {	
+	//fix
+	setCharacterShipLocation(pchar, "PuertoPrincipe_port");
+    setWDMPointXZ("PuertoPrincipe_port");  // коорд на карте
+	
 	sld = characterFromID("NineFingers");
 	RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
 	DeleteAttribute(sld, "items");
@@ -1019,6 +1023,8 @@ void WhisperHuntersCaveEntrance(string qName)
 	sld.rank = 15;
 	LAi_SetHP(sld, 250.0, 250.0);
 	sld.greeting = "GR_Lejitos";
+	sld.DontChangeBlade = true; // нельзя снять или залутать оружие
+	//sld.DontChangeGun = true;
 	GiveItem2Character(sld, "topor_01");
 	EquipCharacterByItem(sld, "topor_01");
 	GiveItem2Character(sld, "cirass2");
@@ -1490,7 +1496,7 @@ void DarkHuman_StartGame(string qName)
 	DeleteAttribute(Pchar, "ship");
     DeleteAttribute(Pchar, "ShipSails.gerald_name");
     Pchar.ship.type = SHIP_NOTUSED;
-	
+	SaveCurrentQuestDateParam ("pchar.questTemp.DHRaceAgainstTime");
 	SetQuestHeader("DarkHumanQuestline");
 	AddQuestRecord("DarkHumanQuestline", "1");
 	
@@ -1825,7 +1831,99 @@ void DHmessages_2(string qName)
 {
 	Log_info(" - Ожидайте - ");
 }
-//мини замиси в логе
+
+void DHRaceAgainstTime(string qName)
+{
+	LocatorReloadEnterDisable("LaVega_town", "reload1", true);
+	LocatorReloadEnterDisable("LaVega_town", "reload2", true);
+	LocatorReloadEnterDisable("LaVega_town", "reload3", true);
+	LocatorReloadEnterDisable("LaVega_town", "reload4", true);
+	LocatorReloadEnterDisable("LaVega_town", "reload5", true);
+	LocatorReloadEnterDisable("LaVega_town", "reload6", true);
+	//LocatorReloadEnterDisable("LaVega_town", "reload7", true);
+	LocatorReloadEnterDisable("LaVega_town", "reload8", true);
+	LocatorReloadEnterDisable("LaVega_town", "reload1_back", true);
+	LocatorReloadEnterDisable("LaVega_town", "reload3_back", true);
+	
+	AddQuestRecord("DHRaceAgainstTime", "4");
+	
+	PChar.quest.DHRaceAgainstTime1.win_condition.l1 = "location";
+	PChar.quest.DHRaceAgainstTime1.win_condition.l1.location = "CommonRoom_MH2";
+	PChar.quest.DHRaceAgainstTime1.function = "DHRaceAgainstTime_findHouse";
+}
+
+void DHRaceAgainstTime_findHouse(string qName)
+{
+	LocatorReloadEnterDisable("LaVega_town", "reload1", false);
+	LocatorReloadEnterDisable("LaVega_town", "reload2", false);
+	LocatorReloadEnterDisable("LaVega_town", "reload3", false);
+	LocatorReloadEnterDisable("LaVega_town", "reload4", false);
+	LocatorReloadEnterDisable("LaVega_town", "reload5", false);
+	LocatorReloadEnterDisable("LaVega_town", "reload6", false);
+	//LocatorReloadEnterDisable("LaVega_town", "reload7", false);
+	LocatorReloadEnterDisable("LaVega_town", "reload8", false);
+	LocatorReloadEnterDisable("LaVega_town", "reload1_back", false);
+	LocatorReloadEnterDisable("LaVega_town", "reload3_back", false);
+	
+	if(GetQuestPastDayParam("pchar.questTemp.DHRaceAgainstTime") < 59)
+	{
+		chrDisableReloadToLocation = true;
+		
+		sld = GetCharacter(NPC_GenerateCharacter("DHMerc", "OZG_" + (rand(6) + 1), "man", "man", 10+MOD_SKILL_ENEMY_RATE, PIRATE, -1, false));
+		LAi_SetWarriorType(sld);
+		LAi_warrior_SetStay(sld, true);
+		ChangeCharacterAddressGroup(sld, "CommonRoom_MH2", "goto", "goto4");
+		GiveItem2Character(sld, "blade202");
+		EquipCharacterByItem(sld, "blade202");
+		sld.SaveItemsForDead = true;
+		//LAi_SetImmortal(sld, true);
+		Group_FindOrCreateGroup("DHAmbush");
+		LAi_group_MoveCharacter(sld, "DHAmbush");
+		pchar.quest.DHRaceAgainstTime_End.win_condition.c1 = "NPC_Death";
+		pchar.quest.DHRaceAgainstTime_End.win_condition.c1.character ="DHMerc";
+		
+		sld = GetCharacter(NPC_GenerateCharacter("DHIncq", "PGG_Vincento_0", "man", "man", 5+MOD_SKILL_ENEMY_RATE, SPAIN, -1, true));
+		ChangeCharacterAddressGroup(sld, "CommonRoom_MH2", "goto", "goto3");
+		ChangeItemName("DeSouzaCross", "itmname_DeSouzaCross_DH");
+		GiveItem2Character(sld, "DeSouzaCross");
+		sld.SaveItemsForDead = true;
+		LAi_group_MoveCharacter(sld, "DHAmbush");
+		Lai_SetActorTypeNoGroup(sld);
+		//LAi_SetImmortal(sld, true);
+		LAi_ActorDialog(sld, pchar, "", 2.0, 0);
+		
+		pchar.quest.DHRaceAgainstTime_End.win_condition.c2 = "NPC_Death";
+		pchar.quest.DHRaceAgainstTime_End.win_condition.c2.character ="DHIncq";
+		PChar.quest.DHRaceAgainstTime_End.function = "DHRaceAgainstTime_End";
+		
+		sld.dialog.filename = "Quest\WhisperLine\DarkHuman.c";
+		sld.dialog.currentnode = "DH_Ambush";
+	}
+	else
+	{
+		chrDisableReloadToLocation = false;
+		AddQuestRecord("DHRaceAgainstTime", "3");
+		CloseQuestHeader("DHRaceAgainstTime");
+	}
+}
+
+void DHRaceAgainstTime_end(string qName)
+{
+	chrDisableReloadToLocation = false;
+	group_DeleteGroup("DHAmbush");
+	AddQuestRecord("DHRaceAgainstTime", "2");
+	CloseQuestHeader("DHRaceAgainstTime");
+}
+void DHRaceAgainstTime_end_late(string qName)
+{
+	chrDisableReloadToLocation = false;
+	AddQuestRecord("DHRaceAgainstTime", "3");
+	CloseQuestHeader("DHRaceAgainstTime");
+}
+void DHLockSK(string qName)
+{
+	LocatorReloadEnterDisable("SantaCatalina_town", "gate_back", true);
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Линейка Темного Странника --     конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

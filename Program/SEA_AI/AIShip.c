@@ -2123,6 +2123,71 @@ void Ship_ApplyHullHitpoints(ref rOurCharacter, float fHP, int iKillStatus, int 
 	rOurCharacter.Ship.HP = fCurHP;
 }
 
+void Ship_ApplyHullHitpointsWithCannon(ref rOurCharacter, float fHP, int iKillStatus, int iKillerCharacterIndex)
+{
+   	if (LAi_IsImmortal(rOurCharacter)) { return; }
+
+	float fCurHP;
+	float fMinus = 0.0;
+	float fPlus = 0.0;
+	//float fAccuracy = 0.0;
+	
+    if (bSeaReloadStarted) { return; }
+    if (MOD_SKILL_ENEMY_RATE == 1 && sti(rOurCharacter.index) == GetMainCharacterIndex())
+	{
+		fHP = fHP / MOD_Complexity_1_DMG;
+	}
+	if (fHP <= 0.0) { return; }
+	if (LAi_IsDead(rOurCharacter) || !CheckAttribute(rOurCharacter, "Ship.HP")) { return; }   // fix
+
+    if (iKillerCharacterIndex >= 0)
+	{
+		if (sti(Characters[iKillerCharacterIndex].TmpPerks.HullDamageUp)) fPlus = 0.15;
+		if (sti(Characters[iKillerCharacterIndex].TmpPerks.CannonProfessional)) fPlus = 0.3;
+		//fAccuracy = stf(characters[iKillerCharacterIndex].TmpSkill.Accuracy);
+	}
+
+	if (sti(rOurCharacter.TmpPerks.BasicBattleState))			fMinus = 0.15;
+	if (sti(rOurCharacter.TmpPerks.AdvancedBattleState))		fMinus = 0.25;
+	if (sti(rOurCharacter.TmpPerks.ShipDefenseProfessional))	fMinus = 0.35;
+	if (CheckAttribute(&RealShips[sti(rOurCharacter.Ship.Type)], "Tuning.HullSpecial")) fMinus = fMinus+0.35;
+	
+	int fMinusC = 0;
+	int shipclass = sti(RealShips[sti(rOurCharacter.Ship.Type)].Class);
+	switch (shipclass)
+	{
+		case 6: fMinusC = 12;
+		break;
+		case 5: fMinusC = 16;
+		break;
+		case 4: fMinusC = 20;
+		break;
+		case 3: fMinusC = 24;
+		break;
+		case 2: fMinusC = 32;
+		break;
+		case 1: fMinusC = 42;
+		break;
+	}
+	float fDam = fHP * (1.0 + fPlus - fMinus);
+	//Log_Info("До снижения "+fDam);
+	fDam = fDam - fMinusC;
+	//Log_Info("После снижения "+fDam);
+	if (fDam < 1.0) fDam = 1*(8-shipclass);
+	fCurHP = stf(rOurCharacter.Ship.HP) - fDam;
+	if (fCurHP <= 0.0)
+	{
+		fCurHP = 0.0;
+		ShipDead(sti(rOurCharacter.index), iKillStatus, iKillerCharacterIndex);
+	}
+	
+    if(fCurHP > sti(RealShips[sti(rOurCharacter.ship.type)].HP))
+	{
+		fCurHP = RealShips[sti(rOurCharacter.ship.type)].HP;
+	}
+	rOurCharacter.Ship.HP = fCurHP;
+}
+
 
 void Ship_AddCharacterExp(ref rCharacter, int iExpQuantity)
 {
@@ -2636,7 +2701,7 @@ void Ship_HullHitEvent()
 		// fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull) * (8.0 + frnd() * 4.0); // LEO: Забекапил
 		fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull) * 4; // 4.0
 		if (CheckAttribute(RealShips[sti(rOurCharacter.Ship.Type)],"Tuning.HighBort") && iBallType != GOOD_GRAPES) fHP *= 1.25;
-		Ship_ApplyHullHitpoints(rOurCharacter, fHP, KILL_BY_BALL, iBallCharacterIndex);
+		Ship_ApplyHullHitpointsWithCannon(rOurCharacter, fHP, KILL_BY_BALL, iBallCharacterIndex);
 
 		if (iBallCharacterIndex == nMainCharacterIndex)
 		{
@@ -2660,7 +2725,7 @@ void Ship_HullHitEvent()
 	{ 
 		fHP = fDistanceDamageMultiply * fCannonDamageMultiply * stf(rBall.DamageHull);
 		if (CheckAttribute(RealShips[sti(rOurCharacter.Ship.Type)],"Tuning.HighBort") && iBallType != GOOD_GRAPES) fHP *= 1.25;
-		Ship_ApplyHullHitpoints(rOurCharacter, fHP, KILL_BY_BALL, iBallCharacterIndex); 
+		Ship_ApplyHullHitpointsWithCannon(rOurCharacter, fHP, KILL_BY_BALL, iBallCharacterIndex);
 		// boal  check skill -->
 		if (!isOurCompanion && IsCompanion(rBallCharacter))
 		{
@@ -3546,7 +3611,7 @@ void Ship_UpdateParameters()
 	{
 		fBaseShipHP = fCurHP;
 	}
-	if (bSeaActive && (fCurHP / fBaseShipHP < 0.09999))
+	if (bSeaActive && (fCurHP / fBaseShipHP < 0.09999) && sti (rCharacter.ship.soiling) < 29)
 	{
         float fLightRepair = AIShip_isPerksUse(arTmpPerks.LightRepair, 1.0, 0.0);
         // это спец атрибут по убиванию этой функции

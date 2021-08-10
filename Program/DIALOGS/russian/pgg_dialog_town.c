@@ -194,9 +194,9 @@ void ProcessDialogEvent()
 			
 		}
 		
-		if (GetQuestPastDayParam("pchar.questTemp.DuelCooldown") >= 10 || bBettaTestMode)
+		if (GetQuestPastDayParam("pchar.questTemp.DuelCooldown") >= 3 || bBettaTestMode)
 		{
-			if (PGG_ChangeRelation2MainCharacter(NPChar, 0) < 51 && !CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
+			if (sti(pchar.reputation < 15) && PGG_ChangeRelation2MainCharacter(NPChar, 0) < 51 && !CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
 			{
 				link.l8 = link.l8 = PCharRepPhrase("Эта таверна слишком тесна для нас двоих. Я хочу, что бы ты исчезла.", "Если бы ты знала с кем говоришь, по другому запела бы, портовая шалава.");
 				link.l8.go = "outraged";
@@ -212,7 +212,7 @@ void ProcessDialogEvent()
 //==================================================
 	case "officer":
 		//раз в день.
-		if (CheckAttribute(NPChar, "Officer_Talk") && GetNpcQuestPastDayParam(NPChar, "Officer_Talk") < 1 && !bPGGLogShow)
+		if (CheckAttribute(NPChar, "Officer_Talk") && GetNpcQuestPastDayParam(NPChar, "Officer_Talk") < 1 && !bPGGLogShow && !CheckAttribute(npchar, "HiringMoneyPaid"))
 		{
 			Dialog.Text = RandPhraseSimple("Я тебе уже говорила, по-моему, мне это не интересно.", "Мне казалось, мы все обсудили уже.");
 			link.l1 = RandPhraseSimple("Как я мог" + GetSexPhrase("","ла") + " забыть?!", "А и правда. Ну, бывай.");
@@ -233,6 +233,9 @@ void ProcessDialogEvent()
 			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет... ", "Нет, это не по мне! Я не хочу быть офицером!");
 			link.l1 = RandPhraseSimple("Как хочешь...", "Что ж, попутного ветра.");
 			link.l1.go = "exit";
+			npchar.HiringMoney = sti(npchar.rank)*50000;
+			link.l2 = "Тогда я сделаю предложение, от которого ты уже не сможешь отказаться. "+ npchar.HiringMoney+ " пиастров.";
+			link.l2.go = "officer_pay";
 			SaveCurrentNpcQuestDateParam(NPChar, "Officer_Talk");
 			break;
 		}
@@ -264,7 +267,7 @@ void ProcessDialogEvent()
 		break;
 
 	case "officer_hired":
-		if (sti(pchar.money) < sti(NPChar.Quest.Officer.Price))
+		if (!CheckAttribute(npchar, "HiringMoneyPaid") && sti(pchar.money) < sti(NPChar.Quest.Officer.Price))
 		{
 			Dialog.Text = "Похоже, у вас проблемы с наличностью, капитан.";
 			link.l1 = "Ах... действительно.";
@@ -274,7 +277,7 @@ void ProcessDialogEvent()
 		pchar.questTemp.HiringOfficerIDX = NPChar.index;
 		if (NPChar.model.animation == "man" || NPChar.model.animation == "YokoDias" || NPChar.model.animation == "Milenace") Npchar.CanTakeMushket = true;
 		if(npchar.model == "PGG_Whisper_6") EquipCharacterByItem(NPChar, "suit_1");
-		AddMoneyToCharacter(pchar, -(makeint(NPChar.Quest.Officer.Price)));
+		if (!CheckAttribute(npchar, "HiringMoneyPaid")) AddMoneyToCharacter(pchar, -(makeint(NPChar.Quest.Officer.Price)));
 		AddDialogExitQuestFunction("PGG_BecomeHiredOfficer");
 		NPChar.loyality = MakeInt(PGG_ChangeRelation2MainCharacter(NPChar, 0)*0.3);
 		NPChar.greeting = "Gr_Danielle";
@@ -295,7 +298,7 @@ void ProcessDialogEvent()
 		link.l1 = "Да ну его нахер к такой-то матери!!!!";
 		link.l1.go = "exit";
 		//раз в день.
-		if (CheckAttribute(NPChar, "Companion_Talk") && GetNpcQuestPastDayParam(NPChar, "Companion_Talk") < 1 && !bPGGLogShow)
+		if (CheckAttribute(NPChar, "Companion_Talk") && GetNpcQuestPastDayParam(NPChar, "Companion_Talk") < 1 && !bPGGLogShow && !CheckAttribute(npchar, "HiringMoneyPaid"))
 		{
 			Dialog.Text = RandPhraseSimple("Я тебе уже говорила, мне неинтересно.", "Мне казалось, мы все обсудили.");
 			link.l1 = RandPhraseSimple("И правда. Как я мог" + GetSexPhrase("","ла") + " забыть?!", "И правда. Ну, бывай.");
@@ -318,6 +321,9 @@ void ProcessDialogEvent()
 			Dialog.Text = RandPhraseSimple("Хм.. пожалуй, нет... Я тебя совсем не знаю. Для начала нам стоит как-нибудь вместе на дельце сходить.", "Нет, спасибо. Как нибудь сама. Да и я тебя совсем не знаю. Нам стоит как-нибудь вместе на дельце сходить, прежде чем такие предложения друг другу делать.");
 			link.l1 = RandPhraseSimple("Ну, как хочешь...", "Что ж, береги себя.");
 			link.l1.go = "exit";
+			npchar.HiringMoney = sti(npchar.rank)*100000;
+			link.l2 = "Тогда я сделаю предложение, от которого ты уже не сможешь отказаться. "+ npchar.HiringMoney+ " пиастров.";
+			link.l2.go = "companion_pay";
 			SaveCurrentNpcQuestDateParam(NPChar, "Companion_Talk");
 			break;
 		}
@@ -365,6 +371,42 @@ void ProcessDialogEvent()
 		}
 		break;
 
+	case "companion_pay":
+		if (sti(pchar.money) >= sti(npchar.HiringMoney))
+		{
+			Dialog.Text = RandSwear() + " И правда не могу."
+			PGG_ChangeRelation2MainCharacter(NPChar, 100);
+			AddMoneyToCharacter(pchar, -sti(npchar.HiringMoney));
+			npchar.HiringMoneyPaid = true;
+			link.l1 = "Вот твои деньги.";
+			link.l1.go = "companion";
+		}
+		else
+		{
+			Dialog.Text = RandSwear() + " Это была шутка? У тебя же в карманах ветер свищет!"
+			link.l1 = "И правда... Пойду я.";
+			link.l1.go = "exit";
+		}
+	break;
+	
+	case "officer_pay":
+		if (sti(pchar.money) >= sti(npchar.HiringMoney))
+		{
+			Dialog.Text = RandSwear() + " И правда не могу."
+			PGG_ChangeRelation2MainCharacter(NPChar, 100);
+			AddMoneyToCharacter(pchar, -sti(npchar.HiringMoney));
+			npchar.HiringMoneyPaid = true;
+			link.l1 = "Вот твои деньги.";
+			link.l1.go = "officer_hired";
+		}
+		else
+		{
+			Dialog.Text = RandSwear() + " Это была шутка? У тебя же в карманах ветер свищет!"
+			link.l1 = "И правда... Пойду я.";
+			link.l1.go = "exit";
+		}
+	break;
+		
 	case "companion_leave":
 		Dialog.Text = RandSwear() + " " + NPCharRepPhrase(NPChar,
 					RandPhraseSimple("Разорви тебя акула!!! Я выхожу из состава эскадры!", "Мое терпенье лопнуло! Я ухожу."), 

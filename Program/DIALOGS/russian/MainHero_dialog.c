@@ -271,7 +271,7 @@ void ProcessDialogEvent()
 				if (CheckAttribute(pchar, "Whisper.BonusEnergy"))
 				{
 					//DeleteAttribute(pchar, "Whisper.BonusEnergy");
-					sTemp = "\n(Вы в одиночку вырезали половину экипажа на корабле, это навсегда укрепило ваши боевые навыки. Максимальная энергия увеличена на 10 единиц.)"
+					sTemp = "\n(Вы в одиночку вырезали половину экипажа на корабле, это навсегда укрепило ваши боевые навыки. Максимальная энергия увеличена на "+MOD_SKILL_ENEMY_RATE+".)"
 				}
 				dialog.Text = "Проклятье! Не хватало того, что меня закинуло в прошлое, а машина времени повреждена и находится вместе во всеми моими вещами в лапах этих немытых головорезов. В довесок я попала в плен, а в ближайшие дни меня наверняка ожидает казнь."+sTemp;
 				pchar.Whisper.BonusEnergy = true;
@@ -463,7 +463,7 @@ void ProcessDialogEvent()
 				Link.l7 = "Отдать приказ на смену флага.";
 				Link.l7.go = "TalkSelf_ChangeFlag";
 			}
-	        if(!bDisableMapEnter && Pchar.questTemp.CapBloodLine == false && PChar.location != "Deck_Near_Ship" && findsubstr(PChar.location, "_shipyard" , 0) == -1 && PChar.location != "CommonPackhouse_2" && !CheckAttribute(pchar,"GenQuest.CannotWait")) // 21.03.09 Warship fix Во время линейки Блада отдыхать нельзя
+	        if(!bDisableMapEnter && Pchar.questTemp.CapBloodLine == false && PChar.location != "Deck_Near_Ship" && findsubstr(PChar.location, "_shipyard" , 0) == -1 && PChar.location != "CommonPackhouse_2" && !CheckAttribute(pchar,"GenQuest.CannotWait") && !CheckAttribute(pchar,"ContraInterruptWaiting")) // 21.03.09 Warship fix Во время линейки Блада отдыхать нельзя
 	        {
 	        	Link.l8 = "Мне не мешало бы отдохнуть...";
 	    		Link.l8.go = "TalkSelf_StartWait";
@@ -521,10 +521,26 @@ void ProcessDialogEvent()
 				Link.l12 = "Установить время на глобальной карте (должно быть значение float)";
 				Link.l12.go = "WorldmapTime";
 			}
+			
+			Link.lSmugglingFlag = "Во время контрабандных сделок, автоматически менять флаг на пиратский, в случае нападения патруля.";
+			Link.lSmugglingFlag.go = "SmugglingFlag";
+			if (CheckAttribute(pchar, "SmugglingFlag"))
+			{
+				Link.lSmugglingFlag = "Отключить автоматическую смену флага во время контрабандных сделок.";
+				Link.lSmugglingFlag.go = "SmugglingFlag";
+			}
+			
 			Link.l14 = RandPhraseSimple("Не сейчас. Нет времени.", "Некогда. Дела ждут.");
 			Link.l14.go = "exit";
 		break;
 		
+		case "SmugglingFlag":
+			if (CheckAttribute(pchar, "SmugglingFlag")) DeleteAttribute(pchar, "SmugglingFlag");
+			else pchar.SmugglingFlag = true;
+			Dialog.Text = "Готово.";
+			Link.l12 = "С этим закончили.";
+			Link.l12.go = "exit";
+		break;
 // Вызов персонажей by xxxZohanxxx -->
 		case "Cabin_PersonSelect":
 				Dialog.Text = "Кого именно?";

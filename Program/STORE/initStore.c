@@ -82,25 +82,25 @@ void FillStoreGoods(ref pRef)
 	   	// boal 22.01.2004 -->
 		switch(sti(pRef.Goods.(goodName).TradeType))
 		{
-			case TRADE_TYPE_NORMAL:
-				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.5 + rand(sti(sti(Goods[i].Norm)*0.2)));
-				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15;
-			break;
 			case TRADE_TYPE_EXPORT:
 				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.9 + rand(sti(sti(Goods[i].Norm)*0.2)));
 				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.1;								
 			break;
+			case TRADE_TYPE_NORMAL:
+				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.5 + rand(sti(sti(Goods[i].Norm)*0.2)));
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15;
+			break;
 			case TRADE_TYPE_IMPORT:
 				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.15 + rand(sti(sti(Goods[i].Norm)*0.15))); 
-				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.20; 
-			break;
-			case TRADE_TYPE_CONTRABAND:
-				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.1))); 
-				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.35; 
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.15; 
 			break;
 			case TRADE_TYPE_AGGRESSIVE:  
 				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.02)));
-				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.25;
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.2;
+			break;
+			case TRADE_TYPE_CONTRABAND:
+				pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.1 + rand(sti(sti(Goods[i].Norm)*0.1))); 
+				pRef.Goods.(goodName).RndPriceModify = frnd() * 0.2; 
 			break;
 			case TRADE_TYPE_AMMUNITION:  //делаю все тоже, что и длЯ нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
 			    pRef.Goods.(goodName).Quantity = sti(sti(Goods[i].Norm)*0.5 + rand(sti(sti(Goods[i].Norm)*0.2))); //200 + Rand(2500) + rand(500);

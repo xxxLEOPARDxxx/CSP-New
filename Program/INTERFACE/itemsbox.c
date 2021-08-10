@@ -25,6 +25,7 @@ int iTableRemoveAllBtnX = 504;
 int iTableRemoveAllBtnY = 160;
 
 int iCurrentTabMode = 3; // Текущий режим сортировки
+String sInterfaceType;
 
 int iLinesCount = 0;
 
@@ -34,7 +35,7 @@ bool blastsort;
 void InitInterface_RS(string iniName, ref itemsRef, string faceID)
 {
 	sFaceID = faceID;
-	String sInterfaceType = sGetInterfaceType();
+	sInterfaceType = sGetInterfaceType();
 	if(sInterfaceType == INTERFACETYPE_BARREL)
 	{
 		StartAboveForm(true);
@@ -116,7 +117,7 @@ void InitInterface_RS(string iniName, ref itemsRef, string faceID)
 	
 	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
-	if (checkattribute(pchar, "iCurrentTabMode")) iCurrentTabMode = sti(pchar.iCurrentTabMode); 
+	if (checkattribute(pchar, "iCurrentTabMode") && sInterfaceType == INTERFACETYPE_EXCHANGE_ITEMS) iCurrentTabMode = sti(pchar.iCurrentTabMode); //запоминание вкладки только если обмен
 	SetControlsTabMode(iCurrentTabMode);
 
 	CreateString(true, "CharName", "", FONT_NORMAL, COLOR_MONEY, 405, 108, SCRIPT_ALIGN_CENTER, 1.0);
@@ -422,7 +423,7 @@ void ProcessCancelExit()
 
 void IDoExit(int exitCode)
 {
-	pchar.iCurrentTabMode = iCurrentTabMode; 
+	if (sInterfaceType == INTERFACETYPE_EXCHANGE_ITEMS) pchar.iCurrentTabMode = iCurrentTabMode;
 
 	ref arCurChar;
 	string sCurArroyID;
@@ -798,6 +799,19 @@ void FillCharactersScroll()
 		if(_curCharIdx != -1  && !CheckAttribute(&characters[_curCharIdx], "isquest") && !bOk)
 		{
 			if(IsOfficer(&characters[_curCharIdx]) && PChar.location == Characters[_curCharIdx].location)  // boal // fix - ГГ и офы должны быть в одной локации
+			{
+				if(sCharID == characters[_curCharIdx].ID) continue;
+				
+				SetCharacterMoneyToGold(GetCharacter(_curCharIdx));
+				iSetCharIDToCharactersArroy(GetCharacter(_curCharIdx)); // Пометим его для удаления золота и дачи денег
+				attributeName = "pic" + (m + 1);
+				GameInterface.CHARACTERS_SCROLL.(attributeName).character = _curCharIdx;
+				GameInterface.CHARACTERS_SCROLL.(attributeName).img1 = GetFacePicName(GetCharacter(_curCharIdx));
+				GameInterface.CHARACTERS_SCROLL.(attributeName).tex1 = FindFaceGroupNum("CHARACTERS_SCROLL.ImagesGroup","FACE128_"+Characters[_curCharIdx].FaceID);
+				m++;
+				continue;
+			}
+			if(IsOfficer(&characters[_curCharIdx]) && PChar.location != Characters[_curCharIdx].location && HasSubStr(pchar.location,"_bank"))  // fix - ячейка банковская и аборды
 			{
 				if(sCharID == characters[_curCharIdx].ID) continue;
 				

@@ -121,7 +121,21 @@ void ProcessDialogEvent()
 					link.l1 = "Я по поводу твоего пленника.";
 					link.l1.go = "CapComission6";
 				}
-			}	
+			}
+			if(sti(pchar.rank) >= 10 && !CheckAttribute(PChar, "questTemp.pirateVikingQuest"))
+			{
+				link.l3 = "Есть какое-нибудь интересное дело для меня?";
+				link.l3.go = "pirateVikingQuest";
+			}
+			else
+			{
+				if(pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
+				{
+					dialog.text = "Вижу ты с новостями?"
+					link.l1 = "Да, завалил"+ GetSexPhrase("","а") +" таки северянина, ох и лютый же был. Обычно все разговоры заводят как смерть почуят, а этот рычал только аж пена изо рта шла.";
+					link.l1.go = "pirateVikingQuest_final";
+				}
+			}
 		break;
 
  		case "Exit":

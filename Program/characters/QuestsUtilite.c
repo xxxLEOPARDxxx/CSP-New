@@ -804,6 +804,49 @@ void FantomMakeCoolSailor(ref _Character, int _ShipType, string _ShipName, int _
     _Character.questTemp.abordage = 0; //снять аттрибут отказа повторного захвата
    	DeleteAttribute(_Character, "Abordage.Enable"); //снять невозможноть абордажа
 }
+//лучший моряк
+void FantomMakeCoolestSailor(ref _Character, int _ShipType, string _ShipName, int _CannonsType, int _Sailing, int _Accuracy, int _Cannons)
+{
+    _Character.Ship.Cannons.Type = _CannonsType;
+	_Character.skill.Sailing  = GetCoffDiff(_Sailing, SKILL_MAX);
+	_Character.skill.Accuracy = GetCoffDiff(_Accuracy, SKILL_MAX);
+	_Character.skill.Cannons  = GetCoffDiff(_Cannons, SKILL_MAX);
+	//_Character.skill.Grappling  = GetCoffDiff((_Cannons+_Accuracy)/2, SKILL_MAX); //zagolski. расчет абордажа и защиты
+	//_Character.skill.Defence  = GetCoffDiff((_Sailing+_Accuracy)/2, SKILL_MAX);
+    
+    _Character.DontRansackCaptain = true; //квестовые не сдаются
+    _Character.SinkTenPercent     = false; // не тонуть при 10 процентах, не убегать в бою
+    _Character.AboardToFinalDeck  = true; // абордаж всегда
+	_Character.DontClearDead      = true;
+	_Character.SaveItemsForDead   = true;
+	_Character.AlwaysSandbankManeuver = true;
+
+    _Character.Ship.Type = GenerateShipTop(_ShipType, true, _Character);
+    if (_ShipName == "none" || _ShipName == "") {SetRandomNameToShip(_Character)}
+    else {_Character.Ship.Name = _ShipName}
+
+    SetBaseShipData(_Character);
+    SetCrewQuantityFull(_Character);
+    Fantom_SetBalls(_Character, "pirate");
+
+	SetCharacterPerk(_Character, "FastReload");
+	SetCharacterPerk(_Character, "HullDamageUp");
+	SetCharacterPerk(_Character, "SailsDamageUp");
+	SetCharacterPerk(_Character, "CrewDamageUp");
+	SetCharacterPerk(_Character, "CriticalShoot");
+	SetCharacterPerk(_Character, "LongRangeShoot");
+	SetCharacterPerk(_Character, "CannonProfessional");
+	SetCharacterPerk(_Character, "ShipDefenseProfessional");
+	SetCharacterPerk(_Character, "ShipSpeedUp");
+	SetCharacterPerk(_Character, "ShipTurnRateUp");
+
+    DeleteAttribute(_Character, "ship.sails");// убрать дыры на парусах
+    DeleteAttribute(_Character, "ship.blots");
+    DeleteAttribute(_Character, "ship.masts");// вернуть сбытые мачты
+    DeleteAttribute(_Character, "Killer.status"); // снять аттрибут 'был захвачен на абордаж'
+    _Character.questTemp.abordage = 0; //снять аттрибут отказа повторного захвата
+   	DeleteAttribute(_Character, "Abordage.Enable"); //снять невозможноть абордажа
+}
 
 void FantomMakeCoolFighter(ref _Character, int _Rank, int _Fencing, int _Pistol, string _Blade, string _Gun, float _AddHP)
 {
@@ -2639,11 +2682,10 @@ void OfficerMushketerInit()
 	sld.dialog.currentnode = "Lostpirate";
 	TakeNItems(sld,"potion2", Rand(2)+2);
 	sld.IsMushketer = true;
-	sld.CanTakeMushket = true;	
+	sld.CanTakeMushket = true;
+	sld.equip.gun = "mushket";
 	sld.IsMushketer.LastGunID = -1;
 	sld.IsMushketer.MushketID = "mushket";
-	GiveItem2Character(sld, "mushket");
-	sld.equip.gun = "mushket";
     TakeNItems(sld,"bullet", 100);
 	AddItems(sld, "GunPowder", 100);
     sld.Payment = true;
@@ -2682,12 +2724,11 @@ void OfficerMushketerInit()
 	sld.dialog.currentnode = "Saxon";
 	TakeNItems(sld,"potion2", Rand(2)+2);
 	sld.IsMushketer = true;
-	sld.CanTakeMushket = true;	
-	sld.IsMushketer.LastGunID = -1;
-	GiveItem2Character(sld, "mushket");
+	sld.CanTakeMushket = true;
 	sld.equip.gun = "mushket";
-	sld.IsMushketer.MushketID = "mushket";
 	GiveItem2Character(sld, "cirass2");
+	sld.IsMushketer.LastGunID = -1;
+	sld.IsMushketer.MushketID = "mushket";
 	EquipCharacterbyItem(sld, "cirass2");
     TakeNItems(sld,"bullet", 100);
 	AddItems(sld, "GunPowder", 100);

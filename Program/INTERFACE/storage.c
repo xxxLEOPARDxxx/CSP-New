@@ -15,7 +15,10 @@ ref 	refStore, refCharacter, refShipChar;
 int 	iShipQty, iStoreQty, iShipPrice, iStorePrice, iUnits;
 float 	fWeight;
 int  	iCurGoodsIdx;
+string 	sCurRow;
+int 	iFOODQty, iRUMQty;
 bool 	ok; // for if
+int iColor2;
 
 void InitInterface_R(string iniName, ref pStore)
 {
@@ -23,7 +26,7 @@ void InitInterface_R(string iniName, ref pStore)
 
     refStore = pStore;
 	refCharacter = pchar;
-
+	iColor2 = argb(255,128,96,96);//цвет ворованного
 	GameInterface.TABLE_LIST.hr.td1.str = XI_ConvertString("In the hold");
 	GameInterface.TABLE_LIST.hr.td1.scale = 0.9;
 	GameInterface.TABLE_LIST.hr.td2.str = "Вес";
@@ -206,12 +209,13 @@ void CalculateInfoData()
 void AddToTable()
 {
 	int n, i;
-	string row, sShipGroup;
+	string row, newrow, sShipGroup;
+	
 	ref rShip;
 	string sGood;
-	string sBuy, sSell, sShipQ, sStoreQ, sStoreWeight;
-	int iColor;
-	aref refGoods;
+	string sBuy, sSell, sStoreWeight;
+	int iShipQ, iStoreQ, iColor;
+	aref aNextRow, aCurRow, refGoods;
 	n = 1;
 	Table_Clear("TABLE_LIST", false, true, false);
     for (i = 0; i< GOODS_QUANTITY; i++)
@@ -220,32 +224,21 @@ void AddToTable()
 		sGood = Goods[i].name;
 		makearef(refGoods,refStore.Storage.Goods.(sGood));
                         
-		sShipQ = GetCargoGoods(refCharacter, i);
-		sStoreQ = GetStorageGoodsQuantity(refStore, i); 
+		iShipQ = GetCargoGoods(refCharacter, i);
+		iStoreQ = GetStorageGoodsQuantity(refStore, i); 
 		
 		if(i == GOOD_SLAVES) continue; // рабов низзя !!
 		
-		if(sti(sStoreQ) < 0)
-		{
-			sStoreQ = 0;
-			refGoods.quantity = 0;
-		}
-		if (sStoreQ == 0 && sShipQ == 0) continue; // только не нули
+		if (iStoreQ < 0) {iStoreQ = 0; refGoods.quantity = 0;}
+		if (iStoreQ == 0 && iShipQ == 0) continue; // только не нули
 
-		GameInterface.TABLE_LIST.(row).td1.str = sShipQ;
-		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(sShipQ));
 		GameInterface.TABLE_LIST.(row).td5.str = Goods[i].Units;
-		GameInterface.TABLE_LIST.(row).td6.str = GetGoodWeightByType(i, sti(sStoreQ));
-
-		GameInterface.TABLE_LIST.(row).td4.str = sStoreQ;
-
+		GameInterface.TABLE_LIST.(row).td1.str = iShipQ;
+		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, iShipQ);
+		GameInterface.TABLE_LIST.(row).td4.str = iStoreQ;
+		GameInterface.TABLE_LIST.(row).td6.str = GetGoodWeightByType(i, iStoreQ);
 		iColor = argb(255,255,255,255);
-		
-		if(checkAttribute(refCharacter, "ship.cargo.goods." + sGood + ".isquest"))
-		{
-			iColor = argb(255,255,192,255);
-		}
-
+		if(checkAttribute(refCharacter, "ship.cargo.goods." + sGood + ".isquest")) iColor = argb(255,255,192,255);
         GameInterface.TABLE_LIST.(row).td3.icon.group = "GOODS";
 		GameInterface.TABLE_LIST.(row).td3.icon.image = sGood;
 		GameInterface.TABLE_LIST.(row).td3.icon.offset = "0, -1";
@@ -255,6 +248,42 @@ void AddToTable()
 		GameInterface.TABLE_LIST.(row).td3.str = XI_ConvertString(sGood);
 		GameInterface.TABLE_LIST.(row).index = i;
 		GameInterface.TABLE_LIST.(row).td3.color = iColor;
+
+		if (CheckAttribute(refStore, "Storage.Goods." + sGood + ".Bought.Coeff") && refStore.Storage.Goods.(sGood).Bought.Coeff == "0")
+		{
+			if(sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Time) <= GetNpcQuestPastDayParam(refStore, "Storage.Goods_Clear_"+sGood))//Time не нужен, но оставлю в надежде сделать порционную отмывку
+			{
+				refStore.Storage.Goods.(sGood).Bought.Coeff = "1";
+				refStore.Storage.Goods.(sGood).Bought.Coeff.Qty = iStoreQ;//всё отмылось
+			}
+		}
+		else {refStore.Storage.Goods.(sGood).Bought.Coeff = 1; refStore.Storage.Goods.(sGood).Bought.Coeff.Qty = iStoreQ;}//не было атрибута ворованного
+
+		if (makeint(Goods[i].Cost)/makeint(Goods[i].Weight) > 45)
+		{
+			if (refStore.Storage.Goods.(sGood).Bought.Coeff == "0" || refCharacter.Goods.(sGood).Bought.Coeff == "0")
+			{
+				if (sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Qty) + sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) == 0) {newrow = row;}//честного нет, строка с честным не требуется
+				else
+				{
+				n++
+				newrow = "tr" + n;//вторая строка с ворованным
+				makearef(aCurRow, GameInterface.TABLE_LIST.(row));
+				makearef(aNextRow, GameInterface.TABLE_LIST.(newrow));
+				CopyAttributes(aNextRow, aCurRow);
+				GameInterface.TABLE_LIST.(row).td4.str = sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Qty);
+				GameInterface.TABLE_LIST.(row).td6.str = GetGoodWeightByType(i, sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Qty));
+				GameInterface.TABLE_LIST.(row).td1.str = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty);
+				GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty));
+				}
+
+				GameInterface.TABLE_LIST.(newrow).td3.color = iColor2;
+				GameInterface.TABLE_LIST.(newrow).td4.str = iStoreQ - sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Qty);
+				GameInterface.TABLE_LIST.(newrow).td6.str = GetGoodWeightByType(i, iStoreQ - sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Qty));
+				GameInterface.TABLE_LIST.(newrow).td1.str = iShipQ - sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty);
+				GameInterface.TABLE_LIST.(newrow).td2.str = GetGoodWeightByType(i, iShipQ - sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty));
+			}
+		}
 		n++;
 	}
 	NextFrameRefreshTable();
@@ -269,16 +298,6 @@ void RefreshTableByFrameEvent()
 {
 	DelEventHandler("frame", "RefreshTableByFrameEvent");
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"TABLE_LIST", 0 );
-}
-
-void OnTableClick()
-{
-	string sControl = GetEventData();
-	int iRow = GetEventData();
-	int iColumn = GetEventData();
-
-	string sRow = "tr" + (iRow + 1);
-    Table_UpdateWindow(sControl);
 }
 
 void ChangePosTable()
@@ -329,13 +348,14 @@ void ShowItemInfo()
 	    TransactionOK();
 	}
 	else
-	{
+	{	
 		GameInterface.qty_edit.str = "0";
 		BuyOrSell = 0;
 		ChangeQTY_EDIT();
 
 		XI_WindowDisable("QTY_WINDOW", false);
 		XI_WindowShow("QTY_WINDOW", true);
+
 		bShowChangeWin = true;
 		if (GetRemovable(refCharacter))
 		{
@@ -368,10 +388,22 @@ void CS_TableSelectChange()
 	string sControl = GetEventData();
 	int iSelected = GetEventData();
     TableSelect = iSelected;
-    string sRow = "tr" + (iSelected);
+    sCurRow = "tr" + (iSelected);
 	SetShipWeight();
 	SetVariable();
-    ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(sRow).index));
+    ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(sCurRow).index));
+}
+
+void OnTableClick()
+{
+/*
+	string sControl = GetEventData();
+	int iRow = GetEventData();
+	int iColumn = GetEventData();
+	sCurRow = "tr" + (iRow+1);
+
+    Table_UpdateWindow(sControl);
+*/
 }
 
 void FillShipsScroll()
@@ -493,8 +525,10 @@ void ShowGoodsInfo(int iGoodIndex)
     SetFormatedText("QTY_GOODS_INFO", goodsDescr);
 	LanguageCloseFile(lngFileID);
 
-	iShipQty = GetCargoGoods(refCharacter, iGoodIndex);
-	iStoreQty = GetStorageGoodsQuantity(refStore, iGoodIndex); 
+	iShipQty = sti(GameInterface.TABLE_LIST.(sCurRow).td1.str);
+	iStoreQty = sti(GameInterface.TABLE_LIST.(sCurRow).td4.str);
+	iFOODQty = GetCargoGoods(refCharacter, GOOD_FOOD);
+	iRUMQty = GetCargoGoods(refCharacter, GOOD_RUM);
 
 	SetFormatedText("QTY_INFO_STORE_QTY", its(iStoreQty));
 	SetFormatedText("QTY_INFO_SHIP_QTY", its(iShipQty));
@@ -508,18 +542,18 @@ void ShowFoodInfo()
 	if(iCurGoodsIdx == GOOD_FOOD)
 	{
 		// чтоб прикинуть как оно будет, скинем на время колво на продажное
-		SetCharacterGoods(refCharacter, GOOD_FOOD, iShipQty + BuyOrSell*sti(GameInterface.qty_edit.str));
+		SetCharacterGoods(refCharacter, GOOD_FOOD, iFOODQty + BuyOrSell*sti(GameInterface.qty_edit.str));
 		SetFoodShipInfo(refCharacter, "FOOD_SHIP");
-		SetCharacterGoods(refCharacter, GOOD_FOOD, iShipQty);
+		SetCharacterGoods(refCharacter, GOOD_FOOD, iFOODQty);
 	}
 	else
 	{
 		if(iCurGoodsIdx == GOOD_RUM) // Warship 11.07.09 На сколько хватит рому
 		{
 			// чтоб прикинуть как оно будет, скинем на время колво на продажное
-			SetCharacterGoods(refCharacter, GOOD_RUM, iShipQty + BuyOrSell*sti(GameInterface.qty_edit.str));
+			SetCharacterGoods(refCharacter, GOOD_RUM, iRUMQty + BuyOrSell*sti(GameInterface.qty_edit.str));
 			SetRumShipInfo(refCharacter, "FOOD_SHIP");
-			SetCharacterGoods(refCharacter, GOOD_RUM, iShipQty);
+			SetCharacterGoods(refCharacter, GOOD_RUM, iRUMQty);
 		}
 		else
 		{
@@ -541,42 +575,45 @@ void TransactionOK()
 	}
     if (!GetRemovable(refCharacter)) return;
     
- 	if (BuyOrSell == 1) // BUY
+ 	if (BuyOrSell == 1)//забираем со склада
 	{
-		if(CheckAttribute(refCharacter,"Goods."+sGood+".Bought.Coeff.Stored") && sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) > 0) 
+		if(CheckAttribute(refCharacter,"Storage.Goods."+sGood+".Bought.Coeff") && refCharacter.Storage.Goods.(sGood).Bought.Coeff == "0") //проверка, успело ли отмыться
 		{
-			refCharacter.Goods.(sGood).Bought.Coeff.Time = sti(refCharacter.Goods.(sGood).Bought.Coeff.Time) - GetQuestPastDayParam("Goods_Clear_"+sGood);
-			SaveCurrentQuestDateParam("Goods_Clear_"+sGood);
-			if(sti(refCharacter.Goods.(sGood).Bought.Coeff.Time) <= 0) 
+			if(sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Time) <= GetNpcQuestPastDayParam(refStore, "Storage.Goods_Clear_"+sGood)) //characterfromid(refStore.colony + "_trader")
 			{
-				refCharacter.Goods.(sGood).Bought.Coeff = "1";
-				refCharacter.Goods.(sGood).Bought.Coeff.Stored = sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) - nTradeQuantity;
+				refStore.Storage.Goods.(sGood).Bought.Coeff = "1";
+				refStore.Storage.Goods.(sGood).Bought.Coeff.Qty = iStoreQty;//всё отмылось
 			}
-			else refCharacter.Goods.(sGood).Bought.Coeff = "0";
 		}
-		if(refCharacter.Goods.(sGood).Bought.Coeff == "1") refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) + nTradeQuantity;
-		SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty - nTradeQuantity);
-		AddCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);		
-    	WaitDate("",0,0,0,0,5);
+		if(sti(GameInterface.TABLE_LIST.(sCurRow).td3.color) != iColor2) //забираем честное
+		{
+			refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) + nTradeQuantity;
+			refStore.Storage.Goods.(sGood).Bought.Coeff.Qty = sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Qty) - nTradeQuantity;
+			if (sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Qty) <= 0) 
+				{refStore.Storage.Goods.(sGood).Bought.Coeff.Qty = 0; refStore.Storage.Goods.(sGood).Bought.Coeff = 0;}//всё честное забрали
+		}
+		RemoveStorageGoods(refStore, iCurGoodsIdx, nTradeQuantity);
+		AddCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);
 	}
  	else
-	{ // SELL
-		if (sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) <= 0) 
+	{//отправляем на склад
+		if (sti(GameInterface.TABLE_LIST.(sCurRow).td3.color) == iColor2)//сдаём ворованное - обновляем срок отмывки - это баг, так как частично отмытое обнуляется
 		{
-			refCharacter.Goods.(sGood).Bought.Coeff.Stored = sti(refCharacter.Goods.(sGood).Bought.Coeff.Stored) + nTradeQuantity;
-			refCharacter.Goods.(sGood).Bought.Coeff.Time = 10;
-			SaveCurrentQuestDateParam("Goods_Clear_"+sGood);
+			refStore.Storage.Goods.(sGood).Bought.Coeff = 0;
+			refStore.Storage.Goods.(sGood).Bought.Coeff.Time = 5;//сокращаем отмыв до 5 дней//атрибут делаем на будущее, сейчас и без него бы работало
+			SaveCurrentNpcQuestDateParam(refStore, "Storage.Goods_Clear_"+sGood);
 		}
 		else
-		{
+		{	//честное на склад
 			refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) - nTradeQuantity;
-			if(sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) < 0) refCharacter.Goods.(sGood).Bought.Coeff.Qty = "0";
-		}		
-      	SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty + nTradeQuantity);
+			refStore.Storage.Goods.(sGood).Bought.Coeff.Qty = sti(refStore.Storage.Goods.(sGood).Bought.Coeff.Qty) + nTradeQuantity; 
+			if(sti(refCharacter.Goods.(sGood).Bought.Coeff.Qty) < 0) //всё честное отдали
+				{refCharacter.Goods.(sGood).Bought.Coeff.Qty = "0";	refCharacter.Goods.(sGood).Bought.Coeff = "1";}
+		}	
+      	AddStorageGoods(refStore, iCurGoodsIdx, nTradeQuantity);
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);				
-    	WaitDate("",0,0,0,0,5);  	
 	}
-	
+   	WaitDate("",0,0,0,0,5);
 	AddToTable();
 	EndTooltip();
 	ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
@@ -668,10 +705,7 @@ void ChangeQTY_EDIT()
 void REMOVE_ALL_BUTTON()  // продать все
 {
     if (!GetRemovable(refCharacter)) return;
-	if (!bShowChangeWin)
-	{
-	    ShowItemInfo();
-	}
+	if (!bShowChangeWin) ShowItemInfo();
 	ShowGoodsInfo(iCurGoodsIdx);
 	GameInterface.qty_edit.str = -iShipQty;
 	BuyOrSell = 0;
@@ -681,10 +715,7 @@ void REMOVE_ALL_BUTTON()  // продать все
 void ADD_ALL_BUTTON()  // купить все
 {
     if (!GetRemovable(refCharacter)) return;
-	if (!bShowChangeWin)
-	{
-	    ShowItemInfo();
-	}
+	if (!bShowChangeWin) ShowItemInfo();
 	ShowGoodsInfo(iCurGoodsIdx);
 	GameInterface.qty_edit.str = iStoreQty;
 	BuyOrSell = 0;
@@ -695,10 +726,7 @@ void REMOVE_BUTTON()  // продать
 {
     if (!GetRemovable(refCharacter)) return;
 	if (!bShowChangeWin) return;
-	if (BuyOrSell == 0)
-    {
-        GameInterface.qty_edit.str = -iUnits;
-    }
+  	if (BuyOrSell == 0) GameInterface.qty_edit.str = -iUnits;
     else
     {
 		if (BuyOrSell == -1)
@@ -717,11 +745,8 @@ void REMOVE_BUTTON()  // продать
 void ADD_BUTTON()  // купить
 {
     if (!GetRemovable(refCharacter)) return;
-	if (!bShowChangeWin) return;
-	if (BuyOrSell == 0)
-    {
-        GameInterface.qty_edit.str = iUnits;
-    }
+	if (!bShowChangeWin)return;
+	if (BuyOrSell == 0) GameInterface.qty_edit.str = iUnits;
     else
     {
   		if (BuyOrSell == 1)

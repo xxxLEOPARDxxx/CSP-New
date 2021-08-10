@@ -105,8 +105,8 @@ void ProcessDialogEvent()
 			{
 				if (!CheckAttribute(NPChar, "OfficerWantToGo.DontGo")) 
 				{ 
-					Link.l3 = "У меня к тебе предложение."; 
-					Link.l3.go = "contract"; 
+					Link.l3contract = "У меня к тебе предложение."; 
+					Link.l3contract.go = "contract"; 
 				} 
 			}
 			else
@@ -117,8 +117,8 @@ void ProcessDialogEvent()
 				}
 				if (sti(pchar.Option_ImmortalOfficers) < makeint(GetCharacterSPECIAL(pchar,"Charisma")*2) && !CheckAttribute(npchar,"ImmortalOfficer"))
 				{
-					Link.l3 = "У меня к тебе предложение."; 
-					Link.l3.go = "contract"; 
+					Link.l3contract = "У меня к тебе предложение."; 
+					Link.l3contract.go = "contract"; 
 				}
 			}
 			//aw013 <-- Найм на постоянку

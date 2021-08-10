@@ -960,26 +960,26 @@ itmdescr_mushket2
 Подарочное двуствольное ружьё для излюбленной знатью засадной охоты на благородного оленя. Хотя следует признать - снаряды из его нарезных стволов надёжно разят любую цель.
 }
 
-itmname_mushket_spa	{Испанский мушкетон}
-itmdescr_mushket_spa
+itmname_mushket_spanish	{Испанский мушкетон}
+itmdescr_mushket_spanish
 {
 Точность - несомненно привлекательное качество этого оружия.
 }
 
-itmname_mushket_eng	{Английский мушкетон}
-itmdescr_mushket_eng
+itmname_mushket_english	{Английский мушкетон}
+itmdescr_mushket_english
 {
 Скорострельность - главный конек Английского мушкетона.
 }
 
-itmname_mushket_fra	{Французcкий мушкетон}
-itmdescr_mushket_fra
+itmname_mushket_france	{Французcкий мушкетон}
+itmdescr_mushket_france
 {
 Убойный урон - прекрасная характеристика этого мушкетона.
 }
 
-itmname_mushket_hol	{Голландский мушкетон}
-itmdescr_mushket_hol
+itmname_mushket_holland	{Голландский мушкетон}
+itmdescr_mushket_holland
 {
 Достаточно точный мушкет с относительно быстрой перезарядкой и хорошим уроном - вот чём хорош Голландский мушкетон.
 }
@@ -1019,6 +1019,7 @@ itmname_pistol7shotgun	{Шотган}
 itmdescr_pistol7shotgun
 {
 Оружие чужого времени. Почему и как оно оказалось здесь, так и осталось тайной.
+Для стрельбы необходим боеприпас и гильзы 12 калибра.
 }
 
 itmname_mushket_seadevil	{Морской Дьявол}
@@ -1270,6 +1271,7 @@ itmdescr_jewelry9
 }
 
 itmname_DeSouzaCross	{Крест Антонио де Соуза}
+itmname_DeSouzaCross_DH	{Иезуитский крест}
 itmdescr_DeSouzaCross
 {
 Иезуитский крест.
@@ -2675,6 +2677,7 @@ itmdescr_letter_A
 {
 Ходатайство Аскольда о помиловании Тичингиту. Необходимо доставить начальнику тюрьмы Бас Тера.
 }
+letter_B {Мы понятия не имеем, как ты попал сюда, но раз уж умудрился, то поздравляем, ты нашёл первую пасхалку! Наслаждайся своим призом, хе-хе...}
 
 itmname_PDM_PK_Koltso {Кольцо Жозефины Лодет}
 itmdescr_PDM_PK_Koltso
@@ -2692,6 +2695,24 @@ itmname_ArenaBilet {Проходной билет}
 itmdescr_ArenaBilet
 {
 Чтобы пройти на Арену, необходимо показать эту бумажку.
+}
+
+itmname_BS_PaperCoord {Бумаги с координатами}
+itmdescr_BS_PaperCoord
+{
+На этих бумагах есть ценная информация по координатам 'Урки Делимы'.
+}
+
+itmname_BS_QBFlint {Судовой журнал Флинта}
+itmdescr_BS_QBFlint
+{
+Судовой журнал отважного капитана Джеймса Флинта.
+}
+
+itmname_BS_MarkAvreliy {Марк Аврелий 'Размышления'}
+itmdescr_BS_MarkAvreliy
+{
+Книга - Марка Аврелия 'Размышления'.
 }
 
 itmname_CompCraft_HealthTobacco {Листья здоровья}

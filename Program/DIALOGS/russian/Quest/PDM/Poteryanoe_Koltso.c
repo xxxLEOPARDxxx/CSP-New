@@ -291,6 +291,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Nagrada_mnogo":
+			Log_info("Вы получили опыт");
 			AddMoneyToCharacter(pchar, -15000);
 			AddCharacterExpToSkill(pchar, "Leadership", 100);
 			AddCharacterExpToSkill(pchar, "FencingLight", 30);
@@ -315,6 +316,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Nagrada_malo":
+			Log_info("Вы получили опыт");
 			AddCharacterExpToSkill(pchar, "Leadership", 100);
 			AddCharacterExpToSkill(pchar, "Fortune", 20);
 			AddCharacterExpToSkill(pchar, "Sneak", 100);

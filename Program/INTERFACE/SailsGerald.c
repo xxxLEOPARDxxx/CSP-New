@@ -216,7 +216,7 @@ void CheckChangeSailStatus()
 	SetFormatedText("COLOR_SAILS_CAPTION", "Цвет парусов");
 	SetFormatedText("SAILS_CAPTION", "Материал парусов");
 	SetFormatedText("GERALD_CAPTION", "Выбрать символику на парус");
-	SetFormatedText("SAILS_COLOR_TEXT", "Цвет: "+SailsColors[curcolor].name);
+	SetFormatedText("SAILS_COLOR_TEXT", ""+SailsColors[curcolor].name);
 	// SetNewPicture("COLOR_PIC1", "resource\textures\ships\PlayerSails\parus_pat.tga");
 	bool bNewValue = true;
 	bool CanRemove = true;
@@ -235,7 +235,7 @@ void CheckChangeSailStatus()
 	if (GetChosenType("sails") != defsails) {bNewValue = true; price = price + makeint(CalculateSailsChangePrice(sti(shref.Class))/2); SetFormatedText("SAILS_CURRENT", "");}
 	else SetFormatedText("SAILS_CURRENT", "Текущий");
 	if (GetChosenType("color") != defcolor) {bNewValue = true; price = price + makeint(CalculateSailsChangePrice(sti(shref.Class))/3);}
-	else SetFormatedText("SAILS_COLOR_TEXT", "Цвет: "+SailsColors[curcolor].name+" (текущий)");
+	else SetFormatedText("SAILS_COLOR_TEXT", ""+SailsColors[curcolor].name+" (текущий)");
 	SetFormatedText("TOTAL_PRICE", "Цена: "+FindRussianMoneyString(price));
 		
 	if (!CheckAttribute(shref,"ShipSails.Gerald_Name")) CanRemove = false;

@@ -1344,7 +1344,7 @@ float FindShipTurnRate(aref refCharacter)
 	}
 	if (fTRFromPeople > 1) fTRFromPeople = 1;
 	
-	float fTRFromSKill = TurnBySkill(refCharacter);
+	float fTRFromSkill = TurnBySkill(refCharacter);
 
 	float fTRFromSailDamage = Bring2Range(0.05, 1.0, 0.1, 100.0, stf(refCharacter.ship.sp));
 
@@ -1395,49 +1395,101 @@ float FindShipSpeedBonus(ref refCharacter)
 		trace("Character " + refCharacter.id + " have invalid ship!");
 		return 0.0;
 	}
-	ref rShip = GetRealShip(nShipType);
-	
 	float	fMaxSpeedZ = 1.0;  // базовая скорость
-	float fShipHp = stf(refCharacter.ship.hp);
+	fMaxSpeedZ *= AIShip_isPerksUse(CheckCharacterPerk(refCharacter, "MapMaker"), 1.0, 1.05);
+	fMaxSpeedZ *= ShipSpeedBonusFromWeight(refCharacter);
+	fMaxSpeedZ *= ShipSpeedBonusFromHP(refCharacter);
+	fMaxSpeedZ *= ShipSpeedBonusFromPeople(refCharacter);
+	fMaxSpeedZ *= ShipSpeedBonusFromSails(refCharacter);
+	fMaxSpeedZ *= ShipSpeedBonusFromSoiling(refCharacter);
+	fMaxSpeedZ *= SpeedBySkill(refCharacter);
+	return fMaxSpeedZ;
+}
+//================//
+float ShipSpeedBonusFromWeight(ref _refCharacter)
+{	// от загрузки трюма
+	if(!CheckAttribute(_refCharacter, "Cargo")) RecalculateCargoLoad(_refCharacter);
+	ref rShip = GetRealShip(sti(_refCharacter.ship.type));
+	float	fLoad = Clampf(stf(_refCharacter.Ship.Cargo.Load) / stf(rShip.Capacity));
+	float	fTRFromWeight = Clampf(1.03 - stf(rShip.SpeedDependWeight) * fLoad);
+	return fTRFromWeight;
+}
+float ShipSpeedBonusFromHP(ref _refCharacter)
+{	// от повреждения корпуса
+	ref rShip = GetRealShip(sti(_refCharacter.ship.type));
+	float fShipHp = stf(_refCharacter.ship.hp);
 	float fShipMaxHp = stf(rShip.HP);
 	float fSpeedFromHp = fShipHp/fShipMaxHp;
 	fSpeedFromHp = 0.8 + fSpeedFromHp*0.3;
-
-	if(fSpeedFromHp > 1.0) // некий запас перед снижением скорости
-	{
-		fSpeedFromHp = 1.0;
-	}
-
-	fMaxSpeedZ = fMaxSpeedZ * AIShip_isPerksUse(CheckCharacterPerk(refCharacter, "MapMaker"), 1.0, 1.05);
-	float fSailsDamage = stf(refCharacter.ship.sp);
-
-	float	fTRFromSailDamage = Bring2Range(0.1, 1.0, 0.1, 100.0, fSailsDamage); //0.3
-
-	float fTRFromShipState = fSpeedFromHp * fTRFromSailDamage;
-    if(!CheckAttribute(refCharacter, "Cargo")) RecalculateCargoLoad(refCharacter);
-	float	fLoad = Clampf(stf(refCharacter.Ship.Cargo.Load) / stf(rShip.Capacity));
-	float	fTRFromWeight = Clampf(1.03 - stf(rShip.SpeedDependWeight) * fLoad);
-	float   fTRFromSkill = SpeedBySkill(refCharacter);
-	// от команды
+	if(fSpeedFromHp > 1.0) fSpeedFromHp = 1.0;// некий запас перед снижением скорости
+	return fSpeedFromHp;
+}
+float ShipSpeedBonusFromPeople(ref _refCharacter)
+{	// от команды
+	ref rShip = GetRealShip(sti(_refCharacter.ship.type));
 	float fCrewMax = stf(rShip.MaxCrew);
 	float fCrewOpt = stf(rShip.OptCrew);
-	float fCrewCur = stf(refCharacter.Ship.Crew.Quantity);
-	if (fCrewCur > fCrewMax)
-	{
-		fCrewCur = fCrewMax;
-	}
-	float  fTRFromPeople;
-	fTRFromPeople = 0.85 + ((GetCrewExp(refCharacter, "Sailors") * fCrewCur) / (fCrewOpt * GetCrewExpRate())) * 0.15;
+	float fCrewCur = stf(_refCharacter.Ship.Crew.Quantity);
+	if (fCrewCur > fCrewMax) fCrewCur = fCrewMax;
+	float  fTRFromPeople = 0.85 + ((GetCrewExp(_refCharacter, "Sailors") * fCrewCur) / (fCrewOpt * GetCrewExpRate())) * 0.15;
 	if (fTRFromPeople > 1) fTRFromPeople = 1;
-	 
-	fMaxSpeedZ = fMaxSpeedZ * fTRFromWeight * fTRFromSkill * fTRFromShipState * fTRFromPeople;
-	
-	float fSoiling = (100-(stf(refCharacter.ship.soiling)*0.3))/100;
-	fMaxSpeedZ = fMaxSpeedZ * fSoiling;
-
-	return fMaxSpeedZ;
+	return fTRFromPeople;
 }
-
+float ShipSpeedBonusFromSails(ref _refCharacter)
+{	// от повреждения парусов
+	float fTRFromSailDamage = Bring2Range(0.1, 1.0, 0.1, 100.0, stf(_refCharacter.ship.sp)); //0.3
+	return fTRFromSailDamage;
+}
+float ShipSpeedBonusFromSoiling(ref _refCharacter)
+{	// от загрязнения дна
+	float fSoiling = (100-(stf(_refCharacter.ship.soiling)*0.3))/100;	 
+	return fSoiling;
+}
+//================//
+float ShipTurnRateBonusFromWeight(ref _refCharacter)
+{	// от загрузки трюма
+    if(!CheckAttribute(_refCharacter, "Cargo")) RecalculateCargoLoad(_refCharacter);
+	ref rShip = GetRealShip(sti(_refCharacter.ship.type));
+	float fLoad = Clampf(stf(_refCharacter.Ship.Cargo.Load) / stf(rShip.Capacity));
+	float fTRFromWeight;
+	if (iArcadeSails == 1) fTRFromWeight = Clampf(1.03 - stf(rShip.TurnDependWeight) * fLoad);
+		else fTRFromWeight = Clampf(1.03 - 2.0*stf(rShip.TurnDependWeight) * fLoad); // влияние веса больше
+	return fTRFromWeight;
+}
+float ShipTurnRateBonusFromHP(ref _refCharacter)
+{	// от повреждения корпуса
+	ref rShip = GetRealShip(sti(_refCharacter.ship.type));
+	float fShipHp = stf(_refCharacter.ship.hp);
+	float fShipMaxHp = stf(rShip.HP);
+	float fSpeedFromHp = fShipHp/fShipMaxHp;
+	fSpeedFromHp = 0.7 + fSpeedFromHp * 0.3;
+	return fSpeedFromHp;
+}
+float ShipTurnRateBonusFromPeople(ref _refCharacter)
+{	// от команды
+	ref rShip = GetRealShip(sti(_refCharacter.ship.type));
+	//float fCrewMin = stf(rShip.MinCrew);
+	float fCrewMax = stf(rShip.MaxCrew);
+	float fCrewOpt = stf(rShip.OptCrew);
+	float fCrewCur = stf(_refCharacter.Ship.Crew.Quantity);
+	if (fCrewCur > fCrewMax) fCrewCur = fCrewMax;
+	float  fTRFromPeople;
+	if (iArcadeSails == 1) fTRFromPeople = 0.3 + ((GetCrewExp(_refCharacter, "Sailors") * fCrewCur) / (fCrewOpt * GetCrewExpRate())) * 0.7;
+		else fTRFromPeople = 0.05 + ((GetCrewExp(_refCharacter, "Sailors") * fCrewCur) / (fCrewOpt * GetCrewExpRate())) * 0.95;
+	if (fTRFromPeople > 1) fTRFromPeople = 1;
+	return fTRFromPeople;
+}
+float ShipTurnRateBonusFromSails(ref _refCharacter)
+{	// от повреждения парусов
+	float fTRFromSailDamage = Bring2Range(0.05, 1.0, 0.1, 100.0, stf(_refCharacter.ship.sp));
+	return fTRFromSailDamage;
+}
+float ShipTurnRateBonusFromSoiling(ref _refCharacter)
+{	// от загрязнения дня
+	float fSoiling = (100-(stf(_refCharacter.ship.soiling)*0.15))/100;
+	return fSoiling;
+}
+//================//
 float FindShipTurnRateBonus(aref refCharacter)
 {
 	if(!CheckAttribute(refCharacter, "Ship.type"))
@@ -1453,53 +1505,15 @@ float FindShipTurnRateBonus(aref refCharacter)
 	}
 	ref rShip = GetRealShip(nShipType);
 
-	float fShipHp = stf(refCharacter.ship.hp);
-	float fShipMaxHp = stf(rShip.HP);
-	float fSpeedFromHp = fShipHp/fShipMaxHp;
-	fSpeedFromHp = 0.7 + fSpeedFromHp * 0.3;
-    if(!CheckAttribute(refCharacter, "Cargo")) RecalculateCargoLoad(refCharacter);
-	float fLoad = Clampf(stf(refCharacter.Ship.Cargo.Load) / stf(rShip.Capacity));
-	float fTRFromWeight;
-	if (iArcadeSails == 1)
-	{
-		fTRFromWeight = Clampf(1.03 - stf(rShip.TurnDependWeight) * fLoad);
-	}
-	else
-	{
-		fTRFromWeight = Clampf(1.03 - 2.0*stf(rShip.TurnDependWeight) * fLoad); // влияние веса больше
-	}
-	// не реализовано, всегда 1 float fTRFromSpeed = 1.0 - stf(rShip.TurnDependSpeed);
-	// от команды
-	//float fCrewMin = stf(rShip.MinCrew);
-	float fCrewMax = stf(rShip.MaxCrew);
-	float fCrewOpt = stf(rShip.OptCrew);
-	float fCrewCur = stf(refCharacter.Ship.Crew.Quantity);
-	if (fCrewCur > fCrewMax)
-	{
-		fCrewCur = fCrewMax;
-	}
-	float  fTRFromPeople;
-	if (iArcadeSails == 1)
-	{
-		fTRFromPeople = 0.3 + ((GetCrewExp(refCharacter, "Sailors") * fCrewCur) / (fCrewOpt * GetCrewExpRate())) * 0.7;
-	}
-	else
-	{
-		fTRFromPeople = 0.05 + ((GetCrewExp(refCharacter, "Sailors") * fCrewCur) / (fCrewOpt * GetCrewExpRate())) * 0.95;
-	}
-	if (fTRFromPeople > 1) fTRFromPeople = 1;
-	
-	float fTRFromSKill = TurnBySkill(refCharacter);
-
-	float fTRFromSailDamage = Bring2Range(0.05, 1.0, 0.1, 100.0, stf(refCharacter.ship.sp));
-
-	float fTurn = fTRFromWeight * fTRFromSkill * fTRFromPeople * fTRFromSailDamage * fSpeedFromHp;
-	
-	float fSoiling = (100-(stf(refCharacter.ship.soiling)*0.15))/100;
-	fTurn = fTurn * fSoiling;
-
-	//Log_info(refCharacter.id + "  " + fTurn);
-	return fTurn;	
+	float fTurn = 1.0;  // базовая скорость
+	// не реализовано влияние скорости, всегда 1 float fTRFromSpeed = 1.0 - stf(rShip.TurnDependSpeed);
+	fTurn *= ShipTurnRateBonusFromWeight(refCharacter);
+	fTurn *= ShipTurnRateBonusFromHP(refCharacter);
+	fTurn *= ShipTurnRateBonusFromPeople(refCharacter);
+	fTurn *= ShipTurnRateBonusFromSails(refCharacter);
+	fTurn *= ShipTurnRateBonusFromSoiling(refCharacter);
+	fTurn *= TurnBySkill(refCharacter);
+	return fTurn;
 }
 
 // calculate recharge time for cannon
@@ -2785,3 +2799,233 @@ void CreateFortMerchants(ref ch, int iNation)
 	iType = storeArray2[rand(j-1)];
 	ch.Ship.Type = GenerateShipExt(iType, 1, ch);
 }
+
+//Генерация топового корабля
+int GenerateShipTop(int iBaseType, bool isLock, ref chr)
+{
+	string  attr, sCity;
+	int 	i;
+	aref 	refShip;
+	float	Кdckyrd = 1.0;
+	bool	isShipyard = false; 
+	
+	int iShip = CreateBaseShip(iBaseType);
+
+	if (iShip == -1)
+	{
+		return SHIP_NOTUSED;
+	}
+	
+	ref rRealShip = GetRealShip(iShip);
+	ref rBaseShip = GetShipByType(sti(rRealShip.BaseType));
+	//Boyer change for ERAS2 #20170318-49
+    if(CheckAttribute(rRealShip, "hullNums")) {
+        int nHulls = sti(rRealShip.hullNums);
+        nHulls -= 1;
+        if(nHulls < 0) nHulls = 0;
+        rRealShip.ship.upgrades.hull = 1 + rand(nHulls);
+        //Trace("Hull nums = " + rRealShip.hullNums);
+    }
+    else {
+        rRealShip.ship.upgrades.hull = 1 + rand(2);
+    }
+	rRealShip.ship.upgrades.sails = 1 + rand(2);  // только визуальная разница
+	rRealShip.MastMultiplier = 1.3;
+
+	
+	// ugeen --> если кораблик генерится на верфи, разброс статов более узкий
+	if (CheckAttribute(chr, "City")) 
+	{
+		sCity = chr.City; 
+		if(CheckCharacterID(chr, sCity + "_shipyarder"))
+		{
+			Кdckyrd 	= 0.8;
+			isShipyard 	= true;
+		}
+	}	
+	// ugeen
+
+	if (!CheckAttribute(rRealShip, "isFort"))
+	{
+		int iCaliber = sti(rRealShip.MaxCaliber);
+		if (sti(rRealShip.Class) != 7 && !CheckAttribute(rRealShip, "QuestShip"))
+		{  // чтоб не было баркаса с 16ф
+			switch(iCaliber)
+			{
+				case 8:
+					iCaliber = 0;
+				break;
+				case 12:
+					iCaliber = 1;
+				break;
+				case 16:
+					iCaliber = 2;
+				break;
+				case 20:
+					iCaliber = 3;
+				break;
+				case 24:
+					iCaliber = 4;
+				break;
+				case 32:
+					iCaliber = 5;
+				break;
+				case 36:
+					iCaliber = 6;
+				break;
+				case 42:
+					iCaliber = 7;
+				break;
+			}
+			//iCaliber = iCaliber - rand(1);
+			iCaliber = iCaliber; //Jason: согласно новой системе орудий калибр должен быть постоянен, но пока поставим рандом на единицу меньше, а больше - нельзя по определению, на рез. тестов решим, фиксировать или рандомить
+			if (iCaliber < 0) iCaliber = 0;
+			if (sti(rRealShip.Class) == 1)
+			{
+				if (iCaliber > 7) iCaliber = 7;
+			}
+			else
+			{
+				if (iCaliber > 6) iCaliber = 6;
+			}
+			switch(iCaliber)
+			{
+				case 0:
+					iCaliber = 8;
+				break;
+				case 1:
+					iCaliber = 12;
+				break;
+				case 2:
+					iCaliber = 16;
+				break;
+				case 3:
+					iCaliber = 20;
+				break;
+				case 4:
+					iCaliber = 24;
+				break;
+				case 5:
+					iCaliber = 32;
+				break;
+				case 6:
+					iCaliber = 36;
+				break;
+				case 7:
+					iCaliber = 42;
+				break;
+			}
+			rRealShip.MaxCaliber = iCaliber;
+		}
+
+		makearef(refShip, chr.Ship);
+		ResetShipCannonsDamages(chr);
+		
+		// куда-нить запишем максимально возможное кол-во орудий (потом нужно будет, если захотим проапгрейдиться на этот счет)
+		rRealShip.CannonsQuantityMax = sti(rRealShip.CannonsQuantity);		
+		// принципиальный момент ! нужно нулить обязательно левые стволы ! 	
+		for (i = 0; i < sti(rRealShip.rcannon); i++)
+		{
+			attr = "c" + i;
+			rRealShip.Cannons.Borts.cannonr.damages.(attr) = 1.0; 
+			rRealShip.Cannons.Borts.cannonl.damages.(attr) = 1.0; 
+			rRealShip.Cannons.Borts.rcannon.damages.(attr) = 1.0; 
+			rRealShip.Cannons.Borts.lcannon.damages.(attr) = 1.0; 
+			
+			refShip.Cannons.Borts.cannonr.damages.(attr) = 1.0; 
+			refShip.Cannons.Borts.cannonl.damages.(attr) = 1.0; 
+			refShip.Cannons.Borts.rcannon.damages.(attr) = 1.0; 
+			refShip.Cannons.Borts.lcannon.damages.(attr) = 1.0; 
+		}
+				
+		rRealShip.rcannon = sti(rRealShip.rcannon);				
+		rRealShip.lcannon = sti(rRealShip.lcannon);
+		
+		rRealShip.cannonr = sti(rRealShip.rcannon);
+		rRealShip.cannonl = sti(rRealShip.lcannon);
+		rRealShip.cannonf = sti(rRealShip.fcannon);
+		rRealShip.cannonb = sti(rRealShip.bcannon);
+
+		rRealShip.Cannons = sti(rRealShip.CannonsQuantityMax);
+		rRealShip.CannonsQuantity = sti(rRealShip.Cannons);
+		
+		//а теперь вертаем стволы обратно в потребном нам количестве		
+		for (i = 0; i < sti(rRealShip.rcannon); i++)
+		{
+			attr = "c" + i;
+			rRealShip.Cannons.borts.cannonr.damages.(attr) = 0.0; 
+			rRealShip.Cannons.borts.cannonl.damages.(attr) = 0.0; 
+			rRealShip.Cannons.borts.rcannon.damages.(attr) = 0.0; 
+			rRealShip.Cannons.borts.lcannon.damages.(attr) = 0.0; 
+			
+			refShip.Cannons.borts.cannonr.damages.(attr) = 0.0; 
+			refShip.Cannons.borts.cannonl.damages.(attr) = 0.0; 
+			refShip.Cannons.borts.rcannon.damages.(attr) = 0.0; 
+			refShip.Cannons.borts.lcannon.damages.(attr) = 0.0; 
+		}	
+
+		for (i = 0; i < sti(rRealShip.fcannon); i++)
+		{
+			attr = "c" + i;
+			rRealShip.Cannons.borts.cannonf.damages.(attr) = 0.0; 			
+			rRealShip.Cannons.borts.fcannon.damages.(attr) = 0.0; 			
+			refShip.Cannons.borts.cannonf.damages.(attr) = 0.0; 
+			refShip.Cannons.borts.fcannon.damages.(attr) = 0.0; 
+		}
+		
+		for (i = 0; i < sti(rRealShip.bcannon); i++)
+		{
+			attr = "c" + i;
+			rRealShip.Cannons.borts.cannonb.damages.(attr) = 0.0; 			
+			rRealShip.Cannons.borts.bcannon.damages.(attr) = 0.0; 			
+			refShip.Cannons.borts.cannonb.damages.(attr) = 0.0; 
+			refShip.Cannons.borts.bcannon.damages.(attr) = 0.0; 		
+		}
+		
+		refShip.Cannons.Borts.cannonl = sti(rRealShip.lcannon);
+		refShip.Cannons.Borts.cannonr = sti(rRealShip.rcannon);
+		refShip.Cannons.Borts.cannonf = sti(rRealShip.fcannon);
+		refShip.Cannons.Borts.cannonb = sti(rRealShip.bcannon);
+		
+		refShip.Cannons.Borts.lcannon = sti(rRealShip.lcannon);
+		refShip.Cannons.Borts.rcannon = sti(rRealShip.rcannon);
+		refShip.Cannons.Borts.fcannon = sti(rRealShip.fcannon);
+		refShip.Cannons.Borts.bcannon = sti(rRealShip.bcannon);
+		
+		refShip.Cannons = sti(rRealShip.Cannons);
+		// <-- рэндом стволов
+		
+		rRealShip.Bonus_Capacity 	= makeint(sti(rRealShip.Capacity)*0.25);
+		rRealShip.Bonus_HP 			= makeint(sti(rRealShip.HP)*0.25);  
+		rRealShip.Bonus_SpeedRate   = stf(rRealShip.SpeedRate)*0.25;
+		rRealShip.Bonus_TurnRate    = stf(rRealShip.TurnRate)*0.25;
+
+		rRealShip.WindAgainstSpeed 	= stf(rRealShip.WindAgainstSpeed)*1.25;
+	}
+	
+	// to_do del -->
+	rRealShip.BoardingCrew    = 0;
+	rRealShip.GunnerCrew      = 0;
+	rRealShip.CannonerCrew    = 0;
+	rRealShip.OptCrew      = makeint(sti(rRealShip.OptCrew)*1.25);
+	rRealShip.MaxCrew      = makeint(sti(rRealShip.OptCrew)*1.25);
+	// to_do del <--
+	
+	if(CheckAttribute(rRealShip, "Bonus_Capacity"))	rRealShip.Capacity = sti(rRealShip.Capacity) + sti(rRealShip.Bonus_Capacity);
+	if(CheckAttribute(rRealShip, "Bonus_HP")) rRealShip.HP = sti(rRealShip.HP) + sti(rRealShip.Bonus_HP);
+	if(CheckAttribute(rRealShip, "Bonus_SpeedRate")) rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + stf(rRealShip.Bonus_SpeedRate);
+	if(CheckAttribute(rRealShip, "Bonus_TurnRate"))	rRealShip.TurnRate = stf(rRealShip.TurnRate) + stf(rRealShip.Bonus_TurnRate);
+	
+	SetCabinTypeEx(rRealShip, sti(rRealShip.Class)); //Выдача случайной каюты по классу не квестовым - Gregg
+
+	rRealShip.Price	= GetShipPriceByTTH(iShip, chr); //(iDiffWeight + iDiffCapacity + iDiffMaxCrew*2 + iDiffMinCrew + fDiffSpeedRate*2 + iDiffTurnRate*2 + iDiffHP)*5 + sti(rRealShip.Price);
+
+	if (sti(rRealShip.Price) <= 0) rRealShip.Price = 100;
+	
+	rRealShip.Stolen = isLock;  // ворованность
+	rRealShip.soiling = 0;
+	//if (rand(4)==0) GetRandomSpecialUpgrade(rRealShip);
+
+	return iShip;
+}
+// -> ugeen

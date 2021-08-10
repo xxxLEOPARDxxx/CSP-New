@@ -67,7 +67,7 @@ void DoCharacterUsedFood(ref chref, string itmID)
 
 	if( CheckAttribute(arItm,"Food.energy") )
 	{
-		chref.chr_ai.noeat = 5.0;
+		chref.chr_ai.noeat = 10.0;
 		LAi_UseEnergyBottle(chref,stf(arItm.Food.energy));
 		if(sti(chref.index)==GetMainCharacterIndex()) 
 		{

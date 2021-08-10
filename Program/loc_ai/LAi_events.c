@@ -203,7 +203,7 @@ void LAi_CharacterAttack()
 	{
 		pchar.combo.target = sti(enemy.index);
 	}   */
-	if(isBlocked == true)  // to_do
+	/*if(isBlocked == true)  // to_do
 	{
 		//#20200510-03
         float blckTime = 99999.0;
@@ -227,6 +227,17 @@ void LAi_CharacterAttack()
            if(attackType == "break" && blckTime > DEFAULT_BLK_THRESH) {
                 blockSave = false;
            }
+		}
+	}*/
+	if(isBlocked == true)  // to_do
+	{
+		if(CheckCharacterPerk(attack, "sliding"))
+		{
+			int iRand = rand(100);
+			if(iRand < 20)
+			{
+				isBlocked = false;
+			}
 		}
 	}
 	//Реакция груп на атаку

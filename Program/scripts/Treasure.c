@@ -1043,7 +1043,7 @@ void  GhostShipOnMap()
     Group_SetTaskAttack(sGroup, PLAYER_GROUP);
     Group_LockTask(sGroup);
     
-	Group_SetAddress(sGroup,"KhaelRoa","quest_ships","Quest_ship_"+(1+rand(7)));
+	Group_SetAddress(sGroup,"KhaelRoa","quest_ships","Quest_ship_9");
 	
 	Pchar.quest.GhostShip_Start.win_condition.l1 = "location";
 	Pchar.quest.GhostShip_Start.win_condition.l1.location = "KhaelRoa";
@@ -1182,6 +1182,7 @@ void Survive_In_Sea_Go2Land()
 						                        "Reload_To_Location", 0.1, 7.0);
     SetLaunchFrameReloadLocationParam(pchar.location, "Smugglers", "Smuggler01", "");
 	LaunchFrameForm();
+	DeleteAttribute(pchar,"GhostCap.Fight");
 }
 
 void GhostShipInit()

@@ -301,6 +301,9 @@ void Andre_Abel_Quest_Runaway_From_Prison()	// По другую сторону решетки
 	
 	LAi_group_FightGroups(LAI_GROUP_PLAYER, "HOLLAND_citizens", true);
 	
+	rChar = CharacterFromID("VillemstadJailOff");
+	ChangeCharacterAddressGroup(rChar, "Villemstad_prison", "reload", "reload1");
+	
 	LAi_SetFightMode(PChar, true);
 	Flag_PIRATE();
 	

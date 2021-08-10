@@ -1080,8 +1080,55 @@ void QuestComplete(string sQuestName, string qname)
 				ChangeCharacterHunterScore(pchar, "holhunter", 200);
 				if (!CheckAttribute(pchar, "BSPrologue.GatriHunters"))	AddQuestRecord("BSPrologue", "4");
 				else AddQuestRecord("BSPrologue", "5");
-				SetTimerCondition("Gatri_Hunters", 0, 0, 30, false);// Повторяем до завершения квеста
+				SetTimerCondition("Gatri_Hunters", 0, 0, 30, true);// Повторяем до завершения квеста
 				pchar.BSPrologue.GatriHunters = true;
+			}
+			else
+			{
+				SetTimerCondition("Gatri_Hunters", 0, 0, 1, false);
+			}
+		break;
+		//Повторный спавн энки Флинта
+		case "Flint_SetCity":
+			sld = CharacterFromID("Flint");
+			if (!CheckAttribute(sld, "StopSailing"))
+			{
+				string sGroup = "Flint_Group";
+				Group_FindOrCreateGroup(sGroup);
+				Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+				Group_LockTask(sGroup);
+				Group_AddCharacter(sGroup, sld.id);
+				Group_SetGroupCommander(sGroup, sld.id);
+				sld.mapEnc.type = "trade";
+				sld.mapEnc.worldMapShip = "quest_ship";
+				sld.mapEnc.Name = "капитан Флинт";
+				string sColony = pchar.questTemp.Flint.City;
+				int daysQty;
+				if (sColony == "PuertoPrincipe") 
+				{
+					pchar.questTemp.Flint.City = "LeFransua";
+					daysQty = 8;
+				}
+				if (sColony == "LeFransua") 
+				{
+					pchar.questTemp.Flint.City = "LaVega";
+					daysQty = 5;
+				}
+				if (sColony == "LaVega") 
+				{
+					pchar.questTemp.Flint.City = "PuertoPrincipe";
+					daysQty = 3;
+				}
+				sld.dialog.filename = "Quest\BlackSails\ChernyeParusaNaGorizonte.c";
+				sld.DeckDialogNode = "BS_CPNG_15";
+				SetTimerCondition("Flint_SetCity", 0, 0, daysQty, false);
+				Map_CreateTrader(sColony, pchar.questTemp.Flint.City, sld.id, daysQty);
+				Log_TestInfo("Флинт выходит из " + sColony + "  в " + pchar.questTemp.Flint.City+", дней до прибытия: "+daysQty);
+				SetTimerCondition("Flint_SetCity", 0, 0, daysQty, true);
+			}
+			else
+			{
+				SetTimerCondition("Flint_SetCity", 0, 0, 1, false);
 			}
 		break;
         ////////////////////////////////////////////////////////////////////////
@@ -1095,46 +1142,53 @@ void QuestComplete(string sQuestName, string qname)
 
 		//Постановка стражников в локацию передачи контрабандистов
 		case "Rand_ContrabandInterruption":
-			pchar.ContraInter = true;
-			chrDisableReloadToLocation = true;
-			LAi_SetFightMode(pchar, false);
-			LAi_LockFightMode(pchar, true);
-			// солдаты в начале
-			iTemp = GetCityNation(GetCityNameByIsland(GiveArealByLocation(loadedLocation)));
-			if(iTemp == -1) 
+			if (CheckCharacterPerk(pchar, "UnlimitedContra") && GetCompanionQuantity(pchar) == 1 && sti(RealShips[sti(pchar.ship.type)].Class) > 2) 
 			{
-				iTemp = sti(pchar.GenQuest.Contraband.GuardNation);// Нация патруля
-			}	
-			Pchar.quest.contraband.SoldierQty = makeint(2*GetOfficersQuantity(Pchar) + 3);
-			for (i = 2; i <= sti(Pchar.quest.contraband.SoldierQty); i++)
+				Log_TestInfo("Перк спас от патруля");
+			}
+			else
 			{
-    			sld = SetFantomDefenceForts("", "", iTemp, "CoastalGuards");
-    			attrName = "SoldierIDX"+i;
-    			Pchar.quest.contraband.(attrName) = sld.index;
-    			LAi_SetActorType(sld);
-    			LAi_ActorFollow(sld, Pchar, "", 38);
-    			sld.Dialog.Filename = "Smuggler_Guards_dialog.c";
+				pchar.ContraInterruptWaiting = true;
+				chrDisableReloadToLocation = true;
+				LAi_SetFightMode(pchar, false);
+				LAi_LockFightMode(pchar, true);
+				// солдаты в начале
+				iTemp = GetCityNation(GetCityNameByIsland(GiveArealByLocation(loadedLocation)));
+				if(iTemp == -1) 
+				{
+					iTemp = sti(pchar.GenQuest.Contraband.GuardNation);// Нация патруля
+				}	
+				Pchar.quest.contraband.SoldierQty = makeint(2*GetOfficersQuantity(Pchar) + 3);
+				for (i = 2; i <= sti(Pchar.quest.contraband.SoldierQty); i++)
+				{
+					sld = SetFantomDefenceForts("", "", iTemp, "CoastalGuards");
+					attrName = "SoldierIDX"+i;
+					Pchar.quest.contraband.(attrName) = sld.index;
+					LAi_SetActorType(sld);
+					LAi_ActorFollow(sld, Pchar, "", 38);
+					sld.Dialog.Filename = "Smuggler_Guards_dialog.c";
+					sld.Dialog.CurrentNode = "First time";
+					sld.greeting = "Gr_Costal_Guards";
+				}
+				// вызовем независимо!!!! не тут :) SetCoastalGuardPursuit();
+
+				// офицер в конце
+				sld = SetFantomOfficer("", "", iTemp, "CoastalGuards");
+				Pchar.quest.contraband.SoldierIDX1 = sld.index;
+				LAi_SetActorType(sld);
+				sld.Dialog.Filename = "Smuggler_Guards_dialog.c";
 				sld.Dialog.CurrentNode = "First time";
 				sld.greeting = "Gr_Costal_Guards";
-            }
-			// вызовем независимо!!!! не тут :) SetCoastalGuardPursuit();
 
-			// офицер в конце
-            sld = SetFantomOfficer("", "", iTemp, "CoastalGuards");
-			Pchar.quest.contraband.SoldierIDX1 = sld.index;
-			LAi_SetActorType(sld);
-			sld.Dialog.Filename = "Smuggler_Guards_dialog.c";
-			sld.Dialog.CurrentNode = "First time";
-			sld.greeting = "Gr_Costal_Guards";
-
-			LAi_ActorDialog(&Characters[makeint(Pchar.quest.contraband.SoldierIDX1)], Pchar, "", 35, 1); // boal 120c - озвереть ждать!!!
-			LAi_group_SetCheck("CoastalGuards", "CoastalGuardsAllDead");
-			pchar.quest.CoastG.win_condition.l1 = "NPC_Death";
-			pchar.quest.CoastG.win_condition.l1.character = sld.id;
-			pchar.quest.CoastG.win_condition.function = "Rand_ContraFinal";
-			//LAi_SetActorType(Pchar); //fix
-			//LAi_ActorFollow(PChar, &Characters[makeint(Pchar.quest.contraband.SoldierIDX1)], "", 35);
-			//Lai_QuestDelay("Rand_CoastalPatrolAppear", 3.0);
+				LAi_ActorDialog(&Characters[makeint(Pchar.quest.contraband.SoldierIDX1)], Pchar, "", 35, 1); // boal 120c - озвереть ждать!!!
+				LAi_group_SetCheck("CoastalGuards", "CoastalGuardsAllDead");
+				pchar.quest.CoastG.win_condition.l1 = "NPC_Death";
+				pchar.quest.CoastG.win_condition.l1.character = sld.id;
+				pchar.quest.CoastG.win_condition.function = "Rand_ContraFinal";
+				//LAi_SetActorType(Pchar); //fix
+				//LAi_ActorFollow(PChar, &Characters[makeint(Pchar.quest.contraband.SoldierIDX1)], "", 35);
+				//Lai_QuestDelay("Rand_CoastalPatrolAppear", 3.0);
+			}
 		break;
 
 		case "Rand_ContraFinal":

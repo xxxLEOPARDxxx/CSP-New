@@ -781,7 +781,6 @@ bool LAi_CreateEncounters(ref location)
 					
 					LAi_SetHP(chr, iHP, iHP);
 					
-					chr.SaveItemsForDead  = true; 
 					chr.DontClearDead = true;
 					TakeNItems(chr, "jewelry11", (rand(34)+1));
 			        TakeNItems(chr, "jewelry12", (rand(49)+1));

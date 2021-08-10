@@ -107,6 +107,7 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 	aref refGoods;
 	string tmpstr = Goods[_Goods].name;
 	int basePrice = MakeInt(Goods[_Goods].Cost);
+	int XPrice = basePrice / MakeInt(Goods[_Goods].Weight);
 	if (!CheckAttribute(_refStore,"Goods."+tmpstr) ) return 0;
 	makearef(refGoods,_refStore.Goods.(tmpstr));
  	int tradeType = MakeInt(refGoods.TradeType);
@@ -114,17 +115,20 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 
 	switch (tradeType)
 	{
-		case TRADE_TYPE_NORMAL:
-			tradeModify = 0.85 + stf(refGoods.RndPriceModify); //0.85
-			break;
 		case TRADE_TYPE_EXPORT:
-			tradeModify = 0.55 + stf(refGoods.RndPriceModify); //0.55
+			tradeModify = 0.55 + stf(refGoods.RndPriceModify); //0.55	+r0.1
+			break;
+		case TRADE_TYPE_NORMAL:
+			tradeModify = 0.85 + stf(refGoods.RndPriceModify); //0.85	+r0.15
 			break;
 		case TRADE_TYPE_IMPORT:
-			tradeModify = 1.2 + stf(refGoods.RndPriceModify); //1.2
+			tradeModify = 1.2 + stf(refGoods.RndPriceModify); //1.2		+r0.2	//1.2 + r0.15
+			break;
+		case TRADE_TYPE_AGGRESSIVE:
+			tradeModify = 1.5 + stf(refGoods.RndPriceModify); //1.8		+r0.25	//1.45 + r0.2
 			break;
 		case TRADE_TYPE_CONTRABAND:
-			tradeModify = 2.4 + stf(refGoods.RndPriceModify); //2.4
+			tradeModify = 1.8 + stf(refGoods.RndPriceModify); //2.4		+r0.35	//1.75 + r0.2
 			break;
 		case TRADE_TYPE_AMMUNITION:
 			//return basePrice; делаю все тоже, что и длz нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
@@ -132,9 +136,6 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 			break;  
 		case TRADE_TYPE_CANNONS:
 			tradeModify = 0.85 + stf(refGoods.RndPriceModify); //0.8
-			break;
-		case TRADE_TYPE_AGGRESSIVE:
-			tradeModify = 1.8 + stf(refGoods.RndPriceModify); 
 			break;
 	}
 
@@ -168,7 +169,7 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 			chref.Goods.(tmpstr).Bought.Coeff = "0";
 		}
 		if(sti(chref.Goods.(tmpstr).Bought.Coeff.Qty) >= sti(GetCargoGoods(chref,_Goods)) && _PriceType == PRICE_TYPE_SELL) chref.Goods.(tmpstr).Bought.Coeff = "1";
-		if(chref.Goods.(tmpstr).Bought.Coeff == "0" && _PriceType == PRICE_TYPE_SELL) return MakeInt(basePrice*tradeModify*skillModify*_qty  + 0.5)/2;
+		//if(chref.Goods.(tmpstr).Bought.Coeff == "0" && _PriceType == PRICE_TYPE_SELL && XPrice>45) return MakeInt(basePrice*tradeModify*skillModify*_qty  + 0.5)/2;//убираем отсюда - эта функция много где используется, а цену на ворованный товар надо снижать осознанно, конкретно под каждый случай
 	}
 	
     return MakeInt(basePrice*tradeModify*skillModify*_qty  + 0.5);
@@ -727,6 +728,38 @@ int GetStorage(string sColony)
 	}
 	return -1;
 }
+
+void UpdateSmugglers()
+{
+	int max_gold = 500000;
+	int increment = 50000;
+	if (CheckCharacterPerk(pchar, "UnlimitedContra")) 
+	{
+		max_gold = 1000000
+		increment = 100000;
+	}
+	for(int n=0; n<MAX_COLONIES; n++)
+	{
+		if (colonies[n].nation != "none" && sti(colonies[n].nation) != PIRATE && colonies[n].id != "Panama")
+		{
+			sld = CharacterFromID(colonies[n].id + "_Smuggler");
+			if (!CheckAttribute(sld, "SmugglingMoney")) 
+			{
+				sld.SmugglingMoney = max_gold + rand(increment);
+				SaveCurrentQuestDateParam("SmugglingMoney"+n);
+			}
+			else
+			{
+				if(GetQuestPastDayParam("SmugglingMoney" + n) >= (5 + rand(2)) && sti(sld.SmugglingMoney) < max_gold)
+				{
+					sld.SmugglingMoney = sti(sld.SmugglingMoney) + increment + rand (increment);
+					SaveCurrentQuestDateParam("SmugglingMoney"+n);
+				}
+			}
+		}
+	}
+}
+
 // <-- ugeen
 void ChangeImport()
 {
@@ -734,7 +767,7 @@ void ChangeImport()
 	//pRef.StoreSize = "large"; // "small"
 	ref pRef; 
 	int iType;
-	
+
 	//Границы перегода на другой тип
 	int gModifierExport,gModifierImport;
 	

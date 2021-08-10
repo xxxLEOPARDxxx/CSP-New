@@ -92,6 +92,20 @@ void ProcessDialogEvent()
 							}
 						}
 					}
+					if(sti(pchar.rank) >= 10 && !CheckAttribute(PChar, "questTemp.pirateVikingQuest"))
+					{
+						link.l3 = "≈сть какое-нибудь интересное дело дл€ мен€?";
+						link.l3.go = "pirateVikingQuest";
+					}
+					else
+					{
+						if(pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
+						{
+							dialog.text = "¬ижу ты с новост€ми?"
+							link.l1 = "ƒа, завалил"+ GetSexPhrase("","а") +" таки север€нина, ох и лютый же был. ќбычно все разговоры завод€т как смерть почу€т, а этот рычал только аж пена изо рта шла.";
+							link.l1.go = "pirateVikingQuest_final";
+						}
+					}
 		break;
 
  		case "Exit":

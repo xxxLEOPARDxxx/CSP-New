@@ -159,7 +159,7 @@ void wdmEvent_AddQuestEncounters()
 				int iPrise = sti(pchar.CargoQuest.iMoney);
 				if (sti(pchar.CargoQuest.iMoney) > 50000) iPrise = Makeint(sti(pchar.CargoQuest.iMoney) / 50000)* 0.1;
 				else iPrise = 0;
-				if(!wdmCreateRealFollowShipByIndex(1.4 + iPrise, idx, &encID, sti(at.TimeOut)))
+				if(!wdmCreateRealFollowShipByIndex(1.2 + iPrise, idx, &encID, sti(at.TimeOut)))
 				{
 					PostEvent("Map_WarriorEnd", 100, "s", at.characterID);
 					return;
@@ -386,6 +386,19 @@ void wdmEnterSeaQuest(string _chrId)
 	if (_chrId == "Sharp")
 	{
 		characters[GetCharacterIndex(_chrId)].nation = pchar.nation;
+	}
+	if (_chrId == "Flint")
+	{
+		if (pchar.nation == Pirate)
+		{
+			DeleteAttribute (characters[GetCharacterIndex(_chrId)], "AlwaysEnemy");
+			characters[GetCharacterIndex(_chrId)].AlwaysFriend = true;
+		}
+		else
+		{
+			DeleteAttribute (characters[GetCharacterIndex(_chrId)], "AlwaysFriend");
+			characters[GetCharacterIndex(_chrId)].AlwaysEnemy = true;
+		}
 	}
 	if(findsubstr(NPChar.id, "PsHero_" , 0) != -1 && NPChar.nation == PIRATE && PGG_ChangeRelation2MainCharacter(NPChar, 0) > 40 && !CheckAttribute(NPChar, "PGG_warrior"))
 	{

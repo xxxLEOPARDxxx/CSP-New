@@ -1560,6 +1560,7 @@ void Sea_LoadIsland(string sIslandID)
 			}
 		}
 	}
+	DeleteAttribute(pchar,"ContraInterruptWaiting");
 }
 
 // Warship Метод по созданию освещения маяков в море

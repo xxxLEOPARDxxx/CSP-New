@@ -1671,7 +1671,7 @@ void procInfoShow()
 			break;
 
 			case "game prepare":
-				objInfoList[nInfoIdx].picfilename = "loading\StartLoading_"+rand(22)+".tga";
+				objInfoList[nInfoIdx].picfilename = "loading\StartLoading_"+rand(25)+".tga";
 			break;
 
 			case "MainMenuLaunch":
@@ -2113,8 +2113,8 @@ void MakeQuickLoad()
 
 void MakeQuickSave()
 {
-							  
 	if( bPlayVideoNow ) {return;}
+	if( dialogRun ) {return;}  // лесник - если диялог ,то быстре сохарнение отменяется. лесник
 
 	aref arTmp;
 	if( FindClass(arTmp,"fader") ) {return;}

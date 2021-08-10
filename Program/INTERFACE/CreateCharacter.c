@@ -1291,7 +1291,7 @@ void ProcessFilter()
 	idLngFile = LanguageOpenFile("HeroDescribe.txt");
 	string sAnim = LanguageConvertString(idLngFile, "animation_" + startHeroType);
 	string sName = LanguageConvertString(idLngFile, "heroName_" + startHeroType);
-	if (FState_ANIM) {if (sAnim == "man" || sAnim == "skeleton" || sName == "Виспер") {} else SelectMainCharacter(0);}
+	if (FState_ANIM) {if (sAnim == "man" || sAnim == "skeleton" || sAnim == "YokoDias"  || sAnim == "Milenace") {} else SelectMainCharacter(0);}
 	LanguageCloseFile(idLngFile);
 	}
 	return;

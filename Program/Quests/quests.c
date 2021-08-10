@@ -8,6 +8,7 @@
 #include "quests\reaction_functions.c"
 #include "quests\whisper_line_functions.c"
 #include "quests\mainhero_prologues_functions.c"
+#include "quests\black_sails_functions.c"
 
 #event_handler("LocationWaitNihgtEnd","WaitDatePostEventControl");
 #event_handler("evntQuestCameraRestore","QuestCameraRestore");

@@ -10551,9 +10551,10 @@ void PDM_CL_Ubrat_Lodku(string qName)
 	int DopHP = 60 + MOD_SKILL_ENEMY_RATE * 12;
 	
 	sld = CharacterFromID("PDM_CL_Antonio")
-	LAi_KillCharacter(sld);
+	ChangeCharacterAddressGroup(sld, "Maracaibo_town", "none", "");
 	sld = CharacterFromID("PDM_CL_Anto2")
-	LAi_KillCharacter(sld);
+	ChangeCharacterAddressGroup(sld, "Maracaibo_town", "none", "");
+	Group_SetAddress("PDM_el_tib", "none", "", "");
 	
 	sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Antonio3", "SpaOfficer2", "man", "man", Rank, SPAIN, -1, false));
 	sld.name = "Антонио";
@@ -10581,6 +10582,16 @@ void PDM_CL_Sadis_Octavio(string qName)
 	sld = CharacterFromID("PDM_Octavio_Lambrini")
 	ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_front2");
 	LAi_SetSitType(sld);
+}
+void PDM_CL_Octavio_Speech(string qName)
+{
+	sld = CharacterFromID("PDM_Octavio_Lambrini");
+	LAi_tmpl_SetDialog(sld, pchar, -1.0);
+}
+void PDM_CL_Pokupatel_Speech(string qName)
+{
+	sld = CharacterFromID("PDM_CL_Pokupatel");
+	LAi_tmpl_SetDialog(sld, pchar, -1.0);
 }
 void PDM_CL_Pokupatel_Uhodit(string qName)
 {
