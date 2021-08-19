@@ -1619,8 +1619,8 @@ int GetMaxItemsWeight(ref _chref)
 		// Lugger <--
         //опасная рекурсия  если писать GetCharacterSPECIAL
 		if (CheckAttribute(_chref, "chr_ai.bonusweighttube")) iBonus += 60 + sti(_chref.rank);
-        if (bDifficultyWeight) iBonus = iBonus + CHAR_ITEMS_WEIGHT + GetCharacterSPECIALSimple(_chref, SPECIAL_S)*(GetCharacterSPECIALSimple(_chref, SPECIAL_E) + 12 - MOD_SKILL_ENEMY_RATE);
-		else iBonus = iBonus + CHAR_ITEMS_WEIGHT + GetCharacterSPECIALSimple(_chref, SPECIAL_S)*(GetCharacterSPECIALSimple(_chref, SPECIAL_E) + 12);
+        if (bDifficultyWeight) iBonus = iBonus + CHAR_ITEMS_WEIGHT + GetCharacterSPECIALSimple(_chref, SPECIAL_S)*(GetCharacterSPECIALSimple(_chref, SPECIAL_E) + 12);
+		else iBonus = iBonus + CHAR_ITEMS_WEIGHT + GetCharacterSPECIALSimple(_chref, SPECIAL_S)*(GetCharacterSPECIALSimple(_chref, SPECIAL_E) + 12 - MOD_SKILL_ENEMY_RATE);
         return  iBonus;
     }
     else
@@ -2442,6 +2442,9 @@ void SetAllAchievements(int level)
 	pchar.achievements.AchBuildColony = level; // Достижение за колонию 175
 	pchar.achievements.gen_quests = level; // Общее кол-во выполненных генераторных квестов 175
 	
+	pchar.achievements.AchOrion = level; // Чокопай 100 ---
+	pchar.achievements.AchRabotorg = level; // Торгораб 100 ---
+	if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions) pchar.achievements.AchKondotier = level; // Шишкоёб 100 ---
 	pchar.achievements.LSC_quest = level; // Выполнение квеста "ГПК" 100
 	pchar.achievements.Teno_quest = level; // Выполнение квеста "Теночтитлан" 100
 	pchar.achievements.Ghostship_quest = level; // Выполнение квеста "Корабль-призрак" 100
@@ -2460,8 +2463,8 @@ void SetAllAchievements(int level)
 	pchar.achievements.Nation_quest_S = level; // Выполнение национальной линейки квестов 100 ---
 	pchar.achievements.Nation_quest_P = level; // Выполнение национальной линейки квестов 100 ---
 	
-	// Всего очков доступных для получения: 6700 (по 100-175 на каждое достижение) - мне лень пересчитывать (Калькулятор запили блеать, LEOPARD :) )
-	// Гарантированно можно получить 5900 очков достижений, если исключать 4 линейки наций, линейки за персонажей и опционалки
+	// Всего очков доступных для получения: 7000 (по 100-175 на каждое достижение) - мне лень пересчитывать (Калькулятор запили блеать, LEOPARD :) )
+	// Гарантированно можно получить 6200 очков достижений, если исключать 4 линейки наций, линейки за персонажей и опционалки
 	// Всего достижений: 46
 	// При пересчёте возможных к получению в 1 партии был максимум в... 5050. Всего достижений: 46
 }
@@ -2831,6 +2834,7 @@ void initMainCharacterItem()
 			itemID = GetGeneratedItem("blade1");
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
+			GiveItem2Character(Pchar, "Ship_Print_6");
 			TakenItems(Pchar, "potion1", rand(10));
 			TakenItems(Pchar, "Food1", (rand(6)+4));
 			switch (sti(ch.nation))
@@ -3013,6 +3017,7 @@ void initMainCharacterItem()
 			itemID = GetGeneratedItem("blade" + (rand(7)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
+			GiveItem2Character(Pchar, "Ship_Print_6");
 			itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);

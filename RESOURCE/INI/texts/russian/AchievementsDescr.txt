@@ -270,6 +270,18 @@ AchShipSearch_3{Исследователь}
 AchShipSearch_3_descr{Исследовать все существующие корабли, кроме квестовых}
 AchShipSearch_icon{AchShipSearch}
 
+AchOrion_3{Сопроводитель}
+AchOrion_3_descr{Выполнить линейку квестов по сопровождению флейта 'Орион'}
+AchOrion_icon{AchOrion}
+
+AchRabotorg_3{Хорошие деньги}
+AchRabotorg_3_descr{Выполнить ряд заданий по квесту 'Работорговец'}
+AchRabotorg_icon{AchRabotorg}
+
+AchKondotier_3{Холоднокровный}
+AchKondotier_3_descr{Выполнить ряд заданий по квесту 'Кондотьер'}
+AchKondotier_icon{AchKondotier}
+
 gen_quests_1{На правильном пути}
 gen_quests_1_descr{Выполнить 10 генераторных квестов жителей городов}
 gen_quests_icon{AchGenQuestComlite}

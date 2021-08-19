@@ -411,7 +411,7 @@ void SetCoastalGuardPursuit()
 	}
 	else
 	{
-		if (CheckAttribute(pchar, "SmugglingFlag")) pchar.nation = PIRATE;
+		if (CheckAttribute(pchar, "SmugglingFlag")) Flag_PIRATE();
 		pchar.ContraInterruptWaiting = true;
 		for (i = 1; i <= 3; i++)
 		{

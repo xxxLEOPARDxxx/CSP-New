@@ -657,16 +657,16 @@ void BLI_SetObjectData()
 		objLandInterface.ManSign.manenegryuv			= "0.28,0.12,1.0,0.89";
 
 		fTmp 											= makeint(-14.0 * fHtRatio);		// положение индикатора ХП по горизнтали
-		fTmp2 											= makeint(-12.0 * fHtRatio);		// положение индикатора ХП по вертикали
+		fTmp2 											= makeint(-11.0 * fHtRatio);		// положение индикатора ХП по вертикали
 		objLandInterface.ManSign.manhpoffset			= fTmp + "," + fTmp2;
-		fTmp 											= makeint(62.0 * fHtRatio);			// размереры индикатора ХП
-		fTmp2 											= makeint(68.0 * fHtRatio);
+		fTmp 											= makeint(61.0 * fHtRatio);			// размереры индикатора ХП
+		fTmp2 											= makeint(68.5 * fHtRatio);
 		objLandInterface.ManSign.manhpiconsize			= fTmp + "," + fTmp2;
 		fTmp 											= makeint(14.0 * fHtRatio);			// положение индикатора энергии по горизнтали	
-		fTmp2 											= makeint(-12.0 * fHtRatio);		// положение индикатора энергии по вертикали
+		fTmp2 											= makeint(-11.0 * fHtRatio);		// положение индикатора энергии по вертикали
 		objLandInterface.ManSign.manenegryoffset		= fTmp + "," + fTmp2;
-		fTmp 											= makeint(62.0 * fHtRatio);			// размереры индикатора энергии
-		fTmp2 											= makeint(68.0 * fHtRatio);		
+		fTmp 											= makeint(61.0 * fHtRatio);			// размереры индикатора энергии
+		fTmp2 											= makeint(68.5 * fHtRatio);		
 		objLandInterface.ManSign.manenergyiconsize		= fTmp + "," + fTmp2;
 
 		objLandInterface.ManSign.gunchargetexturename	= "battle_interface\GunCharge.tga";
@@ -800,7 +800,7 @@ void BLI_SetObjectData()
 		else
 		{
 			fTmp = makeint(15.0 * fHtRatio); 	// left
-			fTmp2 = makeint(-7.0 * fHtRatio); 	// top
+			fTmp2 = makeint(7.0 * fHtRatio); 	// top
 			fTmp3 = makeint(102.0 * fHtRatio); 	// right
 			fTmp4 = makeint(93.0 * fHtRatio); 	// bottom
 		}

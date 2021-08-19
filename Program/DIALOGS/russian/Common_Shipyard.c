@@ -1049,43 +1049,54 @@ void ProcessDialogEvent()
 		
 		case "ShipyardsMapOk_2":
 			TakeItemFromCharacter(pchar, "ShipyardsMap");
-			switch (sti(pchar.questTemp.different.ShipyardsMap.chance))
+			if (rand(9)<4)
 			{
-				case 0:
-				dialog.text = "Так-так... Хм, вынужден вас огорчить. Ничего полезного я для себя не вижу. Вы, кажется, вообще не то прихватили.";
-				link.l1 = "Вы заказывали то, что лежало на столе. Именно это я вам и принес"+ GetSexPhrase("","ла") +". Я же не разбираюсь в этих чертежах!";
+				GiveItem2Character(pchar,"Ship_Print_5");
+				Log_info("Вы получили развёрнутый чертёж.");
+				dialog.text = "Так-так... Хм, вынужден вас огорчить. Ничего полезного в нём я не вижу. Можете оставить его себе.";
+				link.l1 = "Вы отказываетесь заплатить мне за его доставку?";
 				link.l1.go = "ShipyardsMapOk_3";
-				break;
-				case 1:
-					dialog.text = "Да, этот чертеж имеет определенную ценность. Я готов заплатить вам за него " + FindRussianMoneyString(1500 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)) + ". Оплату произведу серебряными слитками. Не возражаете?";
-					link.l1 = "Нет, конечно! Прекрасно!";
-					link.l1.go = "ShipyardsMapOk_5";
-					TakeNItems(pchar, "jewelry17", makeint(1500 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)/100));
-				break;
-				case 2:
-					dialog.text = "Да, этот чертеж имеет определенную ценность. Я готов заплатить вам за него " + FindRussianMoneyString(3000 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)) + ". Оплату произведу золотыми слитками. Не возражаете?";
-					link.l1 = "Нет, конечно! Прекрасно!";
-					link.l1.go = "ShipyardsMapOk_5";
-					TakeNItems(pchar, "jewelry5", makeint(3000 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)/200));
-				break;
-				case 3:
-					dialog.text = "Да, этот чертеж имеет определенную ценность. Я готов заплатить вам за него " + FindRussianMoneyString(4500 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)) + ".";
-					link.l1 = "Прекрасно!";
-					link.l1.go = "ShipyardsMapOk_5";
-					AddMoneyToCharacter(pchar, 4500 * GetCharacterSPECIALSimple(PChar, SPECIAL_L));
-				break;
-				case 4:
-					dialog.text = "Да, этот чертеж имеет значительную ценность. Я готов заплатить вам за него " + FindRussianMoneyString(6000 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)) + ".";
-					link.l1 = "Прекрасно!";
-					link.l1.go = "ShipyardsMapOk_5";
-					AddMoneyToCharacter(pchar, 6000 * GetCharacterSPECIALSimple(PChar, SPECIAL_L));
-				break;
-				case 5:
-					dialog.text = "О! Это очень, очень ценный чертеж! Я готов заплатить вам за него 60 000 золотом. Оплату произведу кредитными сундуками. Не возражаете?";
-					link.l1 = "Нет, конечно! Прекрасно!";
-					link.l1.go = "ShipyardsMapOk_5";
-					TakeNItems(pchar, "chest", 4);
-				break;
+			}
+			else
+			{
+				switch (sti(pchar.questTemp.different.ShipyardsMap.chance))
+				{
+					case 0:
+					dialog.text = "Так-так... Хм, вынужден вас огорчить. Ничего полезного я для себя не вижу. Вы, кажется, вообще не то прихватили.";
+					link.l1 = "Вы заказывали то, что лежало на столе. Именно это я вам и принес"+ GetSexPhrase("","ла") +". Я же не разбираюсь в этих чертежах!";
+					link.l1.go = "ShipyardsMapOk_3";
+					break;
+					case 1:
+						dialog.text = "Да, этот чертеж имеет определенную ценность. Я готов заплатить вам за него " + FindRussianMoneyString(1500 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)) + ". Оплату произведу серебряными слитками. Не возражаете?";
+						link.l1 = "Нет, конечно! Прекрасно!";
+						link.l1.go = "ShipyardsMapOk_5";
+						TakeNItems(pchar, "jewelry17", makeint(1500 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)/100));
+					break;
+					case 2:
+						dialog.text = "Да, этот чертеж имеет определенную ценность. Я готов заплатить вам за него " + FindRussianMoneyString(3000 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)) + ". Оплату произведу золотыми слитками. Не возражаете?";
+						link.l1 = "Нет, конечно! Прекрасно!";
+						link.l1.go = "ShipyardsMapOk_5";
+						TakeNItems(pchar, "jewelry5", makeint(3000 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)/200));
+					break;
+					case 3:
+						dialog.text = "Да, этот чертеж имеет определенную ценность. Я готов заплатить вам за него " + FindRussianMoneyString(4500 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)) + ".";
+						link.l1 = "Прекрасно!";
+						link.l1.go = "ShipyardsMapOk_5";
+						AddMoneyToCharacter(pchar, 4500 * GetCharacterSPECIALSimple(PChar, SPECIAL_L));
+					break;
+					case 4:
+						dialog.text = "Да, этот чертеж имеет значительную ценность. Я готов заплатить вам за него " + FindRussianMoneyString(6000 * GetCharacterSPECIALSimple(PChar, SPECIAL_L)) + ".";
+						link.l1 = "Прекрасно!";
+						link.l1.go = "ShipyardsMapOk_5";
+						AddMoneyToCharacter(pchar, 6000 * GetCharacterSPECIALSimple(PChar, SPECIAL_L));
+					break;
+					case 5:
+						dialog.text = "О! Это очень, очень ценный чертеж! Я готов заплатить вам за него 60 000 золотом. Оплату произведу кредитными сундуками. Не возражаете?";
+						link.l1 = "Нет, конечно! Прекрасно!";
+						link.l1.go = "ShipyardsMapOk_5";
+						TakeNItems(pchar, "chest", 4);
+					break;
+				}
 			}
 		break;
 

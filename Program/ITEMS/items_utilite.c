@@ -850,6 +850,22 @@ void QuestCheckEnterLocItem(aref _location, string _locator) /// <<<проверка вхо
 			SetSkeletonsToLocation(_location);
 		}
 	}
+	if (_locator == "fire3" && _location.id == "MountainPath" && !bMonstersGen)
+	{
+		//проверяем флаг запрещения генерации
+		if(LAi_LocationIsMonstersGen(_location) && LAi_grp_playeralarm == 0 && GenQuest_CheckMonstersGen()) 
+		{
+			if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 6.0) SetReefSkeletonsToLocation(_location, "MountainPath");
+		}
+	}
+	if (_locator == "fire56" && _location.id == "DeckWithReefs" && !bMonstersGen)
+	{
+		//проверяем флаг запрещения генерации
+		if(LAi_LocationIsMonstersGen(_location) && LAi_grp_playeralarm == 0 && GenQuest_CheckMonstersGen()) 
+		{
+			if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 6.0) SetReefSkeletonsToLocation(_location, "DeckWithReefs");
+		}
+	}
 	//======> детектор в тюрьме, вторжение без разрешения
 	if (_location.type == "jail" && !sti(pchar.questTemp.jailCanMove) && _locator == "detector1")
 	{	

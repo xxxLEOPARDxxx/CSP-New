@@ -794,7 +794,7 @@ void FillSkillTables()
 		GameInterface.TABLE_OTHER.tr8.td3.align = "right";
         GameInterface.TABLE_OTHER.tr8.td2.icon.group = "NATIONS";
 		GameInterface.TABLE_OTHER.tr8.td2.icon.image = GetNationNameByType(sti(Items[sti(pchar.EquipedPatentId)].Nation));
-		GameInterface.TABLE_OTHER.tr8.td2.icon.offset = "120, 0";
+		GameInterface.TABLE_OTHER.tr8.td2.icon.offset = "105, 4";
 		GameInterface.TABLE_OTHER.tr8.td2.icon.width = 16;
 		GameInterface.TABLE_OTHER.tr8.td2.icon.height = 16;
     }
@@ -1065,6 +1065,8 @@ string CheckForSpecial(string type)
 				case "poisonattack":
 					int poisonattackV = 0;
 					if (CheckAttribute(weapon,"special.valueP")) poisonattackV = sti(weapon.special.valueP);
+					if (xi_refCharacter.sex == "skeleton" || xi_refCharacter.sex == "crab" || HasSubStr(xi_refCharacter.model, "Canib_")) poisonattackV +=15;
+						//вообще-то, это ошибка. проценты не суммируются, а перемножаться должны. Ещё и длительность разная у клинков и нежити может быть
 					return poisonattackV+"%/50-110 сек.";
 				break;
 			}
@@ -1126,7 +1128,7 @@ string CheckForSpecial(string type)
 					return 0+"%";
 				break;
 				case "poisonattack":
-					return 0+"%";
+					if (xi_refCharacter.sex == "skeleton" || xi_refCharacter.sex == "crab" || HasSubStr(xi_refCharacter.model, "Canib_")) return 15+"%/50-110 сек."; else return 0+"%";
 				break;
 			}
 		}
@@ -1558,14 +1560,15 @@ void UpdateStatsValues()
 	if (n>1) GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.textoffset = "10,0";
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.scale = 0.8;
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.align = "left";
-	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = ShowStatValue("shipspeed" + n);
+	if(CheckAttribute(xi_refCharacter, "Ship.type") && sti(xi_refCharacter.ship.type) != SHIP_NOTUSED) GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = ShowStatValue("shipspeed" + n);
+		else GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = "0%";
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.scale = 0.8;
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.align = "right";
 	}
 
 	for (n = 1; n<8; n++)
 	{
-	sRow = "tr" + (n + 8);
+	sRow = "tr" + (n + 9);
 	if (n<2) GameInterface.TABLE_SHIP_OTHERS.(sRow).UserData.ID = "ManevrBonus";
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.str = "Маневренность";
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.group = "ICONS_STATS_CHAR";
@@ -1577,7 +1580,8 @@ void UpdateStatsValues()
 	if (n==1) {GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.textoffset = "0,0"; GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.str = "Маневренность";}
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.scale = 0.8;
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.align = "left";
-	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = ShowStatValue("shipturn" + n);
+	if(CheckAttribute(xi_refCharacter, "Ship.type") && sti(xi_refCharacter.ship.type) != SHIP_NOTUSED) GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = ShowStatValue("shipturn" + n);
+		else GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = "0%";
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.scale = 0.8;
 	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.align = "right";
 	}

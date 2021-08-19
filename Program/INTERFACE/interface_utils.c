@@ -1,4 +1,23 @@
-
+string sEType[10] = {"blade","spyglass","cirass","BackPack","talisman","jewelry_indian_left","jewelry_indian_right","indian_center","idols_left","idols_right"};
+int CheckItemInSets(ref _character, string sItemName)
+{
+	if (!checkattribute(_character, "selectedSet")) return 0; //у этого персонажа не было сохранено комплектов
+	int i, q;
+	string sSET, sTemp;
+	for(i=1;i<10;i++)
+	{
+		if (_character.selectedSet == i) continue;//текущий комплект уже скрыт в списке перемещения предметов
+		sSET = "Set" + i;
+		if (!checkattribute(_character, sSET)) continue; //нет комплекта
+		for (q=0;q<10;q++)
+		{
+			sTemp = sEType[q];
+			if(_character.(sSET).(sTemp) == sItemName && GetCharacterEquipByGroup(_character, sTemp) != sItemName) return i;
+				//предмет есть в неактивном комплекте И не экипирован прямо сейчас						//возвращаем номер комплекта
+		}
+	}
+	return 0;
+}
 //---------------------------------------------------------------------------------------------------
 // scrollimage
 //---------------------------------------------------------------------------------------------------
@@ -987,22 +1006,21 @@ int GetTradeItemPrice(int itmIdx, int tradeType)
 	float skillModify;
 	if(tradeType == PRICE_TYPE_BUY)
 	{
-		skillModify = 1.4 - skillDelta*0.019;
-		if(CheckAttribute(&Items[itmIdx],"groupID"))
-		{
-			if(Items[itmIdx].groupID == BLADE_ITEM_TYPE || Items[itmIdx].groupID == GUN_ITEM_TYPE) skillModify *= 10.0;
-		}
+		skillModify = 1.45 - skillDelta*0.019;
 		if(CheckOfficersPerk(pchar,"Trader")) { skillModify -= 0.05; }
-
 		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ skillModify -= 0.2; }
 		else
 		{
 			if(CheckOfficersPerk(pchar,"BasicCommerce"))	{ skillModify -= 0.1; }
 		}
+		if(CheckAttribute(&Items[itmIdx],"groupID"))
+		{
+			if(Items[itmIdx].groupID == BLADE_ITEM_TYPE || Items[itmIdx].groupID == GUN_ITEM_TYPE) skillModify *= 10.0;//меняем после всех перков, иначе скидка от перков непропорциональная
+		}
 	}
 	else
 	{
-		skillModify = 0.75 + skillDelta*0.019;
+		skillModify = 0.70 + skillDelta*0.019;
 		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	skillModify += 0.05;
 		if(CheckOfficersPerk(pchar,"Trader")) { skillModify += 0.05; }
 	}

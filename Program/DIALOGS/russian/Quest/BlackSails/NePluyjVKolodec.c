@@ -128,6 +128,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("BSPrologue", "3");
 			CloseQuestHeader("BSPrologue");
 			DeleteAttribute(pchar, "BSStart")//Снимаем блокировку торгашей и ежемесячное начисление НЗГ
+			pchar.BSInProgress = true;
 			NPChar.Dialog.Filename = "Common_store.c";
 			NPChar.Dialog.CurrentNode = "Second time";
 			//NextDiag.TempNode = "Second time";

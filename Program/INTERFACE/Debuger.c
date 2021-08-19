@@ -2314,12 +2314,29 @@ void CalculateInfoDataF47()
 	Statistic_AddValue(PChar, "Cheats.F47", 1);
 }
 
-string descF48 = "Нет назначений";
+string descF48 = "Разлочить все переходы в локе и снять блокировки";
 void CalculateInfoDataF48()
 {
 	totalInfo = descF48;
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	float locx, locy, locz;
+	aref aroot, arcur;
+	string attrname;
+	makearef(aroot,loadedLocation.reload);
+	int num = GetAttributesNum(aroot);
+	for(int i=0; i<num; i++)
+	{
+		arcur = GetAttributeN(aroot,i);
+		attrname = GetAttributeName(arcur);
+		//Log_info(attrname);
+		DeleteAttribute(loadedLocation, "reload."+attrname+".disable");
+	}
+	
+	chrDisableReloadToLocation = false;
+	InterfaceStates.DisFastTravel = false
+	bDisableCharacterMenu = false;
 	
 	SetFormatedText("INFO_TEXT", totalInfo);
 	

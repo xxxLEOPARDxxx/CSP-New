@@ -842,6 +842,8 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 	rRealShip.soiling = 0;
 	if (rand(4)==0) GetRandomSpecialUpgrade(rRealShip);
 
+	SetRandomNameToShip(chr);
+	
 	return iShip;
 }
 // -> ugeen

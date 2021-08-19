@@ -28,7 +28,7 @@ string GetIslandForTreasure()
 			}	
 		}
 	}
-	m = rand(m-1);
+	m = drand(m-1);
 	return sArray[m];
 }
 
@@ -57,7 +57,7 @@ string GetLocationForTreasure(string island)
 
 	makearef(arDest, NullCharacter.TravelMap.Islands.(island).Treasure);
 	iNum = GetAttributesNum(arDest);
-    iNum = rand(iNum-1);
+    iNum = drand(iNum-1);
 
     arImt = GetAttributeN(arDest, iNum);
 	Log_TestInfo("Локация: "+GetAttributeName(arImt));
@@ -72,7 +72,7 @@ string GetBoxForTreasure(string island, string location)
 
 	makearef(arDest, NullCharacter.TravelMap.Islands.(island).Treasure.(location));
 	iNum = GetAttributesNum(arDest);
-    iNum = rand(iNum-1);
+    iNum = drand(iNum-1);
 
     arImt = GetAttributeN(arDest, iNum);
 	Log_TestInfo("Локатор: "+GetAttributeValue(arImt));
@@ -131,7 +131,7 @@ void FillMapForTreasure(ref item)
     item.MapIslId   = GetIslandForTreasure();
     item.MapLocId   = GetLocationForTreasure(item.MapIslId);
     item.MapBoxId   = GetBoxForTreasure(item.MapIslId, item.MapLocId);
-    item.MapTypeIdx = rand(2);
+    item.MapTypeIdx = drand(2);
 
     // генерим клад
     DeleteAttribute(item, "BoxTreasure");
@@ -814,7 +814,7 @@ void SetTreasureHunter(string temp)
     
     j = GetOfficersQuantity(Pchar) + 2;
     
-	sCapId = "LandHunter0";
+	sCapId = "LandHunter02";
     sTemp = "LAND_HUNTER";
 	ok = true;
 	arrayNPCModelHow = 0;

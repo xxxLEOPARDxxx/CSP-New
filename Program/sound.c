@@ -220,6 +220,12 @@ void SetSchemeForLocation (ref loc)
 				SetMusicAlarm("music_arena");
 			break;
 			
+			case "Reefs_Chapter":
+				ResetSoundScheme();
+				SetSoundScheme("Reefs_Chapter");
+				SetMusicAlarm("music_Reefs_Chapter");
+			break;
+			
 			case "mayak":
 				ResetSoundScheme();
 				SetWeatherScheme("seashore");
@@ -248,12 +254,12 @@ void SetSchemeForLocation (ref loc)
 				}
 			break;
 			
-			case "Labirint": // не используется
+			case "Labirint":
 				SetSoundScheme("dungeon");
 				SetMusicAlarm("music_Labirint");
 			break;
 			
-			case "Alcove": // не используется
+			case "Alcove":
 				SetSoundScheme("teno_inside");
 				SetMusicAlarm("music_Alcove");
 			break;

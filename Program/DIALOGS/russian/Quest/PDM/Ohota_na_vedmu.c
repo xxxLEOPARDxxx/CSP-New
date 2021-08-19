@@ -32,6 +32,7 @@ void ProcessDialogEvent()
 				link.l1 = "Понятно. Тогда я "+ GetSexPhrase("пошёл","пошла")+".";
 				link.l1.go = "exit";
 				NextDiag.TempNode = "First_time";
+				npchar.talker = 7;
 			}
 			if (pchar.rank >= 1 && pchar.rank <= 11)
 			{
@@ -39,6 +40,7 @@ void ProcessDialogEvent()
 				link.l1 = "Хорошо, я тогда приду позже, когда подрасту.";
 				link.l1.go = "exit";
 				NextDiag.TempNode = "First_time";	
+				npchar.talker = 7;
 			}
 			PlayVoice("Kopcapkz\Voices\PDM\Bartholomew Olster.wav");
 		break;
@@ -263,7 +265,7 @@ void ProcessDialogEvent()
 		
 		case "RazgovorSViktorom_4":
 			dialog.text = "Да, генерал-губернатор прав. Эта чёртова ведьма убила нашего капитана. Он был мёртв, словно дохлая треска, когда мы достигли Сантьяго. Мы только-только вошли в порт, когда нашли его мёртвым на палубе. Мы бросились искать проклятую ведьму, но она загадочным образом исчезла. И теперь я безработный боцман. Дубина первый помощник в точности выполнил последнюю волю капитана, и продал нашу лоханку, а все деньги пожертвовал Церкви.";
-			link.l1 = "Что за адское исчадье эта женщина! Она уничтожила уже двоих людей. Её необходимо остановить.";
+			link.l1 = "Что за адское исчадие эта женщина! Она уничтожила уже двоих людей. Её необходимо остановить.";
 			link.l1.go = "RazgovorSViktorom_5";
 		break;
 		
@@ -412,8 +414,8 @@ void ProcessDialogEvent()
 			LAi_SetHuberType(sld);
 			LAi_SetImmortal(sld, true);
 			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
-			sld.name = "Отец";
-			sld.lastname = "Винсенто";
+			sld.name = "Антонио";
+			sld.lastname = "де Соуза";
 			sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
 			sld.dialog.currentnode   = "Inqizitor_1";
 			
@@ -446,6 +448,7 @@ void ProcessDialogEvent()
 		
 		case "KAZN":
 			DoQuestReloadToLocation("Santiago_town", "officers", "reload8_2", "PDM_ONV_KaznVedmi");
+			TavernWaitDate("wait_night");
 		break;
 		
 		case "Inqizitor_Kazn_nachalo_1":
@@ -477,6 +480,12 @@ void ProcessDialogEvent()
 			LAi_ActorTurnToCharacter(sld, CharacterFromID("PDM_ONV_Carla"));
 			sld = CharacterFromID("PDM_ONV_Jitel_11")
 			LAi_ActorTurnToCharacter(sld, CharacterFromID("PDM_ONV_Carla"));
+			sld = CharacterFromID("PDM_ONV_Jitel_12")
+			LAi_ActorTurnToCharacter(sld, CharacterFromID("PDM_ONV_Carla"));
+			sld = CharacterFromID("PDM_ONV_Jitel_13")
+			LAi_ActorTurnToCharacter(sld, CharacterFromID("PDM_ONV_Carla"));
+			sld = CharacterFromID("PDM_ONV_Jitel_14")
+			LAi_ActorTurnToCharacter(sld, CharacterFromID("PDM_ONV_Carla"));
 			sld = CharacterFromID("PDM_ONV_Podjigatel")
 			LAi_ActorTurnToCharacter(sld, CharacterFromID("PDM_ONV_Carla"));
 			sld = CharacterFromID("PDM_ONV_Carla")
@@ -499,7 +508,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Inqizitor_Kazn_3":
-			dialog.text = "(Палач поднёс к поленьям зажжённый факел. Костёр затрещал, заглушая все остальные звуки и только несмолкаемый вой прорывался сквозь стоящее стеной пламя, но скоро он стал обрываться, сменился хрипом и, наконец, смолк...";
+			dialog.text = "(Палач поднёс к поленьям зажжённый факел. Костёр затрещал, заглушая все остальные звуки и только несмолкаемый вой прорывался сквозь стоящее стеной пламя, но скоро он стал обрываться, сменился хрипом и, наконец, смолк...)";
 			link.l1 = "...";
 			link.l1.go = "Inqizitor_Kazn_4";
 			PlaySound("Kopcapkz\Voices\PDM\Witch\fire.wav");

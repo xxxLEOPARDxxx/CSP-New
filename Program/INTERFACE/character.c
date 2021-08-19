@@ -4,6 +4,7 @@ int nCurScrollNum, nCurScrollOfficerNum;
 string CurTable, CurRow;
 int iSelected; // курсор в таблице
 bool bChangePIRATES;
+string speedfrom[9] = {"", "Скорость", "от навыка и умений", "от матросов", "от парусов", "от корпуса", "от груза", "от обрастания дна","от атласа карт"};
 
 void InitInterface_R(string iniName, ref _char)
 {
@@ -291,6 +292,7 @@ void ShowInfoWindow()
 		    sText1  = GetRPGText(GameInterface.(CurTable).(CurRow).UserData.ID);
 		break;
 		case "TABLE_SHIP_OTHERS":
+			if (!checkAttribute(GameInterface, CurTable+"."+CurRow+".UserData.ID")) return;//нет описания у подпунктов бонуса скорости
 		    sHeader = XI_ConvertString(GameInterface.(CurTable).(CurRow).UserData.ID);
 		    sText1  = GetRPGText(GameInterface.(CurTable).(CurRow).UserData.ID);
 		break;
@@ -738,14 +740,55 @@ string ShowStatValue(string type)
 			}
 			return rechargetime+"%/"+retime+" сек.";
 		break;
-		case "shipspeed":
+
+		case "shipspeed1":
 			float fMultiplier = FindShipSpeedBonus(xi_refCharacter);
 			return ""+FloatToString((fMultiplier)*100,2)+"%";
 		break;
-		case "shipturn":
-			float fMultiplierT = FindShipTurnRateBonus(xi_refCharacter);
-			return ""+FloatToString((fMultiplierT)*100.0,2)+"%";
+		case "shipspeed2":
+			return ""+FloatToString(SpeedBySkill(xi_refCharacter)*100,2)+"%";
 		break;
+		case "shipspeed3":
+			return ""+FloatToString(ShipSpeedBonusFromPeople(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipspeed4":
+			return ""+FloatToString(ShipSpeedBonusFromSails(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipspeed5":
+			return ""+FloatToString(ShipSpeedBonusFromHP(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipspeed6":
+			return ""+FloatToString(ShipSpeedBonusFromWeight(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipspeed7":
+			return ""+FloatToString(ShipSpeedBonusFromSoiling(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipspeed8":
+			return ""+FloatToString(AIShip_isPerksUse(CheckCharacterPerk(xi_refCharacter, "MapMaker"), 1.0, 1.05)*100,2)+"%";
+		break;
+
+		case "shipturn1":
+			return ""+FloatToString(FindShipTurnRateBonus(xi_refCharacter)*100.0,2)+"%";
+		break;
+		case "shipturn2":
+			return ""+FloatToString(TurnBySkill(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipturn3":
+			return ""+FloatToString(ShipTurnRateBonusFromPeople(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipturn4":
+			return ""+FloatToString(ShipTurnRateBonusFromSails(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipturn5":
+			return ""+FloatToString(ShipTurnRateBonusFromHP(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipturn6":
+			return ""+FloatToString(ShipTurnRateBonusFromWeight(xi_refCharacter)*100,2)+"%";
+		break;
+		case "shipturn7":
+			return ""+FloatToString(ShipTurnRateBonusFromSoiling(xi_refCharacter)*100,2)+"%";
+		break;
+
 		case "shipchargetime":
 			float fMultiC = Cannon_GetRechargeTimeValue(xi_refCharacter);
 			return ""+FloatToString(fMultiC,1)+" cек.";
@@ -844,6 +887,7 @@ string CheckForSpecial(string type)
 				case "poisonattack":
 					int poisonattackV = 0;
 					if (CheckAttribute(weapon,"special.valueP")) poisonattackV = sti(weapon.special.valueP);
+					if (xi_refCharacter.sex == "skeleton" || xi_refCharacter.sex == "crab" || HasSubStr(xi_refCharacter.model, "Canib_")) poisonattackV += 15; 
 					return poisonattackV+"%/50-110 сек.";
 				break;
 			}
@@ -905,7 +949,7 @@ string CheckForSpecial(string type)
 					return 0+"%";
 				break;
 				case "poisonattack":
-					return 0+"%";
+					if (xi_refCharacter.sex == "skeleton" || xi_refCharacter.sex == "crab" || HasSubStr(xi_refCharacter.model, "Canib_")) return 15+"%/50-110 сек."; else return 0+"%";
 				break;
 			}
 		}
@@ -1097,6 +1141,7 @@ void SetControlsTabMode(int nMode)
 			SetNodeUsing("TABLE_CHAR_OTHERS",false);
 			SetNodeUsing("TABLE_BLADES_OTHERS",false);
 			SetNodeUsing("TABLE_SHIP_OTHERS",false);
+			SetNodeUsing("SCROLL_SHIP_OTHERS",false);
 			SetNodeUsing("SUBSTRATE6",false);
 			SetNodeUsing("SUBSTRATE7",false);
 			SetNodeUsing("SCROLL_PERKS",true);
@@ -1118,6 +1163,7 @@ void SetControlsTabMode(int nMode)
 			SetNodeUsing("TABLE_CHAR_OTHERS",false);
 			SetNodeUsing("TABLE_BLADES_OTHERS",false);
 			SetNodeUsing("TABLE_SHIP_OTHERS",false);
+			SetNodeUsing("SCROLL_SHIP_OTHERS",false);
 			SetNodeUsing("SUBSTRATE6",false);
 			SetNodeUsing("SUBSTRATE7",false);
 			SetNodeUsing("SCROLL_PERKS",true);
@@ -1139,6 +1185,7 @@ void SetControlsTabMode(int nMode)
 			SetNodeUsing("TABLE_CHAR_OTHERS",true);
 			SetNodeUsing("TABLE_BLADES_OTHERS",true);
 			SetNodeUsing("TABLE_SHIP_OTHERS",true);
+			SetNodeUsing("SCROLL_SHIP_OTHERS",true);
 			SetNodeUsing("SUBSTRATE6",true);
 			SetNodeUsing("SUBSTRATE7",true);
 			SetNodeUsing("SCROLL_PERKS",false);
@@ -1331,44 +1378,57 @@ void UpdateStatsValues()
 	//<----------------- Дополнительные свойства ХО
 	
 	//-----------------> Корабельные характеристики
+	string sRow;
 	GameInterface.TABLE_SHIP_OTHERS.hr.td1.str = "";
-	GameInterface.TABLE_SHIP_OTHERS.tr1.UserData.ID = "SpeedBonus";
-	GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.image = "SpeedBonus";
+	GameInterface.TABLE_SHIP_OTHERS.tr1.UserData.ID = "ChargeTime";
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.group = "SHIP_STATE_ICONS";
+    GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.image = "Cannons";
 	GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.width = 20;
 	GameInterface.TABLE_SHIP_OTHERS.tr1.td1.icon.height = 20;
-	GameInterface.TABLE_SHIP_OTHERS.tr1.td2.str = "Скорость";
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td2.str = "Время зарядки";
 	GameInterface.TABLE_SHIP_OTHERS.tr1.td2.scale = 0.8;
 	GameInterface.TABLE_SHIP_OTHERS.tr1.td2.align = "left";
-	GameInterface.TABLE_SHIP_OTHERS.tr1.td3.str = ShowStatValue("shipspeed");
+	GameInterface.TABLE_SHIP_OTHERS.tr1.td3.str = ShowStatValue("shipchargetime");
 	GameInterface.TABLE_SHIP_OTHERS.tr1.td3.scale = 0.8;
 	GameInterface.TABLE_SHIP_OTHERS.tr1.td3.align = "right";
-	
-	GameInterface.TABLE_SHIP_OTHERS.hr.td1.str = "";
-	GameInterface.TABLE_SHIP_OTHERS.tr2.UserData.ID = "ManevrBonus";
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td1.icon.group = "ICONS_STATS_CHAR";
-    GameInterface.TABLE_SHIP_OTHERS.tr2.td1.icon.image = "ManevrBonus";
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td1.icon.width = 20;
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td1.icon.height = 20;
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td2.str = "Маневренность";
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td2.scale = 0.8;
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td2.align = "left";
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td3.str = ShowStatValue("shipturn");
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td3.scale = 0.8;
-	GameInterface.TABLE_SHIP_OTHERS.tr2.td3.align = "right";
-	
-	GameInterface.TABLE_SHIP_OTHERS.hr.td1.str = "";
-	GameInterface.TABLE_SHIP_OTHERS.tr3.UserData.ID = "ChargeTime";
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td1.icon.group = "SHIP_STATE_ICONS";
-    GameInterface.TABLE_SHIP_OTHERS.tr3.td1.icon.image = "Cannons";
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td1.icon.width = 20;
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td1.icon.height = 20;
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td2.str = "Время зарядки";
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td2.scale = 0.8;
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td2.align = "left";
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td3.str = ShowStatValue("shipchargetime");
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td3.scale = 0.8;
-	GameInterface.TABLE_SHIP_OTHERS.tr3.td3.align = "right";
+
+	for (int n = 1; n<9; n++)
+	{
+	sRow = "tr" + (n + 1);
+	if (n<2) GameInterface.TABLE_SHIP_OTHERS.(sRow).UserData.ID = "SpeedBonus";
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.image = "SpeedBonus";
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.width = 20;
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.height = 20;
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.str = speedfrom[n];
+	if (n>1) GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.textoffset = "10,0";
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.align = "left";
+	if(CheckAttribute(xi_refCharacter, "Ship.type") && sti(xi_refCharacter.ship.type) != SHIP_NOTUSED) GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = ShowStatValue("shipspeed" + n);
+		else GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = "0%";
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.align = "right";
+	}
+
+	for (n = 1; n<8; n++)
+	{
+	sRow = "tr" + (n + 9);
+	if (n<2) GameInterface.TABLE_SHIP_OTHERS.(sRow).UserData.ID = "ManevrBonus";
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.str = "Маневренность";
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.group = "ICONS_STATS_CHAR";
+    GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.image = "ManevrBonus";
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.width = 20;
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td1.icon.height = 20;
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.str = speedfrom[n];
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.textoffset = "10,0";
+	if (n==1) {GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.textoffset = "0,0"; GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.str = "Маневренность";}
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td2.align = "left";
+	if(CheckAttribute(xi_refCharacter, "Ship.type") && sti(xi_refCharacter.ship.type) != SHIP_NOTUSED) GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = ShowStatValue("shipturn" + n);
+		else GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.str = "0%";
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.scale = 0.8;
+	GameInterface.TABLE_SHIP_OTHERS.(sRow).td3.align = "right";
+	}
 	//<----------------- Корабельные характеристики
 	
 	Table_UpdateWindow("TABLE_CHAR_OTHERS");

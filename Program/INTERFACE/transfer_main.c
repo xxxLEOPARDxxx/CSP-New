@@ -11,7 +11,7 @@ ref refCharacter;
 
 string CurTable, CurRow;
 int iSelected; // курсор в таблице
-int iColor2;
+
 // для выкидывания
 int iShipQty, iUnits, iCurGoodsIdx;
 
@@ -29,7 +29,7 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 	xi_refCharacter   = _chr;
 	refEnemyCharacter = _chr; // изначальный кэп
 	refCharacter = pchar;
-	iColor2 = argb(255,128,96,96);//цвет ворованного
+
 	if(refEnemyCharacter.id == "ShipWreck_BadPirate") 
 	{
 		xi_refCharacter = CharacterFromID("ShipWreck_0");
@@ -657,7 +657,7 @@ void OnShipScrollChange()
 	else
 	{  // не наш, значит убит или сдался
 		// Warship 09.07.09 Мэри Селест и (20.08.09) генер "Пираты на необитайке"
-		if(xi_refCharacter.id == "MaryCelesteCapitan" || xi_refCharacter.Id == "PiratesOnUninhabited_BadPirate" || CheckAttribute(pchar,"GenQuest.ShipSituation.Explosion") || xi_refCharacter.Id == "ShipWreck_0")
+		if(xi_refCharacter.id == "BS_Vein" || xi_refCharacter.id == "MaryCelesteCapitan" || xi_refCharacter.Id == "PiratesOnUninhabited_BadPirate" || CheckAttribute(pchar,"GenQuest.ShipSituation.Explosion") || xi_refCharacter.Id == "ShipWreck_0")
 		{
 			SetSelectable("CAPTAN_BUTTON", false);
 			SetSelectable("SWAP_BUTTON", false);
@@ -1084,11 +1084,10 @@ void ShowRPGHint2()
 void FillGoodsTable()
 {
 	int n, i, qty2, qty1;
-	string row, newrow;
+	string row;
 	ref rShip;
 	string sGood;
 	aref refGoods;
-	aref aCurRow, aNextRow; 
 
 	Table_Clear("TABLE_LIST", false, true, false);
 	n = 1;
@@ -1127,32 +1126,6 @@ void FillGoodsTable()
 		GameInterface.TABLE_LIST.(row).td3.textoffset = "27,0";
 		GameInterface.TABLE_LIST.(row).td3.str = XI_ConvertString(sGood);
 		GameInterface.TABLE_LIST.(row).td3.scale = 0.85;
-
-		if (i != GOOD_SLAVES && makeint(Goods[i].Cost)/makeint(Goods[i].Weight) > 45)
-		{
-			if (pchar.Goods.(sGood).Bought.Coeff == "0" || xi_refCharacter.Goods.(sGood).Bought.Coeff == "0")
-			{
-				if (sti(pchar.Goods.(sGood).Bought.Coeff.Qty) + sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) == 0) {newrow = row;}//честного нет, строка с честным не требуется
-				else 
-				{
-				n++
-				newrow = "tr" + n;//вторая строка с ворованным
-				makearef(aCurRow, GameInterface.TABLE_LIST.(row));
-				makearef(aNextRow, GameInterface.TABLE_LIST.(newrow));
-				CopyAttributes(aNextRow, aCurRow);
-				GameInterface.TABLE_LIST.(row).td1.str = sti(pchar.Goods.(sGood).Bought.Coeff.Qty);
-				GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(pchar.Goods.(sGood).Bought.Coeff.Qty));
-				GameInterface.TABLE_LIST.(row).td4.str = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty);
-				GameInterface.TABLE_LIST.(row).td5.str = GetGoodWeightByType(i, sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty));
-				}
-
-				GameInterface.TABLE_LIST.(newrow).td3.color = iColor2;
-				GameInterface.TABLE_LIST.(newrow).td1.str = qty1 - sti(pchar.Goods.(sGood).Bought.Coeff.Qty);
-				GameInterface.TABLE_LIST.(newrow).td2.str = GetGoodWeightByType(i, qty1 - sti(pchar.Goods.(sGood).Bought.Coeff.Qty));
-				GameInterface.TABLE_LIST.(newrow).td4.str = qty2 - sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty);
-				GameInterface.TABLE_LIST.(newrow).td5.str = GetGoodWeightByType(i, qty2 - sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty));
-			}
-		}
 		n++;
 	}
 	Table_UpdateWindow("TABLE_LIST");
@@ -1318,15 +1291,6 @@ void DropGoodsToSeaFromInterface(int iGoodIndex, int iQuantity)
 	if (CheckAttribute(pchar, "Ship.Cargo.Goods."+sGood))
 	{
 		RemoveCharacterGoods(pchar, iGoodIndex, iQuantity);
-		if(CheckAttribute(pchar, "Goods." + sGood + ".Bought.Coeff.Qty")) 
-			{
-			if (GetCargoGoods(pchar, iGoodIndex) - sti(pchar.Goods.(sGood).Bought.Coeff.Qty) < iQuantity) 
-				{
-				sti(pchar.Goods.(sGood).Bought.Coeff.Qty) = GetCargoGoods(pchar, iGoodIndex) - iQuantity;
-				pchar.Goods.(sGood).Bought.Coeff = "1";//всё ворованное выкинули, осталось честное
-				Table_UpdateWindow("TABLE_LIST");//убираем из таблицы строчку ворованного
-				}
-			}
 		if (bSeaActive && !bAbordageStarted)  // море, но не каюта
 		{
 			iQuantity = iQuantity / sti(Goods[iGoodIndex].Units);
@@ -1476,19 +1440,6 @@ void GoToShipChange() // нажатие ОК на табличке ок-отмена
 			RemoveCharacterCompanion(pchar, xi_refCharacter);
 			AddPassenger(pchar, xi_refCharacter, false);
 			DelBakSkill();
-			for(int i = 0; i < GOODS_QUANTITY; i++)
-				{
-					string sGood = Goods[i].Name;
-					if (CheckAttribute(Goods[i],"Type")) 
-					{
-						if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
-					}
-					if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
-					{
-						sld.Goods.(sGood).Bought.Coeff.Qty = xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty;
-						xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = 0;
-					}
-				}
 			// снимем компаньона в офы <--
 			xi_refCharacter = sld;
 			ExitShipChangeMenu();
@@ -1628,24 +1579,6 @@ void ShowOtherClick()
 void SwapProcess()
 {
 	SeaAI_SwapShipsAttributes(pchar, xi_refCharacter, true);
-	string sTemp;
-	for(int i = 0; i < GOODS_QUANTITY; i++)
-	{
-		string sGood = Goods[i].Name;
-		if (CheckAttribute(Goods[i],"Type")) 
-		{
-			if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
-		}
-		if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
-		{
-			sTemp = pchar.Goods.(sGood).Bought.Coeff.Qty;
-			pchar.Goods.(sGood).Bought.Coeff.Qty = xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty;
-			xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sTemp;
-			sTemp = pchar.Goods.(sGood).Bought.Coeff;
-			pchar.Goods.(sGood).Bought.Coeff = xi_refCharacter.Goods.(sGood).Bought.Coeff;
-			xi_refCharacter.Goods.(sGood).Bought.Coeff = sTemp;
-		}
-	}
 	//if (xi_refCharacter.id == refEnemyCharacter.id)
 	//{
 	//	SeaAI_SwapShipAfterAbordage(pchar, xi_refCharacter);
@@ -1692,23 +1625,12 @@ void AcceptAddOfficer()
 			makearef(arTo,   sld.ship);
 			makearef(arFrom, xi_refCharacter.ship);
 			CopyAttributes(arTo, arFrom);
-
-
 			// снимем пассажира -->
 			CheckForReleaseOfficer(iChar);
 			RemovePassenger(pchar, sld);
 			// снимем пассажира <--
 			SetCompanionIndex(pchar, -1, iChar);
-			for(int i = 0; i < GOODS_QUANTITY; i++)
-				{
-					string sGood = Goods[i].Name;
-					if(Goods[i].Type == TRADE_TYPE_CANNONS) continue;
-					if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
-					{
-						sld.Goods.(sGood).Bought.Coeff.Qty = xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty;
-						xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = 0;
-					}
-				}
+
 			xi_refCharacter = sld;
 			DelBakSkill();
 		}
@@ -1843,21 +1765,6 @@ void TakeAllGoods()
 			qty = AddCharacterGoodsSimple(pchar, idx, GetCargoGoods(xi_refCharacter, idx));
 			if (qty > 0)
 			{
-				string sGood = Goods[idx].Name;
-				if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty")) 
-				{
-					if (sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) < qty)//забрали больше, чем было честного, т.е. и ворованное было там
-					{
-					pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) + sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty);
-					xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = 0;
-					xi_refCharacter.Goods.(sGood).Bought.Coeff = 1;
-					}
-					else
-					{
-					xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) - qty;
-					pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) + qty;
-					}
-				}
 				RemoveCharacterGoodsSelf(xi_refCharacter, idx, qty);
 			}
 			else
@@ -1964,23 +1871,12 @@ void TakeGoods(int inc)
 		idx = sti(GameInterface.(CurTable).(CurRow).index);
 		inc = sti(Goods[idx].Units) * inc;
 		if (inc > GetCargoGoods(xi_refCharacter, idx)) inc = GetCargoGoods(xi_refCharacter, idx);
-		if (inc > sti(GameInterface.(CurTable).(CurRow).td4.str)) inc = sti(GameInterface.(CurTable).(CurRow).td4.str);
 		if (inc > 0)
 		{
-			string sGood = Goods[idx].Name;
 			qty = AddCharacterGoodsSimple(pchar, idx, inc);
 			if (qty > 0)
 			{
 				RemoveCharacterGoodsSelf(xi_refCharacter, idx, qty);
-				if(sti(GameInterface.(CurTable).(CurRow).td3.color) == iColor2) pchar.Goods.(sGood).Bought.Coeff = "0";//выбрана строка с ворованным товаром
-				else
-					{
-						if(CheckAttribute(xi_refCharacter, "Goods." + sGood + ".Bought.Coeff.Qty") && sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) > 0) 
-						{
-							xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) - qty;
-							pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) + qty;
-						}
-					}
 			}	
 			OnShipScrollChange();
 			SetGoodsArrows();
@@ -2001,23 +1897,12 @@ void GiveGoods(int inc)
 		idx = sti(GameInterface.(CurTable).(CurRow).index);	
 		inc = sti(Goods[idx].Units) * inc;
 		if (inc > GetCargoGoods(pchar, idx)) inc = GetCargoGoods(pchar, idx);
-		if (inc > sti(GameInterface.(CurTable).(CurRow).td1.str)) inc = sti(GameInterface.(CurTable).(CurRow).td1.str);
 		if (inc > 0)
 		{
-			string sGood = Goods[idx].Name;
 			qty = AddCharacterGoodsSimple(xi_refCharacter, idx, inc);
 			if (qty > 0)
 			{
 				RemoveCharacterGoodsSelf(pchar, idx, qty);
-				if(sti(GameInterface.(CurTable).(CurRow).td3.color) == iColor2) xi_refCharacter.Goods.(sGood).Bought.Coeff = "0";//выбрана строка с ворованным товаром
-				else
-				{
-					if(CheckAttribute(pchar, "Goods." + sGood + ".Bought.Coeff.Qty") && sti(pchar.Goods.(sGood).Bought.Coeff.Qty) > 0) 
-					{
-						xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty = sti(xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty) + qty;
-						pchar.Goods.(sGood).Bought.Coeff.Qty = sti(pchar.Goods.(sGood).Bought.Coeff.Qty) - qty;
-					}
-				}
 			}
 			OnShipScrollChange();
 			SetGoodsArrows();

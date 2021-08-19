@@ -1198,6 +1198,7 @@ void ProcessDialogEvent()
 				{
 					greedyPGG = 2;
 					greed = " И не советую тебе рыпаться.";
+					npchar.Greed = true;
 				}
 				PChar.GenQuest.PGG_Quest.Parts = (GetCharacterShipClass(PChar) - GetCharacterShipClass(NPChar));
 				i = sti(PChar.GenQuest.PGG_Quest.Parts)+2+greedyPGG;
@@ -1216,10 +1217,17 @@ void ProcessDialogEvent()
 			link.l1 = PCharRepPhrase(RandPhraseSimple("Справедливо! Уже грузят шлюпки!", "Да, все точно... Уговор дороже денег."), 
 					RandPhraseSimple("Ваши расчеты правильны. Я соглас"+ GetSexPhrase("ен","на") +".", "В дележе вы безупречны."));
 			link.l1.go = "Exit_Quest_1_End";
+			if (!CheckAttribute(npchar, "Greed"))
+			{
 			link.l2 = PCharRepPhrase(RandPhraseSimple("И ты еще требуешь свою долю? Да тебя надо вздернуть на рее и не мешкать!", 
 						"Долю? Здесь каждый сам за себя, и если тебе ничего не досталось, то это твои проблемы!"), 
 					RandPhraseSimple("Не думаю, что вы на что-то можете рассчитывать.", 
 						"Мой ответ – нет! Я не собираюсь делиться с разными проходимцами!"));
+			}
+			else
+			{
+				link.l2 = "Ты что, надуть меня хочешь? В таком случае я забираю себе всё!";
+			}
 			link.l2.go = "Quest_1_NotPay";
 		}
 		else
@@ -1239,7 +1247,9 @@ void ProcessDialogEvent()
 		link.l1.go = "Exit_Quest_1_Failed";
 		PChar.GenQuest.PGG_Quest.Stage = -1;
 		
-		ChangeCharacterReputation(PChar,-20);
+		if (!CheckAttribute(npchar, "Greed"))	ChangeCharacterReputation(PChar,-20);
+		else	npchar.PGG_Hunter = true;
+		DeleteAttribute(npchar, "Greed");
 		
 		bOk = makeint(NPChar.reputation) < 41 && PGG_ChangeRelation2MainCharacter(NPChar, 0) < 75;
 		if (bOk || CheckAttribute(PChar, "GenQuest.PGG_Quest.Ok"))
@@ -1346,6 +1356,7 @@ void ProcessDialogEvent()
 		break;
 
 	case "Exit_Quest_1_End":
+		DeleteAttribute(npchar, "Greed");
 		RemoveCharacterCompanion(PChar, NPChar);
 		ChangeCharacterReputation(PChar, 5);
 		PGG_ChangeRelation2MainCharacter(NPChar, 30);

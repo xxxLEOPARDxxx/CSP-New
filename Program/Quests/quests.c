@@ -474,6 +474,9 @@ void CloseQuestHeader(string idQuest)
 	if(idQuest == "ISS_PoorsMurder") UnlockAchievement("Killbeggars_quest", 3);
 	if(idQuest == "Romantic_Line") UnlockAchievement("Isabella_quest", 3);
 	if(idQuest == "MagicCity") UnlockAchievement("Enchantcity_quest", 3);
+	if(idQuest == "Slavetrader") UnlockAchievement("AchRabotorg", 3);
+	if(idQuest == "Headhunt") UnlockAchievement("AchKondotier", 3);
+	if(idQuest == "Andre_Abel_Quest") UnlockAchievement("AchOrion", 3);
 	if(idQuest == "BerglarsGang") UnlockAchievement("Berglarsgang_quest", 3);
 	if(idQuest == "Fra_Line_12_EndOfWar") UnlockAchievement("Nation_quest_F", 3);
 	if(idQuest == "Hol_Line_12_OccupyMaracaibo") UnlockAchievement("Nation_quest_H", 3);

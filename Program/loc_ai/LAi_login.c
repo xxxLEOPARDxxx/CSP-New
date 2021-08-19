@@ -314,7 +314,7 @@ void CheckBSFinish()
 	//Если ЧП еще не пройдены, ставим мир обратно на паузу
 	if(!bWorldAlivePause && !CheckAttribute(pchar, "BSFinish"))
 	{
-		pchar.BSStart = true;
+		if (!CheckAttribute(pchar, "BSInProgress"))	pchar.BSStart = true;
 		bWorldAlivePause = true;
 	}
 }

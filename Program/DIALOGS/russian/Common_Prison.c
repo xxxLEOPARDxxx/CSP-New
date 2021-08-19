@@ -136,9 +136,58 @@ void ProcessDialogEvent()
 				link.lUnexpectedInheritance = "Месье, у меня вопрос к Вам, он может показаться странным, но всё же...";
 				link.lUnexpectedInheritance.go = "UnexpectedInheritance";
 			}
+			
+			if(CheckAttribute(pchar,"LambriniPGGInPrison") && CheckAttribute(pchar,"LambriniPGGPlata") && npchar.id == "MaracaiboJailOff")
+			{
+				
+				link.lLambriniPGGInPrison = "Сеньор, я принимал"+ GetSexPhrase("","а") +" участие в недавнем налете на контрабандистов. Мне передали, что арестованных держат здесь. Могу я попросить вас об освобождении одной особы? Под мою ответственность, разумеется.";
+				link.lLambriniPGGInPrison.go = "LambriniPGGInPrison";
+			}
 			NextDiag.TempNode = "First_officer";
 		break;
 
+		case "LambriniPGGInPrison":
+			dialog.Text = "О ком идёт речь?";
+			Link.l1 = "Кажется, её имя "+GetFullName(CharacterFromID(pchar.LambriniPGG))+".";
+			Link.l1.go = "LambriniPGGInPrison_1";
+		break;
+		case "LambriniPGGInPrison_1":
+			dialog.Text = "Владелица контрабандной партии сандала? Сомневаюсь.";
+			Link.l1 = "Я буду вам крайне, крайне признател"+ GetSexPhrase("ен","ьна") +".";
+			Link.l1.go = "LambriniPGGInPrison_2";
+		break;
+		case "LambriniPGGInPrison_2":
+			dialog.Text = "Хм... Признател"+ GetSexPhrase("ен","ьна") +" на "+ pchar.LambriniPGGPlata + "? Кажется, это половина от того, что вам заплатил Антонио.";
+			if (sti(pchar.money) >= sti(pchar.LambriniPGGPlata))
+			{
+				Link.l1 = "Все-то вы знаете. Вот ваши деньги.";
+				Link.l1.go = "LambriniPGGInPrison_3";
+			}
+			Link.l2 = "Ну и расценки у вас... Мне надо подумать.";
+			Link.l2.go = "LambriniPGGInPrison_3_1";
+		break;
+		case "LambriniPGGInPrison_3":
+			DeleteAttribute(pchar,"LambriniPGGPlata")
+			AddMoneyToCharacter(pchar, -sti(pchar.LambriniPGGPlata));
+			dialog.Text = "Вот и славно. Сейчас её к вам приведут.";
+			Link.l1 = "";
+			Link.l1.go = "LambriniPGGInPrison_4";
+		break;
+		case "LambriniPGGInPrison_3_1":
+			dialog.Text = "Если надумаете - приходите. Только советую думать быстрее, мало ли что может здесь случиться через пару дней. Это ваша подружка, не моя.";
+			Link.l1 = "";
+			Link.l1.go = "exit";
+		break;
+		case "LambriniPGGInPrison_4":
+			DialogExit();
+			chrDisableReloadToLocation = true;
+			sld = CharacterFromID(pchar.LambriniPGG);
+			ChangeCharacterAddressGroup(sld, "Maracaibo_prison", "goto", "goto20");
+			LAi_SetStayTypeNoGroup(sld);
+			sld.talker = 10;
+			sld.dialog.currentnode   = "LambriniPGG_2_1";
+		break;
+		
 		case "UnexpectedInheritance":
 			dialog.Text = "Слушаю Вас.";
 			Link.l1 = "Дело в том, что мне стало известно о находках на территории форта необычных индейских идолов. Мой наниматель – коллекционер и не жалеет денег на языческие побрякушки, если вы понимаете о чем я.";

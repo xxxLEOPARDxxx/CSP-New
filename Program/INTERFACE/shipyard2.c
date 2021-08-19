@@ -236,7 +236,7 @@ void FillShipParam()
 		rRealShip.MaxCaliber = rBaseShip.MaxCaliber;
 
 		refNPCShipyard.Ship.Cannons.Type = CANNON_TYPE_NONECANNON;
-		rRealShip.Price	= GetShipPriceByTTH(iShip, refNPCShipyard)*2;//цена без пушек
+		rRealShip.Price	= GetShipPriceByTTH(iShip, refNPCShipyard)*4;//цена без пушек
 		CalcTuningPrice();//стоимость апгрейда до применения апгрейдов считаем
 		
 		SetTuningStates2Ship(refNPCShipyard, 0, Tune_Sheme[7], Tune_Sheme[4], Tune_Sheme[8], Tune_Sheme[5], Tune_Sheme[1], Tune_Sheme[3]);//калибр тюнингуем отдельно, иначе несколько раз до 36 можно поднимать
@@ -279,7 +279,7 @@ void FillShipParam()
 		DeleteAttribute(refNPCShipyard,"ship.sails");
 		DeleteAttribute(refNPCShipyard,"ship.masts");
 
-		iTimeMake = 5 + sti(rRealShip.Price)/10000 + (iTunPoints - iFreeTP)*0.27;
+		iTimeMake = 5 + sti(rRealShip.Price)/40000 + (iTunPoints - iFreeTP)*0.27;
 		SetFormatedText("Time_TEXT", "Время постройки: " + iTimeMake + " д.");
 
 		FillPrice();
@@ -480,7 +480,7 @@ int FillShip2(int iStart, int iEnd, int k)
 {
 	string sShip;
 	string row;
-	for (int i = iStart; i < iEnd; i++)
+	for (int i = iStart; i < iEnd+1; i++)
 	{
 		if (k == 0) FillOrderShip(shipspool[i]);
 		row = "tr" + (k+1);
@@ -582,7 +582,7 @@ void GetBortName(string _sBort, string _sBort_real, int BortNumb)
 void DoBuyShip()
 {
 	AddMoneyToCharacter(pchar, -iPriceOrder);
-	AddCharacterExpToSkill(pchar, "Commerce", GetShipPriceByTTH(sti(refNPCShipyard.Ship.Type), refNPCShipyard)*2 / 700.0);//опыт торговли надо начислять только за корабль? За апгрейды и пушки не начисляется?
+	AddCharacterExpToSkill(pchar, "Commerce", GetShipPriceByTTH(sti(refNPCShipyard.Ship.Type), refNPCShipyard)*4 / 700.0);//опыт торговли надо начислять только за корабль? За апгрейды и пушки не начисляется?
 	WaitDate("",0,0,0, 0, 35);
 	Statistic_AddValue(pchar, "BuyShip", 1);
 	Statistic_AddValue(Pchar, "Money_spend", iPriceOrder);
@@ -815,7 +815,7 @@ void FillPrice()
 	ref rRealShip = &RealShips[iShip];
 	int iTemp, i, k, m;
 	string row, sGood;
-	iPriceOrder =  GetShipPriceByTTH(iShip, refNPCShipyard)*2;
+	iPriceOrder =  GetShipPriceByTTH(iShip, refNPCShipyard)*4;
 	string stextPRICE = "Цена корабля: " + MakeMoneyShow(iPriceOrder, MONEY_SIGN, MONEY_DELIVER); 
 
 	if (Ship_Sheme[10] != -10.0) 

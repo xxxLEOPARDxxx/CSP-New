@@ -30,6 +30,8 @@ void ProcessDialogEvent()
 		break;
 		
 		case "DH_Villemstad_merc":
+			chrDisableReloadToLocation = false;
+			DeleteAttribute(pchar, "ContraInterruptWaiting");
 			dialog.Text = "Я думаю, время терять не стоит.";
 			Link.l1 = "Я аналогичного мнения.";
 			Link.l1.go = "DH_Villemstad_merc_exit_to_bank";
@@ -183,6 +185,7 @@ void ProcessDialogEvent()
 			pchar.DH_mercLeft = true;
 			LocatorReloadEnterDisable("SantaCatalina_town", "reload5_back", false);
 			LocatorReloadEnterDisable("Villemstad_town", "gate_back", false);
+			LocatorReloadEnterDisable("Villemstad_town", "reload4_back", false);
 			LocatorReloadEnterDisable("SantaCatalina_exittown", "reload1_back", false);
 			LocatorReloadEnterDisable("SantaCatalina_exittown", "reload2_back", false);
 			
@@ -276,8 +279,6 @@ void ProcessDialogEvent()
 			Link.l1.go = "DH_mercenary_SK_vavern_exit";
 		break;
 		case "DH_mercenary_SK_vavern_exit":
-			chrDisableReloadToLocation = false;
-		
 			DialogExit();
 			sld = CharacterFromID("SantaCatalina_Smuggler");
 			//LAi_ActorDialog(sld, pchar, "", -1.0, 0);
@@ -331,7 +332,6 @@ void ProcessDialogEvent()
 			LAi_SetActorTypeNoGroup(npchar);
 			LAi_ActorFollowEverywhere(npchar, "", -1);
 		
-			chrDisableReloadToLocation = false;
 			pchar.BlockOstin = true;
 			dialog.Text = "Я думаю теперь вы понимаете, почему мы запросили такую цену.";
 			Link.l1 = "Да, пожалуй.";

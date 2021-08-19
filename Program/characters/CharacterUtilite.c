@@ -2567,6 +2567,7 @@ void EquipCharacterByItem(ref chref, string itemID)
 	
 	if (groupName == BLADE_ITEM_TYPE && CheckAttribute(chref, "DontChangeBlade")) return;
 	if (groupName == GUN_ITEM_TYPE && CheckAttribute(chref, "DontChangeGun")) return;
+	if (itemID == "mushket2x2" && chref.id != "OffMushketer") return;
 	
 	if(groupName != MAPS_ITEM_TYPE) // ugeen - для атласа карт  18.06.09
 	{
@@ -2645,6 +2646,7 @@ void EquipOfficerByItem(ref chref, string itemID)
 	string groupName = arItm.groupID;
 	if (groupName == BLADE_ITEM_TYPE && CheckAttribute(chref, "DontChangeBlade")) return;
 	if (groupName == GUN_ITEM_TYPE && CheckAttribute(chref, "DontChangeGun")) return;
+	if (itemID == "mushket2x2" && chref.id != "OffMushketer") return;
 	
 	int iItemQuantity = 0;
 	if( !CheckCharacterItem(chref, itemID))

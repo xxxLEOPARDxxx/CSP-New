@@ -24,7 +24,7 @@ int LocationInitReefs(int n)
 	locations[n].models.always.shore.sea_reflection = 1;
 	Locations[n].models.always.seabed = "MountainPathDMChest_sb";
 	Locations[n].models.always.locators = "MountainPathDMChest_locators"; 
-		
+	
 	Locations[n].models.always.grassPatch = "MountainPath_grass";
 	Locations[n].models.always.grassPatch.texture = "grass\grassshore.tga.tx";
 	
@@ -105,9 +105,9 @@ int LocationInitReefs(int n)
 	//Environment
 	locations[n].environment.weather = "true";
 	locations[n].environment.sea = "true";
-	// locations[n].alwaysStorm = true; //живем в штормах
-	// locations[n].storm = true;
-	// locations[n].tornado = true;
+	locations[n].alwaysStorm = true; //живем в штормах
+	locations[n].storm = true;
+	locations[n].tornado = true;
 
 	locations[n].reload.l1.name = "reload1";
 	locations[n].reload.l1.go = "Reefs";
@@ -115,6 +115,12 @@ int LocationInitReefs(int n)
 	locations[n].reload.l1.autoreload = "0";
 	locations[n].reload.l1.label = "Sea";
 	locations[n].locators_radius.reload.reload1 = 3.0;
+	
+	locations[n].reload.l2.name = "reload2";
+	locations[n].reload.l2.go = "Reefs_Chapter";
+	locations[n].reload.l2.emerge = "reload2";
+	locations[n].reload.l2.autoreload = "0";
+    locations[n].reload.l2.label = "Reefs_Chapter";
 	
 	// locations[n].DisableOfficers = "1";
 	
@@ -130,6 +136,50 @@ int LocationInitReefs(int n)
 		sloc = "incasfire"+i;
 		locations[n].locators_radius.item.(sloc) = 1.5;
 	}
+	n = n + 1;
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////	Капитул		//////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "Reefs_Chapter";
+	locations[n].id.label = "Reefs_Chapter";
+	locations[n].image = "Loading\inside\Reefs_Chapter_0.tga";
+	//Town sack
+	locations[n].type = "Reefs_Chapter";
+	// locations[n].townsack = "FortFrance";
+	locations[n].islandId = "Reefs";
+	//Sound
+	// locations[n].fastreload = "FortFrance";
+	// locations[n].Maltains = true;
+	//Always
+	locations[n].filespath.models = "locations\inside\Maltains";
+	locations[n].models.always.Maltains = "Malta_Base";
+	locations[n].models.always.InquisitionMaltainsFonars = "Malta_fonars";
+	locations[n].models.always.locators = "Malta_locators";
+	
+	//Day
+	locations[n].models.day.charactersPatch = "Malta_patch";
+	//Night
+	locations[n].models.night.charactersPatch = "Malta_patch";
+	//Environment
+	locations[n].environment.weather = "true";
+	Locations[n].lockWeather = "Inside";
+	Locations[n].QuestlockWeather = "23 Hour";
+	locations[n].environment.sea = "false";
+	locations[n].environment.weather.rain = false;
+	//Reload map
+	locations[n].reload.l1.name = "reload2";
+	locations[n].reload.l1.go = "DeckWithReefs";
+	locations[n].reload.l1.emerge = "reload2_back";
+	locations[n].reload.l1.autoreload = "0";
+    locations[n].reload.l1.label = "DeckWithReefs";
+	
+	// locations[n].reload.l2.name = "reload2";
+	// locations[n].reload.l2.go = "FortFrance_town";
+	// locations[n].reload.l2.emerge = "basement1";
+	// locations[n].reload.l2.autoreload = "0";
+    // locations[n].reload.l2.label = "Street";
+	
 	n = n + 1;
 
 	return n;

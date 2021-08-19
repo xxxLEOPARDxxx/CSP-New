@@ -257,7 +257,7 @@ void WhisperBonusChallengeReCheck(string qName)
 
 void WhisperBonusChallenge(string qName)
 {
-	AddBonusEnergyToCharacter(pchar, 10);
+	AddBonusEnergyToCharacter(pchar, MOD_SKILL_ENEMY_RATE);
 	pchar.Whisper.BonusEnergy = true;
 	
 	for (int i = 0; i < 3; i++)
@@ -581,6 +581,7 @@ void WhisperPirateTown(string qName)
 
 void WhisperPirateTownGetHat(string qName)
 {	
+	InterfaceStates.Buttons.Save.enable = false;
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload2", true);
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload3", true);
 	LocatorReloadEnterDisable("PuertoPrincipe_Town", "reload4", true);
@@ -593,6 +594,7 @@ void WhisperPirateTownGetHat(string qName)
 }
 void WhisperPirateTownGetHat_part_1(string qName)
 {	
+	InterfaceStates.Buttons.Save.enable = true;
 	//PlayVoice("VOICE\Russian\EvilPirates02.wav");
 	sld = characterFromID("NineFingers");
 	//sld.greeting = "Gr_padre";
@@ -1008,7 +1010,7 @@ void WhisperHuntersCaveEntrance(string qName)
 		LAi_SetImmortal(sld, true);
 	}
 	
-	sld = GetCharacter(NPC_GenerateCharacter("W_Lejitos", "PGG_Lejitos_GPK", "man", "man", 1, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("W_Lejitos", "PGG_Lejitos_GPK", "man", "man", 1, PIRATE, -1, false));
 	sld.CanTakeMushket = true;
 	sld.name = "Ёлихио";
 	sld.lastname = "Ћехито";
@@ -1023,10 +1025,9 @@ void WhisperHuntersCaveEntrance(string qName)
 	sld.rank = 15;
 	LAi_SetHP(sld, 250.0, 250.0);
 	sld.greeting = "GR_Lejitos";
-	sld.DontChangeBlade = true; // нельз€ сн€ть или залутать оружие
-	//sld.DontChangeGun = true;
-	GiveItem2Character(sld, "topor_01");
-	EquipCharacterByItem(sld, "topor_01");
+	string lejitosAx = GetGeneratedItem("topor_01");
+	GiveItem2Character(sld, lejitosAx);
+	EquipCharacterByItem(sld, lejitosAx);
 	GiveItem2Character(sld, "cirass2");
 	EquipCharacterbyItem(sld, "cirass2");
 	GiveItem2Character(sld, "pistol2");
@@ -1746,6 +1747,7 @@ void DarkHuman_SK_gate(string qName)
 	// не забыть
 	LocatorReloadEnterDisable("SantaCatalina_town", "reload5_back", true);
 	LocatorReloadEnterDisable("Villemstad_town", "gate_back", true);
+	LocatorReloadEnterDisable("Villemstad_town", "reload4_back", true);
 	LocatorReloadEnterDisable("SantaCatalina_exittown", "reload1_back", true);
 	LocatorReloadEnterDisable("SantaCatalina_exittown", "reload2_back", true);
 	AddQuestRecord("DarkHumanQuestline", "5");
@@ -1759,6 +1761,8 @@ void DarkHuman_SK_gate(string qName)
 }
 void DarkHuman_SK_tavern_dialog(string qName)
 {
+	chrDisableReloadToLocation = true;
+	pchar.ContraInterruptWaiting = true;
 	sld = CharacterFromID("DH_mercenary");
 	ChangeCharacterAddressGroup(sld, "SantaCatalina_tavern", "goto", "goto2");
 	LAi_ActorDialog(sld, pchar, "", -1.0, 0);

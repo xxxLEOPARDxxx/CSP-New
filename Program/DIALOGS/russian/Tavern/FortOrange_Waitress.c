@@ -19,7 +19,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             {
 				if (CheckCharacterItem(pchar, "jewelry15"))
 				{
-					link.l1 = "Я принес тебе твои подвески. Держи.";
+					link.l1 = "Я прин"+ GetSexPhrase("ёс","есла") +" тебе твои подвески. Держи.";
 					link.l1.go = "Jamaica_ratW_5";
 				}
 				else

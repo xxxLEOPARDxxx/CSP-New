@@ -6,7 +6,7 @@ int iEQUIP_SET = 0;
 string sMapDescribe;//переменная для текста описания карты
 bool bMapCross;
 float fOffsetX, fOffsetY;
-string sEType[10] = {"blade","spyglass","cirass","BackPack","talisman","jewelry_indian_left","jewelry_indian_right","indian_center","idols_left","idols_right"};
+int iCurTab;
 
 void InitInterface(string iniName)
 {
@@ -67,7 +67,6 @@ void InitInterface(string iniName)
 	SetEventHandler("ClickGun", "ClickGun", 0);
 	SetEventHandler("ClickSaber", "ClickSaber", 0);
 	SetEventHandler("CheckButtonChange", "CheckButtonChange", 0);
-	SetEventHandler("SaveEquipSet", "SaveEquipSet", 0);
 	SetEventHandler("SaveSETName", "SaveSETName", 0);
 	SetEventHandler("ShowEditBox", "ShowEditBox", 0);
 	SetEventHandler("HideEditBox", "HideEditBox", 0);
@@ -382,6 +381,7 @@ void ProcessExitCancel()
 
 void IDoExit(int exitCode)
 {
+	SaveEquipSet();
 	DelEventHandler("InterfaceBreak","ProcessExitCancel");
 	DelEventHandler("exitCancel","ProcessExitCancel");
 	DelEventHandler("ievnt_command","ProcessCommandExecute");
@@ -430,7 +430,6 @@ void IDoExit(int exitCode)
 	DelEventHandler("ClickGun", "ClickGun");
 	DelEventHandler("ClickSaber", "ClickSaber");
 	DelEventHandler("CheckButtonChange", "CheckButtonChange");
-	DelEventHandler("SaveEquipSet", "SaveEquipSet");
 	DelEventHandler("SaveSETName", "SaveSETName");
 	DelEventHandler("ShowEditBox", "ShowEditBox");
 	DelEventHandler("HideEditBox", "HideEditBox");
@@ -460,6 +459,12 @@ void ProcessCommandExecute()
 			if (comName=="activate" || comName=="click")
 			{
 				EquipPress();
+			}
+		break;
+		case "DISCARD_BTN":
+			if (comName=="activate" || comName=="click")
+			{
+				DiscardTreasureMap();
 			}
 		break;
 
@@ -603,6 +608,7 @@ void SetButtonsState()
 	if(GameInterface.CHARACTERS_SCROLL.(attributeName).character != "0")
 	{
 		int iCharacter = sti(GameInterface.CHARACTERS_SCROLL.(attributeName).character);
+		SaveEquipSet();
 		xi_refCharacter = &characters[iCharacter];
 		switch (xi_refCharacter.sex)
 		{
@@ -648,8 +654,8 @@ void SetVariable()
 
 void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 {
-	int n, i;
-	string row;
+	int n, i, iTemp;
+	string row, sTemp;
 	string sGood;
 	int  idLngFile;
 	bool ok, ok2 = true;
@@ -708,6 +714,17 @@ void FillItemsTable(int _mode) // 1 - все 2 - оружие 3 - остальное
 				GameInterface.TABLE_ITEMS.(row).td1.icon.height = 32;
 				GameInterface.TABLE_ITEMS.(row).td1.textoffset = "31,0";
 				GameInterface.TABLE_ITEMS.(row).td1.str = LanguageConvertString(idLngFile, arItem.name);
+
+				iTemp = CheckItemInSets(xi_refCharacter, sGood);
+				if (iTemp > 0) 
+				{
+					GameInterface.TABLE_ITEMS.(row).td1.str = GameInterface.TABLE_ITEMS.(row).td1.str + " (К" + iTemp + ")"; 
+					//sTemp = "Set" + iTemp;
+					//GameInterface.TABLE_ITEMS.(row).td1.str = GameInterface.TABLE_ITEMS.(row).td1.str + " (" + xi_refCharacter.(sTemp).nameset + ")"; 
+					GameInterface.TABLE_ITEMS.(row).td1.color = argb(255,196,196,255);//подцвечиваем предметы из комплектов
+				}
+				if (IsEquipCharacterByItem(xi_refCharacter, sGood)) GameInterface.TABLE_ITEMS.(row).td1.color = argb(255,196,196,255);//на этом интерфейсе надо подцвечивать и текущий комплект???
+
 				GameInterface.TABLE_ITEMS.(row).td1.scale = 0.85;
 				GameInterface.TABLE_ITEMS.(row).td2.str   = FloatToString(stf(arItem.Weight), 1);
 				GameInterface.TABLE_ITEMS.(row).td2.scale = 0.9;
@@ -864,12 +881,10 @@ float _GetAttackFactor(ref rBlade, string sType, ref kPerk)
 	{
 		case "fast":
 		kAttackDmg = 0.7;
-		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
 
 		case "force":
 		kAttackDmg = 1.0;
-		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
 
 		case "round":
@@ -878,20 +893,18 @@ float _GetAttackFactor(ref rBlade, string sType, ref kPerk)
 		{
 			kAttackDmg = kAttackDmg * 1.3;
 		}
-		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
 		break;
 
 		case "break":
 		kAttackDmg = 3.0;
-		if (rBlade.FencingType == "FencingHeavy") HeavyW = 5.0;
 		break;
 
 		case "fient":
 		kAttackDmg = 0.5;
-		if (rBlade.FencingType == "FencingHeavy") HeavyW = 2.0;
+		if(CheckCharacterPerk(xi_refCharacter, "Agent")) kAttackDmg = kAttackDmg * 2;
 		break;
 	}
-	float dmg = bladeDmg * kAttackDmg * HeavyW;
+	float dmg = bladeDmg * kAttackDmg;
 
 	return dmg;
 }
@@ -964,11 +977,8 @@ void ShowInfoWindow()
 	if(sCurrentNode == "CHECK_EQUIP_SET")
 	{
 	sHeader = "Выбор комплекта снаряжения";
-	sText1  = "Здесь Вы можете одним нажатием ЛКМ сменить комплект снаряжения. Сохранение изменений комплектов снаряжения происходит при выходе из интефейса предметов или при смене комплекта на другой. ";
+	sText1  = "Здесь Вы можете одним нажатием ЛКМ сменить комплект снаряжения. Сохранение изменений комплектов снаряжения происходит при выходе из интефейса предметов или при смене комплекта на другой.\nСменить НАЗВАНИЕ комплекта можно двойным ЛКМ по чекбоксу.";
 	}
-//\nЕсли в инвентаре будут отсутствовать запомненные ранее для комплекта предметы, они не сотрутся из комплекта; если позже недостающий предмет появится, он будет снова экипироваться при смене на свой комплект снаряжения.
-//текст заменить - неграмотно!
-
 	CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), sText2, iText2Color, "", 0, "", 0, "-1", sGroup, sGroupPicture, 64, 64);
 }
 void HideInfoWindow()
@@ -1037,6 +1047,7 @@ void procTabChange()
 
 void SetControlsTabMode(int nMode)
 {
+	iCurTab = nMode;
 	int nColor1 = argb(255,196,196,196);
 	int nColor2 = nColor1;
 	int nColor3 = nColor1;
@@ -1121,6 +1132,10 @@ bool ThisItemCanBeEquip( aref arItem )
 	{
 		return true;
 	}
+	
+	if (arItem.groupID == BLADE_ITEM_TYPE && CheckAttribute(xi_refCharacter, "DontChangeBlade")) return false;
+	if (arItem.groupID == GUN_ITEM_TYPE && CheckAttribute(xi_refCharacter, "DontChangeGun")) return false;
+	
 	if (arItem.groupID == GUN_ITEM_TYPE)
 	{
 		if (!IsMainCharacter(xi_refCharacter) && !CheckAttribute(xi_refCharacter, "CanTakeMushket") && HasSubStr(arItem.id, "mushket"))
@@ -1131,24 +1146,10 @@ bool ThisItemCanBeEquip( aref arItem )
 		{
 			return false;
 		}
-		/*int chrgQ = sti(arItem.chargeQ);
-
-		if (chrgQ == 2 && !IsCharacterPerkOn(xi_refCharacter,"Gunman") )
-		{
-			return false;
-		}
-
-		if (chrgQ >= 4 && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") )
-		{
-			return false;
-		}*/
 		if(arItem.id == "mushket2x2") return false; // Мушкет квестового офа
-
-		// Для мушкетов нужен соответствующий перк
-		//if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman")&& !IsCharacterPerkOn(xi_refCharacter,"GunProfessional") && !HasSubStr(arItem.id, "mushket_drob"))
-		if(HasSubStr(arItem.id, "mushket") && !IsCharacterPerkOn(xi_refCharacter,"Gunman") && !HasSubStr(arItem.id, "mushket_drob"))
+		if(HasSubStr(arItem.id, "mushket") && !HasSubStr(arItem.id, "mushket_drob"))
 		{
-			return false;
+			if (!IsCharacterPerkOn(xi_refCharacter,"Gunman") && !IsCharacterPerkOn(xi_refCharacter,"GunProfessional")) return false;
 		}
 		
 		if (CheckAttribute(arItem,"ReqPerk"))
@@ -1245,8 +1246,13 @@ void EquipPress()
 	if (CheckAttribute(itmRef, "groupID"))
 	{
 		string itmGroup = itmRef.groupID;
+		
+		if (itmGroup == BLADE_ITEM_TYPE && CheckAttribute(xi_refCharacter, "DontChangeBlade")) return false;
+		if (itmGroup == GUN_ITEM_TYPE && CheckAttribute(xi_refCharacter, "DontChangeGun")) return false;
+	
 		if (itmGroup == MAPS_ITEM_TYPE)
 		{
+			SetSelectable("DISCARD_BTN",false);
 			// Warship. Отличная карта, у нее отдельный интерфейс
 			if(itmRef.ID == "Map_Best")
 			{
@@ -1276,6 +1282,7 @@ void EquipPress()
 			//PostEvent("InterfaceBreak", 400);
 			if (itmRef.id == "map_full" || itmRef.id == "map_part1" || itmRef.id == "map_part2")
 			{// клады
+				SetSelectable("DISCARD_BTN",true);
 				SetNewPicture("MAP_PICTURE", "interfaces\Maps\map_1.tga");
 				if (GetCharacterItem(pchar, "map_part1")>0  && GetCharacterItem(pchar, "map_part2")>0 && GetCharacterItem(pchar, "map_full")<=0)
 				{
@@ -1636,7 +1643,7 @@ void EquipPress()
 		if (drugEffects == 3) GetHigh();
 		
 		if (CheckAttribute(pchar,"drugstaken")) pchar.drugstaken = sti(pchar.drugstaken)+1;
-		else {pchar.drugstaken = 1; SetTimerFunction("ClearHPTubeEffect",0,0,10);}
+		else {pchar.drugstaken = 1; SetTimerFunction("ClearDrugs",0,0,10);}
 		DumpAttributes(pchar);
 		ApplayNewSkill(pchar, "", 0);
 		TakeNItems(pchar, itmRef.id, -1);
@@ -2358,9 +2365,10 @@ void CheckButtonChange()
 //========================================//
 	if (sControl == "CHECK_EQUIP_SET")
 	{
-		HideEditBox();
+		SaveEquipSet();
 		iEQUIP_SET = iSelectedCB;
 		ReEquipCharacter();
+		FillItemsTable(iCurTab);
 		return;
 	}
 }
@@ -2390,7 +2398,6 @@ void SaveEquipSet()
 	xi_refCharacter.(sSET) = 1; //помечаем, что в этом комплекте что-то сохранено
 	if (!checkattribute(xi_refCharacter, sSET + ".nameset")) xi_refCharacter.(sSET).nameset = "Комплект " + iEQUIP_SET;//в первый раз записываем "Комплект N"
 	string sTemp;
-	ShowEditBox();
 	for (int q=0;q<10;q++)
 	{
 	sTemp = sEType[q];
@@ -2460,4 +2467,11 @@ void HideEditBox()
 {
 	SetNodeUsing("EDIT_BOX1" , false);
 	SetNodeUsing("EDIT_BOX1_FRAME" , false);
+}
+
+void DiscardTreasureMap()
+{
+	TakeNItems(pchar, "map_full", -1);
+	ExitMapWindow();
+	FillItemsTable(iCurTab);
 }

@@ -880,7 +880,7 @@ void OpenChest()
 		if (value3 >= 600 && value3 < 750) {nameitm[17] = "pistol4"; 			itmq[17] = 1;} // Четырёхствольный пистолет
 		if (value >= 800 && value < 900) {nameitm[17] = "pistol5"; 				itmq[17] = 1;} // Бретерский пистолет
 		if (value_alt >= 900 && value_alt < 950) {nameitm[17] = "mushket"; 		itmq[17] = 1;} // Фитильный мушкет
-		if (value >= 950 && value < 999) {nameitm[17] = "Arguebuse"; 			itmq[17] = 1;} // Аркебуза
+		if (value >= 950 && value < 999) {nameitm[17] = "mushket_drob"; 		itmq[17] = 1;} // Аркебуза
 		
 		if (value >= 10 && value < 30) {nameitm[18] = "mushket_spanish"; 			itmq[18] = 1;} // Испанский мушкетон
 		if (value_alt >= 150 && value_alt < 170) {nameitm[18] = "mushket_english"; 	itmq[18] = 1;} // Английский мушкетон

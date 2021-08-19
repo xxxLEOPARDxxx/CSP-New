@@ -1065,6 +1065,7 @@ void QuestComplete(string sQuestName, string qname)
 				CloseQuestHeader("WhisperContraband");
 			}
 		break;
+		
 		//Спавн Пса Войны
 		case "Whisper_WarDog":
 			WhisperWarDogSeaBattle();
@@ -1072,7 +1073,7 @@ void QuestComplete(string sQuestName, string qname)
 		//Black Sails
 		//ОЗГ от Гатри
 		case "Gatri_Hunters":
-			if (CheckAttribute(pchar, "BSStart"))
+			if (CheckAttribute(pchar, "BSStart") && !CheckAttribute(pchar, "BSInProgress"))
 			{
 				ChangeCharacterHunterScore(pchar, "enghunter", 200);
 				ChangeCharacterHunterScore(pchar, "frahunter", 200);
@@ -10070,6 +10071,21 @@ void QuestComplete(string sQuestName, string qname)
 			ChangeCharacterAddressGroup(sld, "Santiago_town", "merchant", "mrcActive2");
 			LAi_SetActorType(sld);
 			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_12", "shipowner_13", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "officers", "reload10_3");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_13", "Priest_3", "man", "man", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "goto", "goto18");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_14", "BS_Gatry", "woman", "woman", 10, SPAIN, -1, false));
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "merchant", "mrcActive1");
+			LAi_SetActorType(sld);
+			sld.lifeday = 0;
 		break;
 		
 		case "PDM_ONV_PodjIschezni":
@@ -10106,8 +10122,8 @@ void QuestComplete(string sQuestName, string qname)
 			AddCharacterExpToSkill(pchar, "FencingHeavy", 100);
 			AddCharacterExpToSkill(pchar, "Fencing", 100);
 			AddCharacterExpToSkill(pchar, "Pistol", 100);
-			AddCharacterExpToSkill(pchar, "Sneak", -50);
-			AddCharacterExpToSkill(pchar, "Commerce", -50);
+			AddCharacterExpToSkill(pchar, "Sneak", -100);
+			AddCharacterExpToSkill(pchar, "Commerce", -100);
 			
 			AddQuestRecord("PDM_Neputyovy_kaznachey", "4");
 			
@@ -10147,9 +10163,10 @@ void QuestComplete(string sQuestName, string qname)
 		
 		case "PDM_CL_Antonio_Ubit":
 			sld = CharacterFromID("PDM_CL_Antonio")
-			LAi_KillCharacter(sld);
+			ChangeCharacterAddressGroup(sld, "Maracaibo_town", "none", "");
 			sld = CharacterFromID("PDM_CL_Anto2")
-			LAi_KillCharacter(sld);
+			ChangeCharacterAddressGroup(sld, "Maracaibo_town", "none", "");
+			Group_SetAddress("PDM_el_tib", "none", "", "");
 			sld = CharacterFromID("PDM_Octavio_Lambrini")
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Octavio_2_1";
@@ -10160,7 +10177,7 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 		
 		case "PDM_CL_PVT":
-			sld = CharacterFromID("PDM_CL_Pokupatel")
+			sld = CharacterFromID(pchar.LambriniPGG)
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_1_1";
 			LAi_SetSitType(sld);
@@ -10178,18 +10195,58 @@ void QuestComplete(string sQuestName, string qname)
 		
 		case "PDM_CL_Na_Plyaj_2":
 			LAi_SetPlayerType(pchar);
-			sld = CharacterFromID("PDM_CL_Pokupatel")
+			sld = CharacterFromID(pchar.LambriniPGG);
 			LAi_SetActorType(sld);
+			DeleteAttribute(sld, "chr_ai.disableDlg");
 			LAi_ActorDialog(sld, pchar, "", 0, 0);
-			sld.lifeday = 0;
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_6_1";		
+		break;
+
+		case "LambriniPGG_CheckHP":
+			LAi_group_SetRelation("PDM_CL_PirVrag_Status", LAI_GROUP_PLAYER, LAI_GROUP_FRIEND);
+			
+			LAi_SetActorTypeNoGroup(pchar);
+			LAi_SetFightMode(PChar, false);
+			DoQuestFunctionDelay("PDM_CL_PlayerType", 2.0);
+			
+			sld = CharacterFromID("PDM_CL_Antonio3");
+			LAi_SetActorTypeNoGroup(sld);
+			LAi_ActorFollow(sld, PChar, "", -1);
+			
+			sld = characterFromID("PDM_Octavio_Lambrini");
+			LAi_SetActorTypeNoGroup(sld);
+			LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+			
+			sld = CharacterFromID(pchar.LambriniPGG);
+			LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+			LAi_SetActorTypeNoGroup(sld);
+			LAi_ActorDialog(sld, pchar, "", -1, 0);
+			sld.dialog.currentnode   = "LambriniPGG_1_1";
+			DoQuestFunctionDelay("PDM_CL_Pokupatel_Speech", 0);
+			
+			for (i=3; i<=14; i++)	//пираты м контрабандисты
+			{
+				sld = CharacterFromID("PDM_CL_PirVrag_"+i);			
+				LAi_SetActorTypeNoGroup(sld);
+				sld.LifeDay = 0;
+				LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+			}
+			
+			for (i=19; i<=27; i++)	//испанцы 1
+			{
+				sld = CharacterFromID("SraDruzya_"+i)	
+				LAi_SetActorTypeNoGroup(sld);
+				LAi_SetFightMode(sld, true);
+				LAi_LockFightMode(sld, true);
+				sld.LifeDay = 0;
+			}
 		break;
 		
 		case "PDM_CL_Finish":
 			LAi_SetFightMode(pchar, false);
 			
-			sld = CharacterFromID("PDM_CL_Antonio3")
+			sld = CharacterFromID("PDM_CL_Antonio3");
 			ChangeCharacterAddressGroup(sld, "PortRoyal_town", "none", "");
 			
 			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Antonio4", "SpaOfficer2", "man", "man", Rank, SPAIN, -1, false));
@@ -10205,6 +10262,31 @@ void QuestComplete(string sQuestName, string qname)
 			sld.dialog.currentnode   = "Antonio_8_1";
 		break;
 
+		case "LambriniPGG_Late":
+			if(CheckAttribute(pchar,"LambriniPGGInPrison") && CheckAttribute(pchar,"LambriniPGGPlata"))
+			{
+				DeleteAttribute(pchar,"LambriniPGGPlata");
+				AddQuestRecord("PDM_Clan_Lambrini", "10");
+				CloseQuestHeader("PDM_Clan_Lambrini");
+				AddQuestUserData("PDM_Clan_Lambrini", "sName", GetFullName(CharacterFromID(pchar.LambriniPGG)));
+				PGG_ChangeRelation2MainCharacter(CharacterFromID(pchar.LambriniPGG), -200);
+				SetTimerCondition("LambriniPGG_Freedom", 0, 0, 27, false);
+			}
+		break;
+		case "LambriniPGG_Freedom":
+			if(CheckAttribute(pchar,"LambriniPGGInPrison"))
+			{
+				DeleteAttribute(pchar,"LambriniPGGInPrison");
+				PGG_ChangeRelation2MainCharacter(CharacterFromID(pchar.LambriniPGG), -200);
+			}
+				sld = CharacterFromID(pchar.LambriniPGG);
+				DeleteAttribute(sld, "PGGAi.DontUpdate");
+				DeleteAttribute(sld, "LambiniAsoleda");
+				DeleteAttribute(sld, "PGGAi.Task.SetSail");
+				DeleteAttribute(pchar, "LambriniPGG");
+				DeleteAttribute(pchar, "LambriniPGGPlata");
+			
+		break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   	КВЕСТЫ "Проклятие Дальних Морей" КОНЕЦ
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -10219,6 +10301,36 @@ void QuestComplete(string sQuestName, string qname)
 			RemoveAllCharacterItems(sld, true);
 			GiveItem2Character(sld, "topor_05");
 			EquipCharacterbyItem(sld, "topor_05"); // 151012
+		break;
+		
+		case "SpookyScarySkeleton":
+			if (loadedLocation.id == "Labirint_1" || loadedLocation.id == "Labirint_2" || loadedLocation.id == "Labirint_3")
+			{
+				int pRank;
+				if (sti(pchar.rank) > 5)
+				{
+					if (sti(pchar.rank) > 20) pRank = sti(pchar.rank)+5 + MOD_SKILL_ENEMY_RATE;
+					else pRank = sti(pchar.rank)+5 + sti(MOD_SKILL_ENEMY_RATE/2);
+				}
+				else
+				{	//казуалам набьют ебало, ибо ранг+5 и толпа
+					pRank = sti(pchar.rank)+5;
+				}
+				aref grp;
+				int num;
+				makearef(grp, loadedLocation.locators.monsters);
+				num = GetAttributesNum(grp);
+				for(i = 0; i < num; i++)
+				{
+					sld = GetCharacter(NPC_GenerateCharacter("Skelet"+loadedLocation.index+"_"+i, "Skel_5", "skeleton", "man2_ab", iRank, PIRATE, 1, true));
+					FantomMakeCoolFighter(sld, pRank, 80, 80, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), "", MOD_SKILL_ENEMY_RATE*2);
+					LAi_SetWarriorType(sld);
+					LAi_warrior_SetStay(sld, true);
+					LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+					string locator = GetAttributeName(GetAttributeN(grp, i));
+					ChangeCharacterAddressGroup(sld, loadedLocation.id, "monsters", locator);
+				}
+			}
 		break;
 		
 		case "recharge_portals":
@@ -10252,6 +10364,12 @@ void QuestComplete(string sQuestName, string qname)
 			pchar.quest.fifth_portal.win_condition.l1.locator = "teleport5";
 			pchar.quest.fifth_portal.win_condition = "fifth_portal";
 			
+			pchar.quest.treasure_portal.win_condition.l1 = "locator";
+			pchar.quest.treasure_portal.win_condition.l1.location = "Treasure_alcove";
+			pchar.quest.treasure_portal.win_condition.l1.locator_group = "teleport";
+			pchar.quest.treasure_portal.win_condition.l1.locator = "teleport6";
+			pchar.quest.treasure_portal.win_condition = "treasure_portal";
+			
 			pchar.quest.monster_portal.win_condition.l1 = "locator";
 			pchar.quest.monster_portal.win_condition.l1.location = "Treasure_alcove";
 			pchar.quest.monster_portal.win_condition.l1.locator_group = "teleport";
@@ -10265,6 +10383,7 @@ void QuestComplete(string sQuestName, string qname)
 			pchar.quest.third_portal.over = "yes";
 			pchar.quest.fourth_portal.over = "yes";
 			pchar.quest.fifth_portal.over = "yes";
+			pchar.quest.treasure_portal.over = "yes";
 			pchar.quest.monster_portal.over = "yes";
 		break;
 
@@ -10297,6 +10416,12 @@ void QuestComplete(string sQuestName, string qname)
 			LAi_fade("teleport_5_treasure", "");
 			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
 		break;
+		
+		case "treasure_portal":
+			LAi_QuestDelay("empting_portals", 0.0);
+			LAi_fade("teleport_treasure_5", "");
+			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
+		break;
 
 		case "teleport_1_2":
 			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport2");
@@ -10320,7 +10445,12 @@ void QuestComplete(string sQuestName, string qname)
 
 		case "teleport_5_treasure":
 			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport6");
-			//LAi_QuestDelay("recharge_portals", 1.0);
+			LAi_QuestDelay("recharge_portals", 2.0);
+		break;
+		
+		case "teleport_treasure_5":
+			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport5");
+			LAi_QuestDelay("recharge_portals", 2.0);
 		break;
 		
 		case "monster_portal":

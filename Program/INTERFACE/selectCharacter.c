@@ -1111,6 +1111,15 @@ void SetVariable(bool _init)
 {
     idLngFile = LanguageOpenFile("HeroDescribe.txt");
     SetFormatedText("HERO_NAME", GetNewMainCharacterName());
+	
+	pchar.name = GetNewMainCharacterParam("heroName_" + startHeroType);
+	pchar.lastname = GetNewMainCharacterParam("heroLastname_" + startHeroType);
+	pchar.sex = GetNewMainCharacterParam("sex_" + startHeroType);
+	pchar.FaceID = GetNewMainCharacterFace();
+	bool bRandCharNation = startHeroType > 7 && startHeroType < 12;
+	if (bRandCharNation || startHeroType < 3)	SetSelectable("RANDCHARNATION",false);
+	else	SetSelectable("RANDCHARNATION",true);
+	
     if (_init)
     {
     	NullCharacter.HeroParam.HeroType = GetNewMainCharacterType(startHeroType);

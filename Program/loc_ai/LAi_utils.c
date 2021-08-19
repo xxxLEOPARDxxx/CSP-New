@@ -370,6 +370,7 @@ void LAi_CheckHalfImmortal(aref chr)
 		if (CheckAttribute(chr,"HeroModel")) rOff.HeroModel = chr.HeroModel;
 		if (CheckAttribute(chr, "DontChangeBlade")) rOff.DontChangeBlade = true;
 		if (CheckAttribute(chr, "DontChangeGun")) rOff.DontChangeGun = true;
+		if (CheckAttribute(chr,"CanTakeMushket")) rOff.CanTakeMushket = true;
 		rOff.id = chr.id;
 		rOff.HalfImmortal = true;
 		if (CheckAttribute(chr, "ImmortalOfficer"))

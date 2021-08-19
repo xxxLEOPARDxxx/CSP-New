@@ -288,9 +288,9 @@ void CalculateInfoData()
 
 void AddToTable()
 {
-	int n, i;
+	int n, i, iTemp;
 	string row, sShipGroup;
-	string sGood;
+	string sGood, sTemp;
 	int  idLngFile;
 	int leftQty, rightQty;
 	n = 1;
@@ -331,6 +331,17 @@ void AddToTable()
 			GameInterface.TABLE_LIST.(row).td4.icon.height = 20;
 			GameInterface.TABLE_LIST.(row).td4.textoffset = "20,0";
 			GameInterface.TABLE_LIST.(row).td4.str = LanguageConvertString(idLngFile, Items[i].name);
+
+			iTemp = CheckItemInSets(refCharacter, sGood);
+			if (iTemp > 0) 
+			{
+				GameInterface.TABLE_LIST.(row).td4.str = GameInterface.TABLE_LIST.(row).td4.str + " (К" + iTemp + ")"; 
+				//sTemp = "Set" + iTemp;
+				//GameInterface.TABLE_LIST.(row).td4.str = GameInterface.TABLE_LIST.(row).td4.str + " (" + refCharacter.(sTemp).nameset + ")"; 
+				GameInterface.TABLE_LIST.(row).td4.color = argb(255,196,196,255);//подцвечиваем предметы из комплектов
+				GameInterface.TABLE_LIST.(row).td1.color = argb(255,196,196,255);
+			}
+
 			GameInterface.TABLE_LIST.(row).index = i;
 			GameInterface.TABLE_LIST.(row).td4.scale = 0.9;
 			GameInterface.TABLE_LIST.(row).td3.str = GetTradeItemPrice(i, PRICE_TYPE_BUY);
@@ -367,6 +378,17 @@ void AddToTable()
 			GameInterface.TABLE_LIST.(row).td4.icon.height = 20;
 			GameInterface.TABLE_LIST.(row).td4.textoffset = "20,0";
 			GameInterface.TABLE_LIST.(row).td4.str = LanguageConvertString(idLngFile, Items[i].name);
+
+			iTemp = CheckItemInSets(refCharacter, sGood);
+			if (iTemp > 0) 
+			{
+				GameInterface.TABLE_LIST.(row).td4.str = GameInterface.TABLE_LIST.(row).td4.str + " (К" + iTemp + ")"; 
+				//sTemp = "Set" + iTemp;
+				//GameInterface.TABLE_LIST.(row).td4.str = GameInterface.TABLE_LIST.(row).td4.str + " (" + refCharacter.(sTemp).nameset + ")"; 
+				GameInterface.TABLE_LIST.(row).td4.color = argb(255,196,196,255);//подцвечиваем предметы из комплектов
+				GameInterface.TABLE_LIST.(row).td1.color = argb(255,196,196,255);
+			}
+
 			GameInterface.TABLE_LIST.(row).index = i;
 			GameInterface.TABLE_LIST.(row).td4.scale = 0.9;
 			//GameInterface.TABLE_LIST.(row).td4.color = iColor;

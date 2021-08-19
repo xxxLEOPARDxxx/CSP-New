@@ -20,6 +20,7 @@ void ProcessDialogEvent()
 	if (Bonus >= 13) Bonus = 1.5;
 	int Plata1 = 10000 + 1800 * sti(pchar.rank) * Bonus;
 	int Plata2 = 20000 + 2000 * sti(pchar.rank) * Bonus;
+	int Plata3 = Plata2 * 2;
 	pchar.PDM_NK_Plata1.Money = 10000 + 1800 * sti(pchar.rank) * Bonus;
 	pchar.PDM_NK_Plata2.Money = 20000 + 2000 * sti(pchar.rank) * Bonus;
 	
@@ -245,8 +246,8 @@ void ProcessDialogEvent()
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Antonio_1_1";
 			sld.greeting = "GR_Spainguard";
-			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "", "pistol2", DopHP);
-			sld.equip.blade = "blade39";
+			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "blade38", "pistol2", DopHP);
+			sld.SaveItemsForDead = true;
 			LAi_SetWarriorType(sld);
 			LAi_SetLoginTime(sld, 12.0, 16.00);
 			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
@@ -256,8 +257,8 @@ void ProcessDialogEvent()
 			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Anto2", "SpaOfficer2", "man", "man", Rank, SPAIN, -1, false));	//ВТОРОЙ
 			sld.name = "Антонио";
 			sld.lastname = "де Гальвес";
-			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "", "pistol2", DopHP);
-			sld.equip.blade = "blade39";
+			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "blade38", "pistol2", DopHP);
+			sld.SaveItemsForDead = true;
 			sld.greeting = "GR_Spainguard";
 			if (pchar.rank <= 9)
 			{
@@ -591,9 +592,30 @@ void ProcessDialogEvent()
 			LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
 			ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_front2");
 			
-			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Pokupatel", "PGG_Victori_8", "woman", "YokoDias", 10, PIRATE, -1, false));
-			sld.name	= "Виктория";
-			sld.lastname	= "";
+			pchar.LambriniPGG = SelectRandomPGG("woman", "YokoDias");
+				
+			if (pchar.LambriniPGG == "")
+			{
+				pchar.LambriniPGG = "PDM_CL_Pokupatel";
+				if(pchar.name == "Виктория")
+				{
+					sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Pokupatel", "PGG_Cirilla_7", "woman", "YokoDias", 10, PIRATE, -1, false));
+				}
+				else
+				{
+					sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Pokupatel", "PGG_Victori_8", "woman", "YokoDias", 10, PIRATE, -1, false));
+				}
+				sld.name	= "Марилиса";
+				sld.lastname	= "Ринн";
+			}
+			else sld = CharacterFromID(pchar.LambriniPGG);
+			
+			sld.PGGAi.DontUpdate = true;
+			sld.PGGAi.Task.SetSail = true;
+			DeleteAttribute(sld, "PGG_warrior");
+			DeleteAttribute(sld, "PGG_trader");
+			
+			SaveOldDialog(sld);
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_1_1";
 			LAi_SetSitType(sld);
@@ -625,7 +647,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Pokupatel_2_1":
-			sld = characterFromID("PDM_CL_Pokupatel");
+			sld = characterFromID(pchar.LambriniPGG);
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_2_2";
 			DialogExit();
@@ -633,7 +655,6 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Pokupatel_2_2":
-			npchar.lifeday = 0;
 			dialog.text = "(обращается к Октавио) Хочу продать то, что не купит ни один торговец на этом острове. В моём трюме лежит товар мечты! Горы сандала, только подумай, а.";
 			link.l1 = "";
 			link.l1.go = "Pokupatel_2_3";
@@ -655,7 +676,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Pokupatel_2_5":
-			sld = characterFromID("PDM_CL_Pokupatel");
+			sld = characterFromID(pchar.LambriniPGG);
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Pokupatel_2_6";
 			DialogExit();
@@ -671,7 +692,8 @@ void ProcessDialogEvent()
 		case "Pokupatel_2_7":
 			sld = characterFromID("PDM_Octavio_Lambrini");
 			LAi_CharacterDisableDialog(sld);
-			sld = characterFromID("PDM_CL_Pokupatel");
+			sld = characterFromID(pchar.LambriniPGG);
+
 			LAi_CharacterDisableDialog(sld);
 			DoQuestFunctionDelay("PDM_CL_Pokupatel_Uhodit", 1.5);
 			sld = CharacterFromID("PDM_CL_Antonio3")
@@ -769,11 +791,32 @@ void ProcessDialogEvent()
 			LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
 			ChangeCharacterAddressGroup(sld, "Shore37", "goto", "goto7");
 			
-			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Pokupatel", "PGG_Victori_8", "woman", "YokoDias", 10, PIRATE, -1, false));
+			sld = CharacterFromID(pchar.LambriniPGG);
 			LAi_SetActorType(sld);
-			sld.name	= "Виктория";
-			sld.lastname	= "";
-			FantomMakeCoolFighter(sld, Rank, 90, 90, "blade38", "pistol4", 500);
+
+			sld.LambiniAsoleda = GetGeneratedItem("blade38");
+			GiveItem2Character(sld, sld.LambiniAsoleda);
+			EquipCharacterByItem(sld, sld.LambiniAsoleda);
+			
+			GiveItem2Character(sld, "pistol4");
+			EquipCharacterByItem(sld, "pistol4");
+			
+			sld.BackupHP = LAi_GetCharacterMaxHP(sld);
+			LAi_SetHP(sld, sti(sld.BackupHP) + 1000, sti(sld.BackupHP) + 1000);
+			//LAi_SetHP(sld, 100, 100);
+			SetCharacterPerk(sld, "Sliding");
+			sld.perks.list.AgileMan = "1";
+			ApplayNewSkill(sld, "AgileMan", 0);
+			
+			sld.SPECIAL.Agility = 10;
+			sld.SPECIAL.Intellect = 10;
+			sld.SPECIAL.Endurance = 10;
+			sld.SPECIAL.Luck = 10;
+			
+			//FantomMakeCoolFighter(sld, Rank, 90, 90, "blade38", "pistol4", 500);
+			
+			LAi_SetCheckMinHP(sld, 1, true, "LambriniPGG_CheckHP");
+			/*
 			AddMoneyToCharacter(sld, 100000);
 			AddItems(sld, "jewelry1", rand(20)+20);
 			AddItems(sld, "jewelry2", rand(20)+20);
@@ -782,7 +825,7 @@ void ProcessDialogEvent()
 			AddItems(sld, "jewelry5", rand(20)+20);
 			AddItems(sld, "suit_3", 1);
 			AddItems(sld, "indian5", 1);
-			sld.SaveItemsForDead = true;
+			sld.SaveItemsForDead = true;*/
 			LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
 			ChangeCharacterAddressGroup(sld, "Shore37", "goto", "goto7");
 		break;
@@ -848,40 +891,300 @@ void ProcessDialogEvent()
 				sld.lifeday = 0;
 			}
 			
-			sld = CharacterFromID("PDM_Octavio_Lambrini")
+			sld = CharacterFromID("PDM_Octavio_Lambrini");
 			LAi_SetWarriorType(sld);
 			LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
 			
-			sld = CharacterFromID("PDM_CL_Pokupatel")
+			sld = CharacterFromID(pchar.LambriniPGG)
 			LAi_SetWarriorType(sld);
 			LAi_group_MoveCharacter(sld, "PDM_CL_PirVrag_Status");
 			
-			sld = CharacterFromID("PDM_CL_Antonio3")
+			sld = CharacterFromID("PDM_CL_Antonio3");
 			LAi_SetWarriorType(sld);
 			LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
 			
 			LAi_group_SetRelation("PDM_CL_PirVrag_Status", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 			LAi_group_FightGroups("PDM_CL_PirVrag_Status", LAI_GROUP_PLAYER, false);
-			LAi_group_SetCheck("PDM_CL_PirVrag_Status", "PDM_CL_Finish");			
+			//LAi_group_SetCheck("PDM_CL_PirVrag_Status", "PDM_CL_Finish");			
 		break;
 		
 		case "Antonio_8_1":
-			dialog.text = "Не могу поверить, у нас получилось! Пусть мы сегодня и победили, но старший сын Ламбрини займёт его место и продолжит дело отца. Боюсь, контрабандисткая секта будет вечно приносить вред Великой Испании.";
-			link.l1 = "Октавио Ламбрини больше нет, что насчёт награды?";
+			string OctavioDead = "";
+			if(LAi_IsDead(CharacterFromID("PDM_Octavio_Lambrini")))	OctavioDead = "Пусть мы сегодня и победили, но старший сын Ламбрини займёт его место и продолжит дело отца. Боюсь, контрабандисткая секта будет вечно приносить вред Великой Испании.";
+			
+			dialog.text = "Не могу поверить, у нас получилось! Вы можете возвращаться в город, а мои люди разберутся с этим беспорядком. " + OctavioDead;
+			
+			OctavioDead = "Октавио Ламбрини мертв, ";
+			if(!LAi_IsDead(CharacterFromID("PDM_Octavio_Lambrini")))	OctavioDead = "Октавио Ламбрини арестован, ";
+			link.l1 = OctavioDead + "что насчёт награды?";
 			link.l1.go = "Antonio_8_2";
 		break;
 		
 		case "Antonio_8_2":
-			dialog.text = "Да, конечно, серьор Алькальда выделил вам " + Plata2 + " золотых. Я даю их вам лично в руки. Адиос!";
+			pchar.LambriniPGGPlata = Plata2/2;
+			string addPlata = "";
+			if(!LAi_IsDead(CharacterFromID("PDM_Octavio_Lambrini")))
+			{
+				pchar.LambriniPGGPlata = Plata2;
+				AddMoneyToCharacter(pchar, sti(Plata2*2));
+				addPlata = "Но так как мы сумели поймать мерзавца живым - я удвою вам гонорар, из собственного кармана! В итоге " + Plata3 + " золотых. Кто знает, возможно после парочки недель в стенах тюрьмы Октавио расскажет, как нам изловить остальных членов его преступной семейки. "
+			}
+			else	AddMoneyToCharacter(pchar, sti(Plata2));
+			dialog.text = "Да, конечно, сеньор Алькальда выделил вам " + Plata2 + " золотых. "+addPlata+"Я даю эти деньги вам лично в руки. Адиос!";
 			link.l1 = "Благодарю, Антонио. Удачи вам!";
-			link.l1.go = "exit";
-			AddMoneyToCharacter(pchar, sti(Plata2));
+			link.l1.go = "LambriniPGG_1_5";
+			
 			LocatorReloadEnterDisable("Shore37", "reload1_back", false);
 			LocatorReloadEnterDisable("Shore37", "boat", false);
-			CloseQuestHeader("PDM_Clan_Lambrini");
 			ChangeCharacterNationReputation(pchar, SPAIN, 8);
 			ChangeCharacterReputation(pchar, 5);
+		break;	
+		
+		case "LambriniPGG_1_1":
+			dialog.text = RandSwear()+"Груз сандала не стоит наших жизней. Мы сдаёмся!";
+			link.l1 = "В таком случае, вы должны сдать свою шпагу, капитан.";
+			link.l1.go = "LambriniPGG_1_2";
+			
+			for (i=3; i<=14; i++)	//пираты м контрабандисты прячут оружие, испанцы - нет
+			{
+				sld = CharacterFromID("PDM_CL_PirVrag_"+i);			
+				LAi_SetStayTypeNoGroup(sld);
+			}
+			sld = characterFromID("PDM_Octavio_Lambrini");
+			LAi_SetStayTypeNoGroup(sld);
+		break;	
+		
+		case "LambriniPGG_1_2":
+			for (i=3; i<=14; i++)	//пираты м контрабандисты
+			{
+				sld = CharacterFromID("PDM_CL_PirVrag_"+i);			
+				LAi_SetActorTypeNoGroup(sld);
+			}
+			sld = characterFromID("PDM_Octavio_Lambrini");
+			LAi_SetActorTypeNoGroup(sld);
+			sld.LifeDay = 0;
+			dialog.text = RandSwear()+"Ты и представить себе не можешь, как дорого она мне обошлась!";
+			link.l1 = "Я дважды повторять не стану.";
+			link.l1.go = "LambriniPGG_1_3";
+		break;	
+		
+		case "LambriniPGG_1_3":
+			TakeItemFromCharacter(npchar, npchar.LambiniAsoleda);
+			GiveItem2Character(pchar, npchar.LambiniAsoleda);
+			RemoveCharacterEquip(npchar, BLADE_ITEM_TYPE);
+			RemoveCharacterEquip(npchar, GUN_ITEM_TYPE);
+			Log_Info("Вы получили Асоледу!");
+			PlaySound("interface\important_item.wav");
+			
+			dialog.text = RandSwear()+"На, подавись!";
+			link.l1 = "Что дальше, Антонио?";
+			link.l1.go = "LambriniPGG_1_4";
+			
+			PChar.quest.LambriniPGG_RemoveFromShore.win_condition.l1 = "ExitFromLocation";
+			PChar.quest.LambriniPGG_RemoveFromShore.win_condition.l1.location = PChar.location;
+			PChar.quest.LambriniPGG_RemoveFromShore.function = "LambriniPGG_RemoveFromShore";
+		break;	
+		
+		case "LambriniPGG_1_4":
+			DialogExit();
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Antonio4", "SpaOfficer2", "man", "man", Rank, SPAIN, 0, false));
+			sld.name = "Антонио";
+			sld.lastname = "де Гальвес";
+			sld.greeting = "GR_Spainguard";
+			sld.equip.blade = "blade39";
+			ChangeCharacterAddressGroup(sld, "Shore37", "goto", "goto7");
+			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+			//sld = CharacterFromID("PDM_CL_Antonio3");
+			sld.dialog.currentnode   = "Antonio_8_1";
+			pchar.InstantDialog = sld.id;
+			DoQuestFunctionDelay("InstantDialog", 0);
 		break;
 		
+		case "LambriniPGG_1_5":
+			DialogExit();
+			sld = CharacterFromID(pchar.LambriniPGG);
+			sld.dialog.currentnode   = "LambriniPGG_1_6";
+			pchar.InstantDialog = sld.id;
+			DoQuestFunctionDelay("InstantDialog", 0);
+		break;
+		
+		case "LambriniPGG_1_6":
+			dialog.text = "Это ваши разборки с Октавио, и я здесь ни при чём. Отпустите меня! Быть может, вам о чём-нибудь говорит имя "+GetFullName(npchar)+"? Я известная в этих водах личность! Лучше не переходить мне дорогу.";
+			link.l1 = "";
+			link.l1.go = "LambriniPGG_1_7";
+		break;
+		
+		case "LambriniPGG_1_7":
+			DialogExit();
+			sld = CharacterFromID("PDM_CL_Antonio4");
+			sld.dialog.currentnode   = "LambriniPGG_1_8";
+			pchar.InstantDialog = sld.id;
+			DoQuestFunctionDelay("InstantDialog", 0);
+		break;
+		
+		case "LambriniPGG_1_8":
+			dialog.text = "Для меня все вы преступники на одно лицо, и я не собираюсь делать исключений! Мы отведём вас в тюрьму под фортом Маракайбо, а затем вашу судьбу решит суд.";
+			link.l1 = "";
+			link.l1.go = "LambriniPGG_1_9";
+		break;
+		
+		case "LambriniPGG_1_9":
+			LAi_SetActorTypeNoGroup(npchar);
+			DialogExit();
+			sld = CharacterFromID(pchar.LambriniPGG);
+			sld.dialog.currentnode   = "LambriniPGG_1_10";
+			pchar.InstantDialog = sld.id;
+			DoQuestFunctionDelay("InstantDialog", 0);
+		break;
+		
+		case "LambriniPGG_1_10":
+			LAi_SetActorTypeNoGroup(npchar);
+			LAi_SetHP(npchar, sti(npchar.BackupHP) + 100, sti(npchar.BackupHP) + 100);
+			dialog.text = "(Она старается говорить шёпотом, чтобы не услышал Антонио) А что насчёт тебя? Я же вижу, что ты не из этих тупых солдафонов. Помоги мне выпутаться из этой передряги, а я тебя награжу. В довесок к шпаге, заберёшь весь мой клад!";
+			link.l1 = "Мне это не интересно. К тому же, преступникам место в тюрьме.";
+			link.l1.go = "LambriniPGG_1_11";
+			link.l2 = "Клад, говоришь... Антонио слишком порядочный, вряд ли я смогу его переубедить, но может начальник тюрьмы, куда тебя отвезут, будет посговорчивей.";
+			link.l2.go = "LambriniPGG_1_12";
+		break;		
+		
+		case "LambriniPGG_1_11":
+			dialog.text = RandSwear()+RandSwear()+RandSwear()+RandSwear()+RandSwear()+"Будьте вы прокляты! Ну ничего, я ещё выберусь и отомщу, всем вам!";
+			link.l1 = "Ну-ну.";
+			link.l1.go = "exit";
+			AddQuestRecord("PDM_Clan_Lambrini", "9");
+			CloseQuestHeader("PDM_Clan_Lambrini");
+			AddQuestUserData("PDM_Clan_Lambrini", "sName", GetFullName(npchar));
+			PGG_ChangeRelation2MainCharacter(CharacterFromID(pchar.LambriniPGG), -200); //сильно обиделась
+			SetTimerCondition("LambriniPGG_Freedom", 0, 0, 30, false); //Посидит месяц в тюрьме без кача и потом выйдет
+		break;
+		
+		case "LambriniPGG_1_12"://Запустить таймер в 10 дней на возврат диалога коменданту потом то же, что и в комменте выше
+			dialog.text = "Ты не пожалеешь! Только прошу, поторопись, я не хочу на виселицу!";
+			link.l1 = "Ладно.";
+			link.l1.go = "LambriniPGG_1_13";
+			AddQuestRecord("PDM_Clan_Lambrini", "8");
+			AddQuestUserData("PDM_Clan_Lambrini", "sName", GetFullName(npchar));
+		break;
+		
+		case "LambriniPGG_1_13":
+			DialogExit();
+			SetTimerCondition("LambriniPGG_Late", 0, 0, 3, false);//Три дня чтобы прийти в тюрьму
+			pchar.LambriniPGGInPrison = true;
+			//sld = CharacterFromID("MaracaiboJailOff");
+			//SaveOldDialog(sld);
+			//sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
+			//sld.dialog.currentnode   = "LambriniPGG_1_14";
+		break;
+		
+		case "LambriniPGG_1_14"://Запустить таймер в 10 дней на возврат диалога коменданту потом то же, что и в комменте выше
+			dialog.text = "Ты не пожалеешь! Только прошу, поторопись, я не хочу на виселицу!";
+			link.l1 = "Ладно.";
+			link.l1.go = "exit";
+			DialogExit();
+			//RestoreOldDialog(npchar);
+		break;
+		
+		case "LambriniPGG_2_1":
+			LocatorReloadEnterDisable(pchar.location.from_sea, "boat", true);
+			LocatorReloadEnterDisable("Maracaibo_exittown", "reload1_back", true);
+			chrDisableReloadToLocation = false;
+			LAi_SetActorTypeNoGroup(npchar);
+			LAi_ActorFollowEverywhere(npchar, "", -1);
+			dialog.text = GetSexPhrase("Мой спаситель!","Моя спасительница!")+" Если конечно опустить тот факт, что это именно ты засадил" + GetSexPhrase("","а") + " меня сюда.";
+			link.l1 = "Раз моих это рук дело, мне и вызволять. Так что насчёт клада?";
+			link.l1.go = "LambriniPGG_2_2";
+		break;		
+		
+		case "LambriniPGG_2_2":
+			dialog.text = "Эх, похоже у каждого на этом архипелаге есть свои корыстные мотивы. Никому не интересно просто помочь девушке в беде.\nМой сундук должен быть всё ещё в таверне, здесь, в Маракайбо. Сними комнату.";
+			link.l1 = "В таверну, так в таверну.";
+			link.l1.go = "exit";
+			
+			PChar.quest.LambriniPGG_Tavern.win_condition.l1 = "location";
+			PChar.quest.LambriniPGG_Tavern.win_condition.l1.location = "Maracaibo_tavern_upstairs";
+			PChar.quest.LambriniPGG_Tavern.function = "LambriniPGG_Tavern";
+		break;	
+		
+		case "LambriniPGG_2_3":
+			chrDisableReloadToLocation = true;
+			dialog.text = "А вот и сундук. Нам повезло, что солдафоны не успели его найти.";
+			link.l1 = "Ладно, открывай. Посмотрим, что там.";
+			link.l1.go = "LambriniPGG_2_4";
+		break;
+		case "LambriniPGG_2_4":
+			GiveItem2Character(pchar, "Chest_quest");
+			Log_Info("Вы получили странный сундук");
+			PlaySound("interface\important_item.wav");
+			dialog.text = "С этим есть проблемка. У меня нет ключа.";
+			link.l1 = "Ну и накой мне нужен запертый сундук?";
+			link.l1.go = "LambriniPGG_2_5";
+		break;
+		case "LambriniPGG_2_5":
+			TakeNItems(PChar, "Lockpick", 3);
+			Log_Info("Вы получили отмычки");
+			PlaySound("interface\important_item.wav");
+			dialog.text = "Ты сможешь отпереть его отмычками. Вот, смотри. Я купила их у Октавио, но так и не успела воспользоваться.";
+			link.l1 = "Ладно, давай их сюда, разберусь уже.";
+			link.l1.go = "LambriniPGG_2_6";
+		break;
+		case "LambriniPGG_2_6":
+			dialog.text = "Что ж, думаю мы оба выполнили свою часть договоренности...";
+			link.l1 = "Так и быть, можешь идти.";
+			link.l1.go = "LambriniPGG_2_7";
+			link.l2 = "Раз уж мы оказались в спальне, и здесь такая мягкая кровать... Проверим её на прочность?";
+			link.l2.go = "LambriniPGG_2_8";
+		break;
+		case "LambriniPGG_2_7":
+			PGG_ChangeRelation2MainCharacter(CharacterFromID(pchar.LambriniPGG), 30);
+			chrDisableReloadToLocation = false;
+			dialog.text = "Ну мне пора. Теперь нужно как-то свой корабль вернуть\nМожет ещё увидимся. Удачи тебе.";
+			link.l1 = "И тебе.";
+			link.l1.go = "LambriniPGG_2_10";
+			
+			string finalWords = ".";
+			if (CheckAttribute(npchar,"bonusEnergy"))	finalWords = " и несколько незабываемых приятных воспоминаний.";
+			
+			AddQuestRecord("PDM_Clan_Lambrini", "11");
+			CloseQuestHeader("PDM_Clan_Lambrini");
+			AddQuestUserData("PDM_Clan_Lambrini", "sName", GetFullName(npchar));
+			AddQuestUserData("PDM_Clan_Lambrini", "sContinue", finalWords);
+			
+			DeleteAttribute(pchar,"LambriniPGGInPrison");
+			SetTimerCondition("LambriniPGG_Freedom", 0, 0, 7, false);//Через неделю вернется в строй
+			//DeleteAttribute(npchar, "PGGAi.DontUpdate");
+			//DeleteAttribute(npchar, "PGGAi.Task.SetSail");
+			//DeleteAttribute(pchar, "LambriniPGG");
+			
+			LocatorReloadEnterDisable(pchar.location.from_sea, "boat", false);
+			LocatorReloadEnterDisable("Maracaibo_exittown", "reload1_back", false);
+		break;
+		case "LambriniPGG_2_8":
+			dialog.text = "А наглости тебе не занимать! Я согласна.";
+			link.l1 = "";
+			link.l1.go = "LambriniPGG_2_9";
+		break;
+		case "LambriniPGG_2_9":
+			PGG_ChangeRelation2MainCharacter(CharacterFromID(pchar.LambriniPGG), 200);
+			pchar.GenQuest.BrothelCount = 0;
+            AddCharacterExpToSkill(pchar, "Leadership", 200);
+            AddCharacterExpToSkill(npchar, "Leadership", 200);
+            AddCharacterExpToSkill(pchar, "Fencing", 200);// утрахала
+            AddCharacterExpToSkill(npchar, "Fencing", 200);
+            AddCharacterExpToSkill(pchar, "Pistol", 200);
+            AddCharacterExpToSkill(npchar, "Pistol", 200);
+            AddCharacterHealth(pchar, 10);
+            AddCharacterHealth(npchar, 10);
+			AddBonusEnergyToCharacter (NPchar, 80);
+   			AddDialogExitQuest("PlaySex_1");
+			NextDiag.CurrentNode = "LambriniPGG_2_7";
+			DialogExit();
+		break;
+		
+		case "LambriniPGG_2_10":
+			RestoreOldDialog(npchar);
+			DialogExit();
+			LAi_SetActorTypeNoGroup(npchar);
+			LAi_ActorGoToLocation(npchar, "reload", "reload1_back", "none", "", "", "", -1);
+		break;
 	}
 }

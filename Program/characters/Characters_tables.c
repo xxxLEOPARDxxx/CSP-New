@@ -27,14 +27,3 @@ void InitMoraleTable()
 	LoyalityTable[MORALET_EXCELLENT]	= "LoyalityExcellent";
 	LoyalityTable[MORALET_HEROIC]		= "LoyalityMaximum";
 }
-// boal это явно старый код - оставляю, тк не мое, но можено потереть - нет таких лиц
-/*void InitFaceDescribeTable()
-{
-	int i;
-	for(i=0; i<FACETABLE_SIZE; i++)
-	{
-		FaceDescribeTable[i].FaceIconName = "face"+(i+1);
-		FaceDescribeTable[i].FaceIconGroup = "FACEICON";
-		FaceDescribeTable[i].FacePortrateFileName = "interfaces\portraits\face_"+(i+1)+".tga.tx";
-	}
-}*/

@@ -221,6 +221,18 @@ void PGG_DailyUpdateEx(int i)
 
 	chr = CharacterFromID("PsHero_" + i);
 
+	if (CheckAttribute(chr,"PGGAi.DontUpdate"))
+	{
+		Log_TestInfo(GetFullName(chr)+ " пропускает апдейт.");
+		chr.PGGAi.Task.SetSail = true;
+		if(!CheckAttribute(chr,"LambiniAsoleda") && GetQuestPastDayParam("PGGAlmostDied" + i) >= 20)
+		{
+			DeleteAttribute(chr,"PGGAi.DontUpdate");
+			DeleteAttribute(chr,"PGGAi.Task.SetSail");
+		}
+		return;
+	}
+	
 	if (CheckAttribute(chr, "PGGAi.SeenToday"))
 	{
 		DeleteAttribute(chr, "PGGAi.SeenToday")
@@ -259,12 +271,16 @@ void PGG_DailyUpdateEx(int i)
 					SetNewModelToChar(chr);
 				}
 				LAi_SetCurHPMax(chr);
-				DeleteAttribute(chr, "PGGAi.Rebirth")
+				DeleteAttribute(chr, "PGGAi.Rebirth");
 				DeleteAttribute(chr, "Ship");
 				chr.Ship.Type = SHIP_NOTUSED;
 				if (chr.sex != "woman")	chr.Dialog.FileName = "PGG_dialog.c";
 				else	chr.Dialog.FileName = "pgg_dialog_town.c";
 				chr.Dialog.CurrentNode = "Second Time";
+				
+				chr.PGGAi.DontUpdate = true;
+				chr.PGGAi.Task.SetSail = true;
+				SaveCurrentQuestDateParam("PGGAlmostDied"+i);
 			}
 			else
 			{
@@ -429,17 +445,20 @@ void PGG_CheckDead(ref chr)
 	
 	if(pggStage > 3 || CheckAttribute(PChar,"PGG_Enemy") || CheckAttribute(PChar,"PGG_EnemyPP"))
 	{
-		if(MakeInt(chr.reputation) >= 70)
+		if (!CheckAttribute(chr, "PGG_Hunter") && !CheckAttribute(chr, "AlwaysEnemy"))
 		{
-			ChangeCharacterNationReputation(PChar, sti(chr.Nation), -15);
-		}
-		if(MakeInt(chr.reputation) <= 20)
-		{
-			ChangeCharacterNationReputation(PChar, sti(chr.Nation), -5);
-		}
-		if (MakeInt(chr.reputation) > 20 && MakeInt(chr.reputation) < 70)
-		{
-			ChangeCharacterNationReputation(PChar, sti(chr.Nation), -10);
+			if(MakeInt(chr.reputation) >= 70)
+			{
+				ChangeCharacterNationReputation(PChar, sti(chr.Nation), -15);
+			}
+			if(MakeInt(chr.reputation) <= 20)
+			{
+				ChangeCharacterNationReputation(PChar, sti(chr.Nation), -5);
+			}
+			if (MakeInt(chr.reputation) > 20 && MakeInt(chr.reputation) < 70)
+			{
+				ChangeCharacterNationReputation(PChar, sti(chr.Nation), -10);
+			}
 		}
 		DeleteAttribute(PChar,"PGG_Enemy");
 	}
@@ -457,8 +476,12 @@ void PGG_CheckDead(ref chr)
 */	
 	PGG_Disband_Fleet(chr);
 	
+	if (!CheckAttribute(chr, "KilledTimes"))	chr.KilledTimes = 1;
+	else	chr.KilledTimes = sti(chr.KilledTimes)+1;
+	int respawnChance = 25 + sti(chr.KilledTimes) * MOD_SKILL_ENEMY_RATE;
+	
 	//выжил или нет
-			if (sti(chr.PGGAi.IsPGG) && rand(100) > 50 && chr.id != "PsHero_2") 
+			if (sti(chr.PGGAi.IsPGG) && rand(100) > respawnChance && chr.id != "PsHero_2") 
 			{
 				Log_TestInfo(chr.id + " уходит из игры :(");
 			}
@@ -1293,7 +1316,7 @@ void PGG_UpdateShipEquip(ref chr)
 		{
 			PGG_DebugLog("PGG нулим матросов в городе " + curTown);
 			refTown = GetColonyByIndex(FindColony(curTown));
-			SetCrewQuantity(refTown, 0);
+			//SetCrewQuantity(refTown, 0);
 			chref = CharacterFromID(curTown + "_tavernkeeper");
 			SaveCurrentNpcQuestDateParam(chref, "CrewHired");
 			chref.CrewHired.PGGId = chr.id;
@@ -1439,8 +1462,10 @@ void PGG_TavernCheckIsPGGHere()
 	for (i = 1; i <= PsHeroQty; i++)
 	{
 		chr = CharacterFromID("PsHero_" + i);
+		
 		if (findsubstr(pchar.location, chr.PGGAi.location.town, 0) != -1 && !LAi_IsDead(chr) && chr.PGGAi.location != "Dead") //закрыл дополнительно.
 		{
+			PGG_PlaceCharacter2Tavern(chr, false);//fix
 			//квест от ПГГ. Только от одного. И ГГ еще не занят в квесте.
 			if (!CheckAttribute(pchar, "GenQuest.PGG_Quest") && PGG_CheckForQuestOffer(chr)) continue;
 			//в таверне или нет.
@@ -1986,6 +2011,9 @@ void PGG_Q1AfterDeckFight()
 	// опасно тереть на лету LAi_group_Delete(PChar.GenQuest.PGG_Quest.GrpID);
 	DeleteAttribute(PChar, "GenQuest.PGG_Quest.GrpID");
 	chrDisableReloadToLocation = false;
+	string PGGSex = "";
+	if(chr.sex == "woman")	PGGSex = "woman";
+	
 	if (sti(PChar.GenQuest.PGG_Quest.Stage) < 4)
 	{
 		AddQuestRecord("Gen_PGGQuest1", "q1_RefuseFight");
@@ -2006,7 +2034,7 @@ void PGG_Q1AfterDeckFight()
 		}
 		else
 		{
-			AddQuestRecord("Gen_PGGQuest1"+chr.sex, "q1_OkNotShare");
+			AddQuestRecord("Gen_PGGQuest1"+PGGSex, "q1_OkNotShare");
 			AddQuestUserData("Gen_PGGQuest1", "sSex", GetSexPhrase("","а"));
 		}
 	}
@@ -2017,7 +2045,7 @@ void PGG_Q1AfterDeckFight()
 	PChar.Quest.PGGQuest1_AfterDeckFight.win_condition.l1.location = rGroup.Location;
 	PChar.Quest.PGGQuest1_AfterDeckFight.function = "PGG_Q1SeaFightAfterDeck";
 
-	CloseQuestHeader("Gen_PGGQuest1"+chr.sex);
+	CloseQuestHeader("Gen_PGGQuest1"+PGGSex);
 }
 
 //выход в море и нападение ПГГ на игрока после боевки на палубе.
@@ -2707,4 +2735,53 @@ void PGG_SpawnPGG()
 	Group_SetPursuitGroup("EnemyPGG", PLAYER_GROUP);
 	Group_SetTaskAttack("EnemyPGG", PLAYER_GROUP);
 	Group_LockTask("EnemyPGG");
+}
+
+//Выбрать случайного ПГГ из списка живущих. 
+//Фильтрация по полу и анимации
+//Если отправить в поля пустые строки, выбор происходит без фильтрации
+string SelectRandomPGG(string sex, string animation)
+{
+	int heroSelected = 1;
+	int chosenHero = rand(PsHeroQty);
+	for (i = 0; i < 250; i++)
+	{
+		if (heroSelected == 0)
+		{
+			Log_TestInfo("Пройдено итераций: "+ i);
+			break;
+		}
+		if (chosenHero != 0)
+		{
+			sld = CharacterFromID("PsHero_"+chosenHero);
+			if (sld.PGGAi.location == "Dead" || IsCompanion(sld) || IsOfficer(sld))
+			{
+				chosenHero = rand(PsHeroQty);
+			}
+			else
+			{
+				if (sex == "" || sld.sex == sex)
+				{
+					if (animation == "" || sld.model.animation == animation)
+					{
+						heroSelected = 0;
+						PGG_Disband_Fleet(sld);
+						Log_TestInfo("Выбран ПГГ "+ GetFullName(sld));
+					}
+					else	chosenHero = rand(PsHeroQty);
+				}
+				else	chosenHero = rand(PsHeroQty);
+			}
+		}
+		else	chosenHero = rand(PsHeroQty);
+	}
+	if(heroSelected == 0)
+	{
+		return sld.id;
+	}
+	else
+	{
+		Log_TestInfo("ПГГ не выбран.")
+		return "";
+	}
 }

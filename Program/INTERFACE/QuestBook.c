@@ -941,13 +941,10 @@ void FillATableInfo() // Заполним таблицу достижений информацией
 {
 	string row;
 	int  n;
-	int z = 41;
-	if(bPortPermission) z++;
-	if(bBribeSoldiers) z++;
-	if(startherotype == 1 || startherotype == 2) z++;
-	if (pchar.sex == "woman") z--;
-	if (bNoPirateRestrictions || Pchar.BaseNation == PIRATE) z--;
-	if (bFillEncyShips) z++;
+	aref aroot,arcur;
+	makearef(aroot,pchar.achievements);
+	int num = GetAttributesNum(aroot);
+	int z = num;
 
     for(n = 1; n < z+1; n++)
     {
@@ -962,9 +959,6 @@ void FillATableInfo() // Заполним таблицу достижений информацией
 
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "-";
 	}
-
-	aref aroot,arcur;
-	makearef(aroot,pchar.achievements);
 
 	string attrname;
 	int i;
@@ -1052,7 +1046,7 @@ void SetTableRowByAchievement(string ach_id, int level)
 	{
 		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest"
 		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest"
-		|| ach_id == "ships" || ach_id == "bank_money" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchShipSearch")
+		|| ach_id == "ships" || ach_id == "bank_money" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchShipSearch" || ach_id == "AchOrion" || ach_id == "AchRabotorg" || ach_id == "AchKondotier")
 		{
 			// GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "1 ур.";
 			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "1";
@@ -1251,7 +1245,7 @@ void SetTableRowByAchievement(string ach_id, int level)
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
 
 		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest"
-		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest" || ach_id == "CapBladLine" || ach_id == "WhisperLine")
+		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchOrion" || ach_id == "AchRabotorg" || ach_id == "AchKondotier")
 		{
 			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = "Не завершено...";
 		}
@@ -2274,7 +2268,7 @@ void GiveItemToTraderByType(aref ch, string type)
 				}
 			break;
 			case "bonusitem":
-				if (HasSubStr(itm.id,"backpack") || HasSubStr(itm.id,"talisman") || HasSubStr(itm.id,"cirass") || HasSubStr(itm.id,"jewelry") || HasSubStr(itm.id,"indian") || HasSubStr(itm.id,"Totem") || HasSubStr(itm.id,"mineral")) AddItems(ch, itemID, irand);
+				if (HasSubStr(itm.id,"backpack") || HasSubStr(itm.id,"talisman") || HasSubStr(itm.id,"cirass") || HasSubStr(itm.id,"jewelry") || HasSubStr(itm.id,"indian") || HasSubStr(itm.id,"Totem") || HasSubStr(itm.id,"mineral") || HasSubStr(itm.id,"Dozor_H") || HasSubStr(itm.id,"Dozor_Mi") || HasSubStr(itm.id,"Dozor_S") || HasSubStr(itm.id,"suit") || HasSubStr(itm.id,"Strange")) AddItems(ch, itemID, irand);
 			break;
 		}
 	}

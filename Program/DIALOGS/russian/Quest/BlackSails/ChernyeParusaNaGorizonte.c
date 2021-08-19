@@ -471,7 +471,7 @@ void ProcessDialogEvent()
 		
 		case "BS_CPNG_33_exit":
 			PChar.quest.BSOnTheHorizon_End.win_condition.l1 = "location";
-			PChar.quest.BSOnTheHorizon_End.win_condition.l1.location = "Martinique";
+			PChar.quest.BSOnTheHorizon_End.win_condition.l1.location = "Bermudes";
 			PChar.quest.BSOnTheHorizon_End.function = "BSOnTheHorizon_End";
 			BSOnTheHorizon_SeaBattle();
 			AddQuestRecord("BSOnTheHorizon", "4");

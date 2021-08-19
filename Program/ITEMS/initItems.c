@@ -3058,8 +3058,8 @@ int InitItems()
 	makeref(itm,Items[n]);
 	itm.id = "mushket_drob"; //Аркебуза
 	itm.groupID = GUN_ITEM_TYPE;
-	itm.name = "itmname_Arguebuse";
-	itm.describe = "itmdescr_Arguebuse";
+	itm.name = "itmname_mushket_drob";
+	itm.describe = "itmdescr_mushket_drob";
 	itm.folder = "items";
 	itm.model = "Arguebuse";
 	itm.picIndex = 14;

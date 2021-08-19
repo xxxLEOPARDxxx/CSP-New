@@ -299,7 +299,7 @@ void Andre_Abel_Quest_Runaway_From_Prison()	// По другую сторону решетки
 	LAi_Group_MoveCharacter(rChar, LAI_GROUP_PLAYER);
 	QuestSetCurrentNode("Henry Morgan", "Andre_Abel_Quest_Morgan_Dialog_11");
 	
-	LAi_group_FightGroups(LAI_GROUP_PLAYER, "HOLLAND_citizens", true);
+	// LAi_group_FightGroups(LAI_GROUP_PLAYER, "HOLLAND_citizens", true);
 	
 	rChar = CharacterFromID("VillemstadJailOff");
 	ChangeCharacterAddressGroup(rChar, "Villemstad_prison", "reload", "reload1");
@@ -340,7 +340,7 @@ void Andre_Abel_Quest_Delete_Martin(string sQuest)	// Попрощались с Мартином
 
 void Andre_Abel_Quest_In_Sea_After_Prison(string sQuest)	// Вышли в море
 {
-	LAi_group_FightGroups(LAI_GROUP_PLAYER, "HOLLAND_citizens", false);
+	// LAi_group_FightGroups(LAI_GROUP_PLAYER, "HOLLAND_citizens", false);
 	LAi_LocationDisableOfficersGen("Villemstad_prison",false);
 	LAi_LocationDisableOfficersGen("Villemstad_fort",false);
 	LAi_LocationDisableOfficersGen("Villemstad_ExitTown",false);

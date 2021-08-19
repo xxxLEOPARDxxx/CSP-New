@@ -89,9 +89,7 @@ void ProcessDialogEvent()
 		makearef(arTo, compref.ship);
 		makearef(arFrom, chref.Ship);
 		CopyAttributes(arTo, arFrom);
-		makearef(arTo, compref.Goods);
-		makearef(arFrom, chref.Goods);
-		CopyAttributes(arTo, arFrom);
+
 		// снимем пассажира -->
 		CheckForReleaseOfficer(iChar);//увольнение офицера с должностей, если он не просто пассажир
 		RemovePassenger(pchar, compref);
@@ -1653,10 +1651,6 @@ void ProcessDialogEvent()
 
 			makearef(arTo, chref.ship);
 			makearef(arFrom, compref.Ship);
-			CopyAttributes(arTo, arFrom);
-
-			makearef(arTo, chref.Goods);//xi_refCharacter.Goods.(sGood).Bought.Coeff.Qty
-			makearef(arFrom, compref.Goods);
 			CopyAttributes(arTo, arFrom);
 
 			compref.ship.type = SHIP_NOTUSED;

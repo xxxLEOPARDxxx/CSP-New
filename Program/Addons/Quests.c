@@ -570,6 +570,10 @@ void DozorToMartiniqueShore()
 	realships[sti(sld.ship.type)].MinCrew = 35;
 	realships[sti(sld.ship.type)].OptCrew = 150;
 	//Korsar Maxim - фиксируем некоторые статы для флейта <--
+	SetCrewQuantity(sld,GetMaxCrewQuantity(sld)); //Gregg - режем команду, а то прямо как у БМС вышел адовый оверперегруз
+	sld.skill.Sailing = 80; //подрезаем наву
+	sld.skill.Accuracy = 80; //подрезаем меткость
+	sld.skill.Cannons = 80; //подрезаем пушки
 	
 	sld.AlwaysSandbankManeuver = true;
 	sld.AnalizeShips = true;

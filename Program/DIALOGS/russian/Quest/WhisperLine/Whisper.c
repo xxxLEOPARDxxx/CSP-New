@@ -148,7 +148,9 @@ void ProcessDialogEvent()
 			{
 				if (!CheckAttribute(npchar, "quest.meting"))
 				{
-					Lai_SetPlayerType(pchar);
+					Lai_SetPlayerType(pchar);				
+					npchar.DontChangeBlade = true; // нельзя снять или залутать оружие
+					
 					dialog.text = "Глупцы. Вам следовало бы знать, что зверь, загнанный в угол - опасен. А я не просто какой-то зверь, я - Ягуар. Надеюсь, вы успели помолиться своему мёртвому богу, потому что сейчас я вас к нему отправлю!";
 					link.l1.go = "exit_cave_entrance_fight";
 					npchar.quest.meting = 1;

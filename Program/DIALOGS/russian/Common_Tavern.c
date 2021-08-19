@@ -75,7 +75,7 @@ void ProcessDialogEvent()
                 break;
     		}
 			
-			if (drand2(100)==0 && sti(pchar.rank) >= 20)
+			if (drand2(100)==0 && sti(pchar.rank) >= 20 && GetCharacterItem(Pchar, "map_full") <= 0)
 			{
 				if (!CheckAttribute(pchar,"questTemp.UniquePirate.Barbarigo") || !CheckAttribute(pchar,"questTemp.UniquePirate.BlackBeard") || !CheckAttribute(pchar,"questTemp.UniquePirate.Levasser"))
 				{
@@ -195,7 +195,7 @@ void ProcessDialogEvent()
 						break;
 					}
 				}
-				if(CheckAttribute(pchar, "Whisper.NanoCostume") && !CheckAttribute(pchar, "Whisper.AfterWarDog") && sti(RealShips[sti(pchar.Ship.Type)].BaseType) == SHIP_WH_CORVETTE_QUEST)
+				if(CheckAttribute(pchar, "Whisper.NanoCostume") && !CheckAttribute(pchar, "Whisper.AfterWarDog") && sti(RealShips[sti(pchar.Ship.Type)].BaseType) == SHIP_WH_CORVETTE_QUEST && npchar.id != "Pirates_tavernkeeper")
 				{
 					pchar.Whisper.AfterWarDog = true;
 					dialog.Text = "Приветствую. Это ведь ваш корвет причалил недавно к нам в порт?";

@@ -525,6 +525,7 @@ float Ship_MastDamage()
 	
 	// LEO: Общий дамаг по мачтам разделен на классы
 	string sShip = rBaseShip.BaseName;
+	if (sShip == "PRINCE" || sShip == "OXFORD" || sShip == "RESOLUTION" || sShip == "MORDAUNT") return fDamage*MastMulti*0.8; //для хрупких кораблей сделать жирнее мачты
 	fDamage = fDamage * MastMulti;
 	return fDamage;
 	//procMastFall
@@ -1047,7 +1048,7 @@ void Ship_ChangeChargeEvent() // нигде не используется???
 
 void Ship_ChangeCharge(ref rCharacter, int iNewChargeType)
 {
-	SendMessage(&AISea, "la", AI_MESSAGE_CANNON_RELOAD, rCharacter);
+	if( rCharacter == Pchar) SendMessage(&AISea, "la", AI_MESSAGE_CANNON_RELOAD, rCharacter);
 	
 	ref rGood = GetGoodByType(iNewChargeType);
 	if (rGood) {
@@ -3244,12 +3245,12 @@ void Ship_CheckMainCharacter()
 	}
 
 	// disable any abordage if storm
-	if (Whr_IsStorm())
+	/* if (Whr_IsStorm())
 	{
 		bAbordageStartNow = false;
 		bAbordageFortCanBe = false;
 		bAbordageShipCanBe = false;
-	}
+	} */
 
 	// Enter 2 map enable/disable
 	// Peoples on ship mode update

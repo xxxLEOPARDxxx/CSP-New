@@ -853,12 +853,7 @@ bool LAi_CreateEncounters(ref location)
 			LAi_group_FightGroups("Jungle_indians", LAI_GROUP_PLAYER, true);
 			LAi_group_SetCheck("Jungle_indians", "IndianInJungleClearGroup");
             PlaySound("People Fight\Cannibals_"+rand(1)+".wav");
-			// StopSound(0,0);
-			// PlayStereoOGG("Music\Canibal_Fight.ogg"); // LEO: Заставить играть это на энке с индеями
-			//Log_TestInfo("Враждебные индейцы: Сгенерился энкаунтер");//Korsar Maxim - раскомментировать, если не уверены, работает ли энкаунтер.
 		break;
-
-
 		// Warship 05.08.09 Генер "Пираты на необитайке"
 		// Pirates on a uninhabited island
 		case 6:

@@ -1925,6 +1925,12 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.CurrentNode = "WarDogCap"; //даем абордажную ноду
 			refChar.greeting = "GR_ErnanEsteban";
 		}
+		if(refChar.CaptanId == "BS_Vein")
+		{
+			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+			refChar.dialog.filename = "Quest\BlackSails\Kurtuaznye_Strasti.c";
+			refChar.dialog.currentnode = "BS_KS_29";
+		}
 		if(refChar.CaptanId == "Whisper_Portman_Captain")
 		{
 			if(!CheckAttribute(pchar,"Whisper.BetrayChardKill"))
@@ -2996,6 +3002,152 @@ void SetSkeletonsToLocation(aref _location)
 		pchar.GenQuest.monstersTimer = true;
 		SetFunctionTimerConditionParam("GenQuest_EnableMonstersGen", 0, 0, 0, 24, false);
 	}
+
+	//#20190928-02
+	LAi_group_SetRelation(LAI_GROUP_MONSTERS, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+}
+
+void SetReefSkeletonsToLocation(aref _location, string loc)
+{
+	int iRank, iStep;
+	float sTime, eTime;
+	ref sld;
+	bMonstersGen = true; //флаг генерации монстров
+	//--> генерим инкремент к рангу
+	if (!CheckAttribute(_location, "Monsters_step"))
+	{
+		iStep = 0;
+		_location.Monsters_step = sti(MOD_SKILL_ENEMY_RATE / 1.5 + 0.5);
+		SaveCurrentNpcQuestDateParam(_location, "Monsters_step"); //запись даты 
+	}
+	else
+	{
+		if (GetNpcQuestPastDayParam(_location, "Monsters_step") > 3)
+		{
+			iStep = 0;
+			_location.Monsters_step = sti(MOD_SKILL_ENEMY_RATE / 1.5 + 0.5);
+			SaveCurrentNpcQuestDateParam(_location, "Monsters_step"); //запись даты 
+		}
+		else
+		{
+			iStep = _location.Monsters_step;
+			_location.Monsters_step = iStep + sti(MOD_SKILL_ENEMY_RATE / 1.5 + 0.5);
+		}
+	}
+	LAi_group_Delete("EnemyFight");
+	//<-- генерим инкремент к рангу
+	//--> генерим ранг 
+	if (sti(pchar.rank) > 5)
+	{
+		if (sti(pchar.rank) > 20) iRank = sti(pchar.rank)+5 + MOD_SKILL_ENEMY_RATE;
+		else iRank = sti(pchar.rank)+5 + sti(MOD_SKILL_ENEMY_RATE/2);
+	}
+	else
+	{	//казуалам набьют ебало, ибо ранг+5 и толпа
+		iRank = sti(pchar.rank)+5;
+	}
+	iRank += iStep;
+	//<-- генерим ранг 
+	aref grp;
+	int num;
+	if (loc == "MountainPath")
+	{
+		makearef(grp, _location.locators.quest);
+		num = GetAttributesNum(grp);
+	}
+	if (loc == "DeckWithReefs") 
+	{
+		makearef(grp, _location.locators.monsters);
+		// num = makeint(GetAttributesNum(grp)/7);
+		num = makeint(GetAttributesNum(grp)/4); // LEO: ЛЮБЛЮ РЕЗНЮ!
+	}
+	int rNum = drand(num);
+	for(int i = 0; i < num; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("Skelet"+_location.index+"_"+i, "Skel"+(rand(3)+1), "skeleton", "skeleton", iRank, PIRATE, 1, true));
+		//если квест по зачистке от нечисти - скелетов делаем круче
+		
+		if (i == rNum && sti(pchar.rank) > 5)
+		{
+			FantomMakeCoolFighter(sld, iRank, 80, 80, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol4"), MOD_SKILL_ENEMY_RATE*3);
+			DeleteAttribute(sld, "SuperShooter");
+		}
+		else SetFantomParamFromRank(sld, iRank, true);
+		if (i == 0)
+		{
+			if (GetDataDay() == 3 && GetDataMonth() == 3 && GetTime() >= 3.0 && GetTime() < 4.0 && loc == "MountainPath" && !CheckAttribute(pchar,"salasarmet"))
+			{
+				pchar.salasarmet = true;
+				sld = GetCharacter(NPC_GenerateCharacter("salasar", "salasar", "skeleton", "skeleton", iRank, PIRATE, 1, true));
+				sld.name = "Армандо";
+				sld.lastname = "Салазар";
+				sld.SaveItemsForDead = true;
+				
+				SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
+				FantomMakeCoolFighter(sld, 55, 100, 100, RandPhraseSimple("blade46","blade42"), "pistol8", 300); //55 лвл, Кханда или Офицерский клеванг, Бландербуз
+				LAi_SetHP(sld,2500,2500);
+				
+				SelAllPerksToNotPCHAR(sld); //укоротил все перки
+				
+				//установить ЛУ и КУ
+				SetSelfSkill(sld, 100, 100, 100, 100, 100); //лёгкое, среднее, тяжёлое, пистолет, удача
+				SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100); // лидерство, торговля, точность, пушки, навигация, ремонт, абордаж, защита, скрытность
+				
+				sld.money = 1000000;
+				GiveItem2Character(sld, "cirass5");
+				EquipCharacterbyItem(sld,"cirass5");
+				SetCharacterPerk(sld, "Fencer"); //фехт
+				AddBonusEnergyToCharacter(sld, 200);
+				Log_info("Вы пробудили проклятых!");
+				Log_info("Потусторонняя аура пошатнула ваше здоровье.");
+				AddCharacterHealth(pchar, -33);
+				pchar.quest.SalasarDead.win_condition.l1 = "NPC_Death";
+				pchar.quest.SalasarDead.win_condition.l1.character = "salasar";
+				pchar.quest.SalasarDead.win_condition = "OpenTheDoors";	
+				chrDisableReloadToLocation = true; //пока Салазар жив - хер, а не выход
+			}
+			if (loc != "MountainPath")
+			{
+				sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_0", "skeleton", "Giant", iRank, PIRATE, 1, true));
+				sld.name = "Хранитель";
+				sld.lastname = "Грота";
+				sld.SaveItemsForDead = true;
+				
+				SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
+				FantomMakeCoolFighter(sld, 40, 100, 100, RandPhraseSimple("blade46","blade42"), "", 300); //40 лвл, Кханда или Офицерский клеванг
+				LAi_SetHP(sld,1000,1000);
+				
+				SelAllPerksToNotPCHAR(sld); //укоротил все перки
+				
+				//установить ЛУ и КУ
+				SetSelfSkill(sld, 100, 100, 100, 100, 100); //лёгкое, среднее, тяжёлое, пистолет, удача
+				SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100); // лидерство, торговля, точность, пушки, навигация, ремонт, абордаж, защита, скрытность
+				
+				SetCharacterPerk(sld, "Grunt"); //фехт
+				AddBonusEnergyToCharacter(sld, 50);
+				Log_info("Вы пробудили проклятых!");
+				pchar.quest.SalasarDead.win_condition.l1 = "NPC_Death";
+				pchar.quest.SalasarDead.win_condition.l1.character = "GiantEvilSkeleton";
+				pchar.quest.SalasarDead.win_condition = "OpenTheDoors";	
+				chrDisableReloadToLocation = true; //пока Злой Скелет Гигант жив - хер, а не выход
+			}
+		}
+		LAi_SetWarriorType(sld);
+		LAi_warrior_SetStay(sld, true);
+		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+		string locator = GetAttributeName(GetAttributeN(grp, i));
+		if (loc == "MountainPath")
+		{
+			if (locator == "rock" || locator == "wall" || locator == "top") locator = "skeleton5"; //нет скелетам на скалах и на крыше
+			ChangeCharacterAddressGroup(sld, _location.id, "quest", locator);
+			if (i == 0 && sld.name == "Армандо") SetNoRun(sld); //инвалид
+		} 
+		if (loc == "DeckWithReefs") ChangeCharacterAddressGroup(sld, _location.id, "monsters", locator);
+	}
+	
+	LAi_LocationDisableMonGenTimer(_location.id, 1); //монстров не генерить 1 день
+	pchar.GenQuest.monstersTimer = true;
+	SetFunctionTimerConditionParam("GenQuest_EnableMonstersGen", 0, 0, 0, 24, false);
 
 	//#20190928-02
 	LAi_group_SetRelation(LAI_GROUP_MONSTERS, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);

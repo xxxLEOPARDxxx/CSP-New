@@ -2937,6 +2937,7 @@ int findChestMan(ref NPChar)
 		sTemp = ch.id;
 		if (CheckAttribute(ch, "City") && ch.id != "Jackman") sCity = ch.City;
 		else continue;
+		if (sti(ch.nation) == PIRATE) continue; // пираты не имеют реплик
 		sTemp = strcut(sTemp, strlen(sCity)+1, strlen(sTemp)-1);
 		// магазины
 		if (sTemp == "trader")
@@ -2951,7 +2952,6 @@ int findChestMan(ref NPChar)
 		if (sTemp == "Mayor")
 		{
             if (NPChar.city == ch.city) continue;
-            if (sti(ch.nation) == PIRATE) continue; // пираты не имеют реплик
             if (ch.location == "none" || ch.City == "Caiman") continue;
 			if (ch.location != ch.Default) continue; //захвачанных мэров не надо
             storeArray[howStore] = n;

@@ -559,11 +559,14 @@ void GiveItemToTrader(aref ch)
 		if(irand == 1) AddItems(ch, "CompCraft_Parchment", Rand(10) + 5);	// Пергамент
 		irand = rand(9);
 		if(irand == 1) AddItems(ch, "CompCraft_SulfurCrush", Rand(5) + 5);	// Измельчённая сера
+		irand = rand(9);
 		if(irand == 2) AddItems(ch, "CompCraft_PowderMixture", Rand(5) + 5);	// Пороховая смесь
 		irand = rand(19);
 		if(irand == 1  && rank >=5) AddItems(ch, "CompCraft_Tools", 1);	// Набор инструментов
-		if(irand == 2  && rank >=5) AddItems(ch, "CompCraft_Locksmith", 1);	// Слесарный набор
-		if(irand == 2  && rank >=5) AddItems(ch, "CompCraft_Puleleyka", 1);	// Пулелейка
+		irand = rand(19);
+		if(irand == 1  && rank >=5) AddItems(ch, "CompCraft_Locksmith", 1);	// Слесарный набор
+		irand = rand(19);
+		if(irand == 1  && rank >=5) AddItems(ch, "CompCraft_Puleleyka", 1);	// Пулелейка
 	}
 	//<----
 	

@@ -409,6 +409,12 @@ void SelectRColony()
 			setWDMPointXZ("KhaelRoa_port");
 			DoQuestReloadToLocation("KhaelRoa_port", "reload", "reload1", "");
 		}
+		if (fMouseX >= 47.0 && fMouseX <= 207.0 && fMouseY >= 19.0 && fMouseY <= 197.0)
+		{
+			setCharacterShipLocation(pchar, "LostShipsCity_town");
+			setWDMPointXZ("LostShipsCity_town");
+			DoQuestReloadToLocation("LostShipsCity_town", "reload", "reload1", "");
+		}
 	}
 }
 

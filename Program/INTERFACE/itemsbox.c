@@ -829,8 +829,8 @@ void FillCharactersScroll()
 
 void AddToTable(ref rChar)
 {
-	string sList, sItem;
-	int n, i, iLeftQty, iRightQty, Index, iSelLine;
+	string sList, sItem, sTemp;
+	int n, i, iLeftQty, iRightQty, Index, iSelLine, iTemp;
 	ref rItem;
 	bool ok;
 	bool ok1 = false;
@@ -967,6 +967,25 @@ void AddToTable(ref rChar)
 			GameInterface.TABLE_LIST.(sList).td3.scale = 1.0;
 			GameInterface.TABLE_LIST.(sList).td4.str = FloatToString(stf(rItem.Weight) * iRightQty, 1);
 			GameInterface.TABLE_LIST.(sList).td5.str = iRightQty;
+
+			iTemp = CheckItemInSets(refCharacter, sItem);
+			if (iTemp > 0) 
+			{
+				GameInterface.TABLE_LIST.(sList).td3.str = GameInterface.TABLE_LIST.(sList).td3.str + " (К" + iTemp + ")"; 
+				//sTemp = "Set" + iTemp;
+				//GameInterface.TABLE_LIST.(sList).td3.str = GameInterface.TABLE_LIST.(sList).td3.str + " (" + refCharacter.(sTemp).nameset + ")"; 
+				GameInterface.TABLE_LIST.(sList).td3.color = argb(255,196,196,255);//подцвечиваем предметы из комплектов
+				GameInterface.TABLE_LIST.(sList).td1.color = argb(255,196,196,255);//в комплекте у левого персонажа
+			}
+			iTemp = CheckItemInSets(rChar, sItem);
+			if (iTemp > 0) 
+			{
+				GameInterface.TABLE_LIST.(sList).td3.str = GameInterface.TABLE_LIST.(sList).td3.str + " (К" + iTemp + ")";
+				//sTemp = "Set" + iTemp;
+				//GameInterface.TABLE_LIST.(sList).td3.str = GameInterface.TABLE_LIST.(sList).td3.str + " (" + refCharacter.(sTemp).nameset + ")"; //слишком длинное имя получается
+				GameInterface.TABLE_LIST.(sList).td3.color = argb(255,196,196,255);
+				GameInterface.TABLE_LIST.(sList).td5.color = argb(255,196,196,255);//в комплекте у правого персонажа
+			}
 			n++;
 			
 			iLinesCount++;
@@ -1024,6 +1043,26 @@ void AddToTable(ref rChar)
 			GameInterface.TABLE_LIST.(sList).td3.scale = 1.0;
 			GameInterface.TABLE_LIST.(sList).td4.str = FloatToString(stf(rItem.Weight) * iRightQty, 1);
 			GameInterface.TABLE_LIST.(sList).td5.str = iRightQty;
+
+			iTemp = CheckItemInSets(refCharacter, sItem);
+			if (iTemp > 0) 
+			{
+				GameInterface.TABLE_LIST.(sList).td3.str = GameInterface.TABLE_LIST.(sList).td3.str + " (К" + iTemp + ")"; 
+				//sTemp = "Set" + iTemp;
+				//GameInterface.TABLE_LIST.(sList).td3.str = GameInterface.TABLE_LIST.(sList).td3.str + " (" + refCharacter.(sTemp).nameset + ")"; 
+				GameInterface.TABLE_LIST.(sList).td3.color = argb(255,196,196,255);//подцвечиваем предметы из комплектов
+				GameInterface.TABLE_LIST.(sList).td1.color = argb(255,196,196,255);//в комплекте у левого персонажа
+			}
+			iTemp = CheckItemInSets(rChar, sItem);
+			if (iTemp > 0) 
+			{
+				GameInterface.TABLE_LIST.(sList).td3.str = GameInterface.TABLE_LIST.(sList).td3.str + " (К" + iTemp + ")";
+				//sTemp = "Set" + iTemp;
+				//GameInterface.TABLE_LIST.(sList).td3.str = GameInterface.TABLE_LIST.(sList).td3.str + " (" + refCharacter.(sTemp).nameset + ")"; //слишком длинное имя получается
+				GameInterface.TABLE_LIST.(sList).td3.color = argb(255,196,196,255);
+				GameInterface.TABLE_LIST.(sList).td5.color = argb(255,196,196,255);//в комплекте у правого персонажа
+			}
+
 			n++;
 			
 			iLinesCount++;

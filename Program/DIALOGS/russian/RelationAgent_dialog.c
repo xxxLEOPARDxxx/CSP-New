@@ -642,12 +642,12 @@ void ProcessDialogEvent()
 				//ложим второе письмо
 				ChangeItemName("letter_LSC", "itmname_letter_LSC_1");
 				ChangeItemDescribe("letter_LSC", "itmdescr_letter_LSC_1");
-				sld = ItemsFromID("letter_LSC");
-				sld.shown = true;
+				ref sldd = ItemsFromID("letter_LSC");
+				sldd.shown = true;
 				//Boyer change #20170418-01
-                		pchar.restoreLSCTrustLetter = "letter_LSC";
-				sld.startLocation = "Marigo_houseH2";
-				sld.startLocator = "item1";
+                pchar.restoreLSCTrustLetter = "letter_LSC";
+				sldd.startLocation = "Marigo_houseH2";
+				sldd.startLocator = "item1";
 			}
 			else
 			{

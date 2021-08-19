@@ -2,7 +2,7 @@
 #include "messages.h"
 #include "sound.c"
 
-string savefile_info = "ver 1.0.7";
+string savefile_info = "ver 1.0.8";
 
 #define CHANGE_MORALE_EVERY			5			// INT - change crew morale based on above once per this many ticks. THIS WILL ALSO SCALE MORALE CHANGES! Bigger number, less effect. Should be divisable by 3.
 #define SURR_MARGIN                 5.0
@@ -167,7 +167,7 @@ ref GetCharacter(int iIndex)
 	if (iIndex < 0 || iIndex >= TOTAL_CHARACTERS)
 	{
 		trace("Incorrect Index for a character! Wrong Index is " + iIndex);
-		if (MOD_BETTATESTMODE	==	"On") Log_Info("ERROR: Incorrect Index for a character! Wrong Index is " + iIndex);
+		if (MOD_BETTATESTMODE	==	"On") Log_TestInfo("ERROR: Incorrect Index for a character! Wrong Index is " + iIndex);
 		return &NullCharacter;
 	}
 	return &Characters[iIndex];

@@ -942,6 +942,9 @@ bool isMushket(string name)
 		case "mushket_english": return true; break;
 		case "mushket_spanish": return true; break;
 		case "mushket_Shtuzer": return true; break;
+		case "grape_mushket": return true; break;
+		case "mushket6": return true; break;
+		case "mushket_seadevil": return true; break;
 	}
 	return false;
 }

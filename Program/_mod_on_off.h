@@ -2,7 +2,7 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2 ATR  "
-#define VERSION_NUMBER2       "CSP v2.2.0b2 (08.08.2021)"
+#define VERSION_NUMBER2       "CSP v2.2.0b3 (12.08.2021)"
 #define VERSION_NUMBER3       ""
 #define PROVIDER_TXT            "LEOPARD's team - MaelStrom Engine"
 #define VERSION_NUM      99910  // текущий номер
@@ -141,7 +141,7 @@ int chest_treasure2[99];
 int chest_quest2[99];
 int chest_craftsmans2[99];
 
-int shipspool[30];
+int shipspool[32];
 
 #define CHAR_ITEMS_WEIGHT        70
 

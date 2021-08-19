@@ -10480,62 +10480,77 @@ void PDM_ONV_Kazn_4(string qName)
 	sld.lifeday = 0;
 	LAi_ActorGoToLocator(sld, "reload", "basement1", "PDM_ONV_InqIschzni", -1);
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_1", "girl_2", "woman", "woman", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_1")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_2", "citiz_7", "man", "man", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_2")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_3", "citiz_4", "man", "man", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_3")
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+	
+	sld = CharacterFromID("PDM_ONV_Podjigatel")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Podjigatel", "off_spa_1", "man", "man", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_4")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_4", "citiz_8", "man", "man", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_5")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_5", "citiz_1", "man", "man", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_6")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_6", "citiz_2", "man", "man", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_7")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_7", "citiz_10", "man", "man", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_8")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_8", "girl_8", "woman", "woman", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_9")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_9", "girl_9", "woman", "woman", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_10")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
 			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_10", "girl_10", "woman", "woman", 10, SPAIN, -1, false));
+	sld = CharacterFromID("PDM_ONV_Jitel_11")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
-			
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Jitel_11", "citiz_5", "man", "man", 10, SPAIN, -1, false));
+	
+	sld = CharacterFromID("PDM_ONV_Jitel_12")
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+	
+	sld = CharacterFromID("PDM_ONV_Jitel_13")
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetCitizenType(sld);
+	sld.lifeday = 0;
+	
+	sld = CharacterFromID("PDM_ONV_Jitel_14")
 	LAi_CharacterDisableDialog(sld);
 	LAi_SetCitizenType(sld);
 	sld.lifeday = 0;
@@ -10573,7 +10588,7 @@ void PDM_CL_Ubrat_Lodku(string qName)
 }
 void PDM_CL_Sadis_Pokupatel(string qName)
 {
-	sld = CharacterFromID("PDM_CL_Pokupatel")
+	sld = CharacterFromID(pchar.LambriniPGG)
 	ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_base2");
 	LAi_SetSitType(sld);
 }
@@ -10583,6 +10598,10 @@ void PDM_CL_Sadis_Octavio(string qName)
 	ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_front2");
 	LAi_SetSitType(sld);
 }
+void PDM_CL_PlayerType(string qName)
+{
+	LAi_SetPlayerType(pchar);
+}
 void PDM_CL_Octavio_Speech(string qName)
 {
 	sld = CharacterFromID("PDM_Octavio_Lambrini");
@@ -10590,17 +10609,50 @@ void PDM_CL_Octavio_Speech(string qName)
 }
 void PDM_CL_Pokupatel_Speech(string qName)
 {
-	sld = CharacterFromID("PDM_CL_Pokupatel");
+	sld = CharacterFromID(pchar.LambriniPGG);
 	LAi_tmpl_SetDialog(sld, pchar, -1.0);
 }
 void PDM_CL_Pokupatel_Uhodit(string qName)
 {
-	sld = characterFromID("PDM_CL_Pokupatel");
+	sld = characterFromID(pchar.LambriniPGG);
 	LAi_SetActorType(sld);
 	ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "tables", "stay3");
 	LAi_ActorGoToLocation(sld, "reload", "reload1_back", "none", "", "", "", -1);
 }
+
+void LambriniPGG_RemoveFromShore(string qName)
+{
+	sld = characterFromID(pchar.LambriniPGG);
+	ChangeCharacterAddressGroup(sld, "none", "none", "none");
+}
+
+void LambriniPGG_Tavern(string qName)
+{
+	sld = CharacterFromID(pchar.LambriniPGG);
+	sld.dialog.currentnode   = "LambriniPGG_2_3";
+	pchar.InstantDialog = sld.id;
+	DoQuestFunctionDelay("InstantDialog", 0);
+}
 //Sinistra Клан Ламбрини <--
+
+void InstantDialog(string qName)
+{
+	sld = CharacterFromID(pchar.InstantDialog);
+	LAi_SetStayTypeNoGroup(sld);
+	LAi_tmpl_SetDialog(sld, pchar, -1.0);
+}
+
+void SaveOldDialog(ref chr)
+{
+	chr.Dialog.FilenameBackup = chr.Dialog.Filename;
+	chr.dialog.currentnodeBackup   = chr.dialog.currentnode;
+}
+
+void RestoreOldDialog(ref chr)
+{
+	chr.Dialog.Filename = chr.Dialog.FilenameBackup;
+	chr.dialog.currentnode   = chr.dialog.currentnodeBackup;
+}
 
 //Blackthorn Викинг
 void PirateVikingQuest_Captain_Is_Dead(string qName)

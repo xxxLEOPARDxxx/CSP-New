@@ -317,8 +317,9 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
         DialogExit();
         break;
 	case "Cost_Head":
-			dialog.text = "Даже так? Я уже был"+ NPCharSexPhrase(NPChar,"","а") +" готов"+ NPCharSexPhrase(NPChar,"","а") +" за оружие браться\nНу что же, я не против. Думаю, что " + sti(PChar.HunterCost)/2 + " пиастров меня устроит.";
-            if(makeint(Pchar.money) < sti(PChar.HunterCost)/2)
+			PChar.HunterCost = MOD_SKILL_ENEMY_RATE/4 * sti(npchar.rank) * 1000 + rand(1000);
+			dialog.text = "Даже так? Я уже был"+ NPCharSexPhrase(NPChar,"","а") +" готов"+ NPCharSexPhrase(NPChar,"","а") +" за оружие браться\nНу что же, я не против. Думаю, что " + sti(PChar.HunterCost) + " пиастров меня устроит.";
+			if(makeint(Pchar.money) < sti(PChar.HunterCost))
             {
                 Link.l1 = "У меня нет таких денег.";
                 Link.l1.go = "NoMoney";
@@ -344,8 +345,8 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			Link.l1.go = "battleTreasure"; 
 	break;
 	case "Cost_Head2":
-        AddMoneyToCharacter(pchar, -(sti(PChar.HunterCost)/2));
-		PGG_AddMoneyToCharacter(npchar, (sti(PChar.HunterCost)/2));
+        AddMoneyToCharacter(pchar, -(sti(PChar.HunterCost)));
+		PGG_AddMoneyToCharacter(npchar, (sti(PChar.HunterCost)));
 		ChangeCharacterReputation(pchar, 15);
 		PGG_ChangeRelation2MainCharacter(npchar, 40);
 		chrDisableReloadToLocation = false;

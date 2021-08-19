@@ -15,9 +15,9 @@ void ProcessDialogEvent()
 	
 	pchar.PDM_NK_Plata2.Money = 14000 * MOD_SKILL_ENEMY_RATE * 0.31;
 	
-	int Sila = 25 + MOD_SKILL_ENEMY_RATE * 2.5;
-	int DopHP = 40 + MOD_SKILL_ENEMY_RATE * 8;
-	int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE * 0.8;
+	int Sila = 25 + MOD_SKILL_ENEMY_RATE * 2.8;
+	int DopHP = 40 + MOD_SKILL_ENEMY_RATE * 10;
+	int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE * 0.9;
 	if (Rank < 1) Rank = 1;
 	
 	switch(Dialog.CurrentNode)
@@ -161,7 +161,7 @@ void ProcessDialogEvent()
 				AddMoneyToCharacter(pchar, -sti(Plata2));
 				AddCharacterExpToSkill(pchar, "Leadership", 100);
 				AddCharacterExpToSkill(pchar, "Commerce", 150);
-				AddCharacterExpToSkill(pchar, "Sneak", 50);
+				AddCharacterExpToSkill(pchar, "Sneak", 100);
 				AddCharacterExpToSkill(pchar, "Fortune", 50);
 				sld = CharacterFromID("PDM_NK_Viktor")
 				sld.dialog.filename   = "Quest/PDM/Neputyovy_kaznachey.c";
@@ -259,14 +259,12 @@ void ProcessDialogEvent()
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
-			sld.rank = 9;
-			SetSPECIAL(sld, 3, 6, 4, 9, 10, 7, 6);
+			sld.rank = 10;
+			SetSPECIAL(sld, 4, 6, 4, 10, 10, 7, 6);
 			SetSelfSkill(sld, 5, 5, 5, 5, 5);
-			if (MOD_SKILL_ENEMY_RATE >= 1 && MOD_SKILL_ENEMY_RATE <= 3) SetShipSkill(sld, 15, 40, 5, 5, 5, 5, 5, 5, 15);
-			if (MOD_SKILL_ENEMY_RATE >= 4 && MOD_SKILL_ENEMY_RATE <= 6) SetShipSkill(sld, 24, 50, 5, 5, 5, 5, 5, 5, 24);
-			if (MOD_SKILL_ENEMY_RATE >= 7 && MOD_SKILL_ENEMY_RATE <= 10) SetShipSkill(sld, 30, 60, 5, 5, 5, 5, 5, 5, 30);
+			SetShipSkill(sld, 30, 60, 5, 5, 5, 5, 5, 5, 30);
 			SetCharacterPerk(sld, "BasicCommerce");
-			if (MOD_SKILL_ENEMY_RATE >= 7) SetCharacterPerk(sld, "AdvancedCommerce");
+			SetCharacterPerk(sld, "AdvancedCommerce");
 			LAi_SetImmortal(sld, false);
 			sld.HalfImmortal = true;
 		break;

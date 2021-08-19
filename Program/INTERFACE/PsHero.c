@@ -166,6 +166,10 @@ void FillTable()
 					{
 						GameInterface.TABLE_HERO.(row).td6.str = "Сопровождает торговца в "+ XI_ConvertString("Colony" + chr.PGGAi.Task.Target + "Acc");
 					}
+					if (CheckAttribute(chr, "PGGAi.DontUpdate"))
+					{
+						GameInterface.TABLE_HERO.(row).td6.str = "Неизвестно");
+					}
 				}
 				GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
 				GameInterface.TABLE_HERO.(row).td7.str = "" + chr.SPECIAL.Strength + " " + chr.SPECIAL.Perception + " "+chr.SPECIAL.Agility + " " + chr.SPECIAL.Charisma + " "+chr.SPECIAL.Intellect + " " + chr.SPECIAL.Endurance   + " " + chr.SPECIAL.Luck;

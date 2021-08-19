@@ -88,6 +88,16 @@ void ProcessDialogEvent()
 		case "First time":			
 		UpdateSmugglers();
 		//ОЗГ
+			if (CheckAttribute(pchar,"contrabandmoneyback") && sti(pchar.contrabandmoneyback) >= 3000000+(MOD_SKILL_ENEMY_RATE*100000) && !CheckCharacterPerk(pchar,"UnlimitedContra"))
+			{
+				dialog.text = "Капитан, вы показали себя по настоящему полезным клиентом для всего контрабандного бизнеса. Отныне и впредь вам будут предоставляться наилучшие условия сделок.";
+				link.l1 = "Благодарю вас за доверие.";
+				link.l1.go = "First time";
+				Log_info("Разблокирован перк ''Заядлый контрабандист''");
+				SetCharacterPerk(pchar, "UnlimitedContra");
+				NPChar.quest.meeting = "1"; 
+				break;
+			}
 			if (!CheckAttribute(pchar, "questTemp.Headhunter"))
 			{
 				if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions)
@@ -996,7 +1006,7 @@ void ProcessDialogEvent()
 //	Корсарское метро
 ////////////////////////////////////////////////////////////////////////////////
 		case "Travel":
-//navy --> PGG
+/* //navy --> PGG
 			if (CheckFreeServiceForNPC(NPChar, "Smugglers") != -1)
 			{
 				Dialog.Text = "Извини, "+ GetSexPhrase("парень","деваха") +", у нас уже есть дела. Зайди через пару дней.";
@@ -1004,7 +1014,7 @@ void ProcessDialogEvent()
 				Link.l1.go = "Exit";		
 				break;
 			}
-//navy <--
+//navy <-- */
 			//если нет корабля у ГГ и нет компаньонов все ок
 			if (sti(pchar.ship.type) == SHIP_NOTUSED && GetCompanionQuantity(pchar) == 1 && GetPassengersQuantity(pchar) == 0)
 			{

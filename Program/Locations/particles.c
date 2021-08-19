@@ -254,9 +254,36 @@ void CreateParticles(ref Location)
 		for(n = 0; n < num; n++)
 		{
 			locator = GetAttributeN(locator_group, n);
-			CreateParticleSystemX("shadowstar",stf(locator.x),stf(locator.y),stf(locator.z),
+			if (Location.id == "DeckWithReefs")
+			{
+				if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 6.0)
+				{
+					CreateParticleSystemX("shadowstar",stf(locator.x),stf(locator.y),stf(locator.z),
+					stf(locator.vz.x),stf(locator.vz.y),stf(locator.vz.z),0);
+				}
+			}
+			else
+			{
+				CreateParticleSystemX("shadowstar",stf(locator.x),stf(locator.y),stf(locator.z),
 				stf(locator.vz.x),stf(locator.vz.y),stf(locator.vz.z),0);
+			}
 		}
+	}
+	if(CheckAttribute(Location, "locators.quest"))
+	{
+		if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 6.0)
+		{
+			if (Location.id == "MountainPath")
+			{
+				makearef(locator_group, location.locators.quest);
+				num = GetAttributesNum(locator_group);
+				locator = GetAttributeN(locator_group, 0);
+			
+				CreateParticleSystemX("shadowstar",stf(locator.x),stf(locator.y)+1.0,stf(locator.z),
+				stf(locator.vz.x),stf(locator.vz.y),stf(locator.vz.z),0);
+			}
+		}
+		
 	}
 
 //Ursus

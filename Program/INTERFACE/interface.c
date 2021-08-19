@@ -1671,7 +1671,7 @@ void procInfoShow()
 			break;
 
 			case "game prepare":
-				objInfoList[nInfoIdx].picfilename = "loading\StartLoading_"+rand(25)+".tga";
+				objInfoList[nInfoIdx].picfilename = "loading\StartLoading_"+rand(29)+".tga";
 			break;
 
 			case "MainMenuLaunch":
@@ -2384,7 +2384,7 @@ string GetPlayTime()
     //#20200316-01
 	string sPlayTime = "";
 	if( days>0 ) {
-		sPlayTime = days + "days - ";
+		sPlayTime = days + "ä - ";
 	}
 	sPlayTime += InterfaceStates.GameTime.hour + "÷ " + InterfaceStates.GameTime.min + "ì";
 	return sPlayTime;

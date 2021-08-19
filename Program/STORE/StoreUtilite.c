@@ -102,13 +102,12 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 		return 0;
 	}
 	if (CheckAttribute(pchar,"ContraInter")) Log_TestInfo(pchar.ContraInter);
-	else Log_TestInfo("Нет атрибута ContraInter");											  
+		else Log_TestInfo("Нет атрибута ContraInter");											  
 	float _TradeSkill = GetSummonSkillFromNameToOld(pchar,SKILL_COMMERCE); // 0..10.0
 	aref refGoods;
 	string tmpstr = Goods[_Goods].name;
 	int basePrice = MakeInt(Goods[_Goods].Cost);
-	int XPrice = basePrice / MakeInt(Goods[_Goods].Weight);
-	if (!CheckAttribute(_refStore,"Goods."+tmpstr) ) return 0;
+		if (!CheckAttribute(_refStore,"Goods."+tmpstr) ) return 0;
 	makearef(refGoods,_refStore.Goods.(tmpstr));
  	int tradeType = MakeInt(refGoods.TradeType);
 	float tradeModify = 1.0;
@@ -125,10 +124,10 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 			tradeModify = 1.2 + stf(refGoods.RndPriceModify); //1.2		+r0.2	//1.2 + r0.15
 			break;
 		case TRADE_TYPE_AGGRESSIVE:
-			tradeModify = 1.5 + stf(refGoods.RndPriceModify); //1.8		+r0.25	//1.45 + r0.2
+			tradeModify = 1.5 + stf(refGoods.RndPriceModify); //1.8		+r0.25	//1.5 + r0.2
 			break;
 		case TRADE_TYPE_CONTRABAND:
-			tradeModify = 1.8 + stf(refGoods.RndPriceModify); //2.4		+r0.35	//1.75 + r0.2
+			tradeModify = 1.8 + stf(refGoods.RndPriceModify); //2.4		+r0.35	//1.8 + r0.2
 			break;
 		case TRADE_TYPE_AMMUNITION:
 			//return basePrice; делаю все тоже, что и длz нормального товара, а тип нужен, чтоб на корабле не скупали лишнее.
@@ -143,34 +142,26 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 	if(_PriceType==PRICE_TYPE_BUY)
 	{
 		skillModify = 1.46 - _TradeSkill*0.019; // boal 20.01.2004
-		if(tradeType == TRADE_TYPE_CANNONS) skillModify *= 1.3;
 		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	{ skillModify -= 0.2; }
 		else
 		{
 			if(CheckOfficersPerk(pchar,"BasicCommerce"))	{ skillModify -= 0.1; }
 		}
+		if(CheckOfficersPerk(chref,"Trader"))	{ skillModify -= 0.05; }
+		if(tradeType == TRADE_TYPE_CANNONS) skillModify *= 1.3;//цены пушек меняем после применения перков, иначе непропорционально их влияние на итог
 	}
 	else
 	{
 		skillModify = 0.69 + _TradeSkill*0.019; // boal
-		if(tradeType == TRADE_TYPE_CANNONS) skillModify /= 1.3;
 		if(CheckOfficersPerk(pchar,"AdvancedCommerce"))	skillModify += 0.05;
+		if(CheckOfficersPerk(chref,"Trader"))	{ skillModify += 0.05; }
+		if(tradeType == TRADE_TYPE_CANNONS) skillModify /= 1.3;
 	}
 
 	// boal 23.01.2004 -->
 	if (MakeInt(basePrice*tradeModify*skillModify + 0.5) < 1) return 1;
 	// boal 23.01.2004 <--
 	if(CheckAttribute(pchar,"Goods.Store.Contraband")) return MakeInt(basePrice*tradeModify*skillModify*_qty  + 0.5);
-	
-	if(CheckAttribute(chref,"Goods."+tmpstr))
-	{
-		if(sti(chref.Goods.(tmpstr).Bought.Coeff.Qty) < sti(GetCargoGoods(chref,_Goods)) && _PriceType == PRICE_TYPE_SELL)
-		{
-			chref.Goods.(tmpstr).Bought.Coeff = "0";
-		}
-		if(sti(chref.Goods.(tmpstr).Bought.Coeff.Qty) >= sti(GetCargoGoods(chref,_Goods)) && _PriceType == PRICE_TYPE_SELL) chref.Goods.(tmpstr).Bought.Coeff = "1";
-		//if(chref.Goods.(tmpstr).Bought.Coeff == "0" && _PriceType == PRICE_TYPE_SELL && XPrice>45) return MakeInt(basePrice*tradeModify*skillModify*_qty  + 0.5)/2;//убираем отсюда - эта функция много где используется, а цену на ворованный товар надо снижать осознанно, конкретно под каждый случай
-	}
 	
     return MakeInt(basePrice*tradeModify*skillModify*_qty  + 0.5);
 }
@@ -206,23 +197,27 @@ float GetStoreGoodsRndPriceModify(ref _refStore, int _Goods, int _PriceType, ref
 	else
 	{
 		skillModify = 0.69 + _TradeSkill*0.019;
+		if(CheckOfficersPerk(chref,"Trader"))	{ skillModify += 0.05; }
 		if(CheckOfficersPerk(chref,"AdvancedCommerce"))	skillModify += 0.05;
 	}
 	tradeModify = makefloat(_price) / (basePrice*skillModify);
 	
 	switch (tradeType)
 	{
-		case TRADE_TYPE_NORMAL:
-			tradeModify = tradeModify - 0.85;
-			break;
 		case TRADE_TYPE_EXPORT:
 			tradeModify = tradeModify - 0.55; //0.55;
+			break;
+		case TRADE_TYPE_NORMAL:
+			tradeModify = tradeModify - 0.85;
 			break;
 		case TRADE_TYPE_IMPORT:
 			tradeModify = tradeModify - 1.2; //1.2;
 			break;
+		case TRADE_TYPE_AGGRESSIVE:
+			tradeModify = tradeModify - 1.5;//почему не -1.5 было, а  просто -0.0???
+		break;	
 		case TRADE_TYPE_CONTRABAND:
-			tradeModify = tradeModify - 2.4; //2.4;
+			tradeModify = tradeModify - 1.8; //2.4;
 			break;
 		case TRADE_TYPE_AMMUNITION:
 			tradeModify = tradeModify - 0.85;
@@ -230,9 +225,6 @@ float GetStoreGoodsRndPriceModify(ref _refStore, int _Goods, int _PriceType, ref
 		case TRADE_TYPE_CANNONS:
 			tradeModify = tradeModify - 0.85;
 			break;	
-		case TRADE_TYPE_AGGRESSIVE:
-			tradeModify = tradeModify;
-		break;	
 	}
 	 // может быть минусом, а что делать :(
     return tradeModify;
@@ -852,7 +844,7 @@ void ChangeImport()
 						{
 							aggress = -2;
 						}
-						if (i == 4 && CheckAttribute(pchar,"Whisper.Contraband") &&  j == GOOD_EBONY && i == 4)
+						if (i == 4 && CheckAttribute(pchar,"Whisper.Contraband") &&  j == GOOD_EBONY)
 						{
 							continue;
 						}

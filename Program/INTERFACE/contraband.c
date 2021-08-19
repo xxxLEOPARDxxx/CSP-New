@@ -256,6 +256,8 @@ void TransactionOK()
         SetContraGoods(refContraChar, iCurGoodsIdx, iStoreQty + nTradeQuantity);
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);
 		moneyback = makeint(iStorePrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5);
+		if (!CheckAttribute(pchar,"contrabandmoneyback")) pchar.contrabandmoneyback = moneyback;
+		else pchar.contrabandmoneyback = sti(pchar.contrabandmoneyback) + moneyback;
   		pchar.money = sti(pchar.money)  + moneyback;
 		sld.SmugglingMoney = sti(sld.SmugglingMoney) - moneyback;
 		Statistic_AddValue(Pchar, "Money_get", moneyback);

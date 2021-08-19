@@ -8,6 +8,12 @@
 #include "Addons\Mines.c"		// Постройка и жизнь рудников
 #include "Addons\Quests.c"		// Квесты
 #include "Addons\GenerateQuests.c"	// Генерируемые квесты
+int sixth[12] = {3,4,5,6,7,8,9,10,11,12,13,14};
+int fifth[13] = {15,16,17,18,19,20,21,22,23,24,25,26,27};
+int fourth[24] = {28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51};
+int third[32] = {52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83};
+int second[21] = {84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104};
+int first[20] = {105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124};
 
 void SetDamnedDestinyVariable()
 {
@@ -125,10 +131,22 @@ void StartGameOpenArena(string qName)
 void WayBeginning(string _tmp)
 {
 	DeleteAttribute(pchar,"cirassID");
+	DeleteAttribute(&InterfaceStates,"DisFastTravel");
 	initNewMainCharacter();
+	
 	Pchar.quest.AlcoveTP.win_condition.l1 = "location";
 	Pchar.quest.AlcoveTP.win_condition.l1.location = "Treasure_alcove";
 	Pchar.quest.AlcoveTP.win_condition = "recharge_portals";
+	
+	Pchar.quest.Labrnt.win_condition.l1 = "location";
+	Pchar.quest.Labrnt.win_condition.l1.location = "Labirint_1";
+	Pchar.quest.Labrnt.win_condition = "SpookyScarySkeleton";
+	Pchar.quest.Labrnt2.win_condition.l1 = "location";
+	Pchar.quest.Labrnt2.win_condition.l1.location = "Labirint_2";
+	Pchar.quest.Labrnt2.win_condition = "SpookyScarySkeleton";
+	Pchar.quest.Labrnt3.win_condition.l1 = "location";
+	Pchar.quest.Labrnt3.win_condition.l1.location = "Labirint_3";
+	Pchar.quest.Labrnt3.win_condition = "SpookyScarySkeleton";
 	
 	for (int k = 0; k < 99; k++)//рандомизация сундуков НИ
 	{
@@ -141,14 +159,123 @@ void WayBeginning(string _tmp)
 		chest_quest2[k] = rand(999);
 		chest_craftsmans2[k] = rand(999);
 	}
-	for (k = 1; k < 30; k++)//рандомизация сундуков НИ
+	for (k = 1; k < 31; k++)
 	{
-		if (k >= 1 && k < 6) shipspool[k] = 3 + rand(11);
-		if (k >= 6 && k < 11) shipspool[k] = 15 + rand(12);
-		if (k >= 11 && k < 16) shipspool[k] = 28 + rand(23);
-		if (k >= 16 && k < 21) shipspool[k] = 52 + rand(31);
-		if (k >= 21 && k < 26) shipspool[k] = 84 + rand(20);
-		if (k >= 26 && k < 31) shipspool[k] = 105 + rand(19);
+		shipspool[k] = 0;
+	}
+	int value;
+	
+	for (k = 1; k < 31; k++)
+	{
+		if (k >= 1 && k < 6)
+		{
+			value = rand(11);
+			if (sixth[value] != 0) 
+			{
+				shipspool[k] = sixth[value];
+				sixth[value] = 0;
+			}
+			else
+			{
+				while (shipspool[k] == 0)
+				{
+					value = rand(11);
+					shipspool[k] = sixth[value];
+					sixth[value] = 0;
+				}
+			}
+		}
+		if (k >= 6 && k < 11)
+		{
+			value = rand(12);
+			if (fifth[value] != 0) 
+			{
+				shipspool[k] = fifth[value];
+				fifth[value] = 0;
+			}
+			else
+			{
+				while (shipspool[k] == 0)
+				{
+					value = rand(12);
+					shipspool[k] = fifth[value];
+					fifth[value] = 0;
+				}
+			}
+		}
+		if (k >= 11 && k < 16)
+		{
+			value = rand(23);
+			if (fourth[value] != 0) 
+			{
+				shipspool[k] = fourth[value];
+				fourth[value] = 0;
+			}
+			else
+			{
+				while (shipspool[k] == 0)
+				{
+					value = rand(23);
+					shipspool[k] = fourth[value];
+					fourth[value] = 0;
+				}
+			}
+		}
+		if (k >= 16 && k < 21)
+		{
+			value = rand(31);
+			if (third[value] != 0) 
+			{
+				shipspool[k] = third[value];
+				third[value] = 0;
+			}
+			else
+			{
+				while (shipspool[k] == 0)
+				{
+					value = rand(31);
+					shipspool[k] = third[value];
+					third[value] = 0;
+				}
+			}
+		}
+		if (k >= 21 && k < 26)
+		{
+			value = rand(20);
+			if (second[value] != 0) 
+			{
+				shipspool[k] = second[value];
+				second[value] = 0;
+			}
+			else
+			{
+				while (shipspool[k] == 0)
+				{
+					value = rand(20);
+					shipspool[k] = second[value];
+					second[value] = 0;
+				}
+			}
+		}
+		if (k >= 26 && k < 31)
+		{
+			value = rand(19);
+			if (first[value] != 0) 
+			{
+				shipspool[k] = first[value];
+				first[value] = 0;
+			}
+			else
+			{
+				while (shipspool[k] == 0)
+				{
+					value = rand(19);
+					shipspool[k] = first[value];
+					first[value] = 0;
+				}
+			}
+		}
+		Log_testinfo(k+" "+shipspool[k]);
 	}
 	
 	pchar.chest_ammo = 0;
