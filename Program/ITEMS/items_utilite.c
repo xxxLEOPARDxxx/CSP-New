@@ -652,7 +652,7 @@ bool RefreshGeneratedItem(String _itemID)
 		{
 			curSimpleBox = "box" + j;
 			curPrivateBox = "private" + j;
-			if (reference.id == "Caiman_StoreHouse") break;
+			if (reference.id == "Caiman_StoreHouse" || reference.id == "Reefs_chapter") break;
 			
 			if(!CheckAttribute(reference, curSimpleBox) && !CheckAttribute(reference, curPrivateBox)) break;
 			
@@ -845,12 +845,20 @@ void QuestCheckEnterLocItem(aref _location, string _locator) /// <<<проверка вхо
 	if (_locator == "duhi1" && CheckAttribute(_location, "locators.monsters") && !bMonstersGen)
 	{
 		//проверяем флаг запрещения генерации
-		if(LAi_LocationIsMonstersGen(_location) && LAi_grp_playeralarm == 0 && GenQuest_CheckMonstersGen()) 
+		if(LAi_LocationIsMonstersGen(_location) && LAi_grp_playeralarm == 0 && GenQuest_CheckMonstersGen() && _location.id != "Treasure_alcove") 
 		{
 			SetSkeletonsToLocation(_location);
 		}
 	}
-	if (_locator == "fire3" && _location.id == "MountainPath" && !bMonstersGen)
+	if (_locator == "spawndeadsmangod")
+	{
+		if (!CheckAttribute(pchar,"UmSamil") && CheckAttribute(pchar,"UmSamilGuardsDefeated"))
+		{
+			LoginDeadmansGod2();
+			pchar.UmSamil = true;
+		}
+	}
+	if (_locator == "fire3" && _location.id == "MountainPath")
 	{
 		//проверяем флаг запрещения генерации
 		if(LAi_LocationIsMonstersGen(_location) && LAi_grp_playeralarm == 0 && GenQuest_CheckMonstersGen()) 
@@ -858,12 +866,22 @@ void QuestCheckEnterLocItem(aref _location, string _locator) /// <<<проверка вхо
 			if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 6.0) SetReefSkeletonsToLocation(_location, "MountainPath");
 		}
 	}
-	if (_locator == "fire56" && _location.id == "DeckWithReefs" && !bMonstersGen)
+	if (_location.id == "DeckWithReefs")
 	{
-		//проверяем флаг запрещения генерации
-		if(LAi_LocationIsMonstersGen(_location) && LAi_grp_playeralarm == 0 && GenQuest_CheckMonstersGen()) 
+		if (_locator == "fire56")
 		{
-			if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 6.0) SetReefSkeletonsToLocation(_location, "DeckWithReefs");
+			//проверяем флаг запрещения генерации
+			if(LAi_LocationIsMonstersGen(_location) && LAi_grp_playeralarm == 0 && GenQuest_CheckMonstersGen()) 
+			{
+				if (makeint(environment.time) >= 22.0 || makeint(environment.time) < 6.0) SetReefSkeletonsToLocation(_location, "DeckWithReefs");
+			}
+		}
+		if (_locator == "item1" && !CheckAttribute(pchar,"talismangot") && CheckAttribute(pchar,"talismanpreget"))
+		{
+			PlayStereoSound("notebook");
+			log_info("Вы получили оберег ''Святая Чаша''.");
+			TakeNItems(pchar,"talisman9",1);
+			pchar.talismangot = true;
 		}
 	}
 	//======> детектор в тюрьме, вторжение без разрешения
@@ -1086,6 +1104,7 @@ void QuestCheckTakeItem(aref _location, string _itemId)
 	{
 		string sTitle = _location.townsack + "UsurersJewel";
 		AddQuestRecordEx(sTitle, "SeekUsurersJewel", "2");
+		SpawnGreedyBastards();
 	}
 	//пиратка, квест №7
 	if (_itemId == "OpenBook")

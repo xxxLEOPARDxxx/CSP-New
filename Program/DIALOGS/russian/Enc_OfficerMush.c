@@ -210,7 +210,7 @@ void ProcessDialogEvent()
                         sld = GetColonyByIndex(iTemp);
                         if (sti(sld.HeroOwn) == true && !CheckAttribute(sld, "OfficerIdx"))
                         {
-							if(Locations[FindLocation(PChar.location)].islandId != "Caiman")
+							if(Locations[FindLocation(PChar.location)].islandId != "Caiman" && !CheckAttribute(NPChar,"HPminusDaysNeedtoRestore"))
 							{
 								NPChar.ColonyIdx = iTemp;
 								Link.l7 = "Я назначаю тебя наместником этого города!";
@@ -224,7 +224,7 @@ void ProcessDialogEvent()
 			{
 				if(CheckAttribute(&Locations[FindLocation(PChar.location)], "islandId"))
 				{
-					if(Locations[FindLocation(PChar.location)].islandId == "Caiman")
+					if(Locations[FindLocation(PChar.location)].islandId == "Caiman" && !CheckAttribute(NPChar,"HPminusDaysNeedtoRestore"))
 					{
 						Link.l8 = "Я хочу назначить тебя управляющим колонии ''" + PChar.ColonyBuilding.ColonyName + "'', которую мы построили на острове Кайман.";
 						Link.l8.go = "ColonyBuilding_Hovernor_1";

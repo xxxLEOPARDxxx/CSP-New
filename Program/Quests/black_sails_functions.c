@@ -1,7 +1,65 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Прочие функции
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-//	Черные паруса на горизонте
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void BS_ReplaceHostessWithMaks()
+{
+	sld = CharacterFromID("PortRoyal_hostess");
+	sld.beforeGatriModel = sld.model;
+	sld.model = "BS_Maks";
+	sld.beforeGatriModelAnimation = sld.model.animation;
+	sld.model.animation = "woman";
+	sld.beforeGatriName = sld.name;
+	sld.name = "Макс";
+	sld.beforeGatriLastName = sld.lastname;
+	sld.lastname = "";
+	sld.beforeGatriGreeting = sld.greeting;
+	//sld.greeting = "";
+	sld.beforeGatriFileName = sld.Dialog.FileName;
+	sld.beforeGatriCurrentNode = sld.Dialog.CurrentNode;
+}
+
+void BS_RestoreMaksHostess(string q)
+{
+	sld = CharacterFromID("PortRoyal_hostess");
+	sld.model = sld.beforeGatriModel;
+	sld.model.animation = sld.beforeGatriModelAnimation;
+	sld.name = sld.beforeGatriName;
+	sld.lastname = sld.beforeGatriLastName;
+	sld.greeting = sld.beforeGatriGreeting;
+	sld.Dialog.FileName = sld.beforeGatriFileName;
+	sld.Dialog.CurrentNode = sld.beforeGatriCurrentNode;
+}
+
+void BS_ReplaceTraderWithGatri()
+{
+	sld = CharacterFromID("Pirates_trader");
+	sld.beforeGatriModel = sld.model;
+	sld.model = "BS_Gatry";
+	sld.beforeGatriModelAnimation = sld.model.animation;
+	sld.model.animation = "woman";
+	sld.beforeGatriName = sld.name;
+	sld.name = "Элеонора";
+	sld.beforeGatriLastName = sld.lastname;
+	sld.lastname = "Гатри";
+	sld.beforeGatriGreeting = sld.greeting;
+	sld.greeting = "Gr_officiant";
+	sld.beforeGatriFileName = sld.Dialog.FileName;
+	sld.beforeGatriCurrentNode = sld.Dialog.CurrentNode;
+}
+
+void BS_RestoreGatriTrader(string q)
+{
+	sld = CharacterFromID("Pirates_trader");
+	sld.model = sld.beforeGatriModel;
+	sld.model.animation = sld.beforeGatriModelAnimation;
+	sld.name = sld.beforeGatriName;
+	sld.lastname = sld.beforeGatriLastName;
+	sld.greeting = sld.beforeGatriGreeting;
+	sld.Dialog.FileName = sld.beforeGatriFileName;
+	sld.Dialog.CurrentNode = sld.beforeGatriCurrentNode;
+}
+
 void BSRestoreWorldAlivePause()
 {
 	bWorldAlivePause = true;
@@ -68,6 +126,14 @@ void Silver_Downstairs(string qName)
 	DoQuestFunctionDelay("SilverSpeech", 0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Прочие функции
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	Черные паруса на горизонте
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 void BSOnTheHorizon_start(string qName)
 {
 	chrDisableReloadToLocation = true;
@@ -93,7 +159,7 @@ void BSOnTheHorizon_start(string qName)
 
 void BSOnTheHorizon_Flint();
 {
-	sld = GetCharacter(NPC_GenerateCharacter("Flint", "BS_Flint", "man", "man", 999, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("Flint", "BS_Flint_0", "man", "man", 999, PIRATE, -1, true));
 	FantomMakeCoolestSailor(sld, SHIP_NL_PinnaceofWar47, "Морж", CANNON_TYPE_CANNON_LBS24, 100, 100, 100);
 	sld.name = "Джеймс";
 	sld.lastname = "Флинт";
@@ -128,7 +194,7 @@ void MeetFlintCrew(string qName)
 	sld.talker = 10;
 	sld.dialog.currentnode = "BS_CPNG_18";
 	
-	sld = GetCharacter(NPC_GenerateCharacter("BS_Silver", "BS_Silver", "man", "man2_ab", 999, PIRATE, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("BS_Silver", "BS_Silver", "man", "man", 999, PIRATE, -1, true));
 	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto4");
 	sld.name = "Джон";
 	sld.lastname = "Сильвер";
@@ -157,11 +223,14 @@ void BSOnTheHorizon_End(string qName)
 }
 void BSOnTheHorizon_SeaBattle()
 {
+	pchar.ContraInterruptWaiting = true;
+	
 	Group_FindOrCreateGroup("BSOnTheHorizon_SeaBattle");
 	Group_SetType("BSOnTheHorizon_SeaBattle", "pirate");
 	for (i = 1; i < 7; i++)
 	{
-		sld = GetCharacter(NPC_GenerateCharacter("BSOnTheHorizon_enemyfleet"+i, "off_eng_"+(rand(1)+1), "man", "man", 999, ENGLAND, -1, true));
+		
+		sld = GetCharacter(NPC_GenerateCharacter("BSOnTheHorizon_enemyfleet"+i, "off_eng_"+(rand(1)+1), "man", "man", 999, ENGLAND, 3, true));
 		if (i == 1) 
 		{
 			sld.Ship.Type = GenerateShipExt(SHIP_FASTFRIGATE, true, sld);
@@ -237,7 +306,7 @@ void BSCourtlyPassions_begin(string qName)
 				sld.curtown = pchar.location;
 				LAi_SetImmortal(sld, true);
 				
-				chr = GetCharacter(NPC_GenerateCharacter("BS_Silver", "BS_Silver", "man", "man2_ab", 999, PIRATE, -1, true));
+				chr = GetCharacter(NPC_GenerateCharacter("BS_Silver", "BS_Silver", "man", "man", 999, PIRATE, -1, true));
 				ChangeCharacterAddressGroup(chr, PChar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
 				chr.name = "Джон";
 				chr.lastname = "Сильвер";
@@ -528,7 +597,9 @@ void BSCourtlyPassions_final(string _quest)
 void BSCourtlyPassions_finalRoyal(string _quest)
 {
 	chrDisableReloadToLocation = true;
-	sld = GetCharacter(NPC_GenerateCharacter("BS_Maks", "BS_Maks", "woman", "woman", 1, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("BS_Maks", "BS_Maks", "woman", "woman", 1, PIRATE, 0, false));
+	sld.name = "Макс";
+	sld.lastname = "";
 	ChangeCharacterAddressGroup(sld, "PortRoyal_town", "goto", "goto1");
 	LAi_SetActorType(sld);
 	sld.dialog.filename = "Quest\BlackSails\Kurtuaznye_Strasti.c";
@@ -610,7 +681,7 @@ void BSChaseBegun_shore(string q)
 	sld.dialog.currentnode = "BS_PN_1";
 	LAi_SetImmortal(sld, true);
 	
-	chr = GetCharacter(NPC_GenerateCharacter("BS_Silver", "BS_Silver", "man", "man2_ab", 999, PIRATE, -1, true));
+	chr = GetCharacter(NPC_GenerateCharacter("BS_Silver", "BS_Silver", "man", "man", 999, PIRATE, -1, true));
 	ChangeCharacterAddressGroup(chr, "Shore_ship1", "goto", "goto1");
 	chr.name = "Джон";
 	chr.lastname = "Сильвер";
@@ -624,7 +695,7 @@ void BSChaseBegun_shore(string q)
 	LAi_ActorFollow(chr, sld, "", -1);
 	LAi_SetImmortal(chr, true);	
 	
-	chr = GetCharacter(NPC_GenerateCharacter("BS_Rakham", "BS_Rakham", "man", "man2_ab", 999, PIRATE, -1, true));
+	chr = GetCharacter(NPC_GenerateCharacter("BS_Rakham", "BS_Rakham", "man", "man", 999, PIRATE, -1, true));
 	ChangeCharacterAddressGroup(chr, "Shore_ship1", "goto", "goto5");
 	chr.name = "Джек";
 	chr.lastname = "Рэкхэм";
@@ -882,6 +953,22 @@ void BSChaseBegun_Fail(string q)
 	}
 }
 
+void BSChaseBegun_EndQuest(string q)
+{
+	sld = CharacterFromID("Flint");
+	RemoveCharacterCompanion(PChar, sld);
+	ProcessHullRepair(sld, 100.0);
+	ProcessSailRepair(sld, 100.0);
+	DeleteAttribute(sld, "ship.blots");
+	DeleteAttribute(sld, "ship.sails");
+	DeleteAttribute(sld, "ship.masts");
+	
+	ChangeCharacterAddressGroup(sld, "Pirates_Town", "quest", "quest1");
+	chrDisableReloadToLocation = true;
+	LAi_SetActorType(sld);
+	sld.dialog.currentnode = "BS_PN_30";
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
+}
 void BSChaseBegun_SeaBattle()
 {
 	Group_FindOrCreateGroup("BSChaseBegun_SeaBattle");
@@ -891,9 +978,9 @@ void BSChaseBegun_SeaBattle()
 	Group_FindOrCreateGroup("Flint_Group");
 	Group_SetType("Flint_Group", "pirate");
 
-	ref chr = CharacterFromID("Flint") = CharacterFromID("Flint");
+	ref chr = CharacterFromID("Flint");
 	chr.dialog.filename = "Quest\BlackSails\Pogonya_Nachalas.c";
-	chr.DeckDialogNode = "BS_PN_30";
+	chr.DeckDialogNode = "BS_PN_30_seabattle";
 	Group_AddCharacter("Flint_Group", chr.id);
 	Group_SetGroupCommander("Flint_Group", chr.id);
 	Fantom_SetBalls(chr, "war");

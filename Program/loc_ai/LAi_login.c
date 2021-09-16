@@ -314,8 +314,16 @@ void CheckBSFinish()
 	//Если ЧП еще не пройдены, ставим мир обратно на паузу
 	if(!bWorldAlivePause && !CheckAttribute(pchar, "BSFinish"))
 	{
-		if (!CheckAttribute(pchar, "BSInProgress"))	pchar.BSStart = true;
-		bWorldAlivePause = true;
+		if(pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "over")
+		{
+			if (!CheckAttribute(pchar, "BSInProgress"))	pchar.BSStart = true;
+			bWorldAlivePause = true;
+		}
+		else
+		{
+			DeleteAttribute(pchar, "BSStart");
+			pchar.BSInProgress = true;
+		}
 	}
 }
 void CheckLootCollector()

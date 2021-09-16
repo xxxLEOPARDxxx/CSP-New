@@ -223,33 +223,7 @@ bool LAi_CreateEncounters(ref location)
 			}
 			else iRank = sti(pchar.rank); 
 			//<-- генерим ранг 
-			//Начинаем перебирать локаторы и логинить фантомов
-			/* model[0] = "pirate_1";
-			model[1] = "pirate_2";
-			model[2] = "pirate_3";
-			model[3] = "pirate_4";
-			model[4] = "pirate_5";
-			model[5] = "pirate_6";
-			model[6] = "pirate_7";
-			model[7] = "pirate_8";
-			model[8] = "pirate_9";
-			model[9] = "pirate_10";
-			model[10] = "pirate_11";
-			model[11] = "pirate_12";
-			model[12] = "pirate_13";
-			model[13] = "pirate_14";
-			model[14] = "pirate_15";
-			model[15] = "pirate_16";
-			model[16] = "pirate_17";
-			model[17] = "pirate_18";
-			model[18] = "pirate_19";
-			model[19] = "pirate_20";
-			model[20] = "pirate_21";
-			model[21] = "pirate_22";
-			model[22] = "pirate_23";
-			model[23] = "pirate_24";
-			model[24] = "pirate_25"; */
-			
+			//Начинаем перебирать локаторы и логинить фантомов			
 			// Mett: -->
 			for(int m = 1; m < 26; m++)
 			{
@@ -259,13 +233,9 @@ bool LAi_CreateEncounters(ref location)
 			
 			LAi_grp_alarmactive = false;
 			LAi_group_ClearAllTargets();
-			//i = 0;
-			//while(i < num)
 			for(i=0;i < num; i++)
 			{
-				iMassive = rand(24);
-				//if (model[iMassive] != "")
-				//{
+					iMassive = rand(24);
 					chr = GetCharacter(NPC_GenerateCharacter(str + i, model[iMassive], "man", "man", iRank, iNation, 1, true));
 					SetFantomParamFromRank(chr, iRank, true);
 					//Получим локатор для логина
@@ -284,9 +254,6 @@ bool LAi_CreateEncounters(ref location)
 						pchar.GenQuest.(sAreal).name = GetFullName(chr); //имя бандита, будет главарем
 						pchar.GenQuest.(sAreal).nation = iNation; //нация для слухов 
 					}
-				//	i++;
-				//	model[iMassive] = "";
-				//}
 			}
 			str = "EncRaiders_" + location.index;
 			pchar.quest.(str).win_condition.l1        = "locator";
@@ -309,6 +276,59 @@ bool LAi_CreateEncounters(ref location)
 			if(rand(12) > 6) return false;	
 			if(CheckAttribute(location, "onUninhabitedIsland") || location.type == "seashore" || location.type == "mayak") return false; // На необитаемых  островах, маяках и бухтах нельзя
 			num = GetAttributesNum(grp); //кол-во локаторов 
+			
+			if (bBettaTestMode || drand(95)==0)
+			{
+				if (!CheckAttribute(pchar,"OldSpawn"))
+				{
+					model[0] = "capitan_3";
+					model[1] = "officer_13";
+					model[2] = "officer_32";
+					model[3] = "PGG_Black_0";
+					model[4] = "pirate_12";
+					model[5] = "pirate_25";
+					model[6] = "ozg_horn";
+					model[7] = "pirate_15";
+					model[8] = "pirate_11";
+					model[9] = "PKM_rab_1";
+					model[10] = "PKM_rab_2";
+					for(i=0; i < num; i++)
+					{
+						iMassive = rand(10);
+						//Получим локатор для логина
+						locator = GetAttributeName(GetAttributeN(grp, i));
+						if (i == 0)
+						{
+							iChar = NPC_GenerateCharacter("OldMan", "PGG_Barrows_0", "man", "man", 1, iNation, -1, false);
+							chr = &characters[iChar];
+							chr.dialog.filename = "Old.c";
+							chr.dialog.currentnode = "First";
+							chr.name = "Дед";
+							chr.lastname = "Старый";
+							chr.greeting = "DedEvent";
+							chr.num = num;
+							ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
+							LAi_SetActorType(chr);
+							LAi_group_MoveCharacter(chr, "player");
+							LAi_ActorDialog(chr, pchar, "", -1, 0);  
+							chr.city = sCity;
+							continue;
+						}
+						chr = GetCharacter(NPC_GenerateCharacter("GangRapersMan_" + i, model[iMassive], "man", "man", iRank, PIRATE, 1, true));
+						SetFantomParamFromRank(chr, iRank, true);
+						chr.dialog.filename = "Old.c";
+						chr.dialog.currentnode = "Second";
+						chr.greeting = "Enc_Raiders";
+						ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
+						LAi_SetActorType(chr);
+						LAi_group_MoveCharacter(chr, "player");
+						LAi_ActorFollow(chr, &characters[iChar], "", -1);
+					}
+					pchar.OldSpawn = true;
+					break;
+				}
+			}
+			
 			if (num < 2) return false;
 			if(CheckAttribute(pchar, "GenQuest.EncGirl") && pchar.GenQuest.EncGirl != "close") return false;
 			if (!CheckAttribute(location, "locators.reload.reloadW_back"))
@@ -680,14 +700,14 @@ bool LAi_CreateEncounters(ref location)
 			chrDisableReloadToLocation = true;
 			
 			while(i < num)
-			// for(i=0;i < num; i++) // LEO
 			{
 				iMassive = rand(22);
 				string sAnime;
 				if(model[iMassive] != "")
 				{
-					sAnime = "man2"
-                    if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAnime = "man";
+					sAnime = "man"
+                    /* if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAnime = "man"; */
+					
 					chr = GetCharacter(NPC_GenerateCharacter("Convict_" + i, model[iMassive], "man", sAnime, iRank, PIRATE, -1, true));
 					SetFantomParamFromRank(chr, iRank, true);
 					// locator = GetAttributeName(GetAttributeN(grp, i));
@@ -742,11 +762,11 @@ bool LAi_CreateEncounters(ref location)
 			
 			int iScl = 10+2*sti(pchar.rank);//казуалам зеленый свет на начало игры
 			if (sti(pchar.rank) > 3) iRank = sti(pchar.rank);
-			else 
+			/* else 
 			{
 				iRank = 1;
 				num = 2;
-			}
+			} */ // LEO: А не надо было меня саммонить на то, что мака изи добывается и похуям мороз, и игра становится изи. Теперь живите так. Индейцы сразу будут ебать толпой, а не в 2 лица.
 			
 			i = 0;
 			while(i < num)

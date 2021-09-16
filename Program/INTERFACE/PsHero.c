@@ -22,8 +22,12 @@ void InitInterface(string iniName)
 	{
 		pchar.PGG_killed = 0;
 	}
+	if (!CheckAttribute(pchar, "PGG_NotKilled"))
+	{
+		pchar.PGG_NotKilled = 0;
+	}
 	
-    SetFormatedText("MAP_CAPTION", XI_ConvertString("titlePsHero") + " (" + (PsHeroQty-sti(pchar.PGG_killed))+ " / " + PsHeroQty + ")");
+    SetFormatedText("MAP_CAPTION", XI_ConvertString("titlePsHero") + " (" + (PsHeroQty - sti(pchar.PGG_killed) - sti(pchar.PGG_NotKilled))+ " / " + (PsHeroQty - sti(pchar.PGG_NotKilled)) + ")");
 	SetEventHandler("InterfaceBreak","ProcessBreakExit",0);
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);

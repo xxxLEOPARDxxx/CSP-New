@@ -240,6 +240,7 @@ void InitInterface(string iniName)
 
 	PostEvent("My_MoveText", 370);
 	fNewPos = 0;
+	SetMusic("music_Credits"); // LEO: Об авторах - другой музон
 }
 
 void ProcessCancelExit()

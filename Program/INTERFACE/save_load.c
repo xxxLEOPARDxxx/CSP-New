@@ -1,7 +1,4 @@
-#define CONFIRMMODE_PROFILE_DELETE	1
-#define CONFIRMMODE_SAVE_DELETE		2
-#define CONFIRMMODE_SAVE_OVERWRITE	3
-#define CONFIRMMODE_LOAD_GAME		4
+
 
 #define SAVEIMAGE_UPDATE_TIME	50
 
@@ -11,7 +8,6 @@ aref scrshot;
 object emptyscrshot;
 
 int g_nLablesFileID = -1;
-int g_nInterfaceFileID = -1;
 string currentProfile;
 
 int g_nCurrentSaveIndex = 0;
@@ -24,8 +20,6 @@ int g_nSaveQuantity = 0;
 object g_oSaveList[MAX_SAVE_SLOTS];
 object g_oSaveContainer;
 
-int g_nConfirmMode;
-string g_sConfirmReturnWindow;
 bool isMainMenuChecker = false;
 
 void InitInterface_BB(string iniName, bool isSave, bool isMainMenu)
@@ -1060,36 +1054,7 @@ string GetCurSaveName()
 	return "";
 }
 
-void DoConfirm( int nConfirmMode )
-{
-	g_sConfirmReturnWindow = "MAIN_WINDOW";
-	if( XI_IsWindowEnable("PROFILE_WINDOW") ) {
-		g_sConfirmReturnWindow = "PROFILE_WINDOW";
-	}
-	XI_WindowDisable( g_sConfirmReturnWindow, true );
-	// enable confirm window
-	XI_WindowDisable( "CONFIRM_WINDOW", false );
-	XI_WindowShow( "CONFIRM_WINDOW", true );
-	SetCurrentNode( "CONFIRM_YES" );
 
-	g_nConfirmMode = nConfirmMode;
-	switch( nConfirmMode )
-	{
-	case CONFIRMMODE_PROFILE_DELETE:
-		SetFormatedText( "CONFIRM_TEXT", LanguageConvertString(g_nInterfaceFileID,"Delete profile confirm") );
-		break;
-	case CONFIRMMODE_SAVE_DELETE:
-		SetFormatedText( "CONFIRM_TEXT", LanguageConvertString(g_nInterfaceFileID,"Delete savefile confirm") );
-		break;
-	case CONFIRMMODE_SAVE_OVERWRITE:
-		SetFormatedText( "CONFIRM_TEXT", LanguageConvertString(g_nInterfaceFileID,"Overwrite savefile confirm") );
-		break;
-	case CONFIRMMODE_LOAD_GAME:
-		SetFormatedText( "CONFIRM_TEXT", LanguageConvertString(g_nInterfaceFileID,"Load game confirm") );
-		break;
-	}
-	SendMessage( &GameInterface, "lsl", MSG_INTERFACE_MSG_TO_NODE, "CONFIRM_TEXT", 5 ); // центрируем по вертикали
-}
 
 void procConfirm()
 {

@@ -110,6 +110,46 @@ native int GetFontStringWidth(string sInput, float scale);
 
 float fHighPrecisionDeltaTime;
 
+#define CONFIRMMODE_PROFILE_DELETE	1
+#define CONFIRMMODE_SAVE_DELETE		2
+#define CONFIRMMODE_SAVE_OVERWRITE	3
+#define CONFIRMMODE_LOAD_GAME		4
+
+int g_nConfirmMode;
+string g_sConfirmReturnWindow;
+int g_nInterfaceFileID = -1;
+
+void DoConfirm( int nConfirmMode )
+{
+	g_sConfirmReturnWindow = "MAIN_WINDOW";
+	if( XI_IsWindowEnable("PROFILE_WINDOW") ) {
+		g_sConfirmReturnWindow = "PROFILE_WINDOW";
+	}
+	XI_WindowDisable( g_sConfirmReturnWindow, true );
+	// enable confirm window
+	XI_WindowDisable( "CONFIRM_WINDOW", false );
+	XI_WindowShow( "CONFIRM_WINDOW", true );
+	SetCurrentNode( "CONFIRM_YES" );
+
+	g_nConfirmMode = nConfirmMode;
+	switch( nConfirmMode )
+	{
+	case CONFIRMMODE_PROFILE_DELETE:
+		SetFormatedText( "CONFIRM_TEXT", LanguageConvertString(g_nInterfaceFileID,"Delete profile confirm") );
+		break;
+	case CONFIRMMODE_SAVE_DELETE:
+		SetFormatedText( "CONFIRM_TEXT", LanguageConvertString(g_nInterfaceFileID,"Delete savefile confirm") );
+		break;
+	case CONFIRMMODE_SAVE_OVERWRITE:
+		SetFormatedText( "CONFIRM_TEXT", LanguageConvertString(g_nInterfaceFileID,"Overwrite savefile confirm") );
+		break;
+	case CONFIRMMODE_LOAD_GAME:
+		SetFormatedText( "CONFIRM_TEXT", LanguageConvertString(g_nInterfaceFileID,"Load game confirm") );
+		break;
+	}
+	SendMessage( &GameInterface, "lsl", MSG_INTERFACE_MSG_TO_NODE, "CONFIRM_TEXT", 5 ); // центрируем по вертикали
+}
+
 void ProcessStopQuestCheckProcessFreeze() // boal 240804
 {
     bQuestCheckProcessFreeze = false;
@@ -1046,6 +1086,11 @@ void ProcessControls()
     if (ControlName == "QuickLoad") { MakeQuickLoad(); return; }
 
     if (dialogRun) return;
+	if (ControlName == "SaveDelete" && CurrentInterface == INTERFACE_SAVELOAD)
+	{
+		if (XI_IsWindowEnable("PROFILE_WINDOW")){DoConfirm(1); return;}
+		else {DoConfirm(2); return;}
+	}
 	if (sti(InterfaceStates.Launched)==true) return;
 
 	if (ControlName == "WhrPrevWeather")	{ Whr_LoadNextWeather(-1); return; }
@@ -1381,6 +1426,7 @@ void ProcessControls()
 				AddPerkToActiveList("TimeSpeed");
 			}
 		break;
+		
 		case "VK_PAUSETimePause":
 			if (PChar.location == "FencingTown_Arena" && PChar.location == "FencingTown_ExitTown")
 			{
@@ -1968,9 +2014,16 @@ bool CheckSaveGameEnabled()
 
 	if( CharacterIsDead(mchref) ) {TmpBool = false;}
 
-	if(LAi_IsFightMode(mchref) && MOD_SKILL_ENEMY_RATE > 1) {TmpBool = false;} 
+	// LEO: Слишком жётско даже для хардкора. Если будет ваще пздц, выпилим нахер.
+	/* if(LAi_IsFightMode(mchref) && MOD_SKILL_ENEMY_RATE > 1) {TmpBool = false;} 
 	
-	if(bDisableMapEnter && !CheckBattleSeaSaveEnabled()) {TmpBool = false;} 
+	if(bDisableMapEnter && !CheckBattleSeaSaveEnabled()) {TmpBool = false;}  */
+	
+	if(LAi_IsFightMode(mchref) && MOD_SKILL_ENEMY_RATE > 1) TmpBool = false;
+	
+	if(bDisableMapEnter && !CheckBattleSeaSaveEnabled()) TmpBool = false;
+	
+	if (bAltBalance && LAi_group_IsActivePlayerAlarm()) TmpBool = false;
 	if (TmpBool)
 	{
 		int idxLoadLoc = FindLoadedLocation();

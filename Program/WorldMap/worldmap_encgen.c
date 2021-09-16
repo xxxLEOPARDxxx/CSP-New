@@ -343,4 +343,10 @@ void Map_TraderSucces_quest(string sChar)
 		SetDanielleFromMapToSea();
 		Log_TestInfo("Энканутер кэпа брига Queen дошел до места назначения.");
 	}
+	//поиски Чёрной Бороды
+	if (sChar == "BlackBeardNPC" && characters[GetCharacterIndex(sChar)].quest == "InMap")
+	{
+		SetBlackBeardFromMapToSea();
+		Log_TestInfo("Энканутер кэпа Чёрная Борода дошел до места назначения.");
+	}
 }

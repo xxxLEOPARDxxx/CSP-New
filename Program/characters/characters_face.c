@@ -216,7 +216,7 @@ void FaceMaker(aref rCharacter)
 		// --> Сюжетка Чёрных парусов
 		case "BS_Billy":		rCharacter.FaceId = 300; break;
 		case "BS_Bony":			rCharacter.FaceId = 301; break;
-		case "BS_Flint":		rCharacter.FaceId = 302; break;
+		case "BS_Flint_0":		rCharacter.FaceId = 302; break;
 		case "BS_Gatry":		rCharacter.FaceId = 303; break;
 		case "BS_Maks":			rCharacter.FaceId = 304; break;
 		case "BS_Rakham":		rCharacter.FaceId = 305; break;
@@ -406,10 +406,10 @@ void FaceMaker(aref rCharacter)
 		
 		// Линейка Блада CSP - пять офицеров -->
 		case "PBLine_Daik_0":		rCharacter.FaceId = 236; break;
-		case "PBLine_Hagtorp":		rCharacter.FaceId = 237; break;
-		case "PBLine_NedOgl":		rCharacter.FaceId = 238; break;
+		case "PBLine_Hagtorp_0":	rCharacter.FaceId = 237; break;
+		case "PBLine_NedOgl_0":		rCharacter.FaceId = 238; break;
 		case "PBLine_Pitt_0":		rCharacter.FaceId = 230; break;
-		case "PBLine_Volverston":	rCharacter.FaceId = 239; break;
+		case "PBLine_Volverston_0":	rCharacter.FaceId = 239; break;
 		// Линейка Блада CSP - пять офицеров <--
 
 		// ГПК 1.2.5 -->
@@ -433,7 +433,7 @@ void FaceMaker(aref rCharacter)
 		// Мушкетеры
 		case "quest_mush_1":	rCharacter.FaceId = 292; break; //саксонец
 		case "quest_mush_2":	rCharacter.FaceId = 293; break; //пират
-		case "Lil_Jim":			rCharacter.FaceId = 294; break; //Маленький Джимми
+		case "Lil_Jim_0":			rCharacter.FaceId = 294; break; //Маленький Джимми
 		case "CCS_Mechanic":	rCharacter.FaceId = 295; break; //Korsar Maxim -
 		// временное решение для девиц из борделя
 		case "horse01": 		rCharacter.FaceId = 164; break;
@@ -450,8 +450,8 @@ void FaceMaker(aref rCharacter)
 		case "pet_crab":		rCharacter.FaceId = 1512; break;
 		case "crabSmall":		rCharacter.FaceId = 1512; break;
 		case "crabBig":			rCharacter.FaceId = 1512; break;
-		case "Maskog"		:   rCharacter.FaceId = 1513; break;		// Тиничгиту
-		case "Maskog_mush"	:   rCharacter.FaceId = 1513; break;		// Тиничгиту - модель мушкетера		
+		case "Tichingitu_0"		:  	rCharacter.FaceId = 1513; break;		// Тиничгиту
+		case "Tichingitu_0_mush":   rCharacter.FaceId = 1513; break;		// Тиничгиту - модель мушкетера		
 		case "PGG_Longway":		rCharacter.FaceId = 487; break;
 		case "PGG_Lejitos_GPK":	rCharacter.FaceId = 535; break;
 		case "PGG_Rozencraft":	rCharacter.FaceId = 496; break;
@@ -463,7 +463,14 @@ void FaceMaker(aref rCharacter)
 		case "PGG_Mary":		rCharacter.FaceId = 517; break;
 		case "ozg_green":		rCharacter.FaceId = 287; break;
 		case "PGG_Chard_0":		rCharacter.FaceId = 211; break;
+		case "PGG_Tich_0":		rCharacter.FaceId = 540; break;
+		else rCharacter.FaceId = 478; break;
 	}
+	// --> LEO&Gregg: Подключение визуала для надетых кирас (если не будет нужной модели, персонаж не появится и будет баговать)
+	// if (HasSubStr(rCharacter.model,"officer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+	if (HasSubStr(rCharacter.model,"Mushketer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+	if (HasSubStr(rCharacter.model,"pirate_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+	// <-- LEO&Gregg: Подключение визуала для надетых кирас
 }
 
 //Создадим вражеских фантомов - команда для ЛГ

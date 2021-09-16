@@ -1,4 +1,4 @@
-//////////////////////////////////////// Спец свойства ХО ///////////////////////////////////////////////////
+//////////////////////////////////////// Спец свойства ХО /////////////////////////////////////////////////// -->
 
 /* 
 	itm.special.valueBB = 100; 	// Пролом блока
@@ -13,9 +13,9 @@
 	itm.points_shop = 1; // Атрибут для магазина ачивок
 */
 
-//////////////////////////////////////// Спец свойства ХО ///////////////////////////////////////////////////
+//////////////////////////////////////// Спец свойства ХО /////////////////////////////////////////////////// <--
 
-//////////////////////////////////////// Крафт ///////////////////////////////////////////////////
+//////////////////////////////////////// Крафт ////////////////////////////////////////////////////////////// -->
 
 /*  Это всё нужно дописывать для определённого итема, чтобы он появился в списке крафта
 
@@ -30,16 +30,16 @@
     itm.Component2Num = 5;			// Количество требуемых компонентов
 */
 
-//////////////////////////////////////// Крафт ///////////////////////////////////////////////////
+//////////////////////////////////////// Крафт ////////////////////////////////////////////////////////////// <--
 
-//////////////////////////////////////// Стрелковое ///////////////////////////////////////////////////
+//////////////////////////////////////// Стрелковое ///////////////////////////////////////////////////////// -->
 /*	
 	Требования для экипировки огнестрела. Если нет - нет и требований
 	
 	itm.ReqPerk = "Gunman";
 	itm.ReqPerk = "GunProfessional";
 */
-//////////////////////////////////////// Стрелковое ///////////////////////////////////////////////////
+//////////////////////////////////////// Стрелковое ///////////////////////////////////////////////////////// <--
 
 int InitItems()
 {
@@ -491,6 +491,7 @@ int InitItems()
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "FencingLight";
 	itm.ItemType = "WEAPON";
+	itm.special.valueSS = 2; 	// Резкий удар
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.dmg_min.min = 1.0;
@@ -524,6 +525,9 @@ int InitItems()
 	itm.FencingType = "FencingLight";
 	itm.ItemType = "WEAPON";
 	itm.quality = "poor";
+	itm.special.valueSS = 5; 	// Резкий удар
+	itm.special.valueStS = 5; // Стан
+	itm.special.valueT = 1; 	// Травмы
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.dmg_min.min = 1.0;
@@ -552,6 +556,8 @@ int InitItems()
 	itm.rare = 0.1;
 	itm.block = 19;
 	itm.param.time = 0.05;
+	itm.special.valueT = 1; 	// Травмы
+	itm.special.valueB = 5; 	// Кровоток
 	itm.param.colorstart = argb(64, 64, 64, 64);
 	itm.param.colorend = argb(0, 32, 32, 32);
 	itm.FencingType = "FencingLight";
@@ -610,6 +616,7 @@ int InitItems()
 	itm.FencingType = "FencingLight";
 	itm.ItemType = "WEAPON";
 	itm.quality = "poor";
+	itm.special.valueB = 5; 	// Кровоток
 	// Warship 08.05.09 - Новая система предметов, параметры для генерации
 	itm.Generation.qty = 5;
 	itm.Generation.price = true; // Флаг "генерить цену"
@@ -1661,6 +1668,43 @@ int InitItems()
 	itm.Generation.Weight.max = 4.5;
 	n++;
 	
+	// LEO: Меч Тритона
+	makeref(itm,Items[n]);
+	itm.id = "blackbeard_sword_baron";
+	itm.groupID = BLADE_ITEM_TYPE;
+	itm.name = "itmname_blackbeard_sword_baron";
+	itm.describe = "itmdescr_blackbeard_sword_baron";
+	itm.model = "blackbeard_sword_baron";
+	itm.folder = "items";
+	itm.picIndex = 4;
+	itm.picTexture = "ITEMS_20";
+	itm.price = 50;
+	itm.Weight = 4.5 + fRandSmall(0.5);
+	itm.dmg_min = 28.0 + rand(8);
+	itm.dmg_max = 65.0 + rand(25);
+	itm.piercing = 50;
+	itm.special.valueBB = 8; 	// Пролом блока
+	itm.special.valueCrB = 8; // Буст крита
+	itm.special.valueStS = 8; //Стан
+	itm.minlevel = 0;
+	itm.rare = 0.1;
+	itm.block = 50;
+	itm.param.time = 0.05;
+	itm.param.colorstart = argb(64, 64, 64, 64);
+	itm.param.colorend = argb(0, 32, 32, 32);
+	itm.FencingType = "Fencing";
+	itm.ItemType = "WEAPON";
+	itm.quality = "excellent";
+	itm.Generation.qty = 5;
+	itm.Generation.price = true; // Флаг "генерить цену"
+	itm.Generation.dmg_min.min = 28.0;
+	itm.Generation.dmg_min.max = 36.0;
+	itm.Generation.dmg_max.min = 65.0;
+	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.Weight.min = 4.5;
+	itm.Generation.Weight.max = 5.0;
+	n++;
+	
 	// ККС, Скимитар
     makeref(itm,Items[n]);
 	itm.id = "blade39";
@@ -1675,7 +1719,7 @@ int InitItems()
 	itm.price = 2500;
 	itm.Weight = 4.0 + fRandSmall(0.6);
 	// boal 19.01.2004 <--
-	itm.dmg_min = 18.0 + rand(5);
+	itm.dmg_min = 18.0 + rand(7);
 	itm.dmg_max = 60.0 + rand(10);
 	itm.piercing = 88.0;
 	itm.special.valueCB = 5; //Пролом кирасы
@@ -1790,9 +1834,9 @@ int InitItems()
 	itm.picIndex = 2;
 	itm.picTexture = "ITEMS_19";
 	itm.price = 3000;
-	itm.Weight = 4.2 + fRandSmall(0.4);
+	itm.Weight = 4.0 + fRandSmall(0.2);
 	itm.dmg_min = 23.0 + rand(3);
-	itm.dmg_max = 75.0 + rand(10);
+	itm.dmg_max = 80.0 + rand(10);
 	itm.piercing = 90.0;
 	itm.special.valueCrB = 7;// Буст крита
 	itm.special.valueSS = 10;//Резкий удар
@@ -1811,10 +1855,10 @@ int InitItems()
 	itm.Generation.price = true; // Флаг "генерить цену"
 	itm.Generation.dmg_min.min = 23.0;
 	itm.Generation.dmg_min.max = 26.0;
-	itm.Generation.dmg_max.min = 75.0;
-	itm.Generation.dmg_max.max = 85.0;
-	itm.Generation.Weight.min = 4.2;
-	itm.Generation.Weight.max = 4.6;
+	itm.Generation.dmg_max.min = 80.0;
+	itm.Generation.dmg_max.max = 90.0;
+	itm.Generation.Weight.min = 4.0;
+	itm.Generation.Weight.max = 4.2;
 	n++;
 	
 	// ККС, Офицерский Клеванг
@@ -7429,7 +7473,7 @@ int InitItems()
 
 	// броня
     makeref(itm,Items[n]);
-	itm.id = "cirass1"; // Обычная кираса
+	itm.id = "cirass1"; // Скальд
 	itm.groupID = CIRASS_ITEM_TYPE;
 	itm.Clothes = false;
 	itm.name = "itmname_cirass1";
@@ -7462,7 +7506,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "cirass2"; // Французская кираса
+	itm.id = "cirass2"; // Рейтарский панцирь
 	itm.groupID = CIRASS_ITEM_TYPE;
 	itm.Clothes = false;
 	itm.name = "itmname_cirass2";
@@ -7495,7 +7539,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "cirass3"; // Голландская кираса
+	itm.id = "cirass3"; // Гвардейская кираса
 	itm.groupID = CIRASS_ITEM_TYPE;
 	itm.Clothes = false;
 	itm.name = "itmname_cirass3";
@@ -7524,7 +7568,7 @@ int InitItems()
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "cirass4"; // Испанская кираса
+	itm.id = "cirass4"; // Офицерская кираса
 	itm.groupID = CIRASS_ITEM_TYPE;
 	itm.Clothes = false;
 	itm.name = "itmname_cirass4";
@@ -7553,7 +7597,7 @@ int InitItems()
     n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "cirass5"; // Дорогая кираса
+	itm.id = "cirass5"; // Наградная кираса
 	itm.groupID = CIRASS_ITEM_TYPE;
 	itm.Clothes = false;
 	itm.name = "itmname_cirass5";
@@ -7733,6 +7777,19 @@ int InitItems()
 	itm.rare = 0.001;
 	itm.kind = "fighter";
 	itm.points_shop = 2500; // Атрибут для магазина ачивок
+	n++;
+	
+	makeref(itm,Items[n]);
+	itm.id = "talisman9"; // Святая Чаша
+	itm.groupID = TALISMAN_ITEM_TYPE;
+	itm.name = "itmname_talisman9";
+	itm.describe = "itmdescr_talisman9";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_19";
+	itm.price = 25000;
+	itm.Weight = 0.5;
+	itm.minlevel = 1;
+	itm.rare = 0.001;
 	n++;
 	
 	// ККС Нааб-те
@@ -8909,7 +8966,42 @@ int InitItems()
     itm.Weight = 0.1;
     itm.ItemType = "QUESTITEMS";
     n++;
-
+	
+	makeref(itm, Items[n]); //квест "Проклятая жара"
+    itm.id = "PDM_PJ_Vino";	//Бутылка вина
+    itm.name = "itmname_PDM_PJ_Vino";
+    itm.describe = "itmdescr_PDM_PJ_Vino";
+    itm.picIndex = 3;
+    itm.picTexture = "ITEMS_1";
+    itm.price = 0;
+    itm.Weight = 0.1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
+	makeref(itm, Items[n]); //квест "Проклятая жара"
+    itm.id = "PDM_PJ_Rom";	//Бутылка рома
+    itm.name = "itmname_PDM_PJ_Rom";
+    itm.describe = "itmdescr_PDM_PJ_Rom";
+    itm.picIndex = 3;
+    itm.picTexture = "ITEMS_1";
+    itm.price = 0;
+    itm.Weight = 0.1;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
+	makeref(itm, Items[n]); //квест "Проклятая жара"
+    itm.id = "PDM_PJ_BsRL";	//Бутылка с розовой ленточкой
+	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
+    itm.name = "itmname_PDM_PJ_BsRL";
+    itm.describe = "itmdescr_PDM_PJ_BsRL";
+    itm.picIndex = 3;
+    itm.picTexture = "ITEMS_1";
+	itm.shown = true; 
+    itm.price = 1000;
+    itm.Weight = 0.2;
+    itm.ItemType = "QUESTITEMS";
+    n++;
+	
 	makeref(itm, Items[n]);
     itm.id = "Litsenzia";	//Торговая лицензия
     itm.name = "itmname_Litsenzia";
@@ -9219,7 +9311,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 135; // Атрибут для магазина ачивок
+	itm.points_shop = 100; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9234,7 +9326,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 180; // Атрибут для магазина ачивок
+	itm.points_shop = 150; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9249,7 +9341,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 260; // Атрибут для магазина ачивок
+	itm.points_shop = 400; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9264,7 +9356,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 400; // Атрибут для магазина ачивок
+	itm.points_shop = 800; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9279,7 +9371,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 700; // Атрибут для магазина ачивок
+	itm.points_shop = 1600; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9294,7 +9386,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 1300; // Атрибут для магазина ачивок
+	itm.points_shop = 3000; // Атрибут для магазина ачивок
 	n++;
 
 	// Бумаги с координатами

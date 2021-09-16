@@ -486,8 +486,8 @@ int FindFreeRandomOfficer()
 	int Counter, OfficerIdx;
 	string OfficerId;
 	// special -->
-	if (GetCharacterMaxOfficersQty(Pchar) < (GetOfficerPassengerQuantity(Pchar) + GetCompanionQuantity(Pchar) - 1)) {pchar.LeadershipLose = true; return -1;}
-	if (GetCharacterMaxOfficersQty(Pchar) == (GetOfficerPassengerQuantity(Pchar) + GetCompanionQuantity(Pchar) - 1)) {DeleteAttribute(pchar,"LeadershipLose"); return 0;}
+	if (GetCharacterMaxOfficersQty(Pchar) < (GetNotQuestPassengersQuantity(Pchar) + GetCompanionQuantity(Pchar) - 1)) {pchar.LeadershipLose = true; return -1;}
+	if (GetCharacterMaxOfficersQty(Pchar) == (GetNotQuestPassengersQuantity(Pchar) + GetCompanionQuantity(Pchar) - 1)) {DeleteAttribute(pchar,"LeadershipLose"); return 0;}
 	else DeleteAttribute(pchar,"LeadershipLose");
 	return 1;
 }
@@ -532,6 +532,13 @@ void LandEnc_OfficerFired()
     }
     sld.LifeDay = 0; // стереть при выходе
     DeleteAttribute(sld, "Payment"); // признак офицера для +1 предметов  
+	if (CheckAttribute(sld,"OfficerInStockMan"))
+	{
+		DeleteAttribute(sld, "OfficerInStockMan");
+		ref ch = CharacterFromID("MalteseOrderCharacter");
+		ch.Portman	= sti(ch.Portman) - 1;
+		pchar.OfficerInStock = sti(pchar.OfficerInStock) - 1;
+	}
 	DeleteAttribute(Pchar, "questTemp.FiringOfficerIDX");
 }
 

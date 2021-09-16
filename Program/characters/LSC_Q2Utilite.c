@@ -890,6 +890,7 @@ void CitizCapIsDead_CloseQuest(aref arCapBase, string capId)
 	sTemp = "SecondTimer_" + capId;
 	if (capId == "MushketCap") sTemp = "MushketTimer";
 	if (capId == "Danielle")   sTemp = "DanielleTimer";
+	if (capId == "BlackBeardNPC")   sTemp = "BlackBeardTimer";
 	pchar.quest.(sTemp).over = "yes";
 	//---------- нпс-квестодатель -------------
 	int iTemp = GetCharacterIndex(arCapBase.questGiver);
@@ -1989,6 +1990,25 @@ string GetQuestNationsCity(int _nation)
 	return colonies[iRes].id;
 }
 
+string GetRandomPirateCity()
+{
+	int n, iRes;
+    int storeArray[MAX_COLONIES];
+    int howStore = 0;
+
+	for(n=0; n<MAX_COLONIES; n++)
+	{
+		if (colonies[n].nation != "none"  && colonies[n].id != "Panama" && sti(colonies[n].nation) == 4 && GiveArealByLocation(loadedLocation) != colonies[n].island) //не на свой остров
+		{
+			storeArray[howStore] = n;
+			howStore++;
+		}
+	}
+	if (howStore == 0) return "none";
+	iRes = storeArray[cRand(howStore-1)];
+	return colonies[iRes].id;
+}
+
 //ищем не вражескую колонию, куда можно доплыть
 string SelectNotEnemyColony(ref NPChar)
 {
@@ -2244,7 +2264,7 @@ void SetRobberFromMapToSea(string sChar)
     NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
 	//даем слух, что кэп на рейде
 	AddSimpleRumourCity(LinkRandPhrase("Капитан " + GetStrSmallRegister(XI_ConvertString(RealShips[sti(sld.Ship.Type)].BaseName + "Acc")) + " '" + sld.Ship.name + "' стоит в порту на рейде. Кажется, его зовут " + GetFullName(sld) + ". Странный тип, скажу я вам, на берег не сходит вообще.", 
-		"Вы знаете, капитана " + GetStrSmallRegister(XI_ConvertString(RealShips[sti(sld.Ship.Type)].BaseName + "Acc")) + " '" + sld.Ship.name + "' сейчас можно встретить, только если выйти на шлюпке в порт. Корабль стоит на рейде, но капитан в город не выходит, предпочитает оставаться на корабле. И и недоело ему?..", 
+		"Вы знаете, капитана " + GetStrSmallRegister(XI_ConvertString(RealShips[sti(sld.Ship.Type)].BaseName + "Acc")) + " '" + sld.Ship.name + "' сейчас можно встретить, только если выйти на шлюпке в порт. Корабль стоит на рейде, но капитан в город не выходит, предпочитает оставаться на корабле. И не надоело ему?..", 
 		"Если вы хотите пообщаться с капитаном " + GetStrSmallRegister(XI_ConvertString(RealShips[sti(sld.Ship.Type)].BaseName + "Acc")) + " '" + sld.Ship.name + "', то выходите в порт. " + GetFullName(sld) + " вроде бы его зовут... В общем, он бросил якорь в порту, но на берег не сходит. Настоящий морской волк, даже с палубной качкой расставаться не хочет."), sld.City, Qty, 1, "none");
 }
 //разыскать кэпа-вора. запись в квестбук из слухов
@@ -2398,6 +2418,35 @@ void SetDanielleFromMapToSea()
 	//обновим дату в базе для контроля кэпов на суше
 	string sTemp = sld.id;
 	NullCharacter.capitainBase.(sTemp).checkTime = Qty + 5;
+    NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
+}
+
+void SetBlackBeardFromMapToSea()
+{
+	ref sld = characterFromId("BlackBeardNPC");
+	sld.quest = "InShore"; //флаг кэпа стоит в порту
+	sld.City = sld.quest.targetCity; //аттрибут текущего города пропишем
+	int iColony = FindColony(sld.City);
+
+	string sGroup = "BlackBeardGroup";
+	group_DeleteGroup(sGroup);
+	Group_AddCharacter(sGroup, sld.id);			
+	Group_SetGroupCommander(sGroup, sld.id);
+	Group_SetAddress(sGroup, colonies[iColony].island, "quest_ships", "Quest_ship_"+(rand(2)+3));
+	Group_SetTaskNone(sGroup);
+	//таймер через сколько опять выйти на карту
+	int Qty = rand(5)+5;
+	string name = "BlackBeardTimer";
+	PChar.quest.(name).win_condition.l1            = "Timer";
+    PChar.quest.(name).win_condition.l1.date.day   = GetAddingDataDay(0, 0, Qty);
+    PChar.quest.(name).win_condition.l1.date.month = GetAddingDataMonth(0, 0, Qty);
+    PChar.quest.(name).win_condition.l1.date.year  = GetAddingDataYear(0, 0, Qty);
+    PChar.quest.(name).function					= "SetBlackBeardFromSeaToMap";
+	//обновим дату в базе для контроля кэпов на суше
+	string sTemp = sld.id;
+	NullCharacter.capitainBase.(sTemp).checkTime = Qty + 3;
     NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
     NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
     NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
@@ -2784,6 +2833,100 @@ void LoginDeadmansGod()
 	LAi_SetActorType(sld);
 	LAi_ActorDialog(sld, pchar, "", 0.0, 0);
 	LAi_CharacterPlaySound(sld, "DeadmansGod");
+}
+
+void LoginDeadmansGod2()
+{
+	ref sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod2", "mictlantumsamil", "skeleton", "man", 60, PIRATE, 0, true));
+    FantomMakeCoolFighter(sld, 60, 100, 100, "blade201", "", 2500);
+	sld.name = "Юм";
+	sld.lastname = "Самиль";
+	sld.SaveItemsForDead = true;
+	ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "goto3");
+	LAi_CharacterPlaySound(sld, "DeadmansGod");
+	LAi_group_MoveCharacter(sld, "evil");
+	LAi_group_SetRelation("evil", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+	LAi_group_FightGroups("evil", LAI_GROUP_PLAYER, true);
+	LAi_SetFightMode(sld, true);
+	LAi_SetCheckMinHP(sld, 5.0, true, "UmSamilDefeated");
+}
+
+void LoginUmSamilGuards()
+{
+	chrDisableReloadToLocation = true;
+	for(int i = 0; i < 3; i++)
+	{
+		ref sld = GetCharacter(NPC_GenerateCharacter("UmSamilGuard"+i, "Chavinavi_1", "skeleton", "man", 55, PIRATE, 0, true));
+		if (i == 0) FantomMakeCoolFighter(sld, 55, 90, 90, "blade37", "", 750);
+		if (i == 1) FantomMakeCoolFighter(sld, 55, 90, 90, "blade39", "", 750);
+		if (i == 2) FantomMakeCoolFighter(sld, 55, 90, 90, "blade42", "", 750);
+		sld.name = "Воин-Ягуар";
+		sld.lastname = "";
+		if (i == 0) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster1");
+		if (i == 1) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster4");
+		if (i == 2) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster3");
+		LAi_group_MoveCharacter(sld, "evil_");
+		LAi_group_SetRelation("evil_", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+		LAi_group_FightGroups("evil_", LAI_GROUP_PLAYER, true);
+		LAi_SetFightMode(sld, true);
+	}
+	LAi_group_SetCheck("evil_", "UmSamilGuardsDefeated");
+}
+
+void SpawnFishHeads()
+{
+	int stopp = 0;
+	chrDisableReloadToLocation = true;
+	for(int i = 0; i < 36; i++)
+	{
+		if (stopp == 1) {stopp = 0; continue;}
+		ref sld = GetCharacter(NPC_GenerateCharacter("FishHead"+i, GetRandSkelModel(), "skeleton", "man", 55, PIRATE, 0, true));
+		FantomMakeCoolFighter(sld, 25, 90, 90, "blade42", "", 300);
+		sld.name = "Рыболюд";
+		sld.lastname = "";
+		ChangeCharacterAddressGroup(sld, "Bermudes_Dungeon", "monsters", "monster"+i);
+		LAi_group_MoveCharacter(sld, "evilf_");
+		LAi_group_SetRelation("evilf_", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+		LAi_group_FightGroups("evilf_", LAI_GROUP_PLAYER, true);
+		LAi_SetFightMode(sld, true);
+		stopp = 1;
+	}
+	LAi_group_SetCheck("evilf_", "FishHeadsDefeated");
+}
+
+void SpawnGreedyBastards()
+{
+	chrDisableReloadToLocation = true;
+	for(int i = 0; i < makeint(MOD_SKILL_ENEMY_RATE/2+0.5); i++)
+	{
+		ref sld = GetCharacter(NPC_GenerateCharacter("GreedyBastard_"+pchar.location+"_"+i, "panhandler_"+(rand(4)+1), "man", "man", 5, PIRATE, 0, true));
+		ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+		LAi_group_MoveCharacter(sld, "greedybastard");
+		if (i==0)
+		{
+			switch (rand(12))
+			{
+				case 0: sld.name = "Ери"; sld.lastname = "Лейн"; break;
+				case 1: sld.name = "Фри"; sld.lastname = "Тиз"; break;
+				case 2: sld.name = "Роман"; sld.lastname = "Войсович"; break;
+				case 3: sld.name = "Семён"; sld.lastname = "Семёныч"; break;
+				case 4: sld.name = "Капитан"; sld.lastname = "Дилл Доу"; break;
+				case 5: sld.name = "Шах"; sld.lastname = "Аран"; break;
+				case 6: sld.name = "Грег"; sld.lastname = "де Грим"; break;
+				case 7: sld.name = "Скэм"; sld.lastname = "Геймс"; break;
+				case 8: sld.name = "Скар"; sld.lastname = "Хэд"; break;
+				case 9: sld.name = "Гуг"; sld.lastname = "Мэн"; break;
+				case 10: sld.name = "Асар"; sld.lastname = "Дагон"; break;
+				case 11: sld.name = "Сиб"; sld.lastname = "Иряк"; break;
+				case 12: sld.name = "Дио"; sld.lastname = "Диегович"; break;
+			}
+			LAi_SetActorTypeNoGroup(sld);
+			sld.dialog.filename = "GenQuests_dialog.c";
+			sld.dialog.currentnode = "Greedy";
+			LAi_ActorDialog(sld, pchar, "", 10.0, 0);
+		}
+	}
+	LAi_group_SetCheck("greedybastard", "OpenTheDoors");
 }
 
 //проверка на наличие тотемов в ГГ и их использование ранее

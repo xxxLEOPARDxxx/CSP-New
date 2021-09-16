@@ -5789,6 +5789,25 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		
+		case "Greedy":
+			dialog.text = "О, ты тут камешек драгоценный нашёл? Отдай его пожалуйста. С тебя не убудет, а нам поможет штаны поддержать.";
+			link.l1 = "Ага, щас. Я не для того его искал, чтобы голозадым вроде тебя отдавать.";
+			link.l1.go = "Greedy_2";
+		break;
+		
+		case "Greedy_2":
+			dialog.text = "Злой ты. А я ведь в прошлом и леопардов убивал... Стоит научить тебя хорошим манерам. Защищайся!";
+			link.l1 = "И почему всё должно заканчиваться дракой...";
+			link.l1.go = "Greedy_end";
+		break;
+		
+		case "Greedy_end":
+			LAi_group_SetRelation("greedybastard", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("greedybastard", LAI_GROUP_PLAYER, true);
+			LAi_SetFightMode(npchar, true);
+			DialogExit();
+		break;
+		
 		// КОНЕЦ
 		
 		case "Exit":

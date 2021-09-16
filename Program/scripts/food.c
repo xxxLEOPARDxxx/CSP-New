@@ -205,7 +205,10 @@ void DailyEatCrewUpdate()   // сюда пихаю все что в 1 день
 			
 			if(sti(chref.Ship.soiling)<100)
 			{
-				if (CheckAttribute(&RealShips[sti(chref.Ship.Type)], "Tuning.CuBot") && rand(4)==0) chref.Ship.soiling = sti(chref.Ship.soiling)+1;
+				if (CheckAttribute(&RealShips[sti(chref.Ship.Type)], "Tuning.CuBot"))
+				{
+					if (rand(4)<1) chref.Ship.soiling = sti(chref.Ship.soiling)+1;
+				}
 				else chref.Ship.soiling= sti(chref.Ship.soiling)+1;
 			}
 			

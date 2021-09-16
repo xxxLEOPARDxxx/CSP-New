@@ -10,12 +10,14 @@ int iCurItemIndex;
 string sCurItemRow;
 
 bool isGoodTable;
+int curBuyGoodsWeight;
+float curBuyItemsWeight;
 
 void InitInterface(string iniName)
 {
 	FillShipsScroll();
 	FillCharactersScroll();//перенести и просмотр одетого снаряжения
-	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);//не знаю, что, но если выше ставить, не показываются портретики офицеров, обновляет интерфейс???
+	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);//если выше ставить, не показываются портретики офицеров
 	FillItemsTable();
 	FillGoodsTable();
 	SetCheckButtonsStates();
@@ -28,7 +30,45 @@ void InitInterface(string iniName)
 	SetEventHandler("CheckButtonChange", "ProcessCheckBox", 0);
 	SetEventHandler("ShowItemInfo", "ShowItemInfo", 0);
 	SetEventHandler("frame","ProcessFrame",1);
-	SetEventHandler("UnShowTGWindow", "UnShowTGWindow", 0);
+	SetEventHandler("UnShowWindow", "UnShowWindow", 0);
+	SetEventHandler("ShowSAWindow", "ShowSAWindow", 0);
+	SetEventHandler("SaveGOODSet", "SaveGOODSet", 0);
+	SetEventHandler("LoadGOODSet", "LoadGOODSet", 0);
+	SetEventHandler("SaveITEMSet", "SaveITEMSet", 0);
+	SetEventHandler("LoadITEMSet", "LoadITEMSet", 0);
+//ShowInfoWindow - добавить обработчик правой кнопки для подсказок
+}
+
+void IDoExit(int exitCode)
+{
+	DelEventHandler("exitCancel", "ProcessCancelExit");
+	DelEventHandler("evntDoPostExit", "DoPostExit");
+	DelEventHandler("ievnt_command", "ProcCommand");
+	DelEventHandler("TableSelectChange", "TableSelectChange");
+	DelEventHandler("MouseRClickUP","HideInfo");
+	DelEventHandler("CheckButtonChange", "ProcessCheckBox");
+	DelEventHandler("ShowItemInfo", "ShowItemInfo");
+	DelEventHandler("UnShowWindow", "UnShowWindow");
+	DelEventHandler("frame","ProcessFrame");
+	DelEventHandler("ShowSAWindow", "ShowSAWindow");
+	DelEventHandler("SaveGOODSet", "SaveGOODSet");
+	DelEventHandler("LoadGOODSet", "LoadGOODSet");
+	DelEventHandler("SaveITEMSet", "SaveITEMSet");
+	DelEventHandler("LoadITEMSet", "LoadITEMSet");
+
+	interfaceResultCommand = exitCode;
+	EndCancelInterface(true);
+}
+
+void ProcessCancelExit()
+{
+	IDoExit(RC_INTERFACE_GOODS_TRANSFER);
+}
+
+void DoPostExit()
+{
+	int exitCode = GetEventData();
+	IDoExit(exitCode);
 }
 
 void HideInfo()
@@ -48,38 +88,67 @@ void SetCheckButtonsStates()
 	{
 		CheckButton_SetState("CHECK_BUYCONTRABAND", 1, false);
 	}
-	
-	if(CheckAttribute(PChar, "SellRestriction"))
-	{
-		CheckButton_SetState("CHECK_RESTRICTSELL", 1, false);//меняю логику - если есть атрибут, то запрет выключен
-	}
-	else
+
+	if(CheckAttribute(Characters[iCurCompanion], "TransferGoods.SellRestriction"))
 	{
 		CheckButton_SetState("CHECK_RESTRICTSELL", 1, true);
 	}
-}
+	else
+	{
+		CheckButton_SetState("CHECK_RESTRICTSELL", 1, false);
+	}
 
-void ShowMainWindow(bool _truefalse)
-{
-	if(_truefalse)
-	{	// Видим главное окно
-		XI_WindowDisable("MAIN_WINDOW", false);
-		XI_WindowDisable("GOODS_TRANSFER_WINDOW", true);
-		XI_WindowShow("GOODS_TRANSFER_WINDOW", false);
-		SetCurrentNode("MAIN_BACK");
+	if(CheckAttribute(Characters[iCurFighter], "TransferItems.SellRestriction"))
+	{
+		CheckButton_SetState("CHECK_RESTRICTSELL_I", 1, true);
 	}
 	else
 	{
+		CheckButton_SetState("CHECK_RESTRICTSELL_I", 1, false);
+	}
+
+	if(CheckAttribute(Characters[iCurFighter], "TransferItems.AutoBuyAmmo"))
+	{
+		CheckButton_SetState("CHECK_BUYAMMO", 1, true);
+		SetNodeUsing("SETBUYAMMO", true);
+	}
+	else
+	{
+		CheckButton_SetState("CHECK_BUYAMMO", 1, false);
+		SetNodeUsing("SETBUYAMMO", false);
+	}
+}
+
+void ShowWindow(int WindowNum)
+{
+	switch (WindowNum)
+	{
+	case 0:
+		XI_WindowDisable("MAIN_WINDOW", false);
+		XI_WindowDisable("GOODS_TRANSFER_WINDOW", true);
+		XI_WindowDisable("SETITEM_AUTO_WINDOW", true);
+		XI_WindowShow("GOODS_TRANSFER_WINDOW", false);
+		XI_WindowShow("SETITEM_AUTO_WINDOW", false);
+		SetCurrentNode("MAIN_BACK");
+		break;
+	case 1:
 		XI_WindowDisable("MAIN_WINDOW", true);
 		XI_WindowDisable("GOODS_TRANSFER_WINDOW", false);
 		XI_WindowShow("GOODS_TRANSFER_WINDOW", true);
 		SetCurrentNode("TG_CANCEL_BUTTON");
+		break;
+	case 2:
+		XI_WindowDisable("MAIN_WINDOW", true);
+		XI_WindowDisable("SETITEM_AUTO_WINDOW", false);
+		XI_WindowShow("SETITEM_AUTO_WINDOW", true);
+		SetCurrentNode("SA_CANCEL_BUTTON");
+		break;
 	}
 }
 
-void UnShowTGWindow()
+void UnShowWindow()
 {
-	ShowMainWindow(true);
+	ShowWindow(0);
 }
 
 void ShowTransferGoods()
@@ -113,22 +182,6 @@ void ShowTransferGoods()
 		SetFormatedText("TG_GOODS_CAPTION", sHeader);//заголовок
 		SetFormatedText("TG_GOODS_INFO", describeStr);//описание
 		GameInterface.TG_EDIT.str = buyCount;
-}
-
-void IDoExit(int exitCode)
-{
-	DelEventHandler("exitCancel", "ProcessCancelExit");
-	DelEventHandler("evntDoPostExit", "DoPostExit");
-	DelEventHandler("ievnt_command", "ProcCommand");
-	DelEventHandler("TableSelectChange", "TableSelectChange");
-	DelEventHandler("MouseRClickUP","HideInfo");
-	DelEventHandler("CheckButtonChange", "ProcessCheckBox");
-	DelEventHandler("ShowItemInfo", "ShowItemInfo");
-	DelEventHandler("UnShowTGWindow", "UnShowTGWindow");
-	DelEventHandler("frame","ProcessFrame");
-
-	interfaceResultCommand = exitCode;
-	EndCancelInterface(true);
 }
 
 void OnAddBtnClick(int _add)
@@ -189,10 +242,25 @@ void ProcCommand()
 		case "TG_CANCEL_BUTTON":
 			if(comName == "click" || comName == "activate")
 			{
-				UnShowTGWindow();
+				UnShowWindow();
 			}
 			break;
-			
+
+		case "SA_CANCEL_BUTTON":
+			if(comName == "click" || comName == "activate")
+			{
+				UnShowWindow();
+			}
+			break;
+
+		case "SA_OK_BUTTON":
+			if(comName == "click" || comName == "activate")
+			{
+//сюда код сохранения настроек автовыбора кол-ва боеприпасов	
+				UnShowWindow();
+			}
+			break;
+
 		case "TG_OK_BUTTON":
 			if(comName == "click" || comName == "activate")
 			{
@@ -200,26 +268,30 @@ void ProcCommand()
 				{
 					rGood = &Goods[iCurGoodIndex];
 					sGood = rGood.name;
+					if (!checkattribute(Characters[iCurCompanion],"TransferGoods." + sGood)) Characters[iCurCompanion].TransferGoods.(sGood) = 0;
 					iNum =  sti(GameInterface.TG_EDIT.str);
 					if (iNum >999999) iNum = 999999;
+					curBuyGoodsWeight = curBuyGoodsWeight + (iNum - sti(Characters[iCurCompanion].TransferGoods.(sGood)))*stf(rGood.weight)/sti(rGood.Units);//тут нужен чекатрибут - срёт в лог
 //НАДО ЛИ это затирание? Может, наоборот при закрытии все строчки заполнять, чтоб чекатрибут не делать?
 					if (iNum == 0) DeleteAttribute(&Characters[iCurCompanion],"TransferGoods." + sGood); else Characters[iCurCompanion].TransferGoods.(sGood) = iNum; // Прибавим в список закупок
 					GameInterface.GOODS_TABLE_LIST.(sCurGoodRow).td2.str = iNum;
 					Table_UpdateWindow("GOODS_TABLE_LIST");
-					UnShowTGWindow();
+					SetFormatedText("GOODS_SET_SUM", "Вес выбранного комплекта: " + curBuyGoodsWeight + " ц.");
 				}
 				else 
 				{
-					String FighterId = Characters[iCurFighter].Id;
 					String sItem = Items[iCurItemIndex].id;
+					if (!checkattribute(Characters[iCurFighter],"TransferItems." + sItem)) Characters[iCurFighter].TransferItems.(sItem) = 0;
 					iNum =  sti(GameInterface.TG_EDIT.str);
 					if (iNum >9999) iNum = 9999;
+					curBuyItemsWeight = curBuyItemsWeight + (iNum - sti(Characters[iCurFighter].TransferItems.(sItem)))*stf(Items[iCurItemIndex].weight);
 //НАДО ЛИ это затирание? Может, наоборот при закрытии все строчки заполнять, чтоб чекатрибут не делать?
 					if (iNum == 0) DeleteAttribute(&Characters[iCurFighter],"TransferItems." + sItem); else Characters[iCurFighter].TransferItems.(sItem) = iNum; // Прибавим в список закупок
 					GameInterface.CONSUME_TABLE_LIST.(sCurItemRow).td2.str = iNum;
 					Table_UpdateWindow("CONSUME_TABLE_LIST");
-					UnShowTGWindow();
+					SetFormatedText("ITEMS_SET_SUM", "Вес выбранного комплекта: " + FloatToString(curBuyItemsWeight,1));
 				}
+				UnShowWindow();
 			}
 			break;
 	}
@@ -234,7 +306,7 @@ void ProcessFrame()
 			nCurScrollNumS = sti(GameInterface.SHIPS_SCROLL.current);
 			FillGoodsTable();
 			SetCheckButtonsStates();
-			//SetDescription(); //TODO - заполнить полезную информацию
+			//SetDescription(); //TODO - заполнить полезную информацию - объём трюма и грузоподъёмность и т.п.
 		}
 	}
 
@@ -244,6 +316,7 @@ void ProcessFrame()
 		{
 			nCurScrollNumC = sti(GameInterface.CHARACTERS_SCROLL.current);
 			FillItemsTable();
+			SetCheckButtonsStates();
 		}
 	}
 }
@@ -257,13 +330,31 @@ void ProcessCheckBox()
 //========================================//
 	if (sControl == "CHECK_BUYCONTRABAND")
 	{
-	if (iNewState) Characters[iCurCompanion].TransferGoods.BuyContraband = true; else DeleteAttribute(&Characters[iCurCompanion], "TransferGoods.BuyContraband");
+	if (iNewState) Characters[iCurCompanion].TransferGoods.BuyContraband = true; 
+		else DeleteAttribute(&Characters[iCurCompanion], "TransferGoods.BuyContraband");
 	return;
 	}
 //========================================//
 	if (sControl == "CHECK_RESTRICTSELL")
 	{
-	if (iNewState) DeleteAttribute(PChar, "SellRestriction"); else PChar.SellRestriction = false;
+	if (iNewState) Characters[iCurCompanion].TransferGoods.SellRestriction = true; 
+		else DeleteAttribute(&Characters[iCurCompanion], "TransferGoods.SellRestriction");
+	return;
+	}
+//========================================//
+	if (sControl == "CHECK_RESTRICTSELL_I")
+	{
+	if (iNewState) Characters[iCurFighter].TransferItems.SellRestriction = true; 
+		else DeleteAttribute(&Characters[iCurFighter], "TransferItems.SellRestriction");
+	return;
+	}
+//========================================//
+	if (sControl == "CHECK_BUYAMMO")
+	{
+	if (iNewState) Characters[iCurFighter].TransferItems.AutoBuyAmmo = true;
+		else DeleteAttribute(&Characters[iCurFighter], "TransferItems.AutoBuyAmmo");
+	SetNodeUsing("SETBUYAMMO", iNewState); 
+	FillItemsTable();//TODO - проверить, что два раза таблица не заполняется при смене персонажа, если командой сменяется отметка чекбокса
 	return;
 	}
 //========================================//
@@ -278,19 +369,16 @@ void ProcessCheckBox()
 void ShowItemInfo()
 {
 	if (GetCurrentNode() == "GOODS_TABLE_LIST") isGoodTable = true; else isGoodTable = false;
-	ShowMainWindow(false);
+	ShowWindow(1);
 	ShowTransferGoods();
 }
-
-void ProcessCancelExit()
+void ShowSAWindow()
 {
-	IDoExit(RC_INTERFACE_GOODS_TRANSFER);
-}
-
-void DoPostExit()
-{
-	int exitCode = GetEventData();
-	IDoExit(exitCode);
+	ShowWindow(2);
+//итак, в окне настройки боеприпасов к огнестрелу делаем шесть скроллов для шести возможных типов патронов, если одинаковые - то суммировать или брать большее? 
+//через атрибуты ссылку на массив передавать?? чтобы использовать и при открытии окна и при 
+//Непрактично - заполнять атрибуты функцией один раз перед использованием таблицы, а потом чекатрибутом брать
+	AutoCalcAmmo(&Characters[iCurFighter]);
 }
 
 void FillShipsScroll()
@@ -356,7 +444,7 @@ void FillCharactersScroll()
 void FillGoodsTable()
 {
 	string sGood, sItem, row;
-	int i, n, buyCount;
+	int i, n, buyCount, buyCount2;
 	string attributeName = "pic" + (nCurScrollNumS+1);
 	iCurCompanion = GameInterface.SHIPS_SCROLL.(attributeName).companionIndex;
 	String companionId = Characters[iCurCompanion].Id;
@@ -364,15 +452,21 @@ void FillGoodsTable()
 	SetNewPicture("CHARACTER_PICTURE", "interfaces\portraits\256\face_" + refCharacter.FaceId + ".tga");
 	SetFormatedText("SHIP_NAME", XI_ConvertString(RealShips[sti(refCharacter.Ship.Type)].BaseName) + " '" + refCharacter.Ship.Name + "'");
 	SetFormatedText("COMP_NAME", GetFullName(refCharacter));
-
 	Table_Clear("GOODS_TABLE_LIST", false, true, false);
 	GameInterface.GOODS_TABLE_LIST.hr.td1.str = "Товар";
 	GameInterface.GOODS_TABLE_LIST.hr.td2.str = "Кол-во";
-	GameInterface.GOODS_TABLE_LIST.hr.td3.str = "Пачка";
-	GameInterface.GOODS_TABLE_LIST.hr.td4.str = "Вес";
+	GameInterface.GOODS_TABLE_LIST.hr.td3.str = "В раз-\nработке";//"Авто-\nрасчёт";
+	GameInterface.GOODS_TABLE_LIST.hr.td4.str = "Вес/\nПачка";
+	GameInterface.GOODS_TABLE_LIST.hr.td5.str = "Цена\nед. веса\n(базовая)";
+	GameInterface.GOODS_TABLE_LIST.hr.td5.scale = 0.8;
+	curBuyGoodsWeight = 0;
 
-	for (i = 0, n = 1; i< GOODS_QUANTITY; i++)
+	for (i = 0, n = 1, bool isDone = 0; i< GOODS_QUANTITY; i++)
 	{
+//ром после парусины вставляем в таблицу //костыль, чтоб не разбираться: будут ли проблемы, если в инишках поменять порядок товаров
+		if (i==6) i = 16;
+		if (i==16 && isDone) continue;
+		if (i==17 && !isDone) {i=6; isDone = 1;}
 		row = "tr" + n;
 		sGood = Goods[i].name;
 		if (checkattribute(Goods[i],"CannonIdx")) continue;//без пушек???
@@ -388,27 +482,35 @@ void FillGoodsTable()
 		GameInterface.GOODS_TABLE_LIST.(row).td1.align = "left";
 		if (CheckAttribute(Characters[iCurCompanion], "TransferGoods." + sGood)) buyCount = sti(Characters[iCurCompanion].TransferGoods.(sGood)); else buyCount = 0;
 		GameInterface.GOODS_TABLE_LIST.(row).td2.str = buyCount;
-		GameInterface.GOODS_TABLE_LIST.(row).td3.str = Goods[i].Units;//в пачке
-		GameInterface.GOODS_TABLE_LIST.(row).td4.str = Goods[i].Weight;//вес
+		buyCount2 = GetConsumeLimit(Characters[iCurCompanion], sGood);
+		GameInterface.GOODS_TABLE_LIST.(row).td3.str = buyCount2;
+		if (!buyCount2) GameInterface.GOODS_TABLE_LIST.(row).td3.color = argb(255,160,160,160);
+		GameInterface.GOODS_TABLE_LIST.(row).td4.str = Goods[i].Weight + " / " + Goods[i].Units;//вес/пачка
+		GameInterface.GOODS_TABLE_LIST.(row).td5.str = sti(Goods[i].Cost)/sti(Goods[i].Weight) + "\n(" + Goods[i].Cost + ")";
+		curBuyGoodsWeight = curBuyGoodsWeight + (buyCount+buyCount2)*stf(Goods[i].Weight)/sti(Goods[i].Units);
 		n++;
 	}
-	GameInterface.GOODS_TABLE_LIST.select = 1;
+	GameInterface.GOODS_TABLE_LIST.select = 0;
 	Table_UpdateWindow("GOODS_TABLE_LIST");
+	SetFormatedText("GOODS_SET_SUM", "Вес выбранного комплекта: " + curBuyGoodsWeight + " ц.");
 }
 
 void FillItemsTable()
 {
 	string sItem, row;
-	int i, n, buyCount;
+	int i, n, buyCount, buyCount2;
 	string attributeName = "pic" + (nCurScrollNumC+1);
 	iCurFighter = GameInterface.CHARACTERS_SCROLL.(attributeName).character;
-	string FighterId = Characters[iCurFighter].Id;//проверить выбор абордажника
+	string FighterId = Characters[iCurFighter].Id;
 	SetFormatedText("CHAR_NAME", GetFullName(Characters[iCurFighter]));
 	
 	Table_Clear("CONSUME_TABLE_LIST", false, true, false);
 	GameInterface.CONSUME_TABLE_LIST.hr.td1.str = "Предмет";
 	GameInterface.CONSUME_TABLE_LIST.hr.td2.str = "Кол-во";
-	GameInterface.CONSUME_TABLE_LIST.hr.td3.str = "Вес";
+	GameInterface.CONSUME_TABLE_LIST.hr.td3.str = "В раз-\nработке";//"Авто-\nрасчёт";
+	GameInterface.CONSUME_TABLE_LIST.hr.td4.str = "Вес";
+	curBuyItemsWeight = 0;
+
 	for(i = 0, n = 1; i < ITEMS_QUANTITY; i++)
 	{
 		if (!checkattribute(Items[i],"sortIndex")) continue;//в списке только расходники
@@ -428,10 +530,16 @@ void FillItemsTable()
 		sItem = Items[i].id;
 		if (CheckAttribute(Characters[iCurFighter], "TransferItems." + sItem)) buyCount = sti(Characters[iCurFighter].TransferItems.(sItem)); else buyCount = 0;
 		GameInterface.CONSUME_TABLE_LIST.(row).td2.str = buyCount;
-		GameInterface.CONSUME_TABLE_LIST.(row).td3.str = FloatToString(stf(Items[i].Weight), 1);//TO DO - добавить вычисление buyCount* - суммировать ожидаемый вес и выводить текстом ниже таблицы
+		buyCount2 = GetConsumeLimit(Characters[iCurFighter], sItem);
+		GameInterface.CONSUME_TABLE_LIST.(row).td3.str = buyCount2;
+		if (!buyCount2) GameInterface.CONSUME_TABLE_LIST.(row).td3.color = argb(255,160,160,160);
+		GameInterface.CONSUME_TABLE_LIST.(row).td4.str = FloatToString(stf(Items[i].Weight), 1);
+		curBuyItemsWeight = curBuyItemsWeight + (buyCount+buyCount2)*stf(Items[i].Weight);
 		n++;
 	}
+	GameInterface.CONSUME_TABLE_LIST.select = 0;
 	Table_UpdateWindow("CONSUME_TABLE_LIST");
+	SetFormatedText("ITEMS_SET_SUM", "Вес выбранного комплекта: " + FloatToString(curBuyItemsWeight,1));
 }
 
 void TableSelectChange()
@@ -446,3 +554,17 @@ void TableSelectChange()
 		case "CONSUME_TABLE_LIST": iCurItemIndex = sti(GameInterface.CONSUME_TABLE_LIST.(sRow).index); sCurItemRow = sRow; break;
 	}
 }
+
+int GetConsumeLimit(ref xi_refCharacter, string _itemname)//TODO - вынести в утилиты, так как и в кнопке автозакупки должно вызываться//разделить на две функции - товары/предметы
+{
+	return 0;
+}
+
+void AutoCalcAmmo(ref xi_refCharacter)
+{
+}
+
+void SaveGOODSet(){return;}
+void LoadGOODSet(){return;}
+void SaveITEMSet(){return;}
+void LoadITEMSet(){return;}

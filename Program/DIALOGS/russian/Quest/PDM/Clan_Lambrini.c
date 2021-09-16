@@ -590,6 +590,8 @@ void ProcessDialogEvent()
 			sld.dialog.currentnode   = "Octavio_4_1";
 			LAi_SetSitType(sld);
 			LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
+			FreeSitLocator("Maracaibo_tavern", "sit_base2");  // очистим стул
+			FreeSitLocator("Maracaibo_tavern", "sit_front2");  // очистим стул
 			ChangeCharacterAddressGroup(sld, "Maracaibo_tavern", "sit", "sit_front2");
 			
 			pchar.LambriniPGG = SelectRandomPGG("woman", "YokoDias");
@@ -644,6 +646,10 @@ void ProcessDialogEvent()
 			dialog.text = "(Подслушиваем Октавио. Он в данный момент ведёт диалог со своим предполагаемым клиентом) ...Зачем же?";
 			link.l1 = "";
 			link.l1.go = "Pokupatel_2_1";
+			
+			sld = CharacterFromID(pchar.LambriniPGG);
+			if (sld.location == "None") FreeSitLocator("Maracaibo_tavern", "sit_base2");  // очистим стул
+			DoQuestCheckDelay("PDM_CL_PVT", 0.0);
 		break;
 		
 		case "Pokupatel_2_1":

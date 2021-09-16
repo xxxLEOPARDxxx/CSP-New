@@ -24,6 +24,16 @@ void SetFantomParamFromRank(ref NPchar, int  rank, bool setEquip)
 			case 3: cirnum = "cirass3"; break;
 			case 4: cirnum = "cirass4"; break;
 		}
+		if (CheckAttribute(NPchar, "HeroModel")) // все, у кого есть что одеть
+        {
+			switch (cirnum)
+			{
+				case "cirass1": NPchar.model = GetSubStringByNum(NPchar.HeroModel, 1); break;
+				case "cirass2": NPchar.model = GetSubStringByNum(NPchar.HeroModel, 2); break;
+				case "cirass3": NPchar.model = GetSubStringByNum(NPchar.HeroModel, 3); break;
+				case "cirass4": NPchar.model = GetSubStringByNum(NPchar.HeroModel, 4); break;
+			}
+		}
 		NPchar.cirassId = Items_FindItemIdx(cirnum);
 		Log_TestInfo("Персонаж "+NPchar.name+" получил кирасу "+cirnum);
 	}

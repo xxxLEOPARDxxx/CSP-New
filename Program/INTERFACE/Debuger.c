@@ -976,12 +976,13 @@ void CalculateInfoDataF6()
 	AddItems(mc, "pistol7", 1);
 	AddItems(mc, "Map_Best", 1);
 	
-	// sEquipItem = GetGeneratedItem("blade27"); 		// Моргана 			(ЛО)
-	// sEquipItem = GetGeneratedItem("blade32"); 		// Фламберж			(ЛО)
-	// sEquipItem = GetGeneratedItem("katar"); 			// Катар			(СО)
-	// sEquipItem = GetGeneratedItem("toporAZ"); 		// Макуауитль		(ТО)
-	// sEquipItem = GetGeneratedItem("topor_viking"); 	// Топор викинга	(ТО)
-	sEquipItem = GetGeneratedItem("blade28");			// Танат			(ТО)
+	// sEquipItem = GetGeneratedItem("blade27"); 				// Моргана 			(ЛО)
+	// sEquipItem = GetGeneratedItem("blade32"); 				// Фламберж			(ЛО)
+	// sEquipItem = GetGeneratedItem("katar"); 					// Катар			(СО)
+	// sEquipItem = GetGeneratedItem("toporAZ"); 				// Макуауитль		(ТО)
+	// sEquipItem = GetGeneratedItem("topor_viking"); 			// Топор викинга	(ТО)
+	// sEquipItem = GetGeneratedItem("blade28");					// Танат			(ТО)
+	sEquipItem = GetGeneratedItem("blackbeard_sword_baron");	// Меч Тритона			(СО)
 	AddItems(mc, sEquipItem, 1);
 	
 	AddItems(mc, "cirass5", 1);
@@ -1148,7 +1149,7 @@ void CalculateInfoDataF11()
 	Statistic_AddValue(PChar, "Cheats.F11", 1);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF12 = "НЗГ у всех наций +50";//Заменить текущий корабль на ЧА";  //"LaunchMunityCapture";;
+string descF12 = "НЗГ у всех наций -50";//Заменить текущий корабль на ЧА";  //"LaunchMunityCapture";;
 
 void CalculateInfoDataF12()
 {
@@ -1159,32 +1160,6 @@ void CalculateInfoDataF12()
 	{
         ChangeCharacterNationReputation(pchar, j, -50);
     }
-/*	PChar.Ship.Type = SHIP_CYCLOPUS;
-	SetBaseShipData(PChar);
-	PChar.Ship.Crew.Quantity = 1400;
-	PChar.Ship.Cannons.Type          = CANNON_TYPE_CULVERINE_LBS24;
-
-	SetCharacterGoods(PChar,GOOD_BALLS,2000);
-    SetCharacterGoods(PChar,GOOD_GRAPES,700);
-    SetCharacterGoods(PChar,GOOD_KNIPPELS,700);
-    SetCharacterGoods(PChar,GOOD_BOMBS,1500);
-    SetCharacterGoods(PChar,GOOD_POWDER,1500);
-    SetCharacterGoods(PChar,GOOD_SAILCLOTH,5);
-    SetCharacterGoods(PChar,GOOD_PLANKS,10);
-    SetCharacterGoods(PChar,GOOD_FOOD,2000);
-    SetCharacterGoods(PChar,GOOD_WEAPON,2000);
-	PChar.SystemInfo.CabinType = "My_Cabin";          */
-
-	//ref rNames;
-	//rNames = &sFrWomenNames;
-	//makeref(rNames, sRndShpEnName);
-    //totalInfo = GetArraySize(rNames) + "---- " +rNames[20];
-
-    //LAi_SetActorType(PChar);
-    //LAi_ActorAnimation(PChar, "attack_left_1", "", -1);
-    //DoQuestCheckDelay("pchar_back_to_player", 15.0);
-
-    // <
     totalInfo = totalInfo + LanguageConvertString(idLngFile,"new_string") + LanguageConvertString(idLngFile,"new_string") +
                 "Команда отработала успешно! ";
     LanguageCloseFile(idLngFile);
@@ -1655,7 +1630,7 @@ void CalculateInfoDataF28()
 	Statistic_AddValue(PChar, "Cheats.F28", 1);
 }
 
-string descF29 = "НЗГ у всех наций -50";
+string descF29 = "НЗГ у всех наций +50";
 void CalculateInfoDataF29()
 {
     totalInfo = descF29;
@@ -1698,6 +1673,7 @@ void CalculateInfoDataF31()
 	mc = GetMainCharacter();
 	SetRandSelfSkill(mc, 100, 100);
 	SetRandShipSkill(mc, 100, 100);
+	LAi_SetHP(mc, 380.0, 380.0);
 	mc.rank = 25;
 //	mc.Ship.Type = GenerateShipExt(SHIP_CORVETTE_QUEST, true, mc);
 	mc.Ship.Type = GenerateShipExt(SHIP_ARABELLA, true, mc);
@@ -1737,7 +1713,14 @@ void CalculateInfoDataF31()
 	AddItems(mc, "pistol5", 1);
 	AddItems(mc, "Mushket", 1);
 	AddItems(mc, "BackPack5", 1);
-
+	
+	// Моя прелесть -->
+	AddItems(mc, "Food5", 30);
+	AddItems(mc, "potion2", 30);
+	AddItems(mc, "HealthTube", 3);
+	AddItems(mc, "EnergyTube", 3);
+	AddItems(mc, "StrangeElixir", 3);
+	// Моя прелесть <--
 	
 	sEquipItem = GetGeneratedItem("blade32");
 	AddItems(mc, sEquipItem, 1);
@@ -2344,12 +2327,19 @@ void CalculateInfoDataF48()
 	Statistic_AddValue(PChar, "Cheats.F48", 1);
 }
 
-string descF49 = "Нет назначений";
+string descF49 = "Построить Капитул и перенести игрока туда";
 void CalculateInfoDataF49()
 {
 	totalInfo = descF49;
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	
+	pchar.GiantEvilSkeleton = true;
+	pchar.MalteseInfo = true;
+	pchar.MalteseOrderOnHold = true;
+	pchar.MalteseOrder = true;
+	BuildMalteseOrder("");
+	DoQuestReloadToLocation("Reefs_Chapter","reload","reload1","");
 	
 	SetFormatedText("INFO_TEXT", totalInfo);
 	
@@ -2965,6 +2955,20 @@ void ReloadByStr()
 	string  grp = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 1));
 	string  ltr = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 2));
 
+	if (sti(loc) > 0 && sti(loc) < 13)
+	{
+		if (sti(grp) > 0 && sti(grp) < 32)
+		{
+			if (sti(ltr) > -1 && sti(ltr) < 25)
+			{
+				Environment.date.month = sti(loc);
+				Environment.date.day = sti(grp);
+				SetCurrentTime(sti(ltr),0);
+				DoQuestReloadToLocation(loadedLocation.id, "reload", "reload1", "");
+				return;
+			}
+		}
+	}
     int i = FindLocation(loc);
     if (i != -1)
     {

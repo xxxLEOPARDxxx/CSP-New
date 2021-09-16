@@ -3088,6 +3088,36 @@ void SetDanielleFromSeaToMap(string qName)
     NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
     NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
 }
+
+//Чёрная Борода
+void SetBlackBeardFromSeaToMap(string qName)
+{
+	sld = characterFromId("BlackBeardNPC");
+	//в морскую группу кэпа
+	string sGroup = "BlackBeardGroup";
+	Group_FindOrCreateGroup(sGroup);
+	Group_AddCharacter(sGroup, sld.id);
+	Group_SetGroupCommander(sGroup, sld.id);
+	SetRandGeraldSail(sld, sti(sld.Nation)); 
+	sld.quest = "InMap"; //личный флаг искомого кэпа
+	sld.cityShore = GetIslandRandomShoreId(GetArealByCityName(sld.city));
+	sld.quest.targetCity = GetRandomPirateCity(); //определим колонию, в бухту которой он придет
+	sld.quest.targetShore = GetIslandRandomShoreId(GetArealByCityName(sld.quest.targetCity));
+	Log_TestInfo("Кэп фрегата Месть Королевы Анны вышел из: " + sld.city + " и направился в: " + sld.quest.targetShore);
+	//==> на карту
+	sld.mapEnc.type = "trade";
+	//выбор типа кораблика на карте
+	sld.mapEnc.worldMapShip = "quest_ship";
+	sld.mapEnc.Name = "Фрегат 'Месть Королевы Анны'";
+	int daysQty = GetMaxDaysFromIsland2Island(GetArealByCityName(sld.quest.targetCity), GetArealByCityName(sld.city))+3; //дней доехать даем с запасом
+	Map_CreateTrader(sld.cityShore, sld.quest.targetShore, sld.id, daysQty);
+	//меняем сроки проверки по Id кэпа в базе нпс-кэпов
+	sTemp = sld.id;
+	NullCharacter.capitainBase.(sTemp).checkTime = daysQty + 3;
+    NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
+    NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   Миниквесты        конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4828,11 +4858,13 @@ void LSC_SaveSesilGalard_2()
 	}
 	//клановцы
 	LAi_group_Delete("EnemyFight");
-	iTemp = 10+MOD_SKILL_ENEMY_RATE*2;
+	if (sti(pchar.rank)<12) iTemp = sti(pchar.rank);
+	else iTemp = 10+MOD_SKILL_ENEMY_RATE*2;
     for (i=1; i<=3; i++)
     {
         sld = GetCharacter(NPC_GenerateCharacter("LSCBandit"+i, "officer_"+(i+3), "man", "man", iTemp, PIRATE, 0, true));
-        FantomMakeCoolFighter(sld, iTemp, 80, 80, "topor2", "pistol6", 50);
+        if (sti(pchar.rank)<12) FantomMakeCoolFighter(sld, iTemp, 50, 50, "topor3", "pistol2", 50);
+		else FantomMakeCoolFighter(sld, iTemp, 80, 80, "topor2", "pistol6", 50);
         LAi_SetWarriorType(sld);			
         LAi_group_MoveCharacter(sld, "EnemyFight");				
         if (i == 2)
@@ -5240,6 +5272,12 @@ void LSC_closeLine(string qName)
 		SetTimerFunction("LSC_climeUsurer", 0, 3 + rand(3), 0);
 		pchar.questTemp.LSC_climeUsurer.qtyMoney = sti(sld.quest.loan.qtyMoney) * 5; //сколько денег к возврату
 	}
+	sld = ItemsFromID("key1");
+	sld.price = 10;
+	sld = ItemsFromID("key2");
+	sld.price = 10;
+	sld = ItemsFromID("key3");
+	sld.price = 10;
 	// Return to LSC - Gregg
 	//убираем жителей ГПК из игры 
 	/*for(i=0; i<MAX_LOCATIONS; i++)
@@ -5849,9 +5887,7 @@ void Blood_StartGame(string qName)
     sld.rank = 12;
     sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 	sld.HalfImmortal = true;  // Контузия
-	//Korsar Maxim - Прописка всех моделей для кирас. -->
 	sld.HeroModel = "PBLine_Pitt_0,PBLine_Pitt_1,PBLine_Pitt_2,PBLine_Pitt_3,PBLine_Pitt_4,PBLine_Pitt_5";
-	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.loyality = MAX_LOYALITY;
     InitStartParam(sld);
     //SetRandSPECIAL(sld);
@@ -5859,14 +5895,6 @@ void Blood_StartGame(string qName)
     SetSelfSkill(sld, 40, 35, 20, 40, 25);
     //int _ld, int _cr, int _ac, int _cn, int _sl, int _re, int _gr, int _de, int _sn
     SetShipSkill(sld, 40, 30, 25, 25, 50, 25, 25, 25, 30);
-	//SetCharacterPerk(sld, "FastReload");
-	//SetCharacterPerk(sld, "HullDamageUp");
-	//SetCharacterPerk(sld, "SailsDamageUp");
-	//SetCharacterPerk(sld, "CrewDamageUp");
-	//SetCharacterPerk(sld, "CriticalShoot");
-	//SetCharacterPerk(sld, "LongRangeShoot");
-    //SetCharacterPerk(sld, "CannonProfessional");
-	//SetCharacterPerk(sld, "ShipDefenseProfessional");
 	
 	SetCharacterPerk(sld, "ShipSpeedUp");
 	SetCharacterPerk(sld, "ShipTurnRateUp");
@@ -5874,11 +5902,6 @@ void Blood_StartGame(string qName)
 	SetCharacterPerk(sld, "WindCatcher");
 	SetCharacterPerk(sld, "SailsMan");
 
-
-	//SetCharacterPerk(sld, "SwordplayProfessional");
-	//SetCharacterPerk(sld, "AdvancedDefense");
-	//SetCharacterPerk(sld, "CriticalHit");
-	//SetCharacterPerk(sld, "Sliding");
     SetFantomHP(sld);
     SetEnergyToCharacter(sld);
    	LAi_SetImmortal(sld, true);
@@ -6255,7 +6278,7 @@ void CapBloodLine_q1(string qName)
     ChangeCharacterAddressGroup(sld, "Bridgetown_tavern", "sit","sit_base"+(1+i));
 	
     //==============//Волверстон//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Volverston", "PBLine_Volverston", "man", "man", 12, ENGLAND, -1, false)); 
+   	sld = GetCharacter(NPC_GenerateCharacter("Volverston", "PBLine_Volverston_0", "man", "man", 12, ENGLAND, -1, false)); 
     sld.name 	= "Волверстон";
     sld.lastname 	= "";
     sld.Dialog.CurrentNode = "First time";
@@ -6270,6 +6293,7 @@ void CapBloodLine_q1(string qName)
 	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 	sld.HalfImmortal = true;  // Контузия
 	sld.loyality = MAX_LOYALITY;
+	sld.HeroModel = "PBLine_Volverston_0,PBLine_Volverston_1,PBLine_Volverston_2,PBLine_Volverston_3,PBLine_Volverston_4,PBLine_Volverston_5";
 //                     P  I  E  A  T  R  S
 	SetSPECIAL(sld, 10, 7, 9, 8, 8, 4, 8);
 //    SetSPECIAL(sld, 5,9,7,5,10,7,4);
@@ -6292,7 +6316,7 @@ void CapBloodLine_q1(string qName)
 	ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseF2_1");
 	
     //==============//Натаниэль   Хагторп//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Hugtorp", "PBLine_Hagtorp", "man", "man", 10, ENGLAND, -1, false));
+   	sld = GetCharacter(NPC_GenerateCharacter("Hugtorp", "PBLine_Hagtorp_0", "man", "man", 10, ENGLAND, -1, false));
     sld.name 	= "Натаниэль";
     sld.lastname 	= "Хагторп";
     sld.Dialog.CurrentNode = "First time";
@@ -6306,6 +6330,7 @@ void CapBloodLine_q1(string qName)
     sld.rank = 10;
 	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 	sld.HalfImmortal = true;  // Контузия
+	sld.HeroModel = "PBLine_Hagtorp_0,PBLine_Hagtorp_1,PBLine_Hagtorp_2,PBLine_Hagtorp_3,PBLine_Hagtorp_4,PBLine_Hagtorp_5";
 	sld.loyality = MAX_LOYALITY;
 //                    P  I  E  A  T  R  S
 	SetSPECIAL(sld, 8, 9, 8, 8, 9, 8, 7);
@@ -6340,9 +6365,7 @@ void CapBloodLine_q1(string qName)
     sld.rank = 10;
 	sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 	sld.HalfImmortal = true;  // Контузия
-	//Korsar Maxim - Прописка всех моделей для кирас. -->
 	sld.HeroModel = "PBLine_Daik_0,PBLine_Daik_1,PBLine_Daik_2,PBLine_Daik_3,PBLine_Daik_4,PBLine_Daik_5";
-	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.loyality = MAX_LOYALITY;
 //                    P  I  E  A  T  R  S
 	SetSPECIAL(sld, 6, 8, 7, 5, 9, 9, 7);
@@ -6363,7 +6386,7 @@ void CapBloodLine_q1(string qName)
 	ChangeCharacterAddressGroup(sld, "BridgeTown_Plantation", "officers", "houseF1_1");
 	
     //==============//Нед Огл//==============
-   	sld = GetCharacter(NPC_GenerateCharacter("Ogl", "PBLine_NedOgl", "man", "man", 10, ENGLAND, -1, false)); 
+   	sld = GetCharacter(NPC_GenerateCharacter("Ogl", "PBLine_NedOgl_0", "man", "man", 10, ENGLAND, -1, false)); 
     sld.name 	= "Нед";
     sld.lastname 	= "Огл";
     sld.Dialog.CurrentNode = "First time";
@@ -6379,6 +6402,7 @@ void CapBloodLine_q1(string qName)
     sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 	sld.HalfImmortal = true;  // Контузия
 	sld.loyality = MAX_LOYALITY;
+	sld.HeroModel = "PBLine_NedOgl_0,PBLine_NedOgl_1,PBLine_NedOgl_2,PBLine_NedOgl_3,PBLine_NedOgl_4,PBLine_NedOgl_5";
 	SetSPECIAL(sld, 8, 9, 5, 5, 9, 5, 7);
     //int           _fl,  f,  fh, p,  fr
     SetSelfSkill(sld, 20, 30, 20, 35, 30);
@@ -7707,14 +7731,14 @@ void HellSpawnRitualFinish(string qName)
 
 void HellSpawnRitual(string qName)
 {
-	if (GetQuestPastDayParam("pchar.questTemp.HellSpawn.Rit") < 1)
+	if (GetQuestPastDayParam("pchar.questTemp.HellSpawn.Rit") < 10)
 	{
 		ref locationHSRitual = &locations[reload_location_index];
 		chrDisableReloadToLocation = true;
 		
 		aref grp;
 		makearef(grp, locationHSRitual.locators.monsters);
-		pchar.Hellspawn.num = GetAttributesNum(grp);
+		pchar.Hellspawn.num = GetAttributesNum(grp)/4;
 		for(int i = 1; i < sti(pchar.Hellspawn.num); i++)
 		{
 			sld = GetCharacter(NPC_GenerateCharacter("HellSpawnR"+i, "Skel"+(rand(3)+1), "skeleton", "skeleton", 1, PIRATE, 1, true));
@@ -8957,7 +8981,7 @@ void zpq_sld1_fc(string qName)
 void zpq_seaBattle(string qName)
 {
 	LAi_group_Delete("EnemyFight");
-	sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim", "man", "man", 40, PIRATE, 1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim_0", "man", "man", 40, PIRATE, 1, true));
 	FantomMakeCoolFighter(sld, 40, 105, 105, "blade23", "pistol3", 200);
 	FantomMakeCoolSailor(sld, SHIP_LUGGERQUEST, "Нормандия", CANNON_TYPE_CANNON_LBS24, 105, 105, 105);
     sld.name 	= "Маленький";
@@ -8966,6 +8990,7 @@ void zpq_seaBattle(string qName)
 	sld.AlwaysSandbankManeuver = true;
 	sld.DontRansackCaptain = true;
 	sld.AnalizeShips = true;
+	sld.HeroModel = "Lil_Jim_0,Lil_Jim_1,Lil_Jim_2,Lil_Jim_3,Lil_Jim_4,Lil_Jim_5";
 	SetCharacterPerk(sld, "MusketsShoot");
 
 	sld.ship.Crew.Morale = 100;
@@ -10671,13 +10696,14 @@ void FreeTichingituOver(string qName)//удаляем Тичингиту
 
 void SetTichingituJail()//ставим Тичингиту
 {
-	sld = GetCharacter(NPC_GenerateCharacter("Tichingitu", "maskog", "man", "man", 10, FRANCE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("Tichingitu", "Tichingitu_0", "man", "man", 10, FRANCE, -1, false));
 	sld.name = "Тичингиту"; // 270912
 	sld.lastname = "";
 	sld.greeting = "GR_Tynichgitu";
     sld.Dialog.Filename = "Quest\Tichingitu.c";
 	sld.dialog.currentnode = "Tichingitu";
 	sld.rank = 12;
+	sld.HeroModel = "Tichingitu_0,Tichingitu_1,Tichingitu_2,Tichingitu_3,Tichingitu_4,Tichingitu_5";
 	LAi_SetHP(sld, 140.0, 140.0);
 	SetSPECIAL(sld, 4, 9, 5, 5, 10, 8, 8);
 	SetSelfSkill(sld, 30, 30, 30, 50, 20);
@@ -10870,6 +10896,7 @@ void UnexpectedInheritanceTerks(string part)
 		sld = GetCharacter(NPC_GenerateCharacter("UI_skel"+i, "Skel"+(rand(3)+1), "skeleton", "skeleton", 50, PIRATE, -1, true));
 		if (i == 1)
 		{
+			LAi_SetImmortal(sld, true);
 			sld.model = "BSUnd5";
 			FantomMakeCoolFighter(sld, 50, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), "pistol8", MOD_SKILL_ENEMY_RATE*4);
 			LAi_SetHP(sld, 500*MOD_SKILL_ENEMY_RATE, 500*MOD_SKILL_ENEMY_RATE);

@@ -449,8 +449,11 @@ void AddQuestRecordInfo(string idQuest, string idText)
 	}
 	if( sTextLbl != "" )
 	{
-		pchar.QuestInfo.(idQuest).Text.(sTextLbl) = "@"+idReferenceQuest+"@  @"+idText;
+		if (idQuest == "Important_rumours") pchar.QuestInfo.(idQuest).Text.(sTextLbl) = "@"+idReferenceQuest+"@"+GetQuestBookData()+"@"+idText;
+		else pchar.QuestInfo.(idQuest).Text.(sTextLbl) = "@"+idReferenceQuest+"@  @"+idText;
 	}
+	if (idQuest == "Important_rumours") PlayStereoSound("notebook");
+	log_info("В энциклопедию добавлена новая запись.");
 }
 // boal метод для инфы <--
 void AddQuestRecord(string idQuest,string idText)
@@ -1702,6 +1705,7 @@ bool isLocationFreeForQuests(string loc_id)
 			{
 				if (!IsOfficer(chr))
 				{   // это не ГГ и офы
+					if (chr.id == "ScamCharacter") continue;
 					bEnableEncounters = false;
 					break;	
 				}

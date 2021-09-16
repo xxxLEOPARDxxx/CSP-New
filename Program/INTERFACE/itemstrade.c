@@ -1594,11 +1594,20 @@ void Autotrade_All()
 		{
 			_chr = &characters[iOfficer];
 			SellExcessConsume(_chr);
-//TO DO - можно двумя циклами сначала продавать со всех, а потом покупать - это позволит "передавать" излишки через торговца. Но так будут теряться монеты на разнице цен.
-//с одной стороны - это плата за удобство, с другой - нелепость. Позже заменить функцией равномерного распредления припасов между абордагами???
+		}
+	}
+	for(z = 0; z < MAX_NUM_FIGHTERS+6; z++)
+	{
+		iOfficer = GetOfficersIndex(pchar, z);
+		if(iOfficer != -1)
+		{
+			_chr = &characters[iOfficer];
 			BuyConsume(_chr);
 		}
 	}
+//двумя циклами сначала продавать со всех, а потом покупать - это позволит "передавать" излишки через торговца. Но так будут теряться монеты на разнице цен.
+//TO DO - с одной стороны - это плата за удобство, с другой - нелепость. Позже заменить функцией равномерного распредления припасов между абордагами???
+
 	AddToTable();
 	EndTooltip();
 }
@@ -1655,6 +1664,7 @@ void BuyConsume(ref chr)
 		curqty = GetCharacterItem(chr,itemname);
 		if (qty > curqty) {qty = qty - curqty;}
 			else continue;//этого припаса уже было достаточно
+//TO DO - можно бы совсем убрать эту проверку превышения, если сначала всё равно должна идти продажа лишнего
 //Log_TestInfo("отладка - " + itemname + "|" + qty + "|" + curqty + "|" + curTraderQty);
 		if (qty > curTraderQty) {qty = curTraderQty; bNotEnoughTrader = true;}//TO DO - пока что без возможности покупать из воздуха
 		if (qty == 0) continue; //нечего купить у торговца
@@ -1667,7 +1677,7 @@ void BuyConsume(ref chr)
 		bNotOverWeight = true;//хватало места хотя бы для одного предмета
 
 		iCost = GetTradeItemPrice(Items_FindItemIdx(itemname), PRICE_TYPE_BUY);
-		if (qty > sti(PChar.Money) / iCost)) qty = sti(PChar.Money) / iCost;
+		if (qty > sti(PChar.Money) / iCost)) qty = sti(PChar.Money) / iCost;//TO DO - ВАЖНО - перепроверить деления и округления - при тесте покупало на один предмет больше, чем было денег в кармане. 
 		if (qty == 0) continue; //не хватает денег даже на один такой предмет
 
 		iMoneyQty -= iCost*qty;
@@ -1678,7 +1688,7 @@ void BuyConsume(ref chr)
 		bAdded = true;//что-то успешно докупили
 	}
 
-	if(iMoneyQty != 0) // Если хоть что-то продали или купили
+	if(iMoneyQty != 0) // Если хоть что-то купили
 	{
 		AddmoneyToCharacter(PChar, iMoneyQty);
 		ref rTreasurer = GetPCharTreasurerRef();//Казначей. Ему даем экспу
@@ -1697,7 +1707,40 @@ void BuyConsume(ref chr)
 
 void SellExcessConsume(ref chr)
 {
+	if (!checkattribute(chr,"TransferItems.SellRestriction")) return;//не включено разрешение продавать
+	int 	qty = 0;
+	int 	i, n, iCost;
+	int		curqty = 0;
+	int		iMoneyQty = 0;
+	string 	itemname = "";
 
+	string sTemp = "";
+	if (chr.sex == "woman") sTemp = "а";
+
+	for(i = 0, n = 1; i < ITEMS_QUANTITY; i++)
+	{
+		if (!checkattribute(Items[i],"sortIndex")) continue;//в списке только расходники
+		itemname = Items[i].id;
+		if (itemname == "Lockpick") continue;//отмычки пропускаем
+		if (checkattribute(chr,"TransferItems."+itemname)) qty = sti(chr.TransferItems.(itemname)); else qty = 0;
+		qty = qty + GetConsumeLimit(chr, itemname);
+		curqty = GetCharacterItem(chr,itemname);
+		if (curqty > qty) qty = curqty - qty; else continue;
+		iCost = GetTradeItemPrice(Items_FindItemIdx(itemname), PRICE_TYPE_SELL);
+		iMoneyQty += iCost*qty;
+		TakeNItems(chr, itemname, -qty);
+		TakeNItems(refStoreChar, itemname, qty);
+		//WaitDate("", 0, 0, 0, 0, 1);// Крутим время за каждый товар - многовато для закупок по списку
+	}
+	if(iMoneyQty != 0) // Если хоть что-то продали
+	{
+		AddmoneyToCharacter(PChar, iMoneyQty);
+		ref rTreasurer = GetPCharTreasurerRef();//Казначей. Ему даем экспу
+		AddCharacterExpToSkill(rTreasurer, "Commerce", MakeInt(abs(iMoneyQty) / 800) + rand(1) + 2) //отчитываться о том, что опыт за торговлю получил казначей, а не игрок?
+		//TO DO - это начисление опыта за торговлю товарами, перепроверить, что за предметы столько же идёт
+		//TO DO - рандомные пары единичек опыта за каждую операцию в сумме дали бы больше опыта - надо ли это менять? выдавать опыт за каждый предмет или в суммарной функции увеличить бонус за число сделок?
+		Log_Info(GetFullName(chr)+" продал" + sTemp + " излишки расходников.");
+	}
 }
 
 int GetConsumeLimit(ref chr, string _itemname)

@@ -197,11 +197,11 @@ void csmLootCollector()
 					
 					aref weapon;
 					Items_FindItem(sAttr, &weapon);
-					if(CheckAttribute(weapon,"quality") && weapon.quality == "excellent") // ugeen --> на обычных трупах топовое оружие не даем !!!
+					/*if(CheckAttribute(weapon,"quality") && weapon.quality == "excellent") // ugeen --> на обычных трупах топовое оружие не даем !!!
 					{
 						rDeadman.items.(sAttr) = 0;
 						continue;
-					}
+					}*/ //нахуй второй фильтр для лута если в методе труповещей уже есть 1
 
 					rLoc.csmBoxLC.items.(sAttr) = makeint(sti(rLoc.csmBoxLC.items.(sAttr)) + makeint(GetAttributeValue(arItem)));
 					rDeadman.items.(sAttr) = 0;

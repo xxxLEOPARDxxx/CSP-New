@@ -174,6 +174,10 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 		}	
 		sMessageMode = "Surrendered_Ok";
 		ShowOkMessage();
+		if (CheckAttribute(pchar,"ShipsSurr"))
+		{
+			if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true) pchar.ShipsSurr = sti(pchar.ShipsSurr)+1;
+		}
 	}
 	bSwap = false;
 	if(!bTransferMode) 
@@ -1617,7 +1621,7 @@ void AcceptAddOfficer()
         // назначение нового кэпа, возможно, если там уже не наш, те или враг или снят
         sld = GetCharacter(iChar);
 		
-		if(sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer")
+		if(sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer" && !CheckAttribute(sld,"HPminusDaysNeedtoRestore"))
 		{
 			DeleteAttribute(sld,"ship");
 			sld.ship = "";

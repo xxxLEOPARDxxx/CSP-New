@@ -201,10 +201,10 @@ AchFood_1_descr{Скушать 100 единиц еды}
 AchFood_icon{AchFood}
 
 AchFood_2{Ненасытный}
-AchFood_2_descr{Выпить 250 единиц еды}
+AchFood_2_descr{Скушать 250 единиц еды}
 
 AchFood_3{Обжора}
-AchFood_3_descr{Выпить 500 единиц еды}
+AchFood_3_descr{Скушать 500 единиц еды}
 
 AchTurnir_1{Новичок}
 AchTurnir_1_descr{Выиграть 1 турнир}
@@ -214,7 +214,7 @@ AchTurnir_2{Победитель}
 AchTurnir_2_descr{Выиграть 3 турнира}
 
 AchTurnir_3{Чемпион}
-AchTurnir_3_descr{Выиграть 10 турниров}
+AchTurnir_3_descr{Выиграть 7 турниров}
 
 AchDuelyant_1{Лёгкая работа}
 AchDuelyant_1_descr{Выиграть 5 дуэлей по квесту 'Дуэлянт'}

@@ -412,6 +412,7 @@ void ProcessDialogEvent()
 			LocatorReloadEnterDisable("shore26", "boat", false);
 			LocatorReloadEnterDisable("shore27", "boat", false);
 			WhisperEnglandRevengel();
+			pchar.ContraInterruptWaiting = true;
 			dialog.Text = "—огласись, большой ведь куш мы урвали. “ам добычи было столько, что мне даже не жалко поделитьс€ с тобой. я смогу пропивать это несколько лет. Ќу ладно, будем разбегатьс€?";
 			Link.l2 = "ƒа, мне тоже надо разобратьс€ со своей долей. ”дачи тебе.";
 			Link.l2.go = "chard_exit_to_cave_entrance_1";
@@ -843,6 +844,7 @@ void ProcessDialogEvent()
 			pchar.quest.WhisperChinaman.win_condition.l1 = "EnterToSea";
 			pchar.quest.WhisperChinaman.function    = "WhisperChinaman";
 			WhisperSmugglingPatrol();
+			pchar.ContraInterruptWaiting = true;
 			//CaptainComission_GenerateCoastalPatrol();
 			
 		break;

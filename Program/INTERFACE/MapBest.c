@@ -26,7 +26,8 @@
 #define T_TYPE_CANNONS_NAME 	"cannons"
 #define T_TYPE_CONTRABAND_NAME	"contraband"
 #define T_TYPE_AGGRESSIVE_NAME  "aggressive"
-
+string CurRow, CurTable;
+int iSelected;
 int colonyindex = -1;
 ///espkk. utils -->
 //cuz the game doesn't use built-in language mechanism
@@ -268,6 +269,10 @@ void InitInterface(string iniName)
 	SetEventHandler("evntDoPostExit","DoPostExit",0);
 	SetEventHandler("SelectRColony","SelectRColony",0);
 	SetEventHandler("MouseRClickUP","HideRColony",0);
+	SetEventHandler("FillTable","FillTable",0);
+	SetEventHandler("HideTable","HideTable",0);
+	SetEventHandler("TableSelectChange","TableSelectChange",0);
+	SetEventHandler("DoTP","DoTP",0);
 }
 
 void ProcessExit()
@@ -282,6 +287,10 @@ void IDoExit(int exitCode)
 	DelEventHandler("evntDoPostExit","DoPostExit");
 	DelEventHandler("SelectRColony","SelectRColony");
 	DelEventHandler("MouseRClickUP","HideRColony");
+	DelEventHandler("FillTable","FillTable");
+	DelEventHandler("HideTable","HideTable");
+	DelEventHandler("TableSelectChange","TableSelectChange");
+	DelEventHandler("DoTP","DoTP");
 
 	interfaceResultCommand = exitCode;
 	
@@ -292,6 +301,206 @@ void DoPostExit()
 {
 	int exitCode = GetEventData();
 	IDoExit(exitCode);
+}
+
+void TableSelectChange()
+{
+	string sControl = GetEventData();
+	iSelected = GetEventData();
+	CurTable = sControl;
+	CurRow   =  "tr" + (iSelected);
+}
+
+void DoTP()
+{
+	string ID = GameInterface.TABLE_LOCS.(CurRow).td1.str;
+	setCharacterShipLocation(pchar, ID);
+	setWDMPointXZ(ID);
+	DoQuestReloadToLocation(ID, "reload", "reload1", "");
+}
+
+void HideTable()
+{
+	XI_WindowShow("TP_WINDOW", false);
+	XI_WindowDisable("TP_WINDOW", true);
+}
+
+void FillTable()
+{
+	if (!bBettaTestMode) return;
+	float fMouseX = stf(GameInterface.mousepos.x) - 6.0 + 5;
+	float fMouseY = stf(GameInterface.mousepos.y) - 50.0 + 5;
+	
+	//Getting correct image offsets
+	float fOffsetX, fOffsetY;
+	GetXYWindowOffset(&fOffsetX, &fOffsetY);
+
+	fMouseX = (fMouseX - fOffsetX) * stf(GameInterface.MAP.scale.x);
+	fMouseY = (fMouseY - fOffsetY) * stf(GameInterface.MAP.scale.y);
+
+
+	//Check if clicked on colony
+	string sColony = "";
+	string ssColony = "";
+	for(int i = 0; i < MAX_COLONIES; i++)
+	{
+		sColony = colonies[i].id;
+		if(CheckAttribute(&GameInterface, "MAP.imagelist." + sColony))
+		{
+			// LDH 21Mar17 enlarge click spot by 10 each direction
+			if(fMouseX >= stf(GameInterface.MAP.imagelist.(sColony).x) + 20)	// 30
+			{
+				if(fMouseX <= stf(GameInterface.MAP.imagelist.(sColony).x) + 60.0)	// 50
+				{
+					if(fMouseY >= stf(GameInterface.MAP.imagelist.(sColony).y - 10))	// 0
+					{
+						if(fMouseY <= stf(GameInterface.MAP.imagelist.(sColony).y) + 60.0)	// 50
+						{
+							if(sColony != "Panama" && sColony != "IslaMona" && sColony != "KhaelRoa" && sColony != "Caiman")
+							{
+								colonyindex = i;
+								XI_WindowShow("TP_WINDOW", true);
+								XI_WindowDisable("TP_WINDOW", false);
+								SetFormatedText("LOCS_CAPTION", "Локации колонии");
+								Table_Clear("TABLE_LOCS",false,true,false);
+								GameInterface.TABLE_LOCS.select = 0;
+								GameInterface.TABLE_LOCS.top = 0;
+								int nFile = LanguageOpenFile("LocLables.txt");
+								ref rColony = &colonies[i];
+								string island = rColony.island;
+								string row = "";
+								int n = 1;
+								GameInterface.TABLE_LOCS.hr.td1.str = "ИД локации";
+								GameInterface.TABLE_LOCS.hr.td2.str = "Лейбл";
+								for(int z=0; z<MAX_LOCATIONS; z++)
+								{				
+									if (GiveArealByLocation(&locations[z]) == island)
+									{			
+										row = "tr" + n;
+										GameInterface.TABLE_LOCS.(row).td1.str = locations[z].id;
+										GameInterface.TABLE_LOCS.(row).td2.str = LanguageConvertString(nFile, locations[z].id.label);
+										if (HasSubStr(locations[z].id.label,"upstairs")) GameInterface.TABLE_LOCS.(row).td2.str = "Комната наверху таверны";
+										n++;
+									}
+								}
+								Table_UpdateWindow("TABLE_LOCS");
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	if (colonyindex != i)
+	{
+		if (fMouseX >= 69.0 && fMouseX <= 155.0 && fMouseY >= 1275.0 && fMouseY <= 1380.0)
+		{
+			setCharacterShipLocation(pchar, "Shore53");
+			setWDMPointXZ("Shore53");
+			ssColony = "Tenotchitlan";
+		}
+		if (fMouseX >= 1775.0 && fMouseX <= 1853.0 && fMouseY >= 1240.0 && fMouseY <= 1352.0)
+		{
+			setCharacterShipLocation(pchar, "Shore27");
+			setWDMPointXZ("Shore27");
+			ssColony = "Dominica";
+		}
+		if (fMouseX >= 1436.0 && fMouseX <= 1534.0 && fMouseY >= 50.0 && fMouseY <= 143.0)
+		{
+			setCharacterShipLocation(pchar, "Shore56");
+			setWDMPointXZ("Shore56");
+			ssColony = "Terks";
+		}
+		if (fMouseX >= 2.0 && fMouseX <= 77.0 && fMouseY >= 1051.0 && fMouseY <= 1194.0)
+		{
+			setCharacterShipLocation(pchar, "Shore9");
+			setWDMPointXZ("Shore9");
+			ssColony = "Pearl";
+		}
+		if (fMouseX >= 215.0 && fMouseX <= 351.0 && fMouseY >= 1765.0 && fMouseY <= 1912.0)
+		{
+			setCharacterShipLocation(pchar, "Shore55");
+			setWDMPointXZ("Shore55");
+			ssColony = "Pearl";
+		}
+		if (fMouseX >= 515.0 && fMouseX <= 617.0 && fMouseY >= 610.0 && fMouseY <= 722.0)
+		{
+			if (PChar.ColonyBuilding.Stage == "0" || PChar.ColonyBuilding.Stage == "1")
+			{
+				setCharacterShipLocation(pchar, "Shore17");
+				setWDMPointXZ("Shore17");
+			}
+			if (PChar.ColonyBuilding.Stage == "2" || PChar.ColonyBuilding.Stage == "3")
+			{
+				setCharacterShipLocation(pchar, "Caiman_Town");
+				setWDMPointXZ("Shore17");
+			}
+			ssColony = "Caiman";
+		}
+		if (fMouseX >= 648.0 && fMouseX <= 694.0 && fMouseY >= 1955.0 && fMouseY <= 2028.0)
+		{
+			setCharacterShipLocation(pchar, "PortoBello_town");
+			setWDMPointXZ("PortoBello_town");
+			ssColony = "Panama";
+		}
+		if (fMouseX >= 973.0 && fMouseX <= 1031.0 && fMouseY >= 908.0 && fMouseY <= 966.0)
+		{
+			setCharacterShipLocation(pchar, "MountainPath");
+			setWDMPointXZ("MountainPath");
+			ssColony = "Reefs";
+		}
+		if (fMouseX >= 1079.0 && fMouseX <= 1135.0 && fMouseY >= 792.0 && fMouseY <= 861.0)
+		{
+			setCharacterShipLocation(pchar, "DeckWithReefs");
+			setWDMPointXZ("DeckWithReefs");
+			ssColony = "Reefs";
+		}
+		if (fMouseX >= 1811.0 && fMouseX <= 1883.0 && fMouseY >= 714.0 && fMouseY <= 780.0)
+		{
+			setCharacterShipLocation(pchar, "KhaelRoa_port");
+			setWDMPointXZ("KhaelRoa_port");
+			ssColony = "KhaelRoa";
+		}
+		if (fMouseX >= 47.0 && fMouseX <= 207.0 && fMouseY >= 19.0 && fMouseY <= 197.0)
+		{
+			setCharacterShipLocation(pchar, "LostShipsCity_town");
+			setWDMPointXZ("LostShipsCity_town");
+			ssColony = "LostShipsCity";
+		}
+		if (ssColony == "") return;
+		XI_WindowShow("TP_WINDOW", true);
+		XI_WindowDisable("TP_WINDOW", false);
+		SetFormatedText("LOCS_CAPTION", "Локации колонии");
+		Table_Clear("TABLE_LOCS",false,true,false);
+		GameInterface.TABLE_LOCS.select = 0;
+		GameInterface.TABLE_LOCS.top = 0;
+		int nFile1 = LanguageOpenFile("LocLables.txt");
+		string row1 = "";
+		int x = 1;
+		GameInterface.TABLE_LOCS.hr.td1.str = "ИД локации";
+		GameInterface.TABLE_LOCS.hr.td2.str = "Лейбл";
+		for(int y=0; y<MAX_LOCATIONS; y++)
+		{
+			if (GiveArealByLocation(&locations[y]) == ssColony || CheckForIslandID(&locations[y]) == ssColony)
+			{
+				row1 = "tr" + x;
+				GameInterface.TABLE_LOCS.(row1).td1.str = locations[y].id;
+				GameInterface.TABLE_LOCS.(row1).td2.str = LanguageConvertString(nFile1, locations[y].id.label);
+				if (HasSubStr(locations[y].id.label,"upstairs")) GameInterface.TABLE_LOCS.(row1).td2.str = "Комната наверху таверны";
+				if (HasSubStr(locations[y].id,"Arena")) GameInterface.TABLE_LOCS.(row1).td2.str = "Арена";
+				if (HasSubStr(locations[y].id,"FencingTown_F")) GameInterface.TABLE_LOCS.(row1).td2.str = "Поселение фехтовальщиков";
+				x++;
+			}
+		}
+		Table_UpdateWindow("TABLE_LOCS");
+	}
+}
+
+string CheckForIslandID(ref location)
+{
+	if (CheckAttribute(location,"islandid")) return location.islandid;
+	return "none";
 }
 
 void SelectRColony()

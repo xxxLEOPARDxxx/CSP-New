@@ -1339,7 +1339,7 @@ void ShipWreckInTown(string qName)
 	RemovePassenger(PChar, chr);
 	
 	string sLocator = "reload1_back";
-	if(PChar.location == "Pirates_town" || PChar.location == "PuertoPrincipe_town" || PChar.location == "LaVega_town" || PChar.location == "LeFransua_town")
+	if(PChar.location == "Pirates_town" || PChar.location == "PuertoPrincipe_town" || PChar.location == "LaVega_town" || PChar.location == "LeFransua_town" || PChar.location == "FortOrange_town")
 	{
 		sLocator = "reload1";
 	}

@@ -224,6 +224,7 @@ void FillShipParam()
 		rRealShip.MaxCrew = stf(rBaseShip.MaxCrew) * (1 + Ship_Sheme[8]/60);
 		rRealShip.MinCrew = stf(rBaseShip.MinCrew) * (1 + Ship_Sheme[8]/60);//верно ли что минимальная команда в пять раз меньше оптимальной? 
 		rRealShip.MaxCaliber = rBaseShip.MaxCaliber;
+		rRealShip.CannonsQuantityMax = sti(rRealShip.CannonsQuantity);
 
 		refNPCShipyard.Ship.Cannons.Type = CANNON_TYPE_NONECANNON;
 		rRealShip.Price	= GetShipPriceByTTH(iShip, refNPCShipyard);//цена без пушек
@@ -455,30 +456,22 @@ void FillShipyardTable()
 	switch (FIS_FilterState)
 	{
 	case 7:
-		{
-		iStart = SHIP_BERMSLOOP;
-		if (pchar.rank>28) {iEnd = SHIP_SP_SANFELIPE; break;}//не оптимально - если генерацию кораблей для верфи исправят, здесь останутся те же числа ограничений уровня...
-		if (pchar.rank>18) {iEnd = SHIP_HEAVYLINESHIP; break;}//заказ на 1 уровень раньше доступен - на вырост игрока за время постройки
-		if (pchar.rank>13) {iEnd = SHIP_CARRACA; break;}
-		if (pchar.rank>8) {iEnd = SHIP_LYDIA; break;}
-		if (pchar.rank>3) {iEnd = SHIP_SHNYAVA; break;}
-		iEnd = SHIP_SOPHIE;
-		}
+		{iStart = SHIP_BERMSLOOP; iEnd = SHIP_SP_SANFELIPE;}
 	break;
 	case 1:
-		if (pchar.rank>28) {iStart = SHIP_POSEIDON; iEnd = SHIP_SP_SANFELIPE;}//to do - убрать задавание границ, просто скипать цикл, если класс не соответствует выбранному фильтру
+		{iStart = SHIP_POSEIDON; iEnd = SHIP_SP_SANFELIPE;}
 	break;
 	case 2:
-		if (pchar.rank>18) {iStart = SHIP_GALEON50; iEnd = SHIP_HEAVYLINESHIP;}
+		{iStart = SHIP_GALEON50; iEnd = SHIP_HEAVYLINESHIP;}
 	break;
 	case 3:
-		if (pchar.rank>13) {iStart = SHIP_PINNACE; iEnd = SHIP_CARRACA;}
+		{iStart = SHIP_PINNACE; iEnd = SHIP_CARRACA;}
 	break;
 	case 4:
-		if (pchar.rank>8) {iStart = SHIP_BRIG; iEnd = SHIP_LYDIA;}
+		{iStart = SHIP_BRIG; iEnd = SHIP_LYDIA;}
 	break;
 	case 5:
-		if (pchar.rank>3) {iStart = SHIP_POLACCA; iEnd = SHIP_SHNYAVA;}
+		{iStart = SHIP_POLACCA; iEnd = SHIP_SHNYAVA;}
 	break;
 	case 6:
 		{iStart = SHIP_BERMSLOOP; iEnd = SHIP_SOPHIE;}
@@ -486,19 +479,26 @@ void FillShipyardTable()
 	}
 	iEnd++;
 	int k = 0;
-	string sShip;
+	string sShip, sTemp;
 	string row;
 	aref aTemp;
+	bool isCapital;
+	if ( refNPCShipyard.city == "Tortuga" || refNPCShipyard.city == "Villemstad" || refNPCShipyard.city == "PortRoyal" || refNPCShipyard.city == "Havana" ) isCapital = 1; else isCapital = 0;
 
 	for (i = iStart; i < iEnd; i++)
 	{
 		row = "tr" + (k+1);
-		if (ShipsTypes[i].nation.(sNation)) 
+		if (refNPCShipyard.id == "Pirates_shipyarder")
 		{
+			if (i>=SHIP_FR_TRINITY && i!=SHIP_MANOWAR_GUB) continue;//У Алексуса все нации доступны, но мановар только пиратский
 		}
-		else 
+		else
 		{
-		if (refNPCShipyard.id != "Pirates_shipyarder") continue;//пропускаем корабли без нации верфиста, у Алексуса все нации доступны
+			if (ShipsTypes[i].nation.(sNation)) 
+			{
+				if (i>=SHIP_FR_TRINITY && !isCapital) continue;//мановары только в столицах
+			}
+			else continue;//пропускаем корабли без нации верфиста
 		}
 
 		sShip = shipstypes[i].Name;
@@ -510,7 +510,20 @@ void FillShipyardTable()
 		GameInterface.TABLE_SHIPYARD.(row).td1.icon.height = 46;
 		GameInterface.TABLE_SHIPYARD.(row).td1.icon.offset = "0, 1";
 		GameInterface.TABLE_SHIPYARD.(row).td1.textoffset = "51,0";
-		GameInterface.TABLE_SHIPYARD.(row).td1.str = XI_Convertstring(sShip);
+
+		if (i >= SHIP_FR_TRINITY)
+		{
+			switch (sNation)
+			{
+			case "England": sTemp = " (нужен англ. патент)"; break;
+			case "Spain": sTemp = " (нужен исп. патент)"; break;
+			case "France": sTemp = " (нужен фран. патент)"; break;
+			case "Holland": sTemp = " (нужен гол. патент)"; break;
+			}
+		}
+		else sTemp = "";
+
+		GameInterface.TABLE_SHIPYARD.(row).td1.str = XI_Convertstring(sShip) + sTemp;
 		GameInterface.TABLE_SHIPYARD.(row).td1.align = "left";
 		GameInterface.TABLE_SHIPYARD.(row).td1.scale = 0.82;
 		GameInterface.TABLE_SHIPYARD.(row).td2.str = shipstypes[i].Class;
@@ -571,7 +584,20 @@ void ProcessFilter()
 
 void SetButtionsAccess()
 {
+	int iShip = sti(refNPCShipyard.Ship.Type);
+	int iClass = RealShips[iShip].Class;
+	int iRank = sti(pchar.rank);
+	string sText = "Заказать";
 	if (iPriceOrder > sti(pchar.Money)) SetSelectable("BUTTON_BUY", false); else SetSelectable("BUTTON_BUY", true); 
+
+	if (iRank<4 && iClass<6) {SetSelectable("BUTTON_BUY", false); sText = "c 4 ранга";}
+	if (iRank<9 && iClass<5) {SetSelectable("BUTTON_BUY", false); sText = "c 9 ранга";}
+	if (iRank<14 && iClass<4) {SetSelectable("BUTTON_BUY", false); sText = "c 14 ранга";}
+	if (iRank<19 && iClass<3) {SetSelectable("BUTTON_BUY", false); sText = "c 19 ранга";}
+	if (iRank<29 && iClass<2) {SetSelectable("BUTTON_BUY", false); sText = "c 29 ранга";}
+	if (refNPCShipyard.id != "Pirates_shipyarder" && sti(RealShips[iShip].basetype) >= SHIP_FR_TRINITY && !CheckCharacterItem(Pchar, "patent_" + NationShortName(sti(refNPCShipyard.nation))) && sText == "Заказать") 
+	{SetSelectable("BUTTON_BUY", false); sText = "нет патента";}
+	SendMessage(&GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"BUTTON_BUY", 0, "#" + sText);
 }
 
 void ShowMessageInfo()

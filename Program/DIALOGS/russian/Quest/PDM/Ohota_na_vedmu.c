@@ -377,9 +377,9 @@ void ProcessDialogEvent()
 			link.l1 = "Желаю вам удачи, Карла! До встречи.";
 			link.l1.go = "Dobro_Final";
 			NextDiag.TempNode = "Carla_Final_Again";
-			AddBonusEnergyToCharacter(pchar, 15);
+			AddBonusEnergyToCharacter(pchar, 25);
 			PlaySound("Interface\new_level.wav");
-			Log_info("Ваша энергия увеличилась на 15 навсегда.");
+			Log_info("Ваша энергия увеличилась на 25 навсегда.");
 		break;
 		
 		case "Dobro_Final":

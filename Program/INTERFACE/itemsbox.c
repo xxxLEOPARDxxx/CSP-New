@@ -427,9 +427,6 @@ void IDoExit(int exitCode)
 
 	ref arCurChar;
 	string sCurArroyID;
-	// boal проверка на перегруз 21.01.2004 -->
-	CheckAndSetOverloadMode(GetMainCharacter());
-	// boal 21.01.2004 <--
 	SetCharactersMoneyOnExit(); // Переводим монеты "gold" в деньгиъ
 	RefreshEquippedMaps(GetMainCharacter()); // рефрешим карты, если купили
 	ref sld;
@@ -509,6 +506,10 @@ void IDoExit(int exitCode)
 	EndCancelInterface(true);
 	
 	LAi_SetPlayerType(PChar); // Возвращаем тип игрока
+	
+	// boal проверка на перегруз 21.01.2004 -->
+	CheckAndSetOverloadMode(GetMainCharacter());
+	// boal 21.01.2004 <--
 	
 	// CSM -->
 	if (csmCA(pchar, "CSM.LootCollector.Run"))

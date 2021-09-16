@@ -91,8 +91,8 @@ void ProcessDialogEvent()
 					dialog.text = "Капитан, ничего личного, но очень влиятельная особа запретила вести дела с вами. Никаких сделок, извините.";
 					link.l1 = "Простите, но я не понимаю. Что произошло?";
 					link.l1.go = "BS_NPVK_2";
+					break;
 				}
-				break;
 			}
             dialog.text = NPCharRepPhrase(npchar, "Новый клиент - новое золото. "
 							+ LinkRandPhrase("Деньги не имеют запаха. ", "Пиастры не пахнут. ","Одной добродетелью сыт не будешь! ")+
@@ -107,18 +107,14 @@ void ProcessDialogEvent()
 
 		//Black sails
 		case "BS_NPVK_2":
-            dialog.text = "Обратитесь к мисс Гатри, она недавно прибыла с Нассау и взяла под контроль сделки с призами. Сам Джекман к ней с поклоном заходит.";
+            dialog.text = "Обратитесь к мисс Гатри, она недавно прибыла с Нассау и взяла под контроль сделки с призами. На Бермудах сам Джекмен к ней с поклоном заходит.";
             link.l1 = "Хм. Гатри… Что – то знакомое. Хорошо, до встречи.";
 			link.l1.go = "exit";
 		
 			sld = CharacterFromID("Pirates_trader");
 			if(sld.lastname != "Гатри")
 			{
-				sld.model = "BS_Gatry";
-				sld.model.animation = "woman";
-				sld.name = "Элеонора";
-				sld.lastname = "Гатри";
-				sld.greeting = "Gr_officiant";
+				BS_ReplaceTraderWithGatri();
 				sld.Dialog.FileName = "Quest\BlackSails\NePluyjVKolodec.c";
 				sld.Dialog.CurrentNode = "BS_NPVK_3";
 				SetQuestHeader("BSPrologue");
@@ -158,8 +154,8 @@ void ProcessDialogEvent()
 					dialog.text = "Капитан, ничего личного, но очень влиятельная особа запретила вести дела с вами. Никаких сделок, извините.";
 					link.l1 = "Простите, но я не понимаю. Что произошло?";
 					link.l1.go = "BS_NPVK_2";
+					break;
 				}
-				break;
 			}
 			
             /*if (GetNationRelation2MainCharacter(sti(NPChar.nation)) == RELATION_ENEMY && sti(NPChar.nation) != PIRATE)

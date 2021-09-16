@@ -4,7 +4,7 @@
 int nCurScrollOfficerNum;
 int iEQUIP_SET = 0;
 string sMapDescribe;//переменная для текста описания карты
-bool bMapCross;
+bool bMapCross, isPassenger;
 float fOffsetX, fOffsetY;
 int iCurTab;
 
@@ -13,7 +13,7 @@ void InitInterface(string iniName)
 	InterfaceStack.SelectMenu_node = "LaunchItems"; // запоминаем, что звать по Ф2
 	GameInterface.title = "titleItems";
 	xi_refCharacter = pchar;
-
+	isPassenger = 0;
 	FillCharactersScroll();
 	FillPassengerScroll();
 
@@ -175,6 +175,10 @@ void OfficerChange()
 	{
 		int iCharacter = sti(GameInterface.CHARACTERS_SCROLL.(attributeName).character);
 		xi_refCharacter = &characters[iCharacter];
+
+		if (CheckAttribute(xi_refCharacter, "prisoned") && xi_refCharacter.prisoned == true) {;}
+		else {if (GetRemovable(xi_refCharacter)) isPassenger = 0; else isPassenger = 1;}
+
 		if (isOfficerInShip(xi_refCharacter, true) && xi_refCharacter.id != pchar.id)
 		{
 			XI_WindowShow("REMOVE_OFFICER_WINDOW", true);
@@ -610,6 +614,10 @@ void SetButtonsState()
 		int iCharacter = sti(GameInterface.CHARACTERS_SCROLL.(attributeName).character);
 		SaveEquipSet();
 		xi_refCharacter = &characters[iCharacter];
+
+		if (CheckAttribute(xi_refCharacter, "prisoned") && xi_refCharacter.prisoned == true) {;}
+		else {if (GetRemovable(xi_refCharacter)) isPassenger = 0; else isPassenger = 1;}
+
 		switch (xi_refCharacter.sex)
 		{
 			case "man": SetNewPicture("SETUP_BIG_PICTURE", "interfaces\sith\CharEquip_Man.tga");
@@ -624,6 +632,7 @@ void SetButtonsState()
 	else
 	{
 	xi_refCharacter = pchar;
+	isPassenger = 0;
 	SetVariable();
 	}
 }
@@ -1102,6 +1111,7 @@ void FillControlsList(int nMode)
 
 bool ThisItemCanBeEquip( aref arItem )
 {
+	if (HasSubStr(loadedLocation.id,"FencingTown")) return false;
 	if (HasSubStr(arItem.id,"Tube"))
 	{
 		return true;
@@ -1883,7 +1893,7 @@ void confirmChangeQTY_EDIT()
 
 void ChangeQTY_EDIT(string sItem)
 {
-	if(sti(GameInterface.qty_edit.str) < 0)
+	if(sti(GameInterface.qty_edit.str) < 0 || isPassenger)
 	{
 		GameInterface.qty_edit.str = 0;
 	}
@@ -2472,6 +2482,8 @@ void HideEditBox()
 void DiscardTreasureMap()
 {
 	TakeNItems(pchar, "map_full", -1);
+	ref item;
+	FillMapForTreasure(Items_FindItem("map_full", &item));
 	ExitMapWindow();
 	FillItemsTable(iCurTab);
 }

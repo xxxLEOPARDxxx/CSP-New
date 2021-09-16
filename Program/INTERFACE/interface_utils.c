@@ -835,11 +835,13 @@ void SetShipQualityTable(ref _chr, string _bar1, string _bar7, string _bar2, str
 
 	float fTemp; //приводим 0,9 - 1,1 к формату 0-100
 //=======================================//четыре параметра с бонусами от числа пушек
-	fTemp = stf(refShip.Capacity) - Bonus_Capacity; 
+	fTemp = stf(refShip.Capacity) - Bonus_Capacity;
+	if (CheckAttribute(refShip, "Tuning.BotPack")) fTemp = fTemp/1.5;
 	if (CheckAttribute(refShip, "Tuning.Capacity")) fTemp = fTemp/1.2;
 	fCapacity = 100*(fTemp + Bonus_Capacity - 0.87499*stf(rBaseShip.Capacity)) / (MaxCapacityBONUS + 0.25*stf(rBaseShip.Capacity));
 
 	fTemp = stf(refShip.HP) - Bonus_HP; 
+	if (CheckAttribute(refShip, "Tuning.BotPack")) fTemp = fTemp*2;
 	if (CheckAttribute(refShip, "Tuning.HP")) fTemp = fTemp/1.2;
 	fHP = 100*(fTemp + Bonus_HP - 0.899*stf(rBaseShip.HP)) / (MaxHPBONUS + 0.2*stf(rBaseShip.HP));
 

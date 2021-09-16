@@ -439,7 +439,7 @@ void StartGame()
 	if (dir_i == -1) // комп первый
 	{
         PlaySound("interface\dice_mix.wav");
-		SetFormatedText("INFO_TEXT","Я первый.");
+		SetFormatedText("INFO_TEXT","Я перв"+NPCharSexPhrase(npchar, "ый", "ая")+".");
 		PostEvent("My_eventMoveImg", 300);
     }
 	else
@@ -1079,7 +1079,8 @@ int GetResult()
 
 bool EndTurnGame()
 {
-    string sTemp;
+    if (CheckAttribute(npchar, "PGGAI")) PGG_ChangeRelation2MainCharacter(npchar, 2);
+	string sTemp;
     int   ok = 0;
     bool  ret = true;
 
@@ -1092,7 +1093,7 @@ bool EndTurnGame()
     }
     if (ok == -1)
     {
-        sTemp += NewStr() + "Я выиграл.";
+        sTemp += NewStr() + "Я выиграл"+NPCharSexPhrase(npchar, "", "а")+".";
         iHeroLose++;
     }
     if (ok == 1)
@@ -1118,7 +1119,7 @@ void ContinueGame()
 	{
         if (iRate*6 > iMoneyP)
     	{
-    	    ResultStr = "Ты на мели, я выиграл!" + NewStr() + "Все, с меня хватит!";
+    	    ResultStr = "Ты на мели, я выиграл"+NPCharSexPhrase(npchar, "", "а")+"!" + NewStr() + "Все, с меня хватит!";
 			SetFormatedText("INFO_TEXT",ResultStr);
     	    EndGameCount(-1);
     	    iHeroLose++;

@@ -2153,8 +2153,8 @@ void Ship_ApplyHullHitpointsWithCannon(ref rOurCharacter, float fHP, int iKillSt
 	if (sti(rOurCharacter.TmpPerks.ShipDefenseProfessional))	fMinus = 0.35;
 	if (CheckAttribute(&RealShips[sti(rOurCharacter.Ship.Type)], "Tuning.HullSpecial")) fMinus = fMinus+0.35;
 	
-	int fMinusC = 0;
-	int shipclass = sti(RealShips[sti(rOurCharacter.Ship.Type)].Class);
+	int fMinusC = sti(RealShips[sti(rOurCharacter.Ship.Type)].HullArmor);
+	/*int shipclass = sti(RealShips[sti(rOurCharacter.Ship.Type)].Class);
 	switch (shipclass)
 	{
 		case 6: fMinusC = 12;
@@ -2169,12 +2169,12 @@ void Ship_ApplyHullHitpointsWithCannon(ref rOurCharacter, float fHP, int iKillSt
 		break;
 		case 1: fMinusC = 42;
 		break;
-	}
+	}*/
 	float fDam = fHP * (1.0 + fPlus - fMinus);
 	//Log_Info("До снижения "+fDam);
 	fDam = fDam - fMinusC;
 	//Log_Info("После снижения "+fDam);
-	if (fDam < 1.0) fDam = 1*(8-shipclass);
+	if (fDam < 1.0) fDam = 1;
 	fCurHP = stf(rOurCharacter.Ship.HP) - fDam;
 	if (fCurHP <= 0.0)
 	{
@@ -2448,6 +2448,8 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 		if (bHalfImmortalPGG && CheckAttribute(rDead, "ImmortalOfficer"))
 		{
 			Log_Info(GetFullName(rDead) + " спасся на шлюпке.");
+			AISeaGoods_AddGood(rDead, "boat", "lo_boat", 1000.0, 1);
+			PlaySound("interface\_EvShip1.wav");
 		}
 		else
 		{

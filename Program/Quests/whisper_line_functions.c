@@ -343,7 +343,6 @@ void WhisperLine_Cage(string qName)
 	sld = GetCharacter(NPC_GenerateCharacter("AntonioDeSouza", "PGG_Vincento_0", "man", "man", 10, SPAIN, -1, false));
    	sld.name 	= "Антониу";
     sld.lastname = "де Соуза";
-	//sld.model.animation = "man2";
     sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
 	sld.greeting = "GR_DeSouza";
     LAi_SetHuberType(sld);
@@ -557,6 +556,269 @@ void WhisperEscape(string qName)
 	}
 }
 
+void GiveMCItemToSomeoneElse(ref sld)
+{
+    ref ch = GetMainCharacter();
+	String itemID;
+    //trace("initMainCharacterItem "  + ch.HeroParam.HeroType);
+	switch (ch.HeroParam.HeroType)
+	{
+        case "Master":	// Рубака
+			SetCharacterPerk(sld, "Grunt");
+            TakenItems(sld, "potion1", rand(10));
+            TakenItems(sld, "potion2", rand(5));
+            TakenItems(sld, "indian12", 1);
+            TakenItems(sld, "Food1", rand(6)+4);
+			switch (sti(ch.nation))
+			{
+				case ENGLAND:
+					itemID = GetGeneratedItem("topor3");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+					GiveItem2Character(sld, "pistol2");
+					EquipCharacterbyItem(sld, "Pistol2");
+					TakeNItems(sld, "bullet", 5);
+					AddItems(sld, "GunPowder", 5);
+					GiveItem2Character(sld, "Spyglass1");
+					EquipCharacterbyItem(sld, "Spyglass1");
+					sld.money = 1500/MOD_SKILL_ENEMY_RATE;
+				break;
+				case FRANCE:
+					itemID = GetGeneratedItem("topor3");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+					sld.money = 500/MOD_SKILL_ENEMY_RATE;
+				break;
+				case HOLLAND:
+					itemID = GetGeneratedItem("topor1");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+					itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+					GiveGunAmmunitionPchar(sld,itemID,5);
+					GiveItem2Character(sld, "Spyglass1");
+					EquipCharacterbyItem(sld, "Spyglass1");
+					sld.money = 1000/MOD_SKILL_ENEMY_RATE;
+				break;
+				case PIRATE:
+					itemID = GetGeneratedItem("topor3");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+					itemID = GetGeneratedItem("pistol" + (rand(2)+1));
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+					GiveGunAmmunitionPchar(sld,itemID,5);
+				break;
+				case SPAIN:
+					itemID = GetGeneratedItem("topor3");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+					sld.money = 500/MOD_SKILL_ENEMY_RATE;
+				break;
+			}
+	    break;
+
+        case "Merchant":	// Торговец
+			SetCharacterPerk(sld, "Trader");
+			itemID = GetGeneratedItem("blade1");
+            GiveItem2Character(sld, itemID);
+            EquipCharacterbyItem(sld, itemID);
+			GiveItem2Character(sld, "Ship_Print_6");
+			TakenItems(sld, "potion1", rand(10));
+			TakenItems(sld, "Food1", (rand(6)+4));
+			switch (sti(ch.nation))
+			{
+				case ENGLAND:
+					GiveItem2Character(sld, "Map_bad");
+					TakeNItems(sld, "indian3", 1);
+					sld.money = 15000/MOD_SKILL_ENEMY_RATE;
+				break;
+				case FRANCE:
+					TakenItems(sld, "potion1", 2);
+					TakeNItems(sld, "indian3", 1);
+					GiveItem2Character(sld, "Spyglass1");
+					EquipCharacterbyItem(sld, "Spyglass1");
+					sld.money = 10000/MOD_SKILL_ENEMY_RATE;
+				break;
+				case HOLLAND:
+					TakeNItems(sld, "indian3", 1);
+					GiveItem2Character(sld, "Spyglass3");
+					EquipCharacterbyItem(sld, "Spyglass3");
+					sld.money = 11000/MOD_SKILL_ENEMY_RATE;
+				break;
+				case PIRATE:
+					GiveItem2Character(sld, "Map_Normal");
+					GiveItem2Character(sld, "pistol2");
+					EquipCharacterbyItem(sld, "Pistol2");
+					TakeNItems(sld, "bullet", 10);
+					AddItems(sld, "GunPowder", 10);
+					GiveItem2Character(sld, "Spyglass1");
+					EquipCharacterbyItem(sld, "Spyglass1");
+					sld.money = 5000/MOD_SKILL_ENEMY_RATE;
+				break;
+				case SPAIN:
+					TakeNItems(sld, "indian14", 1);
+					TakeNItems(sld, "jewelry8", 1);
+					TakeNItems(sld, "jewelry9", 1);
+					sld.money = 8000/MOD_SKILL_ENEMY_RATE;
+				break;
+			}
+	    break;
+
+	    case "Corsair":	// Фехтовальщик
+			SetCharacterPerk(sld, "Fencer");
+			itemID = GetGeneratedItem("Spyglass" + (rand(2)+1));
+			GiveItem2Character(sld, itemID);
+			EquipCharacterbyItem(sld, itemID);
+			itemID = GetGeneratedItem("blade" + (rand(8)+1));
+			GiveItem2Character(sld, itemID);
+			EquipCharacterbyItem(sld, itemID);
+			TakenItems(sld, "potion1", rand(10));
+            TakenItems(sld, "Food1", rand(6)+4);
+			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
+			GiveItem2Character(sld, itemID);
+			EquipCharacterbyItem(sld, itemID);
+			GiveGunAmmunitionPchar(sld,itemID,10);
+			switch (sti(ch.nation))
+			{
+				case ENGLAND:
+					sld.money = 500/MOD_SKILL_ENEMY_RATE;
+				break;
+				case FRANCE:
+					GiveGunAmmunitionPchar(sld,itemID,10);
+					sld.money = 1000/MOD_SKILL_ENEMY_RATE;
+				break;
+				case HOLLAND:
+					sld.money = 500/MOD_SKILL_ENEMY_RATE;
+				break;
+				case PIRATE:
+					GiveItem2Character(sld, "Map_part1");
+				break;
+				case SPAIN:
+					sld.money = 2000/MOD_SKILL_ENEMY_RATE;
+				break;
+			}
+	    break;
+
+	    case "Adventurer":	// Авантюрист
+			SetCharacterPerk(sld, "Adventurer");
+			itemID = GetGeneratedItem("blade" + (rand(7)+1));
+            GiveItem2Character(sld, itemID);
+            EquipCharacterbyItem(sld, itemID);
+			TakenItems(sld, "potion1", rand(10));
+			GiveItem2Character(sld, "Totem_" + rand(15));
+			GiveItem2Character(sld, "Totem_" + rand(15));
+			GiveItem2Character(sld, "Totem_" + rand(15));
+	        itemID = GetGeneratedItem("Spyglass" + rand(3));
+			GiveItem2Character(sld, itemID);
+			EquipCharacterbyItem(sld, itemID);
+			sld.money = 3000/MOD_SKILL_ENEMY_RATE;
+            TakenItems(sld, "Food1", rand(1)+2);
+			itemID = GetGeneratedItem("pistol" + (rand(2)+1));
+            GiveItem2Character(sld, itemID);
+            EquipCharacterbyItem(sld, itemID);
+			GiveGunAmmunitionPchar(sld,itemID,10);
+			switch (sti(ch.nation))
+			{
+				case ENGLAND:
+					itemID = GetGeneratedItem("blade7");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+				break;
+				case FRANCE:
+					GiveGunAmmunitionPchar(sld,itemID,10);
+					itemID = GetGeneratedItem("blade12");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+				break;
+				case HOLLAND:
+					itemID = GetGeneratedItem("blade3");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+				break;
+				case PIRATE:
+					GiveGunAmmunitionPchar(sld,itemID,10);
+					itemID = GetGeneratedItem("blade1");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+				break;
+				case SPAIN:
+					itemID = GetGeneratedItem("blade18");
+					GiveItem2Character(sld, itemID);
+					EquipCharacterbyItem(sld, itemID);
+				break;
+			}
+	    break;
+
+	    case "Inquisitor":	// Буканьер
+			SetCharacterPerk(sld, "Buccaneer");
+			itemID = GetGeneratedItem("blade" + (rand(7)+1));
+            GiveItem2Character(sld, itemID);
+            EquipCharacterbyItem(sld, itemID);
+			itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
+            GiveItem2Character(sld, itemID);
+            EquipCharacterbyItem(sld, itemID);
+			itemID = GetGeneratedItem("mushket_drob");
+            GiveItem2Character(sld, itemID);
+			TakeNItems(sld, "bullet", 30);
+			AddItems(sld, "GunPowder", 30);
+			GiveGunAmmunitionPchar(sld,itemID,30);
+			TakenItems(sld, "potion1", rand(10));
+			sld.money = 1000/MOD_SKILL_ENEMY_RATE;
+            TakenItems(sld, "Food1", rand(6)+4);
+	    break;
+
+	    case "SecretAgent":	// Тайный агент
+			SetCharacterPerk(sld, "Agent");
+			itemID = GetGeneratedItem("blade" + (rand(7)+1));
+            GiveItem2Character(sld, itemID);
+            EquipCharacterbyItem(sld, itemID);
+			TakenItems(sld, "Food1", rand(6)+4);
+			TakenItems(sld, "jewelry15", 1);
+			TakenItems(sld, "Totem_2", 1);
+			TakenItems(sld, "indian5", 1);
+			TakenItems(sld, "indian17", 1);
+			switch (sti(ch.nation))
+			{
+				case ENGLAND:
+					GiveItem2Character(sld, "patent_eng");
+				break;
+				case FRANCE:
+					GiveItem2Character(sld, "patent_fra");
+				break;
+				case HOLLAND:
+					GiveItem2Character(sld, "patent_hol");
+				break;
+				case PIRATE:
+					SetCharacterPerk(sld, "FlagEng");
+					SetCharacterPerk(sld, "FlagFra");
+					SetCharacterPerk(sld, "FlagSpa");
+					SetCharacterPerk(sld, "FlagHol");
+				break;
+				case SPAIN:
+					GiveItem2Character(sld, "patent_spa");
+				break;
+			}
+	    break;
+		
+		case "SeaWolf":	// Морской Волк
+			SetCharacterPerk(sld, "SeaWolf");
+			itemID = GetGeneratedItem("blade" + (rand(7)+1));
+            GiveItem2Character(sld, itemID);
+            EquipCharacterbyItem(sld, itemID);
+			GiveItem2Character(sld, "Ship_Print_6");
+			itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
+            GiveItem2Character(sld, itemID);
+            EquipCharacterbyItem(sld, itemID);
+			GiveGunAmmunitionPchar(sld,itemID,10);
+			TakenItems(sld, "potion1", rand(8));
+			sld.money = 2000/MOD_SKILL_ENEMY_RATE;
+            TakenItems(sld, "Food1", rand(6)+4);
+	    break;
+	}
+}
+
 void WhisperPirateTown(string qName)
 {	
 	sld = GetCharacter(NPC_GenerateCharacter("NineFingers", "PGG_Alex_blade_0", "man", "man", 10, PIRATE, -1, false));
@@ -564,6 +826,7 @@ void WhisperPirateTown(string qName)
 	chrDisableReloadToLocation = true;
     sld.lastname = "";
     sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
+	
 	GiveItem2Character(sld, "blade19");
 	EquipCharacterByItem(sld, "blade19");
 	//sld.greeting = "Gr_padre";
@@ -722,15 +985,18 @@ void WhisperKillNineFingers(string qName)
     setWDMPointXZ("PuertoPrincipe_port");  // коорд на карте
 	
 	sld = characterFromID("NineFingers");
-	RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
+	
 	DeleteAttribute(sld, "items");
     DeleteAttribute(sld, "equip");
 	GiveItem2Character(sld, "Map_bad");
-	GiveItem2Character(sld, "spyglass1");
-	GiveItem2Character(sld, "pistol1");
-	TakeNItems(sld, "GunPowder", 10);
-    TakeNItems(sld, "bullet", 10);
-    TakeNItems(sld, "potionrum", 5);
+	//GiveItem2Character(sld, "spyglass1");
+	//GiveItem2Character(sld, "pistol1");
+	//TakeNItems(sld, "GunPowder", 10);
+    //TakeNItems(sld, "bullet", 10);
+    //TakeNItems(sld, "potionrum", 5);
+	GiveMCItemToSomeoneElse(sld);
+	//TakeNItems(sld, "hatWhisper", 1);
+	RemoveCharacterEquip(sld, BLADE_ITEM_TYPE);
 	LAi_KillCharacter(sld);
 }
 void WhisperPirateTownBattleMortality()
@@ -1020,7 +1286,7 @@ void WhisperHuntersCaveEntrance(string qName)
 	ChangeCharacterAddressGroup(sld, PChar.location, "enc01", "enc01_02");
 	LAi_SetImmortal(sld, true);
 	SetSelfSkill(sld, 45, 45, 75, 45, 35);
-	SetShipSkill(sld, 50, 25, 20, 20, 20, 25, 70, 25, 15);
+	SetShipSkill(sld, 80, 25, 20, 20, 20, 25, 70, 25, 15);
 	SetSPECIAL(sld, 10, 3, 10, 4, 8, 9, 5);
 	sld.rank = 15;
 	LAi_SetHP(sld, 250.0, 250.0);
@@ -1072,7 +1338,11 @@ void WhisperDeSouzaSeaBattle()
 	LAi_SetImmortal(sld, false);
 	//SetBaseShipData(sld);
 	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
+	
 	SetCrewQuantityFull(sld);
+	realships[sti(sld.ship.type)].MaxCrew = 500;
+	SetCrewQuantity(sld,GetMaxCrewQuantity(sld));
+	
 	sld.ship.Crew.Morale = 100;
 	ChangeCrewExp(sld, "Sailors", 20 + 5 * MOD_SKILL_ENEMY_RATE);
 	ChangeCrewExp(sld, "Cannoners", 20 + 5 * MOD_SKILL_ENEMY_RATE);
@@ -1418,7 +1688,7 @@ void WhisperEnglandRevengel()
 	int difficulty = 5 * MOD_SKILL_ENEMY_RATE;
 	for (i = 1; i <= 4; i++)
     {
-		sld = GetCharacter(NPC_GenerateCharacter("W_Captain0"+i, "off_eng_" + (rand(1) + 1), "man", "man", difficulty, ENGLAND, -1, true));
+		sld = GetCharacter(NPC_GenerateCharacter("W_Captain0"+i, "off_eng_" + (rand(1) + 1), "man", "man", difficulty, ENGLAND, 3, true));
 		FantomMakeCoolFighter(sld, 50, 30 + difficulty, 30 + difficulty, "blade36", "pistol3", 50);
 		FantomMakeCoolSailor(sld, SHIP_OXFORD, "", CANNON_TYPE_CANNON_LBS24, 40 + difficulty, 40 + difficulty, 40 + difficulty);
 		SetRandomNameToShip(sld);

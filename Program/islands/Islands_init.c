@@ -1569,8 +1569,6 @@ void InitIslands()
 		Islands[n].reload.l2.radius = 600.0;
 		Islands[n].reload.l2.pic = 0;
 		Islands[n].reload.l2.tex = "t1";
-		
-        Islands[n].Trade.Contraband.id1 = GOOD_SLAVES;
         
 		Islands[n].InterfaceTextures.t1 = "battle_interface\moor_7.tga";
 		Islands[n].InterfaceTextures.t1.h = 4;

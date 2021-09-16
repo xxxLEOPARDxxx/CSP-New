@@ -835,6 +835,7 @@ int LocationInitBarbados(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Bridgetown_Plantation";
 	locations[n].id.label = "Plantation";
+	locations[n].fastreload = "Bridgetown";
 	locations[n].image = "loading\Plantation.tga";
 	//Town sack
 	locations[n].townsack = "Bridgetown";
@@ -895,7 +896,7 @@ int LocationInitBarbados(int n)
 	locations[n].reload.l3.go = "Plantation_Sp1";
 	locations[n].reload.l3.emerge = "reload1";
 	locations[n].reload.l3.autoreload = false;
-	locations[n].reload.l3.label = "house";
+	locations[n].reload.l3.label = "Caiman Plantation Office";
 
 	locations[n].reload.l4.name = "houseS1";
 	locations[n].reload.l4.go = "Plantation_S1";
@@ -927,8 +928,9 @@ int LocationInitBarbados(int n)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Plantation_Sp1";
 	locations[n].filespath.models = "locations\inside\StoneHouse";
-	locations[n].id.label = "House";
+	locations[n].id.label = "Caiman Plantation Office";
 	locations[n].image = "loading\inside\stonehouse.tga";
+	locations[n].fastreload = "Bridgetown";
 	//Town sack
 	locations[n].townsack = "Bridgetown";
 	locations[n].islandId = "Barbados";

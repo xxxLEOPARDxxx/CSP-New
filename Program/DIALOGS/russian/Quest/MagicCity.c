@@ -745,7 +745,8 @@ void SetDanielleInWorld()
 	sld.dialog.currentnode   = "DanAbordage";
 	sld.greeting = "";
 	sld.GenQuest.CrewSkelModeClassic = true; //команда - скелеты 
-	FantomMakeCoolSailor(sld, SHIP_FRIGATEQUEEN, "Королева", CANNON_TYPE_CANNON_LBS32, 90, 90, 90);
+	FantomMakeCoolSailor(sld, SHIP_ARABELLA, "Королева", CANNON_TYPE_CANNON_LBS32, 90, 90, 90);
+	RealShips[sti(sld.Ship.Type)].ship.upgrades.hull = 1;
 	sld.Ship.Mode = "pirate";	
 
 	DeleteAttribute(sld, "SinkTenPercent");

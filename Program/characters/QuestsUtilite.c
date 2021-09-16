@@ -342,6 +342,12 @@ void FillAboardCabinBox(ref _location, ref _npchar)
         }*/
         ok = false;
 	}
+	if (HasSubStr(_npchar.id,"Hunter01") && !CheckAttribute(pchar,"BermudesSurprise"))
+	{
+		_location.box1.items.letter_notes = 1;
+		ChangeItemDescribe("letter_notes", "CSPD1");
+		pchar.BermudesSurprise = 1;
+	}
 	// пасхалка Кукурузина
 	/*if (CheckAttribute(_npchar, "Ship.Name") && _npchar.Ship.Name == FUNY_SHIP_NAME)
 	{
@@ -555,6 +561,16 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 		_location.box1.items.mushket2x2 = 1;
 		//Пернатый Змей
 		_location.box1.items.talisman1 = 1;
+        ok = false;
+	}
+	 if (_npchar.id == "BlackBeardNPC" && CheckAttribute(pchar, "Titch_seabattle"))
+	{
+        DeleteAttribute(_location, "box1");
+        _location.box1.money = 500000;
+		_location.box1.items.blackbeard_sword_baron = 1;
+		_location.box1.items.howdah = 1;
+		_location.box1.items.spyglass5 = 1;
+		_location.box1.items.cirass5 = 1;
         ok = false;
 	}
 	//работорговец, 2 эпизод
@@ -883,6 +899,100 @@ void FantomMakeCoolFighter(ref _Character, int _Rank, int _Fencing, int _Pistol,
     FaceMaker(_Character);
     SetNewModelToChar(_Character);  // перерисуем модель на лету
 	SetCharacterPerk(_Character, PerksChars());
+}
+
+void FantomMakeCoolFighterWRankDepend(ref _Character, int _Rank, int _Fencing, int _Pistol, float _AddHP)
+{
+    _Character.rank = GetCoffDiff(_Rank, 1000);
+    _Character.skill.Fencing = GetCoffDiff(_Fencing, SKILL_MAX);
+    _Character.Skill.FencingLight  = GetCoffDiff(sti(_Character.skill.Fencing), SKILL_MAX);
+    _Character.Skill.FencingHeavy  = GetCoffDiff(sti(_Character.skill.Fencing), SKILL_MAX);
+    _Character.skill.Pistol = GetCoffDiff(_Pistol, SKILL_MAX);
+    _Character.skill.Fortune = GetCoffDiff(_Pistol, SKILL_MAX); //zagolski. если умеет хорошо стрелять из пистоля, то умеет и хорошо от него защищаться
+	_Character.chr_ai.hp = stf(_Character.chr_ai.hp) + GetCoffDiff(_AddHP, 5000);
+	_Character.chr_ai.hp_max = stf(_Character.chr_ai.hp_max) + GetCoffDiff(_AddHP, 5000);
+	SetCharacterPerk(_Character, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+	SetCharacterPerk(_Character, "SwordplayProfessional");
+	SetCharacterPerk(_Character, "AdvancedDefense");
+	SetCharacterPerk(_Character, "CriticalHit");
+	SetCharacterPerk(_Character, "Sliding");
+	SetCharacterPerk(_Character, "HardHitter");
+	DeleteAttribute(_Character, "Items");
+	_Character.SuperShooter  = true;
+	string sword = LAi_NPC_EquipBladeSelection(sti(_Character.rank));
+	sword = GetGeneratedItem(sword);
+    GiveItem2Character(_Character, sword);
+    EquipCharacterbyItem(_Character, sword);
+    TakeNItems(_Character,"potion1", rand(MOD_SKILL_ENEMY_RATE)+1);
+    TakeNItems(_Character,"potion2", rand(2)+1);
+    TakeNItems(_Character,"Food1", rand(2)+2);
+	string Gun = GiveRankGun(_Character);
+    if (Gun != "")
+	{
+		GiveItem2Character(_Character, Gun);
+		EquipCharacterbyItem(_Character, Gun);
+		GiveGunAmmunition(_Character, Gun);
+	}
+	GiveItem2Character(_Character,"spyglass3");
+	EquipCharacterbyItem(_Character, "spyglass3");
+    FaceMaker(_Character);
+    SetNewModelToChar(_Character);  // перерисуем модель на лету
+	SetCharacterPerk(_Character, PerksChars());
+}
+
+string GiveRankGun(ref chr)
+{
+	string guntype = "";
+	int iRnd = rand(1);
+	if(sti(chr.rank) > 10) iRnd = rand(2);
+	if(sti(chr.rank) > 15) iRnd = rand(2) + 1;
+	if(sti(chr.rank) > 20) iRnd = rand(3) + 2;
+		
+	switch(iRnd)
+	{
+		case 0:
+			if(rand(100) < 70)
+			{
+				guntype = "pistol1"; // Пистоль
+			}	
+		break;
+		
+		case 1:
+			if(rand(100) < 75)
+			{
+				guntype = "pistol2"; // Колониальный пистолет
+			}	
+		break;
+		
+		case 2:
+			if(rand(100) < 80)
+			{
+				guntype = "pistol3"; // Тромбон					
+			}	
+		break;
+		
+		case 3:
+			if(rand(100) < 85)
+			{
+				guntype = "pistol6"; // Бок-пистолет
+			}	
+		break;
+		
+		case 4:
+			if(rand(100) < 90)
+			{
+				guntype = "pistol5"; // Бретерский пистолет
+			}	
+		break;
+		
+		case 5:
+			if(rand(100) < 95)
+			{
+				guntype = "pistol4"; // Четырёхствольный пистолет
+			}	
+		break;
+	}
+	return guntype;
 }
 
 void GiveGunAmmunition(ref _Character, string sItem)
@@ -1841,6 +1951,11 @@ void SetQuestAboardCabinDialog(ref refChar)
 		    LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
 		    return;
 		}
+		if (refChar.CaptanId == "BlackBeardNPC" && CheckAttribute(pchar,"Titch_seabattle"))
+		{
+			LAi_SetCheckMinHP(refChar, 5.0, true, "Titch_seabattle");  // сколько НР мин
+		    return;
+		}
 		if (refChar.CaptanId == "Dozor_Ship" && PChar.Dozor == "18")//Дозорный
 		{
 			refChar.Dialog.FileName = "DamnedDestiny\Dozor\Characters.c";
@@ -2565,6 +2680,30 @@ void PDMQuestsInit()
 	LAi_SetSitType(sld);
 	LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
 	ChangeCharacterAddressGroup(sld,"PortSpein_tavern","sit","sit_front2");
+	//******Проклятая жара Sinistra******
+	//Стражники
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_PJ_Strajnik_1", "sold_fra_5", "man", "man", 10, FRANCE, -1, false));
+	sld.name	= "Джори";
+	sld.lastname	= "";
+	sld.Dialog.Filename = "Quest/PDM/Proklyataya_Jara.c";
+	LAi_SetLoginTime(sld, 6.0, 21.99);
+	sld.talker = 7;
+	LAi_SetStayType(sld);
+	sld.City = "FortFrance";
+	FantomMakeCoolFighter(sld, 25, 25, 25, "blade10", "", 40);
+	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
+	ChangeCharacterAddressGroup(sld,"FortFrance_town","officers","soldier_uniq2");
+	
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_PJ_Strajnik_2", "sold_fra_1", "man", "man", 10, FRANCE, -1, false));
+	sld.name	= "Алэр";
+	sld.lastname	= "";
+	sld.dialog.filename   = "Common_Soldier.c";
+	LAi_SetLoginTime(sld, 6.0, 21.99);
+	LAi_SetGuardianType(sld);
+	sld.City = "FortFrance";
+	FantomMakeCoolFighter(sld, 25, 25, 25, "blade10", "", 40);
+	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
+	ChangeCharacterAddressGroup(sld,"FortFrance_town","officers","soldier_uniq1");
 }
 void OfficerGirlInit()
 {
@@ -2678,9 +2817,9 @@ void OfficerMushketerInit()
 	sld.greeting = "Gr_Officer";
 	sld.loyality = 18;
 	sld.rank = 15;
-	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	//Прописка всех моделей для кирас. -->
 	sld.HeroModel = "quest_mush_2,quest_mush_2_1,quest_mush_2_2,quest_mush_2_3,quest_mush_2_4,quest_mush_2_5";
-	//Korsar Maxim - Прописка всех моделей для кирас. <--
+	//Прописка всех моделей для кирас. <--
 	sld.reputation = 20; 
 	sld.alignment = "bad";
 	LAi_SetHP(sld, 180, 180);
@@ -2721,9 +2860,9 @@ void OfficerMushketerInit()
 	sld.loyality = 13;
 	sld.rank = 18;
 	sld.reputation = 75; 
-	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	//Прописка всех моделей для кирас. -->
 	sld.HeroModel = "quest_mush_1,quest_mush_1_1,quest_mush_1_2,quest_mush_1_3,quest_mush_1_4,quest_mush_1_5";
-	//Korsar Maxim - Прописка всех моделей для кирас. <--
+	//Прописка всех моделей для кирас. <--
 	sld.alignment = "good";
 	LAi_SetHP(sld, 210, 210);
 	sld.Dialog.Filename = "Enc_OfficerMush.c";
@@ -3062,6 +3201,7 @@ void SetReefSkeletonsToLocation(aref _location, string loc)
 		num = makeint(GetAttributesNum(grp)/4); // LEO: ЛЮБЛЮ РЕЗНЮ!
 	}
 	int rNum = drand(num);
+	LAi_group_Register("ReefAssholes");
 	for(int i = 0; i < num; i++)
 	{
 		sld = GetCharacter(NPC_GenerateCharacter("Skelet"+_location.index+"_"+i, "Skel"+(rand(3)+1), "skeleton", "skeleton", iRank, PIRATE, 1, true));
@@ -3075,7 +3215,7 @@ void SetReefSkeletonsToLocation(aref _location, string loc)
 		else SetFantomParamFromRank(sld, iRank, true);
 		if (i == 0)
 		{
-			if (GetDataDay() == 3 && GetDataMonth() == 3 && GetTime() >= 3.0 && GetTime() < 4.0 && loc == "MountainPath" && !CheckAttribute(pchar,"salasarmet"))
+			if (GetDataDay() == 3 && GetDataMonth() == 3 && GetTime() >= 3.0 && GetTime() < 4.0 && loc == "MountainPath" && !CheckAttribute(pchar,"salasarmet") && CheckAttribute(pchar,"SalasarEventKnow"))
 			{
 				pchar.salasarmet = true;
 				sld = GetCharacter(NPC_GenerateCharacter("salasar", "salasar", "skeleton", "skeleton", iRank, PIRATE, 1, true));
@@ -3100,47 +3240,28 @@ void SetReefSkeletonsToLocation(aref _location, string loc)
 				AddBonusEnergyToCharacter(sld, 200);
 				Log_info("Вы пробудили проклятых!");
 				Log_info("Потусторонняя аура пошатнула ваше здоровье.");
-				AddCharacterHealth(pchar, -33);
-				pchar.quest.SalasarDead.win_condition.l1 = "NPC_Death";
-				pchar.quest.SalasarDead.win_condition.l1.character = "salasar";
-				pchar.quest.SalasarDead.win_condition = "OpenTheDoors";	
+				AddCharacterHealth(pchar, -10);
 				chrDisableReloadToLocation = true; //пока Салазар жив - хер, а не выход
 			}
 			if (loc != "MountainPath")
 			{
-				sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_0", "skeleton", "Giant", iRank, PIRATE, 1, true));
-				sld.name = "Хранитель";
-				sld.lastname = "Грота";
-				sld.SaveItemsForDead = true;
-				
-				SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
-				FantomMakeCoolFighter(sld, 40, 100, 100, RandPhraseSimple("blade46","blade42"), "", 300); //40 лвл, Кханда или Офицерский клеванг
-				LAi_SetHP(sld,1000,1000);
-				
-				SelAllPerksToNotPCHAR(sld); //укоротил все перки
-				
-				//установить ЛУ и КУ
-				SetSelfSkill(sld, 100, 100, 100, 100, 100); //лёгкое, среднее, тяжёлое, пистолет, удача
-				SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100); // лидерство, торговля, точность, пушки, навигация, ремонт, абордаж, защита, скрытность
-				
-				SetCharacterPerk(sld, "Grunt"); //фехт
-				AddBonusEnergyToCharacter(sld, 50);
 				Log_info("Вы пробудили проклятых!");
-				pchar.quest.SalasarDead.win_condition.l1 = "NPC_Death";
-				pchar.quest.SalasarDead.win_condition.l1.character = "GiantEvilSkeleton";
-				pchar.quest.SalasarDead.win_condition = "OpenTheDoors";	
 				chrDisableReloadToLocation = true; //пока Злой Скелет Гигант жив - хер, а не выход
+				pchar.GiantEvilSkeleton = true;
+				LAi_group_SetCheck("ReefAssholes", "SpawnGiantEvilSkeleton");
 			}
 		}
 		LAi_SetWarriorType(sld);
-		LAi_warrior_SetStay(sld, true);
-		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+		LAi_group_MoveCharacter(sld, "ReefAssholes");
 		string locator = GetAttributeName(GetAttributeN(grp, i));
 		if (loc == "MountainPath")
 		{
 			if (locator == "rock" || locator == "wall" || locator == "top") locator = "skeleton5"; //нет скелетам на скалах и на крыше
 			ChangeCharacterAddressGroup(sld, _location.id, "quest", locator);
-			if (i == 0 && sld.name == "Армандо") SetNoRun(sld); //инвалид
+			if (i == 0 && sld.name == "Армандо") 
+			{
+				LAi_SetCheckMinHP(sld, 1750.0, false, "SpawnSalasarSupports");
+			}
 		} 
 		if (loc == "DeckWithReefs") ChangeCharacterAddressGroup(sld, _location.id, "monsters", locator);
 	}
@@ -3149,8 +3270,24 @@ void SetReefSkeletonsToLocation(aref _location, string loc)
 	pchar.GenQuest.monstersTimer = true;
 	SetFunctionTimerConditionParam("GenQuest_EnableMonstersGen", 0, 0, 0, 24, false);
 
-	//#20190928-02
-	LAi_group_SetRelation(LAI_GROUP_MONSTERS, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+	if (loc == "MountainPath" && CheckAttribute(pchar,"salasarmet") && !CheckAttribute(pchar,"SalasarSpawned"))
+	{
+		sld = CharacterFromID("salasar");
+		LAi_SetActorTypeNoGroup(sld);
+		sld.dialog.filename = "Salasar.c";
+		sld.dialog.currentnode = "First";
+		LAi_ActorDialog(sld, pchar, "", 4.0, 0);
+		LAi_SetFightMode(pchar, false);
+		LAi_LockFightMode(pchar, false);
+		LAi_LocationFightDisable(loadedLocation, true);
+		pchar.SalasarSpawned = true;
+	}
+	else
+	{
+		LAi_group_SetRelation("ReefAssholes", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+		LAi_group_Attack(sld, Pchar);
+		LAi_group_SetLookRadius("ReefAssholes", 1000.0);
+	}
 }
 
 //Перехват всех попыток ГГ залезть в боксы
@@ -3170,6 +3307,25 @@ void QuestCheckTakeBoxes(ref itemsRef)
 	//Спавн проклятого кэпа
 	if (!CheckAttribute(pchar,"treasurelocation"))
 	{
+		if (CheckCharacterItem(pchar,"letter_notes") && locLoad.id == "Bermudes_Dungeon" && !CheckAttribute(pchar,"FishHeadsSpawned"))
+		{
+			Log_info("Вы нашли вторую часть записки.");
+			string chesttype = "";
+			switch (drand(3))
+			{
+				case 0: chesttype = "Chest_ammo"; break;
+				case 1: chesttype = "Chest_treasure"; break;
+				case 2: chesttype = "Chest_quest"; break;
+				case 3: chesttype = "Chest_Craftsmans"; break;
+			}
+			TakeNItems(pchar,chesttype,1);
+			Log_info("Вы обнаружили сундучок.");
+			Log_info("Это что ещё за шум?");
+			ChangeItemDescribe("letter_notes", "CSPD2");
+			pchar.FishHeadsSpawned = true;
+			SpawnFishHeads();
+			return;
+		}
 		spawnToughSkeleton(locLoad);
 	}
 	if (CheckAttribute(pchar,"treasurelocation"))

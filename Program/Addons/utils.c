@@ -128,11 +128,47 @@ void StartGameOpenArena(string qName)
 	Locations[FindLocation("FencingTown_Fort")].id.label = "FencingTown";
 }
 
+void BuildMalteseOrder(string qName)
+{
+	Locations[FindLocation("DeckWithReefs")].reload.l2.label = "Reefs_Chapter";
+	Locations[FindLocation("DeckWithReefs")].reload.l2.disable = 0;
+	Locations[FindLocation("Reefs_Chapter")].id.label = "Reefs_Chapter";
+	
+	ref ch = GetCharacter(NPC_GenerateCharacter("MalteseOrderCharacter", "priest_sp"+(rand(2)+1), "man", "man", 30, PIRATE, 1, true));
+	ch.greeting = "MalteseOrderMan";
+	ch.name 	= "Хулио";
+    ch.lastname = "Иглесиас";
+	ch.City = "Reefs";
+	ch.location	= "Reefs_Chapter";
+	ch.location.group = "sit";
+	ch.location.locator = "sit1";
+	ch.Dialog.Filename = "MalteseOrder.c";
+	LAi_SetHuberType(ch);
+	LAi_group_MoveCharacter(ch, "PIRATE_CITIZENS");
+	LAi_SetImmortal(ch, true);
+	DeleteAttribute(ch,"lifeDay");
+	
+	Log_info("Время строительства Капитула должно было подойти к концу.");
+}
+
+void RefreshSlavesLimit()
+{
+	ref sld = CharacterFromID("PlantRuler");
+	sld.SlavesLimit = 1000;
+}
+
+void RefreshGWIK()
+{
+	ref sld = CharacterFromID("GWIK_char");
+	DeleteAttribute(sld,"Timer");
+}
+
 void WayBeginning(string _tmp)
 {
 	DeleteAttribute(pchar,"cirassID");
 	DeleteAttribute(&InterfaceStates,"DisFastTravel");
 	initNewMainCharacter();
+	InitPerks();
 	
 	Pchar.quest.AlcoveTP.win_condition.l1 = "location";
 	Pchar.quest.AlcoveTP.win_condition.l1.location = "Treasure_alcove";
@@ -277,6 +313,20 @@ void WayBeginning(string _tmp)
 		}
 		Log_testinfo(k+" "+shipspool[k]);
 	}
+	skillz[0] = "FencingLight";
+	skillz[1] = "Fencing";
+	skillz[2] = "FencingHeavy";
+	skillz[3] = "Pistol";
+	skillz[4] = "Fortune";
+	skillz[5] = "Leadership";
+	skillz[6] = "Commerce";
+	skillz[7] = "Accuracy";
+	skillz[8] = "Cannons";
+	skillz[9] = "Sailing";
+	skillz[10] = "Repair";
+	skillz[11] = "Grappling";
+	skillz[12] = "Defence";
+	skillz[13] = "Sneak";
 	
 	pchar.chest_ammo = 0;
 	pchar.chest_treasure = 0;
@@ -605,8 +655,8 @@ void CreateCaimanShoreSlaves(ref loc)
 	{
 	    iMassive = rand(22);
 	
-    	string sAni = "man2";
-    	if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man";
+    	string sAni = "man";
+    	/* if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man"; */
 		
 		sld = GetCharacter(NPC_GenerateCharacter("FantomSlaveInCaimanShore_" + i, model[iMassive], "man", sAni, 1, PIRATE, 0, false));
 		sld.dialog.filename = "Common_Builder.c";

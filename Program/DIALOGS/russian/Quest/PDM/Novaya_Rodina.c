@@ -310,8 +310,8 @@ void ProcessDialogEvent()
 			AddItems(sld, "bullet", 10);
 			AddItems(sld, "GunPowder", 10);
 			EquipCharacterByItem(Pchar, "cirass1");
-			AddCharacterGoodsSimple(sld, GOOD_GOLD, 500 + rand(100));
-			AddCharacterGoodsSimple(sld, GOOD_SILVER, 400 + rand(400));
+			AddCharacterGoodsSimple(sld, GOOD_GOLD, 800 + rand(400));
+			AddCharacterGoodsSimple(sld, GOOD_SILVER, 800 + rand(400));
 			AddCharacterGoodsSimple(sld, GOOD_WEAPON, 500);
 			SetShipSkill(sld, 100, 80, 80, 80, 80, 80, 80, 80, 80);
 			sld.ship.Crew.Morale = 100;

@@ -160,7 +160,7 @@ float Cannon_GetRechargeTime()
 		if (sti(aCharacter.index) != GetMainCharacterIndex())
 		{
 		   fReloadTime -= MOD_SKILL_ENEMY_RATE/2; // -10c на невозможном
-		   if(aCharacter.id == "GhostCapt") fReloadTime = fReloadTime/2;
+		   // if(aCharacter.id == "GhostCapt") fReloadTime = fReloadTime/2;
 		}
 		// boal <--
 		float crewQty  = GetCrewQuantity(aCharacter);

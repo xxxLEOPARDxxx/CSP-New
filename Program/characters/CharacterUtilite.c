@@ -3559,6 +3559,7 @@ bool IsPCharHaveMushketerModel()
 	if(HasSubStr(sModel, "Blad") || 
 	HasSubStr(sModel, "Whisper") || 
 	HasSubStr(sModel, "PGG_Anamaria") || 
+	HasSubStr(sModel, "PGG_Victori") ||
 	HasSubStr(sModel, "PGG_Angellica") || 
 	HasSubStr(sModel, "PGG_Beatric") || 
 	HasSubStr(sModel, "PGG_Cirilla") || 
@@ -3591,7 +3592,7 @@ bool IsPCharHaveMushketerModel()
 	HasSubStr(sModel, "PGG_Fox") || 
 	HasSubStr(sModel, "PGG_Hugh") || 
 	HasSubStr(sModel, "PGG_Alex_blade") || 
-	HasSubStr(sModel, "PGG_HuanTubercul") || 
+	HasSubStr(sModel, "PGG_HuanChahotka") || 
 	HasSubStr(sModel, "PGG_Doggerty") || 
 	HasSubStr(sModel, "PGG_Fleetwood") || 
 	HasSubStr(sModel, "PGG_Longway") || 
@@ -3607,13 +3608,18 @@ bool IsPCharHaveMushketerModel()
 	HasSubStr(sModel, "PGG_Espinosa") || 
 	HasSubStr(sModel, "PGG_Espinosa") || 
 	HasSubStr(sModel, "PGG_Skeletcap") || 
-	HasSubStr(sModel, "PGG_Baltrop_GPK") || 
-	HasSubStr(sModel, "PGG_Beltro1_GPK") || 
-	HasSubStr(sModel, "PGG_Lejitos_GPK") || 
+	HasSubStr(sModel, "PGG_Baltrop") || 
+	HasSubStr(sModel, "PGG_Nord") || 
+	HasSubStr(sModel, "PGG_Lejitos") || 
 	HasSubStr(sModel, "PGG_Vincento") || 
 	HasSubStr(sModel, "PGG_Alvares") || 
 	HasSubStr(sModel, "PGG_Natan") || 
 	HasSubStr(sModel, "PGG_Darkhuman") || 
+	HasSubStr(sModel, "PGG_Norman") || 
+	HasSubStr(sModel, "PGG_Barbossa") || 
+	HasSubStr(sModel, "PGG_Meriman") || 
+	HasSubStr(sModel, "PGG_WillTerner") || 
+	HasSubStr(sModel, "PGG_Kneepel") || 
 	HasSubStr(sModel, "PGG_Rozencraft"))
 	{
 		return true;

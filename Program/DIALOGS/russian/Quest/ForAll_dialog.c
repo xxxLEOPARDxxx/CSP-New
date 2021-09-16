@@ -602,7 +602,7 @@ void ProcessDialogEvent()
 		case "zpq_hired":
 			bQuestDisableMapEnter = false;
 			characters[GetCharacterIndex(npchar)].lifeDay = 0;
-			sld = GetCharacter(NPC_GenerateCharacter("zpqCaptainOf", "Lil_Jim", "man", "man", 30, PIRATE, -1, true));
+			sld = GetCharacter(NPC_GenerateCharacter("zpqCaptainOf", "Lil_Jim_0", "man", "man", 30, PIRATE, -1, true));
 			FantomMakeCoolFighter(sld, 40, 105, 105, "blade23", "pistol3", 120);
 			sld.name 	= "Маленький";
 			sld.lastname = "Джимми";
@@ -613,6 +613,7 @@ void ProcessDialogEvent()
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
 			sld.HalfImmortal = true;  // Контузия
+			sld.HeroModel = "Lil_Jim_0,Lil_Jim_1,Lil_Jim_2,Lil_Jim_3,Lil_Jim_4,Lil_Jim_5";
 			SetSelfSkill(sld, 80, 80, 75, 80, 80);
 			SetShipSkill(sld, 70, 75, 75, 75, 80, 70, 70, 70, 70);
 			SetSPECIAL(sld, 9, 9, 10, 10, 8, 10, 10);

@@ -41,12 +41,25 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit_Self();
 		break;
+		
+		case "WhisperTownbattle_1":
+				dialog.Text = "Интересная у тебя шляпа\n(Подсказка: чтобы забрать остальные вещи нажмите клавишу 1 над трупом)";
+				//GiveItem2Character(pchar, "blade19");
+				//EquipCharacterByItem(pchar, "blade19");
+				Pchar.model="PGG_Whisper_0";
+				pchar.Whisper.HatEnabled = true;
+				TakeNItems(PChar, "hatWhisper", 1);
+				EquipCharacterByItem(pchar, "hatWhisper");
+				ChangeWhisperHeroModel();
+				Link.l1 = "Мне жаль что все так вышло, приятель. Надеюсь, ты не в обиде.";
+				Link.l1.go = "exit_WhisperTownbattle";
+		break;
+		
 		case "exit_WhisperTownbattle":
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			WhisperPirateTownBattleMortality();
 			//AddDialogExitQuest("MainHeroFightModeOn");	
 			DialogExit_Self();
-			ChangeWhisperHeroModel();
 		break;
 		case "exit_WhisperIncq":
 			NextDiag.CurrentNode = NextDiag.TempNode;	
@@ -281,16 +294,16 @@ void ProcessDialogEvent()
 			if (CheckAttribute(pchar, "questTemp.Whisper.GetHat"))
 			{
 				DeleteAttribute(pchar, "questTemp.Whisper.GetHat");
-				dialog.Text = "Похоже, его задело шальной пулей\nЯ позаимствую шпагу, в данный момент она мне гораздо нужнее, чем ему\nИ шляпа у него красивая...";
-				GiveItem2Character(pchar, "blade19");
-				EquipCharacterByItem(pchar, "blade19");
-				Pchar.model="PGG_Whisper_0";
-				pchar.Whisper.HatEnabled = true;
-				TakeNItems(PChar, "hatWhisper", 1);
-				EquipCharacterByItem(pchar, "hatWhisper");
+				dialog.Text = "Вот чёрт! Пули свистят вокруг!\nПрости приятель, но я позаимствую твои пожитки, в данный момент они мне гораздо нужнее.";
+				//GiveItem2Character(pchar, "blade19");
+				//EquipCharacterByItem(pchar, "blade19");
+				//Pchar.model="PGG_Whisper_0";
+				//pchar.Whisper.HatEnabled = true;
+				//TakeNItems(PChar, "hatWhisper", 1);
+				//EquipCharacterByItem(pchar, "hatWhisper");
 				
-				Link.l1 = "Мне жаль что все так вышло, приятель. Надеюсь, ты не в обиде.";
-				Link.l1.go = "exit_WhisperTownbattle";
+				Link.l1 = "";
+				Link.l1.go = "WhisperTownbattle_1";
 			}
 			if (CheckAttribute(pchar, "questTemp.Whisper.AfterTownBattle"))
 			{
@@ -605,17 +618,13 @@ void ProcessDialogEvent()
 			if (pchar.HeroModel == "PGG_Meriman_2")
 			{//ужасный
 				pchar.sex = "man";
-				pchar.animation = "man2_ab";
-				pchar.model = "PGG_Will";
-				pchar.HeroModel  = "PGG_Will";
+				pchar.animation = "man";
+				pchar.model = "PGG_WillTerner_5";
+				pchar.HeroModel  = "PGG_WillTerner_5";
 				pchar.Ritual.ModelChanged = true;
 			}
 			if (pchar.HeroModel == "PGG_Giant_0,PGG_Giant_1,PGG_Giant_2,PGG_Giant_3,PGG_Giant_4,PGG_Giant_5" )
 			{//каскос
-				//pchar.sex = "man";
-				//pchar.animation = "man2";
-				//pchar.model = "PGG_Blaze";
-				//pchar.HeroModel  = "PGG_Blaze";
 				pchar.Ritual.ModelChanged = true;
 			}
 			if (pchar.Ritual.ModelChanged == false)
@@ -1343,6 +1352,12 @@ void ProcessDialogEvent()
 			EquipCharacterByItem(pchar, "glasses");
 			Link.l1 = "С этим разобрались.";	
 			Link.l1.go = "TalkSelf_Main";
+		break;
+		case "PriestSurprise":
+			dialog.Text = "Меня сейчас вырвет... Такого я не ждал от посещения борделя. Команда CSP, грёбаные пидорасы и васяноиды, это надо же было придумать, гея-священника в комнату уединения отправить. Не дай бог ещё слухи пойдут.";
+			Link.l1 = "Ну, тут ничего не поделаешь уже, будем жить дальше.";	
+			Link.l1.go = "exit";
+			NextDiag.TempNode = "TalkSelf_Main";
 		break;
 		
 	}

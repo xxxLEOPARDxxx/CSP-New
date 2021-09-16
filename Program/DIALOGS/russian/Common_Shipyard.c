@@ -70,7 +70,27 @@ void ProcessDialogEvent()
 		RemovePassenger(pchar, compref);
 		SetCompanionIndex(pchar, -1, iChar);
 		DelBakSkill(compref);
-
+		int iClass = RealShips[sti(compref.Ship.Type)].Class;
+		
+		int hullarmor;//реворк брони корпуса
+		switch (rand(1))
+		{
+			case 0: hullarmor = 1; break;
+			case 1: hullarmor = -1 break;
+		}
+		switch (iClass)
+		{
+			case 7: RealShips[sti(compref.Ship.Type)].HullArmor = 4+(rand(4)*hullarmor); break;
+			case 6: RealShips[sti(compref.Ship.Type)].HullArmor = 12+(rand(4)*hullarmor); break;
+			case 5: RealShips[sti(compref.Ship.Type)].HullArmor = 16+(rand(4)*hullarmor); break;
+			case 4: RealShips[sti(compref.Ship.Type)].HullArmor = 20+(rand(4)*hullarmor); break;
+			case 3: RealShips[sti(compref.Ship.Type)].HullArmor = 24+(rand(4)*hullarmor); break;
+			case 2: RealShips[sti(compref.Ship.Type)].HullArmor = 32+(rand(4)*hullarmor); break;
+			case 1: RealShips[sti(compref.Ship.Type)].HullArmor = 42+(rand(4)*hullarmor); break;
+		}
+		
+		NPChar.reputation = sti(NPChar.reputation) + (8 - iClass)/2;
+		if (sti(NPChar.reputation)>100) NPChar.reputation = 100;
 		WaitDate("",0,0,0, 0, 20);
 
 		DeleteAttribute(npchar,"questTemp.ShipOrderDate");
@@ -555,7 +575,7 @@ void ProcessDialogEvent()
 					if (_curCharIdx!=-1)
 					{
 						ok = CheckAttribute(&characters[_curCharIdx], "prisoned") && sti(characters[_curCharIdx].prisoned) == true;
-						if (sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer")
+						if (sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer" && !CheckAttribute(sld,"HPminusDaysNeedtoRestore"))
 						{
 							if (!ok && GetRemovable(&characters[_curCharIdx]))
 							{
@@ -1341,7 +1361,7 @@ void SelectFindship_ShipType()
 	switch (iRank)
 	{
 		case 0: 
-			g = rand(11);
+			g = rand(11); 
 			pchar.GenQuest.Findship.Shipyarder.ShipType = SHIP_BERMSLOOP + g;//ур 0-4, кор 3-14
 		break; 		
 		

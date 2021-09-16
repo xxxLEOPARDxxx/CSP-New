@@ -1137,7 +1137,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 				if(sti(chr_ai.chargeprc))
 				{
 					// boal 22/07/05 зар€дка не в бою. eddy.но если мушкетер, то пофиг
-					if (bRechargePistolOnLine || !LAi_IsFightMode(chr) || findsubstr(chr.model.animation, "mushketer" , 0) != -1)
+					if (bRechargePistolOnLine || !LAi_IsFightMode(chr) || findsubstr(chr.model.animation, "mushketer" , 0) != -1 || CheckAttribute(chr,"AlwaysReload"))//перезар€д независимо от дозар€дки
 					{
 						float charge = stf(chr_ai.charge);
 	                    // boal сюда добавть проверку на наличие пуль gun bullet-->
@@ -1146,25 +1146,25 @@ void LAi_AllCharactersUpdate(float dltTime)
 							//zagolski. убираем тормоза при зар€дке
 							if(!CheckAttribute(chr_ai, "charge_pSkill"))
 							{
-						//—корость зар€дки
+							//—корость зар€дки
 								chr_ai.charge_pSkill = LAi_GunReloadSpeed(chr);
 							}
 
 							float dltcharge = stf(chr_ai.charge_pSkill);
-						//ѕодзар€жаем пистолет
-						charge = charge + dltcharge*dltTime;
-						if(charge >= chargemax)
-						{
-							charge = chargemax;
-							chr_ai.chargeprc = "0";
-								DeleteAttribute(chr_ai, "charge_pSkill");
-							// boal 24.04.04 озвучка зар€дки пистол€ -->
-								if (Characters[idx].index == GetMainCharacterIndex() && LAi_IsFightMode(pchar))
-								{
-									PlaySound("People Fight\reload1.wav");
-								}
-						}
-						chr_ai.charge = charge;
+							//ѕодзар€жаем пистолет
+							charge = charge + dltcharge*dltTime;
+							if(charge >= chargemax)
+							{
+								charge = chargemax;
+								chr_ai.chargeprc = "0";
+									DeleteAttribute(chr_ai, "charge_pSkill");
+								// boal 24.04.04 озвучка зар€дки пистол€ -->
+									if (Characters[idx].index == GetMainCharacterIndex() && LAi_IsFightMode(pchar))
+									{
+										PlaySound("People Fight\reload1.wav");
+									}
+							}
+							chr_ai.charge = charge;
 						}
 						// boal сюда добавть проверку на наличие пуль gun bullet <--
 					} // boal 22/07/05 зар€дка не в бою
@@ -1201,6 +1201,8 @@ void LAi_ProcessCheckMinHP(aref chr)
 		float hp = stf(chr.chr_ai.hp);
 		if(hp < minhp)
 		{
+			DeleteAttribute(chr,"chr_ai.poison");
+			DeleteAttribute(chr,"chr_ai.Blooding");
 			if(sti(chr.chr_ai.hpchecker.immortal))
 			{
 				LAi_SetImmortal(chr, true);

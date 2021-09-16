@@ -28,7 +28,7 @@ string GetIslandForTreasure()
 			}	
 		}
 	}
-	m = drand(m-1);
+	m = rand(m-1);
 	return sArray[m];
 }
 
@@ -57,7 +57,7 @@ string GetLocationForTreasure(string island)
 
 	makearef(arDest, NullCharacter.TravelMap.Islands.(island).Treasure);
 	iNum = GetAttributesNum(arDest);
-    iNum = drand(iNum-1);
+    iNum = rand(iNum-1);
 
     arImt = GetAttributeN(arDest, iNum);
 	Log_TestInfo("Локация: "+GetAttributeName(arImt));
@@ -72,7 +72,7 @@ string GetBoxForTreasure(string island, string location)
 
 	makearef(arDest, NullCharacter.TravelMap.Islands.(island).Treasure.(location));
 	iNum = GetAttributesNum(arDest);
-    iNum = drand(iNum-1);
+    iNum = rand(iNum-1);
 
     arImt = GetAttributeN(arDest, iNum);
 	Log_TestInfo("Локатор: "+GetAttributeValue(arImt));
@@ -144,7 +144,7 @@ void FillMapForTreasure(ref item)
     if (!CheckAttribute(Pchar, "GenQuest.TreasureBuild"))
     {
         if (rand(12+GetCharacterSPECIALSimple(pchar, SPECIAL_L)) == 1) item.MapTypeIdx = -1;
-		
+		pchar.PGGTreasureStolen = true;
     }
     else
     {// из кусочков даем супер вещи
@@ -706,7 +706,7 @@ void SetTreasureBoxFromMap()
                 Pchar.quest.SetTreasureHunter.win_condition.l1          = "location";
                 Pchar.quest.SetTreasureHunter.win_condition.l1.location = Pchar.location.from_sea;
                 Pchar.quest.SetTreasureHunter.win_condition             = "";
-				if (rand(1) == 1) //50 процентов что это будет ПГГ
+				if (rand(1) == 1 && CheckAttribute(pchar, "PGGTreasureStolen")) //50 процентов что это будет ПГГ
 				{
 					int heroSelected = 1;
 					string chosenHero = rand(PsHeroQty);
@@ -715,7 +715,7 @@ void SetTreasureBoxFromMap()
 						if (sti(chosenHero) != 0)
 						{
 							sld = CharacterFromID("PsHero_"+chosenHero);
-							if (sld.PGGAi.location == "Dead" || IsCompanion(sld) || IsOfficer(sld))
+							if (sld.PGGAi.location == "Dead" || IsCompanion(sld) || IsOfficer(sld) || sld.dialog.filename == "Enc_Officer_dialog.c")
 							{
 								chosenHero = rand(PsHeroQty);
 							}
@@ -747,7 +747,7 @@ void SetTreasureBoxFromMap()
 				}
             }
         }
-
+		DeleteAttribute(pchar, "PGGTreasureStolen");
         Items_FindItem("map_full", &item);
 
         box = item.MapBoxId;
@@ -776,7 +776,7 @@ void  TraderHunterOnMap()
     ref  sld;
     int  i;
 
-    string sCapId = "Follower0";
+    string sCapId = "TraderHunter";
     string sGroup = "Sea_" + sCapId + "1";
 
 	Group_DeleteGroup(sGroup);
@@ -994,6 +994,8 @@ void  GhostShipOnMap()
     DeleteAttribute(sld,"ship.sails");
     DeleteAttribute(sld,"ship.masts");
     DeleteAttribute(sld,"ship.blots");
+	
+	sld.Ship.Name = "Летучий голландец";
 
     Ship_SetTaskNone(SECONDARY_TASK, sti(sld.index));
 
@@ -1014,7 +1016,7 @@ void  GhostShipOnMap()
     {
         sld.ship.hp = 50000; // 13 процентов
     }
-	GiveItem2Character(sld,"talisman3");
+	sld.items.talisman3 = 1;
 	EquipCharacterByItem(sld,"talisman3");
     SetCrewQuantityOverMax(sld, 666);
     sld.mapEnc.type = "war";
@@ -1279,7 +1281,7 @@ void Map_CreateFastWarriorTreasure()
     ref  sld;
     int  i;
 
-    string sCapId = "Follower0";
+    string sCapId = "WarriorTreasure";
     string sGroup = "Sea_" + sCapId + "1";
 
 	Group_DeleteGroup(sGroup);

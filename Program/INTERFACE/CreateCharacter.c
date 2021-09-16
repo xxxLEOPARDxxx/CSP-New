@@ -5,6 +5,8 @@ string sCurmanim{10} = {"","начало боя","быстрая атака","мощная атака","attack_f
 string totalInfo;
 string totalInfo1;
 string costume = "обычный";
+string sBlockPGG = "None";
+int iBlockPGG = 1;
 int idLngFile = -1;
 
 int iType = 1;
@@ -230,6 +232,21 @@ void ProcCommand()
 				SelectCharacterVariant(false);
 			}
 		break;
+		
+		case "REMOVE_ALL_PGG_BUTTON":
+			if(comName=="activate" || comName=="click")
+			{
+				int  heroQty   = sti(GetNewMainCharacterParam("ps_hero_qty"));
+				for (int n=1; n<=heroQty; n++)
+				{
+					sBlockPGG = "PGG" + n;
+					pchar.RemovePGG.(sBlockPGG) = iBlockPGG;
+					CheckButton_SetState("REMOVE_PGG_CHECKBOX", 1, iBlockPGG);
+				}
+				if (iBlockPGG == 1)	iBlockPGG = 0;
+				else iBlockPGG = 1;
+			}
+		break;
 	}
 }
 
@@ -420,6 +437,7 @@ void NameUptade()
 	string sCharacterName = sName + " " + sLastName;
 	
 	GameInterface.strings.CreateCharacterHeader = sCharacterName;
+	
 }
 
 void Name2Uptade()
@@ -682,6 +700,11 @@ void SelectMainCharacter(bool bLeft)
 	SetFormatedText("COSTUME", "Выбранный костюм: "+costume);
 	SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"COSTUME",5);
 	UpdateHeroInfo();
+	
+	bool bDelPGG = false;
+	sBlockPGG = "PGG" + startHeroType;
+	if (CheckAttribute(pchar,"RemovePGG." + sBlockPGG)) bDelPGG = sti(pchar.RemovePGG.(sBlockPGG));
+	CheckButton_SetState("REMOVE_PGG_CHECKBOX", 1, bDelPGG);
 }
 
 void SetNationCount(int iNation)
@@ -780,11 +803,11 @@ void UpdateHeroInfo()
 {
 	int idLngFile = LanguageOpenFile("HeroDescribe.txt");
 	totalInfo1 = LanguageConvertString(idLngFile, "hero_" + startHeroType);
-	SetFormatedText("INFO_TEXT", totalInfo1+"\nНомер ПГГ: "+startHeroType);
+	SetFormatedText("INFO_TEXT", totalInfo1+"\n( Номер ПГГ: "+startHeroType+" | Модель: "+PChar.model+" | Анимация: "+PChar.model.animation+" )");
     SetVAligmentFormatedText("INFO_TEXT");
 	LanguageCloseFile(idLngFile);
 }
-
+	
 void SetSelectInformation()
 {
     	int idLngFile = LanguageOpenFile("HeroDescribe.txt");
@@ -1293,6 +1316,20 @@ void ProcessFilter()
 	string sName = LanguageConvertString(idLngFile, "heroName_" + startHeroType);
 	if (FState_ANIM) {if (sAnim == "man" || sAnim == "skeleton" || sAnim == "YokoDias"  || sAnim == "Milenace") {} else SelectMainCharacter(0);}
 	LanguageCloseFile(idLngFile);
+	}
+	return;
+	}
+	
+	if (sControl == "REMOVE_PGG_CHECKBOX")
+	{
+	sBlockPGG = "PGG" + startHeroType;
+	if (iNewState)
+	{
+		pchar.RemovePGG.(sBlockPGG) = 1;
+	}
+	else
+	{
+		pchar.RemovePGG.(sBlockPGG) = 0;
 	}
 	return;
 	}

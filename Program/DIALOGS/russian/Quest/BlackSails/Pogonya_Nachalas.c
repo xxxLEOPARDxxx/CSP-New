@@ -555,6 +555,12 @@ void ProcessDialogEvent()
 			DialogExit();
 			sld = CharacterFromID("Flint");
 			LAi_SetActorType(sld);
+			LAi_SetImmortal(sld, false);
+			ProcessHullRepair(sld, 100.0);
+			ProcessSailRepair(sld, 100.0);
+			DeleteAttribute(sld, "ship.blots");
+			DeleteAttribute(sld, "ship.sails");
+			DeleteAttribute(sld, "ship.masts");
 
 			sld = CharacterFromID("BS_Silver");
 			LAi_SetActorType(sld);
@@ -579,6 +585,21 @@ void ProcessDialogEvent()
 		
 		//Высылаем шлюпу на Моржа. Говорим с Флинтом
 		
+		case "BS_PN_30_seabattle":	//Флинт
+			PChar.quest.BSChaseBegun_EndQuest.win_condition.l1 = "location";
+			PChar.quest.BSChaseBegun_EndQuest.win_condition.l1.location = "Pirates_Town";
+			PChar.quest.BSChaseBegun_EndQuest.function = "BSChaseBegun_EndQuest";
+			Log_Info("1111")
+			
+			dialog.text = "Здесь слишком опасно оставаться. Поговорим на Бермудах.";
+			link.l1 = "Вы правы. Следуйте за моим судном.";
+			link.l1.go = "exit";
+			NextDiag.TempNode = "BS_PN_30_seabattle";
+			
+			SetCompanionIndex(PChar, -1, GetCharacterIndex(npchar.id));//Флинт присоединяется к эскадре
+			
+		break;
+		
 		case "BS_PN_30":	//Флинт
 			dialog.text = "...";
 			link.l1 = "Похоже план провалился! Или Сильвер солгал, или испанцы оказались хитрее!";
@@ -595,13 +616,21 @@ void ProcessDialogEvent()
 			dialog.text = "С Сильвером я потолкую. Пока нам нужно залечь на дно. Встретимся через неделю на Бермудах. Ищи по своим каналам любую зацепку, я поищу по своим. Нутром чую, 'Урка' ещё на Карибах. Вопрос – где?";
 			link.l1 = "Есть у меня одна пташка на примете, послушаю, что она пропоёт.";
 			NextDiag.TempNode = "BS_PN_31exit"
-			link.l1.go = "exit";
+			link.l1.go = "BS_PN_31exit";
 		break;
 		
 		case "BS_PN_31exit":
+			chrDisableReloadToLocation = false;
+			LAi_SetActorTypeNoGroup(npchar);
+			LAi_ActorGoToLocation(npchar, "reload", "reload3_back", "none", "", "", "", 20);
 			dialog.text = "Пока нам стоит разойтись, поговорим позже.";
 			link.l1 = "Поддерживаю.";
 			link.l1.go = "exit";
+			
+			BS_ReplaceHostessWithMaks();
+			sld = CharacterFromID("PortRoyal_hostess");
+			sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
+			sld.dialog.currentnode = "BS_NU_1";
 		break;
 		
 		//Запись в СЖ: «Любой план летит к чертям, как только возьмёшься за его реализацию. Но ещё не всё потерянно! Навещу-ка я Максин в Порт Рояле, портовые девки много чего знают, а эта мне обязана. Долг - платежом красен».

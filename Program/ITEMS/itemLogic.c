@@ -628,7 +628,7 @@ void OpenBoxProcedure()
 	}
 	// God_hit_us  это такой прикол - задействовать в ловушки для сундуков(boal)
 	// токо сундуки и дома
-	if (sti(chr.GenQuest.God_hit_us) == 1 && rand(100) >= (85 + GetCharacterSkillToOld(chr, SKILL_FORTUNE)) && Locations[locidx].id != "Caiman_StoreHouse")
+	if (sti(chr.GenQuest.God_hit_us) == 1 && rand(100) >= (85 + GetCharacterSkillToOld(chr, SKILL_FORTUNE)) && Locations[locidx].id != "Caiman_StoreHouse" && Locations[locidx].id != "Reefs_chapter")
 	{
 		Log_Info("Ловушка!");
 		PlaySound("people\clothes1.wav");
@@ -744,7 +744,7 @@ void Box_OnLoadLocation(ref _location)
     		//respawn items in box
     		if (needRespawn || isAbordageBox)
     		{
-				if (_location.id == "Caiman_StoreHouse") continue;
+				if (_location.id == "Caiman_StoreHouse" || _location.id == "Reefs_chapter") continue;
     			//clear items in box
     			if (CheckAttribute(_location, locatorName))
     			{

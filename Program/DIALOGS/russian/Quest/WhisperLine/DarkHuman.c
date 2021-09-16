@@ -331,7 +331,7 @@ void ProcessDialogEvent()
 			LAi_group_MoveCharacter(npchar, LAI_GROUP_PLAYER);
 			LAi_SetActorTypeNoGroup(npchar);
 			LAi_ActorFollowEverywhere(npchar, "", -1);
-		
+			chrDisableReloadToLocation = false;
 			pchar.BlockOstin = true;
 			dialog.Text = "Я думаю теперь вы понимаете, почему мы запросили такую цену.";
 			Link.l1 = "Да, пожалуй.";

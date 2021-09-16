@@ -748,49 +748,50 @@ void TableSelectChange()
 	}
 	if (CurTable == "SHIPSUP_TABLE")
 	{
+		int iShip = sti(xi_refCharacter.Ship.Type);
 		int upsq = 0;
 		switch(CurRow)
 		{
 			case "tr1":
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial")) upgradevalue = 0;
-				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)/2);
+				if (CheckAttribute(RealShips[iShip],"Tuning.HullSpecial")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[iShip].price)/2);
 				uptype = 1;
 			break;
 			case "tr2":
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.SailsSpecial")) upgradevalue = 0;
-				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.35);
+				if (CheckAttribute(RealShips[iShip],"Tuning.SailsSpecial")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[iShip].price)*0.35);
 				uptype = 2;
 			break;
 			case "tr3":
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CannonsSpecial")) upgradevalue = 0;
-				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.25);
+				if (CheckAttribute(RealShips[iShip],"Tuning.CannonsSpecial")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[iShip].price)*0.25);
 				uptype = 3;
 			break;
 			case "tr4":
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CuBot")) upgradevalue = 0;
-				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.4);
+				if (CheckAttribute(RealShips[iShip],"Tuning.CuBot")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[iShip].price)*0.4);
 				uptype = 4;
 			break;
 			case "tr5":
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.BotPack")) upgradevalue = 0;
-				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.5);
+				if (CheckAttribute(RealShips[iShip],"Tuning.BotPack")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[iShip].price)*0.5);
 				uptype = 5;
 			break;
 			case "tr6":
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort")) upgradevalue = 0;
-				else upgradevalue = makeint(sti(RealShips[sti(xi_refCharacter.Ship.Type)].price)*0.4);
+				if (CheckAttribute(RealShips[iShip],"Tuning.HighBort")) upgradevalue = 0;
+				else upgradevalue = makeint(sti(RealShips[iShip].price)*0.4);
 				uptype = 6;
 			break;
 		}
 		
-		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial")) upsq++;
-		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.SailsSpecial")) upsq++;
-		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CannonsSpecial")) upsq++;
-		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CuBot")) upsq++;
-		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.BotPack")) upsq++;
-		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort")) upsq++;
+		if (CheckAttribute(RealShips[iShip],"Tuning.HullSpecial")) upsq++;
+		if (CheckAttribute(RealShips[iShip],"Tuning.SailsSpecial")) upsq++;
+		if (CheckAttribute(RealShips[iShip],"Tuning.CannonsSpecial")) upsq++;
+		if (CheckAttribute(RealShips[iShip],"Tuning.CuBot")) upsq++;
+		if (CheckAttribute(RealShips[iShip],"Tuning.BotPack")) upsq++;
+		if (CheckAttribute(RealShips[iShip],"Tuning.HighBort")) upsq++;
 		
-		switch (sti(RealShips[sti(xi_refCharacter.Ship.Type)].class))
+		switch (sti(RealShips[iShip].class))
 		{
 			case 7:
 				timePreUpgrade = 2+drand(1);
@@ -840,7 +841,7 @@ void TableSelectChange()
 		switch(uptype)
 		{
 			case 1:
-				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == true && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == false)
+				if (RealShips[iShip].Type.War == true && RealShips[iShip].Type.Merchant == false)
 				{
 					if (sti(pchar.money)>=upgradevalue && upsq < 3) SetSelectable("SHIPSUP_DOUP", true);
 				}
@@ -854,7 +855,7 @@ void TableSelectChange()
 			
 			break;
 			case 3:
-				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == true && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == false)
+				if (RealShips[iShip].Type.War == true && RealShips[iShip].Type.Merchant == false)
 				{
 					if (sti(pchar.money)>=upgradevalue && upsq < 3) SetSelectable("SHIPSUP_DOUP", true);
 				}
@@ -868,7 +869,7 @@ void TableSelectChange()
 			
 			break;
 			case 5:
-				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == false && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true)
+				if (RealShips[iShip].Type.War == false && RealShips[iShip].Type.Merchant == true)
 				{
 					if (sti(pchar.money)>=upgradevalue && upsq < 3) SetSelectable("SHIPSUP_DOUP", true);
 				}
@@ -1292,7 +1293,7 @@ void AcceptAddOfficer()
         // назначение нового кэпа, возможно, если там уже не наш, те или враг или снят
         sld = GetCharacter(iChar);
 		
-		if(sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer")
+		if(sld.id != "pet_crab" && sld.id != "Albreht_Zalpfer" && !CheckAttribute(sld,"HPminusDaysNeedtoRestore"))
 		{
 			DeleteAttribute(sld, "ship");
 			sld.ship.Type = SHIP_NOTUSED;
@@ -2236,6 +2237,7 @@ void CloseShipUp()
 	XI_WindowDisable("SHIPSUP_WINDOW", true);
 	SetNodeUsing("MAIN_WINDOW", true);
 	SetNodeUsing("SHIPSUP_WINDOW", false);
+	SetShipOTHERTable("TABLE_OTHER",xi_refCharacter);
 }
 
 void OpenShipUp()
@@ -2248,7 +2250,7 @@ void OpenShipUp()
 	SetNodeUsing("MAIN_WINDOW", false);
 	SetNodeUsing("SHIPSUP_WINDOW", true);
 	upgradevalue = 0;
-	
+	int iShip = sti(xi_refCharacter.Ship.Type);
 	for (int i = 0; i < 6; i++)
 	{
         string row = "tr" + (i+1);
@@ -2266,7 +2268,7 @@ void OpenShipUp()
 		{
 			case 0:
 				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_HULL_descr","ShipsDescribe.txt");
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial"))
+				if (CheckAttribute(RealShips[iShip],"Tuning.HullSpecial"))
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAHULLON";
 					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
@@ -2276,13 +2278,14 @@ void OpenShipUp()
 				else
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAHULLOFF";
-					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+					if (RealShips[iShip].Type.War == true && RealShips[iShip].Type.Merchant == false) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить"; 
+						else GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен для данного корабля"; 
 				}
-				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == false && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
+				if (RealShips[iShip].Type.War == false && RealShips[iShip].Type.Merchant == true) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
 			break;
 			case 1:
 				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_SAIL_descr","ShipsDescribe.txt");
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.SailsSpecial"))
+				if (CheckAttribute(RealShips[iShip],"Tuning.SailsSpecial"))
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRASAILON";
 					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
@@ -2297,7 +2300,7 @@ void OpenShipUp()
 			break;
 			case 2:
 				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_CANNONS_descr","ShipsDescribe.txt");
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CannonsSpecial"))
+				if (CheckAttribute(RealShips[iShip],"Tuning.CannonsSpecial"))
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAGUNSON";
 					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
@@ -2307,13 +2310,14 @@ void OpenShipUp()
 				else
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAGUNSOFF";
-					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+					if (RealShips[iShip].Type.War == true && RealShips[iShip].Type.Merchant == false) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить"; 
+						else GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен для данного корабля"; 
 				}
-				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == false && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
+				if (RealShips[iShip].Type.War == false && RealShips[iShip].Type.Merchant == true) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
 			break;
 			case 3:
 				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_HULLCOPPER_descr","ShipsDescribe.txt");
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.CuBot"))
+				if (CheckAttribute(RealShips[iShip],"Tuning.CuBot"))
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "EXTRAHULLKRENGON";
 					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
@@ -2328,7 +2332,7 @@ void OpenShipUp()
 			break;
 			case 4:
 				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_CAPACITY_descr","ShipsDescribe.txt");
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.BotPack"))
+				if (CheckAttribute(RealShips[iShip],"Tuning.BotPack"))
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "ExtraCapacityOn";
 					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
@@ -2338,13 +2342,14 @@ void OpenShipUp()
 				else
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "ExtraCapacityOff";
-					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить";
+					if (RealShips[iShip].Type.War == false && RealShips[iShip].Type.Merchant == true) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Можно улучшить"; 
+						else GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен для данного корабля"; 
 				}
-				if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.War == true && RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == false) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
+				if (RealShips[iShip].Type.War == true && RealShips[iShip].Type.Merchant == false) GameInterface.SHIPSUP_TABLE.(row).td3.str = "Апгрейд невозможен";
 			break;
 			case 5:
 				GameInterface.SHIPSUP_TABLE.(row).td2.str = GetConvertStr("SUP_BIGSIDES_descr","ShipsDescribe.txt");
-				if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HighBort"))
+				if (CheckAttribute(RealShips[iShip],"Tuning.HighBort"))
 				{
 					GameInterface.SHIPSUP_TABLE.(row).td1.icon.image = "ExtraBigSidesOn";
 					GameInterface.SHIPSUP_TABLE.(row).td3.str = "Уже улучшено";
@@ -2363,7 +2368,7 @@ void OpenShipUp()
 		SetFormatedText("SHIPSUP_CAPTION", "Уникальные улучшения корабля");
 		SetSelectable("SHIPSUP_DOUP", false);
     }
-
+	GameInterface.SHIPSUP_TABLE.select = 1;
 	Table_UpdateWindow("SHIPSUP_TABLE");
 }
 
@@ -2433,6 +2438,7 @@ void DoUpgrade()
 				shTo.price = makeint(sti(shTo.price)*1.5); 
 				shTo.Capacity = sti(shTo.Capacity) + makeint(sti(shTo.Capacity)/2);
 				shTo.HP = sti(shTo.HP) - makeint(sti(shTo.HP)/2);
+				if (xi_refCharacter.ship.hp > sti(shTo.HP)) xi_refCharacter.ship.hp = sti(shTo.HP);
 			}
 			else
 			{

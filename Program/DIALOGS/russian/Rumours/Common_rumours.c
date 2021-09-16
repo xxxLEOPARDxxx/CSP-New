@@ -225,31 +225,122 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		if(CheckAttribute(PChar, "HellSpawn.SeekRebirth"))
 	    {
 			//получим пещеру для чистки
-			sTemp = GetArealByCityName(npchar.city);
-			if (sTemp == "Cuba2") sTemp = "Cuba1";
-			if (sTemp == "Hispaniola2") sTemp = "Hispaniola1";
-			aref aPlace, aPlace_2;
-			makearef(aPlace, NullCharacter.TravelMap.Islands.(sTemp).Treasure);
-			int iQty = GetAttributesNum(aPlace)-1;
-			aPlace_2 = GetAttributeN(aPlace, rand(iQty));
-			pchar.quest.HellSpawn.locationId = GetAttributeName(aPlace_2); //Id целевой пещеры
+			pchar.quest.HellSpawn.locationId = "DeckWithReefs"; //Id целевой пещеры
 			sld = &locations[FindLocation(pchar.quest.HellSpawn.locationId)];
-			npchar.quest.HellSpawn.label = GetConvertStr(sld.id.label, "LocLables.txt"); //тип подземелья для диалогов
-			switch (npchar.quest.HellSpawn.label)
-			{
-				case "пещера": sTemp = "Слыхал о местной пещере?"; break;
-				case "грот": sTemp = "Слыхал о местном гроте?"; break;
-				case "подземелье": sTemp = "Слыхал о местном подземелье?"; break;
-			}			
+			npchar.quest.HellSpawn.label = GetConvertStr(sld.id.label, "LocLables.txt"); //тип подземелья для диалогов	
 			
-			dialog.text = "Эх, " + GetAddress_Form(pchar) + " что за жизнь нынче пошла... Страшно за ворота ступить! "+sTemp+" Говорят, нежить собирается там для какого-то ритуала перерождения. ";
+			dialog.text = "Эх, " + GetAddress_Form(pchar) + " что за жизнь нынче пошла... Слыхал я о страшных вещах, что творятся на рифе Скелета. Говорят, в местной бухте нежить собирается для какого-то ритуала перерождения.";
 			DeleteAttribute(PChar, "HellSpawn.SeekRebirth");
 			SaveCurrentQuestDateParam("pchar.questTemp.HellSpawn.Rit");
 			
 			pchar.quest.HellSpawnRitual.win_condition.l1 = "location";
 			pchar.quest.HellSpawnRitual.win_condition.l1.location = pchar.quest.HellSpawn.locationId;
 			pchar.quest.HellSpawnRitual.function = "HellSpawnRitual";
+			AddQuestRecordInfo("Important_rumours", "1");
+			AddQuestUserData("Important_rumours", "sSex", GetSexPhrase("","а"));
+			break;
 		}
+		
+		if(!CheckAttribute(pchar,"SalasarEventKnow") && rand(30)==0)
+		{
+			dialog.text = "Ходят слухи, что каждый год 3 марта в 3 часа ночи на рифе Скелета в ущелье Дьявола на руинах домика смотрителя кладбища разгорается особенно яркое и пугающее сияние, от которого веет ужасом и безнадёжностью. Хотелось бы самому посмотреть, да слишком уж боязно...";
+			Log_Info("Это стоит запомнить. Значит... 3 марта, 3 часа ночи и каждый год.");
+			pchar.SalasarEventKnow = true;
+			AddQuestRecordInfo("Important_rumours", "2");
+			AddQuestUserData("Important_rumours", "sSex", GetSexPhrase("","а"));
+			break;
+		}
+		if(CheckAttribute(pchar,"GiantEvilSkeleton") && rand(20)==0 && !CheckAttribute(pchar,"MalteseInfo"))
+		{
+			 if (startHeroType != 2 && startHeroType != 7 && pchar.sex != "skeleton")
+			 {
+				dialog.text = "Ходят слухи, что Испанская инквизиция собирает информацию о рифе Скелета. С какой целью - неизвестно, но любому, кто знает хоть что-то, обещано вознаграждение...";
+				Log_Info("Это стоит запомнить. Испанская инквизиция и риф Скелета.");
+				pchar.MalteseInfo = true;
+				AddQuestRecordInfo("Important_rumours", "3");
+				AddQuestUserData("Important_rumours", "sSex", GetSexPhrase("","а"));
+				break;
+			 }
+		}
+		if(!CheckAttribute(pchar,"BlackBeardSpawn") && sti(pchar.rank)>=20)
+		{
+			AddQuestRecordInfo("Important_rumours", "4");
+			AddQuestUserData("Important_rumours", "sSex", GetSexPhrase("","а"));
+			dialog.text = "Говорят, что на архипелаге впервые за годы увидели корабль самого Чёрной Бороды. По слухам, он ищет самого удачливого пирата на архипелаге для каких-то странных дел.";
+			Log_Info("Это стоит запомнить. Эдвард Тич появился на архипелаге.");
+			pchar.BlackBeardSpawn = true;
+			
+			sld = GetCharacter(NPC_GenerateCharacter("BlackBeardNPC", "PGG_Tich_0", "man", "man", 60, PIRATE, -1, true));
+			FantomMakeCoolFighter(sld, 60, 100, 100, "blackbeard_sword_baron", "howdah", 100);
+			sld.items.spyglass3 = 0;
+			sld.items.spyglass5 = 1;
+			EquipCharacterbyItem(sld,"spyglass5");
+			sld.name = "Эдвард";
+			sld.lastname = "(Чёрная Борода) Тич";
+			sld.dialog.filename   = "Quest\BlackBeard.c";
+			sld.dialog.currentnode   = "Greetings";
+			sld.greeting = "";
+			sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
+			sld.items.GunEchin = 30;
+			LAi_SetCharacterUseBullet(sld,"GunEchin");//зарядить патрики покруче
+			FantomMakeCoolSailor(sld, SHIP_FRIGATEQUEEN, "Месть Королевы Анны", CANNON_TYPE_CANNON_LBS36, 90, 90, 90);
+			GiveItem2Character(sld, "cirass5");
+			EquipCharacterbyItem(sld,"cirass5");
+
+			DeleteAttribute(sld, "DontClearDead");
+			DeleteAttribute(sld, "AboardToFinalDeck");
+			DeleteAttribute(sld, "SinkTenPercent");
+			DeleteAttribute(sld, "DontRansackCaptain");
+			sld.AlwaysFriend = true;
+			sld.AlwaysSandbankManeuver = true;
+			sld.DontRansackCaptain = true; //не сдаваться
+			
+			SelAllPerksToNotPCHAR(sld);
+			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
+			SetCharacterPerk(sld, "AgileMan"); // ловкач
+			sld.SuperShooter  = true;
+			SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
+			SetSelfSkill(sld, 100, 100, 100, 100, 100); //лёгкое, среднее, тяжёлое, пистолет, удача
+			SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100); // лидерство, торговля, точность, пушки, навигация, ремонт, абордаж, защита, скрытность
+			LAi_SetHP(sld,1500,1500);
+			SetCharacterPerk(sld, "Grunt"); //рубака
+			AddBonusEnergyToCharacter(sld, 50);
+			TakeNItems(sld,"potion2",10);
+			
+			//в морскую группу кэпа
+			sGroup = "BlackBeardGroup";
+			Group_FindOrCreateGroup(sGroup);
+			Group_AddCharacter(sGroup, sld.id);
+			Group_SetGroupCommander(sGroup, sld.id);
+			Group_SetType("BlackBeardGroup", "pirate");
+			SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_FRIEND);
+			SetRandGeraldSail(sld, sti(sld.Nation)); 
+			sld.quest = "InMap"; //личный флаг искомого кэпа
+			sld.city = "LaVega"; //определим колонию
+			sld.cityShore = GetIslandRandomShoreId(GetArealByCityName(sld.city));
+			sld.quest.targetCity = GetRandomPirateCity(); //определим колонию, в бухту которой он придет
+			sld.quest.targetShore = GetIslandRandomShoreId(GetArealByCityName(sld.quest.targetCity));
+			Log_TestInfo("Фрегат Месть Королевы Анны вышел из: " + sld.city + " и направился в: " + sld.quest.targetShore);
+			//==> на карту
+			sld.mapEnc.type = "trade";
+			//выбор типа кораблика на карте
+			sld.mapEnc.worldMapShip = "quest_ship"; // LEO: Сюда надо заюзать модельку МКА на глобалку, персональную.
+			sld.mapEnc.Name = "Фрегат 'Месть Королевы Анны'";
+			int daysQty = GetMaxDaysFromIsland2Island(GetArealByCityName(sld.quest.targetCity), GetArealByCityName(sld.city))+3; //дней доехать даем с запасом
+			Map_CreateTrader(sld.cityShore, sld.quest.targetShore, sld.id, daysQty);
+			//заносим Id кэпа в базу нпс-кэпов
+			sTemp = sld.id;
+			NullCharacter.capitainBase.(sTemp).quest = "BlackBeard"; //идентификатор квеста
+			NullCharacter.capitainBase.(sTemp).questGiver = "none"; //запомним Id квестодателя для затирки в случае чего
+			NullCharacter.capitainBase.(sTemp).Tilte1 = "BlackBeard"; //заголовок квестбука
+			NullCharacter.capitainBase.(sTemp).Tilte2 = "BlackBeard"; //имя квеста в квестбуке
+			NullCharacter.capitainBase.(sTemp).checkTime = daysQty + 3;
+			NullCharacter.capitainBase.(sTemp).checkTime.control_day = GetDataDay();
+			NullCharacter.capitainBase.(sTemp).checkTime.control_month = GetDataMonth();
+			NullCharacter.capitainBase.(sTemp).checkTime.control_year = GetDataYear();
+			break;
+		}
+		
 		if (!CheckAttribute(pchar, "PGG_killed_known")) pchar.PGG_killed_known = 0;
 		if (CheckAttribute(pchar, "PGG_killed") && sti(pchar.PGG_killed) > 4 && pchar.PGG_killed != pchar.PGG_killed_known)
 		{

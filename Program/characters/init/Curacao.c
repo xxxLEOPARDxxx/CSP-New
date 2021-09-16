@@ -205,5 +205,26 @@ int CreateCuracaoCharacters(int n)
 	LAi_SetImmortal(ch, true);
 	n = n + 1;
 	
+	makeref(ch,Characters[n]);
+	ch.name 	= "Людвиг";
+	ch.lastname = "Ваан Бит хо Веен";
+	ch.id		= "GWIK_char";
+	ch.model    = "trader_11";
+	ch.sex      = "man";
+	ch.model.animation = "man";
+	ch.City = "Villemstad";
+	ch.location	= "GWIK";
+	ch.location.group = "sit";
+	ch.location.locator = "sit1";
+	ch.watchBoxes = true;
+	ch.NotRemoved = true;
+	ch.nation = HOLLAND;
+	ch.Dialog.Filename = "GWIK.c";
+	LAi_SetSitTypeNoGroup(ch);
+	LAi_group_MoveCharacter(ch, "HOLLAND_CITIZENS");
+	LAi_SetHP(ch, 200.0, 200.0);
+	LAi_SetImmortal(ch, true);
+	n = n + 1;
+	
 	return n;
 }

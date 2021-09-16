@@ -47,8 +47,8 @@ ChrBlockBase		{Блок}
 ChrAttackBase		{Выпад/Парирование}
 ChrAltAttackBase	{Удар/Круговой удар}
 ChrAltAttackBaseA	{Круговой удар}
-SoloParry			{Парирование}
-SoloFient			{Финт}
+SoloParry			{Парирование (уворот)}
+SoloFient			{Финт (контратака)}
 
 ChrFire				{Выстрелить}
 MushketHotkey		{Переключить (мушкет)/(сабля+пистолет)}
@@ -66,6 +66,8 @@ DlgDown				{Перейти к следующему варианту ответа в диалоге}
 DlgScrollUp			{Пролистать строки диалога вниз}
 DlgScrollDown		{Пролистать строки диалога вверх}
 Say					{Вызов интерфейса автозакупки казначеем}
+MapView				{Открыть атлас карт}
+Map_Best			{Открыть отличную карту}
 
 OfficersCharge	{Команда офицерам "Атаковать"}
 OfficersHold	{Команда офицерам "Стоять"}

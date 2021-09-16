@@ -438,6 +438,8 @@ void BLI_SetObjectData()
 	objIconsNote.1x16 = LanguageConvertString(idLngFile, "go_planthouse");
 	objIconsNote.1x17 = LanguageConvertString(idLngFile, "go_forthouse");
 	objIconsNote.1x18 = LanguageConvertString(idLngFile, "go_graveyard");
+	objIconsNote.1x19 = LanguageConvertString(idLngFile, "go_GWIK");
+	objIconsNote.1x20 = LanguageConvertString(idLngFile, "go_Inquisition");
 	// список команд
 	objLandInterface.Commands.Cancel.enable		= false;
 	objLandInterface.Commands.Cancel.picNum		= 1;
@@ -1343,6 +1345,35 @@ bool SetReloadIcons()
 					{
 						objLandInterface.UserIcons.(fastLocName).pic = 49;
 						objLandInterface.UserIcons.(fastLocName).selpic = 33;
+						objLandInterface.UserIcons.(fastLocName).tex = 0;
+					}
+					continue;
+				}
+				if (Locations[idxloc].islandId == "Curacao")
+				{
+					if (objLandInterface.UserIcons.(fastLocName).note == "Представительство ГВИК")
+					{
+						objLandInterface.UserIcons.(fastLocName).pic = 30;
+						objLandInterface.UserIcons.(fastLocName).selpic = 14;
+					}
+					continue;
+				}
+				if (Locations[idxloc].islandId == "Barbados")
+				{
+					if (objLandInterface.UserIcons.(fastLocName).note == "Дом управляющего плантацией")
+					{
+						objLandInterface.UserIcons.(fastLocName).pic = 50;
+						objLandInterface.UserIcons.(fastLocName).selpic = 34;
+						objLandInterface.UserIcons.(fastLocName).tex = 0;
+					}
+					continue;
+				}
+				if (Locations[idxloc].islandId == "Cuba")
+				{
+					if (objLandInterface.UserIcons.(fastLocName).note == "Инквизиция")
+					{
+						objLandInterface.UserIcons.(fastLocName).pic = 51;
+						objLandInterface.UserIcons.(fastLocName).selpic = 35;
 						objLandInterface.UserIcons.(fastLocName).tex = 0;
 					}
 				}

@@ -102,6 +102,25 @@ bool LoadLocation(ref loc)
 			SetMainCharacterToMushketer("", false);
 		}
 	}
+	if (loc.id == "Temple_h" && !CheckAttribute(pchar,"Janitor"))
+	{
+		pchar.quest.CleanUpGrandma.win_condition.l1 = "Location";
+		pchar.quest.CleanUpGrandma.win_condition.l1.location = "Temple_h";
+		pchar.quest.CleanUpGrandma.win_condition = "CleanUpGrandma";
+		pchar.quest.CleanGrandma.win_condition.l1 = "ExitFromLocation";
+		pchar.quest.CleanGrandma.win_condition.l1.location = pchar.location;
+		pchar.quest.CleanGrandma.win_condition = "CleanGrandma";
+		pchar.Janitor = true;
+	}
+	if (CheckAttribute(pchar,"ScamFanActive") && rand(9)==0 && !CheckAttribute(pchar,"ScamDestroyed") && loc.id != "FencingTown_ExitTown")
+	{
+		ref sld = CharacterFromID("ScamCharacter");
+		chrDisableReloadToLocation = true;
+		InterfaceStates.DisFastTravel = true;
+		LAi_SetActorTypeNoGroup(sld);
+		sld.dialog.currentnode = "CoolStory";
+		LAi_ActorDialog(sld, pchar, "", 4.0, 0);
+	}
 	PostEvent(EVENT_LOCATION_LOAD,0);
 
 	int i;

@@ -39,6 +39,9 @@ int LocationInitReefs(int n)
     Locations[n].models.always.Waterfall2.uvslide.v1 = 0.0;
 	Locations[n].models.always.Waterfall2.tech = "LocationWaterFall";
 	Locations[n].models.always.Waterfall2.level = 49;
+	locations[n].alwaysStorm = true; //живем в штормах
+	locations[n].storm = true;
+	locations[n].tornado = true;
 	
 	//Day
 	locations[n].models.day.charactersPatch = "MountainPathDMChest_patch_day";
@@ -120,7 +123,8 @@ int LocationInitReefs(int n)
 	locations[n].reload.l2.go = "Reefs_Chapter";
 	locations[n].reload.l2.emerge = "reload2";
 	locations[n].reload.l2.autoreload = "0";
-    locations[n].reload.l2.label = "Reefs_Chapter";
+    locations[n].reload.l2.label = "";
+	locations[n].reload.l2.disable = true;
 	
 	// locations[n].DisableOfficers = "1";
 	
@@ -136,13 +140,14 @@ int LocationInitReefs(int n)
 		sloc = "incasfire"+i;
 		locations[n].locators_radius.item.(sloc) = 1.5;
 	}
+	Locations[n].locators_radius.item.item1 = 1.5;
 	n = n + 1;
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////	Љапитул		//////////////////////////////////////////////////
+	////////////////////////////////////////	Капитул		//////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	locations[n].id = "Reefs_Chapter";
-	locations[n].id.label = "Reefs_Chapter";
+	locations[n].id.label = "";
 	locations[n].image = "Loading\inside\Reefs_Chapter_0.tga";
 	//Town sack
 	locations[n].type = "Reefs_Chapter";
@@ -173,6 +178,8 @@ int LocationInitReefs(int n)
 	locations[n].reload.l1.emerge = "reload2_back";
 	locations[n].reload.l1.autoreload = "0";
     locations[n].reload.l1.label = "DeckWithReefs";
+	
+	LAi_LocationFightDisable(&locations[n], true);
 	
 	// locations[n].reload.l2.name = "reload2";
 	// locations[n].reload.l2.go = "FortFrance_town";

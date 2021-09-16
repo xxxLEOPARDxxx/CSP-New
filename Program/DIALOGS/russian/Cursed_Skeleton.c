@@ -210,7 +210,7 @@ void ProcessDialogEvent()
 		break;
 		case "Exit_1":
 			NextDiag.CurrentNode = NextDiag.TempNode;
-			DeleteCharacter(npchar);
+			ChangeCharacterAddress(npchar, "none", "");
 			npchar.lifeday = 0;
 			DeleteAttribute(pchar, "cursed.Skullbought");
 			chrDisableReloadToLocation = false;

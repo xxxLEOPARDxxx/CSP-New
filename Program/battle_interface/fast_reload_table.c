@@ -49,7 +49,11 @@
 #define FRP_GRAVEYARD		18
 #define FRT_GRAVEYARD		0
 
+#define FRP_GWIK			19
+#define FRT_GWIK			0
 
+#define FRP_INQUISITION		20
+#define FRT_INQUISITION		0
 
 void initFastReloadTable()
 {
@@ -145,6 +149,10 @@ void initFastReloadTable()
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
 	curTable.l11.location = "Bridgetown_prison";
+	
+	curTable.l12.pic = FRP_PLANT_HOUSE;
+	curTable.l12.tex = FRT_PLANT_HOUSE;
+	curTable.l12.location = "Plantation_Sp1";
 
 	makearef(curTable,objFastReloadTable.table.PortRoyal);
 	// store
@@ -302,6 +310,10 @@ void initFastReloadTable()
 	curTable.l11.pic = FRP_GRAVEYARD;
 	curTable.l11.tex = FRT_GRAVEYARD;
 	curTable.l11.location = "Villemstad_Graveyard";
+	
+	curTable.l12.pic = FRP_GWIK;
+	curTable.l12.tex = FRT_GWIK;
+	curTable.l12.location = "GWIK";
 
 	makearef(curTable,objFastReloadTable.table.BasTer);
 	// store
@@ -390,6 +402,10 @@ void initFastReloadTable()
 	curTable.l10.pic = FRP_PRISON;
 	curTable.l10.tex = FRT_PRISON;
 	curTable.l10.location = "Santiago_prison";
+	
+	curTable.l11.pic = FRP_INQUISITION;
+	curTable.l11.tex = FRT_INQUISITION;
+	curTable.l11.location = "Santiago_Incquisitio";
 
  	makearef(curTable,objFastReloadTable.table.PuertoPrincipe);
 	// store

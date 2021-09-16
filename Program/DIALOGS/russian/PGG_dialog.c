@@ -154,6 +154,9 @@ void ProcessDialogEvent()
 		link.l1 = RandPhraseSimple("Как на счет дельца?", "У меня к тебе разговор...");
 		link.l1.go = "quest";
 
+		link.lgame = "Не хочешь развеяться?";
+		link.lgame.go = "Play_Game";
+		
 		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) > 49)
 		{
 //			Dialog.Text = RandPhraseSimple("Кого я вижу?!! Да это же " + GetFullName(pchar) + ". Что новенького?", "Как поживаете? Могу я быть чем-нибудь полезен?");

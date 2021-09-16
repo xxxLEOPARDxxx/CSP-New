@@ -19,7 +19,11 @@ void LAi_NPC_Equip(ref chr, int rank, bool isWeapons, bool isGun)
 	DeleteAttribute(chr, "perks.list"); // FIX 101104 убрать накопивщиеся умения
 	DelBakSkillAttr(chr); // fix
 	
-	if (chr.model.animation == "mushketer") return;
+	if (chr.model.animation == "mushketer")
+	{
+		LAi_NPC_EquipPerk(chr, "fantom");
+		return;
+	}
 	
 	if (CheckAttribute(chr, "quest.officertype"))
 	{

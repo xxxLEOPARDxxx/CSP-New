@@ -1074,7 +1074,7 @@ void BI_SetPossibleCommands()
 		//speak interface
 		BattleInterface.Commands.ImmediateDeath.enable	= bBettaTestMode; // boal cheat
 		BattleInterface.Commands.InstantBoarding.enable	= bBettaTestMode; // boal cheat
-		BattleInterface.Commands.Speak.enable			= bCanSpeak;
+		//BattleInterface.Commands.Speak.enable			= bCanSpeak;
 		//BattleInterface.Commands.Sneak.enable			= bCanSneak;
 
 		BattleInterface.Commands.Moor.enable			= bCanEnterToLand;

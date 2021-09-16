@@ -129,11 +129,23 @@ void ProcessDialogEvent()
 			CloseQuestHeader("BSPrologue");
 			DeleteAttribute(pchar, "BSStart")//Снимаем блокировку торгашей и ежемесячное начисление НЗГ
 			pchar.BSInProgress = true;
-			NPChar.Dialog.Filename = "Common_store.c";
-			NPChar.Dialog.CurrentNode = "Second time";
-			//NextDiag.TempNode = "Second time";
+			//NPChar.Dialog.Filename = "Common_store.c";
+			//NPChar.Dialog.CurrentNode = "Second time";
+			NextDiag.CurrentNode = "end_quest_loop";
 			DialogExit();
+			
+			//LAi_CharacterDisableDialog(npchar);
+			pchar.quest.BS_End_Prologue.win_condition.l1 = "ExitFromLocation";
+			pchar.quest.BS_End_Prologue.win_condition.l1.location = pchar.location;
+			pchar.quest.BS_End_Prologue.function = "BS_RestoreGatriTrader";
 		break;	
+		
+		case "end_quest_loop":
+			NextDiag.TempNode = "end_quest_loop";
+			dialog.text = "Мне от вас пока ничего не нужно, капитан. Можете идти.";
+			link.l2 = "Приятно слышать.";
+			link.l2.go = "exit";
+		break;
 		
 		case "BS_NPVK_12":
 			dialog.text = "Боюсь, я ничем не смогу помочь, вы сами навлекли на себя эти проблемы. Стоило выполнять моё поручение более расторопно\nДеньги уже давно уплачены, маховик запущен, и охотников нельзя остановить одним лишь щелчком пальцев. Но, я уверена, вы находчивый капитан и сможете выпутаться из любой передряги. Со своей стороны могу лишь пообщещать, что не отправлю к вам новых наёмников.";

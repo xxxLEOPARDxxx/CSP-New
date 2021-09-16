@@ -102,7 +102,8 @@ void ProcessDialogEvent()
 			AddMoneyToCharacter(pchar, -sti(Pchar.GenQuest.TreasureMoney));
 			GiveItem2Character(pchar, "map_full");
 			AddMoneyToCharacter(NPChar, sti(Pchar.GenQuest.TreasureMoney));
-			//Items_FindItem("map_full", &item);
+			Items_FindItem("map_full", &item);
+			if ( sti(item.MapTypeIdx) == -1 ) npchar.fakemap = 1; else npchar.fakemap = 0;
 			//FillMapForTreasure(item);
 			Diag.TempNode = "Temp_treasure";
 			npchar.LifeDay = 0; // продал и свалил, если дуэль, то продлится у него жизнь
@@ -112,8 +113,7 @@ void ProcessDialogEvent()
             dialog.Text = "Давай выпьем? И-ик... Хороший тут ром!";
 			Link.l1 = "Некогда!";
 			Link.l1.go = "exit";
-			ok = (GetCharacterItem(Pchar, "map_part1")>0)  || (GetCharacterItem(Pchar, "map_part2")>0);
-            if (GetCharacterItem(Pchar, "map_full") == 0 && !ok)
+            if (npchar.fakemap == "1")
             {
     			Link.l2 = "Ты продал мне фальшивку!!";
     			Link.l2.go = "Temp_treasure_1";

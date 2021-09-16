@@ -212,7 +212,7 @@ void ProcessDialogEvent()
 
 		case "Node_3":
 			bOk = makeint(pchar.reputation) < 11 || makeint(pchar.reputation) > 90;  
-			if(bOk || GetSummonSkillFromName(pchar, SKILL_LEADERSHIP) == 100 || CheckCharacterPerk(pchar, "Trustworthy") || CheckCharacterPerk(pchar, "SeaDogProfessional"))
+			if(bOk || GetSummonSkillFromName(pchar, SKILL_LEADERSHIP) == 100 || CheckCharacterPerk(pchar, "Trustworthy") || CheckOfficersPerk(pchar, "SeaDogProfessional"))
 			{
 				dialog.text = RandPhraseSimple("Вот чёрт! Ладно, бывай. И не вздумай шум поднимать.", 
 					"На этот раз тебе повезло, но в следующий - будешь долж"+ GetSexPhrase("ен","на") +" вдвойне! Не забудь напомнить, хе-хе.");
@@ -246,7 +246,7 @@ void ProcessDialogEvent()
 		
 		case "CheckSkills":
 			bool z_ok = (GetCharacterSkillToOld(Pchar, "Fencing") >= 7) && (makeint(Pchar.Rank) >= 8) && (Makeint(PChar.reputation) <= 30);
-			if (z_ok || CheckCharacterPerk(pchar, "SeaDogProfessional"))
+			if (z_ok || CheckOfficersPerk(pchar, "SeaDogProfessional"))
 			{
 				Diag.TempNode = "GetLost";
 				dialog.text = LinkRandPhrase(RandPhraseSimple("Эй, не нервничай так, "+ GetSexPhrase("приятель","подруга") +"! Я пошутил! Иди своей дорогой!",

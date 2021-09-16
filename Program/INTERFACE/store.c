@@ -1023,7 +1023,7 @@ void Autotrade_This()
 	EndTooltip();
 }
 
-int Autotrade_Goods(ref rChar)
+void Autotrade_Goods(ref rChar)
 {
 	int i, iNeedGood, iCost, iStoreGoodQty;
 	ref rGood, rTreasurer;
@@ -1050,7 +1050,7 @@ int Autotrade_Goods(ref rChar)
 
 		if(iCurGoodQty == iNeedGoodsQty) continue; // ничего не нужно
 
-		if (CheckAttribute(pchar,"SellRestriction"))//меняю логику - если есть атрибут, то запрет выключен
+		if (CheckAttribute(rChar,"TransferGoods.SellRestriction"))
 		{
 			if(iCurGoodQty > iNeedGoodsQty) // продаем
 			{

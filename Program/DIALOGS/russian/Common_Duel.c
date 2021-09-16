@@ -358,6 +358,237 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
         AddDialogExitQuest("GoAway_PGGHunters_Land"); 
         DialogExit();
         break;
+		
+	case "Play_Game":
+		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) > 40)
+		{
+			dialog.text = "Что предлагаешь?";
+			link.l1 = "Перекинемся в карты?";
+			link.l1.go = "Card_Game";
+			link.l2 = "Погремим костями?";
+			link.l2.go = "Dice_Game";
+			link.l10 = "Прошу простить, но меня ждут дела.";
+			link.l10.go = "exit";
+		}
+		else
+		{
+			dialog.text = "Может и хочу, но не с тобой";
+			link.l10 = "Как знаешь, дело твое.";
+			link.l10.go = "exit";
+		}
+	break;
+	// карты -->
+	case "Card_Game":
+		if (isBadReputation(pchar, 30) || GetCharacterSkillToOld(pchar, SKILL_LEADERSHIP) < rand(3))
+		{
+			SetNPCQuestDate(npchar, "Card_date_Yet");
+			dialog.text = "Кыш отсюда, я не в настроении.";
+			link.l1 = "Как хочешь.";
+			link.l1.go = "exit";
+		}
+		else
+		{
+			dialog.text = "Ну давай, сыграем...";
+			link.l1 = "Замечательно.";
+			link.l1.go = "Cards_begin";
+			link.l2 = "По каким правилам играем?";
+			link.l2.go = "Cards_Rule";
+		}
+	break;
+
+	case "Cards_Rule":
+		dialog.text = CARDS_RULE;
+		link.l1 = "Что ж, начнем!";
+		link.l1.go = "Cards_begin";
+		link.l3 = "Нет, это не для меня...";
+		link.l3.go = "exit";
+	break;
+
+	case "Cards_begin":
+		Dialog.text = "Давай определимся со ставкой.";
+		link.l1 = "Играем по 5000 монет.";
+		link.l1.go = "Cards_Node_100";
+		link.l2 = "Давай по 20000 золотых.";
+		link.l2.go = "Cards_Node_500";
+		link.l3 = "Пожалуй, мне пора.";
+		link.l3.go = "exit";
+	break;
+
+	case "Cards_Node_100":
+		if (sti(pchar.Money) < 15000)
+		{
+			dialog.text = "Шутить изволишь? У тебя нет денег!";
+			link.l1 = "Бывает.";
+			link.l1.go = "exit";
+			break;
+		}
+		if (sti(npchar.Money) < 15000)
+		{
+			dialog.text = "Хватит с меня, а то на содержание корабля не останется...";
+			link.l1 = "Жаль.";
+			link.l1.go = "exit";
+			break;
+		}
+		dialog.text = "Хорошо, играем по 5000 монет.";
+		link.l1 = "Начали!";
+		link.l1.go = "Cards_begin_go";
+		pchar.GenQuest.Cards.npcharIdx = npchar.index;
+		pchar.GenQuest.Cards.iRate     = 5000;
+		pchar.GenQuest.Cards.SitType   = false;
+	break;
+
+	case "Cards_Node_500":
+		if (sti(pchar.Money) < 60000)
+		{
+			dialog.text = "Шутить изволишь? У тебя нет денег на такие ставки!";
+			link.l1 = "Будут!";
+			link.l1.go = "exit";
+			break;
+		}
+		if (sti(npchar.Money) < 60000)
+		{
+			dialog.text = "Нет, такие ставки не доведут до добра.";
+			link.l1 = "Как угодно.";
+			link.l1.go = "exit";
+			break;
+		}
+		dialog.text = "Хорошо, играем по 20000 монет.";
+		link.l1 = "Начали!";
+		link.l1.go = "Cards_begin_go";
+		pchar.GenQuest.Cards.npcharIdx = npchar.index;
+		pchar.GenQuest.Cards.iRate     = 20000;
+		pchar.GenQuest.Cards.SitType   = false;
+	break;
+
+	case "Cards_begin_go":
+		NextDiag.CurrentNode = NextDiag.TempNode;
+		DialogExit();
+		LaunchCardsGame();
+	break;
+	// карты <--
+	//  Dice -->
+	case "Dice_Game":
+		if (isBadReputation(pchar, 30) || GetCharacterSkillToOld(pchar, SKILL_LEADERSHIP) < rand(3))
+		{
+			SetNPCQuestDate(npchar, "Dice_date_Yet");
+			dialog.text = "Брысь отсюда, я не в настроении.";
+			link.l1 = "Как вам будет угодно.";
+			link.l1.go = "exit";
+		}
+		else
+		{
+			if (CheckNPCQuestDate(npchar, "Dice_date_begin"))
+			{
+				dialog.text = "Давай! Отдых никогда не вредил здоровью... только кошельку...";
+				link.l1 = "Замечательно.";
+				link.l1.go = "Dice_begin";
+				link.l2 = "По каким правилам игра?";
+				link.l2.go = "Dice_Rule";
+			}
+			else
+			{
+				dialog.text = "Нет, с меня хватит на сегодня. Дела ждут.";
+				link.l1 = "Как вам будет угодно.";
+				link.l1.go = "exit";
+			}
+		}
+	break;
+
+	case "Dice_Rule":
+		dialog.text = DICE_RULE;
+		link.l1 = "Что ж, начнем!";
+		link.l1.go = "Dice_begin";
+		link.l3 = "Нет, это не для меня...";
+		link.l3.go = "exit";
+	break;
+
+	case "Dice_begin":
+		Dialog.text = "Давай определимся со ставкой.";
+		link.l1 = "Играем по 2000 монет за кубик.";
+		link.l1.go = "Dice_Node_100";
+		link.l2 = "Давай по 10000 золотых за кубик.";
+		link.l2.go = "Dice_Node_500";
+		link.l3 = "Пожалуй, мне пора.";
+		link.l3.go = "exit";
+	break;
+
+	case "Dice_Node_100":
+		if (!CheckDiceGameSmallRate())
+		{
+			dialog.text = "О тебе ходит слава непревзойденн"+ GetSexPhrase("ого шулера","ой каталы") +". Я не буду с тобой играть в кости вообще.";
+			link.l1 = "Все врут! Ну и не нужно.";
+			link.l1.go = "exit";
+			break;
+		}
+
+		if (sti(pchar.Money) < 15000)
+		{
+			dialog.text = "Шутить изволишь? У тебя нет денег!";
+			link.l1 = "Бывает.";
+			link.l1.go = "exit";
+			break;
+		}
+		if (sti(npchar.Money) < 15000)
+		{
+			dialog.text = "Все! Нужно завязывать с играми, а то запишут в растратчики и спишут на берег...";
+			link.l1 = "Жаль.";
+			link.l1.go = "exit";
+			break;
+		}
+		dialog.text = "Хорошо, играем по 2000 монет.";
+		link.l1 = "Начали!";
+		link.l1.go = "Dice_begin_go";
+		pchar.GenQuest.Dice.npcharIdx = npchar.index;
+		pchar.GenQuest.Dice.iRate     = 2000;
+		pchar.GenQuest.Dice.SitType   = false;
+	break;
+
+	case "Dice_Node_500":
+		if (!CheckDiceGameSmallRate())
+		{
+			dialog.text = "О тебе ходит слава непревзойденн"+ GetSexPhrase("ого шулера","ой каталы") +". Я не буду с тобой играть в кости вообще.";
+			link.l1 = "Все врут! Ну и не нужно.";
+			link.l1.go = "exit";
+			break;
+		}
+		if (!CheckDiceGameBigRate())
+		{
+			dialog.text = "Я слышал, что ты очень хорошо играешь. Я не буду играть с тобой по таким большим ставкам.";
+			link.l1 = "Давай по более низким ставкам?";
+			link.l1.go = "Dice_Node_100";
+			link.l2 = "Прости, мне пора.";
+			link.l2.go = "exit";
+			break;
+		}
+
+		if (sti(pchar.Money) < 60000)
+		{
+			dialog.text = "Шутить изволишь? У тебя нет столько денег!";
+			link.l1 = "Будут!";
+			link.l1.go = "exit";
+			break;
+		}
+		if (sti(npchar.Money) < 60000)
+		{
+			dialog.text = "Нет, такие ставки не доведут до добра.";
+			link.l1 = "Как угодно.";
+			link.l1.go = "exit";
+			break;
+		}
+		dialog.text = "Хорошо, играем по 10000 монет за кубик.";
+		link.l1 = "Начали!";
+		link.l1.go = "Dice_begin_go";
+		pchar.GenQuest.Dice.npcharIdx = npchar.index;
+		pchar.GenQuest.Dice.iRate     = 10000;
+		pchar.GenQuest.Dice.SitType   = false;
+	break;
+
+	case "Dice_begin_go":
+		SetNPCQuestDate(npchar, "Dice_date_begin");
+		NextDiag.CurrentNode = NextDiag.TempNode;
+		DialogExit();
+		LaunchDiceGame();
+	break;
 	}
 	
 }

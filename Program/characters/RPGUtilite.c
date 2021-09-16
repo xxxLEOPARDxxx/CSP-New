@@ -606,6 +606,9 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 		if(sti(pchar.questTemp.traumacount) >= 50) UnlockAchievement("AchTravma", 1);
 		if(sti(pchar.questTemp.traumacount) >= 150) UnlockAchievement("AchTravma", 2);
 		if(sti(pchar.questTemp.traumacount) >= 300) UnlockAchievement("AchTravma", 3);
+		if(sti(pchar.rank) == 10) UnlockAchievement("rank", 1); // 10 уровень
+		if(sti(pchar.rank) == 25) UnlockAchievement("rank", 2); // 25 уровень
+		if(sti(pchar.rank) == 40) UnlockAchievement("rank", 3); // 40 уровень	
 	}
 	
     // трем кэш
@@ -641,7 +644,6 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 	{
 		if (_chref.model.animation == "man") _chref.model.animation = "man_fast";
 		// if (_chref.model.animation == "man_A") _chref.model.animation = "man_A_fast";
-		if (_chref.model.animation == "man2_ab") _chref.model.animation = "man2_ab_fast";
 		if (_chref.model.animation == "Jessika") _chref.model.animation = "Jessika_fast";
 		if (_chref.model.animation == "YokoDias") _chref.model.animation = "YokoDias_fast";
 		if (_chref.model.animation == "Milenace") _chref.model.animation = "Milenace_fast";
@@ -739,10 +741,6 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
             AddMsgToCharacter(_chref,MSGICON_LEVELUP);
             Log_SetStringToLog(XI_ConvertString("Level Up"));
             PlayStereoSound("interface\new_level.wav");
-		// Достижение за уровень
-		if(sti(_chref.rank) == 10) UnlockAchievement("rank", 1); // 10 уровень
-		if(sti(_chref.rank) == 25) UnlockAchievement("rank", 2); // 25 уровень
-		if(sti(_chref.rank) == 40) UnlockAchievement("rank", 3); // 40 уровень													  
         }
 		if (sti(_chref.index) == GetMainCharacterIndex())
 		{
@@ -1218,6 +1216,9 @@ int GetCharacterSkillSimple(ref _refCharacter, string skillName)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_PISTOL, "glasses", -5);				// {Санта-Мария}						(+15 к навигации)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_ACCURACY, "glasses", -5);				// {Санта-Мария}						(+15 к навигации)
     	skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_CANNONS, "glasses", -5);				// {Санта-Мария}						(+15 к навигации)
+		skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_COMMERCE, "PDM_PJ_BsRL", 5);			// {Бутылка с розовой ленточкой}			(+5 везение, +5 торговля, -5 скрытность)
+		skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_FORTUNE, "PDM_PJ_BsRL", 5);			// {Бутылка с розовой ленточкой}			(+5 везение, +5 торговля, -5 скрытность)
+		skillN = skillN + SetCharacterSkillByItemEquipped(_refCharacter, skillName, SKILL_SNEAK, "PDM_PJ_BsRL", -5);			// {Бутылка с розовой ленточкой}			(+5 везение, +5 торговля, -5 скрытность)
 		///////////// Иконки справа (Тотемы ацтеков/бижутерия) <--
 		
 		///////////// Дют бафы/дебафы из инвентаря -->
@@ -1660,7 +1661,8 @@ int Statistic_AddValue(ref _chref, string _attrName, int _add) // set and get(_a
 	{
 		int monstersall = sti(_chref.Statistic.Monster_s)+sti(_chref.Statistic.Monster_g);
 		int killsall = sti(_chref.Statistic.Solder_s)+sti(_chref.Statistic.Citizen_s)+sti(_chref.Statistic.Warrior_s)+sti(_chref.Statistic.Monster_s)+sti(_chref.Statistic.Solder_g)+sti(_chref.Statistic.Citizen_g)+sti(_chref.Statistic.Warrior_g)+sti(_chref.Statistic.Monster_g);
-		int killshipsall = sti(_chref.Statistic.KillShip_1)+sti(_chref.Statistic.KillShip_2)+sti(_chref.Statistic.KillShip_3)+sti(_chref.Statistic.KillShip_4)+sti(_chref.Statistic.KillShip_5)+sti(_chref.Statistic.KillShip_6)+sti(_chref.Statistic.KillShip_7)+sti(_chref.Statistic.AbordShip_1)+sti(_chref.Statistic.AbordShip_2)+sti(_chref.Statistic.AbordShip_3)+sti(_chref.Statistic.AbordShip_4)+sti(_chref.Statistic.AbordShip_5)+sti(_chref.Statistic.AbordShip_6)+sti(_chref.Statistic.AbordShip_7)+sti(_chref.Statistic.KillAbordShip_1)+sti(_chref.Statistic.KillAbordShip_2)+sti(_chref.Statistic.KillAbordShip_3)+sti(_chref.Statistic.KillAbordShip_4)+sti(_chref.Statistic.KillAbordShip_5)+sti(_chref.Statistic.KillAbordShip_6)+sti(_chref.Statistic.KillAbordShip_7);
+		int aboardships = sti(_chref.Statistic.AbordShip_1)+sti(_chref.Statistic.AbordShip_2)+sti(_chref.Statistic.AbordShip_3)+sti(_chref.Statistic.AbordShip_4)+sti(_chref.Statistic.AbordShip_5)+sti(_chref.Statistic.AbordShip_6)+sti(_chref.Statistic.AbordShip_7)+sti(_chref.Statistic.KillAbordShip_1)+sti(_chref.Statistic.KillAbordShip_2)+sti(_chref.Statistic.KillAbordShip_3)+sti(_chref.Statistic.KillAbordShip_4)+sti(_chref.Statistic.KillAbordShip_5)+sti(_chref.Statistic.KillAbordShip_6)+sti(_chref.Statistic.KillAbordShip_7);
+		int killshipsall = sti(_chref.Statistic.KillShip_1)+sti(_chref.Statistic.KillShip_2)+sti(_chref.Statistic.KillShip_3)+sti(_chref.Statistic.KillShip_4)+sti(_chref.Statistic.KillShip_5)+sti(_chref.Statistic.KillShip_6)+sti(_chref.Statistic.KillShip_7)+aboardships;
 		
 		/*
 		string statshipinfo;
@@ -1690,6 +1692,8 @@ int Statistic_AddValue(ref _chref, string _attrName, int _add) // set and get(_a
 		if(killshipsall >= 10) UnlockAchievement("ship_kills", 1);
 		if(killshipsall >= 35) UnlockAchievement("ship_kills", 2);
 		if(killshipsall >= 70) UnlockAchievement("ship_kills", 3);
+		
+		if(!CheckCharacterPerk(pchar,"AboardCollector") && killsall >= 200 && aboardships >= 20) {SetCharacterPerk(pchar, "AboardCollector"); log_info("Вы овладели ''Мародёрством''.");}
 	}
 	// <---								
     return sti(_chref.Statistic.(_attrName));
@@ -1914,13 +1918,12 @@ void SetNewDayHealthMax()
 
 void AddCharacterHealth(ref mainChr, float add)
 {
+	//Lipsar квест История давней дружбы
+	if(CheckAttribute(PChar,"Luke.BadPoison")) return;
     float maxhp = stf(mainChr.chr_ai.hp_max);
     int   remHP = GetHealthNum(mainChr);
 
     mainChr.Health.HP = makefloat(stf(mainChr.Health.HP) + add);
-
-	//Lipsar квест История давней дружбы
-	if(CheckAttribute(PChar,"Luke.BadPoison")) return;
     if (stf(mainChr.Health.HP) < 1)
     {
         mainChr.Health.HP = 1.0;

@@ -133,6 +133,7 @@ void WorldSituationsUpdate()
 		case 6:
 			
 			UpdateCrewExp();  // изменение опыта команды
+			CheckTraining();//треня оффов
 		break;
 		
 		case 7:
@@ -156,8 +157,6 @@ void WorldSituationsUpdate()
 		
 		case 10:
 			//
-			
-		break;
 		break;
 	}
 
@@ -207,7 +206,7 @@ void Tut_Continue()
 		switch (rand(1))
 		{
 			case 0:
-				sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Skelt", "man", "man2_ab", 1, PIRATE, 0, false));
+				sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Skelt", "man", "man", 1, PIRATE, 0, false));
 				sld.name 	= "T-800";
 				sld.lastname 	= "";
 				sld.Dialog.CurrentNode = "Alt_start";
@@ -217,7 +216,7 @@ void Tut_Continue()
 			case 1:
 				StopSound(0,0);
 				PlayStereoOGG("Music\necroTown.ogg");
-				sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Skel_5", "man", "man2_ab", 1, PIRATE, 0, false));
+				sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Skel_5", "man", "man", 1, PIRATE, 0, false));
 				sld.name 	= "Некромант";
 				sld.lastname 	= "Сандро";
 				sld.Dialog.CurrentNode = "Alt_start2";
@@ -542,4 +541,19 @@ void CheckTrauma() //тяжёлая травма - Lipsar и Gregg
 			CheckAndSetOverloadMode(pchar);
         }
     }
+}
+
+void CheckTraining()//треня офов
+{
+	ref chref;
+	for(i=1; i<MAX_CHARACTERS; i++)
+	{
+		makeref(chref, Characters[i]);
+		if (CheckAttribute(chref, "OfficerInStockMan"))
+		{
+			string skilltype = skillz[rand(13)];
+			log_testinfo(chref.name+" "+skilltype);
+			AddCharacterExpToSkill(chref, skilltype, sti(chref.skill.(skilltype))+sti(chref.rank)+15+(GetCharacterSPECIALSimple(chref,SPECIAL_I)*2));
+		}
+	}
 }

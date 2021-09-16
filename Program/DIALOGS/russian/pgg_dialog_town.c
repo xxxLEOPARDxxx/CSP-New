@@ -163,6 +163,10 @@ void ProcessDialogEvent()
 		Dialog.text = RandPhraseSimple("Что тебе надо " + GetFullName(pchar) + "?", "А, это ты... Гуляй мимо, я не в настроении...");
 		link.l1 = RandPhraseSimple("Как на счет дельца?", "У меня к тебе разговор...");
 		link.l1.go = "quest";
+		
+		link.lgame = "Не хочешь развеяться?";
+		link.lgame.go = "Play_Game";
+		
 		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) > 49)
 		{
 			Dialog.Text = LinkRandPhrase("... Кошки впились в борт нам! По местам стоять! И морскому дьяволу тут не устоять!..", 

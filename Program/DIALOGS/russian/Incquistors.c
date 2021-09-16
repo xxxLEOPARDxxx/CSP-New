@@ -34,7 +34,17 @@ void ProcessDialogEvent()
 							RandPhraseSimple("Негоже находится в праздности самому и отвлекать других от работы. Более я не произнесу ни слова...", ""+ GetSexPhrase("Сын мой","Дочь моя") +", я не желаю вести бессмысленные разговоры. Тебе я не скажу более ни слова."), "block", 1, npchar, Dialog.CurrentNode);
 				link.l1 = HeroStringReactionRepeat(RandPhraseSimple("Да так, заскочил"+ GetSexPhrase("","а") +" по делам, святой отец...", "Все по делам, падре. Тружусь, аки пчела - "+ GetSexPhrase("весь","вся") +" в заботах..."), 
 							"Да нет, святой отец...", "Нет, падре, просто хотел"+ GetSexPhrase("","а") +" поболтать...", RandPhraseSimple("Хм...", "Ну, как знаете, святой отец..."), npchar, Dialog.CurrentNode);
-				link.l1.go = DialogGoNodeRepeat("exit", "none", "none", "NoMoreTalkExit", npchar, Dialog.CurrentNode);				
+				link.l1.go = DialogGoNodeRepeat("exit", "none", "none", "NoMoreTalkExit", npchar, Dialog.CurrentNode);
+				if (CheckAttribute(pchar,"GiantEvilSkeleton") && CheckAttribute(pchar,"MalteseInfo") && !CheckAttribute(pchar,"MalteseOrder"))
+				{
+					link.l2 = "Святой отец, я хотел"+ GetSexPhrase("","а") +" сообщить вам о том, что я посетил"+ GetSexPhrase("","а") +" риф Скелета и уничтожил"+ GetSexPhrase("","а") +" находящуюся там нежить. Может мне полагается какая-нибудь награда?";
+					link.l2.go = "Maltese";
+					if (CheckAttribute(pchar,"MalteseOrderOnHold"))
+					{ 
+						link.l2 = "Я хочу снова поговорить о рифе Скелета.";
+						link.l2.go = "Maltese_5";
+					}
+				}
 			}
 			if (CheckAttribute(npchar, "protector.CheckAlways")) //гарды на камерах
 			{
@@ -133,6 +143,83 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			AddMoneyToCharacter(pchar, 10000);
 			ChangeCharacterReputation(pchar, -10);
+		break;
+		
+//**************************** запил Капитула ********************************
+		case "Maltese":
+			dialog.text = "Это очень хорошая новость, "+ GetSexPhrase("сын мой","дочь моя") +". Инквизиция давно хотела создать новую базу где-то на архипелаге. И заброшенный остров, пользующийся дурной славой, идеально подойдёт для этого.";
+			link.l1 = "Так мне полагается какая-нибудь награда?";
+			link.l1.go = "Maltese_2";
+		break;
+		
+		case "Maltese_2":
+			dialog.text = "Мы можем выплатить вам миллион пиастров в награду. Но у нас есть и другое предложение. Не желаете выслушать?";
+			link.l1 = "И что же это?";
+			link.l1.go = "Maltese_3";
+		break;
+		
+		case "Maltese_3":
+			dialog.text = "Если вы самостоятельно оплатите постройку, то мы назначим вас руководителем этой структуры. И предоставим своих специалистов для обучения рядового и офицерского состава.";
+			link.l1 = "Каковы будут мои обязанности?";
+			link.l1.go = "Maltese_4";
+		break;
+		case "Maltese_4":
+			dialog.text = "Ваша цель - следить, чтобы на базу не нападала нежить. И в случае, если это произойдёт - защитить её.";
+			link.l1 = "Звучит заманчиво... Но я так полагаю, что цена вопроса - миллион пиастров?";
+			link.l1.go = "Maltese_5";
+		break;
+		
+		case "Maltese_5":
+			if (!CheckAttribute(pchar,"MalteseOrderOnHold")) dialog.text = "Абсолютно точно. Ну так что скажете?";
+			else dialog.text = "И что же вы скажете?";
+			if (sti(pchar.money)>=1000000)
+			{
+				link.l1 = "Золото девать всё равно некуда, а условия меня устраивают. Держите, вот миллион пиастров.";
+				link.l1.go = "Maltese_6";
+			}
+			link.l2 = "В данный момент я не располагаю такой суммой.";
+			link.l2.go = "Maltese_51";
+			link.l3 = "Я всё же не хочу брать на себя такую ответственность. Я возьму миллион пиастров.";
+			link.l3.go = "Maltese_no";
+		break;
+		
+		case "Maltese_6":
+			AddMoneyToCharacter(pchar, -1000000);
+			dialog.text = "Рад, что вы согласились. Постройка Капитула (а именно так будет названа эта структура) ориентировочно будет завершена через 1 месяц. Как пройдёт время, отправляйтесь в бухту Дьявола и ищите вход там.";
+			link.l1 = "Как придёт время - обязательно.";
+			link.l1.go = "Maltese_build";
+		break;
+		
+		case "Maltese_build":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			pchar.MalteseOrder = true;
+			SetTimerFunction("BuildMalteseOrder", 0, 0, 30);
+		break;
+		
+		case "Maltese_no":
+			AddMoneyToCharacter(pchar, 1000000);
+			dialog.text = "Это ваше право. Держите, вот ваш миллион.";
+			link.l1 = "Благодарю вас. Мне пора.";
+			link.l1.go = "Maltese_nofix";
+		break;
+		
+		case "Maltese_nofix":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			pchar.MalteseOrder = true;
+		break;
+		
+		case "Maltese_51":
+			dialog.text = "Хорошо. Как соберёте нужную сумму или примете другое решение - поговорите с любым из присутствующих здесь.";
+			link.l1 = "Мне пора.";
+			link.l1.go = "Maltese_52";
+		break;
+		
+		case "Maltese_52":
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+			pchar.MalteseOrderOnHold = true;
 		break;
 	}
 }

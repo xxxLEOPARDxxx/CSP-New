@@ -462,7 +462,32 @@ void CreateLostShipsCity(aref loc)
 
 void CreatPlantation(aref loc)
 {
-
+	if (loc.id == "Plantation_Sp1")
+	{
+		bool ok = false;
+		if (CheckAttribute(Pchar,"questTemp.CapBloodLine") && Pchar.questTemp.CapBloodLine == false) ok = true;
+		if (startHeroType != 1 || ok)
+		{
+			if (!CheckAttribute(pchar,"AlreadyPlantRuler"))
+			{
+				ref ch = GetCharacter(NPC_GenerateCharacter("PlantRuler", "off_eng_"+(rand(1)+1), "man", "man", 30, ENGLAND, 1, true));
+				ch.greeting = "soldier_common";
+				ch.name 	= "Джон";
+				ch.lastname = "Синс";
+				ch.City = "Bridgetown";
+				ch.Dialog.Filename = "PlantRuler.c";
+				ch.dialog.currentnode   = "Meet";
+				LAi_SetCitizenType(ch);
+				LAi_group_MoveCharacter(ch, "ENGLAND_CITIZENS");
+				LAi_SetImmortal(ch, true);
+				DeleteAttribute(ch,"lifeDay");
+				pchar.AlreadyPlantRuler = true;
+				ch.SlavesLimit = 1000;
+				ChangeCharacterAddressGroup(ch, pchar.location, "goto",  "goto1");
+			}
+		}
+		return;
+	}
     if (loc.id != "Bridgetown_Plantation") return;
     if(LAi_IsCapturedLocation) // fix нефиг грузить, когда город трупов или боевка
 	{
@@ -527,8 +552,9 @@ void CreatPlantation(aref loc)
         iMassive = rand(22);
         if (model[iMassive] != "")
         {
-            sAnime = "man2"
-            if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAnime = "man";
+            sAnime = "man"
+            /* if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAnime = "man"; */
+			
             chr = GetCharacter(NPC_GenerateCharacter("Slave_"+i, model[iMassive], "man", sAnime, 7, ENGLAND, 2, false));
             //chr.dialog.Filename = "Pearl_dialog.c";
             chr.dialog.filename = "Quest\CapBloodLine\questNPC.c";
@@ -577,29 +603,6 @@ void CreatPlantation(aref loc)
 		chr.dialog.filename = "Common_Soldier.c";
 		chr.dialog.currentnode = "first time";   
 		ChangeCharacterAddressGroup(chr, pchar.location, "soldiers", "soldier1");
-		
-		chr = GetCharacter(NPC_GenerateCharacter("GenChar_", sType, "man", "mushketer", sti(pchar.rank), iNation, 2, false));
-		chr.id = "GenChar_" + chr.index;	
-		chr.reputation = (1 + rand(44) + rand(44));// репа всем горожанам
-		chr.City = Colonies[iColony].id;
-        chr.CityType = "soldier";
-		chr.greeting = "soldier_common";
-		chr.MusketerDistance = 0;
-		LAi_SetLoginTime(chr, 6.0, 23.0); //а ночью будет беготня от патруля :)
-
-		LAi_SetPatrolType(chr);
-        if (sti(Colonies[iColony].HeroOwn) == true)
-		{
-			LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER_OWN);
-			chr.greeting = "pirat_guard";
-		}
-		else
-		{
-			LAi_group_MoveCharacter(chr, slai_group);
-		}
-		chr.dialog.filename = "Common_Soldier.c";
-		chr.dialog.currentnode = "first time";   
-		ChangeCharacterAddressGroup(chr, pchar.location, "soldiers", "soldier2");
 	}
 	// солдаты <--
 	// патруль -->

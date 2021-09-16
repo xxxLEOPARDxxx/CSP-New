@@ -1,6 +1,6 @@
 int iCheckTypeCount = 0;
 int iCheckDefenceTypeCount = 0;
-int iCheckSaberTypeCount = 0;
+int iCheckSaberTypeCount = 1;
 int iCheckEnemyLevelCount = 0;
 int iCheckEnablePotionCount = 0;
 int iCheckEnableFoodCount = 0;
@@ -229,14 +229,14 @@ void ChangeSaberType(bool bLeft)
 		iCheckSaberTypeCount++;
 	}
 	
-	if(iCheckSaberTypeCount < 0)
+	if(iCheckSaberTypeCount < 1)
 	{
 		iCheckSaberTypeCount = 15;
 	}
 	
 	if(iCheckSaberTypeCount > 15)
 	{
-		iCheckSaberTypeCount = 0;
+		iCheckSaberTypeCount = 1;
 	}
 	
 	SetEquipmentInformation();
@@ -453,7 +453,6 @@ string GetSaberNameFromCount()
 {
 	switch(iCheckSaberTypeCount)
 	{
-		case 0: return "blade5"; break;
 		case 1: return "blade1"; break;
 		case 2: return "blade4"; break;
 		case 3: return "blade6"; break;

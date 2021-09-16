@@ -1,6 +1,7 @@
 int iCheckBattleType = 0;
 int iCheckBattleSaberType = 0;
 int iCheckOddsPairs = 1;
+int iCheckSaberTypeCount = 1;
 
 int idLngFile = 0;
 			    	
@@ -245,23 +246,47 @@ void CheckOddsPairs(bool bLeft)
 
 void CheckBattleSaberType(bool bLeft)
 {
-	if(bLeft)
+	if (iCheckBattleType == 2)
 	{
-		iCheckBattleSaberType--;
+		if(bLeft)
+		{
+			iCheckSaberTypeCount--;
+		}
+		else
+		{
+			iCheckSaberTypeCount++;
+		}
+		
+		if(iCheckSaberTypeCount < 1)
+		{
+			iCheckSaberTypeCount = 18;
+		}
+		
+		if(iCheckSaberTypeCount > 18)
+		{
+			iCheckSaberTypeCount = 1;
+		}
 	}
 	else
 	{
-		iCheckBattleSaberType++;
-	}
-	
-	if(iCheckBattleSaberType > 2)
-	{
-		iCheckBattleSaberType = 0;
-	}
-	
-	if(iCheckBattleSaberType < 0)
-	{
-		iCheckBattleSaberType = 2;
+		if(bLeft)
+		{
+			iCheckBattleSaberType--;
+		}
+		else
+		{
+			iCheckBattleSaberType++;
+		}
+		
+		if(iCheckBattleSaberType > 2)
+		{
+			iCheckBattleSaberType = 0;
+		}
+		
+		if(iCheckBattleSaberType < 0)
+		{
+			iCheckBattleSaberType = 2;
+		}
 	}
 	
 	SetEquipmentInformation();
@@ -1038,11 +1063,26 @@ string GetSaberName()
 		case 2:
 			if(CheckAttribute(PChar, "Arena.Tournament.Saber"))
 			{
-				switch(iCheckBattleSaberType)
+				switch(iCheckSaberTypeCount)
 				{
-					case 0: sSaber = PChar.Arena.Tournament.Saber.Light; break;
-					case 1: sSaber = PChar.Arena.Tournament.Saber.Saber; break;
-					case 2: sSaber = PChar.Arena.Tournament.Saber.Heavy; break;
+					case 1: return "blade6"; break;
+					case 2: return "blade9"; break;
+					case 3: return "blade22"; break;
+					case 4: return "blade37"; break;
+					case 5: return "blade14"; break;
+					case 6: return "blade26"; break;
+					case 7: return "blade7"; break;
+					case 8: return "blade18"; break;
+					case 9: return "blade31"; break;
+					case 10: return "blade46"; break;
+					case 11: return "blade30"; break;
+					case 12: return "blade25"; break;
+					case 13: return "blade8"; break;
+					case 14: return "blade16"; break;
+					case 15: return "blade21"; break;
+					case 16: return "topor2"; break;
+					case 17: return "blade33"; break;
+					case 18: return "blade28"; break;
 				}
 				return sSaber;
 			}
@@ -1505,6 +1545,14 @@ void ArenaStartTournament()
 {
 	int iStartCost = sti(PChar.Arena.Tournament.Money) / 8;
 	AddMoneyToCharacter(PChar, -iStartCost);
+	
+	idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+	pchar.Arena.TournamentWeapon = GetSaberName();
+	ref rSaber = &Items[FindItem(pchar.Arena.TournamentWeapon)];
+	string sSaberName = LanguageConvertString(idLngFile, rSaber.name);
+	log_info("Выбранное для турнира оружие: "+sSaberName);
+	LanguageCloseFile(idLngFile);
+	
 	PrepareArenaTournament();
 	ProcessBreakExit();
 }

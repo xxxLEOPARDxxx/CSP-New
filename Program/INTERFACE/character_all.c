@@ -2135,6 +2135,10 @@ void ChoosePerk()
 				ok = false;
 			}
 		}
+		if (bAltBalance && perkName == "AboardCollector")
+		{
+			ok = false;
+		}
 	}
 	else
 	{

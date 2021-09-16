@@ -595,10 +595,50 @@ int LocationInitCuracao(int n)
     locations[n].reload.l1.label = "Street";
 
 	locations[n].reload.l2.name = "reload2";
-	locations[n].reload.l2.go = "CommonResidence_5";
+	locations[n].reload.l2.go = "GWIK";
 	locations[n].reload.l2.emerge = "reload1";
 	locations[n].reload.l2.autoreload = "0";
-	locations[n].reload.l2.label = "Room";
+	locations[n].reload.l2.label = "GWIK";
+	LAi_LocationFightDisable(&locations[n], true);
+	n = n + 1;
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// œ–≈ƒ—“¿¬»“≈À‹—“¬Œ √ŒÀÀ¿Õƒ— Œ… ¬≈—“-»Õƒ— Œ…  ŒÃœ¿Õ»»
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	locations[n].id = "GWIK";
+	locations[n].id.label = "GWIKshort";
+	locations[n].filespath.models = "locations\Inside\BigHouse05\";
+	locations[n].image = "loading\inside\CommonResidence_5.tga";
+	//Town sack
+	locations[n].townsack = "Villemstad";
+	locations[n].lockWeather = "Inside";
+	//Sound
+	locations[n].type = "house";
+	locations[n].fastreload = "Villemstad";
+	locations[n].islandId = "Curacao";
+	//Always
+	locations[n].models.always.house = "BigHouse05";
+	locations[n].models.always.window = "BigHouse05_windows";
+	locations[n].models.always.window.tech = "LocationWindows";
+	locations[n].models.always.window.level = 50;
+
+	locations[n].models.always.back = "..\inside_back";
+	//Day
+	locations[n].models.day.charactersPatch = "BigHouse05_patch";
+	locations[n].models.day.locators = "BigHouse05_locators";
+	//Night
+	locations[n].models.night.charactersPatch = "BigHouse05_patch";
+	locations[n].models.night.locators = "BigHouse05_Nlocators";
+	//Environment
+	locations[n].environment.weather = "true";
+	locations[n].environment.sea = "false";
+	//Reload map
+	locations[n].reload.l1.name = "reload1";
+	locations[n].reload.l1.go = "Villemstad_bank";
+	locations[n].reload.l1.emerge = "reload2";
+	locations[n].reload.l1.autoreload = "0";
+	locations[n].reload.l1.label = "Usurer House";
 	LAi_LocationFightDisable(&locations[n], true);
 	n = n + 1;
 

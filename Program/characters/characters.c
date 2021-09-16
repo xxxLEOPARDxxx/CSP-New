@@ -375,7 +375,7 @@ void SetOverloadFight(ref character)
 }
 void CheckAndSetOverloadMode(ref character)
 {
-	if (CheckAttribute(character,"chr_ai.HeavyTrauma")) return;	
+	if (CheckAttribute(character,"chr_ai.HeavyTrauma")) {SetNoRun(character); return;}	
 	if (CheckAttribute(character, "actions")) // сундуки не трогаем
 	{
         BeginChangeCharacterActions(character);

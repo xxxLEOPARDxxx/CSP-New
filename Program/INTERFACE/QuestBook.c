@@ -852,68 +852,108 @@ void HideInfoWindow()
 
 void ShowPGGInfo()
 {
-	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index"))
+	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index") && GameInterface.(CurTable).(CurRow).td3.str != "Офицер на обучении")
 	{ // нет ПГГ в списке
-	ref chrefspp = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
-	ref refBaseShip = GetRealShip(sti(chrefspp.ship.type));
-	string shipTexture = refBaseShip.BaseName;
-	SetFormatedText("SHIP_NAME", XI_ConvertString(RealShips[sti(chrefspp.Ship.Type)].BaseName) + " '" + chrefspp.Ship.Name + "'")
-	SetFormatedText("SHIP_WINDOW_CAPTION", "Характеристики")
-	SetFormatedText("SHIP_INFO_PLACE", "Информация по стоянке")
-	SetFormatedText("PORT_INFO_PLACE", "Остров/колония:\n"+GameInterface.(CurTable).(CurRow).td6.str+" / "+GameInterface.(CurTable).(CurRow).td5.str)
-	SetFormatedText("DATE_INFO_PLACE", "Дата стоянки:\n"+GameInterface.(CurTable).(CurRow).td7.str)
-	SetFormatedText("MONEY_INFO_PLACE", "Цена в месяц:\n"+GameInterface.(CurTable).(CurRow).td8.str+" п.")
-	SetFormatedText("SHIP_RANK", refBaseShip.Class)
-	SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + shipTexture + ".tga.tx");
-	SetNewPicture("SHIP_FRAME_PICTURE", "interfaces\Frame1.tga");
-	string texturedata;
-	if (IsCharacterPerkOn(chrefspp, "Grunt")) texturedata = "INTERFACES\Sith\Char_Master.tga";
-	if (IsCharacterPerkOn(chrefspp, "Trader")) texturedata = "INTERFACES\Sith\Char_Merchant.tga";
-	if (IsCharacterPerkOn(chrefspp, "Fencer")) texturedata = "INTERFACES\Sith\Char_Corsair.tga";
-	if (IsCharacterPerkOn(chrefspp, "Adventurer")) texturedata = "INTERFACES\Sith\Char_Adventurer.tga";
-	if (IsCharacterPerkOn(chrefspp, "Buccaneer")) texturedata = "INTERFACES\Sith\Char_Inquisitor.tga";
-	if (IsCharacterPerkOn(chrefspp, "Agent")) texturedata = "INTERFACES\Sith\Char_SecretAgent.tga";
-	if (IsCharacterPerkOn(chrefspp, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
-	SetNewPicture("CHARACTER_PROFESSION", texturedata);
-	string portpic;
-	switch (GameInterface.(CurTable).(CurRow).td5.icon.image)
-	{
-		case "France": portpic = "loading\enc_fra.tga";
-		break;
-		case "England": portpic = "loading\enc_eng.tga";
-		break;
-		case "Spain": portpic = "loading\enc_spa.tga";
-		break;
-		case "Holland": portpic = "loading\enc_hol.tga";
-		break;
-		case "Pirate": portpic = "loading\enc_pir.tga";
-		break;
+		ref chrefspp = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
+		ref refBaseShip = GetRealShip(sti(chrefspp.ship.type));
+		string shipTexture = refBaseShip.BaseName;
+		SetFormatedText("SHIP_NAME", XI_ConvertString(RealShips[sti(chrefspp.Ship.Type)].BaseName) + " '" + chrefspp.Ship.Name + "'");
+		SetFormatedText("SHIP_WINDOW_CAPTION", "Характеристики");
+		SetFormatedText("SHIP_INFO_PLACE", "Информация по стоянке");
+		SetFormatedText("PORT_INFO_PLACE", "Остров/колония:\n"+GameInterface.(CurTable).(CurRow).td6.str+" / "+GameInterface.(CurTable).(CurRow).td5.str);
+		SetFormatedText("DATE_INFO_PLACE", "Дата стоянки:\n"+GameInterface.(CurTable).(CurRow).td7.str);
+		SetFormatedText("MONEY_INFO_PLACE", "Цена в месяц:\n"+GameInterface.(CurTable).(CurRow).td8.str+" п.");
+		SetFormatedText("SHIP_RANK", refBaseShip.Class);
+		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + shipTexture + ".tga.tx");
+		SetNewPicture("SHIP_FRAME_PICTURE", "interfaces\Frame1.tga");
+		string texturedata;
+		if (IsCharacterPerkOn(chrefspp, "Grunt")) texturedata = "INTERFACES\Sith\Char_Master.tga";
+		if (IsCharacterPerkOn(chrefspp, "Trader")) texturedata = "INTERFACES\Sith\Char_Merchant.tga";
+		if (IsCharacterPerkOn(chrefspp, "Fencer")) texturedata = "INTERFACES\Sith\Char_Corsair.tga";
+		if (IsCharacterPerkOn(chrefspp, "Adventurer")) texturedata = "INTERFACES\Sith\Char_Adventurer.tga";
+		if (IsCharacterPerkOn(chrefspp, "Buccaneer")) texturedata = "INTERFACES\Sith\Char_Inquisitor.tga";
+		if (IsCharacterPerkOn(chrefspp, "Agent")) texturedata = "INTERFACES\Sith\Char_SecretAgent.tga";
+		if (IsCharacterPerkOn(chrefspp, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
+		SetNewPicture("CHARACTER_PROFESSION", texturedata);
+		string portpic;
+		switch (GameInterface.(CurTable).(CurRow).td5.icon.image)
+		{
+			case "France": portpic = "loading\enc_fra.tga";
+			break;
+			case "England": portpic = "loading\enc_eng.tga";
+			break;
+			case "Spain": portpic = "loading\enc_spa.tga";
+			break;
+			case "Holland": portpic = "loading\enc_hol.tga";
+			break;
+			case "Pirate": portpic = "loading\enc_pir.tga";
+			break;
+		}
+		SetNewPicture("NATION_PORT_PICTURE", portpic);
+		SetShipOTHERTable("TABLE_OTHERS",chrefspp);
+		SetShipQualityTable(chrefspp, "BAR_HP", "BAR_Mast", "BAR_Speed", "BAR_TurnRate", "BAR_WAS", "BAR_Capacity", "BAR_Crew");
+		SetSPECIALMiniTable("TABLE_SMALLSKILL", chrefspp);
+		SetOTHERMiniTable("TABLE_SMALLOTHER", chrefspp);
+		SetFormatedText("OFFICER_NAME", GetFullName(chrefspp));
+		SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp.faceId + ".tga");
+		SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
+		SetNewPicture("CAPITUL", "");
+
+		if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");
+		else SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLOFF");
+		if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.SailsSpecial")) SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILON");
+		else SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILOFF");
+		if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.CannonsSpecial")) SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSON");
+		else SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSOFF");
+		if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.CuBot")) SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
+		else SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGOFF");
+		if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.BotPack")) SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOn");
+		else SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOff");
+		if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HighBort")) SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOn");
+		else SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOff");
+
+		XI_WindowShow("SHOW_ADV_INFO", true);
+		XI_WindowDisable("SHOW_ADV_INFO", false);
+		sMessageMode = "RPG_Hint";
 	}
-	SetNewPicture("NATION_PORT_PICTURE", portpic);
-	SetShipOTHERTable("TABLE_OTHERS",chrefspp);
-	SetShipQualityTable(chrefspp, "BAR_HP", "BAR_Mast", "BAR_Speed", "BAR_TurnRate", "BAR_WAS", "BAR_Capacity", "BAR_Crew");
-	SetSPECIALMiniTable("TABLE_SMALLSKILL", chrefspp);
-	SetOTHERMiniTable("TABLE_SMALLOTHER", chrefspp);
-	SetFormatedText("OFFICER_NAME", GetFullName(chrefspp));
-	SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp.faceId + ".tga");
-	SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
-
-    if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");
-	else SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLOFF");
-	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.SailsSpecial")) SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILON");
-	else SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILOFF");
-	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.CannonsSpecial")) SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSON");
-	else SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSOFF");
-	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.CuBot")) SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGON");
-	else SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGOFF");
-	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.BotPack")) SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOn");
-	else SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOff");
-	if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HighBort")) SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOn");
-	else SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOff");
-
-	XI_WindowShow("SHOW_ADV_INFO", true);
-	XI_WindowDisable("SHOW_ADV_INFO", false);
-	sMessageMode = "RPG_Hint";
+	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index") && GameInterface.(CurTable).(CurRow).td3.str == "Офицер на обучении")
+	{
+		ref chrefspp1 = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
+		if (IsCharacterPerkOn(chrefspp1, "Grunt")) texturedata = "INTERFACES\Sith\Char_Master.tga";
+		if (IsCharacterPerkOn(chrefspp1, "Trader")) texturedata = "INTERFACES\Sith\Char_Merchant.tga";
+		if (IsCharacterPerkOn(chrefspp1, "Fencer")) texturedata = "INTERFACES\Sith\Char_Corsair.tga";
+		if (IsCharacterPerkOn(chrefspp1, "Adventurer")) texturedata = "INTERFACES\Sith\Char_Adventurer.tga";
+		if (IsCharacterPerkOn(chrefspp1, "Buccaneer")) texturedata = "INTERFACES\Sith\Char_Inquisitor.tga";
+		if (IsCharacterPerkOn(chrefspp1, "Agent")) texturedata = "INTERFACES\Sith\Char_SecretAgent.tga";
+		if (IsCharacterPerkOn(chrefspp1, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
+		SetSPECIALMiniTable("TABLE_SMALLSKILL", chrefspp1);
+		SetOTHERMiniTable("TABLE_SMALLOTHER", chrefspp1);
+		SetFormatedText("OFFICER_NAME", GetFullName(chrefspp1));
+		SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp1.faceId + ".tga");
+		SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
+		SetNewPicture("CAPITUL", "interfaces\Capitul.png");
+		
+		SetFormatedText("SHIP_NAME", "Офицер на обучении в капитуле");
+		SetFormatedText("SHIP_WINDOW_CAPTION", "");
+		SetFormatedText("SHIP_INFO_PLACE", "Информация");
+		SetFormatedText("PORT_INFO_PLACE", "Остров:\nРиф Скелета");
+		SetFormatedText("DATE_INFO_PLACE", "Место:\nБухта проклятых");
+		SetFormatedText("MONEY_INFO_PLACE", "Капитул");
+		SetFormatedText("SHIP_RANK", "");
+		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\blank_ship2.tga.tx");
+		SetNewPicture("SHIP_FRAME_PICTURE", "interfaces\Frame1.tga");
+		SetNewPicture("NATION_PORT_PICTURE", "loading\enc_spa.tga");
+		
+		SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLOFF");
+		SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILOFF");
+		SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSOFF");
+		SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGOFF");
+		SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOff");
+		SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOff");
+		
+		XI_WindowShow("SHOW_ADV_INFO", true);
+		XI_WindowDisable("SHOW_ADV_INFO", false);
+		sMessageMode = "RPG_Hint";
 	}
 }
 
@@ -1155,7 +1195,7 @@ void SetTableRowByAchievement(string ach_id, int level)
 			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 500";
 			if(ach_id == "gen_quests") strprogress = strprogress + sti(pchar.questTemp.genquestcount) + " / 40";
 			if(ach_id == "AchBuildColony") strprogress = strprogress + sti(pchar.questTemp.colonystate) + " / 3";
-			if(ach_id == "AchTurnir") strprogress = strprogress + sti(pchar.questTemp.tournamentcount) + " / 10";
+			if(ach_id == "AchTurnir") strprogress = strprogress + sti(pchar.questTemp.tournamentcount) + " / 7";
 			if(ach_id == "AchDuelyant") strprogress = strprogress + sti(pchar.questTemp.duelcount) + " / 30";
 			if(ach_id == "AchShipOrder") strprogress = strprogress + sti(pchar.questTemp.shipordercount) + " / 20";
 			if(ach_id == "AchGoldFleet") strprogress = strprogress + sti(pchar.questTemp.GoldFleetNum) + " / 7";
@@ -1828,6 +1868,44 @@ void FillShipPlaceTable(string _tabName)
 			}
 		}
 	}
+	for (i=1; i<MAX_CHARACTERS; i++)
+	{
+		chref = &characters[i];
+		if (CheckAttribute(chref, "OfficerInStockMan"))
+		{
+			row = "tr" + cn;
+			GameInterface.(_tabName).(row).index = chref.id;
+			GameInterface.(_tabName).(row).td1.str = "---"
+			GameInterface.(_tabName).(row).td2.str = "---";
+			GameInterface.(_tabName).(row).td2.scale = 0.8;
+			GameInterface.(_tabName).(row).td3.str = "Офицер на обучении";
+			GameInterface.(_tabName).(row).td3.scale = 0.8;
+			GameInterface.(_tabName).(row).td4.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chref.faceId + ".tga";
+			GameInterface.(_tabName).(row).td4.icon.uv = "0,0,1,1";
+			GameInterface.(_tabName).(row).td4.icon.offset = "-2, 0";
+			GameInterface.(_tabName).(row).td4.icon.width  = 40;
+			GameInterface.(_tabName).(row).td4.icon.height = 40;
+			GameInterface.(_tabName).(row).td4.str = GetFullName(chref);
+			GameInterface.(_tabName).(row).td4.textoffset = "40, 0";
+			GameInterface.(_tabName).(row).td4.scale = 0.8;
+			GameInterface.(_tabName).(row).td5.icon.group  = "NATIONS";
+			GameInterface.(_tabName).(row).td5.icon.image  = "SPAIN";
+			GameInterface.(_tabName).(row).td5.icon.width  = 40;
+			GameInterface.(_tabName).(row).td5.icon.height = 40;
+			GameInterface.(_tabName).(row).td5.icon.offset = "-2, 0";
+			GameInterface.(_tabName).(row).td5.str = "Риф Скелета, Бухта проклятых";
+			GameInterface.(_tabName).(row).td5.scale = 0.8;
+			GameInterface.(_tabName).(row).td5.textoffset = "30, 0";
+			GameInterface.(_tabName).(row).td6.str = "Капитул";
+			GameInterface.(_tabName).(row).td6.scale = 0.8;
+			GameInterface.(_tabName).(row).td7.str = "Бессрочно";
+			GameInterface.(_tabName).(row).td7.scale = 0.8;
+			GameInterface.(_tabName).(row).td8.str = "---";
+			GameInterface.(_tabName).(row).td8.scale = 0.8;
+
+			cn++;
+		}
+	}
 	Table_UpdateWindow(_tabName);
 }
 
@@ -2358,7 +2436,8 @@ void AddToTable(string _tabName, string type)
 			GameInterface.(_tabName).(row).td1.icon.width = 60;
 			GameInterface.(_tabName).(row).td1.icon.height = 60;
 			GameInterface.(_tabName).(row).td1.textoffset = "60,0";
-			GameInterface.(_tabName).(row).td1.str = LanguageConvertString(idLngFile, Items[i].name);
+			if (bBettaTestMode) GameInterface.(_tabName).(row).td1.str = LanguageConvertString(idLngFile, Items[i].name)+"\n"+Items[i].id;
+			else GameInterface.(_tabName).(row).td1.str = LanguageConvertString(idLngFile, Items[i].name);
 			GameInterface.(_tabName).(row).index = i;
 			GameInterface.(_tabName).(row).td1.scale = 0.9;
 			switch (type)

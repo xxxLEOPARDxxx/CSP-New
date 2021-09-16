@@ -458,7 +458,7 @@ void BattleMutinyMines(string _tmp)
 		SetFantomParamFromRank(chr, sti(chr.rank), true);
 		chr.id = "My Mines Mutiny Rebel " + i;
 		chr.model = sModel;
-		chr.model.animation = "man2";
+		chr.model.animation = "man";
 		chr.NotRemoved = true;
 		SetNewModelToChar(chr);
     		FaceMaker(chr);	

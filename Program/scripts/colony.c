@@ -948,9 +948,9 @@ void TWN_ExitForPay() // мэр дает откуп - табличка прибыли
 			 Statistic_AddValue(PChar, "fra_GrabbingTown", 0) +
 			 Statistic_AddValue(PChar, "spa_GrabbingTown", 0) +
 			 Statistic_AddValue(PChar, "hol_GrabbingTown", 0));
-	if(iStat >= 5) UnlockAchievement("AchCityRobbery", 1);
-	if(iStat >= 10) UnlockAchievement("AchCityRobbery", 2);
-	if(iStat >= 15) UnlockAchievement("AchCityRobbery", 3);
+	if(iStat >= 5) UnlockAchievement("AchSityRobbery", 1);
+	if(iStat >= 10) UnlockAchievement("AchSityRobbery", 2);
+	if(iStat >= 15) UnlockAchievement("AchSityRobbery", 3);
 	int nBooty;
 	if (CheckAttribute(Pchar, "HalfOfPaymentByCity"))
 	{

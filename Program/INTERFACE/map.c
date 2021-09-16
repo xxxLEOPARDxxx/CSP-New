@@ -43,7 +43,7 @@ void ProcessBreakExit()
 void ProcessCancelExit()
 {
 	IDoExit( RC_INTERFACE_MAP_EXIT );
-	wdmReloadToSea();
+	if (GetSelectable("B_CANCEL")==0) wdmReloadToSea();
 }
 
 void IDoExit(int exitCode)

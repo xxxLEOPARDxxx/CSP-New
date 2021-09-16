@@ -654,6 +654,7 @@ void CreateHabitues(aref loc)
 			{
 			    iChar = NPC_GeneratePhantomCharacter("pofficer", iNation, MAN, 1);
 				chr = &characters[iChar];
+				// chr.HeroModel = chr.model+","+chr.model+"_1"+","+chr.model+"_2"+","+chr.model+"_3"+","+chr.model+"_4"+","+chr.model+"_5"; // Пока не нужно - визуал надетых кирас для офицеров
 				chr.model = "Officer_"+(rand(63)+1);
 				FaceMaker(chr);
 				SetOfficerParam(chr, rand(4));
@@ -685,7 +686,7 @@ void CreateHabitues(aref loc)
 			// офицеры <--
 			if (!IsCharacterPerkOn(pchar, "Adventurer"))
 			{
-				if (drand(16 - makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/3)) == 3 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
+				if (rand(16 - makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/3)) == 3 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
 				{ // карты кладов
 					Log_TestInfo("Картоторговец должен быть в таверне");
 					iChar = NPC_GeneratePhantomCharacter("pirate", iNation, MAN, 1);
@@ -721,7 +722,7 @@ void CreateHabitues(aref loc)
 			}		
 			if (IsCharacterPerkOn(pchar, "Adventurer"))
 			{
-				if (drand(10 - makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/3)) == 0 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
+				if (rand(10 - makeint(GetCharacterSPECIALSimple(pchar, SPECIAL_L)/3)) == 0 || TestRansackCaptain) // ugeen --> уменьшил вероятность встретить странную личность с картой до 1/20
 				{ // карты кладов
 					Log_TestInfo("Картоторговец должен быть в таверне");
 					iChar = NPC_GeneratePhantomCharacter("pirate", iNation, MAN, 1);
@@ -832,7 +833,7 @@ void CreateIncquisitio(aref loc)
 					LocatorGroup = "sit";
 					LocatorName = "sit"+(rand(3)+1);			
 				}
-				sld = GetCharacter(NPC_GenerateCharacter("Incquisitor_"+i, "priest_sp"+i, "man", "man2", 20, SPAIN, 1, false));
+				sld = GetCharacter(NPC_GenerateCharacter("Incquisitor_"+i, "priest_sp"+i, "man", "man", 20, SPAIN, 1, false));
 				sld.Dialog.Filename = "Incquistors.c";									
 				LAi_LoginInCaptureTown(sld, true);
 				LAi_SetLoginTime(sld, 0.0, 24.0);
@@ -883,7 +884,7 @@ void CreateIncquisitio(aref loc)
 			{
 				if (rand(100)<70)
 				{
-					sld = GetCharacter(NPC_GenerateCharacter("Prisoner_"+i, "Prison_"+(rand(4)+1), "man", "man2", 10, SPAIN, 30, false));							
+					sld = GetCharacter(NPC_GenerateCharacter("Prisoner_"+i, "Prison_"+(rand(4)+1), "man", "man", 10, SPAIN, 30, false));							
 					sld.Dialog.Filename = "Incquistors.c";
 					sld.greeting = "Gr_prison";
 					LAi_LoginInCaptureTown(sld, true);
@@ -898,6 +899,35 @@ void CreateIncquisitio(aref loc)
 					PlaceCharacter(sld, "prison", "random_free");
 					SetFoodToCharacter(sld, 3, 20);
 				}
+			}
+		}
+	}
+	if (loc.id == "Reefs_chapter")
+	{
+		if (!CheckAttribute(loc, "Guardians_date") || GetNpcQuestPastDayParam(loc, "Guardians_date") > 30)
+		{
+			SaveCurrentNpcQuestDateParam(loc, "Guardians_date");
+			for (int j=1; j<=6; j++)
+			{
+				sld = GetCharacter(NPC_GenerateCharacter("MaltGuard_"+j, "sold_spa_"+(rand(7)+1), "man", "man", 35, PIRATE, 1, true));
+				sld.City = "Santiago";
+				FantomMakeCoolFighter(sld, sti(pchar.rank)+MOD_SKILL_ENEMY_RATE+15, 100, 90, BLADE_LONG, "pistol3", 100);//спецназ
+				LAi_SetLoginTime(sld, 0.0, 24.0);
+				LAi_SetCitizenType(sld);
+				LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");	
+				locatorName = PlaceCharacter(sld, "soldiers", "random");		
+				sld.Dialog.Filename = "Common_Soldier.c";
+				sld.greeting = "soldier_common";
+				SetFoodToCharacter(sld, 3, 20);
+			}
+		}
+		for(int k=1; k<MAX_CHARACTERS; k++)
+		{
+			makeref(sld, Characters[k]);
+			if (CheckAttribute(sld, "OfficerInStockMan"))
+			{
+				LAi_SetCitizenType(sld);
+				locatorName = PlaceCharacter(sld, "soldiers", "random");
 			}
 		}
 	}
@@ -1753,7 +1783,7 @@ void CreateJail(aref loc)
 			{
 				if (rand(100)<70)
 				{
-					sld = GetCharacter(NPC_GenerateCharacter(loc.parent_colony+"Prisoner_"+i, "Prison_"+(rand(4)+1), "man", "man2", 10, iNation, 2, false));							
+					sld = GetCharacter(NPC_GenerateCharacter(loc.parent_colony+"Prisoner_"+i, "Prison_"+(rand(4)+1), "man", "man", 10, iNation, 2, false));							
 					sld.Dialog.Filename = "Common_prison.c";
 					sld.dialog.currentnode = "First_prisoner";
 					sld.City = loc.parent_colony;

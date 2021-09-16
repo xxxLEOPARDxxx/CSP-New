@@ -94,6 +94,14 @@ void InitPsHeros()
 			}
 			SetCharacterPerk(ch, PerksChars());
 			DeleteCloneHeros(ch);
+			
+			string sBlockPGG = "PGG" + ch.PGGAi.HeroNum;
+			if (CheckAttribute(pchar,"RemovePGG." + sBlockPGG) && sti(pchar.RemovePGG.(sBlockPGG)) == 1)
+			{//Убираем неугодных ПГГ с помощью галочек на старте
+				ch.willDie = true;
+				ch.DontCountDeath = true;
+				LAi_KillCharacter(ch);
+			}
 	    }
 	}
 	//нормальное отношение всех ко всем.
@@ -129,6 +137,7 @@ void DeleteCloneHeros(ref sld)
 			if(sld.FaceId == 487 || sld.FaceId == 535 || sld.FaceId == 211)
 			{//Его мы позже наймем оффом, так что убираем из ПГГ
 				sld.willDie = true;
+				sld.DontCountDeath = true;
 				LAi_KillCharacter(sld);
 			}
 		}
@@ -137,6 +146,7 @@ void DeleteCloneHeros(ref sld)
 			if(sld.FaceId == 1 || sld.FaceId == 522)
 			{//Его мы позже наймем оффом, так что убираем из ПГГ
 				sld.willDie = true;
+				sld.DontCountDeath = true;
 				LAi_KillCharacter(sld);
 			}
 		}
@@ -145,6 +155,7 @@ void DeleteCloneHeros(ref sld)
 			if(sld.FaceId == 508 || sld.FaceId == 517)
 			{//Его мы позже наймем оффом, так что убираем из ПГГ
 				sld.willDie = true;
+				sld.DontCountDeath = true;
 				LAi_KillCharacter(sld);
 			}
 		}
@@ -528,15 +539,29 @@ void PGG_CheckDead(ref chr)
 				}
 			}
 
-	if (!CheckAttribute(pchar, "PGG_killed"))
+	if (!CheckAttribute(chr, "DontCountDeath"))
 	{
-		pchar.PGG_killed = 1;
+		if (!CheckAttribute(pchar, "PGG_killed"))
+		{
+			pchar.PGG_killed = 1;
+		}
+		else
+		{
+			pchar.PGG_killed = sti(sti(pchar.PGG_killed)+1);
+		}
+		Log_TestInfo("Смертей ПГГ : "+ pchar.PGG_killed);
 	}
 	else
 	{
-		pchar.PGG_killed = sti(sti(pchar.PGG_killed)+1);
+		if (!CheckAttribute(pchar, "PGG_NotKilled"))
+		{
+			pchar.PGG_NotKilled = 1;
+		}
+		else
+		{
+			pchar.PGG_NotKilled = sti(sti(pchar.PGG_NotKilled)+1);
+		}
 	}
-	Log_TestInfo("Смертей ПГГ : "+ pchar.PGG_killed);
 	chr.chr_ai.hp = 0.0;
 
 	DeleteAttribute(chr, "PGGAi.Task");

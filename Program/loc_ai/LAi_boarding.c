@@ -1004,6 +1004,16 @@ void LAi_SetBoardingActors(string locID)
 					case 3: cirnum = "cirass3"; break;
 					case 4: cirnum = "cirass4"; break;
 				}
+				if (CheckAttribute(chr, "HeroModel")) // все, у кого есть что одеть
+				{
+					switch (cirnum)
+					{
+						case "cirass1": chr.model = GetSubStringByNum(chr.HeroModel, 1); break;
+						case "cirass2": chr.model = GetSubStringByNum(chr.HeroModel, 2); break;
+						case "cirass3": chr.model = GetSubStringByNum(chr.HeroModel, 3); break;
+						case "cirass4": chr.model = GetSubStringByNum(chr.HeroModel, 4); break;
+					}
+				}
 				chr.cirassId = Items_FindItemIdx(cirnum);
 				Log_TestInfo("Персонаж "+chr.name+" получил кирасу "+cirnum);
 			}
@@ -1140,6 +1150,16 @@ void LAi_SetBoardingActors(string locID)
 				case 2: cirnum1 = "cirass2"; break;
 				case 3: cirnum1 = "cirass3"; break;
 				case 4: cirnum1 = "cirass4"; break;
+			}
+			if (CheckAttribute(chr, "HeroModel")) // все, у кого есть что одеть
+			{
+				switch (cirnum1)
+				{
+					case "cirass1": chr.model = GetSubStringByNum(chr.HeroModel, 1); break;
+					case "cirass2": chr.model = GetSubStringByNum(chr.HeroModel, 2); break;
+					case "cirass3": chr.model = GetSubStringByNum(chr.HeroModel, 3); break;
+					case "cirass4": chr.model = GetSubStringByNum(chr.HeroModel, 4); break;
+				}
 			}
 			chr.cirassId = Items_FindItemIdx(cirnum1);
 			Log_TestInfo("Персонаж "+chr.name+" получил кирасу "+cirnum1);
@@ -1352,7 +1372,7 @@ bool CheckForSurrender(ref mchr, ref echr, int _deck)
     
 	if (sti(echr.rank) > (50 - MOD_SKILL_ENEMY_RATE)) return false; //max уровень кэпов
 
-	if (!IsCharacterPerkOn(mchr,"SeaDogProfessional")) //скрытая фича-пасхалка
+	if (!CheckOfficersPerk(mchr,"SeaDogProfessional")) //скрытая фича-пасхалка
 	{
 		if (sti(mchr.rank) < (sti(echr.rank) - MOD_SKILL_ENEMY_RATE / 2))  return false; // 26/06/07 Проверка на ранг
 	}

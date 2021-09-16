@@ -221,6 +221,7 @@ void ProcessDialogEvent()
 		case "BS_CPNG_18":	//Флинт
 			//chrDisableReloadToLocation = false;
             dialog.text = "Знакомьтесь. Первый помощник Билли Бонс, каптенармус Джон Сильвер.";
+			BS_ReplaceTraderWithGatri();
             link.l1 = "Рад"+ GetSexPhrase("","а") +" встрече. Я "+GetFullName(pchar)+". Идём в таверну?";
 			link.l1.go = "BS_CPNG_19";
 		break;
@@ -284,8 +285,8 @@ void ProcessDialogEvent()
 		case "BS_CPNG_23_1":
 			sld = CharacterFromID("Flint");
 			sld.dialog.currentnode = "BS_CPNG_23";
-			NPChar.Dialog.Filename = "Common_store.c";
-			NPChar.Dialog.CurrentNode = "Second time";
+			//NPChar.Dialog.Filename = "Common_store.c";
+			//NPChar.Dialog.CurrentNode = "Second time";
 			DialogExit();
 			DoQuestFunctionDelay("FlintSpeech", 0);
 		break;
@@ -313,6 +314,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "BS_CPNG_25":
+			BS_RestoreGatriTrader("q");
             dialog.text = "'Урка Де Лима' - это очень крепкий орешек, да. И у меня есть информация, где и когда этот галеон будет пополнять запасы воды и провианта для путешествия в Испанию. И это идеальный шанс расколоть этот орех.";
             link.l1 = "Какова цена вопроса?";
 			link.l1.go = "BS_CPNG_26";

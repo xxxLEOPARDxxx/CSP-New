@@ -16,6 +16,11 @@ void ProcessDialogEvent()
 			dialog.text = "С кем имею честь разговаривать?";
 			link.l1 = "Э-э... Меня зовут " + GetFullName(pchar) + " , я - капитан судна ''" + PChar.Ship.Name + "''.";
 			link.l1.go = "talk_1";
+			if (bBettaTestMode && !CheckAttribute(pchar,"ScamFanActive"))
+			{
+				link.l2 = "Вызвать Кракена";
+				link.l2.go = "Kraken";
+			}
 			NextDiag.TempNode = "First time";
 		break;
 
@@ -25,8 +30,18 @@ void ProcessDialogEvent()
 			link.l1.go = "ArenaBattle_1";
 			link.l2 = "Хотелось бы потренироваться.";
 			link.l2.go = "academy";
-			link.l3 = "Хотелось только повидать вас, " + NPChar.name + " " + NPChar.lastname + ". До встречи.";
-			link.l3.go = "exit";
+			if (CheckAttribute(pchar,"ScamFanActive") && !CheckAttribute(pchar,"KnowScam"))
+			{
+				link.l3 = "Вы случайно не знаете что-нибудь об этом ''фанате'' чемпиона?";
+				link.l3.go = "legend";
+			}
+			link.l99 = "Хотелось только повидать вас, " + NPChar.name + " " + NPChar.lastname + ". До встречи.";
+			link.l99.go = "exit";
+			if (bBettaTestMode && !CheckAttribute(pchar,"ScamFanActive"))
+			{
+				link.l4 = "Вызвать Кракена";
+				link.l4.go = "Kraken";
+			}
 			NextDiag.TempNode = "meeting";
 		break;
 		
@@ -292,7 +307,15 @@ void ProcessDialogEvent()
 					pchar.questTemp.tournamentcount = sti(pchar.questTemp.tournamentcount) + 1;
 					if(sti(pchar.questTemp.tournamentcount) >= 1) UnlockAchievement("AchTurnir", 1);
 					if(sti(pchar.questTemp.tournamentcount) >= 3) UnlockAchievement("AchTurnir", 2);
-					if(sti(pchar.questTemp.tournamentcount) >= 10) UnlockAchievement("AchTurnir", 3);
+					if(sti(pchar.questTemp.tournamentcount) >= 7) UnlockAchievement("AchTurnir", 3);
+					
+					if (rand(3) == 0 && !CheckAttribute(pchar,"ScamFanActive"))
+					{
+						pchar.quest.SpawnScamFan.win_condition.l1 = "Location";
+						pchar.quest.SpawnScamFan.win_condition.l1.location = "FencingTown_ExitTown";
+						pchar.quest.SpawnScamFan.win_condition = "SpawnScamFan";
+						pchar.ScamFanActive = true;
+					}
 					
 					bool nopirate = false;
 					if (!CheckAttribute(pchar,"questTemp.UniquePirate.Barbarigo") || !CheckAttribute(pchar,"questTemp.UniquePirate.BlackBeard") || !CheckAttribute(pchar,"questTemp.UniquePirate.Levasser")) nopirate = true;
@@ -603,6 +626,45 @@ void ProcessDialogEvent()
 			LAi_group_Attack(NPChar, Pchar);
 			if (rand(3) != 1) SetNationRelation2MainCharacter(sti(npchar.nation), RELATION_ENEMY);
 			AddDialogExitQuest("MainHeroFightModeOn");
+		break;
+		
+		case "legend":
+			dialog.text = "А, вы наверное про Скэма Геймса? Неужели настолько не повезло, что он пристал к вам?";
+			link.l1 = "Кто он вообще такой?";
+			link.l1.go = "legend_1";
+		break;
+		
+		case "legend_1":
+			dialog.text = "По слухам, он - некогда проклятый дурачок, который по настоящему фанател по фехтовальным чемпионатам. Однажды с ним что-то случилось и с тех пор он не ест, не пьёт и не получает абсолютно никакого вреда от чего угодно. Уж поверьте, очень долго мы пытались отделаться от него.";
+			link.l1 = "Он кажется совершенно безобидным... Но если он постоянно так себя ведёт - то прекрасно могу вас понять.";
+			link.l1.go = "legend_2";
+		break;
+		
+		case "legend_2":
+			dialog.text = "Может вам повезёт, и вы найдёте способ избавиться от него не покидая архипелаг. Все его предыдущие ''жертвы'' уплывали в Европу и о них больше ничего не слышали.";
+			link.l1 = "Есть хоть какие-нибудь мысли на этот счёт?";
+			link.l1.go = "legend_3";
+		break;
+		
+		case "legend_3":
+			dialog.text = "Даже не знаю, что сказать на этот счёт. Тут разве что боги смогли бы помочь. Все возможные и невозможные способы избавиться от него мы уже опробовали.";
+			link.l1 = "Боги, значит... Да, звучит совершенно бесперспективно, но спасибо хоть на этом.";
+			link.l1.go = "exit";
+			pchar.quest.RidScamFan.win_condition.l1 = "Location";
+			pchar.quest.RidScamFan.win_condition.l1.location = "Temple_skulls";
+			pchar.quest.RidScamFan.win_condition = "RidScamFan";
+			pchar.KnowScam = true;
+		break;
+		
+		case "Kraken":
+			dialog.text = "Кракен вызван.";
+			link.l1 = "Иду встречать.";
+			link.l1.go = "exit";
+			pchar.quest.SpawnScamFan.win_condition.l1 = "Location";
+			pchar.quest.SpawnScamFan.win_condition.l1.location = "FencingTown_ExitTown";
+			pchar.quest.SpawnScamFan.win_condition = "SpawnScamFan";
+			pchar.ScamFanActive = true;
+			AddDialogExitQuestFunction("ArenaTournamentTheEnd");
 		break;
 
 		case "Exit":

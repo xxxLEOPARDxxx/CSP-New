@@ -2091,8 +2091,8 @@ void SetDeadmansToLocation(ref loc, string sType)
 			iMassive = rand(22);
 			
 		    sModel = model[iMassive];
-		    sAni = "man2";
-			if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man";
+		    sAni = "man";
+			/* if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man"; */
 		}
 		
 		
@@ -3215,8 +3215,8 @@ void CreateCaimanMinesCitizens(aref loc)
 		{
 	    	iMassive = rand(22);
 	
-        	sAni = "man2";
-        	if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man";
+        	sAni = "man";
+        	/* if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man"; */
 			
 			chr = GetCharacter(NPC_GenerateCharacter("Caiman_Mines_Poor_Slave_" + s, model[iMassive], "man", sAni, 7, PIRATE, 0, false));
 			chr.dialog.filename = "Quest\CapBloodLine\questNPC.c";
@@ -3238,8 +3238,8 @@ void CreateCaimanMinesCitizens(aref loc)
 		{
 			iMassive = rand(22);
 	
-	        sAni = "man2";
-	        if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man";
+	        sAni = "man";
+	        /* if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man"; */
 			
 			chr = GetCharacter(NPC_GenerateCharacter("Caiman_Mines_Stay_Slave_" + n, model[iMassive], "man", sAni, 7, PIRATE, 0, false));
 			chr.dialog.filename = "Quest\CapBloodLine\questNPC.c";
@@ -3387,8 +3387,8 @@ void CreateCaimanPlantationCitizens(aref loc)
 		{
 	        iMassive = rand(22);
 	
-	        string sAni = "man2";
-	        if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man";
+	        string sAni = "man";
+	        /* if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAni = "man"; */
 			
 			chr = GetCharacter(NPC_GenerateCharacter("Caiman_Plantation_Stay_Slave_" + n, model[iMassive], "man", sAni, 7, PIRATE, 0, false));
 			chr.dialog.filename = "Quest\CapBloodLine\questNPC.c";

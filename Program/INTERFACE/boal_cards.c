@@ -89,6 +89,11 @@ void InitInterface(string iniName)
          {    money_s = "gold";
             SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
             iExpRate = 10;
+         }
+           if (iRate > 25000)
+         {    money_s = "gold";
+            SetNewPicture("SCROLLPICT", "interfaces\sith\card_sukno.tga");
+            iExpRate = 25;
          } 
    
 	
@@ -148,9 +153,19 @@ void ProcessCancelExit()
 
 void Exit()
 {
-	if (npchar.id == "W_Chard" && iHeroWin < 5 && iHeroLose < 5)
-	{
-		PlaySound("interface\knock.wav");
+	if (npchar.id == "W_Chard" || npchar.id == "BlackBeardNPC")
+	{	 
+		if (npchar.id == "W_Chard")
+		{
+			if (iHeroWin < 5 && iHeroLose < 5) PlaySound("interface\knock.wav");
+			else Exit2();
+		}
+		
+		if (npchar.id == "BlackBeardNPC")
+		{
+			if (iHeroWin < 3 && iHeroLose < 3) PlaySound("interface\knock.wav");
+			else Exit2();
+		}
 	}
 	else
 	{
@@ -185,7 +200,42 @@ void Exit()
 			PlaySound("interface\knock.wav");
 		}
 	}
+}
 
+void Exit2()
+{
+	if (openExit)
+	{
+		DelEventHandler("InterfaceBreak","ProcessBreakExit");
+		DelEventHandler("exitCancel","ProcessCancelExit");
+		DelEventHandler("ievnt_command","ProcessCommandExecute");
+		DelEventHandler("My_eventMoveImg","MoveImg");
+		DelEventHandler("My_eStartGame","StartGame");
+		DelEventHandler("My_eOpenCards","OpenCards");
+
+		if (sti(pchar.GenQuest.Cards.SitType) == true)
+		{
+			DoQuestCheckDelay("exit_sit", 0.6);
+		}
+		interfaceResultCommand = RC_INTERFACE_SALARY_EXIT;
+
+		Statistic_AddValue(Pchar, "GameCards_Win", iHeroWin);
+		AddCharacterExpToSkill(Pchar, SKILL_FORTUNE, iExpRate*5*iHeroWin);
+		AddCharacterExpToSkill(Pchar, SKILL_FORTUNE, iExpRate*2*iHeroLose);
+		Statistic_AddValue(Pchar, "GameCards_Lose", iHeroLose);
+		
+		if (npchar.id == "BlackBeardNPC" && iHeroWin >= 3) npchar.Cards = true;
+
+		bQuestCheckProcessFreeze = true;
+		//WaitDate("",0,0,0, 0, iTurnGame*15);
+		bQuestCheckProcessFreeze = false;
+		RefreshLandTime();
+		EndCancelInterface(true);
+	}
+	else
+	{
+		PlaySound("interface\knock.wav");
+	}
 }
 
 void ProcessCommandExecute()
@@ -587,7 +637,7 @@ bool CheckGame()
     if (CountCardsP() > 21)
     {
         ok = -1;
-        sTemp = "Ха! Да у тебя ПЕРЕБОР! Я выиграл.";
+        sTemp = "Ха! Да у тебя ПЕРЕБОР! Я выиграл"+NPCharSexPhrase(npchar, "", "а")+".";
         iHeroLose++;
     }
     if (CountCardsN() > 21)
@@ -601,9 +651,10 @@ bool CheckGame()
     {
 		EndGameCount(ok);
 		if (ok == 1) RedrawCards(); // покажем перебор
-		if (npchar.id == "W_Chard")
+		if (npchar.id == "W_Chard" || npchar.id == "BlackBeardNPC")
 		{
-			sTemp = CheckChardGames(sTemp);
+			if (npchar.id == "W_Chard") sTemp = CheckChardGames(sTemp);
+			if (npchar.id == "BlackBeardNPC") sTemp = CheckBlackGames(sTemp);
 		}
 		else
 		{
@@ -709,7 +760,9 @@ void EndGameCount(int who)
 
 void OpenCards();
 {
-    string sTemp;
+   if (CheckAttribute(npchar, "PGGAI")) PGG_ChangeRelation2MainCharacter(npchar, 2);
+   
+   string sTemp;
     if (CountCardsP() > makefloat(CountCardsN() + 0.1*dir_i_start)) // преимущество тому, кто сдает (те ходит последним)
     {
         EndGameCount(1);
@@ -719,12 +772,13 @@ void OpenCards();
     else
     {
         EndGameCount(-1);
-        sTemp = "Удача на моей стороне. У меня " + CountCardsN() +", у тебя " + CountCardsP()+". Я победил!";
+        sTemp = "Удача на моей стороне. У меня " + CountCardsN() +", у тебя " + CountCardsP()+". Я победил"+NPCharSexPhrase(npchar, "", "а")+"!";
         iHeroLose++;
     }
-	if (npchar.id == "W_Chard")
+	if (npchar.id == "W_Chard" || npchar.id == "BlackBeardNPC")
 	{
-		sTemp = CheckChardGames(sTemp);
+		if (npchar.id == "W_Chard") sTemp = CheckChardGames(sTemp);
+		if (npchar.id == "BlackBeardNPC") sTemp = CheckBlackGames(sTemp);
 	}
 	else
 	{
@@ -775,6 +829,30 @@ string CheckChardGames(string sTemp)
 		{
 			sTemp = "Ха-ха-ха! Ты, бы играть сначала научилась, девочка. Гони сюда мои денежки.";
 			AddMoneyToCharacter(pchar, -200000);
+		}
+		sTemp += NewStr() + "Все, хватит игр на сегодня.";
+	}
+	return sTemp;
+}
+
+string CheckBlackGames(string sTemp)
+{
+	if (iHeroWin < 3 && iHeroLose < 3)
+	{
+		sTemp += NewStr() + "Продолжим?";
+		bStartGame = 2;
+	}
+	else
+	{
+		bStartGame = 100;
+		openExit = true;
+		if (iHeroWin == 3)
+		{
+			sTemp = RandSwear() + "Ладно, ты выиграл 3 раза. Впечатляющее везение!";
+		}
+		else
+		{
+			sTemp = "Ха-ха-ха! Тебе явно стоит ещё подучиться.";
 		}
 		sTemp += NewStr() + "Все, хватит игр на сегодня.";
 	}

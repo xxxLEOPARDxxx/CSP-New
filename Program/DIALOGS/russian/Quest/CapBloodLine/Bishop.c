@@ -2215,7 +2215,7 @@ void ProcessDialogEvent()
 
         case "VLStep_13":
 
-            dialog.text = "Поднять Веселый Роджер, стать свободным пиратом, проводить в море больше времени, чем на суше, каждый день риск, запах пороха, золото, ром? С огромным удовостьвием!";
+            dialog.text = "Поднять Веселый Роджер, стать свободным пиратом, проводить в море больше времени, чем на суше, каждый день риск, запах пороха, золото, ром? С огромным удовольствием!";
         	link.l1 = "Я знал, что ты согласишься.";
             link.l1.go = "Exit_RunAway";
             Pchar.questTemp.CapBloodLine.sLocator = "reloadShip";
@@ -2585,6 +2585,8 @@ void ProcessDialogEvent()
         	NPChar.Money   = 0;
         	NPChar.Payment = true;
        		NPChar.DontClearDead = true;
+			NPChar.model = "PBLine_Daik_0"; 
+			FaceMaker(NPChar);
 
             AddPassenger(pchar, NPChar, false);
             AddDialogExitQuestFunction("DiekeAdd");

@@ -16,6 +16,8 @@ void ProcessDialogEvent()
     makearef(aData, NullCharacter.Siege);
     string sCap, sGroup;
     string fort;
+	string coolstories = "";
+	int questionsstate = 0;
 
     if (CheckAttribute(aData, "nation"))
     {
@@ -49,6 +51,7 @@ void ProcessDialogEvent()
 	}
     //homo 26/06/06
 	ProcessCommonDialogRumors(NPChar, Link, Diag);
+	if (npchar.id == "BlackBeardNPC" && CheckAttribute(npchar,"met") && Dialog.CurrentNode == "First time") Dialog.CurrentNode = "Titch_7";
 	switch(Dialog.CurrentNode)
 	{
         case "Exit":
@@ -59,6 +62,15 @@ void ProcessDialogEvent()
 		case "First time":
 			if (!bDisableMapEnter)
 			{
+				if (npchar.id == "BlackBeardNPC")
+				{
+					dialog.text = "Ты чего здесь забыл, салага?";
+					link.l1 = "Меня зовут " + GetFullName(Pchar) + ". Я слы"+ GetSexPhrase("шал","хала")+", что вы ищете удачливого капитана.";
+					link.l1.go = "Titch_1";
+					link.l2 = "Ничего особенного, я уже ухожу.";
+					link.l2.go = "exit";
+					break;
+				}
                 if (CheckAttribute(NPChar, "EncType")  && NPChar.EncType == "war")
                 {
     			    Dialog.text = TimeGreeting() + ", "+ GetAddress_Form(NPChar)+"! Я "+ GetFullName(NPChar) +" - капитан корабля флота "+NationKingsName(NPChar)+". Что привело вас ко мне на борт?";
@@ -836,6 +848,350 @@ void ProcessDialogEvent()
 
             }
             Diag.TempNode = "GoldSquadron";
+		break;
+		
+		case "Titch_1":
+			Dialog.text = "Есть такое. Хочу я уйти на покой и передать мои знания преемнику. Но я должен убедиться, что он этого достоин.";
+			link.l1 = "Твой преемник? И что же подпадает под критерии достоинства?";
+			link.l1.go = "Titch_2";
+		break;
+		
+		case "Titch_2":
+			Dialog.text = "Мне как пирату не было равных в мои лучшие годы, и поэтому мой преемник должен быть не хуже.";
+			link.l1 = "Я слушаю...";
+			link.l1.go = "Titch_3";
+		break;
+		
+		case "Titch_3":
+			Dialog.text = "Возьми 5 торгашей на абордаж и заставь их сдаться. Едва завидев мой вымпел, противники обычно сдавались без боя. Во всяком случае после того, как я заработал свой авторитет.";
+			link.l1 = "Пока не звучит сложно.";
+			link.l1.go = "Titch_4";
+		break;
+		
+		case "Titch_4":
+			Dialog.text = "Я очень хорош как в картах, так и дуэлях, поэтому обыграй меня и одолей.";
+			link.l1 = "Если ты не шулер, то твоя удача в картах - это странно. А дуэли - ну так не ты первый, не ты последний.";
+			link.l1.go = "Titch_5";
+		break;
+		
+		case "Titch_5":
+			Dialog.text = "Я загадаю тебе несколько загадок и тебе надо будет их отгадать. У хорошего корсара должен быть по настоящему острый ум.";
+			link.l1 = "Много я загадок разных слышал"+ GetSexPhrase("","а") +", так что этим меня не напугать.";
+			link.l1.go = "Titch_6";
+		break;
+		
+		case "Titch_6":
+			Dialog.text = "Ну и в последнюю очередь... Тебе надо одолеть меня в морском сражении.";
+			link.l1 = "У тебя очень внушительный фрегат... Это однозначно не звучит как что-то простое.";
+			link.l1.go = "Titch_7";
+		break;
+		
+		case "Titch_7":
+			npchar.met = true;
+			if (!CheckAttribute(pchar,"ShipsSurr")) pchar.ShipsSurr = 0;
+			Dialog.text = "И что скажешь?";
+			if (!CheckAttribute(npchar,"Duel"))
+			{
+				link.l1 = "Я готов"+ GetSexPhrase("","а") +" сразиться на дуэли. Где и когда?";
+				link.l1.go = "Titch_duel";
+			}
+			if (!CheckAttribute(npchar,"Cards"))
+			{
+				link.l2 = "Сыграем в карты?";
+				link.l2.go = "Titch_cards";
+			}
+			if (!CheckAttribute(npchar,"questions"))
+			{
+				link.l3 = "Давай, загадывай свои загадки.";
+				link.l3.go = "Titch_questions";
+			}
+			if (!CheckAttribute(npchar,"ships_sur") && CheckAttribute(pchar,"ShipsSurr") && sti(pchar.ShipsSurr) >= 5)
+			{
+				link.l4 = "Я заставил"+ GetSexPhrase("","а") +" 5 торговых кораблей сдаться без боя.";
+				link.l4.go = "Titch_ships_sur";
+			}
+			if (CheckAttribute(npchar,"Duel") && CheckAttribute(npchar,"Cards") && CheckAttribute(npchar,"questions") && CheckAttribute(npchar,"ships_sur") && !CheckAttribute(pchar,"Titch_seabattle"))
+			{
+				link.l5 = "Осталось только сражение в море. Я готов"+ GetSexPhrase("","а") +"!";
+				link.l5.go = "Titch_seabattle";
+			}
+			link.l6 = "Пока ничего.";
+			link.l6.go = "exit";
+			if (bBettaTestMode)
+			{
+				link.l7 = "[БЕТА] Морское сражение";
+				link.l7.go = "Titch_seabattle";
+			}
+		break;
+		
+		case "Titch_seabattle":
+			Dialog.text = "Ха, я думал ты так и не доберёшься до этого пункта. Начинаем по твоему сигналу!";
+			link.l1 = "Не дождешься, старый пердун. Как доберусь до своего корабля - начнём!";
+			link.l1.go = "Titch_seabattle_exit";
+		break;
+		
+		case "Titch_seabattle_exit":
+			DialogExit();
+			Diag.CurrentNode = Diag.TempNode;
+			DeleteAttribute(npchar,"AlwaysFriend");
+			Group_SetEnemyToCharacter("BlackBeardGroup", GetMainCharacterIndex());
+			SetCharacterRelationBoth(nMainCharacterIndex, sti(npchar.index), RELATION_ENEMY);
+			Group_SetTaskAttack("BlackBeardGroup", PLAYER_GROUP);
+			Group_LockTask("BlackBeardGroup");
+			pchar.Titch_seabattle = true;
+		break;
+		
+		case "Titch_Seabattle_won":
+			Dialog.text = "Что-ж, полагаю, это конец. Ты справил"+ GetSexPhrase("ся","ась") +" с всеми моими задачами. Теперь ты мой преемник.";
+			link.l1 = "И что же будет?";
+			link.l1.go = "Titch_Seabattle_won_2";
+		break;
+		
+		case "Titch_Seabattle_won_2":
+			Dialog.text = "Мне пора отправляться в мир иной. Этот корабль теперь твой, равно как и частица моих сил.";
+			link.l1 = "Частица сил? О чём ты?";
+			link.l1.go = "Titch_Seabattle_won_3";
+		break;
+		
+		case "Titch_Seabattle_won_3":
+			Dialog.text = "Просто назови мне одну из характеристик, не задавай глупых вопросов.";
+			if (AddSPECIALValue(pchar, SPECIAL_S, 0) != SPECIAL_MAX)
+			{
+				Link.l1 = "Сила";
+				Link.l1.go = "Strength";
+			}
+			if (AddSPECIALValue(pchar, SPECIAL_P, 0) != SPECIAL_MAX)
+			{
+				Link.l2 = "Восприятие";
+				Link.l2.go = "Perception";
+			}
+			if (AddSPECIALValue(pchar, SPECIAL_A, 0) != SPECIAL_MAX)
+			{
+				Link.l3 = "Реакция";
+				Link.l3.go = "Agility";
+			}
+			if (AddSPECIALValue(pchar, SPECIAL_C, 0) != SPECIAL_MAX)
+			{
+				Link.l4 = "Лидерство";
+				Link.l4.go = "Charisma";
+			}
+			if (AddSPECIALValue(pchar, SPECIAL_I, 0) != SPECIAL_MAX)
+			{
+				Link.l5 = "Обучаемость";
+				Link.l5.go = "Intellect";
+			}
+			if (AddSPECIALValue(pchar, SPECIAL_E, 0) != SPECIAL_MAX)
+			{
+			Link.l6 = "Выносливость";
+			Link.l6.go = "Endurance";
+			}
+			if (AddSPECIALValue(pchar, SPECIAL_L, 0) != SPECIAL_MAX)
+			{
+				Link.l7 = "Удача";
+				Link.l7.go = "Luck";
+			}
+			Link.l8 = "Меня всё и так устраивает. Что теперь?";
+			Link.l8.go = "Titch_Seabattle_won_4";
+		break;
+		
+		case "Strength":
+			dialog.text =  "Сила, хороший выбор. Готово! Вскоре ты заметишь разницу.";
+			Link.l1 = "И что теперь?";
+			Link.l1.go = "Titch_Seabattle_won_4";
+			AddSPECIALValue(pchar, SPECIAL_S, 1);
+		break;
+        case "Perception":
+			dialog.text =  "Восприятие, очень хорошо. Готово! Вскоре ты заметишь разницу.";
+			Link.l1 = "И что теперь?";
+			Link.l1.go = "Titch_Seabattle_won_4";
+			AddSPECIALValue(pchar, SPECIAL_P, 1);
+		break;
+        case "Endurance":
+			dialog.text =  "Вынослвивость, хорошо. Готово! Вскоре ты заметишь разницу.";
+			Link.l1 = "И что теперь?";
+			Link.l1.go = "Titch_Seabattle_won_4";
+			AddSPECIALValue(pchar, SPECIAL_E, 1);
+		break;
+        case "Charisma":
+			dialog.text =  "Обаяние? Хм, хороший выбор. Готово! Вскоре ты заметишь разницу.";
+			Link.l1 = "И что теперь?";
+			Link.l1.go = "Titch_Seabattle_won_4";
+			AddSPECIALValue(pchar, SPECIAL_C, 1);
+		break;
+        case "Intellect":
+			dialog.text =  "Интеллект, хороший выбор. Готово! Вскоре ты заметишь разницу.";
+			Link.l1 = "И что теперь?";
+			Link.l1.go = "Titch_Seabattle_won_4";
+			AddSPECIALValue(pchar, SPECIAL_I, 1);
+		break;
+        case "Agility":
+			dialog.text =  "Ловкость, хорошо. Готово! Вскоре ты заметишь разницу.";
+			Link.l1 = "И что теперь?";
+			Link.l1.go = "Titch_Seabattle_won_4";
+			AddSPECIALValue(pchar, SPECIAL_A, 1);
+		break;
+        case "Luck":
+			dialog.text =  "Хочешь быть "+ GetSexPhrase("удачливым, пират","удачливой, пиратка") +"? И правильно. Готово! Вскоре ты заметишь разницу.";
+			Link.l1 = "И что теперь?";
+			Link.l1.go = "Titch_Seabattle_won_4";
+			AddSPECIALValue(pchar, SPECIAL_L, 1);
+		break;
+		
+		case "Titch_Seabattle_won_4":
+			Dialog.text = "Для тебя - жизнь продолжнается. А вот мне пора. Теперь - прощай навсегда!";
+			link.l1 = "Я ничего не понял"+ GetSexPhrase("","а") +", но прощай, Эдвард Тич!";
+			link.l1.go = "Titch_Seabattle_won_exit";
+		break;
+		
+		case "Titch_Seabattle_won_exit":
+			DeleteAttribute(NullCharacter, "capitainBase.BlackBeardNPC");
+			PostEvent("csmEvent_RefreshReload", 100);
+			BattleInterface.LAi_ActivateReload = true;
+			SetEventHandler("Control Activation","LAi_ActivateReload",1);
+			Log_SetActiveAction("Reload");
+			ChangeCharacterAddress(npchar, "none", "");
+            DialogExit();
+		break;
+		
+		case "Titch_duel":
+			Dialog.text = "Здесь и сейчас. Чего рассусоливать лишнего? Не люблю всякие расшаркивания и поклноны.";
+			link.l1 = "...Начнём тогда!";
+			link.l1.go = "Titch_duel_start";
+		break;
+		
+		case "Titch_duel_start":
+			DialogExit();
+			Diag.CurrentNode = Diag.TempNode;
+			LAi_group_MoveCharacter(npchar, "EnemyFight");				
+			LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_LocationFightDisable(loadedLocation, false);
+			
+			for(int i=0;i<MAX_CHARACTERS;i++)
+			{
+				sld = &characters[i];
+				if (CheckAttribute(sld,"location") && sld.location == loadedLocation.id && sld.id != "BlackBeardNPC" && sld.id != "Blaze")
+				{
+					LAi_SetActorType(sld);
+					LAi_ActorRunToLocation(sld, "reload", "reload1", "", "", "", "", -1);
+				}
+			}
+			
+			LAi_SetCheckMinHP(npchar, 5.0, true, "Titch_duel");
+		break;
+		
+		case "DuelWon":
+			Dialog.text = "Сил"+ GetSexPhrase("ён","на") +"! Уважил"+ GetSexPhrase("","а") +" старика, молодец.";
+			link.l1 = "Это было непросто, уж скажу честно. Что дальше?";
+			link.l1.go = "Titch_7";
+			npchar.Duel = true;
+			DeleteAttribute(npchar,"chr_ai.poison");
+			DeleteAttribute(npchar,"chr_ai.Blooding");
+			LAi_SetImmortal(npchar,false);
+			LAi_SetCitizenType(npchar);
+		break;
+		
+		case "Titch_cards":
+			Dialog.text = "В карты? Учти, ставка - 50000 пиастров. Так что меньше, чем с 500000 даже не приходи. Ну, готов"+ GetSexPhrase("","а") +"?";
+			if (sti(pchar.money) >= 500000)
+			{
+				link.l1 = "Готов"+ GetSexPhrase("","а") +" ли я? Что за глупый вопрос, конечно!";
+				link.l1.go = "Titch_cards_go";
+			}
+			link.l2 = "Попозже.";
+			link.l2.go = "exit";
+		break;
+
+		case "Titch_cards_go":
+			npchar.money = 1000000;
+			pchar.GenQuest.Cards.npcharIdx = npchar.index;
+            pchar.GenQuest.Cards.iRate     = 50000;
+            pchar.GenQuest.Cards.SitType   = false;
+            Diag.CurrentNode = Diag.TempNode;
+			DialogExit();
+            LaunchCardsGame();
+		break;
+		
+		case "Titch_questions":
+			npchar.coolstories = "ебать";
+			npchar.questionsstate = 1;
+			Dialog.text = "Ну ладно, слушай охуительные загадки. Зачем к Карлосу все ходили с одним большим валенком?";
+			Link.l1.edit = 1;
+			Link.l1 = "";
+			Link.l1.go = "Titch_check";	
+			link.l2 = "Попозже.";
+			link.l2.go = "exit";
+		break;
+		case "Titch_check":
+			if (npchar.questionsstate == 1 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
+			{
+				npchar.coolstories = "камень";
+				npchar.questionsstate = 2;
+				Dialog.text = "Правильно! Карлос же собака. Ты таким умным родился что ли? Ладно, слушай дальше.";
+				Link.l1 = "Ну?";
+				Link.l1.go = "Titch_q2";
+				break;
+			}
+			if (npchar.questionsstate == 2 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
+			{
+				npchar.coolstories = "идинах";
+				npchar.questionsstate = 3;
+				Dialog.text = "Херассе, ты ещё и в будущее смотришь? Вот последняя.";
+				Link.l1 = "И?";
+				Link.l1.go = "Titch_q3";
+				break;
+			}
+			if (npchar.questionsstate == 3 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
+			{
+				Dialog.text = "Да ты прямо джениус!";
+				Link.l1 = "Я у мамы молодец :)";
+				Link.l1.go = "Titch_7";	
+				npchar.questions = true;
+				break;
+			}
+			else
+			{
+				Dialog.text = "Неверно, попробуй ещё.";
+				if (npchar.questionsstate == 1)
+				{
+					Link.l1 = "Хорошо.";
+					Link.l1.go = "Titch_questions";
+				}
+				if (npchar.questionsstate == 2)
+				{
+					Link.l1 = "Хорошо.";
+					Link.l1.go = "Titch_q2";
+				}
+				if (npchar.questionsstate == 3)
+				{
+					Link.l1 = "Хорошо.";
+					Link.l1.go = "Titch_q3";
+				}
+				link.l2 = "Попозже.";
+				link.l2.go = "exit";
+			}
+		break;
+		case "Titch_q2":
+			Dialog.text = "О чём ящер-отшельник сказал, что не даст?";
+			Link.l1.edit = 1;
+			Link.l1 = "";
+			Link.l1.go = "Titch_check";	
+			link.l2 = "Попозже.";
+			link.l2.go = "exit";
+		break;
+		case "Titch_q3":
+			Dialog.text = "Вилкой в глаз или в жопу раз?";
+			Link.l1.edit = 1;
+			Link.l1 = "";
+			Link.l1.go = "Titch_check";	
+			link.l2 = "Попозже.";
+			link.l2.go = "exit";
+		break;
+		
+		case "Titch_ships_sur":
+			Dialog.text = "Заработал"+ GetSexPhrase("","а") +"-таки авторитет в глазах местных? Уважаю за старания!";
+			Link.l1 = "Благодарю!";
+			Link.l1.go = "Titch_7";
+			npchar.ships_sur = true;
 		break;
 	}
 }

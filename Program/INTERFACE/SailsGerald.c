@@ -20,9 +20,9 @@ void InitInterface_R(string iniName, ref _shipyarder)
     bQuestCheckProcessFreeze = true;
     int st = GetCharacterShipType(pchar);
     shref = GetRealShip(st);
-	if (CheckAttribute(shref,"SailsColorIdx")) curcolor = shref.SailsColorIdx;
-	else curcolor = 0;
-	defcolor = curcolor;
+	//if (CheckAttribute(shref,"SailsColorIdx")) curcolor = sti(shref.SailsColorIdx);
+	//else curcolor = 0;
+	defcolor = sti(shref.SailsColorIdx);
 	cursails = sti(shref.ship.upgrades.sails);
 	defsails = cursails;
 	if (CheckAttribute(shref,"ShipSails.Gerald_Name"))

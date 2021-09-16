@@ -321,11 +321,29 @@ void ProcessDialogEvent()
 			sld = &characters[sti(npchar.quest.choiceIdx)];
 			if (sti(pchar.money) >= sti(sld.quest.price))
 			{
-				dialog.text = "Отлично, дорог"+ GetSexPhrase("ой","уша") +". " + sld.name + " будет ждать тебя в комнате для уединения на втором этаже.";
-				Link.l1 = ""+ GetSexPhrase("Хех, ну я пошел","Ну, я побежала") +"...";
-				Link.l1.go = "exit";
-				AddMoneyToCharacter(pchar, -sti(sld.quest.price));
-				sld.dialog.currentnode = "Horse_ReadyFack";			
+				if (rand(1) == 0 && pchar.sex != "woman" && !CheckAttribute(pchar,"NoPriest") && GetCharacterSPECIALSimple(pchar, SPECIAL_L) >= 8)
+				{					
+					dialog.text = "Отлично, дорогой, " + sld.name + " будет ждать тебя в комнате для уединения на втором этаже. Уверена, ты будешь оооочень доволен...");
+					Link.l1 = "Хех, ну я пошел...";
+					Link.l1.go = "exit";
+					AddMoneyToCharacter(pchar, -sti(sld.quest.price));
+					sld.greeting = "Gr_Church";
+					sld.model = "priest_2";
+					sld.model.animation = "man";
+					sld.name = "падре Педро";
+					sld.lastname = "";
+					sld.Dialog.Filename = "Common_Brothel.c";
+					sld.dialog.currentnode = "Priest1";
+					pchar.NoPriest = true;
+				}
+				else
+				{
+					dialog.text = "Отлично, дорог"+ GetSexPhrase("ой","уша") +". " + sld.name + " будет ждать тебя в комнате для уединения на втором этаже.";
+					Link.l1 = ""+ GetSexPhrase("Хех, ну я пошел","Ну, я побежала") +"...";
+					Link.l1.go = "exit";
+					AddMoneyToCharacter(pchar, -sti(sld.quest.price));
+					sld.dialog.currentnode = "Horse_ReadyFack";			
+				}
 				//--> таймер на возврат, чтобы не вечно ждали
 				str = npchar.city;
 				pchar.quest.(str).win_condition.l1            = "Timer";
@@ -979,6 +997,59 @@ void ProcessDialogEvent()
 			npchar.quest.choice = 0;
 		break;
 		//===>> секс
+		case "Priest1":
+			chrDisableReloadToLocation = true;
+			dialog.text = "Приветствую тебя, сын мой. Ну давай, подходи поближе...";
+			Link.l1 = "Что за херня происходит? Нет, не подходи...";
+			Link.l1.go = "exit";
+			//--> кол-во посещений
+			if (!CheckAttribute(npchar, "quest.sexHappend")) npchar.quest.sexHappend = 1;
+			else npchar.quest.sexHappend = sti(npchar.quest.sexHappend) + 1;
+			pchar.GenQuest.BrothelCount = sti(pchar.GenQuest.BrothelCount) + 1; // для Данек
+			if(CheckAttribute(PChar, "chr_ai.HeavyTrauma"))//лечение травмы в борделе - Gregg
+			{      
+				DeleteAttribute(PChar, "chr_ai.TraumaQ");			
+				DeleteAttribute(PChar, "chr_ai.HeavyTrauma");
+				Log_Info("Вы оправились от тяжелой травмы");
+				CheckAndSetOverloadMode(pchar);
+			}
+			//<-- кол-во посещений
+			str = npchar.city;
+			pchar.quest.(str).win_condition.l1 = "ExitFromLocation";
+			pchar.quest.(str).win_condition.l1.location = pchar.location;
+			pchar.quest.(str).win_condition = "Brothel_checkVisitTime";
+			pchar.questTemp.HorseQty = sti(pchar.questTemp.HorseQty) + 1; //счетчик
+			NextDiag.TempNode = "Priest2";
+			AddDialogExitQuest("PlaySex_1");
+			
+			/// кач от борделя
+			if (CheckNPCQuestDate(pchar, "BrothelSex"))
+			{
+				AddCharacterHealth(pchar, 5);
+				SetNPCQuestDate(pchar, "BrothelSex");
+			}
+			// изменение статусов
+			ChangeCharacterReputation(pchar, -1);
+			AddCharacterExpToSkill(pchar, "Luck", 500);
+			AddCharacterExpToSkill(pchar, "Leadership", -50);
+			AddCharacterExpToSkill(pchar, "Fencing", -15);
+			AddCharacterExpToSkill(pchar, "Pistol", -15);
+		break;
+		
+		case "Priest2":
+			dialog.text = "Тебе понравилось? Ты настоящий везунчик, ты первый, кого я окрестил своим достоинством, можешь идти и совершать любые дела и Бог простит тебя";
+			Link.l1 = "Просто нет слов, падре...";
+			Link.l1.go = "exit_2";
+			NextDiag.TempNode = "Priest3";
+		break;
+		
+		case "Priest3":
+			dialog.text = "На сегодня достаточно. Можешь уходить с миром.";
+			Link.l1 = "Пиздец...";
+			Link.l1.go = "exit";
+			NextDiag.TempNode = "Priest3";
+		break;
+		
         case "Horse_ReadyFack":
 			if (!CheckAttribute(npchar, "quest.choice")) npchar.quest.choice = 0;
 			switch(npchar.quest.choice)
@@ -1211,6 +1282,14 @@ void ProcessDialogEvent()
 		break;
 		case "Exit":
 			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+		break;
+		case "Exit_2":
+			AddSimpleRumour("Ты знаешь что я слышал? Это же уму непостижимо! Батюшка нашей церкви решил перейти на тёмную сторону и занялся интимом с очень влиятельным и известным человеком на всём архипелаге.", sti(npchar.nation), 10, 1);
+			npchar.lifeDay = 0;
+			LAi_SetActorType(npchar);
+			LAi_ActorRunToLocation(npchar, "reload", "reload1", "", "", "", "OpenTheDoors_Priest", -1);
+			chrDisableReloadToLocation = true;
 			DialogExit();
 		break;
 		//поиски кольца мэра

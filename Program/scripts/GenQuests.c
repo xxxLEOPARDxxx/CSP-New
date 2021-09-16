@@ -477,6 +477,8 @@ void Church_GenQuest2_GenerateBandits(string sQuest)
 
 	ref location = &locations[reload_location_index];
 	LAi_LocationFightDisable(location, true);
+	string replace = "";
+	if (!CheckAttribute(location,"locators.encdetector")) replace = "yes";
 	string encGenGroup = LAi_FindRandomLocator("encdetector");
 	string sGenTemp = "locators." + encGenGroup;
 	string sLocGroup;
@@ -484,6 +486,11 @@ void Church_GenQuest2_GenerateBandits(string sQuest)
 	makearef(arGenAll, location.(sGenTemp));
 	
 	int iBanditsCount = LAi_CalculateRaidersQuantity(GetAttributesNum(arGenAll)); //кол-во человек в банде
+	if (replace == "") 
+	{
+		if (GetAttributesNum(arGenAll) < 3) iBanditsCount = 1;
+	}
+	
 	// if (iBanditsCount <= 0) iBanditsCount = 1;
 	// if (iBanditsCount >= 4) iBanditsCount = 3 + rand(1);	// „аще всего так и бывает
 	
@@ -503,10 +510,19 @@ void Church_GenQuest2_GenerateBandits(string sQuest)
 			rChar.DontClearDead = true;
 		}
 		SetFantomParamFromRank(rChar, iGenRank, true);
-		sGenlocator = GetAttributeName(GetAttributeN(arGenAll, 1)); 
-		ChangeCharacterAddressGroup(rChar, location.id, encGenGroup, sGenlocator);
-		// ChangeCharacterAddressGroup(rChar, location.id, "goto", "goto" + (i + 1));
-		PlaceCharacter(rChar, "encdetector", "random_must_be_near");
+		if (replace == "")
+		{
+			sGenlocator = GetAttributeName(GetAttributeN(arGenAll, 1)); 
+			ChangeCharacterAddressGroup(rChar, location.id, encGenGroup, sGenlocator);
+			// ChangeCharacterAddressGroup(rChar, location.id, "goto", "goto" + (i + 1));
+			PlaceCharacter(rChar, "encdetector", "random_must_be_near");
+		}
+		else
+		{
+			ChangeCharacterAddressGroup(rChar, location.id, "goto", "goto1");
+			// ChangeCharacterAddressGroup(rChar, location.id, "goto", "goto" + (i + 1));
+			PlaceCharacter(rChar, "goto", "random_must_be_near");
+		}
 		LAi_SetGuardianType(rChar);
 		rChar.Dialog.FileName = "GenQuests_Dialog.c";
 		LAi_SetImmortal(rChar, true);
@@ -5222,6 +5238,7 @@ void ShipWreck_GoOut()
 		LAi_ActorGoToLocation(sld, "reload", LAi_FindNearestLocator("reload", locx, locy, locz), "none", "", "", "", -1.0);		
 	}
 	DeleteAttribute(pchar,"GenQuest.ShipWreck");
+	DeleteAttribute(pchar,"quest.ShipWreck_ExitFromTown");
 	DoQuestCheckDelay("OpenTheDoors", 1.0);
 }
 

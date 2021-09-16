@@ -153,6 +153,12 @@ void QuestComplete(string sQuestName, string qname)
 	            LAi_SetWarriorType(sld);
 	            //LAi_group_MoveCharacter(sld, LAI_GROUP_TmpEnemy);
 	            LAi_group_MoveCharacter(sld, "LAND_HUNTER");
+				
+				sld = characterFromID(PChar.HunterCost.TempHunterType + "LandHunter02" + i);
+				LAi_RemoveCheckMinHP(sld);
+	            LAi_SetWarriorType(sld);
+	            //LAi_group_MoveCharacter(sld, LAI_GROUP_TmpEnemy);
+	            LAi_group_MoveCharacter(sld, "LAND_HUNTER");
 			}
             //LAi_group_SetRelation(LAI_GROUP_TmpEnemy, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
             //LAi_group_FightGroups(LAI_GROUP_TmpEnemy, LAI_GROUP_PLAYER, true);
@@ -211,6 +217,11 @@ void QuestComplete(string sQuestName, string qname)
             for (i=1; i<= sti(PChar.HunterCost.Qty); i++)
 			{
 	            sld = characterFromID(PChar.HunterCost.TempHunterType + "LandHunter0" + i);
+				//LAi_RemoveCheckMinHP(sld);  можно пальнуть в спину, тогда по идее будет бой
+				LAi_type_actor_Reset(sld);
+				LAi_ActorGoToLocation(sld, "reload", sTemp, "none", "", "", "", 4.0);
+				
+				sld = characterFromID(PChar.HunterCost.TempHunterType + "LandHunter02" + i);
 				//LAi_RemoveCheckMinHP(sld);  можно пальнуть в спину, тогда по идее будет бой
 				LAi_type_actor_Reset(sld);
 				LAi_ActorGoToLocation(sld, "reload", sTemp, "none", "", "", "", 4.0);
@@ -2254,7 +2265,7 @@ void QuestComplete(string sQuestName, string qname)
 				sTemp = "locators." + encGroup;
 				makearef(arAll, location.(sTemp));
 				
-				iMainGang = NPC_GenerateCharacter("MayorQuestGang_0", "Skel_6", "skeleton", "man2_ab", 100, PIRATE, 0, true);
+				iMainGang = NPC_GenerateCharacter("MayorQuestGang_0", "Skel_6", "skeleton", "man", 100, PIRATE, 0, true);
 				sld = &characters[iMainGang];
 				sld.name = pchar.GenQuest.DestroyGang.name;  //имя главаря
 				sld.lastname = pchar.GenQuest.DestroyGang.lastname;
@@ -2353,7 +2364,6 @@ void QuestComplete(string sQuestName, string qname)
 						else 
 						{
 							Rank = 1;
-							if (iTemp > 2) iTemp = 2;
 						}
 					}	
 					//<-- генерим ранг 
@@ -2362,10 +2372,10 @@ void QuestComplete(string sQuestName, string qname)
 					sld.dialog.filename = "MayorQuests_dialog.c";
 					sld.dialog.currentnode = "SeekSpy_house";
 					sld.greeting = "cit_common"; 
-					sld.money =  1000 + rand(5000);
+					sld.money =  1000 + (sti(pchar.rank)*500) + rand(5000);
 			        sld.SaveItemsForDead  = true; 
 					AddBonusEnergyToCharacter(sld, 30);
-					FantomMakeCoolFighter(sld, Rank + 0.25, 20+rand(60), 30, "blade12", "pistol3", 70);
+					FantomMakeCoolFighterWRankDepend(sld,Rank,20+rand(70),20+rand(70),70+(MOD_SKILL_ENEMY_RATE*3));//реф,уровень,скилы фехта(дополнительно скейлятся в методе от сложности),навык стрельбы и везения(аналогично),доп хп(аналогично)
 					DeleteAttribute(sld, "perks.list");
 					DeleteAttribute(sld, "items.spyglass3")
 					SetCharacterPerk(sld, "BasicDefense");
@@ -3303,6 +3313,19 @@ void QuestComplete(string sQuestName, string qname)
                 DeleteAttribute(pchar, "tmpKillGroup");
             }
         break;
+		
+		case "OpenTheDoors_Greedy":
+            chrDisableReloadToLocation = false;
+			bDisableFastReload = false; 
+			LAi_group_SetRelation("greedybastard", LAI_GROUP_PLAYER, LAI_GROUP_FRIEND);
+        break;
+		
+		case "OpenTheDoors_Priest":
+            chrDisableReloadToLocation = false;
+			bDisableFastReload = false;
+			StartActorSelfDialog("PriestSurprise");
+        break;
+		
 		//Довакин
 		case "Dovahkiin":
             PlaySound("Interface\P_Dovahkiin.wav");
@@ -9818,10 +9841,10 @@ void QuestComplete(string sQuestName, string qname)
 			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
 			TakeItemFromCharacter(pchar, "PDM_SJ_Angl_Gal");
 			chrDisableReloadToLocation = false;
-			pchar.GenQuestBox.Dominica_Grot.box1.items.icollection = 1;
+			pchar.GenQuestBox.Dominica_Grot.box1.items.icollection = 5;
 			pchar.GenQuestBox.Dominica_Grot.box1.items.indian10 = 1;
-			pchar.GenQuestBox.Dominica_Grot.box1.items.jewelry5 = 20;
-			pchar.GenQuestBox.Dominica_Grot.box1.items.jewelry17 = 60;
+			pchar.GenQuestBox.Dominica_Grot.box1.items.jewelry5 = 300;
+			pchar.GenQuestBox.Dominica_Grot.box1.items.jewelry17 = 300;
 			SetQuestHeader("PDM_Novaya_Rodina");
 			AddQuestRecord("PDM_Novaya_Rodina", "9");	
 			PChar.quest.PDM_ZNT_SJ_GLOBAL.over = "yes";
@@ -10322,8 +10345,10 @@ void QuestComplete(string sQuestName, string qname)
 				num = GetAttributesNum(grp);
 				for(i = 0; i < num; i++)
 				{
-					sld = GetCharacter(NPC_GenerateCharacter("Skelet"+loadedLocation.index+"_"+i, "Skel_5", "skeleton", "man2_ab", iRank, PIRATE, 1, true));
+					sld = GetCharacter(NPC_GenerateCharacter("Skelet"+loadedLocation.index+"_"+i, "Skel_5", "skeleton", "man", pRank, PIRATE, 1, true));
 					FantomMakeCoolFighter(sld, pRank, 80, 80, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), "", MOD_SKILL_ENEMY_RATE*2);
+					sld.name = "Страж";
+					sld.lastname = "Храма";
 					LAi_SetWarriorType(sld);
 					LAi_warrior_SetStay(sld, true);
 					LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
@@ -10419,7 +10444,7 @@ void QuestComplete(string sQuestName, string qname)
 		
 		case "treasure_portal":
 			LAi_QuestDelay("empting_portals", 0.0);
-			LAi_fade("teleport_treasure_5", "");
+			if (!chrDisableReloadToLocation) LAi_fade("teleport_treasure_5", "");
 			PlayStereoSound("Ambient\INCA TEMPLE\teleporter.wav");
 		break;
 
@@ -10444,12 +10469,30 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 
 		case "teleport_5_treasure":
+			if (!CheckAttribute(pchar,"UmSamil") && !CheckAttribute(pchar,"UmSamilGuards")) 
+			{
+				LoginUmSamilGuards();
+				pchar.UmSamilGuards = true;
+			}
 			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport6");
 			LAi_QuestDelay("recharge_portals", 2.0);
 		break;
 		
+		case "UmSamilGuardsDefeated":
+			pchar.UmSamilGuardsDefeated = true;
+		break;
+		
+		case "UmSamilDefeated":
+			LAi_SetFightMode(pchar, false);
+			sld = CharacterFromID("DeadmansGod2");
+			sld.dialog.filename = "Quest\Mictlantecuhtli.c";
+			sld.dialog.currentnode = "Samil";
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", 1.0, 0);
+		break;
+		
 		case "teleport_treasure_5":
-			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport5");
+			if (!chrDisableReloadToLocation) ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport5");
 			LAi_QuestDelay("recharge_portals", 2.0);
 		break;
 		
@@ -10462,21 +10505,242 @@ void QuestComplete(string sQuestName, string qname)
 
 		case "monster_generate_in_alcove":
 			ChangeCharacterAddressGroup(pchar, "Treasure_alcove", "teleport", "teleport0");
-			
+			Group_FindOrCreateGroup("almonsters");
 			for (i=1; i<=3; i++)
             {
                 sld = GetCharacter(NPC_GenerateCharacter("Skeletoon"+rand(999), "Skel"+(rand(3)+1), "skeleton", "skeleton", 25, PIRATE, 0, true));
                 FantomMakeCoolFighter(sld, 25, 80, 60, BLADE_LONG, "pistol3", 70);
             	LAi_SetWarriorType(sld);
-                LAi_group_MoveCharacter(sld, "monsters");
+				
+                LAi_group_MoveCharacter(sld, "almonsters");
                 GetCharacterPos(pchar, &locx, &locy, &locz);
 				sTemp = LAi_FindNearestFreeLocator("monsters", locx, locy, locz);
                	ChangeCharacterAddressGroup(sld, "Treasure_alcove", "monsters", sTemp);
             }
-			LAi_group_SetLookRadius("monsters", 30.0);
-			LAi_group_FightGroups("monsters", LAI_GROUP_PLAYER, true);
+			LAi_group_SetLookRadius("almonsters", 30.0);
+			LAi_group_SetRelation("almonsters", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			LAi_group_FightGroups("almonsters", LAI_GROUP_PLAYER, true);
+		break;
+		
+		case "FishHeadsDefeated":
+			chrDisableReloadToLocation = false;
+			pchar.quest.FishH.win_condition.l1 = "ExitFromLocation";
+			pchar.quest.FishH.win_condition.l1.location = pchar.location;
+			pchar.quest.FishH.win_condition.function = "FishHDS";
+		break;
+		
+		case "FishHDS":
+			TakeNItems(pchar,"letter_notes",-1);
+			Log_info("Что ещё за команда CSP? Выкину-ка я эту записку от греха подальше...");
+			ChangeItemDescribe("letter_notes", "itmdescr_letter_notes");
+		break;
+		case "SpawnScamFan":
+			sld = GetCharacter(NPC_GenerateCharacter("ScamCharacter", "PGG_WillTerner_5", "man", "man", 1, PIRATE, 1, false));
+			DeleteAttribute(sld, "LifeDay"); 
+			GiveItem2Character(sld, "unarmed");
+			EquipCharacterbyItem(sld, "unarmed"); 
+			GetCharacterPos(pchar, &locx, &locy, &locz);
+			sTemp = LAi_FindNearestFreeLocator("rld", locx, locy, locz);
+			ChangeCharacterAddressGroup(sld, "FencingTown_ExitTown", "rld", sTemp);
+			LAi_SetActorTypeNoGroup(sld);
+			LAi_SetImmortal(sld,true);
+			sld.name = "Скэм";
+			sld.lastname = "Геймс";
+			sld.dialog.filename = "Fan.c";
+			sld.dialog.currentnode = "FirstMeet";
+			LAi_group_MoveCharacter(sld, "player");
+			LAi_ActorDialog(sld, pchar, "", 4.0, 0);
+		break;
+		case "RidScamFan":
+			chrDisableReloadToLocation = true;
+			sld = CharacterFromID("ScamCharacter");
+			GetCharacterPos(pchar, &locx, &locy, &locz);
+			sTemp = LAi_FindNearestFreeLocator("rld", locx, locy, locz);
+			ChangeCharacterAddressGroup(sld, "Temple_skulls", "goto", sTemp);
+			LAi_SetActorTypeNoGroup(sld);
+			LAi_SetImmortal(sld,true);
+			sld.dialog.currentnode = "Scared";
+			LAi_ActorDialog(sld, pchar, "", 4.0, 0);
+		break;
+		case "GangRapeOld":
+			chrDisableReloadToLocation = true;
+			sld = CharacterFromID("GangRapersMan_1");
+			sld.Dialog.currentnode = "Third";
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", -1, 0);
+			
+			for(i=1; i < sti(sld.num); i++)
+			{
+				sld = CharacterFromID("GangRapersMan_"+i);
+				PlaceCharacter(sld, "goto", "random_must_be_near");
+			}
+			sld = CharacterFromID("OldMan");
+			PlaceCharacter(sld, "goto", "random_must_be_near");
+		break;
+		case "GangRapeOld2":
+			sld = CharacterFromID("GangRapersMan_1");
+			sld.Dialog.currentnode = "Final";
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", -1, 0);
+		break;
+		case "GangRapeOld3":
+			sld = CharacterFromID("GangRapersMan_1");
+			for(i=1; i < sti(sld.num); i++)
+			{
+				ref sled = CharacterFromID("GangRapersMan_"+i);
+				LAi_SetActorType(sled);
+				LAi_ActorRunToLocation(sled, "reload", "reload1", "", "", "", "OpenTheDoors", -1);
+				sled.LifeDay = 0;
+			}
+			sld = CharacterFromID("OldMan");
+			LAi_SetActorType(sld);
+			LAi_ActorRunToLocation(sld, "reload", "reload1", "", "", "", "OpenTheDoors", -1);
+			sld.LifeDay = 0;
+		break;
+		case "CleanUpGrandma":
+			sld = GetCharacter(NPC_GenerateCharacter("CleanUpGrandmatha", "BaynesWife", "woman", "towngirl", 1, PIRATE, 1, false));
+			ChangeCharacterAddressGroup(sld, "Temple_h", "goto", "goto19");
+			LAi_SetActorType(sld);
+			sld.name = "техничка";
+			sld.lastname = "Глаша";
+			sld.dialog.filename = "Janitor.c";
+			sld.dialog.currentnode = "First";
+			DoQuestFunctionDelay("CleanUpGrandma2", 10.0);
+		break;
+		case "CleanUpGrandmaClean":
+			sld = CharacterFromID("CleanUpGrandmatha");
+			LAi_ActorAnimation(sld,"taverngirl","",1.0);
+			LAi_Actor2WaitDialog(sld,pchar);
+			sld.dialog.currentnode = "First";
+		break;
+		case "CleanGrandma":
+			sld = CharacterFromID("CleanUpGrandmatha");
+			ChangeCharacterAddressGroup(sld, "none", "", "");
+			sld.lifeDay = 0;
+			pchar.Grandma = true;
+			pchar.quest.CleanUpGrandma.over = "yes";
+			pchar.quest.CleanUpGrandmaClean.over = "yes";
+		break;
+		case "SpawnSalasarSupports":
+			for(i = 0; i < 10; i++)
+			{
+				sld = GetCharacter(NPC_GenerateCharacter("SalSupp"+i, GetRandSkelModelClassic(), "skeleton", "man", 25, PIRATE, 0, true));
+				FantomMakeCoolFighter(sld, 20, 90, 90, "blade42", "", 300);
+				LAi_SetWarriorType(sld);
+				PlaceCharacter(sld, "quest", "random_must_be_near");
+				LAi_group_MoveCharacter(sld, "ReefAssholes");
+				LAi_SetFightMode(sld, true);
+			}
+			sld = CharacterFromID("Salasar");
+			Log_info("Потусторонняя аура давит на вас ещё сильнее.");
+			AddCharacterHealth(pchar, -10);
+			LAi_SetCheckMinHP(sld, 1000.0, false, "SpawnSalasarSupports_2");
+		break;
+		case "SpawnSalasarSupports_2":
+			for(i = 0; i < 10; i++)
+			{
+				sld = GetCharacter(NPC_GenerateCharacter("SalSupps"+i, GetRandSkelModelClassic(), "skeleton", "man", 25, PIRATE, 0, true));
+				FantomMakeCoolFighter(sld, 20, 90, 90, "blade42", "", 300);
+				LAi_SetWarriorType(sld);
+				PlaceCharacter(sld, "quest", "random_must_be_near");
+				LAi_group_MoveCharacter(sld, "ReefAssholes");
+				LAi_SetFightMode(sld, true);
+			}
+			sld = CharacterFromID("Salasar");
+			Log_info("Потусторонняя аура практически лишает вас всех сил.");
+			AddCharacterHealth(pchar, -10);
+			LAi_SetCheckMinHP(sld, 5.0, true, "SpawnSalasarSupports_3");
+		break;
+		case "SpawnSalasarSupports_3":
+			LAi_group_SetRelation("ReefAssholes", LAI_GROUP_PLAYER, LAI_GROUP_FRIEND);
+			LAi_SetFightMode(pchar, false);
+			LAi_LockFightMode(pchar, false);
+			LAi_LocationFightDisable(loadedLocation, true);
+			sld = CharacterFromID("salasar");
+			LAi_SetActorTypeNoGroup(sld);
+			sld.dialog.filename = "Salasar.c";
+			sld.dialog.currentnode = "Last";
+			LAi_ActorDialog(sld, pchar, "", 4.0, 0);
+		break;
+		case "SpawnGiantEvilSkeleton":
+			if (loadedLocation.id != "DeckWithReefs" || CheckAttribute(pchar,"GiantEvilSkeletonSpawned")) {chrDisableReloadToLocation = false; break;}
+			log_info("Хранитель грота был пробуждён.");
+			sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_0", "skeleton", "Giant", iRank, PIRATE, 1, true));
+			sld.name = "Хранитель";
+			sld.lastname = "Грота";
+			sld.SaveItemsForDead = true;
+			sld.cirassId = Items_FindItemIdx("cirass5");
+			
+			SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
+			FantomMakeCoolFighter(sld, 55, 100, 100, RandPhraseSimple("blade46","blade42"), "", 300); //40 лвл, Кханда или Офицерский клеванг
+			LAi_SetHP(sld,2500,2500);
+			
+			SelAllPerksToNotPCHAR(sld); //укоротил все перки
+			
+			//установить ЛУ и КУ
+			SetSelfSkill(sld, 100, 100, 100, 100, 100); //лёгкое, среднее, тяжёлое, пистолет, удача
+			SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100); // лидерство, торговля, точность, пушки, навигация, ремонт, абордаж, защита, скрытность
+			
+			SetCharacterPerk(sld, "Grunt"); //рубака
+			AddBonusEnergyToCharacter(sld, 50);
+			TakeNItems(sld,"potion2",10);
+			pchar.quest.GiantDead.win_condition.l1 = "NPC_Death";
+			pchar.quest.GiantDead.win_condition.l1.character = "GiantEvilSkeleton";
+			pchar.quest.GiantDead.win_condition = "GiantDead";
+			ChangeCharacterAddressGroup(sld, loadedLocation.id, "item", "fire93");
+			LAi_SetWarriorType(sld);
+			LAi_group_MoveCharacter(sld, "ReefAssholes");
+			sld.chr_ai.special.valueCB = 100;
+			sld.chr_ai.special.valueBB = 100;
+			pchar.GiantEvilSkeletonSpawned = true;
+		break;
+		case "GiantDead":
+			pchar.talismanpreget = true;
+			chrDisableReloadToLocation = false;
+			log_info("Вы чувствуете как гнетущее ощущение присутствия зла в этом месте слабеет.");
+			log_info("От постамента в храме грота исходит странное сияние.");
+			CreateParticleSystemX("shadowstar",stf(loadedLocation.locators.item.item1.x),stf(loadedLocation.locators.item.item1.y),stf(loadedLocation.locators.item.item1.z),
+				stf(loadedLocation.locators.item.item1.vz.x),stf(loadedLocation.locators.item.item1.vz.y),stf(loadedLocation.locators.item.item1.vz.z),0);
+		break;
+		
+		case "Titch_Duel":
+			LAi_SetFightMode(pchar, false);
+			LAi_LocationFightDisable(loadedLocation, true);
+			sld = CharacterFromID("BlackBeardNPC");
+			LAi_group_MoveCharacter(sld, "");	
+			sld.dialog.filename = "Capitans_dialog.c";
+			sld.dialog.currentnode = "DuelWon";
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", 1.0, 0);
+		break;
+		
+		case "Titch_seabattle":
+			LAi_SetFightMode(pchar, false);
+			LAi_LocationFightDisable(loadedLocation, true);
+			sld = &Characters[sti(pchar.GenQuest.QuestAboardCabinDialogIdx)];
+            LAi_SetActorType(sld);	
+			sld.dialog.filename = "Capitans_dialog.c";
+			sld.dialog.currentnode = "Titch_Seabattle_won";
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", 1.0, 0);
 		break;
 	}
+}
+
+void CleanUpGrandma1()
+{
+	if (CheckAttribute(pchar,"Grandma")) return;
+	ref sld = CharacterFromID("CleanUpGrandmatha");
+	LAi_ActorRunToLocator(sld, "goto", "goto19", "CleanUpGrandmaClean", 0.0);
+	DoQuestFunctionDelay("CleanUpGrandma2", 11.0);
+}
+		
+void CleanUpGrandma2()
+{
+	if (CheckAttribute(pchar,"Grandma")) return;
+	ref sld = CharacterFromID("CleanUpGrandmatha");
+	LAi_ActorRunToLocator(sld, "goto", "goto20", "CleanUpGrandmaClean", 0.0);
+	DoQuestFunctionDelay("CleanUpGrandma1", 11.0);
 }
 
 //Lipsar подпилил Хемфри для красоты --->

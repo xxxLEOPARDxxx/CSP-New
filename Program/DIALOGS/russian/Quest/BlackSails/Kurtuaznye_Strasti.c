@@ -372,6 +372,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "BS_KS_24_1":
+			LAI_SetActorType(npchar);
 			sld = CharacterFromID("BS_Silver");
 			LAi_SetStayTypeNoGroup(sld);
 			sld.dialog.currentnode = "BS_KS_25";
@@ -394,6 +395,7 @@ void ProcessDialogEvent()
 		
 		case "BS_KS_26":
             dialog.text = "С превеликим удовольствием.";
+			LAI_SetActorType(npchar);
             link.l1 = "Увидимся.";
 			link.l1.go = "exit";
 			LAi_LockFightMode(PChar, true);

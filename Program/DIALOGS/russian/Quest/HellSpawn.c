@@ -79,17 +79,11 @@ void ProcessDialogEvent()
 			LAi_SetWarriorType(NPChar);
 			LAi_SetImmortal(NPChar, false);
 			ref RitualLocLoad = &locations[reload_location_index];
-			SetSkeletonsToLocation(ritualLocLoad)
 			cnd;
 			for (i = 1; i<sti(pchar.Hellspawn.num); i++)
 			{
 				cnd = "l" + i;
 				sld = characterFromID("HellSpawnR"+i);
-				LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
-				PChar.quest.HellSpawnRitualFinish.win_condition.(cnd) = "NPC_Death";
-				PChar.quest.HellSpawnRitualFinish.win_condition.(cnd).character = sld.id;
-				cnd = "lskel" + i;
-				sld = characterFromID("Skelet"+ritualLocLoad.index+"_"+i);
 				LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
 				PChar.quest.HellSpawnRitualFinish.win_condition.(cnd) = "NPC_Death";
 				PChar.quest.HellSpawnRitualFinish.win_condition.(cnd).character = sld.id;

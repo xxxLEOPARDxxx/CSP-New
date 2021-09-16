@@ -29,8 +29,14 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 		max = stf(attack.chr_ai.dmgbldmax);
 	}
 	//float bladeDmg = min + frand((max - min));//*(rand(10)*0.1);
+	if (findsubstr(attack.model.animation, "mushketer" , 0) != -1)
+	{
+		min = 10.0;
+		max = 20.0;
+	}
 	
 	float atSkill = LAi_GetCharacterFightLevel(attack);
+	string fencing_type = LAi_GetBladeFencingType(attack);
 	/*if (CheckAttribute(attack,"chr_ai.Trauma"))
 	{
 		atSkill = atSkill - 0.25;
@@ -67,102 +73,210 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 	
 	// TO_DO оптимизация на ветку параметров
 	//if (sti(attack.index) == GetMainCharacterIndex()) Log_Info(attackType);
-	switch(attackType)
+	if (bAltBalance)
 	{
-		case "fast": // быстрая атака
-		if(isBlocked)
-			{
-                if(blockSave) 
+		switch(attackType)
+		{
+			case "fast": // быстрая атака
+				if(isBlocked)
 				{
-                    kAttackDmg = 0.0;
-                }
-				else 
-				{
-                    kAttackDmg = 0.5;
+					if(blockSave) 
+					{
+						kAttackDmg = 0.0;
+					}
+					else 
+					{
+						kAttackDmg = 0.5;
+					}
 				}
-			}
-			else
-			{
-				kAttackDmg = 0.7;
-			}
-		break;
-		case "force": // обычная атака
-			if(isBlocked)
-			{
-                if(blockSave) 
+				else
 				{
-                    kAttackDmg = 0.0;
-                }
-				else 
-				{
-                    kAttackDmg = 0.6;
+					kAttackDmg = 0.7;
 				}
-			}
-			else
-			{
-				kAttackDmg = 1.0;
-			}
-		break;
-		case "round": // круговая атака
-			if(isBlocked)
-			{
-                if(blockSave) 
-				{
-                    kAttackDmg = 0.0;
-                }
-				else 
-				{
-                    kAttackDmg = 0.4;
-				}
-			}
-			else
-			{
-				kAttackDmg = 0.6;
-			}
-			if(CheckCharacterPerk(attack, "BladeDancer"))
-			{
-				kAttackDmg = kAttackDmg * 1.3;
-			}
+				if (fencing_type != "Fencing") kAttackDmg *= 0.6;
 			break;
-		case "break": // пробивающая блок
-			if(isBlocked)
-			{
-                if(blockSave) 
+			case "force": // обычная атака
+				if(isBlocked)
 				{
-                    kAttackDmg = 1.0;
-                }
-				else 
-				{
-                    kAttackDmg = 2.0;
+					if(blockSave) 
+					{
+						kAttackDmg = 0.0;
+					}
+					else 
+					{
+						kAttackDmg = 0.6;
+					}
 				}
-			}
-			else
-			{
-				kAttackDmg = 3.0;
-			}
-		break;
-		
-		case "feintc":  // фикс после изучения ядра //Атакующие продолжение финта
-			if(isBlocked && blockSave)
-			{
-				kAttackDmg = 0.0;
-			}
-			else
-			{
-				kAttackDmg = 0.8;
-			}
-		break;
-		
-		case "feint":
-			if(isBlocked && blockSave)
-			{
-				kAttackDmg = 0.0;
-			}
-			else
-			{
-				kAttackDmg = 0.5;
-			}
-		break;
+				else
+				{
+					kAttackDmg = 1.0;
+				}
+				if (fencing_type != "FencingLight") kAttackDmg *= 0.6;
+			break;
+			case "round": // круговая атака
+				if(isBlocked)
+				{
+					if(blockSave) 
+					{
+						kAttackDmg = 0.0;
+					}
+					else 
+					{
+						kAttackDmg = 0.4;
+					}
+				}
+				else
+				{
+					kAttackDmg = 0.6;
+				}
+				if(CheckCharacterPerk(attack, "BladeDancer"))
+				{
+					kAttackDmg = kAttackDmg * 1.3;
+				}
+				if (fencing_type != "Fencing") kAttackDmg *= 0.6;
+				break;
+			case "break": // пробивающая блок
+				if(isBlocked)
+				{
+					if(blockSave) 
+					{
+						kAttackDmg = 1.0;
+					}
+					else 
+					{
+						kAttackDmg = 2.0;
+					}
+				}
+				else
+				{
+					kAttackDmg = 3.0;
+				}
+				if (fencing_type != "FencingHeavy") kAttackDmg *= 0.6;
+			break;
+			
+			case "feintc":  // фикс после изучения ядра //Атакующие продолжение финта
+				if(isBlocked && blockSave)
+				{
+					kAttackDmg = 0.0;
+				}
+				else
+				{
+					kAttackDmg = 0.8;
+				}
+				if (fencing_type != "FencingLight") kAttackDmg *= 0.6;
+			break;
+			
+			case "feint":
+				if(isBlocked && blockSave)
+				{
+					kAttackDmg = 0.0;
+				}
+				else
+				{
+					kAttackDmg = 0.5;
+				}
+			break;
+		}
+	}
+	else
+	{
+		switch(attackType)
+		{
+			case "fast": // быстрая атака
+				if(isBlocked)
+				{
+					if(blockSave) 
+					{
+						kAttackDmg = 0.0;
+					}
+					else 
+					{
+						kAttackDmg = 0.5;
+					}
+				}
+				else
+				{
+					kAttackDmg = 0.7;
+				}
+			break;
+			case "force": // обычная атака
+				if(isBlocked)
+				{
+					if(blockSave) 
+					{
+						kAttackDmg = 0.0;
+					}
+					else 
+					{
+						kAttackDmg = 0.6;
+					}
+				}
+				else
+				{
+					kAttackDmg = 1.0;
+				}
+			break;
+			case "round": // круговая атака
+				if(isBlocked)
+				{
+					if(blockSave) 
+					{
+						kAttackDmg = 0.0;
+					}
+					else 
+					{
+						kAttackDmg = 0.4;
+					}
+				}
+				else
+				{
+					kAttackDmg = 0.6;
+				}
+				if(CheckCharacterPerk(attack, "BladeDancer"))
+				{
+					kAttackDmg = kAttackDmg * 1.3;
+				}
+				break;
+			case "break": // пробивающая блок
+				if(isBlocked)
+				{
+					if(blockSave) 
+					{
+						kAttackDmg = 1.0;
+					}
+					else 
+					{
+						kAttackDmg = 2.0;
+					}
+				}
+				else
+				{
+					kAttackDmg = 3.0;
+				}
+			break;
+			
+			case "feintc":  // фикс после изучения ядра //Атакующие продолжение финта
+				if(isBlocked && blockSave)
+				{
+					kAttackDmg = 0.0;
+				}
+				else
+				{
+					kAttackDmg = 0.8;
+				}
+			break;
+			
+			case "feint":
+				if(isBlocked && blockSave)
+				{
+					kAttackDmg = 0.0;
+				}
+				else
+				{
+					kAttackDmg = 0.5;
+				}
+			break;
+		}
 	}
 	if (kAttackDmg > 0)  // оптимизация boal
 	{
@@ -195,13 +309,6 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 			if (enemy.chr_ai.group == LAI_GROUP_PLAYER)
 			{
 				dmg = dmg / MOD_Complexity_1_DMG;
-			}
-		}
-		if (IsMainCharacter(attack))															   
-		{
-			if (findsubstr(attack.model.animation, "mushketer" , 0) != -1)
-			{
-				dmg = dmg / 3.0;
 			}
 		}
 		
@@ -780,6 +887,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	if(IsCharacterPerkOn(enemy, "BasicDefense")) kDmg = 0.9;
 	if(IsCharacterPerkOn(enemy, "AdvancedDefense")) kDmg = 0.8;
 	if(IsCharacterPerkOn(enemy, "SwordplayProfessional")) kDmg = 0.7;
+	if(IsEquipCharacterByArtefact(enemy, "talisman9") && CheckAttribute(attack,"sex") && attack.sex == "skeleton") kDmg -= 0.33;
 
 	// ГПК 1.2.3
 	dmg = dmg*kDmg;
@@ -803,6 +911,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	if (IsEquipCharacterByArtefact(attack, "talisman1")) dmg *= 1.1; //Пернатый Змей
 	if(IsCharacterPerkOn(attack, "Grunt")) dmg *= 1.15; //Рубака
 	if(CheckAttribute(attack, "StrangeElixir")) dmg *= 1.1; //Убойная смесь
+	if(IsEquipCharacterByArtefact(attack, "talisman9") && CheckAttribute(enemy,"sex") && enemy.sex == "skeleton") dmg *= 1.33;
 	LAi_ApplyCharacterDamage(enemy, MakeInt(dmg + 0.5));
 	/*if(!IsCharacterPerkOn(attack, "Grunt"))
 	{
@@ -918,6 +1027,7 @@ void CheckForBlooding(ref attack, ref enemy, bool type, string attackType)
 					}
 					if(sti(enemy.index) == GetMainCharacterIndex())
 					{
+						if(IsEquipCharacterByArtefact(enemy, "talisman9") && rand(9)>0) {log_info("Кровотечение предотвращено.") return;}
 						Log_Info("Вам нанесли кровоточащую рану.");
 						PlaySound("interface\Krovotok_"+rand(4)+".wav");
 					}
@@ -942,6 +1052,7 @@ void CheckForBlooding(ref attack, ref enemy, bool type, string attackType)
 					}
 					if(sti(enemy.index) == GetMainCharacterIndex())
 					{
+						if(IsEquipCharacterByArtefact(enemy, "talisman9") && rand(9)>0) {log_info("Кровотечение предотвращено.") return;}
 						Log_Info("Вам нанесли кровоточащую рану.");
 						PlaySound("interface\Krovotok_"+rand(4)+".wav");
 					}
@@ -1033,6 +1144,8 @@ void CheckForTrauma(ref attack, ref enemy)
 	{
 		if (rand(99)<valueT)
 		{
+			if (CheckAttribute(enemy, "cirassId") && !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_") && rand(6)<1) return;
+			
 			if (!CheckAttribute(enemy,"chr_ai.TraumaQ")) enemy.chr_ai.TraumaQ = 1;
 			else enemy.chr_ai.TraumaQ = sti(enemy.chr_ai.TraumaQ)+1;
 			if(sti(attack.index) == GetMainCharacterIndex())

@@ -24,7 +24,7 @@ void ProcessDialogEvent()
 		break;
 		//встреча в бухте с перцем, который валит из Тено
 		case "Shore53":
-			pchar.defaultanimation = pchar.model.animation;
+			pchar.defaultanimation = MainChAnim;
 			dialog.text = "Сеньор"+ GetSexPhrase("","ита") +", уходите отсюда! Уплывайте немедленно!";
 			link.l1 = "В чем дело?";
 			link.l1.go = "Shore53_1";

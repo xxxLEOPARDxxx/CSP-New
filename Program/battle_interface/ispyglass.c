@@ -247,14 +247,12 @@ void SetSpyGlassData()
 			case CANNON_TYPE_CULVERINE_LBS36:CannonTypeName = "  улеврины 36ф";break;
 		}
 	}	
-		if (CheckAttribute(arScopeItm,"scope.show.mushketshot") && sti(arScopeItm.scope.show.mushketshot) != 0  && CheckCharacterPerk(chref, "MusketsShoot") && !isFort)	
+		if (CheckAttribute(arScopeItm,"scope.show.mushketshot") && sti(arScopeItm.scope.show.mushketshot) != 0 && !isFort)	
 		{
-			sCaptainName = CannonTypeName + "  ћушкетный залп   " + sCaptainName;
+			if (CheckCharacterPerk(chref, "MusketsShoot")) sCaptainName = "  Мушкетный залп   " + sCaptainName;
+			if (CheckAttribute(RealShips[sti(chref.Ship.Type)],"Tuning.HighBort")) sCaptainName = "  Высокие борта  " + sCaptainName;
 		}
-		else
-		{
-		sCaptainName = CannonTypeName + "       " + sCaptainName;
-	}
+		sCaptainName = CannonTypeName + "  " + sCaptainName;
     //sCaptainName = XI_ConvertString("Distance") + ": " + FloatToString(Ship_GetDistance2D(GetMainCharacter(), chref), 1) + "       " + sCaptainName;
     float fDistance = stf(FloatToString(Ship_GetDistance2D(GetMainCharacter(), chref), 1)); //boal
 	SendMessage(&objISpyGlass,"lsslllfflllllllllllssl",MSG_ISG_UPDATE, shipName,shipType,  //boal

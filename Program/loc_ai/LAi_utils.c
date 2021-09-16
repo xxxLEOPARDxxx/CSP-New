@@ -697,6 +697,16 @@ ref LAi_CreateFantomCharacterEx(string model, string ani, string group, string l
 			case 3: cirnum = "cirass3"; break;
 			case 4: cirnum = "cirass4"; break;
 		}
+		if (CheckAttribute(chr, "HeroModel")) // все, у кого есть что одеть
+        {
+			switch (cirnum)
+			{
+				case "cirass1": chr.model = GetSubStringByNum(chr.HeroModel, 1); break;
+				case "cirass2": chr.model = GetSubStringByNum(chr.HeroModel, 2); break;
+				case "cirass3": chr.model = GetSubStringByNum(chr.HeroModel, 3); break;
+				case "cirass4": chr.model = GetSubStringByNum(chr.HeroModel, 4); break;
+			}
+		}
 		chr.cirassId = Items_FindItemIdx(cirnum);
 		Log_TestInfo("Персонаж "+chr.name+" получил кирасу "+cirnum);
 	}

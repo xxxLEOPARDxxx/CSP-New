@@ -325,7 +325,7 @@ void ProcessDialogEvent()
 		
 		case "Justin_Butt_13":
 			TakeNItems(PChar, "Dozor_Mekakhrom", -1);
-			dialog.text = "А ты думал, что я собираюсь позволить тебе вот так просто уйти? Чёрта с два!";
+			dialog.text = "А ты думал"+ GetSexPhrase("","а") +", что я собираюсь позволить тебе вот так просто уйти? Чёрта с два!";
 			link.l1 = "Ну, попробуй, ублюдок!";
 			link.l1.go = "exit";
 			

@@ -623,7 +623,7 @@ void ArenaEtapsSetRound(int iEtap)
 	{
 		case "crabBig": sModel = "crabBig"; sAnimation = "crabBig"; sSex = "crab"; break;
 		case "Skel": sModel = "Skel"; sAnimation = "man"; sSex = "skeleton"; break;
-		case "SkelOld": sModel = "Skel_"; sAnimation = "man2"; sSex = "skeleton"; break;
+		case "SkelOld": sModel = "Skel_"; sAnimation = "man"; sSex = "skeleton"; break;
 		case "monkey": sModel = "monkey"; sAnimation = "monkey"; sSex = "monkey"; break;
 		case "crabBigKing": sModel = "crabBigKing"; sAnimation = "crabBigKing"; sSex = "crab"; break;
 		case "SkelKing": sModel = "skeletcap"; sAnimation = "man"; sSex = "skeleton"; break;
@@ -998,7 +998,7 @@ void GenerateArenaTournament()
 		chr.model.animation = "man";
 		chr.greeting = "Gr_ArenaMember";
 		
-		if (IsCharacterPerkOn(chr, "Ciras"))
+		if (IsCharacterPerkOn(chr, "Ciras") && rand(4)==0)
 		{
 			string cirnum;
 			switch (rand(4))
@@ -1008,6 +1008,16 @@ void GenerateArenaTournament()
 				case 2: cirnum = "cirass2"; break;
 				case 3: cirnum = "cirass3"; break;
 				case 4: cirnum = "cirass4"; break;
+			}
+			if (CheckAttribute(chr, "HeroModel")) // все, у кого есть что одеть
+			{
+				switch (cirnum)
+				{
+					case "cirass1": chr.model = GetSubStringByNum(chr.HeroModel, 1); break;
+					case "cirass2": chr.model = GetSubStringByNum(chr.HeroModel, 2); break;
+					case "cirass3": chr.model = GetSubStringByNum(chr.HeroModel, 3); break;
+					case "cirass4": chr.model = GetSubStringByNum(chr.HeroModel, 4); break;
+				}
 			}
 			chr.cirassId = Items_FindItemIdx(cirnum);
 			Log_TestInfo("Персонаж "+chr.name+" получил кирасу "+cirnum);
@@ -1680,14 +1690,14 @@ void ArenaTournamentTheEnd()
 
 void ArenaTournamentSetDetailsForChar(ref chr, int iStage)
 {
-	string sSaber = "blade1";
+	string sSaber = pchar.Arena.TournamentWeapon;
 	
-	switch(iStage)
+	/*switch(iStage)
 	{
 		case 1: sSaber = PChar.Arena.Tournament.Saber.Light; break;
 		case 2: sSaber = PChar.Arena.Tournament.Saber.Saber; break;
 		case 3: sSaber = PChar.Arena.Tournament.Saber.Heavy; break;
-	}
+	}*/
 	
 	RemoveCharacterEquip(chr, GUN_ITEM_TYPE);
 	RemoveCharacterEquip(chr, BLADE_ITEM_TYPE);
@@ -2817,16 +2827,15 @@ string GetSaberForArena(string sType)
 	switch(sType)
 	{
 		case "FencingLight":
-			switch(rand(7))
+			switch(rand(6))
 			{
-				case 0: return "blade5"; break;
-				case 1: return "blade2"; break;
-				case 2: return "blade6"; break;
-				case 3: return "blade9"; break;
-				case 4: return "blade14"; break;
-				case 5: return "blade19"; break;
-				case 6: return "blade22"; break;
-				case 7: return "blade23"; break;
+				case 0: return "blade2"; break;
+				case 1: return "blade6"; break;
+				case 2: return "blade9"; break;
+				case 3: return "blade14"; break;
+				case 4: return "blade19"; break;
+				case 5: return "blade22"; break;
+				case 6: return "blade23"; break;
 			}	
 		break;
 		

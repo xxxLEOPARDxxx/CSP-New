@@ -444,7 +444,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             sld = GetCharacter(NPC_GenerateCharacter("AntonioDeSouza", "priest", "man", "man", 10, SPAIN, -1, false));
         	sld.name 	= "Антониу";
         	sld.lastname = "де Соуза";
-			sld.model.animation = "man2";
+			sld.model.animation = "man";
             sld.Dialog.Filename = "Quest\AntonioDeSouza.c";
 			sld.greeting = "Gr_padre";
             LAi_SetHuberType(sld);
@@ -1553,9 +1553,9 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             link.l1 = "Грасиас, ваше превосходительство. Аста луэго!";
             link.l1.go = "PDM_ONV_Nagrada";
 			AddMoneyToCharacter(pchar, 200000);
-			AddBonusEnergyToCharacter(pchar, 15);
+			AddBonusEnergyToCharacter(pchar, 25);
 			PlaySound("Interface\new_level.wav");
-			Log_info("Ваша энергия увеличилась на 15 навсегда.");
+			Log_info("Ваша энергия увеличилась на 25 навсегда.");
         break;
 		
 		case "PDM_ONV_Nagrada":

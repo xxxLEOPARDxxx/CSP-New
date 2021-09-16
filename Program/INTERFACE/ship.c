@@ -514,6 +514,8 @@ void OnShipScrollChange()
 
 		GameInterface.edit_box.str = xi_refCharacter.ship.name;
 		SetFormatedText("SHIP_RANK", refShip.Class);
+		SetFormatedText("CLASS_ARMOR", refShip.HullArmor);
+		SetNewGroupPicture("CLASS_ARMOR_ICON", "ICONS_CHAR", "Reputation");
 		FillGoodsTable();
 
 		SetShipOTHERTable("TABLE_OTHER", xi_refCharacter);
@@ -687,6 +689,11 @@ void ShowInfoWindow()
 		case "TABLE_CREW":
 			sHeader = GetConvertStr("Crew_Exp", "ShipsDescribe.txt");
 			sText1  = GetConvertStr("Crew_Exp_hint", "ShipsDescribe.txt");
+		break;
+		
+		case "CLASS_ARMOR_ICON":
+			sHeader = GetConvertStr("Class_Armor", "ShipsDescribe.txt");
+			sText1  = GetConvertStr("Class_Armor_hint", "ShipsDescribe.txt");
 		break;
 
 		case "TABLE_OTHER":

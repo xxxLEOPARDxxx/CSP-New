@@ -52,6 +52,23 @@ int GenerateShip(int iBaseType, bool isLock)
 		case 1: rRealShip.MastMultiplier = stf(stf(rRealShip.MastMultiplier)+makefloat(0.02*rand(15))); break;
 	}
 	
+	int hullarmor;//реворк брони корпуса
+	switch (rand(1))
+	{
+		case 0: hullarmor = 1; break;
+		case 1: hullarmor = -1 break;
+	}
+	switch (sti(rRealShip.Class))
+	{
+		case 7: rRealShip.HullArmor = 4+(rand(4)*hullarmor); break;
+		case 6: rRealShip.HullArmor = 12+(rand(4)*hullarmor); break;
+		case 5: rRealShip.HullArmor = 16+(rand(4)*hullarmor); break;
+		case 4: rRealShip.HullArmor = 20+(rand(4)*hullarmor); break;
+		case 3: rRealShip.HullArmor = 24+(rand(4)*hullarmor); break;
+		case 2: rRealShip.HullArmor = 32+(rand(4)*hullarmor); break;
+		case 1: rRealShip.HullArmor = 42+(rand(4)*hullarmor); break;
+	}
+	
 	if (!CheckAttribute(rRealShip, "isFort"))
 	{
 	    int iCaliber = sti(rRealShip.MaxCaliber);
@@ -196,6 +213,22 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 	{
 		case 0: rRealShip.MastMultiplier = stf(stf(rRealShip.MastMultiplier)-makefloat(0.02*rand(15))); break;
 		case 1: rRealShip.MastMultiplier = stf(stf(rRealShip.MastMultiplier)+makefloat(0.02*rand(15))); break;
+	}
+	int hullarmor;//реворк брони корпуса
+	switch (rand(1))
+	{
+		case 0: hullarmor = 1; break;
+		case 1: hullarmor = -1 break;
+	}
+	switch (sti(rRealShip.Class))
+	{
+		case 7: rRealShip.HullArmor = 4+(rand(4)*hullarmor); break;
+		case 6: rRealShip.HullArmor = 12+(rand(4)*hullarmor); break;
+		case 5: rRealShip.HullArmor = 16+(rand(4)*hullarmor); break;
+		case 4: rRealShip.HullArmor = 20+(rand(4)*hullarmor); break;
+		case 3: rRealShip.HullArmor = 24+(rand(4)*hullarmor); break;
+		case 2: rRealShip.HullArmor = 32+(rand(4)*hullarmor); break;
+		case 1: rRealShip.HullArmor = 42+(rand(4)*hullarmor); break;
 	}
 	
 	// ugeen --> если кораблик генерится на верфи, разброс статов более узкий
@@ -857,28 +890,33 @@ void GetRandomSpecialUpgrade(ref rRealShip)
 			case 0:
 				if (rRealShip.Type.War == true && rRealShip.Type.Merchant == false)
 				{
+					if (CheckAttribute(rRealShip, "Tuning.HullSpecial") && rRealShip.Tuning.HullSpecial == "1") break;//уже был этот апгрейд
 					rRealShip.Tuning.HullSpecial = 1;
 					rRealShip.price = makeint(sti(rRealShip.price)*1.5); 
 				}
 			break;
 			case 1:
+				if (CheckAttribute(rRealShip, "Tuning.SailsSpecial") && rRealShip.Tuning.SailsSpecial == "1") break;//уже был этот апгрейд
 				rRealShip.Tuning.SailsSpecial = 1;
 				rRealShip.price = makeint(sti(rRealShip.price)*1.35); 
 			break;
 			case 2:
 				if (rRealShip.Type.War == true && rRealShip.Type.Merchant == false)
 				{
+					if (CheckAttribute(rRealShip, "Tuning.CannonsSpecial") && rRealShip.Tuning.CannonsSpecial == "1") break;//уже был этот апгрейд
 					rRealShip.Tuning.CannonsSpecial = 1;
 					rRealShip.price = makeint(sti(rRealShip.price)*1.25);
 				}
 			break;
 			case 3:
+				if (CheckAttribute(rRealShip, "Tuning.CuBot") && rRealShip.Tuning.CuBot == "1") break;//уже был этот апгрейд
 				rRealShip.Tuning.CuBot = 1;
 				rRealShip.price = makeint(sti(rRealShip.price)*1.4); 
 			break;
 			case 4:
 				if (rRealShip.Type.War == false && rRealShip.Type.Merchant == true)
 				{
+					if (CheckAttribute(rRealShip, "Tuning.BotPack") && rRealShip.Tuning.BotPack == "1") break;//уже был этот апгрейд
 					rRealShip.Tuning.BotPack = 1;
 					rRealShip.price = makeint(sti(rRealShip.price)*1.5); 
 					rRealShip.Capacity = sti(rRealShip.Capacity) + makeint(sti(rRealShip.Capacity)/2);
@@ -886,6 +924,7 @@ void GetRandomSpecialUpgrade(ref rRealShip)
 				}
 			break;
 			case 5:
+				if (CheckAttribute(rRealShip, "Tuning.HighBort") && rRealShip.Tuning.HighBort == "1") break;//уже был этот апгрейд
 				rRealShip.Tuning.HighBort = 1;
 				rRealShip.price = makeint(sti(rRealShip.price)*1.4); 
 			break;
@@ -1290,7 +1329,7 @@ float SpeedBySkill(aref refCharacter)
 	fSpeedPerk =  AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SeaWolf"), fSpeedPerk, fSpeedPerk+0.05);
 	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.SailsSpecial")) fSpeedPerk *= 0.85;
 	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.HullSpecial")) fSpeedPerk *= 0.75;
-	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.CuBot")) fSpeedPerk *= 0.9;
+	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.CuBot")) fSpeedPerk *= 1.05;
     
 	return fTRFromSKill*fSpeedPerk;
 }
@@ -1377,8 +1416,8 @@ float TurnBySkill(aref refCharacter)
     fSpeedPerk = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SailingProfessional"), fSpeedPerk, 1.20);
 	fSpeedPerk =  AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SeaWolf"), fSpeedPerk, fSpeedPerk+0.05);
     float fFastTurn180 = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "Turn180"), 1.0, 4.0);
-	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.HullSpecial")) fSpeedPerk *= 0.6;
-	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.CuBot")) fSpeedPerk *= 0.9;
+	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.HullSpecial")) fSpeedPerk *= 0.75;
+	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.CuBot")) fSpeedPerk *= 1.05;
     
 	return fTRFromSKill*fSpeedPerk*fFastTurn180;
 }
@@ -1519,7 +1558,7 @@ float FindShipTurnRateBonus(aref refCharacter)
 }
 
 // calculate recharge time for cannon
-float Cannon_GetRechargeTimeValue(ref aCharacter)
+float Cannon_GetRechargeTimeValue(aref aCharacter)
 {
 	if(!CheckAttribute(aCharacter, "Ship.type"))
 	{
@@ -1543,39 +1582,35 @@ float Cannon_GetRechargeTimeValue(ref aCharacter)
 	else fMultiply = 1.0
 	if (IsCharacterPerkOn(aCharacter, "ImmediateReload")) fMultiply *= 0.5;
 	else fMultiply = fMultiply - 0.0;
+	if (CheckAttribute(&RealShips[sti(aCharacter.Ship.Type)], "Tuning.CannonsSpecial")) fMultiply *= 1.2;
 
-	ref rBaseShip = GetRealShip(sti(aCharacter.ship.Type));
-	if (sti(rBaseShip.BaseType) != SHIP_FORT)
+	// boal 060804 для компа поблажки
+	//Boyer remove reload speed boost for enemies
+	if (sti(aCharacter.index) != GetMainCharacterIndex())
 	{
-		if (CheckAttribute(rBaseShip, "Tuning.CannonsSpecial")) fMultiply *= 1.2;
-        // boal 060804 для компа поблажки
-		//Boyer remove reload speed boost for enemies
-		if (sti(aCharacter.index) != GetMainCharacterIndex())
-		{
-		   fReloadTime -= MOD_SKILL_ENEMY_RATE/2; // -10c на невозможном
-		}
-		// boal <--
-		float crewQty  = GetCrewQuantity(aCharacter);
-	    float OptCrew  = GetOptCrewQuantity(aCharacter); 
-	    float MaxCrew  = GetMaxCrewQuantity(aCharacter); 
-	    float fMorale  = GetCharacterCrewMorale(aCharacter); 
-	    
-	    if (crewQty > MaxCrew) crewQty = MaxCrew; // fix 14/03/05
-	    if (OptCrew > 0)
-	    {
-            float  fExp;
-			fExp = 0.001 + stf(GetCrewExp(aCharacter, "Cannoners") * crewQty) / stf(OptCrew * GetCrewExpRate());
-			if (fExp > 1) fExp = 1;
-			fReloadTime = fReloadTime * (1.0 + (1.0 - fExp) * 3.0);
-        }
-	    fReloadTime = fReloadTime * (1.0 + (1.0 - fMorale / MORALE_NORMAL) * 0.2);
-	    
-        if (crewQty <= (GetMinCrewQuantity(aCharacter)))
-        {
-            fReloadTime = fReloadTime * 3.0; //меньше команды - тормозим
-        } 
+	   fReloadTime -= MOD_SKILL_ENEMY_RATE/2; // -10c на невозможном
+	}
+	// boal <--
+	float crewQty  = GetCrewQuantity(aCharacter);
+	float OptCrew  = GetOptCrewQuantity(aCharacter); 
+	float MaxCrew  = GetMaxCrewQuantity(aCharacter); 
+	float fMorale  = GetCharacterCrewMorale(aCharacter); 
+	
+	if (crewQty > MaxCrew) crewQty = MaxCrew; // fix 14/03/05
+	if (OptCrew > 0)
+	{
+		float  fExp;
+		fExp = 0.001 + stf(GetCrewExp(aCharacter, "Cannoners") * crewQty) / stf(OptCrew * GetCrewExpRate());
+		if (fExp > 1) fExp = 1;
+		fReloadTime = fReloadTime * (1.0 + (1.0 - fExp) * 3.0);
+	}
+	fReloadTime = fReloadTime * (1.0 + (1.0 - fMorale / MORALE_NORMAL) * 0.2);
+	
+	if (crewQty <= (GetMinCrewQuantity(aCharacter)))
+	{
+		fReloadTime = fReloadTime * 3.0; //меньше команды - тормозим
+	} 
     // boal  корректный учет команды <--
-    }
 	return  fMultiply * fReloadTime * fCannonSkill;
 }
 
@@ -2833,7 +2868,18 @@ int GenerateShipTop(int iBaseType, bool isLock, ref chr)
     }
 	rRealShip.ship.upgrades.sails = 1 + rand(2);  // только визуальная разница
 	rRealShip.MastMultiplier = 1.3;
-
+	
+	int hullarmor;//реворк брони корпуса
+	switch (sti(rRealShip.Class))
+	{
+		case 7: rRealShip.HullArmor = 8; break;
+		case 6: rRealShip.HullArmor = 16; break;
+		case 5: rRealShip.HullArmor = 20; break;
+		case 4: rRealShip.HullArmor = 24; break;
+		case 3: rRealShip.HullArmor = 28; break;
+		case 2: rRealShip.HullArmor = 36; break;
+		case 1: rRealShip.HullArmor = 46; break;
+	}
 	
 	// ugeen --> если кораблик генерится на верфи, разброс статов более узкий
 	if (CheckAttribute(chr, "City")) 
