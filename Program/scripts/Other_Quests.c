@@ -256,6 +256,7 @@ void Andre_Abel_Quest_In_Prison()	// В тюрьме...
 	rChar.Lastname = "Блэкер";
 	LAi_SetStayType(rChar);
 	RemoveAllCharacterItems(rChar, true);
+	rChar.HeroModel = "OffOrion,OffOrion_1,OffOrion_2,OffOrion_3,OffOrion_4,OffOrion_5";
 	rChar = CharacterFromID("Andre_Abel_Quest_Officer_1");
 	ChangeCharacterAddressGroup(rChar, "none", "", ""); // Убираем солдера из резиденции
 	

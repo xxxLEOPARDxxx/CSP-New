@@ -3974,7 +3974,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.lastname = "Ведекер";
 	sld.rank = 5;
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
-	sld.HeroModel = "CCS_Mechanic,CCS_Mechanic_1,CCS_Mechanic_2,CCS_Mechanic_3,CCS_Mechanic_4,CCS_Mechanic_5,CCS_Mechanic,CCS_Mechanic,CCS_Mechanic";
+	sld.HeroModel = "CCS_Mechanic,CCS_Mechanic_1,CCS_Mechanic_2,CCS_Mechanic_3,CCS_Mechanic_4,CCS_Mechanic_5";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	sld.city = "LostShipsCity";
 	sld.location	= "SanGabrielMechanic";

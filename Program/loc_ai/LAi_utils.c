@@ -347,6 +347,7 @@ void LAi_ApplyCharacterDamage(aref chr, int dmg)
 	    pchar.Health.weekDamg  = stf(pchar.Health.weekDamg) + damage;
         pchar.Health.TotalDamg = stf(pchar.Health.TotalDamg) + damage;
         // здоровье <--
+		SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, dmg, MakeFloat(MakeInt(hp)), MakeFloat(MakeInt(maxhp)));
         return;
 	}
 	if (bIsOfficer)

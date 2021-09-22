@@ -1739,6 +1739,7 @@ void PoormansInit()
 	sld.Dialog.Filename = "Quest\ForAll_dialog.c";
 	sld.dialog.currentnode = "OffMushketer";
 	sld.HalfImmortal = true;  // Контузия
+	sld.HeroModel = "MusketeerEnglish_1,MusketeerEnglish_1_1,MusketeerEnglish_1_2,MusketeerEnglish_1_3,MusketeerEnglish_1_4,MusketeerEnglish_1_5";
 	SetSelfSkill(sld, 80, 10, 2, 100, 80);
 	SetShipSkill(sld, 5, 5, 2, 10, 5, 20, 10, 10, 70);
 	SetSPECIAL(sld, 7, 4, 9, 3, 8, 7, 9);

@@ -10855,6 +10855,56 @@ void WaitNextHours(string qName)
 	Whr_UpdateWeather();
 }
 
+void WaitNextDays(string qName)
+{
+	string sHour;
+	float locx, locy, locz;
+	GetCharacterPos(pchar, &locx, &locy, &locz);
+	pchar.locx = locx;
+	pchar.locy = locy;
+	pchar.locz = locz;
+	sHour = "Прошло несколько дней...";
+	if(isShipInside(pchar.location))
+	{
+		SetLaunchFrameFormParam(sHour, "", 0.1, 2.0);
+	}
+	else
+	{
+		SetLaunchFrameFormParam(sHour, "Reload_To_Location", 0.1, 2.0);
+		SetLaunchFrameReloadLocationParam(pchar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"), "LocTeleport");
+	}
+	
+	WaitDate("", 0, 0, sti(pchar.quest.waithours), 0, 0);
+	if (sti(pchar.quest.waithours)>1)
+	{
+		for (int i; i < sti(pchar.quest.waithours)-1; i++)
+		{
+			DailyEatCrewUpdate(); // boal
+			ChangeImport();
+			UpdateSmugglers();
+			CheckOfficersHPMinus(); //Korsar Maxim - ежедневное обновление дней для выздоровления офов
+			CheckBook(); //Книги - Gregg
+			CheckTrauma();//Тяжёлая травма
+            SalaryNextDayUpdate();  // запрлата
+			Log_QuestInfo("WorldSituationsUpdate SalaryNextDayUpdate");
+			ProcessDayRepair();
+			Group_FreeAllDead();
+			QuestActions(); //eddy
+			wdmEmptyAllOldEncounter();// homo чистка энкоутеров
+			UpdateCrewExp();  // изменение опыта команды
+			CheckTraining();//треня оффов
+			UpdateCrewInColonies(); // пересчет наемников в городах
+            UpdateFame();   // это теперь известность репутации
+			GenerateRumour() //homo 05/07/06
+		}
+	}
+	LaunchFrameForm();
+	DeleteAttribute(pchar,"quest.waithours");
+	RefreshLandTime();
+	RecalculateJumpTable();
+	Whr_UpdateWeather();
+}
+
 void RemovePatent()
 {
 	RemoveCharacterEquip(pchar, "patent");

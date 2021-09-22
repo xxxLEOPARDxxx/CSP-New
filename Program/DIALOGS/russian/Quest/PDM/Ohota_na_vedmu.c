@@ -18,30 +18,11 @@ void ProcessDialogEvent()
 		break;
 		
 		case "First_time":							//Автор Sinistra
-			if (pchar.rank >= 12 && sti(pchar.items.patent_spa) == 1)
-			{
-				dialog.text = "Приветствую вас, "+ GetSexPhrase("сэр","леди")+". Меня зовут Бартоломью Ольстер. Кстати, вы не видели Карлу, девушку из таверны? Она куда-то пропала...";
-				link.l1 = "Нет, я не знаю, кто она, и уж тем более - где она. Но вы говорите как англичанин - скажите, как вы попали сюда?";
-				link.l1.go = "Bartolom";
-				link.l2 = "Не знаю. Быть может вам стоит поискать в таверне - это было бы логично.";
-				link.l2.go = "Bartolom";
-			}
-			if (pchar.rank >= 12 && sti(pchar.items.patent_spa) != 1)
-			{
-				dialog.text = "Вы состоите на государственной службе Испании? Нет? Тогда мне с вами не о чем разговаривать.";
-				link.l1 = "Понятно. Тогда я "+ GetSexPhrase("пошёл","пошла")+".";
-				link.l1.go = "exit";
-				NextDiag.TempNode = "First_time";
-				npchar.talker = 7;
-			}
-			if (pchar.rank >= 1 && pchar.rank <= 11)
-			{
-				dialog.text = "Извините меня, но вы ещё слишком "+ GetSexPhrase("зелёный","зелёная")+", чтобы я с вами разговаривал.";
-				link.l1 = "Хорошо, я тогда приду позже, когда подрасту.";
-				link.l1.go = "exit";
-				NextDiag.TempNode = "First_time";	
-				npchar.talker = 7;
-			}
+			dialog.text = "Приветствую вас, "+ GetSexPhrase("сэр","леди")+". Меня зовут Бартоломью Ольстер. Кстати, вы не видели Карлу, девушку из таверны? Она куда-то пропала...";
+			link.l1 = "Нет, я не знаю, кто она, и уж тем более - где она. Но вы говорите как англичанин - скажите, как вы попали сюда?";
+			link.l1.go = "Bartolom";
+			link.l2 = "Не знаю. Быть может вам стоит поискать в таверне - это было бы логично.";
+			link.l2.go = "Bartolom";
 			PlayVoice("Kopcapkz\Voices\PDM\Bartholomew Olster.wav");
 		break;
 		
@@ -408,7 +389,10 @@ void ProcessDialogEvent()
 		break;
 		
 		case "NaKoster_COD":
-			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Inkvizitor", "PGG_Vincento_0", "man", "man", 10, SPAIN, -1, false));
+			sld = CharacterFromID("AntonioDeSouza")
+			ChangeCharacterAddressGroup(sld, "Santiago_town", "none", "");
+			
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Inkvizitor", "priest", "man", "man", 10, SPAIN, -1, false));
 			sld.city = "Santiago";
 			ChangeCharacterAddressGroup(sld, "Santiago_Incquisitio", "sit", "armchair1");
 			LAi_SetHuberType(sld);
@@ -416,6 +400,7 @@ void ProcessDialogEvent()
 			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
 			sld.name = "Антонио";
 			sld.lastname = "де Соуза";
+			sld.model.animation = "man2";
 			sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
 			sld.dialog.currentnode   = "Inqizitor_1";
 			
@@ -434,16 +419,19 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Inqizitor_1":
-			dialog.text = "Этот город погряз в грехе! Но скоро мы освободим людей из тёмных тенёт Сатаны огнём и волей Господа нашего! Э-э... чего ты хочешь, сын мой?";
+			dialog.text = "Этот город погряз в грехе! Но скоро мы освободим людей из тёмных тенёт Сатаны огнём и волей Господа нашего! Э-э... чего ты хочешь, "+ GetSexPhrase("сын мой","дочь моя") +"?";
 			link.l1 = "Святой Отец, я знаю, здесь есть ведьма по имени Карла, бывшая портовая проститутка. Своим тёмным искусством она убила уже двоих - капитана Мигеля Куэнду, и доброго идальго Бартоломью, который умер, не успев покаяться. Он был слугой алькальды дона Франсиско. Я молю Бога, чтобы святая инквизиция покарала её за греховные деяния.";
 			link.l1.go = "Inqizitor_2";
 			PlayVoice("Kopcapkz\Voices\PDM\Zaharia Marlow-02.wav");
 		break;
 		
 		case "Inqizitor_2":
-			dialog.text = "Ах, да будет душа твоя вечно благословенна за твой праведный поступок, сын мой. Мы позаботимся об этой ведьме.";
+			dialog.text = "Ах, да будет душа твоя вечно благословенна за твой праведный поступок, "+ GetSexPhrase("сын мой","дочь моя") +". Мы позаботимся об этой ведьме.";
 			link.l1 = "Я надеюсь на это, святой отец. Доброго вам дня.";
 			link.l1.go = "KAZN";
+			AddBonusEnergyToCharacter(pchar, 25);
+			PlaySound("Interface\new_level.wav");
+			Log_info("Ваша энергия увеличилась на 25 навсегда.");
 		break;
 		
 		case "KAZN":
@@ -512,6 +500,9 @@ void ProcessDialogEvent()
 			link.l1 = "...";
 			link.l1.go = "Inqizitor_Kazn_4";
 			PlaySound("Kopcapkz\Voices\PDM\Witch\fire.wav");
+			
+			sld = CharacterFromID("AntonioDeSouza")
+			ChangeCharacterAddressGroup(sld, "Santiago_Incquisitio", "sit", "armchair1");
 		break;
 		
 		case "Inqizitor_Kazn_4":

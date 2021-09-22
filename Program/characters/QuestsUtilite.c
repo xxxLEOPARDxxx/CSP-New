@@ -2624,24 +2624,6 @@ void PDMQuestsInit()
 	LAi_SetImmortal(sld, true);
 	ChangeCharacterAddressGroup(sld,"PuertoPrincipe_tavern","sit","sit_front2");
 	
-	//******Охота на ведьму Sinistra******												
-	//Бартоломью Ольстер
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_Isp_sekr_guber", "trader_16", "man", "man", 10, SPAIN, -1, false));	//Бартоломью Ольстер
-	sld.name = "Бартоломью";
-	sld.lastname = "Ольстер";
-	LAi_SetCitizenType(sld);
-	sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
-	sld.dialog.currentnode   = "First_time";
-	sld.sex = "man";
-	sld.City = "Havana";
-	sld.location	= "Havana_town";
-	LAi_SetLoginTime(sld, 6.0, 21.99);
-	sld.talker = 7;
-	sld.nation = SPAIN;
-	LAi_SetImmortal(sld, true);
-	LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
-	ChangeCharacterAddressGroup(sld,"Havana_town","goto","goto6");
-	
 	//******Потерянное кольцо Sinistra******
 	//Жозефина Лодет
 	sld = GetCharacter(NPC_GenerateCharacter("Josephine_Lodet", "BaynesWife", "woman", "woman", 10, FRANCE, -1, false));

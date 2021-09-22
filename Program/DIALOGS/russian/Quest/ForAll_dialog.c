@@ -704,6 +704,7 @@ void ProcessDialogEvent()
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
 			sld.HalfImmortal = true;  // Контузия
+			sld.HeroModel = "QuestCaptain,QuestCaptain_1,QuestCaptain_2,QuestCaptain_3,QuestCaptain_4,QuestCaptain_5";
 			SetSelfSkill(sld, 80, 80, 75, 80, 80);
 			SetShipSkill(sld, 70, 75, 75, 75, 80, 70, 70, 70, 70);
 			SetSPECIAL(sld, 9, 9, 10, 10, 8, 10, 10);

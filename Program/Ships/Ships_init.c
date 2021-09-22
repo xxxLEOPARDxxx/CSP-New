@@ -9744,7 +9744,7 @@ void InitShips()
 	refship.Track2.Speed	= "0.15, 0.25";
 
 	//////////////////////////////////////////////////////////////////////////
-	// BrigQeen			Бриг
+	// BrigQeen			Бриг "Стрела" (Валькирия)
 	//////////////////////////////////////////////////////////////////////////
 	makeref(refShip,ShipsTypes[SHIP_BRIGQEEN]);
 	refShip.Name				= "BrigQeen";
@@ -9754,9 +9754,9 @@ void InitShips()
 	refShip.MaxCaliber  		= 16;
 	refShip.Weight				= Tonnes2CWT(350);
 	refShip.Capacity   			= 2000;
-	refShip.CannonsQuantity		= 24;
-	refShip.rcannon 					= 10;
-	refShip.lcannon 					= 10;
+	refShip.CannonsQuantity		= 26;
+	refShip.rcannon 					= 11;
+	refShip.lcannon 					= 11;
 	refShip.fcannon 					= 2;
 	refShip.bcannon 					= 2;
 	refShip.MaxCrew        			= 200;
@@ -10216,11 +10216,11 @@ void InitShips()
 	refShip.MaxCaliber      			= 42;
 	refShip.Weight						= Tonnes2CWT(1800);
 	refShip.Capacity        			= 5200;
-	refShip.CannonsQuantity				= 56;
-	refShip.rcannon 							= 23;
-	refShip.lcannon 							= 23;
+	refShip.CannonsQuantity				= 68;
+	refShip.rcannon 							= 27;
+	refShip.lcannon 							= 27;
 	refShip.fcannon 							= 6;
-	refShip.bcannon 							= 4;
+	refShip.bcannon 							= 8;
 	refShip.MaxCrew         				= 444;
 	refShip.MinCrew         				= 88;
 	refShip.SpeedRate				= 15;

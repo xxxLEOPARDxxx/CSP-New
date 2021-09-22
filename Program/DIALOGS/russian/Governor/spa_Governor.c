@@ -468,6 +468,24 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddTitleNextRate(sti(NPChar.nation), 1);
 			ChangeCharacterReputation(pchar, 2);
 			ChangeCharacterNationReputation(pchar, sti(NPChar.nation), 1);
+			
+			//******Квест "Охота на ведьму" Sinistra******												
+			sld = GetCharacter(NPC_GenerateCharacter("PDM_Isp_sekr_guber", "trader_16", "man", "man", 10, SPAIN, -1, false));	//Бартоломью Ольстер
+			sld.name = "Бартоломью";
+			sld.lastname = "Ольстер";
+			LAi_SetCitizenType(sld);
+			sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
+			sld.dialog.currentnode   = "First_time";
+			sld.sex = "man";
+			sld.City = "Havana";
+			sld.location	= "Havana_town";
+			LAi_SetLoginTime(sld, 6.0, 21.99);
+			sld.talker = 7;
+			sld.nation = SPAIN;
+			LAi_SetImmortal(sld, true);
+			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
+			ChangeCharacterAddressGroup(sld,"Havana_town","goto","goto6");
+					
 			//слухи
 			AddSimpleRumour("Ходят слухи, что капитан " + GetFullName(pchar) + " подрядился выполнять поручения самого де Соуза! Инквизиция... При одном этом слове - дрожь по телу.", SPAIN, 5, 1);
         break;
@@ -1549,13 +1567,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
         break;
 //********************** //Квест "Охота на ведьму". Ведьма казнена ************************		
 		case "PDM_ONV_VedmaKaznena":
-            dialog.text = "О, да - я получил письмо от одного святого отца об этом дьявольском создании, и о её судьбе. Вы хорошо поработали, "+ GetSexPhrase("сеньор","сеньорита") +" капитан. Я от всего сердца благодарю вас за помощь в этом деле. Полагаю, не так легко было найти её. Я предлагаю скромную плату - 200000 эскудо в знак своей благодарности.";
+            dialog.text = "О, да, я получил письмо от святого отца Антонио де Соуза об этом дьявольском создании, и о её судьбе. Вы хорошо поработали, "+ GetSexPhrase("сеньор","сеньорита") +" капитан. Я от всего сердца благодарю вас за помощь в этом деле. Полагаю, не так легко было найти её. Я предлагаю скромную плату - 200000 эскудо в знак своей благодарности.";
             link.l1 = "Грасиас, ваше превосходительство. Аста луэго!";
             link.l1.go = "PDM_ONV_Nagrada";
 			AddMoneyToCharacter(pchar, 200000);
-			AddBonusEnergyToCharacter(pchar, 25);
-			PlaySound("Interface\new_level.wav");
-			Log_info("Ваша энергия увеличилась на 25 навсегда.");
         break;
 		
 		case "PDM_ONV_Nagrada":
@@ -1563,7 +1578,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
 			CloseQuestHeader("PDM_Ohota_na_vedmu");
 			DeleteAttribute(pchar, "questTemp.PDM_ONV_VedmaKaznena");
-			ChangeCharacterNationReputation(pchar, SPAIN, 30);
+			ChangeCharacterNationReputation(pchar, SPAIN, 20);
 			AddSimpleRumour("Капитан, говорят, что вы сумели поймать ведьму Карлу! Неужели это правда?! Невероятно!!", SPAIN, 7, 1);
 			
             DialogExit();

@@ -22,6 +22,8 @@ void InitInterface_R(string iniName, ref pStore)
  	StartAboveForm(true);
 
     refStore = pStore;
+	if (refStore.colony == "Tortuga" || refStore.colony == "Villemstad" || refStore.colony == "PortRoyal" || refStore.colony == "Havana") iMaxGoodsStore = 100000;
+	
 	refCharacter = pchar;
 
 	GameInterface.TABLE_LIST.hr.td1.str = XI_ConvertString("In the hold");

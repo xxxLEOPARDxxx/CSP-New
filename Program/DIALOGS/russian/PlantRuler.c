@@ -45,7 +45,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "trade_good_2":
-			dialog.text = "Активы плантации позволяют приобретать до 1000 рабов в месяц у частных лиц. Сколько вы хотите предложить?";
+			dialog.text = "Активы плантации позволяют приобретать до 1000 рабов каждые две недели у частных лиц. Сколько вы хотите предложить?";
 			Link.l1 = "Рабы в количестве "+sti(pchar.Ship.Cargo.Goods.Slaves)+".";
 			link.l1.go = "trade_good_3";
 			Link.l2 = "Пожалуй я передумал"+ GetSexPhrase("","а")+". Всего хорошего.";
@@ -65,8 +65,8 @@ void ProcessDialogEvent()
 			if (sti(pchar.Ship.Cargo.Goods.Slaves) > sti(npchar.SlavesLimit))
 			{
 				AddMoneyToCharacter(pchar, 215*sti(npchar.SlavesLimit));
-				npchar.SlavesLimit = 0;
 				pchar.Ship.Cargo.Goods.Slaves = sti(pchar.Ship.Cargo.Goods.Slaves) - sti(npchar.SlavesLimit);
+				npchar.SlavesLimit = 0;
 			}
 			else
 			{
@@ -74,7 +74,7 @@ void ProcessDialogEvent()
 				npchar.SlavesLimit = sti(npchar.SlavesLimit)-sti(pchar.Ship.Cargo.Goods.Slaves);
 				pchar.Ship.Cargo.Goods.Slaves = 0;
 			}
-			SetTimerFunction("RefreshSlavesLimit", 0, 0, 30);
+			SetTimerFunction("RefreshSlavesLimit", 0, 0, 14);
 			dialog.text = "Держите, вот ваши деньги.";
 			Link.l1 = "Благодарю вас.";
 			link.l1.go = "exit";

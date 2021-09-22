@@ -13,7 +13,8 @@ void ProcessDialogEvent()
 	switch(Dialog.CurrentNode)
 	{
 		case "First time":
-			dialog.text = "Приветствую вас. Я - " + GetFullName(NPChar) + ", представитель офиса Голландской Вест-Индской Торговой Компании на острове Кюрасао. Представьтесь, пожалуйста.";
+			if (NPChar.id == "GWIK_char") dialog.text = "Приветствую вас. Я - " + GetFullName(NPChar) + ", представитель офиса Голландской Вест-Индской Торговой Компании на острове Кюрасао. Представьтесь, пожалуйста.";
+			else dialog.text = "Приветствую вас. Я - " + GetFullName(NPChar) + ", представитель офиса Голландской Вест-Индской Торговой Компании на острове Сан Мартин. Представьтесь, пожалуйста.";
 			Link.l1 = "Здравствуйте, " + GetFullName(NPChar) + ". Я " + GetFullName(PChar) + ", капитан корабля '" + PChar.ship.name + "'.";
 			link.l1.go = "Meet_2";
 		break;

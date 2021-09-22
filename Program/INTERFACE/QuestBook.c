@@ -1922,9 +1922,9 @@ void FillPriceListTown(string _tabName)
 	GameInterface.(_tabName).select = 0;
 	GameInterface.(_tabName).hr.td1.str = "Нация";
 	GameInterface.(_tabName).hr.td1.scale = 0.75;
-	GameInterface.(_tabName).hr.td2.str = "Город";
+	GameInterface.(_tabName).hr.td2.str = "Тип хранилища";
 	GameInterface.(_tabName).hr.td2.scale = 0.75;
-	GameInterface.(_tabName).hr.td3.str = "Локация";
+	GameInterface.(_tabName).hr.td3.str = "Местонахождение";
 	GameInterface.(_tabName).hr.td3.scale = 0.75;
 	GameInterface.(_tabName).hr.td4.str = "Загруженность";
 	GameInterface.(_tabName).hr.td4.scale = 0.75;
@@ -1985,6 +1985,29 @@ void FillPriceListTown(string _tabName)
 			GameInterface.(_tabName).(row).td5.scale = 0.8;
 			cn++;
 		}
+		if (CheckAttribute(chref, "StorageOpen"))//склады
+		{
+			row = "tr" + cn;
+			CityId = chref.city;
+			rCity = GetColonyByIndex(FindColony(CityId));
+			if (n == 0) {firstId = rCity.id; firstIdX = 0;}
+			GameInterface.(_tabName).(row).UserData.CityID  = chref.id;
+			GameInterface.(_tabName).(row).UserData.CityIDX = 2;
+			GameInterface.(_tabName).(row).td1.icon.group  = "NATIONS";
+			GameInterface.(_tabName).(row).td1.icon.image  = Nations[sti(rCity.nation)].Name;
+			GameInterface.(_tabName).(row).td1.icon.width  = 26;
+			GameInterface.(_tabName).(row).td1.icon.height = 26;
+			GameInterface.(_tabName).(row).td1.icon.offset = "0, 3";
+			GameInterface.(_tabName).(row).td2.str = "Ячейка ростовщика";
+			GameInterface.(_tabName).(row).td2.scale = 0.65;
+			GameInterface.(_tabName).(row).td3.str = GetConvertStr(rCity.islandLable, "LocLables.txt") + "\n" + GetConvertStr(rCity.id + " Town", "LocLables.txt");
+			GameInterface.(_tabName).(row).td3.scale = 0.65;
+			GameInterface.(_tabName).(row).td4.str = FloatToString(GetItemsWeight(chref), 1)+" / ---";
+			GameInterface.(_tabName).(row).td4.scale = 0.85;
+			GameInterface.(_tabName).(row).td5.str = GetNpcQuestPastMonthParam(chref, "Storage.Date") * sti(chref.StoragePrice);
+			GameInterface.(_tabName).(row).td5.scale = 0.8;
+			cn++;
+		}
 	}
 	Table_UpdateWindow(_tabName);
 	FillPriceList("TABLE_GOODS", firstId, firstIdX);
@@ -2037,32 +2060,78 @@ void FillPriceList(string _tabName, string  attr1, string attr2)
 	n = 1;
 	if (attr1 != "")
 	{
-		if (attr2 == "1") StoreNum = GetCharacterIndex(attr1); else StoreNum = GetStorage(attr1);
-		if(StoreNum > 0)
+		if (attr2 == "2" && HasSubStr(attr1,"_usurer"))
 		{
-			
-			if (attr2 == "1") refStorage = &characters[StoreNum]; else refStorage = &stores[StoreNum];
-			for (i = 0; i < GOODS_QUANTITY; i++)
+			ref usurer = CharacterFromID(attr1);
+			aref curitem,arItem,rootItems;
+			makearef(rootItems, usurer.Items);
+			string sGood;
+			GameInterface.(_tabName).hr.td1.str = "Название предмета";
+			GameInterface.(_tabName).hr.td2.str = "Вес шт.";
+			GameInterface.(_tabName).hr.td3.str = "Кол-во";
+			GameInterface.(_tabName).hr.td4.str = "Общий вес";
+			int idLngFile = LanguageOpenFile("ItemsDescribe.txt");
+			for (i = 0; i < GetAttributesNum(rootItems); i++)
 			{
-				row = "tr" + n;
-				if (attr2 == "1") iStoreQ = GetCargoGoods(refStorage, i); else iStoreQ = GetStorageGoodsQuantity(refStorage, i);
-				if (iStoreQ == 0) continue;
-				GameInterface.(_tabName).(row).UserData.ID = Goods[i].name;
-				GameInterface.(_tabName).(row).UserData.IDX = i;
-				GameInterface.(_tabName).(row).td1.icon.group = "GOODS";
-				GameInterface.(_tabName).(row).td1.icon.image = Goods[i].name;
-				GameInterface.(_tabName).(row).td1.icon.offset = "1, 0";
-				GameInterface.(_tabName).(row).td1.icon.width = 32;
-				GameInterface.(_tabName).(row).td1.icon.height = 32;
-				GameInterface.(_tabName).(row).td1.textoffset = "30,0";
-				GameInterface.(_tabName).(row).td1.str = XI_ConvertString(Goods[i].name);
-				GameInterface.(_tabName).(row).td1.scale = 0.85;
-				GameInterface.(_tabName).(row).td2.str = iStoreQ;
-				GameInterface.(_tabName).(row).td3.str = Goods[i].Units;
-				GameInterface.(_tabName).(row).td4.str = GetGoodWeightByType(i, iStoreQ);
-				n++;
+				curItem = GetAttributeN(rootItems, i);
+
+				if (Items_FindItem(GetAttributeName(curItem), &arItem)>=0 )
+				{
+					row = "tr" + n;
+					sGood = arItem.id;
+					if (GetCharacterItem(usurer, sGood) > 0)
+					{
+						GameInterface.(_tabName).(row).index = GetItemIndex(arItem.id);
+						GameInterface.(_tabName).(row).td1.icon.group = arItem.picTexture;
+						GameInterface.(_tabName).(row).td1.icon.image = "itm" + arItem.picIndex;
+						GameInterface.(_tabName).(row).td1.icon.offset = "-2, 0";
+						GameInterface.(_tabName).(row).td1.icon.width = 32;
+						GameInterface.(_tabName).(row).td1.icon.height = 32;
+						GameInterface.(_tabName).(row).td1.textoffset = "31,0";
+						GameInterface.(_tabName).(row).td1.str = LanguageConvertString(idLngFile, arItem.name);
+						GameInterface.(_tabName).(row).td1.scale = 0.85;
+						GameInterface.(_tabName).(row).td2.str   = FloatToString(stf(arItem.Weight), 1);
+						GameInterface.(_tabName).(row).td2.scale = 0.9;
+						GameInterface.(_tabName).(row).td3.str   = GetCharacterItem(usurer, sGood);
+						GameInterface.(_tabName).(row).td3.scale = 0.9;
+						GameInterface.(_tabName).(row).td4.str   = FloatToString(stf(arItem.Weight) * sti(GameInterface.(_tabName).(row).td3.str), 1);
+						GameInterface.(_tabName).(row).td4.scale = 0.9;
+						n++;
+					}
+				}
+			}
+			LanguageCloseFile(idLngFile);
+		}
+		else
+		{
+			if (attr2 == "1") StoreNum = GetCharacterIndex(attr1); else StoreNum = GetStorage(attr1);
+			if(StoreNum > 0)
+			{
+				
+				if (attr2 == "1") refStorage = &characters[StoreNum]; else refStorage = &stores[StoreNum];
+				for (i = 0; i < GOODS_QUANTITY; i++)
+				{
+					row = "tr" + n;
+					if (attr2 == "1") iStoreQ = GetCargoGoods(refStorage, i); else iStoreQ = GetStorageGoodsQuantity(refStorage, i);
+					if (iStoreQ == 0) continue;
+					GameInterface.(_tabName).(row).UserData.ID = Goods[i].name;
+					GameInterface.(_tabName).(row).UserData.IDX = i;
+					GameInterface.(_tabName).(row).td1.icon.group = "GOODS";
+					GameInterface.(_tabName).(row).td1.icon.image = Goods[i].name;
+					GameInterface.(_tabName).(row).td1.icon.offset = "1, 0";
+					GameInterface.(_tabName).(row).td1.icon.width = 32;
+					GameInterface.(_tabName).(row).td1.icon.height = 32;
+					GameInterface.(_tabName).(row).td1.textoffset = "30,0";
+					GameInterface.(_tabName).(row).td1.str = XI_ConvertString(Goods[i].name);
+					GameInterface.(_tabName).(row).td1.scale = 0.85;
+					GameInterface.(_tabName).(row).td2.str = iStoreQ;
+					GameInterface.(_tabName).(row).td3.str = Goods[i].Units;
+					GameInterface.(_tabName).(row).td4.str = GetGoodWeightByType(i, iStoreQ);
+					n++;
+				}
 			}
 		}
+		
 	}
 	Table_UpdateWindow(_tabName);
 }

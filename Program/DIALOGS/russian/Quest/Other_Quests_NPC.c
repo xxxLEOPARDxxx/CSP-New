@@ -162,6 +162,7 @@ void ProcessDialogEvent()
 			AddPassenger(PChar, NPChar, false);
 			NPChar.OfficerWantToGo.DontGo = true;
 			NPChar.HalfImmortal = true;  // Контузия
+			NPChar.HeroModel = "OffOrion,OffOrion_1,OffOrion_2,OffOrion_3,OffOrion_4,OffOrion_5";
 			NPChar.loyality = MAX_LOYALITY;
 			AddQuestRecord("Andre_Abel_Quest", "19");
 			AddQuestUserData("Andre_Abel_Quest", "sSex", GetSexPhrase("","а"));
@@ -800,6 +801,7 @@ void ProcessDialogEvent()
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
 			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 			sld.HalfImmortal = true;  // Контузия
+			sld.HeroModel = "QuestCaptain,QuestCaptain_1,QuestCaptain_2,QuestCaptain_3,QuestCaptain_4,QuestCaptain_5";
 			sld.loyality = MAX_LOYALITY;
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			AddDialogExitQuestFunction("Pascal_Escape");

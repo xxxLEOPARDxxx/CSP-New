@@ -706,9 +706,9 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	if (valueCrB != 0) critchance += valueCrB;//доп крит
 	if(IsCharacterPerkOn(attack, "Agent") && attackType == "feint")
 	{
-		if (rand(100 - GetCharacterSPECIALSimple(attack, SPECIAL_L)) <= critchance+33) critical = 1.0;
+		if (rand(99 - GetCharacterSPECIALSimple(attack, SPECIAL_L)) <= critchance+33) critical = 1.0;
 	}
-	if (critchance > 0 && rand(100 - GetCharacterSPECIALSimple(attack, SPECIAL_L)) <= critchance) critical = 1.0;
+	if (critchance > 0 && rand(99 - GetCharacterSPECIALSimple(attack, SPECIAL_L)) <= critchance) critical = 1.0;
 	/*if(IsCharacterPerkOn(attack, "SwordplayProfessional"))
 	{
 		if(IsCharacterPerkOn(attack, "Fencer"))
@@ -1033,6 +1033,21 @@ void CheckForBlooding(ref attack, ref enemy, bool type, string attackType)
 					}
 					MakeBloodingAttack(enemy, attack, coeff);
 				}
+				/* else
+				{
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вы нанесли глубокую рану.");
+						PlaySound("interface\Krovotok_"+rand(4)+".wav");
+						pchar.questTemp.bloodingcount = sti(pchar.questTemp.bloodingcount) + 1;
+					}
+					if(sti(enemy.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вам нанесли глубокую рану.");
+						PlaySound("interface\Krovotok_"+rand(4)+".wav");
+					}
+					LAi_ApplyCharacterDamage(enemy, MakeInt(10+(coeff*4)));
+				} */
 			}
 		}
 	}
@@ -1058,6 +1073,21 @@ void CheckForBlooding(ref attack, ref enemy, bool type, string attackType)
 					}
 					MakeBloodingAttack(enemy, attack, 3.0);
 				}
+				/* else
+				{
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вы нанесли глубокую рану.");
+						PlaySound("interface\Krovotok_"+rand(4)+".wav");
+						pchar.questTemp.bloodingcount = sti(pchar.questTemp.bloodingcount) + 1;
+					}
+					if(sti(enemy.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вам нанесли глубокую рану.");
+						PlaySound("interface\Krovotok_"+rand(4)+".wav");
+					}
+					LAi_ApplyCharacterDamage(enemy, MakeInt(10+(valueB*2)));
+				} */
 			}
 		}
 	}
@@ -1429,7 +1459,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	{
 		if(IsEquipCharacterByArtefact(attack, "talisman1"))
 		{
-			if (rand(5)==0)	{LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)*2); Log_Info("Критический выстрел");}
+			if (rand(4)==0)	{LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)*2); Log_Info("Критический выстрел");}
 			else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)+25);
 		}
 		else LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5));

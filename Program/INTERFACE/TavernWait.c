@@ -1,6 +1,7 @@
 int iChooseTime = 3;
 int iTime = 0;
 string sDate;
+bool days = false;
 
 void InitInterface_GM(string iniName)
 {
@@ -17,6 +18,7 @@ void InitInterface_GM(string iniName)
     SetEventHandler("InterfaceBreak","ProcessCancelExit",0);
     SetEventHandler("exitCancel","ProcessCancelExit",0);
     SetEventHandler("eSlideChange","ChangeTimeProgress",0);
+	SetEventHandler("RefreshVariables","RefreshVariables",0);
     SetEventHandler("exitOk","Sleep",0);
     
     SetFormatedText("TIME_TEXT", (iTime+1)+FindHourString(iTime+1));
@@ -34,40 +36,67 @@ void ProcessFrame()
 {
         if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 3, 1))
         {
-                SetSelectable("SLIDE", false);
-                SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 0,0);
+			days = false;
+			SetSelectable("SLIDE", false);
+			SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 0,0);
         }
         
         if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 3, 2))
         {
-                SetSelectable("SLIDE", false);
-                SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 0,0);
+			days = false;
+			SetSelectable("SLIDE", false);
+			SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 0,0);
         }
         if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 3, 3))
         {
-                SetSelectable("SLIDE", true);
+			days = false;
+			SetSelectable("SLIDE", true);
         }
+		if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 3, 4))
+        {
+			days = true;
+			SetSelectable("SLIDE", true);
+        }
+}
+
+void RefreshVariables()
+{
+	SetTimeSlider();
+	ChangeTimeProgress();
+	if(days == false) SetFormatedText("TIME_TEXT", (iTime+1) + FindHourString(iTime+1));
+	else SetFormatedText("TIME_TEXT", "Дней: "+(iTime+1));
 }
 
 void ChangeTimeProgress()
 {
-        string sNode = GetEventData();
+	string sNode = GetEventData();
 
 	if(sNode == "SLIDE")
 	{
 		iTime = GetEventData();
-                SetFormatedText("TIME_TEXT", (iTime+1) + FindHourString(iTime+1));
-                //UpdateSliderWithoutUpdate();
+		if(days == false) SetFormatedText("TIME_TEXT", (iTime+1) + FindHourString(iTime+1));
+		else SetFormatedText("TIME_TEXT", "Дней: "+(iTime+1));
 	}
 }
 
 void SetTimeSlider()
 {
-   GameInterface.nodes.SLIDE.value = iTime;
-	GameInterface.nodes.SLIDE.maxlimit = 23;
+	if (days == false)
+	{
+		GameInterface.nodes.SLIDE.value = iTime;
+		GameInterface.nodes.SLIDE.maxlimit = 23;
 
-	SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 1,23);
-	SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 0,iTime);
+		SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 1,23);
+		SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 0,iTime);
+	}
+	else
+	{
+		GameInterface.nodes.SLIDE.value = iTime;
+		GameInterface.nodes.SLIDE.maxlimit = 6;
+
+		SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 1,6);
+		SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"SLIDE", 0,iTime);
+	}
 }
 
 void SetWariable()
@@ -100,14 +129,14 @@ void SetWariable()
 	
 	if(sCurDayTime != "night")
 	{
-                SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 5, 1,0);
-                SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 5, 2,1);
-        }
-        else
-        {
-                SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 5, 1,1);
-                SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 5, 2,0);
-        }
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 5, 1,0);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 5, 2,1);
+	}
+	else
+	{
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 5, 1,1);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 5, 2,0);
+	}
 }
 
 void Sleep()
@@ -127,13 +156,19 @@ void Sleep()
 		if (iCurrentTime < 7) iAddTime = 7 - iCurrentTime;
     }
     
-    if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 3, 3))
+    if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 3, 3) || SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "TIME_CHECK", 3, 4))
     {
             iAddtime = iTime+1;
     }
-    
 	pchar.quest.waithours = iAddtime;
-	DoQuestFunctionDelay("WaitNextHours", 0.1);
+    if (days == false)
+	{
+		DoQuestFunctionDelay("WaitNextHours", 0.1);
+	}
+	else
+	{
+		DoQuestFunctionDelay("WaitNextDays", 0.1);
+	}
 	ProcessCancelExit();
 }
 
@@ -148,6 +183,7 @@ void IDoExit(int exitCode, bool bCode)
    DelEventHandler("frame","ProcessFrame");
    DelEventHandler("exitCancel","ProcessCancelExit");
    DelEventHandler("eSlideChange","ChangeTimeProgress");
+   DelEventHandler("RefreshVariables","RefreshVariables");
    DelEventHandler("exitOk","Sleep");
 
    SetTimeScale(1.0);
@@ -161,13 +197,13 @@ void IDoExit(int exitCode, bool bCode)
 
 string FindHourString(int iHour)
 {
-        string sHour = " часов";
-        
-        if(iHour == 1 || iHour == 21) sHour = " час";
-        if(iHour > 1 && iHour < 5) sHour = " часа";
-        if(iHour > 21 && iHour < 25) sHour = " часа";
+	string sHour = " часов";
+	
+	if(iHour == 1 || iHour == 21) sHour = " час";
+	if(iHour > 1 && iHour < 5) sHour = " часа";
+	if(iHour > 21 && iHour < 25) sHour = " часа";
 
-        return sHour;
+	return sHour;
 }
 
 void Restore_HP()

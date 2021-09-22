@@ -195,5 +195,26 @@ int CreateSentMartinCharacters(int n)
 	ch.greeting = "Gr_Smuggler Agent";
 	n = n + 1;
 	
+	makeref(ch,Characters[n]);
+	ch.name 	= "Альберто";
+	ch.lastname = "ван Бейл";
+	ch.id		= "GVIK_char";
+	ch.model    = "trader_4";
+	ch.sex      = "man";
+	ch.model.animation = "man";
+	ch.City = "Marigo";
+	ch.location	= "GVIK";
+	ch.location.group = "sit";
+	ch.location.locator = "sit3";
+	ch.watchBoxes = true;
+	ch.NotRemoved = true;
+	ch.nation = HOLLAND;
+	ch.Dialog.Filename = "GWIK.c";
+	LAi_SetSitTypeNoGroup(ch);
+	LAi_group_MoveCharacter(ch, "HOLLAND_CITIZENS");
+	LAi_SetHP(ch, 200.0, 200.0);
+	LAi_SetImmortal(ch, true);
+	n = n + 1;
+	
 	return n;
 }

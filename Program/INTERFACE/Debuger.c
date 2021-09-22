@@ -2951,10 +2951,25 @@ void LoginDummy()
 void ReloadByStr()
 {
 	// разбор строки
-	string  loc = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 0));
-	string  grp = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 1));
-	string  ltr = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 2));
-
+	string loc = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 0));
+	string grp = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 1));
+	string ltr = stripblank(GetSubStringByNum(GameInterface.reload_edit.str, 2));
+	
+	if (loc=="Товар")
+	{
+		grp = GetSubStringByNum(GameInterface.reload_edit.str, 1);
+		for(int j = 0; j < GOODS_QUANTITY; j++)
+		{
+			if (grp == XI_ConvertString(Goods[j].name))
+			{
+				string good = Goods[j].name;
+				if (sti(ltr)>-1 && sti(ltr) < 999999) pchar.Ship.Cargo.Goods.(good) = sti(ltr);
+				else break;
+				Log_info("Товар "+XI_ConvertString(good)+" получен в количестве "+ltr);
+				break;
+			}
+		}
+	}
 	if (sti(loc) > 0 && sti(loc) < 13)
 	{
 		if (sti(grp) > 0 && sti(grp) < 32)

@@ -1292,8 +1292,8 @@ void ProcessControls()
 † 	if (ControlName=="TimeScaleFaster" || ControlName == "TimeScaleSlower")
 † 	{
         //Boyer change #20170318-38
-        if (CheckAttribute(&loadedLocation, "type") && loadedLocation.type == "underwater") return; //запрет ускорени€ под водой.
-		if (bAltBalance && ControlName == "TimeScaleSlower" && TimeScaleCounter == 0)
+        // if (CheckAttribute(&loadedLocation, "type") && loadedLocation.type == "underwater") return; //запрет ускорени€ под водой.
+		if (bAltBalance && !bSeaActive && ControlName == "TimeScaleSlower" && TimeScaleCounter == 0)
 		{
 			Log_SetStringToLog("«амедление времени заблокировано.");
 			return;
@@ -1400,9 +1400,9 @@ void ProcessControls()
         case "TimeScale":
             DeleteAttribute(pchar, "pause");
             //Boyer change #20170318-38
-            if (CheckAttribute(&loadedLocation, "type") && loadedLocation.type == "Underwater") {
+            /* if (CheckAttribute(&loadedLocation, "type") && loadedLocation.type == "Underwater") {
 				return; //запрет ускорени€ под водой.
-			}
+			} */
 			if (PChar.location == "FencingTown_Arena" || PChar.location == "FencingTown_ExitTown")
 			{
 				if (InterfaceStates.Buttons.Save.enable == false)
@@ -2023,7 +2023,7 @@ bool CheckSaveGameEnabled()
 	
 	if(bDisableMapEnter && !CheckBattleSeaSaveEnabled()) TmpBool = false;
 	
-	if (bAltBalance && LAi_group_IsActivePlayerAlarm()) TmpBool = false;
+	// if (bAltBalance && LAi_group_IsActivePlayerAlarm()) TmpBool = false;
 	if (TmpBool)
 	{
 		int idxLoadLoc = FindLoadedLocation();

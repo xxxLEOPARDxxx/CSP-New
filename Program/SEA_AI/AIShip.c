@@ -438,6 +438,7 @@ void Ship_FireAction()
 #define MAX_CAL_MAST_DMG 50
 float Ship_MastDamage()
 {
+	if (!bSeaActive) return 0.0;
 	int iDamageType = GetEventData();
 	int iMastNum = GetEventData();
 	float x = GetEventData();

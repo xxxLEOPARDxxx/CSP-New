@@ -810,20 +810,16 @@ void ProcessDialogEvent()
 				// ugeen --> склад товаров для ГГ
 				if(NPChar.city != "Pirates")
 				{
-					if (NPChar.city == "Tortuga" || NPChar.city == "Villemstad" || NPChar.city == "PortRoyal" || NPChar.city == "Havana")
+					if(!CheckAttribute(NPChar,"Storage.NoActivate"))
 					{
-						if(!CheckAttribute(NPChar,"Storage.NoActivate"))
-						{
-							link.l7 = "Можно ли арендовать у вас склад?";
-							link.l7.go = "storage_rent";
-						}
-						if(CheckAttribute(NPChar,"Storage.NoActivate") && !CheckAttribute(NPChar,"Storage.Activate"))
-						{
-							link.l7 = "Я хотел бы вновь арендовать у вас склад.";
-							link.l7.go = "storage_rent";
-						}
+						link.l7 = "Можно ли арендовать у вас склад?";
+						link.l7.go = "storage_rent";
 					}
-					
+					if(CheckAttribute(NPChar,"Storage.NoActivate") && !CheckAttribute(NPChar,"Storage.Activate"))
+					{
+						link.l7 = "Я хотел бы вновь арендовать у вас склад.";
+						link.l7.go = "storage_rent";
+					}
 				}
 				if(CheckAttribute(NPChar,"Storage"))
 				{
@@ -1330,8 +1326,17 @@ void ProcessDialogEvent()
 		
 		case "storage_rent1":
 			NPChar.MoneyForStorage = GetStoragePriceExt(NPChar, pchar); 
-			dialog.text = "Он достаточно просторный даже для припортового пакгауза - вместимость 50000 ц. За " + FindRussianMoneyString(sti(NPChar.MoneyForStorage)) + " в месяц я готов обеспечить сохранность ваших запасов. "+
+			if (NPChar.city == "Tortuga" || NPChar.city == "Villemstad" || NPChar.city == "PortRoyal" || NPChar.city == "Havana")
+			{
+				dialog.text = "Он достаточно просторный даже для припортового пакгауза - вместимость 100000 ц. За " + FindRussianMoneyString(sti(NPChar.MoneyForStorage)) + " в месяц я готов обеспечить сохранность ваших запасов. "+
 				"Это включает услуги по охране, защиту от подтопления и борьбу с грызунами. Ну как, годится?.. Ну, и конфиденциальность, понятное дело, гарантирую.";
+			}
+			else
+			{
+				dialog.text = "Он достаточно просторный даже для припортового пакгауза - вместимость 50000 ц. За " + FindRussianMoneyString(sti(NPChar.MoneyForStorage)) + " в месяц я готов обеспечить сохранность ваших запасов. "+
+				"Это включает услуги по охране, защиту от подтопления и борьбу с грызунами. Ну как, годится?.. Ну, и конфиденциальность, понятное дело, гарантирую.";
+			}
+			
 			link.l1 = "Годится. Могу я его осмотреть?";	
 			link.l1.go = "storage_rent2";
 			link.l2 = "Слишком дорого просите. Там, небось, воды по колено и крысы вовсю шуруют.";

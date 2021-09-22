@@ -154,12 +154,14 @@ void BuildMalteseOrder(string qName)
 void RefreshSlavesLimit()
 {
 	ref sld = CharacterFromID("PlantRuler");
-	sld.SlavesLimit = 1000;
+	sld.SlavesLimit = 250+rand(750);
 }
 
 void RefreshGWIK()
 {
 	ref sld = CharacterFromID("GWIK_char");
+	DeleteAttribute(sld,"Timer");
+	sld = CharacterFromID("GVIK_char");
 	DeleteAttribute(sld,"Timer");
 }
 

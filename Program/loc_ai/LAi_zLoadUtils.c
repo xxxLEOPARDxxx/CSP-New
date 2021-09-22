@@ -482,7 +482,7 @@ void CreatPlantation(aref loc)
 				LAi_SetImmortal(ch, true);
 				DeleteAttribute(ch,"lifeDay");
 				pchar.AlreadyPlantRuler = true;
-				ch.SlavesLimit = 1000;
+				ch.SlavesLimit = 250+rand(750);
 				ChangeCharacterAddressGroup(ch, pchar.location, "goto",  "goto1");
 			}
 		}

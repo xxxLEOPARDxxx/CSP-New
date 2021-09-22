@@ -35,7 +35,7 @@
 #include "locations\init\LostShipsCity.c"
 #include "locations\init\KhaelRoa.c"
 #include "locations\init\OldWorld.c"
-#include "locations\init\ReefsSkeleton.c"
+#include "locations\init\ReefsSkeleton.c"			 
 
 void InitLocations()
 {
@@ -85,6 +85,13 @@ void InitLocations()
 		loc.locators_radius.Enc04 = 0.5;
 		loc.locators_radius.teleport = 1.0;
 		loc.locators_radius.quest = 1.0;
+		
+		//Korsar Maxim - видимость новых (и старых) локаторов
+		loc.locators_radius.Actor = 1.0;
+		loc.locators_radius.ships_other = 1.0;
+		loc.locators_radius.ships = 1.0;
+		loc.locators_radius.Genres = 1.0;
+		
 		if (MOD_BETTATESTMODE == "On")
 		{// чтоб было видно в отладке Boal 18.08.06
 			loc.locators_radius.soldiers = 0.5;
@@ -295,7 +302,7 @@ void InitLocations()
 	Locations[0].IslandsList.Caiman.end = n;
 	Trace("Caiman locations " + n);
 
-	// —тарый всет -->
+// —тарый всет -->
 	Locations[0].IslandsList.OldWorld.begin = n;
 	n = LocationInitOldWorld(n);
 	Locations[0].IslandsList.OldWorld.end = n;
@@ -311,7 +318,6 @@ void InitLocations()
 	n = LocationInitReefs(n);
 	Locations[0].IslandsList.Reefs.end = n;
 	Trace("Reefs locations " + n);
-
 	n = LocationInitCommonLoc(n);
 	Trace("Common locations " + n);
 

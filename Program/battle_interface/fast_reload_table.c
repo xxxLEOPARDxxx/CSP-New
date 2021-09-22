@@ -816,6 +816,10 @@ void initFastReloadTable()
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
 	curTable.l11.location = "Marigo_prison";
+	
+	curTable.l12.pic = FRP_GWIK;
+	curTable.l12.tex = FRT_GWIK;
+	curTable.l12.location = "GVIK";
 
 	makearef(curTable,objFastReloadTable.table.Tortuga);
 	// store

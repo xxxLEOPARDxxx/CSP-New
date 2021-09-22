@@ -1340,23 +1340,25 @@ bool SetReloadIcons()
 						objLandInterface.UserIcons.(fastLocName).pic = 50;
 						objLandInterface.UserIcons.(fastLocName).selpic = 34;
 						objLandInterface.UserIcons.(fastLocName).tex = 0;
+						continue;
 					}
 					if (objLandInterface.UserIcons.(fastLocName).note == "Дом начальника охранной базы")
 					{
 						objLandInterface.UserIcons.(fastLocName).pic = 49;
 						objLandInterface.UserIcons.(fastLocName).selpic = 33;
 						objLandInterface.UserIcons.(fastLocName).tex = 0;
+						continue;
 					}
-					continue;
 				}
-				if (Locations[idxloc].islandId == "Curacao")
+				if (Locations[idxloc].islandId == "Curacao" || Locations[idxloc].islandId == "SentMartin")
 				{
 					if (objLandInterface.UserIcons.(fastLocName).note == "Представительство ГВИК")
 					{
-						objLandInterface.UserIcons.(fastLocName).pic = 30;
-						objLandInterface.UserIcons.(fastLocName).selpic = 14;
+						objLandInterface.UserIcons.(fastLocName).pic = 53;
+						objLandInterface.UserIcons.(fastLocName).selpic = 37;
+						objLandInterface.UserIcons.(fastLocName).tex = 0;
+						continue;
 					}
-					continue;
 				}
 				if (Locations[idxloc].islandId == "Barbados")
 				{
@@ -1365,15 +1367,15 @@ bool SetReloadIcons()
 						objLandInterface.UserIcons.(fastLocName).pic = 50;
 						objLandInterface.UserIcons.(fastLocName).selpic = 34;
 						objLandInterface.UserIcons.(fastLocName).tex = 0;
+						continue;
 					}
-					continue;
 				}
 				if (Locations[idxloc].islandId == "Cuba")
 				{
 					if (objLandInterface.UserIcons.(fastLocName).note == "Инквизиция")
 					{
-						objLandInterface.UserIcons.(fastLocName).pic = 51;
-						objLandInterface.UserIcons.(fastLocName).selpic = 35;
+						objLandInterface.UserIcons.(fastLocName).pic = 52;
+						objLandInterface.UserIcons.(fastLocName).selpic = 36;
 						objLandInterface.UserIcons.(fastLocName).tex = 0;
 					}
 				}
