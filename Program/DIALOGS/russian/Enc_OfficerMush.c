@@ -123,6 +123,8 @@ void ProcessDialogEvent()
 				dialog.text = "А ты счастлив"+ GetSexPhrase("чик","ица") +", кэп! Я чуть было не выстрелил, приняв за своего обидчика, хе-хе!";
 				link.l1 = "Неизвестно, кому повезло больше. Ты ведь мог и промахнуться. А я просто хотел"+ GetSexPhrase("","а") +" тебе помочь.";
 				link.l1.go = "exit_Rep";
+				link.l1 = "Ты ведь мог и промахнуться. А мне стало интересно, я увидел"+ GetSexPhrase("","а") +" тебя с корабля. Отшельничаешь тут?";
+				link.l1.go = "Lostpirate_1";
 			}
 		break;
 		
@@ -165,10 +167,26 @@ void ProcessDialogEvent()
             }
 			if (sti(PChar.reputation) >= 36)//повторная проверка репутации, для второго и далее заходов
 			{
-				dialog.text = "Хм... Знаете, кэп, что-то вы мне не нравитесь. Еще сдадите властям, чего доброго... от святош можно чего угодно ждать. Лучше я останусь здесь, в этой уютной бухте.";
-				link.l1 = "Удачи, соколиный глаз! Смотри, не одичай тут...";
-				link.l1.go = "exit";
-				NextDiag.TempNode = "OnceAgainLP";
+				if (!CheckAttribute(pchar,"RimalieDone"))
+				{
+					dialog.text = "Хм... Знаете, кэп, что-то вы мне не нравитесь. Еще сдадите властям, чего доброго... от святош можно чего угодно ждать. Лучше я останусь здесь, в этой уютной бухте.";
+					link.l1 = "Удачи, соколиный глаз! Смотри, не одичай тут...";
+					link.l1.go = "exit";
+					link.l2 = "Так уж сразу и сдам? Хорошего мушкетёра ещё поискать надо, а ты создаешь подобное впечатление.";
+					link.l2.go = "LPGoodSide";
+					NextDiag.TempNode = "OnceAgainLP";
+				}
+				else
+				{
+					dialog.text = "Раз уж у вас удалось помирить меня с контрабандистами, то я не буду наглеть. 10000 пиастров и я ваш.";
+					if (sti(pchar.money)>= 10000)
+					{
+						link.l1 = "Вот твои деньги. И надеюсь ты поумеришь свою скандальную натуру.";
+						link.l1.go = "Exit_hire_Lostpirate";
+					}
+					link.l2 = "Как будут деньги, так сразу. Поиздержал"+ GetSexPhrase("ся","ась") +" я малость.";
+					link.l2.go = "exit";
+				}
 				break;
 			}
 			if (GetSummonSkillFromName(pchar, SKILL_FORTUNE) < 31)//при низком везении - в сад
@@ -185,6 +203,40 @@ void ProcessDialogEvent()
 			link.l2 = "Я слышал"+ GetSexPhrase("","а") +" твою историю в другом варианте. Ты поднял руку на своего капитана, выбив ему выстрелом клинок, когда он хотел арестовать тебя за попытку мятежа. Мне нравятся отчаянные ребята вроде тебя, но я не хочу проверить твою меткость на собственной шкуре.";
 			link.l2.go = "exit";
 			NextDiag.TempNode = "OnceAgainLP";
+		break;
+		case "LPGoodSide":
+			dialog.text = "Если уж честно, мне откровенно осточертело торчать тут. Решите одну проблему и приплатите сверху - пойду с тобой.";
+			link.l1 = "И чего же ты хочешь?";
+			link.l1.go = "LPGoodSide_2";
+		break;
+		case "LPGoodSide_2":
+			dialog.text = "Я уже давно мог добраться до цивилизации, да вот рассорился я с местными. Разок сорвал контрабандистам сделку, просто хотелось нормальной еды и разжиться пулями с порохом. А они судя по всему дали на лапу местному губернатору, который отдал приказ страже. Если увидят - положат на месте.";
+			link.l1 = "С контрабандистами тебя помирить, значит?";
+			link.l1.go = "LPGoodSide_3";
+		break;
+		case "LPGoodSide_3":
+			dialog.text = "Они же люди обидчивые, из-под земли достанут. Пока мне получается прятаться, но я не уверен, что так будет вечно. Полагаю, что даже на другом острове они меня достанут.";
+			link.l1 = "Попробую что-нибудь сделать. Жди моего возвращения.";
+			link.l1.go = "LPGoodSide_4";
+		break;
+		case "LPGoodSide_4":
+			dialog.text = "Что-ж, я попробую вам довериться и не пустить вам рефлекторно пулю в лоб по возвращению.";
+			link.l1 = "Хе, если попадёшь...";
+			link.l1.go = "exit";
+			pchar.RimalieGood = 1;
+			NextDiag.TempNode = "OnceAgainLPGood";
+		break;
+		case "OnceAgainLPGood":
+			dialog.text = "Как успехи, капитан?";
+			link.l1 = "Пока никак.";
+			link.l1.go = "exit";
+			if (CheckAttribute(pchar,"RimalieDone"))
+			{
+				link.l1 = "Проблема решена. Можешь присоединяться к моей команде. Кстати, сколько ты там хотел?";
+				link.l1.go = "Lostpirate_check";
+				NextDiag.TempNode = "OnceAgainLP";
+			}
+			else NextDiag.TempNode = "OnceAgainLPGood";
 		break;
 		//<-- плохиш-пират
 
@@ -295,6 +347,13 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Exit_hire_Lostpirate":
+			if(CheckAttribute(pchar,"RimalieDone"))
+			{
+				AddMoneyToCharacter(pchar,-10000);
+				npchar.reputation = 51; 
+				npchar.alignment = "good";
+				DeleteAttribute(pchar,"RimalieDone");
+			}
 			npchar.HalfImmortal = true;
 			TakeNItems(pchar, "Mineral4", 5);
 			Log_Info("Вы получили бакланов");

@@ -23,6 +23,7 @@ int CreateBermudesCharacters(int n)
 	ch.nation = PIRATE;
 	ch.quest.type = "hovernor";
 	ch.reputation = "35";
+	ch.HeroModel = "capitan,capitan_1,capitan_2,capitan_3,capitan_4,capitan_5";
     SetRandSPECIAL(ch);
     SetSelfSkill(ch, 90, 90, 90, 70, 90);
     SetShipSkill(ch, 90, 80, 70, 10, 10, 20, 10, 10, 50);

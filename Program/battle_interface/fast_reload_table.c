@@ -142,9 +142,9 @@ void initFastReloadTable()
 	curTable.l9.tex = FRT_TOWN_EXIT;
 	curTable.l9.location = "Bridgetown_ExitTown";
 	
-	curTable.l0.pic = FRP_FORT;
-	curTable.l0.tex = FRT_FORT;
-	curTable.l0.location = "Bridgetown_fort";
+	curTable.l10.pic = FRP_FORT;
+	curTable.l10.tex = FRT_FORT;
+	curTable.l10.location = "Bridgetown_fort";
 	
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
@@ -192,9 +192,9 @@ void initFastReloadTable()
 	curTable.l9.tex = FRT_TOWN_EXIT;
 	curTable.l9.location = "PortRoyal_ExitTown";
 	
-	curTable.l0.pic = FRP_FORT;
-	curTable.l0.tex = FRT_FORT;
-	curTable.l0.location = "PortRoyal_fort";
+	curTable.l10.pic = FRP_FORT;
+	curTable.l10.tex = FRT_FORT;
+	curTable.l10.location = "PortRoyal_fort";
 	
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
@@ -481,9 +481,9 @@ void initFastReloadTable()
 	curTable.l9.tex = FRT_TOWN_EXIT;
 	curTable.l9.location = "FortFrance_ExitTown";
 	
-	curTable.l0.pic = FRP_FORT;
-	curTable.l0.tex = FRT_FORT;
-	curTable.l0.location = "FortFrance_fort";
+	curTable.l10.pic = FRP_FORT;
+	curTable.l10.tex = FRT_FORT;
+	curTable.l10.location = "FortFrance_fort";
 	
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
@@ -591,9 +591,9 @@ void initFastReloadTable()
 	curTable.l9.tex = FRT_TOWN_EXIT;
 	curTable.l9.location = "Charles_ExitTown";
 	
-	curTable.l0.pic = FRP_FORT;
-	curTable.l0.tex = FRT_FORT;
-	curTable.l0.location = "Charles_fort";
+	curTable.l10.pic = FRP_FORT;
+	curTable.l10.tex = FRT_FORT;
+	curTable.l10.location = "Charles_fort";
 	
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
@@ -721,9 +721,9 @@ void initFastReloadTable()
 	curTable.l9.tex = FRT_TOWN_EXIT;
 	curTable.l9.location = "SantoDomingo_ExitTown";
 	
-	curTable.l0.pic = FRP_FORT;
-	curTable.l0.tex = FRT_FORT;
-	curTable.l0.location = "SantoDomingo_fort";
+	curTable.l10.pic = FRP_FORT;
+	curTable.l10.tex = FRT_FORT;
+	curTable.l10.location = "SantoDomingo_fort";
 	
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
@@ -809,9 +809,9 @@ void initFastReloadTable()
 	curTable.l9.tex = FRT_TOWN_EXIT;
 	curTable.l9.location = "Marigo_ExitTown";
 	
-	curTable.l0.pic = FRP_FORT;
-	curTable.l0.tex = FRT_FORT;
-	curTable.l0.location = "Marigo_fort";
+	curTable.l10.pic = FRP_FORT;
+	curTable.l10.tex = FRT_FORT;
+	curTable.l10.location = "Marigo_fort";
 	
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
@@ -859,9 +859,9 @@ void initFastReloadTable()
 	curTable.l9.tex = FRT_TOWN_EXIT;
 	curTable.l9.location = "Tortuga_ExitTown";
 	
-	curTable.l0.pic = FRP_FORT;
-	curTable.l0.tex = FRT_FORT;
-	curTable.l0.location = "Tortuga_fort";
+	curTable.l10.pic = FRP_FORT;
+	curTable.l10.tex = FRT_FORT;
+	curTable.l10.location = "Tortuga_fort";
 	
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;
@@ -905,9 +905,9 @@ void initFastReloadTable()
 	curTable.l9.tex = FRT_TOWN_EXIT;
 	curTable.l9.location = "Panama_ExitTown";
 	
-	curTable.l0.pic = FRP_FORT;
-	curTable.l0.tex = FRT_FORT;
-	curTable.l0.location = "Panama_fort";
+	curTable.l10.pic = FRP_FORT;
+	curTable.l10.tex = FRT_FORT;
+	curTable.l10.location = "Panama_fort";
 	
 	curTable.l11.pic = FRP_PRISON;
 	curTable.l11.tex = FRT_PRISON;

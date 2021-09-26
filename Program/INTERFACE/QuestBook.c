@@ -857,6 +857,7 @@ void ShowPGGInfo()
 		ref chrefspp = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
 		ref refBaseShip = GetRealShip(sti(chrefspp.ship.type));
 		string shipTexture = refBaseShip.BaseName;
+		SetFormatedText("OFFICERS_WINDOW_CAPTION", "Капитан");
 		SetFormatedText("SHIP_NAME", XI_ConvertString(RealShips[sti(chrefspp.Ship.Type)].BaseName) + " '" + chrefspp.Ship.Name + "'");
 		SetFormatedText("SHIP_WINDOW_CAPTION", "Характеристики");
 		SetFormatedText("SHIP_INFO_PLACE", "Информация по стоянке");
@@ -894,10 +895,12 @@ void ShowPGGInfo()
 		SetShipQualityTable(chrefspp, "BAR_HP", "BAR_Mast", "BAR_Speed", "BAR_TurnRate", "BAR_WAS", "BAR_Capacity", "BAR_Crew");
 		SetSPECIALMiniTable("TABLE_SMALLSKILL", chrefspp);
 		SetOTHERMiniTable("TABLE_SMALLOTHER", chrefspp);
-		SetFormatedText("OFFICER_NAME", GetFullName(chrefspp));
+		string offtype;
+		if (!CheckAttribute(chrefspp,"quest.officertype")) offtype = "\nСпециальность: Универсал";
+		else offtype = "\nСпециальность: "+XI_ConvertString(chrefspp.quest.officertype);
+		SetFormatedText("OFFICER_NAME", GetFullName(chrefspp)+offtype);
 		SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp.faceId + ".tga");
 		SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
-		SetNewPicture("CAPITUL", "");
 
 		if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");
 		else SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLOFF");
@@ -919,6 +922,7 @@ void ShowPGGInfo()
 	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index") && GameInterface.(CurTable).(CurRow).td3.str == "Офицер на обучении")
 	{
 		ref chrefspp1 = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
+		SetFormatedText("OFFICERS_WINDOW_CAPTION", "Офицер на обучении");
 		if (IsCharacterPerkOn(chrefspp1, "Grunt")) texturedata = "INTERFACES\Sith\Char_Master.tga";
 		if (IsCharacterPerkOn(chrefspp1, "Trader")) texturedata = "INTERFACES\Sith\Char_Merchant.tga";
 		if (IsCharacterPerkOn(chrefspp1, "Fencer")) texturedata = "INTERFACES\Sith\Char_Corsair.tga";
@@ -928,31 +932,15 @@ void ShowPGGInfo()
 		if (IsCharacterPerkOn(chrefspp1, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
 		SetSPECIALMiniTable("TABLE_SMALLSKILL", chrefspp1);
 		SetOTHERMiniTable("TABLE_SMALLOTHER", chrefspp1);
-		SetFormatedText("OFFICER_NAME", GetFullName(chrefspp1));
+		string offtype1;
+		if (!CheckAttribute(chrefspp1,"quest.officertype")) offtype1 = "\nСпециальность: Универсал";
+		else offtype1 = "\nСпециальность: "+XI_ConvertString(chrefspp1.quest.officertype);
+		SetFormatedText("OFFICER_NAME", GetFullName(chrefspp1)+offtype1);
 		SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp1.faceId + ".tga");
 		SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
-		SetNewPicture("CAPITUL", "interfaces\Capitul.png");
 		
-		SetFormatedText("SHIP_NAME", "Офицер на обучении в капитуле");
-		SetFormatedText("SHIP_WINDOW_CAPTION", "");
-		SetFormatedText("SHIP_INFO_PLACE", "Информация");
-		SetFormatedText("PORT_INFO_PLACE", "Остров:\nРиф Скелета");
-		SetFormatedText("DATE_INFO_PLACE", "Место:\nБухта проклятых");
-		SetFormatedText("MONEY_INFO_PLACE", "Капитул");
-		SetFormatedText("SHIP_RANK", "");
-		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\blank_ship2.tga.tx");
-		SetNewPicture("SHIP_FRAME_PICTURE", "interfaces\Frame1.tga");
-		SetNewPicture("NATION_PORT_PICTURE", "loading\enc_spa.tga");
-		
-		SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLOFF");
-		SetNewGroupPicture("EXTRASAILON", "SHIP_UPGRADES", "EXTRASAILOFF");
-		SetNewGroupPicture("EXTRAGUNSON", "SHIP_UPGRADES", "EXTRAGUNSOFF");
-		SetNewGroupPicture("EXTRAHULLKRENGON", "SHIP_UPGRADES", "EXTRAHULLKRENGOFF");
-		SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOff");
-		SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOff");
-		
-		XI_WindowShow("SHOW_ADV_INFO", true);
-		XI_WindowDisable("SHOW_ADV_INFO", false);
+		XI_WindowShow("SHOW_ADV_INFO_SHORT", true);
+		XI_WindowDisable("SHOW_ADV_INFO_SHORT", false);
 		sMessageMode = "RPG_Hint";
 	}
 }
@@ -1306,6 +1294,8 @@ void ExitRPGHint()
 	{
 		XI_WindowShow("SHOW_ADV_INFO", false);
 		XI_WindowDisable("SHOW_ADV_INFO", true);
+		XI_WindowShow("SHOW_ADV_INFO_SHORT", false);
+		XI_WindowDisable("SHOW_ADV_INFO_SHORT", true);
 		sMessageMode = "";
 	}
 }

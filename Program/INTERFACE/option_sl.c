@@ -148,10 +148,10 @@ void GetRealOptions(ref optref)
 		optref.cameramode.HUDStyle = true;
 	}
 	
-	if( CheckAttribute(&InterfaceStates,"HUDStyleLand") ) {
-		optref.cameramode.HUDStyleLand = sti(InterfaceStates.HUDStyleLand);
+	if( CheckAttribute(&InterfaceStates,"VISUAL_CIRASS") ) {
+		optref.cameramode.VISUAL_CIRASS = sti(InterfaceStates.VISUAL_CIRASS);
 	} else {
-		optref.cameramode.HUDStyleLand = true;
+		optref.cameramode.VISUAL_CIRASS = true;
 	}
 	
 	if( CheckAttribute(&InterfaceStates,"CannonsHUD") ) {
@@ -311,10 +311,10 @@ void SetCurentOptions(ref optref)
 		InterfaceStates.HUDStyle = false;
 	}
 	
-	if( CheckAttribute(optref,"cameramode.HUDStyleLand") ) {
-		InterfaceStates.HUDStyleLand = optref.cameramode.HUDStyleLand;
+	if( CheckAttribute(optref,"cameramode.VISUAL_CIRASS") ) {
+		InterfaceStates.VISUAL_CIRASS = optref.cameramode.VISUAL_CIRASS;
 	} else {
-		InterfaceStates.HUDStyleLand = false;
+		InterfaceStates.VISUAL_CIRASS = false;
 	}
 	
 	if( CheckAttribute(optref,"cameramode.CannonsHUD") ) {

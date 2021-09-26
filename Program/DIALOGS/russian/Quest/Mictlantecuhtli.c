@@ -127,22 +127,22 @@ void ProcessDialogEvent()
 			dialog.text = "Ты впечатлил"+ GetSexPhrase("","а") +" меня, смертн"+ GetSexPhrase("ый","ая") +". Ещё никому не удавалось одолеть моё земное воплощение. Знай же, что ты видишь самого Юм Самиля во плоти!";
 			link.l1 = "Юм... кого? Я заглянул"+ GetSexPhrase("","а") +" в этот храм за ценностями, но не наш"+ GetSexPhrase("ёл","ла") +" здесь абсолютно ничего, кроме целой армии нежити.";
 			link.l1.go = "Samil_2";
-			if (pchar.sex != "woman") LAi_CharacterPlaySound(NPChar, "Samil_1_man");
-			else LAi_CharacterPlaySound(NPChar, "Samil_1_woman");
+			if (pchar.sex != "woman") LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_1_man");
+			else LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_1_woman");
 		break;
 		
 		case "Samil_2":
 			dialog.text = "Сколько же прошло лет, раз смертные уже позабыли моё имя...";
 			link.l1 = "Полагаю, весьма и весьма много. Я никогда не слышал"+ GetSexPhrase("","а") +" о тебе.";
 			link.l1.go = "Samil_3";
-			LAi_CharacterPlaySound(NPChar, "Samil_2");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_2");
 		break;
 		
 		case "Samil_3":
 			dialog.text = "Полагаю, такова судьба всех богов ныне исчезнувших цивилизаций. Они забываются в пустоте, лишаясь сил из-за отсутствия притока силы от верующих...";
 			link.l1 = "...";
 			link.l1.go = "Samil_4";
-			LAi_CharacterPlaySound(NPChar, "Samil_3");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_3");
 		break;
 		
 		case "Samil_4":
@@ -152,15 +152,15 @@ void ProcessDialogEvent()
 			RemoveCharacterEquip(npchar, BLADE_ITEM_TYPE);
 			log_info("Вы получили Полуторный Фламберж от Юм Самиля");
 			TakeNItems(pchar,"blade201",1);
-			if (pchar.sex != "woman") LAi_CharacterPlaySound(NPChar, "Samil_4_man");
-			else LAi_CharacterPlaySound(NPChar, "Samil_4_woman");
+			if (pchar.sex != "woman") LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_4_man");
+			else LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_4_woman");
 		break;
 		
 		case "Samil_5":
 			dialog.text = "Думаю, пришло время попрощаться. Расскажи об этой встрече людям. Не хочу быть забытым навечно, как все прочие... Не могу также просить тебя о поклонении, слишком уж разные у нас культуры. Прощай, воин.";
 			link.l1 = "Обещаю никогда не забывать нашей встречи. Прощай!";
 			link.l1.go = "Samil_6";
-			LAi_CharacterPlaySound(NPChar, "Samil_5");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_5");
 		break;
 		
 		case "Samil_6":

@@ -413,7 +413,7 @@ void FaceMaker(aref rCharacter)
 		// Линейка Блада CSP - пять офицеров <--
 
 		// ГПК 1.2.5 -->
-		case "Angellica":		rCharacter.FaceId = 242; break;
+		case "PGG_Angellica":	rCharacter.FaceId = 242; break;
 		case "PGG_Rumba":		rCharacter.FaceId = 488; break;
 		
 		case "YokoDias":		rCharacter.FaceId = 243; break;
@@ -466,19 +466,29 @@ void FaceMaker(aref rCharacter)
 		case "PGG_Tich_0":		rCharacter.FaceId = 540; break;
 		else rCharacter.FaceId = 478; break;
 	}
-	// --> LEO&Gregg: Подключение визуала для надетых кирас (если не будет нужной модели, персонаж не появится и будет баговать)
-	if (HasSubStr(rCharacter.model,"officer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	if (HasSubStr(rCharacter.model,"Mushketer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	if (HasSubStr(rCharacter.model,"pirate_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	if (HasSubStr(rCharacter.model,"OZG_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	if (HasSubStr(rCharacter.model,"PKM_rab_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	// if (HasSubStr(rCharacter.model,"shipowner_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	// if (HasSubStr(rCharacter.model,"skel")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	// if (HasSubStr(rCharacter.model,"Skel_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	// if (HasSubStr(rCharacter.model,"Slave")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	// if (HasSubStr(rCharacter.model,"trader_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	// if (HasSubStr(rCharacter.model,"usurer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-	// <-- LEO&Gregg: Подключение визуала для надетых кирас
+	if (InterfaceStates.VISUAL_CIRASS)
+	{
+		// --> LEO&Gregg: Подключение визуала для надетых кирас (если не будет нужной модели, персонаж не появится и будет баговать)
+		if (HasSubStr(rCharacter.model,"DebugOfficer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"officer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"Mushketer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"pirate_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"OZG_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"PKM_rab_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"AztecCitizen")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"AztecWarrior")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"Canib_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"citiz_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"prison_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"prizon_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"skel")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"Skel_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"Slave")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"shipowner_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		// if (HasSubStr(rCharacter.model,"trader_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		// if (HasSubStr(rCharacter.model,"usurer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		// <-- LEO&Gregg: Подключение визуала для надетых кирас
+	}
 }
 
 //Создадим вражеских фантомов - команда для ЛГ
@@ -526,7 +536,7 @@ void SetCaptanModelByEncType(ref Chref, string sFantomType)
 			ModelPirate = "off_" + NationShortName(sti(Chref.nation)) + "_" + (rand(1) + 1);
 		break;
 		case "pirate":
-            ModelPirate = "officer_" + (rand(57) + 1);
+            ModelPirate = "officer_" + (rand(63) + 1);
 		break;
 	}
 	Chref.model = ModelPirate;

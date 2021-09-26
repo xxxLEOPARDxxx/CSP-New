@@ -314,7 +314,7 @@ void ProcessDialogEvent()
 			DialogExit();
 			NextDiag.TempNode = "First time";
 			NextDiag.CurrentNode = NextDiag.TempNode;
-			npchar.dialog.filename = "Smuggler Agent_dialog.c";
+			npchar.dialog.filename = "Smuggler_Agent_dialog.c";
 			DoQuestFunctionDelay("DarkHuman_Villemstad", 1.0);
 			WaitDate("",0,0,7,2,25);
 		break;

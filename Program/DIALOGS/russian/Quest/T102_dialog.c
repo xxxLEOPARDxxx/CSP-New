@@ -25,14 +25,14 @@ void ProcessDialogEvent()
 			link.l1 = "Что такое?!";
 			link.l1.go = "Term_1";
 			TakeNItems(Pchar, "term_arm", -1);
-			LAi_CharacterPlaySound(NPChar, "T102_Intro");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "T102_Intro");
 		break;
 		
 		case "Term_1":
 			dialog.text = "Я - киборг марки Т-102, производства 'Скайнет продакшн', анклава Детройт, выпуск 2022 года. Я настиг тебя, человек со странного корабля.";
 			link.l1 = "Кто? Чего? Какой еще Ки Борг? Какого года? На дворе семнадцатый век от рождества Христова! Ты - нечисть! Только почему-то металлическая, что странно.";
 			link.l1.go = "Term_2";
-			LAi_CharacterPlaySound(NPChar, "Terminator_1");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_1");
 			if(startherotype == 2)
 			{
 				link.l1 = "'Скайнет продакшн'? Никогда не слышала о такой корпорации. Проклятье, кажется своими действиями здесь я нарушила временную последовательность, чем породила альтернативное будущее. Скажи мне, известно ли тебе что-то о корпорации Omnitech? Кажется, в 2022 году она уже существовала.";
@@ -45,7 +45,7 @@ void ProcessDialogEvent()
 			dialog.text = "В моей базе данных нет совпадений по этому запросу.";
 			link.l1 = "Проклятье! Это очень плохо. В любом случае, что ты делаешь в этом времени?";
 			link.l1.go = "Term_3";
-			LAi_CharacterPlaySound(NPChar, "Terminator_2");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_2");
 		break;
 		
 		case "Term_2":
@@ -53,15 +53,15 @@ void ProcessDialogEvent()
 			              ". Я - машина с биологическим покрытием, киборг. Покрытие имело меньший срок службы, чем основная база из сплава металлических полимеров. За 170 лет биопокров был утерян. Мой ресурс на пределе. Ядерный источник питания сел, работаю на резерве.";
 			link.l1 = "Полтора века? Тогда я не понял"+ GetSexPhrase("","а") +", когда тебя породили - в 15-м веке или же в 21-м?";
 			link.l1.go = "Term_3";
-			if (startherotype > 0 && startherotype < 12) LAi_CharacterPlaySound(NPChar, "Terminator_3_"+startherotype);
-			else LAi_CharacterPlaySound(NPChar, "Terminator_3_unknown");
+			if (startherotype > 0 && startherotype < 12) LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_3_"+startherotype);
+			else LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_3_unknown");
 		break;
 		
 		case "Term_3":
 			dialog.text = "Error. Main power is too low. Critical error - restarting....";
 			link.l1 = "Чего?";
 			link.l1.go = "Term_4";
-			LAi_CharacterPlaySound(NPChar, "Terminator_4");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_4");
 		break;
 		
 		case "Term_4":
@@ -72,14 +72,14 @@ void ProcessDialogEvent()
 				link.l1 = "Похоже, он на ладан дышит, вот-вот развалится. Эй, ты здесь?";
 			}
 			link.l1.go = "Term_5";
-			LAi_CharacterPlaySound(NPChar, "Terminator_5");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_5");
 		break;
 		
 		case "Term_5":
 			dialog.text = "System ready.......  Я - киборг марки Т-102, производства 'Скайнет продакшн', анклава Детройт, выпуск 2022 года.";
 			link.l1 = "Это я уже слышал"+ GetSexPhrase("","а") +"! Не зли меня, тупая железка!";
 			link.l1.go = "Term_6";
-			LAi_CharacterPlaySound(NPChar, "Terminator_6");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_6");
 		break;
 		
 		case "Term_6":
@@ -90,14 +90,14 @@ void ProcessDialogEvent()
 				link.l1 = "Сильно же ты промахнулся с годом, прямо как я.";
 			}
 			link.l1.go = "Term_7";
-			LAi_CharacterPlaySound(NPChar, "Terminator_7");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_7");
 		break;
 		
 		case "Term_7":
 			dialog.text = "При отправке не были учтены искажения, наводимые оружием и обмундированием. Произошел сбой времяопределения. Доставка в конец 15-го века. Основная задача - выполнение миссии. Поиск не дал результатов.";
 			link.l1 = "Допустим, а я тут причем?";
 			link.l1.go = "Term_8";
-			LAi_CharacterPlaySound(NPChar, "Terminator_8");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_8");
 		break;
 		
 		case "Term_8":
@@ -108,15 +108,15 @@ void ProcessDialogEvent()
 				link.l1 = "А-а-а, это ты о корабле-призраке, что ли? Я тоже от него натерпел"+ GetSexPhrase("ся","ась") +" уже, не первый раз.";
 			}
 			link.l1.go = "Term_9";
-			if (pchar.sex != "woman") LAi_CharacterPlaySound(NPChar, "Terminator_9_man");
-			else LAi_CharacterPlaySound(NPChar, "Terminator_9_woman");
+			if (pchar.sex != "woman") LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_9_man");
+			else LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_9_woman");
 		break;
 		
 		case "Term_9":
 			dialog.text = "Теперь манипулятор интегрирован и функционирует корректно. Ранее он был недоступен в силу водной преграды и постоянной передислокации.";
 			link.l1 = "Кто куда корректно что?";
 			link.l1.go = "Term_9_1";
-			LAi_CharacterPlaySound(NPChar, "Terminator_10");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_10");
 		break;
 		
 		case "Term_9_1":
@@ -133,11 +133,11 @@ void ProcessDialogEvent()
 				link.l1 = "Да, не повезло тебе. Ну ладно, если у тебя нет при себе функционирующей машины времени, то говорить нам больше не о чем. Я пойду, пожалуй.";
 			}
 			link.l1.go = "Term_11";
-			if (startherotype > 0 && startherotype < 12) LAi_CharacterPlaySound(NPChar, "Terminator_11_"+startherotype);
+			if (startherotype > 0 && startherotype < 12) LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_11_"+startherotype);
 			else
 			{
-				if (pchar.sex != "woman") LAi_CharacterPlaySound(NPChar, "Terminator_11_man");
-				else LAi_CharacterPlaySound(NPChar, "Terminator_11_woman");
+				if (pchar.sex != "woman") LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_11_man");
+				else LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_11_woman");
 			}
 			
 		break;
@@ -147,7 +147,7 @@ void ProcessDialogEvent()
 			link.l1 = "Вот! Делай добрые дела, и они от тебя не отстанут!";
 			link.l1.go = "Term_10_exit";
 			//PChar.GenQuest.GhostShip.TakeShotgun = true;
-			LAi_CharacterPlaySound(NPChar, "Terminator_12");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_12");
 		break;
 		
 		case "Term_10_exit":
@@ -163,7 +163,7 @@ void ProcessDialogEvent()
 			dialog.text = "Scanning in process... complite... Твой фенотип на 68 процентов схож с Сарой Коннор. Ты потенциальный предок. Миссия должна быть выполнена. Приступить немедленно.";
 			link.l1 = "Первый раз так замысловато мне говорят, что хотят меня убить. Хорошо, железяка, я не посмотрю на твою древность и пыль из тебя счас повыколочу.";
 			link.l1.go = "Term_11_exit";
-			LAi_CharacterPlaySound(NPChar, "Terminator_13");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_13");
 			if(startherotype == 2)
 			{
 				link.l1 = "Тупая железка, какой предок? Ты что не понял? Я же сама из будущего. У тебя там что, все внутренности уже поплавились?";
@@ -176,7 +176,7 @@ void ProcessDialogEvent()
 			dialog.text = "Цель проявляет агрессию. Боевой режим активирован.";
 			link.l1 = "Зря ты это затеял. В своем времени я успела уничтожить немало вашего брата, при чем это были более новые и смертоносные модели.";
 			link.l1.go = "Term_11_exit";
-			LAi_CharacterPlaySound(NPChar, "Terminator_14");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "Terminator_14");
 		break;
 		
 		case "Term_11_exit":

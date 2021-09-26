@@ -503,6 +503,17 @@ void LAi_CharacterPlaySound(aref chr, string soundname)
 	GetCharacterPos(chr, &x, &y, &z);
 	//InitSound();
 	SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY_NORET, soundname, SOUND_WAV_3D, VOLUME_SPEECH, false, false, false, 0, x, y, z);
+	pchar.soundname = soundname;
+}
+
+void LAi_CharacterPlaySoundAtOnce(aref chr, string soundname)
+{
+	float x, y, z;
+	GetCharacterPos(chr, &x, &y, &z);
+	//InitSound();
+	PauseAllSounds();
+	ReloadStaticSound();
+	SendMessage(Sound,"lsllllllfff",MSG_SOUND_PLAY_NORET, soundname, SOUND_WAV_3D, VOLUME_SPEECH, false, false, false, 0, x, y, z);
 }
 
 //Переключиться в режим боя и обратно

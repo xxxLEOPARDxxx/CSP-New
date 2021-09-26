@@ -36,25 +36,25 @@ void ProcessDialogEvent()
 			dialog.text = "Ты знаешь, кто я?";
 			link.l1 = "Смерть.";
 			link.l1.go = "DeadmansGod_1";
-			LAi_CharacterPlaySound(NPChar, "DeadmansGod_0");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "DeadmansGod_0");
 		break;
 		case "DeadmansGod_1":
 			dialog.text = "Я - равновесие! Я отделяю души от плоти и слежу за балансом в мире живых и мёртвых. Всё живое пройдёт через мой суд. Ты – подсудим"+GetSexPhrase("ый","ая")+".";
 			link.l1 = "Я помню... Жизнь... Меня судить должен другой бог. Не ты!";
 			link.l1.go = "DeadmansGod_2";
-			LAi_CharacterPlaySound(NPChar, "DeadmansGod_1");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "DeadmansGod_1");
 		break;
 		case "DeadmansGod_2":
 			dialog.text = "Ты умер"+GetSexPhrase(" ","ла")+" далеко от мест, где силён твой бог. Да и какое ему дело до вас, жадных, порочных, неверующих?";
 			link.l1 = "Позволь...";
 			link.l1.go = "DeadmansGod_3";
-			LAi_CharacterPlaySound(NPChar, "DeadmansGod_2");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "DeadmansGod_2");
 		break;
 		case "DeadmansGod_3":
 			dialog.text = "МОЛЧИ!\nТы не заслуживаешь ни покоя, ни наказания. Здесь нет твоих предков, и твой бог здесь бессилен, тут не место ни твоей душе, ни твоему праху. Я мог бы стереть то, что от тебя осталось, из реальностей и вероятностей! Легко!\nНо хоть Я и беспристрастный судья, поиграть с рабом чужого бога совсем не прочь. Я заберу твою смерть и дам взамен НЕЖИЗНЬ. Есть и другие, подобные тебе, и они пробудились. А что из этого получится... Хм... Надеюсь будет не скучно. Слышишь стук? Это глупцы ломают крышку твоего гроба. Иди, пока я не передумал!";
 			link.l1 = "...";
 			link.l1.go = "DeadmansGod_4";
-			LAi_CharacterPlaySound(NPChar, "DeadmansGod_3");
+			LAi_CharacterPlaySoundAtOnce(NPChar, "DeadmansGod_3");
 		break;
 		case "DeadmansGod_4":
 			DialogExit();

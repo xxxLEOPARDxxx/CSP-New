@@ -723,6 +723,8 @@ void ShowShipInfo(ref chr, string sAdd)
 		SetFormatedText("SHIP_NAME" + sAdd, chr.ship.name);
 		SetFormatedText("SHIP_TYPE" + sAdd, XI_ConvertString(refBaseShip.BaseName));
 		SetFormatedText("SHIP_RANK" + sAdd, refBaseShip.Class);
+		SetFormatedText("CLASS_ARMOR" + sAdd, refBaseShip.HullArmor);
+		SetNewGroupPicture("CLASS_ARMOR_ICON" + sAdd, "ICONS_CHAR", "Reputation");
 		SetShipOTHERTable("TABLE_OTHER" + sAdd, chr);
 	}
 }

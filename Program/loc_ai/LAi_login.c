@@ -304,7 +304,7 @@ void LAi_CharacterPostLogin(ref location)
 		UniqueHeroEvents();
 		CheckHighOnDrugs();
 		CheckLootCollector();
-		CheckBSFinish();
+		//CheckBSFinish(); Блок Чёрных Парусов
 	}
 	
 }

@@ -1112,9 +1112,9 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_questions":
-			npchar.coolstories = "ебать";
+			npchar.coolstories = "Чарльстон";
 			npchar.questionsstate = 1;
-			Dialog.text = "Ну ладно, слушай охуительные загадки. Зачем к Карлосу все ходили с одним большим валенком?";
+			Dialog.text = "Ну ладно, слушай же загадки. Раз уж ты копал"+ GetSexPhrase("","а") +" под меня и смог"+ GetSexPhrase("","а") +" разыскать, то ты наверняка знаешь о моём самом крупном деле. Что же это?";
 			Link.l1.edit = 1;
 			Link.l1 = "";
 			Link.l1.go = "Titch_check";	
@@ -1124,26 +1124,26 @@ void ProcessDialogEvent()
 		case "Titch_check":
 			if (npchar.questionsstate == 1 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
 			{
-				npchar.coolstories = "камень";
+				npchar.coolstories = "Хорниголд";
 				npchar.questionsstate = 2;
-				Dialog.text = "Правильно! Карлос же собака. Ты таким умным родился что ли? Ладно, слушай дальше.";
+				Dialog.text = "Правильно! Значит не совсем дур"+ GetSexPhrase("ак","а") +". Слушай следующий вопрос! Под чьей командой я плавал до тех пор, пока не стал известным, как Чёрная Борода?";
 				Link.l1 = "Ну?";
 				Link.l1.go = "Titch_q2";
 				break;
 			}
 			if (npchar.questionsstate == 2 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
 			{
-				npchar.coolstories = "идинах";
+				npchar.coolstories = "Конкорд";
 				npchar.questionsstate = 3;
-				Dialog.text = "Херассе, ты ещё и в будущее смотришь? Вот последняя.";
+				Dialog.text = "Отличная осведомлённость! А вот и последний вопрос. Какое название носила ''Месть Королевы Анны'' прежде?.";
 				Link.l1 = "И?";
 				Link.l1.go = "Titch_q3";
 				break;
 			}
 			if (npchar.questionsstate == 3 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
 			{
-				Dialog.text = "Да ты прямо джениус!";
-				Link.l1 = "Я у мамы молодец :)";
+				Dialog.text = "Потрясающе, ты и до этого докопал"+ GetSexPhrase("ся","ась") +"! Больше вопросов к тебе не имею.";
+				Link.l1 = "Отлично!";
 				Link.l1.go = "Titch_7";	
 				npchar.questions = true;
 				break;

@@ -2702,9 +2702,9 @@ void OfficerGirlInit()
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
 	sld.HeroModel = "PGG_YokoDias_0,PGG_YokoDias_1,PGG_YokoDias_2,PGG_YokoDias_3,PGG_YokoDias_4,PGG_YokoDias_5,PGG_YokoDias_6,PGG_YokoDias_7,PGG_YokoDias_8";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--
-	GiveItem2Character(sld, "blade15");
+	GiveItem2Character(sld, "blade5");
 	TakeNItems(sld,"potion2", Rand(4)+1);
-	sld.equip.blade = "blade15";
+	sld.equip.blade = "blade5";
 	GiveItem2Character(sld, "pistol2");
 	sld.equip.gun = "pistol2";
     TakeNItems(sld,"bullet", Rand(20)+20);
@@ -2716,6 +2716,7 @@ void OfficerGirlInit()
 	sld.location.group = "goto";
 	sld.location.locator = "goto20";
 	sld.dialog.filename   = "Enc_OfficerGirl.c";
+	sld.dialog.currentnode = "Yoko_meet";
 	sld.greeting = "Gr_Danielle";
 	sld.money = 0;
  	SetSPECIAL(sld, 8,4,7,8,7,8,6);
@@ -2746,12 +2747,12 @@ void OfficerGirlInit()
 	sld.lastname = "МакАртур";
 	sld.loyality = 20;
 	sld.rank 	= 17;
-    sld.reputation = 10; // good девочка
-	sld.alignment = "bad";
+    sld.reputation = 50; // good девочка
+	sld.alignment = "good";
 	sld.HeroModel = "PGG_Rumba_0,PGG_Rumba_1,PGG_Rumba_2,PGG_Rumba_3,PGG_Rumba_4,PGG_Rumba_5";
-	GiveItem2Character(sld, "blade12");
+	GiveItem2Character(sld, "blade36");
 	TakeNItems(sld,"potion2", Rand(4)+1);
-	sld.equip.blade = "blade12";
+	sld.equip.blade = "blade36";
 	GiveItem2Character(sld, "pistol2");
 	sld.equip.gun = "pistol2";
     TakeNItems(sld,"bullet", Rand(20)+20);
@@ -2763,13 +2764,61 @@ void OfficerGirlInit()
 	sld.location.group = "goto";
 	sld.location.locator = "goto6";
 	sld.dialog.filename   = "Enc_OfficerGirl.c";
+	sld.dialog.currentnode = "Helen_meet";
+	sld.greeting = "Gr_Danielle";
+	sld.money = 0;
+  	SetSPECIAL(sld, 5,8,7,7,7,9,5);
+	//f_l, f, f_h, p, f
+	SetSelfSkill(sld, 68,23,38,45,44);
+	// l, c, a, cn, sl, re, gr, de, sn
+	SetShipSkill(sld, 66,15,55,56,40,22,33,21,34);
+	LAi_NPC_EquipPerk(sld, "fantom");
+	sld.perks.list.BasicDefense = true;
+    sld.perks.list.AdvancedDefense = true;
+    sld.perks.list.SwordplayProfessional = true;
+    sld.perks.list.CriticalHit = true;
+    sld.perks.list.Gunman = true;
+    sld.perks.list.GunProfessional = true;
+    sld.perks.list.Energaiser = true;
+    sld.perks.list.ByWorker = true;
+	sld.perks.list.ShipEscape = true;
+	sld.perks.list.Ciras = true;
+    LAi_NoRebirthEnable(sld);
+    LAi_SetWarriorType(sld);
+    LAi_warrior_DialogEnable(sld, true);
+    LAi_SetLoginTime(sld, 0.0, 24.0);
+    SetFantomHP(sld);
+    LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
+	
+	sld = GetCharacter(NPC_GenerateCharacter("Angellica", "PGG_Angellica", "woman", "Milenace", 15, PIRATE, -1, false));
+	sld.name 	= "Анджелика";
+	sld.lastname = "Шарп";
+	sld.loyality = 20;
+	sld.rank 	= 17;
+    sld.reputation = 10; // good девочка
+	sld.alignment = "bad";
+	GiveItem2Character(sld, "blade12");
+	TakeNItems(sld,"potion2", Rand(4)+1);
+	sld.equip.blade = "blade34";
+	GiveItem2Character(sld, "pistol2");
+	sld.equip.gun = "pisto34";
+    TakeNItems(sld,"bullet", Rand(20)+20);
+	AddItems(sld, "GunPowder", rand(20)+20);
+    sld.Payment = true;
+    sld.HoldEquip = false; // не отдавать саблю и пистоль
+
+	sld.location	= "LeFransua_town";
+	sld.location.group = "rld";
+	sld.location.locator = "loc0";
+	sld.dialog.filename   = "Enc_OfficerGirl.c";
+	sld.dialog.currentnode = "Angellica_meet";
 	sld.greeting = "Gr_Danielle";
 	sld.money = 0;
   	SetSPECIAL(sld, 5,8,7,7,7,9,5);
 	//f_l, f, f_h, p, f
 	SetSelfSkill(sld, 23,68,38,35,33);
 	// l, c, a, cn, sl, re, gr, de, sn
-	SetShipSkill(sld, 66,15,55,56,40,22,33,21,34);
+	SetShipSkill(sld, 45,33,55,56,40,22,33,21,34);
 	LAi_NPC_EquipPerk(sld, "fantom");
 	sld.perks.list.BasicDefense = true;
     sld.perks.list.AdvancedDefense = true;

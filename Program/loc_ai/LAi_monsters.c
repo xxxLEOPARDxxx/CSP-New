@@ -785,6 +785,7 @@ bool LAi_CreateEncounters(ref location)
 				
 				if(chr.model == "Canib_boss") //Korsar Maxim - Глава каннибалов круче своих по экипировке
 				{
+					chr.HeroModel = "Canib_Boss,Canib_Boss_1,Canib_Boss_2,Canib_Boss_3,Canib_Boss_4,Canib_Boss_5";
 					chr.name = "касик";
 					chr.lastname = "";
 					

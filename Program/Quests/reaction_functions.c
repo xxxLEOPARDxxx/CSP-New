@@ -3336,6 +3336,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.watchBoxes = true;
 	sld.standUp.exitDisable = true;   //залочить выход в случае драки
 	sld.watchBoxes.exitDisable = true; //залочить выход в случае драки
+	sld.HeroModel = "capitan_2,capitan_2_1,capitan_2_2,capitan_2_3,capitan_2_4,capitan_2_5";
 	TakeNItems(sld, "key_mechanic", 1);
 	//sld.talker = true; //начать диалог
 	LAi_SetHuberType(sld);
@@ -3944,6 +3945,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.cityTape = "prisoner"; //тип нпс
 	sld.greeting = "pirat_common";
 	sld.standUp = true; //вставать и нападать на врага 
+	sld.HeroModel = "SoldierEnglish_1,SoldierEnglish_1_1,SoldierEnglish_1_2,SoldierEnglish_1_3,SoldierEnglish_1_4,SoldierEnglish_1_5";
 	sld.watchBoxes = true;
 	sld.location.hours = 4; //передвижения через .. часов
 	LAi_SetWarriorType(sld);
@@ -4119,6 +4121,7 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.dialog.currentnode   = "First time";
 	sld.cityTape = "narval"; //тип нпс
 	sld.greeting = "pirat_common";
+	sld.HeroModel = "capitan_3,capitan_3_1,capitan_3_2,capitan_3_3,capitan_3_4,capitan_3_5";
 	LAi_SetWarriorType(sld);
 	LAi_SetImmortal(sld, true);
 	LAi_group_MoveCharacter(sld, "PearlGroup_1");
@@ -8463,9 +8466,10 @@ void Slavetrader_EscapeSlaveInShore(string qName)
 			sld.name 	= "Таманго";
 			sld.lastname = "";
 			FantomMakeCoolFighter(sld, 35, 100, 100, "topor2", "pistol3", 80);
-	sld.SaveItemsForDead = true; // сохранять на трупе вещи
+			sld.SaveItemsForDead = true; // сохранять на трупе вещи
 			sld.cirassId = Items_FindItemIdx("cirass3");
 			sld.DontClearDead = true;
+			sld.HeroModel = "capitan_3,capitan_3_1,capitan_3_2,capitan_3_3,capitan_3_4,capitan_3_5";
 	LAi_SetWarriorType(sld);
     LAi_group_MoveCharacter(sld, "EnemyFight");
     GetCharacterPos(pchar, &locx, &locy, &locz);
@@ -9181,6 +9185,7 @@ void CreateCarlos()//создаем Карлоса
     sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "Carlos";
     sld.greeting = "pirat_common";
+	sld.HeroModel = "ozg_carlos,ozg_carlos_1,ozg_carlos_2,ozg_carlos_3,ozg_carlos_4,ozg_carlos_5";
     FantomMakeCoolFighter(sld, 20, 70, 70, "blade21", "pistol3", 50);
     sld.DontClearDead = true;
     LAi_SetCitizenType(sld);
@@ -9312,6 +9317,7 @@ void CreateHoum()//создадим Холма
     sld.AlwaysSandbankManeuver = true;
 	sld.AnalizeShips = true;  //анализировать вражеские корабли при выборе таска
 	sld.AlwaysEnemy = true;
+	sld.HeroModel = "ozg_horn,ozg_horn_1,ozg_horn_2,ozg_horn_3,ozg_horn_4,ozg_horn_5";
 	SetCharacterPerk(sld, "Tireless");
 	SetCharacterPerk(sld, "HardHitter");
 	SetCharacterPerk(sld, "GunProfessional");
@@ -9465,6 +9471,7 @@ void CreateRatOfficer()//посадим в таверну самого Крысу - не будем модель прятат
     sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "RatOfficer";
     sld.greeting = "pirat_common";
+	sld.HeroModel = "ozg_piRat,ozg_piRat_1,ozg_piRat_2,ozg_piRat_3,ozg_piRat_4,ozg_piRat_5";
     GiveItem2Character(sld, "blade15");
 	EquipCharacterbyItem(sld, "blade15");
     DeleteAttribute(sld, "SaveItemsForDead");
@@ -9551,7 +9558,8 @@ void Headhunter_CreateRatTruepinasse(string qName)//создание пинаса Аделаида с К
 		sld = GetCharacter(NPC_GenerateCharacter("RatCaptain", "ozg_piRat", "man", "man", 25, PIRATE, -1, true));//создание кэпа
 	sld.name = "Матиас";
 	sld.lastname = "Грин";
-	sld.DontRansackCaptain = true; 
+	sld.DontRansackCaptain = true;
+	sld.HeroModel = "ozg_piRat,ozg_piRat_1,ozg_piRat_2,ozg_piRat_3,ozg_piRat_4,ozg_piRat_5";
 	FantomMakeCoolSailor(sld, SHIP_PINNACE, "Аделаида", CANNON_TYPE_CANNON_LBS32, 80, 80, 80);//создание кораблей
 		FantomMakeCoolFighter(sld, 25, 70, 70, "blade15", "pistol6", 100);//создание фантома кэпа
 	DeleteAttribute(sld, "SaveItemsForDead");
@@ -9678,6 +9686,7 @@ void CreateHalen()//создаем Халена и ближайшее окружение
     ChangeCharacterAddressGroup(sld, "Villemstad_town", "reload", "reload3");
 	sld.SaveItemsForDead = true;
 	sld.DontClearDead = true;
+	sld.HeroModel = "ozg_martin,ozg_martin_1,ozg_martin_2,ozg_martin_3,ozg_martin_4,ozg_martin_5";
 	GiveItem2Character(sld, "cirass5");
 	EquipCharacterbyItem(sld, "cirass5");
 	LAi_SetCheckMinHP(sld, (LAi_GetCharacterHP(sld) - 1), false, "Headhunter_FightInPort");//сработает на атаку Халена
@@ -9721,6 +9730,7 @@ void Headhunter_SeabattleInPort(string qName)//создание корвета Халена
 		sld = GetCharacter(NPC_GenerateCharacter("Halen1", "ozg_martin", "man", "man", 25, HOLLAND, -1, true));//создание кэпа
 		sld.name = "Мартин";
 		sld.lastname = "ван Хален";
+		sld.HeroModel = "ozg_martin,ozg_martin_1,ozg_martin_2,ozg_martin_3,ozg_martin_4,ozg_martin_5";
 	}
 	sld.DontRansackCaptain = true; 
 	FantomMakeCoolSailor(sld, SHIP_CORVETTE, "Любовник удачи", CANNON_TYPE_CANNON_LBS32, 70, 70, 70);//создание кораблей
@@ -9804,6 +9814,7 @@ void CreateMiko()//создадим Мико Пистольеро
     sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "Miko";
     sld.greeting = "pirat_common";
+	sld.HeroModel = "ozg_miko,ozg_miko_1,ozg_miko_2,ozg_miko_3,ozg_miko_4,ozg_miko_5";
 	sld.SaveItemsForDead = true;
 	sld.DontClearDead = true;
 	SetCharacterPerk(sld, "Tireless");
@@ -10906,6 +10917,7 @@ void UnexpectedInheritanceTerks(string part)
 			sld.talker = 10;
 			sld.Dialog.Filename = "Quest\UnexpectedInheritance.c";
 			sld.dialog.currentnode = "GrottoSkeleton";
+			sld.HeroModel = "BSUnd5,BSUnd5_1,BSUnd5_2,BSUnd5_3,BSUnd5_4,BSUnd5_5";
 			ChangeCharacterAddressGroup(sld, "Terks_Grot", "monsters", "monster3");
 			//TakeNItems(sld, "chest", 5);
 			sld.SaveItemsForDead = true;

@@ -114,6 +114,11 @@ void ProcessDialogEvent()
 				Link.l1 = "Я капитан " + GetFullName(pchar) + ".";
 				Link.l1.go = "meeting";
 				NPChar.quest.meeting = "1"; 
+				if (CheckAttribute(pchar,"RimalieGood") && npchar.id == "PortSpein_Smuggler" && ChangeContrabandRelation(pchar, 0) > 5)
+				{
+					Link.l18 = "Я бы хотел"+ GetSexPhrase("","а") +" пообщаться по поводу мушкетёра, живущего отшельником на этом острове.";
+					Link.l18.go = "Rimalie";
+				}
 			}
 			else
 			{
@@ -203,10 +208,70 @@ void ProcessDialogEvent()
 					Link.l17 = "(Негромко) Я слышал"+ GetSexPhrase("","а") +", что у вас можно купить кое-то интересное.";
 					Link.l17.go = "Trade";
 				}
+				if (CheckAttribute(pchar,"RimalieGood") && ChangeContrabandRelation(pchar, 0) > 5)
+				{
+					Link.l18 = "Я бы хотел"+ GetSexPhrase("","а") +" пообщаться по поводу мушкетёра, живущего отшельником на этом острове.";
+					Link.l18.go = "Rimalie";
+				}
 				
 				Link.l7 = "Ничего. До встречи.";
 				Link.l7.go = "Exit";				
 			}
+		break;
+		
+		case "Rimalie":
+			if (!CheckAttribute(pchar,"RimalieWait"))
+			{
+				Dialog.Text = "Как же, слышал о нём. Одному из моих коллег досталось из-за него. Он сорвал одну сделку и похитил часть товаров, пока все хлопали глазами.";
+				Link.l1 = "Может я бы мог"+ GetSexPhrase("","ла") +" возместить убытки из-за его поступка?";
+				Link.l1.go = "Rimalie_2";
+			}
+			else
+			{
+				Dialog.Text = "Снова о нём...? 50000 пиастров прямо сейчас. Если оплатишь - мы отстанем от него.";
+				if (sti(pchar.money) >= 50000)
+				{
+					Link.l1 = "Держите.";
+					Link.l1.go = "Rimalie_3";
+				}
+				Link.l2 = "Я ещё вернусь по этому поводу.";
+				Link.l2.go = "exit";
+			}
+		break;
+		
+		case "Rimalie_2":
+			if (ChangeContrabandRelation(pchar, 0) >= 70)
+			{
+				Dialog.Text = "Ты довольно уважаемый клиент для нашей организации и принёс"+ GetSexPhrase("","ла") +" немало прибыли. Ради тебя мы готовы пойти на уступки и прекратить его преследовать хоть прямо сейчас. Неужели он настолько тебе нужен? О Рималье ходят довольно нехорошие слухи о подстрекательстве к бунту. Не боишься?";
+				Link.l1 = "Ради хорошего офицера-мушкетёра не грех и рискнуть. Благодарю вас за помощь!";
+				Link.l1.go = "exit";
+				pchar.RimalieDone = true;
+				DeleteAttribute(pchar,"RimalieGood");
+				DeleteAttribute(pchar,"RimalieWait");
+			}
+			else 
+			{
+				pchar.RimalieWait = true;
+				Dialog.Text = "За возмещение убытков мы хотим... 50000 пиастров прямо сейчас. Если оплатишь - мы отстанем от него.";
+				if (sti(pchar.money) >= 50000)
+				{
+					Link.l1 = "Держите.";
+					Link.l1.go = "Rimalie_3";
+				}
+				Link.l2 = "Я ещё вернусь по этому поводу.";
+				Link.l2.go = "exit";
+			}
+		break;
+		
+		
+		case "Rimalie_3":
+			AddMoneyToCharacter(pchar,-50000);
+			Dialog.Text = "С тобой приятно иметь дело. Но неужели он настолько тебе нужен? О Рималье ходят довольно нехорошие слухи о подстрекательстве к бунту. Не боишься?";
+			Link.l1 = "Ради хорошего офицера-мушкетёра не грех и рискнуть. До встречи!.";
+			Link.l1.go = "exit";
+			pchar.RimalieDone = true;
+			DeleteAttribute(pchar,"RimalieGood");
+			DeleteAttribute(pchar,"RimalieWait");
 		break;
 		
 		case "CapComission_1":

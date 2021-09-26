@@ -21,16 +21,7 @@ void ProcessDialogEvent()
 	{
 		// -----------------------------------Диалог первый - первая встреча
 		case "First time":
-			if (startherotype == 5 || startherotype == 6)
-			{
-				if(npchar.id == "Beatrice")
-				{
-					dialog.text = "У тебя хватает наглости заявляться сюда, после того, что было? Прочь с глаз моих, пока я тебя не зарубила!";
-					link.l1 = "Прости, Элен...";
-					link.l1.go = "exit";
-					break;
-				}
-			}
+			
             NextDiag.TempNode = "First time";
 			dialog.text = RandPhraseSimple("Приветствую, капитан! Девушка-офицер не нужна на вашем корыте?",
                           "Новый, очень продвинутый офицер нужен?");
@@ -624,7 +615,264 @@ void ProcessDialogEvent()
 			NPChar.Tasks.CanChangeShipAfterBoarding = true;
 		break;
 		//<--
-	
+		case "exit_spec":
+			DialogExit();
+		break;
+		//Йока
+		case "Yoko_meet":
+			if (sti(pchar.reputation) >= 70)
+			{
+				dialog.Text = "Приветствую вас, капитан. Я - Йоко Диаз, вольный клинок.";
+				Link.l1 = "Выглядишь как-то потрёпанно. Ищешь работу?";
+				Link.l1.go = "Yoko";
+			}
+			else
+			{	
+				dialog.Text = "Не думаю, что нам есть о чём говорить, капитан.";
+				Link.l1 = "Не очень-то и хотелось.";
+				Link.l1.go = "exit_spec";
+				NextDiag.TempNode = "Yoko_meet";
+			}
+		break;
+		
+		case "Yoko":
+			dialog.Text = "Ищу, но сейчас толку от меня едва ли будет.";
+			Link.l1 = "Почему это?";
+			Link.l1.go = "Yoko_1";
+		break;
+		
+		case "Yoko_1":
+			ref locLoad = &locations[FindLocation("Shore_ship1")];
+			locLoad.box1.items.blade15 = 1;
+			locLoad.box1.money = 7461;
+			locLoad.box1.notouch = true;
+		
+			dialog.Text = "Погуляла я вчера ночью в местной таверне, а утром оказалось, что пропали все деньги и моя Сторта. Если сумеете их вернуть - я пойду в вашу команду.";
+			Link.l1 = "Найти на большом острове конкретный меч... Та ещё задачка, но я могу попробовать.";
+			Link.l1.go = "Yoko_2";
+		break;
+		
+		case "Yoko_2":
+			dialog.Text = "Я буду ждать, капитан.";
+			Link.l1 = "До встречи, Йоко!";
+			Link.l1.go = "exit_spec";
+			NextDiag.currentnode = "Yoko_wait";
+			NextDiag.TempNode = "Yoko_wait";
+		break;
+		
+		case "Yoko_wait":
+			dialog.Text = "Как успехи, капитан?.";
+			if (GetCharacterFreeItem(pchar,"blade15"))
+			{
+				Link.l1 = "Мне удалось разыскать твою Сторту. Держи.";
+				Link.l1.go = "Yoko_nowait";
+			}
+			Link.l2 = "Извини, пока ничего.";
+			Link.l2.go = "Yoko_2";
+		break;
+		
+		case "Yoko_nowait":
+			TakeNItems(pchar,"blade15",-1);
+			GiveItem2Character(NPChar, "blade15");
+			EquipCharacterbyItem(NPChar, "blade15");
+			dialog.Text = "Благодарю вас!";
+			Link.l1 = "И что теперь?";
+			Link.l1.go = "price";
+			DeleteAttribute(NPChar,"Dialog.CurrentNode");
+			NextDiag.TempNode = "OnceAgain";
+		break;
+		//Элен
+		case "Helen_meet":
+			if (startherotype == 5 || startherotype == 6)
+			{
+				if(npchar.id == "Beatrice")
+				{
+					dialog.text = "У тебя хватает наглости заявляться сюда, после того, что было? Прочь с глаз моих, пока я тебя не зарубила!";
+					link.l1 = "Прости, Элен...";
+					link.l1.go = "exit";
+					break;
+				}
+			}
+			if (sti(pchar.reputation) >= 70)
+			{
+				dialog.Text = "Приветствую вас, капитан. Я - Элен Мак Артур, волею судьбы оказалась на берегу и теперь ищу работу офицером.";
+				Link.l1 = "Ты прежде была капитаном? Значит наверняка должна разбираться хоть понемногу во всём, так?";
+				Link.l1.go = "Helen";
+			}
+			else
+			{	
+				dialog.Text = "Не думаю, что нам есть о чём говорить, капитан.";
+				Link.l1 = "Не очень-то и хотелось.";
+				Link.l1.go = "exit_spec";
+				NextDiag.TempNode = "Helen_meet";
+			}
+		break;
+		case "Helen":
+			dialog.Text = "Так точно. Разбираюсь и в навигации, и в стрельбе.";
+			Link.l1 = "Если ты так хороша, почему же тебя ещё не взяли?";
+			Link.l1.go = "Helen_1";
+		break;
+		case "Helen_1":
+			dialog.Text = "Есть здесь один мерзавец в Пуэрто-Принсипе, даже не знаю почему его тут все терпят. Так вот он распускает обо всякие мне грязные слухи, из-за чего никто не желает брать меня к себе.";
+			Link.l1 = "А не пробовала заткнуть ему рот сталью?";
+			Link.l1.go = "Helen_2";
+		break;
+		case "Helen_2":
+			dialog.Text = "Почему, как ты думаешь, я всё ещё здесь? Уже пыталась, так он разделал меня под орех и пощадил на первый раз.";
+			Link.l1 = "И ты хочешь, чтобы я тебе помог с этим? И тогда присоединишься?";
+			Link.l1.go = "Helen_3";
+		break;
+		case "Helen_3":
+			dialog.Text = "Разумеется. Ну, ещё со скромными подъёмными.";
+			Link.l1 = "Я постараюсь тебе помочь, Элен.";
+			Link.l1.go = "Helen_wait";
+			
+			sld = GetCharacter(NPC_GenerateCharacter("HelenBastard", "pirate_1", "man", "man", 30, PIRATE, -1, false));
+			sld.name 	= "Джулиус";
+			sld.lastname = "Брин";
+			SetSPECIAL(sld, 9,8,7,6,7,8,9);
+			FantomMakeCoolFighter(sld, 30, 90, 50, "blade42", "pistol4", 350);
+			SelAllPerksToNotPchar(sld);
+			sld.location	= "PuertoPrincipe_port";
+			sld.location.group = "goto";
+			sld.location.locator = "goto7";
+			sld.dialog.filename   = "Enc_OfficerGirl.c";
+			sld.dialog.currentnode = "Helen_Bastard";
+			sld.perks.list.BasicDefense = true;
+			sld.perks.list.AdvancedDefense = true;
+			sld.perks.list.SwordplayProfessional = true;
+			sld.perks.list.CriticalHit = true;
+			sld.perks.list.Gunman = true;
+			sld.perks.list.GunProfessional = true;
+			sld.perks.list.Energaiser = true;
+			sld.perks.list.ByWorker = true;
+			sld.perks.list.ShipEscape = true;
+			sld.perks.list.Ciras = true;
+			LAi_SetWarriorType(sld);
+			LAi_warrior_DialogEnable(sld, true);
+			LAi_SetImmortal(sld,true);
+			DeleteAttribute(sld,"lifeDay");
+			LAi_group_MoveCharacter(sld, "player");	
+		break;
+		case "Helen_wait":
+			if (!CheckAttribute(pchar,"HelenMet"))
+			{
+				dialog.Text = "Я буду ждать, капитан. Удачи!";
+				pchar.HelenMet = true;
+			}
+			else
+			{
+				dialog.Text = "Как успехи, капитан?";
+			}
+			Link.l1 = "Хорошо. Пока, Элен.";
+			Link.l1.go = "exit_spec";
+			if (CheckAttribute(pchar,"HelenQuest"))
+			{
+				Link.l1 = "С ним покончено, о тебе больше никто не будет распускать слухи.";
+				Link.l1.go = "Helen_nowait";
+			}
+			NextDiag.currentnode = "Helen_wait";
+			NextDiag.TempNode = "Helen_wait";
+		break;
+		case "Helen_Bastard":
+			dialog.Text = "А ты ещё кто? Очередн"+ GetSexPhrase("ой придурок","ая дура") +", котор"+ GetSexPhrase("ый","ая") +" хочет нанять Элен в офицеры? Я тебе такого о ней расскажу, что у тебя волосы дыбом встанут.";
+			Link.l1 = "Не интересует. Предлагаю сделку. Ты за час убираешься из Пуэрто-Принсипе или будешь мёртв прямо здесь и сейчас. Что скажешь?";
+			Link.l1.go = "Helen_Bastard_2";
+		break;
+		
+		case "Helen_Bastard_2":
+			dialog.Text = "Смеешь мне угрожать? Что-ж, твои проблемы. Защищайся, капитан!";
+			Link.l1 = "Я уж думал"+ GetSexPhrase("","а") +", что ты и не попросишь...";
+			Link.l1.go = "Helen_Bastard_exit";
+		break;
+		case "Helen_Bastard_exit":
+			pchar.HelenQuest = 1;
+			DialogExit();
+			LAi_SetImmortal(NPChar,false);
+			LAi_group_MoveCharacter(npchar, "EnemyFight");				
+			LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			chrDisableReloadToLocation = true;
+			pchar.quest.HelenBastard.win_condition.l1 = "NPC_Death";
+			pchar.quest.HelenBastard.win_condition.l1.character = "HelenBastard";
+			pchar.quest.HelenBastard.win_condition = "OpenTheDoors";
+		break;
+		case "Helen_nowait":
+			dialog.Text = "Благодарю вас, капитан! Теперь о моих подъёмных...";
+			Link.l1 = "Не за что! Ну так сколько?";
+			Link.l1.go = "price";
+			DeleteAttribute(pchar,"HelenMet");
+			DeleteAttribute(pchar,"HelenQuest");
+			DeleteAttribute(NPChar,"Dialog.CurrentNode");
+			NextDiag.TempNode = "OnceAgain";
+		break;
+		//Анджелика
+		case "Angellica_meet":
+			if (NPChar.alignment == "bad" && sti(pchar.reputation) <= 30)
+			{
+				dialog.Text = "Эй, капитан! Тебе выпала честь нанять старпомом - дочь самого Николаса Шарпа! Если ты досто"+ GetSexPhrase("ин","йна") +", конечно!";
+				Link.l1 = "Какое самомнение! И ты уверена, что с подобными взглядами тебя кто-то возьмёт?";
+				Link.l1.go = "Angellica";
+			}
+			else
+			{
+				dialog.Text = "Не думаю, что нам есть о чём говорить, капитан.";
+				Link.l1 = "Не очень-то и хотелось.";
+				Link.l1.go = "exit_spec";
+				NextDiag.TempNode = "Angellica_meet";
+			}
+		break;
+		case "Angellica":
+			dialog.Text = "Уж поверь, желающие найдутся. Может хочешь попробовать?";
+			Link.l1 = "И что же ты считаешь признаком достоинства?";
+			Link.l1.go = "Angellica_2";
+		break;
+		
+		case "Angellica_2":
+			if (!CheckAttribute(pchar,"AngellicaDuelInfo")) {dialog.Text = "Победи меня на дуэли и за скромное вознаграждение я присоединюсь к тебе."; pchar.AngellicaDuelInfo = true;}
+			else dialog.Text = "Ну что, решил"+ GetSexPhrase("ся","ась") +"?";
+			Link.l1 = "Я готов"+ GetSexPhrase("","а") +"!";
+			Link.l1.go = "Angellica_duel_exit";
+			Link.l2 = "Пожалуй, попозже.";
+			Link.l2.go = "exit_spec";
+			NextDiag.currentnode = "Angellica_2";
+			NextDiag.TempNode = "Angellica_2";
+		break;
+		
+		case "Angellica_duel_exit":
+			DialogExit();
+			NextDiag.currentnode = "Angellica_duel_won";
+			NextDiag.TempNode = "Angellica_duel_won";
+			ChangeCharacterAddressGroup(NPChar, "LeFransua_ExitTown", "enc01", "enc01_04");
+			LAi_SetCheckMinHP(NPChar, 5, true, "AngellicaDialog");
+			LAi_group_MoveCharacter(npchar, "EnemyFight");
+			LAi_SetHP(npchar, 500, 500);
+			LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			DoQuestReloadToLocation("LeFransua_ExitTown","reload","reload3", "");
+			chrDisableReloadToLocation = true;
+		break;
+		case "Angellica_duel_won":
+			dialog.Text = "Потрясающе! Из местных никому ещё не удавалось одолеть меня...";
+			Link.l1 = "Ты тоже заставила меня попотеть.";
+			Link.l1.go = "Angellica_duel_won_exit";
+			LAi_SetHP(npchar, 150, 150);
+			chrDisableReloadToLocation = false;
+			DeleteAttribute(pchar,"AngellicaDuelInfo");
+			LAi_SetImmortal(NPChar,false);
+		break;
+		case "Angellica_duel_won_exit":
+			DialogExit();
+			LAi_SetWarriorType(NPChar);
+			LAi_warrior_DialogEnable(NPChar, true);
+			NextDiag.currentnode = "Angellica_duel_won_2";
+			NextDiag.TempNode = "Angellica_duel_won_2";
+		break;
+		case "Angellica_duel_won_2":
+			dialog.Text = "Теперь я готова к вам присоединиться, капитан.";
+			Link.l1 = "И за сколько?";
+			Link.l1.go = "price";
+			DeleteAttribute(NPChar,"Dialog.CurrentNode");
+			NextDiag.TempNode = "OnceAgain";
+		break;
 	}
 }
 

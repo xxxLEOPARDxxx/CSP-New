@@ -2345,6 +2345,29 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 	string modelName = "";
 	makearef(arItm,emptyItm);
  	int itemNum; // boal 23.01.2004
+	if (CheckAttribute(chref, "HeroModel"))	
+	{
+		bool ok = false;
+		if (CheckAttribute(chref,"chr_ai.group") && chref.chr_ai.group != "player") ok = true;
+		if (ok || !CheckAttribute(chref,"chr_ai.group"))
+		{
+			if (InterfaceStates.VISUAL_CIRASS)
+			{
+				if (CheckAttribute(chref,"cirassId"))
+				{
+					//log_info(chref.id+"/"+sti(Items[sti(chref.cirassId)].model));
+					chref.model = GetSubStringByNum(chref.HeroModel,sti(Items[sti(chref.cirassId)].model));
+					Characters_RefreshModel(chref);
+				}
+			}
+			else
+			{
+				//log_info(chref.id+"/"+0);
+				chref.model = GetSubStringByNum(chref.HeroModel,0); 
+				Characters_RefreshModel(chref);
+			}
+		}
+	}
 
 	if(itemID!="")
 	{

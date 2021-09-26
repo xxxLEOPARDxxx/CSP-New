@@ -107,7 +107,7 @@ void DozorPrepare()
 	ref chr = GetCharacter(NPC_GenerateCharacter("Fabian Gronholm", "usurer_5", "man", "man", 1, PIRATE, -1, false));
 	chr.name = "Фабиан";
 	chr.lastname = "Гронхольм";
-	chr.Dialog.FileName = "DamnedDestiny\Dozor\Fabian Gronholm.c";
+	chr.Dialog.FileName = "DamnedDestiny\Dozor\Fabian_Gronholm.c";
 	chr.Dialog.CurrentNode = "First Time";
 	chr.greeting = "cit_quest";
 	LAi_SetStayType(chr);

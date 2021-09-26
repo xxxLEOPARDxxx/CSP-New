@@ -981,8 +981,8 @@ void CalculateInfoDataF6()
 	// sEquipItem = GetGeneratedItem("katar"); 					// Катар			(СО)
 	// sEquipItem = GetGeneratedItem("toporAZ"); 				// Макуауитль		(ТО)
 	// sEquipItem = GetGeneratedItem("topor_viking"); 			// Топор викинга	(ТО)
-	// sEquipItem = GetGeneratedItem("blade28");					// Танат			(ТО)
-	sEquipItem = GetGeneratedItem("blackbeard_sword_baron");	// Меч Тритона			(СО)
+	// sEquipItem = GetGeneratedItem("blade28");				// Танат			(ТО)
+	sEquipItem = GetGeneratedItem("blackbeard_sword_baron");	// Меч Тритона		(СО)
 	AddItems(mc, sEquipItem, 1);
 	
 	AddItems(mc, "cirass5", 1);

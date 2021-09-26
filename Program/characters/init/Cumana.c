@@ -172,7 +172,7 @@ int CreateCumanaCharacters(int n)
 	GiveItem2Character(ch, BLADE_SABER);
 	ch.equip.blade = BLADE_SABER;
 	// посадим в генераторе
-	ch.Dialog.Filename = "Smuggler Agent_dialog.c";
+	ch.Dialog.Filename = "Smuggler_Agent_dialog.c";
 	LAi_SetSitType(ch);
 	LAi_SetHP(ch, 80.0, 80.0);
 	ch.greeting = "Gr_Smuggler Agent";

@@ -288,6 +288,7 @@ void proc_break_video()
 
 void Main()
 {
+	if (!CheckAttribute(InterfaceStates,"VISUAL_CIRASS")) InterfaceStates.VISUAL_CIRASS = -1;
 	screenscaling = BI_COMPARE_HEIGHT;
     LayerCreate("realize", 1);
 	LayerCreate("sea_realize", 1);

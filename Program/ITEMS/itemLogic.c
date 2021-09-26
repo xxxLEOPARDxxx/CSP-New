@@ -710,6 +710,7 @@ void Box_OnLoadLocation(ref _location)
     		}
     		else
     		{
+				if (CheckAttribute(_location,locatorName+".notouch")) {DeleteAttribute(_location,locatorName+".notouch"); continue;}
     			if ((sti(_location.(locatorName)) + SPAWN_TIME) < Items_MakeTime(GetTime(), GetDataDay(), GetDataMonth(), GetDataYear()))
     			{
     				needRespawn = true;
@@ -734,9 +735,12 @@ void Box_OnLoadLocation(ref _location)
                 //clear items in box
     			if (CheckAttribute(_location, locatorName))
     			{
-                    DeleteAttribute(_location, locatorName + ".items");
-				    _location.(locatorName).items = "";
-				    _location.(locatorName).money = 0;
+					else
+					{
+						DeleteAttribute(_location, locatorName + ".items");
+						_location.(locatorName).items = "";
+						_location.(locatorName).money = 0;
+					}
     			}
             }
 			// <--

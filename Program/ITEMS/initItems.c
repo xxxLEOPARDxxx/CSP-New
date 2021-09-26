@@ -8994,8 +8994,8 @@ int InitItems()
 	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
     itm.name = "itmname_PDM_PJ_BsRL";
     itm.describe = "itmdescr_PDM_PJ_BsRL";
-    itm.picIndex = 3;
-    itm.picTexture = "ITEMS_1";
+    itm.picIndex = 5;
+    itm.picTexture = "ITEMS_20";
 	itm.shown = true; 
     itm.price = 1000;
     itm.Weight = 0.2;

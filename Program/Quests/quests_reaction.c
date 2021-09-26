@@ -2281,7 +2281,8 @@ void QuestComplete(string sQuestName, string qname)
 				ChangeCharacterAddressGroup(sld, location.id, encGroup, attrName);					
 				LAi_SetActorType(sld);
 				LAi_ActorDialog(sld, pchar, "", -1, 0); 
-				PlaySound("Interface\P_Kamikadze_SS.wav");
+				// PlaySound("Interface\P_Kamikadze_SS.wav");
+				LAi_CharacterPlaySound(pchar, "P_Kamikadze_SS");
 			}
 		break;
 
@@ -3328,7 +3329,8 @@ void QuestComplete(string sQuestName, string qname)
 		
 		//Довакин
 		case "Dovahkiin":
-            PlaySound("Interface\P_Dovahkiin.wav");
+            // PlaySound("Interface\P_Dovahkiin.wav");
+			LAi_CharacterPlaySound(pchar, "P_Dovahkiin");
 			Log_TestInfo("должен быть звук");
 			pchar.Dovahkiin = 1;
         break;
@@ -10723,6 +10725,15 @@ void QuestComplete(string sQuestName, string qname)
 			sld.dialog.currentnode = "Titch_Seabattle_won";
 			LAi_SetActorType(sld);
 			LAi_ActorDialog(sld, pchar, "", 1.0, 0);
+		break;
+		
+		case "AngellicaDialog":
+			sld = CharacterFromID("Angellica");
+			ChangeCharacterAddressGroup(sld, "LeFransua_town", "goto", "goto2");
+			DoQuestReloadToLocation("LeFransua_town","reload","reload1", "");
+			LAi_group_MoveCharacter(sld, "player");
+			LAi_SetActorType(sld);
+			LAi_ActorDialog(sld, pchar, "", 1.0, 0); 
 		break;
 	}
 }

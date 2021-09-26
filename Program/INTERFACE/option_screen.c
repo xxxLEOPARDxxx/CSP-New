@@ -266,12 +266,12 @@ void IReadVariableAfterInit()
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"HUDStyle_CHECKBOX", 2, 1, nHUDStyle );
 	
-	int nHUDStyleLand = 0;
-	if( CheckAttribute(&InterfaceStates,"HUDStyleLand") )
+	int nVISUAL_CIRASS = 0;
+	if( CheckAttribute(&InterfaceStates,"VISUAL_CIRASS") )
 	{
-		nHUDStyleLand = sti(InterfaceStates.HUDStyleLand);
+		nVISUAL_CIRASS = sti(InterfaceStates.VISUAL_CIRASS);
 	}
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"HUDStyleLand_CHECKBOX", 2, 1, nHUDStyleLand );
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, nVISUAL_CIRASS );
 	
 	int nCannonsHUD = 0;
 	if( CheckAttribute(&InterfaceStates,"CannonsHUD") )
@@ -514,10 +514,10 @@ void procCheckBoxChange()
 		}
 	}
 	
-	if( sNodName == "HUDStyleLand_CHECKBOX" )
+	if( sNodName == "VISUAL_CIRASS_CHECKBOX" )
 	{
 		{ // Show battle mode border
-			InterfaceStates.HUDStyleLand = bBtnState;
+			InterfaceStates.VISUAL_CIRASS = bBtnState;
 		}
 	}
 	
@@ -1291,11 +1291,11 @@ void ShowInfo()
 			yy = 300;
 		break;
 		
-		case "HUDStyleLand_CHECKBOX":
-			sHeader = XI_ConvertString("HUDStyleLand_title");
-			sText1 = XI_ConvertString("HUDStyleLand_desc");
-            sPicture = "INTERFACES\FaqPictures\HUDStyleLand_CHECKBOX.png";
-			xx = 256;
+		case "VISUAL_CIRASS_CHECKBOX":
+			sHeader = XI_ConvertString("VISUAL_CIRASS_title");
+			sText1 = XI_ConvertString("VISUAL_CIRASS_desc");
+            sPicture = "INTERFACES\FaqPictures\VISUAL_CIRASS_CHECKBOX.png";
+			xx = 512;
 			yy = 256;
 		break;
 		

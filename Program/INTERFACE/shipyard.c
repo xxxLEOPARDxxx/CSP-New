@@ -481,6 +481,8 @@ void FillShipParam(ref _chr)
 
 		GameInterface.edit_box.str = _chr.ship.name;
 		SetFormatedText("SHIP_RANK", refBaseShip.Class);
+		SetFormatedText("CLASS_ARMOR", refBaseShip.HullArmor);
+		SetNewGroupPicture("CLASS_ARMOR_ICON", "ICONS_CHAR", "Reputation");
 		SetShipOTHERTable("TABLE_OTHER", _chr);
 		
 		if (CheckAttribute(refBaseShip,"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");

@@ -552,7 +552,7 @@ void TransactionOK()
 	}
  	else
 	{ //отправляем на склад
-		if (GetStorageUsedWeight(refStore) + nTradeQuantity > 50000) return; // Фикс безразмерного склада
+		if (GetStorageUsedWeight(refStore) + makeint(nTradeQuantity*sti(Goods[iCurGoodsIdx].weight)/sti(Goods[iCurGoodsIdx].units)) > iMaxGoodsStore) return; // Фикс безразмерного склада
 		SetStorageGoods(refStore, iCurGoodsIdx, iStoreQty + nTradeQuantity);
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);				
 		WaitDate("",0,0,0,0,5);  
