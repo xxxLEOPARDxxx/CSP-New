@@ -122,7 +122,7 @@ void ProcessDialogEvent()
 			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти
 			sld.loyality = MAX_LOYALITY;
 			sld.quest.meeting = true;
-			if (NPChar.model.animation == "man") Npchar.CanTakeMushket = true;
+			Npchar.CanTakeMushket = true;
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.HoldEquip = true;
 			sld.HalfImmortal = true;  // Контузия

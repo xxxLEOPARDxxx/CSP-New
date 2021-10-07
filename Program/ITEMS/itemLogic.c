@@ -892,9 +892,7 @@ void spawnToughSkeleton(aref _location)
 			ref sld;
 			
 			//LAi_group_Delete("EnemyFight");
-			pchar.quest.cursed_appearance = "PGG_Skeletcap_"+sti(rand(5));
-			sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", pchar.quest.cursed_appearance, "skeleton", "skeleton", sti(pchar.rank)+20, PIRATE, 1, true));
-			
+			sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton", sti(pchar.rank)+20, PIRATE, 1, true));
 			FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
 			DeleteAttribute(sld, "SuperShooter");
 			int hitpoints = rand(sti(pchar.rank)*15)+1000;

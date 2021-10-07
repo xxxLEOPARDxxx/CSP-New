@@ -58,6 +58,11 @@ void LAi_SetPlayerType(aref chr)
 	//Ўаблон специальный
 	LAi_type_player_Init(chr);
 	LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER);
+	if (CheckAttribute(chr,"previousanim")) //мушкеты в тавернах - Gregg
+	{
+		SetMainCharacterToMushketer(pchar.mushket, true);
+		DeleteAttribute(chr,"previousanim");
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -224,6 +229,14 @@ void LAi_SetStayTypeNoGroup(aref chr)
 //”становить персонажу тип сид€чего
 void LAi_SetSitType(aref chr)
 {
+	if (IsMainCharacter(chr))
+	{
+		if (CheckAttribute(pchar,"ismushketer")) //мушкеты в тавернах - Gregg
+		{
+			SetMainCharacterToMushketer("", false);
+			pchar.previousanim = true;
+		}
+	}
 	chr.chr_ai.type = LAI_DEFAULT_TYPE;
 	LAi_type_sit_Init(chr);
 	LAi_group_MoveCharacter(chr, LAI_DEFAULT_GROUP);

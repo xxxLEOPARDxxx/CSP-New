@@ -310,9 +310,6 @@ void QuestComplete(string sQuestName, string qname)
                 PlayVoice("interface\_EvShip1.wav");
                 // лишнее, помер ПГГ и все тут if (findsubstr(sld.id, "PsHero_" , 0) != -1) npchar = sld.id; //homo for navy (ПГГ fix)
                 LAi_SetCurHPMax(npchar);
-				//Выдача перка характера при отсутствии
-				if (!IsCharacterPerkOn(npchar, "Grunt") && !IsCharacterPerkOn(npchar, "Trader") && !IsCharacterPerkOn(npchar, "Fencer") && !IsCharacterPerkOn(npchar, "Buccaneer") && !IsCharacterPerkOn(npchar, "Agent") && !IsCharacterPerkOn(npchar, "SeaWolf"))
-					SetCharacterPerk(npchar, PerksChars());
     			sld.location = "none";
     			sld.location.from_sea = "";
                 Log_Info(GetFullName(npchar) + " сдался в плен.");
@@ -1203,15 +1200,6 @@ void QuestComplete(string sQuestName, string qname)
 			}
 		break;
 
-		case "Rand_ContraFinal":
-			pchar.quest.Rand_ContraFinal.win_condition.l1 = "ExitFromLocation";
-			pchar.quest.Rand_ContraFinal.win_condition.l1.location = pchar.location;
-			pchar.quest.Rand_ContraFinal.win_condition.function = "Rand_Clear";
-		break;
-		
-		case "Rand_Clear":
-			DeleteAttribute(pchar,"ContraInter");
-		break;
 		/*case "Rand_CoastalPatrolAppear":
 			//Trace("QUEST Rand_CoastalPatrolAppear reports: Soldier Idx = " + Pchar.quest.contraband.SoldierIDX1);
 			//StartQuestMovie(true, true, true);
@@ -9713,15 +9701,7 @@ void QuestComplete(string sQuestName, string qname)
 //========================  Квест "Альбрехт".  =======================	
 		case "PDM_Albreht_Saditsya_na_korabl":
 			sld = CharacterFromID("Albreht_Zalpfer")   //ссылается на персонажа
-			AddPassenger(pchar, sld, false);    // добавить пассажира
 			SetCharacterRemovable(sld, true);   // можно ставить на должность
-			sld.loyality = MAX_LOYALITY;
-			sld.Payment = true;
-			sld.quest.OfficerPrice = sti(pchar.rank)*10;
-			sld.OfficerWantToGo.DontGo = true;
-			sld.rank = 4;
-			SetSelfSkill(sld, 5, 40, 5, 5, 5);
-			SetShipSkill(sld, 5, 5, 5, 5, 5, 35, 5, 5, 5);
 			LAi_SetImmortal(sld, false);
 			sld.HalfImmortal = true;
 			GiveItem2Character(sld, "topor_05");
@@ -10168,7 +10148,6 @@ void QuestComplete(string sQuestName, string qname)
 		case "PDM_NK_NaKorabl":
 			sld = CharacterFromID("Andreas_Fickler")
 			SetCharacterRemovable(sld, true);
-			sld.loyality = MAX_LOYALITY;
 			sld.Payment = true;
 			sld.quest.OfficerPrice = sti(pchar.rank)*50;
 			sld.OfficerWantToGo.DontGo = true;
@@ -10526,16 +10505,11 @@ void QuestComplete(string sQuestName, string qname)
 		
 		case "FishHeadsDefeated":
 			chrDisableReloadToLocation = false;
-			pchar.quest.FishH.win_condition.l1 = "ExitFromLocation";
-			pchar.quest.FishH.win_condition.l1.location = pchar.location;
-			pchar.quest.FishH.win_condition.function = "FishHDS";
+			pchar.quest.EasterFish.win_condition.l1 = "ExitFromLocation";
+			pchar.quest.EasterFish.win_condition.l1.location = pchar.location;
+			pchar.quest.EasterFish.function = "FishHDS";
 		break;
 		
-		case "FishHDS":
-			TakeNItems(pchar,"letter_notes",-1);
-			Log_info("Что ещё за команда CSP? Выкину-ка я эту записку от греха подальше...");
-			ChangeItemDescribe("letter_notes", "itmdescr_letter_notes");
-		break;
 		case "SpawnScamFan":
 			sld = GetCharacter(NPC_GenerateCharacter("ScamCharacter", "PGG_WillTerner_5", "man", "man", 1, PIRATE, 1, false));
 			DeleteAttribute(sld, "LifeDay"); 
@@ -10633,6 +10607,7 @@ void QuestComplete(string sQuestName, string qname)
 				LAi_group_MoveCharacter(sld, "ReefAssholes");
 				LAi_SetFightMode(sld, true);
 			}
+			scareOfficers(50);
 			sld = CharacterFromID("Salasar");
 			Log_info("Потусторонняя аура давит на вас ещё сильнее.");
 			AddCharacterHealth(pchar, -10);
@@ -10666,6 +10641,7 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 		case "SpawnGiantEvilSkeleton":
 			if (loadedLocation.id != "DeckWithReefs" || CheckAttribute(pchar,"GiantEvilSkeletonSpawned")) {chrDisableReloadToLocation = false; break;}
+			scareOfficers(50);
 			log_info("Хранитель грота был пробуждён.");
 			sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_0", "skeleton", "Giant", iRank, PIRATE, 1, true));
 			sld.name = "Хранитель";
@@ -11134,7 +11110,7 @@ void QuestCursedSceleton()
 {
 	ref sld;
 	//sld = GetCharacter(CharacterFromID("CursedSkeleton"));
-	sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_"+sti(rand(5)), "skeleton", "skeleton", sti(pchar.rank)+20, PIRATE, 1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton", sti(pchar.rank)+20, PIRATE, 1, true));
 	FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
 	DeleteAttribute(sld, "SuperShooter");
 	int hitpoints = rand(sti(pchar.rank)*15)+1000;

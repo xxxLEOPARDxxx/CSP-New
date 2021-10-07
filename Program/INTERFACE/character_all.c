@@ -2135,10 +2135,10 @@ void ChoosePerk()
 				ok = false;
 			}
 		}
-		if (bAltBalance && perkName == "AboardCollector")
+		if (bAltBalance && xi_refCharacter.id == pchar.id)
 		{
-			ok = false;
-		}
+			if (perkName == "SeaDogProfessional" || perkName == "GrapplingProfessional" || perkName == "CannonProfessional" || perkName == "Builder" || perkName == "InstantRepair" || perkName == "ShipDefenseProfessional" || perkName == "SailingProfessional" || perkName == "EmergentSurgeon") ok = false;
+		}	
 	}
 	else
 	{

@@ -36,6 +36,7 @@ bool LAi_CharacterCanFrie(aref chr)
 	}
 	//if(stf(chr.chr_ai.chargeprc) == 0) // boal fix can fire any time if have charge
 	//{
+		if (chr.chr_ai.sgun == "pistol_grapebok" && stf(chr.chr_ai.charge) < 3) return false; 
 		if(stf(chr.chr_ai.charge) >= 1.0) return true;
 	//}
 	return false;
@@ -359,6 +360,59 @@ void LAi_ApplyCharacterDamage(aref chr, int dmg)
 	SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, dmg, MakeFloat(MakeInt(hp)), MakeFloat(MakeInt(maxhp)));
 }
 
+//Применить повреждение к персонажу с задержкой визуала
+void LAi_ApplyCharacterAdditionalDamage(aref chr, int dmg)
+{
+	float damage    = MakeFloat(dmg);
+	bool  bIsOfficer = false;
+	//Офицерам ослабляем поврежрение
+	if(CheckAttribute(chr, "chr_ai.type"))
+	{
+		if(chr.chr_ai.type == LAI_TYPE_OFFICER)
+		{
+			damage = damage*0.7;
+			bIsOfficer = true;
+		}
+	}
+	//Получаем текущие параметры
+	if(!CheckAttribute(chr, "chr_ai.hp"))     chr.chr_ai.hp     = LAI_DEFAULT_HP;
+	if(!CheckAttribute(chr, "chr_ai.hp_max")) chr.chr_ai.hp_max = LAI_DEFAULT_HP_MAX;
+	float maxhp = stf(chr.chr_ai.hp_max);
+	float hp    = stf(chr.chr_ai.hp);
+	//Пересчитываем
+	if (damage > hp)  damage = hp;
+	hp = hp - damage;
+	if(hp < 1.0) hp = 0.0;
+	chr.chr_ai.hp = hp;
+	PostEvent("VisualizeDMG", 330, "alff", chr, dmg, hp, maxhp);
+	//Проверим квест
+	LAi_ProcessCheckMinHP(chr);
+
+	if(sti(pchar.index) == sti(chr.index)) 
+	{
+		// здоровье -->
+        pchar.Health.Damg      = stf(pchar.Health.Damg) + damage;
+	    pchar.Health.weekDamg  = stf(pchar.Health.weekDamg) + damage;
+        pchar.Health.TotalDamg = stf(pchar.Health.TotalDamg) + damage;
+        return;
+	}
+	if (bIsOfficer)
+    {
+        chr.Health.TotalDamg = stf(chr.Health.TotalDamg) + damage; // статистика
+        return;
+    }
+}
+
+#event_handler("VisualizeDMG","VisualizeDMG");
+void VisualizeDMG()
+{
+	aref chr = GetEventData();
+	int dmg = GetEventData();
+	float hp = GetEventData();
+	float maxhp = GetEventData();
+	SendMessage(chr, "lfff", MSG_CHARACTER_VIEWDAMAGE, dmg, hp, maxhp);
+}
+
 //ККС - Jason: самовосстанавливающийся абордажник
 void LAi_CheckHalfImmortal(aref chr)
 {
@@ -440,6 +494,8 @@ void LAi_CheckKillCharacter(aref chr)
 	if(stf(chr.chr_ai.hp) < 1.0)
 	{
 		//Убиваем, если смертен
+		DeleteAttribute(chr,"chr_ai.Blooding");
+		DeleteAttribute(chr,"chr_ai.poison");
 		if(CheckAttribute(chr, "chr_ai.immortal"))
 		{
 			if(sti(chr.chr_ai.immortal) != 0)
@@ -477,17 +533,17 @@ void LAi_CheckKillCharacter(aref chr)
 				}
 			}
 		}
-	if (bHalfImmortalPGG)
-	{
-		if (CheckAttribute(chr, "ImmortalOfficer"))
+		if (bHalfImmortalPGG)
+		{
+			if (CheckAttribute(chr, "ImmortalOfficer"))
+			{
+				LAi_CheckHalfImmortal(chr);
+			}
+		}
+		else
 		{
 			LAi_CheckHalfImmortal(chr);
 		}
-	}
-	else
-	{
-		LAi_CheckHalfImmortal(chr);
-	}
 
 		// Lugger: Тренировки -->
 		bool bArena = CheckAttribute(chr, "LandAcademy") || CheckAttribute(chr, "ArenaAction") || CheckAttribute(chr, "ArenaEtapsAction") || CheckAttribute(chr, "ArenaTournament") || CheckAttribute(chr, "ArenaOdds");
@@ -1506,9 +1562,11 @@ void MakeBloodingAttack(aref enemy, aref attacked, float coeff) // Кровоточащая 
 	float Blooding = 0.0;
 	if(CheckAttribute(enemy, "chr_ai.Blooding"))
 	{
+		enemy.chr_ai.Blooding.Power = sti(enemy.chr_ai.Blooding.Power)+1;
 		Blooding = stf(enemy.chr_ai.Blooding);
 		if(Blooding < 1.0) Blooding = 1.0;
 	}
+	else enemy.chr_ai.Blooding.Power = 1;
 	enemy.chr_ai.Blooding = Blooding + (10+rand(coeff*5)); // Продолжительность 5+(от 0 до коэфф*5)
 	FXMarkCharacter(enemy,"FX_Blood");
 	

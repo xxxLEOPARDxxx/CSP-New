@@ -56,6 +56,7 @@ void ProcessDialogEvent()
 			link.l1.go = "Next_5";
 			link.l2 = "У меня есть идея, мистер. Если вы работали на верфи, то должны знать толк в корабельном деле. Я нанимаю вас в качестве плотника, и вы выберетесь с этого острова, который вам так не нравится.";
 			link.l2.go = "Next_6";
+			DeleteAttribute(npchar, "talker");
 		break;
 		
 		case "Next_5":
@@ -68,7 +69,6 @@ void ProcessDialogEvent()
             dialog.text = "ПЛОТНИК? Что я слышу, "+ GetSexPhrase("герр","фрау") +" капитан? Меня, наиболее выдающегося изобретателя нашего столетия, вы хотите нанять в качестве жалкого корабельного ремесленника? Вы в своём... хотя... Я согласен! Мне омерзителен этот жалкий английский островок! Прекрасно! Я просто соберу вещи, и только меня и видели! Я готов, "+ GetSexPhrase("герр","фрау") +" капитан! Где ваш корабль?";
             link.l1 = "В гавани, конечно же, мистер Цальпфер. Я надеюсь, что вы не передумаете, и будете на борту к моменту отплытия.";
 			link.l1.go = "Next_8";
-			DeleteAttribute(npchar, "talker");
 		break;
 		
 		case "Next_7":
@@ -98,15 +98,25 @@ void ProcessDialogEvent()
 			AddQuestUserData("Albreht_Zalpfer", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("Albreht_Zalpfer", "sSex1", GetSexPhrase("ся","ась"));
 			sld = CharacterFromID("Albreht_Zalpfer")
+			DeleteAttribute(sld, "talker");
+			sld.loyality = MAX_LOYALITY;
+			sld.Payment = true;
+			sld.quest.OfficerPrice = sti(pchar.rank)*10;
+			sld.OfficerWantToGo.DontGo = true;
+			sld.rank = 4;
+			SetSelfSkill(sld, 5, 40, 5, 5, 5);
+			SetShipSkill(sld, 5, 5, 5, 5, 5, 35, 5, 5, 5);
 			Pchar.quest.PDM_Albreht_Vhod.win_condition.l1           = "location";
         	Pchar.quest.PDM_Albreht_Vhod.win_condition.l1.location  = "PortRoyal_town";
         	Pchar.quest.PDM_Albreht_Vhod.win_condition              = "PDM_Albreht_Vhod";
-			LAi_SetActorType(sld);   //делает что-то полезное
-			LAi_ActorRunToLocation(sld, "reload", "reload1", "none", "", "", "PDM_Albreht_Saditsya_na_korabl", 6);
-			bDisableFastReload = true;          //быстрое перемещение
-			chrDisableReloadToLocation = true;      //блокировка всех выходов
+			LAi_SetActorType(sld);
+			LAi_ActorRunToLocation(sld, "reload", "reload1", "none", "", "", "PDM_Albreht_Saditsya_na_korabl", 5);
+			AddPassenger(pchar, sld, false);
+			SetCharacterRemovable(sld, false);
+			bDisableFastReload = true;
+			chrDisableReloadToLocation = true;
 			NextDiag.CurrentNode = NextDiag.TempNode;
-			DialogExit();  	// выход из диалога		
+			DialogExit();	
 		break;
 		
 		case "Pl_1":

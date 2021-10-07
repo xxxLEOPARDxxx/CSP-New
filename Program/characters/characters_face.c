@@ -452,8 +452,8 @@ void FaceMaker(aref rCharacter)
 		case "crabBig":			rCharacter.FaceId = 1512; break;
 		case "Tichingitu_0"		:  	rCharacter.FaceId = 1513; break;		// Тиничгиту
 		case "Tichingitu_0_mush":   rCharacter.FaceId = 1513; break;		// Тиничгиту - модель мушкетера		
-		case "PGG_Longway":		rCharacter.FaceId = 487; break;
-		case "PGG_Lejitos_GPK":	rCharacter.FaceId = 535; break;
+		case "PGG_Longway_0":		rCharacter.FaceId = 487; break;
+		case "PGG_Lejitos_0":	rCharacter.FaceId = 535; break;
 		case "PGG_Rozencraft":	rCharacter.FaceId = 496; break;
 		case "priest":			rCharacter.FaceId = 531; break;
 		case "PGG_Vincento_0":	rCharacter.FaceId = 531; break;
@@ -466,25 +466,38 @@ void FaceMaker(aref rCharacter)
 		case "PGG_Tich_0":		rCharacter.FaceId = 540; break;
 		else rCharacter.FaceId = 478; break;
 	}
-	if (InterfaceStates.VISUAL_CIRASS)
+	if (InterfaceStates.VISUAL_CIRASS && !CheckAttribute(rCharacter,"VISUAL_CIRASS"))
 	{
 		// --> LEO&Gregg: Подключение визуала для надетых кирас (если не будет нужной модели, персонаж не появится и будет баговать)
-		if (HasSubStr(rCharacter.model,"DebugOfficer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"officer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"Mushketer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"pirate_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"OZG_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"PKM_rab_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"AztecCitizen")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"AztecWarrior")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"Canib_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"citiz_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"prison_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"prizon_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"skel")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"Skel_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"Slave")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
-		if (HasSubStr(rCharacter.model,"shipowner_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		if (HasSubStr(rCharacter.model,"_0"))
+		{
+			//log_info(rCharacter.model);
+			rCharacter.model = strreplace(rCharacter.model,"_0","");
+			//log_info(rCharacter.model);
+			rCharacter.HeroModel = rCharacter.model+"_0,"+rCharacter.model+"_1,"+rCharacter.model+"_2,"+rCharacter.model+"_3,"+rCharacter.model+"_4,"+rCharacter.model+"_5";
+			//log_info(rCharacter.HeroModel);
+			rCharacter.model = GetSubStringByNum(rCharacter.HeroModel,0);
+		}
+		else
+		{
+			if (HasSubStr(rCharacter.model,"DebugOfficer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"officer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"Mushketer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"pirate_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"OZG_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"PKM_rab_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"AztecCitizen")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"AztecWarrior")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"Canib_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"citiz_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"prison_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"prizon_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"skel")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"Skel_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"Slave")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+			if (HasSubStr(rCharacter.model,"shipowner_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
+		}
+		rCharacter.VISUAL_CIRASS = true;
 		// if (HasSubStr(rCharacter.model,"trader_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
 		// if (HasSubStr(rCharacter.model,"usurer_")) rCharacter.HeroModel = rCharacter.model+","+rCharacter.model+"_1"+","+rCharacter.model+"_2"+","+rCharacter.model+"_3"+","+rCharacter.model+"_4"+","+rCharacter.model+"_5";
 		// <-- LEO&Gregg: Подключение визуала для надетых кирас

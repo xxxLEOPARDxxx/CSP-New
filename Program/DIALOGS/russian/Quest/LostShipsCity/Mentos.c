@@ -409,6 +409,9 @@ void ProcessDialogEvent()
 			link.l1 = "Ну вот и славно...";
 			link.l1.go = "exit";
 			LAi_group_MoveCharacter(npchar, LAI_GROUP_PLAYER);
+			ref ment = CharacterFromID("Ment_5");
+			ment.model = "officer_8";
+			FaceMaker(ment);
 			npchar.quest.LSCofficer = true; 
 			AddQuestRecord("ISS_MainLine", "68");
 		break;

@@ -1391,10 +1391,11 @@ int LocationInitSentMartin(int n)
 	locations[n].id.label = "ExitTown";
 	locations[n].image = "loading\outside\Jungle_"+rand(5)+".tga";
 	//Town sack
-	locations[n].townsack = "PortPax";
+	locations[n].townsack = "Marigo";
 	//Sound
 	locations[n].type = "jungle";
 	locations[n].islandId = "SentMartin";
+	locations[n].fastreload = "Marigo";
 	locations[n].islandIdAreal = "Marigo";
     //Models
 	//Always

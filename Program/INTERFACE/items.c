@@ -1178,10 +1178,10 @@ bool ThisItemCanBeEquip( aref arItem )
 		}*/
 
 		// Нельзя экипировать мушкет в непредназначенных для этого локациях (Таверна)
-		if(HasSubStr(arItem.id, "mushket") && !CanEquipMushketOnLocation(xi_refCharacter.Location))
+		/*if(HasSubStr(arItem.id, "mushket") && !CanEquipMushketOnLocation(xi_refCharacter.Location))
 		{
 			return false;
-		}
+		}*/ //мушкеты в тавернах - Gregg
 
 		if (HasSubStr(arItem.id, "mushket") && IsMainCharacter(xi_refCharacter) && !IsPCharHaveMushketerModel())
 		{

@@ -446,10 +446,10 @@ void IDoExit(int exitCode)
 					EquipCharacterByItem(arCurChar, FindCharacterItemByGroup(arCurChar,BLADE_ITEM_TYPE));
 				}
 		
-				if(CheckAttribute(arCurChar, "skill.Fencing") &&  GetCharacterSkill(arCurChar, "Fencing") > 0.1)
+				/*if(CheckAttribute(arCurChar, "skill.Fencing") &&  GetCharacterSkill(arCurChar, "Fencing") > 0.1)
 				{
 					EquipCharacterByItem(arCurChar, FindCharacterItemByGroup(arCurChar, CIRASS_ITEM_TYPE)); // boal 08.10.04 броню офицерам
-				}
+				}*/
 
 				if(CheckAttribute(arCurChar, "skill.Pistol") && GetCharacterSkill(arCurChar,"Pistol") > 0.1 )
 				{

@@ -47,7 +47,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Last":
-			dialog.text = "“ы мен€ впечатлил"+ GetSexPhrase("!","ла!") +" Ќикто из тех, кто прежде отваживалс€ прийти сюда, не могли одолеть нас и оставались здесь навсегда.";
+			dialog.text = "“ы мен€ впечатлил"+ GetSexPhrase("!","а!") +" Ќикто из тех, кто прежде отваживалс€ прийти сюда, не могли одолеть нас и оставались здесь навсегда.";
 			link.l1 = "Ёто было очень т€жело. “ы и твои реб€та заставили мен€ облитьс€ семью потами. ƒа и чувствую € себ€ неважно.";
 			link.l1.go = "Last_2";
 			if (pchar.sex != "woman") LAi_CharacterPlaySoundAtOnce(NPChar, "Salazar_4_man");
@@ -91,6 +91,15 @@ void ProcessDialogEvent()
 			loadedLocation.box1.items.suit_3 = 1;
 			loadedLocation.box1.items.chest = 5;
 			loadedLocation.box1.items.icollection = 5;
+			if (sti(pchar.rank) >= 30) loadedLocation.box1.items.Ship_Print_1 = 1;
+			else
+			{
+				if (sti(pchar.rank) >= 25) loadedLocation.box1.items.Ship_Print_2 = 1;
+				else
+				{
+					loadedLocation.box1.items.Ship_Print_3 = 1;
+				}
+			}
 			LAi_LocationFightDisable(loadedLocation, false);
 		break;
 	}

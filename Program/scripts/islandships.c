@@ -145,8 +145,6 @@ void GenerateIslandShips(string sIslandID)
 								SetSelfSkill(chr, 100, 100, 100, 100, 90);
 								SetShipSkill(chr, 90, 90, 90, 90, 100, 90, 90, 90, 90);
 							}
-								
-							SetCharacterPerk(chr, PerksChars());
 							
 							if(defendersCount > 0) defendersCount = defendersCount - 1;		
 						}
@@ -204,8 +202,6 @@ void GenerateIslandShips(string sIslandID)
 						
 						
 						Ship_FlagRefresh(chr); 	
-						
-						SetCharacterPerk(chr, PerksChars());
 					}
 				}
 			}

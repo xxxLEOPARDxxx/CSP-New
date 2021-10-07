@@ -410,7 +410,8 @@ void AddQuestRecordEx(string idQuest,string idReferenceQuest,string idText)
 	if( sTextLbl != "" )
 	{
 		pchar.QuestInfo.(idQuest).Text.(sTextLbl) = "@"+idReferenceQuest+"@"+GetQuestBookData()+"@"+idText;
-		Log_SetStringToLog(XI_ConvertString("Logbook Update"));
+		pchar.QuestInfo.(idQuest).idRef = idReferenceQuest;
+		Log_SetStringToLog(XI_ConvertString("Logbook Update")+" ("+GetConvertStr(idReferenceQuest, "QuestBookStrings.txt")+")");
 		AddMsgToCharacter(pchar,MSGICON_LOGBOOK);
 		PlayStereoSound("notebook");
 		//trace("Quest ADDED");
@@ -463,6 +464,7 @@ void AddQuestRecord(string idQuest,string idText)
 void CloseQuestHeader(string idQuest)
 {
 	if(CheckAttribute(pchar,"QuestInfo."+idQuest)==false) return;
+	Log_SetStringToLog("Была закрыта запись в судовом журнале. ("+GetConvertStr(pchar.QuestInfo.(idQuest).idRef, "QuestBookStrings.txt")+")");
 	object questRef;
 	CopyAttributes(&questRef,GetQuestData(idQuest));
 	questRef.Complete = true;

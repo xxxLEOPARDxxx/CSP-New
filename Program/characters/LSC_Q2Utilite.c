@@ -2898,14 +2898,25 @@ void SpawnFishHeads()
 void SpawnGreedyBastards()
 {
 	chrDisableReloadToLocation = true;
-	for(int i = 0; i < makeint(MOD_SKILL_ENEMY_RATE/2+0.5); i++)
+	int iCount = makeint(MOD_SKILL_ENEMY_RATE/2+0.5);
+	if (sti(pchar.rank) < 3 && iCount > 2) iCount = 1; //казуалам не набьют ебало сразу
+	if (iCount<1) iCount = 1;
+	for(int i = 0; i < iCount; i++)
 	{
-		ref sld = GetCharacter(NPC_GenerateCharacter("GreedyBastard_"+pchar.location+"_"+i, "panhandler_"+(rand(4)+1), "man", "man", 5, PIRATE, 0, true));
+		ref sld = GetCharacter(NPC_GenerateCharacter("GreedyBastard_"+pchar.location+"_"+i, "panhandler_"+(rand(4)+1), "man", "man", 5+makeint(sti(pchar.rank)/3), PIRATE, 0, true));
 		ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+		LAi_group_Delete("greedybastard");
 		LAi_group_MoveCharacter(sld, "greedybastard");
-		if (i==0)
+		
+		if (i!=0) 
 		{
-			switch (rand(12))
+			LAi_SetActorTypeNoGroup(sld);
+			LAi_ActorFollow(sld, pchar, "", -1);
+		}
+		else
+		{
+			sld.quant = iCount;
+			switch (rand(14))
 			{
 				case 0: sld.name = "Ери"; sld.lastname = "Лейн"; break;
 				case 1: sld.name = "Фри"; sld.lastname = "Тиз"; break;
@@ -2920,6 +2931,8 @@ void SpawnGreedyBastards()
 				case 10: sld.name = "Асар"; sld.lastname = "Дагон"; break;
 				case 11: sld.name = "Сиб"; sld.lastname = "Иряк"; break;
 				case 12: sld.name = "Дио"; sld.lastname = "Диегович"; break;
+				case 13: sld.name = "Син"; sld.lastname = "Истра"; break;
+				case 14: sld.name = "Лип"; sld.lastname = "Сар"; break;
 			}
 			LAi_SetActorTypeNoGroup(sld);
 			sld.dialog.filename = "GenQuests_dialog.c";

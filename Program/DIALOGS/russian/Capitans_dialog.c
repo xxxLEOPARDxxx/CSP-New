@@ -1112,9 +1112,9 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_questions":
-			npchar.coolstories = "Чарльстон";
+			npchar.coolstories = "чарльстон";
 			npchar.questionsstate = 1;
-			Dialog.text = "Ну ладно, слушай же загадки. Раз уж ты копал"+ GetSexPhrase("","а") +" под меня и смог"+ GetSexPhrase("","а") +" разыскать, то ты наверняка знаешь о моём самом крупном деле. Что же это?";
+			Dialog.text = "Ну ладно, слушай же загадки. Раз уж ты копал"+ GetSexPhrase("","а") +" под меня и смог"+ GetSexPhrase("","ла") +" разыскать, то ты наверняка знаешь о моём самом крупном деле. Какой город я осадил и заставил выплатить мне кругленькую сумму?";
 			Link.l1.edit = 1;
 			Link.l1 = "";
 			Link.l1.go = "Titch_check";	
@@ -1124,18 +1124,18 @@ void ProcessDialogEvent()
 		case "Titch_check":
 			if (npchar.questionsstate == 1 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
 			{
-				npchar.coolstories = "Хорниголд";
+				npchar.coolstories = "хорниголд";
 				npchar.questionsstate = 2;
-				Dialog.text = "Правильно! Значит не совсем дур"+ GetSexPhrase("ак","а") +". Слушай следующий вопрос! Под чьей командой я плавал до тех пор, пока не стал известным, как Чёрная Борода?";
+				Dialog.text = "Правильно! Значит не совсем дур"+ GetSexPhrase("ак","а") +". Слушай следующий вопрос!";
 				Link.l1 = "Ну?";
 				Link.l1.go = "Titch_q2";
 				break;
 			}
 			if (npchar.questionsstate == 2 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
 			{
-				npchar.coolstories = "Конкорд";
+				npchar.coolstories = "конкорд";
 				npchar.questionsstate = 3;
-				Dialog.text = "Отличная осведомлённость! А вот и последний вопрос. Какое название носила ''Месть Королевы Анны'' прежде?.";
+				Dialog.text = "Отличная осведомлённость! А вот и последний вопрос.";
 				Link.l1 = "И?";
 				Link.l1.go = "Titch_q3";
 				break;
@@ -1171,7 +1171,7 @@ void ProcessDialogEvent()
 			}
 		break;
 		case "Titch_q2":
-			Dialog.text = "О чём ящер-отшельник сказал, что не даст?";
+			Dialog.text = "Под чьей командой я плавал до тех пор, пока не стал известным, как Чёрная Борода?";
 			Link.l1.edit = 1;
 			Link.l1 = "";
 			Link.l1.go = "Titch_check";	
@@ -1179,7 +1179,7 @@ void ProcessDialogEvent()
 			link.l2.go = "exit";
 		break;
 		case "Titch_q3":
-			Dialog.text = "Вилкой в глаз или в жопу раз?";
+			Dialog.text = "Какое название носила ''Месть Королевы Анны'' прежде?";
 			Link.l1.edit = 1;
 			Link.l1 = "";
 			Link.l1.go = "Titch_check";	

@@ -188,9 +188,10 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
         break;
 //========================== Квест "Охота на ведьму" ==================================
 		case "PDM_ONV_WOMAN":
-			dialog.text = "Кто, кто? Впервые слышу о такой девушке.");
-			link.l1 = "Прошу прощения...";
+			dialog.text = "Эээ... Нет. Лучше поспрашивайте городских жителей. Я думаю, они точно что-то да скажут.");
+			link.l1 = "Хорошо, красавица, я пойду.";
 			link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_Detectiv_Oficiantka_Havana");
 		break;
 
 

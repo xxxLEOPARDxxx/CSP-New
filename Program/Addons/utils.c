@@ -151,18 +151,15 @@ void BuildMalteseOrder(string qName)
 	Log_info("Время строительства Капитула должно было подойти к концу.");
 }
 
-void RefreshSlavesLimit()
+void RefreshSlavesLimit(string qName)
 {
 	ref sld = CharacterFromID("PlantRuler");
 	sld.SlavesLimit = 250+rand(750);
 }
 
-void RefreshGWIK()
+void RefreshGWIK(string qName)
 {
-	ref sld = CharacterFromID("GWIK_char");
-	DeleteAttribute(sld,"Timer");
-	sld = CharacterFromID("GVIK_char");
-	DeleteAttribute(sld,"Timer");
+	DeleteAttribute(pchar,"GwikTimer");
 }
 
 void WayBeginning(string _tmp)

@@ -86,7 +86,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.5;
+						kAttackDmg = 0.35;
 					}
 				}
 				else
@@ -104,7 +104,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.6;
+						kAttackDmg = 0.5;
 					}
 				}
 				else
@@ -122,7 +122,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.4;
+						kAttackDmg = 0.3;
 					}
 				}
 				else
@@ -191,7 +191,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.5;
+						kAttackDmg = 0.35;
 					}
 				}
 				else
@@ -208,7 +208,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.6;
+						kAttackDmg = 0.5;
 					}
 				}
 				else
@@ -225,7 +225,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.4;
+						kAttackDmg = 0.3;
 					}
 				}
 				else
@@ -394,12 +394,12 @@ float LAi_CalcUseEnergyForBlade(aref character, string actionType)
 		case "break":
 			energy = 25.0;
 		break;
-		//case "feint":
-		//	energy = 7.0;
-		//break;
-		//case "parry": 
-		//	energy = 20.0;
-		//break;
+		// case "feint":
+			// energy = 7.0;
+		// break;
+		// case "parry": 
+			// energy = 20.0;
+		// break;
 		case "hit_parry":  // boal fix эту энергию тратит не атакующий, а атакуемый в анимации fgt_hit_parry
 			energy = 20.0;
 		break;
@@ -686,14 +686,8 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	//--->Пробитие блоков - Gregg
 	if (isBlocked && blockSave)
 	{
-		bool blockbreak = false;
-		if (fencing_type == "FencingHeavy") blockbreak = CheckForBlockBreak(attack,enemy,true);
-		else blockbreak = CheckForBlockBreak(attack,enemy,false);
-		if (blockbreak)
-		{
-			isBlocked = false;
-			blockSave = false;
-		}
+		if (fencing_type == "FencingHeavy") blockSave = CheckForBlockBreak(attack,enemy,true);
+		else blockSave = CheckForBlockBreak(attack,enemy,false);
 	}
 	//<---Пробитие блоков тяжёлым оружием
 	//Вычисляем повреждение
@@ -780,7 +774,7 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 		}
 	}
 	bool cirign = false;
-	if (!blockSave && dmg > 0.0)
+	if (!blockSave && !isBlocked && dmg > 0.0)
 	{
 		switch (fencing_type)
 		{
@@ -1033,7 +1027,7 @@ void CheckForBlooding(ref attack, ref enemy, bool type, string attackType)
 					}
 					MakeBloodingAttack(enemy, attack, coeff);
 				}
-				/* else
+				else
 				{
 					if(sti(attack.index) == GetMainCharacterIndex())
 					{
@@ -1046,8 +1040,8 @@ void CheckForBlooding(ref attack, ref enemy, bool type, string attackType)
 						Log_Info("Вам нанесли глубокую рану.");
 						PlaySound("interface\Krovotok_"+rand(4)+".wav");
 					}
-					LAi_ApplyCharacterDamage(enemy, MakeInt(10+(coeff*4)));
-				} */
+					LAi_ApplyCharacterAdditionalDamage(enemy, MakeInt(5+(coeff*2)));
+				}
 			}
 		}
 	}
@@ -1073,7 +1067,7 @@ void CheckForBlooding(ref attack, ref enemy, bool type, string attackType)
 					}
 					MakeBloodingAttack(enemy, attack, 3.0);
 				}
-				/* else
+				else
 				{
 					if(sti(attack.index) == GetMainCharacterIndex())
 					{
@@ -1086,8 +1080,8 @@ void CheckForBlooding(ref attack, ref enemy, bool type, string attackType)
 						Log_Info("Вам нанесли глубокую рану.");
 						PlaySound("interface\Krovotok_"+rand(4)+".wav");
 					}
-					LAi_ApplyCharacterDamage(enemy, MakeInt(10+(valueB*2)));
-				} */
+					LAi_ApplyCharacterAdditionalDamage(enemy, MakeInt(5+(valueB*2)));
+				}
 			}
 		}
 	}
@@ -1115,7 +1109,22 @@ void CheckForSwift(ref attack, ref enemy, bool type)
 					PlaySound("interface\Stan_"+rand(5)+".wav");
 				}
 				MakeSwiftAttack(enemy, attack, coeff);
-			} 
+			}
+			else
+			{
+				if(sti(attack.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Вы нанесли глубокую рану.");
+					PlaySound("interface\Krovotok_"+rand(4)+".wav");
+					pchar.questTemp.swiftcount = sti(pchar.questTemp.swiftcount) + 1;
+				}
+				if(sti(enemy.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Вам нанесли глубокую рану.");
+					PlaySound("interface\Krovotok_"+rand(4)+".wav");
+				}
+				LAi_ApplyCharacterAdditionalDamage(enemy, MakeInt(5+(coeff*4)));
+			}
 		}
 	}
 	else
@@ -1138,7 +1147,22 @@ void CheckForSwift(ref attack, ref enemy, bool type)
 						PlaySound("interface\Stan_"+rand(5)+".wav");
 					}
 					MakeSwiftAttack(enemy, attack, 3.0);
-				} 
+				}
+				else
+				{
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вы нанесли глубокую рану.");
+						PlaySound("interface\Krovotok_"+rand(4)+".wav");
+						pchar.questTemp.swiftcount = sti(pchar.questTemp.swiftcount) + 1;
+					}
+					if(sti(enemy.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вам нанесли глубокую рану.");
+						PlaySound("interface\Krovotok_"+rand(4)+".wav");
+					}
+					LAi_ApplyCharacterAdditionalDamage(enemy, MakeInt(5+(valueSS*2)));
+				}
 			}
 		}
 	}
@@ -1202,7 +1226,7 @@ void CheckForTrauma(ref attack, ref enemy)
 
 bool CheckForBlockBreak(ref attack, ref enemy, bool type)
 {
-	bool bbreak = false;
+	bool blockSave = true;
 	int valueBB = sti(attack.chr_ai.special.valueBB);
 	if (type)
 	{
@@ -1219,7 +1243,7 @@ bool CheckForBlockBreak(ref attack, ref enemy, bool type)
 				Log_Info("Ваш блок пробит.");
 				PlaySound("interface\Block_"+rand(1)+".wav");
 			}
-			bbreak = true;
+			blockSave = false;
 		}
 		if (!HasSubStr(attack.equip.blade, "topor") && rand(99)<5.0+(coeff*2.0)+valueBB) //10+%
 		{
@@ -1233,7 +1257,7 @@ bool CheckForBlockBreak(ref attack, ref enemy, bool type)
 				Log_Info("Ваш блок пробит.");
 				PlaySound("interface\Block_"+rand(1)+".wav");
 			}
-			bbreak = true;
+			blockSave = false;
 		}
 	}
 	else
@@ -1252,11 +1276,11 @@ bool CheckForBlockBreak(ref attack, ref enemy, bool type)
 					Log_Info("Ваш блок пробит.");
 					PlaySound("interface\Block_"+rand(1)+".wav");
 				}
-				bbreak = true;
+				blockSave = false
 			}
 		}
 	}
-	return bbreak;
+	return blockSave;
 }
 
 bool CheckForCirassBreak(ref attack, ref enemy, bool type)
@@ -1416,6 +1440,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	// boal 23.05.2004 <--
 	//Начисляем повреждение
 	float damage = LAi_GunCalcDamage(attack, enemy);
+	if (attack.chr_ai.sgun == "pistol_grapebok") damage *= 2;
 
 	//Аттака своей группы
 	bool noExp = false;

@@ -1770,6 +1770,18 @@ bool TakeNItems(ref _refCharacter, string itemName, int n)
 		return true;
 	}
 	
+	// Dolphin -> генератор игрока
+	if(itemName == "Bag_with_money" && n>0) // ГГ может только брать
+	{
+		if(GetCharacterItem(pchar,"Bag_with_money") >= 6) 
+		{
+			AddQuestRecord("LOOSER_GENERATOR", "3");
+			AddQuestUserData("LOOSER_GENERATOR", "sSex", GetSexPhrase("ёл","ла"));
+			DoQuestFunctionDelay("LooserGenerator_OpenLocation", 0.1);
+		}
+	}
+	//<-
+	
 	if(CheckAttribute(arItm, "price") && sti(arItm.price) == 0)
 	{
 		if(arItm.ID != "Gold") // Warship. Для нового интерфейса обмена - проверка на золото
@@ -2345,7 +2357,7 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 	string modelName = "";
 	makearef(arItm,emptyItm);
  	int itemNum; // boal 23.01.2004
-	if (CheckAttribute(chref, "HeroModel"))	
+	if (CheckAttribute(chref, "HeroModel") && !CheckAttribute(chref,"ismushketer"))
 	{
 		bool ok = false;
 		if (CheckAttribute(chref,"chr_ai.group") && chref.chr_ai.group != "player") ok = true;
@@ -2358,6 +2370,14 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 					//log_info(chref.id+"/"+sti(Items[sti(chref.cirassId)].model));
 					chref.model = GetSubStringByNum(chref.HeroModel,sti(Items[sti(chref.cirassId)].model));
 					Characters_RefreshModel(chref);
+				}
+				else 
+				{
+					if (GetSubStringByNum(chref.HeroModel,0) != chref.model)
+					{
+						DeleteAttribute(chref,"VISUAL_CIRASS");
+						FaceMaker(chref);
+					}
 				}
 			}
 			else
@@ -3512,7 +3532,7 @@ bool SetMainCharacterToMushketer(string sMushket, bool _ToMushketer) // если _To
 		if(iItem == -1) return false;
 		
 		// Стоит проверка при надевании предмета. Если каким-то образом дошло до сюда, то тут не разрешим
-		if(!CanEquipMushketOnLocation(PChar.Location)) return false;
+		//if(!CanEquipMushketOnLocation(PChar.Location)) return false; //мушкеты в тавернах - Gregg
 		
 		sLastGun = GetCharacterEquipByGroup(PChar, GUN_ITEM_TYPE);
 		PChar.IsMushketer = true; // Ставим флаг "ГГ - мушкетер"

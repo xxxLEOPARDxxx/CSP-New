@@ -37,7 +37,17 @@ void SetFantomParamFromRank(ref NPchar, int  rank, bool setEquip)
 		NPchar.cirassId = Items_FindItemIdx(cirnum);
 		Log_TestInfo("Персонаж "+NPchar.name+" получил кирасу "+cirnum);
 	}
-	SetCharacterPerk(NPchar, PerksChars());
+	if (CheckAttribute(NPchar,"id"))
+	{
+		switch (NPchar.id)
+		{
+			case "Tichingitu": SetCharacterPerk(NPchar, "Buccaneer"); break;
+			case "Andreas_Fickler": SetCharacterPerk(NPchar, "Trader"); break;
+			else {SetSpeciality(NPchar, PerksChars()); break;}
+		}
+		
+	}
+	else SetSpeciality(NPchar, PerksChars());
 }
 
 void SetFantomParamFromRank_PPG(ref NPchar, int  rank, bool setEquip)   //WW
@@ -49,6 +59,7 @@ void SetFantomParamFromRank_PPG(ref NPchar, int  rank, bool setEquip)   //WW
     {
 	    LAi_NPC_Equip(NPchar, sti(NPchar.rank), true, true);
     }
+	SetSpeciality(NPchar, PerksChars());
 	//SetCharacterPerk(NPchar, PerksChars());
 	/*if (IsCharacterPerkOn(NPchar, "Ciras") && rand(4)==0)
 	{
@@ -317,6 +328,7 @@ int GetSPECIALSum(ref Npchar)
 void SetFantomParam(ref _pchar)
 {
     SetFantomParamCommon(_pchar);
+	SetSpeciality(_pchar, PerksChars());
 }
 
 void SetFantomParamCommon(ref _pchar)

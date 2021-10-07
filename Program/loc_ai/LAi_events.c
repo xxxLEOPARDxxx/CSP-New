@@ -236,7 +236,17 @@ void LAi_CharacterAttack()
 			int iRand = rand(100);
 			if(iRand < 20)
 			{
-				isBlocked = false;
+				blockSave = false;
+				if(sti(attack.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Вы пробили блок неотразимым ударом.");
+					PlaySound("interface\Block_"+rand(1)+".wav");
+				}
+				if(sti(enemy.index) == GetMainCharacterIndex())
+				{
+					Log_Info("Ваш блок был пробит неотразимым ударом.");
+					PlaySound("interface\Block_"+rand(1)+".wav");
+				}
 			}
 		}
 	}
@@ -264,6 +274,7 @@ void LAi_CharacterFire()
 	int isFindedEnemy = GetEventData();
 	//Заряд персонажа
 	if(!CheckAttribute(attack, "chr_ai.charge")) attack.chr_ai.charge = "0";
+	if (attack.chr_ai.sgun == "pistol_grapebok" && stf(attack.chr_ai.charge) < 3) return; 
 	float charge = stf(attack.chr_ai.charge) - 1.0;
 	// boal gun bullet убираем пулю после выстрела -->
 	sBullet = LAi_GetCharacterBulletType(attack);
@@ -273,7 +284,15 @@ void LAi_CharacterFire()
 	if(sGunPowder != "")
 	{
 		RemoveItems(attack, sGunPowder, 1); // Warship. Забираем порох
-	}	
+	}
+	if (attack.chr_ai.sgun == "pistol_grapebok")
+	{
+		RemoveItems(attack, sBullet, sti(attack.chr_ai.charge)-1);
+		RemoveItems(attack, sGunPowder, sti(attack.chr_ai.charge)-1);
+		attack.chr_ai.charge = 0.0;
+		charge = 0.0
+		
+	}
 	if(charge <= 0.0)
 	{
 		charge = 0.0;

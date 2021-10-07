@@ -5791,21 +5791,99 @@ void ProcessDialogEvent()
 		
 		case "Greedy":
 			dialog.text = "О, ты тут камешек драгоценный нашёл? Отдай его пожалуйста. С тебя не убудет, а нам поможет штаны поддержать.";
-			link.l1 = "Ага, щас. Я не для того его искал, чтобы голозадым вроде тебя отдавать.";
-			link.l1.go = "Greedy_2";
+			link.l1 = "Ага, щас. Я не для того его искал"+ GetSexPhrase("","а") +", чтобы голозадым вроде тебя отдавать.";
+			link.l1.go = "Greedy_no";
+			link.l2 = "А ростовщику я что скажу? Я же подрядил"+ GetSexPhrase("ся","ась") +" камень найти.";
+			link.l2.go = "Greedy_3";
 		break;
 		
-		case "Greedy_2":
-			dialog.text = "Злой ты. А я ведь в прошлом и леопардов убивал... Стоит научить тебя хорошим манерам. Защищайся!";
+		case "Greedy_no":
+			dialog.text = "Зл"+ GetSexPhrase("ой","ая") +" ты. А я ведь в прошлом и леопардов убивал... Стоит научить тебя хорошим манерам. Защищайся!";
 			link.l1 = "И почему всё должно заканчиваться дракой...";
 			link.l1.go = "Greedy_end";
+		break;
+		
+		case "Greedy_3":
+			dialog.text = "Ну отдай. Мы тебе ещё пригодимся. Мы ведь и правда едва концы с концами сводим, а твой кошелёк от этого ощутимо не потяжеет. Скряга этот, ростовщик наш - ещё каких поискать.";
+			link.l1 = "Ладно уж. Держите, вымогатели. Совру, что так и не наш"+ GetSexPhrase("ёл","ла") +" его.";
+			link.l1.go = "Greedy_4";
+			link.l2 = "Пожалуй, всё-таки нет. Ничего я вам не отдам!";
+			link.l2.go = "Greedy_no";
+		break;
+		
+		case "Greedy_4":
+			if (!CheckAttribute(pchar,"GemGiven")) pchar.GemGiven = 1;
+			else pchar.GemGiven = sti(pchar.GemGiven) + 1;
+			TakeItemFromCharacter(pchar, "UsurersJew");
+			ChangeCharacterReputation(pchar, 3);
+			if (sti(pchar.GemGiven)>=5)
+			{
+				bool ok = (GetCharacterItem(Pchar, "map_part1")>0)  && (GetCharacterItem(Pchar, "map_part2")>0);
+				if (GetCharacterItem(Pchar, "map_full") > 0 || ok)
+				{
+					
+					dialog.text = "Спасибо вам, капитан. Мы постараемся отплатить вам за щедрость, если возникнет возможность. До встречи!";
+					AddQuestRecordEx(loadedLocation.townsack + "UsurersJewel", "SeekUsurersJewel", "3");
+				}
+				else
+				{
+					if (GetCharacterItem(Pchar, "map_part1") > 0 && GetCharacterItem(Pchar, "map_part2") == 0 && GetCharacterItem(Pchar, "map_full") == 0)
+					{
+						dialog.text = "Спасибо вам, капитан. Мы тут недавно нашли кусок карты. Нам он бесполезен, но вдруг вам пригодится. Примите его как подарок.";
+						AddQuestRecordEx(loadedLocation.townsack + "UsurersJewel", "SeekUsurersJewel", "4");
+						GiveItem2Character(pchar, "map_part2");
+						DeleteAttribute(pchar,"GemGiven");
+					}
+					if (GetCharacterItem(Pchar, "map_part1") == 0 && GetCharacterItem(Pchar, "map_part2") > 0 && GetCharacterItem(Pchar, "map_full") == 0)
+					{
+						dialog.text = "Спасибо вам, капитан. Мы тут недавно нашли кусок карты. Нам он бесполезен, но вдруг вам пригодится. Примите его как подарок.";
+						AddQuestRecordEx(loadedLocation.townsack + "UsurersJewel", "SeekUsurersJewel", "4");
+						GiveItem2Character(pchar, "map_part1");
+						DeleteAttribute(pchar,"GemGiven");
+					}
+					if (GetCharacterItem(Pchar, "map_part1") == 0 && GetCharacterItem(Pchar, "map_part2") == 0 && GetCharacterItem(Pchar, "map_full") == 0)
+					{
+						aref item;
+						Items_FindItem("map_full", &item);
+						FillMapForTreasure(item);
+						GiveItem2Character(pchar, "map_full");
+						DeleteAttribute(pchar,"GemGiven");
+						AddQuestRecordEx(loadedLocation.townsack + "UsurersJewel", "SeekUsurersJewel", "5");
+						dialog.text = "Спасибо вам, капитан. Примите эту вещь в подарок. Мы ей вряд ли сумеем воспользоваться, но вдруг вам она пригодится...";
+					}
+				}
+			}
+			else 
+			{
+				AddQuestRecordEx(loadedLocation.townsack + "UsurersJewel", "SeekUsurersJewel", "3");
+				dialog.text = "Спасибо вам, капитан. Мы постараемся отплатить вам за щедрость, если возникнет возможность. До встречи!";
+			}
+			link.l1 = "Бывайте!";
+			link.l1.go = "Greedy_good_end";
 		break;
 		
 		case "Greedy_end":
 			LAi_group_SetRelation("greedybastard", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 			LAi_group_FightGroups("greedybastard", LAI_GROUP_PLAYER, true);
+			LAi_SetFightMode(pchar, true);
 			LAi_SetFightMode(npchar, true);
+			for(i = 0; i < sti(npchar.quant); i++)
+			{
+				sld = CharacterFromID("GreedyBastard_"+pchar.location+"_"+i);
+				LAi_SetWarriorTypeNoGroup(sld);
+			}
 			DialogExit();
+		break;
+		
+		case "Greedy_good_end":
+			DialogExit();
+			for(i = 0; i < sti(npchar.quant); i++)
+			{
+				sld = CharacterFromID("GreedyBastard_"+pchar.location+"_"+i);
+				sld.lifeDay = 0;
+				LAi_SetActorType(sld);
+				LAi_ActorRunToLocation(sld, "reload", "reload1", "", "", "", "OpenTheDoors", -1);
+			}
 		break;
 		
 		// КОНЕЦ

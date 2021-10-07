@@ -194,6 +194,12 @@ void ProcessDialogEvent()
 			link.l2.go = "LoanUsurer";//(на кредитный генератор)
 			link.l3 = "Мне нужна кое-какая информация... В общем, есть вопрос.";
 			link.l3.go = "quests";//(перессылка в файл города)
+			if (CheckAttribute(npchar, "quest.usurersJewel.type") && !CheckCharacterItem(pchar, "UsurersJew"))
+			{
+				link.l4 = "Пожалуй, я отказываюсь от поисков камня. Не думаю, что я смогу его разыскать.";
+				link.l4.go = "jewelCancel";
+			}
+			
 			//линейка ГПК, закладка миллиона на депозит
 			if (CheckAttribute(pchar, "questTemp.LSC.usurerId") && pchar.questTemp.LSC.usurerId == npchar.id)
 			{
@@ -1618,6 +1624,18 @@ void ProcessDialogEvent()
 			link.l1 = "Да не проблема.";
 			link.l1.go = "exit";
 			DeleteAttribute(npchar, "quest.usurersJewel");
+			ChangeCharacterReputation(pchar, -1);
+		break;
+		case "jewelCancel":
+			dialog.text = "М-да, очень жаль. Видимо, я в вас ошибся. Прошу меня извинить...";
+			link.l1 = "Да не проблема.";
+			link.l1.go = "exit";
+			OfficersReaction("good");
+			sTitle = npchar.city + "UsurersJewel";
+			CloseQuestHeader(sTitle);
+			DeleteAttribute(npchar, "quest.usurersJewel");
+			PlaySound("interface\important_item.wav");
+			DeleteAttribute(pchar, "questTemp.different.SeekUsurersJewel");
 			ChangeCharacterReputation(pchar, -1);
 		break;
 		case "usurersJewel_5":

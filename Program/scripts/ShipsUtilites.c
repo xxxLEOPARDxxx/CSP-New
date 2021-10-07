@@ -1206,7 +1206,7 @@ void EmptyAllFantomShips()
         }
 		else
 		{
-			InitCharacter(&Characters[i], i);	//ugeen : чистим нафиг все атрибуты пустых фантомов (переиничиваем)
+			//InitCharacter(&Characters[i], i);	//ugeen : чистим нафиг все атрибуты пустых фантомов (переиничиваем)
 		}
 	}
 	// теперь сборка мусора

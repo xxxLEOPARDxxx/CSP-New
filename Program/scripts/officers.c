@@ -477,8 +477,7 @@ void SetOfficerParam(ref Npchar, int _type)
 
     Npchar.quest.OfficerPrice    = (11 + 2*sti(Npchar.rank))*(150 + MOD_SKILL_ENEMY_RATE*20) + rand(5)*10;
     Npchar.quest.OfficerLowPrice = makeint(sti(Npchar.quest.OfficerPrice)/1.5 + 0.5);
-	
-	SetCharacterPerk(Npchar, PerksChars());
+	SetSpeciality(Npchar, PerksChars());
 }
 
 int FindFreeRandomOfficer()

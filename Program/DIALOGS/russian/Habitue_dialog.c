@@ -142,6 +142,20 @@ void ProcessDialogEvent()
 										link.l2.go = "Cards_Rule";
 										link.l3 = "Не сейчас.";
 										link.l3.go = "exit";
+										
+										// Dolphin -> генератор возврата выигрыша
+										// 1 раз в 15 дней + 30% вероятность + нет активного такого же квеста
+										//flag = sti(npchar.nation)!=PIRATE && pchar.location != "Pirates_tavern" && pchar.location != "FortOrange_tavern" && pchar.location != "Dominica_tavern" && pchar.location != "Guibraltar_tavern" && pchar.location != "Fishing_Settlement_tavern" && pchar.location != "Panama_tavern";
+										//Log_Info("Дней: "+GetQuestPastDayParam("CasinoGenerator_timer")+" надо > 15 Шанс: "+sti(npchar.GenQuest)+" надо < 30");
+										//if (flag && GetQuestPastDayParam("CasinoGenerator_timer") > 15 && sti(npchar.GenQuest) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline"))
+										if (drand(100) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline") && !CheckAttribute(pchar, "questTemp.KIP_Looser") && (pchar.location != "Marigo_tavern") && (pchar.location != "Pirates_tavern") && (pchar.location != "FortOrange_tavern") && (pchar.location != "Panama_tavern") && (pchar.location != "Fishing_Settlement_tavern") && (pchar.location != "Guibraltar_tavern") && (pchar.location != "Dominica_tavern") && (pchar.location != "Caiman_tavern"))
+										{
+											DeleteAttribute(link, "l2");
+											DeleteAttribute(link, "l3");
+											link.l1 = "А на что ты собираешься играть? Я вижу, что тебе нечем расплатиться даже за пинту эля.";
+											link.l1.go = "HOTP_CasinoQuest_1";
+										}
+										
 									}
 									else
 					    			{
@@ -164,6 +178,20 @@ void ProcessDialogEvent()
 										link.l2.go = "Dice_Rule";
 										link.l3 = "Не сейчас.";
 										link.l3.go = "exit";
+										
+										// Dolphin -> генератор возврата выигрыша
+										// 1 раз в 15 дней + 30% вероятность + нет активного такого же квеста
+										//flag = sti(npchar.nation)!=PIRATE && pchar.location != "FortOrange_tavern" && pchar.location != "Dominica_tavern" && pchar.location != "Guibraltar_tavern" && pchar.location != "Fishing_Settlement_tavern" && pchar.location != "Panama_tavern";
+										//Log_Info("Дней: "+GetQuestPastDayParam("CasinoGenerator_timer")+" надо > 15 Шанс: "+sti(npchar.GenQuest)+" надо < 30");
+										//if (flag && GetQuestPastDayParam("CasinoGenerator_timer") > 15 && sti(npchar.GenQuest) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline"))
+										if (drand(100) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline") && !CheckAttribute(pchar, "questTemp.KIP_Looser") && (pchar.location != "Marigo_tavern") && (pchar.location != "Pirates_tavern") && (pchar.location != "FortOrange_tavern") && (pchar.location != "Panama_tavern") && (pchar.location != "Fishing_Settlement_tavern") && (pchar.location != "Guibraltar_tavern") && (pchar.location != "Dominica_tavern") && (pchar.location != "Caiman_tavern"))
+										{
+											DeleteAttribute(link, "l2");
+											DeleteAttribute(link, "l3");
+											link.l1 = "А на что ты собираешься играть? Я вижу, что тебе нечем расплатиться даже за пинту эля.";
+											link.l1.go = "HOTP_CasinoQuest_1";
+										}
+										
 									}
 									else
 					    			{
@@ -1102,6 +1130,78 @@ void ProcessDialogEvent()
 			Diag.CurrentNode = Diag.TempNode;
 			DialogExit();
 			AddDialogExitQuest("tavern_keeper");
+		break;
+		
+		//------------------------------------------------------------------------------------------------------------------
+		// Dolphin -> Генератор возврата выигрыша
+		case "HOTP_CasinoQuest_1":
+			pchar.questTemp.KIP_Looser = "KIP_Looser";
+			SetTimerFunction("LooserGenerator_NewGeneratorQuest", 0, 0, 15);
+			npchar.CasinoQuest.decline = true;	// второй раз говорить об этому уже не будет
+			dialog.text = "Ты прав"+ GetSexPhrase("","а") +", "+ GetSexPhrase("приятель","подруга") +". Я намедни проиграл всё, что у меня было. Видать фортуна решила подшутить надо мной. Это было похоже на наваждение.";
+			link.l1 = RandSwear()+" Кто же этот счастливчик?";
+			link.l1.go = "HOTP_CasinoQuest_2";
+		break;
+
+		case "HOTP_CasinoQuest_2":
+			dialog.text = "Мне не до смеха, капитан! Я должен, во что бы то ни стало, вернуть эти деньги, и мне нужна помощь. Ты умн"+ GetSexPhrase("ый","ая") +" "+ GetSexPhrase("парень","девушка") +", и долж"+ GetSexPhrase("ен","на") +" понимать, что сам я на это пойти не смогу - меня здесь слишком хорошо знают.";
+			link.l1 = "На что ты намекаешь?";
+			link.l1.go = "HOTP_CasinoQuest_3";
+		break;
+
+		case "HOTP_CasinoQuest_3":
+			dialog.text = "Помоги мне вернуть эти деньги, и я отблагодарю тебя так, как никто никогда не отблагодарит.";
+			link.l1 = "Я не думаю, что это возможно.";
+			link.l1.go = "exit";
+			link.l2 = "Посмотрим, что можно сделать.";
+			link.l2.go = "HOTP_CasinoQuest_5";
+
+			Diag.TempNode = "First time";
+		break;
+		
+		case "HOTP_CasinoQuest_5":
+			int KIP_Kto_Ukral
+			KIP_Kto_Ukral = rand(1);
+			if (KIP_Kto_Ukral == 0)
+			{
+				dialog.text = "Тот, с кем я играл, был местный владелец магазина. Он обобрал меня до нитки и теперь, наверное, смеётся надо мной. Его надо проучить\n"+
+							"Я предлагаю тебе незаметно порыться в сундуках, что находятся в его кладовке. Семь кошельков должны быть ещё там. Нужно успеть к концу дня. Завтра будет поздно.";
+				link.l1 = "Извини, приятель, но эта работёнка не для меня.";
+				link.l1.go = "exit";
+				link.l2 = "Я сделаю это.";
+				link.l2.go = "exit_CasinoQuest_Magazin";
+
+				Diag.TempNode = "First time";
+			break;
+			}
+			if (KIP_Kto_Ukral == 1)
+			{
+				dialog.text = "Тот, с кем я играл, был хозяин верфи. Он обобрал меня до нитки и теперь, наверное, смеётся надо мной. Его надо проучить.\n"+
+							"Я предлагаю тебе незаметно порыться в сундуках, что находятся в его кладовке. Семь кошельков должны быть ещё там. Нужно успеть к концу дня. Завтра будет поздно.";
+				link.l1 = "Извини, приятель, но эта работёнка не для меня.";
+				link.l1.go = "exit";
+				link.l2 = "Я сделаю это.";
+				link.l2.go = "exit_CasinoQuest_Verf";
+
+				Diag.TempNode = "First time";
+			break;
+			}
+		break;
+
+		case "exit_CasinoQuest_Magazin":
+			Diag.CurrentNode = Diag.TempNode;
+			DialogExit();
+
+			pchar.HOTP_CasinoQuest.npcharID = npchar.id;
+			AddDialogExitQuestFunction("LooserGenerator_sart_Magazin");
+		break;
+		
+		case "exit_CasinoQuest_Verf":
+			Diag.CurrentNode = Diag.TempNode;
+			DialogExit();
+
+			pchar.HOTP_CasinoQuest.npcharID = npchar.id;
+			AddDialogExitQuestFunction("LooserGenerator_sart_Verf");
 		break;
 	}
 }

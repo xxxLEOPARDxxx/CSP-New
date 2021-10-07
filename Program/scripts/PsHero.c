@@ -92,7 +92,6 @@ void InitPsHeros()
 			{
 				ch.Money += ch.Money;
 			}
-			SetCharacterPerk(ch, PerksChars());
 			DeleteCloneHeros(ch);
 			
 			string sBlockPGG = "PGG" + ch.PGGAi.HeroNum;

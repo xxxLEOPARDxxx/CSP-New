@@ -1586,6 +1586,9 @@ void InitCharacter(ref ch, int n)
 	ch.Fellows.Passengers.cannoner = "-1";
 	ch.Fellows.Passengers.treasurer = "-1";
 	ch.Fellows.Passengers.carpenter = "-1";
+	
+	DeleteAttribute(ch,"HeroModel");
+	DeleteAttribute(ch,"VISUAL_CIRASS");
 
 	//ch.prisoned = false;
 
@@ -1677,9 +1680,6 @@ int NPC_GenerateCharacter(string _id, string _model, string _sex, string _ani, i
 		Log_TestInfo("Персонаж "+ch.name+" получил кирасу "+cirnum);
 	}
 	
-	if (_id == "Tichingitu") SetCharacterPerk(ch, "Buccaneer");
-	else SetCharacterPerk(ch, PerksChars());
-	
 	return  iChar;
 }
 // сгенерим разового фантома - нашего моряка (в  форме, если патент)
@@ -1749,10 +1749,10 @@ int NPC_GeneratePhantomCharacter(string sType, int iNation, int iSex, int _LifeD
 	}
 	else
 	{
-		SetCharacterPerk(ch, PerksChars());
 	    LAi_NPC_Equip(ch, sti(ch.rank), true, true);
 	}
 
+	SetSpeciality(ch, PerksChars());
 	return  iChar;
 }
 
@@ -1776,6 +1776,12 @@ string PerksChars()
 		break;
 	}
 	return "basicdefence";
+}
+
+
+void SetSpeciality(ref chref, string perkName)
+{
+	chref.perks.list.(perkName) = true;
 }
 
 // boal prison count -->

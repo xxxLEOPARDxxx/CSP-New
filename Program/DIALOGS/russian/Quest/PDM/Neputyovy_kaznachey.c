@@ -263,6 +263,7 @@ void ProcessDialogEvent()
 			SetSPECIAL(sld, 4, 6, 4, 10, 10, 7, 6);
 			SetSelfSkill(sld, 5, 5, 5, 5, 5);
 			SetShipSkill(sld, 30, 60, 5, 5, 5, 5, 5, 5, 30);
+			sld.loyality = MAX_LOYALITY;
 			SetCharacterPerk(sld, "BasicCommerce");
 			SetCharacterPerk(sld, "AdvancedCommerce");
 			LAi_SetImmortal(sld, false);
@@ -280,6 +281,7 @@ void ProcessDialogEvent()
 		
 		case "Fickler_Nanyat":
 			sld = CharacterFromID("Andreas_Fickler")
+			SetCharacterRemovable(sld, false);
 			LAi_SetActorType(sld);
 			LAi_ActorRunToLocation(sld, "reload", "reload1", "none", "", "", "PDM_NK_NaKorabl", 5);
 			bDisableFastReload = true;

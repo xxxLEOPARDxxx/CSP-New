@@ -443,7 +443,7 @@ data = "Turn speed", "5.5"
 	start_time = 645
 	end_time = 660
 	
-	speed = 1.6
+	speed = 1.9
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -465,7 +465,7 @@ data = "Turn speed", "5.5"
 	start_time = 608
 	end_time = 644
 	
-	speed = 1.5
+	speed = 1.9
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec

@@ -1025,7 +1025,7 @@ void WhisperMeetCrew(string qName)
 {	
 	LAi_group_Delete("wl_TownDefenders");
 	
-	sld = GetCharacter(NPC_GenerateCharacter("Wh_Jack", "PGG_HuanTubercul", "man", "man", 5, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("Wh_Jack", "PGG_HuanChahotka_0", "man", "man", 5, PIRATE, -1, false));
    	sld.name 	= "Джек";
     sld.lastname = "";
     sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
@@ -1047,7 +1047,7 @@ void WhisperMeetCrew(string qName)
 	LAi_SetActorType(pchar);
 	LAi_ActorTurnToCharacter(pchar, sld);
 	
-	sld = GetCharacter(NPC_GenerateCharacter("Wh_Jim", "PGG_Doggerty", "man", "man", 5, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("Wh_Jim", "PGG_Doggerty_0", "man", "man", 5, PIRATE, -1, false));
    	sld.name 	= "Джим";
     sld.lastname = "";
     sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
@@ -1176,7 +1176,7 @@ void WhisperChinamanCapSpeaks(string qName)
 	LAi_SetActorType(sld);
 	LAi_ActorDialog(sld, pchar, "", -1, 0);	
 	
-	sld = GetCharacter(NPC_GenerateCharacter("W_Chinaman", "PGG_Longway", "man", "man", 5, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("W_Chinaman", "PGG_Longway_0", "man", "man", 5, PIRATE, -1, false));
 	sld.CanTakeMushket = true;
 	sld.greeting = "GR_longway";
 	//PlayVoice("Voice\Russian\Longway-01.wav");
@@ -1276,7 +1276,7 @@ void WhisperHuntersCaveEntrance(string qName)
 		LAi_SetImmortal(sld, true);
 	}
 	
-	sld = GetCharacter(NPC_GenerateCharacter("W_Lejitos", "PGG_Lejitos_GPK", "man", "man", 1, PIRATE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("W_Lejitos", "PGG_Lejitos_0", "man", "man", 1, PIRATE, -1, false));
 	sld.CanTakeMushket = true;
 	sld.name = "Элихио";
 	sld.lastname = "Лехито";

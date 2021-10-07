@@ -27,7 +27,7 @@ void ProcessDialogEvent()
 		case "Meet_2":
 			if (!CheckAttribute(npchar,"met")) dialog.text = "Приятно познакомиться, капитан. По какому поводу зашли?";
 			else dialog.text = "По какому поводу зашли, капитан?";
-			if (!CheckAttribute(npchar,"Timer"))
+			if (!CheckAttribute(pchar,"GwikTimer"))
 			{
 				Link.l1 = "Я бы хотел"+ GetSexPhrase("","а")+" приобрести у вас информацию о ценах в магазинах по архипелагу.";
 				link.l1.go = "trade_info";
@@ -61,7 +61,7 @@ void ProcessDialogEvent()
 			dialog.text = "...Держите, здесь вся нужная вам информация. Желаю успехов!";
 			Link.l1 = "Благодарю вас. До свидания!";
 			link.l1.go = "exit";
-			npchar.Timer = true;
+			pchar.GwikTimer = true;
 			SetTimerFunction("RefreshGWIK", 0, 0, 15);
 		break;
 	}

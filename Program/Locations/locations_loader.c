@@ -94,7 +94,8 @@ bool LoadLocation(ref loc)
 	NullCharacter.TravelMap.Islands.Caiman.Shore.t0			= "shore16";
 	NullCharacter.TravelMap.Islands.Caiman.Shore.t1			= "shore17";
 	//trace("LoadLocation(ref loc) " + loc.id);
-	if (loc.id == "Cartahena_ExitTown") loc.fastreload = "Cartahena";
+	if (loc.id == "Bridgetown_Plantation") DeleteAttribute(loc,"fastreload");
+	if (loc.id == "Marigo_ExitTown") {loc.townsack = "Marigo"; loc.fastreload = "Marigo";}
 	if (loc.id == "Temple_great" || loc.id == "Tenochtitlan")
 	{
 		if (CheckAttribute(pchar,"ismushketer"))
@@ -1339,24 +1340,27 @@ void LocLoadShips(ref Location)
 	{
 		if (bMainCharacterHere && iMainCharacterShipType != SHIP_NOTUSED)
 		{
-			if (CreateEntity(&locShips[locNumShips], "ship"))
+			if (!CheckAttribute(pchar,"JustGotIntoLSC"))
 			{
-				makearef(locator,Location.locators.reload.boat);
+				if (CreateEntity(&locShips[locNumShips], "ship"))
+				{
+					makearef(locator,Location.locators.reload.boat);
 
-				rCharacter = GetCharacter(BOAT_CHARACTER); // boal
-				//Boyer fix #20170331-05 BOAT_CHARACTER to be same nation as PC so flag is correct, instead of always ENGLAND
-				rCharacter.nation = rplayer.nation;
-				rShip = GetRealShip(sti(rCharacter.Ship.Type));
-				rCharacter.Ship.TexturePath = "";
-				rCharacter.Ship.Pos.x = stf(locator.x);
-				rCharacter.Ship.Pos.z = stf(locator.z);
-				rCharacter.Ship.Ang.y = GetAngleY(stf(locator.vZ.x),stf(locator.vZ.z));
-				rCharacter.Ship.stopped = true;
-				rCharacter.Ship.Speed.z = 0.0;
-				Ship_SetLightsAndFlares(rCharacter);
-				Ship_PrepareShipForLocation(rCharacter);
-				SendMessage(&locShips[locNumShips],"laa",MSG_SHIP_CREATE,&rCharacter,&rShip);
-				locNumShips++;
+					rCharacter = GetCharacter(BOAT_CHARACTER); // boal
+					//Boyer fix #20170331-05 BOAT_CHARACTER to be same nation as PC so flag is correct, instead of always ENGLAND
+					rCharacter.nation = rplayer.nation;
+					rShip = GetRealShip(sti(rCharacter.Ship.Type));
+					rCharacter.Ship.TexturePath = "";
+					rCharacter.Ship.Pos.x = stf(locator.x);
+					rCharacter.Ship.Pos.z = stf(locator.z);
+					rCharacter.Ship.Ang.y = GetAngleY(stf(locator.vZ.x),stf(locator.vZ.z));
+					rCharacter.Ship.stopped = true;
+					rCharacter.Ship.Speed.z = 0.0;
+					Ship_SetLightsAndFlares(rCharacter);
+					Ship_PrepareShipForLocation(rCharacter);
+					SendMessage(&locShips[locNumShips],"laa",MSG_SHIP_CREATE,&rCharacter,&rShip);
+					locNumShips++;
+				}
 			}
 		}
 	}

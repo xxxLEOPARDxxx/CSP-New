@@ -1315,7 +1315,7 @@ void TmpI_ShowLevelComplexity()
 }
 void TmpI_ShowOffAmount()
 {
-    SetFormatedText("OFF_COUNT", "" + makeint(10 - 7.0 * (1.0 - stf(GameInterface.nodes.OFF_SLIDE.value))));
+    SetFormatedText("OFF_COUNT", "" + makeint(9 - 6.0 * (1.0 - stf(GameInterface.nodes.OFF_SLIDE.value))));
 }
 void TmpI_ShowDeadAmount()
 {

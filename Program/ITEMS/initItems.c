@@ -2799,7 +2799,7 @@ int InitItems()
 	itm.name = "itmname_pistol_grapebok";
 	itm.describe = "itmdescr_pistol_grapebok";
 	itm.folder = "items";
-	itm.model = "pistol2";
+	itm.model = "pistol_grapebok";
 	itm.picIndex = 5;
 	itm.picTexture = "CSP_GUNS2";
 	itm.price = 4100;
@@ -2960,8 +2960,8 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.chargeQ = 1;
 	itm.chargespeed = 25;
-	itm.dmg_min = 120.0;
-	itm.dmg_max = 220.0;
+	itm.dmg_min = 100.0;
+	itm.dmg_max = 150.0;
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
@@ -9428,6 +9428,18 @@ int InitItems()
 	itm.Weight = 0.1;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+	
+	//Для генераторного квеста "Проигравшийся игрок"
+	makeref(itm,Items[n]);
+	itm.id = "Bag_with_money";
+	itm.name = "itmname_Bag_with_money";
+	itm.describe = "itmdescr_Bag_with_money";
+	itm.picIndex = 6;
+	itm.picTexture = "ITEMS_20";
+	itm.price = 0;
+	itm.weight = 0.5;
 	itm.ItemType = "QUESTITEMS";
 	n++;
 

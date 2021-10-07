@@ -982,7 +982,7 @@ void LAi_AllCharactersUpdate(float dltTime)
 				}
 				else
 				{
-					hp = hp - dltTime*4.0;
+					hp = hp - dltTime*1.5*sti(chr_ai.Blooding.Power);
 					//hp = hp - dltTime*(MakeFloat(chr.chr_ai.hp_max)/100); // -1 ХП в сек.
 					hp = hp - GetCharacterRegenHPForBlooding(chr, false)*dltTime; // Нанесение процентного урона, чем больше хп у цели, чем чаще бьют тики урона
 					if (!CheckAttribute(chr, "blooding.hp") || hp < sti(chr.blooding.hp)-1.0)

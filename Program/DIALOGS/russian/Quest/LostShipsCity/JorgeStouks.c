@@ -142,6 +142,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("ISS_MainLine", "1");
 			AddQuestUserData("ISS_MainLine", "sSex", GetSexPhrase("", "а"));
 			AddQuestUserData("ISS_MainLine", "sSex1", GetSexPhrase("", "ла"));
+			pchar.JustGotIntoLSC = true;
 			LAi_SetLSCoutTypeNoGroup(npchar);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();

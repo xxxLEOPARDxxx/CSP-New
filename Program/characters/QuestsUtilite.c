@@ -898,7 +898,6 @@ void FantomMakeCoolFighter(ref _Character, int _Rank, int _Fencing, int _Pistol,
 	EquipCharacterbyItem(_Character, "spyglass3");
     FaceMaker(_Character);
     SetNewModelToChar(_Character);  // перерисуем модель на лету
-	SetCharacterPerk(_Character, PerksChars());
 }
 
 void FantomMakeCoolFighterWRankDepend(ref _Character, int _Rank, int _Fencing, int _Pistol, float _AddHP)
@@ -937,7 +936,6 @@ void FantomMakeCoolFighterWRankDepend(ref _Character, int _Rank, int _Fencing, i
 	EquipCharacterbyItem(_Character, "spyglass3");
     FaceMaker(_Character);
     SetNewModelToChar(_Character);  // перерисуем модель на лету
-	SetCharacterPerk(_Character, PerksChars());
 }
 
 string GiveRankGun(ref chr)
@@ -1948,6 +1946,7 @@ void SetQuestAboardCabinDialog(ref refChar)
 		}
 		if (refChar.CaptanId == "Danielle")
 		{
+			LAi_LocationFightDisable(loadedLocation, false);
 		    LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
 		    return;
 		}

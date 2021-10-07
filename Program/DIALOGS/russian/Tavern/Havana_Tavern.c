@@ -135,6 +135,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddQuestRecord("PDM_Ohota_na_vedmu", "6");							
 			AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","à"));
 			pchar.questTemp.PDM_ONV_Detectiv_Jiteli_Havana = "Jiteli_Havana";
+			pchar.questTemp.PDM_ONV_Detectiv_Oficiantka_Havana = "Oficiantka_Havana";
 		break;
 
 

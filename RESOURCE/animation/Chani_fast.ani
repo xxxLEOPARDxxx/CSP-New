@@ -1248,7 +1248,7 @@ type = normal
 start_time = 1737
 end_time = 1759
 
-speed = 3.0
+speed = 2.5
 loop = false
 
 data = "Blend time", "0.2"		; sec
@@ -1272,7 +1272,7 @@ type = normal
 start_time = 2300
 end_time = 2315
 
-speed = 2.4
+speed = 3.0
 loop = false
 
 data = "Blend time", "0.2"		; sec
