@@ -978,7 +978,7 @@ void GenerateArenaTournament()
 	for(int i=1; i <= 7; i++)
 	{
 		int iRank = GetRank(PChar, 5) + MOD_SKILL_ENEMY_RATE;
-		iChar = NPC_GenerateCharacter("Arena_Tournament_Character_" + i, "officer_1", "man", "man", iRank, PIRATE, -1, true);
+		iChar = NPC_GenerateCharacter("Arena_Tournament_Character_" + i, "officer_"+(rand(63)+1), "man", "man", iRank, PIRATE, -1, true);
 		
 		chr = &Characters[iChar];
 		DeleteAttribute(chr, "items");
@@ -991,11 +991,11 @@ void GenerateArenaTournament()
 		sChar = "Arena_Tournament_Character_" + i;
 		
 		iNumPosition = GetNumPositionForCharInTournament();
-		sModel = GetModelForCharacterInTournament();
+		//sModel = GetModelForCharacterInTournament();
 		
-		chr.id = "Arena_Tournament_Character_" + i;
-		chr.model = sModel;
-		chr.model.animation = "man";
+		//chr.id = "Arena_Tournament_Character_" + i;
+		//chr.model = sModel;
+		//chr.model.animation = "man";
 		chr.greeting = "Gr_ArenaMember";
 		
 		if (IsCharacterPerkOn(chr, "Ciras") && rand(4)==0)
@@ -1023,7 +1023,7 @@ void GenerateArenaTournament()
 			Log_TestInfo("Персонаж "+chr.name+" получил кирасу "+cirnum);
 		}
 		
-		SetNewModelToChar(chr);
+		//SetNewModelToChar(chr);
 		SetRandomNameToCharacter(chr);
 		
 		PChar.Arena.Tournament.(sChar).Position = iNumPosition;
@@ -1311,13 +1311,9 @@ void ArenaTournamentStartNewBattle()
 		LAi_SetPlayerType(enemy);
 	}
 	
-	float x = 0.21369; 
-	float y = 15.762;
-	float z = 0.5217;
-	
-	y += 5;
-	z-=10;
-	x-=8;
+	float x = -2.26369; 
+	float y = 18.762;
+	float z = -11.5217;
 	
 	locCameraToPos(x, y, z, false);
 	
@@ -1620,7 +1616,14 @@ void ArenaTournamentTheEnd()
 	string sSaber = "blade1";
 	
 	RemoveCharacterEquip(PChar, BLADE_ITEM_TYPE);
-	if(CheckAttribute(PChar, "Arena.Tournament.Saber.Light"))
+	if (CheckAttribute(pchar,"Arena.TournamentWeapon"))
+	{
+		sSaber = pchar.Arena.TournamentWeapon;
+		TakeNItems(PChar, sSaber, -3);
+	}
+	
+	
+	/*if(CheckAttribute(PChar, "Arena.Tournament.Saber.Light"))
 	{
 		sSaber = PChar.Arena.Tournament.Saber.Light;
 		TakeNItems(PChar, sSaber, -1);
@@ -1634,7 +1637,7 @@ void ArenaTournamentTheEnd()
 	{
 		sSaber = PChar.Arena.Tournament.Saber.Heavy;
 		TakeNItems(PChar, sSaber, -1);
-	}
+	}*/
 	
 	string sMember = "";
 	
@@ -2146,13 +2149,9 @@ void ArenaOddsGo(string qName)
 	
 	LAi_Fade("", "");
 	
-	float x = 0.21369; 
-	float y = 15.762;
-	float z = 0.5217;
-	
-	y += 5;
-	z-=10;
-	x-=8;
+	float x = -2.26369; 
+	float y = 18.762;
+	float z = -11.5217;
 	
 	locCameraToPos(x, y, z, false);
 	
@@ -2228,13 +2227,9 @@ void ArenaOddsStartNewBattle()
 	LAi_SetWarriorType(attack);
 	LAi_SetWarriorType(enemy);
 	
-	float x = 0.21369; 
-	float y = 15.762;
-	float z = 0.5217;
-	
-	y += 5;
-	z-=10;
-	x-=8;
+	float x = -2.26369; 
+	float y = 18.762;
+	float z = -11.5217;
 	
 	locCameraToPos(x, y, z, false);
 	
@@ -2619,22 +2614,22 @@ void GenerateArenaOddsDuel(int iCount)
 	string sFightChar = "";
 	for(int i=1; i <= 2; i++)
 	{
-		iChar = NPC_GenerateCharacter("Arena_Odds_Duel_" + iCount + "_Character_" + i, "officer_1", "man", "man", GetRank(PChar, MOD_SKILL_ENEMY_RATE), PIRATE, -1, true);
+		iChar = NPC_GenerateCharacter("Arena_Odds_Duel_" + iCount + "_Character_" + i, "officer_"+(rand(63)+1), "man", "man", GetRank(PChar, MOD_SKILL_ENEMY_RATE), PIRATE, -1, true);
 		
 		chr = &Characters[iChar];
 		DeleteAttribute(chr, "items");
 		chr.items = "";
 		
 		sChar = "Arena_Odds_Duel_" + iCount + "_Character_" + i;
-		sModel = GetModelForCharacterInOdds();
+		//sModel = GetModelForCharacterInOdds();
 		
-		chr.id = "Arena_Odds_Duel_" + iCount + "_Character_" + i;
-		chr.model = sModel;
-		chr.model.animation = "man";
-		SetNewModelToChar(chr);
+		//chr.id = "Arena_Odds_Duel_" + iCount + "_Character_" + i;
+		//chr.model = sModel;
+		//chr.model.animation = "man";
+		//SetNewModelToChar(chr);
 		SetRandomNameToCharacter(chr);
 		ArenaOddsSetCharacterDetails(chr);
-		FaceMaker(chr);
+		//FaceMaker(chr);
 		
 		sFightChar = "Char_" + i;
 		PChar.Arena.Odds.(sFight).(sFightChar) = sChar;

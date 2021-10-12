@@ -2405,7 +2405,7 @@ void GiveItemToTraderByType(aref ch, string type)
 				}
 			break;
 			case "bonusitem":
-				if (HasSubStr(itm.id,"backpack") || HasSubStr(itm.id,"talisman") || HasSubStr(itm.id,"cirass") || HasSubStr(itm.id,"jewelry") || HasSubStr(itm.id,"indian") || HasSubStr(itm.id,"Totem") || HasSubStr(itm.id,"mineral") || HasSubStr(itm.id,"Dozor_H") || HasSubStr(itm.id,"Dozor_Mi") || HasSubStr(itm.id,"Dozor_S") || HasSubStr(itm.id,"suit") || HasSubStr(itm.id,"Strange")) AddItems(ch, itemID, irand);
+				if (HasSubStr(itm.id,"backpack") || HasSubStr(itm.id,"talisman") || HasSubStr(itm.id,"cirass") || HasSubStr(itm.id,"jewelry") || HasSubStr(itm.id,"indian") || HasSubStr(itm.id,"Totem") || HasSubStr(itm.id,"mineral") || HasSubStr(itm.id,"Dozor_H") || HasSubStr(itm.id,"Dozor_Mi") || HasSubStr(itm.id,"Dozor_S") || HasSubStr(itm.id,"suit") || HasSubStr(itm.id,"Strange") || HasSubStr(itm.id,"statue")) AddItems(ch, itemID, irand);
 			break;
 		}
 	}

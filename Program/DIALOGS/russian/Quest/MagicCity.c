@@ -700,14 +700,14 @@ void ProcessDialogEvent()
 			//<-- чистим базу нпс-кэпов
 			AddQuestRecord("MagicCity", "8");
 			pchar.questTemp.MC = "over"; //флаг квеста
-			sld = GetCharacter(NPC_GenerateCharacter("DanielleOff", "Danielle", "woman", "Danielle", 30, PIRATE, -1, true));
+			sld = GetCharacter(NPC_GenerateCharacter("DanielleOff", "Danielle", "woman", "Danielle", 25, PIRATE, -1, true));
 			sld.name = "Даниэль";
 			sld.lastname = "Шеппард";
 			sld.greeting = "Gr_Danielle";
 			sld.Dialog.Filename = "Enc_OfficerGirl.c";
 			sld.quest.meeting = true;
-			SetSelfSkill(sld, 90, 60, 1, 60, 90);
-			SetShipSkill(sld, 100, 10, 90, 80, 90, 20, 70, 80, 70);
+			SetSelfSkill(sld, 90, 60, 30, 60, 90);
+			SetShipSkill(sld, 80, 20, 75, 75, 80, 20, 70, 60, 70);
 			SetSPECIAL(sld, 6, 9, 9, 10, 8, 8, 10);
 			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 			SetCharacterPerk(sld, "AdvancedDefense");

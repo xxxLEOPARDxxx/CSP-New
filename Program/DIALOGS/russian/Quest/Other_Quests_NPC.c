@@ -587,6 +587,16 @@ void ProcessDialogEvent()
 			LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
             LAi_group_FightGroups("EnemyFight", LAI_GROUP_PLAYER, true);
             LAi_group_SetCheck("EnemyFight", "RatHunters_Dead");
+			if (startHeroType == 2)
+			{
+				if(CheckAttribute(pchar,"Whisper.EsFriendTown") && pchar.Whisper.EsFriendTown == "Villemstad")
+				{
+					ref sldd = CharacterFromID("W_Chard");
+					ChangeCharacterAddressGroup(sldd, "Villemstad_tavern", "reload", "reload1");
+					LAi_LocationFightDisable(loadedLocation, false);
+				}
+				
+			}
 			DialogExit();
 			AddDialogExitQuest("MainHeroFightModeOn");
 		break;
@@ -763,17 +773,17 @@ void ProcessDialogEvent()
 			pchar.questTemp.Headhunter = "end_quest_full";
 			AddQuestRecord("Headhunt", "38");
 			CloseQuestHeader("Headhunt");
-			sld = GetCharacter(NPC_GenerateCharacter("Jafarry", "QuestCaptain", "man", "man", 30, PIRATE, -1, true));
-			FantomMakeCoolFighter(sld, 30, 70, 70, "blade14", "pistol6", 100);
+			sld = GetCharacter(NPC_GenerateCharacter("Jafarry", "QuestCaptain", "man", "man", 25, PIRATE, -1, true));
+			FantomMakeCoolFighter(sld, 25, 70, 70, "blade14", "pistol6", 100);
 			sld.name = "Джа";
 			sld.lastname = "Престон";
 			sld.greeting = "Gr_Officer";
-			sld.rank = 30;
+			sld.rank = 25;
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
 			SetSelfSkill(sld, 80, 80, 75, 80, 80);
-			SetShipSkill(sld, 70, 75, 75, 75, 80, 70, 70, 70, 70);
+			SetShipSkill(sld, 60, 50, 60, 60, 65, 70, 60, 60, 60);
 			SetSPECIAL(sld, 9, 9, 10, 10, 8, 10, 10);
 			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 			SetCharacterPerk(sld, "AdvancedDefense");

@@ -602,20 +602,20 @@ void ProcessDialogEvent()
 		case "zpq_hired":
 			bQuestDisableMapEnter = false;
 			characters[GetCharacterIndex(npchar)].lifeDay = 0;
-			sld = GetCharacter(NPC_GenerateCharacter("zpqCaptainOf", "Lil_Jim_0", "man", "man", 30, PIRATE, -1, true));
-			FantomMakeCoolFighter(sld, 40, 105, 105, "blade23", "pistol3", 120);
+			sld = GetCharacter(NPC_GenerateCharacter("zpqCaptainOf", "Lil_Jim_0", "man", "man", 25, PIRATE, -1, true));
+			FantomMakeCoolFighter(sld, 25, 105, 105, "blade23", "pistol3", 120);
 			sld.name 	= "Маленький";
 			sld.lastname = "Джимми";
 			sld.greeting = "Gr_Officer";
 
-			sld.rank = 30;
+			sld.rank = 25;
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
 			sld.HalfImmortal = true;  // Контузия
 			sld.HeroModel = "Lil_Jim_0,Lil_Jim_1,Lil_Jim_2,Lil_Jim_3,Lil_Jim_4,Lil_Jim_5";
 			SetSelfSkill(sld, 80, 80, 75, 80, 80);
-			SetShipSkill(sld, 70, 75, 75, 75, 80, 70, 70, 70, 70);
+			SetShipSkill(sld, 60, 75, 75, 75, 65, 70, 70, 60, 70);
 			SetSPECIAL(sld, 9, 9, 10, 10, 8, 10, 10);
 			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 			SetCharacterPerk(sld, "AdvancedDefense");
@@ -694,19 +694,19 @@ void ProcessDialogEvent()
 		case "Ja_hired":
 			bQuestDisableMapEnter = false;
 			characters[GetCharacterIndex("Jafar")].lifeDay = 0;
-			sld = GetCharacter(NPC_GenerateCharacter("Jafarry", "QuestCaptain", "man", "man", 30, PIRATE, -1, true));
-			FantomMakeCoolFighter(sld, 30, 70, 70, "blade14", "pistol6", 100);
+			sld = GetCharacter(NPC_GenerateCharacter("Jafarry", "QuestCaptain", "man", "man", 25, PIRATE, -1, true));
+			FantomMakeCoolFighter(sld, 25, 70, 70, "blade14", "pistol6", 100);
 			sld.name = "Джа";
 			sld.lastname = "Престон";
 			sld.greeting = "Gr_Officer";
-			sld.rank = 30;
+			sld.rank = 25;
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.quest.meeting = true;
 			sld.HoldEquip = true;
 			sld.HalfImmortal = true;  // Контузия
 			sld.HeroModel = "QuestCaptain,QuestCaptain_1,QuestCaptain_2,QuestCaptain_3,QuestCaptain_4,QuestCaptain_5";
 			SetSelfSkill(sld, 80, 80, 75, 80, 80);
-			SetShipSkill(sld, 70, 75, 75, 75, 80, 70, 70, 70, 70);
+			SetShipSkill(sld, 60, 50, 60, 60, 65, 70, 60, 60, 60);
 			SetSPECIAL(sld, 9, 9, 10, 10, 8, 10, 10);
 			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 			SetCharacterPerk(sld, "AdvancedDefense");

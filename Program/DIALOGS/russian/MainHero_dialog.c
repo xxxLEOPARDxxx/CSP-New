@@ -599,7 +599,7 @@ void ProcessDialogEvent()
 		case "HellSpawn_Ritual"://перерождение
 			Dialog.Text = "(Вы чувствуете себя немного другим).";
 			pchar.Ritual.ModelChanged = false;
-			if (pchar.HeroModel == "PGG_Skeletcap_0,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5")
+			if (HasSubStr(pchar.model,"Skeletcap"))
 			{//веселый роджер
 				pchar.sex = "man";
 				pchar.animation = "man";
@@ -607,7 +607,7 @@ void ProcessDialogEvent()
 				pchar.HeroModel  = "PGG_Tich_0,PGG_Tich_1,PGG_Tich_2,PGG_Tich_3,PGG_Tich_4,PGG_Tich_5";
 				pchar.Ritual.ModelChanged = true;
 			}
-			if (pchar.HeroModel == "PGG_Ghost_0,PGG_Ghost_1,PGG_Ghost_2,PGG_Ghost_3,PGG_Ghost_4,PGG_Ghost_5")
+			if (HasSubStr(pchar.model,"PGG_Ghost"))
 			{//призрак джессики
 				pchar.sex = "woman";
 				pchar.animation = "Jessika";
@@ -615,18 +615,18 @@ void ProcessDialogEvent()
 				pchar.HeroModel  = "PGG_MaryBred_0,PGG_MaryBred_1,PGG_MaryBred_2,PGG_MaryBred_3,PGG_MaryBred_4,PGG_MaryBred_5";
 				pchar.Ritual.ModelChanged = true;
 			}
-			if (pchar.HeroModel == "PGG_Meriman_2")
+			if (HasSubStr(pchar.model,"PGG_Meriman"))
 			{//ужасный
 				pchar.sex = "man";
 				pchar.animation = "man";
-				pchar.model = "PGG_WillTerner_5";
-				pchar.HeroModel  = "PGG_WillTerner_5";
+				pchar.model = "PGG_WillTerner_0";
+				pchar.HeroModel  = "PGG_WillTerner_0,PGG_WillTerner_1,PGG_WillTerner_2,PGG_WillTerner_3,PGG_WillTerner_4,PGG_WillTerner_5,PGG_WillTerner_6,PGG_WillTerner_7,PGG_WillTerner_8";
 				pchar.Ritual.ModelChanged = true;
 			}
-			if (pchar.HeroModel == "PGG_Giant_0,PGG_Giant_1,PGG_Giant_2,PGG_Giant_3,PGG_Giant_4,PGG_Giant_5" )
+			/*if (pchar.HeroModel == "PGG_Giant_0,PGG_Giant_1,PGG_Giant_2,PGG_Giant_3,PGG_Giant_4,PGG_Giant_5" )
 			{//каскос
 				pchar.Ritual.ModelChanged = true;
-			}
+			}*/
 			if (pchar.Ritual.ModelChanged == false)
 			{//никто из перечисленных
 				pchar.sex = "man";
@@ -1354,7 +1354,7 @@ void ProcessDialogEvent()
 			Link.l1.go = "TalkSelf_Main";
 		break;
 		case "PriestSurprise":
-			dialog.Text = "Меня сейчас вырвет... Такого я не ждал от посещения борделя. Команда CSP, грёбаные пидорасы и васяноиды, это надо же было придумать, гея-священника в комнату уединения отправить. Не дай бог ещё слухи пойдут.";
+			dialog.Text = "Меня сейчас вырвет... Такого я не ждал от посещения борделя. Поиграли, аргххх, в палки-дырки! Это же надо было гея-священника в комнату уединения отправить. Не дай бог ещё слухи пойдут.";
 			Link.l1 = "Ну, тут ничего не поделаешь уже, будем жить дальше.";	
 			Link.l1.go = "exit";
 			NextDiag.TempNode = "TalkSelf_Main";

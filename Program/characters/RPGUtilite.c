@@ -2097,9 +2097,13 @@ void ChangeAttributesFromCharacter(ref CopyChref, ref PastChref, bool _dialogCop
 {
     aref arToChar;
     aref arFromChar;
-
+	
+	DeleteAttribute(CopyChref,"model");
+	DeleteAttribute(CopyChref,"heromodel");
+	
     CopyChref.model            = PastChref.model;
     CopyChref.model.animation  = PastChref.model.animation;
+	if (CheckAttribute(PastChref,"heromodel")) CopyChref.heromodel = PastChref.heromodel;
     CopyChref.sex              = CopyChref.sex;
     CopyChref.headModel        = PastChref.headModel;
     CopyChref.FaceId           = PastChref.FaceId;
@@ -2126,9 +2130,12 @@ void ChangeAttributesFromCharacter(ref CopyChref, ref PastChref, bool _dialogCop
     CopyChref.Money            = PastChref.Money;
 
     CopyChref.chr_ai.hp         = makeint(PastChref.chr_ai.hp);
-    CopyChref.chr.chr_ai.hp_max = makeint(PastChref.chr_ai.hp_max);
-
-    LAi_SetHP(CopyChref, makeint(PastChref.chr_ai.hp_max), makeint(PastChref.chr_ai.hp_max));
+    if (CheckAttribute(PastChref,"PerkValue.HPPlus")) CopyChref.chr.chr_ai.hp_max = makeint(PastChref.chr_ai.hp_max)-80;
+	else CopyChref.chr.chr_ai.hp_max = makeint(PastChref.chr_ai.hp_max);
+	
+	if (CheckAttribute(PastChref,"PerkValue.HPPlus")) LAi_SetHP(CopyChref, makeint(PastChref.chr_ai.hp_max)-80, makeint(PastChref.chr_ai.hp_max)-80);
+    else LAi_SetHP(CopyChref, makeint(PastChref.chr_ai.hp_max), makeint(PastChref.chr_ai.hp_max));
+	
 	LAi_SetCurHPMax(CopyChref);
 	//копируем структуру quest от оригинального кэпа, очень нужно по квестам :)
 	if (CheckAttribute(PastChref, "quest"))
@@ -2275,8 +2282,36 @@ void ChangeAttributesFromCharacter(ref CopyChref, ref PastChref, bool _dialogCop
 		makearef(arToChar, CopyChref.Back.Ship);
 		makearef(arFromChar, PastChref.Ship);
 		CopyAttributes(arToChar, arFromChar);		
-	}	
+	}
 	// <-- ugeen
+	if (CheckAttribute(PastChref,"TransferGoods"))
+	{
+		makearef(arToChar, CopyChref.TransferGoods);
+		makearef(arFromChar, PastChref.TransferGoods);
+		CopyAttributes(arToChar, arFromChar);		
+	}
+	if (CheckAttribute(PastChref,"TransferItems"))
+	{
+		makearef(arToChar, CopyChref.TransferItems);
+		makearef(arFromChar, PastChref.TransferItems);
+		CopyAttributes(arToChar, arFromChar);		
+	}	
+	if (CheckAttribute(PastChref,"selectedSet"))
+	{
+		makearef(arToChar, CopyChref.selectedSet);
+		makearef(arFromChar, PastChref.selectedSet);
+		CopyAttributes(arToChar, arFromChar);
+		for (int i = 1; i < 7; i++)
+		{
+			if (CheckAttribute(PastChref,"Set"+i))
+			{
+				string SetNum = "Set"+i;
+				makearef(arToChar, CopyChref.(SetNum));
+				makearef(arFromChar, PastChref.(SetNum));
+				CopyAttributes(arToChar, arFromChar);
+			}
+		}
+	}
 	if (_dialogCopy && CheckAttribute(PastChref, "Dialog.Filename"))
 	{
 	    CopyChref.Dialog.Filename    = PastChref.Dialog.Filename;

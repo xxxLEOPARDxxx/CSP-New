@@ -86,6 +86,7 @@ void InitInterface(string iniName)
 	HideEditBox();
 	SetNewGroupPicture("Weight_PIC", "ICONS_CHAR", "weight");
 	SetNewGroupPicture("Money_PIC", "ICONS_CHAR", "Money");
+	SetNodeUsing("EXCHANGE", false);
 }
 
 void FillPassengerScroll()
@@ -465,6 +466,13 @@ void ProcessCommandExecute()
 				EquipPress();
 			}
 		break;
+		case "EXCHANGE":
+			if (comName=="activate" || comName=="click")
+			{
+				PostEvent("OpenExchange", 150, "a", xi_refCharacter);
+				ProcessExitCancel();
+			}
+		break;
 		case "DISCARD_BTN":
 			if (comName=="activate" || comName=="click")
 			{
@@ -608,13 +616,12 @@ void ProcessFrame()
 void SetButtonsState()
 {
 	string attributeName = "pic" + (nCurScrollNum+1);
-
 	if(GameInterface.CHARACTERS_SCROLL.(attributeName).character != "0")
 	{
 		int iCharacter = sti(GameInterface.CHARACTERS_SCROLL.(attributeName).character);
 		SaveEquipSet();
 		xi_refCharacter = &characters[iCharacter];
-
+		
 		if (CheckAttribute(xi_refCharacter, "prisoned") && xi_refCharacter.prisoned == true) {;}
 		else {if (GetRemovable(xi_refCharacter)) isPassenger = 0; else isPassenger = 1;}
 
@@ -631,14 +638,24 @@ void SetButtonsState()
 	}
 	else
 	{
-	xi_refCharacter = pchar;
-	isPassenger = 0;
-	SetVariable();
+		xi_refCharacter = pchar;
+		isPassenger = 0;
+		SetVariable();
 	}
 }
 
 void SetVariable()
 {
+	if (xi_refCharacter.index != nMainCharacterIndex)
+	{
+		if(!LAi_group_IsActivePlayerAlarm())
+		{
+			bool ok = CheckAttribute(xi_refCharacter, "prisoned") && sti(xi_refCharacter.prisoned) == true;
+			if (!ok && !CheckAttribute(xi_refCharacter,"isquest") && !CheckAttribute(xi_refCharacter,"nonremovable")) SetNodeUsing("EXCHANGE", true);
+		}
+		else SetNodeUsing("EXCHANGE", false);
+	} 
+	else SetNodeUsing("EXCHANGE", false);
 	SetFormatedText("SETUP_FRAME_CAPTION", XI_ConvertString("Equipment") + ": " + GetFullName(xi_refCharacter));
 	// сортировка -->
 	SortItems(xi_refCharacter);
@@ -1111,6 +1128,7 @@ void FillControlsList(int nMode)
 
 bool ThisItemCanBeEquip( aref arItem )
 {
+	if (CheckAttribute(xi_refCharacter,"nonremovable")) return false;
 	if (HasSubStr(loadedLocation.id,"FencingTown")) return false;
 	if (HasSubStr(arItem.id,"Tube"))
 	{
@@ -1822,6 +1840,7 @@ void ExitItemFromCharacterWindow()
 
 void ShowItemFromCharacterWindow()
 {
+	if (CheckAttribute(xi_refCharacter,"nonremovable")) return;
 	int  iIndex = sti(GameInterface.(CurTable).(CurRow).index);
 
 	XI_WindowShow("ITEM_FROM_CHARACTER_WINDOW", true);

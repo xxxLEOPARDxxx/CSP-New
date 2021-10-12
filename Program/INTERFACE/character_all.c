@@ -891,19 +891,19 @@ string ShowStatValue(string type)
 			string rechargetime = "0";
 			if(IsCharacterPerkOn(xi_refCharacter, "GunProfessional"))
 			{
-				if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "40";
+				if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "50";
 				else rechargetime = "25";
 			}
 			else
 			{
 				if(IsCharacterPerkOn(xi_refCharacter, "Gunman"))
 				{
-					if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "25";
+					if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "35";
 					else rechargetime = "10";
 				}
 				else
 				{
-					if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "15";
+					if(IsCharacterPerkOn(xi_refCharacter, "Buccaneer")) rechargetime = "25";
 				}
 			}
 			string weaponID = GetCharacterEquipByGroup(xi_refCharacter, GUN_ITEM_TYPE);

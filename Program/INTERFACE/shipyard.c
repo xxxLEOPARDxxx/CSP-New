@@ -21,7 +21,7 @@ float shipCostRate;
 bool  bShipyardOnTop, bEmptySlot;
 
 int RepairHull, RepairSail;
-int timeHull, timeRig, timePaint, timeUpgrade, timePreUpgrade;
+int timeHull, timeRig, timePaint, timeUpgrade, timePreUpgrade, timeSoil;
 
 int iSoilClearCost;
 
@@ -115,16 +115,17 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	timePaint = 0;
 	timeUpgrade = 0;
 	timePreUpgrade = 0;
+	timeSoil = 0;
 }
 
 void ProcessExitCancel()
 {
     // boal время на ремонт -->
-    if (timeRig > 0 || timeHull > 0 || timePaint > 0 || timeUpgrade > 0)
+    if (timeSoil > 0 || timeRig > 0 || timeHull > 0 || timePaint > 0 || timeUpgrade > 0)
     {
         LAi_Fade("", "");
         bQuestCheckProcessFreeze = true;
-    	WaitDate("",0,0,0, 0, makeint( (timeHull/4.0 + timeRig/6.0 + timePaint/6.0 + timeUpgrade) * 60.0));
+    	WaitDate("",0,0,0, 0, makeint((timeSoil + timeHull/4.0 + timeRig/6.0 + timePaint/6.0 + timeUpgrade) * 60.0));
     	RecalculateJumpTable();
     	bQuestCheckProcessFreeze = false;
     	RefreshLandTime();
@@ -2025,7 +2026,12 @@ void SetRepairData()
 void RepairMoneyShow()
 {
     int st = GetCharacterShipType(xi_refCharacter);
-	int iTimeM = makeint(((RepairHull * (8-GetCharacterShipClass(xi_refCharacter)))/4.0 + (RepairSail * (8-GetCharacterShipClass(xi_refCharacter)))/6.0) * 60.0); 
+	int soiltime = 0;
+	{
+		if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "REPAIR_Soiling_CHECKBOX", 3, 1)) soiltime = (8-GetCharacterShipClass(xi_refCharacter);
+		else soiltime = 0;
+	}
+	int iTimeM = makeint((soiltime + (RepairHull * (8-GetCharacterShipClass(xi_refCharacter)))/4.0 + (RepairSail * (8-GetCharacterShipClass(xi_refCharacter)))/6.0) * 60.0); 
 	string _sTime;
 	if (iTimeM<1) _sTime = "\n"; else _sTime = "часов: " + iTimeM/60 + " | минут: " + its(iTimeM-(iTimeM/60)*60) + "\n";
 	SetFormatedText("REPAIR_WINDOW_TEXT", _sTime + its(iSoilClearCost + GetSailRepairCost(st, RepairSail, refNPCShipyard) + GetHullRepairCost(st, RepairHull, refNPCShipyard)));
@@ -2114,6 +2120,8 @@ void RepairOk()
 	if(GetChrClearSoilingCoast() > 0)
 	{
 		xi_refCharacter.ship.soiling = 0;
+		timeSoil = timeSoil + (8-GetCharacterShipClass(xi_refCharacter);
+		AddCharacterExpToSkill(pchar, "Repair", (GetChrClearSoilingCoast()) / 2.5));
 		AddMoneyToCharacter(pchar, -GetChrClearSoilingCoast());
 	}
 

@@ -9312,6 +9312,17 @@ void QuestComplete(string sQuestName, string qname)
 		//ÎÇÃ, םאילטעû Êנûסû
 		case "RatHunters_Dead":
 			chrDisableReloadToLocation = false;
+			if (startHeroType == 2)
+			{
+				if(CheckAttribute(pchar,"Whisper.EsFriendTown") && pchar.Whisper.EsFriendTown == "Villemstad")
+				{
+					sld = CharacterFromID("W_Chard");
+					ChangeCharacterAddressGroup(sld, "Villemstad_tavern_upstairs", "goto", "goto1");
+					LocatorReloadEnterDisable("Villemstad_tavern", "reload2_back", false);
+					LAi_LocationFightDisable(loadedLocation, true);
+				}
+				
+			}
 			AddQuestRecord("Headhunt", "28");
 			pchar.questTemp.Headhunter = "halen_still";
 		break;

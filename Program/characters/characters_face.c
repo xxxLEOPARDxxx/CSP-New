@@ -45,7 +45,7 @@ void FaceMaker(aref rCharacter)
 		rCharacter.FaceId = 333;
 		return;
 	}
-
+	
 	switch (rCharacter.model)
 	{
 		case "beatrice":		rCharacter.FaceId = 0; break;
@@ -174,7 +174,7 @@ void FaceMaker(aref rCharacter)
 		case "girl_5":			rCharacter.FaceId = 54; break;
 		case "girl_6":			rCharacter.FaceId = 55; break;
 		case "girl_7":			rCharacter.FaceId = 56; break;
-	    case "girl_8":			rCharacter.FaceId = 57; break;
+		case "girl_8":			rCharacter.FaceId = 57; break;
 		
 		case "head_pir":		rCharacter.FaceId = 58; break;
 		case "huber_eng":		rCharacter.FaceId = 59; break;
@@ -362,8 +362,8 @@ void FaceMaker(aref rCharacter)
 		case "spa_mush_1":		rCharacter.FaceId = 131; break;
 		case "spa_mush_2":		rCharacter.FaceId = 133; break;
 		case "spa_mush_3":		rCharacter.FaceId = 139; break;
-        // к ПКМ моделям
-        case "Corsair1_2":      rCharacter.FaceId = 198; break;
+		// к ПКМ моделям
+		case "Corsair1_2":      rCharacter.FaceId = 198; break;
 		case "AnnaDeLeiva":		rCharacter.FaceId = 199; break;
 		case "Albermal":		rCharacter.FaceId = 200; break;
 		case "Corsair1_3":		rCharacter.FaceId = 201; break;
@@ -400,8 +400,8 @@ void FaceMaker(aref rCharacter)
 		case "SoldierEnglish_1":		rCharacter.FaceId = 229; break;
 		case "skeletcap":		rCharacter.FaceId = 231; break;
 		case "girl_9":			rCharacter.FaceId = 232; break;
-	    case "girl_10":			rCharacter.FaceId = 233; break;
-	    case "Chard3a":			rCharacter.FaceId = 234; break;
+		case "girl_10":			rCharacter.FaceId = 233; break;
+		case "Chard3a":			rCharacter.FaceId = 234; break;
 		case "Danielle":		rCharacter.FaceId = 235; break;
 		
 		// Линейка Блада CSP - пять офицеров -->

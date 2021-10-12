@@ -643,7 +643,9 @@ void ProcessDialogEvent()
 		
 		case "Yoko_1":
 			ref locLoad = &locations[FindLocation("Shore_ship1")];
-			locLoad.box1.items.blade15 = 1;
+			string blade = GetGeneratedItem("Blade15");
+			locLoad.box1.items.(blade) = 1;
+			npchar.stortaid = blade;
 			locLoad.box1.money = 7461;
 			locLoad.box1.notouch = true;
 		
@@ -662,7 +664,7 @@ void ProcessDialogEvent()
 		
 		case "Yoko_wait":
 			dialog.Text = "Как успехи, капитан?.";
-			if (GetCharacterFreeItem(pchar,"blade15"))
+			if (GetCharacterFreeItem(pchar,npchar.stortaid))
 			{
 				Link.l1 = "Мне удалось разыскать твою Сторту. Держи.";
 				Link.l1.go = "Yoko_nowait";
@@ -672,9 +674,9 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Yoko_nowait":
-			TakeNItems(pchar,"blade15",-1);
-			GiveItem2Character(NPChar, "blade15");
-			EquipCharacterbyItem(NPChar, "blade15");
+			TakeNItems(pchar,npchar.stortaid,-1);
+			GiveItem2Character(NPChar, npchar.stortaid);
+			EquipCharacterbyItem(NPChar, npchar.stortaid);
 			dialog.Text = "Благодарю вас!";
 			Link.l1 = "И что теперь?";
 			Link.l1.go = "price";

@@ -43,6 +43,21 @@ void SetFantomParamFromRank(ref NPchar, int  rank, bool setEquip)
 		{
 			case "Tichingitu": SetCharacterPerk(NPchar, "Buccaneer"); break;
 			case "Andreas_Fickler": SetCharacterPerk(NPchar, "Trader"); break;
+			case "OfMush1": SetCharacterPerk(NPchar, "Buccaneer"); break;
+			case "OfMush2": SetCharacterPerk(NPchar, "Buccaneer"); break;
+			case "OffMushketer": SetCharacterPerk(NPchar, "Buccaneer"); break;
+			case "zpqCaptainOf": SetCharacterPerk(NPchar, "Adventurer"); break;
+			case "Daniel": SetCharacterPerk(NPchar, "Grunt"); break;
+			case "W_Lejitos": SetCharacterPerk(NPchar, "Grunt"); break;
+			case "Jafarry": SetCharacterPerk(NPchar, "Fencer"); break;
+			case "Beatrice": SetCharacterPerk(NPchar, "SeaWolf"); break;
+			case "Angellica": SetCharacterPerk(NPchar, "SeaWolf"); break;
+			case "SharpOf": SetCharacterPerk(NPchar, "SeaWolf"); break;
+			case "W_Chinaman": SetCharacterPerk(NPchar, "SeaWolf"); break;
+			case "Mechanic1": SetCharacterPerk(NPchar, "Adventurer"); break;
+			case "DanielleOff": SetCharacterPerk(NPchar, "Fencer"); break;
+			case "SharleMary": SetCharacterPerk(NPchar, "Fencer"); break;
+			case "Sharp_Sibling": SetCharacterPerk(NPchar, "Fencer"); break;
 			else {SetSpeciality(NPchar, PerksChars()); break;}
 		}
 		

@@ -249,8 +249,8 @@ void SetSpyGlassData()
 	}	
 		if (CheckAttribute(arScopeItm,"scope.show.mushketshot") && sti(arScopeItm.scope.show.mushketshot) != 0 && !isFort)	
 		{
-			if (CheckCharacterPerk(chref, "MusketsShoot")) sCaptainName = "  Мушкетный залп   " + sCaptainName;
-			if (CheckAttribute(RealShips[sti(chref.Ship.Type)],"Tuning.HighBort")) sCaptainName = "  Высокие борта  " + sCaptainName;
+			if (CheckCharacterPerk(chref, "MusketsShoot")) sCaptainName = "  "+XI_ConvertString("MushketShot")+"   " + sCaptainName;
+			if (CheckAttribute(RealShips[sti(chref.Ship.Type)],"Tuning.HighBort")) sCaptainName = "  "+XI_ConvertString("EXTRABIGSIDESON")+"  " + sCaptainName;
 		}
 		sCaptainName = CannonTypeName + "  " + sCaptainName;
     //sCaptainName = XI_ConvertString("Distance") + ": " + FloatToString(Ship_GetDistance2D(GetMainCharacter(), chref), 1) + "       " + sCaptainName;

@@ -86,7 +86,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.35;
+						kAttackDmg = 0.46;
 					}
 				}
 				else
@@ -104,7 +104,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.5;
+						kAttackDmg = 0.66;
 					}
 				}
 				else
@@ -122,7 +122,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.3;
+						kAttackDmg = 0.4;
 					}
 				}
 				else
@@ -140,11 +140,11 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 				{
 					if(blockSave) 
 					{
-						kAttackDmg = 1.0;
+						kAttackDmg = 1.25;
 					}
 					else 
 					{
-						kAttackDmg = 2.0;
+						kAttackDmg = 2.25;
 					}
 				}
 				else
@@ -191,7 +191,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.35;
+						kAttackDmg = 0.46;
 					}
 				}
 				else
@@ -208,7 +208,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.5;
+						kAttackDmg = 0.66;
 					}
 				}
 				else
@@ -225,7 +225,7 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 					}
 					else 
 					{
-						kAttackDmg = 0.3;
+						kAttackDmg = 0.4;
 					}
 				}
 				else
@@ -242,11 +242,11 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 				{
 					if(blockSave) 
 					{
-						kAttackDmg = 1.0;
+						kAttackDmg = 1.25;
 					}
 					else 
 					{
-						kAttackDmg = 2.0;
+						kAttackDmg = 2.25;
 					}
 				}
 				else
@@ -282,13 +282,12 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 	{
 		if (findsubstr(attack.model.animation, "mushketer" , 0) != -1)
 		{
-			string at = RecalculateMushketHitsType(attack);
-			//Log_Info(at);
-			if (at != "")
+			if (IsEquipCharacterByItem(attack, "mushket_SeaCarbine"))
 			{
-				if (at == "break" && attackType == at) kAttackDmg += 1.5;
-				if (at == "force" && attackType == at) kAttackDmg += 1.0;
+				if (attackType == "force") kAttackDmg += 1.0;
 			}
+			if (attackType == "break") kAttackDmg += 1.5;
+			if (attackType == "fast") kAttackDmg += 0.5;
 		}
 		if(CheckCharacterPerk(attack, "Agent"))  
 		{
@@ -325,10 +324,6 @@ float LAi_CalcDamageForBlade(aref attack, aref enemy, string attackType, bool is
 
 string RecalculateMushketHitsType(aref attack)
 {
-	if (IsEquipCharacterByItem(attack, "mushket") || IsEquipCharacterByItem(attack, "mushket2"))
-	{
-		return "break";
-	}
 	if (IsEquipCharacterByItem(attack, "mushket_SeaCarbine"))
 	{
 		return "force";
@@ -613,19 +608,19 @@ float LAi_GunReloadSpeed(aref chr)
 	//УчтЈм абилити
 	if(IsCharacterPerkOn(chr, "GunProfessional"))
 	{
-		if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.4;
+		if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.5;
 		else charge_dlt = charge_dlt*1.25;
 	}
 	else
 	{
 		if(IsCharacterPerkOn(chr, "Gunman"))
 		{
-			if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.25;
+			if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.35;
 			else charge_dlt = charge_dlt*1.1;
 		}
 		else
 		{
-			if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.15;
+			if(IsCharacterPerkOn(chr, "Buccaneer")) charge_dlt = charge_dlt*1.25;
 		}
 	}
 	return charge_dlt;
@@ -925,6 +920,17 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	bool isSetBalde = (CheckAttribute(enemy, "equip.blade"));//(SendMessage(enemy, "ls", MSG_CHARACTER_EX_MSG, "IsSetBalde") != 0);
 	//Начисляем опыта
 	float exp = LAi_CalcExperienceForBlade(attack, enemy, attackType, isBlocked, dmg, blockSave);
+	if (CheckAttribute(attack,"vampire"))
+	{
+		float hp = attack.chr_ai.hp;
+		float maxhp = attack.chr_ai.hp_max;
+		float hpup = dmg/2;
+		log_Testinfo(FloatToString(hpup,2));
+		if (hp+hpup >= maxhp) attack.chr_ai.hp = maxhp;
+		else attack.chr_ai.hp = hp + hpup;
+		
+		SendMessage(attack, "lfff", MSG_CHARACTER_VIEWDAMAGE, hpup, MakeFloat(attack.chr_ai.hp), MakeFloat(attack.chr_ai.hp_max));
+	}
 	/*if(LAi_grp_alarmactive == false)
 	{
 		if(CheckAttribute(pchar, "sneak.success"))
@@ -1429,13 +1435,16 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	// boal брон работает всегда, а не токо в блоке 23.05.2004 -->
 	if(CheckAttribute(enemy, "cirassId")&& !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
 	{
-        if(rand(1000) < stf(Items[sti(enemy.cirassId)].CirassLevel)*500) 
-		{	
-			if(sti(enemy.index) == GetMainCharacterIndex()) Log_Info("Ваша кираса заблокировала урон от выстрела.");
-			return;
+		if (CheckCharacterPerk(attack,"Buccaneer")) {}
+		else
+		{
+			if(rand(1000) < stf(Items[sti(enemy.cirassId)].CirassLevel)*500) 
+			{	
+				if(sti(enemy.index) == GetMainCharacterIndex()) Log_Info("Ваша кираса заблокировала урон от выстрела.");
+				return;
+			}
 		}
 	}
-	
 	
 	// boal 23.05.2004 <--
 	//Начисляем повреждение
@@ -1474,10 +1483,24 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	}
 	if(CheckAttribute(enemy, "cirassId") && !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))//не учитываем костюмы
 	{
-		damage = damage * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel));
-		if(sti(enemy.index) == GetMainCharacterIndex())
+		if (CheckCharacterPerk(attack,"Buccaneer") && rand(2)>0) 
 		{
-			Log_Info("Урон от выстрела был снижен кирасой");
+			if(sti(attack.index) == GetMainCharacterIndex())
+			{
+				Log_Info("Кираса противника была пробита выстрелом");
+			}
+			if(sti(enemy.index) == GetMainCharacterIndex())
+			{
+				Log_Info("Ваша кираса была пробита выстрелом противника");
+			}
+		}
+		else
+		{
+			damage = damage * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel));
+			if(sti(enemy.index) == GetMainCharacterIndex())
+			{
+				Log_Info("Урон от выстрела был снижен кирасой");
+			}
 		}
 	}
 	if(damage > 0.0)

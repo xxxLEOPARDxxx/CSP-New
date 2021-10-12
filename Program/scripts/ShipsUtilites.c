@@ -52,23 +52,6 @@ int GenerateShip(int iBaseType, bool isLock)
 		case 1: rRealShip.MastMultiplier = stf(stf(rRealShip.MastMultiplier)+makefloat(0.02*rand(15))); break;
 	}
 	
-	int hullarmor;//реворк брони корпуса
-	switch (rand(1))
-	{
-		case 0: hullarmor = 1; break;
-		case 1: hullarmor = -1 break;
-	}
-	switch (sti(rRealShip.Class))
-	{
-		case 7: rRealShip.HullArmor = 4+(rand(4)*hullarmor); break;
-		case 6: rRealShip.HullArmor = 12+(rand(4)*hullarmor); break;
-		case 5: rRealShip.HullArmor = 16+(rand(4)*hullarmor); break;
-		case 4: rRealShip.HullArmor = 20+(rand(4)*hullarmor); break;
-		case 3: rRealShip.HullArmor = 24+(rand(4)*hullarmor); break;
-		case 2: rRealShip.HullArmor = 32+(rand(4)*hullarmor); break;
-		case 1: rRealShip.HullArmor = 42+(rand(4)*hullarmor); break;
-	}
-	
 	if (!CheckAttribute(rRealShip, "isFort"))
 	{
 	    int iCaliber = sti(rRealShip.MaxCaliber);
@@ -213,22 +196,6 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 	{
 		case 0: rRealShip.MastMultiplier = stf(stf(rRealShip.MastMultiplier)-makefloat(0.02*rand(15))); break;
 		case 1: rRealShip.MastMultiplier = stf(stf(rRealShip.MastMultiplier)+makefloat(0.02*rand(15))); break;
-	}
-	int hullarmor;//реворк брони корпуса
-	switch (rand(1))
-	{
-		case 0: hullarmor = 1; break;
-		case 1: hullarmor = -1 break;
-	}
-	switch (sti(rRealShip.Class))
-	{
-		case 7: rRealShip.HullArmor = 4+(rand(4)*hullarmor); break;
-		case 6: rRealShip.HullArmor = 12+(rand(4)*hullarmor); break;
-		case 5: rRealShip.HullArmor = 16+(rand(4)*hullarmor); break;
-		case 4: rRealShip.HullArmor = 20+(rand(4)*hullarmor); break;
-		case 3: rRealShip.HullArmor = 24+(rand(4)*hullarmor); break;
-		case 2: rRealShip.HullArmor = 32+(rand(4)*hullarmor); break;
-		case 1: rRealShip.HullArmor = 42+(rand(4)*hullarmor); break;
 	}
 	
 	// ugeen --> если кораблик генерится на верфи, разброс статов более узкий
@@ -1102,6 +1069,23 @@ int CreateBaseShip(int iBaseType)
     }
 	rRealShip.ship.upgrades.sails = 1;
 	
+	int hullarmor;//реворк брони корпуса
+	switch (rand(1))
+	{
+		case 0: hullarmor = 1; break;
+		case 1: hullarmor = -1 break;
+	}
+	switch (sti(rRealShip.Class))
+	{
+		case 7: rRealShip.HullArmor = 4+(rand(4)*hullarmor); break;
+		case 6: rRealShip.HullArmor = 12+(rand(4)*hullarmor); break;
+		case 5: rRealShip.HullArmor = 16+(rand(4)*hullarmor); break;
+		case 4: rRealShip.HullArmor = 20+(rand(4)*hullarmor); break;
+		case 3: rRealShip.HullArmor = 24+(rand(4)*hullarmor); break;
+		case 2: rRealShip.HullArmor = 32+(rand(4)*hullarmor); break;
+		case 1: rRealShip.HullArmor = 42+(rand(4)*hullarmor); break;
+	}
+	
     rRealShip.BaseName = rRealShip.name; // запоминалка для нужд, тк далее идет "странное"
 	if (rRealShip.name != "Fort" && rRealShip.name != "Boat") // не знаю зачем :(
 	{
@@ -1206,7 +1190,12 @@ void EmptyAllFantomShips()
         }
 		else
 		{
-			//InitCharacter(&Characters[i], i);	//ugeen : чистим нафиг все атрибуты пустых фантомов (переиничиваем)
+			if (CheckAttribute(chr,"id"))
+			{
+				if (HasSubStr(chr.id,"ShipWreck_")) {}
+				else InitCharacter(&Characters[i], i);
+			}				
+			else InitCharacter(&Characters[i], i);	//ugeen : чистим нафиг все атрибуты пустых фантомов (переиничиваем)
 		}
 	}
 	// теперь сборка мусора

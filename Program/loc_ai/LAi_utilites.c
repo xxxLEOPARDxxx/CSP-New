@@ -655,8 +655,6 @@ void CreateHabitues(aref loc)
 			    iChar = NPC_GeneratePhantomCharacter("pofficer", iNation, MAN, 1);
 				chr = &characters[iChar];
 				// chr.HeroModel = chr.model+","+chr.model+"_1"+","+chr.model+"_2"+","+chr.model+"_3"+","+chr.model+"_4"+","+chr.model+"_5"; // Пока не нужно - визуал надетых кирас для офицеров
-				chr.model = "Officer_"+(rand(63)+1);
-				FaceMaker(chr);
 				SetOfficerParam(chr, rand(4));
 				sTemp = PlaceCharacter(chr, "sit", "random_free");
 				ReSitCharacterOnFree(chr, loc.id, sTemp);

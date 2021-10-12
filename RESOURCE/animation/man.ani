@@ -66,8 +66,6 @@ data = "Turn speed", "5.5"
 	
 [attack_fast_3] 
 	type = normal
-;	start_time =8366
-;	end_time = 8394
 	start_time =5331
 	end_time = 5356
 	speed = 2.0
@@ -78,9 +76,6 @@ data = "Turn speed", "5.5"
 	event = "Attack", 5340, normal			;slash
 	event = "SndAlliace_attack_thrust1", 5337, normal
 	event = "Resact", 5352, normal
-;	event = "Attack", 7361, normal			;slash
-;	event = "SndAlliace_attack_thrust1", 7369, normal
-;	event = "Resact", 7369, normal
 
 [attack_fast_4] 
 	type = normal

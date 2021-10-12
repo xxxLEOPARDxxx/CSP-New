@@ -710,7 +710,7 @@ void Box_OnLoadLocation(ref _location)
     		}
     		else
     		{
-				if (CheckAttribute(_location,locatorName+".notouch")) {DeleteAttribute(_location,locatorName+".notouch"); continue;}
+				if (CheckAttribute(_location,locatorName+".notouch")) {DeleteAttribute(_location,locatorName+".notouch"); needRespawn = true; _location.(locatorName) = Items_MakeTime(GetTime(), GetDataDay(), GetDataMonth(), GetDataYear()); continue;}
     			if ((sti(_location.(locatorName)) + SPAWN_TIME) < Items_MakeTime(GetTime(), GetDataDay(), GetDataMonth(), GetDataYear()))
     			{
     				needRespawn = true;

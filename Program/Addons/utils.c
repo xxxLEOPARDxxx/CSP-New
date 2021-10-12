@@ -67,7 +67,7 @@ void SelectMainCharacterInCabine(string sQuest)
 	bDisableCharacterMenu = true;
 	bDisableQuestInterface = true;
 
-	StartQuestMovie(true, true, true);
+	//StartQuestMovie(true, true, true);
 	
 	Locations[FindLocation(PChar.location)].items.randitem1 = "";
 	
@@ -77,13 +77,13 @@ void SelectMainCharacterInCabine(string sQuest)
 	SetNewModelToChar(PChar);
 	
     	SetCharacterTask_None(GetMainCharacter());
-	InterfaceStates.Buttons.Save.enable = false;
+	//InterfaceStates.Buttons.Save.enable = false;
 	
 	LAi_SetActorTypeNoGroup(PChar);
 	LAi_ActorTurnToLocator(PChar, "reload", "reload1");
 	
 	DoQuestFunctionDelay("SelectMainCharacterInCabineLocCamera", 0.1);
-	DoQuestFunctionDelay("LaunchCreateCharacterInterface", 2.0);
+	DoQuestFunctionDelay("LaunchCreateCharacterInterface", 1.0);
 }
 
 void SelectMainCharacterInCabineLocCamera(string _tmp)
@@ -91,7 +91,7 @@ void SelectMainCharacterInCabineLocCamera(string _tmp)
 	float x, y, z;
 	x = stf(loadedLocation.locators.camera.reload1.x) + 0.5;
 	y = stf(loadedLocation.locators.camera.reload1.y) - 0.5;
-	z = stf(loadedLocation.locators.camera.reload1.z) + 1.0;
+	z = stf(loadedLocation.locators.camera.reload1.z) + 0.5;
 	locCameraToPos(x, y, z, false);	
 }
 

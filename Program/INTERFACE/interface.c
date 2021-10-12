@@ -688,6 +688,20 @@ void LaunchCharacterItemChange(ref chref)
 	}
 }
 
+#event_handler("OpenExchange","OpenExchange");
+void OpenExchange()
+{
+	if(procInterfacePrepare(INTERFACE_ITEMSBOX))
+	{
+		aref chref = GetEventData();
+		chref.HoldEquip = true;
+		nPrevInterface = -1;
+		CurrentInterface = INTERFACE_ITEMSBOX;
+		aref charef; makearef(charef,chref);
+		InitInterface_RS(Interfaces[CurrentInterface].IniFile,&charef,chref.FaceID);
+	}
+}
+
 void LaunchItemsBox(ref boxRef)
 {
     //#20200217-02

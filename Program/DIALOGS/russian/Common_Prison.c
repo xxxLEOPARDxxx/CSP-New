@@ -140,7 +140,7 @@ void ProcessDialogEvent()
 			if(CheckAttribute(pchar,"LambriniPGGInPrison") && CheckAttribute(pchar,"LambriniPGGPlata") && npchar.id == "MaracaiboJailOff")
 			{
 				
-				link.lLambriniPGGInPrison = "Сеньор, я принимал"+ GetSexPhrase("","а") +" участие в недавнем налете на контрабандистов. Мне передали, что арестованных держат здесь. Могу я попросить вас об освобождении одной особы? Под мою ответственность, разумеется.";
+				link.lLambriniPGGInPrison = "Сеньор, я принимал"+ GetSexPhrase("","а") +" участие в недавнем налёте на контрабандистов. Мне передали, что арестованных держат здесь. Могу я попросить вас об освобождении одной особы? Под мою ответственность, разумеется.";
 				link.lLambriniPGGInPrison.go = "LambriniPGGInPrison";
 			}
 			NextDiag.TempNode = "First_officer";
@@ -152,23 +152,23 @@ void ProcessDialogEvent()
 			Link.l1.go = "LambriniPGGInPrison_1";
 		break;
 		case "LambriniPGGInPrison_1":
-			dialog.Text = "Владелица контрабандной партии сандала? Сомневаюсь.";
-			Link.l1 = "Я буду вам крайне, крайне признател"+ GetSexPhrase("ен","ьна") +".";
+			dialog.Text = ""+GetFullName(CharacterFromID(pchar.LambriniPGG))+"? Дайте мне минуту, я ознакомлюсь со списком заключённых.";
+			Link.l1 = "Да, конечно, я подожду.";
 			Link.l1.go = "LambriniPGGInPrison_2";
 		break;
 		case "LambriniPGGInPrison_2":
-			dialog.Text = "Хм... Признател"+ GetSexPhrase("ен","ьна") +" на "+ pchar.LambriniPGGPlata + "? Кажется, это половина от того, что вам заплатил Антонио.";
-			if (sti(pchar.money) >= sti(pchar.LambriniPGGPlata))
+			dialog.Text = "Хм... "+GetFullName(CharacterFromID(pchar.LambriniPGG))+"... "+GetFullName(CharacterFromID(pchar.LambriniPGG))+"... Ага, нашёл. Владелица контрабандной партии сандала. Её штраф составляет 25000 золотых.";
+			if (sti(pchar.money) >= 25000)
 			{
-				Link.l1 = "Все-то вы знаете. Вот ваши деньги.";
+				Link.l1 = "Вот ваши деньги.";
 				Link.l1.go = "LambriniPGGInPrison_3";
 			}
 			Link.l2 = "Ну и расценки у вас... Мне надо подумать.";
 			Link.l2.go = "LambriniPGGInPrison_3_1";
 		break;
 		case "LambriniPGGInPrison_3":
+			AddMoneyToCharacter(pchar, -25000);
 			DeleteAttribute(pchar,"LambriniPGGPlata")
-			AddMoneyToCharacter(pchar, -sti(pchar.LambriniPGGPlata));
 			dialog.Text = "Вот и славно. Сейчас её к вам приведут.";
 			Link.l1 = "";
 			Link.l1.go = "LambriniPGGInPrison_4";

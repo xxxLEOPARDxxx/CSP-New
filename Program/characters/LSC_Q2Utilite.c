@@ -2842,6 +2842,7 @@ void LoginDeadmansGod2()
     FantomMakeCoolFighter(sld, 60, 100, 100, "blade201", "", 2500);
 	sld.name = "Юм";
 	sld.lastname = "Самиль";
+	sld.vampire = true;
 	sld.SaveItemsForDead = true;
 	ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "goto3");
 	LAi_CharacterPlaySound(sld, "DeadmansGod");
@@ -2863,6 +2864,7 @@ void LoginUmSamilGuards()
 		if (i == 2) FantomMakeCoolFighter(sld, 55, 90, 90, "blade42", "", 750);
 		sld.name = "Воин-Ягуар";
 		sld.lastname = "";
+		sld.vampire = true;
 		if (i == 0) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster1");
 		if (i == 1) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster4");
 		if (i == 2) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster3");

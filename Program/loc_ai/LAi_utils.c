@@ -421,7 +421,6 @@ void LAi_CheckHalfImmortal(aref chr)
 	{	
 		ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", chr.sex, chr.model.animation, 1, sti(chr.nation), -1, false));
 		ChangeAttributesFromCharacter(rOff, chr, true);
-		if (CheckAttribute(chr,"PerkValue.HPPlus")) rOff.PerkValue.HPPlus = 0;
 		if (CheckAttribute(chr,"HeroModel")) rOff.HeroModel = chr.HeroModel;
 		if (CheckAttribute(chr, "DontChangeBlade")) rOff.DontChangeBlade = true;
 		if (CheckAttribute(chr, "DontChangeGun")) rOff.DontChangeGun = true;

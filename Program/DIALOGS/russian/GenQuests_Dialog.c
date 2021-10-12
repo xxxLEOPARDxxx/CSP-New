@@ -5816,6 +5816,8 @@ void ProcessDialogEvent()
 			else pchar.GemGiven = sti(pchar.GemGiven) + 1;
 			TakeItemFromCharacter(pchar, "UsurersJew");
 			ChangeCharacterReputation(pchar, 3);
+			AddCharacterExpToSkill(pchar, "Leadership", 20);
+			AddCharacterExpToSkill(pchar, "Fortune", 20);
 			if (sti(pchar.GemGiven)>=5)
 			{
 				bool ok = (GetCharacterItem(Pchar, "map_part1")>0)  && (GetCharacterItem(Pchar, "map_part2")>0);

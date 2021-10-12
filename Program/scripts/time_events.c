@@ -201,7 +201,7 @@ void Tut_Continue()
     LAi_SetFightMode(Pchar, false);
     LAi_LockFightMode(pchar, true);
 
-	if(rand(99)==0) 
+	if(rand(95)==0) 
 	{
 		switch (rand(1))
 		{
@@ -215,7 +215,7 @@ void Tut_Continue()
 			break;
 			case 1:
 				StopSound(0,0);
-				PlayStereoOGG("Music\necroTown.ogg");
+				PlayStereoOGG("CSR\Music\Sea\Deck_Nekro.ogg");
 				sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Skel_5", "man", "man", 1, PIRATE, 0, false));
 				sld.name 	= "Некромант";
 				sld.lastname 	= "Сандро";

@@ -1642,7 +1642,7 @@ int NPC_GenerateCharacter(string _id, string _model, string _sex, string _ani, i
 		ch.model.height = 1.75;
 	}
 	ch.model.animation = _ani;
-	FaceMaker(ch);
+	if (!CheckAttribute(ch,"FaceID")) FaceMaker(ch);
 	SetRandomNameToCharacter(ch);
 	SetFantomParamFromRank(ch, _rank, _equip);
 	if (_LifeDay >= 0)
@@ -1707,6 +1707,9 @@ int NPC_GeneratePhantomCharacter(string sType, int iNation, int iSex, int _LifeD
 
 	if (iChar == -1) return -1;
 	ch = &Characters[iChar];
+	DeleteAttribute(ch,"model");
+	DeleteAttribute(ch,"heromodel");
+	DeleteAttribute(ch,"faceid");
     InitCharacter(ch, iChar);
 
 	if (_LifeDay >= 0)

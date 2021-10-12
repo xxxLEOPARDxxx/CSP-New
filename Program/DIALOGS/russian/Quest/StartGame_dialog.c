@@ -374,8 +374,8 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Alt_start_2":
-			if (pchar.sex != woman) LAi_CharacterPlaySound(NPChar, "Welcome_Fucking_Event2");
-			else LAi_CharacterPlaySound(NPChar, "Welcome_Fucking_Event1");
+			if (pchar.sex != woman) LAi_CharacterPlaySound(NPChar, "Welcome_Fucking_Event1");
+			else LAi_CharacterPlaySound(NPChar, "Welcome_Fucking_Event2");
 			dialog.text = "Добро пожаловать на Карибы, " + GetSexPhrase("сучий потрох!","плешивая мразь!")+" А кто я? Не твоего ума дело! Глюк твой я.";
 			link.l = "Ничего не помню... Какие ещё Карибы?";
 			link.l.go = "Alt_start_3";

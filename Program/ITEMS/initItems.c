@@ -4112,7 +4112,6 @@ int InitItems()
 	itm.accuracy = 80;
 	itm.minlevel = 1;
 	itm.rare = 0.0001;
-	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
 	n++;

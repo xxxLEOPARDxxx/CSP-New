@@ -2,7 +2,7 @@
 #include "messages.h"
 #include "sound.c"
 
-string savefile_info = "ver 1.0.8";
+string savefile_info = "ver 2.2.0b4_11.10.2021";
 
 #define CHANGE_MORALE_EVERY			5			// INT - change crew morale based on above once per this many ticks. THIS WILL ALSO SCALE MORALE CHANGES! Bigger number, less effect. Should be divisable by 3.
 #define SURR_MARGIN                 5.0

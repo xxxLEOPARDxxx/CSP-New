@@ -32,8 +32,17 @@ int iLinesCount = 0;
 int lastsort = 0;//мало??? - нужно для каждой таблицы запоминать, если в интерфейсе их может быть несколько???
 bool blastsort;
 
+int chestsnum;
+int curchest = 1;
+
 void InitInterface_RS(string iniName, ref itemsRef, string faceID)
 {
+	if (loadedLocation.id == Get_My_Cabin())
+	{
+		aref chests;
+		makearef(chests,loadedLocation.locators.box);
+		chestsnum = GetAttributesNum(chests);
+	}
 	sFaceID = faceID;
 	sInterfaceType = sGetInterfaceType();
 	if(sInterfaceType == INTERFACETYPE_BARREL)
@@ -218,6 +227,7 @@ void InterfaceInitButtons(ref _refCharacter)
 	SetNodeUsing("GETALL_BUTTON", false);
 	SetNodeUsing("DELBODY_BUTTON", false);
 	SetNodeUsing("SKULL_BUTTON", false);
+	SetNodeUsing("CYCLE_CHEST", false);
 	
 	switch(sInterfaceType)
 	{
@@ -240,6 +250,10 @@ void InterfaceInitButtons(ref _refCharacter)
 			if (csmCA(pchar, "CSM.LootCollector.Run"))
 			{
 				SetNodeUsing("GETALL_BUTTON", true);
+			}
+			if (loadedLocation.id == Get_My_Cabin())
+			{
+				SetNodeUsing("CYCLE_CHEST", true);
 			}
 		break;
 		
@@ -652,6 +666,31 @@ void ProcCommand()
 				OfficerReincarnation(&characters[sti(refToChar.index)]);
 				Dead_DelLoginedCharacter(refToChar);
 				ProcessCancelExit();
+			}
+		break;
+		case "CYCLE_CHEST":
+			if(comName=="activate" || comName=="click")
+			{
+				aref chest;
+				string box;
+				if (curchest <= chestsnum) 
+				{
+					box = "box"+curchest; 
+					makearef(chest,loadedLocation.(box)); 
+					InitInterface_RS(Interfaces[INTERFACE_ITEMSBOX].IniFile,chest,""); 
+					SetFormatedText("STORECAPTION1","Сундук каюты под номером "+curchest);
+					curchest = curchest+1;
+				}
+				else 
+				{
+					curchest = 1; 
+					box = "box"+curchest); 
+					makearef(chest,loadedLocation.(box)); 
+					InitInterface_RS(Interfaces[INTERFACE_ITEMSBOX].IniFile,chest,""); 
+					SetFormatedText("STORECAPTION1","Сундук каюты под номером "+curchest);
+					curchest = curchest+1;
+				}
+				StartAboveForm(false);
 			}
 		break;
 	}
@@ -1713,7 +1752,6 @@ void OfficerReincarnation(ref rPassanger);
 {
 	ref rOff = GetCharacter(NPC_GenerateCharacter("Clon", "none", rPassanger.sex, rPassanger.model.animation, 1, sti(rPassanger.nation), -1, false));
 	ChangeAttributesFromCharacter(rOff, rPassanger, true);
-	if (CheckAttribute(rPassanger,"PerkValue.HPPlus")) rOff.PerkValue.HPPlus = 0;
 	rOff.id = rPassanger.id;
 	LAi_SetCurHPMax(rOff);
 	RemoveCharacterEquip(rOff, BLADE_ITEM_TYPE);

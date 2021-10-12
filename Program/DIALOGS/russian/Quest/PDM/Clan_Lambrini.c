@@ -246,7 +246,7 @@ void ProcessDialogEvent()
 			sld.Dialog.Filename = "Quest/PDM/Clan_Lambrini.c";
 			sld.dialog.currentnode   = "Antonio_1_1";
 			sld.greeting = "GR_Spainguard";
-			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "blade38", "pistol2", DopHP);
+			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "blade30", "pistol2", DopHP);
 			sld.SaveItemsForDead = true;
 			LAi_SetWarriorType(sld);
 			LAi_SetLoginTime(sld, 12.0, 16.00);
@@ -257,7 +257,7 @@ void ProcessDialogEvent()
 			sld = GetCharacter(NPC_GenerateCharacter("PDM_CL_Anto2", "SpaOfficer2", "man", "man", Rank, SPAIN, -1, false));	//ВТОРОЙ
 			sld.name = "Антонио";
 			sld.lastname = "де Гальвес";
-			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "blade38", "pistol2", DopHP);
+			FantomMakeCoolFighter(sld, Rank, Sila, Sila, "blade30", "pistol2", DopHP);
 			sld.SaveItemsForDead = true;
 			sld.greeting = "GR_Spainguard";
 			if (pchar.rank <= 9)
@@ -970,7 +970,7 @@ void ProcessDialogEvent()
 			LAi_SetActorTypeNoGroup(sld);
 			sld.LifeDay = 0;
 			dialog.text = RandSwear()+"Ты и представить себе не можешь, как дорого она мне обошлась!";
-			link.l1 = "Я дважды повторять не стану.";
+			link.l1 = "Я дважды повторять не стану. ";
 			link.l1.go = "LambriniPGG_1_3";
 		break;	
 		
@@ -982,7 +982,7 @@ void ProcessDialogEvent()
 			Log_Info("Вы получили Асоледу!");
 			PlaySound("interface\important_item.wav");
 			
-			dialog.text = RandSwear()+"На, подавись!";
+			dialog.text = RandSwear()+"(отдаёт Асоледу) На, подавись!";
 			link.l1 = "Что дальше, Антонио?";
 			link.l1.go = "LambriniPGG_1_4";
 			
@@ -1029,7 +1029,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "LambriniPGG_1_8":
-			dialog.text = "Для меня все вы преступники на одно лицо, и я не собираюсь делать исключений! Мы отведём вас в тюрьму под фортом Маракайбо, а затем вашу судьбу решит суд.";
+			dialog.text = "Ты вела дела с преступником, а значит ты с ним за одно! Мы отведём вас в тюрьму под фортом Маракайбо, а затем вашу судьбу решит суд.";
 			link.l1 = "";
 			link.l1.go = "LambriniPGG_1_9";
 		break;
@@ -1046,10 +1046,10 @@ void ProcessDialogEvent()
 		case "LambriniPGG_1_10":
 			LAi_SetActorTypeNoGroup(npchar);
 			LAi_SetHP(npchar, sti(npchar.BackupHP) + 100, sti(npchar.BackupHP) + 100);
-			dialog.text = "(Она старается говорить шёпотом, чтобы не услышал Антонио) А что насчёт тебя? Я же вижу, что ты не из этих тупых солдафонов. Помоги мне выпутаться из этой передряги, а я тебя награжу. В довесок к шпаге, заберёшь весь мой клад!";
-			link.l1 = "Мне это не интересно. К тому же, преступникам место в тюрьме.";
+			dialog.text = "(обращается к тебе шёпотом) Антонио слишком порядочный, для него закон превыше всего, вряд ли его можно переубедить, но а что насчёт тебя? Я же вижу, что ты "+ GetSexPhrase("не из тех правильных мальчиков","'плохая' девочка") +". Помоги мне выпутаться из этой передряги, а я тебя награжу. В довесок к шпаге, заберёшь весь мой клад!";
+			link.l1 = "Мне это не интересно. Преступникам место за решёткой.";
 			link.l1.go = "LambriniPGG_1_11";
-			link.l2 = "Клад, говоришь... Антонио слишком порядочный, вряд ли я смогу его переубедить, но может начальник тюрьмы, куда тебя отвезут, будет посговорчивей.";
+			link.l2 = "Клад, говоришь... Я что-нибудь придумаю.";
 			link.l2.go = "LambriniPGG_1_12";
 		break;		
 		
@@ -1062,6 +1062,10 @@ void ProcessDialogEvent()
 			AddQuestUserData("PDM_Clan_Lambrini", "sName", GetFullName(npchar));
 			PGG_ChangeRelation2MainCharacter(CharacterFromID(pchar.LambriniPGG), -200); //сильно обиделась
 			SetTimerCondition("LambriniPGG_Freedom", 0, 0, 30, false); //Посидит месяц в тюрьме без кача и потом выйдет
+			ChangeCharacterNationReputation(pchar, SPAIN, 10);
+			AddCharacterExpToSkill(pchar, "Leadership", 200);
+			AddCharacterExpToSkill(pchar, "Fencing", 200);
+			AddCharacterExpToSkill(pchar, "Pistol", 200);
 		break;
 		
 		case "LambriniPGG_1_12"://Запустить таймер в 10 дней на возврат диалога коменданту потом то же, что и в комменте выше
@@ -1102,7 +1106,7 @@ void ProcessDialogEvent()
 		break;		
 		
 		case "LambriniPGG_2_2":
-			dialog.text = "Эх, похоже у каждого на этом архипелаге есть свои корыстные мотивы. Никому не интересно просто помочь девушке в беде.\nМой сундук должен быть всё ещё в таверне, здесь, в Маракайбо. Сними комнату.";
+			dialog.text = "Мой сундук должен быть всё ещё здесь, в Маракайбо. Сними комнату в таверне.";
 			link.l1 = "В таверну, так в таверну.";
 			link.l1.go = "exit";
 			
@@ -1113,7 +1117,7 @@ void ProcessDialogEvent()
 		
 		case "LambriniPGG_2_3":
 			chrDisableReloadToLocation = true;
-			dialog.text = "А вот и сундук. Нам повезло, что солдафоны не успели его найти.";
+			dialog.text = "А вот и сундук. Нам повезло, что солдаты не успели его найти.";
 			link.l1 = "Ладно, открывай. Посмотрим, что там.";
 			link.l1.go = "LambriniPGG_2_4";
 		break;
@@ -1129,7 +1133,7 @@ void ProcessDialogEvent()
 			TakeNItems(PChar, "Lockpick", 3);
 			Log_Info("Вы получили отмычки");
 			PlaySound("interface\important_item.wav");
-			dialog.text = "Ты сможешь отпереть его отмычками. Вот, смотри. Я купила их у Октавио, но так и не успела воспользоваться.";
+			dialog.text = "Ты сможешь отпереть его отмычками. Вот, смотри. Я купила их у Октавио Ламбрини, но так и не успела воспользоваться.";
 			link.l1 = "Ладно, давай их сюда, разберусь уже.";
 			link.l1.go = "LambriniPGG_2_6";
 		break;

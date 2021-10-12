@@ -280,6 +280,7 @@ void ProcessDialogEvent()
 					}	
 				}
 			}
+			/*
 			if(npchar.id == "Mechanic1")
 			{
 				if (CheckCharacterItem(pchar, "pistol7") || CheckCharacterItem(pchar, "pistol7shotgun"))
@@ -292,7 +293,7 @@ void ProcessDialogEvent()
 					Link.lcraftMechanic = "Как успехи? Получилось что-то изготовить?";
 					Link.lcraftMechanic.go = "mechanic_craft_ammo_finish";
 				}
-			}
+			}*/
 			
 			if(npchar.id == "W_chinaman" && CheckAttribute(pchar, "Whisper.GiveChinaSword") && CheckCharacterItem(pchar, "blade_china"))
 			{

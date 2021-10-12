@@ -357,7 +357,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				Log_Info("Вы вернули свою катану");
+				Log_Info("Вы вернули свой меч");
 				GiveItem2Character(pchar, "blade_whisper");
 				EquipCharacterByItem(pchar, "blade_whisper");
 				PlaySound("interface\important_item.wav");
@@ -608,7 +608,7 @@ void ProcessDialogEvent()
 			Link.l2.go = "exit";
 		break;
 		case "chard_get_sword":
-			Log_Info("Вы вернули свою катану");
+			Log_Info("Вы вернули свой меч");
 			GiveItem2Character(pchar, "blade_whisper");
 			EquipCharacterByItem(pchar, "blade_whisper");
 			PlaySound("interface\important_item.wav");

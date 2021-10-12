@@ -1058,6 +1058,7 @@ void ProcessDialogEvent()
 			dialog.text = "¬от как! » как же называетс€ наше новое судно?";
 			
 			sTitle = NPChar.Quest.BurntShip.ShipAttribute;
+			
 			ok = (sFrom_sea == "") || (Pchar.location.from_sea == sFrom_sea);
 			
 			if(sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
@@ -1156,9 +1157,10 @@ void ProcessDialogEvent()
 		
 		case "BurntShip19":
 			sld = &Characters[GetCompanionIndex(PChar, sti(NPChar.Quest.BurntShip.ShipCompanionIndex))];
-			cn = GetShipSellPrice(sld, CharacterFromID(NPChar.city + "_shipyarder")) * 3;
+			//cn = GetShipSellPrice(sld, CharacterFromID(NPChar.city + "_shipyarder")) * 3;
+			cn = GetShipSellPrice(sld, CharacterFromID(NPChar.city + "_shipyarder")) * 2; // было x3 от продажной
 			rRealShip = GetRealShip(GetCharacterShipType(sld));
-			if (sti(rRealShip.Stolen)) cn *= 3;
+			if (sti(rRealShip.Stolen)) cn *= 3; // "ворованные" компенсируютс€
 			
 			dialog.text = "ƒа, великолепно! я готов выдать ваше вознаграждение, " + FindRussianMoneyString(cn) + ". »менно так страхова€ контора оценила сгоревшее судно. —траховка выплачена кредитными сундуками - наличных денег нет, извините.";
 			link.l1 = "Ё нет, така€ сумма мен€ не устроит. я уверен"+ GetSexPhrase("","а") +", что это судно стоит гораздо дороже.";
@@ -1849,2919 +1851,2045 @@ void BurntShipQuest_FillStartParams(ref _npchar)
 	String shipAttribute;
 	
 	// TODO ѕересмотреть зависимость от ранга
-	if(rank <= 45)
+	if (rank < 5) shipType = SHIP_BERMSLOOP + rand(11);
+	if (rank >= 5 && rank < 10) shipType = SHIP_POLACCA + rand(12);
+	if (rank >= 10 && rank < 15) shipType = SHIP_BRIG + rand(23);
+	if (rank >= 15 && rank < 20) shipType = SHIP_PINNACE + rand(31);
+	if (rank >= 20 && rank < 30) shipType = SHIP_GALEON50 + rand(20);
+	if (rank >= 30) shipType = SHIP_POSEIDON + rand(19);
+
+	switch(shipType)
 	{
-		shipType = SHIP_LUGGER + rand(128);
-		
-		switch(shipType)
-		{
-			case SHIP_LUGGER:
-				shipAttribute = "speedrate";
-//				neededValue = 16.74 + fRandSmall(0.15);
-				else
+		case SHIP_BERMSLOOP:
+			shipAttribute = "speedrate";
+	//				neededValue = 16.74 + fRandSmall(0.15);
+			else
+			{
+				if(temp == 1)
 				{
-					if(temp == 1)
-					{
-//						neededValue = 42.12 + fRandSmall(0.4);
-						shipAttribute = "turnrate";
-					}
-				else
-					{
-//						neededValue = 864 + rand(8);
-						shipAttribute = "capacity";
-					}
-				}
-			break;
-			
-			case SHIP_LUGGER_H:
-			temp = rand(3);
-				if(temp == 2)
-				{
-					shipAttribute = "speedrate";
-				}
-				else	
-				{	
-					if(temp == 1)	
-				{	
-							shipAttribute = "turnrate";	
-				}	
-				else	
-				{	
-							 shipAttribute = "capacity";	
-				}	
-				}	
-			break;	
-			
-			case SHIP_SLOOP:
-				temp = rand(3);
-				
-				if(temp == 2)
-				{
-//					neededValue = 14.9 + fRandSmall(0.14);
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-//						neededValue = 42.12 + fRandSmall(0.4);
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-//						neededValue = 864 + rand(8);
-						shipAttribute = "capacity";
-					}
-				}
-			break;
-			
-			case SHIP_BERMSLOOP:
-				temp = rand(3);
-				
-				if(temp == 2)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;
-			
-			case SHIP_EMPRESS:
-				temp = rand(3);
-				
-				if(temp == 2)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						//neededValue = 864 + rand(8);
-						shipAttribute = "capacity";
-					}
-				}
-			break;
-			
-			case SHIP_PINK:
-				temp = rand(3);
-				
-				if(temp == 2)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;
-			
-			case SHIP_SPEEDY:
-				temp = rand(3);
-				
-				if(temp == 2)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;
-				
-			case SHIP_FR_SLOOP:
-				temp = rand(3);
-					
-				if(temp == 2)	
-				{	
-					shipAttribute = "speedrate";	
-				}	
-				else	
-				{	
-					if(temp == 1)	
-					{	
-						shipAttribute = "turnrate";	
-					}	
-					else	
-					{	
-						shipAttribute = "capacity";	
-					}	
-				}	
-			break;	
-			
-			case SHIP_Galeoth_h:
-				temp = rand(3);
-					
-				if(temp == 2)	
-				{	
-					shipAttribute = "speedrate";	
-				}	
-				else	
-				{	
-					if(temp == 1)	
-					{	
-						shipAttribute = "turnrate";	
-					}	
-					else	
-					{	
-						shipAttribute = "capacity";	
-					}	
-				}	
-			break;	
-			
-			case SHIP_SLOOP_B:
-				temp = rand(3);
-					
-				if(temp == 2)	
-				{	
-					shipAttribute = "speedrate";	
-				}	
-				else	
-				{	
-					if(temp == 1)	
-					{	
-						shipAttribute = "turnrate";	
-					}	
-					else	
-					{	
-						shipAttribute = "capacity";	
-					}	
-				}	
-			break;	
-			
-			case SHIP_NEPTUNUS:
-				temp = rand(3);
-					
-				if(temp == 2)	
-				{	
-					shipAttribute = "speedrate";	
-				}	
-				else	
-				{	
-					if(temp == 1)	
-					{	
-						shipAttribute = "turnrate";	
-					}	
-					else	
-					{	
-						shipAttribute = "capacity";	
-					}	
-				}	
-			break;	
-			
-			case SHIP_SOPHIE:
-				temp = rand(3); 
-					
-				if(temp == 2)	
-				{	
-					shipAttribute = "speedrate";	
-				}	
-				else	
-				{	
-					if(temp == 1)	
-					{	
-						shipAttribute = "turnrate";	
-					}	
-					else	
-					{	
-						shipAttribute = "capacity";	
-					}	
-				}	
-			break;
-			
-			case SHIP_SCHOONER:
-				if(rand(3) == 0)
-				{
-					neededValue = 14.04 + fRandSmall(0.13);
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					neededValue = 37.8 + fRandSmall(0.35);
+	//						neededValue = 42.12 + fRandSmall(0.4);
 					shipAttribute = "turnrate";
 				}
-				else				
-				{				
-					neededValue = 1836 + rand(170);
+			else
+				{
+	//						neededValue = 864 + rand(8);
 					shipAttribute = "capacity";
-				}				
-			break;
+				}
+			}
+		break;
+		
+		case SHIP_LUGGER_H:
+		temp = rand(3);
+			if(temp == 2)
+			{
+				shipAttribute = "speedrate";
+			}
+			else	
+			{	
+				if(temp == 1)	
+			{	
+						shipAttribute = "turnrate";	
+			}	
+			else	
+			{	
+						 shipAttribute = "capacity";	
+			}	
+			}	
+		break;	
+		
+		case SHIP_SLOOP:
+			temp = rand(3);
 			
-			case SHIP_POLACCA:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";			
-				}			
-				else			
-				{				
-					shipAttribute = "turnrate";			
-				}			
-				else							
-				{									
-					shipAttribute = "capacity";			
-				}							
-			break;	
+			if(temp == 2)
+			{
+	//					neededValue = 14.9 + fRandSmall(0.14);
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+	//						neededValue = 42.12 + fRandSmall(0.4);
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+	//						neededValue = 864 + rand(8);
+					shipAttribute = "capacity";
+				}
+			}
+		break;
+		
+		case SHIP_BERMSLOOP:
+			temp = rand(3);
 			
-			case SHIP_FR_POSTILLIONEN:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";		
-				}			
-				else			
-				{				
-					shipAttribute = "turnrate";			
-				}			
-				else							
-				{									
-					shipAttribute = "capacity";			
-				}							
-			break;	
+			if(temp == 2)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;
+		
+		case SHIP_EMPRESS:
+			temp = rand(3);
 			
-			case SHIP_COLONIALSCHOONER:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";	
-				}			
-				else			
-				{				
-					shipAttribute = "turnrate";		
-				}			
-				else							
-				{									
-					shipAttribute = "capacity";		
-				}							
-			break;	
+			if(temp == 2)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					//neededValue = 864 + rand(8);
+					shipAttribute = "capacity";
+				}
+			}
+		break;
+		
+		case SHIP_PINK:
+			temp = rand(3);
 			
-			case SHIP_XEBEC:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";	
-				}			
-				else			
-				{				
-					shipAttribute = "turnrate";		
-				}			
-				else							
-				{									
-					shipAttribute = "capacity";		
-				}							
-			break;
+			if(temp == 2)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;
+		
+		case SHIP_SPEEDY:
+			temp = rand(3);
 			
-			case SHIP_BATTLEXEBEC:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";	
-				}			
-				else			
-				{				
-					shipAttribute = "turnrate";		
-				}			
-				else							
-				{									
-					shipAttribute = "capacity";		
-				}							
-			break;			
+			if(temp == 2)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;
 			
-			case SHIP_XEBECLIGHT:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";	
-				}			
-				else			
-				{				
-					shipAttribute = "turnrate";		
-				}			
-				else							
-				{									
-					shipAttribute = "capacity";		
-				}							
-			break;			
-			
-			case SHIP_SCHOONERLIGHT:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";	
-				}			
-				else			
-				{				
-					shipAttribute = "turnrate";		
-				}			
-				else							
-				{									
-					shipAttribute = "capacity";		
-				}							
-			break;
-			
-			case SHIP_MIRAGE:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";	
-				}			
-				else			
-				{				
-					shipAttribute = "turnrate";		
-				}			
-				else							
-				{									
-					shipAttribute = "capacity";		
-				}							
-			break;	
-			
-			case SHIP_POLACRE:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";
-				}			
-				else			
-				{				
+		case SHIP_FR_SLOOP:
+			temp = rand(3);
+				
+			if(temp == 2)	
+			{	
+				shipAttribute = "speedrate";	
+			}	
+			else	
+			{	
+				if(temp == 1)	
+				{	
 					shipAttribute = "turnrate";	
-				}			
-				else							
-				{								
+				}	
+				else	
+				{	
 					shipAttribute = "capacity";	
-				}							
-			break;
-			
-			case SHIP_ENSLAVER:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";
-				}			
-				else			
-				{				
+				}	
+			}	
+		break;	
+		
+		case SHIP_Galeoth_h:
+			temp = rand(3);
+				
+			if(temp == 2)	
+			{	
+				shipAttribute = "speedrate";	
+			}	
+			else	
+			{	
+				if(temp == 1)	
+				{	
 					shipAttribute = "turnrate";	
-				}			
-				else							
-				{								
+				}	
+				else	
+				{	
 					shipAttribute = "capacity";	
-				}							
-			break;
-			
-			case SHIP_SHNYAVA:			
-				if(rand(3) == 0)			
-				{				
-					shipAttribute = "speedrate";
-				}			
-				else			
-				{				
+				}	
+			}	
+		break;	
+		
+		case SHIP_SLOOP_B:
+			temp = rand(3);
+				
+			if(temp == 2)	
+			{	
+				shipAttribute = "speedrate";	
+			}	
+			else	
+			{	
+				if(temp == 1)	
+				{	
 					shipAttribute = "turnrate";	
-				}			
-				else							
-				{								
+				}	
+				else	
+				{	
 					shipAttribute = "capacity";	
-				}							
-			break;
-			
-			case SHIP_BARQUE:
+				}	
+			}	
+		break;	
+		
+		case SHIP_NEPTUNUS:
+			temp = rand(3);
+				
+			if(temp == 2)	
+			{	
+				shipAttribute = "speedrate";	
+			}	
+			else	
+			{	
+				if(temp == 1)	
+				{	
+					shipAttribute = "turnrate";	
+				}	
+				else	
+				{	
+					shipAttribute = "capacity";	
+				}	
+			}	
+		break;	
+		
+		case SHIP_SOPHIE:
+			temp = rand(3); 
+				
+			if(temp == 2)	
+			{	
+				shipAttribute = "speedrate";	
+			}	
+			else	
+			{	
+				if(temp == 1)	
+				{	
+					shipAttribute = "turnrate";	
+				}	
+				else	
+				{	
+					shipAttribute = "capacity";	
+				}	
+			}	
+		break;
+		
+		case SHIP_SCHOONER:
+			if(rand(3) == 0)
+			{
+				neededValue = 14.04 + fRandSmall(0.13);
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				neededValue = 37.8 + fRandSmall(0.35);
+				shipAttribute = "turnrate";
+			}
+			else				
+			{				
 				neededValue = 1836 + rand(170);
 				shipAttribute = "capacity";
-			break;
-			
-			case SHIP_CARAVEL:
-				neededValue = 3240 + rand(30);
-				shipAttribute = "capacity";
-			break;
-			
-  
- 
-							
-  
-									   
-  
-				  
-   
-			case SHIP_BARKENTINE:
-				neededValue = 43.2 + fRandSmall(0.4);
-				shipAttribute = "turnrate";
-			break;
-			
-			case SHIP_BRIGANTINE:
-				if(rand(3) == 1)
-				{
-					neededValue = 16.74 + fRandSmall(0.16);
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					neededValue = 54.0 + fRandSmall(0.5);
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				neededValue = 3240 + rand(30);
-				shipAttribute = "capacity";
-				}				
-			break;
-			
-			case SHIP_CASTELF:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}				
-			break;
-			
-			case SHIP_DERFFLINGER:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}				
-			break;
-			
-			case SHIP_INTERCEPTOR:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}				
-			break;
-			
-			case SHIP_PO_FLEUT50:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}				
-			break;
-			
-			case SHIP_FLEUT:
-				neededValue = 3240 + rand(30);
-				shipAttribute = "capacity";
-			break;
-			
-			case SHIP_BRIG:
-				if(rand(3) == 1)
-				{
-					neededValue = 15.66 + fRandSmall(0.15);
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					neededValue = 48.6 + fRandSmall(0.45);
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				neededValue = 3240 + rand(30);
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_BRIGHEAVY:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_GREYHOUND:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_CORVETTELIGHT:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_PACKET_BRIG:
-				if(rand(3) == 1)
-				{	
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_PDN:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_ENTERPRISE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_POLACRE_H:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_FRIGATEMEDIUM:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-											
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_RaaFrigate:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_CARAVEL2:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_FLEUTWAR:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_FLEUTWARSAT:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_GALEONTRADER:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_LYDIA:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-				shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_GALEON_L:
-				neededValue = 3672 + rand(34);
-				shipAttribute = "capacity";
-			break;
-			
-			case SHIP_CORVETTE:
-				if(rand(3) == 1)
-				{
-					neededValue = 17.5 + fRandSmall(0.16);
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					neededValue = 59.4 + fRandSmall(0.55);
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					neededValue = 4320 + rand(40);
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_CRIMSONBLOOD:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_FRIGATE_l:
- 
-							
-  
-									 
-  
-				  
-   
-					  
-				if(rand(3) == 1)
-				{
-											 
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_BATTLECORVETTE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_BLACKANGEL:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_COASTALFRIGATE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_FR_FRIGATE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_UNICORN:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_LINEFRIGATE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_LIGHTFRIGATE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_BOUSSOLE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_SURPRISE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_SALAMANDER:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_FRIGATE_SAT:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_BATTLEFRIGATE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_NIGHTMARE:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_MORDAUNT:
-				if(rand(3) == 1)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_GALEON_H:
-				neededValue = 5022 + rand(47);
-				shipAttribute = "capacity";
-			break;
-			
-			case SHIP_PINNACE:
-				if(rand(3) == 1)
-				{
-					neededValue = 14.04 + fRandSmall(0.13);
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					neededValue = 59.4 + fRandSmall(0.55);
-					shipAttribute = "turnrate";
-				}
-				else
-				{
-					neededValue = 4320 + rand(40);
-					shipAttribute = "capacity";
-				}
-			break;
-			
-			case SHIP_DUTCHPINNACE:			
-				if(rand(3) == 1)			
-				{			
-					shipAttribute = "speedrate";			
-				}			
-				else			
-				{			
-					shipAttribute = "turnrate";			
-				}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;			
-			
-			case SHIP_PINNACELIGHT:			
-				if(rand(3) == 1)			
-				{			
-					shipAttribute = "speedrate";			
-				}			
-				else			
-				{			
-					shipAttribute = "turnrate";			
-				}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;		
-			
-			case SHIP_XEBEKVT:			
-				if(rand(3) == 1)			
-				{			
-					shipAttribute = "speedrate";			
-				}			
-				else			
-				{			
-					shipAttribute = "turnrate";			
-				}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;	
-			
-			case SHIP_FELIPE:			
-				if(rand(3) == 1)			
-			 	{			
-			 		shipAttribute = "speedrate";		
-			 	}			
-				  else			
-			 	{			
-			 		shipAttribute = "turnrate";			
-			 	}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;			
-			
-			case SHIP_JAMAICASHIP:			
-				if(rand(3) == 1)			
-			 	{			
-			 		shipAttribute = "speedrate";		
-			 	}			
-				  else			
-			 	{			
-			 		shipAttribute = "turnrate";			
-			 	}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;		
-			
-			case SHIP_THEBLACKPEARL:			
-				if(rand(3) == 1)			
-			 	{			
-			 		shipAttribute = "speedrate";		
-			 	}			
-				  else			
-			 	{			
-			 		shipAttribute = "turnrate";			
-			 	}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;
-			
-			case SHIP_GALEON1:			
-				if(rand(3) == 1)			
-			 	{			
-			 		shipAttribute = "speedrate";		
-			 	}			
-				  else			
-			 	{			
-			 		shipAttribute = "turnrate";			
-			 	}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;	
-			
-			case SHIP_LA_MARIANNA:			
-				if(rand(3) == 1)			
-			 	{			
-			 		shipAttribute = "speedrate";		
-			 	}			
-				  else			
-			 	{			
-			 		shipAttribute = "turnrate";			
-			 	}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;	
-			
-			case SHIP_PIRATFASTGAL:			
-				if(rand(3) == 1)			
-			 	{			
-			 		shipAttribute = "speedrate";		
-			 	}			
-				  else			
-			 	{			
-			 		shipAttribute = "turnrate";			
-			 	}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;	
-			
-			case SHIP_REVENGE:			
-				if(rand(3) == 1)			
-			 	{			
-			 		shipAttribute = "speedrate";		
-			 	}			
-				  else			
-			 	{			
-			 		shipAttribute = "turnrate";			
-			 	}			
-				else			
-				{			
-					shipAttribute = "capacity";			
-				}			
-			break;		
-			
-			case SHIP_FRIGATE:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					neededValue = 15.44 + fRandSmall(0.14);
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						neededValue = 41.04 + fRandSmall(0.38);
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						neededValue = 3240 + rand(30);
-						shipAttribute = "capacity";
-					}
-				}
-			break;
-			
-			case SHIP_AMSTERDAM:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_CARRACA:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;		
-			
-			case SHIP_GALEON50:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_FASTFRIGATE:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_FR_ESSEX:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_FRIGATE_H:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_WARGALLEON2:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_NL_PINNACEOFWAR47:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_HOLLGALEON_H:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_FEARLESS:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_NL_FWZP:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_CONSTITUTION:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_OXFORD:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_DUTCHLINESHIP:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_DUTCHSHIP:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_NL_CONVOISHIP:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_COURONNE:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_ALEXIS:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_LINESHIPHEAVY:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_WARSHIP:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_HEAVYWARSHIP:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_POSEIDON:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_HMS_CENTURION:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_RESOLUTION:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_FR_SUPERIORWARSHIP1:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_LINK:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_SUPERBE:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_BATTLESHIP:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_LINK2:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_BELLONA:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_LINEARSHIP:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_SHARK:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_ZEVENPROVINCIEN:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_FR_TRINITY:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_MANOWAR_FAST:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_BATTLEMANOWAR:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_MANOWAR_GUB:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_PRINCE:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_MANOWAR:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_HMS_VICTORY:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_SP_SANFELIPE:
-				temp = rand(3);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-		}
-	}
-	
-	
-	
-	if(rank > 45)
-	{
-		shipType = SHIP_FRIGATE + rand(1);
+			}				
+		break;
 		
-		switch(shipType)
-		{
-			case SHIP_FRIGATE:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-//					neededValue = 15.44 + fRandSmall(0.14);
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-//						neededValue = 41.04 + fRandSmall(0.38);
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-//						neededValue = 3240 + rand(30);
-						shipAttribute = "capacity";
-					}
-				}
-			break;
-			
-			case SHIP_AMSTERDAM:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_CARRACA:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;		
-			
-			case SHIP_GALEON50:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_FASTFRIGATE:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_FR_ESSEX:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_FRIGATE_H:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_WARGALLEON2:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_NL_PINNACEOFWAR47:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_HOLLGALEON_H:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_FEARLESS:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;			
-			
-			case SHIP_NL_FWZP:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_CONSTITUTION:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_OXFORD:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_DUTCHLINESHIP:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_DUTCHSHIP:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_NL_CONVOISHIP:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_COURONNE:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_ALEXIS:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_LINESHIPHEAVY:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_WARSHIP:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_HEAVYWARSHIP:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_POSEIDON:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_HMS_CENTURION:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_RESOLUTION:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_FR_SUPERIORWARSHIP1:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_LINK:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_SUPERBE:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_BATTLESHIP:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_LINK2:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_BELLONA:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_LINEARSHIP:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_SHARK:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_ZEVENPROVINCIEN:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_FR_TRINITY:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_MANOWAR_FAST:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_BATTLEMANOWAR:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_MANOWAR_GUB:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_PRINCE:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_MANOWAR:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_HMS_VICTORY:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			case SHIP_SP_SANFELIPE:
-				temp = rand(2);
-				
-				if(temp == 0)
-				{
-					shipAttribute = "speedrate";
-				}
-				else
-				{
-					if(temp == 1)
-					{
-						shipAttribute = "turnrate";
-					}
-					else
-					{
-						shipAttribute = "capacity";
-					}
-				}
-			break;	
-			
-			// Ёто варшип
-			case SHIP_LINESHIP:
-//				neededValue = 38.88 + fRandSmall(0.36);
+		case SHIP_POLACCA:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";			
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";			
+			}			
+			else							
+			{									
+				shipAttribute = "capacity";			
+			}							
+		break;	
+		
+		case SHIP_FR_POSTILLIONEN:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";		
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";			
+			}			
+			else							
+			{									
+				shipAttribute = "capacity";			
+			}							
+		break;	
+		
+		case SHIP_COLONIALSCHOONER:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";	
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";		
+			}			
+			else							
+			{									
+				shipAttribute = "capacity";		
+			}							
+		break;	
+		
+		case SHIP_XEBEC:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";	
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";		
+			}			
+			else							
+			{									
+				shipAttribute = "capacity";		
+			}							
+		break;
+		
+		case SHIP_BATTLEXEBEC:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";	
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";		
+			}			
+			else							
+			{									
+				shipAttribute = "capacity";		
+			}							
+		break;			
+		
+		case SHIP_XEBECLIGHT:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";	
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";		
+			}			
+			else							
+			{									
+				shipAttribute = "capacity";		
+			}							
+		break;			
+		
+		case SHIP_SCHOONERLIGHT:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";	
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";		
+			}			
+			else							
+			{									
+				shipAttribute = "capacity";		
+			}							
+		break;
+		
+		case SHIP_MIRAGE:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";	
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";		
+			}			
+			else							
+			{									
+				shipAttribute = "capacity";		
+			}							
+		break;	
+		
+		case SHIP_POLACRE:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";	
+			}			
+			else							
+			{								
+				shipAttribute = "capacity";	
+			}							
+		break;
+		
+		case SHIP_ENSLAVER:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";	
+			}			
+			else							
+			{								
+				shipAttribute = "capacity";	
+			}							
+		break;
+		
+		case SHIP_SHNYAVA:			
+			if(rand(3) == 0)			
+			{				
+				shipAttribute = "speedrate";
+			}			
+			else			
+			{				
+				shipAttribute = "turnrate";	
+			}			
+			else							
+			{								
+				shipAttribute = "capacity";	
+			}							
+		break;
+		
+		case SHIP_BARQUE:
+			neededValue = 1836 + rand(170);
+			shipAttribute = "capacity";
+		break;
+		
+		case SHIP_CARAVEL:
+			neededValue = 3240 + rand(30);
+			shipAttribute = "capacity";
+		break;
+
+		case SHIP_BARKENTINE:
+			neededValue = 43.2 + fRandSmall(0.4);
+			shipAttribute = "turnrate";
+		break;
+		
+		case SHIP_BRIGANTINE:
+			if(rand(3) == 1)
+			{
+				neededValue = 16.74 + fRandSmall(0.16);
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				neededValue = 54.0 + fRandSmall(0.5);
 				shipAttribute = "turnrate";
-			break;
-		}
+			}
+			else
+			{
+			neededValue = 3240 + rand(30);
+			shipAttribute = "capacity";
+			}				
+		break;
+		
+		case SHIP_CASTELF:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}				
+		break;
+		
+		case SHIP_DERFFLINGER:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}				
+		break;
+		
+		case SHIP_INTERCEPTOR:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}				
+		break;
+		
+		case SHIP_PO_FLEUT50:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}				
+		break;
+		
+		case SHIP_FLEUT:
+			neededValue = 3240 + rand(30);
+			shipAttribute = "capacity";
+		break;
+		
+		case SHIP_BRIG:
+			if(rand(3) == 1)
+			{
+				neededValue = 15.66 + fRandSmall(0.15);
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				neededValue = 48.6 + fRandSmall(0.45);
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			neededValue = 3240 + rand(30);
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_BRIGHEAVY:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_GREYHOUND:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_CORVETTELIGHT:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_PACKET_BRIG:
+			if(rand(3) == 1)
+			{	
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_PDN:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_ENTERPRISE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_POLACRE_H:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_FRIGATEMEDIUM:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+										
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_RaaFrigate:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_CARAVEL2:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_FLEUTWAR:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_FLEUTWARSAT:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_GALEONTRADER:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_LYDIA:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+			shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_GALEON_L:
+			neededValue = 3672 + rand(34);
+			shipAttribute = "capacity";
+		break;
+		
+		case SHIP_CORVETTE:
+			if(rand(3) == 1)
+			{
+				neededValue = 17.5 + fRandSmall(0.16);
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				neededValue = 59.4 + fRandSmall(0.55);
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				neededValue = 4320 + rand(40);
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_CRIMSONBLOOD:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_FRIGATE_l:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_BATTLECORVETTE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_BLACKANGEL:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_COASTALFRIGATE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_FR_FRIGATE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_UNICORN:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_LINEFRIGATE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_LIGHTFRIGATE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_BOUSSOLE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_SURPRISE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_SALAMANDER:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_FRIGATE_SAT:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_BATTLEFRIGATE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_NIGHTMARE:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_MORDAUNT:
+			if(rand(3) == 1)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_GALEON_H:
+			neededValue = 5022 + rand(47);
+			shipAttribute = "capacity";
+		break;
+		
+		case SHIP_PINNACE:
+			if(rand(3) == 1)
+			{
+				neededValue = 14.04 + fRandSmall(0.13);
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				neededValue = 59.4 + fRandSmall(0.55);
+				shipAttribute = "turnrate";
+			}
+			else
+			{
+				neededValue = 4320 + rand(40);
+				shipAttribute = "capacity";
+			}
+		break;
+		
+		case SHIP_DUTCHPINNACE:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;			
+		
+		case SHIP_PINNACELIGHT:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;		
+		
+		case SHIP_XEBEKVT:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;	
+		
+		case SHIP_FELIPE:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";		
+			}			
+			  else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;			
+		
+		case SHIP_JAMAICASHIP:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";		
+			}			
+			  else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;		
+		
+		case SHIP_THEBLACKPEARL:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";		
+			}			
+			  else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;
+		
+		case SHIP_GALEON1:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";		
+			}			
+			  else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;	
+		
+		case SHIP_LA_MARIANNA:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";		
+			}			
+			  else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;	
+		
+		case SHIP_PIRATFASTGAL:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";		
+			}			
+			  else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;	
+		
+		case SHIP_REVENGE:			
+			if(rand(3) == 1)			
+			{			
+				shipAttribute = "speedrate";		
+			}			
+			  else			
+			{			
+				shipAttribute = "turnrate";			
+			}			
+			else			
+			{			
+				shipAttribute = "capacity";			
+			}			
+		break;		
+		
+		case SHIP_FRIGATE:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				neededValue = 15.44 + fRandSmall(0.14);
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					neededValue = 41.04 + fRandSmall(0.38);
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					neededValue = 3240 + rand(30);
+					shipAttribute = "capacity";
+				}
+			}
+		break;
+		
+		case SHIP_AMSTERDAM:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_CARRACA:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;		
+		
+		case SHIP_GALEON50:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_FASTFRIGATE:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_FR_ESSEX:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_FRIGATE_H:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_WARGALLEON2:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_NL_PINNACEOFWAR47:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_HOLLGALEON_H:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_FEARLESS:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;			
+		
+		case SHIP_NL_FWZP:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_CONSTITUTION:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_OXFORD:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_DUTCHLINESHIP:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_DUTCHSHIP:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_NL_CONVOISHIP:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_COURONNE:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_ALEXIS:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_LINESHIPHEAVY:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_WARSHIP:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_HEAVYWARSHIP:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_POSEIDON:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_HMS_CENTURION:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_RESOLUTION:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_FR_SUPERIORWARSHIP1:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_LINK:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_SUPERBE:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_BATTLESHIP:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_LINK2:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_BELLONA:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_LINEARSHIP:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_SHARK:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_ZEVENPROVINCIEN:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_FR_TRINITY:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_MANOWAR_FAST:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_BATTLEMANOWAR:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_MANOWAR_GUB:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_PRINCE:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_MANOWAR:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_HMS_VICTORY:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
+		case SHIP_SP_SANFELIPE:
+			temp = rand(3);
+			
+			if(temp == 0)
+			{
+				shipAttribute = "speedrate";
+			}
+			else
+			{
+				if(temp == 1)
+				{
+					shipAttribute = "turnrate";
+				}
+				else
+				{
+					shipAttribute = "capacity";
+				}
+			}
+		break;	
+		
 	}
 	
 	neededValue = BurntShipQuest_GetMaxNeededValue(shipType, shipAttribute);

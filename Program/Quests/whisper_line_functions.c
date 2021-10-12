@@ -41,7 +41,6 @@ void Whisper_StartGame(string qName)
     TakeNItems(Pchar, "potion2", 3);
     TakeNItems(Pchar, "potion1", 4);
 	LAi_SetCharacterUseBullet(pchar,"grapeshot");
-    SetCharacterPerk(Pchar, "GunProfessional");
 	Pchar.model="PGG_Whisper_5_NoHat";
 	SetNewModelToChar(Pchar);
 	

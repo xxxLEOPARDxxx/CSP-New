@@ -821,8 +821,8 @@ void ProcessDialogEvent()
          	sld.HeroModel = "CCS_Mechanic,CCS_Mechanic_1,CCS_Mechanic_2,CCS_Mechanic_3,CCS_Mechanic_4,CCS_Mechanic_5,CCS_Mechanic,CCS_Mechanic,CCS_Mechanic";
         	//Korsar Maxim - Прописка всех моделей для кирас. <--
 			sld.quest.meeting = true;
-			SetSelfSkill(sld, 10, 10, 10, 10, 99);
-			SetShipSkill(sld, 50, 50, 50, 50, 100, 100, 50, 100, 50);
+			SetSelfSkill(sld, 30, 30, 30, 30, 99);
+			SetShipSkill(sld, 55, 50, 60, 45, 65, 100, 50, 90, 50);
 			SetSPECIAL(sld, 6, 10, 9, 10, 10, 8, 10);
 			SetCharacterPerk(sld, "Energaiser"); // скрытый перк дает 1.5 к приросту энергии, дается ГГ и боссам уровней
 			SetCharacterPerk(sld, "BasicBattleState");
@@ -833,8 +833,6 @@ void ProcessDialogEvent()
 			SetCharacterPerk(sld, "ShipTurnRateUp");
 			SetCharacterPerk(sld, "ShipSpeedUp");
 			SetCharacterPerk(sld, "StormProfessional");
-			SetCharacterPerk(sld, "Turn180");
-			SetCharacterPerk(sld, "SailingProfessional");
 			SetCharacterPerk(sld, "Carpenter");
 			SetCharacterPerk(sld, "Builder");
 			SetCharacterPerk(sld, "WindCatcher");
@@ -842,6 +840,7 @@ void ProcessDialogEvent()
 			SetCharacterPerk(sld, "Doctor1");
 			SetCharacterPerk(sld, "Doctor2");
 			TakeNItems(sld, "talisman7", 1);
+			EquipCharacterbyItem(sld, "talisman7");
 			sld.quest.OfficerPrice = sti(pchar.rank)*350;
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
 			sld.OfficerWantToGo.DontGo = true; //не пытаться уйти

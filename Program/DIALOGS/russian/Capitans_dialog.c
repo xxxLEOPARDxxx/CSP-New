@@ -1044,6 +1044,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_Seabattle_won_exit":
+			LAi_LocationFightDisable(loadedLocation, false);
 			DeleteAttribute(NullCharacter, "capitainBase.BlackBeardNPC");
 			PostEvent("csmEvent_RefreshReload", 100);
 			BattleInterface.LAi_ActivateReload = true;

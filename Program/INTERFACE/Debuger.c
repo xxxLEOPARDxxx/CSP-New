@@ -1149,7 +1149,7 @@ void CalculateInfoDataF11()
 	Statistic_AddValue(PChar, "Cheats.F11", 1);
 }
 ////////////////////////////////////////////////////////////////////////
-string descF12 = "НЗГ у всех наций -50";//Заменить текущий корабль на ЧА";  //"LaunchMunityCapture";;
+string descF12 = "НЗГ у всех наций +50";//Заменить текущий корабль на ЧА";  //"LaunchMunityCapture";;
 
 void CalculateInfoDataF12()
 {
@@ -1630,7 +1630,7 @@ void CalculateInfoDataF28()
 	Statistic_AddValue(PChar, "Cheats.F28", 1);
 }
 
-string descF29 = "НЗГ у всех наций +50";
+string descF29 = "НЗГ у всех наций -50";
 void CalculateInfoDataF29()
 {
     totalInfo = descF29;

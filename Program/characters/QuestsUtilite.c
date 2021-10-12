@@ -1952,6 +1952,7 @@ void SetQuestAboardCabinDialog(ref refChar)
 		}
 		if (refChar.CaptanId == "BlackBeardNPC" && CheckAttribute(pchar,"Titch_seabattle"))
 		{
+			LAi_LocationFightDisable(loadedLocation, false);
 			LAi_SetCheckMinHP(refChar, 5.0, true, "Titch_seabattle");  // сколько НР мин
 		    return;
 		}
@@ -2136,6 +2137,7 @@ void QuestAboardCabinDialogNotBattle()
 	LAi_RemoveCheckMinHP(sld);
 	LAi_SetImmortal(sld, false);
     LAi_SetWarriorType(sld);
+	LAi_LocationFightDisable(loadedLocation, false);
 	DoQuestCheckDelay("LAi_ReloadBoarding", 1.0);
 }
 // выход с боевкой
@@ -2695,7 +2697,7 @@ void OfficerGirlInit()
 	sld.name 	= "Йоко";
 	sld.lastname = "Диаз";
 	sld.loyality = 12;
-	sld.rank 	= 17;
+	sld.rank 	= 15;
     sld.reputation = 70; // good девочка
 	sld.alignment = "good";
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
@@ -2718,11 +2720,11 @@ void OfficerGirlInit()
 	sld.dialog.currentnode = "Yoko_meet";
 	sld.greeting = "Gr_Danielle";
 	sld.money = 0;
- 	SetSPECIAL(sld, 8,4,7,8,7,8,6);
+ 	SetSPECIAL(sld, 9,4,8,6,7,8,6);
 	//f_l, f, f_h, p, f
 	SetSelfSkill(sld, 43,25,69,45,46);
 	// l, c, a, cn, sl, re, gr, de, sn
-	SetShipSkill(sld, 22,13,23,34,24,43,54,62,40);
+	SetShipSkill(sld, 45,13,23,34,24,43,54,62,40);
 	LAi_NPC_EquipPerk(sld, "fantom");
 	sld.perks.list.BasicDefense = true;
     sld.perks.list.AdvancedDefense = true;
@@ -2731,9 +2733,8 @@ void OfficerGirlInit()
     sld.perks.list.Gunman = true;
     sld.perks.list.GunProfessional = true;
     sld.perks.list.Energaiser = true;
-    sld.perks.list.ByWorker = true;
-	sld.perks.list.ShipEscape = true;
 	sld.perks.list.Ciras = true;
+	sld.perks.list.LongRangeGrappling = true;
     LAi_NoRebirthEnable(sld);
     LAi_SetWarriorType(sld);
     LAi_warrior_DialogEnable(sld, true);
@@ -2745,7 +2746,7 @@ void OfficerGirlInit()
 	sld.name 	= "Элен";
 	sld.lastname = "МакАртур";
 	sld.loyality = 20;
-	sld.rank 	= 17;
+	sld.rank 	= 15;
     sld.reputation = 50; // good девочка
 	sld.alignment = "good";
 	sld.HeroModel = "PGG_Rumba_0,PGG_Rumba_1,PGG_Rumba_2,PGG_Rumba_3,PGG_Rumba_4,PGG_Rumba_5";
@@ -2766,11 +2767,11 @@ void OfficerGirlInit()
 	sld.dialog.currentnode = "Helen_meet";
 	sld.greeting = "Gr_Danielle";
 	sld.money = 0;
-  	SetSPECIAL(sld, 5,8,7,7,7,9,5);
+  	SetSPECIAL(sld, 6,8,7,6,7,9,5);
 	//f_l, f, f_h, p, f
 	SetSelfSkill(sld, 68,23,38,45,44);
 	// l, c, a, cn, sl, re, gr, de, sn
-	SetShipSkill(sld, 66,15,55,56,40,22,33,21,34);
+	SetShipSkill(sld, 30,15,35,40,45,22,33,21,34);
 	LAi_NPC_EquipPerk(sld, "fantom");
 	sld.perks.list.BasicDefense = true;
     sld.perks.list.AdvancedDefense = true;
@@ -2779,9 +2780,8 @@ void OfficerGirlInit()
     sld.perks.list.Gunman = true;
     sld.perks.list.GunProfessional = true;
     sld.perks.list.Energaiser = true;
-    sld.perks.list.ByWorker = true;
-	sld.perks.list.ShipEscape = true;
 	sld.perks.list.Ciras = true;
+	sld.perks.list.ShipSpeedUp = true;
     LAi_NoRebirthEnable(sld);
     LAi_SetWarriorType(sld);
     LAi_warrior_DialogEnable(sld, true);
@@ -2793,14 +2793,14 @@ void OfficerGirlInit()
 	sld.name 	= "Анджелика";
 	sld.lastname = "Шарп";
 	sld.loyality = 20;
-	sld.rank 	= 17;
+	sld.rank 	= 15;
     sld.reputation = 10; // good девочка
 	sld.alignment = "bad";
-	GiveItem2Character(sld, "blade12");
+	GiveItem2Character(sld, "blade34");
 	TakeNItems(sld,"potion2", Rand(4)+1);
 	sld.equip.blade = "blade34";
 	GiveItem2Character(sld, "pistol2");
-	sld.equip.gun = "pisto34";
+	sld.equip.gun = "pistol2";
     TakeNItems(sld,"bullet", Rand(20)+20);
 	AddItems(sld, "GunPowder", rand(20)+20);
     sld.Payment = true;
@@ -2813,11 +2813,11 @@ void OfficerGirlInit()
 	sld.dialog.currentnode = "Angellica_meet";
 	sld.greeting = "Gr_Danielle";
 	sld.money = 0;
-  	SetSPECIAL(sld, 5,8,7,7,7,9,5);
+  	SetSPECIAL(sld, 7,8,7,5,7,9,5);
 	//f_l, f, f_h, p, f
 	SetSelfSkill(sld, 23,68,38,35,33);
 	// l, c, a, cn, sl, re, gr, de, sn
-	SetShipSkill(sld, 45,33,55,56,40,22,33,21,34);
+	SetShipSkill(sld, 45,33,55,56,35,22,33,21,34);
 	LAi_NPC_EquipPerk(sld, "fantom");
 	sld.perks.list.BasicDefense = true;
     sld.perks.list.AdvancedDefense = true;
@@ -2826,9 +2826,8 @@ void OfficerGirlInit()
     sld.perks.list.Gunman = true;
     sld.perks.list.GunProfessional = true;
     sld.perks.list.Energaiser = true;
-    sld.perks.list.ByWorker = true;
-	sld.perks.list.ShipEscape = true;
 	sld.perks.list.Ciras = true;
+	sld.perks.list.HullDamageUp = true;
     LAi_NoRebirthEnable(sld);
     LAi_SetWarriorType(sld);
     LAi_warrior_DialogEnable(sld, true);
@@ -2874,6 +2873,7 @@ void OfficerMushketerInit()
 	SetSelfSkill(sld, 60, 3, 3, 100, 80);
 	SetShipSkill(sld, 40, 7, 25, 15, 8, 10, 5, 10, 25);
 	SetCharacterPerk(sld, "AdvancedDefense");
+	SetCharacterPerk(sld, "Gunman");
 	SetCharacterPerk(sld, "GunProfessional");
 	SetCharacterPerk(sld, "Energaiser");
 	SetCharacterPerk(sld, "HPPlus");
@@ -2888,7 +2888,7 @@ void OfficerMushketerInit()
 	sld.lastname = "фон Коккай";
 	sld.greeting = "Gr_Officer";
 	sld.loyality = 13;
-	sld.rank = 18;
+	sld.rank = 15;
 	sld.reputation = 75; 
 	//Прописка всех моделей для кирас. -->
 	sld.HeroModel = "quest_mush_1,quest_mush_1_1,quest_mush_1_2,quest_mush_1_3,quest_mush_1_4,quest_mush_1_5";

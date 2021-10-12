@@ -116,6 +116,7 @@ bool LoadLocation(ref loc)
 	if (CheckAttribute(pchar,"ScamFanActive") && rand(9)==0 && !CheckAttribute(pchar,"ScamDestroyed") && loc.id != "FencingTown_ExitTown")
 	{
 		ref sld = CharacterFromID("ScamCharacter");
+		ChangeCharacterAddressGroup(sld,loc.id,"reload","reload1");
 		chrDisableReloadToLocation = true;
 		InterfaceStates.DisFastTravel = true;
 		LAi_SetActorTypeNoGroup(sld);

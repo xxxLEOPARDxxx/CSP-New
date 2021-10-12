@@ -324,7 +324,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			//==> на карту
 			sld.mapEnc.type = "trade";
 			//выбор типа кораблика на карте
-			sld.mapEnc.worldMapShip = "quest_ship"; // LEO: Сюда надо заюзать модельку МКА на глобалку, персональную.
+			sld.mapEnc.worldMapShip = "Tich_MKA"; // LEO: Сюда надо заюзать модельку МКА на глобалку, персональную.
 			sld.mapEnc.Name = "Фрегат 'Месть Королевы Анны'";
 			int daysQty = GetMaxDaysFromIsland2Island(GetArealByCityName(sld.quest.targetCity), GetArealByCityName(sld.city))+3; //дней доехать даем с запасом
 			Map_CreateTrader(sld.cityShore, sld.quest.targetShore, sld.id, daysQty);
