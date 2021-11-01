@@ -447,6 +447,7 @@ void CheckOfficersHPMinus()
 					DeleteAttribute(sld, "HPminusDays");
 					//DeleteAttribute(sld, "HPminus");
 					DeleteAttribute(sld, "HPminusDaysNeedtoRestore");
+					DeleteAttribute(sld, "Doctored");
 					//LAi_SetHP(sld, ihpm, ihpm);
 					Log_Info("ќфицер " + GetFullName(sld) + " выздоровел.");
 				}

@@ -151,6 +151,7 @@ void ProcessDialogEvent()
 			link.l1.go = "Samil_5";
 			RemoveCharacterEquip(npchar, BLADE_ITEM_TYPE);
 			log_info("Вы получили Полуторный Фламберж от Юм Самиля");
+			UnlockAchievement("AchUmSamil", 3);
 			TakeNItems(pchar,"blade201",1);
 			if (pchar.sex != "woman") LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_4_man");
 			else LAi_CharacterPlaySoundAtOnce(NPChar, "Samil_4_woman");

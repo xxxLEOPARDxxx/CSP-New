@@ -362,6 +362,12 @@ int LocationInitCuracao(int n)
 	locations[n].reload.l1.autoreload = "0";
     locations[n].reload.l1.label = "Street";
 	locations[n].locators_radius.camdetector.camera1 = 5;
+    ////////////////////////==> комната в магазине
+	locations[n].reload.l2.name = "reload2";
+	locations[n].reload.l2.go = "CommonPackhouse_1";
+	locations[n].reload.l2.emerge = "reload1";
+	locations[n].reload.l2.autoreload = "0";
+	locations[n].reload.l2.label = "packhouse";
 	LAi_LocationFightDisable(&locations[n], true);
 	n = n + 1;
 

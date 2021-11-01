@@ -69,6 +69,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Last_exit":
+			UnlockAchievement("AchSalazar", 3);
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 			npchar.LifeDay = 0;

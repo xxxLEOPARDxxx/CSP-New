@@ -137,6 +137,10 @@ void ProcessDialogEvent()
 				dialog.text = LinkRandPhrase("Да ты "+ GetSexPhrase("вор, милейший! Стража, держи его","воровка! Стража, держи ее") +"!!!", "Вот это да! Чуть я загляделся, а ты сразу в сундук с головой! Держи "+ GetSexPhrase("вора","воровку") +"!!!", "Стража! Грабят!!! Держи "+ GetSexPhrase("вора","воровку") +"!!!");
 				link.l1 = "А-ать, дьявол!!!";
 				link.l1.go = "fight";
+				if (CheckAttribute(pchar, "KIP_PI_SleditZaNami"))	//Проверка квеста "Проигравшийся игрок"
+				{	
+					DoQuestFunctionDelay("LooserGenerator_FailedByEnc", 0.1);
+				}
 			}
 			if(CheckCharacterPerk(pchar, "Grunt") || pchar.reputation <= 30)
 			{
@@ -248,6 +252,10 @@ void ProcessDialogEvent()
 				dialog.text = "Что тебе нужно здесь?.. Постой, я, кажется, знаю тебя... Стража, держи мерзав"+ GetSexPhrase("ца","ку") +"!!!";
 				link.l1 = "Сейчас ты умолкнешь навеки...";
 				link.l1.go = "fight";
+				if (CheckAttribute(pchar, "KIP_PI_SleditZaNami"))	//Проверка квеста "Проигравшийся игрок"
+				{	
+					DoQuestFunctionDelay("LooserGenerator_FailedByEnc", 0.1);
+				}
 			}
 			else
 			{

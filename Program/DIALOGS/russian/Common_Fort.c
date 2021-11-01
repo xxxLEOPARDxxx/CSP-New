@@ -76,7 +76,7 @@ void ProcessDialogEvent()
 						}
 						if (findsubstr(pchar.location.from_sea, "_town" , 0) != -1) //если причалил в городе
 						{
-							link.l1 = "“ы что, не видишь, как на мачте моего корабл€ развеваетс€ флаг" + NationNameGenitive(sti(pchar.nation)) + "?!";
+							link.l1 = "“ы что, не видишь, как на мачте моего корабл€ развеваетс€ флаг " + NationNameGenitive(sti(pchar.nation)) + "?!";
 						}
 						else //если причалил не в городе
 						{

@@ -326,7 +326,9 @@ ref funcGetWeaponID()
 	int iTemp = GetCharacterIndex(nCharIdx);
 	if (iTemp != -1)
 	{
-		string bladeId = characters[iTemp].equip.blade;
+		string bladeId;
+		if (CheckAttribute(&characters[iTemp],"equip.blade")) bladeId = characters[iTemp].equip.blade;
+		else return &g_strRetParam;
 		if (findsubstr(bladeId, "topor" , 0) != -1)	g_strRetParam = "topor";
 	}
 	return &g_strRetParam;

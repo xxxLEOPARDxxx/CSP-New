@@ -36,7 +36,7 @@ bool LAi_CharacterCanFrie(aref chr)
 	}
 	//if(stf(chr.chr_ai.chargeprc) == 0) // boal fix can fire any time if have charge
 	//{
-		if (chr.chr_ai.sgun == "pistol_grapebok" && stf(chr.chr_ai.charge) < 3) return false; 
+		if (CheckAttribute(chr,"chr_ai.sgun") && chr.chr_ai.sgun == "pistol_grapebok" && stf(chr.chr_ai.charge) < 3) return false; 
 		if(stf(chr.chr_ai.charge) >= 1.0) return true;
 	//}
 	return false;

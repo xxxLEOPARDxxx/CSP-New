@@ -80,6 +80,7 @@ void ProcessDialogEvent()
 			link.l2.go = "Krik";
 			link.l3 = "Пойми, это кольцо мне нужно для бедной женщины, которая...";
 			link.l3.go = "Krik";
+			NextDiag.TempNode = "Uhodi";
 		break;
 		
 		case "Krik":
@@ -87,7 +88,6 @@ void ProcessDialogEvent()
 			link.l1 = "Хватит! Хватит! Сейчас стража прибежит... Хорошо, я ухожу.";
 			link.l1.go = "exit";
 			ChangeCharacterReputation(pchar, -2);
-			NextDiag.TempNode = "Uhodi";
 		break;
 		
 		case "Uhodi":
@@ -134,10 +134,11 @@ void ProcessDialogEvent()
 			dialog.text = "Я не хочу кольцо мёртвого человека. Вот, возьми его.";
 			link.l1 = "Спасибо. Ты очень хорошая девушка, Франческа! Я обещаю тебе, что в один прекрасный день я вернусь и расскажу тебе длинную историю о моих приключениях. А теперь мне надо идти.";
 			link.l1.go = "Pomenyt";
-			AddCharacterExpToSkill(pchar, "Leadership", 200);
-			AddCharacterExpToSkill(pchar, "Sneak", 200);
-			AddCharacterExpToSkill(pchar, "Commerce", 30);
-			AddCharacterExpToSkill(pchar, "Fortune", 100);
+			Log_SetStringToLog("Авторитет + 2");
+			Log_SetStringToLog("Скрытность + 2");
+			AddCharacterSkill(pchar, "Leadership", 2);
+			AddCharacterSkill(pchar, "Sneak", 2);
+			ChangeCharacterReputation(pchar, 2);
 			sld = CharacterFromID("PDM_PK_Francheska")
 			LAi_CharacterDisableDialog(sld);
 			sld.lifeday = 0;
@@ -264,73 +265,6 @@ void ProcessDialogEvent()
 			DialogExit();  
 		break;
 		
-		case "Konets":
-			dialog.text = "Вы не видели моё кольцо, "+ GetSexPhrase("месье","мадемуазель") +"? Я потеряла кольцо. Оно должно быть где-то здесь. Мне так неловко, я с трудом могу вспомнить... Иногда мне кажется, что я потеряла что-то ещё... Что-то, что я забыла...";
-			link.l1 = "Да, я знаю, что вы потеряли. Я принёс"+ GetSexPhrase("","ла") +" вам ваше кольцо, мадам. Его сняли с тела вашего сына - который погиб во время сражения у стен Санто-Доминго. Вот, возьмите ваше кольцо.";
-			link.l1.go = "Konets_2";
-			
-			PlayVoice("Kopcapkz\Voices\PDM\Josephine Lodet.wav");	
-		break;
-		
-		case "Konets_2":
-			CloseQuestHeader("PDM_Poteryanoe_Koltso");
-			TakeItemFromCharacter(pchar, "PDM_PK_Koltso");
-			if (sti(pchar.Money) >= 15000)
-			{		
-				dialog.text = "Моё кольцо... я помню это кольцо... Я отдала его кому-то, кто должен был его вернуть. Он должен был вернуться... Мой Жак... О...";
-				link.l1 = "Жизнь не кончается, мадам. Я думаю, вам надо найти ваших родственников - я уверен"+ GetSexPhrase("","а") +", что они очень по вам скучают. До свидания.";
-				link.l1.go = "Nagrada_malo";
-				link.l2 = "Мадам, возьмите 15000 монет, я уверен"+ GetSexPhrase("","а") +", что они помогут вам найти ваших родственников. Они по вам очень скучают. Жизнь еще не закончена, помните это. До свидания.";
-				link.l2.go = "Nagrada_mnogo";
-			}
-			else
-			{
-				dialog.text = "Моё кольцо... я помню это кольцо... Я отдала его кому-то, кто должен был его вернуть. Он должен был вернуться... Мой Жак... О...";
-				link.l1 = "Жизнь не кончается, мадам. Я думаю, вам надо найти ваших родственников - я уверен, что они очень по вам скучают. До свидания.";
-				link.l1.go = "Nagrada_malo";
-			}			
-		break;
-		
-		case "Nagrada_mnogo":
-			Log_info("Вы получили опыт");
-			AddMoneyToCharacter(pchar, -15000);
-			AddCharacterExpToSkill(pchar, "Leadership", 100);
-			AddCharacterExpToSkill(pchar, "FencingLight", 30);
-			AddCharacterExpToSkill(pchar, "FencingHeavy", 30);
-			AddCharacterExpToSkill(pchar, "Fencing", 30);
-			AddCharacterExpToSkill(pchar, "Pistol", 30);
-			AddCharacterExpToSkill(pchar, "Fortune", 50);
-			AddCharacterExpToSkill(pchar, "Sneak", 100);
-			AddCharacterExpToSkill(pchar, "Sailing", 150);
-			AddCharacterExpToSkill(pchar, "Accuracy", 30);
-			AddCharacterExpToSkill(pchar, "Cannons", 30);
-			AddCharacterExpToSkill(pchar, "Grappling", 30);
-			AddCharacterExpToSkill(pchar, "Defence", 30);
-			AddCharacterExpToSkill(pchar, "Repair", 30);
-			AddCharacterExpToSkill(pchar, "Commerce", 100);
-			ChangeCharacterReputation(pchar, 4);
-			sld = CharacterFromID("Josephine_Lodet")
-			sld.dialog.filename   = "Common_citizen.c";
-			sld.dialog.currentnode   = "First time";
-		
-			DialogExit(); 
-		break;
-		
-		case "Nagrada_malo":
-			Log_info("Вы получили опыт");
-			AddCharacterExpToSkill(pchar, "Leadership", 100);
-			AddCharacterExpToSkill(pchar, "Fortune", 20);
-			AddCharacterExpToSkill(pchar, "Sneak", 100);
-			AddCharacterExpToSkill(pchar, "Sailing", 120);
-			AddCharacterExpToSkill(pchar, "Commerce", 20);
-			ChangeCharacterReputation(pchar, 2);
-			sld = CharacterFromID("Josephine_Lodet")
-			sld.dialog.filename   = "Common_citizen.c";
-			sld.dialog.currentnode   = "First time";
-		
-			DialogExit(); 
-		break;
-		
 		case "NaVerhuSFrancheska":
 			dialog.text = "Проходи, не стесняйся, чувствуй себя как дома на ближайшие два часа.";
 			link.l1 = "Нет, Франческа, тебе отсюда не уйти живой.";
@@ -338,8 +272,35 @@ void ProcessDialogEvent()
 			link.l2 = "Иди ко мне, моя рыбка.";
 			link.l2.go = "TrahEE";
 			PlayVoice("Kopcapkz\Voices\PDM\Francesca.wav");
+			npchar.lifeday = 0;	
+		break;
+		
+		case "TrahEE":
+			AddDialogExitQuest("PlaySex_1");
+			GiveItem2Character(pchar, "PDM_PK_Koltso");
+			chrDisableReloadToLocation = false;
+			sld = CharacterFromID("Josephine_Lodet")
+			sld.dialog.currentnode   = "Konets";
 			sld = CharacterFromID("PDM_PK_Francheska")
-			sld.lifeday = 0;
+			sld.dialog.currentnode   = "PosleTraha";
+			
+			Log_SetStringToLog("Скрытность + 3");
+			Log_SetStringToLog("Везение + 1");
+			AddCharacterSkill(pchar, "Sneak", 3);
+			AddCharacterSkill(pchar, "Fortune", 1);
+			AddCharacterHealth(pchar, 10);
+			
+			AddQuestRecord("PDM_Poteryanoe_Koltso", "5");
+			AddQuestUserData("PDM_Poteryanoe_Koltso", "sSex", GetSexPhrase("","а"));
+			DialogExit();
+		break;
+		
+		case "PosleTraha":
+			dialog.text = "Так не хочется тебя отпускать, "+ GetSexPhrase("мой","моя") +" "+ GetSexPhrase("рыцарь","валькирия") +".";
+			link.l1 = "Прощай, Франческа.";
+			link.l1.go = "exit";
+			PlayVoice("Kopcapkz\Voices\PDM\Francesca.wav");
+			LAi_CharacterDisableDialog(sld);
 		break;
 		
 		case "UbitEE":
@@ -361,31 +322,35 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		
-		case "TrahEE":
-			AddDialogExitQuest("PlaySex_1");
-			GiveItem2Character(pchar, "PDM_PK_Koltso");
-			chrDisableReloadToLocation = false;
-			sld = CharacterFromID("Josephine_Lodet")
-			sld.dialog.currentnode   = "Konets";
-			sld = CharacterFromID("PDM_PK_Francheska")
-			sld.dialog.currentnode   = "PosleTraha";
+		case "Konets":
+			dialog.text = "Вы не видели моё кольцо, "+ GetSexPhrase("месье","мадемуазель") +"? Я потеряла кольцо. Оно должно быть где-то здесь. Мне так неловко, я с трудом могу вспомнить... Иногда мне кажется, что я потеряла что-то ещё... Что-то, что я забыла...";
+			link.l1 = "Да, я знаю, что вы потеряли. Я принёс"+ GetSexPhrase("","ла") +" вам ваше кольцо, мадам. Его сняли с тела вашего сына - который погиб во время сражения у стен Санто-Доминго. Вот, возьмите ваше кольцо.";
+			link.l1.go = "Konets_2";
 			
-			AddCharacterExpToSkill(pchar, "Leadership", 200);
-			AddCharacterExpToSkill(pchar, "Sneak", 200);
-			AddCharacterExpToSkill(pchar, "Fortune", 130);
-			AddCharacterHealth(pchar, 10);
-			
-			AddQuestRecord("PDM_Poteryanoe_Koltso", "4");
-			AddQuestUserData("PDM_Poteryanoe_Koltso", "sSex", GetSexPhrase("","а"));
-			DialogExit();
+			PlayVoice("Kopcapkz\Voices\PDM\Josephine Lodet.wav");	
 		break;
 		
-		case "PosleTraha":
-			dialog.text = "Так не хочется тебя отпускать, "+ GetSexPhrase("мой","моя") +" "+ GetSexPhrase("рыцарь","валькирия") +".";
-			link.l1 = "Прощай, Франческа.";
-			link.l1.go = "exit";
-			PlayVoice("Kopcapkz\Voices\PDM\Francesca.wav");
-			LAi_CharacterDisableDialog(sld);
+		case "Konets_2":
+			CloseQuestHeader("PDM_Poteryanoe_Koltso");
+			TakeItemFromCharacter(pchar, "PDM_PK_Koltso");
+			dialog.text = "Моё кольцо... я помню это кольцо... Я отдала его кому-то, кто должен был его вернуть. Он должен был вернуться... Мой Жак... О...";
+			link.l1 = "Жизнь не кончается, мадам. Я думаю, вам надо найти ваших родственников, я уверен, что они очень по вам скучают. До свидания.";
+			link.l1.go = "Nagrada";			
+		break;
+		
+		case "Nagrada":
+			Log_SetStringToLog("Авторитет + 1");
+			Log_SetStringToLog("Скрытность + 1");
+			Log_SetStringToLog("Навигация + 1");
+			AddCharacterSkill(pchar, "Leadership", 1);
+			AddCharacterSkill(pchar, "Sneak", 1);
+			AddCharacterSkill(pchar, "Leadership", 1);
+			ChangeCharacterReputation(pchar, 2);
+			sld = CharacterFromID("Josephine_Lodet")
+			sld.dialog.filename   = "Common_citizen.c";
+			sld.dialog.currentnode   = "First time";
+		
+			DialogExit(); 
 		break;
 		
 		

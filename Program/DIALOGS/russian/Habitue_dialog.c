@@ -148,7 +148,7 @@ void ProcessDialogEvent()
 										//flag = sti(npchar.nation)!=PIRATE && pchar.location != "Pirates_tavern" && pchar.location != "FortOrange_tavern" && pchar.location != "Dominica_tavern" && pchar.location != "Guibraltar_tavern" && pchar.location != "Fishing_Settlement_tavern" && pchar.location != "Panama_tavern";
 										//Log_Info("Дней: "+GetQuestPastDayParam("CasinoGenerator_timer")+" надо > 15 Шанс: "+sti(npchar.GenQuest)+" надо < 30");
 										//if (flag && GetQuestPastDayParam("CasinoGenerator_timer") > 15 && sti(npchar.GenQuest) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline"))
-										if (drand(100) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline") && !CheckAttribute(pchar, "questTemp.KIP_Looser") && (pchar.location != "Marigo_tavern") && (pchar.location != "Pirates_tavern") && (pchar.location != "FortOrange_tavern") && (pchar.location != "Panama_tavern") && (pchar.location != "Fishing_Settlement_tavern") && (pchar.location != "Guibraltar_tavern") && (pchar.location != "Dominica_tavern") && (pchar.location != "Caiman_tavern"))
+										if (drand(100) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline") && !CheckAttribute(pchar, "questTemp.KIP_Looser") && (pchar.location != "Pirates_tavern") && (pchar.location != "LaVega_tavern") && (pchar.location != "PuertoPrincipe_tavern") && (pchar.location != "LeFransua_tavern") && (pchar.location != "FortOrange_tavern") && (pchar.location != "Panama_tavern") && (pchar.location != "Fishing_Settlement_tavern") && (pchar.location != "Guibraltar_tavern") && (pchar.location != "Dominica_tavern") && (pchar.location != "Caiman_tavern"))
 										{
 											DeleteAttribute(link, "l2");
 											DeleteAttribute(link, "l3");
@@ -184,7 +184,7 @@ void ProcessDialogEvent()
 										//flag = sti(npchar.nation)!=PIRATE && pchar.location != "FortOrange_tavern" && pchar.location != "Dominica_tavern" && pchar.location != "Guibraltar_tavern" && pchar.location != "Fishing_Settlement_tavern" && pchar.location != "Panama_tavern";
 										//Log_Info("Дней: "+GetQuestPastDayParam("CasinoGenerator_timer")+" надо > 15 Шанс: "+sti(npchar.GenQuest)+" надо < 30");
 										//if (flag && GetQuestPastDayParam("CasinoGenerator_timer") > 15 && sti(npchar.GenQuest) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline"))
-										if (drand(100) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline") && !CheckAttribute(pchar, "questTemp.KIP_Looser") && (pchar.location != "Marigo_tavern") && (pchar.location != "Pirates_tavern") && (pchar.location != "FortOrange_tavern") && (pchar.location != "Panama_tavern") && (pchar.location != "Fishing_Settlement_tavern") && (pchar.location != "Guibraltar_tavern") && (pchar.location != "Dominica_tavern") && (pchar.location != "Caiman_tavern"))
+										if (drand(100) < 15 && !CheckAttribute(pchar, "HOTP_CasinoQuest") && !CheckAttribute(npchar, "CasinoQuest.decline") && !CheckAttribute(pchar, "questTemp.KIP_Looser") && (pchar.location != "Pirates_tavern") && (pchar.location != "LaVega_tavern") && (pchar.location != "PuertoPrincipe_tavern") && (pchar.location != "LeFransua_tavern") && (pchar.location != "FortOrange_tavern") && (pchar.location != "Panama_tavern") && (pchar.location != "Fishing_Settlement_tavern") && (pchar.location != "Guibraltar_tavern") && (pchar.location != "Dominica_tavern") && (pchar.location != "Caiman_tavern"))
 										{
 											DeleteAttribute(link, "l2");
 											DeleteAttribute(link, "l3");
@@ -1155,6 +1155,18 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			link.l2 = "Посмотрим, что можно сделать.";
 			link.l2.go = "HOTP_CasinoQuest_5";
+			if (pchar.rank >= 8 && pchar.rank <= 14)
+			{			
+			ChangeItemDescribe("Bag_with_money", "itmdescr_Bag_with_money_2");
+			}
+			if (pchar.rank >= 15 && pchar.rank <= 21)
+			{			
+			ChangeItemDescribe("Bag_with_money", "itmdescr_Bag_with_money_3");
+			}
+			if (pchar.rank >= 22)
+			{			
+			ChangeItemDescribe("Bag_with_money", "itmdescr_Bag_with_money_4");
+			}
 
 			Diag.TempNode = "First time";
 		break;

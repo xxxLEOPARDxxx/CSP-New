@@ -291,6 +291,15 @@ void QuestComplete(string sQuestName, string qname)
 	    			sld.location = "none";
 	    			sld.location.from_sea = "";
     			}
+				if (findsubstr(npchar.model.animation, "mushketer" , 0) != -1)
+				{
+					npchar.IsMushketer = true;
+					npchar.CanTakeMushket = true;
+					npchar.IsMushketer.LastGunID = -1;
+					npchar.equip.blade = sld.equip.blade;
+					npchar.equip.gun = sld.equip.gun;
+					npchar.IsMushketer.MushketID = sld.IsMushketer.MushketID;
+				}
     			PlayVoice("interface\_EvShip1.wav");
     			LAi_SetCurHPMax(npchar);
     			AddPassenger(Pchar, npchar, false);
@@ -1381,6 +1390,8 @@ void QuestComplete(string sQuestName, string qname)
 			int iTradeNation   = sti(pchar.CargoQuest.iTradeNation);
 			int iMoney         = sti(pchar.CargoQuest.iMoney);
             AddCharacterGoods(pchar, iTradeGoods, iQuantityGoods);
+			ref store = GetColonyByIndex(FindColony(characters[GetCharacterIndex(pchar.CargoQuest.GiveTraderID)].city));
+            RemoveStoreGoods(&stores[sti(store.StoreNum)],iTradeGoods,iQuantityGoods);
 			//задаем квест
 			SetTimerCondition("generate_trade_quest", 0, 0, (sti(pchar.CargoQuest.iDaysExpired) + 1), false);
 
@@ -9795,7 +9806,6 @@ void QuestComplete(string sQuestName, string qname)
 			sld = CharacterFromID("Hugo_Lesopilka")
 			ChangeCharacterAddressGroup(sld,"none","","");
 		break;
-//========================  Квест "Золото не тонет".  =======================	
 
 		case "PDM_Lesopilka_Vremy":
 			AddQuestRecord("PDM_Novaya_Rodina", "8");							
@@ -10123,23 +10133,31 @@ void QuestComplete(string sQuestName, string qname)
 			sld = CharacterFromID("Josephine_Lodet")
 			sld.dialog.currentnode   = "Konets";
 			
-			AddCharacterExpToSkill(pchar, "FencingLight", 60);
-			AddCharacterExpToSkill(pchar, "FencingHeavy", 60);
-			AddCharacterExpToSkill(pchar, "Fencing", 60);
-			AddCharacterExpToSkill(pchar, "Pistol", 60);
+			Log_SetStringToLog("Лёгкое оружие + 1");
+			Log_SetStringToLog("Среднее оружие + 1");
+			Log_SetStringToLog("Тяжёлое оружие + 1");
+			AddCharacterSkill(pchar, "FencingLight", 1);
+			AddCharacterSkill(pchar, "Fencing", 1);
+			AddCharacterSkill(pchar, "FencingHeavy", 1);
 			ChangeCharacterReputation(pchar, -10);
-			ChangeCharacterNationReputation(pchar, SPAIN, -5);
+			ChangeCharacterNationReputation(pchar, SPAIN, -7);
 		break;
 		
 //========================  Квест "Непутёвый казначей".  =======================	
 
 		case "PDM_NK_Viktor":
-			AddCharacterExpToSkill(pchar, "FencingLight", 100);
-			AddCharacterExpToSkill(pchar, "FencingHeavy", 100);
-			AddCharacterExpToSkill(pchar, "Fencing", 100);
-			AddCharacterExpToSkill(pchar, "Pistol", 100);
-			AddCharacterExpToSkill(pchar, "Sneak", -100);
-			AddCharacterExpToSkill(pchar, "Commerce", -100);
+			Log_SetStringToLog("Лёгкое оружие + 1");
+			Log_SetStringToLog("Среднее оружие + 1");
+			Log_SetStringToLog("Тяжёлое оружие + 1");
+			Log_SetStringToLog("Пистолеты + 1");
+			Log_SetStringToLog("Скрытность - 1");
+			Log_SetStringToLog("Торговля - 1");
+			AddCharacterSkill(pchar, "FencingLight", 1);
+			AddCharacterSkill(pchar, "Fencing", 1);
+			AddCharacterSkill(pchar, "FencingHeavy", 1);
+			AddCharacterSkill(pchar, "Pistol", 1);
+			AddCharacterSkill(pchar, "Sneak", -1);
+			AddCharacterSkill(pchar, "Commerce", -1);
 			
 			AddQuestRecord("PDM_Neputyovy_kaznachey", "4");
 			
@@ -10302,6 +10320,60 @@ void QuestComplete(string sQuestName, string qname)
 				DeleteAttribute(pchar, "LambriniPGGPlata");
 			
 		break;
+		
+//========================  Квест "Аптекарь".  =======================
+		case "PDM_Apt_Markus_Vizdorovel":
+			sld = CharacterFromID("PDM_Markus")
+			sld.model = "shipowner_8";
+			DeleteAttribute(sld,"heromodel");
+			LAi_SetStayType(sld);
+			ChangeCharacterAddressGroup(sld,"CommonRoom_MH3","goto","goto1");
+			sld.dialog.filename   = "Quest/PDM/Aptekar.c";
+			sld.dialog.currentnode   = "Markus_Vizdorovel";
+		break;
+		
+		case "PDM_Apt_Prihov_v_buhtu":
+			PChar.quest.PDM_Apt_Derevo_1.win_condition.l1 = "locator";
+			PChar.quest.PDM_Apt_Derevo_1.win_condition.l1.location = "Common_jungle_01";
+			PChar.quest.PDM_Apt_Derevo_1.win_condition.l1.locator_group = "randitem";
+			PChar.quest.PDM_Apt_Derevo_1.win_condition.l1.locator = "randitem1";
+			PChar.quest.PDM_Apt_Derevo_1.win_condition = "PDM_Apt_Nashel_Derevo";
+			
+			PChar.quest.PDM_Apt_Derevo_2.win_condition.l1 = "locator";
+			PChar.quest.PDM_Apt_Derevo_2.win_condition.l1.location = "Common_jungle_01";
+			PChar.quest.PDM_Apt_Derevo_2.win_condition.l1.locator_group = "randitem";
+			PChar.quest.PDM_Apt_Derevo_2.win_condition.l1.locator = "randitem2";
+			PChar.quest.PDM_Apt_Derevo_2.win_condition = "PDM_Apt_Nashel_Derevo";
+			
+			PChar.quest.PDM_Apt_Derevo_3.win_condition.l1 = "locator";
+			PChar.quest.PDM_Apt_Derevo_3.win_condition.l1.location = "Common_jungle_01";
+			PChar.quest.PDM_Apt_Derevo_3.win_condition.l1.locator_group = "randitem";
+			PChar.quest.PDM_Apt_Derevo_3.win_condition.l1.locator = "randitem3";
+			PChar.quest.PDM_Apt_Derevo_3.win_condition = "PDM_Apt_Nashel_Derevo";
+			
+			AddQuestRecord("PDM_Aptekar", "8");
+		break;
+		
+		case "PDM_Apt_Nashel_Derevo":
+			GiveItem2Character(PChar, "PDM_Derevo_Teshkali");
+			
+			sld = CharacterFromID("Pablo_Loco")
+			sld.dialog.filename   = "Quest/PDM/Aptekar.c";
+			sld.dialog.currentnode   = "Nashel_Derevo";
+			
+			AddQuestRecord("PDM_Aptekar", "9");
+			
+			PChar.quest.PDM_Apt_Derevo_1.over = "yes";
+			PChar.quest.PDM_Apt_Derevo_2.over = "yes";
+			PChar.quest.PDM_Apt_Derevo_3.over = "yes";
+		break;
+		
+		case "PDM_Apt_Lodka_Postroena":
+			sld = CharacterFromID("Pablo_Loco")
+			sld.dialog.filename   = "Quest/PDM/Aptekar.c";
+			sld.dialog.currentnode   = "Pablo_Loco_Lodka_Postroena";
+		break;
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   	КВЕСТЫ "Проклятие Дальних Морей" КОНЕЦ
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -10515,17 +10587,19 @@ void QuestComplete(string sQuestName, string qname)
 		break;
 		
 		case "FishHeadsDefeated":
-			chrDisableReloadToLocation = false;
-			pchar.quest.EasterFish.win_condition.l1 = "ExitFromLocation";
-			pchar.quest.EasterFish.win_condition.l1.location = pchar.location;
-			pchar.quest.EasterFish.function = "FishHDS";
+			//chrDisableReloadToLocation = false;
+			if (loadedLocation.id == "Bermudes_Dungeon") 
+			{
+				PlayStereoSound("notebook");
+				TakeNItems(pchar,"Chest_quest",1);
+				Log_info("Вы получили призовой сундук.");
+			}
 		break;
 		
 		case "SpawnScamFan":
 			sld = GetCharacter(NPC_GenerateCharacter("ScamCharacter", "PGG_WillTerner_5", "man", "man", 1, PIRATE, 1, false));
 			DeleteAttribute(sld, "LifeDay"); 
-			GiveItem2Character(sld, "unarmed");
-			EquipCharacterbyItem(sld, "unarmed"); 
+			DeleteAttribute(sld, "items");
 			GetCharacterPos(pchar, &locx, &locy, &locz);
 			sTemp = LAi_FindNearestFreeLocator("rld", locx, locy, locz);
 			ChangeCharacterAddressGroup(sld, "FencingTown_ExitTown", "rld", sTemp);
@@ -10684,6 +10758,7 @@ void QuestComplete(string sQuestName, string qname)
 			pchar.GiantEvilSkeletonSpawned = true;
 		break;
 		case "GiantDead":
+			UnlockAchievement("AchKaskos", 3);
 			pchar.talismanpreget = true;
 			chrDisableReloadToLocation = false;
 			log_info("Вы чувствуете как гнетущее ощущение присутствия зла в этом месте слабеет.");

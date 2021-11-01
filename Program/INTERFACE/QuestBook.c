@@ -33,7 +33,8 @@ void InitInterface(string iniName)
 	string sTemp = RealShips[sti(Pchar.Ship.Type)].BaseName;
 	Pchar.Encyclopedia.(sTemp) = "1";
 	}
-	SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
+	if (InterfaceStates.AltFont == "0") SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,"INTERFACES\questbook_alt.ini");
+	else SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
 
 	selectJournal(1); // первый режим журнала, только активные
 
@@ -79,24 +80,35 @@ void XI_SetQuestData(bool qtitle)
 	aref arefTmp;
 	makearef(arefTmp,pchar.TmpQuestInfo);
 
-	XI_SetQuestTitles("QUEST_TITLE",arefTmp,0);
+	if (InterfaceStates.AltFont == "0") XI_SetQuestTitles("QUEST_TITLE_ALT",arefTmp,0);
+	else XI_SetQuestTitles("QUEST_TITLE",arefTmp,0);
 	curQuestTop = 0;
 
-	SetNodeUsing("QUEST_TITLE",qtitle);
-	if (!InterfaceStates.AltFont) SetNodeUsing("QUEST_TEXT",!qtitle);
-	else SetNodeUsing("QUEST_TEXT_ALT",!qtitle);
+	if (InterfaceStates.AltFont == "0") SetNodeUsing("QUEST_TITLE_ALT",qtitle);
+	else SetNodeUsing("QUEST_TITLE",qtitle);
+	switch (sti(InterfaceStates.AltFont))
+	{
+		case 0: SetNodeUsing("QUEST_TEXT_ALT_NORMAL",!qtitle); break;
+		case 1: SetNodeUsing("QUEST_TEXT",!qtitle); break;
+		case 2: SetNodeUsing("QUEST_TEXT_ALT",!qtitle); break;
+	}	
 	SetNodeUsing("QUESTSCROLL",true);
 
 	ShowButtons();
 
 	if(qtitle == true)
 	{
-		SetCurrentNode("QUEST_TITLE");
+		if (InterfaceStates.AltFont == "0") SetCurrentNode("QUEST_TITLE_ALT");
+		else SetCurrentNode("QUEST_TITLE");
 	}
 	else
 	{
-		if (!InterfaceStates.AltFont) SetCurrentNode("QUEST_TEXT");
-		else SetCurrentNode("QUEST_TEXT_ALT");
+		switch (sti(InterfaceStates.AltFont))
+		{
+			case 0: SetCurrentNode("QUEST_TEXT_ALT_NORMAL"); break;
+			case 1: SetCurrentNode("QUEST_TEXT"); break;
+			case 2: SetCurrentNode("QUEST_TEXT_ALT"); break;
+		}
 	}
 }
 
@@ -140,7 +152,8 @@ void HideEncWindows()
 	SetNodeUsing("I_ITEMS_2",true);
 	SetNodeUsing("I_ITEMS",true);
 
-	SetNodeUsing("QUEST_TITLE",true);
+	if (InterfaceStates.AltFont == "0") SetNodeUsing("QUEST_TITLE_ALT",true);
+	else SetNodeUsing("QUEST_TITLE",true);
 	SetNodeUsing("SHIP_TABLE_LIST_LEFT",false);
 	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",false);
 	HideAchievements();
@@ -191,7 +204,8 @@ void ShowShipsWindow()
 	SetNodeUsing("I_ITEMS_2",false);
 	SetNodeUsing("I_ITEMS",false);
 
-	SetNodeUsing("QUEST_TITLE",false);
+	if (InterfaceStates.AltFont == "0") SetNodeUsing("QUEST_TITLE_ALT",false);
+	else SetNodeUsing("QUEST_TITLE",false);
 	SetNodeUsing("SHIP_TABLE_LIST_LEFT",true);
 	SetNodeUsing("SHIP_TABLE_LIST_RIGHT",true);
 	FillShipInfoEncy("SHIP_TABLE_LIST_LEFT");
@@ -235,7 +249,8 @@ void ShowBladeWindow()
 	SetNodeUsing("I_ITEMS_2",false);
 	SetNodeUsing("I_ITEMS",false);
 
-	SetNodeUsing("QUEST_TITLE",false);
+	if (InterfaceStates.AltFont == "0") SetNodeUsing("QUEST_TITLE_ALT",false);
+	else SetNodeUsing("QUEST_TITLE",false);
 	AddToTable("BLADE_TABLE_LIST", "blade");
 	SetNodeUsing("EXIT_ENC_BTN",true);
 	SetNodeUsing("EXIT_BTN",false);
@@ -276,7 +291,8 @@ void ShowGunWindow()
 	SetNodeUsing("I_ITEMS_2",false);
 	SetNodeUsing("I_ITEMS",false);
 
-	SetNodeUsing("QUEST_TITLE",false);
+	if (InterfaceStates.AltFont == "0") SetNodeUsing("QUEST_TITLE_ALT",false);
+	else SetNodeUsing("QUEST_TITLE",false);
 	AddToTable("GUN_TABLE_LIST", "gun");
 	SetNodeUsing("EXIT_ENC_BTN",true);
 	SetNodeUsing("EXIT_BTN",false);
@@ -317,7 +333,8 @@ void ShowFoodWindow()
 	SetNodeUsing("I_ITEMS_2",false);
 	SetNodeUsing("I_ITEMS",false);
 
-	SetNodeUsing("QUEST_TITLE",false);
+	if (InterfaceStates.AltFont == "0") SetNodeUsing("QUEST_TITLE_ALT",false);
+	else SetNodeUsing("QUEST_TITLE",false);
 	AddToTable("FOOD_TABLE_LIST", "food");
 	SetNodeUsing("EXIT_ENC_BTN",true);
 	SetNodeUsing("EXIT_BTN",false);
@@ -358,7 +375,8 @@ void ShowBonusItemWindow()
 	SetNodeUsing("I_ITEMS_2",false);
 	SetNodeUsing("I_ITEMS",false);
 
-	SetNodeUsing("QUEST_TITLE",false);
+	if (InterfaceStates.AltFont == "0") SetNodeUsing("QUEST_TITLE_ALT",false);
+	else SetNodeUsing("QUEST_TITLE",false);
 	AddToTable("BONUSITEM_TABLE_LIST", "BonusItem");
 	SetNodeUsing("EXIT_ENC_BTN",true);
 	SetNodeUsing("EXIT_BTN",false);
@@ -366,9 +384,14 @@ void ShowBonusItemWindow()
 
 void HideQuests()
 {
-	SetNodeUsing("QUEST_TITLE",false);
-	if (!InterfaceStates.AltFont) SetNodeUsing("QUEST_TEXT",false);
-	else SetNodeUsing("QUEST_TEXT_ALT",false);
+	if (InterfaceStates.AltFont == "0") SetNodeUsing("QUEST_TITLE_ALT",false);
+	else SetNodeUsing("QUEST_TITLE",false);
+	switch (sti(InterfaceStates.AltFont))
+	{
+		case 0: SetNodeUsing("QUEST_TEXT_ALT_NORMAL",false); break;
+		case 1: SetNodeUsing("QUEST_TEXT",false); break;
+		case 2: SetNodeUsing("QUEST_TEXT_ALT",false); break;
+	}
 	SetNodeUsing("QUESTSCROLL",false);
 }
 
@@ -406,28 +429,36 @@ void HideStoreBook()
 
 void ProcessCancelExit()
 {
-	if (!InterfaceStates.AltFont)
+	switch (sti(InterfaceStates.AltFont))
 	{
-		if( GetSelectable("QUEST_TEXT") )
-		{
-			XI_SetQuestData(true);
-			return;
-		}
-	}
-	else
-	{
-		if( GetSelectable("QUEST_TEXT_ALT") )
-		{
-			XI_SetQuestData(true);
-			return;
-		}
+		case 0:
+			if( GetSelectable("QUEST_TEXT_ALT_NORMAL") )
+			{
+				XI_SetQuestData(true);
+				return;
+			}
+		break;
+		case 1:
+			if( GetSelectable("QUEST_TEXT") )
+			{
+				XI_SetQuestData(true);
+				return;
+			}
+		break;
+		case 2:
+			if( GetSelectable("QUEST_TEXT_ALT") )
+			{
+				XI_SetQuestData(true);
+				return;
+			}
+		break;
 	}
 	IDoExit(RC_INTERFACE_ANY_EXIT);
 }
 
 void QuestTopChange()
 {
-	if( GetSelectable("QUEST_TITLE") )
+	if( GetSelectable("QUEST_TITLE") || GetSelectable("QUEST_TITLE_ALT"))
 	{
 		int newTop = curQuestTop+GetEventData();
 
@@ -446,7 +477,8 @@ void QuestTopChange()
 		if(newTop!=curQuestTop)
 		{
 			curQuestTop=newTop;
-			XI_SetQuestTitles("QUEST_TITLE",arefTmp,curQuestTop);
+			if (InterfaceStates.AltFont == "0") XI_SetQuestTitles("QUEST_TITLE_ALT",arefTmp,curQuestTop);
+			else XI_SetQuestTitles("QUEST_TITLE",arefTmp,curQuestTop);
 			XI_SetScroller(MakeFloat(newTop)/MakeFloat(maxVal));
 		}
 	}
@@ -458,17 +490,21 @@ void SetQTextShow(aref pA,int qnum)
 	aref arTopic = GetAttributeN(pA, qnum);
 	DeleteQuestHeaderColor(GetAttributeName(arTopic));
 	// boal <--
-	if (!InterfaceStates.AltFont)
+	switch (sti(InterfaceStates.AltFont))
 	{
-		SendMessage(&GameInterface,"lsal",MSG_INTERFACE_INIT_QTEXT_SHOW,"QUEST_TEXT",pA,qnum);
-		SetCurrentNode("QUEST_TEXT");
+		case 0:
+			SendMessage(&GameInterface,"lsal",MSG_INTERFACE_INIT_QTEXT_SHOW,"QUEST_TEXT_ALT_NORMAL",pA,qnum);
+			SetCurrentNode("QUEST_TEXT_ALT_NORMAL");
+		break;
+		case 1:
+			SendMessage(&GameInterface,"lsal",MSG_INTERFACE_INIT_QTEXT_SHOW,"QUEST_TEXT",pA,qnum);
+			SetCurrentNode("QUEST_TEXT");
+		break;
+		case 2: 
+			SendMessage(&GameInterface,"lsal",MSG_INTERFACE_INIT_QTEXT_SHOW,"QUEST_TEXT_ALT",pA,qnum);
+			SetCurrentNode("QUEST_TEXT_ALT");
+		break;
 	}
-	else
-	{
-		SendMessage(&GameInterface,"lsal",MSG_INTERFACE_INIT_QTEXT_SHOW,"QUEST_TEXT_ALT",pA,qnum);
-		SetCurrentNode("QUEST_TEXT_ALT");
-	}
-
 }
 
 void BackToTitle()
@@ -483,8 +519,12 @@ void XI_QuestActivate()
 	makearef(pA,pchar.TmpQuestInfo);
 	XI_SetQuestData(false);
 	SetQTextShow(pA,aq);
-	if (!InterfaceStates.AltFont) SetCurrentNode("QUEST_TEXT");
-	else SetCurrentNode("QUEST_TEXT_ALT");
+	switch (sti(InterfaceStates.AltFont))
+	{
+		case 0: SetCurrentNode("QUEST_TEXT_ALT_NORMAL"); break;
+		case 1: SetCurrentNode("QUEST_TEXT"); break;
+		case 2: SetCurrentNode("QUEST_TEXT_ALT"); break;
+	}
 }
 
 void XI_SetScroller(float pos)
@@ -545,7 +585,8 @@ void ProcScrollPosChange()
 {
 	float newPos = GetEventData();
 	string scrollName = GetEventData();
-	if( GetSelectable("QUEST_TITLE") )
+	
+	if( GetSelectable("QUEST_TITLE") || GetSelectable("QUEST_TITLE_ALT"))
 	{
 		aref arefTmp;
 		makearef(arefTmp,pchar.TmpQuestInfo);
@@ -555,13 +596,18 @@ void ProcScrollPosChange()
 		if(newTop!=curQuestTop)
 		{
 			curQuestTop=newTop;
-			XI_SetQuestTitles("QUEST_TITLE",arefTmp,curQuestTop);
+			if (InterfaceStates.AltFont == "0")	XI_SetQuestTitles("QUEST_TITLE_ALT",arefTmp,curQuestTop);
+			else XI_SetQuestTitles("QUEST_TITLE",arefTmp,curQuestTop);
 		}
 	}
 	else
 	{
-		if (!InterfaceStates.AltFont) SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT", 1,newPos);
-		else SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT_ALT", 1,newPos);
+		switch (sti(InterfaceStates.AltFont))
+		{
+			case 0: SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT_ALT_NORMAL", 1,newPos); break;
+			case 1: SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT", 1,newPos); break;
+			case 2: SendMessage(&GameInterface,"lslf",MSG_INTERFACE_MSG_TO_NODE,"QUEST_TEXT_ALT", 1,newPos); break;
+		}
 	}
 }
 
@@ -570,9 +616,20 @@ void ProcScrollChange()
 	int changeNum = GetEventData();
 	if(changeNum==0) return;
 	string controlNode = "";
-	if( GetSelectable("QUEST_TITLE") ) controlNode = "QUEST_TITLE";
-	if (!InterfaceStates.AltFont) {if( GetSelectable("QUEST_TEXT") ) controlNode = "QUEST_TEXT";}
-	else {if( GetSelectable("QUEST_TEXT_ALT") ) controlNode = "QUEST_TEXT_ALT";}
+	if (InterfaceStates.AltFont == "0") 
+	{
+		if( GetSelectable("QUEST_TITLE_ALT") ) controlNode = "QUEST_TITLE_ALT";
+	}
+	else 
+	{
+		if( GetSelectable("QUEST_TITLE") ) controlNode = "QUEST_TITLE";
+	}
+	switch (sti(InterfaceStates.AltFont))
+	{
+		case 0: if( GetSelectable("QUEST_TEXT_ALT_NORMAL") ) controlNode = "QUEST_TEXT_ALT_NORMAL"; break;
+		case 1: if( GetSelectable("QUEST_TEXT") ) controlNode = "QUEST_TEXT"; break;
+		case 2: if( GetSelectable("QUEST_TEXT_ALT") ) controlNode = "QUEST_TEXT_ALT"; break;
+	}
 
 	if(controlNode!="")
 	{
@@ -1074,7 +1131,8 @@ void SetTableRowByAchievement(string ach_id, int level)
 	{
 		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest"
 		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest"
-		|| ach_id == "ships" || ach_id == "bank_money" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchShipSearch" || ach_id == "AchOrion" || ach_id == "AchRabotorg" || ach_id == "AchKondotier")
+		|| ach_id == "ships" || ach_id == "bank_money" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchShipSearch" || ach_id == "AchOrion" || ach_id == "AchRabotorg" || ach_id == "AchKondotier"
+		|| ach_id == "AchTich" || ach_id == "AchRagnar" || ach_id == "AchSalazar" || ach_id == "AchKaskos" || ach_id == "AchUmSamil")
 		{
 			// GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "1 ур.";
 			GameInterface.TABLE_ACHIEVEMENTS.(row).td1.str = "1";
@@ -1273,7 +1331,8 @@ void SetTableRowByAchievement(string ach_id, int level)
 		GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = strprogress;
 
 		if(ach_id == "Nation_quest_E" || ach_id == "Nation_quest_F" || ach_id == "Nation_quest_H" || ach_id == "Nation_quest_S" || ach_id == "Nation_quest_P" || ach_id == "Isabella_quest" || ach_id == "LSC_quest" || ach_id == "Teno_quest" || ach_id == "Killbeggars_quest"
-		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchOrion" || ach_id == "AchRabotorg" || ach_id == "AchKondotier")
+		|| ach_id == "Ghostship_quest" || ach_id == "Bluebird_quest" || ach_id == "Berglarsgang_quest" || ach_id == "Mummydust_quest" || ach_id == "Enchantcity_quest" || ach_id == "CapBladLine" || ach_id == "WhisperLine" || ach_id == "AchOrion" || ach_id == "AchRabotorg" || ach_id == "AchKondotier"
+		|| ach_id == "AchTich" || ach_id == "AchRagnar" || ach_id == "AchSalazar" || ach_id == "AchKaskos" || ach_id == "AchUmSamil")
 		{
 			GameInterface.TABLE_ACHIEVEMENTS.(row).td4.str = "Не завершено...";
 		}
@@ -2405,7 +2464,7 @@ void GiveItemToTraderByType(aref ch, string type)
 				}
 			break;
 			case "bonusitem":
-				if (HasSubStr(itm.id,"backpack") || HasSubStr(itm.id,"talisman") || HasSubStr(itm.id,"cirass") || HasSubStr(itm.id,"jewelry") || HasSubStr(itm.id,"indian") || HasSubStr(itm.id,"Totem") || HasSubStr(itm.id,"mineral") || HasSubStr(itm.id,"Dozor_H") || HasSubStr(itm.id,"Dozor_Mi") || HasSubStr(itm.id,"Dozor_S") || HasSubStr(itm.id,"suit") || HasSubStr(itm.id,"Strange") || HasSubStr(itm.id,"statue")) AddItems(ch, itemID, irand);
+				if (HasSubStr(itm.id,"backpack") || HasSubStr(itm.id,"talisman") || HasSubStr(itm.id,"cirass") || HasSubStr(itm.id,"jewelry") || HasSubStr(itm.id,"indian") || HasSubStr(itm.id,"Totem") || HasSubStr(itm.id,"mineral") || HasSubStr(itm.id,"Dozor_H") || HasSubStr(itm.id,"Dozor_Mi") || HasSubStr(itm.id,"Dozor_S") || HasSubStr(itm.id,"suit") || HasSubStr(itm.id,"Strange") || HasSubStr(itm.id,"statue") || HasSubStr(itm.id,"scul")) AddItems(ch, itemID, irand);
 			break;
 		}
 	}

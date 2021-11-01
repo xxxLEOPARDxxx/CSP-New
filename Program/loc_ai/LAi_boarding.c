@@ -181,7 +181,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0); 
 		if (ecrewBak > ecrew) ecrewBak = ecrew;//aw013 
 		PlaySound("INTERFACE\_musketshot_" + rand(3) + ".wav");
-		if (CheckAttribute(RealShips[sti(echr.Ship.Type)],"Tuning.HighBort")) ecrewBak = makeint(ecrewBak/4);
+		if (CheckAttribute(RealShips[sti(echr.Ship.Type)],"Tuning.HighBort")) ecrewBak = makeint(ecrewBak/2);
 		ecrew = ecrew - ecrewBak; 
 		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек команды противника."); 
 	} 
@@ -192,7 +192,7 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 		ecrewBak = makeint(ecrewBak * (2.1 - tmpDefence) / 2.0); 
 		if (ecrewBak > mcrew) ecrewBak = mcrew;//aw013 
 		PlaySound("INTERFACE\_musketshot_" + rand(3) + ".wav");
-		if (CheckAttribute(RealShips[sti(mchr.Ship.Type)],"Tuning.HighBort")) ecrewBak = makeint(ecrewBak/4);
+		if (CheckAttribute(RealShips[sti(mchr.Ship.Type)],"Tuning.HighBort")) ecrewBak = makeint(ecrewBak/2);
 		mcrew = mcrew - ecrewBak; 
 		Log_SetStringToLog("Мушкетным залпом убито " + ecrewBak + " человек нашей команды."); 
 		Statistic_AddValue(mchr, "DeadCrewBoard", ecrewBak); 
@@ -728,7 +728,8 @@ void LAi_ReloadEndFade()
 			}
 
 			// boal 22.01.2004 <--
-			SetCrewQuantityOverMax(GetMainCharacter(), MakeInt(crew + 0.3)); // десант весь ГГ как перегруз команды
+			//SetCrewQuantityOverMax(GetMainCharacter(), MakeInt(crew + 0.3)); // десант весь ГГ как перегруз команды
+			SetCrewQuantity(GetMainCharacter(), MakeInt(crew + 0.3)); // фикс после переделки оверкоманды БМС
 			Log_TestInfo("----- в конце стало " + crew +" матросов ---");
 			//Пересчитываем команду соперника
 			crew = 0;// какие еще люди? все трупы! boarding_enemy_base_crew*(0.1 + rand(20)*0.01);

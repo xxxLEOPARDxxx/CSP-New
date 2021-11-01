@@ -269,6 +269,12 @@ string Sea_FindNearColony()
 // boal <--
 void Sea_LandLoad()
 {	
+	if (CheckAttribute(pchar, "LockSeaReload"))
+	{
+		Log_Info(pchar.LockSeaReload);
+		PlaySound("interface\knock.wav");
+		return;
+	}
 	string sColony = Sea_FindNearColony(); // boal
 	int iColony = FindColony(sColony);
 	int patentnation = -1;
@@ -492,6 +498,12 @@ void Sea_MapLoadXZ_AY(float x, float z, float ay)
 
 void Sea_MapLoad()
 {
+	if (CheckAttribute(pchar, "LockSeaReload"))
+	{
+		Log_Info(pchar.LockSeaReload);
+		PlaySound("interface\knock.wav");
+		return;
+	}
 	// boal 201004 проверка на перегруз и мин команду -->
 	ref  rPlayer = GetMainCharacter();
     int  i, cn;

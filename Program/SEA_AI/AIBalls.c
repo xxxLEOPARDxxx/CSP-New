@@ -74,7 +74,7 @@ void Ball_AddBall(aref aCharacter, float fX, float fY, float fZ, float fSpeedV0,
 {
 	int iCannonType = sti(aCharacter.Ship.Cannons.Type);
 	ref rCannon = GetCannonByType(iCannonType);
-	float fCannonHeightMultiply = stf(rCannon.HeightMultiply);
+	float fCannonHeightMultiply = stf(rCannon.HeightMultiply)-(0.02*GetCharacterSPECIALSimple(aCharacter, SPECIAL_P));
 
 	EntityUpdate(0);
 	AIBalls.CannonType = iCannonType;
@@ -88,8 +88,8 @@ void Ball_AddBall(aref aCharacter, float fX, float fY, float fZ, float fSpeedV0,
 	AIBalls.TimeSpeedMultiply = rCannon.TimeSpeedMultiply;
 	AIBalls.MaxFireDistance   = fMaxFireDistance;
 	
-	float fTempDispersionY = Degree2Radian(15.0);
-	float fTempDispersionX = Degree2Radian(5.0);
+	float fTempDispersionY = Degree2Radian(5.0); // LEO: Важные параметры разброса снарядов - (15.0)
+	float fTempDispersionX = Degree2Radian(5.0); // (5.0)
 
 	//float fDamage2Cannons = 100.0;
 

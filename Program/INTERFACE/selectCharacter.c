@@ -72,7 +72,9 @@ void InitInterface(string iniName)
 
 	SetEventHandler("frame","IProcessFrame",0);
 	SetEventHandler("ievnt_command","ProcessCommandExecute",0);
-
+	
+	SetFormatedText("EXP_SLIDE_MIN", "Min");
+	SetFormatedText("EXP_SLIDE_MAX", "Max");
 
 	if (!CheckAttribute(&GameInterface, "SavePath"))
 		GameInterface.SavePath = GetSaveDirectory();
@@ -869,7 +871,7 @@ void IDoExit(int exitCode, bool bCode)
         MOD_EXP_RATE = makeint(5 + 10.0 * (1.0 - stf(GameInterface.nodes.EXP_SLIDE.value)));  // 0т 5 до 15
 		trace("MOD_EXP_RATE = " + MOD_EXP_RATE);
 		
-		MOD_OFFICERS_RATE = makeint(10 - 7.0 * (1.0 - stf(GameInterface.nodes.OFF_SLIDE.value)));  // 0т 3 до 10
+		MOD_OFFICERS_RATE = makeint(9 - 6.0 * (1.0 - stf(GameInterface.nodes.OFF_SLIDE.value)));  // 0т 3 до 9
 		trace("MOD_OFFICERS_RATE = " + MOD_OFFICERS_RATE);
 		
 		MOD_DEAD_CLEAR_TIME = makeint(500 - 400.0 * (1.0 - stf(GameInterface.nodes.DEAD_SLIDE.value)));  // 0т 100 до 500

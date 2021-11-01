@@ -65,7 +65,9 @@ void InitInterface(string iniName)
 
 	SetEventHandler("evFaderFrame","FaderFrame",0);
 	
-	SetFormatedText("TEXT_NATIONSPIC_SETTINGS", "Иконки наций");
+	SetFormatedText("TEXT_NATIONS_PIC_SETTINGS", "Иконки наций");
+	SetFormatedText("TEXT_VISUAL_CIRASS_PIC_SETTINGS", "Визуал кирас");
+	SetFormatedText("TEXT_FONT_QUESTBOOK_PIC_SETTINGS", "Шрифт журнала");
 
 	aref ar; makearef(ar,objControlsState.key_codes);
 	SendMessage(&GameInterface,"lsla",MSG_INTERFACE_MSG_TO_NODE,"KEY_CHOOSER", 0,ar);
@@ -208,6 +210,8 @@ void IReadVariableAfterInit()
 	GetHerbOptionsData();
 	GetControlsStatesData();
 	GetFlagAllOptionsData();
+	GetVisualCirassOptionsData();
+	GetAltFontOptionsData();
 
 	int nShowBattleMode = 0;
 	if( CheckAttribute(&InterfaceStates,"ShowBattleMode") ) {
@@ -266,12 +270,12 @@ void IReadVariableAfterInit()
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"HUDStyle_CHECKBOX", 2, 1, nHUDStyle );
 	
-	int nVISUAL_CIRASS = 0;
+	/*int nVISUAL_CIRASS = 0;
 	if( CheckAttribute(&InterfaceStates,"VISUAL_CIRASS") )
 	{
 		nVISUAL_CIRASS = sti(InterfaceStates.VISUAL_CIRASS);
 	}
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, nVISUAL_CIRASS );
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, nVISUAL_CIRASS );*/
 	
 	int nCannonsHUD = 0;
 	if( CheckAttribute(&InterfaceStates,"CannonsHUD") )
@@ -292,11 +296,11 @@ void IReadVariableAfterInit()
 	}
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"DEADBOXTEXT_CHECKBOX", 2, 1, nDeadBoxText );
 	
-	int nAltFont = 0;
+	/*int nAltFont = 0;
 	if( CheckAttribute(&InterfaceStates,"AltFont") ) {
 		nAltFont = sti(InterfaceStates.AltFont);
 	}
-	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 1, nAltFont );
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 1, nAltFont );*/
 	
 	int nNoInt = 0;
 	if( CheckAttribute(&InterfaceStates,"NoInt") ) {
@@ -514,12 +518,12 @@ void procCheckBoxChange()
 		}
 	}
 	
-	if( sNodName == "VISUAL_CIRASS_CHECKBOX" )
+	/*if( sNodName == "VISUAL_CIRASS_CHECKBOX" )
 	{
 		{ // Show battle mode border
 			InterfaceStates.VISUAL_CIRASS = bBtnState;
 		}
-	}
+	}*/
 	
 	if( sNodName == "CannonsHUD_CHECKBOX" )
 	{
@@ -535,12 +539,12 @@ void procCheckBoxChange()
 		}
 	}
 	
-	if( sNodName == "ALTFONT_CHECKBOX" )
+	/*if( sNodName == "ALTFONT_CHECKBOX" )
 	{
 		{ // Show battle mode border
 			InterfaceStates.AltFont = bBtnState;
 		}
-	}
+	}*/
 	
 	if( sNodName == "NOINT_CHECKBOX" )
 	{
@@ -602,6 +606,52 @@ void procCheckBoxChange()
 					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, 1, false );
 					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, 2, false );
 					worldMap.showFlag.texture = "flagallWDM" + iFlagAllWdm + ".tga";
+				break;
+			}
+		}
+		return;
+	}
+	
+	if( sNodName == "VISUAL_CIRASS_CHECKBOX" ) 
+	{
+		InterfaceStates.VISUAL_CIRASS = 0
+		
+		if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "VISUAL_CIRASS_CHECKBOX", 3, 1))
+		{
+			InterfaceStates.VISUAL_CIRASS = sti(InterfaceStates.VISUAL_CIRASS)+1;
+		}
+		if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "VISUAL_CIRASS_CHECKBOX", 3, 2))
+		{
+			InterfaceStates.VISUAL_CIRASS = sti(InterfaceStates.VISUAL_CIRASS)+3;
+		}
+		if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "VISUAL_CIRASS_CHECKBOX", 3, 3))
+		{
+			InterfaceStates.VISUAL_CIRASS = sti(InterfaceStates.VISUAL_CIRASS)+5;
+		}
+		//log_testinfo(InterfaceStates.VISUAL_CIRASS);
+		return;
+	}
+	
+	if( sNodName == "ALTFONT_CHECKBOX" ) 
+	{
+		if( bBtnState == true ) 
+		{
+			switch( nBtnIndex ) 
+			{
+				case 1: 
+					InterfaceStates.AltFont=0; 
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 2, false );
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 3, false );
+				break;
+				case 2: 
+					InterfaceStates.AltFont=1; 
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 1, false );
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 3, false );
+				break;
+				case 3: 
+					InterfaceStates.AltFont=2; 
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 1, false );
+					SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, 2, false );
 				break;
 			}
 		}
@@ -967,6 +1017,65 @@ void GetFlagAllOptionsData()
 	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"FLAGALLWDM_CHECKBOX", 2, nSelBtn, true );
 }
 
+void GetVisualCirassOptionsData()
+{
+	int nSelBtn = 0;
+	switch( sti(InterfaceStates.VISUAL_CIRASS) ) 
+	{
+		case 0:
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, false );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 2, false );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 3, false );
+		break;
+		case 1: 
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, true );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 2, false );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 3, false );
+		break;
+		case 3: 
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, false );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 2, true );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 3, false );
+		break;
+		case 4: 
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, true );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 2, true );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 3, false );
+		break;
+		case 5: 
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, false );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 2, false );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 3, true );
+		break;
+		case 6: 
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, true );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 2, false );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 3, true );
+		break;
+		case 8: 
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, false );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 2, true );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 3, true );
+		break;
+		case 9: 
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 1, true );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 2, true );
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"VISUAL_CIRASS_CHECKBOX", 2, 3, true );
+		break;
+	}
+}
+
+void GetAltFontOptionsData()
+{
+	int nSelBtn = 0;
+	switch( sti(InterfaceStates.AltFont) ) {
+	case 0: nSelBtn=1; break;
+	case 1: nSelBtn=2; break;
+	case 2: nSelBtn=3; break;
+	}
+	SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"ALTFONT_CHECKBOX", 2, nSelBtn, true );
+}
+
 void GetControlsStatesData()
 {
 	int nAlwaysRun = 0;
@@ -1319,8 +1428,8 @@ void ShowInfo()
 			sHeader = XI_ConvertString("AltFont_title");
 			sText1 = XI_ConvertString("AltFont_desc");
             sPicture = "INTERFACES\FaqPictures\ALTFONT_CHECKBOX.png";
-			xx = 256;
-			yy = 256;
+			xx = 570;
+			yy = 494;
 		break;
 		
 		case "NOINT_CHECKBOX":

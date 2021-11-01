@@ -159,7 +159,7 @@ void ProcessCommandExecute()
 
 void CreateItem()
 {
-	DumpAttributes(draw);
+	//DumpAttributes(draw);
 	if (CheckAttribute(draw,"ResultNum")) TakeNItems(pchar, draw.ID, qnt*sti(draw.ResultNum));
 	else TakeNItems(pchar, draw.ID, qnt); // Выдаем создаваемый предмет
 	
@@ -182,12 +182,12 @@ void CreateItem()
 			for(n = 1; n <= qntCom; n++)
 			{
 				
-				TakeNItems(pchar, Items[drIDX].(CI), -1);
+				TakeNItemsWithCabin(pchar, Items[drIDX].(CI), -1);
 			}
 		}
 		else
 		{
-			TakeNItems(pchar, Items[drIDX].(CI), -qntCom);
+			TakeNItemsWithCabin(pchar, Items[drIDX].(CI), -qntCom);
 		}
 	}
 	
@@ -221,6 +221,55 @@ void SelectTable()
 	SetCraftInfo(SelectedLine);
 }
 
+int GetCharacterItemWithCabin(ref _refCharacter,string itemName)
+{
+	int qty = 0;
+	if(CheckAttribute(_refCharacter,"Items."+itemName))
+	{
+		qty = qty + sti(_refCharacter.Items.(itemName));
+	}
+		
+	aref chests;
+	makearef(chests,locations[FindLocation(Get_My_Cabin())].locators.box);
+	int chestsnum = GetAttributesNum(chests);
+	for(int i = 1; i <= chestsnum; i++)
+	{
+		string boo = "box"+i;
+		makearef(chests,locations[FindLocation(Get_My_Cabin())].(boo));
+		if(CheckAttribute(chests,"Items."+itemName))
+		{
+			qty = qty + sti(chests.Items.(itemName)).
+		}
+	}
+	return qty;
+}
+
+void TakeNItemsWithCabin(ref _refCharacter,string itemName,int quant)
+{
+	int qty = quant;
+	if(CheckAttribute(_refCharacter,"Items."+itemName) && sti(_refCharacter.Items.(itemName))>= qty)
+	{
+		TakeNItems(_refCharacter,itemName,qty);
+	}
+	else
+	{
+		aref chests;
+		makearef(chests,locations[FindLocation(Get_My_Cabin())].locators.box);
+		int chestsnum = GetAttributesNum(chests);
+		for(int i = 1; i <= chestsnum; i++)
+		{
+			string boo = "box"+i;
+			makearef(chests,locations[FindLocation(Get_My_Cabin())].(boo));
+			if(CheckAttribute(chests,"Items."+itemName) && sti(chests.Items.(itemName))>=qty)
+			{
+				TakeNItems(chests,itemName,qty);
+				break;
+			}
+			else continue;
+		}
+	}
+}
+
 void SetCraftInfo(int idx)
 {
 	draw = GetAttributeN(craft, idx);
@@ -244,9 +293,9 @@ void SetCraftInfo(int idx)
 		GameInterface.COMPONENTS_LIST.(row).td1.str = LanguageConvertString(lngFileID, Items[itmidx].name);
 		GameInterface.COMPONENTS_LIST.(row).td1.scale = 1.0;
 		GameInterface.COMPONENTS_LIST.(row).td2.scale = 1.0;
-		GameInterface.COMPONENTS_LIST.(row).td2.str = GetCharacterItem(pchar, Items[craftable].(CI)) + " / " + Items[craftable].(CIN);
+		GameInterface.COMPONENTS_LIST.(row).td2.str = GetCharacterItemWithCabin(pchar, Items[craftable].(CI)) + " / " + Items[craftable].(CIN);
 		
-		if(GetCharacterItem(pchar, Items[craftable].(CI)) < sti(Items[craftable].(CIN)))
+		if(GetCharacterItemWithCabin(pchar, Items[craftable].(CI)) < sti(Items[craftable].(CIN)))
 		{
 			GameInterface.COMPONENTS_LIST.(row).td1.color = argb(255,255,171,171);
 			GameInterface.COMPONENTS_LIST.(row).td2.color = argb(255,255,171,171);
@@ -258,14 +307,14 @@ void SetCraftInfo(int idx)
 			GameInterface.COMPONENTS_LIST.(row).td2.color = argb(255,196,255,196);
 		}
 		
-		if (Items[craftable].(CIN) == "0" && GetCharacterItem(pchar, Items[craftable].(CI)) == 0)
+		if (Items[craftable].(CIN) == "0" && GetCharacterItemWithCabin(pchar, Items[craftable].(CI)) == 0)
 		{
 			GameInterface.COMPONENTS_LIST.(row).td1.color = argb(255,255,171,171);
 			GameInterface.COMPONENTS_LIST.(row).td2.color = argb(255,255,171,171);
 			if(craftOn) craftOn = false;
 			GameInterface.COMPONENTS_LIST.(row).td2.str = "Отсутствует";
 		}			
-		if (Items[craftable].(CIN) == "0" && GetCharacterItem(pchar, Items[craftable].(CI)) >= 1) GameInterface.COMPONENTS_LIST.(row).td2.str = "В наличии";
+		if (Items[craftable].(CIN) == "0" && GetCharacterItemWithCabin(pchar, Items[craftable].(CI)) >= 1) GameInterface.COMPONENTS_LIST.(row).td2.str = "В наличии";
 		
 		GameInterface.COMPONENTS_LIST.(row).td1.icon.group = Items[itmidx].picTexture;
 		GameInterface.COMPONENTS_LIST.(row).td1.icon.image = "itm" + Items[itmidx].picIndex;
@@ -290,14 +339,14 @@ void SetCraftInfo(int idx)
 		{
 			CI = "Component"+n;
 			CIN = "Component"+n+"Num";
-			if (Items[craftable].(CIN) == "0" && GetCharacterItem(pchar, Items[craftable].(CI)) >= 1) continue;
+			if (Items[craftable].(CIN) == "0" && GetCharacterItemWithCabin(pchar, Items[craftable].(CI)) >= 1) continue;
 			if(n == 1)
 			{
-				qntMAX = GetCharacterItem(pchar, Items[craftable].(CI)) / sti(Items[craftable].(CIN));
+				qntMAX = GetCharacterItemWithCabin(pchar, Items[craftable].(CI)) / sti(Items[craftable].(CIN));
 			}
 			else
 			{
-				qntCur = GetCharacterItem(pchar, Items[craftable].(CI)) / sti(Items[craftable].(CIN));
+				qntCur = GetCharacterItemWithCabin(pchar, Items[craftable].(CI)) / sti(Items[craftable].(CIN));
 				
 				if(qntMAX > qntCur) qntMAX = qntCur;
 			}

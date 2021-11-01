@@ -62,9 +62,9 @@ void BS_RestoreGatriTrader(string q)
 
 void BSRestoreWorldAlivePause()
 {
-	bWorldAlivePause = true;
+	//bWorldAlivePause = true;
 	pchar.BSFinish = true;
-	Log_Info("С этого момента разблокирована возможность свободно захватывать колонии.")
+	Log_TestInfo("Линейка ЧП завершена.")
 }
 
 void GatriSpeech(string qName)
@@ -523,7 +523,7 @@ void BSCourtlyPassions_fleeng_5(string _quest)
 	LAi_ActorGoToLocation(sld, "reload", "sea", "", "", "", "", -1);
 	
 	string cnd;
-	for (i = 2; i <= 6; i++)
+	for (i = 2; i < 6; i++)
 	{
 		
 		sld = GetCharacter(NPC_GenerateCharacter("BS_VeinPodsos"+i, "pirate_"+sti(rand(25)+1), "man", "man", 99, PIRATE, 3, true));
@@ -876,6 +876,9 @@ void BSChaseBegun_townhall(string q)
 	chrDisableReloadToLocation = true;
 	ref chr;
 	sld = CharacterFromID("Jackman");
+	SaveOldDialog(sld);
+	sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
+	sld.dialog.currentnode = "Jackman_Defeated";
 	ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "", "");
 	
 	sld = CharacterFromID("Flint");
@@ -888,7 +891,7 @@ void BSChaseBegun_townhall(string q)
 	LAi_SetStayTypeNoGroup(chr);
 	chr.dialog.filename = "Quest\BlackSails\Pogonya_Nachalas.c";
 	chr.dialog.currentnode = "BS_PN_21";
-	chr.talker = 10;
+	if (!CheckAttribute(pchar, "BSChaseBegun_townhall_Flint"))	chr.talker = 10;
 	
 	chr = CharacterFromID("BS_Rakham");
 	ChangeCharacterAddressGroup(chr, "Pirates_townhall", "goto", "goto5");
@@ -917,6 +920,13 @@ void BSChaseBegun_lock_townhall(string q)
 	PChar.quest.BSChaseBegun_Hispaniola.win_condition.l1 = "location";
 	PChar.quest.BSChaseBegun_Hispaniola.win_condition.l1.location = "Hispaniola1";
 	PChar.quest.BSChaseBegun_Hispaniola.function = "BSChaseBegun_Hispaniola";
+}
+
+void BSChaseBegun_unlock_townhall()
+{
+	LocatorReloadEnterDisable("Pirates_town", "reload3_back", false);
+	LocatorReloadEnterDisable("Pirates_townhall", "reload2", false);
+	LocatorReloadEnterDisable("Pirates_portoffice", "reload1", false);
 }
 
 void BSChaseBegun_FewDeaysLater()
@@ -948,11 +958,32 @@ void BSChaseBegun_Fail(string q)
 	if (CheckAttribute(Colonies[FindColony("SantoDomingo")], "BSChaseBegun"))
 	{
 		AddQuestRecord("BSChaseBegun", "7");
+		BSChaseBegun_unlock_townhall();
+		EraseBSCharacters();
 		DeleteAttribute(Colonies[FindColony("SantoDomingo")], "BSChaseBegun");
 		BSRestoreWorldAlivePause();
 	}
 }
 
+void EraseBSCharacters()
+{
+	sld = CharacterFromID("Flint");	sld.LifeDay = 0;
+	RemoveCharacterCompanion(PChar, sld);
+	sld = CharacterFromID("gatri_temp");	sld.LifeDay = 0;
+	sld = CharacterFromID("BS_Vein");	sld.LifeDay = 0;
+	RemoveCharacterCompanion(PChar, sld);
+	sld = CharacterFromID("BS_Rakham");	sld.LifeDay = 0;
+	sld = CharacterFromID("BS_Bony");	sld.LifeDay = 0;
+	sld = CharacterFromID("BS_Silver");	sld.LifeDay = 0;
+	sld = CharacterFromID("BSUrka_enemyfleet");	sld.LifeDay = 0;
+	sld = CharacterFromID("BSUrka");	sld.LifeDay = 0;
+	
+	for (i = 1; i < 7; i++)
+	{
+		sld = CharacterFromID("BSUrka_Curacao_enemyfleet"+i);	sld.LifeDay = 0;
+	}
+		
+}
 void BSChaseBegun_EndQuest(string q)
 {
 	sld = CharacterFromID("Flint");
@@ -1036,4 +1067,472 @@ void BSChaseBegun_SeaBattle()
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Погоня начинается --     конец
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//	Неуловимая «Урка»
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void BSUrka_Negril(string q)
+{
+	AddQuestRecord("BSUrka", "2");
+	BS_RestoreMaksHostess("q");
+	pchar.BSUrka_Negril = true;
+}
+	
+void BSBons_SeaBattle(bool bonsAdmiral)
+{
+	string sGroup = "Sea_BSBons0";
+	string sScarboro = "";
+	Group_FindOrCreateGroup(sGroup);
+	Group_SetTaskAttackInMap(sGroup, PLAYER_GROUP);
+	for (int i = 0; i < 5; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("BSBons"+i, "off_eng_"+(rand(1)+1), "man", "man", 999, ENGLAND, 8, true));
+		FantomMakeCoolSailor(sld, SHIP_NL_PinnaceofWar47, "Морж", CANNON_TYPE_CANNON_LBS32, 100, 100, 100);
+		sld.AlwaysEnemy = true;
+		sld.Ship.Type = GenerateShipExt(SHIP_FEARLESS, true, sld);
+		
+		Group_AddCharacter(sGroup, sld.id);
+		if (i == 0) 
+		{
+			
+				Group_SetGroupCommander(sGroup, sld.id);
+				if (bonsAdmiral)
+				{
+					if (!CheckAttribute(pchar, "BSBonsSpawned"))
+					{
+						FantomMakeCoolestSailor(sld, SHIP_FASTFRIGATE, "Фортуна", CANNON_TYPE_CANNON_LBS32, 100, 100, 100);
+						sld.Name = "Билли";
+						sld.Lastname = "Бонс";
+						sld.Model = "BS_Billy";
+						sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
+						sld.DeckDialogNode = "BS_CPNG_15";
+						FaceMaker(sld);
+					}
+					else
+					{
+						FantomMakeCoolestSailor(sld, SHIP_BATTLEMANOWAR, "Скарборо", CANNON_TYPE_CANNON_LBS42, 100, 100, 100);
+						FaceMaker(sld);
+						sScarboro = " со 'Скарборо' во главе";
+						
+						pchar.quest.BSUrka_Scarboro.win_condition.l1 = "NPC_Death";
+						pchar.quest.BSUrka_Scarboro.win_condition.l1.character ="BSBons0";
+						PChar.quest.BSUrka_Scarboro.function = "BSUrka_Scarboro";
+					}
+				}
+		}
+		Group_LockTask(sGroup);
+		sld.mapEnc.type = "war";
+		sld.mapEnc.worldMapShip = "quest_ship";
+		sld.mapEnc.Name = "охотники на пиратов" + sScarboro;
+	}
+	Map_CreateFastWarrior("", "BSBons0", 8);
+}
+
+void BSUrka_Pirates_town(string q)
+{
+	chrDisableReloadToLocation = true;
+	ref chr = CharacterFromID("BS_Bony");
+	ChangeCharacterAddressGroup(chr, "Pirates_Town", "reload", "reload3_back");
+	LAi_SetImmortal(chr, true);
+	sld = CharacterFromID("BS_Rakham");
+	ChangeCharacterAddressGroup(sld, "Pirates_Town", "goto", "goto7");
+	LAi_SetImmortal(sld, true);
+	LAi_ActorFollow(chr, sld, "", -1);
+	LAi_CharacterDisableDialog(sld);
+	LAi_SetWarriorTypeNoGroup(sld);
+	
+	sld = GetCharacter(NPC_GenerateCharacter("BS_Maks", "BS_Maks", "woman", "woman", 1, PIRATE, -1, false));
+	sld.name = "Макс";
+	sld.lastname = "";
+	ChangeCharacterAddressGroup(sld, "Pirates_Town", "goto", "goto4");
+	LAi_SetActorType(sld);
+	LAi_ActorFollow(sld, pchar, "", -1);
+	LAi_SetImmortal(sld, true);
+	PChar.quest.BSUrka_Pirates_town_residence.win_condition.l1 = "locator";
+	PChar.quest.BSUrka_Pirates_town_residence.win_condition.l1.location = "Pirates_town";
+	PChar.quest.BSUrka_Pirates_town_residence.win_condition.l1.locator_group = "reload";
+	PChar.quest.BSUrka_Pirates_town_residence.win_condition.l1.locator = "reload3_back";
+	PChar.quest.BSUrka_Pirates_town_residence.function = "BSUrka_Pirates_town_residence";
+}
+
+void BSUrka_Pirates_town_residence(string q)
+{
+	sld = CharacterFromID("BS_Maks");
+	ChangeCharacterAddressGroup(sld, "Pirates_Townhall", "goto", "goto3");
+	
+	DoReloadCharacterToLocation("Pirates_townhall","goto","goto4");
+	pchar.BSChaseBegun_townhall_Flint = true;
+	BSChaseBegun_townhall("q");
+	DeleteAttribute(pchar, "BSChaseBegun_townhall_Flint");
+	
+	sld = CharacterFromID("Flint");
+	LAi_SetStayTypeNoGroup(sld);
+	sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
+	sld.dialog.currentnode = "BS_NU_18";
+	sld.talker = 10;
+}
+
+void BSUrka_Pirates_town_Vein(string q)
+{
+	sld = CharacterFromID("BS_Vein");
+	ChangeCharacterAddressGroup(sld, "Pirates_Town", "quest", "quest1");
+	sld.dialog.currentnode = "BS_NU_33_Ya_Ne_Krisa";
+	LAi_SetStayTypeNoGroup(sld);
+	sld.talker = 10;
+	chrDisableReloadToLocation = true;
+}
+
+void BSUrka_Curacao_SeaBattle()
+{
+	Group_FindOrCreateGroup("BSUrka_Curacao_SeaBattle");
+	Group_SetType("BSUrka_Curacao_SeaBattle", "pirate");
+	LAi_group_Delete("BSUrka_Curacao_Battle");
+	string cnd;
+	for (i = 1; i < 7; i++)
+	{
+		
+		sld = GetCharacter(NPC_GenerateCharacter("BSUrka_Curacao_enemyfleet"+i, "off_spa_"+(rand(1)+1), "man", "man", 999, SPAIN, -1, true));
+		if (i == 1) 
+		{
+			sld.Ship.Type = GenerateShipExt(SHIP_GALEON50, true, sld);
+			//sld.Ship.Name = "Денуво";
+			//sld.Name = "Денуво";
+			//sld.Lastname = "Антитампер";
+		}
+		if (i == 2) sld.Ship.Type = GenerateShipExt(SHIP_FRIGATE_SAT, true, sld);
+		if (i == 3) sld.Ship.Type = GenerateShipExt(SHIP_WARSHIP, true, sld);
+		if (i == 4) sld.Ship.Type = GenerateShipExt(SHIP_ALEXIS, true, sld);
+		if (i == 5) sld.Ship.Type = GenerateShipExt(SHIP_SUPERBE, true, sld);
+		if (i == 6) sld.Ship.Type = GenerateShipExt(SHIP_LINK2, true, sld);
+		sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
+		
+		sld.ship.Crew.Morale = 100;
+		ChangeCrewExp(sld, "Sailors", 50);
+		ChangeCrewExp(sld, "Cannoners", 50);
+		ChangeCrewExp(sld, "Soldiers", 50);
+
+		TakeNItems(sld, "Food5", 5);
+		TakeNItems(sld, "potion2", 5);
+
+		SetCharacterPerk(sld, "MusketsShoot");
+		SetCharacterPerk(sld, "CannonProfessional");
+
+		Fantom_SetBalls(sld, "war");
+		
+		sld.AlwaysEnemy = true;
+		sld.DontRansackCaptain = true;
+		sld.AlwaysSandbankManeuver = true;
+		Group_AddCharacter("BSUrka_Curacao_SeaBattle", sld.id);
+		LAi_group_MoveCharacter(sld, "BSUrka_Curacao_Battle");
+		if (i == 1) Group_SetGroupCommander("BSUrka_Curacao_SeaBattle", sld.id);
+		SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
+		
+		//Group_SetPursuitGroup("BSUrka_Curacao_SeaBattle", PLAYER_GROUP);
+		Group_SetTaskAttack("BSUrka_Curacao_SeaBattle", PLAYER_GROUP);
+		Group_LockTask("BSUrka_Curacao_SeaBattle");
+		
+		Group_SetAddress("BSUrka_Curacao_SeaBattle", "Curacao", "Quest_ships", "quest_ship_4");	
+		
+		cnd = "l" + i;
+		pchar.quest.BSUrka_Curacao_EndSeaBattle.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.BSUrka_Curacao_EndSeaBattle.win_condition.(cnd).character ="BSUrka_Curacao_enemyfleet"+sti(i);
+	}
+	PChar.quest.BSUrka_Curacao_EndSeaBattle.function = "BSUrka_Curacao_EndSeaBattle";
+	
+	SetFunctionNPCDeathCondition("BSUrka_Curacao_SeaBattleStarted", "BSUrka_Curacao_enemyfleet1", false);
+}
+
+void BSUrka_Curacao_SeaBattleStarted(string q)
+{
+	if (!CheckAttribute(pchar, "BSFinish"))	pchar.LockSeaReload = "На это нет времени. Сперва нужно добить испанскую эскадру.";
+}
+
+void BSUrka_Curacao_EndSeaBattle(string q)
+{
+	LAi_group_Delete("BSUrka_Curacao_Battle");
+	Sea_CabinStartNow();
+	pchar.quest.BSUrka_Curacao_Cabin.win_condition.l1          = "location";
+	pchar.quest.BSUrka_Curacao_Cabin.win_condition.l1.location = Get_My_Cabin();
+	pchar.quest.BSUrka_Curacao_Cabin.function             = "BSUrka_Curacao_CabinTalk";	
+}
+
+void BSUrka_Curacao_CabinTalk(string q)
+{
+	chrDisableReloadToLocation = true;
+	LAi_LockFightMode(pchar, true);	
+	sld = CharacterFromID("Flint");
+	sld.dialog.currentnode = "BS_NU_35";
+	GetCharacterPos(pchar, &locx, &locy, &locz);
+	ChangeCharacterAddressGroup(sld, pchar.location, "rld", LAi_FindFarLocator("rld", locx, locy, locz));
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);	
+}
+
+void BSUrka_Curacao_Shore(string q)
+{
+	ref locLoad = &locations[reload_location_index];
+	LAi_LocationFightDisable(locLoad, true);
+	chrDisableReloadToLocation = true;
+	LAi_LockFightMode(pchar, true);	
+	sld = CharacterFromID("Flint");
+	sld.dialog.currentnode = "BS_NU_37";
+	ChangeCharacterAddressGroup(sld, pchar.location, "smugglers", "smugglerload");
+	LAi_SetStayType(sld);
+	sld.talker = 10;
+	sld = GetCharacter(NPC_GenerateCharacter("BSUrka_Prisoner", "off_spa_"+(rand(1)+1), "man", "man", 999, SPAIN, 3, true));
+	ChangeCharacterAddressGroup(sld, pchar.location, "smugglers", "smuggler01");
+	LAi_SetActorType(sld);
+	sld = CharacterFromID("BS_Bony");
+	ChangeCharacterAddressGroup(sld, pchar.location, "smugglers", "smuggler02");
+	LAi_SetActorType(sld);
+	sld = CharacterFromID("BS_Vein");
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto2");
+	LAi_SetActorType(sld);
+	
+}
+
+void BSUrka_BonyHits(string qName)
+{
+	sld = CharacterFromId("BSUrka_Prisoner");
+	ref chr = CharacterFromId("BS_Bony");
+	LAi_SetActorTypeNoGroup(chr);
+	LAi_ActorTurnToCharacter(chr, sld);
+	LAi_ActorAnimation(chr, "Shot", "", 1.9);
+    DoQuestFunctionDelay("BSUrka_BonyHits_1", 0.8);
+}
+void BSUrka_BonyHits_1(string qName)
+{
+	DialogExit();
+	sld = CharacterFromId("BSUrka_Prisoner");
+	ref chr = CharacterFromId("BS_Bony");
+	LAi_KillCharacter(sld);
+    DoQuestFunctionDelay("BSUrka_BonyHits_2", 0.25);
+}
+void BSUrka_BonyHits_2(string qName)
+{
+	ref chr = CharacterFromId("BS_Bony");
+	Lai_SetStayType(chr);
+	
+	sld = CharacterFromID("BS_Vein");
+	sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
+	sld.dialog.currentnode   = "BS_NU_41";
+	pchar.InstantDialog = sld.id;
+	DoQuestFunctionDelay("InstantDialog", 1.3);
+	
+	ref locLoad = &locations[reload_location_index];
+	LAi_LocationFightDisable(locLoad, false);
+}
+void BSUrka_Found(string qName)
+{
+	AddQuestRecord("BSUrka", "8");
+}
+
+void BSUrka_PlaceUrka()
+{
+	//Урка
+	Group_FindOrCreateGroup("BSUrka");
+	Group_SetType("BSUrka", "pirate");
+	string cnd;
+		
+	sld = GetCharacter(NPC_GenerateCharacter("BSUrka", "off_spa_"+(rand(1)+1), "man", "man", 999, SPAIN, -1, true));
+
+	sld.Ship.Type = GenerateShipExt(SHIP_GALEON50, true, sld);
+	sld.Ship.Name = "Урка де Лима";
+	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
+
+	sld.LockBoat = true;
+	sld.ShipEnemyDisable = true;
+	sld.AlwaysFriend = true;
+	sld.DontRansackCaptain = true;
+	sld.AlwaysSandbankManeuver = true;
+	Group_AddCharacter("BSUrka", sld.id);
+	LAi_group_MoveCharacter(sld, "BSUrka");
+	Group_SetGroupCommander("BSUrka", sld.id);
+	SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_FRIEND);
+	
+	int iMast = 0;
+	int iMastQty = 4;
+	string sMast = "";
+	for(int m=1; m <= iMastQty; m++)
+	{
+		sMast = "mast" + m;
+		sld.ship.masts.(sMast) = true;
+	}
+	sld.ship.HP = sti(sld.ship.HP) / 4;
+	SetCrewQuantity(sld, 0);
+	LAi_SetImmortal(sld, true);
+	
+	Group_SetAddress("BSUrka", "Cumana", "quest_ships", "quest_ship_9");	
+	
+	//Самовар
+	Group_FindOrCreateGroup("BSUrka_SeaBattle");
+	Group_SetType("BSUrka_SeaBattle", "pirate");
+		
+	sld = GetCharacter(NPC_GenerateCharacter("BSUrka_enemyfleet", "off_spa_"+(rand(1)+1), "man", "man", 999, SPAIN, -1, true));
+	sld.Ship.Type = GenerateShipExt(SHIP_SP_SANFELIPE, true, sld);
+	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
+	
+	sld.ship.Crew.Morale = 100;
+	ChangeCrewExp(sld, "Sailors", 50);
+	ChangeCrewExp(sld, "Cannoners", 50);
+	ChangeCrewExp(sld, "Soldiers", 50);
+
+	TakeNItems(sld, "Food5", 5);
+	TakeNItems(sld, "potion2", 5);
+
+	SetCharacterPerk(sld, "MusketsShoot");
+	SetCharacterPerk(sld, "CannonProfessional");
+
+	Fantom_SetBalls(sld, "war");
+	
+	sld.AlwaysEnemy = true;
+	sld.DontRansackCaptain = true;
+	sld.AlwaysSandbankManeuver = true;
+	Group_AddCharacter("BSUrka_SeaBattle", sld.id);
+	Group_SetGroupCommander("BSUrka_SeaBattle", sld.id);
+	SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
+	
+	Group_SetTaskAttack("BSUrka_SeaBattle", PLAYER_GROUP);
+	Group_LockTask("BSUrka_SeaBattle");
+	
+	Group_SetAddress("BSUrka_SeaBattle", "Cumana", "Quest_ships", "quest_ship_9");	
+	
+	SetFunctionNPCDeathCondition("BSUrka_SeaBattleEnded", "BSUrka_enemyfleet", false);
+}
+
+void BSUrka_SeaBattleEnded(string q)
+{
+	AddQuestRecord("BSUrka", "8_1");
+	pchar.quest.BSUrka_ShoreBattle.win_condition.l1          = "location";
+	pchar.quest.BSUrka_ShoreBattle.win_condition.l1.location = "Shore20";
+	pchar.quest.BSUrka_ShoreBattle.function             = "BSUrka_ShoreBattle";	
+	
+	AddGeometryToLocation("Shore20", "smg");
+}
+
+void BSUrka_ShoreBattle(string q)
+{
+	ref chr;
+	string attrName, sLoc, sLoc_2, relation;
+	int i, iRnd, iNation;
+ 
+	relation = LAI_GROUP_PLAYER;
+	sLoc = "Shore20";
+	iNation = SPAIN;
+	
+	chrDisableReloadToLocation = true;
+	//our
+	chr = CharacterFromID("Flint");
+	ChangeCharacterAddressGroup(chr,pchar.location, "officers", "sea_1");
+	LAi_SetWarriorType(chr);
+	LAi_SetImmortal(chr, true);
+	LAi_group_MoveCharacter(chr, relation);
+	
+	chr = CharacterFromID("BS_Vein");
+	ChangeCharacterAddressGroup(chr,pchar.location, "officers", "sea_1");
+	LAi_SetWarriorType(chr);
+	LAi_SetImmortal(chr, true);
+	LAi_group_MoveCharacter(chr, relation); 
+	
+	chr = CharacterFromID("BS_Bony");
+	ChangeCharacterAddressGroup(chr,pchar.location, "officers", "sea_1");
+	LAi_SetWarriorType(chr);
+	LAi_SetImmortal(chr, true);
+	LAi_group_MoveCharacter(chr, relation);
+	
+	chr = CharacterFromID("BS_Silver");
+	ChangeCharacterAddressGroup(chr,pchar.location, "officers", "sea_1");
+	LAi_SetWarriorType(chr);
+	LAi_SetImmortal(chr, true);
+	LAi_group_MoveCharacter(chr, relation); 
+	
+	chr = CharacterFromID("BS_Rakham");
+	ChangeCharacterAddressGroup(chr,pchar.location, "officers", "sea_1");
+	LAi_SetWarriorType(chr);
+	LAi_SetImmortal(chr, true);
+	LAi_group_MoveCharacter(chr, relation); 
+	
+	iRnd = 15 - GetOfficersQuantity(pchar);
+	PChar.GenQuestFort.FarLocator = false;
+	sLoc = LAi_FindNPCLocator("officers");
+	for (i = 1; i < iRnd; i++)
+	{
+		if (i % 3 != 0)
+		{
+		chr = SetFantomDefenceForts("officers", sLoc, PIRATE, relation);
+		}
+		else
+		{
+		chr = SetFantomDefenceForts("enc02", "",PIRATE, relation);
+		}
+		FantomMakeCoolFighterWRankDepend(chr,sti(pchar.rank),25+rand(75),25+rand(75),50);
+	}
+	Pchar.GenQuestFort.FarLocator = true;	
+
+	//enemy
+	iRnd = 80;
+	Pchar.GenQuestFort.FarLocator = true;
+	sLoc = LAi_FindNPCLocator("goto");
+	sLoc_2 = LAi_FindNPCLocator("smugglers");
+	for (i = 1; i < iRnd; i++)
+	{
+		if (i % 2 == 0)
+		{
+		chr = SetFantomDefenceForts("goto", sLoc, iNation, "BSUrkaShore");
+		}
+		else
+		{
+			chr = SetFantomDefenceForts("smugglers", sLoc_2, iNation, "BSUrkaShore");
+		}
+		chr.id = "pirate_" + i;
+		FantomMakeCoolFighterWRankDepend(chr,sti(pchar.rank),25+rand(75),25+rand(75),50);
+	}
+	//натравим.
+	LAi_group_SetHearRadius("BSUrkaShore", 100.0);
+	LAi_group_FightGroupsEx("BSUrkaShore", LAI_GROUP_PLAYER, true, Pchar, -1, false, false);	
+	LAi_group_FightGroupsEx("BSUrkaShore", relation, true, Pchar, -1, false, false);	
+
+	LAi_group_SetCheckFunction("BSUrkaShore", "BSUrka_AfterShoreBattle");
+	
+	LAi_SetFightMode(pchar, true);
+}
+
+void BSUrka_AfterShoreBattle()
+{
+	//chrDisableReloadToLocation = false;
+	RemoveGeometryFromLocation("Shore20", "smg");
+	
+	ref chr, rGroup;
+	string sGroup;
+	
+	chr = CharacterFromID("BSUrka");
+	chr.LifeDay = 0;
+	chr = CharacterFromID("Flint");
+	chr.dialog.currentnode   = "BS_NU_45";
+	DoQuestCheckDelay("hide_weapon", 2.0);
+	LAi_SetActorType(chr);
+	LAi_ActorDialog(chr, pchar, "", -1, 0);
+}
+
+void BSUrka_Scarboro(string q)
+{
+	AddQuestRecord("BSUrka", "11");
+}
+
+void BSUrka_Fail(string q)
+{
+	AddQuestRecord("BSUrka", "12");
+	CloseQuestHeader("BSUrka");
+	BSChaseBegun_unlock_townhall();
+	PChar.quest.BSChaseBegun_Fail.over = "yes";
+	PChar.quest.BSUrka_Fail1.over = "yes";
+	PChar.quest.BSUrka_Fail2.over = "yes";
+	PChar.quest.BSUrka_Curacao_EndSeaBattle.over = "yes";
+	PChar.quest.BSUrka_SeaBattleEnded.over = "yes";
+	EraseBSCharacters();
+	BSRestoreWorldAlivePause();
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   -- Неуловимая «Урка» --     конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

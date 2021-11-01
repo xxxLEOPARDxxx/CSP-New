@@ -243,7 +243,7 @@ int CreateStoryCharacters(int n)
 	ch.equip.blade = "blade25";
 	// ==> Кораблик 
 	ch.Ship.Name = "Шарпоносец";
-	ch.Ship.Type = GenerateShipExt(SHIP_BRIG, true, ch);
+	ch.Ship.Type = GenerateShipTop(SHIP_BRIG, true, ch);
 	ch.Ship.Stopped = true;
    	ch.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS16;
 	ch.Ship.Mode = "Pirate";

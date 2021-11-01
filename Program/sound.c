@@ -346,6 +346,11 @@ void SetSchemeForLocation (ref loc)
 				SetMusicAlarm("music_church");
 			break;
 			
+			case "cabine":
+				SetSoundScheme("church");
+				SetMusicAlarm("music_church");
+			break;
+			
 			case "shipyard":
 				SetSoundScheme("shipyard");
 				SetMusicAlarm("music_shipyard");
@@ -389,9 +394,9 @@ void SetSchemeForLocation (ref loc)
 				SetMusicAlarm("music_abordage");
 			break;
 			
-			case "sailing_cabine":
-				SetSoundScheme("sail_cabine");
-				if (Whr_IsDay()) SetMusicAlarm("music_sea_day");
+			case "cap_cabine":
+				SetSoundScheme("deck");
+				if (Whr_IsDay()) SetMusicAlarm("music_deck");
 				else SetMusicAlarm("music_sea_night");
 			break;
 			

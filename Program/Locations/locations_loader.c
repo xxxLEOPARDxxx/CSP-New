@@ -113,16 +113,6 @@ bool LoadLocation(ref loc)
 		pchar.quest.CleanGrandma.win_condition = "CleanGrandma";
 		pchar.Janitor = true;
 	}
-	if (CheckAttribute(pchar,"ScamFanActive") && rand(9)==0 && !CheckAttribute(pchar,"ScamDestroyed") && loc.id != "FencingTown_ExitTown")
-	{
-		ref sld = CharacterFromID("ScamCharacter");
-		ChangeCharacterAddressGroup(sld,loc.id,"reload","reload1");
-		chrDisableReloadToLocation = true;
-		InterfaceStates.DisFastTravel = true;
-		LAi_SetActorTypeNoGroup(sld);
-		sld.dialog.currentnode = "CoolStory";
-		LAi_ActorDialog(sld, pchar, "", 4.0, 0);
-	}
 	PostEvent(EVENT_LOCATION_LOAD,0);
 
 	int i;
@@ -544,7 +534,7 @@ bool LoadLocation(ref loc)
 	//Updatelocators=======================================================================
 	SendMessage(loc, "l", MSG_LOCATION_UPDATELOCATORS);
 	loadedLocation = loc;
-
+	
 	ReloadProgressUpdate();
 
 	//Lights===============================================================================
@@ -691,8 +681,8 @@ bool LoadLocation(ref loc)
         ShowAllLocators();
     }
     //#20181023-02
-	else if(CheckAttribute(loc, "showLocatorGrp"))
-        VisibleLocatorsGroup(loc.showLocatorGrp, 1.0, 15.0, 255, 0, 255, 0);
+	//else if(CheckAttribute(loc, "showLocatorGrp"))
+       // VisibleLocatorsGroup(loc.showLocatorGrp, 1.0, 15.0, 255, 0, 255, 0);
     // boal debug info <--
 
 	Item_OnLoadLocation(loc.id);
@@ -1486,6 +1476,7 @@ void ShowAllLocators()
 	VisibleLocatorsGroup("ships", 1.0, 15.0, 255, 255, 200, 200);
 	VisibleLocatorsGroup("Actor", 1.0, 15.0, 155, 255, 0, 0);
 	VisibleLocatorsGroup("Genres", 1.0, 15.0, 255, 0, 255, 0);
+	VisibleLocatorsGroup("prison", 1.0, 15.0, 255, 0, 255, 0);
 }
 
 void HideAllLocators()
@@ -1526,6 +1517,7 @@ void HideAllLocators()
     HideLocatorsGroup("ships");
     HideLocatorsGroup("Actor");
     HideLocatorsGroup("Genres");
+	HideLocatorsGroup("prison");
 }
 //#20180920-01
 bool CheckFP(ref loc)

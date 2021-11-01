@@ -114,10 +114,10 @@ float Cannon_GetFireHeight()
 	{
 	   Y = Y + 0.6;
 	}
-	if (sBallName == "Knippels" )
+	/* if (sBallName == "Knippels" )
 	{
 	   Y = Y + 2.6;
-	}
+	} */
 	if (sti(aEnemy.Ship.Type) == SHIP_FORT)
 	{
 	   Y = 40;
@@ -150,7 +150,7 @@ float Cannon_GetRechargeTime()
 	// boal -->
     fMultiply = AIShip_isPerksUse(aCharacter.TmpPerks.FastReload, 1.0, 0.9);
 	fMultiply = AIShip_isPerksUse(aCharacter.TmpPerks.ImmediateReload, fMultiply, 0.5); 
-	if (CheckAttribute(&RealShips[sti(aCharacter.Ship.Type)], "Tuning.CannonsSpecial")) fMultiply *= 1.2;
+	if (CheckAttribute(&RealShips[sti(aCharacter.Ship.Type)], "Tuning.CannonsSpecial")) fMultiply *= 0.9;
 
 	ref refBaseShip = GetRealShip(sti(aCharacter.ship.Type));
 	if (sti(refBaseShip.BaseType) != SHIP_FORT)
@@ -262,7 +262,7 @@ float Cannon_DamageEvent()
 
 	if(CheckCharacterPerk(aCharacter, "SeaWolf") && rand(2) == 0) return 0.0;
 	if(IsEquipCharacterByArtefact(aCharacter, "talisman3")) return 0.0;
-	if (CheckAttribute(&RealShips[sti(aCharacter.Ship.Type)], "Tuning.CannonsSpecial") && rand(4)>0) return 0.0;
+	if (CheckAttribute(&RealShips[sti(aCharacter.Ship.Type)], "Tuning.CannonsSpecial") && rand(9)<4) return 0.0;
 	ref	rCannon = GetCannonByType(sti(aCharacter.Ship.Cannons.Type));
 	
 	float fMaxCHP = stf(rCannon.hp);
@@ -287,66 +287,6 @@ float Cannon_DamageEvent()
 
 	return fCurDamage;
 }
-
-/* //#20181002-01
-void ResetCannonsToBort(ref chr, string sBort, int maxQty, int hasQty)
-{
-	int     i;
-	string  attr;
-
-	if(maxQty > hasQty) {
-        for (i = 0; i < maxQty; i++)
-        {
-            attr = "c" + i;
-            if(CheckAttribute(chr, "Ship.Cannons.Borts." + sBort + ".damages." + attr)) continue;
-            chr.Ship.Cannons.borts.(sBort).damages.(attr) = 1.0;
-        }
-	}
-	else {
-        for (i = maxQty; i < hasQty; i++)
-        {
-            attr = "c" + i;
-            DeleteAttribute(chr, "Ship.Cannons.Borts." + sBort + ".damages." + attr));
-        }
-	}
-} */
-
-/* int GetBortIntactCannonsNum(ref rCharacter, string sBort, int iNumCannonsOnBort)
-{
-	string sBort_real = sBort;
-
-	//Boyer fix
-	if(sti(rCharacter.ship.type) == SHIP_NOTUSED) return 0;
-	if (!CheckAttribute(rCharacter, "Ship.Cannons.Borts." + sBort + ".damages")) return iNumCannonsOnBort;
-
-	if(sBort == "rcannon") sBort_real = "cannonr";
-	if(sBort == "lcannon") sBort_real = "cannonl";
-	if(sBort == "fcannon") sBort_real = "cannonf";
-	if(sBort == "bcannon") sBort_real = "cannonb";
-	
-	if (!CheckAttribute(rCharacter, "Ship.Cannons.Borts." + sBort_real + ".damages") ||
-	    !CheckAttribute(rCharacter, "Ship.Cannons.Borts." + sBort + ".damages")) return iNumCannonsOnBort;
-				
-	aref arDamages;
-	makearef(arDamages, rCharacter.Ship.Cannons.Borts.(sBort).damages);
-	int iNumRealCannons = GetAttributesNum(arDamages);
-	if (iNumRealCannons != iNumCannonsOnBort)
-	{
-		Trace("Ship " + RealShips[sti(rCharacter.ship.type)].basetype + ", has invalid cannons on bort. " + sBort + " " + iNumCannonsOnBort + ", but need: " + iNumRealCannons);
-		//#20181002-01
-		ResetCannonsToBort(rCharacter, sBort, iNumCannonsOnBort, iNumRealCannons);
-		return iNumCannonsOnBort;
-	}
-
-	int iNumIntactCannons = 0;
-	for (int i=0; i<iNumCannonsOnBort; i++)
-	{
-		float fDamage = stf(GetAttributeValue(GetAttributeN(arDamages, i)));
-		if (fDamage < 1.0) { iNumIntactCannons++; }
-	}
-
-	return iNumIntactCannons;
-} */
 
 int GetBortIntactCannonsNum(ref rCharacter, string sBort, int iNumCannonsOnBort)
 {

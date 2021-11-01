@@ -488,7 +488,7 @@ void LAi_type_patrol_TestControl(aref chr)
 	}		
 	//ѕытаемс€ начать диалог
 	LAi_SetFightMode(pchar, false);
-	if(LAi_Character_CanDialog(chr, pchar))
+	if(LAi_Character_CanDialog(chr, pchar) && chr.nation != "4")
 	{
 		chr.chr_ai.type.state = "dialog";
 		LAi_tmpl_SetDialog(chr, pchar, -1.0);

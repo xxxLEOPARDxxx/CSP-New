@@ -288,7 +288,7 @@ void proc_break_video()
 
 void Main()
 {
-	if (!CheckAttribute(InterfaceStates,"VISUAL_CIRASS")) InterfaceStates.VISUAL_CIRASS = -1;
+	if (!CheckAttribute(InterfaceStates,"VISUAL_CIRASS")) InterfaceStates.VISUAL_CIRASS = 0;
 	screenscaling = BI_COMPARE_HEIGHT;
     LayerCreate("realize", 1);
 	LayerCreate("sea_realize", 1);
@@ -1216,7 +1216,7 @@ void ProcessControls()
 					}
 					else
 					{
-						itmIdx = FindPotionFromChr(pchar, &arItm, 0);
+						/*itmIdx = FindPotionFromChr(pchar, &arItm, 0);
 						while(itmIdx>=0)
 						{
 						  if( EnablePotionUsing(pchar, arItm) )
@@ -1227,6 +1227,26 @@ void ProcessControls()
 							 break;
 						  }
 						  itmIdx = FindPotionFromChr(pchar, &arItm, itmIdx+1);
+						}*/
+						if(LAi_IsPoison(pchar)) 
+						{
+							if (UseBestPotion(pchar, true) == 0) 
+							{
+								if (UseBestPotion(pchar, false) == 0) 
+								{
+									Log_SetStringToLog("Ќе найдено никаких лечебных средств.");
+								}
+							}
+						}
+						else 
+						{
+							if (UseBestPotion(pchar, false) == 0) 
+							{
+								if (UseBestPotion(pchar, true) == 0)
+								{
+									Log_SetStringToLog("Ќе найдено никаких лечебных средств.");
+								}
+							}
 						}
 					}
 				}
@@ -1504,7 +1524,7 @@ void ProcessControls()
 		break;
 		
 		case "Map_Best":
-		//	if (bBettaTestMode) LaunchPaperMapScreen();
+			// if (bBettaTestMode) LaunchPaperMapScreen();
 			if(CheckCharacterItem(PChar, "Map_Best") || bBettaTestMode) LaunchBestMapScreen();
 		break;
 

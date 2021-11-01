@@ -2914,7 +2914,7 @@ int InitItems()
 	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
-	itm.points_shop = 1800;
+	itm.points_shop = 1500;
 	itm.fromHip = true;//для выбора другой анимации
 	n++;
 	
@@ -2941,7 +2941,7 @@ int InitItems()
 	itm.ReqPerk = "GunProfessional";
 	itm.quality = "excellent";
 	itm.ItemType = "WEAPON";
-	itm.points_shop = 1500; //атрибут для ачивок
+	itm.points_shop = 1800; //атрибут для ачивок
 	itm.fromHip = true;//для выбора другой анимации
 	n++;
 
@@ -3221,6 +3221,7 @@ int InitItems()
 	itm.picTexture = "ITEMS_14";
 	itm.price = 1500; 
 	itm.Weight = 5 + fRandSmall(3.0);
+	// itm.points_shop = 50; // Атрибут для магазина ачивок
 	n++;	
 	
 	// Сундук ремесленника
@@ -3234,6 +3235,7 @@ int InitItems()
 	itm.picTexture = "ITEMS_19";
 	itm.price = 1500;
 	itm.Weight = 7 + fRandSmall(4.5);
+	// itm.points_shop = 100; // Атрибут для магазина ачивок
 	n++;
 
 	// Cундук со снаряжением
@@ -3247,6 +3249,7 @@ int InitItems()
 	itm.picTexture = "ITEMS_14";
 	itm.price = 1500;
 	itm.Weight = 9 + fRandSmall(6.0);
+	// itm.points_shop = 250; // Атрибут для магазина ачивок
 	n++;	
 	
 	// Странный сундук
@@ -3260,6 +3263,7 @@ int InitItems()
 	itm.picTexture = "ITEMS_14";
 	itm.price = 1500;
 	itm.Weight = 6 + fRandSmall(3.5);
+	// itm.points_shop = 500; // Атрибут для магазина ачивок
 	n++;
 
 	makeref(itm,Items[n]);
@@ -4438,7 +4442,7 @@ int InitItems()
 	n++; 
 
 	makeref(itm,Items[n]);
-	itm.id = "Totem_15";	//открывалка на второй каменный сундук
+	itm.id = "Totem_15";	// Тотем Шипе-Тотеку
 	itm.groupID = IDOLS_RIGHT_ITEM_TYPE;
 	itm.name = "itmname_Totem_15";
 	itm.describe = "itmdescr_Totem_15";
@@ -4451,10 +4455,9 @@ int InitItems()
 	itm.useLocation = "Temple_great";
 	itm.useLocator = "button02";
 	itm.price = (rand(8)+1)*1000;
-	// boal 19.01.2004 -->
 	itm.Weight = 0.3;
-	// boal 19.01.2004 <--
 	itm.ItemType = "QUESTITEMS";
+	itm.points_shop = 1000; // Атрибут для магазина ачивок
 	n++; 
 
 	Totems_end = n;
@@ -5567,7 +5570,7 @@ int InitItems()
 	itm.picIndex = 7;
 	itm.picTexture = "ITEMS_19";
 	itm.price = 500;
-	itm.Weight = 0.01;
+	itm.Weight = 0.2;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "SUPPORT";
@@ -5582,7 +5585,7 @@ int InitItems()
 	itm.picIndex = 8;
 	itm.picTexture = "ITEMS_19";
 	itm.price = 500;
-	itm.Weight = 0.01;
+	itm.Weight = 0.5;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "SUPPORT";
@@ -5597,7 +5600,7 @@ int InitItems()
 	itm.picIndex = 9;
 	itm.picTexture = "ITEMS_19";
 	itm.price = 500;
-	itm.Weight = 0.01;
+	itm.Weight = 1;
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "SUPPORT";
@@ -6430,7 +6433,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
-	itm.points_shop = 20; //атрибут для ачивок
+	itm.points_shop = 2; //атрибут для ачивок
 	
 	itm.PerkReq = 1;
     itm.CraftedItem = "shotgun_cartridge";
@@ -6461,7 +6464,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
-	itm.points_shop = 10; //атрибут для ачивок
+	itm.points_shop = 1; //атрибут для ачивок
 	
     itm.CraftedItem = "GunEchin";
     itm.CraftFor = "Blacksmith";
@@ -6519,7 +6522,7 @@ int InitItems()
 	itm.rare = 0.0001;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
-	itm.points_shop = 20; //атрибут для ачивок
+	itm.points_shop = 2; //атрибут для ачивок
 	
 	itm.PerkReq = 1;
     itm.CraftedItem = "12_gauge";
@@ -6810,7 +6813,7 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.minlevel =5;
 	itm.rare = 0.01;
-	itm.points_shop = 750; // Атрибут для магазина ачивок
+	itm.points_shop = 500; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -6826,7 +6829,7 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.minlevel =1;
 	itm.rare = 0.01;
-	itm.points_shop = 750; // Атрибут для магазина ачивок
+	itm.points_shop = 500; // Атрибут для магазина ачивок
 	n++;
 
 	makeref(itm,Items[n]);
@@ -6842,7 +6845,7 @@ int InitItems()
 	// boal 19.01.2004 <--
 	itm.minlevel =1;
 	itm.rare = 0.01;
-	itm.points_shop = 750; // Атрибут для магазина ачивок
+	itm.points_shop = 500; // Атрибут для магазина ачивок
 	n++;
 
 //INDIAN TRINKETS
@@ -7113,7 +7116,7 @@ int InitItems()
 	n++;
 
     makeref(itm,Items[n]);
-	itm.id = "indian11";  // rats god
+	itm.id = "indian11";  // Крысиный бог
 	itm.name = "itmname_indian11";
 	itm.describe = "itmdescr_indian11";
 	itm.model = "";
@@ -7126,6 +7129,7 @@ int InitItems()
     // boal 19.01.2004 <--
 	itm.minlevel = 5;
 	itm.rare = 0.001;
+	itm.points_shop = 250; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7618,6 +7622,7 @@ int InitItems()
 	itm.minlevel = 20;
 	itm.rare = 0.001;
 	itm.ItemType = "SUPPORT";
+	itm.points_shop = 1000; // Атрибут для магазина ачивок
 	n++;
 	
 	// одежда 07.03.05
@@ -7716,7 +7721,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.kind = "cannoner";
-	itm.points_shop = 2500; // Атрибут для магазина ачивок
+	itm.points_shop = 750; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7731,7 +7736,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.kind = "boatswain";
-	itm.points_shop = 2500; // Атрибут для магазина ачивок
+	itm.points_shop = 750; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7760,7 +7765,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.kind = "carpenter";
-	itm.points_shop = 2500; // Атрибут для магазина ачивок
+	itm.points_shop = 750; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -7775,7 +7780,7 @@ int InitItems()
 	itm.minlevel = 1;
 	itm.rare = 0.001;
 	itm.kind = "fighter";
-	itm.points_shop = 2500; // Атрибут для магазина ачивок
+	itm.points_shop = 750; // Атрибут для магазина ачивок
 	n++;
 	
 	makeref(itm,Items[n]);
@@ -9310,7 +9315,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 100; // Атрибут для магазина ачивок
+	itm.points_shop = 50; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9325,7 +9330,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 150; // Атрибут для магазина ачивок
+	itm.points_shop = 100; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9355,7 +9360,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 800; // Атрибут для магазина ачивок
+	itm.points_shop = 1000; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9370,7 +9375,7 @@ int InitItems()
 	itm.minlevel = 0;
 	itm.rare = 0.3;
 	itm.ItemType = "QUESTITEMS";
-	itm.points_shop = 1600; // Атрибут для магазина ачивок
+	itm.points_shop = 2000; // Атрибут для магазина ачивок
 	n++;
 
 	// Уникальный чертёж
@@ -9441,6 +9446,40 @@ int InitItems()
 	itm.weight = 0.5;
 	itm.ItemType = "QUESTITEMS";
 	n++;
+	
+	makeref(itm,Items[n]);	//Квест "Аптекарь"
+	itm.id = "PDM_Heal_Poroshok";	//Целебный порошок
+	itm.name = "itmname_PDM_Heal_Poroshok";
+	itm.describe = "itmdescr_PDM_Heal_Poroshok";
+	itm.picIndex = 16;
+	itm.picTexture = "ITEMS_9";
+	itm.price = 0;
+	itm.weight = 0.1;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+	
+	makeref(itm,Items[n]);	//Квест "Аптекарь"
+	itm.id = "PDM_Derevo_Teshkali";	//Дерево Тешкатали
+	itm.name = "itmname_PDM_Derevo_Teshkali";
+	itm.describe = "itmdescr_PDM_Derevo_Teshkali";
+	itm.picIndex = 6;
+	itm.picTexture = "ITEMS_7";
+	itm.model = "Diamond";
+	itm.price = 0;
+	itm.weight = 2;
+	itm.ItemType = "QUESTITEMS";
+	n++;
+	
+	makeref(itm,Items[n]);	//Квест "Аптекарь"
+	itm.id = "PDM_Trava_Tzes_Umrat";	//Трава Тзескатлат Умтат
+	itm.name = "itmname_PDM_Trava_Tzes_Umrat";
+	itm.describe = "itmdescr_PDM_Trava_Tzes_Umrat";
+	itm.picIndex = 8;
+	itm.picTexture = "ITEMS_18";
+	itm.price = 0;
+	itm.weight = 0.1;
+	itm.ItemType = "QUESTITEMS";
+	n++;
 
 	//InitGunExt(id,	sAttr,  sBullet,  sGunPowder, DmgMin_NC, DmgMax_NC, DmgMin_C, DmgMax_C, EnergyP_NC, EnergyP_C, Stun_NC, Stun_C, MultiDamage, MisFire, SelfDamage, Explosion,Accuracy,ChargeSpeed,isDefault);
 	InitGunExt(		 "pistol1", "t1",  	     "cartridge",               "",  20.0, 100.0,  20.0, 100.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 30,  8, 0);
@@ -9466,8 +9505,8 @@ int InitItems()
 	InitGunExt(		 "howdah", "t1",         "grapeshot",      "gunpowder",  50.0,  85.0,  40.0,  70.0,  5.0,  5.0, 1, 1, 1, 0, 0, 1, 50, 40, 1);
     InitGunExt(		 "howdah", "t2",          "GunEchin",               "", 115.0, 215.0, 115.0, 215.0,  20.0, 20.0,0, 1, 1, 0, 0, 0, 20, 60, 0);
 	
-	InitGunExt(		"mushket", "t1", 	             "cartridge",               "", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  20, 0);
-	InitGunExt(		"mushket", "t2", 		            "bullet",      "gunpowder", 120.0, 220.0, 120.0, 220.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  40, 1);
+	InitGunExt(		"mushket", "t1", 	             "cartridge",               "", 100.0, 150.0, 100.0, 150.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  20, 0);
+	InitGunExt(		"mushket", "t2", 		            "bullet",      "gunpowder", 100.0, 150.0, 100.0, 150.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  80,  40, 1);
 	InitGunExt(		"mushket2", "t1", 	             "cartridge",               "", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  90,  35, 0);
 	InitGunExt(		"mushket2", "t2", 		            "bullet",      "gunpowder", 140.0, 240.0, 140.0, 240.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0,  90,  55, 1);
 	InitGunExt(		"mushket_spanish", "t1", 	     "cartridge",               "",  60.0, 180.0,  60.0, 180.0,  0.0,  0.0, 1, 0, 0, 0, 0, 0, 100,  30, 0);

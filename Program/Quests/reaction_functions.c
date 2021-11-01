@@ -3093,6 +3093,7 @@ void SetDanielleFromSeaToMap(string qName)
 void SetBlackBeardFromSeaToMap(string qName)
 {
 	sld = characterFromId("BlackBeardNPC");
+	if (LAi_IsDead(sld)) return;
 	//в морскую группу кэпа
 	string sGroup = "BlackBeardGroup";
 	Group_FindOrCreateGroup(sGroup);
@@ -5164,10 +5165,18 @@ void LSC_figtInResidence()
 	ChangeCharacterAddressGroup(sld, pchar.location, "reload", LAi_FindNearestFreeLocator("reload", locx, locy, locz));
     pchar.quest.LSC_figtInResidence_1.win_condition.l1 = "NPC_Death";
     pchar.quest.LSC_figtInResidence_1.win_condition.l1.character = "LSCMayor";
-    pchar.quest.LSC_figtInResidence_1.win_condition.l2 = "NPC_Death";
-    pchar.quest.LSC_figtInResidence_1.win_condition.l2.character = "Ment_4";
-    pchar.quest.LSC_figtInResidence_1.win_condition.l3 = "NPC_Death";
-    pchar.quest.LSC_figtInResidence_1.win_condition.l3.character = "Ment_5";
+	iTemp = GetCharacterIndex("Ment_4")
+	if (iTemp != -1)
+	{
+		pchar.quest.LSC_figtInResidence_1.win_condition.l2 = "NPC_Death";
+		pchar.quest.LSC_figtInResidence_1.win_condition.l2.character = "Ment_4";
+	}
+	iTemp = GetCharacterIndex("Ment_5")
+	if (iTemp != -1)
+	{
+		pchar.quest.LSC_figtInResidence_1.win_condition.l3 = "NPC_Death";
+		pchar.quest.LSC_figtInResidence_1.win_condition.l3.character = "Ment_5";
+	}
     pchar.quest.LSC_figtInResidence_1.function= "LSC_figtInResidence_1";
 	LAi_SetFightMode(pchar, true);
 	LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
@@ -11002,11 +11011,13 @@ void scareOfficers(int minSkill)
 }
 
 //Генераторный квест. Проигравшийся игрок. -->
-void LooserGenerator_sart_Magazin()		//Украл владелец магазина
+void LooserGenerator_sart_Magazin(string s)		//Украл владелец магазина
 {
 	ChangeCharacterReputation(pchar, -5);
 	
 	ref chr = CharacterFromID(pchar.HOTP_CasinoQuest.npcharID);
+	chr.dialog.filename = "Quest\KIP\looser.c";
+	chr.dialog.currentnode = "Jdet_1";
 	DeleteAttribute(chr, "lifeday");		// на всякий случай, чтобы не исчез
 	
 	ReOpenQuestHeader("LOOSER_GENERATOR");
@@ -11022,11 +11033,13 @@ void LooserGenerator_sart_Magazin()		//Украл владелец магазина
 	SetTimerFunction("LooserGenerator_TimeFailed", 0, 0, 1);
 }
 
-void LooserGenerator_sart_Verf()	//Украл владелец верфи
+void LooserGenerator_sart_Verf(string s)	//Украл владелец верфи
 {
 	ChangeCharacterReputation(pchar, -5);
 	
 	ref chr = CharacterFromID(pchar.HOTP_CasinoQuest.npcharID);
+	chr.dialog.filename = "Quest\KIP\looser.c";
+	chr.dialog.currentnode = "Jdet_1";
 	DeleteAttribute(chr, "lifeday");		// на всякий случай, чтобы не исчез
 	
 	ReOpenQuestHeader("LOOSER_GENERATOR");
@@ -11044,14 +11057,14 @@ void LooserGenerator_sart_Verf()	//Украл владелец верфи
 
 //--------------------------------------------------------------------------------------------------------------
 // Выставлялка прерывания на локации
-void LooserGenerator_SetStoreLocation()
+void LooserGenerator_SetStoreLocation(string s)
 {
 	pchar.quest.LooserGeneratorSart.win_condition.l1 = "location";
 	pchar.quest.LooserGeneratorSart.win_condition.l1.location = "CommonPackhouse_1";
 	pchar.quest.LooserGeneratorSart.function = "LooserGenerator_InStore";	
 }
 
-void LooserGenerator_SetShipyardLocation()
+void LooserGenerator_SetShipyardLocation(string s)
 {
 	pchar.quest.LooserGeneratorSart2.win_condition.l1 = "location";
 	pchar.quest.LooserGeneratorSart2.win_condition.l1.location = "CommonPackhouse_2";
@@ -11060,7 +11073,7 @@ void LooserGenerator_SetShipyardLocation()
 
 //--------------------------------------------------------------------------------------------------------------
 // Заходим в магазин
-void LooserGenerator_InStore()
+void LooserGenerator_InStore(string s)
 {
 	int n = FindLocation(pchar.location);
 	int i;
@@ -11070,10 +11083,9 @@ void LooserGenerator_InStore()
 	{
 		DeleteAttribute(pchar, "HOTP_CasinoQuest.store");
 		Log_Info("Кажется я на месте...");
+		pchar.KIP_PI_SleditZaNami = "KIP_PI_SleditZaNami";
 		chrDisableReloadTolocation = true;
 		InterfaceStates.Buttons.Save.enable = false;
-
-		locations[n].NotSpawnItem = true;
 		
 		pchar.GenQuestBox.CommonPackhouse_1.box1.items.Bag_with_money = (rand(2)+1);
 		pchar.GenQuestBox.CommonPackhouse_1.box2.items.Bag_with_money = (rand(2)+1);
@@ -11082,18 +11094,6 @@ void LooserGenerator_InStore()
 		pchar.GenQuestBox.CommonPackhouse_1.box5.items.Bag_with_money = (rand(2)+1);
 		pchar.GenQuestBox.CommonPackhouse_1.box6.items.Bag_with_money = (rand(2)+1);
 		pchar.GenQuestBox.CommonPackhouse_1.box7.items.Bag_with_money = (rand(2)+1);
-
-		for(i=1;i<8;i++) 
-		{
-			str = "box"+i;
-			locations[n].(str).items.Bag_with_money = 0;
-		}
-		
-		for(i=0;i<5;i++) 
-		{
-			str = "box"+(rand(6)+1);
-			locations[n].(str).items.Bag_with_money = sti(locations[n].(str).items.Bag_with_money)+1;
-		}
 
 		return;
 	}
@@ -11107,7 +11107,7 @@ void LooserGenerator_InStore()
 
 //--------------------------------------------------------------------------------------------------------------
 // Заходим на верфь
-void LooserGenerator_InShipyard()
+void LooserGenerator_InShipyard(string s)
 {
 	int n = FindLocation(pchar.location);
 	int i;
@@ -11117,10 +11117,9 @@ void LooserGenerator_InShipyard()
 	{
 		DeleteAttribute(pchar, "HOTP_CasinoQuest.shipyard");
 		Log_Info("Кажется я на месте...");
+		pchar.KIP_PI_SleditZaNami = "KIP_PI_SleditZaNami";
 		chrDisableReloadTolocation = true;
 		InterfaceStates.Buttons.Save.enable = false;
-
-		locations[n].NotSpawnItem = true;
 		
 		pchar.GenQuestBox.CommonPackhouse_2.box1.items.Bag_with_money = (rand(2)+1);
 		pchar.GenQuestBox.CommonPackhouse_2.box2.items.Bag_with_money = (rand(2)+1);
@@ -11129,18 +11128,6 @@ void LooserGenerator_InShipyard()
 		pchar.GenQuestBox.CommonPackhouse_2.box5.items.Bag_with_money = (rand(2)+1);
 		pchar.GenQuestBox.CommonPackhouse_2.box6.items.Bag_with_money = (rand(2)+1);
 		pchar.GenQuestBox.CommonPackhouse_2.box7.items.Bag_with_money = (rand(2)+1);
-
-		for(i=1;i<8;i++) 
-		{
-			str = "box"+i;
-			pchar.GenQuestBox.locations[n].(str).items.Bag_with_money = 0;
-		}
-		
-		for(i=0;i<5;i++) 
-		{
-			str = "box"+(rand(6)+1);
-			pchar.GenQuestBox.locations[n].(str).items.Bag_with_money = pchar.GenQuestBox.sti(locations[n].(str).items.Bag_with_money)+1;
-		}
 
 		return;
 	}
@@ -11161,27 +11148,82 @@ void LooserGenerator_OpenLocation(string s)
 
 	DeleteAttribute(&locations[FindLocation(pchar.location)], "NotSpawnItem");
 
-	if(GetCharacterItem(pchar,"Bag_with_money") >= 6)
-	{
-		ref chr = CharacterFromID(pchar.HOTP_CasinoQuest.npcharID);
-		chr.CasinoQuest_ok = true;
-		chr.dialog.filename = "Quest\KIP\looser.c";
-		chr.dialog.currentnode = "quest";
-		DeleteAttribute(FindLocation(pchar.location), "box1");
-		DeleteAttribute(FindLocation(pchar.location), "box2");
-		DeleteAttribute(FindLocation(pchar.location), "box3");
+	ref chr = CharacterFromID(pchar.HOTP_CasinoQuest.npcharID);
+	chr.CasinoQuest_ok = true;
+	chr.dialog.filename = "Quest\KIP\looser.c";
+	chr.dialog.currentnode = "quest";
 
-		DeleteQuestCheck("LooserGeneratorFailed");
-	}
+	DeleteQuestCheck("LooserGeneratorFailed");
+
 }
 
 //--------------------------------------------------------------------------------------------------------------
 // Успешное завершение квеста
 void LooserGenerator_Complette()
 {
-	Log_SetStringToLog(XI_ConvertString("You give item"));
+	if (pchar.rank >= 1 && pchar.rank <= 7)
+	{
+		if (sti(pchar.items."Bag_with_money") >= 8) Log_info("Излишек кошельков превращается в золото");
+		if (sti(pchar.items."Bag_with_money") == 8)	AddMoneyToCharacter(pchar, 200);
+		if (sti(pchar.items."Bag_with_money") == 9)	AddMoneyToCharacter(pchar, 400);
+		if (sti(pchar.items."Bag_with_money") == 10) AddMoneyToCharacter(pchar, 600);
+		if (sti(pchar.items."Bag_with_money") == 11) AddMoneyToCharacter(pchar, 800);
+		if (sti(pchar.items."Bag_with_money") == 12) AddMoneyToCharacter(pchar, 1000);
+		if (sti(pchar.items."Bag_with_money") == 13) AddMoneyToCharacter(pchar, 1200);
+		if (sti(pchar.items."Bag_with_money") == 14) AddMoneyToCharacter(pchar, 1400);
+		if (sti(pchar.items."Bag_with_money") == 15) AddMoneyToCharacter(pchar, 1600);
+		if (sti(pchar.items."Bag_with_money") == 16) AddMoneyToCharacter(pchar, 1800);
+		if (sti(pchar.items."Bag_with_money") >= 17) AddMoneyToCharacter(pchar, 2000);
+	}
+	if (pchar.rank >= 8 && pchar.rank <= 14)
+	{
+		if (sti(pchar.items."Bag_with_money") >= 8) Log_info("Излишек кошельков превращается в золото");
+		if (sti(pchar.items."Bag_with_money") == 8)	AddMoneyToCharacter(pchar, 700);
+		if (sti(pchar.items."Bag_with_money") == 9)	AddMoneyToCharacter(pchar, 1400);
+		if (sti(pchar.items."Bag_with_money") == 10) AddMoneyToCharacter(pchar, 2100);
+		if (sti(pchar.items."Bag_with_money") == 11) AddMoneyToCharacter(pchar, 2800);
+		if (sti(pchar.items."Bag_with_money") == 12) AddMoneyToCharacter(pchar, 3500);
+		if (sti(pchar.items."Bag_with_money") == 13) AddMoneyToCharacter(pchar, 4200);
+		if (sti(pchar.items."Bag_with_money") == 14) AddMoneyToCharacter(pchar, 4900);
+		if (sti(pchar.items."Bag_with_money") == 15) AddMoneyToCharacter(pchar, 5600);
+		if (sti(pchar.items."Bag_with_money") == 16) AddMoneyToCharacter(pchar, 6300);
+		if (sti(pchar.items."Bag_with_money") >= 17) AddMoneyToCharacter(pchar, 7000);
+	}
+	if (pchar.rank >= 15 && pchar.rank <= 21)
+	{
+		if (sti(pchar.items."Bag_with_money") >= 8) Log_info("Излишек кошельков превращается в золото");
+		if (sti(pchar.items."Bag_with_money") == 8)	AddMoneyToCharacter(pchar, 2500);
+		if (sti(pchar.items."Bag_with_money") == 9)	AddMoneyToCharacter(pchar, 5000);
+		if (sti(pchar.items."Bag_with_money") == 10) AddMoneyToCharacter(pchar, 7500);
+		if (sti(pchar.items."Bag_with_money") == 11) AddMoneyToCharacter(pchar, 10000);
+		if (sti(pchar.items."Bag_with_money") == 12) AddMoneyToCharacter(pchar, 12500);
+		if (sti(pchar.items."Bag_with_money") == 13) AddMoneyToCharacter(pchar, 15000);
+		if (sti(pchar.items."Bag_with_money") == 14) AddMoneyToCharacter(pchar, 17500);
+		if (sti(pchar.items."Bag_with_money") == 15) AddMoneyToCharacter(pchar, 20000);
+		if (sti(pchar.items."Bag_with_money") == 16) AddMoneyToCharacter(pchar, 22500);
+		if (sti(pchar.items."Bag_with_money") >= 17) AddMoneyToCharacter(pchar, 25000);
+	}
+	if (pchar.rank >= 22)
+	{
+		if (sti(pchar.items."Bag_with_money") >= 8) Log_info("Излишек кошельков превращается в золото");
+		if (sti(pchar.items."Bag_with_money") == 8)	AddMoneyToCharacter(pchar, 8000);
+		if (sti(pchar.items."Bag_with_money") == 9)	AddMoneyToCharacter(pchar, 16000);
+		if (sti(pchar.items."Bag_with_money") == 10) AddMoneyToCharacter(pchar, 24000);
+		if (sti(pchar.items."Bag_with_money") == 11) AddMoneyToCharacter(pchar, 32000);
+		if (sti(pchar.items."Bag_with_money") == 12) AddMoneyToCharacter(pchar, 40000);
+		if (sti(pchar.items."Bag_with_money") == 13) AddMoneyToCharacter(pchar, 48000);
+		if (sti(pchar.items."Bag_with_money") == 14) AddMoneyToCharacter(pchar, 56000);
+		if (sti(pchar.items."Bag_with_money") == 15) AddMoneyToCharacter(pchar, 64000);
+		if (sti(pchar.items."Bag_with_money") == 16) AddMoneyToCharacter(pchar, 72000);
+		if (sti(pchar.items."Bag_with_money") >= 17) AddMoneyToCharacter(pchar, 80000);
+	}
+
+	AddCharacterSkill(pchar, "Fortune", 1);
+	Log_SetStringToLog("Везение + 1");	
+				
 	PlayStereoSound("interface\important_item.wav");
 	DeleteAttribute(pchar, "items.Bag_with_money");
+	DeleteAttribute(pchar, "KIP_PI_SleditZaNami");
 	PChar.quest.LooserGenerator_TimeFailed.over = "yes";
 
 	ref chr = CharacterFromID(pchar.HOTP_CasinoQuest.npcharID);
@@ -11189,9 +11231,6 @@ void LooserGenerator_Complette()
 	CloseQuestHeader("LOOSER_GENERATOR");
 	DeleteAttribute(pchar, "HOTP_CasinoQuest");
 	SaveCurrentQuestDateParam("CasinoGenerator_timer");
-
-	AddCharacterSkill(pchar, "Fortune", 1);
-	Log_SetStringToLog("Везение + 1");
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -11202,6 +11241,7 @@ void LooserGenerator_TimeFailed(string s)
 	DeleteQuestCheck("LooserGeneratorSart2");
 
 	DeleteAttribute(pchar, "items.Bag_with_money");
+	DeleteAttribute(pchar, "KIP_PI_SleditZaNami");
 	
 	Log_Info("Вы не успели выполнить задание");
 	AddQuestRecord("LOOSER_GENERATOR", "2");
@@ -11212,22 +11252,9 @@ void LooserGenerator_TimeFailed(string s)
 	chr.dialog.filename = "Quest\KIP\looser.c";
 	chr.dialog.currentnode = "first time";
 }
-
-//--------------------------------------------------------------------------------------------------------------
-// Закрываем квест после провала по времени
-void LooserGenerator_TimeFailedEnd()
-{
-	ref chr = CharacterFromID(pchar.HOTP_CasinoQuest.npcharID);
-	chr.lifeday = 0;
-	CloseQuestHeader("LOOSER_GENERATOR");
-	DeleteAttribute(pchar, "HOTP_CasinoQuest");
-	SaveCurrentQuestDateParam("CasinoGenerator_timer");
-	DeleteAttribute(pchar, "items.Bag_with_money");
-}
-
 //--------------------------------------------------------------------------------------------------------------
 // Поймали с поличным
-void LooserGenerator_FailedByEnc()
+void LooserGenerator_FailedByEnc(string s)
 {
 	chrDisableReloadTolocation = false;
 	InterfaceStates.Buttons.Save.enable = true;
@@ -11235,21 +11262,40 @@ void LooserGenerator_FailedByEnc()
 	DeleteAttribute(&locations[FindLocation(pchar.location)], "NotSpawnItem");
 	
 	ref chr = CharacterFromID(pchar.HOTP_CasinoQuest.npcharID);
+	chr.lifeday = 0;
 	chr.CasinoQuest_ok = true;
 	chr.dialog.filename = "Quest\KIP\looser.c";
 	chr.dialog.currentnode = "first time";
 	
 	DeleteQuestCheck("LooserGeneratorSart");
 	DeleteQuestCheck("LooserGeneratorSart2");
+	DeleteAttribute(pchar, "items.Bag_with_money");
+	pchar.KIP_PI_ZapisVSJ = "KIP_PI_ZapisVSJ";
+	DeleteAttribute(pchar, "KIP_PI_SleditZaNami");
+	DeleteAttribute(pchar, "HOTP_CasinoQuest");
+	PChar.quest.LooserGenerator_TimeFailed.over = "yes";	
 	
 	Log_Info("Вас поймали на горячем! Вы не смогли выполнить задание!!!");
 	AddQuestRecord("LOOSER_GENERATOR", "2");
 	CloseQuestHeader("LOOSER_GENERATOR");
 }
 // Проходит 15 дней, можно брать снова
-void LooserGenerator_NewGeneratorQuest()
+void LooserGenerator_NewGeneratorQuest(string s)
 {
-DeleteAttribute(pchar, "questTemp.KIP_Looser");
+	DeleteAttribute(pchar, "questTemp.KIP_Looser");
+	DeleteAttribute(pchar, "KIP_PI_ZapisVSJ");
+	DeleteAttribute(pchar, "items.Bag_with_money");
+}
+// Дополнительная проверка на наличие 7+ кошельков
+void LooserGenerator_DopProverka(string s)
+{
+	if (GetCharacterItem(pchar,"Bag_with_money") >= 7 && !CheckAttribute(pchar, "KIP_PI_ZapisVSJ"))
+	{	
+		AddQuestRecord("LOOSER_GENERATOR", "3");
+		AddQuestUserData("LOOSER_GENERATOR", "sSex", GetSexPhrase("ёл","ла"));
+		DoQuestFunctionDelay("LooserGenerator_OpenLocation", 0.1);
+		pchar.KIP_PI_ZapisVSJ = "KIP_PI_ZapisVSJ";
+	}
 }
 //<-- Генераторный квест. Проигравшийся игрок.
 

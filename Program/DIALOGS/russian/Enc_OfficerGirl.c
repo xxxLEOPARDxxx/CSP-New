@@ -564,7 +564,7 @@ void ProcessDialogEvent()
 			Link.l2.go = "Companion_TaskChange";
 			if(bBettaTestMode) // Только при бета-тесте
 			{
-			    Link.l3 = "Я хочу, чтобы ты на время вышел из состава моей эскадры и поискал удачу самостоятельно.";
+			    Link.l3 = "Я хочу, чтобы ты на время выш"+ GetSexPhrase("ел","ла") +" из состава моей эскадры и поискал удачу самостоятельно.";
 			    Link.l3.go = "CompanionTravel";
 			}
 			Link.l8 = "Пока ничего.";
@@ -573,7 +573,7 @@ void ProcessDialogEvent()
 		
 		case "Companion_TaskBoarding":
 			dialog.Text = "Что же вы желаете?";
-			Link.l1 = "Я хочу чтобы ты не брал корабли на абордаж. Побереги себя и свою команду.";
+			Link.l1 = "Я хочу чтобы ты не брал"+ GetSexPhrase("","а") +" корабли на абордаж. Побереги себя и свою команду.";
 			Link.l1.go = "Companion_TaskBoardingNo";
 			Link.l2 = "Мне нужно чтобы ты брал вражеские корабли на абордаж.";
 			Link.l2.go = "Companion_TaskBoardingYes";
@@ -581,7 +581,7 @@ void ProcessDialogEvent()
 		
 		case "Companion_TaskChange":
 			dialog.Text = "Что же вы желаете?";
-			Link.l1 = "Я хочу чтобы ты не менял свой корабль после абордажа. Он слишком ценен.";
+			Link.l1 = "Я хочу чтобы ты не менял"+ GetSexPhrase("","а") +" свой корабль после абордажа. Он слишком ценен.";
 			Link.l1.go = "Companion_TaskChangeNo";
 			Link.l2 = "Когда будешь брать врагов на абордаж, посмотри, вдруг кораблик приличный будет, тогда бери себе.";
 			Link.l2.go = "Companion_TaskChangeYes";
@@ -809,6 +809,16 @@ void ProcessDialogEvent()
 		break;
 		//Анджелика
 		case "Angellica_meet":
+			if (startherotype == 3 || startherotype == 4)
+			{
+				if(npchar.id == "Angellica")
+				{
+					dialog.text = "Кто это тут у нас? Ещё один плод неуёмной любви моего папаши к слабому полу? Сегодня я не в настроении убивать родственников. Иди своей дорогой!";
+					link.l1 = "Эх, а мы могли бы осуществить мечту отца вместе. Ну, как знаешь Анджелика, прощай.";
+					link.l1.go = "exit";
+					break;
+				}
+			}
 			if (NPChar.alignment == "bad" && sti(pchar.reputation) <= 30)
 			{
 				dialog.Text = "Эй, капитан! Тебе выпала честь нанять старпомом - дочь самого Николаса Шарпа! Если ты досто"+ GetSexPhrase("ин","йна") +", конечно!";

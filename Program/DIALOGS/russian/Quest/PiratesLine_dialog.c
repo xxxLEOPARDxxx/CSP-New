@@ -22,6 +22,11 @@ void ProcessDialogEvent()
 			NextDiag.CurrentNode = NextDiag.TempNode;
 			DialogExit();
 		break;
+		case "exit_hl":
+			NextDiag.TempNode = "PiratesManNew1";
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			DialogExit();
+		break;
 		// -------------------------------------- квест №1 -------------------------------------------------
 		//первая встреча с посыльным Моргана в Пуэрто Принсипе
 		case "PiratesMan1":
@@ -37,8 +42,10 @@ void ProcessDialogEvent()
 				else
 				{
 					dialog.text = "Здорово, "+ GetSexPhrase("парень","деваха") +"! Я смотрю, кораблик у тебя имеется... Подзаработать хочешь?";
-					link.l1 = "Может и захочу, а что нужно?";
-					link.l1.go = "PiratesMan1_1";
+					link.l1 = "Извини, нет времени пока, давай попозже.";
+					link.l1.go = "exit_hl";
+					link.l2 = "Может и захочу, а что нужно?";
+					link.l2.go = "PiratesMan1_1";
 				}	
 			}
 			else
@@ -84,8 +91,10 @@ void ProcessDialogEvent()
 			if (pchar.questTemp.State == "" || sti(pchar.questTemp.CurQuestNumber) > 8 || sti(pchar.questTemp.NationQuest) == SPAIN)
 			{
 				dialog.text = "Здорово, "+ GetSexPhrase("парень","деваха") +"! Я смотрю, кораблик у тебя имеется... Подзаработать хочешь?";
-				link.l1 = "А что нужно делать?";
-				link.l1.go = "PiratesMan1_1";
+				link.l1 = "Извини, нет времени пока, давай попозже.";
+				link.l1.go = "exit_hl";
+				link.l2 = "А что нужно делать?";
+				link.l2.go = "PiratesMan1_1";
 			}
 			else
 			{

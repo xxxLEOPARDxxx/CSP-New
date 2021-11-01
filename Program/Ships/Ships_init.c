@@ -864,7 +864,7 @@ void InitShips()
 	refShip.MastMultiplier					= 1.6;
 	refship.CanEncounter				= true;
 	refship.Type.Merchant				= true;
-	refship.Type.War					= true;
+	refship.Type.War					= false;
 	refShip.fWindAgainstSpeed			= 6.0;
 	refShip.sea_enchantment				= 2.0;
 	refShip.lowpolycrew = 8;
@@ -9977,9 +9977,9 @@ void InitShips()
 	refship.Soundtype					= "corvette";
 	refShip.Class						= 3;
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS16;
-	refShip.MaxCaliber      			= 32;
+	refShip.MaxCaliber      			= 24;
 	refShip.Weight						= Tonnes2CWT(680);
-	refShip.Capacity        			= 2500;
+	refShip.Capacity        			= 3000;
 	refShip.CannonsQuantity				= 40;
 	refShip.rcannon 					= 16;
 	refShip.lcannon 					= 16;
@@ -9987,11 +9987,11 @@ void InitShips()
 	refShip.bcannon 					= 4;
 	refShip.MaxCrew         		= 230;
 	refShip.MinCrew         		= 40;
-	refShip.SpeedRate					= 20.0;
-	refShip.TurnRate        			= 60.0;
+	refShip.SpeedRate					= 17.5;
+	refShip.TurnRate        			= 55.0;
 	refShip.Price           			= 150000;
 
-	refShip.HP              			= 3400;
+	refShip.HP              			= 4400;
 	refShip.SP              			= 100;
 	refShip.MastMultiplier					= 1.3;
 	refship.Type.Merchant					= false;

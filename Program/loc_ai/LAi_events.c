@@ -231,23 +231,48 @@ void LAi_CharacterAttack()
 	}*/
 	if(isBlocked == true)  // to_do
 	{
+		float blckTime = 9999.0;
+        if(CheckAttribute(enemy, "chr_ai.BlockInitTime")) {
+            blckTime = GetTimeStamp() - stf(enemy.chr_ai.BlockInitTime);
+        }
 		if(CheckCharacterPerk(attack, "sliding"))
 		{
 			int iRand = rand(100);
 			if(iRand < 20)
 			{
-				blockSave = false;
-				if(sti(attack.index) == GetMainCharacterIndex())
+				if(blckTime < SLIDING_BLK_THRESH) 
 				{
-					Log_Info("Вы пробили блок неотразимым ударом.");
-					PlaySound("interface\Block_"+rand(1)+".wav");
+					blockSave = true;
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Ваш неотразимый удар был заблокирован.");
+						PlaySound("interface\Block_"+rand(1)+".wav");
+					}
+					if(sti(enemy.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вы заблокировали неотразимый удар.");
+						PlaySound("interface\Block_"+rand(1)+".wav");
+					}
 				}
-				if(sti(enemy.index) == GetMainCharacterIndex())
+				else
 				{
-					Log_Info("Ваш блок был пробит неотразимым ударом.");
-					PlaySound("interface\Block_"+rand(1)+".wav");
+					blockSave = false;
+					if(sti(attack.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Вы пробили блок неотразимым ударом.");
+						PlaySound("interface\Block_"+rand(1)+".wav");
+					}
+					if(sti(enemy.index) == GetMainCharacterIndex())
+					{
+						Log_Info("Ваш блок был пробит неотразимым ударом.");
+						PlaySound("interface\Block_"+rand(1)+".wav");
+					}
 				}
 			}
+		}
+		else 
+		{	
+			if(attackType == "break" && blckTime > DEFAULT_BLK_THRESH) blockSave = false;		
 		}
 	}
 	//Реакция груп на атаку

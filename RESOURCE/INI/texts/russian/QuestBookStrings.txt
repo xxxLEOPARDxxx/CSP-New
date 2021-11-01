@@ -1,3 +1,5 @@
+PDM_Aptekar {Аптекарь}
+
 PDM_Proklyataya_Jara {Проклятая жара}
 
 BSChaseBegun {Погоня началась!}
@@ -335,3 +337,9 @@ Dozor {Дозор}
 ShipWreck {Кораблекрушение}
 
 QuestDuel {Дуэлянт}
+
+LOOSER_GENERATOR {Проигравшийся игрок}
+
+Romantic_Line {История прекрасной Изабеллы}
+
+HeadHunter {Охотники за головами}

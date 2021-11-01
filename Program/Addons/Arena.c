@@ -1366,6 +1366,7 @@ void ArenaTournamentStartNewBattle()
 		PChar.quest.(sQuest).win_condition.l1.locator_group = "item";
 		PChar.quest.(sQuest).win_condition.l1.locator = "looser_detector";
 		PChar.quest.(sQuest).function = "ArenaTournamentLooserDetector";
+		LAi_SetFightMode(PChar, true);
 	}
 }
 
@@ -3530,12 +3531,14 @@ void SetArenaTimeWait()
 	SetTimerFunction("ArenaReGenerate", 0, 0, d);
 	
 	Log_TestInfo("Через " + d + " дней на арене сгенерируются новые соревнования.");
+	AddSimpleRumourToAllNations("Поговаривают, что в Поселении Фехтовальщиков на Доминике дней через 20 начнётся очередная серия соревнований.", 5, 1);
 }
 
 void ArenaReGenerate(string qName)
 {
 	GenerateArena();
 	Log_TestInfo("На арене сгенерировались новые соревнования.");
+	AddSimpleRumourToAllNations("Я где-то слышал, что на Доминике в Поселении Фехтовальщиков недавно начались соревнования. Эх, будь я половчее - непременно попытал бы счастья там.", 5, 1);
 }
 
 void ArenaBileterGiveItems(ref chr)

@@ -355,7 +355,7 @@ void ProcessDialogEvent()
 		//Идём к резиденции, из неё выходит Гатри и несколько мушкетчиков.
 		
 		case "BS_PN_17":	//Гатри
-			dialog.text = "Джеймс! И Чарльз... Что же, вы очень вовремя. Джекман решил выдворить меня с острова и подготовил бунт. Три дня резни, стрельбы и крови.";
+			dialog.text = "Джеймс! И Чарльз... Что же, вы очень вовремя. Джекман решил выдворить меня с острова и подготовил бунт. Три дня резни, стрельбы и крови.\nНо увидев всех вас он наконец понял, что дальнейшее сопротивление бесполезно и только что сложил оружие.";
 			link.l1 = "...";
 			link.l1.go = "BS_PN_17_1";
 		break;
@@ -371,7 +371,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "BS_PN_18":	//Флинт
-			dialog.text = "Обе части кода у нас, и Сильвер с Рекхэмом сейчас заняты расшифровкой. Нам нужно решить текущие проблемы. Англичане настойчиво лезут в наши дела, также бунт Джекмана. Есть кого допросить из его людей?";
+			dialog.text = "Обе части кода у нас, и Сильвер с Рекхэмом сейчас заняты расшифровкой. Нам нужно решить текущие проблемы. Англичане настойчиво лезут в наши дела, также бунт Джекмана.";
 			link.l1 = "...";
 			link.l1.go = "BS_PN_18_1";
 		break;
@@ -387,7 +387,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "BS_PN_19":	//Вейн
-			dialog.text = "Нет. Последний истёк кровью вот только что.";
+			dialog.text = "Я могу устроить ему допрос, 'с пристрастием'.";
 			link.l1 = "...";
 			link.l1.go = "BS_PN_19_1";
 		break;
@@ -403,7 +403,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "BS_PN_20":	//Гатри
-			dialog.text = "Нужно навести тут порядок. Поговорим позже в резиденции.";
+			dialog.text = "Это подождёт. Нужно навести тут порядок. Поговорим позже в резиденции.";
 			link.l1 = "...";
 			link.l1.go = "BS_PN_20exit";
 		break;
@@ -521,6 +521,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "BS_PN_27_2":	//Флинт
+			npchar.nation = PIRATE;
 			dialog.text = "Прям на глазах гарнизона Санто-Доминго, но вне досягаемости его пушек! Из-за карантина они не смогут ничем помочь 'Урке'.";
 			link.l1 = "...";
 			link.l1.go = "BS_PN_27_1";
@@ -589,7 +590,6 @@ void ProcessDialogEvent()
 			PChar.quest.BSChaseBegun_EndQuest.win_condition.l1 = "location";
 			PChar.quest.BSChaseBegun_EndQuest.win_condition.l1.location = "Pirates_Town";
 			PChar.quest.BSChaseBegun_EndQuest.function = "BSChaseBegun_EndQuest";
-			Log_Info("1111")
 			
 			dialog.text = "Здесь слишком опасно оставаться. Поговорим на Бермудах.";
 			link.l1 = "Вы правы. Следуйте за моим судном.";
@@ -631,6 +631,7 @@ void ProcessDialogEvent()
 			sld = CharacterFromID("PortRoyal_hostess");
 			sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
 			sld.dialog.currentnode = "BS_NU_1";
+			BSBons_SeaBattle(false);
 		break;
 		
 		//Запись в СЖ: «Любой план летит к чертям, как только возьмёшься за его реализацию. Но ещё не всё потерянно! Навещу-ка я Максин в Порт Рояле, портовые девки много чего знают, а эта мне обязана. Долг - платежом красен».

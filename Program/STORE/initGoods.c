@@ -8,7 +8,7 @@ void InitGoods()
 	Goods[GOOD_BALLS].Units			= 20;
 	Goods[GOOD_BALLS].SpeedV0		= 1.0;
 	Goods[GOOD_BALLS].DamageHull	= 1.5;
-	Goods[GOOD_BALLS].DamageRig		= 0.07;
+	Goods[GOOD_BALLS].DamageRig		= 0.0;
 	Goods[GOOD_BALLS].DamageCrew	= 0.025;
 	Goods[GOOD_BALLS].AfraidWater = 0;    // рудимент от к3
 	Goods[GOOD_BALLS].type				= TRADE_TYPE_AMMUNITION;
@@ -21,7 +21,7 @@ void InitGoods()
 	Goods[GOOD_GRAPES].Units		= 20;
 	Goods[GOOD_GRAPES].SpeedV0		= 0.6; // boal
 	Goods[GOOD_GRAPES].DamageHull	= 0.125;
-	Goods[GOOD_GRAPES].DamageRig	= 0.25;
+	Goods[GOOD_GRAPES].DamageRig	= 0.0;
 	Goods[GOOD_GRAPES].DamageCrew	= 0.2;
 	Goods[GOOD_GRAPES].AfraidWater	= 0;
 	Goods[GOOD_GRAPES].type				= TRADE_TYPE_AMMUNITION;
@@ -45,7 +45,7 @@ void InitGoods()
 	Goods[GOOD_BOMBS].Units			= 20;
 	Goods[GOOD_BOMBS].SpeedV0		= 0.8;
 	Goods[GOOD_BOMBS].DamageHull	= 3.0;
-	Goods[GOOD_BOMBS].DamageRig		= 0.1;
+	Goods[GOOD_BOMBS].DamageRig		= 0.0;
 	Goods[GOOD_BOMBS].DamageCrew	= 0.06;
 	Goods[GOOD_BOMBS].AfraidWater = 0;
 	Goods[GOOD_BOMBS].type				= TRADE_TYPE_AMMUNITION;

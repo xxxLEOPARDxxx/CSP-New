@@ -1616,7 +1616,7 @@ void ChangeQTY_EDIT()
 		        GameInterface.qty_edit.str = iStoreQty;
 		    }
 		    iWeight = (fWeight * sti(GameInterface.qty_edit.str));
-		    if((fCharWeight + iWeight) > iCharCapacity)
+		    if((fCharWeight + iWeight) > iCharCapacity && Items[iCurGoodsIdx].id != "Gold")
 		    {
 		        iWeight = iCharCapacity - fCharWeight - 0.01; // чуть меньше
 				

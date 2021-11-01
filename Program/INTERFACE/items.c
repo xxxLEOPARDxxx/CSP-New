@@ -648,14 +648,11 @@ void SetVariable()
 {
 	if (xi_refCharacter.index != nMainCharacterIndex)
 	{
-		if(!LAi_group_IsActivePlayerAlarm())
-		{
-			bool ok = CheckAttribute(xi_refCharacter, "prisoned") && sti(xi_refCharacter.prisoned) == true;
-			if (!ok && !CheckAttribute(xi_refCharacter,"isquest") && !CheckAttribute(xi_refCharacter,"nonremovable")) SetNodeUsing("EXCHANGE", true);
-		}
+		if (CheckForExchangeAllowed(xi_refCharacter)) SetNodeUsing("EXCHANGE", true);
 		else SetNodeUsing("EXCHANGE", false);
-	} 
+	}
 	else SetNodeUsing("EXCHANGE", false);
+
 	SetFormatedText("SETUP_FRAME_CAPTION", XI_ConvertString("Equipment") + ": " + GetFullName(xi_refCharacter));
 	// сортировка -->
 	SortItems(xi_refCharacter);

@@ -15,7 +15,8 @@ void ExternControlsInit(bool bFirst, bool standart)
 
 		ExternInitKeyCodes();
 
-		CI_CreateAndSetControls( "", "Map_Best", CI_GetKeyCode("KEY_N"), 0, false); // Отличная карта
+		CI_CreateAndSetControls( "PrimaryLand", "Map_Best", CI_GetKeyCode("KEY_N"), 0, false); // Отличная карта
+		CI_CreateAndSetControls( "Sailing3Pers", "Map_Best", CI_GetKeyCode("KEY_N"), 0, false); // Отличная карта
 		CI_CreateAndSetControls( "PrimaryLand", "MapView", CI_GetKeyCode("KEY_M"), 0, true); // Атлас карт
 		
 		// boal Не подведем :) -->
@@ -133,8 +134,8 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "FightModeControls", "BOAL_ActivateRush", CI_GetKeyCode("KEY_F"), 0, true ); // boal ярость на суше
 		CI_CreateAndSetControls( "FightModeControls", "MushketHotkey", CI_GetKeyCode("KEY_U"), 0, true); // Мушкет
 		CI_CreateAndSetControls("PrimaryLand", "csmRunLootCollector", CI_GetKeyCode("VK_A_TILDA"), 0, true);
-		CI_CreateAndSetControls( "PrimaryLand", "PusherHotkey", CI_GetKeyCode("KEY_Y"), 0, true); // Громила
-		MapControlToGroup("PusherHotkey", "FightModeControls");
+		/* CI_CreateAndSetControls( "PrimaryLand", "PusherHotkey", CI_GetKeyCode("KEY_Y"), 0, true); // Громила
+		MapControlToGroup("PusherHotkey", "FightModeControls"); */
 		// boal <--
 		
 		//Jonathan A 2009-08-19 -->
@@ -418,7 +419,8 @@ void ExternControlsInit(bool bFirst, bool standart)
 
 		ExternInitKeyCodes();
 
-		CI_CreateAndSetControls( "", "Map_Best", CI_GetKeyCode("KEY_N"), 0, false); // Отличная карта
+		CI_CreateAndSetControls( "PrimaryLand", "Map_Best", CI_GetKeyCode("KEY_N"), 0, false); // Отличная карта
+		CI_CreateAndSetControls( "Sailing3Pers", "Map_Best", CI_GetKeyCode("KEY_N"), 0, false); // Отличная карта
 		CI_CreateAndSetControls( "PrimaryLand", "MapView", CI_GetKeyCode("KEY_M"), 0, true); // Атлас карт
 
 
@@ -539,8 +541,8 @@ void ExternControlsInit(bool bFirst, bool standart)
 		CI_CreateAndSetControls( "FightModeControls", "BOAL_ActivateRush", CI_GetKeyCode("KEY_F"), 0, true ); // boal ярость на суше
 		CI_CreateAndSetControls("PrimaryLand", "csmRunLootCollector", CI_GetKeyCode("VK_A_TILDA"), 0, true);
 		CI_CreateAndSetControls( "FightModeControls", "MushketHotkey", CI_GetKeyCode("KEY_U"), 0, true); // Мушкет
-		CI_CreateAndSetControls( "PrimaryLand", "PusherHotkey", CI_GetKeyCode("KEY_Y"), 0, true); // Громила
-		MapControlToGroup("PusherHotkey", "FightModeControls");
+		/* CI_CreateAndSetControls( "PrimaryLand", "PusherHotkey", CI_GetKeyCode("KEY_Y"), 0, true); // Громила
+		MapControlToGroup("PusherHotkey", "FightModeControls"); */
 		// boal <--
 		
 		//Jonathan A 2009-08-19 -->

@@ -81,9 +81,17 @@ void ProcessDialogEvent()
    			dialog.text = "Что вы хотите, капитан?";
 			if (NPChar.id == "James_Callow") NPChar.faceid = 287;
 			
+			if (NPChar.id == "James_Callow")
+			{
+				dialog.text = "Хочешь надрать пару задниц? Я в твоём распоряжении!";
+			}
 			if (NPChar.id == "Tichingitu")
 			{
 				dialog.text = "Тичингиту слушать вас, капитан "+pchar.name+"!";
+			}
+			if (NPChar.id == "Andreas_Fickler")
+			{
+				dialog.text = "Что в-в-вы хотите, к-к-капитан "+pchar.name+"!";
 			}
 			// диалог компаньона на корабле.
 			if (CheckAttribute(NPChar, "IsCompanionClone"))
@@ -190,7 +198,7 @@ void ProcessDialogEvent()
 	                    Link.l3.go = "Man_Love_Sex";
 	                }
                 }
-                if (CheckAttribute(pchar , "questTemp.FUNY_SHIP_FIND") && PChar.questTemp.FUNY_SHIP_FIND == true && GetCharacterItem(PChar, "mineral4") >= 25)
+                if (!CheckAttribute(pchar, "questTemp.FUNY_SHIP_FIND") && NPChar.sex == "woman" && GetCharacterItem(PChar, "mineral4") >= 25)
                 {
                     Link.l4 = "Смотри какая у меня коллекция собралась интересная!";
             		Link.l4.go = "FUNY_SHIP_1";
@@ -302,6 +310,35 @@ void ProcessDialogEvent()
 			}	
             Link.l12 = "Ничего. Вольно.";
             Link.l12.go = "Exit";
+        break;
+		
+		case "FUNY_SHIP_1":
+		    dialog.text = "О ужас! Капитан, уберите от меня это, такая невыносимая вонь... вы что верите во всю эту чушь старой легенды про получение непобедимого бойца?";
+   			Link.l1 = "Нет, конечно, извини. Пойду выкину всю эту воняющую массу за борт.";
+            Link.l1.go = "exit";
+            Link.l2 = "Да, верю! Мало того, проверю. Ну-ка, подходи ближе!";
+            Link.l2.go = "FUNY_SHIP_2";
+        break;
+        
+        case "FUNY_SHIP_2":
+		    dialog.text = "Ну и вонь! Фу... хотя работает, я чувствую себя сильнее и даже, хм, красивее.";
+   			Link.l1 = "Вот! А ты боялась, даже юбка не помялась. Руки только теперь мыть.";
+            Link.l1.go = "FUNY_SHIP_3";
+        break;
+        
+        case "FUNY_SHIP_3":
+            PChar.questTemp.FUNY_SHIP_FIND = false;
+            DialogExit();
+			NextDiag.CurrentNode = "Hired";
+			
+			TakeNItems(pchar, "mineral4", -25);
+			AddSPECIALValue(Npchar, SPECIAL_S, 1);
+			AddSPECIALValue(Npchar, SPECIAL_P, 1);
+			AddSPECIALValue(Npchar, SPECIAL_E, 1);
+			AddSPECIALValue(Npchar, SPECIAL_C, 1);
+			AddSPECIALValue(Npchar, SPECIAL_I, 1);
+			AddSPECIALValue(Npchar, SPECIAL_A, 1);
+			AddSPECIALValue(Npchar, SPECIAL_L, 1);
         break;
 
 		case "w_give_china_sword":
@@ -991,7 +1028,13 @@ void ProcessDialogEvent()
 			}
             dialog.text = "Максимальная активность крыс в рейсе " +
                      FloatToString(50.0 / (2.0+GetSummonSkillFromNameToOld(PChar, SKILL_REPAIR) + GetSummonSkillFromNameToOld(PChar,SKILL_SNEAK)), 1) +
-                     "% от количества груза. На "+GetCrewQuantity(PChar) + " матросов нужно " + makeint((GetCrewQuantity(PChar)+6) / 10) + " провианта в день. Это без учета перевозимых рабов.";
+                     "% от количества груза. На "+GetCrewQuantity(PChar) + " матросов нужно " + makeint((GetCrewQuantity(PChar)+6) / 10) + " провианта в день. Это без учёта перевозимых рабов.";
+					 if (NPChar.id == "Andreas_Fickler")
+						{
+							dialog.text = "Максимальная активность к-к-крыс в рейсе " +
+									FloatToString(50.0 / (2.0+GetSummonSkillFromNameToOld(PChar, SKILL_REPAIR) + GetSummonSkillFromNameToOld(PChar,SKILL_SNEAK)), 1) +
+									"% от к-к-количест-тва груза. На "+GetCrewQuantity(PChar) + " мат-тросов н-нужно " + makeint((GetCrewQuantity(PChar)+6) / 10) + " п-п-провианта в день. Это без учёта п-перевозимых рабов.";
+						}
             Link.l1 = "Спасибо.";
             Link.l1.go = "Exit";
             Diag.TempNode = "Hired";
@@ -1000,6 +1043,10 @@ void ProcessDialogEvent()
         // boal 05.09.03 offecer need to go to abordage -->
         case "stay_follow":
             dialog.text = "Какие будут приказания?";
+			if (NPChar.id == "Andreas_Fickler")
+				{
+					dialog.text = "К-к-какие будут п-приказания?";
+				}
             Link.l1 = "Стой здесь!";
             Link.l1.go = "Boal_Stay";
             Link.l2 = "Следуй за мной и не отставай!";
@@ -1129,7 +1176,11 @@ void ProcessDialogEvent()
 			}
 			if (makeint(PChar.reputation) >= 41 && makeint(NPChar.reputation) >= 41) // герой против героя
 			{
-				dialog.text = RandPhraseSimple(RandPhraseSimple("Могу я узнать причины такого решения?","Наверняка такое решение имеет веские причины?"), RandPhraseSimple("Прошу объясниться, капитан","Весьма неожиданно. Но хотелось бы знать основания."));
+				dialog.text = RandPhraseSimple(RandPhraseSimple("Могу я узнать причины такого решения?","Наверняка такое решение имеет веские причины?"), RandPhraseSimple("Прошу объясниться, капитан.","Весьма неожиданно. Но хотелось бы знать основания."));
+				if (NPChar.id == "Andreas_Fickler")
+				{
+					dialog.text = RandPhraseSimple(RandPhraseSimple("М-могу я узнать п-п-причины такого решения?","Н-н-наверняка такое решение имеет веские п-причины?"), RandPhraseSimple("П-п-прошу объясниться, к-капитан.","Весьма н-неожиданно. Н-но хотелось б-бы знать основания."));
+				}
 				Link.l1 = RandPhraseSimple(LinkRandPhrase("Меня категорически не устраивает твоё отношение к своим обязанностям.","К сожалению, из тебя не вышло толкового офицера, и наверное уже не выйдет...","Ты хороший офицер, и исправно нёс службу, но здесь наши пути расходятся. И не спрашивай меня почему."), LinkRandPhrase("Я предупреждал"+ GetSexPhrase("","а") +", что страсть к рому тебя погубит. Как я могу довериться в бою человеку, который саблей в ножны попасть не может?","Моряка из тебя, скажем прямо, не вышло... Думаю, на берегу ты добьешься большего.","Меня давно не устраивает твоя квалификация, но сейчас я наконец-то наш"+ GetSexPhrase("ел","ла") +" достойную замену."));
 				Link.l1.go = "Get_out_A2";
 				break;	
@@ -1235,6 +1286,10 @@ void ProcessDialogEvent()
 
 		case "Get_out_A2":
 			dialog.text = RandPhraseSimple(LinkRandPhrase("Ну что ж, значит не судьба. Прощайте, капитан, не поминайте лихом...","Очень жаль, капитан. Но, видит Бог, я старался. Прощайте.","Ну, капитан, вам не угодишь!.. Счастливо оставаться."), LinkRandPhrase("Жаль, капитан. Мне очень нравилось служить у вас.","Вот ведь как бывает... Но я зла не держу, прощайте.","Вы несправедливы ко мне, капитан. Но я уважаю ваше решение. Прощайте."));
+			if (NPChar.id == "Andreas_Fickler")
+			{
+				dialog.text = RandPhraseSimple(LinkRandPhrase("Ну что ж, значит не судьба. П-п-прощайте, к-капитан, не п-поминайте лихом...","Очень жаль, к-капитан. Но, видит Бог, я старался. П-п-прощайте.","Ну, к-капитан, вам н-не угодишь!.. Счастливо оставаться."), LinkRandPhrase("Жаль, к-капитан. М-м-мне очень н-нравилось служить у вас.","Вот ведь к-как бывает... Н-н-но я зла не держу, п-прощайте.","Вы несп-п-праведливы к-ко мне, капитан. Но я уважаю ваше решение. П-прощайте."));
+			}
 			Link.l1 = "Стой, я передумал"+ GetSexPhrase("","а") +". Давай вернём к этому разговору позже.";
 			Link.l1.go = "exit_good";
 			Link.l2 = "Не огорчайся. Удачи тебе...";
@@ -1743,7 +1798,7 @@ void ProcessDialogEvent()
 			Link.l2.go = "Companion_TaskChange";
 			// if(bBettaTestMode) // Только при бета-тесте
 			// {
-			    Link.l3 = "Я хочу, чтобы ты на время вышел из состава моей эскадры и поискал удачу самостоятельно.";
+			    Link.l3 = "Я хочу, чтобы ты на время выш"+ GetSexPhrase("ел","ла") +" из состава моей эскадры и поискал удачу самостоятельно.";
 			    Link.l3.go = "CompanionTravel";
 			// }
 			Link.l8 = "Пока ничего.";
@@ -1752,7 +1807,7 @@ void ProcessDialogEvent()
 		
 		case "Companion_TaskBoarding":
 			dialog.Text = "Что же вы желаете?";
-			Link.l1 = "Я хочу чтобы ты не брал корабли на абордаж. Побереги себя и свою команду.";
+			Link.l1 = "Я хочу чтобы ты не брал"+ GetSexPhrase("","а") +" корабли на абордаж. Побереги себя и свою команду.";
 			Link.l1.go = "Companion_TaskBoardingNo";
 			Link.l2 = "Мне нужно чтобы ты брал вражеские корабли на абордаж.";
 			Link.l2.go = "Companion_TaskBoardingYes";
@@ -1760,7 +1815,7 @@ void ProcessDialogEvent()
 		
 		case "Companion_TaskChange":
 			dialog.Text = "Что же вы желаете?";
-			Link.l1 = "Я хочу чтобы ты не менял свой корабль после абордажа. Он слишком ценен.";
+			Link.l1 = "Я хочу чтобы ты не менял"+ GetSexPhrase("","а") +" свой корабль после абордажа. Он слишком ценен.";
 			Link.l1.go = "Companion_TaskChangeNo";
 			Link.l2 = "Когда будешь брать врагов на абордаж, посмотри, вдруг кораблик приличный будет, тогда бери себе.";
 			Link.l2.go = "Companion_TaskChangeYes";

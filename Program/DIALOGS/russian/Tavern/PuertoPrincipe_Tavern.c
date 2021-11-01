@@ -14,7 +14,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				link.l1 = "Ходят слухи, что Соукинс собирает людей для какого-то дела. Ты не в курсе?";
 				link.l1.go = "PL_Q7_1";
 			}
-			if (pchar.questTemp.PDM_Novaya_Rodina.IshemHugo == "IshemHugo")
+			if (CheckAttribute(pchar, "questTemp.PDM_Novaya_Rodina.IshemHugo"))
 			{
 				link.l2 = "Ты не видел здесь Хьюго Лесопилку?";
 				link.l2.go = "PDM_Gde_Lesopilka";

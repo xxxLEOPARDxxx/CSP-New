@@ -77,7 +77,7 @@ bool LoadMainCharacterInFirstLocation(string location_id, string emerge_locator,
 	ReloadProgressUpdate();
 	LoadLocation(&Locations[lindex]);
 	//Fader
-	PostEvent("LoadSceneSound", 500);
+	PostEvent("LoadSceneSound", 100);
 	return true;
 }
 
@@ -103,7 +103,7 @@ bool LoadMainCharacterInFirstLocationGroup(string location_id, string sGroup, st
 	ReloadProgressUpdate();
 	LoadLocation(&Locations[lindex]);
 	//Fader
-	PostEvent("LoadSceneSound", 500);
+	PostEvent("LoadSceneSound", 100);
 	return true;
 }
 

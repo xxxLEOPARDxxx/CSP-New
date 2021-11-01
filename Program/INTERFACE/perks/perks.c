@@ -387,6 +387,12 @@ void AcceptWindCatcherPerk(ref refCharacter)
 		refRealShip.InertiaAccelerationY	= stf(refBaseShip.InertiaAccelerationY);
 		refRealShip.InertiaAccelerationZ	= stf(refBaseShip.InertiaAccelerationZ);
 	}
+	if (CheckAttribute(refBaseShip,"Tuning.SailsSpecial"))
+	{
+		refRealShip.InertiaAccelerationX	= stf(refBaseShip.InertiaAccelerationX) + stf(refBaseShip.InertiaAccelerationX) / 6.65;
+		refRealShip.InertiaAccelerationY	= stf(refBaseShip.InertiaAccelerationY) + stf(refBaseShip.InertiaAccelerationY) / 6.65;
+		refRealShip.InertiaAccelerationZ	= stf(refBaseShip.InertiaAccelerationZ) + stf(refBaseShip.InertiaAccelerationZ) / 6.65;
+	}
 	if (iArcadeSails == 0) // момент инерции ниже для тактики
 	{
 	    refRealShip.InertiaAccelerationY = stf(refRealShip.InertiaAccelerationY) / 2.0;

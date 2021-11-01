@@ -232,7 +232,7 @@ void ProcessDialogEvent()
 			DialogExit();
 			//pchar.questTemp.HiringOfficerIDX = NPChar.index;
 			SetCompanionIndex(pchar, -1, sti(NPChar.index));
-			if (NPChar.model.animation == "man") Npchar.CanTakeMushket = true;
+			Npchar.CanTakeMushket = true;
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			sld.HoldEquip = true;
 			sld.HalfImmortal = true;  // Контузия

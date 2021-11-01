@@ -14,12 +14,12 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				link.l1 = "Приятель, ты не в курсе, в вашем городе проживает некий Эдвард Лоу?";
 				link.l1.go = "PL_Q2_1";
 			}
-			if (pchar.questTemp.PDM_PJ_KV == "KupitVino")	//Квест ***Проклятая жара***		(Вино)
+			if (CheckAttribute(pchar, "questTemp.PDM_PJ_KV"))	//Квест ***Проклятая жара***		(Вино)
 			{
 				link.l1 = "Я как раз вспоминал"+ GetSexPhrase("","а") +", что меня просили купить бутылку вина.";
 				link.l1.go = "PDM_PJ_1";
 			}
-			if (pchar.questTemp.PDM_PJ_KR == "KupitRom")	//Квест ***Проклятая жара***		(Ром)
+			if (CheckAttribute(pchar, "questTemp.PDM_PJ_KR"))	//Квест ***Проклятая жара***		(Ром)
 			{
 				link.l1 = "Мне нужно купить немного рома.";
 				link.l1.go = "PDM_PJ_Rom_1";

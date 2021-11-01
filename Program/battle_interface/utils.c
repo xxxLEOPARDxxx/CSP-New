@@ -11,9 +11,9 @@ native int ShipSailState(int chrIdx);
 //
 //==========================================================
 #define BI_SLOW_REPAIR_PERCENT	1
-#define BI_SLOW_REPAIR_PERIOD	1000
-#define BI_FAST_REPAIR_PERCENT	5.0
-#define BI_FAST_REPAIR_PERIOD	1000
+#define BI_SLOW_REPAIR_PERIOD	3000
+#define BI_FAST_REPAIR_PERCENT	3.0
+#define BI_FAST_REPAIR_PERIOD	3000
 
 #event_handler("evntActionRepair","procActionRepair");
 
@@ -101,7 +101,7 @@ void procActionRepair()
 		{
 			fRepairH = InstantRepairRATE - hpp; // boal 23.01.2004
 			if(fRepairH>BI_FAST_REPAIR_PERCENT)	{fRepairH=BI_FAST_REPAIR_PERCENT;}
-			ftmp1 = GetHullPPP(chref);
+			ftmp1 = GetHullPPP(chref)*5; //*1
 			ftmp2 = fMaterialH + ftmp1*fRepairH;
 			if(ftmp2>nMaterialH)
 			{
@@ -123,7 +123,7 @@ void procActionRepair()
 		{
 			fRepairS = InstantRepairRATE -spp; // boal 23.01.2004
 			if(fRepairS>BI_FAST_REPAIR_PERCENT)	{fRepairS=BI_FAST_REPAIR_PERCENT;}
-			ftmp1 = GetSailSPP(chref);
+			ftmp1 = GetSailSPP(chref)*5; //*1
 			ftmp2 = fMaterialS + ftmp1*fRepairS;
 			if(ftmp2>nMaterialS)	{ fRepairS = (nMaterialS-fMaterialS)/ftmp1; }
 			fRepairS = ProcessSailRepair(chref,fRepairS);

@@ -512,8 +512,9 @@ void SetCrewQuantityFull(ref _refCharacter)
 // boal
 int SetCrewQuantityOverMax(ref _refCharacter, int num)
 {
-    if (num < 0) num = 0; // boal fix
-    _refCharacter.Ship.Crew.Quantity = num;
+    /*if (num < 0) num = 0; // boal fix
+    _refCharacter.Ship.Crew.Quantity = num;*/ //отключил овербафф команды
+	SetCrewQuantityFull(_refCharacter);
 	return true;
 }
 int AddCharacterCrew(ref _refCharacter,int num)
@@ -569,7 +570,7 @@ float GetSailRPD(ref _refCharacter) // процент ремонта парусов в день
 	float damagePercent = 100.0 - GetSailPercent(_refCharacter);
 	if (damagePercent == 0.0) return 0.0;
 
-	float ret = repairSkill*15.0 / damagePercent;
+	float ret = repairSkill*25.0 / (damagePercent+15) + 2;
 	if (ret > damagePercent) ret = damagePercent;
 	return ret;  //boal
 }
@@ -582,9 +583,9 @@ float GetHullRPD(ref _refCharacter) // процент ремонта корпуса в день
 	}
 	if(IsEquipCharacterByArtefact(_refCharacter, "talisman7")) repairSkill = repairSkill * 1.5;
 	float damagePercent = 100.0 - GetHullPercent(_refCharacter);
-	if(damagePercent == 0.0) return 0.0;
-
-	float ret = repairSkill*15.0 / damagePercent;
+	if (damagePercent < 10.0) return 0.0;
+	
+	float ret = (repairSkill+2)/36 * damagePercent;
 	if (ret > damagePercent) ret = damagePercent;
 	return ret;  //boal
 }
@@ -753,7 +754,7 @@ int GetNotQuestPassengersQuantity(ref _refCharacter)
 		idx = GetPassenger( _refCharacter,i);
 
 		bOk =  CheckAttribute(&characters[idx], "prisoned") && sti(characters[idx].prisoned) == true;
-		if (!bOk && !CheckAttribute(&characters[idx], "isquest"))
+		if (!bOk && !CheckAttribute(&characters[idx], "isquest") && !CheckAttribute(&characters[idx],"nonremovable"))
 		{
 			result = result+1;
 		}
@@ -1773,12 +1774,7 @@ bool TakeNItems(ref _refCharacter, string itemName, int n)
 	// Dolphin -> генератор игрока
 	if(itemName == "Bag_with_money" && n>0) // ГГ может только брать
 	{
-		if(GetCharacterItem(pchar,"Bag_with_money") >= 6) 
-		{
-			AddQuestRecord("LOOSER_GENERATOR", "3");
-			AddQuestUserData("LOOSER_GENERATOR", "sSex", GetSexPhrase("ёл","ла"));
-			DoQuestFunctionDelay("LooserGenerator_OpenLocation", 0.1);
-		}
+		DoQuestFunctionDelay("LooserGenerator_DopProverka", 0.2);
 	}
 	//<-
 	
@@ -2357,37 +2353,6 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
 	string modelName = "";
 	makearef(arItm,emptyItm);
  	int itemNum; // boal 23.01.2004
-	if (CheckAttribute(chref, "HeroModel") && !CheckAttribute(chref,"ismushketer"))
-	{
-		bool ok = false;
-		if (CheckAttribute(chref,"chr_ai.group") && chref.chr_ai.group != "player") ok = true;
-		if (ok || !CheckAttribute(chref,"chr_ai.group"))
-		{
-			if (InterfaceStates.VISUAL_CIRASS)
-			{
-				if (CheckAttribute(chref,"cirassId"))
-				{
-					//log_info(chref.id+"/"+sti(Items[sti(chref.cirassId)].model));
-					chref.model = GetSubStringByNum(chref.HeroModel,sti(Items[sti(chref.cirassId)].model));
-					Characters_RefreshModel(chref);
-				}
-				else 
-				{
-					if (GetSubStringByNum(chref.HeroModel,0) != chref.model)
-					{
-						DeleteAttribute(chref,"VISUAL_CIRASS");
-						FaceMaker(chref);
-					}
-				}
-			}
-			else
-			{
-				//log_info(chref.id+"/"+0);
-				chref.model = GetSubStringByNum(chref.HeroModel,0); 
-				Characters_RefreshModel(chref);
-			}
-		}
-	}
 
 	if(itemID!="")
 	{
@@ -3605,6 +3570,7 @@ bool IsPCharHaveMushketerModel()
 	HasSubStr(sModel, "PGG_Victori") ||
 	HasSubStr(sModel, "PGG_Angellica") || 
 	HasSubStr(sModel, "PGG_Beatric") || 
+	HasSubStr(sModel, "PGG_Isabella") || 
 	HasSubStr(sModel, "PGG_Cirilla") || 
 	HasSubStr(sModel, "PGG_Isabella") || 
 	HasSubStr(sModel, "PGG_Mary") || 

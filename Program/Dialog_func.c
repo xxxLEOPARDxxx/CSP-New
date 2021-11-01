@@ -232,6 +232,11 @@ string LinkRandPhrase (string Var1, string Var2, string Var3)
 	return "ERROR";
 }
 
+string LinkRandArrayPhrase (int z)
+{
+	return rand_arr[prand(z)];
+}
+
 string NationKingsCrown(ref Character)
 {
     switch(sti(Character.nation))

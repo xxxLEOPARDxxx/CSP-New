@@ -151,7 +151,7 @@ void GetRealOptions(ref optref)
 	if( CheckAttribute(&InterfaceStates,"VISUAL_CIRASS") ) {
 		optref.cameramode.VISUAL_CIRASS = sti(InterfaceStates.VISUAL_CIRASS);
 	} else {
-		optref.cameramode.VISUAL_CIRASS = true;
+		optref.cameramode.VISUAL_CIRASS = 0;
 	}
 	
 	if( CheckAttribute(&InterfaceStates,"CannonsHUD") ) {
@@ -169,7 +169,7 @@ void GetRealOptions(ref optref)
 	if( CheckAttribute(&InterfaceStates,"AltFont") ) {
 		optref.cameramode.AltFont = sti(InterfaceStates.AltFont);
 	} else {
-		optref.cameramode.AltFont = true;
+		optref.cameramode.AltFont = 0;
 	}
 	
 	if( CheckAttribute(&InterfaceStates,"NoInt") ) {
@@ -314,7 +314,7 @@ void SetCurentOptions(ref optref)
 	if( CheckAttribute(optref,"cameramode.VISUAL_CIRASS") ) {
 		InterfaceStates.VISUAL_CIRASS = optref.cameramode.VISUAL_CIRASS;
 	} else {
-		InterfaceStates.VISUAL_CIRASS = false;
+		InterfaceStates.VISUAL_CIRASS = 0;
 	}
 	
 	if( CheckAttribute(optref,"cameramode.CannonsHUD") ) {
@@ -332,7 +332,7 @@ void SetCurentOptions(ref optref)
 	if( CheckAttribute(optref,"cameramode.AltFont") ) {
 		InterfaceStates.AltFont = optref.cameramode.AltFont;
 	} else {
-		InterfaceStates.AltFont = false;
+		InterfaceStates.AltFont = 0;
 	}
 	if( CheckAttribute(optref,"cameramode.NoInt") ) {
 		InterfaceStates.NoInt = optref.cameramode.NoInt;

@@ -2424,7 +2424,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\nc_cabin1";
     Locations[n].image = "loading\Capdeck_" + rand(6) + ".tga";
 	//Sound
-	locations[n].type = "ship_cabin"; // nc_mod
+	locations[n].type = "cap_cabine"; // nc_mod
 
 	//Models
 	//Always
@@ -2514,7 +2514,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\nc_cabin2";
     Locations[n].image = "loading\Capdeck_" + rand(6) + ".tga";
 	//Sound
-	locations[n].type = "ship_cabin"; // nc_mod
+	locations[n].type = "cap_cabine"; // nc_mod
 
 	//Models
 	//Always
@@ -2618,7 +2618,7 @@ int LocationInitBoarding(int n)
 	locations[n].filespath.models = "locations\inside\cabinFDM\";
     Locations[n].image = "loading\Capdeck_" + rand(6) + ".tga";
 	//Sound
-	locations[n].type = "residence";
+	locations[n].type = "cap_cabine";
 	//Models
 	//Always
 	locations[n].models.always.cabinFDM = "cabinFDM";
@@ -2659,7 +2659,7 @@ int LocationInitBoarding(int n)
 	locations[n].filespath.models = "locations\inside\cabin02";
     Locations[n].image = "loading\Capdeck_" + rand(6) + ".tga";
 	//Sound
-	locations[n].type = "residence";
+	locations[n].type = "cap_cabine";
 	//Models
 	//Always
 	locations[n].models.always.l1 = "cabin02";
@@ -2702,7 +2702,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\capsm";
     Locations[n].image = "loading\Capdeck_" + rand(6) + ".tga";
 	//Sound
-	locations[n].type = "residence";
+	locations[n].type = "cap_cabine";
 	//Models
 	//Always
 	Locations[n].models.always.locators = "capsm_l";
@@ -2761,7 +2761,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\capmd";
     Locations[n].image = "loading\Capdeck_" + rand(6) + ".tga";
 	//Sound
-	locations[n].type = "residence";
+	locations[n].type = "cap_cabine";
 	//Models
 	//Always
 	Locations[n].models.always.locators = "capmd_l";
@@ -2818,7 +2818,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\capmd_2";
     Locations[n].image = "loading\Capdeck_" + rand(6) + ".tga";
 	//Sound
-	locations[n].type = "residence";
+	locations[n].type = "cap_cabine";
 	//Models
 	//Always
 	//Locations[n].models.always.locators = "capmd_2_ld";
@@ -2882,7 +2882,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\capquest";
     Locations[n].image = "loading\Capdeck_" + rand(6) + ".tga";
 	//Sound
-	locations[n].type = "residence";
+	locations[n].type = "cap_cabine";
 	//Models
 	//Always
 	Locations[n].models.always.locators = "capquest_l";
@@ -2945,7 +2945,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\camp_deck";
     Locations[n].image = "loading\Campdeck_" + rand(2) + ".tga";
 	//Sound
-	locations[n].type = "residence";
+	locations[n].type = "cap_cabine";
 	//Models
 	//Always
 	Locations[n].models.always.locators = "camp_deck_l";
@@ -3002,7 +3002,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\deck2"; //7
 	Locations[n].image = "loading\Gundeck_" + rand(5) + ".tga";
 	//Sound
-	Locations[n].type = "residence";
+	Locations[n].type = "cap_cabine";
 
 	//Models
 	//Always
@@ -3057,7 +3057,7 @@ int LocationInitBoarding(int n)
 	Locations[n].filespath.models = "locations\decks\hold";
 	Locations[n].image = "loading\Hold_" + rand(1) + ".tga";
 	//Sound
-	Locations[n].type = "residence";
+	Locations[n].type = "cap_cabine";
 
 	//Models
 	//Always
@@ -3103,7 +3103,7 @@ int LocationInitBoarding(int n)
 	//Info
 	Locations[n].image = "loading\Quarter_" + rand(2) + ".tga";
 	//Sound
-	Locations[n].type = "residence";
+	Locations[n].type = "cap_cabine";
 	Locations[n].boarding = "true";
 	Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;	
@@ -3131,7 +3131,7 @@ int LocationInitBoarding(int n)
 	//Info
 	Locations[n].image = "loading\Quarter_" + rand(2) + ".tga";
 	//Sound
-	Locations[n].type = "residence";
+	Locations[n].type = "cap_cabine";
 	Locations[n].boarding = "true";
 	Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;	
@@ -3158,7 +3158,7 @@ int LocationInitBoarding(int n)
 	//Info
 	Locations[n].image = "loading\Quarter_" + rand(2) + ".tga";
 	//Sound
-	Locations[n].type = "residence";
+	Locations[n].type = "cap_cabine";
 	Locations[n].boarding = "true";
 	Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;	
@@ -3186,7 +3186,7 @@ int LocationInitBoarding(int n)
 	//Info
 	Locations[n].image = "loading\Quarter_" + rand(2) + ".tga";
 	//Sound
-	Locations[n].type = "residence";
+	Locations[n].type = "cap_cabine";
 	Locations[n].boarding = "true";
 	//Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;
@@ -3214,7 +3214,7 @@ int LocationInitBoarding(int n)
 	//Info
 	Locations[n].image = "loading\Quarter_" + rand(2) + ".tga";
 	//Sound
-	Locations[n].type = "residence";
+	Locations[n].type = "cap_cabine";
 	Locations[n].boarding = "true";
 	//Locations[n].lockCamAngle = 0.4;
 	Locations[n].camshuttle = 1;

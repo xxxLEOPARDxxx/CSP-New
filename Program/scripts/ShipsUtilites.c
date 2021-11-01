@@ -992,8 +992,8 @@ void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Кастомные бафы для 
 	if(rRealShip.BaseName == "Wh_corvette_quest")
 	{
 		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (6 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (2 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE); // LEO: Нефиг летать быстрее всех. Для этого есть ЧЖ
 		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.HP = sti(rRealShip.HP) + (60 * MOD_SKILL_ENEMY_RATE);
@@ -1190,12 +1190,14 @@ void EmptyAllFantomShips()
         }
 		else
 		{
-			if (CheckAttribute(chr,"id"))
+			/*if (CheckAttribute(chr,"id"))
 			{
-				if (HasSubStr(chr.id,"ShipWreck_")) {}
+				if (HasSubStr(chr.id,"ShipWreck_") || HasSubStr(chr.id,"Convict")) {}
 				else InitCharacter(&Characters[i], i);
 			}				
-			else InitCharacter(&Characters[i], i);	//ugeen : чистим нафиг все атрибуты пустых фантомов (переиничиваем)
+			else InitCharacter(&Characters[i], i);	//ugeen : чистим нафиг все атрибуты пустых фантомов (переиничиваем)*/
+			if (CheckAttribute(chr,"location") && chr.location == "none") InitCharacter(&Characters[i], i);
+			if (CheckAttribute(chr,"lifeday") && sti(chr.lifeday) == 0) InitCharacter(&Characters[i], i);
 		}
 	}
 	// теперь сборка мусора
@@ -1316,7 +1318,7 @@ float SpeedBySkill(aref refCharacter)
     float fSpeedPerk = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "ShipSpeedUp"), 1.0, 1.15);   //slib
     fSpeedPerk = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SailingProfessional"), fSpeedPerk, 1.20);
 	fSpeedPerk =  AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SeaWolf"), fSpeedPerk, fSpeedPerk+0.05);
-	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.SailsSpecial")) fSpeedPerk *= 0.85;
+	//if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.SailsSpecial")) fSpeedPerk *= 0.85;
 	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.HullSpecial")) fSpeedPerk *= 0.75;
 	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.CuBot")) fSpeedPerk *= 1.05;
     
@@ -1405,6 +1407,7 @@ float TurnBySkill(aref refCharacter)
     fSpeedPerk = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SailingProfessional"), fSpeedPerk, 1.20);
 	fSpeedPerk =  AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "SeaWolf"), fSpeedPerk, fSpeedPerk+0.05);
     float fFastTurn180 = AIShip_isPerksUse(CheckOfficersPerk(refCharacter, "Turn180"), 1.0, 4.0);
+	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.SailsSpecial")) fSpeedPerk *= 0.8;
 	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.HullSpecial")) fSpeedPerk *= 0.75;
 	if (CheckAttribute(&RealShips[sti(refCharacter.Ship.Type)], "Tuning.CuBot")) fSpeedPerk *= 1.05;
     
@@ -3066,3 +3069,54 @@ int GenerateShipTop(int iBaseType, bool isLock, ref chr)
 	return iShip;
 }
 // -> ugeen
+
+int GetShootDistance(ref chref, string ball)
+{
+	float distance = 0.0;
+	ref	rCannon = GetCannonByType(sti(chref.Ship.Cannons.Type));
+	distance = stf(rCannon.FireRange);
+	switch(ball)
+	{
+		case "ball":
+			if (CheckAttribute(chref, "perks.list.LongRangeShoot"))
+			{
+				distance = distance * 1.15*(1.0+GetCharacterSPECIALSimple(chref, SPECIAL_P)*0.02);
+			}
+			else
+			{
+				distance = distance * (1.0+GetCharacterSPECIALSimple(chref, SPECIAL_P)*0.02);
+			}
+		break;
+		case "grape":
+			if (CheckAttribute(chref, "perks.list.LongRangeShoot"))
+			{
+				distance = distance * 0.6 * 1.15*(1.0+GetCharacterSPECIALSimple(chref, SPECIAL_P)*0.02);
+			}
+			else
+			{
+				distance = distance * 0.6  * (1.0+GetCharacterSPECIALSimple(chref, SPECIAL_P)*0.02);
+			}
+		break;
+		case "knippel":
+			if (CheckAttribute(chref, "perks.list.LongRangeShoot"))
+			{
+				distance = distance * 0.9  * 1.15*(1.0+GetCharacterSPECIALSimple(chref, SPECIAL_P)*0.02);
+			}
+			else
+			{
+				distance = distance * 0.9  * (1.0+GetCharacterSPECIALSimple(chref, SPECIAL_P)*0.02);
+			}
+		break;
+		case "bomb":
+			if (CheckAttribute(chref, "perks.list.LongRangeShoot"))
+			{
+				distance = distance * 0.8  * 1.15*(1.0+GetCharacterSPECIALSimple(chref, SPECIAL_P)*0.02);
+			}
+			else
+			{
+				distance = distance * 0.8  * (1.0+GetCharacterSPECIALSimple(chref, SPECIAL_P)*0.02);
+			}
+		break;
+	}
+	return makeint(distance+0.5);
+}

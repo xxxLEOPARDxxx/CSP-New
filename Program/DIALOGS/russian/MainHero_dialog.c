@@ -498,6 +498,16 @@ void ProcessDialogEvent()
 					Link.l11.go = "autofood_stop";
 				}
 			}
+			if (CheckAttribute(pchar,"usepotionbest"))
+			{
+				link.lpotion = "Снять приоритет на использование лучших лечебных средств.";
+				Link.lpotion.go = "potion_priority";
+			}
+			else
+			{
+				link.lpotion = "Установить приоритет на использование лучших лечебных средств.";
+				Link.lpotion.go = "potion_priority";
+			}
 			if(startHeroType == 2)
 			{
 				if(CheckCharacterItem(pchar,"hatWhisper"))
@@ -676,8 +686,25 @@ void ProcessDialogEvent()
 			dialog.text = "Какую еду стоит использовать в первую очередь?.";
 			link.l1 = "Менее питательную (Фрукты, хлеб)";
 			link.l1.go = "autofood_finished";
-			link.l2 = "Более питательную питательную (Рыба, мясо)";
+			link.l2 = "Более питательную (Рыба, мясо)";
 			link.l2.go = "autofood_finished_betterfood";
+		break;
+		
+		case "potion_priority":
+			if (CheckAttribute(pchar,"usepotionbest"))
+			{
+				dialog.text = "Снят приоритет на использование самых сильных лечебных средств.";
+				link.l1 = "Славно!";
+				link.l1.go = "exit";
+				DeleteAttribute(pchar,"usepotionbest");
+			}
+			else
+			{
+				dialog.text = "Установлен приоритет на использование самых сильных лечебных средств.";
+				link.l1 = "Славно!";
+				link.l1.go = "exit";
+				pchar.usepotionbest = true;
+			}
 		break;
 		
 		case "autofood_finished":

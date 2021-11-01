@@ -2369,7 +2369,7 @@ void PGG_Q1AfterBattle(string qName)
 
 	if (!bLater)
 	{
-		//Boyer change
+		/*//Boyer change
 		for(i=1; i<COMPANION_MAX; i++)
 		{
 			cn = GetCompanionIndex(pchar,i);
@@ -2385,15 +2385,19 @@ void PGG_Q1AfterBattle(string qName)
             if(sLType == "boarding_cabine" || sLType == "ship_cabin" || sLType == "gun_deck" || sLType == "cargo_hold" || sLType == "residence")
                 UnloadLocation(loadedLocation);
         }
-		if (isLocationFreeForQuests(sLoc) && nNumShips < 4)
+		if (isLocationFreeForQuests(sLoc) && nNumShips < 4)*/
 		//Trouble loading some locations with more than 4 companions
+		if (isLocationFreeForQuests(sLoc))
 		{
 			PChar.location.from_sea = sLoc;
 			Locations[FindLocation(sLoc)].DisableEncounters = true;
-			DoReloadFromSeaToLocation(sLoc, "reload", "sea");
-			PChar.DisableBIFace = true;
+			//DoReloadFromSeaToLocation(sLoc, "reload", "sea");
+			//PChar.DisableBIFace = true;
+			int nLablesFileID = LanguageOpenFile("LocLables.txt");
+			log_info("Необходимо причалить к "+LanguageConvertString(nLablesFileID, sLoc)+" для дележа добычи.");
+			LanguageCloseFile(nLablesFileID);
 		}
-		else
+		/*else
 		{
 			MakeCloneShipDeck(pchar, true); // подмена палубы
 			DoReloadFromSeaToLocation("Ship_deck", "goto", "goto5");
@@ -2401,7 +2405,7 @@ void PGG_Q1AfterBattle(string qName)
 			sLoc = "Ship_deck";
 			if(!CheckAttribute(AISea,"Island"))
 				PChar.DisableBIFace = true;
-		}
+		}*/
 	}
 	else
 	{
@@ -2426,11 +2430,11 @@ void PGG_Q1AfterBattle(string qName)
 	PChar.Quest.PGGQuest1_Time2Fight.Over = "yes";
 	PChar.Quest.PGGQuest1_Time2Late_01.Over = "Yes";
 	PChar.Quest.PGGQuest1_Time2Late_02.Over = "Yes";
-
-	chrDisableReloadToLocation = true;
 }
 void PGG_Q1LocationLoaded(string qName)
 {
+	chrDisableReloadToLocation = true;
+	
 	ref chr;
 	int i, iRnd;
 	string attrName;
@@ -2525,6 +2529,13 @@ void PGG_Q1EndClear(string qName)
 	LAi_group_Delete("PGGTmp"); //попробуем потереть в конце всего.
 	}
 	DeleteAttribute(PChar,"Quest.PGGQuest1.SeaBattle");
+	if (CheckAttribute(pchar,"ScamFanActive") && !CheckAttribute(pchar,"ScamDestroyed"))
+	{
+		chr = CharacterFromID("ScamCharacter");
+		LAi_SetActorTypeNoGroup(chr);
+		LAi_ActorFollowEverywhere(chr, "", -1);
+		chr.chr_ai.tmpl.state = "stay";
+	}
 }
 
 void PGG_Q1Time2Late(string qName)
@@ -2636,7 +2647,7 @@ void PGG_Q1FightOnShore()
 		if (relation != "PGGTemp") LAi_SetCheckMinHP(chr, 1, true, "PGG_CheckHP");
 		LAi_group_MoveCharacter(chr, relation); 
 		
-		iRnd = 5 + drand(10);
+		iRnd = 10 + drand(15) + MOD_SKILL_ENEMY_RATE;
 		PChar.GenQuest.PGG_Quest.GrpID.Qty = iRnd;
 		PChar.GenQuestFort.FarLocator = false;
 		sLoc = LAi_FindNPCLocator("officers");
@@ -2644,18 +2655,19 @@ void PGG_Q1FightOnShore()
 		{
 			if (i % 3 != 0)
 			{
-			SetFantomDefenceForts("officers", sLoc, PIRATE, relation);
+			chr = SetFantomDefenceForts("officers", sLoc, PIRATE, relation);
 			}
 			else
 			{
-				SetFantomDefenceForts("enc02", "",PIRATE, relation);
+			chr = SetFantomDefenceForts("enc02", "",PIRATE, relation);
 			}
+			FantomMakeCoolFighterWRankDepend(chr,sti(pchar.rank),25+rand(75),25+rand(75),50);
 		}
 		Pchar.GenQuestFort.FarLocator = true;	
 	}
 
 	//enemy
-	iRnd += drand(10) + (MakeInt(MOD_SKILL_ENEMY_RATE));
+	iRnd = 15 + drand(15) + MOD_SKILL_ENEMY_RATE + GetOfficersQuantity(pchar);
 	Pchar.GenQuestFort.FarLocator = true;
 	sLoc = LAi_FindNPCLocator("goto");
 	sLoc_2 = LAi_FindNPCLocator("smugglers");
@@ -2670,6 +2682,7 @@ void PGG_Q1FightOnShore()
 			chr = SetFantomDefenceForts("smugglers", sLoc_2, iNation, "PGGTmp");
 		}
 		chr.id = "pirate_" + i;
+		FantomMakeCoolFighterWRankDepend(chr,sti(pchar.rank),25+rand(75),25+rand(75),50);
 	}
 	//натравим.
 	LAi_group_SetHearRadius("PGGTmp", 100.0);

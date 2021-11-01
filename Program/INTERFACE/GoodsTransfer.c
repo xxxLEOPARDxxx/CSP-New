@@ -513,9 +513,19 @@ void FillItemsTable()
 
 	for(i = 0, n = 1; i < ITEMS_QUANTITY; i++)
 	{
-		if (!checkattribute(Items[i],"sortIndex")) continue;//в списке только расходники
+		if (!checkattribute(Items[i],"sortIndex"))
+		{
+			if (!HasSubStr(Items[i].id,"CompCraft")) continue;//в списке только расходники
+		}
+		else 
+		{
+			if (Items[i].SortIndex == 1 || Items[i].SortIndex == 2 || Items[i].ItemType == "CRAFTCOMPONENTS") {} 
+			else continue; //в списке расходники и крафт
+			
+		}
 		//но, возможно, лучше напрямую список предметов в массиве указывать... не весь список предметов проверяться будет, и при добавлении новых не возникнет неожиданностей
 		if (Items[i].id == "Lockpick") continue;//отмычки пропускаем
+		if (Items[i].id == "CompCraft_Tools" || Items[i].id == "CompCraft_Locksmith" || Items[i].id == "CompCraft_Puleleyka") continue; //исключение выбранных Шахом штук
 		row = "tr" + n;
 
 		GameInterface.CONSUME_TABLE_LIST.(row).index = i;

@@ -279,6 +279,8 @@ void LAi_CharacterPostLogin(ref location)
 		LAi_CreateEncounters(location); //eddy. монстры не нужны здесь
 		/// ОЗГи
 		LandHunterReactionResult(location);
+		//Скэм
+		CheckForScam(location);
 		//обновить базу абордажников для нефритового черепа
 		CopyPassForAztecSkull();
 		if(CheckAttribute(pchar, "MushketSwap"))
@@ -304,25 +306,25 @@ void LAi_CharacterPostLogin(ref location)
 		UniqueHeroEvents();
 		CheckHighOnDrugs();
 		CheckLootCollector();
-		//CheckBSFinish(); Блок Чёрных Парусов
+		CheckBSFinish();
 	}
 	
 }
 
 void CheckBSFinish()
 {
-	//Если ЧП еще не пройдены, ставим мир обратно на паузу
-	if(!bWorldAlivePause && !CheckAttribute(pchar, "BSFinish"))
+
+	if(!CheckAttribute(pchar, "BSFinish") && sti(pchar.rank) >= 25)
 	{
 		if(pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "over")
 		{
 			if (!CheckAttribute(pchar, "BSInProgress"))	pchar.BSStart = true;
-			bWorldAlivePause = true;
+			//bWorldAlivePause = true;
 		}
 		else
 		{
-			DeleteAttribute(pchar, "BSStart");
-			pchar.BSInProgress = true;
+			//DeleteAttribute(pchar, "BSStart");
+			//pchar.BSInProgress = true;
 		}
 	}
 }

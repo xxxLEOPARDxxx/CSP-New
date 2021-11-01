@@ -327,8 +327,16 @@ void PlaceCompanionCloneNearMChr(int _index, bool _isCampus)
 
 		if (_isCampus)
 		{
-			PlaceCharacter(sld, "sit", PChar.location);
-			LAi_SetSitType(sld);
+			if (_index < 5)
+			{
+				PlaceCharacter(sld, "sit", PChar.location);
+				LAi_SetSitType(sld);
+			}
+			else
+			{
+				LAi_SetCitizenType(sld);
+				PlaceCharacter(sld, "rld", PChar.location);
+			}
 		}
 		else
 		{

@@ -274,10 +274,10 @@ hero_7
 heroName_8 {Призрак}
 heroLastname_8 {Джессики}
 
-heroNameGen_8 {Призрак}
+heroNameGen_8 {Призрака}
 heroLastnameGen_8 {Джессики}
 
-heroNameDat_8 {Призрак}
+heroNameDat_8 {Призраку}
 heroLastNameDat_8 {Джессики}
 
 heroFace_8 {527}
@@ -296,14 +296,14 @@ hero_8
 - НЕ БУДЕТ пользоваться мушкетом.
 }
 
-heroName_9 {Весёлый}
-heroLastname_9 {Роджер}
+heroName_9 {Весёлый Роджер}
+heroLastname_9 {}
 
-heroNameGen_9 {Весёлого}
-heroLastnameGen_9 {Роджера}
+heroNameGen_9 {Весёлого Роджера}
+heroLastnameGen_9 {}
 
-heroNameDat_9 {Весёлому}
-heroLastNameDat_9 {Роджеру}
+heroNameDat_9 {Весёлому Роджеру}
+heroLastNameDat_9 {}
 
 heroFace_9 {511}
 heroModel_9 {PGG_Skeletcap_0,PGG_Skeletcap_1,PGG_Skeletcap_2,PGG_Skeletcap_3,PGG_Skeletcap_4,PGG_Skeletcap_5}
@@ -1596,10 +1596,10 @@ hero_60
 heroName_61 {Шарп}
 heroLastname_61 {}
 
-heroNameGen_61 {Шарп}
+heroNameGen_61 {Шарпа}
 heroLastnameGen_61 {}
 
-heroNameDat_61 {Шарп}
+heroNameDat_61 {Шарпу}
 heroLastNameDat_61 {}
 
 heroFace_61 {541}
@@ -1653,18 +1653,19 @@ heroNameDat_63 {Изабелле}
 heroLastNameDat_63 {Кортес}
 
 heroFace_63 {513}
-heroModel_63 {PGG_Daniell3}
+heroModel_63 {PGG_Isabella_0,PGG_Isabella_1,PGG_Isabella_2,PGG_Isabella_3,PGG_Isabella_4,PGG_Isabella_5,PGG_Isabella_6,PGG_Isabella_7,PGG_Isabella_8}
 
 heroType_63 {Фехтовальщик}
 heroNation_63 {Испания}
 
 sex_63 {woman}
-animation_63 {Danielle}
+animation_63 {YokoDias}
 
 hero_63
 {
-Красавица из рода знаменитого Эрнана Кортеса. Несмотря на благородное происхождение, отнюдь не заносчива. Родилась на Эспаньоле, потому знает архипелаг, как свои пять пальцев. С детства сопровождала отца, чиновника морского ведомства, во всех его путешествиях. Двадцати пяти лет от роду, купив небольшое судно и набрав команду таких же, как и она, сорвиголов, отправилась на поиски приключений. 
-- НЕ БУДЕТ пользоваться мушкетом.
+Красавица из рода знаменитого Эрнана Кортеса. Несмотря на благородное происхождение, отнюдь не заносчива. Родилась на Эспаньоле, потому знает архипелаг, как свои пять пальцев. С детства сопровождала отца, чиновника морского ведомства, во всех его путешествиях. Двадцати пяти лет от роду, купив небольшое судно и набрав команду таких же, как и она, сорвиголов, отправилась на поиски приключений.
+- Имеет все виды кирас и костюмов.
+- В совершенстве умеет пользоваться мушкетом.
 }
 
 heroName_64 {Селеста}

@@ -46,7 +46,7 @@ Caracas_town		{Каракас}
 Villemstad_town		{Виллемстад}
 Cartahena_town		{Картахена}
 BasTer_town			{Бас Тер}
-SantoDomingo_town	{Санто-доминго}
+SantoDomingo_town	{Санто-Доминго}
 LaVega_town			{Ла Вега}
 PortPax_town		{Порт-о-Принс}
 PortRoyal_town		{Порт Рояль}
@@ -146,7 +146,7 @@ Mayak4	{маяк Гваделупы}
 Mayak5	{маяк Невиса}
 Mayak6	{маяк Тортуги}
 Mayak7	{маяк Порт-о-Принса}
-Mayak8	{маяк Санто-доминго}
+Mayak8	{маяк Санто-Доминго}
 Mayak9	{маяк Сантьяго}
 Mayak10	{маяк Гаваны}
 Mayak11	{маяк Картахены}
@@ -290,6 +290,7 @@ House				{дом}
 Room				{Комната}
 Cabinet				{Кабинет}
 Bedroom				{Спальня}
+Apteka				{Аптека}
 Exit				{Выход}
 The cavern			{Пещера}
 ?????				{?????}

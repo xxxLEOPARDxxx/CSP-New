@@ -62,20 +62,23 @@ void ControlsInit(string sPlatformName,bool bFirst,int choice)
 		trace("Can`t init controls because not right platform");
 		return;
 	}
-	if (choice == 0)
+	if (choice == 0 || choice == 1)
 	{
-		if(LoadSegment(initFileName))
+		if (choice == 0)
 		{
-			ExternControlsInit(bFirst, false);
-			UnloadSegment(initFileName);
+			if(LoadSegment(initFileName))
+			{
+				ExternControlsInit(bFirst, false);
+				UnloadSegment(initFileName);
+			}
 		}
-	}
-	if (choice == 1)
-	{
-		if(LoadSegment(initFileName))
+		if (choice == 1)
 		{
-			ExternControlsInit(bFirst, true);
-			UnloadSegment(initFileName);
+			if(LoadSegment(initFileName))
+			{
+				ExternControlsInit(bFirst, true);
+				UnloadSegment(initFileName);
+			}
 		}
 	}
 	else

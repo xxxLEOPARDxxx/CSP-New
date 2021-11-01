@@ -606,8 +606,10 @@ void ProcessDialogEvent()
 				dialog.Text = "Работа идёт. Принесли материалы, что я просил?";
 				Link.l1 = "Да. Кое-что удалось достать.";
 				Link.l1.go = "shiporder2";
-				link.l2 = "Нет. Еще добываю.";
-				link.l2.go = "exit";
+				link.l2 = "Обстоятельства изменились, я хочу отменить заказ.";
+				link.l2.go = "shipordercancel";
+				link.l3 = "Нет. Еще добываю.";
+				link.l3.go = "exit";
 			}
 			else
 			{
@@ -642,12 +644,16 @@ void ProcessDialogEvent()
 				dialog.Text = "Прекрасно. Это полный комплект. Больше ничего не требуется.";
 				Link.l1 = "Отлично, когда будет готов корабль?";
 				Link.l1.go = "shiporder1";
+				link.l2 = "Обстоятельства изменились, я хочу отменить заказ.";
+				link.l2.go = "shipordercancel";
 			}
 			else
 			{
 				dialog.Text = "Ещё Вам необходимо доставить... эмм... сейчас сверюсь с записями... Итак: " + sTemp2;
 				Link.l1 = "Всё понятно. Вернусь, когда добуду остальное.";
 				Link.l1.go = "exit";
+				link.l2 = "Обстоятельства изменились, я хочу отменить заказ.";
+				link.l2.go = "shipordercancel";
 			}
 		break;
 
@@ -966,7 +972,7 @@ void ProcessDialogEvent()
 			pchar.questTemp.different.ShipyardsMap.Id = npchar.id; //квестодатель
 			pchar.questTemp.different.ShipyardsMap.city = findShipyardCity(npchar);
 			pchar.questTemp.different.ShipyardsMap.what = LinkRandPhrase("корвета", "флейта", "фрегата");
-			pchar.questTemp.different.ShipyardsMap.chance = rand(5); //ценность чертежа
+			pchar.questTemp.different.ShipyardsMap.chance = rand(6); //ценность чертежа
 			if (rand(12) < GetCharacterSPECIAL(pchar, "Charisma"))
 			{
 				pchar.questTemp.different.ShipyardsMap.skladFight = false; //не будет драки на складе
@@ -1115,6 +1121,13 @@ void ProcessDialogEvent()
 						link.l1 = "Нет, конечно! Прекрасно!";
 						link.l1.go = "ShipyardsMapOk_5";
 						TakeNItems(pchar, "chest", 4);
+					break;
+					case 6:
+						dialog.text = "Да, этот чертеж имеет определенную ценность. Правда, денег в наличии у меня сейчас нет, поэтому я могу отдать вам один из сундуков с ремесленными материалами.";
+						link.l1 = "Ну, раз нет ничего другого, то давайте.";
+						link.l1.go = "ShipyardsMapOk_5";
+						TakeNItems(pchar, "Chest_Craftsmans", 1);
+						Log_info("Вы получили сундук ремесленника.")
 					break;
 				}
 			}

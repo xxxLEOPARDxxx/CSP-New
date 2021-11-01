@@ -100,7 +100,7 @@ void DoCharacterUsedItem(ref chref, string itmID)
 	{
 		LAi_UseHealthBottle(chref,stf(arItm.potion.health));
 		if(sti(chref.index)==GetMainCharacterIndex()) {
-			Log_SetStringToLog( XI_ConvertString("Health Up"));
+			Log_SetStringToLog( XI_ConvertString("Health Up")+" ("+GetConvertStr(arItm.name, "ItemsDescribe.txt")+")");
 			PlaySound("interface\_Glotok_"+rand(3)+".wav");
 		}
 		// boal
@@ -273,27 +273,42 @@ int UseBestPotion(ref chref, bool needAntidote)
 		makearef(arItm,Items[i]);
 		bValidPot = false;
 
-		if (!needAntidote && CheckAttribute(arItm,"potion.health") && !CheckAttribute(arItm,"potion.antidote")) 
+		if (CheckAttribute(pchar,"usepotionbest"))
 		{
-			bValidPot = true;
-		}
-		else 
-		{
+			if (!needAntidote && CheckAttribute(arItm,"potion.health")) 
+			{
+				bValidPot = true;
+			}
 			if (needAntidote && CheckAttribute(arItm,"potion.antidote")) 
 			{
 				bValidPot = true;
 			}
 		}
+		else
+		{
+			if (!needAntidote && CheckAttribute(arItm,"potion.health") && !CheckAttribute(arItm,"potion.antidote")) 
+			{
+				bValidPot = true;
+			}
+			else 
+			{
+				if (needAntidote && CheckAttribute(arItm,"potion.antidote")) 
+				{
+					bValidPot = true;
+				}
+			}
+		}
+		
 		if( bValidPot && (GetCharacterItem(chref,arItm.id) > 0))
 		{
-			if (CheckAttribute(arItm,"potion.health"))
-				newPotionHealAmt = arItm.potion.health;
-			else
-				newPotionHealAmt = 0;
-								
-			if (potionTooGood) 
+			if (CheckAttribute(pchar,"usepotionbest"))
 			{
-				if (newPotionHealAmt < curPotionHealAmt) 
+				if (CheckAttribute(arItm,"potion.health"))
+					newPotionHealAmt = arItm.potion.health;
+				else
+					newPotionHealAmt = 0;
+									
+				if (newPotionHealAmt > curPotionHealAmt) 
 				{
 					curPotionID = i;
 					curPotionHealAmt = newPotionHealAmt;
@@ -301,18 +316,34 @@ int UseBestPotion(ref chref, bool needAntidote)
 			}
 			else
 			{
-				if ((newPotionHealAmt + 1) > curPotionHealAmt) 
+				if (CheckAttribute(arItm,"potion.health"))
+					newPotionHealAmt = arItm.potion.health;
+				else
+					newPotionHealAmt = 0;
+									
+				if (potionTooGood) 
 				{
-					if (curPotionHealAmt == 0 || newPotionHealAmt <= reqHealAmt) 
+					if (newPotionHealAmt < curPotionHealAmt) 
 					{
 						curPotionID = i;
 						curPotionHealAmt = newPotionHealAmt;
 					}
 				}
-			}
-			if (curPotionHealAmt > reqHealAmt) 
-			{
-				potionTooGood = true;
+				else
+				{
+					if ((newPotionHealAmt + 1) > curPotionHealAmt) 
+					{
+						if (curPotionHealAmt == 0 || newPotionHealAmt <= reqHealAmt) 
+						{
+							curPotionID = i;
+							curPotionHealAmt = newPotionHealAmt;
+						}
+					}
+				}
+				if (curPotionHealAmt > reqHealAmt) 
+				{
+					potionTooGood = true;
+				}
 			}
 		}
 	}
@@ -1104,7 +1135,7 @@ void QuestCheckTakeItem(aref _location, string _itemId)
 	{
 		string sTitle = _location.townsack + "UsurersJewel";
 		AddQuestRecordEx(sTitle, "SeekUsurersJewel", "2");
-		SpawnGreedyBastards();
+		if (drand(1)==0) SpawnGreedyBastards();
 	}
 	//пиратка, квест №7
 	if (_itemId == "OpenBook")

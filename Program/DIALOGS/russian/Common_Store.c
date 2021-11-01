@@ -1134,58 +1134,60 @@ void ProcessDialogEvent()
 			{
 				if (GetQuestPastDayParam("CargoQuest") == sti(pchar.CargoQuest.iDaysExpired))
 				{
-				dialog.text = "Вы опоздали на 1 день. Поэтому я заплачу вам только пол цены";
-				link.l1 = "Эхх, с кем не бывает, давайте";
-				link.l1.go = "exit";
-				ChangeCharacterReputation(pchar, 3);
-				AddCharacterExpToSkill(pchar, "Sailing", sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_I) );
-				AddCharacterExpToSkill(pchar, "Leadership", sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_C));
-				AddCharacterExpToSkill(pchar, "COMMERCE", sti(pchar.rank) * (GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I)));
+					dialog.text = "Вы опоздали на 1 день. Поэтому я заплачу вам только пол цены";
+					link.l1 = "Эхх, с кем не бывает, давайте";
+					link.l1.go = "exit";
+					ChangeCharacterReputation(pchar, 3);
+					AddCharacterExpToSkill(pchar, "Sailing", sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_I) );
+					AddCharacterExpToSkill(pchar, "Leadership", sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_C));
+					AddCharacterExpToSkill(pchar, "COMMERCE", sti(pchar.rank) * (GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I)));
 
-				AddMoneyToCharacter(pchar, makeint(sti(pchar.CargoQuest.iMoney)/2));
-				pchar.quest.generate_trade_quest_progress = "";
-				pchar.quest.generate_trade_quest.over = "yes";
-				RemoveCharacterGoods(pchar, makeint(pchar.CargoQuest.iTradeGoods), makeint(pchar.CargoQuest.iQuantityGoods));
-				
-                OfficersReaction("good");
-                
-                AddQuestRecord("DELIVERY_TRADE_QUEST", "Late1Day");
-                CloseQuestHeader("DELIVERY_TRADE_QUEST");
-				
-				pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
-				if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
-				if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
-				if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
-				
+					AddMoneyToCharacter(pchar, makeint(sti(pchar.CargoQuest.iMoney)/2));
+					pchar.quest.generate_trade_quest_progress = "";
+					pchar.quest.generate_trade_quest.over = "yes";
+					RemoveCharacterGoods(pchar, makeint(pchar.CargoQuest.iTradeGoods), makeint(pchar.CargoQuest.iQuantityGoods));
+					ref cstore = GetColonyByIndex(FindColony(npchar.city));
+					AddStoreGoods(&stores[sti(cstore.StoreNum)],makeint(pchar.CargoQuest.iTradeGoods),makeint(pchar.CargoQuest.iQuantityGoods));
+					
+					OfficersReaction("good");
+					
+					AddQuestRecord("DELIVERY_TRADE_QUEST", "Late1Day");
+					CloseQuestHeader("DELIVERY_TRADE_QUEST");
+					
+					pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+					if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+					if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+					if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
 				}
 				else
 				{
-                dialog.text = "Замечательно! Вот ваша награда, капитан "+GetFullName(pchar)+".";
-				link.l1 = "Приятно с вами работать.";
-				link.l1.go = "exit";
-				ChangeCharacterReputation(pchar, 3);
-				
-				AddCharacterExpToSkill(pchar, "Sailing", (GetQuestPastDayParam("CargoQuest") + 1) * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_I) );
-				AddCharacterExpToSkill(pchar, "Leadership", (GetQuestPastDayParam("CargoQuest") + 1) * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_C));
-				AddCharacterExpToSkill(pchar, "COMMERCE", (GetQuestPastDayParam("CargoQuest") + 1) * sti(pchar.rank) * (GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I)));
+					dialog.text = "Замечательно! Вот ваша награда, капитан "+GetFullName(pchar)+".";
+					link.l1 = "Приятно с вами работать.";
+					link.l1.go = "exit";
+					ChangeCharacterReputation(pchar, 3);
+					
+					AddCharacterExpToSkill(pchar, "Sailing", (GetQuestPastDayParam("CargoQuest") + 1) * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_I) );
+					AddCharacterExpToSkill(pchar, "Leadership", (GetQuestPastDayParam("CargoQuest") + 1) * sti(pchar.rank) * GetCharacterSPECIALSimple(pchar, SPECIAL_C));
+					AddCharacterExpToSkill(pchar, "COMMERCE", (GetQuestPastDayParam("CargoQuest") + 1) * sti(pchar.rank) * (GetCharacterSPECIALSimple(pchar, SPECIAL_C) + GetCharacterSPECIALSimple(pchar, SPECIAL_I)));
 
-				AddMoneyToCharacter(pchar, makeint(pchar.CargoQuest.iMoney));
-				pchar.quest.generate_trade_quest_progress = "";
-				pchar.quest.generate_trade_quest.over = "yes";
-				RemoveCharacterGoods(pchar, makeint(pchar.CargoQuest.iTradeGoods), makeint(pchar.CargoQuest.iQuantityGoods));
-				
-                OfficersReaction("good");
-                
-                AddQuestRecord("DELIVERY_TRADE_QUEST", "2");
-                AddQuestUserData("DELIVERY_TRADE_QUEST", "sGoodGen", GetGoodsNameAlt(iTradeGoods));
-			    AddQuestUserData("DELIVERY_TRADE_QUEST", "sTargetColony",XI_ConvertString("Colony"+pchar.CargoQuest.iTradeColony+"Gen"));
-                CloseQuestHeader("DELIVERY_TRADE_QUEST");
-				
-				pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
-				if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
-				if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
-				if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
-				
+					AddMoneyToCharacter(pchar, makeint(pchar.CargoQuest.iMoney));
+					pchar.quest.generate_trade_quest_progress = "";
+					pchar.quest.generate_trade_quest.over = "yes";
+					RemoveCharacterGoods(pchar, makeint(pchar.CargoQuest.iTradeGoods), makeint(pchar.CargoQuest.iQuantityGoods));
+					ref custore = GetColonyByIndex(FindColony(npchar.city));
+					AddStoreGoods(&stores[sti(custore.StoreNum)],makeint(pchar.CargoQuest.iTradeGoods),makeint(pchar.CargoQuest.iQuantityGoods));
+					
+					OfficersReaction("good");
+					
+					AddQuestRecord("DELIVERY_TRADE_QUEST", "2");
+					AddQuestUserData("DELIVERY_TRADE_QUEST", "sGoodGen", GetGoodsNameAlt(iTradeGoods));
+					AddQuestUserData("DELIVERY_TRADE_QUEST", "sTargetColony",XI_ConvertString("Colony"+pchar.CargoQuest.iTradeColony+"Gen"));
+					CloseQuestHeader("DELIVERY_TRADE_QUEST");
+					
+					pchar.questTemp.genquestcount = sti(pchar.questTemp.genquestcount) + 1;
+					if(sti(pchar.questTemp.genquestcount) >= 10) UnlockAchievement("gen_quests", 1);
+					if(sti(pchar.questTemp.genquestcount) >= 20) UnlockAchievement("gen_quests", 2);
+					if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
 				}
 			}
 		break;

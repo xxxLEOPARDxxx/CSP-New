@@ -197,3 +197,34 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
         }
     }
 }
+
+void CheckForScam(ref location)
+{
+	if (CheckAttribute(pchar,"ScamFanActive") && rand(9)==0 && !CheckAttribute(pchar,"ScamDestroyed") && location.id != "FencingTown_ExitTown")
+	{
+		ref sld = CharacterFromID("ScamCharacter");
+		bool isplaced = false;
+		/*if (CheckAttribute(loadedLocation,"locators.officers"))
+		{
+			isplaced = true;
+		}
+		else
+		{*/
+			if (CheckAttribute(location,"locators.goto"))
+			{
+				//PlaceCharacter(sld, "goto", "random_must_be_near");
+				isplaced = true;
+			}
+		//}
+		if (chrDisableReloadToLocation || LAi_group_IsActivePlayerAlarm() || !CheckSaveGameEnabled() || sld.location != location.id) isplaced = false;
+		if (isplaced)
+		{
+			//ChangeCharacterAddressGroup(sld,loc.id,"reload","reload1");
+			chrDisableReloadToLocation = true;
+			InterfaceStates.DisFastTravel = true;
+			LAi_SetActorTypeNoGroup(sld);
+			sld.dialog.currentnode = "CoolStory";
+			LAi_ActorDialog(sld, pchar, "", 4.0, 0);
+		}
+	}
+}

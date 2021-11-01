@@ -282,6 +282,26 @@ AchKondotier_3{Холоднокровный}
 AchKondotier_3_descr{Выполнить ряд заданий по квесту 'Кондотьер'}
 AchKondotier_icon{AchKondotier}
 
+AchTich_3{Чёрная борода}
+AchTich_3_descr{Завершить серию заданий от 'Эдварда Тича'}
+AchTich_icon{AchTich}
+
+AchRagnar_3{Восстание викингов}
+AchRagnar_3_descr{Завершить квест 'Осколок прошлого'}
+AchRagnar_icon{AchRagnar}
+
+AchSalazar_3{Демон в ночи}
+AchSalazar_3_descr{Завершить ивент 'Армандо Салазара'}
+AchSalazar_icon{AchSalazar}
+
+AchKaskos_3{Чистильщик}
+AchKaskos_3_descr{Завершить ивент 'Альберто Каскоса'}
+AchKaskos_icon{AchKaskos}
+
+AchUmSamil_3{Древнее зло}
+AchUmSamil_3_descr{Завершить ивент 'Юм Самиля'}
+AchUmSamil_icon{AchUmSamil}
+
 gen_quests_1{На правильном пути}
 gen_quests_1_descr{Выполнить 10 генераторных квестов жителей городов}
 gen_quests_icon{AchGenQuestComlite}

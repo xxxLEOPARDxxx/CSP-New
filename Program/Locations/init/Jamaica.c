@@ -322,7 +322,7 @@ int LocationInitJamaica(int n)
 	locations[n].reload.l2.go = "CommonPackhouse_1";
 	locations[n].reload.l2.emerge = "reload1";
 	locations[n].reload.l2.autoreload = "0";
-	locations[n].reload.l2.label = "Room";
+	locations[n].reload.l2.label = "packhouse";
 	LAi_LocationFightDisable(&locations[n], true);
 	n = n + 1;
 
@@ -1196,6 +1196,7 @@ int LocationInitJamaica(int n)
 	locations[n].islandId = "Jamaica";
 	//Models
 	//Always
+	// locations[n].filespath.models = "locations\town_FortOrange\port"; // LEO: Пока залочен. Надо выспаться, чтобы нормально всё сделать.
 	locations[n].filespath.models = "locations\Outside\Shores\Shore08";
 	Locations[n].models.always.shore08 = "shore08";
 	locations[n].models.always.shore08.sea_reflection = 1;
@@ -1833,7 +1834,7 @@ int LocationInitJamaica(int n)
 	locations[n].reload.l2.go = "CommonPackhouse_1";
 	locations[n].reload.l2.emerge = "reload1";
 	locations[n].reload.l2.autoreload = "0";
-	locations[n].reload.l2.label = "Room";
+	locations[n].reload.l2.label = "packhouse";
 	LAi_LocationFightDisable(&locations[n], true);
 	n = n + 1;
 

@@ -154,6 +154,16 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	case "rumours_habitue":
+		//Black Sails
+		if (CheckAttribute(pchar, "BSUrka_Negril") && rand(100) > 60)
+		{
+			DeleteAttribute(pchar, "BSUrka_Negril")
+			dialog.text = "Ну твоё здоровье! Ух, хорош ром. Видел"+ GetSexPhrase("","а") +" бы ты, что пару дней назад тут в бухте творилось! Пиратский бриг, весь простреленный, с парусами как у корабля-призрака дал бой двум испанским фрегатам. И тут, откуда не возьмись, из-за мыса три пирата на корветах! Испанцы дружно на левый галс легли и ну шмалять по батарейно. Один корвет от носа до кормы прострелили, крику было! Аж в форте слыхать! Так вот, простреленный сразу на борт завалился, и тонуть начал, а два других, сами бортовыми, почти в упор разнесли фрегат. А бриг тот, который от испанцев удирал, вдруг осмелел, кинул якорь по левому борту и вокруг цепи разворот резкий сделал, такой, что мачту аж потерял. И давай с борта по пирату стрелять. В общем, потопили они корвет второй совместно с испанцем уцелевшим. Кхе, горло пересохло.";
+            link.l1 = "Вот, хлебни ещё. Так что дальше-то было? Интересно рассказываешь! Я прям вижу этот бой наяву!";
+			link.l1.go = "BS_NU_11";
+			break;
+		}
+		
 		Dialog.Text = LinkRandPhrase("Ну... И-ик! ","Эх, какой ром! ","Н-да... ")+SelectRumourEx("habitue", NPChar);
 		link.l1 = RandPhraseSimple(RandSwear() + "За это надо выпить еще кружечку...",
                                  "Хорошо. Давай еще по одной.");
@@ -357,7 +367,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 				{	
 					if(ShipsTypes[sti(RealShips[sti(pchar.Ship.Type)].BaseType)].Type.Merchant == true && GetCompanionQuantity(pchar) == 1)
 					{
-						if (GetSquadronGoods(Pchar, GOOD_EBONY) >= 400 || GetSquadronGoods(Pchar, GOOD_SILK) >= 1000 || GetSquadronGoods(Pchar, GOOD_SILVER) >= 600) 
+						if (GetSquadronGoods(Pchar, GOOD_EBONY) >= 600 || GetSquadronGoods(Pchar, GOOD_SILK) >= 1000 || GetSquadronGoods(Pchar, GOOD_SILVER) >= 400) 
 						{
 							dialog.text = "Вижу, вы - бывалый купец, капитан, немало передряг повидали. Но все же, хоть я сам не моряк, но дал бы вам совет - не выходите сегодня в море. В окрестных водах видели пиратскую щебеку, которая как раз охотится на людей вроде вас.";
 							link.l1 = "Ха! Напугал ежа иголкой. Да если мне эта щебека попадется, то считай она уже на дне. Ладно, бывай.";
@@ -410,7 +420,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 						}
 						else
 						{
-							dialog.text = "Говорят, в окрестных водах плавает пиратская щебека. Но вам, капитан, бояться нечего. Хоть у вас и торговый рорабль, они вряд захотят тратить тратить свои силы на такой скудный груз.";
+							dialog.text = "Говорят, в окрестных водах плавает пиратская щебека. Но вам, капитан, бояться нечего. Хоть у вас и торговый корабль, они вряд ли захотят тратить свои силы на такой скудный груз.";
 						}
 					}
 					else
@@ -446,6 +456,19 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			}
 		}
 	break;
+//Black Sails
+		case "BS_NU_11":
+            dialog.text = "Ух. Хорошо пошло, благодарствуйте. Так вот. Пират, на уцелевшем корвете, смекнул, что дело плохо, стал по ветру и на всех парусах за горизонт удрал! А на бриге, цепь якорную отрубили и бортом на фрегат навалились. На абордаж, стало быть, пошли. И одолели - таки испанцев! Фрегат черный флаг поднял, дал залп по бригу потрёпанному и ушел, куда - то на север. Такая баталия была, хоть на картину! Обломками всё побережье усыпано.";
+            link.l1 = "Спасибо за рассказ. Тебе бы книги писать с таким талантом!";
+			link.l1.go = "exit_sit";
+			
+			BSBons_SeaBattle(true);
+			AddQuestRecord("BSUrka", "3");
+			PChar.quest.BSUrka_Pirates_town.win_condition.l1 = "location";
+			PChar.quest.BSUrka_Pirates_town.win_condition.l1.location = "Pirates_town";
+			PChar.quest.BSUrka_Pirates_town.function = "BSUrka_Pirates_town";
+		break;
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		case "rumours_trader":
             if (!CheckAttribute(NPChar, "quest.repeat.rumours_trader") || NPChar.quest.repeat.rumours_trader!= 3 )

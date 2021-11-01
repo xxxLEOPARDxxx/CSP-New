@@ -273,6 +273,7 @@ void LAi_group_FightGroupsEx(string group1, string group2, bool asignWarriarType
 				if(j <= MAX_NUM_FIGHTERS) continue;
 				//Проверяем попадание персонажа в группу
 				ref chr = &Characters[idx];
+				if (!CheckAttribute(chr,"equip")) continue;
 				if(CheckAttribute(chr, "chr_ai.group"))
 				{
 					bool selected = false;

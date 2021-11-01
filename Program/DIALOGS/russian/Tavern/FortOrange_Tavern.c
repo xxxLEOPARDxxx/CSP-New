@@ -23,8 +23,21 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				break;
 			}
 			//виспер
+			if(CheckAttribute(pchar, "BSUrka_Negril") && !CheckAttribute(npchar, "BSUrka_Negril"))
+			{
+				npchar.BSUrka_Negril = true;
+				link.l1 = "Ты ничего не слышал о бриге, что затонул здесь неподалёку? 'Рейнджер'.";
+				link.l1.go = "BSUrka_Negril";
+				break;
+			}
 		break;
 
+        case "BSUrka_Negril":
+            dialog.text = "Боюсь, с этим не помогу. На той неделе я едва душу богу не отдал - подцепил от английской шлюхи какую-то болячку. Пришлось отлёживаться в постели, так что мне было совсем не до местных новостей. Только сегодня на работу вышел\nНо ты поспрашивай постояльцев, наверняка кто-то что-то видел.";
+            link.l2 = "Так и сделаю.";
+            link.l2.go = "exit";
+        break;
+		
         case "DefenceOrange": //Голландская линейка, квест №4, защита форта Оранж.
             dialog.text = "Да, скажу я вам, такой лихой бойни я не видел на своем веку...";
             link.l2 = "Ловко почикали английских псов, а?";

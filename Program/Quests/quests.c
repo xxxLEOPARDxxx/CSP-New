@@ -487,6 +487,7 @@ void CloseQuestHeader(string idQuest)
 	if(idQuest == "Hol_Line_12_OccupyMaracaibo") UnlockAchievement("Nation_quest_H", 3);
 	if(idQuest == "Spa_Line_12_OccupyPortPax") UnlockAchievement("Nation_quest_S", 3);
 	if(idQuest == "Pir_Line_8_Panama") UnlockAchievement("Nation_quest_P", 3);
+	if(idQuest == "pirateVikingQuest") UnlockAchievement("AchRagnar", 3);
 }
 bool CheckActiveQuest(string idQuest)
 {

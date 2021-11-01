@@ -296,7 +296,8 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		NextDiag.CurrentNode = "Second time";
 		//dialog.text = "Постой-ка, "+ GetSexPhrase("приятель","подруга") +"... Сдается, у тебя есть кое-что интересное. Нужно делиться с близкими найдеными сокровищами.";
 		dialog.text = RandPhraseSimple("Я так и подозревал" + npcharSexPhrase(npchar,"","а") + ", что этот жулик продал больше одной карты. Не зря я его убил" + npcharSexPhrase(npchar,"","а")+".","Постой-ка, "+ GetSexPhrase("приятель","подруга") +". Эта карта - моя. Не знаю, как именно она у тебя оказалась, но у меня её стащил по пьяни один жулик. Так что эти сокровища тебе не принадлежат. ");
-	    if (PGG_ChangeRelation2MainCharacter(npchar, 0) < 41)
+	    //if (PGG_ChangeRelation2MainCharacter(npchar, 0) < 41)
+		if (sti(npchar.reputation) < 41)
 		{
 			dialog.text = "Ты был"+GetSexPhrase("","а")+" настолько слеп"+GetSexPhrase("","а")+", что не замечал"+GetSexPhrase("","а")+" слежки вплоть до самого сокровища";
 			Link.l1 = "Ну что же, пришло время отделиться твоей голове от тела.";
@@ -360,8 +361,12 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
         break;
 		
 	case "Play_Game":
-		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) > 40)
+		bool allow = false;
+		if (!CheckAttribute(pchar,"questTemp.pgggamesplayed"+npchar.index)) allow = true;
+		if (GetQuestPastDayParam("questTemp.pgggamesplayed"+npchar.index) > 0) allow = true;
+		if (PGG_ChangeRelation2MainCharacter(NPChar, 0) > 40 && allow)
 		{
+			DeleteAttribute(pchar,"questTemp.pgggamesplayed"+npchar.index);
 			dialog.text = "Что предлагаешь?";
 			link.l1 = "Перекинемся в карты?";
 			link.l1.go = "Card_Game";
@@ -372,7 +377,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		}
 		else
 		{
-			dialog.text = "Может и хочу, но не с тобой";
+			dialog.text = LinkRandPhrase ("Может и хочу, но не с тобой", "Отвали, не до тебя сейчас!", "Знаешь что? " + LinkRandPhrase("Я уже всё проиграл.", "Ты уже всех обчистил.", "Я сейчас не в том настроении, отвали."));
 			link.l10 = "Как знаешь, дело твое.";
 			link.l10.go = "exit";
 		}
@@ -381,7 +386,6 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	case "Card_Game":
 		if (isBadReputation(pchar, 30) || GetCharacterSkillToOld(pchar, SKILL_LEADERSHIP) < rand(3))
 		{
-			SetNPCQuestDate(npchar, "Card_date_Yet");
 			dialog.text = "Кыш отсюда, я не в настроении.";
 			link.l1 = "Как хочешь.";
 			link.l1.go = "exit";
@@ -461,6 +465,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	break;
 
 	case "Cards_begin_go":
+		SaveCurrentQuestDateParam("questTemp.pgggamesplayed"+npchar.index);
 		NextDiag.CurrentNode = NextDiag.TempNode;
 		DialogExit();
 		LaunchCardsGame();
@@ -470,27 +475,17 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	case "Dice_Game":
 		if (isBadReputation(pchar, 30) || GetCharacterSkillToOld(pchar, SKILL_LEADERSHIP) < rand(3))
 		{
-			SetNPCQuestDate(npchar, "Dice_date_Yet");
 			dialog.text = "Брысь отсюда, я не в настроении.";
 			link.l1 = "Как вам будет угодно.";
 			link.l1.go = "exit";
 		}
 		else
 		{
-			if (CheckNPCQuestDate(npchar, "Dice_date_begin"))
-			{
-				dialog.text = "Давай! Отдых никогда не вредил здоровью... только кошельку...";
-				link.l1 = "Замечательно.";
-				link.l1.go = "Dice_begin";
-				link.l2 = "По каким правилам игра?";
-				link.l2.go = "Dice_Rule";
-			}
-			else
-			{
-				dialog.text = "Нет, с меня хватит на сегодня. Дела ждут.";
-				link.l1 = "Как вам будет угодно.";
-				link.l1.go = "exit";
-			}
+			dialog.text = "Давай! Отдых никогда не вредил здоровью... только кошельку...";
+			link.l1 = "Замечательно.";
+			link.l1.go = "Dice_begin";
+			link.l2 = "По каким правилам игра?";
+			link.l2.go = "Dice_Rule";
 		}
 	break;
 
@@ -584,7 +579,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 	break;
 
 	case "Dice_begin_go":
-		SetNPCQuestDate(npchar, "Dice_date_begin");
+		SaveCurrentQuestDateParam("questTemp.pgggamesplayed"+npchar.index);
 		NextDiag.CurrentNode = NextDiag.TempNode;
 		DialogExit();
 		LaunchDiceGame();

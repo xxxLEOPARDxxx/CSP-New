@@ -165,8 +165,8 @@ void Sea_AbordageLoad(int _iAbordageMode, bool _bMCAbordageInitiator)
 	{
 		rIsland = GetIslandByIndex(iIslandIndex);
 	}
-	if (rIsland.id == "KhaelRoa" && CheckAttribute(pchar,"GhostCap.Fight") && !CheckAttribute(pchar,"GenQuest.GhostShip.LastBattle")) return;
-	
+	//if (rIsland.id == "KhaelRoa" && CheckAttribute(pchar,"GhostCap.Fight") && !CheckAttribute(pchar,"GenQuest.GhostShip.LastBattle")) return;
+	if (CheckAttribute(pchar,"GhostCap.Fight") && !CheckAttribute(pchar,"GenQuest.GhostShip.LastBattle")) return;
 	if(!CheckAttribute(pchar, "abordage_active"))
 	{
 		if( !CheckAttribute(pchar,"abordage_active_count") )

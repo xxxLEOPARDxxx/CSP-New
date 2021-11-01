@@ -558,11 +558,18 @@ void BI_LaunchCommand()
         Sea_CabinStartNow();
 		break;
 	case "BI_Boat":
-		// Warship 09.07.09 Мэри Селест
-		// Второй раз на нее выслать шлюпку низя
-		if(Characters[targetNum].id != "MaryCelesteCapitan" || PChar.QuestTemp.MaryCeleste != "OnDeck")
+		if (!CheckAttribute(Characters[targetNum], "LockBoat"))
 		{
-			Sea_DeckBoatLoad(targetNum);
+			// Warship 09.07.09 Мэри Селест
+			// Второй раз на нее выслать шлюпку низя
+			if(Characters[targetNum].id != "MaryCelesteCapitan" || PChar.QuestTemp.MaryCeleste != "OnDeck")
+			{
+				Sea_DeckBoatLoad(targetNum);
+			}
+			else
+			{
+				PlaySound("interface\knock.wav");
+			}
 		}
 		else
 		{
@@ -2306,7 +2313,7 @@ ref ProcessSailDamage()
 	float sailPower = GetEventData();
 
 	ref chref = GetCharacter(chrIdx);
-	if (CheckAttribute(&RealShips[sti(chref.Ship.Type)], "Tuning.SailsSpecial") && rand(4)>1)
+	if (CheckAttribute(&RealShips[sti(chref.Ship.Type)], "Tuning.SailsSpecial") && rand(2)<1)
 	{
 		BI_g_fRetVal = 0;
 		return &BI_g_fRetVal;
@@ -3212,6 +3219,7 @@ float GetRSRollSpeed(ref chref)
 	{
 		fRollSpeed = fRollSpeed * 1.1; // 10 процентов
 	}
+	if (CheckAttribute(&RealShips[iShip],"Tuning.SailsSpecial")) fRollSpeed = fRollSpeed * 1.25;
 	return fRollSpeed;
 }
 

@@ -150,6 +150,93 @@ bool CreateCharacter(ref character)
 	{
 		fCurCharge = stf(character.chr_ai.charge);
 	}
+	
+	if (CheckAttribute(character, "HeroModel") && !CheckAttribute(character,"ismushketer"))
+	{
+		int VisCir = sti(InterfaceStates.VISUAL_CIRASS);
+		if (VisCir==0) //всем хуй
+		{
+			character.model = GetSubStringByNum(character.HeroModel,0); 
+			Characters_RefreshModel(character);
+		}
+		else
+		{
+			bool ok = false;
+			bool tok1 = false;
+			bool tok2 = false;
+			switch (VisCir)
+			{
+				case 1:
+					if (character.index == nMainCharacterIndex) //только гг
+					{
+						ok = true;
+					}
+				break;
+				case 3:
+					if (character.index != nMainCharacterIndex && CheckAttribute(character,"chr_ai.group") && character.chr_ai.group == "player") //группа ГГ без ГГ
+					{
+						ok = true;
+					}
+				break;
+				case 4:
+					if (CheckAttribute(character,"chr_ai.group") && character.chr_ai.group == "player") //группа ГГ с ГГ
+					{
+						ok = true;
+					}
+				break;
+				case 5:
+					tok1 = (CheckAttribute(character,"chr_ai.group")) && character.chr_ai.group != "player"; //все кроме группы ГГ
+					if (tok1 || !CheckAttribute(character,"chr_ai.group"))
+					{
+						if (character.index != nMainCharacterIndex) ok = true;
+					}
+				break;
+				case 6:
+					tok1 = (CheckAttribute(character,"chr_ai.group")) && character.chr_ai.group != "player"; //все и ГГ, без офицеров
+					tok2 = (character.index == nMainCharacterIndex);
+					if (tok1 || tok2 || !CheckAttribute(character,"chr_ai.group"))
+					{
+						ok = true;
+					}
+				break;
+				case 8:
+					tok1 = (CheckAttribute(character,"chr_ai.group")) && character.chr_ai.group != "player"; //все кроме ГГ
+					tok2 = (CheckAttribute(character,"chr_ai.group")) && character.chr_ai.group == "player";
+					if (tok1 || tok2 || !CheckAttribute(character,"chr_ai.group"))
+					{
+						if (character.index != nMainCharacterIndex)	ok = true;
+					}
+				break;
+				case 9:
+					ok = true;//все
+				break;
+			}
+			if (ok)
+			{
+				if (CheckAttribute(character,"cirassId"))
+				{
+					character.model = GetSubStringByNum(character.HeroModel,sti(Items[sti(character.cirassId)].model));
+					Characters_RefreshModel(character);
+				}
+				else 
+				{
+					if (GetSubStringByNum(character.HeroModel,0) != character.model)
+					{
+						DeleteAttribute(character,"VISUAL_CIRASS");
+						FaceMaker(character);
+					}
+					character.model = GetSubStringByNum(character.HeroModel,0); 
+					Characters_RefreshModel(character);
+				}
+			}
+			else
+			{
+				character.model = GetSubStringByNum(character.HeroModel,0); 
+				Characters_RefreshModel(character);
+			}
+		}
+	}
+	
 	ExecuteCharacterEquip(character);
 	if( CheckAttribute(character,"chr_ai.charge") &&
 		fCurCharge<stf(character.chr_ai.charge) ) {

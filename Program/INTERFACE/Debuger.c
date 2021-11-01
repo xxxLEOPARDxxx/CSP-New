@@ -1,4 +1,5 @@
 #include "ITEMS\initItems.c"
+#include "STORE\initGoods.c"
 
 //  boal 14.02.06 меню дебугера
 string totalInfo;
@@ -941,6 +942,7 @@ void CalculateInfoDataF6()
 	// mc.Ship.Type = GenerateShipExt(SHIP_FLYINGDUTCHMAN, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_SANTISIMA, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_SOLEYRU, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_CORVETTE_QUEST, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
 	mc.Ship.Type = GenerateShipExt(SHIP_PRINCE, true, mc);
 	SetBaseShipData(mc);
@@ -1715,11 +1717,14 @@ void CalculateInfoDataF31()
 	AddItems(mc, "BackPack5", 1);
 	
 	// Моя прелесть -->
-	AddItems(mc, "Food5", 30);
-	AddItems(mc, "potion2", 30);
-	AddItems(mc, "HealthTube", 3);
-	AddItems(mc, "EnergyTube", 3);
-	AddItems(mc, "StrangeElixir", 3);
+	// AddItems(mc, "Food5", 30);
+	// AddItems(mc, "potion2", 30);
+	// AddItems(mc, "HealthTube", 3);
+	// AddItems(mc, "EnergyTube", 3);
+	// AddItems(mc, "StrangeElixir", 3);
+	// AddItems(mc, "grenade", 10);
+	// AddItems(mc, "powder_pellet", 10);
+	// AddItems(mc, "grape_mushket", 1);
 	// Моя прелесть <--
 	
 	sEquipItem = GetGeneratedItem("blade32");
@@ -2246,6 +2251,7 @@ void CalculateInfoDataF45()
 	totalInfo = descF45;
 	
     InitItems();
+    initGoods();
     ShipsInit();
     IslandsInit();
     LocationInit();
@@ -2347,27 +2353,45 @@ void CalculateInfoDataF49()
 	Statistic_AddValue(PChar, "Cheats.F49", 1);
 }
 
-string descF50 = "Нет назначений";
+string descF50 = "Тестовая функция для стрингового массива под LinkRandArrayPhrase";
 void CalculateInfoDataF50()
 {
 	totalInfo = descF50;
- 	
+	
+	SetArraySize(&rand_arr,5); //должно быть равно самой большой цифре индекса массива + 1
+	rand_arr[0] = "Выпала стринга от значения массива под индеком 0";
+	rand_arr[1] = "Выпала стринга от значения массива под индеком 1";
+	rand_arr[2] = "Выпала стринга от значения массива под индеком 2";
+	rand_arr[3] = "Выпала стринга от значения массива под индеком 3";
+	rand_arr[4] = "Выпала стринга от значения массива под индеком 4";
+	string result = LinkRandArrayPhrase(4); //должно быть равно самой большой цифре индекса массива
+	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
 	
-	SetFormatedText("INFO_TEXT", totalInfo);
+	SetFormatedText("INFO_TEXT", totalInfo+"\n"+result);
 	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F50", 1);
 }
 
-string descF51 = "Нет назначений";
+string descF51 = "Посчитать персов в локации";
 void CalculateInfoDataF51()
 {
 	totalInfo = descF51;
- 	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	int ass = 0;
+	for (i=0; i<TOTAL_CHARACTERS; i++)
+	{
+		ref chref;
+		makeref(chref, Characters[i]);
+		if (CheckAttribute(chref, "location") && chref.location == pchar.location)
+		{
+			//log_info(chref.name+" "+chref.lastname);
+			ass++;
+		}
+	}
 	
-	SetFormatedText("INFO_TEXT", totalInfo);
+	SetFormatedText("INFO_TEXT", totalInfo+"\nКоличество персонажей в локации: "+ass);
 	
 	// Статистика по читам
 	Statistic_AddValue(PChar, "Cheats.F51", 1);

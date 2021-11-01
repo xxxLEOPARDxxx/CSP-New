@@ -432,7 +432,7 @@ float Lai_UpdateEnergyPerDltTime(aref chr, float curEnergy, float dltTime)
 	{
 		fMultiplier = fMultiplier * 1.15;
 	}
-	if(CheckAttribute(chr, "bonusEnergy"))
+	if(CheckAttribute(chr, "bonusEnergy") && chr.index != nMainCharacterIndex)
 	{
 		fMultiplier = fMultiplier * 2;
 	}
@@ -1424,9 +1424,13 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 		}
 		return;
 	}
+	string sBullet = LAi_GetCharacterBulletType(attack);
+	bool ignore = false;
+	if(sBullet == "powder_pellet") ignore = true;
+	if(sBullet == "grenade") ignore = true;
 	if(CheckCharacterPerk(enemy, "AgileMan"))  
 	{
-		if (rand(3)==0)
+		if (rand(3)==0 && !ignore)
 		{
 			Log_Info("”клонилс€ от выстрела!")
 			return;
@@ -1435,7 +1439,7 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	// boal брон работает всегда, а не токо в блоке 23.05.2004 -->
 	if(CheckAttribute(enemy, "cirassId")&& !HasSubStr(Items[sti(enemy.cirassId)].id, "suit_"))
 	{
-		if (CheckCharacterPerk(attack,"Buccaneer")) {}
+		if (CheckCharacterPerk(attack,"Buccaneer") || ignore) {}
 		else
 		{
 			if(rand(1000) < stf(Items[sti(enemy.cirassId)].CirassLevel)*500) 
@@ -1496,10 +1500,13 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 		}
 		else
 		{
-			damage = damage * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel));
-			if(sti(enemy.index) == GetMainCharacterIndex())
+			if (!ignore)
 			{
-				Log_Info("”рон от выстрела был снижен кирасой");
+				damage = damage * (1.0 - stf(Items[sti(enemy.cirassId)].CirassLevel));
+				if(sti(enemy.index) == GetMainCharacterIndex())
+				{
+					Log_Info("”рон от выстрела был снижен кирасой");
+				}
 			}
 		}
 	}

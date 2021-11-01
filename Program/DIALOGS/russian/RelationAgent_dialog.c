@@ -617,7 +617,6 @@ void ProcessDialogEvent()
 				dialog.text = "Хм, верно... Ну ладно, вы можете найти его на Сан Мартине, в Мариго. У него кабинет в представительстве Компании, большое административное здание с охраной, сложно пропустить. Только не говорите, что это я вас к нему отправил. Так, на всякий случай...";
 				link.l1 = "Без проблем.";
 				link.l1.go = "exit";
-				LAi_group_Delete("EnemyFight");
 				pchar.questTemp.LSC = "toOliverTrast";
 				AddQuestRecord("ISS_PoorsMurder", "10");
 				LocatorReloadEnterDisable("Marigo_town", "houseH2", false);
@@ -638,7 +637,7 @@ void ProcessDialogEvent()
 				LAi_RemoveLoginTime(sld);
 				sld.standUp = true; //вставать и нападать на врага
 				LAi_SetHuberType(sld);
-				LAi_group_MoveCharacter(sld, "EnemyFight");
+				LAi_group_MoveCharacter(sld, "OlivaTrust");
 				//ложим второе письмо
 				ChangeItemName("letter_LSC", "itmname_letter_LSC_1");
 				ChangeItemDescribe("letter_LSC", "itmdescr_letter_LSC_1");

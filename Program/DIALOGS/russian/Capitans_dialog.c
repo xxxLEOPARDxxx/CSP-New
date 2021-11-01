@@ -1052,6 +1052,7 @@ void ProcessDialogEvent()
 			Log_SetActiveAction("Reload");
 			ChangeCharacterAddress(npchar, "none", "");
             DialogExit();
+			UnlockAchievement("AchTich", 3);
 		break;
 		
 		case "Titch_duel":

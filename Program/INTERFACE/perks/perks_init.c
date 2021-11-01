@@ -77,9 +77,9 @@ void extrnInitPerks()
 	ChrPerksList.list.AgileMan.BaseType = "self";
 	ChrPerksList.list.AgileMan.PlayerOnly = true;
 	
-	ChrPerksList.list.Buldozer.descr = "perkBuldozer";
+	/*ChrPerksList.list.Buldozer.descr = "perkBuldozer";
 	ChrPerksList.list.Buldozer.BaseType = "self";
-	ChrPerksList.list.Buldozer.PlayerOnly = true;
+	ChrPerksList.list.Buldozer.PlayerOnly = true;*/
 	
 	ChrPerksList.list.Craft.descr = "perkCraft";
 	ChrPerksList.list.Craft.BaseType = "self";
@@ -167,6 +167,7 @@ void extrnInitPerks()
  	ChrPerksList.list.SeaDogProfessional.descr = "perkSeaDogProfessional";
 	ChrPerksList.list.SeaDogProfessional.condition.SailingProfessional = true;
 	ChrPerksList.list.SeaDogProfessional.BaseType = "ship";
+	ChrPerksList.list.SeaDogProfessional.OfficerType = "navigator";
 	if (!bAltBalance) ChrPerksList.list.SeaDogProfessional.PlayerOnly = true;
     
 	/////////////////////////////////////////////////////////////

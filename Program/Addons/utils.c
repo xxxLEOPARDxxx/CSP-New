@@ -126,6 +126,7 @@ void StartGameOpenArena(string qName)
 	
 	Locations[FindLocation("FencingTown_Arena")].id.label = "Arena";
 	Locations[FindLocation("FencingTown_Fort")].id.label = "FencingTown";
+	AddSimpleRumourToAllNations("Ходят слухи, что на Доминике вновь распахнуло свои ворота Поселение Фехтовальщиков. Говорят, что там собираются самые умелые из тех, кто обладает сим искусством.", 30, 1);
 }
 
 void BuildMalteseOrder(string qName)
@@ -566,7 +567,7 @@ void AddSimpleRumourToAllNations(string sText, int iTime, int iQty)
 {
 	for(int i=0; i<MAX_NATIONS; i++)
 	{
-		AddSimpleRumour(sText, ENGLAND, iTime, iQty);
+		AddSimpleRumour(sText, i, iTime, iQty);
 	}
 }
 

@@ -82,6 +82,7 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	SetEventHandler("CloseShipUp", "CloseShipUp",0);
 	SetEventHandler("ExitChangeHullMenu", "ExitChangeHullMenu",0);
 	SetEventHandler("CheckButtonChange","procCheckBoxChange",0);
+	SetEventHandler("SelectShipyard","SelectShipyard",0);
     //////////////////
     EI_CreateFrame("SHIP_BIG_PICTURE_BORDER",156,40,366,275); // tak from SHIP_BIG_PICTURE
     EI_CreateHLine("SHIP_BIG_PICTURE_BORDER", 161,246,361,1, 4);
@@ -116,6 +117,8 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	timeUpgrade = 0;
 	timePreUpgrade = 0;
 	timeSoil = 0;
+	
+	ProcessFilter();
 }
 
 void ProcessExitCancel()
@@ -157,6 +160,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("CloseShipUp","CloseShipUp");
 	DelEventHandler("ExitChangeHullMenu", "ExitChangeHullMenu");
 	DelEventHandler("CheckButtonChange","procCheckBoxChange");
+	DelEventHandler("SelectShipyard","SelectShipyard");
 	
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -169,6 +173,12 @@ void IDoExit(int exitCode)
 		EndCancelInterface(true);
 	}
 }
+
+void SelectShipyard()
+{
+	SetCurrentNode("TABLE_SHIPYARD");
+}
+
 void ProcessCommandExecute()
 {
 	string comName = GetEventData();
@@ -1072,14 +1082,16 @@ void FillShipyardTable()
 
 	GameInterface.TABLE_SHIPYARD.hr.td1.str = "Корабль";
 	GameInterface.TABLE_SHIPYARD.hr.td1.scale = 0.9;
-	GameInterface.TABLE_SHIPYARD.hr.td2.str = "Класс";
+	GameInterface.TABLE_SHIPYARD.hr.td2.str = "Специф.";
 	GameInterface.TABLE_SHIPYARD.hr.td2.scale = 0.9;
-	GameInterface.TABLE_SHIPYARD.hr.td3.str = "Орудия";
+	GameInterface.TABLE_SHIPYARD.hr.td3.str = "Класс";
 	GameInterface.TABLE_SHIPYARD.hr.td3.scale = 0.9;
-	GameInterface.TABLE_SHIPYARD.hr.td4.str = "Дедвейт";
+	GameInterface.TABLE_SHIPYARD.hr.td4.str = "Орудия";
 	GameInterface.TABLE_SHIPYARD.hr.td4.scale = 0.9;
-	GameInterface.TABLE_SHIPYARD.hr.td5.str = "Цена";
+	GameInterface.TABLE_SHIPYARD.hr.td5.str = "Дедвейт";
 	GameInterface.TABLE_SHIPYARD.hr.td5.scale = 0.9;
+	GameInterface.TABLE_SHIPYARD.hr.td6.str = "Цена";
+	GameInterface.TABLE_SHIPYARD.hr.td6.scale = 0.9;
 	GameInterface.TABLE_SHIPYARD.select = 0;
 	GameInterface.TABLE_SHIPYARD.top = 0;
 
@@ -1124,17 +1136,29 @@ void FillShipyardTable()
     	GameInterface.TABLE_SHIPYARD.(row).td1.icon.height = 46;
     	GameInterface.TABLE_SHIPYARD.(row).td1.icon.offset = "0, 1";
     	GameInterface.TABLE_SHIPYARD.(row).td1.textoffset = "53,0";
-		GameInterface.TABLE_SHIPYARD.(row).td1.str = XI_Convertstring(sShip) + "\n\n"+refNPCShipyard.ship.name;
+		GameInterface.TABLE_SHIPYARD.(row).td1.str = XI_Convertstring(sShip) + "\n"+refNPCShipyard.ship.name;
 		GameInterface.TABLE_SHIPYARD.(row).td1.align = "left";
 		GameInterface.TABLE_SHIPYARD.(row).td1.scale = 0.82;
-		GameInterface.TABLE_SHIPYARD.(row).td2.str = refBaseShip.Class;
-		GameInterface.TABLE_SHIPYARD.(row).td3.str = sti(refBaseShip.CannonsQuantity);
-		GameInterface.TABLE_SHIPYARD.(row).td4.str = GetCargoMaxSpace(refNPCShipyard);
-		GameInterface.TABLE_SHIPYARD.(row).td5.str = GetShipBuyPrice(iShip, refNPCShipyard);
-		GameInterface.TABLE_SHIPYARD.(row).td5.color = argb(255,255,228,80);
+		GameInterface.TABLE_SHIPYARD.(row).td2.str = GetShipsType(refBaseShip);
+		GameInterface.TABLE_SHIPYARD.(row).td2.scale = 0.85;
+		GameInterface.TABLE_SHIPYARD.(row).td2.align = "left";
+		GameInterface.TABLE_SHIPYARD.(row).td3.str = refBaseShip.Class;
+		GameInterface.TABLE_SHIPYARD.(row).td4.str = sti(refBaseShip.CannonsQuantity);
+		GameInterface.TABLE_SHIPYARD.(row).td5.str = GetCargoMaxSpace(refNPCShipyard);
+		GameInterface.TABLE_SHIPYARD.(row).td6.str = GetShipBuyPrice(iShip, refNPCShipyard);
+		GameInterface.TABLE_SHIPYARD.(row).td6.color = argb(255,255,228,80);
     }
 
 	Table_UpdateWindow("TABLE_SHIPYARD");
+}
+
+string GetShipsType(ref refBaseShip)
+{
+	string spectypes = "";
+	if (refBaseShip.Type.War == true) spectypes = "Военный";
+	if (refBaseShip.Type.Merchant == true) spectypes = "Торговый";
+	if (refBaseShip.Type.Merchant == true && refBaseShip.Type.War == true) spectypes = "Универс.";
+	return spectypes;
 }
 
 void ProcessFilter()
@@ -2027,14 +2051,15 @@ void RepairMoneyShow()
 {
     int st = GetCharacterShipType(xi_refCharacter);
 	int soiltime = 0;
-	{
-		if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "REPAIR_Soiling_CHECKBOX", 3, 1)) soiltime = (8-GetCharacterShipClass(xi_refCharacter);
-		else soiltime = 0;
-	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "REPAIR_Soiling_CHECKBOX", 3, 1)) soiltime = (8-GetCharacterShipClass(xi_refCharacter));
+	else soiltime = 0;
 	int iTimeM = makeint((soiltime + (RepairHull * (8-GetCharacterShipClass(xi_refCharacter)))/4.0 + (RepairSail * (8-GetCharacterShipClass(xi_refCharacter)))/6.0) * 60.0); 
 	string _sTime;
 	if (iTimeM<1) _sTime = "\n"; else _sTime = "часов: " + iTimeM/60 + " | минут: " + its(iTimeM-(iTimeM/60)*60) + "\n";
+	int repwt = its(iSoilClearCost + GetSailRepairCost(st, RepairSail, refNPCShipyard) + GetHullRepairCost(st, RepairHull, refNPCShipyard));
 	SetFormatedText("REPAIR_WINDOW_TEXT", _sTime + its(iSoilClearCost + GetSailRepairCost(st, RepairSail, refNPCShipyard) + GetHullRepairCost(st, RepairHull, refNPCShipyard)));
+	if (repwt > 0) SetSelectable("REPAIR_OK", true);
+	else SetSelectable("REPAIR_OK", false);
 }
 
 void RepairStatShow()
@@ -2117,12 +2142,13 @@ void RepairOk()
 	int sp = MakeInt(GetSailPercent(xi_refCharacter));
 	float ret;
 	
-	if(GetChrClearSoilingCoast() > 0)
+	if(GetChrClearSoilingCoast() > 0 && SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "REPAIR_Soiling_CHECKBOX", 3, 1) && xi_refCharacter.ship.soiling > 0)
 	{
 		xi_refCharacter.ship.soiling = 0;
-		timeSoil = timeSoil + (8-GetCharacterShipClass(xi_refCharacter);
+		timeSoil = timeSoil + (8-GetCharacterShipClass(xi_refCharacter));
 		AddCharacterExpToSkill(pchar, "Repair", (GetChrClearSoilingCoast()) / 2.5));
 		AddMoneyToCharacter(pchar, -GetChrClearSoilingCoast());
+		iSoilClearCost = 0;
 	}
 
 	if (RepairHull > 0)
@@ -2210,13 +2236,17 @@ int GetChrClearSoilingCoast()
 	
 	switch(iClass)
 	{
+		case 7:
+			sum= 100;
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 5)}
+		break; 
 		case 6:
-			sum= 600;
+			sum= 350;
 			if(Soiling > 25){sum= sum + ((Soiling-25) * 10)}
 		break; 
 		case 5:
 			sum= 600;
-			if(Soiling > 25){sum= sum + ((Soiling-25) * 10)}
+			if(Soiling > 25){sum= sum + ((Soiling-25) * 12)}
 		break; 
 		case 4:
 			sum= 1000;
@@ -2376,6 +2406,7 @@ void OpenShipUp()
 		if (upsq >= 3) SetFormatedText("SHIPSUP_VALUE","Максимальное количество апгрейдов");
 		else SetFormatedText("SHIPSUP_VALUE",FindRussianMoneyString(upgradevalue));
 		SetFormatedText("SHIPSUP_CAPTION", "Уникальные улучшения корабля");
+		SetFormatedText("SHIPSUP_Q", "Улучшений: "+upsq+"/3");
 		SetSelectable("SHIPSUP_DOUP", false);
     }
 	GameInterface.SHIPSUP_TABLE.select = 1;

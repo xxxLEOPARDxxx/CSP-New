@@ -24,6 +24,20 @@ void SetRandShipSkill(ref _ch, int _min, int _max)
 	_ch.skill.Defence = _min + rand(iDelta);
 }
 
+void DeleteAllPerksExceptChar(ref _ch)
+{
+	string character = "";
+	if (CheckAttribute(_ch,"perks.list.Buccaneer")) character = "Buccaneer";
+	if (CheckAttribute(_ch,"perks.list.Fencer")) character = "Fencer";
+	if (CheckAttribute(_ch,"perks.list.Grunt")) character = "Grunt";
+	if (CheckAttribute(_ch,"perks.list.Trader")) character = "Trader";
+	if (CheckAttribute(_ch,"perks.list.Adventurer")) character = "Adventurer";
+	if (CheckAttribute(_ch,"perks.list.Agent")) character = "Agent";
+	if (CheckAttribute(_ch,"perks.list.SeaWolf")) character = "SeaWolf";
+	DeleteAttribute(_ch,"perks.list");
+	_ch.perks.list.(character) = 1;
+}
+
 void SelAllPerksToNotPChar(ref _ch)
 {
 	_ch.perks.list.BasicDefense = "1";
@@ -961,6 +975,14 @@ void Cap_SetMapAgain(ref sld, aref arCapBase)
 		if (sld.cityShore == sld.quest.targetCity)
 		{
 			sld.quest.targetCity = SelectAnyColony(sld.cityShore);
+		}
+		Map_CreateTrader(sld.cityShore, sld.quest.targetShore, sld.id, sti(arCapBase.checkTime)-5);
+		break
+	case "BlackBeard":
+		if (sld.cityShore == sld.quest.targetCity)
+		{
+			sld.quest.targetCity = GetRandomPirateCity();
+			sld.quest.targetShore = GetIslandRandomShoreId(GetArealByCityName(sld.quest.targetCity));
 		}
 		Map_CreateTrader(sld.cityShore, sld.quest.targetShore, sld.id, sti(arCapBase.checkTime)-5);
 		break
@@ -2879,7 +2901,7 @@ void LoginUmSamilGuards()
 void SpawnFishHeads()
 {
 	int stopp = 0;
-	chrDisableReloadToLocation = true;
+	//chrDisableReloadToLocation = true;
 	for(int i = 0; i < 36; i++)
 	{
 		if (stopp == 1) {stopp = 0; continue;}
@@ -2892,6 +2914,7 @@ void SpawnFishHeads()
 		LAi_group_SetRelation("evilf_", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
 		LAi_group_FightGroups("evilf_", LAI_GROUP_PLAYER, true);
 		LAi_SetFightMode(sld, true);
+		sld.lifeDay = 0;
 		stopp = 1;
 	}
 	LAi_group_SetCheck("evilf_", "FishHeadsDefeated");

@@ -545,7 +545,6 @@ void ProcessCommandExecute()
 				TakeAllGoods();
 			}
 		break;
-/*добавляем к кнопке снятия пушек*/
 		case "CANNONS_REMOVE_ALL":
 			//if(comName=="click")//не знаю в чём разница, но лучше так пока что. Может, это как раз доппроверка, что обмен недоступен с торговцами или квестовыми ситациями
 			if(comName=="click" || comName=="activate")
@@ -553,7 +552,6 @@ void ProcessCommandExecute()
 			    CanonsRemoveAll();   
 			}
 		break;
-/*добавляем к кнопке снятия пушек*/		
 		case "CREW_BUTTON":
 			if(comName=="click" || comName=="activate")
 			{
@@ -1940,6 +1938,11 @@ void ShowCrewWindow()
 			XI_WindowDisable("CREW_WINDOW", false);
 
 			SetCurrentNode("CREW_Win_fix");
+			SetNodeUsing("CREW_BUTTON", false);
+			SetNodeUsing("CAPTAN_BUTTON", false);
+			SetNodeUsing("SWAP_BUTTON", false);
+			SetNodeUsing("TAKE_GOODS", false);
+			SetNodeUsing("CANNONS_REMOVE_ALL", false);
 			sMessageMode = "CREW_WINDOW";
 		}
 	}
@@ -1986,6 +1989,11 @@ void ExitCrewWindow()
 	XI_WindowShow("CREW_WINDOW", false);
 	XI_WindowDisable("CREW_WINDOW", true);
 
+	SetNodeUsing("CREW_BUTTON", true);
+	SetNodeUsing("CAPTAN_BUTTON", true);
+	SetNodeUsing("SWAP_BUTTON", true);
+	SetNodeUsing("TAKE_GOODS", true);
+	SetNodeUsing("CANNONS_REMOVE_ALL", true);
 	SetCurrentNode("CREW_BUTTON");
 	sMessageMode = "";
 }

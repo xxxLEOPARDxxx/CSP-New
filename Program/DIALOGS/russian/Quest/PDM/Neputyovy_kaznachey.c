@@ -32,6 +32,7 @@ void ProcessDialogEvent()
 			link.l1 = "Капитан "+pchar.name+". А вы?";
 			link.l1.go = "Fickler_1";
 			PlayVoice("Kopcapkz\Voices\PDM\Andreas Fickler.wav");
+			DeleteAttribute(npchar, "talker");
 		break;
 		
 		case "Fickler_1":
@@ -41,25 +42,25 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Fickler_2":
-			dialog.text = "Вы - вы тоже тряслись бы, если бы кто-нибудь собирался вас убить!";
+			dialog.text = "В-в-вы тоже т-т-тряслись бы, если бы к-кто-нибудь собирался вас убить!";
 			link.l1 = "Кто-то хочет тебя убить?";
 			link.l1.go = "Fickler_3";
 		break;
 		
 		case "Fickler_3":
-			dialog.text = "Д-да, "+ GetSexPhrase("минхер","мефрау") +". Я не могу спать. Я весь разбит. И это всё из-за этого п-проклятого пороха!";
+			dialog.text = "Д-да, "+ GetSexPhrase("минхер","мефрау") +". Я не могу спать. Я в-весь разбит. И это всё из-за этого п-проклятого пороха!";
 			link.l1 = "Похоже, это любопытная история. Излей мне свою душу, приятель.";
 			link.l1.go = "Fickler_4";
 		break;
 		
 		case "Fickler_4":
-			dialog.text = "Ну, д-думаю, я могу вам доверять. Я казначей... Я б-был казначеем на каравелле 'Морская чайка'. Наш капитан закупил слишком много пороха - хотя я советовал ему этого не делать! Мне п-пришлось хранить некоторые бочонки в неп-подходящих местах. На юте, к примеру. И один из наших безмозглых матросов как-то нализался до бесчувствия. Я говорил, чтобы никто не курил на юте, но этот тупоголовый пьяный урод уселся прямо на бочонок с порохом и... и...";
+			dialog.text = "Ну, д-думаю, я могу вам д-доверять. Я казначей... Я б-был казначеем на каравелле 'Морская чайка'. Наш к-к-капитан закупил слишком много п-пороха - хотя я советовал ему этого не делать! Мне п-пришлось хранить некоторые бочонки в неп-подходящих местах. На юте, к примеру. И один из наших безмозглых матросов как-то нализался до бесчувствия. Я г-говорил, чтобы никто не курил н-на юте, но этот тупоголовый пьяный урод уселся прямо на бочонок с порохом и... и...";
 			link.l1 = "Закурил трубку?";
 			link.l1.go = "Fickler_5";
 		break;
 		
 		case "Fickler_5":
-			dialog.text = "Да... А потом уронил её... И отправился прямиком в ад. Вместе с ютом, штурвалом и половиной корабля. Матросы потушили пожар, но весь груз уже был потерян. А капитан сказал, что я не доживу до рассвета! Сейчас он в таверне, заливает свою злобу ромом. Но я б-боюсь, что он не ограничится выпивкой. И т-тогда он вытащит свой к-кортик и убьёт меня прямо здесь, на площади!";
+			dialog.text = "Д-да... А потом уронил её... И отправился п-прямиком в ад. Вместе с ютом, штурвалом и половиной корабля. Мат-т-тросы потушили пожар, но весь груз уже был п-потерян. А к-капитан сказал, что я не доживу до рассвета! Сейчас он в таверне, заливает свою злобу ромом. Но я б-боюсь, что он не ограничится в-выпивкой. И т-тогда он вытащит свой к-кортик и убьёт меня прямо здесь, на площади!";
 			link.l1 = "Действительно забавная история. Не волнуйся, Андреас. Я помогу тебе.";
 			link.l1.go = "Fickler_6";
 			link.l2 = "Ну, в будущем будь осторожнее с порохом. Ладно, счастливо тебе прожить несколько оставшихся часов. Прощай.";
@@ -159,10 +160,12 @@ void ProcessDialogEvent()
 			if (sti(pchar.Money) >= Plata2)
 			{		
 				AddMoneyToCharacter(pchar, -sti(Plata2));
-				AddCharacterExpToSkill(pchar, "Leadership", 100);
-				AddCharacterExpToSkill(pchar, "Commerce", 150);
-				AddCharacterExpToSkill(pchar, "Sneak", 100);
-				AddCharacterExpToSkill(pchar, "Fortune", 50);
+				Log_SetStringToLog("Авторитет + 1");
+				Log_SetStringToLog("Торговля + 2");
+				Log_SetStringToLog("Скрытность + 1");
+				AddCharacterSkill(pchar, "Leadership", 1);
+				AddCharacterSkill(pchar, "Commerce", 2);
+				AddCharacterSkill(pchar, "Sneak", 1);
 				sld = CharacterFromID("PDM_NK_Viktor")
 				sld.dialog.filename   = "Quest/PDM/Neputyovy_kaznachey.c";
 				sld.dialog.currentnode   = "Viktor_Poka";
@@ -238,13 +241,13 @@ void ProcessDialogEvent()
 		
 		case "Fickler_11":
 			PlayVoice("Kopcapkz\Voices\PDM\Andreas Fickler.wav");
-			dialog.text = "Капитан "+pchar.name+"! Ох, это вы, "+ GetSexPhrase("минхер","мефрау") +"! Вы напугали меня. Вы уже говорили с В-виктором?");
+			dialog.text = "К-к-капитан "+pchar.name+"! Ох, это вы, "+ GetSexPhrase("минхер","мефрау") +"! Вы н-папугали меня. Вы уже говорили с В-виктором?");
 			link.l1 = "Да. Он больше не тронет тебя. Можешь спокойно возвращаться на свою 'Морскую чайку'.";
 			link.l1.go = "Fickler_12";
 		break;
 		
 		case "Fickler_12":
-			dialog.text = "Спасибо! Тысячу раз спасибо! Вы спасли мою жизнь! Но я не могу вернуться на свой корабль. Я стану посмешищем для команды. И это несмотря на то, что я хороший казначей с десятилетним стажем. Я не имею ни малейшего желания возвращаться на 'Морскую чайку'. Э-э... может, вам бы пригодился казначей, капитан?");
+			dialog.text = "Спасибо! Т-тысячу раз с-с-спасибо! В-вы спасли мою жизнь! Но я не могу вернуться на свой корабль. Я стану п-п-посмешищем для команды. И это несмотря на то, что я хороший к-казначей с десятилетним стажем. Я не имею ни малейшего желания возвращаться на 'Морскую чайку'. Э-э... может, вам бы пригодился к-к-казначей, капитан?");
 			link.l1 = "Думаю, пригодился бы. Ты нанят. Но только посмей подойти к крюйт-камере!";
 			link.l1.go = "Fickler_13";
 			link.l2 = "Извини, но мне сейчас казначей не нужен.";
@@ -252,13 +255,14 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Fickler_13":
-			dialog.text = "Спасибо, капитан! Вы не пожалеете об этом!");
+			dialog.text = "Спасибо, к-капитан! Вы не п-п-пожалеете об этом!");
 			link.l1 = "Добро пожаловать на борт, Андреас.";
 			link.l1.go = "Fickler_Nanyat";
 			sld = CharacterFromID("Andreas_Fickler")
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
 			AddDialogExitQuestFunction("LandEnc_OfficerHired");
 			Pchar.questTemp.HiringOfficerIDX = GetCharacterIndex(sld.id);
+			ChangeCharacterReputation(sld, 80);
 			sld.rank = 10;
 			SetSPECIAL(sld, 4, 6, 4, 10, 10, 7, 6);
 			SetSelfSkill(sld, 5, 5, 5, 5, 5);
@@ -266,6 +270,7 @@ void ProcessDialogEvent()
 			sld.loyality = MAX_LOYALITY;
 			SetCharacterPerk(sld, "BasicCommerce");
 			SetCharacterPerk(sld, "AdvancedCommerce");
+			sld.greeting = "GR_Andreas_Fickler";
 			LAi_SetImmortal(sld, false);
 			sld.HalfImmortal = true;
 		break;

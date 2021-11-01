@@ -2003,6 +2003,12 @@ void SetQuestAboardCabinDialog(ref refChar)
 			refChar.Dialog.FileName = "Quest\ForAll_dialog.c";
 			refChar.Dialog.CurrentNode = "zpqCapitain"; //даем абордажную ноду
 		}
+		if(refChar.CaptanId == "BSBons0" && refChar.model == "BS_Billy")
+		{
+			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+			refChar.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
+			refChar.Dialog.CurrentNode = "BS_NU_12";
+		}
 		if(refChar.CaptanId == "pirateVikingQuest_Captain")
 		{
 			LAi_CharacterPlaySound(refChar,"Voice\valhalla_scream.wav");
@@ -2687,6 +2693,18 @@ void PDMQuestsInit()
 	FantomMakeCoolFighter(sld, 25, 25, 25, "blade10", "", 40);
 	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
 	ChangeCharacterAddressGroup(sld,"FortFrance_town","officers","soldier_uniq1");
+	
+	//******Аптекарь Sinistra******
+	//Маркус
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_Markus", "prison_3", "man", "man", 10, ENGLAND, -1, false));
+	sld.name	= "Маркус";
+	sld.lastname	= "";
+	sld.City = "SentJons";
+	sld.Dialog.Filename = "Quest/PDM/Aptekar.c";
+	LAi_SetGroundSitType(sld);
+	LAi_SetImmortal(sld, true);
+	LAi_group_MoveCharacter(sld, "ENGLAND_CITIZENS");
+	ChangeCharacterAddressGroup(sld,"SentJons_tavern","goto","goto1");
 }
 void OfficerGirlInit()
 {
@@ -2872,6 +2890,7 @@ void OfficerMushketerInit()
  	SetSPECIAL(sld, 6, 9, 8, 3, 6, 9, 9);
 	SetSelfSkill(sld, 60, 3, 3, 100, 80);
 	SetShipSkill(sld, 40, 7, 25, 15, 8, 10, 5, 10, 25);
+	DeleteAllPerksExceptChar(sld);
 	SetCharacterPerk(sld, "AdvancedDefense");
 	SetCharacterPerk(sld, "Gunman");
 	SetCharacterPerk(sld, "GunProfessional");
@@ -2917,6 +2936,7 @@ void OfficerMushketerInit()
  	SetSPECIAL(sld, 7, 9, 7, 4, 3, 10, 8);
 	SetSelfSkill(sld, 70, 10, 10, 100, 70);
 	SetShipSkill(sld, 30, 9, 8, 8, 15, 20, 18, 5, 30);
+	DeleteAllPerksExceptChar(sld);
 	SetCharacterPerk(sld, "AdvancedDefense");
 	SetCharacterPerk(sld, "Gunman");
 	SetCharacterPerk(sld, "GunProfessional");
@@ -3340,7 +3360,7 @@ void QuestCheckTakeBoxes(ref itemsRef)
 		if (CheckCharacterItem(pchar,"letter_notes") && locLoad.id == "Bermudes_Dungeon" && !CheckAttribute(pchar,"FishHeadsSpawned"))
 		{
 			Log_info("Вы нашли вторую часть записки.");
-			string chesttype = "";
+			/*string chesttype = "";
 			switch (drand(3))
 			{
 				case 0: chesttype = "Chest_ammo"; break;
@@ -3349,11 +3369,14 @@ void QuestCheckTakeBoxes(ref itemsRef)
 				case 3: chesttype = "Chest_Craftsmans"; break;
 			}
 			TakeNItems(pchar,chesttype,1);
-			Log_info("Вы обнаружили сундучок.");
+			Log_info("Вы обнаружили сундучок.");*/
 			Log_info("Это что ещё за шум?");
 			ChangeItemDescribe("letter_notes", "CSPD2");
 			pchar.FishHeadsSpawned = true;
 			SpawnFishHeads();
+			pchar.quest.EasterFish.win_condition.l1 = "ExitFromLocation";
+			pchar.quest.EasterFish.win_condition.l1.location = pchar.location;
+			pchar.quest.EasterFish.function = "FishHDS";
 			return;
 		}
 		spawnToughSkeleton(locLoad);

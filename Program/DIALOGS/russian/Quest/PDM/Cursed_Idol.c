@@ -23,7 +23,7 @@ void ProcessDialogEvent()
 			link.l1.go = "Vstrecha_1";
 			link.l2 = "Нет. Честно говоря, на самом деле я "+ GetSexPhrase("кроткий и мягкий","кроткая и магкая") +". Извините, но я бы "+ GetSexPhrase("предпочёл","предпочла") +" ненадолго обратиться в паническое бегство.";
 			link.l2.go = "exit";
-			PlayVoice("Kopcapkz\Voices\PDM\James Callow.wav");
+			LAi_CharacterPlaySound(NPChar, "GR_Jamescallow_FirstTime");
 		break;
 			
 		case "Vstrecha_1":
@@ -51,6 +51,7 @@ void ProcessDialogEvent()
 			link.l1 = "Знаешь, похоже, что у тебя с головой не всё в порядке, Джеймс. Лучше я оставлю тебя здесь. Прощай.";
 			link.l1.go = "exit";
 			NextDiag.TempNode = "VstrechNetAgain_1";
+			npchar.lifeday = 0;
 		break;
 		
 		case "Vstrecha_4":
@@ -117,7 +118,7 @@ void ProcessDialogEvent()
             link.l1 = "До встречи, брат.";
 			link.l1.go = "CodDa_1";
 			GiveItem2Character(PChar, "Cursed_idol");
-			PlayVoice("Interface\important_item.wav");
+			PlaySound("Interface\important_item.wav");
 			Log_info("Джеймс отдал вам идола");
 			NextDiag.TempNode = "VstrechDaAgain_1";
 		break;
@@ -127,6 +128,7 @@ void ProcessDialogEvent()
             link.l1 = "Это вряд ли. Ладно, не скучай. И смотри, хорошенько позаботься о твоём маленьком идоле. До свидания.";
 			link.l1.go = "CodNet_1";
 			NextDiag.TempNode = "VstrechNetAgain_1";
+			npchar.lifeday = 0;
 		break;
 		
 		case "CodDa_1":
@@ -173,7 +175,7 @@ void ProcessDialogEvent()
 			dialog.text = "Эй! Ты на моей территории, "+ GetSexPhrase("мальчишка","девчонка") +", так что помалкивай здесь, не то замолчишь навеки. Ты меня понял"+ GetSexPhrase("","а") +"?";
             link.l1 = "Придержи свой гонор, Роджер. Я знаю, где я нахожусь.";
 			link.l1.go = "Rodjer_2";
-			PlayVoice("Kopcapkz\Voices\PDM\Desmond Ray Beltrop.wav");
+			LAi_CharacterPlaySound(NPChar, "GR_Prikusi_Yazik");
 		break;
 		
 		case "Rodjer_2":
@@ -324,7 +326,7 @@ void ProcessDialogEvent()
 			dialog.text = "Ах! Наконец-то ты вернул"+ GetSexPhrase("ся","ась") +". Как идут дела? Ты всё сделал"+ GetSexPhrase("","а") +"?";
 			link.l1 = "Конечно. Жадный мерзавец при виде золота потерял последние остатки разума.";
 			link.l1.go = "CollowRad_2";
-			PlayVoice("Kopcapkz\Voices\PDM\James Callow.wav");
+			LAi_CharacterPlaySound(NPChar, "GR_Jamescallow_FirstTime");
 		break;
 		
 		case "CollowRad_2":
@@ -367,7 +369,7 @@ void ProcessDialogEvent()
 			LAi_SetSitType(pchar);
 			locCameraTarget(PChar)
             locCameraFollow();
-			PlayVoice("Kopcapkz\Voices\PDM\James Callow.wav");
+			LAi_CharacterPlaySound(NPChar, "GR_Jamescallow_FirstTime");
 			link.l1.go = "CollowNeRad_2";
 		break;
 		
@@ -489,7 +491,7 @@ void ProcessDialogEvent()
 			dialog.text = "Бонжур, "+ GetSexPhrase("месье","мадемуазель") +"! Чем я могу быть вам полезен?";
             link.l1 = "Здравствуйте! Я хочу преподнести вам дар. Я слышал"+ GetSexPhrase("","а") +", что вы интересуетесь драгоценными камнями... Что вы скажете по поводу этого идола?";
 			link.l1.go = "Rostovshik_2";
-			PlayVoice("Kopcapkz\Voices\PDM\France\Nicolas de Montferrat.wav");
+			LAi_CharacterPlaySound(NPChar, "GR_Bonjur_Mesie");
 		break;
 		
 		case "Rostovshik_2":
@@ -544,7 +546,7 @@ void ProcessDialogEvent()
 			dialog.text = "(обращается к ростовщику) Бонжур, Жюст, я хотел тебя позвать на праздничный ужин... Погодите-ка, я знаю "+ GetSexPhrase("этого человека","эту девушку") +", он"+ GetSexPhrase("","а") +" пират"+ GetSexPhrase("","ка") +"! Это он"+ GetSexPhrase("","а") +" перебил"+ GetSexPhrase("","а") +" наш патруль на Мартинике. СТРАЖА!";
             link.l1 = "И чего встали, подходите. Или испугались меня?";
 			link.l1.go = "Rostovshik_Fra_Off_2";
-			PlayVoice("Kopcapkz\Voices\PDM\Pete - Town Guard.wav");
+			LAi_CharacterPlaySound(NPChar, "GR_Prohodi_NeStoy");
 		break;
 		
 		case "Rostovshik_Fra_Off_2":
@@ -588,7 +590,7 @@ void ProcessDialogEvent()
 			dialog.text = "Ах! Наконец-то ты "+ GetSexPhrase("вернулся","вернулась") +". Как дела? Ты это сделал"+ GetSexPhrase("","а") +"?";
             link.l1 = "На этот раз всё прошло гладко. Ростовщик взял идола.";
 			link.l1.go = "Callow_POBEDA_2";
-			PlayVoice("Kopcapkz\Voices\PDM\James Callow.wav");
+			LAi_CharacterPlaySound(NPChar, "GR_Jamescallow_FirstTime");
 			ChangeCharacterAddressGroup(pchar, "LaVega_tavern", "sit", "sit_front3");
 			LAi_SetSitType(pchar);
 			locCameraTarget(PChar)

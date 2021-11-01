@@ -739,8 +739,15 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
         if(IsOfficer(_chref) || IsCompanion(_chref))
         {
             AddMsgToCharacter(_chref,MSGICON_LEVELUP);
-            Log_SetStringToLog(XI_ConvertString("Level Up"));
+            if(_chref.id == "Blaze")
+            {
+            Log_Info("Вы получили новый уровень!");
             PlayStereoSound("interface\new_level.wav");
+            }
+            else
+            {
+                Log_Info("Новый уровень у "+ _chref.name + " "+_chref.lastname);
+            }
         }
 		if (sti(_chref.index) == GetMainCharacterIndex())
 		{
@@ -1574,7 +1581,7 @@ float GetItemsWeight(ref _chref)
     string  itemID;
     ref     itm;
 
-    if (bCabinStarted || bAbordageStarted || !bSeaActive || !CheckAttribute(_chref, "ItemsWeight"))
+    if (bCabinStarted || bAbordageStarted || !bSeaActive || !CheckAttribute(_chref, "ItemsWeight") || CheckForExchangeAllowed(_chref))
     {
         for (j=0; j<TOTAL_ITEMS; j++)
 		{
@@ -1597,6 +1604,22 @@ float GetItemsWeight(ref _chref)
     }
     return Amount;
 }
+
+bool CheckForExchangeAllowed(ref _chref)
+{
+	if(!LAi_group_IsActivePlayerAlarm())
+	{
+		if (bSeaActive || CheckAttribute(loadedLocation,"fastreload") || CheckAttribute(loadedLocation,"townsack") || _chref.location == pchar.location)
+		{
+			bool ok = CheckAttribute(_chref, "prisoned") && sti(_chref.prisoned) == true;
+			if (!ok && !CheckAttribute(_chref,"isquest") && !CheckAttribute(_chref,"nonremovable")) return true;
+		}
+		
+	}
+	else {return false;}
+	return false;
+}
+
 int GetMaxItemsWeight(ref _chref)
 {
 	if (CheckAttribute(_chref, "Skill.Fencing"))
@@ -2104,6 +2127,7 @@ void ChangeAttributesFromCharacter(ref CopyChref, ref PastChref, bool _dialogCop
     CopyChref.model            = PastChref.model;
     CopyChref.model.animation  = PastChref.model.animation;
 	if (CheckAttribute(PastChref,"heromodel")) CopyChref.heromodel = PastChref.heromodel;
+	if (CheckAttribute(PastChref,"VISUAL_Ci")) CopyChref.heromodel = PastChref.heromodel;
     CopyChref.sex              = CopyChref.sex;
     CopyChref.headModel        = PastChref.headModel;
     CopyChref.FaceId           = PastChref.FaceId;
@@ -2238,13 +2262,26 @@ void ChangeAttributesFromCharacter(ref CopyChref, ref PastChref, bool _dialogCop
 
     CopyAttributes(arToChar,arFromChar);
 
-    if (CheckAttribute(PastChref, "equip.blade"))
+    /*if (CheckAttribute(PastChref, "equip.blade"))
     {
 		CopyChref.equip.blade =   PastChref.equip.blade;
 	}
 	if (CheckAttribute(PastChref, "equip.gun"))
     {
 		CopyChref.equip.gun   =   PastChref.equip.gun;
+	}*/
+	makearef(arToChar, CopyChref.equip);
+    makearef(arFromChar, PastChref.equip);
+    CopyAttributes(arToChar,arFromChar);
+	if (CheckAttribute(PastChref, "curammo"))
+    {
+		makearef(arToChar, CopyChref.curammo);
+		makearef(arFromChar, PastChref.curammo);
+		CopyAttributes(arToChar,arFromChar);
+	}
+	if (CheckAttribute(PastChref, "cirassId"))
+    {
+		CopyChref.cirassId =   PastChref.cirassId;
 	}
 	// health
 	if (CheckAttribute(PastChref, "Health.TotalDamg"))
@@ -2483,6 +2520,11 @@ void SetAllAchievements(int level)
 	pchar.achievements.AchOrion = level; // Чокопай 100 ---
 	pchar.achievements.AchRabotorg = level; // Торгораб 100 ---
 	if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions) pchar.achievements.AchKondotier = level; // Шишкоёб 100 ---
+	pchar.achievements.AchTich = level; // Чернобород 100 ---
+	pchar.achievements.AchRagnar = level; // Суровый викинг 100 ---
+	pchar.achievements.AchSalazar = level; // Тухлый испанец 100 ---
+	pchar.achievements.AchKaskos = level; // Слишком стухший испанец 100 ---
+	pchar.achievements.AchUmSamil = level; // Забытый клон Миклухи-ягуара 100 ---
 	pchar.achievements.LSC_quest = level; // Выполнение квеста "ГПК" 100
 	pchar.achievements.Teno_quest = level; // Выполнение квеста "Теночтитлан" 100
 	pchar.achievements.Ghostship_quest = level; // Выполнение квеста "Корабль-призрак" 100
@@ -2501,8 +2543,8 @@ void SetAllAchievements(int level)
 	pchar.achievements.Nation_quest_S = level; // Выполнение национальной линейки квестов 100 ---
 	pchar.achievements.Nation_quest_P = level; // Выполнение национальной линейки квестов 100 ---
 	
-	// Всего очков доступных для получения: 7000 (по 100-175 на каждое достижение) - мне лень пересчитывать (Калькулятор запили блеать, LEOPARD :) )
-	// Гарантированно можно получить 6200 очков достижений, если исключать 4 линейки наций, линейки за персонажей и опционалки
+	// Всего очков доступных для получения: 7500 (по 100-175 на каждое достижение) - мне лень пересчитывать (Калькулятор запили, Грегг, блеать! (c) LEOPARD :) )
+	// Гарантированно можно получить 6700 очков достижений, если исключать 4 линейки наций, линейки за персонажей и опционалки
 	// Всего достижений: 46
 	// При пересчёте возможных к получению в 1 партии был максимум в... 5050. Всего достижений: 46
 }
@@ -3057,6 +3099,7 @@ void initMainCharacterItem()
             EquipCharacterbyItem(Pchar, itemID);
 			GiveItem2Character(Pchar, "Ship_Print_6");
 			itemID = GetGeneratedItem("pistol" +  (rand(2)+1));
+	        itemID = GetGeneratedItem("Spyglass" + rand(3));
             GiveItem2Character(Pchar, itemID);
             EquipCharacterbyItem(Pchar, itemID);
 			GiveGunAmmunitionPchar(Pchar,itemID,10);

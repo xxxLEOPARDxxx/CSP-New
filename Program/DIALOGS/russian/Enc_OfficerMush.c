@@ -575,7 +575,7 @@ void ProcessDialogEvent()
 			Link.l2.go = "Companion_TaskChange";
 			if(bBettaTestMode) // Только при бета-тесте
 			{
-			    Link.l3 = "Я хочу, чтобы ты на время вышел из состава моей эскадры и поискал удачу самостоятельно.";
+			    Link.l3 = "Я хочу, чтобы ты на время выш"+ GetSexPhrase("ел","ла") +" из состава моей эскадры и поискал удачу самостоятельно.";
 			    Link.l3.go = "CompanionTravel";
 			}
 			Link.l8 = "Пока ничего.";
@@ -584,7 +584,7 @@ void ProcessDialogEvent()
 		
 		case "Companion_TaskBoarding":
 			dialog.Text = "Что же вы желаете?";
-			Link.l1 = "Я хочу чтобы ты не брал корабли на абордаж. Побереги себя и свою команду.";
+			Link.l1 = "Я хочу чтобы ты не брал"+ GetSexPhrase("","а") +" корабли на абордаж. Побереги себя и свою команду.";
 			Link.l1.go = "Companion_TaskBoardingNo";
 			Link.l2 = "Мне нужно чтобы ты брал вражеские корабли на абордаж.";
 			Link.l2.go = "Companion_TaskBoardingYes";
@@ -592,7 +592,7 @@ void ProcessDialogEvent()
 		
 		case "Companion_TaskChange":
 			dialog.Text = "Что же вы желаете?";
-			Link.l1 = "Я хочу чтобы ты не менял свой корабль после абордажа. Он слишком ценен.";
+			Link.l1 = "Я хочу чтобы ты не менял"+ GetSexPhrase("","а") +" свой корабль после абордажа. Он слишком ценен.";
 			Link.l1.go = "Companion_TaskChangeNo";
 			Link.l2 = "Когда будешь брать врагов на абордаж, посмотри, вдруг кораблик приличный будет, тогда бери себе.";
 			Link.l2.go = "Companion_TaskChangeYes";
