@@ -211,15 +211,18 @@ void ProcessDialogEvent()
 			Pchar.questTemp.Ascold.reputation    = pchar.reputation;
 			Pchar.questTemp.Ascold.nation		 = pchar.nation;
 			Pchar.questTemp.Ascold.relation      = GetNationRelation2MainCharacter(FRANCE);
+			if (CheckAttribute(pchar,"heromodel")) {Pchar.questTemp.Ascold.heromodel = pchar.heromodel; DeleteAttribute(pchar,"heromodel");}
 			SetNationRelation2MainCharacter(FRANCE, RELATION_ENEMY);
             npchar.model = pchar.model;
 			npchar.model.animation = pchar.model.animation;			
             FaceMaker(npchar);
+			npchar.FaceId = Pchar.questTemp.Ascold.heroFaceId;
+			DeleteAttribute(npchar,"heromodel");
             SetNewModelToChar(npchar);
             pchar.model = "Mummy";
             pchar.model.animation = "man";
             pchar.FaceId = 207; //мумия
-            FaceMaker(pchar);
+            //FaceMaker(pchar);
             SetNewModelToChar(pchar);
             pchar.questTemp.Ascold = "Ascold_BodyChange";
     		LAi_SetCitizenType(npchar);
@@ -270,7 +273,7 @@ void ProcessDialogEvent()
 		break;
 
         case "Step_28":
-            PChar.GenQuest.CrewSkelMode = true; //команда - скелеты 
+            PChar.GenQuest.CrewSkelModeClassic = true; //команда - скелеты 
   		    chrDisableReloadToLocation = false; // открыть выход из локации.
             pchar.questTemp.Ascold = "Ascold_ImMummy";
             //==> потом вернуть
@@ -292,7 +295,7 @@ void ProcessDialogEvent()
 		break;
 		
         case "Step_29":
-            DeleteAttribute(PChar, "GenQuest.CrewSkelMode"); // команда-скелеты в нормальное сост.
+            DeleteAttribute(PChar, "GenQuest.CrewSkelModeClassic"); // команда-скелеты в нормальное сост.
             bDisableCharacterMenu = false; //открываем Ф2
             bDisableLandEncounters = false;
             TakeItemFromCharacter(pchar, "sculMa1");
@@ -315,7 +318,8 @@ void ProcessDialogEvent()
 			pchar.reputation	  = Pchar.questTemp.Ascold.reputation;
 			pchar.nation		  = Pchar.questTemp.Ascold.nation;
 			SetNationRelation2MainCharacter(FRANCE, sti(Pchar.questTemp.Ascold.relation));
-            FaceMaker(pchar);
+			if (CheckAttribute(Pchar,"questTemp.Ascold.heromodel")) pchar.heromodel = Pchar.questTemp.Ascold.heromodel;
+            //FaceMaker(pchar);
             SetNewModelToChar(pchar);
             npchar.model = "Mummy";
 			npchar.model.animation = "man";
@@ -325,6 +329,7 @@ void ProcessDialogEvent()
             DeleteAttribute(PChar, "questTemp.Ascold.heroAnimation");
             DeleteAttribute(PChar, "questTemp.Ascold.reputation");
 			DeleteAttribute(PChar, "questTemp.Ascold.relation");
+			DeleteAttribute(pchar, "questTemp.Ascold.heromodel");
 			DeleteAttribute(PChar, "GenQuest.HunterScore2Pause"); //вертаем начисление нзг
 			DeleteAttribute(PChar, "GenQuest.ReputationNotChange"); //вертаем смену репы
             chrDisableReloadToLocation = true; // закрыть выход из локации.

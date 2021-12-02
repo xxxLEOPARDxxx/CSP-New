@@ -483,23 +483,17 @@ void FillShipyardTable()
 	string row;
 	aref aTemp;
 	bool isCapital;
-	if ( refNPCShipyard.city == "Tortuga" || refNPCShipyard.city == "Villemstad" || refNPCShipyard.city == "PortRoyal" || refNPCShipyard.city == "Havana" ) isCapital = 1; else isCapital = 0;
+	if ( refNPCShipyard.city == "Tortuga" || refNPCShipyard.city == "Villemstad" || refNPCShipyard.city == "PortRoyal" || refNPCShipyard.city == "Havana" || refNPCShipyard.city == "Pirates") isCapital = 1; else isCapital = 0;
 
 	for (i = iStart; i < iEnd; i++)
 	{
 		row = "tr" + (k+1);
-		if (refNPCShipyard.id == "Pirates_shipyarder")
+		
+		if (ShipsTypes[i].nation.(sNation)) 
 		{
-			if (i>=SHIP_FR_TRINITY && i!=SHIP_MANOWAR_GUB) continue;//” јлексуса все нации доступны, но мановар только пиратский
+			if (i>=SHIP_FR_TRINITY && !isCapital) continue;//мановары только в столицах
 		}
-		else
-		{
-			if (ShipsTypes[i].nation.(sNation)) 
-			{
-				if (i>=SHIP_FR_TRINITY && !isCapital) continue;//мановары только в столицах
-			}
-			else continue;//пропускаем корабли без нации верфиста
-		}
+		else continue;//пропускаем корабли без нации верфиста
 
 		sShip = shipstypes[i].Name;
 		GameInterface.TABLE_SHIPYARD.(row).index = i;

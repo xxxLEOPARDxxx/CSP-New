@@ -203,7 +203,7 @@ void CreateItem()
 	// Открываем достижения
 	if(sti(pchar.questTemp.craftcount) >= 300) UnlockAchievement("craft", 1);
 	if(sti(pchar.questTemp.craftcount) >= 500) UnlockAchievement("craft", 2);
-	if(sti(pchar.questTemp.craftcount) >= 5000) UnlockAchievement("craft", 3);
+	if(sti(pchar.questTemp.craftcount) >= 1000) UnlockAchievement("craft", 3);
 	
 	ProcessCancelExit();
 }

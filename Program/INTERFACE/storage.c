@@ -183,6 +183,12 @@ void ProcCommand()
 		case "QTY_STORAGE_REMOVE_GOOD":
 	        REMOVE_ALL_GOOD();
 		break;
+		case "TAKE_ALL_FROM_STORAGE":
+	        TakeAllGoods1();
+		break;
+		case "TAKE_ALL_FROM_SHIP":
+	        TakeAllGoods2();
+		break;
 	}
 }
 
@@ -203,6 +209,90 @@ void CalculateInfoData()
 {
     AddToTable();
 	ShowGoodsInfo(sti(GameInterface.TABLE_LIST.tr1.index));
+}
+
+void TakeAllGoods1()
+{
+	int i, j, idx, qty;
+	float fMaxCost;
+
+	for (j = 0; j< GOODS_QUANTITY; j++)
+	{
+		fMaxCost = 0;
+		idx = -1;
+		for (i = 0; i< GOODS_QUANTITY; i++)
+		{
+			if (sti(GetStorageGoodsQuantity(refStore, i)) > 0)
+			{
+				if (fMaxCost < stf(Goods[i].Cost)/stf(Goods[i].Weight)) // поиск ликвидного товара
+				{
+					fMaxCost = stf(Goods[i].Cost)/stf(Goods[i].Weight);
+					idx = i;
+				}
+			}
+		}
+		if (fMaxCost > 0)
+		{
+			qty = AddCharacterGoodsSimple(refCharacter, idx, sti(GetStorageGoodsQuantity(refStore, idx)));
+			log_info(""+qty);
+			if (qty > 0)
+			{
+				SetStorageGoods(refStore, idx, sti(GetStorageGoodsQuantity(refStore, idx))-qty);
+			}
+			else
+			{   // нет места
+				AddToTable();
+				EndTooltip();
+				ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
+				return;
+			}
+		}
+	}
+	AddToTable();
+	EndTooltip();
+	ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
+}
+
+void TakeAllGoods2()
+{
+	int i, j, idx, qty;
+	float fMaxCost;
+
+	for (j = 0; j< GOODS_QUANTITY; j++)
+	{
+		fMaxCost = 0;
+		idx = -1;
+		for (i = 0; i< GOODS_QUANTITY; i++)
+		{
+			if (GetCargoGoods(refCharacter, i) > 0)
+			{
+				if (fMaxCost < stf(Goods[i].Cost)/stf(Goods[i].Weight)) // поиск ликвидного товара
+				{
+					fMaxCost = stf(Goods[i].Cost)/stf(Goods[i].Weight);
+					idx = i;
+				}
+			}
+		}
+		if (fMaxCost > 0)
+		{
+			SetStorageGoods(refStore, idx,  GetCargoGoods(refCharacter, idx)+sti(GetStorageGoodsQuantity(refStore, idx)));
+			qty = sti(GetStorageGoodsQuantity(refStore, idx));
+			if (qty > 0)
+			{
+				RemoveCharacterGoodsSelf(refCharacter, idx, qty);
+			}
+			else
+			{   // нет места
+				AddToTable();
+				EndTooltip();
+				ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
+				return;
+			}
+		}
+	}
+	AddToTable();
+	EndTooltip();
+	ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
 }
 
 void AddToTable()

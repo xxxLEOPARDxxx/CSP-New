@@ -40,7 +40,7 @@ void ProcessDialogEvent()
 				Link.l1.go = "IDontBelieveYou";
 			}
 			Link.l2 = "Я раздаю золото. Это можно считать незаконным занятием?";
-			if(makeint(Pchar.rank) >= 4 && GetSummonSkillFromNameToOld(Pchar, SKILL_COMMERCE) >= 5)
+			if(makeint(Pchar.rank) >= 4 && GetSummonSkillFromNameToOld(Pchar, SKILL_COMMERCE) >= 2)
 			{
 				Link.l2.go = "GiveMeSomeMoneyToo";
 			}
@@ -138,8 +138,9 @@ void ProcessDialogEvent()
 		case "GiveMeSomeMoneyToo":	
 			dialog.snd = "Voice\COGU\COGU005";		
 			dialog.text = "Вот как? Нет, конечно, это занятие совершенно правомочно... Если нам, конечно, тоже достанется. А по сколько вы раздаете?";
-			Link.l1 = "Думаю, что " + makeint(sti(Pchar.money)/10) + " пиастров будет достаточно.";
-			if(makeint(Pchar.rank)*1000 <= makeint(sti(Pchar.money)/10))
+			Link.l1 = "Думаю, что " + makeint(sti(Pchar.contratradedmoney)*(0.9-(0.01*MOD_SKILL_ENEMY_RATE))) + " пиастров будет достаточно.";
+			//if(makeint(Pchar.rank)*1000 <= makeint(sti(Pchar.money)/10))
+			if (sti(pchar.money)>=makeint(sti(Pchar.contratradedmoney)*(0.9-(0.01*MOD_SKILL_ENEMY_RATE))))
 			{
 				Link.l1.go = "MoneyAccepted10";
 			}
@@ -148,7 +149,7 @@ void ProcessDialogEvent()
 				Link.l1.go = "TryingToGiveBribe";
 			}
 
-			Link.l2 = "Как насчет " + makeint(sti(Pchar.money)/5) + " пиастров?";
+			/*Link.l2 = "Как насчет " + makeint(sti(Pchar.money)/5) + " пиастров?";
 			if(makeint(Pchar.rank)*1000 <= makeint(sti(Pchar.money)/5))
 			{
 				Link.l2.go = "MoneyAccepted5";
@@ -166,7 +167,7 @@ void ProcessDialogEvent()
 			else
 			{
 				Link.l3.go = "TryingToGiveBribe";
-			}
+			}*/
 		break;
 
 		case "TryingToGiveBribe":
@@ -181,7 +182,7 @@ void ProcessDialogEvent()
 			dialog.text = "С радостью приму ваше пожертвование. Раз уж вы занимаетесь благотворительностью.";
 			Link.l1 = "Всегда к вашим услугам.";
 			Link.l1.go = "GettingLostFromHere_exit";
-			AddMoneyToCharacter(pchar, -makeint(sti(Pchar.money)/10));
+			AddMoneyToCharacter(pchar, -makeint(sti(Pchar.contratradedmoney)*(0.9-(0.01*MOD_SKILL_ENEMY_RATE))));
 		break;
 		
 		case "MoneyAccepted5":

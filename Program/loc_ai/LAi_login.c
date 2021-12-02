@@ -313,21 +313,25 @@ void LAi_CharacterPostLogin(ref location)
 
 void CheckBSFinish()
 {
-
 	if(!CheckAttribute(pchar, "BSFinish") && sti(pchar.rank) >= 25)
 	{
-		if(pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "over")
+		if (CheckAttribute(pchar,"questTemp.Headhunter") && pchar.questTemp.Headhunter == "end_quest_full")
+		{
+			if (!CheckAttribute(pchar, "BSInProgress"))	pchar.BSStart = true;
+		}
+		if (CheckAttribute(pchar,"questTemp.BlueBird") && pchar.questTemp.BlueBird == "over")
 		{
 			if (!CheckAttribute(pchar, "BSInProgress"))	pchar.BSStart = true;
 			//bWorldAlivePause = true;
 		}
-		else
+		/*else
 		{
 			//DeleteAttribute(pchar, "BSStart");
 			//pchar.BSInProgress = true;
-		}
+		}*/
 	}
 }
+
 void CheckLootCollector()
 {
 	if (CheckCharacterPerk(pchar, "AboardCollector"))

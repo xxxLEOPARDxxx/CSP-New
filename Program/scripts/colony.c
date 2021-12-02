@@ -956,12 +956,12 @@ void TWN_ExitForPay() // мэр дает откуп - табличка прибыли
 	{
         nBooty = 700;
 		DeleteAttribute(Pchar, "HalfOfPaymentByCity");
-		SetNull2StoreManPart(rColony, 6.0);
+		//SetNull2StoreManPart(rColony, 6.0);
 	}
 	else
 	{
         nBooty = 2000;
-		SetNull2StoreManPart(rColony, 3.0);
+		//SetNull2StoreManPart(rColony, 3.0);
 	}
 	if (CheckAttribute(rColony, "FortValue"))
 	{

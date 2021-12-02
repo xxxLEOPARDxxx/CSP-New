@@ -1,5 +1,5 @@
-							/* Академия, тренировки и т.д. */
-							
+/* Академия, тренировки и т.д. */
+	
 void AcademyLandInit()
 {
 	PChar.AcademyLand = "none";

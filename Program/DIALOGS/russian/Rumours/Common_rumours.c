@@ -157,7 +157,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		//Black Sails
 		if (CheckAttribute(pchar, "BSUrka_Negril") && rand(100) > 60)
 		{
-			DeleteAttribute(pchar, "BSUrka_Negril")
+			DeleteAttribute(pchar, "BSUrka_Negril");
 			dialog.text = "Ну твоё здоровье! Ух, хорош ром. Видел"+ GetSexPhrase("","а") +" бы ты, что пару дней назад тут в бухте творилось! Пиратский бриг, весь простреленный, с парусами как у корабля-призрака дал бой двум испанским фрегатам. И тут, откуда не возьмись, из-за мыса три пирата на корветах! Испанцы дружно на левый галс легли и ну шмалять по батарейно. Один корвет от носа до кормы прострелили, крику было! Аж в форте слыхать! Так вот, простреленный сразу на борт завалился, и тонуть начал, а два других, сами бортовыми, почти в упор разнесли фрегат. А бриг тот, который от испанцев удирал, вдруг осмелел, кинул якорь по левому борту и вокруг цепи разворот резкий сделал, такой, что мачту аж потерял. И давай с борта по пирату стрелять. В общем, потопили они корвет второй совместно с испанцем уцелевшим. Кхе, горло пересохло.";
             link.l1 = "Вот, хлебни ещё. Так что дальше-то было? Интересно рассказываешь! Я прям вижу этот бой наяву!";
 			link.l1.go = "BS_NU_11";
@@ -377,7 +377,8 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 							//pchar.questTemp.pirateVikingQuest = "5";
 							pchar.LastHearedViking = npchar.city;
 							
-							sld = GetCharacter(NPC_GenerateCharacter("pirateVikingQuest_Captain", "OZG_3", "man", "man", 80, PIRATE, -1, true));
+							if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("pirateVikingQuest_Captain", "OZG_3", "man", "spy", 80, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+							else sld = GetCharacter(NPC_GenerateCharacter("pirateVikingQuest_Captain", "OZG_3", "man", "man", 80, PIRATE, -1, true));
 							sld.mapEnc.worldMapShip = "quest_ship";
 							sld.mapEnc.Name = "щебека 'Драккар'";
 							sld.mapEnc.type = "war";

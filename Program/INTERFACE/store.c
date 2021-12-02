@@ -288,11 +288,11 @@ void AddToTable()
 
 		GameInterface.TABLE_LIST.(row).td1.str = sShipQ;
 		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(sShipQ));
+		GameInterface.TABLE_LIST.(row).td3.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_BUY, pchar, 1);
 		GameInterface.TABLE_LIST.(row).td7.str = Goods[i].Units;
 		GameInterface.TABLE_LIST.(row).td8.str = Goods[i].Weight;
 		GameInterface.TABLE_LIST.(row).td6.str = sStoreQ;
 		GameInterface.TABLE_LIST.(row).td9.str = GetGoodWeightByType(i, sti(sStoreQ));
-		GameInterface.TABLE_LIST.(row).td3.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_BUY, pchar, 1);
 
 		switch(tradeType)
 		{

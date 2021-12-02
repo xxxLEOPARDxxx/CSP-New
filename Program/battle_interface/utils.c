@@ -12,8 +12,8 @@ native int ShipSailState(int chrIdx);
 //==========================================================
 #define BI_SLOW_REPAIR_PERCENT	1
 #define BI_SLOW_REPAIR_PERIOD	3000
-#define BI_FAST_REPAIR_PERCENT	3.0
-#define BI_FAST_REPAIR_PERIOD	3000
+#define BI_FAST_REPAIR_PERCENT	5.0
+#define BI_FAST_REPAIR_PERIOD	250
 
 #event_handler("evntActionRepair","procActionRepair");
 
@@ -67,7 +67,8 @@ void procActionRepair()
 	//=====================================================
 	// Slow repair
 	//=====================================================
-	{
+	// это не используется
+		{
 		if(hpp<10.0)
 		{
 			fRepairH = 10.0-hpp;
@@ -92,17 +93,35 @@ void procActionRepair()
 	//======================================================
 	{
 		float ftmp1,ftmp2;
+		
 		int nMaterialH = GetCargoGoods(chref,GOOD_PLANKS);
 		int nMaterialS = GetCargoGoods(chref,GOOD_SAILCLOTH);
 		int nMatDeltaH = 0;
 		int nMatDeltaS = 0;
-		string goodsName;
-		if(hpp < InstantRepairRATE && nMaterialH>0) // boal 23.01.2004
+		string goodsName;		
+		//ftmp1 = GetCharacterShipHP(chref);		
+		//ftmp2 = stf(chref.Ship.HP)*InstantRepairRATE*0.01;//макс хп * InstantRepairRATE из _mod_on_off.c
+		if(nMaterialH > 0)//if(hpp < InstantRepairRATE && nMaterialH>0) // boal 23.01.2004
 		{
-			fRepairH = InstantRepairRATE - hpp; // boal 23.01.2004
-			if(fRepairH>BI_FAST_REPAIR_PERCENT)	{fRepairH=BI_FAST_REPAIR_PERCENT;}
+			int iRepairH = GetSummonSkillFromName(chref, SKILL_REPAIR) - 1;
+			iRepairH /= 20;//20 скилла начиная с 40 дают ускорение починки
+			if(iRepairH == 0) {iRepairH++;}
+			if(chref.Fellows.Passengers.carpenter > 0) {iRepairH++;}
+			//Log_Info(" carpenter "+chref.Fellows.Passengers.carpenter);	
+			Log_Info("Скорость ремонта "+iRepairH);
+			//iRepairH = MakeInt(iRepairH);
+			iRepairH *= BI_FAST_REPAIR_PERCENT;
+			nMatDeltaH = BI_FAST_REPAIR_PERCENT;
+			fMaterialH = 0.0;
+			
+
+			
+			/*if(nMaterialH>=1)
+			{fRepairH = InstantRepairRATE - hpp; // boal 23.01.2004
+			//if(fRepairH>BI_FAST_REPAIR_PERCENT)	{fRepairH=BI_FAST_REPAIR_PERCENT;}
 			ftmp1 = GetHullPPP(chref)*5; //*1
-			ftmp2 = fMaterialH + ftmp1*fRepairH;
+			ftmp2 = MaterialH + ftmp1*fRepairH;
+			}
 			if(ftmp2>nMaterialH)
 			{
 				fRepairH = (nMaterialH-fMaterialH)/ftmp1;
@@ -116,8 +135,8 @@ void procActionRepair()
 					nMatDeltaH = makeint(ftmp2);
 					fMaterialH = ftmp2 - nMatDeltaH;
 				}
-			}
-			hpp += ProcessHullRepair(chref,fRepairH);
+			}*/
+			ProcessHullRepairDigital(chref,iRepairH);
 		}
 		if(spp < InstantRepairRATE && nMaterialS>0) // boal 23.01.2004
 		{
@@ -195,7 +214,31 @@ float ProcessHullRepair(ref chref,float repPercent)
 	}
 	return repPercent;
 }
-
+//============================================================
+//	Починка заданного количества единиц повреждения корпуса
+// (возвращает число реально починеных единиц,
+//  материалы не использует, пробоины в корпусе удаляет)
+//============================================================
+float ProcessHullRepairDigital(ref chref,int Digit)
+{
+	int baseHP = makefloat(GetCharacterShipHP(chref));
+	//Log_Info("baseHP " + baseHP);
+	//Log_Info("Digit " + Digit);
+	int dmg = baseHP - stf(chref.ship.HP);
+	//Log_Info("dmg " + dmg);
+	//Log_Info("chref.ship.HP " + chref.ship.HP);	
+	if(dmg==0.0) return 0.0;
+	if(Digit>dmg) Digit=dmg;
+	int blotsQuantity = GetBlotsQuantity(chref);
+	int repBlots = makeint(blotsQuantity*Digit/dmg);
+	DeleteBlots(chref,repBlots);
+	chref.ship.HP = baseHP+Digit-dmg;
+//	if(sti(chref.ship.HP) > baseHP)
+//	{
+//		chref.ship.HP = baseHP;
+//	}
+	return Digit;
+}
 //============================================================
 //	Починка заданного количества процентов повреждения парусов
 // (возвращает число реально починеных процентов,

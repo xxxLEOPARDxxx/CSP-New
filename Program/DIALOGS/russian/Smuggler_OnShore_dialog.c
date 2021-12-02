@@ -26,7 +26,7 @@ void ProcessDialogEvent()
 			Diag.TempNode = "first time";
 			if(CheckAttribute(PChar, "quest.Contraband.active"))
 			{
-				if (!CheckCharacterPerk(pchar, "UnlimitedContra")) 
+				if ((sti(pchar.Ship.Type) != SHIP_NOTUSED) && !CheckCharacterPerk(pchar, "UnlimitedContra")) 
 				{
 					if (GetCompanionQuantity(pchar) > 1 && GetBaseHeroNation() != PIRATE)
 					{
@@ -41,7 +41,7 @@ void ProcessDialogEvent()
 						link.l1.go = DialogGoNodeRepeat("exit", "", "", "", npchar, Dialog.CurrentNode);	
 						break;
 					}
-				//редкостная хрень, но по-другому не работает-класс корабля ГГ считается отдельно от компаньонов, и всё тут
+					//редкостная хрень, но по-другому не работает-класс корабля ГГ считается отдельно от компаньонов, и всё тут
 					int iClass, ipClass;
 					ipClass = 4-sti(RealShips[sti(pchar.ship.type)].Class);
 					iClass = 3;//т.к. не пройдет по числу кораблей в любом случае
@@ -70,7 +70,7 @@ void ProcessDialogEvent()
 							"Не злись, я мигом - одна нога тут, другая там.",
 							"Эх-х, не удалось схитрить...", 
 							"Да, я настырн"+ GetSexPhrase("ый","ая") +"!", npchar, Dialog.CurrentNode);
-							link.l1.go = DialogGoNodeRepeat("exit", "", "", "", npchar, Dialog.CurrentNode);	
+						link.l1.go = DialogGoNodeRepeat("exit", "", "", "", npchar, Dialog.CurrentNode);	
 						break;
 					}
 				}
@@ -79,7 +79,7 @@ void ProcessDialogEvent()
                                           RandSwear() + "Что тебе тут нужно?!");
 				Link.l1 = RandPhraseSimple("Расслабься, парень, я привез"+ GetSexPhrase("","ла") +" товар!", "Ты чем смотришь? Я доставил"+ GetSexPhrase("","а") +" товар!");
 				Pchar.quest.Contraband.Counter = 0; // не торговали
-				if(Pchar.Location == Pchar.location.from_sea)
+				if ((Pchar.Location == Pchar.location.from_sea) && (sti(pchar.Ship.Type) != SHIP_NOTUSED))
 				{
 					Link.l1.go = "Exchange";
 				}

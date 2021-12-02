@@ -700,7 +700,7 @@ void ProcessDialogEvent()
 		case "business":
 			iTest = 0;
     		//квест Синей Птицы, начальный диалог
-			if (pchar.questTemp.BlueBird == "begin" && sti(npchar.nation) == GetBaseHeroNation() && sti(npchar.nation) != PIRATE && npchar.city != "Panama" && !CheckAttribute(pchar, "questTemp.Headhunter") && !bNoPirateRestrictions)
+			if (pchar.questTemp.BlueBird == "begin" && sti(npchar.nation) != PIRATE && npchar.city != "Panama")
 			{
 				dialog.text = RandPhraseSimple("Капитан, прошу вас, помогите нам!!!", "Капитан, я прошу у вас помощи от имени всех торговцев!");
 				link.l1 = "Что случилось? Чем я могу вам помочь?"; 
@@ -887,6 +887,14 @@ void ProcessDialogEvent()
 						link.l1.go = "exit";
                         break;
                     }
+					if(CheckAttribute(Npchar,"CargoQuest.Cooldown") && GetQuestPastDayParam("Cooldown")<sti(npchar.CargoQuest.Cooldown))
+						{
+							Log_Info(FloatToString(GetQuestPastDayParam("Cooldown"),1));
+							dialog.text = "Извините, мы еще не подготовили вам новый заказ. Заходите через " + sti(npchar.CargoQuest.Cooldown) - GetQuestPastDayParam("Cooldown")+" дней.";
+							link.l1 = "Хорошо, подожду.";
+							link.l1.go = "exit";
+							break;
+						}
                     // проверка на проф пригодность <--
 
 					npchar.iTradeNation1 = GenerateNationTrade(sti(NPChar.nation));
@@ -1022,7 +1030,8 @@ void ProcessDialogEvent()
     		pchar.CargoQuest.iTradeIsland = npchar.iTradeIsland1;
 			pchar.CargoQuest.TraderID     = Characters[sti(npchar.storeMan1)].id;
     		pchar.CargoQuest.GiveTraderID = NPChar.id;
-		
+			Npchar.CargoQuest.Cooldown = MakeInt(sti(npchar.iQuantityGoods1)/1000);
+			SaveCurrentNpcQuestDateParam(Npchar, "Cooldown");
 			AddDialogExitQuest("trade_quest_open");
 			Nextdiag.CurrentNode = Nextdiag.TempNode;
 		break;
@@ -1039,7 +1048,8 @@ void ProcessDialogEvent()
     		pchar.CargoQuest.iTradeIsland = npchar.iTradeIsland2;
 			pchar.CargoQuest.TraderID     = Characters[sti(npchar.storeMan2)].id;
     		pchar.CargoQuest.GiveTraderID = NPChar.id;
-		
+			Npchar.CargoQuest.Cooldown = MakeInt(sti(npchar.iQuantityGoods1)/1000);
+			SaveCurrentNpcQuestDateParam(Npchar, "Cooldown");
 			AddDialogExitQuest("trade_quest_open");
 			Nextdiag.CurrentNode = Nextdiag.TempNode;
 		break;
@@ -1056,7 +1066,8 @@ void ProcessDialogEvent()
     		pchar.CargoQuest.iTradeIsland = npchar.iTradeIsland3;
 			pchar.CargoQuest.TraderID     = Characters[sti(npchar.storeMan3)].id;
     		pchar.CargoQuest.GiveTraderID = NPChar.id;
-		
+			Npchar.CargoQuest.Cooldown = MakeInt(sti(npchar.iQuantityGoods1)/1000);
+			SaveCurrentNpcQuestDateParam(Npchar, "Cooldown");
 			AddDialogExitQuest("trade_quest_open");
 			Nextdiag.CurrentNode = Nextdiag.TempNode;
 		break;
@@ -1178,7 +1189,6 @@ void ProcessDialogEvent()
 					AddStoreGoods(&stores[sti(custore.StoreNum)],makeint(pchar.CargoQuest.iTradeGoods),makeint(pchar.CargoQuest.iQuantityGoods));
 					
 					OfficersReaction("good");
-					
 					AddQuestRecord("DELIVERY_TRADE_QUEST", "2");
 					AddQuestUserData("DELIVERY_TRADE_QUEST", "sGoodGen", GetGoodsNameAlt(iTradeGoods));
 					AddQuestUserData("DELIVERY_TRADE_QUEST", "sTargetColony",XI_ConvertString("Colony"+pchar.CargoQuest.iTradeColony+"Gen"));
@@ -1190,6 +1200,8 @@ void ProcessDialogEvent()
 					if(sti(pchar.questTemp.genquestcount) >= 40) UnlockAchievement("gen_quests", 3);
 				}
 			}
+			SaveCurrentNpcQuestDateParam(Npchar, "Cooldown");
+			Npchar.CargoQuest.Cooldown = MakeInt(sti(pchar.CargoQuest.iQuantityGoods)/1000);
 		break;
 		
 		case "generate_quest_failed":

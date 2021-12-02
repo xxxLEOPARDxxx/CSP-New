@@ -238,6 +238,7 @@ void SetVariable()
     GameInterface.StatusLine.LOYALITY.Max   = MAX_LOYALITY;
     GameInterface.StatusLine.LOYALITY.Min   = 0;
     GameInterface.StatusLine.LOYALITY.Value = GetCharacterLoyality(xi_refCharacter);
+	SetFormatedText("LOYALITY_STR", XI_ConvertString("Loyality")+" ("+GetCharacterLoyality(xi_refCharacter)+"/35)");
     if (xi_refCharacter.id == pchar.id)
     {
 	    GameInterface.StatusLine.BAR_HEALTH.Max   = 54;
@@ -594,6 +595,8 @@ void FillSkillTables()
 	          GameInterface.TABLE_SPECIAL.(row).td3.color = argb(255,255,196,196);
 	       }
 		}
+		if (GameInterface.TABLE_SPECIAL.(row).td4.str == "10") GameInterface.TABLE_SPECIAL.(row).td4.color = COLOR_MONEY;
+		else GameInterface.TABLE_SPECIAL.(row).td4.color = COLOR_NORMAL;
 	}
     GameInterface.TABLE_SKILL_1.select = 0;
     GameInterface.TABLE_SKILL_1.hr.td1.str = "";
@@ -628,10 +631,12 @@ void FillSkillTables()
 		if (skillVal < SKILL_MAX)
 		{
 			GameInterface.TABLE_SKILL_1.(row).td3.str = makeint(GetSkillValueExp(xi_refCharacter, skillName) * 100.0 / makefloat(skillVal * GetCharacterExpRate(xi_refCharacter, skillName))) + "%";
+			GameInterface.TABLE_SKILL_1.(row).td5.color = COLOR_NORMAL;
 		}
 		else
 		{
 		    GameInterface.TABLE_SKILL_1.(row).td3.str = "";
+			GameInterface.TABLE_SKILL_1.(row).td5.color = COLOR_MONEY;
 		}
 		if (diff == 0)
 		{
@@ -685,10 +690,12 @@ void FillSkillTables()
 		if (skillVal < SKILL_MAX)
 		{
 			GameInterface.TABLE_SKILL_2.(row).td3.str = makeint(GetSkillValueExp(xi_refCharacter, skillName) * 100.0 / makefloat(skillVal * GetCharacterExpRate(xi_refCharacter, skillName))) + "%";
+			GameInterface.TABLE_SKILL_2.(row).td5.color = COLOR_NORMAL;
 		}
 		else
 		{
 		    GameInterface.TABLE_SKILL_2.(row).td3.str = "";
+			GameInterface.TABLE_SKILL_2.(row).td5.color = COLOR_MONEY;
 		}
 		if (diff == 0)
 		{
@@ -2225,6 +2232,15 @@ void ChoosePerk()
 	XI_WindowShow("PERK_WINDOW", true);
 	XI_WindowDisable("PERK_WINDOW", false);
 	XI_WindowDisable("MAIN_WINDOW", true);
+	
+	if (perkName == "UnlimitedContra")
+	{
+		int contrap = 0;
+		if (CheckAttribute(pchar,"contrabandmoneyback")) contrap = sti(pchar.contrabandmoneyback);
+		SetFormatedText("CONTRAP",contrap+"/"+(3000000+(MOD_SKILL_ENEMY_RATE*100000)));
+	}
+	else SetFormatedText("CONTRAP","");
+	
 	
 	if (CheckCharacterPerk(xi_refCharacter, perkName))
  	{

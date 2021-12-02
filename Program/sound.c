@@ -384,7 +384,7 @@ void SetSchemeForLocation (ref loc)
 				else SetMusic("music_sea_night");
 			break;
 			
-			case "deck_fight": // боевая полуба
+			case "deck_fight": // боевая палуба
 				SetSoundScheme("deck_fight");
 				SetMusic("music_abordage");
 			break;
@@ -510,6 +510,7 @@ void SetSchemeForSea ()
 			}
 			else
 			{
+				// AddSoundScheme("sea_sailor_song_voice_SSSV"); // LEO: Песни Шанти
 				if (Whr_IsDay()) SetMusic("music_sea_day");
 				else SetMusic("music_sea_night");
 			}
@@ -538,6 +539,7 @@ void SetSchemeForSea ()
 			}
 			else
 			{
+				// AddSoundScheme("sea_sailor_song_voice_SSSV"); // LEO: Песни Шанти
 				if (Whr_IsDay()) SetMusic("music_sea_day");
 				else SetMusic("music_sea_night");
 			}
@@ -557,7 +559,7 @@ void SetSchemeForSea ()
 void SetSchemeForMap ()
 {
 	ResetSoundScheme();
-	AddSoundScheme("sea_map");
+	// AddSoundScheme("sea_sailor_song_voice_SSSV"); // LEO: Песни Шанти
 	SetMusic("music_map");
 	ResumeAllSounds();
 	bFortCheckFlagYet = false; //eddy. уберем флаг распознавания фортом врага
@@ -595,12 +597,22 @@ void SetMusic(string name)
 		oldMusicID = musicID;
 	}
 
+	// musicID = SendMessage(Sound,"lslllllllfl",MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, 1, 1.0, true); 
 	musicID = SendMessage(Sound, "lslllllll", MSG_SOUND_PLAY, name, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, 0);
 	SendMessage(Sound, "lll", MSG_SOUND_RESUME, musicID, MUSIC_CHANGE_TIME);
 	
 	oldMusicName = musicName;
 	musicName = name;
 }
+
+/* #event_handler ("notifyTrackEnd", "notifiedTrackEnd")
+void notifiedTrackEnd()
+{
+    int track = GetEventData();
+    trace("Track end " + track + " " + musicName);
+	musicID = SendMessage(Sound,"lslllllllfl",MSG_SOUND_PLAY, musicName, SOUND_MP3_STEREO, VOLUME_MUSIC, true, true, false, MUSIC_CHANGE_TIME, 1, 1.0, true); 
+	SendMessage(Sound, "lll", MSG_SOUND_RESUME, musicID, MUSIC_CHANGE_TIME);
+} */
 
 void FadeOutMusic(int _time)
 {
@@ -755,6 +767,7 @@ void Sound_OnSeaAlarm(bool _seaAlarmed)
 
 	if (seaAlarmed)
 	{ //alarm on!
+		AddSoundScheme("sea_battle_voice_SBV"); // LEO: Добавление схемы голосовых криков на корабле, в режиме боя
 		SetMusic("music_sea_battle");
 	}
 	else

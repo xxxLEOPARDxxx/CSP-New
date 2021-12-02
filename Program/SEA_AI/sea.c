@@ -269,9 +269,9 @@ string Sea_FindNearColony()
 // boal <--
 void Sea_LandLoad()
 {	
-	if (CheckAttribute(pchar, "LockSeaReload"))
+	if (CheckAttribute(pchar, "LockShoreReload"))
 	{
-		Log_Info(pchar.LockSeaReload);
+		Log_Info(pchar.LockShoreReload);
 		PlaySound("interface\knock.wav");
 		return;
 	}
@@ -498,9 +498,9 @@ void Sea_MapLoadXZ_AY(float x, float z, float ay)
 
 void Sea_MapLoad()
 {
-	if (CheckAttribute(pchar, "LockSeaReload"))
+	if (CheckAttribute(pchar, "LockMapReload"))
 	{
-		Log_Info(pchar.LockSeaReload);
+		Log_Info(pchar.LockMapReload);
 		PlaySound("interface\knock.wav");
 		return;
 	}

@@ -25,6 +25,7 @@ void InitInterface(string iniName)
 	SetEventHandler("MouseRClickUp","HideInfoWindow",0);
 	SetEventHandler("SelectRColony","SelectRColony",0);
 	SetEventHandler("MouseRClickUP", "HideRColony",0);
+	SetEventHandler("OpenMapBest", "OpenMapBest",0);
 		
 	FillMapsTable();
 }
@@ -50,6 +51,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("MouseRClickUp","HideInfoWindow");
 	DelEventHandler("SelectRColony","SelectRColony");
 	DelEventHandler("MouseRClickUP", "HideRColony");
+	DelEventHandler("OpenMapBest", "OpenMapBest");
 
 	// По всему файлу мне лень править, а здесь оно тоже будет работать прекрасно
 	if(CheckAttribute(PChar, "ShowMapsAtlas")) // Смотрим из меню
@@ -63,6 +65,11 @@ void IDoExit(int exitCode)
 	}
 	
 	EndCancelInterface(true);
+}
+
+void OpenMapBest()
+{
+	IDoExit(RC_INTERFACE_BEST_MAP);
 }
 
 void ProcCommand()
@@ -166,7 +173,16 @@ void SetNewMapPicture()
 		string itmGroup = itmRef.groupID;
 		if (itmGroup == MAPS_ITEM_TYPE)
 		{
-			SetNewPicture("MAP", "interfaces\Maps\" + itmRef.imageTga + ".tga");
+			if (itmRef.id != "Map_Best") 
+			{
+				SetNewPicture("MAP", "interfaces\Maps\" + itmRef.imageTga + ".tga");
+				SetNodeUsing("OPEN_MAP_BEST", false);
+			}
+			else 
+			{
+				SetNewPicture("MAP", "");
+				SetNodeUsing("OPEN_MAP_BEST", true);
+			}
 			pchar.showlastmap = itmRef.id;							
 		}
 	}	
@@ -228,7 +244,7 @@ void SelectRColony()
 		if(sColony == "Caiman") continue;
 		if(sColony == "LostShipsCity") continue;
 				
-		if(sColony != "FortOrange" && sColony != "LaVega")
+		if(sColony != "FortOrange" && sColony != "LaVega" && sColony != "KhaelRoa")
 		{
 			X = makefloat(worldMap.islands.(sColonyIslandID).(sColonyTown).position.x)+1000;
 			Y = -makefloat(worldMap.islands.(sColonyIslandID).(sColonyTown).position.z)+1000;

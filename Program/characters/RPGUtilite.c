@@ -595,8 +595,8 @@ void ApplayNewSkill(ref _chref, string _skill, int _addValue)
 		worldMap.stormBrnDistMax = 140.0+P;			//Максимальное растояние на котором рожается шторм
 		
 		if(sti(pchar.questTemp.bloodingcount) >= 50) UnlockAchievement("AchBlood", 1);
-		if(sti(pchar.questTemp.bloodingcount) >= 150) UnlockAchievement("AchBlood", 2);
-		if(sti(pchar.questTemp.bloodingcount) >= 300) UnlockAchievement("AchBlood", 3);
+		if(sti(pchar.questTemp.bloodingcount) >= 100) UnlockAchievement("AchBlood", 2);
+		if(sti(pchar.questTemp.bloodingcount) >= 200) UnlockAchievement("AchBlood", 3);
 		if(sti(pchar.questTemp.swiftcount) >= 50) UnlockAchievement("AchStanS", 1);
 		if(sti(pchar.questTemp.swiftcount) >= 150) UnlockAchievement("AchStanS", 2);
 		if(sti(pchar.questTemp.swiftcount) >= 300) UnlockAchievement("AchStanS", 3);
@@ -1274,12 +1274,12 @@ int GetShipClassNavySkill(int shipClass)
 
     switch (shipClass)
     {
-            case 1 : needSkill = 95; break;
-            case 2 : needSkill = 80; break;
-            case 3 : needSkill = 65; break;
-            case 4 : needSkill = 40; break;
-            case 5 : needSkill = 25; break;
-            case 6 : needSkill = 1; break;
+            case 1 : needSkill = 100; break; // LEO: Немного апнули требования навигации 01.12.2021
+            case 2 : needSkill = 85; break;
+            case 3 : needSkill = 70; break;
+            case 4 : needSkill = 50; break;
+            case 5 : needSkill = 30; break;
+            case 6 : needSkill = 10; break;
             case 7 : needSkill = 0; break;
     }
     return needSkill;
@@ -2519,7 +2519,7 @@ void SetAllAchievements(int level)
 	
 	pchar.achievements.AchOrion = level; // Чокопай 100 ---
 	pchar.achievements.AchRabotorg = level; // Торгораб 100 ---
-	if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions) pchar.achievements.AchKondotier = level; // Шишкоёб 100 ---
+	pchar.achievements.AchKondotier = level; // Шишкоёб 100 ---
 	pchar.achievements.AchTich = level; // Чернобород 100 ---
 	pchar.achievements.AchRagnar = level; // Суровый викинг 100 ---
 	pchar.achievements.AchSalazar = level; // Тухлый испанец 100 ---
@@ -2531,7 +2531,7 @@ void SetAllAchievements(int level)
 	pchar.achievements.Enchantcity_quest = level; // Выполнение квеста "Зачарованный город" 100
 	
 	pchar.achievements.Killbeggars_quest = level; // Выполнение квеста "Убить всех нищих" 100
-	if(!bNoPirateRestrictions && Pchar.BaseNation != PIRATE) pchar.achievements.Bluebird_quest = level; // Выполнение квеста "Уничтожить шебеку СП" 100
+	pchar.achievements.Bluebird_quest = level; // Выполнение квеста "Уничтожить шебеку СП" 100
 	pchar.achievements.Berglarsgang_quest = level; // Выполнение квеста "Банда грабителей и убийц Остина" 100
 	pchar.achievements.Mummydust_quest = level; // Выполнение квеста "Поиски порошка мумии" 100
 	if(pchar.sex != "woman") pchar.achievements.Isabella_quest = level; // Выполнение квеста "История прекрасной Изабеллы" 100
@@ -2546,7 +2546,7 @@ void SetAllAchievements(int level)
 	// Всего очков доступных для получения: 7500 (по 100-175 на каждое достижение) - мне лень пересчитывать (Калькулятор запили, Грегг, блеать! (c) LEOPARD :) )
 	// Гарантированно можно получить 6700 очков достижений, если исключать 4 линейки наций, линейки за персонажей и опционалки
 	// Всего достижений: 46
-	// При пересчёте возможных к получению в 1 партии был максимум в... 5050. Всего достижений: 46
+	// При пересчёте возможных к получению в 1 партии был максимум в... 5050
 }
 
 void CreateOreModels()

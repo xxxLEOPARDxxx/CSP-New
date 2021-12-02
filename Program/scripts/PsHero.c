@@ -133,7 +133,7 @@ void DeleteCloneHeros(ref sld)
 	{
 		if (startHeroType == 2)
 		{
-			if(sld.FaceId == 487 || sld.FaceId == 535 || sld.FaceId == 211)
+			if(sld.FaceId == 487 || sld.FaceId == 535 || sld.FaceId == 211 || sld.FaceId == 495)
 			{//Его мы позже наймем оффом, так что убираем из ПГГ
 				sld.willDie = true;
 				sld.DontCountDeath = true;
@@ -1409,7 +1409,7 @@ string PGG_FindTargetTown(ref chr)
 
 	if (iRnd == -1)
 	{
-		trace("ERROR: <PsHero.c>: Can't find travel path from " + sCurTown);
+		trace("ОШИБКА: <PsHero.c>: Не могу найти путь из " + sCurTown);
 	}
 	//необитаемые острова, там нет городов, туда не плаваем.
 	while (arDest.(sAttr).town == "")
@@ -1442,7 +1442,7 @@ string PGG_FindRandomTownByNation(int _nation)
 
 	if (n == 0)
 	{
-		trace("ERROR: <PsHero.c>: Can't find any town for nation: " + _nation + " Use default.");
+		trace("ОШИБКА: <PsHero.c>: Не могу найти ни одного города для нации: " + _nation + " Использовать по умолчанию.");
 		return "Bridgetown";
 	}
 	return sTowns[rand(n-1)];
@@ -1605,8 +1605,11 @@ void PGG_PlaceCharacter2Tavern(ref chr, bool _bSet)
 	}
 	else
 	{
+		if (!CheckAttribute(chr, "PGGAi.DontUpdate"))
+		{
 		ChangeCharacterAddressGroup(chr, "None", "", "");
 		LAi_SetWarriorType(chr);
+		}
 	}
 }
 //==================================================
@@ -1948,7 +1951,7 @@ bool PGG_CheckForQuestOffer(ref chr)
 	}
 	SetNPCQuestDate(chr, "QuestOffer"); // сегодня уже не подошел, чтоб перезаход в таверну не генерил заново.
 	int iDays = GetQuestPastDayParam("QuestOffer");
-	if (retVal && iDays > 9)
+	if (retVal && iDays > 25+drand(10))
 	{
 		chrDisableReloadToLocation = true;
 		PlaceCharacter(chr, "goto", "random_must_be_near");
@@ -2146,6 +2149,7 @@ void PGG_Q1PlaceShipsNearIsland()
 		sTmp = "pirate_" + i;
 		chr = GetCharacter(NPC_GenerateCharacter("RandQuestCap_0" + i, sTmp, "man", "man", MakeInt(iRank/2 + rand(iRank)), iNation, iLifeDay, true));
 		chr.AlwaysSandbankManeuver = true;
+		SetCharacterPerk(chr,PerksChars());
 		if (i < 2)
 		{
 			//Lipsar правки в спавне-->
@@ -2156,8 +2160,8 @@ void PGG_Q1PlaceShipsNearIsland()
 			Fantom_SetCannons(chr, "war"); //fix
 			Fantom_SetBalls(chr, "pirate");
 			Fantom_SetGoods(chr, "war");
-			iSpace = GetCharacterFreeSpace(chr, iGoods)/10;
-			iSpace = MakeInt(iSpace/(2+rand(1)));
+			iSpace = GetCharacterFreeSpace(chr, iGoods)/rand(10);
+			// iSpace = MakeInt(iSpace/(2+rand(1)));
 			if (!CheckAttribute(PChar, "GenQuest.PGG_Quest.Goods.Qty")) PChar.GenQuest.PGG_Quest.Goods.Qty = 0;	
 			PChar.GenQuest.PGG_Quest.Goods.Qty = sti(PChar.GenQuest.PGG_Quest.Goods.Qty) + iSpace;
 			Fantom_SetCharacterGoods(chr, iGoods, iSpace, 1);
@@ -2173,8 +2177,8 @@ void PGG_Q1PlaceShipsNearIsland()
 			SetCrewQuantityFull(chr);
 			Fantom_SetCannons(chr, "trade");
 			Fantom_SetBalls(chr, "trade");
-			iSpace = GetCharacterFreeSpace(chr, iGoods)/(1 + iRnd - 3);
-			iSpace = MakeInt(iSpace/2 + rand(iSpace/2));
+			iSpace = GetCharacterFreeSpace(chr, iGoods)/(1+rand(1));
+			// iSpace = MakeInt(iSpace/2 + rand(iSpace/2));
 			if (!CheckAttribute(PChar, "GenQuest.PGG_Quest.Goods.Qty")) PChar.GenQuest.PGG_Quest.Goods.Qty = 0;
 			PChar.GenQuest.PGG_Quest.Goods.Qty = sti(PChar.GenQuest.PGG_Quest.Goods.Qty) + iSpace;
 			Fantom_SetCharacterGoods(chr, iGoods, iSpace, 1);
@@ -2642,6 +2646,7 @@ void PGG_Q1FightOnShore()
 	{
 		chr = CharacterFromID(PChar.GenQuest.PGG_Quest.PGGid);
 		ChangeCharacterAddressGroup(chr,pchar.location, "officers", "sea_1");
+		SetCharacterPerk(chr,PerksChars());
 		LAi_SetWarriorType(chr);
 		LAi_SetImmortal(chr, false);
 		if (relation != "PGGTemp") LAi_SetCheckMinHP(chr, 1, true, "PGG_CheckHP");
@@ -2682,6 +2687,7 @@ void PGG_Q1FightOnShore()
 			chr = SetFantomDefenceForts("smugglers", sLoc_2, iNation, "PGGTmp");
 		}
 		chr.id = "pirate_" + i;
+		SetCharacterPerk(chr,PerksChars());
 		FantomMakeCoolFighterWRankDepend(chr,sti(pchar.rank),25+rand(75),25+rand(75),50);
 	}
 	//натравим.

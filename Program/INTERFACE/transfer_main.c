@@ -6,6 +6,7 @@
 #define HP_BY_ENEMY_CREW			50
 #define HP_PER_BOAT					25  
 int nCurScrollOfficerNum;
+int nCurScrollNum = -1;
 ref xi_refCharacter, refEnemyCharacter;
 ref refCharacter;
 
@@ -21,6 +22,7 @@ int iGetHired = 0;
 string sMessageMode;
 bool  bTransferMode;
 bool  bSwap;
+bool trans = false;
 // pchar - ГГ, xi_refCharacter - враг или наш компаньон, гг всегда слева
 void InitInterface_RS(string iniName, ref _chr, string _type)
 {
@@ -185,6 +187,49 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 	int stolenShip = sti(xi_refCharacter.Ship.Type); 
 	RealShips[stolenShip].Stolen = true; 
 	}
+	bool bOk = !bSeaActive && LAi_grp_alarmactive;
+	if (!bDisableMapEnter && !bOk && !chrDisableReloadToLocation)
+	{
+		FillShipsScroll();
+		trans = true;
+	}
+	else
+	{
+		SetNodeUsing("SHIPS_SCROLL",false);
+		SetNodeUsing("SHIPS_LEFTSCROLLBUTTON",false);
+		SetNodeUsing("SHIPS_RIGHTSCROLLBUTTON",false);
+		SetNodeUsing("SHIPS_SCROLL_FRAME",false);
+	}
+}
+
+void FillShipsScroll()
+{
+	nCurScrollNum = -1;
+	FillScrollImageWithCompanions("SHIPS_SCROLL", COMPANION_MAX-1);
+
+	if(!CheckAttribute(&GameInterface,"SHIPS_SCROLL.current"))
+	{
+		GameInterface.SHIPS_SCROLL.current = 0;
+	}
+}
+
+void SetDescription()
+{
+ 	string sChrId;
+ 	 
+	if(GetCurrentNode() == "SHIPS_SCROLL")
+	{
+		string attributeName = attributeName = "pic" + (nCurScrollNum+1);
+		if(CheckAttribute(&GameInterface, "SHIPS_SCROLL." + attributeName))
+		{
+			int iCharacter = GameInterface.SHIPS_SCROLL.(attributeName).companionIndex;
+			sChrId = characters[iCharacter].id;
+			xi_refCharacter = characterFromID(sChrId);
+			int QtyMax = GetCargoFreeSpace(xi_refCharacter);
+		}
+	}
+	OnShipScrollChange();
+	SetVariable();
 }
 
 void ProcessExitCancel()
@@ -248,6 +293,11 @@ void ProcessExitCancel()
 	}
 	else
 	{  // наш компаньон, корабль наш, все ок
+		if (trans)
+		{
+			IDoExit(RC_INTERFACE_ANY_EXIT);
+			return;
+		}
 	    if (bSwap) SeaAI_SwapShipAfterAbordage(pchar, refEnemyCharacter);
 	    if (xi_refCharacter.id != refEnemyCharacter.id) // новый назначенец
 	    {
@@ -615,6 +665,14 @@ void ProcessFrame()
 		SetNodeUsing("B_RIGHT",  false);
 		SetNodeUsing("B_LEFT", false);
 	}
+	if(GetCurrentNode() == "SHIPS_SCROLL")
+	{
+		if(sti(GameInterface.SHIPS_SCROLL.current)!=nCurScrollNum)
+		{
+			nCurScrollNum = sti(GameInterface.SHIPS_SCROLL.current);
+			SetDescription();
+		}
+	}
 }
 void OnShipScrollChange()
 {
@@ -733,6 +791,7 @@ void ShowShipFoodInfo(ref chr)
 	// еда -->
 	// на одном корабле
 	SetFoodShipInfo(chr, "FOOD_SHIP");
+	SetRumShipInfo(chr, "RUM_SHIP");
 	// еда <--
 	SetFormatedText("MONEY_SHIP", "");
 
@@ -1358,6 +1417,7 @@ void ShipChangeCaptan()
 			//Boyer add
 			FlagPerkForCapturedShip(xi_refCharacter);
 			/// проверка мин команд
+			// if ((GetCrewQuantity(xi_refCharacter) + GetCrewQuantity(pchar)) < (GetMinCrewQuantity(xi_refCharacter) + GetMinCrewQuantity(pchar)) && !trans) // LEO: Разлок назначения капитанов вне боя без наличия минимальной команды на обоих кораблях
 			if ((GetCrewQuantity(xi_refCharacter) + GetCrewQuantity(pchar)) < (GetMinCrewQuantity(xi_refCharacter) + GetMinCrewQuantity(pchar)))
 			{
 				SetFormatedText("REMOVE_WINDOW_CAPTION", XI_ConvertString("Capture Ship"));
@@ -1449,6 +1509,11 @@ void GoToShipChange() // нажатие ОК на табличке ок-отмена
 			ExitShipChangeMenu();
 			CheckQuestAboardCabinSituation(xi_refCharacter);
 			OnShipScrollChange();
+			
+			SetNodeUsing("SHIPS_SCROLL",false);
+			SetNodeUsing("SHIPS_LEFTSCROLLBUTTON",false);
+			SetNodeUsing("SHIPS_RIGHTSCROLLBUTTON",false);
+			SetNodeUsing("SHIPS_SCROLL_FRAME",false);
 		break;
 
 		case "ShipDeadAsk": // выход с убиением корабля
@@ -1598,6 +1663,12 @@ void SwapProcess()
     // оптимизация скилов <--
 	OnShipScrollChange();
 	ExitCrewWindow(); // для профигактики
+	bool bOk = !bSeaActive && LAi_grp_alarmactive;
+	if (!bDisableMapEnter && !bOk && !chrDisableReloadToLocation)
+	{
+		FillScrollImageWithCompanionsUp("SHIPS_SCROLL", COMPANION_MAX-1);
+		SeaAI_SwapShipAfterAbordage(pchar, xi_refCharacter);
+	}
 }
 
 //////////////
@@ -1644,6 +1715,15 @@ void AcceptAddOfficer()
     DelBakSkill();
     // оптимизация скилов <--
 	OnShipScrollChange();
+	
+	bool bOk = !bSeaActive && LAi_grp_alarmactive;
+	if (!bDisableMapEnter && !bOk && !chrDisableReloadToLocation)
+	{
+		SetNodeUsing("SHIPS_SCROLL",true);
+		SetNodeUsing("SHIPS_LEFTSCROLLBUTTON",true);
+		SetNodeUsing("SHIPS_RIGHTSCROLLBUTTON",true);
+		SetNodeUsing("SHIPS_SCROLL_FRAME",true);
+	}
 }
 
 void SetOfficersSkills()
@@ -1943,6 +2023,9 @@ void ShowCrewWindow()
 			SetNodeUsing("SWAP_BUTTON", false);
 			SetNodeUsing("TAKE_GOODS", false);
 			SetNodeUsing("CANNONS_REMOVE_ALL", false);
+			SetSelectable("SHIPS_SCROLL", false);
+			SetSelectable("SHIPS_LEFTSCROLLBUTTON", false);
+			SetSelectable("SHIPS_RIGHTSCROLLBUTTON", false);
 			sMessageMode = "CREW_WINDOW";
 		}
 	}
@@ -1994,6 +2077,9 @@ void ExitCrewWindow()
 	SetNodeUsing("SWAP_BUTTON", true);
 	SetNodeUsing("TAKE_GOODS", true);
 	SetNodeUsing("CANNONS_REMOVE_ALL", true);
+	SetSelectable("SHIPS_SCROLL", true);
+	SetSelectable("SHIPS_LEFTSCROLLBUTTON", true);
+	SetSelectable("SHIPS_RIGHTSCROLLBUTTON", true);
 	SetCurrentNode("CREW_BUTTON");
 	sMessageMode = "";
 }
@@ -2389,7 +2475,8 @@ void SetVariable()
 	SetNewGroupPicture("HIRE_CREW_MORALE_PIC2", "MORALE_SMALL", GetMoraleGroupPicture(stf(xi_refCharacter.ship.crew.morale)));
 	SetFormatedText("HIRE_CREW_MORALE_TEXT2", XI_ConvertString("CrewMorale") + ": " + XI_ConvertString(GetMoraleName(sti(xi_refCharacter.Ship.crew.morale))));
 
-	SetFormatedText("HIRED_CREW", ""+sti(xi_refCharacter.Ship.Crew.Hire));	
+	if (CheckAttribute(xi_refCharacter,"Ship.Crew.Hire")) SetFormatedText("HIRED_CREW", ""+sti(xi_refCharacter.Ship.Crew.Hire));
+	else SetFormatedText("HIRED_CREW", "0");
 }
 
 // бакап значений, до применения

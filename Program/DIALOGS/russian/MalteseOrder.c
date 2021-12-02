@@ -68,6 +68,12 @@ void ProcessDialogEvent()
 									"А, капитан " + GetFullName(Pchar) + ". Что привело вас ко мне?");
 				Link.l1 = "Здравствуйте, " + GetFullName(NPChar) + ". Я хочу с вами поговорить.";
 			}
+			if (NPChar.id == "Wh_Jim")
+			{
+				dialog.text = "Капитан! Рад снова вас видеть. С чем пожаловали сегодня?";
+				Link.l1 = "Привет, " + npchar.name + ". Нужно кое-что обсудить.";
+				
+			}
 			Link.l1.go = "node_2";
 		break;
 		case "node_2":
@@ -171,8 +177,8 @@ void ProcessDialogEvent()
 				}
 			}
 
-			Link.l9 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-			Link.l9.go = "exit";
+			Link.l99 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
+			Link.l99.go = "exit";
 		break;
 	  	case "OfficerStockManBack":
 			chref = GetCharacter(sti(NPChar.OfficerToStoreIdx));

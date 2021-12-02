@@ -1095,7 +1095,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "LambriniPGG_2_1":
-			LocatorReloadEnterDisable(pchar.location.from_sea, "boat", true);
+			LocatorReloadEnterDisable(pchar.location.from_sea, "reload1_back", true);
 			LocatorReloadEnterDisable("Maracaibo_exittown", "reload1_back", true);
 			chrDisableReloadToLocation = false;
 			LAi_SetActorTypeNoGroup(npchar);
@@ -1165,7 +1165,7 @@ void ProcessDialogEvent()
 			//DeleteAttribute(npchar, "PGGAi.Task.SetSail");
 			//DeleteAttribute(pchar, "LambriniPGG");
 			
-			LocatorReloadEnterDisable(pchar.location.from_sea, "boat", false);
+			LocatorReloadEnterDisable(pchar.location.from_sea, "reload1_back", false);
 			LocatorReloadEnterDisable("Maracaibo_exittown", "reload1_back", false);
 		break;
 		case "LambriniPGG_2_8":

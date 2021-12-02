@@ -122,6 +122,8 @@ void FillPriceListTown(string _tabName)
 	GameInterface.(_tabName).hr.td3.scale = 0.8;
 	GameInterface.(_tabName).hr.td4.str = "Актуальность";
 	GameInterface.(_tabName).hr.td4.scale = 0.8;
+	GameInterface.(_tabName).hr.td5.str = "Общий вес";
+	GameInterface.(_tabName).hr.td5.scale = 0.8;
     // <--
     nulChr = &NullCharacter;
     makearef(rootItems, nulChr.PriceList);  // тут живут ИД города и служ. инфа.
@@ -189,6 +191,8 @@ void FillPriceList(string _tabName, string  attr1)
 	GameInterface.(_tabName).hr.td6.scale = 0.8;
 	GameInterface.(_tabName).hr.td7.str = "Вес пачки";
 	GameInterface.(_tabName).hr.td7.scale = 0.8;
+	GameInterface.(_tabName).hr.td8.str = "Общий вес";
+	GameInterface.(_tabName).hr.td8.scale = 0.8;
 	if (attr1 != "")
 	{
 	    // <--
@@ -244,6 +248,7 @@ void FillPriceList(string _tabName, string  attr1)
 	        }
 	        GameInterface.(_tabName).(row).td6.str = Goods[i].Units;
 			GameInterface.(_tabName).(row).td7.str = Goods[i].Weight;
+			GameInterface.(_tabName).(row).td8.str = GetGoodWeightByType(i, sti(nulChr.PriceList.(attr1).(sGoods).Qty));
 	        n++;
 	    }
     }

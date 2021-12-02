@@ -1355,9 +1355,9 @@ void MakePoisonAttack(aref attack, aref enemy, int iQuantity)
 		pchar.questTemp.poisoncount = sti(pchar.questTemp.poisoncount) + 1;
 				
 		// Открываем достижения
-		if(sti(pchar.questTemp.poisoncount) >= 25) UnlockAchievement("poisons", 1);
-		if(sti(pchar.questTemp.poisoncount) >= 75) UnlockAchievement("poisons", 2);
-		if(sti(pchar.questTemp.poisoncount) >= 225) UnlockAchievement("poisons", 3);
+		if(sti(pchar.questTemp.poisoncount) >= 50) UnlockAchievement("poisons", 1);
+		if(sti(pchar.questTemp.poisoncount) >= 100) UnlockAchievement("poisons", 2);
+		if(sti(pchar.questTemp.poisoncount) >= 150) UnlockAchievement("poisons", 3);
 	}
 	//Отравляем персонажа
 	float poison = 0.0;

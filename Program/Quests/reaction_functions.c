@@ -283,14 +283,14 @@ void BlueBird_seaBattle(string qName)
 {
 	LAi_group_Delete("EnemyFight");
 	group_DeleteGroup("BlueBird_Group");
-	sld = GetCharacter(NPC_GenerateCharacter("BlueBirdCapitain", "QuestCaptain", "man", "man", 20, PIRATE, 30, true));
-	sld.name 	= "Джа";
-    sld.lastname = "Престон";
+	sld = GetCharacter(NPC_GenerateCharacter("BlueBirdCapitain", "PGG_DeLuck_0", "man", "man", 20, PIRATE, 30, true));
+	sld.name 	= "Фольке";
+    sld.lastname = "Дэллюк";
 	sld.dialog.filename = "Quest\ForAll_dialog.c";
 	sld.dialog.currentnode = "BlueBirdCapitain";
 	sld.greeting = "CapSinkShip";
 	//Korsar Maxim - Прописка всех моделей для кирас. -->
-	sld.HeroModel = "QuestCaptain,QuestCaptain_1,QuestCaptain_2,QuestCaptain_3,QuestCaptain_4,QuestCaptain_5";
+	sld.HeroModel = "PGG_DeLuck_0,PGG_DeLuck_1,PGG_DeLuck_2,PGG_DeLuck_3,PGG_DeLuck_4,PGG_DeLuck_5";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	FantomMakeCoolFighter(sld, 30, 70, 70, "blade34", "pistol6", 100);
 	FantomMakeCoolSailor(sld, SHIP_XebekVML, "Синяя Птица", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
@@ -5588,7 +5588,8 @@ void Teno_startInShore_2()
 	LAi_SetActorType(sld);
 	LAi_ActorRunToLocation(sld, "reload", "sea", "none", "", "", "CanFightCurLocation", 10.0);
 	//Ставим вождя
-	sld = GetCharacter(NPC_GenerateCharacter("Montesuma", "Aztec", "man", "man", 50, PIRATE, -1, true));
+	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("Montesuma", "Aztec", "man", "spy", 50, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("Montesuma", "Aztec", "man", "man", 50, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 50, 100, 100, "toporAZ", "", 500);
 	sld.name = "Монтесума";
 	sld.lastname = "";
@@ -9895,7 +9896,8 @@ void Create_Ja(string qName)//cоздаем Птицу с Джа
 	int hcrew;
 	Group_FindOrCreateGroup("BlueBird_Group2");
 	bQuestDisableMapEnter = true;
-	sld = GetCharacter(NPC_GenerateCharacter("Jafar", "QuestCaptain", "man", "man", 28, PIRATE, -1, true));
+	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("Jafar", "QuestCaptain", "man", "spy", 28, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("Jafar", "QuestCaptain", "man", "man", 28, PIRATE, -1, true));
 	sld.name 	= "Джа";
     sld.lastname = "Престон";
 	sld.dialog.filename = "Quest\Other_quests_NPC.c";
@@ -9905,7 +9907,7 @@ void Create_Ja(string qName)//cоздаем Птицу с Джа
 	sld.HeroModel = "QuestCaptain,QuestCaptain_1,QuestCaptain_2,QuestCaptain_3,QuestCaptain_4,QuestCaptain_5,QuestCaptain,QuestCaptain,QuestCaptain";
 	//Korsar Maxim - Прописка всех моделей для кирас. <--
 	FantomMakeCoolFighter(sld, 35, 75, 75, "blade14", "pistol6", 100);
-	FantomMakeCoolSailor(sld, SHIP_XebekVML, "Синяя Птица", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
+	FantomMakeCoolestSailor(sld, SHIP_CONSTITUTION, "Ахерон", CANNON_TYPE_CANNON_LBS36, 80, 80, 80);
 	DeleteAttribute(sld, "SinkTenPercent");
 	DeleteAttribute(sld, "AboardToFinalDeck");
 	sld.AlwaysSandbankManeuver = true;
@@ -9959,24 +9961,24 @@ void Ja_over(string qName)//уничтожили Джа
 	AddQuestRecord("Headhunt", "37");
 	AddQuestUserData("Headhunt", "sSex", GetSexPhrase("","а"));
 	pchar.questTemp.Headhunter = "hunt_ja_yes";
-	sld = characterFromId("Pirates_trader");
+	/*sld = characterFromId("Pirates_trader");
 	sld.name = "Бенджамин";
 	sld.lastname = "Франклин";
 	sld.model = "trader_2";
 	LAi_SetOwnerType(sld);
 	AddSimpleRumourCity("А, судар"+ GetSexPhrase("ь","ыня") +"! Вы же ещё не знаете главной новости! Бывший владелец местного магазина - Паскаль Вуазье сбежал! Оказывается, он скупал все товары, что местные пираты добывали с торговых судов. Для этого дела у него целый пакгауз отведён был. А когда торгаши прознали и наняли охотников за его головой - спешно всё продал и подался в бега, ха-ха-ха. Вот делов-то было! почитай неделю без рому сидели, пока этот пройдоха Бенджамин Франклин дело к своим рукам не прибрал.\n"+
-		"Да что толку - торгаш с него никудышный - всё никак не найдёт простофилю, который бы согласился склад прежнего хозяина арендовать... В политику бы ему - там таким ушлым самое место, хе-хе...","Pirates", 30, 3, "");
+		"Да что толку - торгаш с него никудышный - всё никак не найдёт простофилю, который бы согласился склад прежнего хозяина арендовать... В политику бы ему - там таким ушлым самое место, хе-хе...","Pirates", 30, 3, "");*/
 }
 	
 void Pascal_Escape()
 {
-	sld = characterFromId("Pirates_trader");
+	/*sld = characterFromId("Pirates_trader");
 	sld.name = "Бенджамин";
 	sld.lastname = "Франклин";
 	sld.model = "trader_2";
 	LAi_SetOwnerType(sld);
 	AddSimpleRumourCity("А, судар"+ GetSexPhrase("ь","ыня") +"! Вы же ещё не знаете главной новости! Бывший владелец местного магазина - Паскаль Вуазье сбежал! Оказывается, он скупал все товары, что местные пираты добывали с торговых судов. Для этого дела у него целый пакгауз отведён был. А когда торгаши прознали и наняли охотников за его головой - спешно всё продал и подался в бега, ха-ха-ха. Вот делов-то было! почитай неделю без рому сидели, пока этот пройдоха Бенджамин Франклин дело к своим рукам не прибрал.\n"+
-		"Да что толку - торгаш с него никудышный - всё никак не найдёт простофилю, который бы согласился склад прежнего хозяина арендовать... В политику бы ему - там таким ушлым самое место, хе-хе...","Pirates", 30, 3, "");
+		"Да что толку - торгаш с него никудышный - всё никак не найдёт простофилю, который бы согласился склад прежнего хозяина арендовать... В политику бы ему - там таким ушлым самое место, хе-хе...","Pirates", 30, 3, "");*/
 }
 
 //ККС
@@ -11311,7 +11313,7 @@ void Rand_ContraFinal(string s)
 {
 	pchar.quest.Rand_ContraFinale.win_condition.l1 = "ExitFromLocation";
 	pchar.quest.Rand_ContraFinale.win_condition.l1.location = pchar.location;
-	pchar.quest.Rand_ContraFinale.win_condition.function = "Rand_Clear";
+	pchar.quest.Rand_ContraFinale.win_condition = "Rand_Clear";
 }
 
 void Rand_Clear(string s)

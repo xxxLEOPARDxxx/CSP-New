@@ -102,6 +102,7 @@ void ProcessDialogEvent()
 			AddQuestUserData("ColonyBuilding", "sSex", GetSexPhrase("","а"));
 			AddQuestUserData("ColonyBuilding", "sSex1", GetSexPhrase("ся","ась"));
 			sld = CharacterFromID("Albreht_Zalpfer")
+			LAi_SetLoginTime(sld, 0.0, 24.0);
 			DeleteAttribute(sld, "talker");
 			sld.loyality = MAX_LOYALITY;
 			sld.Payment = true;

@@ -280,6 +280,7 @@ void CalculateAppropriateSkills(ref NPchar)
 
 void SetRankFromSkill(ref Npchar)
 {
+	if (CheckAttribute(NPchar,"indeprank")) return;
     Npchar.rank = 1 + makeint( (sti(Npchar.skill.FencingLight) + sti(Npchar.skill.FencingHeavy) + sti(Npchar.skill.Fortune) +
                            sti(Npchar.skill.Pistol) + sti(Npchar.skill.Leadership) + sti(Npchar.skill.Fencing) +
                            sti(Npchar.skill.Sailing) + sti(Npchar.skill.Accuracy) + sti(Npchar.skill.Cannons) +

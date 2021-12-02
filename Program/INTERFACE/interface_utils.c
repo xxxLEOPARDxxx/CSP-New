@@ -106,6 +106,153 @@ void FillScrollImageWithCompanionShips(string sNodeName, int iNotUsed)
 
 	SendMessage(&GameInterface, "lsl", MSG_INTERFACE_SCROLL_CHANGE, sNodeName, -1);
 }
+
+void FillScrollImageWithCompanions(string sNodeName, int iNotUsed)
+{
+
+	DeleteAttribute(&GameInterface, sNodeName);
+	GameInterface.(sNodeName).current = -1;
+
+	GameInterface.(sNodeName).ImagesGroup.t0 = "BLANK_SHIP2";
+	GameInterface.(sNodeName).BadTex1 = 0;
+	GameInterface.(sNodeName).BadPic1 = "Not Used2";
+
+	FillShipList(sNodeName + ".ImagesGroup", pchar);
+
+	string attributeName, shipName;
+	int iShipType, cn;
+	int iListSize = 0;
+
+	int isPossibleToFill = 1;
+	for(int i= 1; i< COMPANION_MAX; i++)
+	{
+		cn = GetCompanionIndex(pchar, i);
+
+		if(cn!= -1)
+		{
+			/*if(GetShipRemovable(&characters[cn]) == 0 && cn != nMainCharacterIndex)
+			{
+				isPossibleToFill = 0;
+			}
+			else
+			{  */
+				isPossibleToFill = 1;
+			//}
+			if(isPossibleToFill == 1)
+			{
+				iShipType = sti(characters[cn].ship.type);
+				if(iShipType != SHIP_NOTUSED)
+				{
+					//Boyer change #20170430-03
+					//iShipType = sti(RealShips[iShipType].basetype);
+
+					if (iShipType!= SHIP_NOTUSED)
+					{
+					    //Boyer change #20170430-03
+						//shipName = ShipsTypes[iShipType].Name;
+						attributeName = "pic" + (iListSize+1);
+
+						//Boyer change #20170430-03
+                        ref rBaseShip = GetRealShip(iShipType);
+                        iShipType = rBaseShip.basetype;
+                        //#20170430-03 Companion ships are appended with a "1"
+                        if(strlen(rBaseShip.Name)>2)
+                            shipName = strcut(rBaseShip.Name, 0, strlen(rBaseShip.Name)-2);
+                        else
+                            shipName = "";
+
+					
+						shipName = ShipsTypes[iShipType].Name;
+						attributeName = "pic" + (iListSize+1);
+
+						GameInterface.(sNodeName).(attributeName).companionIndex = cn;
+						GameInterface.(sNodeName).(attributeName).img1 = "ship";
+						GameInterface.(sNodeName).(attributeName).tex1 = FindFaceGroupNum(sNodeName + ".ImagesGroup","SHIPS_"+shipName);
+
+						iListSize++;		
+					}
+				}
+			}
+			/*else 
+			{
+				attributeName = "pic" + (i+1);
+				GameInterface.(sNodeName).(attributeName).tex1= 0;
+			}  */
+		} 
+		/*else 
+		{
+			attributeName = "pic" + (i+1);
+			GameInterface.(sNodeName).(attributeName).tex1= 0;
+		} */
+	}
+
+	GameInterface.(sNodeName).ListSize = iListSize;
+	//GameInterface.(sNodeName).NotUsed = iNotUsed;	
+	GameInterface.SHIPS_SCROLL.NotUsed = iNotUsed - iListSize + 1;
+
+	SendMessage(&GameInterface, "lsl", MSG_INTERFACE_SCROLL_CHANGE, sNodeName, -1);
+}
+
+void FillScrollImageWithCompanionsUp(string sNodeName, int iNotUsed)
+{
+	FillShipList(sNodeName + ".ImagesGroup", pchar);
+
+	string attributeName, shipName;
+	int iShipType, cn;
+	int iListSize = 0;
+
+	int isPossibleToFill = 1;
+	for(int i= 1; i< COMPANION_MAX; i++)
+	{
+		cn = GetCompanionIndex(pchar, i);
+
+		if(cn!= -1)
+		{
+			/*if(GetShipRemovable(&characters[cn]) == 0 && cn != nMainCharacterIndex)
+			{
+				isPossibleToFill = 0;
+			}
+			else
+			{  */
+				isPossibleToFill = 1;
+			//}
+			if(isPossibleToFill == 1)
+			{
+				iShipType = sti(characters[cn].ship.type);
+				if(iShipType != SHIP_NOTUSED)
+				{
+					//Boyer change #20170430-03
+					//iShipType = sti(RealShips[iShipType].basetype);
+
+					if (iShipType!= SHIP_NOTUSED)
+					{
+					    //Boyer change #20170430-03
+						//shipName = ShipsTypes[iShipType].Name;
+						attributeName = "pic" + (iListSize+1);
+
+						//Boyer change #20170430-03
+                        ref rBaseShip = GetRealShip(iShipType);
+                        iShipType = rBaseShip.basetype;
+                        //#20170430-03 Companion ships are appended with a "1"
+                        if(strlen(rBaseShip.Name)>2)
+                            shipName = strcut(rBaseShip.Name, 0, strlen(rBaseShip.Name)-2);
+                        else
+                            shipName = "";
+
+					
+						shipName = ShipsTypes[iShipType].Name;
+						attributeName = "pic" + (iListSize+1);
+
+						GameInterface.(sNodeName).(attributeName).tex1 = FindFaceGroupNum(sNodeName + ".ImagesGroup","SHIPS_"+shipName);
+
+						iListSize++;		
+					}
+				}
+			}
+		} 
+	}
+	SendMessage(&GameInterface, "lsl", MSG_INTERFACE_SCROLL_CHANGE, sNodeName, -1);
+}
 //---------------------------------------------------------------------------------------------------
 void FillScrollImageWithFaces(string sNodeName, int iNotUsed, bool bCompanions, bool bPassengers)
 {

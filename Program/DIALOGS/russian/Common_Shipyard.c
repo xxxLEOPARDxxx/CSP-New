@@ -11,6 +11,7 @@ void ProcessDialogEvent()
 	int iShipClass = GetCharacterShipClass(PChar); // Если корабля нет, вернет 7 (лодка)
 	int iRank = sti(PChar.rank);
 	int iSumm;
+	int comp;
 	
 	ref rRealShip;
 
@@ -51,6 +52,13 @@ void ProcessDialogEvent()
 	 	NPChar.SailsTypeChooseIDX = strcut(attrLoc, i+1, strlen(attrLoc)-1); // индех в конце
  		Dialog.CurrentNode = "SailsTypeChoose2";
  	}
+	if (findsubstr(attrLoc, "SailsTypeChoose_" , 0) != -1)
+ 	{
+		i = findsubstr(attrLoc, "_" , 0);
+	 	comp = strcut(attrLoc, i+1, strlen(attrLoc)-1); // индех в конце
+		log_info(""+comp);
+ 		Dialog.CurrentNode = "SailsTypeChoosen_selected";
+ 	}
 	if(HasSubStr(attrLoc, "shiporderend2_"))
 	{
 		i = findsubstr(attrLoc, "_" , 0);
@@ -80,16 +88,15 @@ void ProcessDialogEvent()
 		}
 		switch (iClass)
 		{
-			case 7: RealShips[sti(compref.Ship.Type)].HullArmor = 4+(rand(4)*hullarmor); break;
-			case 6: RealShips[sti(compref.Ship.Type)].HullArmor = 12+(rand(4)*hullarmor); break;
-			case 5: RealShips[sti(compref.Ship.Type)].HullArmor = 16+(rand(4)*hullarmor); break;
-			case 4: RealShips[sti(compref.Ship.Type)].HullArmor = 20+(rand(4)*hullarmor); break;
-			case 3: RealShips[sti(compref.Ship.Type)].HullArmor = 24+(rand(4)*hullarmor); break;
-			case 2: RealShips[sti(compref.Ship.Type)].HullArmor = 32+(rand(4)*hullarmor); break;
-			case 1: RealShips[sti(compref.Ship.Type)].HullArmor = 42+(rand(4)*hullarmor); break;
+			case 6: RealShips[sti(compref.Ship.Type)].HullArmor = 12+(rand(1)*hullarmor); break;
+			case 5: RealShips[sti(compref.Ship.Type)].HullArmor = 16+(rand(1)*hullarmor); break;
+			case 4: RealShips[sti(compref.Ship.Type)].HullArmor = 20+(rand(2)*hullarmor); break;
+			case 3: RealShips[sti(compref.Ship.Type)].HullArmor = 24+(rand(2)*hullarmor); break;
+			case 2: RealShips[sti(compref.Ship.Type)].HullArmor = 32+(rand(2)*hullarmor); break;
+			case 1: RealShips[sti(compref.Ship.Type)].HullArmor = 42+(rand(2)*hullarmor); break;
 		}
 		
-		NPChar.reputation = sti(NPChar.reputation) + (8 - iClass)/2;
+		NPChar.reputation = sti(NPChar.reputation) + (8 - iClass);//минимальная репа ~12. две единицы репы ~ одна единица навыка корабела
 		if (sti(NPChar.reputation)>100) NPChar.reputation = 100;
 		WaitDate("",0,0,0, 0, 20);
 
@@ -732,10 +739,25 @@ void ProcessDialogEvent()
 			ok = (rColony.from_sea == "") || (Pchar.location.from_sea == rColony.from_sea);
 			if (sti(Pchar.Ship.Type) != SHIP_NOTUSED && ok)
 			{
-				NextDiag.CurrentNode = NextDiag.TempNode;
+				/*NextDiag.CurrentNode = NextDiag.TempNode;
 				DialogExit();
 				npchar.sailsgerald = "gerald";
-				LaunchSailsGeraldScreen(npchar);
+				LaunchSailsGeraldScreen(npchar);*/
+				dialog.text = "На каком корабле?";
+				Link.l1 = "Флагман.";
+				Link.l1.go = "SailsTypeChoose_"+1;
+				for(int z = 1; z < COMPANION_MAX; z++)
+				{
+					int cnn = GetCompanionIndex(pchar, z);
+					if(cnn != -1)
+					{
+						string ln = "l"+(z+1);
+						Link.(ln) = "Корабль  ''"+characters[cnn].ship.name+"''";
+						Link.(ln).go = "SailsTypeChoose_"+(z+1);
+					}
+				}
+				Link.l9 = "Никакой, я передумал.";
+				Link.l9.go = "exit";
 				break;
 				dialog.text = "Сменить цвет парусов стоит " +
 							  FindRussianMoneyString(GetSailsTuningPrice(Pchar, npchar, SAILSCOLOR_PRICE_RATE))+
@@ -849,10 +871,28 @@ void ProcessDialogEvent()
 			WaitDate("", 0, 0, 0, 0, 10);
 		break;
 		
-		case "SailsTypeChoose":
+		/*case "SailsTypeChoose":
+			dialog.text = "Какой корабль?";
+			Link.l1 = "Флагман.";
+			Link.l1.go = "SailsTypeChoose_"+1;
+			for(int z = 1; z < COMPANION_MAX; z++)
+			{
+				int cnn = GetCompanionIndex(pchar, z);
+				if(cnn != -1)
+				{
+					string ln = "l"+(z+1);
+					Link.(ln) = "Корабль с названием "+characters[cnn].ship.name;
+					Link.(ln).go = "SailsTypeChoose_"+(z+1);
+				}
+			}
+			Link.l9 = "Никакой, я передумал.";
+			Link.l9.go = "exit";
+		break;*/
+		
+		case "SailsTypeChoosen_selected":
 		npchar.sailsgerald = "sails";
 		DialogExit();
-		LaunchSailsGeraldScreen(npchar);
+		LaunchSailsGeraldScreen(npchar,&characters[GetCompanionIndex(pchar, comp-1)]);
 		/*
 			dialog.text = "Какой новый тип парусины ставим? У тебя сейчас паруса из материала '" + GetSailsType(sti(RealShips[sti(Pchar.Ship.Type)].ship.upgrades.sails)) + "'.";
 
@@ -936,7 +976,7 @@ void ProcessDialogEvent()
 			WaitDate("",0,0,0, 0, 10);
 		break;
 		
-		case "SailsGeraldChoose":
+		/*case "SailsGeraldChoose":
 			if(GetSailsTuningPrice(Pchar, npchar, SAILSGERALD_PRICE_RATE) <= sti(Pchar.Money))
 			{
 				if(CheckSailsGerald(Pchar) && CanSetSailsGerald(PChar)) // Warship fix 04.06.09
@@ -959,7 +999,7 @@ void ProcessDialogEvent()
 				Link.l9 = "Хорошо.";
 				Link.l9.go = "exit";	
 			}
-		break;
+		break;*/
 		// квест украсть чертеж на верфи
 		case "ShipyardsMap_1":
 			dialog.text = "Мне нужно раздобыть один важный чертеж. Очень важный чертеж...";

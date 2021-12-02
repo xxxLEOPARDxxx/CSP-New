@@ -15,7 +15,7 @@ void GenerateArena()
 	if(iMoneyView > 10000) { iMoneyView = 10000 + rand(100); }
 	
 	PChar.Arena.ViewCost = iMoneyView;
-		
+	
 	PChar.Arena.Mode.NotOdd = false;
 	
 	PChar.Arena = "Generate";	
@@ -38,13 +38,13 @@ void GenerateArena()
 //-------------------------------------------------------------------------------
 void GenerateArenaDuel()
 {
-	int iRank = GetRank(PChar, MOD_SKILL_ENEMY_RATE) + 15;
+	int iRank = GetRank(PChar, MOD_SKILL_ENEMY_RATE) + sti(PChar.rank);
 	
 	int iCharacter = 0;
 	
 	if(GetCharacterIndex("Arena Duel Characer") == -1)
 	{
-		iCharacter = NPC_GenerateCharacter("Arena Duel Characer", "officer_1", "man", "man", iRank, PIRATE, -1, true);
+		iCharacter = NPC_GenerateCharacterIndep("Arena Duel Characer", "officer_"+(rand(63)+1), "man", "man", iRank, PIRATE, -1, true);
 	}
 	else
 	{
@@ -107,7 +107,7 @@ void GenerateArenaDuel()
 	Characters[iCharacter].skill.FencingHeavy = iFencingHeavy;
 	Characters[iCharacter].skill.LeaderShip = iLeaderShip;
 	Characters[iCharacter].model = "officer_" + (rand(63)+1);
-	Characters[iCharacter].model.animation = "man";
+	Characters[iCharacter].model.animation = "spy"; // LEO: Анимка "spy" хоть где то должна работать 01.12.2021
 	Characters[iCharacter].greeting = "Gr_ArenaMember";
 	
 	SetRandomNameToCharacter(&Characters[iCharacter]);
@@ -135,16 +135,47 @@ void GenerateArenaDuel()
 	int iOdd = GetOddForDuelCharacter(&Characters[iCharacter], sti(Characters[iCharacter].skill.(sSkill)));
 	Characters[iCharacter].Odd = iOdd;
 	
+    SetSpeciality(&Characters[iCharacter], PerksChars()); // LEO: Характеры 01.12.2021
 	SetCharacterPerk(&Characters[iCharacter], "Energaiser");
-	TakeNItems(&Characters[iCharacter], "potion" + (rand(3)+1), (rand(10)+10));
-	TakeNItems(&Characters[iCharacter], "potion" + (rand(3)+1), (rand(10)+10));
-	TakeNItems(&Characters[iCharacter], "potion" + (rand(3)+1), (rand(10)+10));
+	LAi_NPC_EquipPerk(&Characters[iCharacter], "fantom"); // LEO: Перки от уровня 01.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10) TakeNItems(&Characters[iCharacter], "potion2", 50);
+	else
+	{
+		TakeNItems(&Characters[iCharacter], "potion" + (rand(3)+1), (rand(10)+10));
+		TakeNItems(&Characters[iCharacter], "potion" + (rand(3)+1), (rand(10)+10));
+		TakeNItems(&Characters[iCharacter], "potion" + (rand(3)+1), (rand(10)+10));
+	}
 	SetFoodToCharacter(&Characters[iCharacter], 5, 50);
+	
+	if (IsCharacterPerkOn(&Characters[iCharacter], "Ciras"))
+		{
+			string cirnum;
+			switch (rand(4))
+			{
+				case 0: cirnum = "cirass1"; break;
+				case 1: cirnum = "cirass1"; break;
+				case 2: cirnum = "cirass2"; break;
+				case 3: cirnum = "cirass3"; break;
+				case 4: cirnum = "cirass4"; break;
+			}
+			if (CheckAttribute(&Characters[iCharacter], "HeroModel")) // все, у кого есть что одеть
+			{
+				switch (cirnum)
+				{
+					case "cirass1": Characters[iCharacter].model = GetSubStringByNum(Characters[iCharacter].HeroModel, 1); break;
+					case "cirass2": Characters[iCharacter].model = GetSubStringByNum(Characters[iCharacter].HeroModel, 2); break;
+					case "cirass3": Characters[iCharacter].model = GetSubStringByNum(Characters[iCharacter].HeroModel, 3); break;
+					case "cirass4": Characters[iCharacter].model = GetSubStringByNum(Characters[iCharacter].HeroModel, 4); break;
+				}
+			}
+			Characters[iCharacter].cirassId = Items_FindItemIdx(cirnum);
+			Log_TestInfo("Персонаж "+Characters[iCharacter].name+" получил кирасу "+cirnum);
+		}
 	
 	int iMinOdd = sti(Characters[iCharacter].Odd) / 2;
 	int iMaxOdd = sti(Characters[iCharacter].Odd) * 2;
 	if(iMinOdd < 500) { iMinOdd = 500; }
-	if(iMaxOdd > 25000) { iMaxOdd = 25000; }
+	// if(iMaxOdd > 25000) { iMaxOdd = 25000; } // LEO: Без ограничений 01.12.2021
 	
 	PChar.Arena.Duel = "Generate";
 	PChar.Arena.Duel.Character = iCharacter;
@@ -622,11 +653,11 @@ void ArenaEtapsSetRound(int iEtap)
 	switch(sType)
 	{
 		case "crabBig": sModel = "crabBig"; sAnimation = "crabBig"; sSex = "crab"; break;
-		case "Skel": sModel = "Skel"; sAnimation = "man"; sSex = "skeleton"; break;
-		case "SkelOld": sModel = "Skel_"; sAnimation = "man"; sSex = "skeleton"; break;
+		case "Skel": sModel = "Skel"; sAnimation = "man_fast"; sSex = "skeleton"; break; // LEO: Ловкач
+		case "SkelOld": sModel = "Skel_"; sAnimation = "man_fast"; sSex = "skeleton"; break; // LEO: Ловкач
 		case "monkey": sModel = "monkey"; sAnimation = "monkey"; sSex = "monkey"; break;
 		case "crabBigKing": sModel = "crabBigKing"; sAnimation = "crabBigKing"; sSex = "crab"; break;
-		case "SkelKing": sModel = "skeletcap"; sAnimation = "man"; sSex = "skeleton"; break;
+		case "SkelKing": sModel = "skeletcap"; sAnimation = "spy"; sSex = "skeleton"; break; // LEO: Анимка "spy" хоть где то должна работать
 	}
 	
 	int iChar = 0;
@@ -694,7 +725,7 @@ void ArenaEtapsSetRound(int iEtap)
 			{
 				LAi_SetMonkeyTypeNoGroup(chr);
 			}
-			
+
 			LAi_group_MoveCharacter(chr, "EnemyFight");
 			
 			sCdn = "l" + i;
@@ -975,18 +1006,33 @@ void GenerateArenaTournament()
 	int iNumPosition = 0;
 	string sModel = "";
 	
+	int iMoney = 0;
+	int iRank = GetRank(PChar, MOD_SKILL_ENEMY_RATE);
+	
+	iRank *= 1000;
+	iRank *= rand(4)+1;
+	iMoney = iRank * 8;
+	/* if(iMoney > 250000) { iMoney = 250000; }
+	if(iMoney < 25000) { iMoney = 25000; } */ // LEO: Старые формулы призового фонда с лимитом в 250к
+	if(sti(PChar.rank) < 10 && iMoney > 250000) { iMoney = 250000; }
+	
 	for(int i=1; i <= 7; i++)
 	{
-		int iRank = GetRank(PChar, 5) + MOD_SKILL_ENEMY_RATE;
-		iChar = NPC_GenerateCharacter("Arena_Tournament_Character_" + i, "officer_"+(rand(63)+1), "man", "man", iRank, PIRATE, -1, true);
+		int iRank2 = GetRank(PChar, 5) + MOD_SKILL_ENEMY_RATE;
+		if (iMoney >= 1000000) iChar = NPC_GenerateCharacterIndep("Arena_Tournament_Character_" + i, "officer_"+(rand(63)+1), "man", "spy", iRank2, PIRATE, -1, true);
+		else iChar = NPC_GenerateCharacterIndep("Arena_Tournament_Character_" + i, "officer_"+(rand(63)+1), "man", "man_fast", iRank2, PIRATE, -1, true);
 		
 		chr = &Characters[iChar];
 		DeleteAttribute(chr, "items");
 		chr.items = "";
 		SetFoodToCharacter(chr, 5, 50);
-		TakeNItems(chr, "potion" + (rand(3)+1), (rand(10)+10));
-		TakeNItems(chr, "potion" + (rand(3)+1), (rand(10)+10));
-		TakeNItems(chr, "potion" + (rand(3)+1), (rand(10)+10));
+		if (iMoney >= 1000000) TakeNItems(chr, "potion2", 50);
+		else
+		{
+			TakeNItems(chr, "potion" + (rand(3)+1), (rand(10)+10));
+			TakeNItems(chr, "potion" + (rand(3)+1), (rand(10)+10));
+			TakeNItems(chr, "potion" + (rand(3)+1), (rand(10)+10));
+		}
 		
 		sChar = "Arena_Tournament_Character_" + i;
 		
@@ -1049,15 +1095,16 @@ void GenerateArenaTournament()
 	sSaber = GetSaberForArena("FencingHeavy");	
 	PChar.Arena.Tournament.Saber.Heavy = sSaber;
 	
-	int iMoney = 0;
+	/* int iMoney = 0;
 	iRank = GetRank(PChar, MOD_SKILL_ENEMY_RATE);
 	
 	iRank *= 1000;
 	iRank *= rand(4)+1;
-	iMoney = iRank * 8;
-	
-	if(iMoney > 250000) { iMoney = 250000; }
-	if(iMoney < 25000) { iMoney = 25000; }
+	iMoney = iRank * 8; */
+	/* if(iMoney > 250000) { iMoney = 250000; }
+	if(iMoney < 25000) { iMoney = 25000; } */ // LEO: Старые формулы призового фонда с лимитом в 250к
+	/* if(sti(PChar.rank) < 10 && iMoney > 250000) { iMoney = 250000; }
+	if(sti(PChar.rank) >= 10) { iMoney = (25000*(sti(PChar.rank))); } // LEO: Динамика на протяжении всей игры */
 	
 	PChar.Arena.Tournament.Money = iMoney;
 	
@@ -1620,7 +1667,7 @@ void ArenaTournamentTheEnd()
 	if (CheckAttribute(pchar,"Arena.TournamentWeapon"))
 	{
 		sSaber = pchar.Arena.TournamentWeapon;
-		TakeNItems(PChar, sSaber, -3);
+		TakeNItems(PChar, sSaber, -1);
 	}
 	
 	
@@ -1706,6 +1753,10 @@ void ArenaTournamentSetDetailsForChar(ref chr, int iStage)
 	RemoveCharacterEquip(chr, GUN_ITEM_TYPE);
 	RemoveCharacterEquip(chr, BLADE_ITEM_TYPE);
 	
+	if (chr.index == nMainCharacterIndex) 
+	{
+		if (iStage == 2 || iStage == 3) TakeNItems(chr,sSaber,-1);
+	}
 	GiveItem2Character(chr, sSaber);
 	EquipCharacterByItem(chr, sSaber);
 	
@@ -2735,12 +2786,12 @@ int GetArenaOddsGreatestFencingSkill(ref chr)
 	return iFencing;
 }
 
-int GetArenaOddsMaxOdd()
+int GetArenaOddsMaxOdd() // LEO: Параметры ставок - изимани скейл с ростом уровня
 {
 	int iRank = GetRank(PChar, MOD_SKILL_ENEMY_RATE);
-	int iOdd = iRank * 250 + rand(100);
+	int iOdd = iRank * ((20 + rand(20)) * sti(PChar.rank)) + rand(1000);
 	
-	if(iOdd > 25000) { iOdd = 25000; }	
+	// if(iOdd > 25000) { iOdd = 25000; }	// LEO: Без ограничений
 	if(iOdd < 100) { iOdd = 100; }
 	
 	return iOdd;
@@ -2873,15 +2924,17 @@ int GetOddForDuelCharacter(ref chr, int iSkill)
 	int iLeader = sti(chr.skill.LeaderShip);
 	float HP = LAi_GetCharacterMaxHP(chr);
 	
-	HP *= 10;
+	// --> LEO: Серьёзные ставки против потного противника с антифритайзовской системой финтов - анимка Spy
+	HP *= 10 + (sti(PChar.rank)*2);
 	
-	iRank *= 30;
-	iLeader *= 25;
-	iSkill *= 35;
+	iRank *= 30 + (sti(PChar.rank)*6);
+	iLeader *= 25 + (sti(PChar.rank)*5);
+	iSkill *= 35 + (sti(PChar.rank)*7);
 	
+	// <-- LEO
 	iSum = iRank + iLeader + iSkill + HP;
 	
-	if(iSum > 10000)
+	/* if(iSum > 10000)
 	{
 		iSum = 10000;
 	}
@@ -2889,7 +2942,7 @@ int GetOddForDuelCharacter(ref chr, int iSkill)
 	if(iSum < 1000)
 	{
 		iSum = 1000;
-	}
+	} */ // Без ограничений
 	
 	return iSum;
 }
@@ -3026,24 +3079,24 @@ int ArenaEtapsGetCostForEtap(string sType, int iQuantity)
 	int iType = 0;
 	int iCost = 0;
 	
-	iRank *= 100;
-	iLeader *= 200;
+	iRank *= 100 + (sti(PChar.rank)*2);
+	iLeader *= 200 + (sti(PChar.rank)*4);
 	
 	switch(sType)
 	{
-		case "crabBig": iType = 40; break;
-		case "Skel": iType = 110; break;
-		case "SkelOld": iType = 90; break;
-		case "monkey": iType = 55; break;
-		case "crabBigKing": iType = 2000; break;
-		case "SkelKing": iType = 2500; break;
+		case "crabBig": iType = 40 + (sti(PChar.rank)*20); break;
+		case "Skel": iType = 110 + (sti(PChar.rank)*55); break;
+		case "SkelOld": iType = 90 + (sti(PChar.rank)*45); break;
+		case "monkey": iType = 55 + (sti(PChar.rank)*25); break;
+		case "crabBigKing": iType = 2000 + (sti(PChar.rank)*1000); break;
+		case "SkelKing": iType = 2500 + (sti(PChar.rank)*1250); break;
 	}
 
 	iQuantity += rand(2);
 	
 	iCost = iRank + iLeader + (iQuantity * iType) + rand(500);
 	
-	if(iCost > 20000)
+	/* if(iCost > 20000)
 	{
 		iCost = 20000;
 	}
@@ -3051,7 +3104,7 @@ int ArenaEtapsGetCostForEtap(string sType, int iQuantity)
 	if(iCost < 1000)
 	{
 		iCost = 1000;
-	}
+	} */ // LEO: Без ограничений
 	
 	return iCost;
 }

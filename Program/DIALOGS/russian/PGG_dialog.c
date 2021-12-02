@@ -706,6 +706,7 @@ void ProcessDialogEvent()
 					"ѕолагаю, у нас с вами нет общих тем."));
 		link.l1 = RandSwear();
 		link.l1.go = "exit_2";
+		SaveCurrentQuestDateParam("QuestTalk");
 		break;
 
 	case "Quest_1_Work_2":
@@ -948,6 +949,7 @@ void ProcessDialogEvent()
 		break;
 
 	case "Exit_Quest_1_Accept":
+		ReOpenQuestHeader("Gen_PGGQuest1");
 		if (CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
 		{
 			PGG_Disband_Fleet(npchar);
@@ -1020,6 +1022,7 @@ void ProcessDialogEvent()
 			AddQuestUserData("Gen_PGGQuest1", "sSex", GetSexPhrase("с€","ась"));
 			CloseQuestHeader("Gen_PGGQuest1");
 			DeleteAttribute(NPChar, "AlwaysFriend");
+			SaveCurrentQuestDateParam("QuestTalk");
 		}
 		NPChar.Dialog.CurrentNode = "Quest_1_Ship_Refuse";
 		NPChar.DeckDialogNode = "Quest_1_Ship_Refuse";

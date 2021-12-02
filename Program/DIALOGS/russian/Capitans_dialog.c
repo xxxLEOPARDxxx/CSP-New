@@ -1,6 +1,10 @@
 // разговор с капитаном на палубе  Boal
 //homo 25/06/06
 #include "DIALOGS\russian\Rumours\Common_rumours.c"
+
+string coolstory1[6] = {"чарльстон","чарлстон","чарльзтон","чарльстаун","чарльзтаун","чарлстаун"};
+string coolstory2[4] = {"хорниголд","хорнигольд","хорнигольда","хорниголда"};
+
 void ProcessDialogEvent()
 {
 	ref NPChar;
@@ -64,10 +68,10 @@ void ProcessDialogEvent()
 			{
 				if (npchar.id == "BlackBeardNPC")
 				{
-					dialog.text = "Ты чего здесь забыл, салага?";
-					link.l1 = "Меня зовут " + GetFullName(Pchar) + ". Я слы"+ GetSexPhrase("шал","хала")+", что вы ищете удачливого капитана.";
+					dialog.text = "Какого дьявола тебе здесь надо? (достаёт пистолет)";
+					link.l1 = "Спокойно, старик! Меня зовут " + GetFullName(Pchar) + ". Я слы"+ GetSexPhrase("шал","хала")+", что вы ищете удачливого капитана.";
 					link.l1.go = "Titch_1";
-					link.l2 = "Ничего особенного, я уже ухожу.";
+					link.l2 = "Эй-эй! Я уже ухожу, спокойно!";
 					link.l2.go = "exit";
 					break;
 				}
@@ -851,37 +855,37 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_1":
-			Dialog.text = "Есть такое. Хочу я уйти на покой и передать мои знания преемнику. Но я должен убедиться, что он этого достоин.";
-			link.l1 = "Твой преемник? И что же подпадает под критерии достоинства?";
+			Dialog.text = "Есть такое. Мне уже пора достойно уйти на покой и передать мои знания, и навыки преемнику. Но я должен убедиться, что он этого заслуживает.";
+			link.l1 = "Твой преемник? И что же попадает под критерии достоинства?";
 			link.l1.go = "Titch_2";
 		break;
 		
 		case "Titch_2":
-			Dialog.text = "Мне как пирату не было равных в мои лучшие годы, и поэтому мой преемник должен быть не хуже.";
+			Dialog.text = "В мои лучшие годы, мне, как пирату, не было равных и поэтому мой преемник должен быть не хуже.";
 			link.l1 = "Я слушаю...";
 			link.l1.go = "Titch_3";
 		break;
 		
 		case "Titch_3":
-			Dialog.text = "Возьми 5 торгашей на абордаж и заставь их сдаться. Едва завидев мой вымпел, противники обычно сдавались без боя. Во всяком случае после того, как я заработал свой авторитет.";
-			link.l1 = "Пока не звучит сложно.";
+			Dialog.text = "Тебе предстоит взять на абордаж 5 торговых кораблей и заставить их сдаться, чтобы капитаны умоляли тебя пощадить их. Едва завидев мой вымпел, противники обычно сдавались без боя. Во всяком случае после того, как я стал более известен в этих водах.";
+			link.l1 = "Это будет быстро, или очень непросто. Тем не менее, я заставлю толстосумов молить о пощаде! Вот увидишь!";
 			link.l1.go = "Titch_4";
 		break;
 		
 		case "Titch_4":
-			Dialog.text = "Я очень хорош как в картах, так и дуэлях, поэтому обыграй меня и одолей.";
-			link.l1 = "Если ты не шулер, то твоя удача в картах - это странно. А дуэли - ну так не ты первый, не ты последний.";
+			Dialog.text = "Мне необходимо проверить твой уровень фехтования, ведь это основа любого уважающего себя пирата или корсара. Если удача укусила тебя за задницу, то я хочу лично проверить - так ли это. Попробуем сыграть в двадцать одно. Если ты проиграешь, то уже мой пистолет укусит тебя за...";
+			link.l1 = "Понял, понял... Меня и правда кто то укусил за задницу. Будешь проверять? А фехтование моё... Да я разнесу любого! Но только в честной дуэли. Надеюсь, она будет честной.";
 			link.l1.go = "Titch_5";
 		break;
 		
 		case "Titch_5":
-			Dialog.text = "Я загадаю тебе несколько загадок и тебе надо будет их отгадать. У хорошего корсара должен быть по настоящему острый ум.";
-			link.l1 = "Много я загадок разных слышал"+ GetSexPhrase("","а") +", так что этим меня не напугать.";
+			Dialog.text = "Чтобы о тебе слагали легенды, ты должен сам уметь слагать их. Я желаю слышать, что ты обо мне знаешь. У настоящего корсара должен быть по настоящему острый ум и трезвая голова.";
+			link.l1 = "Ну... я много слышал о тебе. Так это, или нет, что я расскажу, ты уже сам подтвердишь.";
 			link.l1.go = "Titch_6";
 		break;
 		
 		case "Titch_6":
-			Dialog.text = "Ну и в последнюю очередь... Тебе надо одолеть меня в морском сражении.";
+			Dialog.text = "Ну и напоследок, морская битва. Здесь тебе никто не поможет и не придёт на помощь. Биться будем насмерть!";
 			link.l1 = "У тебя очень внушительный фрегат... Это однозначно не звучит как что-то простое.";
 			link.l1.go = "Titch_7";
 		break;
@@ -889,10 +893,10 @@ void ProcessDialogEvent()
 		case "Titch_7":
 			npchar.met = true;
 			if (!CheckAttribute(pchar,"ShipsSurr")) pchar.ShipsSurr = 0;
-			Dialog.text = "И что скажешь?";
+			Dialog.text = "Ну?! И что скажешь?";
 			if (!CheckAttribute(npchar,"Duel"))
 			{
-				link.l1 = "Я готов"+ GetSexPhrase("","а") +" сразиться на дуэли. Где и когда?";
+				link.l1 = "Думаю, у меня хватит сил оставить историю порезов и ушибов на твоём теле. Где и когда будем драться?";
 				link.l1.go = "Titch_duel";
 			}
 			if (!CheckAttribute(npchar,"Cards"))
@@ -902,12 +906,12 @@ void ProcessDialogEvent()
 			}
 			if (!CheckAttribute(npchar,"questions"))
 			{
-				link.l3 = "Давай, загадывай свои загадки.";
+				link.l3 = "Проверь меня на знания о тебе. Если это не детские загадки.";
 				link.l3.go = "Titch_questions";
 			}
 			if (!CheckAttribute(npchar,"ships_sur") && CheckAttribute(pchar,"ShipsSurr") && sti(pchar.ShipsSurr) >= 5)
 			{
-				link.l4 = "Я заставил"+ GetSexPhrase("","а") +" 5 торговых кораблей сдаться без боя.";
+				link.l4 = "Я заставил"+ GetSexPhrase("","а") +" молить о пощаде 5 торговых кораблей.";
 				link.l4.go = "Titch_ships_sur";
 			}
 			if (CheckAttribute(npchar,"Duel") && CheckAttribute(npchar,"Cards") && CheckAttribute(npchar,"questions") && CheckAttribute(npchar,"ships_sur") && !CheckAttribute(pchar,"Titch_seabattle"))
@@ -1038,7 +1042,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_Seabattle_won_4":
-			Dialog.text = "Для тебя - жизнь продолжнается. А вот мне пора. Теперь - прощай навсегда!";
+			Dialog.text = "Для тебя - жизнь продолжнается. А вот мне пора. Теперь - прощай навсегда! (Всё дело в том, как себя поставишь! Дурачься на потеху — убедишь, лишь дураков. А будешь дьяволом — тебе покоряться все.)";
 			link.l1 = "Я ничего не понял"+ GetSexPhrase("","а") +", но прощай, Эдвард Тич!";
 			link.l1.go = "Titch_Seabattle_won_exit";
 		break;
@@ -1056,8 +1060,8 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_duel":
-			Dialog.text = "Здесь и сейчас. Чего рассусоливать лишнего? Не люблю всякие расшаркивания и поклноны.";
-			link.l1 = "...Начнём тогда!";
+			Dialog.text = "Хо-хо! Да ты прям "+ GetSexPhrase("морской волчара","морская львица") +"! Здесь и сейчас! Не люблю всякие расшаркивания и поклноны.";
+			link.l1 = "Ну держись, старик..!";
 			link.l1.go = "Titch_duel_start";
 		break;
 		
@@ -1083,7 +1087,7 @@ void ProcessDialogEvent()
 		
 		case "DuelWon":
 			Dialog.text = "Сил"+ GetSexPhrase("ён","на") +"! Уважил"+ GetSexPhrase("","а") +" старика, молодец.";
-			link.l1 = "Это было непросто, уж скажу честно. Что дальше?";
+			link.l1 = "Скажу честно - это было непросто, (вот же старый, честная дуэль, честь... да-да...). Что дальше?";
 			link.l1.go = "Titch_7";
 			npchar.Duel = true;
 			DeleteAttribute(npchar,"chr_ai.poison");
@@ -1093,7 +1097,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_cards":
-			Dialog.text = "В карты? Учти, ставка - 50000 пиастров. Так что меньше, чем с 500000 даже не приходи. Ну, готов"+ GetSexPhrase("","а") +"?";
+			Dialog.text = "В карты? Учти, ставка - 50000 пиастров и не меньше. Так что если у тебя карманы просохли, иди гуляй. Меньше чем с 500000 даже не рыпайся. Ну, готов"+ GetSexPhrase("","а") +"?";
 			if (sti(pchar.money) >= 500000)
 			{
 				link.l1 = "Готов"+ GetSexPhrase("","а") +" ли я? Что за глупый вопрос, конечно!";
@@ -1116,7 +1120,7 @@ void ProcessDialogEvent()
 		case "Titch_questions":
 			npchar.coolstories = "чарльстон";
 			npchar.questionsstate = 1;
-			Dialog.text = "Ну ладно, слушай же загадки. Раз уж ты копал"+ GetSexPhrase("","а") +" под меня и смог"+ GetSexPhrase("","ла") +" разыскать, то ты наверняка знаешь о моём самом крупном деле. Какой город я осадил и заставил выплатить мне кругленькую сумму?";
+			Dialog.text = "Ну ладно, слушай же. Раз уж ты копал"+ GetSexPhrase("","а") +" под меня и смог"+ GetSexPhrase("","ла") +" разыскать, то ты наверняка знаешь о моём самом крупном деле. Какой город я осадил и заставил выплатить мне круглую сумму?";
 			Link.l1.edit = 1;
 			Link.l1 = "";
 			Link.l1.go = "Titch_check";	
@@ -1124,23 +1128,39 @@ void ProcessDialogEvent()
 			link.l2.go = "exit";
 		break;
 		case "Titch_check":
-			if (npchar.questionsstate == 1 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
+			if (npchar.questionsstate == 1)
 			{
-				npchar.coolstories = "хорниголд";
-				npchar.questionsstate = 2;
-				Dialog.text = "Правильно! Значит не совсем дур"+ GetSexPhrase("ак","а") +". Слушай следующий вопрос!";
-				Link.l1 = "Ну?";
-				Link.l1.go = "Titch_q2";
-				break;
+				bool check1 = false;
+				for(int x=0;x<=5;x++)
+				{
+					if (coolstory1[x] == GetStrSmallRegister(dialogEditStrings[1])) check1 = true;
+				}
+				if (check1)
+				{
+					npchar.coolstories = "хорниголд";
+					npchar.questionsstate = 2;
+					Dialog.text = "Верно! Отличная осведомлённость, уважаю. Слушай следующий вопрос! (Я только хочу, чтобы меня помнили...)";
+					Link.l1 = "Давай.";
+					Link.l1.go = "Titch_q2";
+					break;
+				}
 			}
-			if (npchar.questionsstate == 2 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
+			if (npchar.questionsstate == 2)
 			{
-				npchar.coolstories = "конкорд";
-				npchar.questionsstate = 3;
-				Dialog.text = "Отличная осведомлённость! А вот и последний вопрос.";
-				Link.l1 = "И?";
-				Link.l1.go = "Titch_q3";
-				break;
+				bool check2 = false;
+				for(int y=0;y<=3;y++)
+				{
+					if (coolstory2[y] == GetStrSmallRegister(dialogEditStrings[1])) check2 = true;
+				}
+				if (check2)
+				{
+					npchar.coolstories = "конкорд";
+					npchar.questionsstate = 3;
+					Dialog.text = "Браво! Ты мне начинаешь нравиться своей харизмой. А вот и последний вопрос.";
+					Link.l1 = "И?";
+					Link.l1.go = "Titch_q3";
+					break;
+				}
 			}
 			if (npchar.questionsstate == 3 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
 			{
@@ -1155,17 +1175,17 @@ void ProcessDialogEvent()
 				Dialog.text = "Неверно, попробуй ещё.";
 				if (npchar.questionsstate == 1)
 				{
-					Link.l1 = "Хорошо.";
+					Link.l1 = "Еще раз.";
 					Link.l1.go = "Titch_questions";
 				}
 				if (npchar.questionsstate == 2)
 				{
-					Link.l1 = "Хорошо.";
+					Link.l1 = "Еще раз.";
 					Link.l1.go = "Titch_q2";
 				}
 				if (npchar.questionsstate == 3)
 				{
-					Link.l1 = "Хорошо.";
+					Link.l1 = "Еще раз.";
 					Link.l1.go = "Titch_q3";
 				}
 				link.l2 = "Попозже.";
@@ -1173,7 +1193,7 @@ void ProcessDialogEvent()
 			}
 		break;
 		case "Titch_q2":
-			Dialog.text = "Под чьей командой я плавал до тех пор, пока не стал известным, как Чёрная Борода?";
+			Dialog.text = "Под чьей командой я плавал до тех пор, пока не стал известен, как Чёрная Борода?";
 			Link.l1.edit = 1;
 			Link.l1 = "";
 			Link.l1.go = "Titch_check";	
@@ -1181,7 +1201,7 @@ void ProcessDialogEvent()
 			link.l2.go = "exit";
 		break;
 		case "Titch_q3":
-			Dialog.text = "Какое название носила ''Месть Королевы Анны'' прежде?";
+			Dialog.text = "Какое название носил корабль ''Месть Королевы Анны'' прежде?";
 			Link.l1.edit = 1;
 			Link.l1 = "";
 			Link.l1.go = "Titch_check";	
@@ -1190,7 +1210,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_ships_sur":
-			Dialog.text = "Заработал"+ GetSexPhrase("","а") +"-таки авторитет в глазах местных? Уважаю за старания!";
+			Dialog.text = "Это хорошо! Архипелаг еще сможет содрогнуться. (Напугай свою жертву, создай жуткий образ из лихорадочного бреда, и все рухнут на колени, моля своего Бога о пощаде.)";
 			Link.l1 = "Благодарю!";
 			Link.l1.go = "Titch_7";
 			npchar.ships_sur = true;

@@ -117,6 +117,7 @@ void ProcessDialogEvent()
 		
 		case "BS_CPNG_9":	//Гатри
 			npchar.LifeDay = 0;
+			LAi_SetActorType(npchar);
             dialog.text = "Слушай внимательно!";
             link.l1 = "Минутку. А с чего это вдруг мы друзьями стали?";
 			link.l1.go = "BS_CPNG_10";
@@ -142,7 +143,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "BS_CPNG_13":
-            dialog.text = "Найди его в море. Запомни, очень важно – быть под чёрным флагом в момент встречи! Когда увидитесь, передай ему, что ты тоже читал Марка Аврелия. Это пароль. Об остальном он сам расскажет.";
+            dialog.text = "Найди его в море. Запомни, очень важно – быть под чёрным флагом в момент встречи! Когда увидитесь, передай ему, что ты тоже чита"+ GetSexPhrase("л","ла")+" Марка Аврелия. Это пароль. Об остальном он сам расскажет.";
             link.l1 = "И где искать Флинта?";
 			link.l1.go = "BS_CPNG_14";
 		break;
@@ -431,6 +432,8 @@ void ProcessDialogEvent()
 		
 		case "BS_CPNG_32_flint":
 			SetCompanionIndex(PChar, -1, GetCharacterIndex(npchar.id));//Флинт присоединяется к эскадре
+			Flag_PIRATE();
+			RepairShip(npchar);
 			SetShipRemovable(npchar, false);
 			Fantom_SetBalls(npchar, "war");
 			SetCharacterGoods(npchar,GOOD_FOOD,1000);

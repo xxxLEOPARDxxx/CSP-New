@@ -256,9 +256,9 @@ void OpenChest()
 	TakeItemFromCharacter(pchar, chestID);
 	pchar.questTemp.chestcount = sti(pchar.questTemp.chestcount) + 1;
 	// Открываем достижения
-	if(sti(pchar.questTemp.chestcount) >= 10) UnlockAchievement("AchChest", 1);
-	if(sti(pchar.questTemp.chestcount) >= 25) UnlockAchievement("AchChest", 2);
-	if(sti(pchar.questTemp.chestcount) >= 50) UnlockAchievement("AchChest", 3);
+	if(sti(pchar.questTemp.chestcount) >= 5) UnlockAchievement("AchChest", 1);
+	if(sti(pchar.questTemp.chestcount) >= 15) UnlockAchievement("AchChest", 2);
+	if(sti(pchar.questTemp.chestcount) >= 30) UnlockAchievement("AchChest", 3);
 	string nameitm[35];
 	int itmq[35];
 	int value;
@@ -316,7 +316,7 @@ void OpenChest()
 				nameitm[4] = "jewelry15"; // Изумрудные подвески
 				itmq[4] = 10;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 4000;
+				itmq[9] = 4000*(sti(PChar.rank)/2);
 			break;
 			case 1:
 				nameitm[1] = "jewelry1"; // Сапфир
@@ -326,7 +326,7 @@ void OpenChest()
 				nameitm[3] = "jewelry3"; // Рубин
 				itmq[3] = 10;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 18000;
+				itmq[9] = 18000*(sti(PChar.rank)/2);
 			break;
 			case 2:
 				nameitm[1] = "jewelry5"; // Золотой слиток
@@ -336,7 +336,7 @@ void OpenChest()
 				nameitm[3] = "jewelry7"; // Золотое кольцо с изумрудом
 				itmq[3] = 8;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 12000;
+				itmq[9] = 12000*(sti(PChar.rank)/2);
 			break;
 			case 3:
 				nameitm[1] = "jewelry10"; // Золотое кольцо с сапфиром
@@ -350,7 +350,7 @@ void OpenChest()
 				nameitm[5] = "jewelry14"; // Золотая брошь
 				itmq[5] = 10;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 6000;
+				itmq[9] = 6000*(sti(PChar.rank)/2);
 			break;
 			case 4:
 				nameitm[1] = "jewelry16"; // Ожерелье
@@ -360,7 +360,7 @@ void OpenChest()
 				nameitm[3] = "jewelry18"; // Золотое кольцо с рубином
 				itmq[3] = 3;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 16000;
+				itmq[9] = 16000*(sti(PChar.rank)/2);
 			break;
 			case 5:
 				nameitm[1] = "jewelry5"; // Золотой слиток
@@ -374,7 +374,7 @@ void OpenChest()
 				nameitm[5] = "jewelry18"; // Золотое кольцо с рубином
 				itmq[5] = 6;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 10000;
+				itmq[9] = 10000*(sti(PChar.rank)/2);
 			break;
 			case 6:
 				nameitm[1] = "jewelry6"; // Серебряное кольцо с сапфиром
@@ -382,7 +382,7 @@ void OpenChest()
 				nameitm[2] = "jewelry17"; // Серебряный слиток
 				itmq[2] = 20;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 20000;
+				itmq[9] = 20000*(sti(PChar.rank)/2);
 			break;
 			case 7:
 				nameitm[1] = "jewelry6"; // Серебряное кольцо с сапфиром
@@ -394,7 +394,7 @@ void OpenChest()
 				nameitm[4] = "jewelry10"; // Золотое кольцо с сапфиром
 				itmq[4] = 15;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 7000;
+				itmq[9] = 7000*(sti(PChar.rank)/2);
 			break;
 			case 8:
 				nameitm[1] = "jewelry5"; // Золотой слиток
@@ -406,7 +406,7 @@ void OpenChest()
 				nameitm[4] = "jewelry17"; // Серебряный слиток
 				itmq[4] = 25;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 1000;
+				itmq[9] = 1000*(sti(PChar.rank)/2);
 			break;
 			case 9:
 				nameitm[1] = "jewelry8"; // Бронзовое кольцо
@@ -414,7 +414,7 @@ void OpenChest()
 				nameitm[2] = "jewelry9"; // Бронзовый крестик
 				itmq[2] = 10;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 15000;
+				itmq[9] = 15000*(sti(PChar.rank)/2);
 			break;
 			case 10:
 				nameitm[1] = "jewelry8"; // Бронзовое кольцо
@@ -422,7 +422,7 @@ void OpenChest()
 				nameitm[2] = "jewelry9"; // Бронзовый крестик
 				itmq[2] = 10;
 				nameitm[9] = "gold"; // Золото
-				itmq[9] = 15000;
+				itmq[9] = 15000*(sti(PChar.rank)/2);
 			break;
 		}
 		if (itmq[0] > 0) itmq[0] += makeint(value/50);
@@ -451,7 +451,7 @@ void OpenChest()
 				nameitm[2] = "CompCraft_Lead"; // Свинец
 				itmq[2] = 12;
 				nameitm[3] = "CompCraft_Grindstone"; // Оселок
-				itmq[3] = 5;
+				itmq[3] = 5+(sti(PChar.rank));
 			break;
 			case 2:
 				nameitm[1] = "CompCraft_Magnesium"; // Магний
@@ -483,7 +483,7 @@ void OpenChest()
 			break;
 			case 6:
 				nameitm[1] = "CompCraft_Flint"; // Кремень
-				itmq[1] = 45;
+				itmq[1] = 45+(sti(PChar.rank)*2);
 			break;
 			case 7:
 				nameitm[1] = "CompCraft_Magnesium"; // Магний
@@ -509,7 +509,7 @@ void OpenChest()
 				nameitm[9] = "CompCraft_Parchment"; // Бумага
 				itmq[9] = 10;
 				nameitm[10] = "CompCraft_Grindstone"; // Оселок
-				itmq[10] = 5;
+				itmq[10] = 5+(sti(PChar.rank));
 			break;
 			case 9:
 				nameitm[1] = "CompCraft_SulfurCrush"; // Измельчённая сера
@@ -519,23 +519,23 @@ void OpenChest()
 			break;
 			case 10:
 				nameitm[1] = "CompCraft_Grindstone"; // Оселок
-				itmq[1] = 15;
+				itmq[1] = 15+(sti(PChar.rank));
 			break;
 			case 11:
 				nameitm[1] = "slave_01"; // Гарпун
-				itmq[1] = 15;
+				itmq[1] = 15+(sti(PChar.rank)*2);
 			break;
 			case 12:
 				nameitm[1] = "CompCraft_Grindstone"; // Оселок
-				itmq[1] = 11;
+				itmq[1] = 11+(sti(PChar.rank));
 				nameitm[2] = "slave_01"; // Гарпун
-				itmq[2] = 12;
+				itmq[2] = 12+(sti(PChar.rank));
 			break;
 			case 13:
 				nameitm[1] = "CompCraft_Grindstone"; // Оселок
-				itmq[1] = 11;
+				itmq[1] = 11+(sti(PChar.rank)*2);
 				nameitm[2] = "slave_01"; // Гарпун
-				itmq[2] = 12;
+				itmq[2] = 12+(sti(PChar.rank)*2);
 			break;
 		}
 		if (itmq[0] > 0) itmq[0] += makeint(value/50);
@@ -562,19 +562,19 @@ void OpenChest()
 		{
 			case 0:
 				nameitm[1] = "bullet"; // Свинцовые пули
-				itmq[1] = 37;
+				itmq[1] = 37+(sti(PChar.rank)*2);
 				nameitm[2] = "gunpowder"; // Гранулированный порох
-				itmq[2] = 35;
+				itmq[2] = 35+(sti(PChar.rank)*2);
 				nameitm[4] = "grapeshot"; // Картечь
-				itmq[4] = 33;
+				itmq[4] = 33+(sti(PChar.rank)*2);
 				nameitm[5] = "cartridge"; // Бумажный патрон
-				itmq[5] = 31;
+				itmq[5] = 31+(sti(PChar.rank)*2);
 			break;
 			case 1:
 				nameitm[1] = "bullet"; // Свинцовые пули
-				itmq[1] = 52;
+				itmq[1] = 52+(sti(PChar.rank)*2);
 				nameitm[2] = "gunpowder"; // Гранулированный порох
-				itmq[2] = 55;
+				itmq[2] = 55+(sti(PChar.rank)*2);
 			break;
 			case 2:
 				nameitm[1] = "bullet"; // Свинцовые пули
@@ -596,9 +596,9 @@ void OpenChest()
 			break;
 			case 5:
 				nameitm[1] = "powder_pellet"; // Петарда
-				itmq[1] = 10;
+				itmq[1] = 10+(sti(PChar.rank)*2);
 				nameitm[2] = "grenade"; // Граната
-				itmq[2] = 5;
+				itmq[2] = 5+(sti(PChar.rank)*2);
 			break;
 			case 6:
 				nameitm[1] = "powder_pellet"; // Петарда
@@ -608,15 +608,15 @@ void OpenChest()
 			break;
 			case 7:
 				nameitm[1] = "powder_pellet"; // Петарда
-				itmq[1] = 50;
+				itmq[1] = 50+(sti(PChar.rank));
 			break;
 			case 8:
 				nameitm[2] = "grenade"; // Граната
-				itmq[2] = 32;
+				itmq[2] = 32+(sti(PChar.rank));
 			break;
 			case 9:
 				nameitm[1] = "harpoon"; // Стрела
-				itmq[1] = 16;
+				itmq[1] = 16+(sti(PChar.rank)*2);
 			break;
 			case 10:
 				nameitm[1] = "harpoon"; // Стрела
@@ -624,7 +624,7 @@ void OpenChest()
 			break;
 			case 11:
 				nameitm[1] = "GunEchin"; // Ежовый заряд
-				itmq[1] = 15;
+				itmq[1] = 15+(sti(PChar.rank)*2);
 			break;
 			case 12:
 				nameitm[1] = "GunEchin"; // Ежовый заряд
@@ -632,45 +632,45 @@ void OpenChest()
 			break;
 			case 13:
 				nameitm[1] = "bullet"; // Свинцовые пули
-				itmq[1] = 52;
+				itmq[1] = 52+(sti(PChar.rank));
 				nameitm[2] = "gunpowder"; // Гранулированный порох
-				itmq[2] = 54;
+				itmq[2] = 54+(sti(PChar.rank));
 				nameitm[3] = "grapeshot"; // Картечь
-				itmq[3] = 31;
+				itmq[3] = 31+(sti(PChar.rank));
 				nameitm[4] = "cartridge"; // Бумажный патрон
-				itmq[4] = 23;
+				itmq[4] = 23+(sti(PChar.rank));
 				nameitm[5] = "powder_pellet"; // Петарда
-				itmq[5] = 11;
+				itmq[5] = 11+(sti(PChar.rank));
 				nameitm[6] = "grenade"; // Граната
-				itmq[6] = 5;
+				itmq[6] = 5+(sti(PChar.rank));
 				nameitm[7] = "harpoon"; // Стрела
-				itmq[7] = 5;
+				itmq[7] = 5+(sti(PChar.rank));
 				nameitm[8] = "GunEchin"; // Ежовый заряд
-				itmq[8] = 5;
+				itmq[8] = 5+(sti(PChar.rank));
 			break;
 			case 14:
 				nameitm[1] = "potion1"; // Лечебное зелье
-				itmq[1] = 31;
+				itmq[1] = 31+(sti(PChar.rank));
 				nameitm[2] = "potion2"; // Эликсир
-				itmq[2] = 15;
+				itmq[2] = 15+(sti(PChar.rank));
 				nameitm[3] = "potionrum"; // Бутылка рома
-				itmq[3] = 23;
+				itmq[3] = 23+(sti(PChar.rank));
 			break;
 			case 15:
 				nameitm[1] = "potion1"; // Лечебное зелье
-				itmq[1] = 72;
+				itmq[1] = 72+(sti(PChar.rank));
 			break;
 			case 16:
 				nameitm[1] = "potion2"; // Эликсир
-				itmq[1] = 31;
+				itmq[1] = 31+(sti(PChar.rank));
 			break;
 			case 17:
 				nameitm[1] = "potionrum"; // Бутылка рома
-				itmq[1] = 43;
+				itmq[1] = 43+(sti(PChar.rank));
 			break;
 			case 18:
 				nameitm[3] = "potionrum"; // Бутылка рома
-				itmq[3] = 43;
+				itmq[3] = 43+(sti(PChar.rank));
 			break;
 		}
 		if (itmq[0] > 0) itmq[0] += makeint(value/50);
@@ -702,7 +702,7 @@ void OpenChest()
 				nameitm[4] = "indian16"; // Раскрашенный сосуд
 				itmq[4] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 9000;
+				itmq[30] = 9000*(sti(PChar.rank)/2);
 			break;
 			case 1:
 				nameitm[0] = "indian3"; // Нефритовая маска
@@ -714,7 +714,7 @@ void OpenChest()
 				nameitm[3] = "indian2"; // Пугающая фигурка
 				itmq[3] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 10000;
+				itmq[30] = 10000*(sti(PChar.rank)/2);
 			break;
 			case 2:
 				nameitm[0] = "indian6"; // Амулет Шиукоатля
@@ -726,7 +726,7 @@ void OpenChest()
 				nameitm[3] = "indian14"; // Чаша Ололиуки
 				itmq[3] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 11000;
+				itmq[30] = 11000*(sti(PChar.rank)/2);
 			break;
 			case 3:
 				nameitm[0] = "indian18"; // Идол Атлауа
@@ -738,7 +738,7 @@ void OpenChest()
 				nameitm[3] = "indian22"; // Голова воина племени майя
 				itmq[3] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 12000;
+				itmq[30] = 12000*(sti(PChar.rank)/2);
 			break;
 			case 4:
 				nameitm[0] = "indian15"; // Базальтовая голова
@@ -746,85 +746,85 @@ void OpenChest()
 				nameitm[1] = "indian17"; // Тельная ладанка
 				itmq[1] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 13000;
+				itmq[30] = 13000*(sti(PChar.rank)/2);
 			break;
 			case 5:
 				nameitm[0] = "indian1"; // Оберег Тлальчитонатиу
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 27000;
+				itmq[30] = 27000*(sti(PChar.rank)/2);
 			break;
 			case 6:
 				nameitm[0] = "indian2"; // Пугающая фигурка
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 36000;
+				itmq[30] = 36000*(sti(PChar.rank)/2);
 			break;
 			case 7:
 				nameitm[0] = "indian3"; // Нефритовая маска
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 25000;
+				itmq[30] = 25000*(sti(PChar.rank)/2);
 			break;
 			case 8:
 				nameitm[0] = "indian5"; // Двойная маска
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 24000;
+				itmq[30] = 24000*(sti(PChar.rank)/2);
 			break;
 			case 9:
 				nameitm[0] = "indian6"; // Амулет Шиукоатля
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 14000;
+				itmq[30] = 14000*(sti(PChar.rank)/2);
 			break;
 			case 10:
 				nameitm[0] = "indian7"; // Идол Великой Матери
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 15000;
+				itmq[30] = 15000*(sti(PChar.rank)/2);
 			break;
 			case 11:
 				nameitm[0] = "indian12"; // Кубок-тотем Тепейоллотля
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 16000;
+				itmq[30] = 16000*(sti(PChar.rank)/2);
 			break;
 			case 12:
 				nameitm[0] = "indian14"; // Чаша Ололиуки
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 17000;
+				itmq[30] = 17000*(sti(PChar.rank)/2);
 			break;
 			case 13:
 				nameitm[0] = "indian18"; // Идол Атлауа
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 18000;
+				itmq[30] = 18000*(sti(PChar.rank)/2);
 			break;
 			case 14:
 				nameitm[0] = "indian19"; // Статуэтка Тлалока
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 19000;
+				itmq[30] = 19000*(sti(PChar.rank)/2);
 			break;
 			case 15:
 				nameitm[0] = "indian21"; // Церемониальный сосуд
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 23000;
+				itmq[30] = 23000*(sti(PChar.rank)/2);
 			break;
 			case 16:
 				nameitm[0] = "indian22"; // Голова воина племени майя
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 22000;
+				itmq[30] = 22000*(sti(PChar.rank)/2);
 			break;
 			case 17:
 				nameitm[0] = "indian22"; // Голова воина племени майя
 				itmq[0] = 1;
 				nameitm[30] = "gold"; // Золото
-				itmq[30] = 21000;
+				itmq[30] = 21000*(sti(PChar.rank)/2);
 			break;
 		}
 		itmq[30] += makeint(value/3);

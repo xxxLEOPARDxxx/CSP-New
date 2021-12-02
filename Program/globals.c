@@ -92,9 +92,9 @@ object	Render;
 int     GlobalCharacters = 0;  // номер, с которого идут фантомы
 int     MAX_CHARACTERS   = 10;
 #define LOC_FANTOM_CHARACTERS		870	//32 max
-#define FANTOM_CHARACTERS           940
-#define TOTAL_CHARACTERS			1000  // прописать в BOAT_CHARACTER  TOTAL_CHARACTERS - 1
-#define BOAT_CHARACTER               999
+#define FANTOM_CHARACTERS           1040
+#define TOTAL_CHARACTERS			2000  // прописать в BOAT_CHARACTER  TOTAL_CHARACTERS - 1
+#define BOAT_CHARACTER              1999
 
 #define MAX_LOCATIONS		810 // boal //700
 #define MAX_ISLANDS   32

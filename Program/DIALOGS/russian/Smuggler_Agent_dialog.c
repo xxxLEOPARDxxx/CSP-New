@@ -100,13 +100,10 @@ void ProcessDialogEvent()
 			}
 			if (!CheckAttribute(pchar, "questTemp.Headhunter"))
 			{
-				if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions)
-				{
-					dialog.text = "Капитан, я бы хотел поговорить с вами об одном деле. Вы, как я вижу, человек на Архипелаге новый, и пока не известны в Береговом братстве... Возможно, вы именно т"+ GetSexPhrase("от","а") +", кто нуж"+ GetSexPhrase("ен","на") +".";
-					link.l1 = "Хм... Интересно. Излагайте, что у вас за дело.";
-					link.l1.go = "Give_vector";
-					break;
-				}
+				dialog.text = "Капитан, я бы хотел поговорить с вами об одном деле. Вы, как я вижу, человек на Архипелаге новый, и пока не известны в Береговом братстве... Возможно, вы именно т"+ GetSexPhrase("от","а") +", кто нуж"+ GetSexPhrase("ен","на") +".";
+				link.l1 = "Хм... Интересно. Излагайте, что у вас за дело.";
+				link.l1.go = "Give_vector";
+				break;
 			}
 			if(NPChar.quest.meeting == "0")
 			{

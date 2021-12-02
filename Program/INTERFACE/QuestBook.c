@@ -922,6 +922,8 @@ void ShowPGGInfo()
 		SetFormatedText("DATE_INFO_PLACE", "Дата стоянки:\n"+GameInterface.(CurTable).(CurRow).td7.str);
 		SetFormatedText("MONEY_INFO_PLACE", "Цена в месяц:\n"+GameInterface.(CurTable).(CurRow).td8.str+" п.");
 		SetFormatedText("SHIP_RANK", refBaseShip.Class);
+		SetFormatedText("CLASS_ARMOR", refBaseShip.HullArmor);
+		SetNewGroupPicture("CLASS_ARMOR_ICON", "ICONS_CHAR", "Reputation");
 		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + shipTexture + ".tga.tx");
 		SetNewPicture("SHIP_FRAME_PICTURE", "interfaces\Frame1.tga");
 		string texturedata;
@@ -971,7 +973,37 @@ void ShowPGGInfo()
 		else SetNewGroupPicture("ExtraCapacityOn", "SHIP_UPGRADES", "ExtraCapacityOff");
 		if (CheckAttribute(RealShips[sti(chrefspp.Ship.Type)],"Tuning.HighBort")) SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOn");
 		else SetNewGroupPicture("ExtraBigSidesOn", "SHIP_UPGRADES", "ExtraBigSidesOff");
-
+		if (bHalfImmortalPGG)
+		{
+			if (CheckAttribute(chrefspp, "ImmortalOfficer"))
+			{
+				SetNodeUsing("CONTRACT",true);
+				SetNewPicture("CONTRACT", "interfaces\FaqPictures\CONTRACT.png");
+				SetNodeUsing("CONTRACT_TEXT",true);
+				SetFormatedText("CONTRACT_TEXT","Заключен контракт");
+			}
+			else 
+			{
+				SetNodeUsing("CONTRACT",false);
+				SetFormatedText("CONTRACT_TEXT","");
+			}
+		}
+		else
+		{
+			if (CheckAttribute(chrefspp, "halfimmortal"))
+			{
+				SetNodeUsing("CONTRACT",true);
+				SetNewPicture("CONTRACT", "interfaces\FaqPictures\CONTRACT.png");
+				SetNodeUsing("CONTRACT_TEXT",true);
+				SetFormatedText("CONTRACT_TEXT"," Полубессмертие");
+			}
+			else 
+			{
+				SetNodeUsing("CONTRACT",false);
+				SetFormatedText("CONTRACT_TEXT","");
+			}
+		}
+		
 		XI_WindowShow("SHOW_ADV_INFO", true);
 		XI_WindowDisable("SHOW_ADV_INFO", false);
 		sMessageMode = "RPG_Hint";
@@ -987,6 +1019,7 @@ void ShowPGGInfo()
 		if (IsCharacterPerkOn(chrefspp1, "Buccaneer")) texturedata = "INTERFACES\Sith\Char_Inquisitor.tga";
 		if (IsCharacterPerkOn(chrefspp1, "Agent")) texturedata = "INTERFACES\Sith\Char_SecretAgent.tga";
 		if (IsCharacterPerkOn(chrefspp1, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
+		SetNewPicture("CHARACTER_PROFESSION", texturedata);
 		SetSPECIALMiniTable("TABLE_SMALLSKILL", chrefspp1);
 		SetOTHERMiniTable("TABLE_SMALLOTHER", chrefspp1);
 		string offtype1;
@@ -995,6 +1028,36 @@ void ShowPGGInfo()
 		SetFormatedText("OFFICER_NAME", GetFullName(chrefspp1)+offtype1);
 		SetNewPicture("CHARACTER_BIG_PICTURE", "interfaces\portraits\256\face_" + chrefspp1.faceId + ".tga");
 		SetNewPicture("CHARACTER_FRAME_PICTURE", "interfaces\Frame2.tga");
+		if (bHalfImmortalPGG)
+		{
+			if (CheckAttribute(chrefspp1, "ImmortalOfficer"))
+			{
+				SetNodeUsing("CONTRACT",true);
+				SetNewPicture("CONTRACT", "interfaces\FaqPictures\CONTRACT.png");
+				SetNodeUsing("CONTRACT_TEXT",true);
+				SetFormatedText("CONTRACT_TEXT","Заключен контракт");
+			}
+			else 
+			{
+				SetNodeUsing("CONTRACT",false);
+				SetFormatedText("CONTRACT_TEXT","");
+			}
+		}
+		else
+		{
+			if (CheckAttribute(chrefspp1, "halfimmortal"))
+			{
+				SetNodeUsing("CONTRACT",true);
+				SetNewPicture("CONTRACT", "interfaces\FaqPictures\CONTRACT.png");
+				SetNodeUsing("CONTRACT_TEXT",true);
+				SetFormatedText("CONTRACT_TEXT"," Полубессмертие");
+			}
+			else 
+			{
+				SetNodeUsing("CONTRACT",false);
+				SetFormatedText("CONTRACT_TEXT","");
+			}
+		}
 		
 		XI_WindowShow("SHOW_ADV_INFO_SHORT", true);
 		XI_WindowDisable("SHOW_ADV_INFO_SHORT", false);
@@ -1226,23 +1289,23 @@ void SetTableRowByAchievement(string ach_id, int level)
 			if(ach_id == "kills") strprogress = strprogress + sti(killsall) + " / 500";
 			if(ach_id == "ship_kills") strprogress = strprogress + sti(killshipsall) + " / 70";
 			if(ach_id == "skel_kills") strprogress = strprogress + sti(monstersall) + " / 150";
-			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 225";
+			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 150";
 			if(ach_id == "criticals") strprogress = strprogress + sti(pchar.questTemp.criticalcount) + " / 500";
 			if(ach_id == "AchTreasure") strprogress = strprogress + sti(pchar.questTemp.treasurecount) + " / 30";
-			if(ach_id == "AchBlood") strprogress = strprogress + sti(pchar.questTemp.bloodingcount) + " / 300";
+			if(ach_id == "AchBlood") strprogress = strprogress + sti(pchar.questTemp.bloodingcount) + " / 200";
 			if(ach_id == "AchTravma") strprogress = strprogress + sti(pchar.questTemp.traumacount) + " / 300";
 			if(ach_id == "AchStanS") strprogress = strprogress + sti(pchar.questTemp.swiftcount) + " / 300";
 			if(ach_id == "AchStanH") strprogress = strprogress + sti(pchar.questTemp.stuncount) + " / 300";
-			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 50";
-			if(ach_id == "craft") strprogress = strprogress + sti(pchar.questTemp.craftcount) + " / 5000";
+			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 30";
+			if(ach_id == "craft") strprogress = strprogress + sti(pchar.questTemp.craftcount) + " / 1000";
 			if(ach_id == "books") strprogress = strprogress + sti(pchar.questTemp.bookcount) + " / 10";
 			if(ach_id == "officers") strprogress = strprogress + sti(pchar.questTemp.officercount) + " / 10";
 			if(ach_id == "heal_bottles") strprogress = strprogress + sti(pchar.questTemp.healcount) + " / 200";
-			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 500";
+			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 300";
 			if(ach_id == "gen_quests") strprogress = strprogress + sti(pchar.questTemp.genquestcount) + " / 40";
 			if(ach_id == "AchBuildColony") strprogress = strprogress + sti(pchar.questTemp.colonystate) + " / 3";
 			if(ach_id == "AchTurnir") strprogress = strprogress + sti(pchar.questTemp.tournamentcount) + " / 7";
-			if(ach_id == "AchDuelyant") strprogress = strprogress + sti(pchar.questTemp.duelcount) + " / 30";
+			if(ach_id == "AchDuelyant") strprogress = strprogress + sti(pchar.questTemp.duelcount) + " / 20";
 			if(ach_id == "AchShipOrder") strprogress = strprogress + sti(pchar.questTemp.shipordercount) + " / 20";
 			if(ach_id == "AchGoldFleet") strprogress = strprogress + sti(pchar.questTemp.GoldFleetNum) + " / 7";
 			if(ach_id == "AchSityRobbery") strprogress = strprogress + (Statistic_AddValue(PChar, "pir_GrabbingTown", 0) +
@@ -1262,23 +1325,23 @@ void SetTableRowByAchievement(string ach_id, int level)
 			if(ach_id == "kills") strprogress = strprogress + sti(killsall) + " / 150";
 			if(ach_id == "ship_kills") strprogress = strprogress + sti(killshipsall) + " / 35";
 			if(ach_id == "skel_kills") strprogress = strprogress + sti(monstersall) + " / 75";
-			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 75";
+			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 100";
 			if(ach_id == "criticals") strprogress = strprogress + sti(pchar.questTemp.criticalcount) + " / 250";
 			if(ach_id == "AchTreasure") strprogress = strprogress + sti(pchar.questTemp.treasurecount) + " / 15";
-			if(ach_id == "AchBlood") strprogress = strprogress + sti(pchar.questTemp.bloodingcount) + " / 150";
+			if(ach_id == "AchBlood") strprogress = strprogress + sti(pchar.questTemp.bloodingcount) + " / 100";
 			if(ach_id == "AchTravma") strprogress = strprogress + sti(pchar.questTemp.traumacount) + " / 150";
 			if(ach_id == "AchStanS") strprogress = strprogress + sti(pchar.questTemp.swiftcount) + " / 150";
 			if(ach_id == "AchStanH") strprogress = strprogress + sti(pchar.questTemp.stuncount) + " / 150";
-			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 25";
+			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 15";
 			if(ach_id == "craft") strprogress = strprogress + sti(pchar.questTemp.craftcount) + " / 500";
 			if(ach_id == "books") strprogress = strprogress + sti(pchar.questTemp.bookcount) + " / 6";
 			if(ach_id == "officers") strprogress = strprogress + sti(pchar.questTemp.officercount) + " / 6";
 			if(ach_id == "heal_bottles") strprogress = strprogress + sti(pchar.questTemp.healcount) + " / 100";
-			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 250";
+			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 150";
 			if(ach_id == "gen_quests") strprogress = strprogress + sti(pchar.questTemp.genquestcount) + " / 20";
 			if(ach_id == "AchBuildColony") strprogress = strprogress + sti(pchar.questTemp.colonystate) + " / 3";
 			if(ach_id == "AchTurnir") strprogress = strprogress + sti(pchar.questTemp.tournamentcount) + " / 3";
-			if(ach_id == "AchDuelyant") strprogress = strprogress + sti(pchar.questTemp.duelcount) + " / 15";
+			if(ach_id == "AchDuelyant") strprogress = strprogress + sti(pchar.questTemp.duelcount) + " / 10";
 			if(ach_id == "AchShipOrder") strprogress = strprogress + sti(pchar.questTemp.shipordercount) + " / 10";
 			if(ach_id == "AchGoldFleet") strprogress = strprogress + sti(pchar.questTemp.GoldFleetNum) + " / 3";
 			if(ach_id == "AchSityRobbery") strprogress = strprogress + (Statistic_AddValue(PChar, "pir_GrabbingTown", 0) +
@@ -1293,27 +1356,48 @@ void SetTableRowByAchievement(string ach_id, int level)
 		{
 			if(ach_id == "rank") strprogress = strprogress + sti(pchar.rank) + " / 10";
 			if(ach_id == "money") strprogress = strprogress + MakeMoneyShow(sti(pchar.money), MONEY_SIGN,MONEY_DELIVER) + " / 1 000 000";
-			if(ach_id == "bank_money") strprogress = strprogress + MakeMoneyShow(sti(pchar.questTemp.depositcount), MONEY_SIGN,MONEY_DELIVER) + " / 50 000 000";
+			int deposits = 0;
+            if (CheckAttribute(pchar, "Quest.Deposits")) // не треться при возврате
+            {
+                aref quest;
+                aref quests;
+                makearef(quests,Characters[GetMainCharacterIndex()].Quest.Deposits);
+
+                int nQuestsNum = GetAttributesNum(quests);
+
+                for(int n = 0; n < nQuestsNum; n++)
+                {
+                    quest = GetAttributeN(quests,n);
+
+                    string sQuestName = GetAttributeName(quest);
+                    if (CheckAttribute(Pchar, "Quest.Deposits."+sQuestName+".Sum"))
+                    {
+                        int iPastMonths = GetPastTime("Month", makeint(Pchar.Quest.Deposits.(sQuestName).StartYear),makeint(Pchar.Quest.Deposits.(sQuestName).StartMonth),makeint(Pchar.Quest.Deposits.(sQuestName).StartDay), makefloat(Pchar.Quest.Deposits.(sQuestName).StartTime), getDataYear(),getDataMonth(),GetDataDay(), GetTime());
+                        deposits += makeint(Pchar.Quest.Deposits.(sQuestName).Sum) + ((makeint(Pchar.Quest.Deposits.(sQuestName).Sum)/100)*makeint(Pchar.Quest.Deposits.(sQuestName).Interest))*iPastMonths;
+                    }
+                }
+            }
+            if(ach_id == "bank_money") strprogress = strprogress + MakeMoneyShow(deposits, MONEY_SIGN,MONEY_DELIVER) + " / 50 000 000";
 			if(ach_id == "AchShipSearch") strprogress = strprogress + sti(pchar.questTemp.shipsearchcount) + " / 124";
 			if(ach_id == "taxes") strprogress = strprogress + sti(pchar.questTemp.taxescount) + " / 10";
-			if(ach_id == "AchVzyatka") strprogress = strprogress + sti(pchar.questTemp.bribescount) + " / 5";
+			if(ach_id == "AchVzyatka") strprogress = strprogress + sti(pchar.questTemp.bribescount) + " / 10";
 			if(ach_id == "kills") strprogress = strprogress + sti(killsall) + " / 50";
 			if(ach_id == "ship_kills") strprogress = strprogress + sti(killshipsall) + " / 10";
 			if(ach_id == "skel_kills") strprogress = strprogress + sti(monstersall) + " / 30";
-			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 25";
+			if(ach_id == "poisons") strprogress = strprogress + sti(pchar.questTemp.poisoncount) + " / 50";
 			if(ach_id == "criticals") strprogress = strprogress + sti(pchar.questTemp.criticalcount) + " / 100";
 			if(ach_id == "AchTreasure") strprogress = strprogress + sti(pchar.questTemp.treasurecount) + " / 5";
 			if(ach_id == "AchBlood") strprogress = strprogress + sti(pchar.questTemp.bloodingcount) + " / 50";
 			if(ach_id == "AchTravma") strprogress = strprogress + sti(pchar.questTemp.traumacount) + " / 50";
 			if(ach_id == "AchStanS") strprogress = strprogress + sti(pchar.questTemp.swiftcount) + " / 50";
 			if(ach_id == "AchStanH") strprogress = strprogress + sti(pchar.questTemp.stuncount) + " / 50";
-			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 10";
+			if(ach_id == "AchChest") strprogress = strprogress + sti(pchar.questTemp.chestcount) + " / 5";
 			if(ach_id == "craft") strprogress = strprogress + sti(pchar.questTemp.craftcount) + " / 300";
 			if(ach_id == "books") strprogress = strprogress + sti(pchar.questTemp.bookcount) + " / 3";
 			if(ach_id == "officers") strprogress = strprogress + sti(pchar.questTemp.officercount) + " / 3";
 			if(ach_id == "ships") strprogress = strprogress + sti(GetCompanionQuantity(pchar)) + " / " + (COMPANION_MAX);
 			if(ach_id == "heal_bottles") strprogress = strprogress + sti(pchar.questTemp.healcount) + " / 50";
-			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 100";
+			if(ach_id == "AchFood") strprogress = strprogress + sti(pchar.questTemp.foodcount) + " / 50";
 			if(ach_id == "gen_quests") strprogress = strprogress + sti(pchar.questTemp.genquestcount) + " / 10";
 			if(ach_id == "AchBuildColony") strprogress = strprogress + sti(pchar.questTemp.colonystate) + " / 3";
 			if(ach_id == "AchTurnir") strprogress = strprogress + sti(pchar.questTemp.tournamentcount) + " / 1";
@@ -1355,6 +1439,8 @@ void ExitRPGHint()
 		XI_WindowDisable("SHOW_ADV_INFO", true);
 		XI_WindowShow("SHOW_ADV_INFO_SHORT", false);
 		XI_WindowDisable("SHOW_ADV_INFO_SHORT", true);
+		SetNodeUsing("CONTRACT",false);
+		SetNodeUsing("CONTRACT_TEXT",false);
 		sMessageMode = "";
 	}
 }
@@ -1802,6 +1888,9 @@ void InitTableHeader()
 	GameInterface.TABLE_DEBIT.hr.td4.str = "%";
 	GameInterface.TABLE_DEBIT.hr.td4.scale = 0.9;
 	GameInterface.TABLE_DEBIT.select = 0;
+	GameInterface.TABLE_DEBIT.hr.td5.str = "Итог";
+	GameInterface.TABLE_DEBIT.hr.td5.scale = 0.9;
+	GameInterface.TABLE_DEBIT.select = 0;
 	i = 1;
 	if (CheckAttribute(pchar, "Quest.Deposits")) // не треться при возврате
 	{
@@ -1828,6 +1917,10 @@ void InitTableHeader()
 				GameInterface.TABLE_DEBIT.(row).td3.scale = 0.8;
 				GameInterface.TABLE_DEBIT.(row).td4.str = Pchar.Quest.Deposits.(sQuestName).Interest;
 				GameInterface.TABLE_DEBIT.(row).td4.scale = 0.9;
+				int iPastMonths = GetPastTime("Month", makeint(Pchar.Quest.Deposits.(sQuestName).StartYear),makeint(Pchar.Quest.Deposits.(sQuestName).StartMonth),makeint(Pchar.Quest.Deposits.(sQuestName).StartDay), makefloat(Pchar.Quest.Deposits.(sQuestName).StartTime), getDataYear(),getDataMonth(),GetDataDay(), GetTime());
+				Pchar.Quest.Deposits.(sQuestName).Result = makeint(Pchar.Quest.Deposits.(sQuestName).Sum) + ((makeint(Pchar.Quest.Deposits.(sQuestName).Sum)/100)*makeint(Pchar.Quest.Deposits.(sQuestName).Interest))*iPastMonths;
+				GameInterface.TABLE_DEBIT.(row).td5.str = Pchar.Quest.Deposits.(sQuestName).Result;
+				GameInterface.TABLE_DEBIT.(row).td5.scale = 0.9;
 			}
 		}
 	}
@@ -1938,7 +2031,8 @@ void FillShipPlaceTable(string _tabName)
 			GameInterface.(_tabName).(row).td4.textoffset = "40, 0";
 			GameInterface.(_tabName).(row).td4.scale = 0.8;
 			GameInterface.(_tabName).(row).td5.icon.group  = "NATIONS";
-			GameInterface.(_tabName).(row).td5.icon.image  = "SPAIN";
+			if (!CheckAttribute(pchar, "PirateOrder"))GameInterface.(_tabName).(row).td5.icon.image  = "SPAIN";
+			else GameInterface.(_tabName).(row).td5.icon.image  = "PIRATE";
 			GameInterface.(_tabName).(row).td5.icon.width  = 40;
 			GameInterface.(_tabName).(row).td5.icon.height = 40;
 			GameInterface.(_tabName).(row).td5.icon.offset = "-2, 0";
@@ -2006,7 +2100,7 @@ void FillPriceListTown(string _tabName)
 			GameInterface.(_tabName).(row).td3.scale = 0.65;
 			GameInterface.(_tabName).(row).td4.str = GetStorageUsedWeight(refStorage) + " / " + iMaxGoodsStore;
 			GameInterface.(_tabName).(row).td4.scale = 0.8;
-			GameInterface.(_tabName).(row).td5.str = GetNpcQuestPastMonthParam(chref, "Storage.Date") * sti(chref.MoneyForStorage);
+			GameInterface.(_tabName).(row).td5.str = GetNpcQuestPastMonthParam(chref, "Storage.Date") * sti(chref.Storage.MoneyForStorage);
 			GameInterface.(_tabName).(row).td5.scale = 0.8;
 			cn++;
 		}

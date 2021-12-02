@@ -4,7 +4,7 @@ void ProcessDialogEvent()
 	ref NPChar, sld;
 	aref Link, NextDiag;
 	float locx, locy, locz;
-
+	string sTemp;
 	bool hungry = true;
 	DeleteAttribute(&Dialog,"Links");
 
@@ -52,7 +52,7 @@ void ProcessDialogEvent()
 				}
 				if (npchar.quest.meting == 1)
 				{
-					dialog.text = "Я решил, что буду носить твой клинок с пистолем. Костюмчик оказался мне не по размеру, но может и пригодится, если обзаведусь женой-корсаркой\nВряд ли ты станешь возражать. Пистоль твой, однако - очень убойная штука, к тому же выглядит необычно. Где взяла?";
+					dialog.text = "Интересные у тебя вещички, я решил, что пока оставлю их все при себе\nВряд ли ты станешь возражать. Пистоль твой, однако - очень убойная штука, к тому же выглядит необычно. Где взяла?";
 					link.l1 = "Не твоё дело. Долго вы меня собираетесь здесь держать?";
 					link.l1.go = "PC_2";
 					npchar.quest.meting = 2;
@@ -1007,7 +1007,7 @@ void ProcessDialogEvent()
 				sld = characterFromId("IncqGuard_"+i);
 				LAi_SetActorTypeNoGroup(sld);
 			}
-			dialog.text = "Вот и наша красавица\nЕсли я правильно помню инструкцию, тебя следует сначала привязать к колесу, после чего, медленными движениями вращать рычаг. Шипы внизу безнадежно искалечат и изуродуют твое тело. Вряд ли после таого ты вообще сможешь ходить без чужой помощи\nТак... Ну и куда же подевалась верёвка?";
+			dialog.text = "Вот и наша красавица\nЕсли я правильно помню инструкцию, тебя следует сначала привязать к колесу, после чего, медленными движениями вращать рычаг. Шипы внизу безнадежно искалечат и изуродуют твое тело. Вряд ли после такого ты вообще сможешь ходить без чужой помощи\nТак... Ну и куда же подевалась верёвка?";
 			link.l1 = "Прости, но я вынуждена отказаться от твоего предложения. Способность ходить мне еще понадобится, когда я буду искать отсюда выход. (Пока он замешкался, ты резким движением выхватываешь его пистолет из кобуры)";
 			link.l1.go = "IncqGuard_bad_wheel_kill";
 		break;
@@ -1149,7 +1149,6 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		case "PC_2":
-			
 			dialog.text = "Сколько потребуется. На вид эти штучки дорого стоят, наверняка у тебя богатые родители. Предлагаю сходить к ним и потребовать выкуп. Как только я получу деньги - ты свободна. Итак, в какой колонии мы сможем их найти?";
 			link.l1 = "Я не из этих мест. У меня здесь нет родных.";
 			link.l1.go = "PC_2_1";
@@ -1165,8 +1164,6 @@ void ProcessDialogEvent()
 			dialog.text = "Я лишь говорю как есть\nЛадно, крепись. Пока мы доплывём, у тебя есть несколько дней чтобы подготовиться к далеко не самой приятной встрече в своей жизни. ";
 			link.l1 = "...";
 			link.l1.go = "PC_2_exit";
-			link.l2 = "Постой...";
-			link.l2.go = "PC_2_exit";
 		break;
 		case "PC_2_3":
 			dialog.text = "Боюсь, что нет. Я предложил тебе вариант, но ты начала увиливать от ответа. Пускай уже де Соуза узнает, можно ли с тебя получить выкуп, или где берутся такие пистоли\nЛадно, крепись. Пока мы доплывем, у тебя есть несколько дней чтобы подготовиться к далеко не самой приятной встрече в твоей жизни. ";
@@ -1297,6 +1294,229 @@ void ProcessDialogEvent()
 			//LAi_group_MoveCharacter(NPChar, LAI_GROUP_MONSTERS);
 			//LAi_SetImmortal(npchar, false);
 			//LAi_group_SetRelation(LAI_GROUP_MONSTERS, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+			DialogExit();
+		break;
+		
+		case "OrderHunter":
+			chrDisableReloadToLocation = false;
+			//Lai_SetPlayerType(pchar);
+			if(!CheckAttribute(pchar,"OrderHunter"))
+			{
+				SetQuestHeader("TheLastMass");
+				if (startherotype == 2)	
+				{
+					sTemp = "Ты же не думала, что сможешь убить главу инквизиции, и тебе это так просто сойдёт с рук? ";
+					AddQuestRecord("TheLastMass", "1");
+				}
+				else	
+				{
+					sTemp = "До инквизиции дошли сведения о твоих злодеяниях и богохульных ритуалах! ";
+					AddQuestRecord("TheLastMass", "1_2");
+				}
+				pchar.OrderHunter = "1";
+				Link.l1 = "Инквизитор? Советую тебе вернуться обратно в свою нору под церковью Сантьяго. Ну же, беги, пока я добр"+GetSexPhrase("ый","ая")+"!";
+				Link.l1.go = "OrderHunterMeeting"; 
+			}
+			else	
+			{
+				sTemp = " ";
+				
+				Link.l1 = "Опять? Ладно, приготовься к вознесению на небеса.";
+				Link.l1.go = "OrderHunterBattle";
+				
+				if(sti(PChar.OrderHunter) == 2) {AddQuestRecord("TheLastMass", "2");}
+				
+				if(sti(PChar.OrderHunter) == 3)
+				{
+					Link.l1 = "Знаешь, а ведь ты уже не первый инквизитор, что охотился на меня. Думаю, ты догадываешься, что случилось с остальными. Скажи, где находится ваша база, и я позволю тебе уйти живым.";
+					Link.l1.go = "OrderHunterNegotiate";
+				}
+				if(sti(PChar.OrderHunter) > 3)
+				{
+					Link.l2 = "Никак вы, б***ь не научитесь! Опять кому-то умереть захотелось?";
+					Link.l2.go = "OrderHunterCheck";
+				}
+			}
+			dialog.text = GetFullName(PChar) + "! "+ sTemp + "Я выслеживал тебя долгое время, и вот, наконец, ты получишь заслуженное наказание.";
+		break;
+		
+		case "OrderHunterNegotiate":
+			dialog.text = "Хм... Так и быть. В своих силах я не уверен, но дон Хулио Иглесиас наверняка одолеет тебя. Наш Капитул расположен на Рифе Скелета, в бухте Проклятых. Это в паре дней пути на восток от Каймана.";
+
+            Link.l1 = "Не слишком ли это осквернённое место для 'благочестивых' служителей церкви?";
+			Link.l1.go = "OrderHunterNegotiate_1";
+		break;
+		
+		case "OrderHunterNegotiate_1":
+			dialog.text = "Дурная слава этого рифа обеспечивает защиту надёжней любых стен и орудий. Все обходят его стороной.";
+			AddQuestRecord("TheLastMass", "3");
+            Link.l1 = "Что ж, я своё слово держу, можешь идти.";
+			Link.l1.go = "OrderHunterPeace";
+			Link.l2 = "Благодарю за информацию. Не принимай близко к сердцу, но я не могу позволить тебе уйти живым и предупредить о моём визите.";
+			Link.l2.go = "OrderHunterBattle";
+			
+			CaptureCapitol_SeaBattle();
+			pchar.quest.CaptureCapitol_SeaBattleStarted.win_condition.l1          = "location";
+			pchar.quest.CaptureCapitol_SeaBattleStarted.win_condition.l1.location = "Reefs";
+			pchar.quest.CaptureCapitol_SeaBattleStarted.function             = "CaptureCapitol_SeaBattleStarted";	
+		break;
+		
+		case "OrderHunterMeeting":
+			dialog.text = "Сантьяго больше не является нашим главным штабом на Карибах. Сюда из Европы прибыл дон Хулио Иглесиас и начал строительство нового Капитула. А в связи с последними событиями, наш орден получил в распоряжение практически неограниченное финансирование и собственную военную эскадру.";
+
+            Link.l1 = "Надо же! Как интересно... А где находится ваша новая столица?";
+			Link.l1.go = "OrderHunterMeeting_1";
+		break;
+		
+		case "OrderHunterMeeting_1":
+			dialog.text = "В тайном месте и под надёжной охраной.";
+            Link.l1 = "Ожидаемый ответ. Раз уж ты всё еще здесь, думаю тебе не терпится отправиться на небеса.";
+			Link.l1.go = "OrderHunterBattle";
+		break;
+		
+		case "OrderHunterCheck":
+			if (GetSummonSkillFromName(pchar, SKILL_LEADERSHIP) > rand(150))
+            {
+                dialog.text = "Пожалуй я не готов сражаться с тобой сегодня. Господь даровал тебе время покаяться в своих грехах.";
+                Link.l1 = "Ну и проваливай.";
+                Link.l1.go = "OrderHunterPeace";
+				Link.l2 = "Надеюсь, ты уже покаялся в своих, ведь у тебя времени не осталось.";
+				Link.l2.go = "OrderHunterBattle";
+                AddCharacterExpToSkill(pchar, SKILL_LEADERSHIP, 100);
+            }
+            else
+            {
+                dialog.text = "Тебе не запугать меня своим греховным словоблудием!";
+			    Link.l1 = "Тогда я заткну тебя своим клинком.";
+			    Link.l1.go = "OrderHunterBattle";
+			    AddCharacterExpToSkill(pchar, SKILL_LEADERSHIP, 50);
+            }
+		break;
+		
+		case "OrderHunterPeace":
+            PChar.OrderHunter = sti(PChar.OrderHunter)+1;
+			AddDialogExitQuest("GoAway_Hunters_Land");
+            DialogExit();
+        break;
+		
+		case "OrderHunterBattle":
+			PChar.OrderHunter = sti(PChar.OrderHunter)+1;
+            AddDialogExitQuest("Battle_Hunters_Land");
+            DialogExit();
+        break;
+		
+		case "OrderLeader":
+			LAi_SetActorType(npchar);
+			dialog.text = "Вижу тебе удалось загубить жизни многих моих братьев. Но как сказал Господь: Мёртвые оживут, тела их снова восстанут к жизни, восстанут они и восторжествуют\nИ вы, пребывающие во прахе, - пробудитесь и ликуйте!";
+
+            Link.l1 = "Что ещё за чертовщина?";
+			Link.l1.go = "OrderLeader_exit";
+		break;
+		
+		case "OrderLeader_exit":
+			LAi_ActorGoToLocation(npchar, "reload", "reload2", "none", "", "", "", -1);
+			DoQuestFunctionDelay("CaptureCapitol_ShoreBattleRaiseUndead", 3.5);
+			DialogExit();
+		break;
+		
+		case "OrderLeader_1":
+			dialog.text = "Меня загнали в угол, подобно дикому зверю. Но я не стану уподобляться ему и впадать в страх! Нет! Я не отчаиваюсь, если мне суждено отправиться сегодня в Царствие Небесное - так тому и быть. Но я всё же надеюсь, что Господь наделит меня силой, чтобы я мог сразить врага его.";
+
+            Link.l1 = "Что это было там, наверху? Подозреваю, что после связей с нечистью это скорее ты враг Богу, а не я, и дорога тебе прямиком в Ад.";
+			Link.l1.go = "OrderLeader_2";
+		break;
+		
+		case "OrderLeader_2":
+			dialog.text = "Посмотри на икону у меня за спиной. Георгий Победоносный сражается со змеем. Она прекрасна, не правда ли? Я много смотрел на неё и думал, а что если не убивать змея, а приручить его? И вот, однажды я нашёл способ\nКогда-то эти люди были слугами тьмы, но я сумел обуздать силы этого проклятого острова и направить их во благо. Я сделал их орудиями в руках Господа!";
+
+            Link.l1 = "Во благо своих извращённых желаний? Не представляю как ты этого добился и знать не хочу. В этих гниющих телах были души людей! Вместо того, чтобы освободить их, ты оставил их мучиться и подчиняться твоим капризам. Вряд ли Богу такое понравится. Но теперь всё кончено, они обрели покой.";
+			Link.l1.go = "OrderLeader_3";
+		break;
+		
+		case "OrderLeader_3":
+			dialog.text = "Тебе не понять, это всё затевалось для высшего блага. Когда мои старания дадут плоды, Господь простит меня. А то, что стражи грота мертвы, не беда, ты со своими людьми займёшь их место!";
+
+            Link.l1 = "Это вряд ли.";
+			Link.l1.go = "OrderLeader_fight";
+			if (startherotype == 2)
+			{
+				Link.l1 = "Это случайно не мой шотган у тебя на поясе?";
+				Link.l1.go = "OrderLeader_4";
+			}
+		break;
+		
+		case "OrderLeader_4":
+			dialog.text = "А, ты заметила. Я нашел это оружие среди документов в кабинете де Соузы, когда занял его пост. Говоришь, эта вещь твоя? Должен признаться, я в восхищении от этого механизма, грешники толпами падают от каждого выстрела. Думаю, ты и сама это знаешь. А скоро даже испытаешь на себе.";
+
+            Link.l1 = "Ещё один повод скорее тебя убить!";
+			Link.l1.go = "OrderLeader_fight";
+		break;
+		
+		case "OrderLeader_fight":
+			AddDialogExitQuest("MainHeroFightModeOn");
+			DialogExit();
+			CaptureCapitol_OnLeaderDeath();
+			LAi_LocationFightDisable(locLoad, false);
+			LAi_SetWarriorType(npchar);
+			LAi_group_MoveCharacter(npchar, "CaptureCapitol");	
+			for (int j=1; j<=6; j++)
+			{
+				sld = CharacterFromID("MaltGuard_"+j);
+				LAi_group_MoveCharacter(sld, "CaptureCapitol");	
+				ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto5");
+			}
+			
+			LAi_group_SetHearRadius("CaptureCapitol", 100.0);
+			LAi_group_FightGroupsEx("CaptureCapitol", LAI_GROUP_PLAYER, true, Pchar, -1, false, false);	
+		break;
+		
+		case "CapitolCaptured":
+			chrDisableReloadToLocation = false;
+			pchar.quest.CaptureCapitol_Decision.win_condition.l1          = "location";
+			pchar.quest.CaptureCapitol_Decision.win_condition.l1.location = "DeckWithReefs";
+			pchar.quest.CaptureCapitol_Decision.function             = "CaptureCapitol_Decision";
+			
+			dialog.text = "Вот это побоище, в жизни не видел столько трупов! Здорово мы их уделали, а, капитан?";
+            Link.l1 = "Мы? Что-то не припомню, чтобы выдел"+GetSexPhrase("","а")+" тебя среди сражавшихся.";
+			Link.l1.go = "CapitolCaptured_1";
+		break;
+		case "CapitolCaptured_1":
+			dialog.text = "Ну как же, я оборонял тылы, на случай, если нас попытаются окружить. Не сердитесь, капитан\nВот что, я знаю, как вас обрадовать! Пока я, кхм... оборонял другие помещения, я успел немного их осмотреть. Здесь целый склад вооружения разных видов, тонны припасов, а самое интересное - я нашел библиотеку, наполненную книгами на военную тематику. Похоже, инквизиция собиралась обучить здесь собственную армию.";
+
+            Link.l1 = "Интересно, и что со всем этим можно сделать? Продать кому-то?";
+			Link.l1.go = "CapitolCaptured_2";
+		break;
+		case "CapitolCaptured_2":
+			dialog.text = "Можно продать, а можно... быть может это глупость, но я думаю, что мы могли бы воспользоваться этим местом для тренировки и содержания собственной армии? Ну, может не целой армии, но вы могли бы оставлять здесь своих офицеров, чтобы они набирались опыта.";
+
+            Link.l1 = "Ты прав, это глупость. Продадим всё и дело с концом.";
+			Link.l1.go = "CapitolCaptured_3";
+			Link.l2 = "Можно попробовать. Пусть у нас будет собственная база, на всякий случай.";
+			Link.l2.go = "CapitolCaptured_4";
+		break;
+		case "CapitolCaptured_3":
+			dialog.text = "Ладно. Тогда я быстро сделаю список всего, что здесь есть, а вы поищите покупателя.";
+
+            Link.l1 = "Думаю, ростовщики будут только рады получить кучу этого хлама.";
+			Link.l1.go = "CapitolCaptured_sell";
+			Link.l2 = "Хотя... давай всё же оставим это место себе.";
+			Link.l2.go = "CapitolCaptured_4";
+		break
+		case "CapitolCaptured_4":
+			dialog.text = "Отличная мысль, капитан!";
+
+            Link.l1 = "Сиди тут и оставайся за главного. Несколько человек с собой возьми. Будешь штабной крысой, всё равно в бою от тебя толку никакого.";
+			Link.l1.go = "CapitolCaptured_keep";
+		break;
+		
+		case "CapitolCaptured_keep":
+			dialog.text = "Спасибо, капитан! Я вас не подведу.";
+            Link.l1 = "Увидим.";
+			Link.l1.go = "exit";
+		break;
+		
+		case "CapitolCaptured_sell":
+			pchar.SellCapitol = true;
 			DialogExit();
 		break;
 	}

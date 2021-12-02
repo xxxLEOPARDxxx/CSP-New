@@ -297,7 +297,7 @@ void ReloadStartFade()
     //#20191123-01 Fix
     DialogExit();
 	ApplayNewSkill(pchar, "", 0);
-	//ResetSoundScheme();
+	// ResetSoundScheme();
 	ResetSound(); // new
 	PauseAllSounds();
 	DelEventHandler("FaderEvent_StartFade", "ReloadStartFade");
@@ -506,28 +506,38 @@ int ReloadToLocation(int location_index, aref reload_data)
 	//сменить анимацию перед загрузкой локации, нужно для подводных храмов.
 	if (CheckAttribute(&locations[location_index], "changeAnimation")) 
 	{
-		if (locations[location_index].changeAnimation == "man" && CheckAttribute(mc, "defaultanimation") && mc.defaultanimation != "") 
+		if (locations[location_index].id.label == "TempleUnderwater")
 		{
-			mc.model.animation = mc.defaultanimation;
-		} 
-		else 
-		{
-			if (locations[location_index].id.label == "TempleUnderwater")
+			if (CheckAttribute(mc,"ismushketer"))
 			{
-				mc.model.animation = MainChAnim+"_swim";
+				mc.needmushreset = true;
+				SetMainCharacterToMushketer("", false);
+			}
+			mc.model.animation = MainChAnim+"_swim";
+		}
+		else
+		{
+			if (CheckAttribute(mc,"needmushreset"))
+			{
+				SetMainCharacterToMushketer(mc.mushket, true);
+				DeleteAttribute(pchar,"needmushreset");
 			}
 			else
 			{
-				if (CheckCharacterPerk(pchar, "AgileMan"))
+				if (CheckAttribute(mc,"ismushketer")) {}
+				else 
 				{
-					mc.model.animation = MainChAnim+"_fast";
-				}
-				else
-				{
-					mc.model.animation = MainChAnim;
+					if (CheckCharacterPerk(pchar, "AgileMan"))
+					{
+						mc.model.animation = MainChAnim+"_fast";
+					}
+					else
+					{
+						mc.model.animation = MainChAnim;
+					}
 				}
 			}
-		}	
+		}
 	}
 	
 	// Warship. В тавернах нельзя использовать анимацию мушкетера, поэтому сбрасываем на стандартную

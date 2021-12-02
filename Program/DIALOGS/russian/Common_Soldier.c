@@ -434,7 +434,7 @@ void ProcessDialogEvent()
 			AddMoneyToCharacter(Pchar, -sti(pchar.BribePrice));
 			
 			pchar.questTemp.bribescount = sti(pchar.questTemp.bribescount) +1;
-			if(sti(pchar.questTemp.bribescount) >= 5) UnlockAchievement("AchVzyatka", 1);
+			if(sti(pchar.questTemp.bribescount) >= 10) UnlockAchievement("AchVzyatka", 1);
 			if(sti(pchar.questTemp.bribescount) >= 25) UnlockAchievement("AchVzyatka", 2);
 			if(sti(pchar.questTemp.bribescount) >= 50) UnlockAchievement("AchVzyatka", 3);
 			

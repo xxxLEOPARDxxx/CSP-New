@@ -30,6 +30,7 @@ void ProcessDialogEvent()
 		rColony = GetColonyByIndex(iTest);
 	}
 	bool ok;
+	ref FortChref = GetFortCommander(NPChar.City);
 	
 	switch(Dialog.CurrentNode)
 	{
@@ -426,6 +427,13 @@ void ProcessDialogEvent()
                 }
                 else
                 {
+					if (CheckAttribute(FortChref, "Fort.Mode") && sti(FortChref.Fort.Mode) == FORT_DEAD)
+					{
+						Dialog.text = "Cейчас нет никого. При недавнем штурме города большая часть желающих погибла, а меньшая затаилась так, что их сейчас не сыщешь.";
+						link.l1 = "Эх, жаль!";
+						link.l1.go = "exit";
+						break;
+					}
 					if (CheckAttribute(NPChar, "CrewHired.PGGId") && GetNpcQuestPastDayParam(NPChar, "CrewHired") < 1 && GetCrewQuantity(rColony) == 0 && drand(100) > 90)
 					{
 						Dialog.text = "Извините, но сейчас нет никого. Все ушли с отважным кэпом " + GetFullName(CharacterFromID(NPChar.CrewHired.PGGId)) + ".";

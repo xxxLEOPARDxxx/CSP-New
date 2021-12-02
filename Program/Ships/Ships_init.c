@@ -10052,7 +10052,7 @@ void InitShips()
 	refship.nation.spain	= true;
 
 	///////////////////////////////////////////////////////////////////////////
-	//// ArabellaShip			Фрегат Арабелла
+	//// ArabellaShip			Фрегат Арабелла СЛ
 	///////////////////////////////////////////////////////////////////////////
 	makeref(refShip,ShipsTypes[SHIP_ARABELLA]);
 	refShip.Name            			= "ArabellaShip";
@@ -10072,7 +10072,7 @@ void InitShips()
 	refShip.SpeedRate       		= 16;
 	refShip.TurnRate        		= 42;
 	refShip.Price           			= 1850000;
-	refShip.HP              				= 6000;
+	refShip.HP              				= 9000;
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.3;
 	refship.EmblemedSails.normalTex 	= "ships\sail_Arabella.tga";
@@ -10130,14 +10130,14 @@ void InitShips()
 	refShip.hullNums = 5; // LEO
 
 	///////////////////////////////////////////////////////////////////////////
-	//// FrigateQueen			Месть Королевы Анны
+	//// FrigateQueen			Месть Королевы Анны МКА
 	///////////////////////////////////////////////////////////////////////////
 	makeref(refShip,ShipsTypes[SHIP_FRIGATEQUEEN]);
 	refShip.Name            			= "FrigateQueen";
 	refship.Soundtype					= "frigate";
 	refShip.Class						= 2;
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
-	refShip.MaxCaliber      			= 32;
+	refShip.MaxCaliber      			= 36;
 	refShip.Weight						= Tonnes2CWT(950);
 	refShip.Capacity        			= 3200;
 	refShip.CannonsQuantity				= 52;
@@ -10150,7 +10150,7 @@ void InitShips()
 	refShip.SpeedRate       		= 17;
 	refShip.TurnRate        		= 45;
 	refShip.Price           			= 1270000;
-	refShip.HP              				= 5500;
+	refShip.HP              				= 8000;
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.3;
 	refship.EmblemedSails.normalTex 	= "ships\parus_common_torn2.tga";
@@ -10206,10 +10206,10 @@ void InitShips()
 	refship.Track2.Speed	= "0.15, 0.25";
 	
 	///////////////////////////////////////////////////////////////////////////
-	/// Flyingdutchman			Летучий Голландец
+	/// Flyingdutchman			Летучий Голландец ЛГ
 	///////////////////////////////////////////////////////////////////////////
 	makeref(refShip,ShipsTypes[SHIP_FLYINGDUTCHMAN]);
-	refShip.Name            			= "Flyingdutchman";  // ЛГ
+	refShip.Name            			= "Flyingdutchman";
 	refship.Soundtype					= "lineship";
 	refShip.Class						= 2;
 	refShip.Cannon          			= CANNON_TYPE_CANNON_LBS8;
@@ -10226,7 +10226,7 @@ void InitShips()
 	refShip.SpeedRate				= 15;
 	refShip.TurnRate        		= 40;
 	refShip.Price           			= 2890000;
-	refShip.HP              				= 7700;
+	refShip.HP              				= 7000;
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.3;
 	refship.EmblemedSails.normalTex 	= "ships\parus_common_torn.tga";
@@ -10303,7 +10303,7 @@ void InitShips()
 	refShip.SpeedRate				= 13;
 	refShip.TurnRate        		= 32;
 	refShip.Price           			= 3000000;
-	refShip.HP              				= 10700;
+	refShip.HP              				= 11000;
 	refShip.SP              				= 100;
 	refShip.MastMultiplier					= 1.3;
 	refship.CanEncounter = false;

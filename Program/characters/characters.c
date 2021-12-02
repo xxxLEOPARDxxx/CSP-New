@@ -151,7 +151,7 @@ bool CreateCharacter(ref character)
 		fCurCharge = stf(character.chr_ai.charge);
 	}
 	
-	if (CheckAttribute(character, "HeroModel") && !CheckAttribute(character,"ismushketer"))
+	if (CheckAttribute(character, "HeroModel") && !CheckAttribute(character,"ismushketer") && character.model != "protocusto")
 	{
 		int VisCir = sti(InterfaceStates.VISUAL_CIRASS);
 		if (VisCir==0) //βρεμ υσι
@@ -261,6 +261,43 @@ bool CreateCharacter(ref character)
 	SetDefaultFight(character);
 	EndChangeCharacterActions(character);
 	//}
+	if (CheckAttribute(character,"quest.questflag.model"))
+	{
+		if (character.quest.questflag.model != "exclamationmarkY")
+		{
+			switch (character.quest.questflag.model)
+			{
+				case "FX_Blood":
+					if (!CheckAttribute(character,"chr_ai.blooding"))
+					{
+						character.quest.questflag.model = "";
+						character.quest.questflag.technique = ""; 
+					}
+				break;
+				case "FX_StanS":
+					if (!CheckAttribute(character,"chr_ai.Swift"))
+					{
+						character.quest.questflag.model = "";
+						character.quest.questflag.technique = ""; 
+					}
+				break;
+				case "FX_StanH":
+					if (!CheckAttribute(character,"chr_ai.understun"))
+					{
+						character.quest.questflag.model = "";
+						character.quest.questflag.technique = ""; 
+					}
+				break;
+				case "FX_Travma":
+					if (!CheckAttribute(character,"chr_ai.Trauma"))
+					{
+						character.quest.questflag.model = "";
+						character.quest.questflag.technique = ""; 
+					}
+				break;
+			}
+		}
+	}
 	
 	if (CheckAttribute(character, "HeadAccessory") && IsEquipCharacterByItem(character, character.HeadAccessory))
 	{

@@ -440,7 +440,7 @@ void SetEtapsInfo()
 	int iEtapMoney_5 = sti(PChar.Arena.Etaps.Etap_5.Cost);
 	
 	iWinGold = iEtapMoney_1 + iEtapMoney_2 + iEtapMoney_3 + iEtapMoney_4 + iEtapMoney_5;
-	iGold = iWinGold / 2;
+	iGold = iWinGold / 5;
 	
 	PChar.Arena.Etaps.Prize = iWinGold;
 	
@@ -1168,7 +1168,7 @@ void CheckEtapsEnable()
 	iEtapsMoney = iEtapMoney_1 + iEtapMoney_2 + iEtapMoney_3 + iEtapMoney_4 + iEtapMoney_5;
 	PChar.Arena.Etaps.Prize = iEtapsMoney;
 	
-	GameInterface.strings.Etaps_Payment_2 = sti(iEtapsMoney / 2);
+	GameInterface.strings.Etaps_Payment_2 = sti(iEtapsMoney / 5);
 	GameInterface.strings.Etaps_Win_Gold_2 = sti(PChar.Arena.Etaps.Prize) + " пиастров";
 	
 	if(!bEtapYes_5)
@@ -1184,7 +1184,7 @@ void CheckEtapsEnable()
 	}
 	else
 	{
-		if(sti(PChar.money) >= sti(iEtapsMoney / 2))
+		if(sti(PChar.money) >= sti(iEtapsMoney / 5))
 		{
 			SetSelectable("OK", true);
 		}
@@ -1520,7 +1520,7 @@ void ArenaStartDuel()
 
 void ArenaStartEtaps()
 {
-	int iStartCost = sti(PChar.Arena.Etaps.Prize) / 2;
+	int iStartCost = sti(PChar.Arena.Etaps.Prize) / 5;
 	AddMoneyToCharacter(PChar, -iStartCost);
 	
 	bool bEtapYes_1 = GetSelectable("ETAP_1_YES");

@@ -78,7 +78,7 @@ void ProcessDialogEvent()
 				link.l1 = "Кажется, у нас с тобой есть общее дело - Эдвард Лоу.";
 				link.l1.go = "PL_Q3_2";
 			}
-			if (pchar.questTemp.piratesLine.T1 == "KillLoy_GoodWork" && !CheckAttribute(npchar, "quest.PQ3"))
+			if (CheckAttribute(pchar,"questTemp.piratesLine.T1") && pchar.questTemp.piratesLine.T1 == "KillLoy_GoodWork" && !CheckAttribute(npchar, "quest.PQ3"))
 			{
 				dialog.text = "Вернул"+ GetSexPhrase("ся","ась") +"! Да не с пустыми руками!";
 				link.l1 = "Готов"+ GetSexPhrase("","а") +" сообщить, что Эдвард Лоу умер с ужасом в глазах и твоим именем в ушах.";
@@ -129,7 +129,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				if(pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
+				if(CheckAttribute(PChar, "questTemp.pirateVikingQuest") && pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
 				{
 					dialog.text = "Вижу ты с новостями?"
 					link.l1 = "Да, завалил"+ GetSexPhrase("","а") +" таки северянина, ох и лютый же был. Обычно все разговоры заводят как смерть почуят, а этот рычал только аж пена изо рта шла.";
@@ -219,7 +219,7 @@ void ProcessDialogEvent()
 				link.l1 = "Кажется, у нас есть с тобой общее дело. Эдвард Лоу.";
 				link.l1.go = "PL_Q3_2";
 			}
-			if (pchar.questTemp.piratesLine.T1 == "KillLoy_GoodWork" && !CheckAttribute(npchar, "quest.PQ3"))
+			if (CheckAttribute(pchar,"pchar.questTemp.piratesLine.T1") && pchar.questTemp.piratesLine.T1 == "KillLoy_GoodWork" && !CheckAttribute(npchar, "quest.PQ3"))
 			{
 				dialog.text = "Вернул"+ GetSexPhrase("ся","ась") +"! Да не с пустыми руками!";
 				link.l1 = "Готов"+ GetSexPhrase("","а") +" сообщить, что Эдвард Лоу умер с ужасом в глазах и твоим именем в ушах.";
@@ -251,7 +251,7 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				if(pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
+				if(CheckAttribute(PChar, "questTemp.pirateVikingQuest") && pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
 				{
 					dialog.text = "Вижу ты с новостями?"
 					link.l1 = "Да, завалил"+ GetSexPhrase("","а") +" таки северянина, ох и лютый же был. Обычно все разговоры заводят как смерть почуят, а этот рычал только аж пена изо рта шла.";

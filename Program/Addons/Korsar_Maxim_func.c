@@ -19,7 +19,7 @@ string GetPggTavernGreeting(ref rChar)
     }
 }
 
-/// Korsar Maxim - (Выдача рандомного оружия по качеству (бедное, нормальное, хорошее, отличное и индейское))
+/// Korsar Maxim - (Выдача рандомного оружия по качеству (ржавое, обычное, редкое, уникальное))
 string GiveRandomBladeByType(string sType)
 {
 	switch(sType)

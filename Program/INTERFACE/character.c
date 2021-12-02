@@ -41,7 +41,7 @@ void InitInterface_R(string iniName, ref _char)
 
     SetVariable();
     SetCurrentNode("TABLE_OTHER");
-    SetFormatedText("LOYALITY_STR", XI_ConvertString("Loyality"));
+    SetFormatedText("LOYALITY_STR", XI_ConvertString("Loyality")+" ("+GetCharacterLoyality(xi_refCharacter)+"/35)");
     HideSkillChanger();
     SetNodeUsing("GAME_ACCEPT", false);
     SetNodeUsing("GAME_CANCEL", false);
@@ -395,6 +395,8 @@ void FillSkillTables()
 	          GameInterface.TABLE_SPECIAL.(row).td3.color = argb(255,255,196,196);
 	       }
 		}
+		if (GameInterface.TABLE_SPECIAL.(row).td4.str == "10") GameInterface.TABLE_SPECIAL.(row).td4.color = COLOR_MONEY;
+		else GameInterface.TABLE_SPECIAL.(row).td4.color = COLOR_NORMAL;
 	}
     GameInterface.TABLE_SKILL_1.select = 0;
     GameInterface.TABLE_SKILL_1.hr.td1.str = "";
@@ -429,10 +431,12 @@ void FillSkillTables()
 		if (skillVal < SKILL_MAX)
 		{
 			GameInterface.TABLE_SKILL_1.(row).td3.str = makeint(GetSkillValueExp(xi_refCharacter, skillName) * 100.0 / makefloat(skillVal * GetCharacterExpRate(xi_refCharacter, skillName))) + "%";
+			GameInterface.TABLE_SKILL_1.(row).td5.color = COLOR_NORMAL;
 		}
 		else
 		{
 		    GameInterface.TABLE_SKILL_1.(row).td3.str = "";
+			GameInterface.TABLE_SKILL_1.(row).td5.color = COLOR_MONEY;
 		}
 		if (diff == 0)
 		{
@@ -486,10 +490,12 @@ void FillSkillTables()
 		if (skillVal < SKILL_MAX)
 		{
 			GameInterface.TABLE_SKILL_2.(row).td3.str = makeint(GetSkillValueExp(xi_refCharacter, skillName) * 100.0 / makefloat(skillVal * GetCharacterExpRate(xi_refCharacter, skillName))) + "%";
+			GameInterface.TABLE_SKILL_2.(row).td5.color = COLOR_NORMAL;
 		}
 		else
 		{
 		    GameInterface.TABLE_SKILL_2.(row).td3.str = "";
+			GameInterface.TABLE_SKILL_2.(row).td5.color = COLOR_MONEY;
 		}
 		if (diff == 0)
 		{

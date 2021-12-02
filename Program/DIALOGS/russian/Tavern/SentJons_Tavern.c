@@ -55,6 +55,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			sld.dialog.currentnode   = "Alumnus_FT";
 			ChangeCharacterAddressGroup(sld,"Farmacia","barmen","stay");
 			
+			Locations[FindLocation("Marigo_town")].reload.l47.disable = false;
+			
 			AddQuestRecord("PDM_Aptekar", "2");
 			AddQuestUserData("PDM_Aptekar", "sSex", GetSexPhrase("","à"));
 		break;

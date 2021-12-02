@@ -400,6 +400,7 @@ int LocationInitSentMartin(int n)
 	locations[n].reload.l47.emerge = "reload1";
 	locations[n].reload.l47.autoreload = "0";
 	locations[n].reload.l47.label = "House";
+	locations[n].reload.l47.disable = true;
 
 	locations[n].reload.l48.name = "houseFa2";
 	locations[n].reload.l48.go = "Farmacia";

@@ -550,13 +550,13 @@ void LaunchColonyInfoScreen()
 }
 
 // Дележ добычи
-void LaunchSailsGeraldScreen(ref chref)
+void LaunchSailsGeraldScreen(ref chref,ref chreff)
 {
 	if(procInterfacePrepare(INTERFACE_SAILSGERALD))
 	{
 		nPrevInterface = -1;
 		CurrentInterface = INTERFACE_SAILSGERALD;
-		InitInterface_R(Interfaces[CurrentInterface].IniFile, chref);
+		InitInterface_RR(Interfaces[CurrentInterface].IniFile, chref, chreff);
 	}
 }
 
@@ -2172,7 +2172,7 @@ void QuickSaveContinue()
 	int QuickSaveIndex = 1;
 	if( CheckAttribute(&PlayerProfile,"QuickSaveIndex") ) {
 		QuickSaveIndex = sti(PlayerProfile.QuickSaveIndex);
-		if(QuickSaveIndex == 40) {
+		if(QuickSaveIndex == 100) {
 			QuickSaveIndex = 1;
 		}	
 		else {

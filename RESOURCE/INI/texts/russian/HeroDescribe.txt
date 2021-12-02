@@ -1343,28 +1343,27 @@ hero_50
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_51 {Фольке}
-heroLastname_51 {Деллюк}
+heroName_51 {Алонсо}
+heroLastname_51   {де Мальдонадо}
 
-heroNameGen_51 {Фольке}
-heroLastnameGen_51 {Деллюка}
+heroNameGen_51 {Алонсо}
+heroLastnameGen_51 {де Мальдонадо}
 
-heroNameDat_51 {Фольке}
-heroLastnameDat_51 {Деллюку}
+heroNameDat_51 {Алонсо}
+heroLastNameDat_51 {де Мальдонадо}
 
-heroFace_51 {481}
-heroModel_51 {PGG_DeLuck_0,PGG_DeLuck_1,PGG_DeLuck_2,PGG_DeLuck_3,PGG_DeLuck_4,PGG_DeLuck_5}
+heroFace_51 {484}
+heroModel_51  {PGG_Alonso}
 
-heroType_51 {Буканьер}
-heroNation_51 {Голл}
+heroType_51 {Фехтовальщик}
+heroNation_51 {Испания}
 
 sex_51 {man}
 animation_51 {man}
 
 hero_51
 {
-Служил наемником в Голландском флоте. Из-за неуплаты долгов ростовщику Сен-Пьера был заточен в тюрьму.
-- Имеет все виды кирас.
+Испанский командир, который позаботится о том, чтобы враги Испании были повержены.
 - В совершенстве умеет пользоваться мушкетом.
 }
 
@@ -1909,74 +1908,50 @@ hero_73
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_74 {Алонсо}
-heroLastname_74   {де Мальдонадо}
+heroName_74 {Джессика}
+heroLastname_74 {Брэдфорд}
 
-heroNameGen_74 {Алонсо}
-heroLastnameGen_74 {де Мальдонадо}
+heroNameGen_74 {Джессики}
+heroLastnameGen_74 {Брэдфорд}
 
-heroNameDat_74 {Алонсо}
-heroLastNameDat_74 {де Мальдонадо}
+heroNameDat_74 {Джессике}
+heroLastNameDat_74 {Брэдфорд}
 
-heroFace_74 {484}
-heroModel_74  {PGG_Alonso}
+heroFace_74 {244}
+heroModel_74 {PGG_jess0,PGG_jess1,PGG_jess2,PGG_jess3,PGG_jess4,PGG_jess5,PGG_jess6,PGG_jess7,PGG_jess8}
 
 heroType_74 {Фехтовальщик}
-heroNation_74 {Испания}
+heroNation_74 {Англия}
 
-sex_74 {man}
-animation_74 {man}
+sex_74 {woman}
+animation_74 {Jessika}
 
 hero_74
-{
-Испанский командир, который позаботится о том, чтобы враги Испании были повержены.
-- В совершенстве умеет пользоваться мушкетом.
-}
-
-heroName_75 {Джессика}
-heroLastname_75 {Брэдфорд}
-
-heroNameGen_75 {Джессики}
-heroLastnameGen_75 {Брэдфорд}
-
-heroNameDat_75 {Джессике}
-heroLastNameDat_75 {Брэдфорд}
-
-heroFace_75 {244}
-heroModel_75 {PGG_jess0,PGG_jess1,PGG_jess2,PGG_jess3,PGG_jess4,PGG_jess5,PGG_jess6,PGG_jess7,PGG_jess8}
-
-heroType_75 {Фехтовальщик}
-heroNation_75 {Англия}
-
-sex_75 {woman}
-animation_75 {Jessika}
-
-hero_75
 {
 После предательства Белтропа она поклялась, что больше ни в чём не уступит мужчинам и станет успешным капитаном корсарской эскадры. Нужно признать, что у неё это неплохо получается, и правительства многих стран уже назначили награду за её прекрасную головку.
 - НЕ БУДЕТ пользоваться мушкетом.
 - Имеет все виды кирас и костюмов.
 }
 
-heroName_76 {Эдвард}
-heroLastname_76 {Тич}
+heroName_75 {Эдвард}
+heroLastname_75 {Тич}
 
-heroNameGen_76 {Эдвард}
-heroLastnameGen_76 {Тич}
+heroNameGen_75 {Эдвард}
+heroLastnameGen_75 {Тич}
 
-heroNameDat_76 {Эдвард}
-heroLastNameDat_76 {Тич}
+heroNameDat_75 {Эдвард}
+heroLastNameDat_75 {Тич}
 
-heroFace_76 {540}
-heroModel_76 {PGG_Tich_0,PGG_Tich_1,PGG_Tich_2,PGG_Tich_3,PGG_Tich_4,PGG_Tich_5}
+heroFace_75 {540}
+heroModel_75 {PGG_Tich_0,PGG_Tich_1,PGG_Tich_2,PGG_Tich_3,PGG_Tich_4,PGG_Tich_5}
 
-heroType_76 {Морской Волк}
-heroNation_76 {Пират}
+heroType_75 {Морской Волк}
+heroNation_75 {Пират}
 
-sex_76 {man}
-animation_76 {man}
+sex_75 {man}
+animation_75 {man}
 
-hero_76
+hero_75
 {
 Эдвард Тич носил прозвище "Черная Борода". Его настоящее имя Джон. О его детстве и юношестве практически ничего не известно, хотя существует любопытная гипотеза, что когда-то он был наемником-инструктором, о чем говорит его первое прозвище "Тич" от английского слова teacher - учитель. У капитана была манера заплетать бороду в косички с лентами и оборачивать их около ушей. В дни сражений он просто носил что-то как бы шарфа, тот, что был накинут на плечи с тремя парами пистолетов в футлярах наподобие портупей. Он привязывал под своей шляпой два зажженных фитиля, которые свешивались с правой стороны и слева от его лица. Все это вкупе с его глазами, воззрение которых от природы был диким и жестоким, делало его таким страшным, что нереально было себе представить, что в аду проживают ещё больше ужасные фурии.
 - Имеет все виды кирас.

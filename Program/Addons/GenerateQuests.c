@@ -554,8 +554,8 @@ void QuestDuelBattleWithMercenaryHappyEnd()
 	
 	pchar.questTemp.duelcount = sti(pchar.questTemp.duelcount) + 1;
 	if(sti(pchar.questTemp.duelcount) >= 5) UnlockAchievement("AchDuelyant", 1);
-	if(sti(pchar.questTemp.duelcount) >= 15) UnlockAchievement("AchDuelyant", 2);
-	if(sti(pchar.questTemp.duelcount) >= 30) UnlockAchievement("AchDuelyant", 3);
+	if(sti(pchar.questTemp.duelcount) >= 10) UnlockAchievement("AchDuelyant", 2);
+	if(sti(pchar.questTemp.duelcount) >= 20) UnlockAchievement("AchDuelyant", 3);
 	
 	AddSimpleRumourToAllNations(LinkRandPhrase("Слыхали", "Знаете ли вы", "Невероятно") + ", капитан " + GetNameLugger(PChar, "f") + " вызвался на дуэль за другого человека и выиграл её.", 5, 1);
 	
@@ -667,8 +667,8 @@ void QuestDuelBattleWithDuelistHappyEnd()
 	
 	pchar.questTemp.duelcount = sti(pchar.questTemp.duelcount) + 1;
 	if(sti(pchar.questTemp.duelcount) >= 5) UnlockAchievement("AchDuelyant", 1);
-	if(sti(pchar.questTemp.duelcount) >= 15) UnlockAchievement("AchDuelyant", 2);
-	if(sti(pchar.questTemp.duelcount) >= 30) UnlockAchievement("AchDuelyant", 3);
+	if(sti(pchar.questTemp.duelcount) >= 10) UnlockAchievement("AchDuelyant", 2);
+	if(sti(pchar.questTemp.duelcount) >= 20) UnlockAchievement("AchDuelyant", 3);
 	
 	if(sti(PChar.GenerateQuestDuel.Mercenary) == 0 && sti(PChar.GenerateQuestDuel.Relative) == 1)
 	{

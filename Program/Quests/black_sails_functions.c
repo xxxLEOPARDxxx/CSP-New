@@ -1,6 +1,16 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Прочие функции
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+void RepairShip(ref chr)
+{
+	ProcessHullRepair(chr, 100.0);
+	ProcessSailRepair(chr, 100.0);
+	DeleteAttribute(chr, "ship.blots");
+	DeleteAttribute(chr, "ship.sails");
+	DeleteAttribute(chr, "ship.masts");
+	Fantom_SetBalls(chr, "war");
+	SetCharacterGoods(chr,GOOD_FOOD,1000);
+}
 
 void BS_ReplaceHostessWithMaks()
 {
@@ -161,6 +171,7 @@ void BSOnTheHorizon_Flint();
 {
 	sld = GetCharacter(NPC_GenerateCharacter("Flint", "BS_Flint_0", "man", "man", 999, PIRATE, -1, true));
 	FantomMakeCoolestSailor(sld, SHIP_NL_PinnaceofWar47, "Морж", CANNON_TYPE_CANNON_LBS24, 100, 100, 100);
+	FantomMakeCoolFighter(sld, 100, 100, 100, "blade43", "pistol4", 1000);
 	sld.name = "Джеймс";
 	sld.lastname = "Флинт";
 	string sGroup = "Flint_Group";
@@ -376,7 +387,7 @@ void BSCourtlyPassions_sailor()
 			LAi_type_actor_Reset(sld);
 			sld.dialog.currentnode = "BS_KS_8";
 			LAi_ActorDialog(sld, pchar, "", -1, 0);
-			chr.curtown = pchar.location;
+			sld.curtown = pchar.location;
 		}
 	}
 }
@@ -403,8 +414,10 @@ void BSCourtlyPassions_dungeon_lockWeapons(string _quest)
 	ref _location = &locations[reload_location_index];
 	LAi_LocationFightDisable(_location, true);
 }
-	void BSCourtlyPassions_dungeon(string _quest)
+
+void BSCourtlyPassions_dungeon(string _quest)
 {
+	WaitDate("",0,0,0,24 - sti(environment.time),5);
 	LAi_LocationDisableMonGenTimer("FortFrance_dungeon", 3);//Лок спавна скелетов
 	DoQuestFunctionDelay("BSCourtlyPassions_dungeon_lockWeapons", 0);
 	chrDisableReloadToLocation = true;
@@ -418,7 +431,7 @@ void BSCourtlyPassions_dungeon_lockWeapons(string _quest)
 	sld.dialog.filename = "Quest\BlackSails\Kurtuaznye_Strasti.c";
 	sld.dialog.currentnode = "BS_KS_27";
 	LAi_group_MoveCharacter(sld, "EnemyFight");
-	
+	LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_FRIEND);
 	BSCourtlyPassions_spawn_podsos();
 }
 
@@ -982,7 +995,9 @@ void EraseBSCharacters()
 	{
 		sld = CharacterFromID("BSUrka_Curacao_enemyfleet"+i);	sld.LifeDay = 0;
 	}
-		
+	
+	DeleteAttribute(pchar, "LockMapReload");
+	DeleteAttribute(pchar, "LockShoreReload");	
 }
 void BSChaseBegun_EndQuest(string q)
 {
@@ -1021,7 +1036,7 @@ void BSChaseBegun_SeaBattle()
 	chr.AlwaysSandbankManeuver = true;
 	SetCharacterRelationBoth(sti(chr.index), GetMainCharacterIndex(), RELATION_FRIEND);
 
-	Group_SetTaskAttack("Flint_Group", PLAYER_GROUP);
+	Group_SetTaskAttack("Flint_Group", "BSChaseBegun_SeaBattle");
 	Group_LockTask("Flint_Group");
 	
 	//Group_SetAddress("Flint_Group", "Hispaniola1", "Quest_ships", "reload_fort1");	
@@ -1035,7 +1050,7 @@ void BSChaseBegun_SeaBattle()
 	{
 		sld = GetCharacter(NPC_GenerateCharacter("BSChaseBegun_SeaBattle"+i, "off_eng_"+(rand(1)+1), "man", "man", 999, SPAIN, -1, true));
 		CreatePGG_War(sld, 2, chr);
-		
+		sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
 		sld.ship.Crew.Morale = 100;
 		ChangeCrewExp(sld, "Sailors", 50);
 		ChangeCrewExp(sld, "Cannoners", 50);
@@ -1064,6 +1079,23 @@ void BSChaseBegun_SeaBattle()
 	}
 	//sld = CharacterFromID("Flint");
 	//LAi_SetImmortal(sld, false);
+	PChar.quest.BSChaseBegun_CheckFlag.win_condition.l1 = "location";
+	PChar.quest.BSChaseBegun_CheckFlag.win_condition.l1.location = "Hispaniola1";
+	PChar.quest.BSChaseBegun_CheckFlag.function = "BSChaseBegun_CheckFlag";
+}
+void BSChaseBegun_CheckFlag(string q)
+{
+	if (sti(pchar.nation) != PIRATE)
+	{
+		sld = CharacterFromID("Flint");
+		DeleteAttribute(sld, "AlwaysFriend");
+		sld.AlwaysEnemy = true;
+	}
+	else
+	{
+		pchar.LockMapReload = "Нет. Я не могу бросить здесь Флинта.";
+		pchar.LockShoreReload = "Нет. Я не могу бросить здесь Флинта.";
+	}
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Погоня начинается --     конец
@@ -1108,13 +1140,39 @@ void BSBons_SeaBattle(bool bonsAdmiral)
 						sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
 						sld.DeckDialogNode = "BS_CPNG_15";
 						FaceMaker(sld);
+						sld.SaveItemsForDead = true;
+						sld.money = 100000;
+						sld.items.jewelry1 = 10+rand(5);
+						sld.items.jewelry2 = 10+rand(5);
+						sld.items.jewelry3 = 10+rand(5);
+						sld.items.jewelry4 = 5+rand(5);
+						sld.items.jewelry6 = rand(20);
+						sld.items.jewelry7 = rand(50);
+						sld.items.jewelry10 = rand(20);
+						sld.items.jewelry14 = rand(20);
+						sld.items.jewelry15 = rand(5);
+						sld.items.jewelry18 = rand(50);
 					}
 					else
 					{
 						FantomMakeCoolestSailor(sld, SHIP_BATTLEMANOWAR, "Скарборо", CANNON_TYPE_CANNON_LBS42, 100, 100, 100);
 						FaceMaker(sld);
 						sScarboro = " со 'Скарборо' во главе";
-						
+						FantomMakeCoolFighter(sld, 100, 100, 100, "blade33", "pistol4", 1000);
+						sld.name = "Френсис";
+						sld.lastname = "Ньюм";
+						sld.SaveItemsForDead = true;
+						sld.money = 300000;
+						sld.items.jewelry1 = 20+rand(5);
+						sld.items.jewelry2 = 20+rand(5);
+						sld.items.jewelry3 = 20+rand(5);
+						sld.items.jewelry4 = 11+rand(5);
+						sld.items.jewelry6 = rand(50);
+						sld.items.jewelry7 = rand(100);
+						sld.items.jewelry10 = rand(50);
+						sld.items.jewelry14 = rand(50);
+						sld.items.jewelry15 = rand(10);
+						sld.items.jewelry18 = rand(100);
 						pchar.quest.BSUrka_Scarboro.win_condition.l1 = "NPC_Death";
 						pchar.quest.BSUrka_Scarboro.win_condition.l1.character ="BSBons0";
 						PChar.quest.BSUrka_Scarboro.function = "BSUrka_Scarboro";
@@ -1245,7 +1303,11 @@ void BSUrka_Curacao_SeaBattle()
 
 void BSUrka_Curacao_SeaBattleStarted(string q)
 {
-	if (!CheckAttribute(pchar, "BSFinish"))	pchar.LockSeaReload = "На это нет времени. Сперва нужно добить испанскую эскадру.";
+	if (!CheckAttribute(pchar, "BSFinish"))	
+	{
+		pchar.LockMapReload = "На это нет времени. Сперва нужно добить испанскую эскадру.";
+		pchar.LockShoreReload = "На это нет времени. Сперва нужно добить испанскую эскадру.";
+	}
 }
 
 void BSUrka_Curacao_EndSeaBattle(string q)

@@ -677,6 +677,7 @@ void ProcCommand()
 				{
 					box = "box"+curchest; 
 					makearef(chest,loadedLocation.(box)); 
+					SetCharactersMoneyOnExit();
 					InitInterface_RS(Interfaces[INTERFACE_ITEMSBOX].IniFile,chest,""); 
 					SetFormatedText("STORECAPTION1","Сундук каюты под номером "+curchest);
 					curchest = curchest+1;
@@ -686,6 +687,7 @@ void ProcCommand()
 					curchest = 1; 
 					box = "box"+curchest); 
 					makearef(chest,loadedLocation.(box)); 
+					SetCharactersMoneyOnExit();
 					InitInterface_RS(Interfaces[INTERFACE_ITEMSBOX].IniFile,chest,""); 
 					SetFormatedText("STORECAPTION1","Сундук каюты под номером "+curchest);
 					curchest = curchest+1;

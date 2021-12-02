@@ -26,6 +26,7 @@ int FIS_FilterState = 0;
 void InitInterface_RR(string iniName, ref ContraTrader , ref pStore)
 {
  	StartAboveForm(true);
+	pchar.contratradedmoney = 0;
 	sld = CharacterFromId(PChar.CurrentSmuggler);
 	pchar.Goods.Store.Contraband = true;
 	//Log_Info(pchar.Goods.Store.Contraband);
@@ -262,7 +263,7 @@ void TransactionOK()
 		sld.SmugglingMoney = sti(sld.SmugglingMoney) - moneyback;
 		Statistic_AddValue(Pchar, "Money_get", moneyback);
         AddCharacterExpToSkill(pchar, "Commerce", moneyback / 1600.0);
-		
+		pchar.contratradedmoney = sti(pchar.contratradedmoney) + moneyback;
     	WaitDate("",0,0,0, 0, 15);
 		Pchar.quest.Contraband.Counter = 1;
 	}
@@ -359,7 +360,7 @@ void IDoExit(int exitCode)
 	
 	Pchar.quest.Rand_Smuggling.over = "yes";
 	RemoveSmugglersFromShore();
-	RemoveAllContraGoods(CharacterFromId(pchar.GenQuest.Contraband.SmugglerId));
+	//RemoveAllContraGoods(CharacterFromId(pchar.GenQuest.Contraband.SmugglerId));
 
     EndAboveForm(true);
 

@@ -227,16 +227,18 @@ void LAi_SetAlcoholNormal(aref chr)
 //Использовать бутылочку-противоядие
 void LAi_UseAtidoteBottle(aref chr)
 {
-	DeleteAttribute(chr, "chr_ai.poison");
-	UnmarkCharacter(chr);
+    if(CheckAttribute(chr, "chr_ai.poison")) 
+    {
+        DeleteAttribute(chr, "chr_ai.poison");
+        UnmarkCharacter(chr);
+    }
 }
 
 //Отравлен
 bool LAi_IsPoison(aref chr)
 {
-	if(CheckAttribute(chr, "chr_ai.poison")) return true;
-	UnmarkCharacter(chr);
-	return false;
+    if(CheckAttribute(chr, "chr_ai.poison")) return true;
+    return false;
 }
 
 //Сделать персонажа бессмертным

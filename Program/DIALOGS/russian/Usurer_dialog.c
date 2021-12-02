@@ -53,6 +53,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "First time":
+			if(!CheckAttribute(npchar, "CapitolMoney")) npchar.CapitolMoney = 500000 + drand(30) * 50000;
 			if (LAi_group_GetPlayerAlarm() > 0)
 			{
 				if(pchar.questTemp.Slavetrader == "After_enterSoldiers" && pchar.questTemp.Slavetrader.UsurerId == npchar.id)
@@ -401,6 +402,12 @@ void ProcessDialogEvent()
 				break;
 			}
 			//<--работорговец
+			//Капитул
+			if(CheckAttribute(pchar, "SellCapitol"))
+			{
+				link.lCapitol = "У меня есть кое-что, что может вас заинтересовать. Взгляните на этот список.";
+				link.lCapitol.go = "SellCapitol";
+			}
 			//Китайская реликвия
 			if(CheckAttribute(pchar, "Whisper.UsurerId") && npchar.id == pchar.Whisper.UsurerId)
 			{
@@ -420,6 +427,11 @@ void ProcessDialogEvent()
 					{
 						link.lWhisper1 = "Я принесла вам три хрустальных черепа.";
 						link.lWhisper1.go = "Whisper_china_relic_finish_sculma";
+					}
+					if(CheckAttribute(pchar, "SellCapitol"))
+					{
+						link.lCapitol = "Я нашла кое-что интересней, чем вещи, о которых вы меня просили. Взгляните на этот список.";
+						link.lCapitol.go = "Whisper_china_relic_finish_capitol";
 					}
 				}
 			}
@@ -468,7 +480,24 @@ void ProcessDialogEvent()
 			DeleteAttribute(pchar, "UnexpectedInheritance");
 			
 		break;
-		
+		//Капитул
+		case "SellCapitol":
+			dialog.text = "Хм, и правда интересный списочек. Я готов отдать вам за эти вещи... "+npchar.CapitolMoney+". Что скажете?";
+			link.l1 = "По рукам. Вы сможете всё это забрать на рифе Скелета. Вот координаты. Там безопасно, можете отправить туда корабль.";
+			link.l1.go = "SellCapitol_1";
+			link.l2 = "Маловато будет. Я поищу другого покупателя, без обид.";
+			link.l2.go = "exit";
+		break;
+		case "SellCapitol_1":
+			AddMoneyToCharacter(pchar, sti(npchar.CapitolMoney));
+			DeleteAttribute(pchar, "SellCapitol");
+			Log_Info("Вы выдали местонахождение Капитула");
+			PlaySound("interface\important_item.wav");
+			CloseQuestHeader("TheLastMass");
+			dialog.text = "С вами приятно иметь дело. Я надеюсь вы не обманываете и всё правда окажется на месте. А не то...";
+			link.l1 = "У меня нет желания встречаться с вашими знакомыми охотниками за головами. Уверяю вас, всё там. До свидания.";
+			link.l1.go = "exit";
+		break;
 		//Виспер - Китайская реликвия
 		case "Whisper_china_relic_finish_topor":
 			dialog.text = "Ничего себе! Он выглядит даже более роскошно, чем я себе представлял. Боюсь представить, каким образом он у вас оказался.";
@@ -490,6 +519,16 @@ void ProcessDialogEvent()
 			Log_Info("Вы отдали хрустальные черепа");
 			PlaySound("interface\important_item.wav");
 			link.l1 = "Теперь я я хочу увидеть меч.";
+			link.l1.go = "Whisper_china_relic_finish";
+		break;
+		case "Whisper_china_relic_finish_capitol":
+			DeleteAttribute(pchar, "SellCapitol");
+			CloseQuestHeader("TheLastMass");
+			dialog.text = "Хм, и правда интересный список. Я готов отдать вам за него меч. Где я смогу найти все эти вещи?";
+
+			Log_Info("Вы выдали местонахождение Капитула");
+			PlaySound("interface\important_item.wav");
+			link.l1 = "На рифе Скелета. Вот координаты. Там безопасно, можете отправить туда корабль. Так что насчёт меча? Хотелось бы поскорей его увидеть.";
 			link.l1.go = "Whisper_china_relic_finish";
 		break;
 		case "Whisper_china_relic_finish":
@@ -1458,8 +1497,8 @@ void ProcessDialogEvent()
 			Pchar.Quest.Deposits.(NPC_Area).Sum      = sti(Pchar.QuestTemp.Deposits.(NPC_Area).Sum);
 
 			AddMoneyToCharacter(Pchar, -(makeint(Pchar.Quest.Deposits.(NPC_Area).Sum)));
-			pchar.questTemp.depositcount = sti(pchar.questTemp.depositcount) + makeint(Pchar.Quest.Deposits.(NPC_Area).Sum);
-			if(sti(pchar.questTemp.depositcount) >= 50000000) UnlockAchievement("bank_money", 3);
+			//pchar.questTemp.depositcount = sti(pchar.questTemp.depositcount) + makeint(Pchar.Quest.Deposits.(NPC_Area).Sum);
+			//if(sti(pchar.questTemp.depositcount) >= 50000000) UnlockAchievement("bank_money", 3);
 			// общий долг
 			Pchar.Quest.Deposits.(NPC_Area).Sum = sti(Pchar.Quest.Deposits.(NPC_Area).Result) + sti(Pchar.Quest.Deposits.(NPC_Area).Sum);
 			Pchar.Quest.Deposits.(NPC_Area) = true;
@@ -1467,27 +1506,76 @@ void ProcessDialogEvent()
 			Pchar.Quest.Deposits.(NPC_Area).StartMonth = getDataMonth();
 			Pchar.Quest.Deposits.(NPC_Area).StartYear = getDataYear();
 			Pchar.Quest.Deposits.(NPC_Area).StartTime = getTime();
+			CheckForAchievement();
 			DialogExit();
 		break;
 
 		case "Deposit_return":
 			Dialog.snd = "voice\USDI\USDI034";
 			dialog.text = "Исходя из процентов, которые мы оговорили в прошлый раз, и учитывая прошедшее время, я подсчитал, что должен вам " + FindRussianMoneyString(sti(Pchar.Quest.Deposits.(NPC_Area).Result)) + "... Вы уверены, что хотите забрать эти деньги";
-			Link.l1 = "Абсолютно. Давайте их сюда.";			
-			Link.l1.go = "Deposit_return_1";		
-			Link.l2 = "Знаете, вы правы. Пусть они еще немного полежат. Всего хорошего.";			
-			Link.l2.go = "Exit";		
+			Link.l1 = "Абсолютно. Давайте их все сюда.";			
+			Link.l1.go = "Deposit_return_1";
+			Link.l2 = "Я бы хотел"+ GetSexPhrase("","а") +" забрать часть своего вклада.";			
+			Link.l2.go = "Deposit_return_2";
+			Link.l3 = "Знаете, вы правы. Пусть они еще немного полежат. Всего хорошего.";			
+			Link.l3.go = "Exit";		
 		break;
 
 		case "Deposit_return_1":
 			addMoneyToCharacter(Pchar, makeint(Pchar.Quest.Deposits.(NPC_Area).Result));
-			pchar.questTemp.depositcount = sti(pchar.questTemp.depositcount) - sti(Pchar.Quest.Deposits.(NPC_Area).ClearDeposite);
-			if(sti(pchar.questTemp.depositcount) >= 50000000) UnlockAchievement("bank_money", 3);
+			//pchar.questTemp.depositcount = sti(pchar.questTemp.depositcount) - makeint(Pchar.Quest.Deposits.(NPC_Area).ClearDeposite);
+			//pchar.questTemp.depositcount = sti(pchar.questTemp.depositcount) - makeint(Pchar.Quest.Deposits.(NPC_Area).Result);
+			//if(sti(pchar.questTemp.depositcount) >= 50000000) UnlockAchievement("bank_money", 3);
 			Dialog.snd = "voice\USDI\USDI035";
 			dialog.text = "Ох... Даже жаль с ними расставаться. Я к ним уже как-то привык. Что же - приходите ко мне еще.";			
 			Link.l1 = "Если понадобится - приду. Счастливо оставаться.";			
 			Link.l1.go = "Exit";
 			DeleteAttribute(Pchar, "quest.Deposits." + (NPC_Area));
+			CheckForAchievement();
+		break;
+		
+		case "Deposit_return_2":
+			link.l1.edit = 3;
+			link.l1 = "";
+			Link.l1.go = "Deposit_return_3";
+			dialog.text = "И сколько же вы желаете забрать?";			
+		break;
+		
+		case "Deposit_return_3":
+			iTemp = sti(dialogEditStrings[3]);
+			if (iTemp <= 0 || iTemp > sti(Pchar.Quest.Deposits.(NPC_Area).Sum))
+			{
+				dialog.text = "Шутить изволите?";
+				link.l1 = "Хм, извините, ошибочка вышла..";
+				link.l1.go = "exit";
+				break;
+			}
+			if (iTemp <= sti(Pchar.Quest.Deposits.(NPC_Area).Result))
+			{
+				AddMoneyToCharacter(pchar,iTemp);
+				if (sti(Pchar.Quest.Deposits.(NPC_Area).Result) == iTemp)
+				{
+					DeleteAttribute(Pchar, "quest.Deposits." + (NPC_Area));
+					dialog.text = "Получите и распишитесь.";
+					link.l1 = "Отлично!";
+					link.l1.go = "exit";
+				}
+				else 
+				{
+					Pchar.Quest.Deposits.(NPC_Area).Sum = sti(Pchar.Quest.Deposits.(NPC_Area).Result)-iTemp;
+					Pchar.Quest.Deposits.(NPC_Area).Result = Pchar.Quest.Deposits.(NPC_Area).Sum;
+					Pchar.Quest.Deposits.(NPC_Area).StartDay = getDataDay();
+					Pchar.Quest.Deposits.(NPC_Area).StartMonth = getDataMonth();
+					Pchar.Quest.Deposits.(NPC_Area).StartYear = getDataYear();
+					Pchar.Quest.Deposits.(NPC_Area).StartTime = getTime();
+					dialog.text = "Получите и распишитесь. Ваш остаток по вкладу составляет "+FindRussianMoneyString(sti(Pchar.Quest.Deposits.(NPC_Area).Result))+".";
+					link.l1 = "Отлично!";
+					link.l1.go = "exit";
+				}
+				//pchar.questTemp.depositcount = sti(pchar.questTemp.depositcount) - iTemp;
+				//if(sti(pchar.questTemp.depositcount) >= 50000000) UnlockAchievement("bank_money", 3);
+				CheckForAchievement();
+			}
 		break;
 
 		case "DeadMotherfucker":
@@ -3098,4 +3186,30 @@ void SlavetraderGalleonInWorld()
 int PcharReputation()
 {
 	return makeint((100-makeint(pchar.reputation))*0.5)+1;
+}
+
+void CheckForAchievement()
+{
+	int deposits = 0;
+	if (CheckAttribute(pchar, "Quest.Deposits")) // не треться при возврате
+	{
+		aref quest;
+		aref quests;
+		makearef(quests,Characters[GetMainCharacterIndex()].Quest.Deposits);
+
+		int nQuestsNum = GetAttributesNum(quests);
+
+		for(int n = 0; n < nQuestsNum; n++)
+		{
+			quest = GetAttributeN(quests,n);
+
+			string sQuestName = GetAttributeName(quest);
+			if (CheckAttribute(Pchar, "Quest.Deposits."+sQuestName+".Sum"))
+			{
+				int iPastMonths = GetPastTime("Month", makeint(Pchar.Quest.Deposits.(sQuestName).StartYear),makeint(Pchar.Quest.Deposits.(sQuestName).StartMonth),makeint(Pchar.Quest.Deposits.(sQuestName).StartDay), makefloat(Pchar.Quest.Deposits.(sQuestName).StartTime), getDataYear(),getDataMonth(),GetDataDay(), GetTime());
+				deposits += makeint(Pchar.Quest.Deposits.(sQuestName).Sum) + ((makeint(Pchar.Quest.Deposits.(sQuestName).Sum)/100)*makeint(Pchar.Quest.Deposits.(sQuestName).Interest))*iPastMonths;
+			}
+		}
+	}
+	if(deposits >= 50000000) UnlockAchievement("bank_money", 3);
 }

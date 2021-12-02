@@ -9,16 +9,17 @@ string curgerald = "";
 string defgerald = "";
 ref yard;
 bool allowgerald = false;
-
+ref chref;
 bool sails = false;
 
-void InitInterface_R(string iniName, ref _shipyarder)
+void InitInterface_RR(string iniName, ref _shipyarder, ref chreff)
 {
 	ref yard = _shipyarder;
     StartAboveForm(true);
     // лочим квест и карту
     bQuestCheckProcessFreeze = true;
-    int st = GetCharacterShipType(pchar);
+	chref = chreff;
+    int st = GetCharacterShipType(chref);
     shref = GetRealShip(st);
 	//if (CheckAttribute(shref,"SailsColorIdx")) curcolor = sti(shref.SailsColorIdx);
 	//else curcolor = 0;
@@ -31,14 +32,14 @@ void InitInterface_R(string iniName, ref _shipyarder)
 		defgerald = curgerald;
 	}
     
-    price = GetSailsTuningPrice(Pchar, _shipyarder, SAILSGERALD_PRICE_RATE);
+    price = GetSailsTuningPrice(chref, _shipyarder, SAILSGERALD_PRICE_RATE);
     
     SetEventHandler("GetInterfaceTexture", "ScrollGetTexture", 0);
 
 	EnumerateIcons("resource\textures\interfaces\sails", "00*", "SCROLL_COLORS", 0);
 	if (bNewSails && _shipyarder.name == "Мастер") EnumerateIcons("resource\textures\ships", "parus_sail_*", "SCROLL_SAILS", 0);
 	else EnumerateIcons("resource\textures\ships\PlayerSails", "*.tga.tx", "SCROLL_SAILS", 0);
-	if(CheckSailsGerald(Pchar) && CanSetSailsGerald(PChar)) EnumerateIcons("resource\textures\ships\gerald", "*.tga.tx", "SCROLL_GERALD", 0);
+	if(CheckSailsGerald(chref) && CanSetSailsGerald(chref)) EnumerateIcons("resource\textures\ships\gerald", "*.tga.tx", "SCROLL_GERALD", 0);
     
     SendMessage(&GameInterface,"ls",MSG_INTERFACE_INIT,iniName);
     
@@ -58,7 +59,7 @@ void InitInterface_R(string iniName, ref _shipyarder)
 		GameInterface.SCROLL_SAILS.current = 0;
 	}
 	CheckChangeSailStatus();
-	if(!CheckSailsGerald(Pchar) || !CanSetSailsGerald(PChar))
+	if(!CheckSailsGerald(chref) || !CanSetSailsGerald(chref))
 	{
 		SetNodeUsing("SAILS_GERALD_LEFT_BUTTON",false);
 		SetNodeUsing("SAILS_GERALD_RIGHT_BUTTON",false);
@@ -225,7 +226,7 @@ void CheckChangeSailStatus()
 	bNewValue = false;
 	if (allowgerald)
 	{
-		if(CheckSailsGerald(Pchar) && CanSetSailsGerald(PChar))
+		if(CheckSailsGerald(chref) && CanSetSailsGerald(chref))
 		{
 			if (GetChosenType("gerald") != defgerald) {bNewValue = true; price = price + CalculateSailsChangePrice(sti(shref.Class)); SetFormatedText("GERALD_CURRENT", "");}
 			else SetFormatedText("GERALD_CURRENT", "Текущий");
@@ -276,7 +277,7 @@ string GetChosenType(string total)
 		string geraldname = "";
 		int nEmblem = sti(GameInterface.SCROLL_GERALD.current);
 		string sattr = "pic"+(nEmblem+1);
-		if(CheckSailsGerald(Pchar) && CanSetSailsGerald(PChar)) // Warship fix 04.06.09
+		if(CheckSailsGerald(chref) && CanSetSailsGerald(chref)) // Warship fix 04.06.09
 		{	
 			geraldname = GameInterface.SCROLL_GERALD.(sattr).FileName.Name;
 			return FindStringBeforeChar(geraldname,".tga");
@@ -391,14 +392,14 @@ void SetNewSailsGerald()
 	string geraldname = "";
 	int nEmblem = sti(GameInterface.SCROLL_GERALD.current);
 	int nSail = sti(GameInterface.SCROLL_SAILS.current);
-	SetSailsColor(Pchar, curcolor);
+	SetSailsColor(chref, curcolor);
 
 	string sattr = "pic"+(nEmblem+1);
 	string sattr2 = "pic"+(nSail+1);
 	
 	if (allowgerald)
 	{
-		if(CheckSailsGerald(Pchar) && CanSetSailsGerald(PChar)) // Warship fix 04.06.09
+		if(CheckSailsGerald(chref) && CanSetSailsGerald(chref)) // Warship fix 04.06.09
 		{	
 			geraldname = GameInterface.SCROLL_GERALD.(sattr).FileName.Name;
 			shref.ShipSails.Gerald_Name = FindStringBeforeChar(geraldname,".tga");

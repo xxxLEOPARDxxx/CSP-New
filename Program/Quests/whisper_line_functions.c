@@ -316,8 +316,8 @@ void WhisperHoldInit(string qName)
 	ChangeCharacterAddressGroup(sld, "My_Deck", "reload", "reload1");
 	GiveItem2Character(sld, "blade_whisper");
 	EquipCharacterByItem(sld, "blade_whisper");
-	GiveItem2Character(sld, "pistol7shotgun");
-	EquipCharacterByItem(sld, "pistol7shotgun");
+	GiveItem2Character(sld, "pistol4");
+	EquipCharacterByItem(sld, "pistol4");
     TakeNItems(sld, "GunPowder", 99);
     TakeNItems(sld, "bullet", 99);
 	
@@ -1047,15 +1047,15 @@ void WhisperMeetCrew(string qName)
 	LAi_ActorTurnToCharacter(pchar, sld);
 	
 	sld = GetCharacter(NPC_GenerateCharacter("Wh_Jim", "PGG_Doggerty_0", "man", "man", 5, PIRATE, -1, false));
-   	sld.name 	= "Джим";
-    sld.lastname = "";
+   	sld.name 	= "Вудро";
+    sld.lastname = "Доггерти";
     sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
 	LAi_SetHP(sld, 250.0, 250.0);
 	//sld.greeting = "Gr_padre";
     ChangeCharacterAddressGroup(sld, "PuertoPrincipe_Port", "goto", "goto7");
 	LAi_SetActorTypeNoGroup(sld);
 	LAi_ActorTurnToCharacter(sld, pchar);
-	sld.LifeDay = 0;
+	//sld.LifeDay = 0;
 	
 	for(i=1; i < 5; i++)
 	{
@@ -1422,12 +1422,9 @@ void WhisperWarDogSeaBattle()
 	sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS32;
 	
 	ChangeCharacterAddressGroup(sld, "My_Deck", "reload", "reload1");
-	//GiveItem2Character(sld, "blade_15");
 	EquipCharacterByItem(sld, "blade_15");
-	//GiveItem2Character(sld, "pistol7shotgun");
-	EquipCharacterByItem(sld, "pistol7shotgun");
-    TakeNItems(sld, "blade_whisper", -1);
-    TakeNItems(sld, "blade_whisper", -1);
+	EquipCharacterByItem(sld, "pistol4");
+    TakeNItems(sld, "blade_whisper", -2);
 	
 	SetCrewQuantityFull(sld);
 	int hcrew = GetMaxCrewQuantity(sld);
@@ -1438,12 +1435,8 @@ void WhisperWarDogSeaBattle()
 	ChangeCrewExp(sld, "Cannoners", 50 + 5 * MOD_SKILL_ENEMY_RATE);
 	ChangeCrewExp(sld, "Soldiers", 50 + 5 * MOD_SKILL_ENEMY_RATE);
 	
-	TakeNItems(sld, "12_gauge", 99);
-    TakeNItems(sld, "grapeshot", 99);
-    //TakeNItems(sld, "bullet", 99);
 	TakeNItems(sld, "Food5", 5);
 	TakeNItems(sld, "potion2", 5);
-	LAi_SetCharacterUseBullet(sld,"grapeshot");
 	sld.SaveItemsForDead = true;
 	GiveItem2Character(sld, "cirass5");
 	EquipCharacterbyItem(sld, "cirass5")
@@ -2013,7 +2006,7 @@ void DarkHuman_SK_gate(string qName)
 {
 	LocatorReloadEnterDisable("Tenotchitlan_Jungle_03", "reload3_back", false);
 	LocatorReloadEnterDisable("Tenotchitlan_Jungle_02", "reload1_back", false);
-	// не забыть
+
 	LocatorReloadEnterDisable("SantaCatalina_town", "reload5_back", true);
 	LocatorReloadEnterDisable("Villemstad_town", "gate_back", true);
 	LocatorReloadEnterDisable("Villemstad_town", "reload4_back", true);
@@ -2197,6 +2190,311 @@ void DHLockSK(string qName)
 {
 	LocatorReloadEnterDisable("SantaCatalina_town", "gate_back", true);
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Линейка Темного Странника --     конец
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////  Капитул     начало
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void CaptureCapitol_SeaBattle()
+{
+	pchar.ContraInterruptWaiting = true;
+	
+	Group_FindOrCreateGroup("CaptureCapitol_SeaBattle");
+	Group_SetType("CaptureCapitol_SeaBattle", "pirate");
+	for (i = 1; i < 8; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("CaptureCapitol_enemyfleet"+i, "off_spa_"+(rand(1)+1), "man", "man", sti(pchar.rank)+10, SPAIN, -1, true));
+		
+		if (i == 1) FantomMakeQuickSailor(sld, SHIP_GALEON50, "Откровение", CANNON_TYPE_CANNON_LBS32, 50, 50, 50);
+		if (i == 2) FantomMakeQuickSailor(sld, SHIP_GALEON1, "Деяния святых апостолов", CANNON_TYPE_CANNON_LBS24, 50, 50, 50);
+		if (i == 3) FantomMakeQuickSailor(sld, SHIP_REVENGE, "Евангелие", CANNON_TYPE_CANNON_LBS32, 50, 50, 50);
+		if (i == 4) FantomMakeQuickSailor(sld, SHIP_GALEON_H, "Плач Иеремии", CANNON_TYPE_CANNON_LBS32, 50, 50, 50);
+		if (i == 5) FantomMakeQuickSailor(sld, SHIP_FELIPE, "Притчи", CANNON_TYPE_CANNON_LBS32, 50, 50, 50);
+		if (i == 6) FantomMakeQuickSailor(sld, SHIP_WARGALLEON2, "Псалмы", CANNON_TYPE_CANNON_LBS32, 50, 50, 50);
+		if (i == 7) FantomMakeQuickSailor(sld, SHIP_GALEON_L, "Бытие", CANNON_TYPE_CANNON_LBS16, 50, 50, 50);
+
+		TakeNItems(sld, "Food5", 5);
+		TakeNItems(sld, "potion2", 5);
+		
+		sld.AlwaysEnemy = true;
+
+		Group_AddCharacter("CaptureCapitol_SeaBattle", sld.id);
+		if (i == 1) Group_SetGroupCommander("CaptureCapitol_SeaBattle", sld.id);
+		SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
+		
+		//Group_SetPursuitGroup("CaptureCapitol_SeaBattle", PLAYER_GROUP);
+		Group_SetTaskAttack("CaptureCapitol_SeaBattle", PLAYER_GROUP);
+		Group_LockTask("CaptureCapitol_SeaBattle");
+		
+		Group_SetAddress("CaptureCapitol_SeaBattle", "Reefs", "reloas", "reload_1");
+		string cnd = "l"+i;
+		pchar.quest.CaptureCapitol_EndSeaBattle.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.CaptureCapitol_EndSeaBattle.win_condition.(cnd).character = sld.id;
+	}
+	PChar.quest.CaptureCapitol_EndSeaBattle.function = "CaptureCapitol_EndSeaBattle";
+}
+
+void CaptureCapitol_SeaBattleStarted(string q)
+{
+	pchar.LockMapReload = "Отступать уже поздно. Нужно дать бой испанцам";
+	pchar.LockShoreReload = "Я не могу встать на якорь пока не уничтожу эскадру врага целиком.";
+}
+
+void CaptureCapitol_EndSeaBattle(string q)
+{
+	DeleteAttribute(pchar, "LockShoreReload");
+	pchar.LockMapReload = "Некогда отступать. Нужно дать бой испанцам в бухте проклятых";
+	AddQuestRecord("TheLastMass", "4");
+	pchar.quest.CaptureCapitol_ShoreBattle.win_condition.l1          = "location";
+	pchar.quest.CaptureCapitol_ShoreBattle.win_condition.l1.location = "DeckWithReefs";
+	pchar.quest.CaptureCapitol_ShoreBattle.function             = "CaptureCapitol_ShoreBattle";	
+}
+
+void FantomMakeQuickSailor(ref _Character, int _ShipType, string _ShipName, int _CannonsType, int _Sailing, int _Accuracy, int _Cannons)
+{
+    _Character.Ship.Cannons.Type = _CannonsType;
+	_Character.skill.Sailing  = GetCoffDiff(_Sailing, SKILL_MAX);
+	_Character.skill.Accuracy = GetCoffDiff(_Accuracy, SKILL_MAX);
+	_Character.skill.Cannons  = GetCoffDiff(_Cannons, SKILL_MAX);
+
+    //_Character.DontRansackCaptain = true; //квестовые не сдаются
+    //_Character.SinkTenPercent     = false; // не тонуть при 10 процентах, не убегать в бою
+    //_Character.AboardToFinalDeck  = true; // абордаж всегда
+	//_Character.DontClearDead      = true;
+	_Character.SaveItemsForDead   = true;
+	//_Character.AlwaysSandbankManeuver = true;
+
+    _Character.Ship.Type = GenerateShipExt(_ShipType, true, _Character);
+    if (_ShipName == "none" || _ShipName == "") {SetRandomNameToShip(_Character)}
+    else {_Character.Ship.Name = _ShipName}
+
+    SetCrewQuantityFull(_Character);
+    Fantom_SetBalls(_Character, "pirate");
+
+	SetCharacterPerk(_Character, "FastReload");
+	SetCharacterPerk(_Character, "HullDamageUp");
+	SetCharacterPerk(_Character, "SailsDamageUp");
+	SetCharacterPerk(_Character, "CrewDamageUp");
+	SetCharacterPerk(_Character, "CriticalShoot");
+	SetCharacterPerk(_Character, "LongRangeShoot");
+	SetCharacterPerk(_Character, "CannonProfessional");
+	SetCharacterPerk(_Character, "ShipDefenseProfessional");
+	SetCharacterPerk(_Character, "ShipSpeedUp");
+	SetCharacterPerk(_Character, "ShipTurnRateUp");
+
+    DeleteAttribute(_Character, "ship.sails");// убрать дыры на парусах
+    DeleteAttribute(_Character, "ship.blots");
+    DeleteAttribute(_Character, "ship.masts");// вернуть сбытые мачты
+    DeleteAttribute(_Character, "Killer.status"); // снять аттрибут 'был захвачен на абордаж'
+    _Character.questTemp.abordage = 0; //снять аттрибут отказа повторного захвата
+   	DeleteAttribute(_Character, "Abordage.Enable"); //снять невозможноть абордажа
+}
+
+void CaptureCapitol_ShoreBattle(string q)
+{
+	DeleteAttribute(pchar, "LockMapReload");
+	chrDisableReloadToLocation = true;
+	
+	ref chr;
+	string attrName, sLoc, sLoc_2, relation;
+	int i, iRnd, iNation, perSailor;
+ 
+	relation = LAI_GROUP_PLAYER;
+	sLoc = "Reefs";
+	iNation = SPAIN;
+	
+	perSailor = 50;
+	iRnd = GetCrewQuantity(pchar)/perSailor - GetOfficersQuantity(pchar);
+	
+	pchar.CaptureCapitolSailors = iRnd;
+	pchar.CaptureCapitolPerSailor = perSailor;
+	
+	PChar.GenQuestFort.FarLocator = false;
+	sLoc = LAi_FindNPCLocator("officers");
+	for (i = 1; i < iRnd; i++)
+	{
+		chr = SetFantomDefenceForts("officers", sLoc, PIRATE, relation);
+		FantomMakeCoolFighterWRankDepend(chr,sti(pchar.rank),25+rand(75),25+rand(75),50);
+		
+		string cnd = "CaptureCapitolSailor"+i;
+		pchar.quest.(cnd).win_condition.(cnd) = "NPC_Death";
+		pchar.quest.(cnd).win_condition.(cnd).character = chr.id;
+		pchar.quest.(cnd).function = "CaptureCapitol_SailorDead";
+	}
+	Pchar.GenQuestFort.FarLocator = true;	
+
+	//enemy
+	iRnd = iRnd + sti(pchar.rank) + MOD_SKILL_ENEMY_RATE;
+	Pchar.GenQuestFort.FarLocator = true;
+	sLoc = LAi_FindNPCLocator("quest");
+	sLoc_2 = LAi_FindNPCLocator("reload");
+	for (i = 1; i < iRnd; i++)
+	{
+		if (i % 2 == 0)
+		{
+		chr = SetFantomDefenceForts("quest", sLoc, iNation, "CaptureCapitol");
+		}
+		else
+		{
+			chr = SetFantomDefenceForts("reload", sLoc_2, iNation, "CaptureCapitol");
+		}
+		chr.id = "pirate_" + i;
+		FantomMakeCoolFighterWRankDepend(chr,sti(pchar.rank),25+rand(75),25+rand(75),50);
+	}
+	//натравим.
+	LAi_group_SetHearRadius("CaptureCapitol", 100.0);
+	LAi_group_FightGroupsEx("CaptureCapitol", LAI_GROUP_PLAYER, true, Pchar, -1, false, false);	
+	LAi_group_FightGroupsEx("CaptureCapitol", relation, true, Pchar, -1, false, false);	
+
+	LAi_group_SetCheckFunction("CaptureCapitol", "CaptureCapitol_ShoreBattleRespite");
+	
+	LAi_SetFightMode(pchar, true);
+}
+
+void CaptureCapitol_SailorDead(string q)
+{
+	SetCrewQuantity(pchar, GetCrewQuantity(pchar) - sti(pchar.CaptureCapitolPerSailor));
+}
+
+void CaptureCapitol_ShoreBattleRespite(string q)
+{
+	ref locLoad = &locations[reload_location_index];
+	LAi_LocationFightDisable(locLoad, true);
+	DoQuestCheckDelay("hide_weapon", 2.0);
+	sld = GetCharacter(NPC_GenerateCharacter("CapitolLeader", "PGG_Vincento_0", "man", "man", 99, SPAIN, -1, true));
+	
+	if (startherotype == 2)	
+	{
+		FantomMakeCoolFighter(sld, 100, 100, 100, "blade24", "pistol7shotgun", 80);
+		TakeNItems(sld, "12_gauge", 99);
+	}
+	else	FantomMakeCoolFighter(sld, 100, 100, 100, "blade24", "pistol4", 80);
+	LAi_SetHP (sld, MOD_SKILL_ENEMY_RATE * 150 + 500, MOD_SKILL_ENEMY_RATE * 150);
+	SetSPECIAL(sld, 10, 10, 10, 10, 10, 10, 10);
+	sld.cirassID = Items_FindItemIdx("cirass5");
+	sld.SaveItemsForDead = true;
+	
+	sld.name 	= "Хулио";
+	sld.lastname 	= "Иглесиас";
+	sld.Dialog.CurrentNode = "OrderLeader";
+	sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+	Lai_SetStayType(sld);
+	sld.talker = 10;
+	ChangeCharacterAddressGroup(sld, PChar.location, "reload", "reload2_back");
+}
+
+void CaptureCapitol_ShoreBattleRaiseUndead(string q)
+{
+	ref locLoad = &locations[reload_location_index];
+	LAi_LocationFightDisable(locLoad, false);
+	
+	pchar.OrderDestroyed = true;
+	SetReefSkeletonsToLocation(locLoad, "DeckWithReefs");
+}
+
+void CaptureCapitol_ShoreBattleEnd()
+{
+	if (CheckAttribute(pchar, "OrderDestroyed"))
+	{
+		chrDisableReloadToLocation = false;
+
+		for (i = 1; i < sti(pchar.CaptureCapitolSailors); i++)
+		{
+			string cnd = "CaptureCapitolSailor"+i;
+			PChar.quest.(cnd).over = "yes";
+		}
+		DeleteAttribute(pchar, "CaptureCapitolSailors");
+		DeleteAttribute(pchar, "CaptureCapitolPerSailor");
+		
+		LocatorReloadEnterDisable(pchar.location, "reload1", true);
+		LocatorReloadEnterDisable(pchar.location, "reload2", false);	
+		
+		pchar.quest.CaptureCapitol_ChapterEnter.win_condition.l1          = "location";
+		pchar.quest.CaptureCapitol_ChapterEnter.win_condition.l1.location = "Reefs_Chapter";
+		pchar.quest.CaptureCapitol_ChapterEnter.function             = "CaptureCapitol_ChapterEnter";
+	}
+}
+
+void CaptureCapitol_ChapterEnter(string q)
+{
+	DoQuestFunctionDelay("CaptureCapitol_ChapterEnter_1",0)
+	chrDisableReloadToLocation = true;
+}
+void CaptureCapitol_ChapterEnter_1(string q)
+{
+	for (int j=1; j<=6; j++)
+	{
+		sld = CharacterFromID("MaltGuard_"+j);
+		ChangeCharacterAddressGroup(sld, "none", "none", "none");
+	}
+	sld = CharacterFromID("CapitolLeader");
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto6");
+	sld.Dialog.CurrentNode = "OrderLeader_1";
+	LAi_SetStayType(sld);
+	sld.talker = 10;
+}
+
+void CaptureCapitol_OnLeaderDeath()
+{
+	for (int j=1; j<=6; j++)
+	{
+		string cnd = "MaltGuard_"+j;
+		pchar.quest.CaptureCapitol_OnLeaderDeath_1.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.CaptureCapitol_OnLeaderDeath_1.win_condition.(cnd).character = cnd;
+	}
+	pchar.quest.CaptureCapitol_OnLeaderDeath_1.win_condition.l1 = "NPC_Death";
+	pchar.quest.CaptureCapitol_OnLeaderDeath_1.win_condition.l1.character = "CapitolLeader";
+	pchar.quest.CaptureCapitol_OnLeaderDeath_1.function = "CaptureCapitol_OnLeaderDeath_1";
+}
+
+void CaptureCapitol_OnLeaderDeath_1(string q)
+{
+	ref locLoad = &locations[reload_location_index];
+	LAi_LocationFightDisable(locLoad, true);
+	DoQuestCheckDelay("hide_weapon", 2.0);
+	
+	if (startherotype == 2)	sld = CharacterFromID("Wh_Jim");
+	else sld = GetCharacter(NPC_GenerateCharacter("Wh_Jim", "officer_"+(rand(63)+1), "man", "man", 5, PIRATE, -1, false));
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto7");
+	LAi_SetActorTypeNoGroup(sld);
+    LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
+	
+	sld.Dialog.CurrentNode = "CapitolCaptured";
+}
+
+void CaptureCapitol_Decision(string q)
+{
+	LocatorReloadEnterDisable(pchar.location, "reload1", false);
+	if(CheckAttribute(pchar, "SellCapitol"))
+	{
+		LocatorReloadEnterDisable(pchar.location, "reload2", true);
+		AddQuestRecord("TheLastMass", "6");
+	}
+	else	
+	{
+		BuildPirateOrder();
+		AddQuestRecord("TheLastMass", "5");
+		CloseQuestHeader("TheLastMass");
+	}
+}
+void BuildPirateOrder()
+{
+	Locations[FindLocation("DeckWithReefs")].reload.l2.label = "Reefs_Chapter";
+	Locations[FindLocation("Reefs_Chapter")].id.label = "Reefs_Chapter";
+	pchar.PirateOrder = true;
+	sld = CharacterFromID("Wh_Jim");
+	ChangeCharacterAddressGroup(sld, "Reefs_Chapter", "sit", "sit1");
+	LAi_SetHuberType(sld);
+	LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
+	LAi_SetImmortal(sld, true);
+	sld.Dialog.Filename = "MalteseOrder.c";
+}
+//todo: Если найдётся подходящая модель, посадить в одну из клеток Капитула пленницу (Новый квест и потенциальный оф)
+//Добавить возможность оставить собственного пленника в темнице, чтобы через время выбить из него генераторный квест
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   -- Капитул --     конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

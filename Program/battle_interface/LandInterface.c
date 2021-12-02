@@ -559,16 +559,27 @@ void BLI_SetObjectData()
 		outGroupName = Locations[idxloc].fastreload;
 		CreateReloadPaths(outGroupName);
 	}
+	
+	objLandInterface.ManSign.useUDFBars = true;
+	objLandInterface.ManSign.UDFColor1 = ARGB(255,128,128,128);
+	objLandInterface.ManSign.UDFColor2 = ARGB(255,0,255,0);
+	
 	if(InterfaceStates.HUDStyle)
 	{
-		objLandInterface.ManSign.backtexturename		= "battle_interface\Ship_Border.tga";
+		objLandInterface.ManSign.UDFWidth 				= makeint(59.0 * fHtRatio);
+		objLandInterface.ManSign.UDFHeight 				= makeint(3.0 * fHtRatio);
+		objLandInterface.ManSign.UDFPos2 				= makeint(20.0 * fHtRatio)+","+makeint(85.0 * fHtRatio);
+		objLandInterface.ManSign.UDFPos1 				= makeint(20.0 * fHtRatio)+","+makeint(85.0 * fHtRatio);
+		objLandInterface.ManSign.UDFOffsets 			= "0,"+makeint(85.0 * fHtRatio);
+		
+		objLandInterface.ManSign.backtexturename		= "battle_interface\Char_Border.tga";
 		objLandInterface.ManSign.backcolor				= argb(255,128,128,128);
 		objLandInterface.ManSign.backuv					= "0.0,0.0,1.0,1.0";
 		fTmp 											= makeint(-10.0 * fHtRatio);
-		fTmp2 											= makeint(-11.0 * fHtRatio);
+		fTmp2 											= makeint(-5.0 * fHtRatio);
 		objLandInterface.ManSign.backoffset				= fTmp + "," + fTmp2;
-		fTmp 											= makeint(64.0 * fHtRatio);
-		objLandInterface.ManSign.backiconsize			= fTmp + "," + fTmp;
+		// fTmp 											= makeint(64.0 * fHtRatio);
+		objLandInterface.ManSign.backiconsize			= makeint(64.0 * fHtRatio)+","+makeint(74.0 * fHtRatio);
 
 		objLandInterface.ManSign.alarmtexturename		= "battle_interface\AlarmQ.tga";
 		objLandInterface.ManSign.alarmhighcolor			= argb(255,168,28,28);
@@ -630,6 +641,11 @@ void BLI_SetObjectData()
 		///////////////////////////////////////////////////////////////////
 		/// ÍÎÂÛÉ HUD ÍÀ ÇÀÌÅÍÓ ÑÒÀÍÄÀÐÒÍÎÃÎ BY JOHNNY88
 		///////////////////////////////////////////////////////////////////
+		objLandInterface.ManSign.UDFWidth 				= makeint(38.0 * fHtRatio);
+		objLandInterface.ManSign.UDFHeight 				= makeint(10.0 * fHtRatio);
+		objLandInterface.ManSign.UDFPos2 				= makeint(41.0 * fHtRatio)+","+makeint(81.0 * fHtRatio);
+		objLandInterface.ManSign.UDFPos1 				= makeint(41.0 * fHtRatio)+","+makeint(81.0 * fHtRatio);
+		objLandInterface.ManSign.UDFOffsets 			= "0,"+makeint(85.0 * fHtRatio);
 		
 		// ïîäëîæêà èêîíêè ÃÃ è îôèöåðîâ
 		objLandInterface.ManSign.backtexturename		= "battle_interface\CharBackIcon.tga";
@@ -699,7 +715,7 @@ void BLI_SetObjectData()
 		string sOffsetIcon = "iconoffset" + i;
 		objLandInterface.ManSign.(sOffsetIcon) = fTmp + "," + (fTmp + (i-1)*fTmp2);
 	}
-
+	
 	int nLoc = FindLoadedLocation();
 	if(nLoc >= 0) 
 	{
@@ -788,41 +804,41 @@ void BLI_SetObjectData()
 	RefreshLandTime();
 	objLandInterface.textinfo.datatext.refreshable = true;
 // ïëàøêà äîçàðÿäêè ïèñòîëåòà
-	if(!dialogRun)
-	{
-		int fTmp3;
-		int fTmp4;
-		if(InterfaceStates.HUDStyle)
-		{
-			fTmp = makeint(19.0 * fHtRatio); 	// left
-			fTmp2 = makeint(96.0 * fHtRatio); 	// top
-			fTmp3 = makeint(81.0 * fHtRatio); 	// right
-			fTmp4 = makeint(80.0 * fHtRatio); 	// bottom
-		}
-		else
-		{
-			fTmp = makeint(15.0 * fHtRatio); 	// left
-			fTmp2 = makeint(7.0 * fHtRatio); 	// top
-			fTmp3 = makeint(102.0 * fHtRatio); 	// right
-			fTmp4 = makeint(93.0 * fHtRatio); 	// bottom
-		}
-		string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
+	// if(!dialogRun)
+	// {
+		// int fTmp3;
+		// int fTmp4;
+		// if(InterfaceStates.HUDStyle)
+		// {
+			// fTmp = makeint(19.0 * fHtRatio); 	// left
+			// fTmp2 = makeint(96.0 * fHtRatio); 	// top
+			// fTmp3 = makeint(81.0 * fHtRatio); 	// right
+			// fTmp4 = makeint(80.0 * fHtRatio); 	// bottom
+		// }
+		// else
+		// {
+			// fTmp = makeint(15.0 * fHtRatio); 	// left
+			// fTmp2 = makeint(7.0 * fHtRatio); 	// top
+			// fTmp3 = makeint(102.0 * fHtRatio); 	// right
+			// fTmp4 = makeint(93.0 * fHtRatio); 	// bottom
+		// }
+		// string off	= fTmp + "," + fTmp2 + "," + fTmp3 + "," + fTmp4;
 		
-		if(InterfaceStates.HUDStyle)
-		{
-		objLandInterface.imageslist.textinfoback2.texture = "battle_interface\CharGunBackIcon.tga";
-		objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
-		objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,0.96,1.0";
-		objLandInterface.imageslist.textinfoback2.pos = off;
-		}
-		else
-		{
-		objLandInterface.imageslist.textinfoback2.texture = "battle_interface\Char_State_Guncharge.tga";
-		objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
-		objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,0.96,1.0";
-		objLandInterface.imageslist.textinfoback2.pos = off;
-		}
-	}
+		// if(InterfaceStates.HUDStyle)
+		// {
+		// objLandInterface.imageslist.textinfoback2.texture = "battle_interface\CharGunBackIcon.tga";
+		// objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
+		// objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,0.96,1.0";
+		// objLandInterface.imageslist.textinfoback2.pos = off;
+		// }
+		// else
+		// {
+		// objLandInterface.imageslist.textinfoback2.texture = "battle_interface\Char_State_Guncharge.tga";
+		// objLandInterface.imageslist.textinfoback2.color = argb(255,128,128,128);
+		// objLandInterface.imageslist.textinfoback2.uv = "0.0,0.0,0.96,1.0";
+		// objLandInterface.imageslist.textinfoback2.pos = off;
+		// }
+	// }
 
 	objLandInterface.textinfo.deadboxinfo.font = "interface_button";
 	objLandInterface.textinfo.deadboxinfo.scale = 1.3 * fHtRatio;
@@ -854,7 +870,7 @@ void BLI_SetObjectData()
 
 void RefreshChargeTime()
 {
-	if (dialogRun || !bLandInterfaceStart) 
+	/* if (dialogRun || !bLandInterfaceStart) 
 	{
 		bYesBoardStatus=false;
 		DeleteClass(&IBoardingStatus);
@@ -884,7 +900,7 @@ void RefreshChargeTime()
 			if(InterfaceStates.HUDStyle) DrawCharacterHPEx(makefloat(0.42/makefloat(gunchm)*makefloat(gunch)),0.1);
 			else DrawCharacterHPExx(makefloat(0.35/makefloat(gunchm)*makefloat(gunch)),0.35);
 		}
-	}
+	} */
 	if (InterfaceStates.DeadBoxText)
 	{
 		i = Dead_FindCloseBody();
@@ -1545,4 +1561,25 @@ void SetCharacterIconData(int chrindex, aref arData)
 			arData.uv = "0.0,0.0,0.5,1.0";
 		}
 	}
+	
+	aref chr_ai;
+	makearef(chr_ai, chref.chr_ai);
+	if (CheckAttribute(chref,"chr_ai.charge"))
+	{
+		float gunch = chr_ai.charge;
+		if (gunch > 1.0)
+		{
+			gunch -= makeint(gunch);
+		}
+		
+		if (CheckAttribute(chref,"chr_ai.charge_max"))
+		{
+			if (MakeInt(chr_ai.charge) == makeint(chr_ai.charge_max))
+			{
+				gunch = 1.0;
+			}
+		}
+	}
+	arData.UDFVal1 = 1.0;
+	arData.UDFVal2 = gunch;
 }

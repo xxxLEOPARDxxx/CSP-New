@@ -280,8 +280,6 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Pablo_Loco_5":
-			npchar.coolstories = "корицы и аниса";
-			npchar.questionsstate = 1;
 			dialog.text = " акой запах у этой травы?";
 			Link.l1.edit = 1;
 			Link.l1 = "";
@@ -290,9 +288,9 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Pablo_Loco_Pravilno":
-			if (npchar.questionsstate == 1 && npchar.coolstories == GetStrSmallRegister(dialogEditStrings[1]))
+			if ("корицы и аниса" == GetStrSmallRegister(dialogEditStrings[1]) || "корица и анис" == GetStrSmallRegister(dialogEditStrings[1]) || "запах корицы и аниса" == GetStrSmallRegister(dialogEditStrings[1]) || "запахи корицы и аниса" == GetStrSmallRegister(dialogEditStrings[1]) || "анис и корица" == GetStrSmallRegister(dialogEditStrings[1]) || "аниса и корицы" == GetStrSmallRegister(dialogEditStrings[1]) || "запах аниса и корицы" == GetStrSmallRegister(dialogEditStrings[1]) || "запахи аниса и корицы" == GetStrSmallRegister(dialogEditStrings[1]))
 			{
-				Dialog.text = " орицы и аниса? я знаю такую траву. ќна может лечить, а может убить. —кажи мне, зачем тебе нужна эта трава?";
+				Dialog.text = "ѕахнет корицей и анисом? я знаю такую траву. ќна может лечить, а может убить. —кажи мне, зачем тебе нужна эта трава?";
 				Link.l1 = "ƒоктор јлюмнус послал мен€ за ней.";
 				Link.l1.go = "Pablo_Loco_6";
 				break;
@@ -300,7 +298,6 @@ void ProcessDialogEvent()
 			else
 			{
 				Dialog.text = "Ќе знаю такой травы с таким запахом.";
-				if (npchar.questionsstate == 1)
 				{
 					Link.l1 = "ўас ещЄ раз попробую.";
 					Link.l1.go = "Pablo_Loco_5";

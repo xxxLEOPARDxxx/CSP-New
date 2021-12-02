@@ -26,46 +26,43 @@ void ProcessDialogEvent()
 			}
 
 
-					if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions)
-					{
-						if(!CheckAttribute(PChar, "questTemp.pirateStartQuest"))
-						{
-							link.l2 = "ћожет кака€ работенка дл€ мен€ найдетс€?";
-							link.l2.go = "pirateStartQuest";
-						}
-						else
-						{
-							if(pchar.questTemp.pirateStartQuest == "3" && !CheckAttribute(PChar, "questTemp.pirateStartQuest.many") && npchar.city == pchar.questTemp.pirateStartQuest.City)
-							{
-								link.l2 = "я выш"+ GetSexPhrase("ел","ла") +" на след, но мне нужны деньги - 30 000 пиастров, чтобы выманить крысу из норы.";
-								link.l2.go = "pirateStartQuest_many";	
-							}
-							if(pchar.questTemp.pirateStartQuest == "3" && GetCharacterItem(pchar, "letter_open") > 0 && npchar.city == pchar.questTemp.pirateStartQuest.City)
-							{
-								link.l2 = "ѕосмотри, что за письмо € наш"+ GetSexPhrase("ел","ла") +" на трупе одного из контрабандистов.";
-								link.l2.go = "pirateStartQuest_info_1";	
-							}
-							if(pchar.questTemp.pirateStartQuest == "5" && npchar.city == pchar.questTemp.pirateStartQuest.City)
-							{
-								link.l2 = "ƒело сделано. Ќорман ¬иго вместе со своей лоханкой отправилс€ к морскому дь€волу.";
-								link.l2.go = "pirateStartQuest_final";	
-							}
-						}
-					}
-					if(sti(pchar.rank) >= 10 && !CheckAttribute(PChar, "questTemp.pirateVikingQuest"))
-					{
-						link.l3 = "≈сть какое-нибудь интересное дело дл€ мен€?";
-						link.l3.go = "pirateVikingQuest";
-					}
-					else
-					{
-						if(pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
-						{
-							dialog.text = "¬ижу ты с новост€ми?"
-							link.l1 = "ƒа, завалил"+ GetSexPhrase("","а") +" таки север€нина, ох и лютый же был. ќбычно все разговоры завод€т как смерть почу€т, а этот рычал только аж пена изо рта шла.";
-							link.l1.go = "pirateVikingQuest_final";
-						}
-					}
+			if(!CheckAttribute(PChar, "questTemp.pirateStartQuest"))
+			{
+				link.l2 = "ћожет кака€ работенка дл€ мен€ найдетс€?";
+				link.l2.go = "pirateStartQuest";
+			}
+			else
+			{
+				if(pchar.questTemp.pirateStartQuest == "3" && !CheckAttribute(PChar, "questTemp.pirateStartQuest.many") && npchar.city == pchar.questTemp.pirateStartQuest.City)
+				{
+					link.l2 = "я выш"+ GetSexPhrase("ел","ла") +" на след, но мне нужны деньги - 30 000 пиастров, чтобы выманить крысу из норы.";
+					link.l2.go = "pirateStartQuest_many";	
+				}
+				if(pchar.questTemp.pirateStartQuest == "3" && GetCharacterItem(pchar, "letter_open") > 0 && npchar.city == pchar.questTemp.pirateStartQuest.City)
+				{
+					link.l2 = "ѕосмотри, что за письмо € наш"+ GetSexPhrase("ел","ла") +" на трупе одного из контрабандистов.";
+					link.l2.go = "pirateStartQuest_info_1";	
+				}
+				if(pchar.questTemp.pirateStartQuest == "5" && npchar.city == pchar.questTemp.pirateStartQuest.City)
+				{
+					link.l2 = "ƒело сделано. Ќорман ¬иго вместе со своей лоханкой отправилс€ к морскому дь€волу.";
+					link.l2.go = "pirateStartQuest_final";	
+				}
+			}
+			if(sti(pchar.rank) >= 10 && !CheckAttribute(PChar, "questTemp.pirateVikingQuest"))
+			{
+				link.l3 = "≈сть какое-нибудь интересное дело дл€ мен€?";
+				link.l3.go = "pirateVikingQuest";
+			}
+			else
+			{
+				if(pchar.questTemp.pirateVikingQuest == "7" && npchar.city == pchar.questTemp.pirateVikingQuest.City)
+				{
+					dialog.text = "¬ижу ты с новост€ми?"
+					link.l1 = "ƒа, завалил"+ GetSexPhrase("","а") +" таки север€нина, ох и лютый же был. ќбычно все разговоры завод€т как смерть почу€т, а этот рычал только аж пена изо рта шла.";
+					link.l1.go = "pirateVikingQuest_final";
+				}
+			}
 		break;
 
  		case "Exit":

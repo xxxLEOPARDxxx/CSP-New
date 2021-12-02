@@ -433,7 +433,7 @@ void FaceMaker(aref rCharacter)
 		// Мушкетеры
 		case "quest_mush_1":	rCharacter.FaceId = 292; break; //саксонец
 		case "quest_mush_2":	rCharacter.FaceId = 293; break; //пират
-		case "Lil_Jim_0":			rCharacter.FaceId = 294; break; //Маленький Джимми
+		case "Lil_Jim_0":		rCharacter.FaceId = 294; break; //Маленький Джимми
 		case "CCS_Mechanic":	rCharacter.FaceId = 295; break; //Korsar Maxim -
 		// временное решение для девиц из борделя
 		case "horse01": 		rCharacter.FaceId = 164; break;
@@ -445,6 +445,7 @@ void FaceMaker(aref rCharacter)
 		case "horse07": 		rCharacter.FaceId = 166; break;
 		case "horse08": 		rCharacter.FaceId = 167; break;
 
+		case "PGG_DeLuck_0": 	rCharacter.FaceId = 481; break;
 		case "PotCMobCap": 		rCharacter.FaceId = 510; break;
 		case "Chard3b":			rCharacter.FaceId = 1510; break; //Волверстон
 		case "pet_crab":		rCharacter.FaceId = 1512; break;

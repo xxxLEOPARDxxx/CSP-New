@@ -1202,7 +1202,7 @@ void QuestComplete(string sQuestName, string qname)
 				LAi_group_SetCheck("CoastalGuards", "CoastalGuardsAllDead");
 				pchar.quest.CoastG.win_condition.l1 = "NPC_Death";
 				pchar.quest.CoastG.win_condition.l1.character = sld.id;
-				pchar.quest.CoastG.win_condition.function = "Rand_ContraFinal";
+				pchar.quest.CoastG.win_condition = "Rand_ContraFinal";
 				//LAi_SetActorType(Pchar); //fix
 				//LAi_ActorFollow(PChar, &Characters[makeint(Pchar.quest.contraband.SoldierIDX1)], "", 35);
 				//Lai_QuestDelay("Rand_CoastalPatrolAppear", 3.0);
@@ -10728,7 +10728,8 @@ void QuestComplete(string sQuestName, string qname)
 			if (loadedLocation.id != "DeckWithReefs" || CheckAttribute(pchar,"GiantEvilSkeletonSpawned")) {chrDisableReloadToLocation = false; break;}
 			scareOfficers(50);
 			log_info("Хранитель грота был пробуждён.");
-			sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_0", "skeleton", "Giant", iRank, PIRATE, 1, true));
+			if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_5", "skeleton", "Giant_spy", iRank, PIRATE, 1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+			else sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_0", "skeleton", "Giant", iRank, PIRATE, 1, true));
 			sld.name = "Хранитель";
 			sld.lastname = "Грота";
 			sld.SaveItemsForDead = true;
@@ -10758,6 +10759,7 @@ void QuestComplete(string sQuestName, string qname)
 			pchar.GiantEvilSkeletonSpawned = true;
 		break;
 		case "GiantDead":
+			CaptureCapitol_ShoreBattleEnd();
 			UnlockAchievement("AchKaskos", 3);
 			pchar.talismanpreget = true;
 			chrDisableReloadToLocation = false;

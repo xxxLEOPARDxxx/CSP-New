@@ -50,7 +50,7 @@ void ProcessDialogEvent()
 			
 		case "BS_NU_2":
             dialog.text = "Приветствую, "+pchar.name+". Решил"+ GetSexPhrase("","а") +" расслабиться или развлечь команду?";
-            link.l1 = "Нужна твоя помощь. Я знаю, что девочки из борделей много чего видят и слышат, и готов купить у тебя кое-какую информацию.";
+            link.l1 = "Нужна твоя помощь. Я знаю, что девочки из борделей много чего видят и слышат, и готов"+ GetSexPhrase("","а") +" купить у тебя кое-какую информацию.";
 			link.l1.go = "BS_NU_3";
 		break;	
 		
@@ -291,7 +291,7 @@ void ProcessDialogEvent()
 			DoQuestFunctionDelay("InstantDialog", 0);
 		break;
 		case "BS_NU_25":	//Максин
-            dialog.text = "Пусть это останется тайной. Так вот, 'Урка Де Лима' движется вдоль побережья западного Мэйна и встанет на якорь недалеко от западного побережья Кюрасао, где будет ожидать прихода конвойной эскадры из Гаваны и уже оттуда двинется в Европу, минуя Барбадос и Тринидад. Я заслужила свою долю, господа?";
+            dialog.text = "Пусть это останется тайной. Так вот, 'Урка Де Лима' движется вдоль побережья Мэйна и встанет на якорь недалеко от западного берега Кюрасао, где будет ожидать прихода конвойной эскадры из Гаваны и уже оттуда двинется в Европу, минуя Барбадос и Тринидад. Я заслужила свою долю, господа?";
             link.l1 = "";
 			link.l1.go = "BS_NU_25_1";
 		break;
@@ -352,15 +352,11 @@ void ProcessDialogEvent()
 			PChar.quest.BSUrka_Fail2.function = "BSUrka_Fail";
 			
 			SetCompanionIndex(PChar, -1, GetCharacterIndex(npchar.id));//Флинт присоединяется к эскадре
+			Flag_PIRATE();
+			RepairShip(npchar);
 			LAi_SetImmortal(npchar, false);
-			ProcessHullRepair(npchar, 100.0);
-			ProcessSailRepair(npchar, 100.0);
-			DeleteAttribute(npchar, "ship.blots");
-			DeleteAttribute(npchar, "ship.sails");
-			DeleteAttribute(npchar, "ship.masts");
+			
 			SetShipRemovable(npchar, false);
-			Fantom_SetBalls(npchar, "war");
-			SetCharacterGoods(npchar,GOOD_FOOD,1000);
 		
             dialog.text = "";
             link.l1 = "Последний рывок?";
@@ -425,11 +421,7 @@ void ProcessDialogEvent()
 		case "BS_NU_33_Ya_Ne_Krisa":
 			FantomMakeCoolestSailor(npchar, SHIP_FRIGATE_H, "Рейнджер", CANNON_TYPE_CANNON_LBS32, 100, 100, 100);
 			SetCompanionIndex(PChar, -1, GetCharacterIndex(npchar.id));//вейн присоединяется к эскадре
-			ProcessHullRepair(npchar, 100.0);
-			ProcessSailRepair(npchar, 100.0);
-			DeleteAttribute(npchar, "ship.blots");
-			DeleteAttribute(npchar, "ship.sails");
-			DeleteAttribute(npchar, "ship.masts");
+			RepairShip(npchar);
 			SetShipRemovable(npchar, false);
 			Fantom_SetBalls(npchar, "war");
 			SetCharacterGoods(npchar,GOOD_FOOD,1000);
@@ -490,11 +482,12 @@ void ProcessDialogEvent()
 		
 		case "BS_NU_36":
 			chrDisableReloadToLocation = false;
-			DeleteAttribute(pchar, "LockSeaReload");
+			
+			DeleteAttribute(pchar, "LockShoreReload");
             dialog.text = "Спокойно, мы выловили несколько испанцев из воды, их сейчас допрашивают. Станем на рейде у мыса Кальвинистов. Поговорим на берегу.";
             link.l1 = "";
 			link.l1.go = "exit";
-			
+			pchar.LockMapReload = "Сначала нужно допросить пленных испанцев у мыса Кальвинистов.";
 			pchar.quest.BSUrka_Curacao_Shore.win_condition.l1          = "location";
 			pchar.quest.BSUrka_Curacao_Shore.win_condition.l1.location = "Shore23";
 			pchar.quest.BSUrka_Curacao_Shore.function             = "BSUrka_Curacao_Shore";	
@@ -508,7 +501,8 @@ void ProcessDialogEvent()
 		//Доплываем до мыса Кальвинистов, выходим на берег. На берегу испанский офицер, Флинт, Вейн, Бонни.
 		
 		case "BS_NU_37":	//Флинт
-            dialog.text = "Мы на Кюрасао, вас отпустят, не причинив вреда, если мы получим интересующую нас информацию. Иначе, вам известна моя репутация! И не тяните с решением.";
+            DeleteAttribute(pchar, "LockMapReload");
+			dialog.text = "Мы на Кюрасао, вас отпустят, не причинив вреда, если мы получим интересующую нас информацию. Иначе, вам известна моя репутация! И не тяните с решением.";
             link.l1 = "";
 			link.l1.go = "BS_NU_381";
 		break;

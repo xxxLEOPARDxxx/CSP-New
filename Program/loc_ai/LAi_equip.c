@@ -801,36 +801,40 @@ void LAi_NPC_EquipPerk(ref chr, string kind)
 			}
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 4)
 			{
-				chr.perks.list.Gunman = "1";
+				chr.perks.list.HPPlus = "1";
 			}	
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 5)
+			{
+				chr.perks.list.Gunman = "1";
+			}	
+			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 6)
 			{
 				chr.perks.list.HardHitter = "1";
 				chr.perks.list.Ciras = "1";
 			}
-			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 6)
+			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 7)
 			{
 				chr.perks.list.Tireless = "1";
 			}
-			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 7)
-			{
-				chr.perks.list.Sliding = "1";
-			}
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 8)
 			{
-				chr.perks.list.BladeDancer = "1";
+				chr.perks.list.EnergyPlus = "1";
 			}
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 9)
 			{
-				chr.perks.list.SwordplayProfessional = "1";
+				chr.perks.list.Sliding = "1";
 			}
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 10)
 			{
-				chr.perks.list.GunProfessional = "1";
+				chr.perks.list.BladeDancer = "1";
 			}
 			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 11)
 			{
-				chr.perks.list.Grus = "1";
+				chr.perks.list.SwordplayProfessional = "1";
+			}
+			if (PerkTemplates[PERK_TEMPLATE_MELEE] >= 12)
+			{
+				chr.perks.list.GunProfessional = "1";
 			}
 		}
 	}

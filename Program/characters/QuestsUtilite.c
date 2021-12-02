@@ -1460,11 +1460,9 @@ bool SetTempRemoveParam(ref _refCharacter, string _param)
 bool RestoreTempRemoveParam(ref _refCharacter, string _param)
 {
     string sParam = "TmpRemember" + _param;
-
+    
 	if( !CheckAttribute(_refCharacter, sParam) ) return false;
 
-	//#20171007-01 Bug fix French quest line prison
-	_refCharacter.(_param) = "";
 	aref dstRef; makearef(dstRef, _refCharacter.(_param));
 	aref srcRef; makearef(srcRef, _refCharacter.(sParam));
 
@@ -3268,7 +3266,8 @@ void SetReefSkeletonsToLocation(aref _location, string loc)
 			if (GetDataDay() == 3 && GetDataMonth() == 3 && GetTime() >= 3.0 && GetTime() < 4.0 && loc == "MountainPath" && !CheckAttribute(pchar,"salasarmet") && CheckAttribute(pchar,"SalasarEventKnow"))
 			{
 				pchar.salasarmet = true;
-				sld = GetCharacter(NPC_GenerateCharacter("salasar", "salasar", "skeleton", "skeleton", iRank, PIRATE, 1, true));
+				if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("salasar", "salasar", "skeleton", "spy", iRank, PIRATE, 1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+				else sld = GetCharacter(NPC_GenerateCharacter("salasar", "salasar", "skeleton", "skeleton", iRank, PIRATE, 1, true));
 				sld.name = "Армандо";
 				sld.lastname = "Салазар";
 				sld.SaveItemsForDead = true;
@@ -3295,10 +3294,27 @@ void SetReefSkeletonsToLocation(aref _location, string loc)
 			}
 			if (loc != "MountainPath")
 			{
-				Log_info("Вы пробудили проклятых!");
-				chrDisableReloadToLocation = true; //пока Злой Скелет Гигант жив - хер, а не выход
-				pchar.GiantEvilSkeleton = true;
-				LAi_group_SetCheck("ReefAssholes", "SpawnGiantEvilSkeleton");
+				if (startHeroType != 2 && startHeroType != 7)
+				{
+					Log_info("Вы пробудили проклятых!");
+					chrDisableReloadToLocation = true; //пока Злой Скелет Гигант жив - хер, а не выход
+					pchar.GiantEvilSkeleton = true;
+					LAi_group_SetCheck("ReefAssholes", "SpawnGiantEvilSkeleton");
+				}
+				else 
+				{
+					if (CheckAttribute(pchar,"OrderDestroyed"))
+					{
+						Log_info("Вы пробудили проклятых!");
+						chrDisableReloadToLocation = true; //пока Злой Скелет Гигант жив - хер, а не выход
+						pchar.GiantEvilSkeleton = true;
+						LAi_group_SetCheck("ReefAssholes", "SpawnGiantEvilSkeleton");
+					}
+					else
+					{
+						return;
+					}
+				}
 			}
 		}
 		LAi_SetWarriorType(sld);

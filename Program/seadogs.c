@@ -1314,7 +1314,8 @@ void ProcessControls()
   	{
         //Boyer change #20170318-38
         // if (CheckAttribute(&loadedLocation, "type") && loadedLocation.type == "underwater") return; //запрет ускорения под водой.
-		if (bAltBalance && !bSeaActive && ControlName == "TimeScaleSlower" && TimeScaleCounter == 0)
+		//if (bAltBalance && !bSeaActive && ControlName == "TimeScaleSlower" && TimeScaleCounter == 0)
+		if (bAltBalance && ControlName == "TimeScaleSlower" && TimeScaleCounter == 0)
 		{
 			Log_SetStringToLog("Замедление времени заблокировано.");
 			return;
@@ -1671,7 +1672,7 @@ void ProcessControls()
 			if (!CheckOfficersPerk(pchar, "LightRepair") && GetOfficersPerkUsing(pchar,"LightRepair"))
 			{
 				ActivateCharacterPerk(pchar,"LightRepair");
-				ActivateSpecRepair(pchar,1);
+				ActivateSpecRepair(pchar,0);
 			}
 			else
 			{

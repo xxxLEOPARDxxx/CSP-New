@@ -6,7 +6,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     {
 	    int   	cannonQ       = sti(RealShips[sti(Pchar.Ship.Type)].CannonsQuantity);
 		int   	cannonMax     = sti(RealShips[sti(Pchar.Ship.Type)].MaxCaliber);
-		int		cannonMaxQ    = sti(RealShips[sti(Pchar.Ship.Type)].CannonsQuantityMax); 
+		int		cannonMaxQ    = 0; 
+		if (CheckAttribute(&RealShips[sti(Pchar.Ship.Type)],"CannonsQuantityMax")) cannonMaxQ = sti(RealShips[sti(Pchar.Ship.Type)].CannonsQuantityMax); 
 		int   	shipClass     = sti(RealShips[sti(Pchar.Ship.Type)].Class);
 		//int   shipPrice     = sti(RealShips[sti(Pchar.Ship.Type)].Price);
 		int   	shipCapacity  = sti(RealShips[sti(Pchar.Ship.Type)].Capacity);

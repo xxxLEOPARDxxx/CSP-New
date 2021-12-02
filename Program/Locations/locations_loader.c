@@ -96,13 +96,6 @@ bool LoadLocation(ref loc)
 	//trace("LoadLocation(ref loc) " + loc.id);
 	if (loc.id == "Bridgetown_Plantation") DeleteAttribute(loc,"fastreload");
 	if (loc.id == "Marigo_ExitTown") {loc.townsack = "Marigo"; loc.fastreload = "Marigo";}
-	if (loc.id == "Temple_great" || loc.id == "Tenochtitlan")
-	{
-		if (CheckAttribute(pchar,"ismushketer"))
-		{
-			SetMainCharacterToMushketer("", false);
-		}
-	}
 	if (loc.id == "Temple_h" && !CheckAttribute(pchar,"Janitor"))
 	{
 		pchar.quest.CleanUpGrandma.win_condition.l1 = "Location";

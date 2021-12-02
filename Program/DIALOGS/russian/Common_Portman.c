@@ -1703,8 +1703,8 @@ void ProcessDialogEvent()
 						}
 					}
 	
-					Link.l9 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
-					Link.l9.go = "exit";
+					Link.l99 = "Нет, я передумал"+ GetSexPhrase("","а") +".";
+					Link.l99.go = "exit";
 				}
 				else
 				{

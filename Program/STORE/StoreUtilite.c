@@ -101,8 +101,8 @@ int GetStoreGoodsPrice(ref _refStore, int _Goods, int _PriceType, ref chref, int
 	{
 		return 0;
 	}
-	if (CheckAttribute(pchar,"ContraInter")) Log_TestInfo(pchar.ContraInter);
-		else Log_TestInfo("Нет атрибута ContraInter");											  
+	//if (CheckAttribute(pchar,"ContraInter")) Log_TestInfo(pchar.ContraInter);
+		//else Log_TestInfo("Нет атрибута ContraInter");											  
 	float _TradeSkill = GetSummonSkillFromNameToOld(pchar,SKILL_COMMERCE); // 0..10.0
 	aref refGoods;
 	string tmpstr = Goods[_Goods].name;

@@ -258,6 +258,13 @@ void ProcessCommandExecute()
 			    ShowPartitionWindow();
 			}
 		break;
+		
+		case "RESORT":
+			if(comName=="click")
+			{
+				ReSortCompanions();
+			}
+		break;
 
 		case "QTY_OK_BUTTON":
 			if(comName=="leftstep")
@@ -494,6 +501,7 @@ void OnShipScrollChange()
 	int iShip = sti(xi_refCharacter.ship.type);
 
 	SetNodeUsing("CREW_PARTITION", false);
+	SetNodeUsing("RESORT", false);
 	if (iShip != SHIP_NOTUSED)
 	{
         // xi_refCharacter.ship.sp = CalculateShipSP(xi_refCharacter);
@@ -563,6 +571,7 @@ void OnShipScrollChange()
     	if (xi_refCharacter.id == pchar.id)
     	{
     		SetNodeUsing("CREW_PARTITION", true);
+			SetNodeUsing("RESORT", true);
     	}
 		
 		if (CheckAttribute(RealShips[sti(xi_refCharacter.Ship.Type)],"Tuning.HullSpecial")) SetNewGroupPicture("EXTRAHULLON", "SHIP_UPGRADES", "EXTRAHULLON");
@@ -745,6 +754,10 @@ void ShowInfoWindow()
 		case "CREW_PARTITION":
 			sHeader = XI_Convertstring("PartitionCaption");
 			sText1  = GetRPGText("Partition_hint");
+		break;
+		case "RESORT":
+			sHeader = XI_Convertstring("RESORTCaption");
+			sText1  = GetRPGText("Resort_hint");
 		break;
 		case "Soil_TEXT":
 			sHeader = XI_ConvertString("Soil_Tooltip");
@@ -1640,4 +1653,46 @@ int GetPartitionAmount(string _param)
 {
     if (!CheckAttribute(Pchar, _param)) return 0;
     return sti(Pchar.(_param));
+}
+
+int cpos[7]={0,0,0,0,0,0,0};
+int cpostotal[7]={0,0,0,0,0,0,0};
+int cindex[7]={0,0,0,0,0,0,0};
+void ReSortCompanions()
+{
+	int cn,iShipType;
+	int cq = GetCompanionQuantity(pchar);
+	if (cq > 1)
+	{
+		for(int i = 1; i <= cq-1; i++)
+		{
+			cn = GetCompanionIndex(pchar, i);
+			iShipType = sti(characters[cn].ship.type);
+			if(iShipType != SHIP_NOTUSED)
+			{
+				ref rBaseShip = GetRealShip(iShipType);
+				cpos[i-1] = makeint(stf(rBaseShip.speedrate)*100.0);
+				cindex[i-1] = GetCompanionIndex(pchar,i);
+			}
+		}
+	}
+	else return;
+	for(i = 0; i < cq-1; i++)
+	{
+		int j = 0;
+		cpostotal[i] = cq-1;
+		while (j < cq-1)
+		{
+			if (j == i) {j++; continue;}
+			if (cpos[i] > cpos[j]) cpostotal[i] -= 1;
+			j++;
+		}
+	}
+	for(i = 1; i <= cq-1; i++)
+	{
+		string compName = "id"+cpostotal[i-1];
+		pchar.Fellows.Companions.(compName) = cindex[i-1];
+		Event(EVENT_CHANGE_COMPANIONS,"");
+	}
+	IDoExit(RC_INTERFACE_TO_SHIP);
 }

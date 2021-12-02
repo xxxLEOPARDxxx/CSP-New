@@ -291,22 +291,22 @@ void LAi_StartBoarding(int locType, ref echr, bool isMCAttack)
 			iMaxcrew = 4;
 		break;
 		case 6:
-			iMaxcrew = 5;
+			iMaxcrew = 4;
 		break;
 		case 5:
 			iMaxcrew = 6;
 		break;
 		case 4:
-			iMaxcrew = 7;
-		break;
-		case 3:
 			iMaxcrew = 8;
 		break;
+		case 3:
+			iMaxcrew = 12;
+		break;
 		case 2:
-			iMaxcrew = 11;
+			iMaxcrew = 16;
 		break;
 		case 1:
-			iMaxcrew = 13;
+			iMaxcrew = 20;
 		break;
     }
     if (iMaxcrew < maxcrew) maxcrew = iMaxcrew;

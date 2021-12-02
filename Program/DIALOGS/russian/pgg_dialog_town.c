@@ -1028,6 +1028,7 @@ void ProcessDialogEvent()
 			AddQuestRecord("Gen_PGGQuest1"+Npchar.sex, "q1_Close");
 			CloseQuestHeader("Gen_PGGQuest1"+Npchar.sex);
 			DeleteAttribute(NPChar, "AlwaysFriend");
+			SaveCurrentQuestDateParam("QuestTalk");
 		}
 		NPChar.Dialog.CurrentNode = "Quest_1_Ship_Refuse";
 		NPChar.DeckDialogNode = "Quest_1_Ship_Refuse";

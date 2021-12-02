@@ -705,6 +705,11 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 		makearef(refShip, chr.Ship);
 		ResetShipCannonsDamages(chr);
 		
+		if (!CheckAttribute(refShip,"soiling"))
+		{
+			refShip.soiling = 0;
+		}
+		
 		// куда-нить запишем максимально возможное кол-во орудий (потом нужно будет, если захотим проапгрейдитьс€ на этот счет)
 		rRealShip.CannonsQuantityMax = sti(rRealShip.CannonsQuantity);		
 		// принципиальный момент ! нужно нулить об€зательно левые стволы ! 	
@@ -834,7 +839,7 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 	if (CheckAttribute(rRealShip, "QuestShip")) QuestShipDifficultyBoosts(rRealShip);
 	else SetCabinTypeEx(rRealShip, sti(rRealShip.Class)); //¬ыдача случайной каюты по классу не квестовым - Gregg
 
-	rRealShip.Price	= GetShipPriceByTTH(iShip, chr); //(iDiffWeight + iDiffCapacity + iDiffMaxCrew*2 + iDiffMinCrew + fDiffSpeedRate*2 + iDiffTurnRate*2 + iDiffHP)*5 + sti(rRealShip.Price);
+	rRealShip.Price	= GetShipPriceByTTH(iShip, chr);
 
 	if (sti(rRealShip.Price) <= 0) rRealShip.Price = 100;
 	
@@ -1077,13 +1082,13 @@ int CreateBaseShip(int iBaseType)
 	}
 	switch (sti(rRealShip.Class))
 	{
-		case 7: rRealShip.HullArmor = 4+(rand(4)*hullarmor); break;
-		case 6: rRealShip.HullArmor = 12+(rand(4)*hullarmor); break;
-		case 5: rRealShip.HullArmor = 16+(rand(4)*hullarmor); break;
-		case 4: rRealShip.HullArmor = 20+(rand(4)*hullarmor); break;
-		case 3: rRealShip.HullArmor = 24+(rand(4)*hullarmor); break;
-		case 2: rRealShip.HullArmor = 32+(rand(4)*hullarmor); break;
-		case 1: rRealShip.HullArmor = 42+(rand(4)*hullarmor); break;
+		case 7: rRealShip.HullArmor = 4+(rand(1)*hullarmor); break;
+		case 6: rRealShip.HullArmor = 12+(rand(1)*hullarmor); break;
+		case 5: rRealShip.HullArmor = 16+(rand(1)*hullarmor); break;
+		case 4: rRealShip.HullArmor = 20+(rand(2)*hullarmor); break;
+		case 3: rRealShip.HullArmor = 24+(rand(2)*hullarmor); break;
+		case 2: rRealShip.HullArmor = 32+(rand(2)*hullarmor); break;
+		case 1: rRealShip.HullArmor = 42+(rand(2)*hullarmor); break;
 	}
 	
     rRealShip.BaseName = rRealShip.name; // запоминалка дл€ нужд, тк далее идет "странное"
@@ -1196,7 +1201,7 @@ void EmptyAllFantomShips()
 				else InitCharacter(&Characters[i], i);
 			}				
 			else InitCharacter(&Characters[i], i);	//ugeen : чистим нафиг все атрибуты пустых фантомов (переиничиваем)*/
-			if (CheckAttribute(chr,"location") && chr.location == "none") InitCharacter(&Characters[i], i);
+			//if (CheckAttribute(chr,"location") && chr.location == "none") InitCharacter(&Characters[i], i);
 			if (CheckAttribute(chr,"lifeday") && sti(chr.lifeday) == 0) InitCharacter(&Characters[i], i);
 		}
 	}
@@ -1575,7 +1580,7 @@ float Cannon_GetRechargeTimeValue(aref aCharacter)
 	if (IsCharacterPerkOn(aCharacter, "ImmediateReload")) fMultiply *= 0.5;
 	else fMultiply = fMultiply - 0.0;
 	if (CheckAttribute(&RealShips[sti(aCharacter.Ship.Type)], "Tuning.CannonsSpecial")) fMultiply *= 1.2;
-
+	fMultiply *= (1+CheckOfficersPerk(aCharacter,"InstantRepair"));//x2 времени при активной быстрой починке
 	// boal 060804 дл€ компа поблажки
 	//Boyer remove reload speed boost for enemies
 	if (sti(aCharacter.index) != GetMainCharacterIndex())

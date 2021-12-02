@@ -66,30 +66,27 @@ void ProcessDialogEvent()
 			}
 
 
-					if (Pchar.BaseNation == PIRATE || bNoPirateRestrictions)
+					if(!CheckAttribute(PChar, "questTemp.pirateStartQuest"))
 					{
-						if(!CheckAttribute(PChar, "questTemp.pirateStartQuest"))
+						link.l2 = "Может какая работенка для меня найдется?";
+						link.l2.go = "pirateStartQuest";
+					}
+					else
+					{
+						if(pchar.questTemp.pirateStartQuest == "3" && !CheckAttribute(PChar, "questTemp.pirateStartQuest.many") && npchar.city == pchar.questTemp.pirateStartQuest.City)
 						{
-							link.l2 = "Может какая работенка для меня найдется?";
-							link.l2.go = "pirateStartQuest";
+							link.l2 = "Я выш"+ GetSexPhrase("ел","ла") +" на след, но мне нужны деньги - 30 000 пиастров, чтобы выманить крысу из норы.";
+							link.l2.go = "pirateStartQuest_many";	
 						}
-						else
+						if(pchar.questTemp.pirateStartQuest == "3" && GetCharacterItem(pchar, "letter_open") > 0 && npchar.city == pchar.questTemp.pirateStartQuest.City)
 						{
-							if(pchar.questTemp.pirateStartQuest == "3" && !CheckAttribute(PChar, "questTemp.pirateStartQuest.many") && npchar.city == pchar.questTemp.pirateStartQuest.City)
-							{
-								link.l2 = "Я выш"+ GetSexPhrase("ел","ла") +" на след, но мне нужны деньги - 30 000 пиастров, чтобы выманить крысу из норы.";
-								link.l2.go = "pirateStartQuest_many";	
-							}
-							if(pchar.questTemp.pirateStartQuest == "3" && GetCharacterItem(pchar, "letter_open") > 0 && npchar.city == pchar.questTemp.pirateStartQuest.City)
-							{
-								link.l2 = "Посмотри, что за письмо я наш"+ GetSexPhrase("ел","ла") +" на трупе одного из контрабандистов.";
-								link.l2.go = "pirateStartQuest_info_1";	
-							}
-							if(pchar.questTemp.pirateStartQuest == "5" && npchar.city == pchar.questTemp.pirateStartQuest.City)
-							{
-								link.l2 = "Дело сделано. Норман Виго вместе со своей лоханкой отправился к морскому дьяволу.";
-								link.l2.go = "pirateStartQuest_final";	
-							}
+							link.l2 = "Посмотри, что за письмо я наш"+ GetSexPhrase("ел","ла") +" на трупе одного из контрабандистов.";
+							link.l2.go = "pirateStartQuest_info_1";	
+						}
+						if(pchar.questTemp.pirateStartQuest == "5" && npchar.city == pchar.questTemp.pirateStartQuest.City)
+						{
+							link.l2 = "Дело сделано. Норман Виго вместе со своей лоханкой отправился к морскому дьяволу.";
+							link.l2.go = "pirateStartQuest_final";	
 						}
 					}
 					if(sti(pchar.rank) >= 10 && !CheckAttribute(PChar, "questTemp.pirateVikingQuest"))

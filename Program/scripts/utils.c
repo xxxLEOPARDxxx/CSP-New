@@ -1078,50 +1078,7 @@ string FindColonyWithMayakExceptIsland(string sIsland)
 	
 	return sColony;	
 }
-/*
-string SelectQuestDestinationAnyNationExceptTargetNation(int iNation)
-{
-	string sArray[MAX_COLONIES];
-	int m = 0;
 
-	for (int i = 0; i<MAX_COLONIES; i++)
-	{
-		if (sti(Colonies[i].nation) != iNation)
-		{
-			sArray[m] = Colonies[i].id;
-			m++;
-		}
-	}
-
-	if (m > 0)
-	{
-		m = rand(m-1);
-		return sArray[m];
-	}
-	else
-	{
-		return "Error in select Destination for capture ship";
-	}
-}
-
-string SelectQuestDestinationAnyNationExceptIsland(string sIsland)
-{
-	int m = 0;
-
-	string sTempIsland = sIsland;
-
-	while(sTempIsland == sisland)
-	{
-		m = rand(MAX_COLONIES-1);
-		if(colonies[m].nation != "none")
-		{
-			sTempIsland = Colonies[m].island;
-		}
-	}
-	string sTempColony  = Colonies[m].id
-	return sTempColony;
-}
-*/
 // to_do
 string SelectQuestDestinationAnyNationExceptColony(string sColony)
 {
@@ -1635,6 +1592,66 @@ int NPC_GenerateCharacter(string _id, string _model, string _sex, string _ani, i
     ch.nation   = _nation;
     ch.sex      = _sex;
     ch.model    = _model;
+    if(ch.sex == "man")
+	{
+		ch.model.height = 1.8;
+	}else{
+		ch.model.height = 1.75;
+	}
+	ch.model.animation = _ani;
+	if (!CheckAttribute(ch,"FaceID")) FaceMaker(ch);
+	SetRandomNameToCharacter(ch);
+	SetFantomParamFromRank(ch, _rank, _equip);
+	if (_LifeDay >= 0)
+	{
+	    ch.LifeDay = _LifeDay;
+	    SaveCurrentNpcQuestDateParam(ch, "LifeTimeCreate");
+	}
+	else
+	{
+     	DeleteAttribute(ch, "LifeDay");
+	}
+	SetFoodToCharacter(ch, 5, 50);
+	if (IsCharacterPerkOn(ch, "Ciras") && rand(4)==0)
+	{
+		string cirnum;
+		switch (rand(4))
+		{
+			case 0: cirnum = "cirass1"; break;
+			case 1: cirnum = "cirass1"; break;
+			case 2: cirnum = "cirass2"; break;
+			case 3: cirnum = "cirass3"; break;
+			case 4: cirnum = "cirass4"; break;
+		}
+		if (CheckAttribute(ch, "HeroModel")) // все, у кого есть что одеть
+        {
+			switch (cirnum)
+			{
+				case "cirass1": ch.model = GetSubStringByNum(ch.HeroModel, 1); break;
+				case "cirass2": ch.model = GetSubStringByNum(ch.HeroModel, 2); break;
+				case "cirass3": ch.model = GetSubStringByNum(ch.HeroModel, 3); break;
+				case "cirass4": ch.model = GetSubStringByNum(ch.HeroModel, 4); break;
+			}
+		}
+		ch.cirassId = Items_FindItemIdx(cirnum);
+		Log_TestInfo("Персонаж "+ch.name+" получил кирасу "+cirnum);
+	}
+	
+	return  iChar;
+}
+//ранг останется как указан
+int NPC_GenerateCharacterIndep(string _id, string _model, string _sex, string _ani, int _rank, int _nation, int _LifeDay, bool _equip)
+{
+    int iChar = NPC_FindOrCreateCharacter(_id);
+	ref ch;
+	if (iChar == -1) return -1;
+
+    ch = &Characters[iChar];
+	ch.rank 	= _rank;
+    ch.nation   = _nation;
+    ch.sex      = _sex;
+    ch.model    = _model;
+	ch.indeprank    = true;
     if(ch.sex == "man")
 	{
 		ch.model.height = 1.8;

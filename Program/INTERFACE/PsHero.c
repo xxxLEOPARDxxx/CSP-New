@@ -89,7 +89,7 @@ void FillTable()
 	ref chr;
 	int i, n;
 	string row;
-	
+	int iS,iP,iE,iC,iI,iA,iL;
 	
 	n = 1;
 	// шапка -->
@@ -176,7 +176,14 @@ void FillTable()
 					}
 				}
 				GameInterface.TABLE_HERO.(row).td6.scale = 0.8;
-				GameInterface.TABLE_HERO.(row).td7.str = "" + chr.SPECIAL.Strength + " " + chr.SPECIAL.Perception + " "+chr.SPECIAL.Agility + " " + chr.SPECIAL.Charisma + " "+chr.SPECIAL.Intellect + " " + chr.SPECIAL.Endurance   + " " + chr.SPECIAL.Luck;
+				iS = sti(chr.SPECIAL.Strength);
+				iP = sti(chr.SPECIAL.Perception);
+				iA = sti(chr.SPECIAL.Agility);
+				iC = sti(chr.SPECIAL.Charisma);
+				iI = sti(chr.SPECIAL.Intellect);
+				iE = sti(chr.SPECIAL.Endurance);
+				iL = sti(chr.SPECIAL.Luck);
+				GameInterface.TABLE_HERO.(row).td7.str = "" + (iS+iP+iE+iC+iI+iA+iL) + " | "+iS+" "+iP+" "+iA+" "+iC+" "+iI+" "+iE+" "+iL;
 				GameInterface.TABLE_HERO.(row).td7.scale = 0.8;
 				GameInterface.TABLE_HERO.(row).td8.str = ""+makeint(chr.reputation);
 				GameInterface.TABLE_HERO.(row).td8.scale = 0.8;
@@ -252,7 +259,7 @@ void OnTableClick()
 //--> mod tablesort
 	if (!SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, sControl, 1 )) 
 		{
-		if (iColumn == 1 || iColumn == 7) return;//эти колонки не сортируем //ПИРАТЕС пока что не сортируем - сортировка будет по силе и восприятию только, надо менять таблицу или придумывать что-то другое
+		if (iColumn == 1) return;//эти колонки не сортируем
 
 		if (lastsort == iColumn) {bLastSort = !bLastSort;} else {lastsort = iColumn; bLastSort = 1;}//запоминаем сортировку и меняем направление сортировки, если это повторный клик по колонке
 //todo - разобраться, как заблокировать активацию двойного клика на заголовке - подменять его на ординарные как-то
@@ -260,9 +267,9 @@ void OnTableClick()
 //todo - не забыть, что может быть несколько таблиц на одном интерфейсе - надо ещё и последнюю таблицы запоминать и сбрасывать(?) сортировку при смене или запоминать для каждой?
 
 		if (iColumn == 3 || iColumn == 4 || iColumn == 8 || iColumn == 9 || iColumn == 10) 
-			SortTable(sControl, iColumn, 0, !bLastSort, PsHeroQty + 1 - sti(pchar.PGG_killed));//числа
+			SortTable(sControl, iColumn, 0, !bLastSort, -1);//числа		//работает и без указания числа строк, вроде бы
 		else 
-			SortTable(sControl, iColumn, 1, bLastSort, PsHeroQty + 1 - sti(pchar.PGG_killed));//текст
+			SortTable(sControl, iColumn, 1, bLastSort, -1);//текст
 		}
 //вызывать направление сортировки разными действиями - ЛКМ/ПКМ??
 //<-- mod tablesort

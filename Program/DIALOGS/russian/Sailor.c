@@ -113,9 +113,73 @@ void ProcessDialogEvent()
 			}
 			else
 			{
-				link.l1 = "Сожалею, матрос, но для всех вас у меня нет мест на корабле. Придется вам поискать другого капитана.";
-			link.l1.go = "exit";
+				if(GetCompanionQuantity(PChar) > 1)
+				{
+					for(int i = 1; i<GetCompanionQuantity(PChar); i++)
+					{
+						ref rChar = &characters[GetCompanionIndex(PChar,i)];
+						if(GetFreeCrewQuantity(rChar) >= sti(npchar.quest.crew.qty))
+						{
+							link.l1 = "Сожалею, матрос, но для всех вас у меня нет мест на корабле. Придется вам пойти к моему компаньону, его зовут "+ rChar.name + " " + rChar.lastname + ".";
+							link.l1.go = "crew_comp";
+							pchar.addcrew.character = rChar.id;
+							break;
+						}
+						else
+						{	
+							link.l1 = "Сожалею, матрос, но для всех вас у меня нет мест ни на одном корабле. Придется вам поискать другого капитана.";
+							link.l1.go = "exit";
+						}
+
+					}
+				}
+				else
+				{
+					link.l1 = "Сожалею, матрос, но для всех вас у меня нет мест ни на одном корабле. Придется вам поискать другого капитана.";
+					link.l1.go = "exit";
+				}
 			}
+		break;
+		
+		case "crew_comp":
+			iTemp = sti(npchar.quest.crew.money)*sti(npchar.quest.crew.qty);
+			dialog.text = ""+FindRussianMoneyString(sti(npchar.quest.crew.money))+" на брата. Потом - обычное матросское жалование. Мы лишнего не попросим, кэп.";
+			if (sti(pchar.money) >= iTemp)
+			{
+				rChar = CharacterFromID(pchar.addcrew.character);
+				link.l1 = "Договорились! Вот здесь вся сумма. Отправляйтесь на корабль, он называется '"+rChar.ship.name+"', стоит на рейде. Боцман выделит вам места в кубрике и даст работу.";
+				link.l1.go = "crew_comp1";
+			}
+			link.l2 = "К сожалению, я не могу себе позволить оплатить ваши услуги. Придется вам поискать другого капитана.";
+			link.l2.go = "exit";
+		break;
+		
+		case "crew_comp1":
+			iTemp = sti(npchar.quest.crew.money)*sti(npchar.quest.crew.qty);
+			AddMoneyToCharacter(pchar, -iTemp);
+			dialog.text = "Уже идем, капитан! Я соберу ребят, и мы отправимся на борт немедленно!";
+			link.l1 = "Давайтие, поторапливайтесь, я долго задерживаться тут не планирую.";
+			link.l1.go = "crew_comp2";
+		break;
+		
+		case "crew_comp2":
+			DialogExit();
+			rChar = CharacterFromID(pchar.addcrew.character);
+			AddCharacterCrew(rChar, sti(npchar.quest.crew.qty));
+			//увеличиваем опыт
+			iTemp = makeint(sti(npchar.quest.crew.qty)*50/sti(rChar.ship.crew.quantity));
+			switch (sti(npchar.quest.crew.type))
+			{
+				case 0: ChangeCrewExp(rChar, "Sailors", iTemp); break;
+				case 1: ChangeCrewExp(rChar, "Cannoners", iTemp); break;
+				case 2: ChangeCrewExp(rChar, "Soldiers", iTemp); break;
+			}
+			//увеличиваем мораль
+			iTemp = makeint(sti(npchar.quest.crew.qty)/10)+1;
+			AddCrewMorale(rChar, iTemp);
+			LAi_SetActorType(npchar);
+			LAi_ActorRunToLocation(npchar, "reload", "reload1_back", "none", "", "", "", 20.0);
+			npchar.lifeday = 0;
 		break;
 		
 		case "crew_2":

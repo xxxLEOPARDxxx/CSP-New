@@ -377,7 +377,7 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		}
 		else
 		{
-			dialog.text = LinkRandPhrase ("Может и хочу, но не с тобой", "Отвали, не до тебя сейчас!", "Знаешь что? " + LinkRandPhrase("Я уже всё проиграл.", "Ты уже всех обчистил.", "Я сейчас не в том настроении, отвали."));
+			dialog.text = LinkRandPhrase ("Может и хочу, но не с тобой", "Отвали, не до тебя сейчас!", "Знаешь что? " + LinkRandPhrase("Я уже всё проиграл"+ NPCharSexPhrase(NPChar,"","а") +".", "Ты уже всех обчистил"+GetSexPhrase("","а")+".", "Я сейчас не в том настроении, отвали."));
 			link.l10 = "Как знаешь, дело твое.";
 			link.l10.go = "exit";
 		}
@@ -410,9 +410,9 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 
 	case "Cards_begin":
 		Dialog.text = "Давай определимся со ставкой.";
-		link.l1 = "Играем по 5000 монет.";
+		link.l1 = "Играем по 500 монет.";
 		link.l1.go = "Cards_Node_100";
-		link.l2 = "Давай по 20000 золотых.";
+		link.l2 = "Давай по 2000 золотых.";
 		link.l2.go = "Cards_Node_500";
 		link.l3 = "Пожалуй, мне пора.";
 		link.l3.go = "exit";
@@ -433,11 +433,11 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			link.l1.go = "exit";
 			break;
 		}
-		dialog.text = "Хорошо, играем по 5000 монет.";
+		dialog.text = "Хорошо, играем по 500 монет.";
 		link.l1 = "Начали!";
 		link.l1.go = "Cards_begin_go";
 		pchar.GenQuest.Cards.npcharIdx = npchar.index;
-		pchar.GenQuest.Cards.iRate     = 5000;
+		pchar.GenQuest.Cards.iRate     = 500;
 		pchar.GenQuest.Cards.SitType   = false;
 	break;
 
@@ -456,11 +456,11 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			link.l1.go = "exit";
 			break;
 		}
-		dialog.text = "Хорошо, играем по 20000 монет.";
+		dialog.text = "Хорошо, играем по 2000 монет.";
 		link.l1 = "Начали!";
 		link.l1.go = "Cards_begin_go";
 		pchar.GenQuest.Cards.npcharIdx = npchar.index;
-		pchar.GenQuest.Cards.iRate     = 20000;
+		pchar.GenQuest.Cards.iRate     = 2000;
 		pchar.GenQuest.Cards.SitType   = false;
 	break;
 
@@ -499,9 +499,9 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 
 	case "Dice_begin":
 		Dialog.text = "Давай определимся со ставкой.";
-		link.l1 = "Играем по 2000 монет за кубик.";
+		link.l1 = "Играем по 200 монет за кубик.";
 		link.l1.go = "Dice_Node_100";
-		link.l2 = "Давай по 10000 золотых за кубик.";
+		link.l2 = "Давай по 1000 золотых за кубик.";
 		link.l2.go = "Dice_Node_500";
 		link.l3 = "Пожалуй, мне пора.";
 		link.l3.go = "exit";
@@ -530,11 +530,11 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			link.l1.go = "exit";
 			break;
 		}
-		dialog.text = "Хорошо, играем по 2000 монет.";
+		dialog.text = "Хорошо, играем по 200 монет.";
 		link.l1 = "Начали!";
 		link.l1.go = "Dice_begin_go";
 		pchar.GenQuest.Dice.npcharIdx = npchar.index;
-		pchar.GenQuest.Dice.iRate     = 2000;
+		pchar.GenQuest.Dice.iRate     = 200;
 		pchar.GenQuest.Dice.SitType   = false;
 	break;
 
@@ -570,11 +570,11 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 			link.l1.go = "exit";
 			break;
 		}
-		dialog.text = "Хорошо, играем по 10000 монет за кубик.";
+		dialog.text = "Хорошо, играем по 1000 монет за кубик.";
 		link.l1 = "Начали!";
 		link.l1.go = "Dice_begin_go";
 		pchar.GenQuest.Dice.npcharIdx = npchar.index;
-		pchar.GenQuest.Dice.iRate     = 10000;
+		pchar.GenQuest.Dice.iRate     = 1000;
 		pchar.GenQuest.Dice.SitType   = false;
 	break;
 

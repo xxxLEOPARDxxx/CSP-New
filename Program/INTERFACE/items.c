@@ -812,9 +812,12 @@ void FillItemsSelected()
 						SetNodeUsing("ITEM_1" , true);
 					break;
 					case GUN_ITEM_TYPE:
-						ref itms = ItemsFromID(xi_refCharacter.chr_ai.bullet);
-						SetNodeUsing("ITEM_14" , true);
-						SetNewGroupPicture("ITEM_14", itms.picTexture, "itm" + itms.picIndex);
+						if (CheckAttribute(xi_refCharacter,"chr_ai.bullet"))
+						{
+							ref itms = ItemsFromID(xi_refCharacter.chr_ai.bullet);
+							SetNodeUsing("ITEM_14" , true);
+							SetNewGroupPicture("ITEM_14", itms.picTexture, "itm" + itms.picIndex);
+						}
 						if(CheckAttribute(xi_refCharacter, "IsMushketer"))
 						{
 							iLastGunItem = GetItemIndex(xi_refCharacter.IsMushketer.LastGunID);

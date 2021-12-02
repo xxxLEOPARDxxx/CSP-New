@@ -105,6 +105,45 @@ void WorldSituationsUpdate()
 		case 1:
             SalaryNextDayUpdate();  // запрлата
 			Log_QuestInfo("WorldSituationsUpdate SalaryNextDayUpdate");
+			ref _rChar;//Lipsar ---> Ремонт сторожей
+			for (int i = 0; i< MAX_COLONIES; i++)
+			{
+				
+				if (Colonies[i].island == sIslandID)
+				{
+					if (colonies[i].nation != "none" && colonies[i].id != "Caiman" && !CheckAttribute(&colonies[i], "HasNoFort") && !CheckAttribute(&colonies[i], "Siege") && !CheckAttribute(&colonies[i], "DontSetShipInPort"))
+					{
+						bool FortDefender;
+						ref FortChref = GetFortCommander(colonies[i].id);
+							for (int j=GlobalCharacters; j<MAX_CHARACTERS; j++)
+							{
+								if (CheckAttribute(&characters[j], "fortDefender") && CheckAttribute(&characters[j], "IslandShips"))
+								{
+									_rChar = &characters[j];
+									if(!bSeaActive)
+									{
+										DeleteAttribute(_rChar, "ship.masts");
+										DeleteAttribute(_rChar, "ship.sails");
+										_rChar.Ship.HP = GetCharacterShipHP(_rChar);
+										_rChar.Ship.SP = 100;
+										SetCrewQuantityFull(_rChar);
+										SetCharacterGoods(_rChar, GOOD_BALLS, 2000);
+										SetCharacterGoods(_rChar, GOOD_GRAPES, 2000);
+										SetCharacterGoods(_rChar, GOOD_KNIPPELS, 2000);
+										SetCharacterGoods(_rChar, GOOD_BOMBS, 2000);
+										SetCharacterGoods(_rChar, GOOD_POWDER, 8000);
+										SetCharacterGoods(_rChar, GOOD_FOOD, 2000);
+										SetCharacterGoods(_rChar, GOOD_WEAPON, 1500);
+										SetCharacterGoods(_rChar, GOOD_MEDICAMENT, 1000);
+										SetCharacterGoods(_rChar, GOOD_PLANKS, 800);
+										SetCharacterGoods(_rChar, GOOD_SAILCLOTH, 800);
+									}
+								}
+							}
+					}
+				}
+			}
+			Log_TestInfo("Ремонт сторожей");//Lipsar <--- Ремонт сторожей
 		break;
 		
 		case 2:

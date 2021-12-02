@@ -1,3 +1,7 @@
+TheLastMass {Последняя месса}
+
+BSUrka {Неуловимая 'Урка'}
+
 PDM_Aptekar {Аптекарь}
 
 PDM_Proklyataya_Jara {Проклятая жара}

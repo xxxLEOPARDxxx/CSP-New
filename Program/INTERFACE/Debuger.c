@@ -938,13 +938,13 @@ void CalculateInfoDataF6()
 	// mc.Ship.Type = GenerateShipExt(SHIP_BRIGQEEN, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_BRIGSW, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_ARABELLA, true, mc);
-	// mc.Ship.Type = GenerateShipExt(SHIP_FRIGATEQUEEN, true, mc);
+	mc.Ship.Type = GenerateShipExt(SHIP_FRIGATEQUEEN, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_FLYINGDUTCHMAN, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_SANTISIMA, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_SOLEYRU, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_CORVETTE_QUEST, true, mc);
 	// mc.Ship.Type = GenerateShipExt(SHIP_WH_CORVETTE_QUEST, true, mc);
-	mc.Ship.Type = GenerateShipExt(SHIP_PRINCE, true, mc);
+	// mc.Ship.Type = GenerateShipExt(SHIP_PRINCE, true, mc);
 	SetBaseShipData(mc);
 	mc.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS42;
 	// mc.Ship.Cannons.Type = CANNON_TYPE_CULVERINE_LBS24;
@@ -2397,12 +2397,17 @@ void CalculateInfoDataF51()
 	Statistic_AddValue(PChar, "Cheats.F51", 1);
 }
 
-string descF52 = "Нет назначений";
+string descF52 = "Расширить массив персов до 2000";
 void CalculateInfoDataF52()
 {
 	totalInfo = descF52;
  	
 	totalInfo = totalInfo + NewStr() + NewStr() + "Команда отработала успешно!";
+	SetArraySize(&Characters,2000);
+	for (int z = 1000; z <= 1999; z++)
+	{
+		InitCharacter(&Characters[z], z);
+	}
 	
 	SetFormatedText("INFO_TEXT", totalInfo);
 	

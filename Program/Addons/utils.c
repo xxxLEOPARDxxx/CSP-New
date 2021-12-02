@@ -526,7 +526,8 @@ void Log_InfoS(string sText)
 
 int GetRank(ref chr, int step)
 {
-	int iRank = sti(chr.rank) + step;
+	// int iRank = sti(chr.rank) + step;
+	int iRank = sti(chr.rank) + step + (sti(PChar.rank)); // LEO: Какая то динамика в сложности
 	
 	if(iRank < 1)
 	{

@@ -421,7 +421,7 @@ float Fort_CannonDamage()
         }
 	}
 
-	if (iNumDamagedCannons >= makeint(iNumAllCannons / (1.05 + 0.19*(10 - MOD_SKILL_ENEMY_RATE)) + 0.2)) // усложним с 2 до 1.5
+	if (iNumDamagedCannons >= makeint(iNumAllCannons / (1.25 + 0.19*(10 - MOD_SKILL_ENEMY_RATE)))) // усложним с 2 до 1.5
 	{
 		Fort_SetAbordageMode(rBallCharacter, rFortCharacter);
   		// 13.05.05 anticheat -->

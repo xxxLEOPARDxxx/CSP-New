@@ -583,7 +583,7 @@ float GetHullRPD(ref _refCharacter) // процент ремонта корпуса в день
 	}
 	if(IsEquipCharacterByArtefact(_refCharacter, "talisman7")) repairSkill = repairSkill * 1.5;
 	float damagePercent = 100.0 - GetHullPercent(_refCharacter);
-	if (damagePercent < 10.0) return 0.0;
+	//if (damagePercent < 10.0) return 0.0;
 	
 	float ret = (repairSkill+2)/36 * damagePercent;
 	if (ret > damagePercent) ret = damagePercent;
@@ -1062,7 +1062,6 @@ int SetCompanionIndex(ref _refCharacter,int _CompanionNum, int _CompanionIdx)
 
 	// to_do CheckCompanionSkillsUp(_CompanionIdx);
 	Event(EVENT_CHANGE_COMPANIONS,"");
-	if(GetCompanionQuantity(_refCharacter) >= COMPANION_MAX-1) UnlockAchievement("ships", 3);
 	return _CompanionIdx;
 }
 int RemoveCharacterCompanion(ref _refCharacter, ref refCompanion)
@@ -1138,6 +1137,7 @@ int GetCompanionQuantity(ref _refCharacter)
 	{
 		if( GetCompanionIndex(_refCharacter,i)>=0 ) qn++;
 	}
+	if(qn >= COMPANION_MAX) UnlockAchievement("ships", 3);
 	return qn;
 }
 // нигде не юзается

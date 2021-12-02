@@ -75,9 +75,9 @@ void DoCharacterUsedFood(ref chref, string itmID)
 			PlaySound("interface\_Hrust_"+rand(3)+".wav");
 			pchar.questTemp.foodcount = sti(pchar.questTemp.foodcount) + 1;
 			// Открываем достижения
-			if(sti(pchar.questTemp.foodcount) >= 100) UnlockAchievement("AchFood", 1);
-			if(sti(pchar.questTemp.foodcount) >= 250) UnlockAchievement("AchFood", 2);
-			if(sti(pchar.questTemp.foodcount) >= 500) UnlockAchievement("AchFood", 3);
+			if(sti(pchar.questTemp.foodcount) >= 50) UnlockAchievement("AchFood", 1);
+			if(sti(pchar.questTemp.foodcount) >= 150) UnlockAchievement("AchFood", 2);
+			if(sti(pchar.questTemp.foodcount) >= 300) UnlockAchievement("AchFood", 3);
 		}
 	}
 }

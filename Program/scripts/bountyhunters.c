@@ -104,7 +104,8 @@ void SetShipHunter(ref Hunter)
     {
         Fantom_SetCannons(Hunter, "war");
         Fantom_SetBalls(Hunter, "war");
-		Fantom_SetUpgrade(Hunter, "war");
+		//Fantom_SetUpgrade(Hunter, "war");
+		Fantom_SetUpgrade(Hunter, "hunter");
     }
 }
 // ОЗГИ на суше (порт и бухта)
@@ -113,7 +114,7 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 	int    j, i, k;
 	string typeHunter, sTemp, sCapId;
 	ref    sld;
-	bool   ok;
+	bool   ok, order;
 	
 	//if (actLoadFlag) return; // идет лоад
 	if (LAi_IsCapturedLocation) return;
@@ -136,7 +137,33 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
         if (GetQuestPastDayParam("Land_HunterTimer" + typeHunter) > (7 + rand(7)))
         {
 			SaveCurrentQuestDateParam("Land_HunterTimer" + typeHunter); // запомним, даже если нет озгов, выход их ФОР отложит озгов до след раза у др нации
-			if (ChangeCharacterNationReputation(pchar, j, 0) <= -10)// Минус это НЗГ
+			
+			order = false;
+			if (j == SPAIN)
+			{
+				if (startHeroType == 2 || startHeroType == 7)
+				{
+					if (!CheckAttribute(pchar,"OrderDestroyed"))
+					{
+						if(CheckAttribute(pchar, "Whisper.DeSouzaTalked"))
+						{
+							order = true;
+						}
+						if (startHeroType != 2 && sti(pchar.rank) >= 15)
+						{
+							order = true;
+						}
+						//Первые несколько встреч обязательны, потом шанс постепенно снижается
+						if (order && CheckAttribute(pchar, "OrderHunter") && sti(pchar.OrderHunter) > 3 && rand(sti(pchar.OrderHunter)) > 2)
+						{
+							order = false;
+						}
+					}
+				}
+				
+			}
+			
+			if (ChangeCharacterNationReputation(pchar, j, 0) <= -10 || order)// Минус это НЗГ
 	        {
 	            Log_QuestInfo("LandHunterReactionResult " + typeHunter);
 				sCapId = typeHunter + "LandHunter0";
@@ -163,6 +190,18 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 					} */
 					arrayNPCModel[arrayNPCModelHow] = sld.model;
 					arrayNPCModelHow++;
+					
+					if (order && i == 1)
+					{
+						FantomMakeCoolFighter(sld, 20, 100, 100, "blade22", "pistol_grapebok", 100);
+						sld.SaveItemsForDead = true;
+						sld.model = "PGG_Vincento_0";
+						FaceMaker(sld);
+						sld.name 	= "Инквизитор";
+						sld.Dialog.CurrentNode = "OrderHunter";
+						sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+					}
+					
 	                LAi_SetActorTypeNoGroup(sld);
 	                LAi_SetCheckMinHP(sld, (LAi_GetCharacterHP(sld) - 1), false, "Battle_Hunters_Land");
 	                if (PlaceCharacter(sld, "goto", "random_must_be_near") == "" && i == 1) // fix если вдруг нет в локации

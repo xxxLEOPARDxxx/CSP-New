@@ -129,6 +129,8 @@ int FindContrabandGoods(ref _refCharacter)
 // работа с контрабандой
 int FindFirstContrabandGoods(ref _refCharacter)
 {
+	if (sti(_refCharacter.Ship.Type) == SHIP_NOTUSED) return -1;
+
 	int i;
 	int curStoreIdx = GetCharacterCurrentStore(_refCharacter); 
 	if(curStoreIdx>=0)

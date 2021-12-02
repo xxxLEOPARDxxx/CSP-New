@@ -224,73 +224,76 @@ void InitNations()
 	//Player boarding command
 	for(int i = 0; i < MAX_NATIONS; i++)
 	{
+		// --> LEO: Матросы ГГ
 		makeref(rNation,Nations[i]);
-		rNation.boardingModel.player.m0 = "shipowner_1";
+		rNation.boardingModel.player.m0 = "shipowner_20";
 		rNation.boardingModel.player.m0.ani = "man";
-		rNation.boardingModel.player.m1 = "shipowner_2";
+		rNation.boardingModel.player.m1 = "shipowner_21";
 		rNation.boardingModel.player.m1.ani = "man";
-		rNation.boardingModel.player.m2 = "shipowner_5";
+		rNation.boardingModel.player.m2 = "shipowner_22";
 		rNation.boardingModel.player.m2.ani = "man";
-		rNation.boardingModel.player.m3 = "shipowner_6";
+		rNation.boardingModel.player.m3 = "shipowner_23";
 		rNation.boardingModel.player.m3.ani = "man";
-		rNation.boardingModel.player.m4 = "shipowner_7";
+		rNation.boardingModel.player.m4 = "shipowner_24";
 		rNation.boardingModel.player.m4.ani = "man";
-		rNation.boardingModel.player.m5 = "shipowner_8";
+		rNation.boardingModel.player.m5 = "shipowner_25";
 		rNation.boardingModel.player.m5.ani = "man";
-		rNation.boardingModel.player.m6 = "shipowner_9";
+		rNation.boardingModel.player.m6 = "shipowner_26";
 		rNation.boardingModel.player.m6.ani = "man";
-		rNation.boardingModel.player.m7 = "shipowner_10";
+		rNation.boardingModel.player.m7 = "shipowner_27";
 		rNation.boardingModel.player.m7.ani = "man";
-		rNation.boardingModel.player.m8 = "shipowner_11";
+		rNation.boardingModel.player.m8 = "shipowner_28";
 		rNation.boardingModel.player.m8.ani = "man";
-		rNation.boardingModel.player.m9 = "shipowner_12";
+		rNation.boardingModel.player.m9 = "shipowner_29";
 		rNation.boardingModel.player.m9.ani = "man";
-		rNation.boardingModel.player.m10 = "shipowner_13";
-		rNation.boardingModel.player.m10.ani = "man";
-		rNation.boardingModel.player.m11 = "shipowner_14";
-		rNation.boardingModel.player.m11.ani = "man";
-		rNation.boardingModel.player.m12 = "shipowner_15";
-		rNation.boardingModel.player.m12.ani = "man";
-		rNation.boardingModel.player.m13 = "shipowner_16";
-		rNation.boardingModel.player.m13.ani = "man";
-		rNation.boardingModel.player.m14 = "shipowner_17";
-		rNation.boardingModel.player.m14.ani = "man";
-		rNation.boardingModel.player.m15 = "shipowner_18";
-		rNation.boardingModel.player.m15.ani = "man";
-		rNation.boardingModel.player.m16 = "shipowner_19";
-		rNation.boardingModel.player.m16.ani = "man";
-		rNation.boardingModel.player.m17 = "shipowner_20";
-		rNation.boardingModel.player.m17.ani = "man";
-		rNation.boardingModel.player.m18 = "shipowner_21";
-		rNation.boardingModel.player.m18.ani = "man";
-		rNation.boardingModel.player.m19 = "shipowner_22";
-		rNation.boardingModel.player.m19.ani = "man";
-		rNation.boardingModel.player.m20 = "shipowner_23";
-		rNation.boardingModel.player.m20.ani = "man";
-		rNation.boardingModel.player.m21 = "shipowner_24";
-		rNation.boardingModel.player.m21.ani = "man";
-		rNation.boardingModel.player.m22 = "shipowner_25";
-		rNation.boardingModel.player.m22.ani = "man";
-		rNation.boardingModel.player.m23 = "shipowner_26";
-		rNation.boardingModel.player.m23.ani = "man";
-		rNation.boardingModel.player.m24 = "shipowner_27";
-		rNation.boardingModel.player.m24.ani = "man";
-		rNation.boardingModel.player.m25 = "shipowner_28";
-		rNation.boardingModel.player.m25.ani = "man";
-		rNation.boardingModel.player.m26 = "shipowner_29";
-		rNation.boardingModel.player.m26.ani = "man";
-		//boal 06/05/05 -->
-		rNation.boardingModel.merchant.m0 = "citiz_2";
+		// <-- LEO: Матросы ГГ
+		
+		// --> LEO: Торговцы
+		rNation.boardingModel.merchant.m0 = "shipowner_1";
 		rNation.boardingModel.merchant.m0.ani = "man";
-		rNation.boardingModel.merchant.m1 = "citiz_3";
+		rNation.boardingModel.merchant.m1 = "shipowner_2";
 		rNation.boardingModel.merchant.m1.ani = "man";
-		rNation.boardingModel.merchant.m2 = "citiz_11";
+		rNation.boardingModel.merchant.m2 = "shipowner_5";
 		rNation.boardingModel.merchant.m2.ani = "man";
-		rNation.boardingModel.merchant.m3 = "citiz_5";
+		rNation.boardingModel.merchant.m3 = "shipowner_6";
 		rNation.boardingModel.merchant.m3.ani = "man";
-		rNation.boardingModel.merchant.m4 = "citiz_7";
+		rNation.boardingModel.merchant.m4 = "shipowner_7";
 		rNation.boardingModel.merchant.m4.ani = "man";
-		//boal <--
+		rNation.boardingModel.merchant.m5 = "shipowner_8";
+		rNation.boardingModel.merchant.m5.ani = "man";
+		rNation.boardingModel.merchant.m6 = "shipowner_9";
+		rNation.boardingModel.merchant.m6.ani = "man";
+		rNation.boardingModel.merchant.m7 = "shipowner_10";
+		rNation.boardingModel.merchant.m7.ani = "man";
+		rNation.boardingModel.merchant.m8 = "shipowner_11";
+		rNation.boardingModel.merchant.m8.ani = "man";
+		rNation.boardingModel.merchant.m9 = "shipowner_12";
+		rNation.boardingModel.merchant.m9.ani = "man";
+		rNation.boardingModel.merchant.m10 = "shipowner_13";
+		rNation.boardingModel.merchant.m10.ani = "man";
+		rNation.boardingModel.merchant.m11 = "shipowner_14";
+		rNation.boardingModel.merchant.m11.ani = "man";
+		rNation.boardingModel.merchant.m12 = "shipowner_15";
+		rNation.boardingModel.merchant.m12.ani = "man";
+		rNation.boardingModel.merchant.m13 = "shipowner_16";
+		rNation.boardingModel.merchant.m13.ani = "man";
+		rNation.boardingModel.merchant.m14 = "shipowner_17";
+		rNation.boardingModel.merchant.m14.ani = "man";
+		rNation.boardingModel.merchant.m15 = "shipowner_18";
+		rNation.boardingModel.merchant.m15.ani = "man";
+		rNation.boardingModel.merchant.m16 = "shipowner_19";
+		rNation.boardingModel.merchant.m16.ani = "man";
+		rNation.boardingModel.merchant.m17 = "citiz_2";
+		rNation.boardingModel.merchant.m17.ani = "man";
+		rNation.boardingModel.merchant.m18 = "citiz_3";
+		rNation.boardingModel.merchant.m18.ani = "man";
+		rNation.boardingModel.merchant.m19 = "citiz_5";
+		rNation.boardingModel.merchant.m19.ani = "man";
+		rNation.boardingModel.merchant.m20 = "citiz_7";
+		rNation.boardingModel.merchant.m20.ani = "man";
+		rNation.boardingModel.merchant.m21 = "citiz_11";
+		rNation.boardingModel.merchant.m21.ani = "man";
+		// <-- LEO: Торговцы
 	}
 
 	//Trace("Init nations complete.");
