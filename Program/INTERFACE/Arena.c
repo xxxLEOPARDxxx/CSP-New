@@ -2,6 +2,9 @@ int iCheckBattleType = 0;
 int iCheckBattleSaberType = 0;
 int iCheckOddsPairs = 1;
 int iCheckSaberTypeCount = 1;
+int oddsp1 = 0;
+int oddsp2 = 0;
+int oddsp3 = 0;
 
 int idLngFile = 0;
 			    	
@@ -259,10 +262,10 @@ void CheckBattleSaberType(bool bLeft)
 		
 		if(iCheckSaberTypeCount < 1)
 		{
-			iCheckSaberTypeCount = 18;
+			iCheckSaberTypeCount = 9;
 		}
 		
-		if(iCheckSaberTypeCount > 18)
+		if(iCheckSaberTypeCount > 9)
 		{
 			iCheckSaberTypeCount = 1;
 		}
@@ -1065,24 +1068,15 @@ string GetSaberName()
 			{
 				switch(iCheckSaberTypeCount)
 				{
-					case 1: return "blade6"; break;
-					case 2: return "blade9"; break;
-					case 3: return "blade22"; break;
-					case 4: return "blade37"; break;
-					case 5: return "blade14"; break;
-					case 6: return "blade26"; break;
-					case 7: return "blade7"; break;
-					case 8: return "blade18"; break;
-					case 9: return "blade31"; break;
-					case 10: return "blade46"; break;
-					case 11: return "blade30"; break;
-					case 12: return "blade25"; break;
-					case 13: return "blade8"; break;
-					case 14: return "blade16"; break;
-					case 15: return "blade21"; break;
-					case 16: return "topor2"; break;
-					case 17: return "blade33"; break;
-					case 18: return "blade28"; break;
+					case 1: return PChar.Arena.Tournament.Saber.Light1; break;
+					case 2: return PChar.Arena.Tournament.Saber.Light2; break;
+					case 3: return PChar.Arena.Tournament.Saber.Light3; break;
+					case 4: return PChar.Arena.Tournament.Saber.Saber1; break;
+					case 5: return PChar.Arena.Tournament.Saber.Saber2; break;
+					case 6: return PChar.Arena.Tournament.Saber.Saber3; break;
+					case 7: return PChar.Arena.Tournament.Saber.Heavy1; break;
+					case 8: return PChar.Arena.Tournament.Saber.Heavy2; break;
+					case 9: return PChar.Arena.Tournament.Saber.Heavy3; break;
 				}
 				return sSaber;
 			}

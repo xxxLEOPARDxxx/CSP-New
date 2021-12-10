@@ -70,7 +70,7 @@ int InitItems()
 	
 	// Еда для восстановления энергии
 	makeref(itm,Items[n]);
-	itm.id = "Food1";
+	itm.id = "Food1"; // Тропические фрукты
 	itm.name = "itmname_Food1";
 	itm.describe = "itmdescr_Food1";
 	itm.model = "1";
@@ -102,7 +102,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "Food2";
+	itm.id = "Food2"; // Хлеб
 	itm.name = "itmname_Food2";
 	itm.describe = "itmdescr_Food2";
 	itm.model = "1";
@@ -134,7 +134,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "Food3";
+	itm.id = "Food3"; // Сыр
 	itm.name = "itmname_Food3";
 	itm.describe = "itmdescr_Food3";
 	itm.model = "1";
@@ -166,7 +166,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "Food4";
+	itm.id = "Food4"; // рыба
 	itm.name = "itmname_Food4";
 	itm.describe = "itmdescr_Food4";
 	itm.model = "fish" + (rand(6)+1);
@@ -198,7 +198,7 @@ int InitItems()
 	n++;
 
 	makeref(itm,Items[n]);
-	itm.id = "Food5";
+	itm.id = "Food5"; // Мясо
 	itm.name = "itmname_Food5";
 	itm.describe = "itmdescr_Food5";
 	itm.model = "Meat";

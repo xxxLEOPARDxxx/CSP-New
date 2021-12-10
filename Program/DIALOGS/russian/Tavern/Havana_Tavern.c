@@ -154,7 +154,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
 		
 		case "PDM_ONV_SPKarlu_3":
-			dialog.text = "О, сэр - вы погубите меня и моё дело! Я должен заплатить сборщику налогов в следующем месяце! Две тысячи, это просто невозможно! Вы угрожали мне смертью на костре, а теперь хотите, чтобы я умер от голода?!";
+			dialog.text = "О, сеньор"+ GetSexPhrase("","ита") +" - вы погубите меня и моё дело! Я должен заплатить сборщику налогов в следующем месяце! Две тысячи, это просто невозможно! Вы угрожали мне смертью на костре, а теперь хотите, чтобы я умер от голода?!";
 			Link.l1 = "Ты всего лишь ничтожный грешник... Что ж, скажи мне, где Карла - и я оставлю тебя. Пусть Господь тебя простит.";
 			Link.l1.go = "PDM_ONV_SPKarlu_5";
 			Link.l2 = "Ты укрывал врагов общества в своей таверне - так что тебе придётся заплатить, так или иначе.";
@@ -195,15 +195,15 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
 				
 				sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Viktor_Martos", "officer_22", "man", "man", 10, SPAIN, -1, false));
-				sld.name = "Виктор";
-				sld.lastname = "Мартос";
+				sld.name = "Силино";
+				sld.lastname = "Сэв";
 				sld.city = "PortoBello";
-				sld.location	= "PortoBello_tavern";
-				sld.location.group = "sit";
-				sld.location.locator = "sit_base2";
+				FreeSitLocator("PortoBello_tavern", "sit_base2");
+				ChangeCharacterAddressGroup(sld,"PortoBello_tavern","sit","sit_base2");
 				LAi_SetSitType(sld);
 				sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
 				sld.dialog.currentnode   = "RazgovorSViktorom_1";
+				pchar.questTemp.PDM_ONV_PortoBello = "PortoBello";
 			break;
 			}
 			if (Isp_Coloni == 1)
@@ -216,15 +216,15 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
 				
 				sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Viktor_Martos", "officer_22", "man", "man", 10, SPAIN, -1, false));
-				sld.name = "Виктор";
-				sld.lastname = "Мартос";
+				sld.name = "Силино";
+				sld.lastname = "Сэв";
 				sld.city = "Maracaibo";
-				sld.location	= "Maracaibo_tavern";
-				sld.location.group = "sit";
-				sld.location.locator = "sit_base2";
+				FreeSitLocator("Maracaibo_tavern", "sit_base2");
+				ChangeCharacterAddressGroup(sld,"Maracaibo_tavern","sit","sit_base2");
 				LAi_SetSitType(sld);
 				sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
 				sld.dialog.currentnode   = "RazgovorSViktorom_1";
+				pchar.questTemp.PDM_ONV_Maracaibo = "Maracaibo";
 			break;
 			}
 			if (Isp_Coloni == 2)
@@ -237,15 +237,15 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				AddQuestUserData("PDM_Ohota_na_vedmu", "sSex", GetSexPhrase("","а"));
 				
 				sld = GetCharacter(NPC_GenerateCharacter("PDM_ONV_Viktor_Martos", "officer_22", "man", "man", 10, SPAIN, -1, false));
-				sld.name = "Виктор";
-				sld.lastname = "Мартос";
+				sld.name = "Силино";
+				sld.lastname = "Сэв";
 				sld.city = "SanJuan";
-				sld.location	= "SanJuan_tavern";
-				sld.location.group = "sit";
-				sld.location.locator = "sit_base2";
+				FreeSitLocator("SanJuan_tavern", "sit_base2");
+				ChangeCharacterAddressGroup(sld,"SanJuan_tavern","sit","sit_base2");
 				LAi_SetSitType(sld);
 				sld.dialog.filename   = "Quest/PDM/Ohota_na_vedmu.c";
-				sld.dialog.currentnode   = "RazgovorSViktorom_1";	
+				sld.dialog.currentnode   = "RazgovorSViktorom_1";
+				pchar.questTemp.PDM_ONV_SanJuan = "SanJuan";
 			break;
 			}
 		break;

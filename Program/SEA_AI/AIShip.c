@@ -483,6 +483,9 @@ float Ship_MastDamage()
 				case 16:
 					iXmark = 5;
 				break;
+				case 20:
+					iXmark = 5;
+				break;
 				case 24:
 					iXmark = 2;
 				break;
@@ -493,6 +496,9 @@ float Ship_MastDamage()
 					iXmark = 1;
 				break;
 				case 42:
+					iXmark = 0;
+				break;
+				case 48:
 					iXmark = 0;
 				break;
 			}

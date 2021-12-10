@@ -19,6 +19,11 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 				link.l1 = "Я ищу сеньора Антонио де Гальвеса, не подскажешь, где мне его можно найти?";
 				link.l1.go = "PDM_CL_IshemAntonio";
 			}
+			if (CheckAttribute(pchar, "questTemp.PDM_ONV_Maracaibo"))	//Квест "Охота на ведьму"
+            {
+                link.l1 = "Тебе ни о чём не говорит имя Карла?";
+                link.l1.go = "PDM_ONV_MB_1";
+            }
 		break;
 		//зачарованный город
 		case "MCTavernMar":
@@ -45,6 +50,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			DeleteAttribute(pchar, "questTemp.PDM_CL_Tavern");
 			AddQuestRecord("PDM_Clan_Lambrini", "2");
 			AddQuestUserData("PDM_Clan_Lambrini", "sSex", GetSexPhrase("","а"));
+		break;
+		//Квест ***Охота на ведьму***
+		case "PDM_ONV_MB_1":
+			dialog.text = "Мне это имя ни о чём не говорит. Но вам повезло, тот мужчина за столиком не раз произносил это имя, когда в неистовой злобе глотал ром.";
+			link.l1 = "Как же ты меня выручил. Спасибо!";
+			link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_Maracaibo");
 		break;
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

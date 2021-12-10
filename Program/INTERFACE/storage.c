@@ -11,6 +11,7 @@ int 	iMaxGoodsStore = 50000;
 bool 	bShowChangeWin = false;
 int  	BuyOrSell = 0; // 1-buy -1 sell
 string 	sChrId;
+string 	curRow;
 ref 	refStore, refCharacter, refShipChar;
 int 	iShipQty, iStoreQty, iShipPrice, iStorePrice, iUnits;
 float 	fWeight;
@@ -20,7 +21,7 @@ bool 	ok; // for if
 void InitInterface_R(string iniName, ref pStore)
 {
  	StartAboveForm(true);
-
+	curRow = "tr1";
     refStore = pStore;
 	if (refStore.colony == "Tortuga" || refStore.colony == "Villemstad" || refStore.colony == "PortRoyal" || refStore.colony == "Havana") iMaxGoodsStore = 100000;
 	
@@ -163,7 +164,7 @@ void ProcCommand()
 		break;
 
 		case "TABLE_LIST":
-			if(comName == "leftstep")
+			/*if(comName == "leftstep")
 			{
 	            ADD_BUTTON();
 			}
@@ -178,6 +179,22 @@ void ProcCommand()
 			if(comName == "speedright")
 			{
 	            REMOVE_ALL_BUTTON();
+			}*/;
+			if(comName=="leftstep")
+			{
+				TakeGoods(1);
+			}
+			if(comName=="rightstep")
+			{
+				GiveGoods(1);
+			}
+			if(comName=="speedleft")
+			{
+				TakeGoods(9000000); // очень много
+			}
+			if(comName=="speedright")
+			{
+				GiveGoods(9000000); // очень много
 			}
 		break;
 		case "QTY_STORAGE_REMOVE_GOOD":
@@ -293,6 +310,54 @@ void TakeAllGoods2()
 	AddToTable();
 	EndTooltip();
 	ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
+}
+
+void TakeGoods(int inc)
+{  // лево
+	int  idx;
+	int  qty;
+
+	if (!GetRemovable(refCharacter)) return; // с купцами нельзя
+
+	idx = sti(GameInterface.TABLE_LIST.(curRow).index);
+	inc = sti(Goods[idx].Units) * inc;
+	if (inc > sti(GetStorageGoodsQuantity(refStore, idx))) inc = sti(GetStorageGoodsQuantity(refStore, idx));
+	if (inc > 0)
+	{
+		qty = AddCharacterGoodsSimple(refCharacter, idx, inc);
+		if (qty > 0)
+		{
+			SetStorageGoods(refStore, idx, sti(GetStorageGoodsQuantity(refStore, idx))-qty);
+		}	
+		AddToTable();
+		EndTooltip();
+		ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
+	}
+	
+}
+
+void GiveGoods(int inc)
+{  // право
+	int  idx;
+	int  qty; 
+	
+	if (!GetRemovable(refCharacter)) return; // с купцами нельзя
+	
+	idx = sti(GameInterface.TABLE_LIST.(curRow).index);	
+	inc = sti(Goods[idx].Units) * inc;
+	if (inc > GetCargoGoods(refCharacter, idx)) inc = GetCargoGoods(refCharacter, idx);
+	if (inc > 0)
+	{
+		SetStorageGoods(refStore, idx,  inc+sti(GetStorageGoodsQuantity(refStore, idx)));
+		qty = inc;
+		if (qty > 0)
+		{
+			RemoveCharacterGoodsSelf(refCharacter, idx, qty);
+		}
+		AddToTable();
+		EndTooltip();
+		ShowGoodsInfo(iCurGoodsIdx); //сбросим все состояния
+	}
 }
 
 void AddToTable()
@@ -451,6 +516,7 @@ void CS_TableSelectChange()
 	int iSelected = GetEventData();
     TableSelect = iSelected;
     string sRow = "tr" + (iSelected);
+	curRow = sRow;
 	SetShipWeight();
 	SetVariable();
     ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(sRow).index));

@@ -643,7 +643,8 @@ void GenerateSpySeeker(ref location)
 			if(bOK || bOK2)
 			{
 				chrDisableReloadToLocation = true;
-				ref rChar = GetCharacter(NPC_GenerateCharacter("SpySeeker", "officer_"+ (1 + drand(63)), "man", "man", pchar.rank, GetCityNation(location.fastreload), -1, false));
+				if (MOD_SKILL_ENEMY_RATE == 10) ref rChar = GetCharacter(NPC_GenerateCharacter("SpySeeker", "officer_"+ (1 + drand(63)), "man", "spy", pchar.rank, GetCityNation(location.fastreload), -1, false)); //LEO: Превозмогаторам страдание 08.12.2021
+				else rChar = GetCharacter(NPC_GenerateCharacter("SpySeeker", "officer_"+ (1 + drand(63)), "man", "man_fast", pchar.rank, GetCityNation(location.fastreload), -1, false));
 				rChar.Dialog.FileName = "Common_Seeker.c";
 				LAi_SetImmortal(rChar, true);
 				rChar.saveItemsForDead = true;

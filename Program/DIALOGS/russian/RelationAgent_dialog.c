@@ -620,7 +620,8 @@ void ProcessDialogEvent()
 				pchar.questTemp.LSC = "toOliverTrast";
 				AddQuestRecord("ISS_PoorsMurder", "10");
 				LocatorReloadEnterDisable("Marigo_town", "houseH2", false);
-				sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "man", 30, PIRATE, -1, true));
+				if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "spy", 30, PIRATE, -1, true)); // LEO: Страдать превозмогаторам 07.12.2021
+				else sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "man_fast", 30, PIRATE, -1, true));
 				sld.name = "Оливер";
 				sld.lastname = "Траст";
 				FantomMakeCoolFighter(sld, 40, 90, 90, "blade26", "pistol3", 100);

@@ -307,7 +307,7 @@ void InitGoods()
 	
 	Goods[GOOD_IRON].Name		    = "Iron";
 	Goods[GOOD_IRON].Weight	    	= 2;
-	Goods[GOOD_IRON].Cost	        = 138;
+	Goods[GOOD_IRON].Cost	        = 110;
 	Goods[GOOD_IRON].Units	    = 1;
 	Goods[GOOD_IRON].AfraidWater = 0;
 	Goods[GOOD_IRON].canbecontraband	= 0;
@@ -315,7 +315,7 @@ void InitGoods()
 	
 	Goods[GOOD_TOOLS].Name		    = "Tools";
 	Goods[GOOD_TOOLS].Weight	    = 2;
-	Goods[GOOD_TOOLS].Cost		    = 40;
+	Goods[GOOD_TOOLS].Cost		    = 160;
 	Goods[GOOD_TOOLS].Units	    	= 1;
 	Goods[GOOD_TOOLS].AfraidWater = 0;
 	Goods[GOOD_TOOLS].canbecontraband	= 0;

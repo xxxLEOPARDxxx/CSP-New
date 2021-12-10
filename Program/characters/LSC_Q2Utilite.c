@@ -1005,7 +1005,8 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarSentJons = "SentJons_TownCave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarSentJons.hp = 160; //сколько HP
 	pchar.questTemp.tugs.berglarSentJons.locator = "basement1"; //выходной локатор
-	sld = GetCharacter(NPC_GenerateCharacter("BerglarSentJons", "citiz_12", "man", "man", 22, ENGLAND, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarSentJons", "citiz_12", "man", "spy", 22, ENGLAND, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("BerglarSentJons", "citiz_12", "man", "man_fast", 22, ENGLAND, -1, false));
 	sld.name 	= "Альберт";
 	sld.lastname = "Грин";
 	sld.rank = 25;
@@ -1033,7 +1034,8 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarFortFrance = "FortFrance_Dungeon"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarFortFrance.hp = 180; //сколько HP
 	pchar.questTemp.tugs.berglarFortFrance.locator = "basement1"; //выходной локатор
-	sld = GetCharacter(NPC_GenerateCharacter("BerglarFortFrance", "citiz_11", "man", "man", 23, FRANCE, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarFortFrance", "citiz_11", "man", "spy", 23, FRANCE, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("BerglarFortFrance", "citiz_11", "man", "man_fast", 23, FRANCE, -1, false));
 	sld.name 	= "Гаэтано";
 	sld.lastname = "Лемье";
 	sld.rank = 25;
@@ -1059,7 +1061,8 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarMarigo = "Marigo_Cave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarMarigo.hp = 200; //сколько HP
 	pchar.questTemp.tugs.berglarMarigo.locator = "gate_back"; //выходной локатор
-	sld = GetCharacter(NPC_GenerateCharacter("BerglarMarigo", "citiz_1", "man", "man", 21, HOLLAND, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarMarigo", "citiz_1", "man", "spy", 21, HOLLAND, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("BerglarMarigo", "citiz_1", "man", "man_fast", 21, HOLLAND, -1, false));
 	sld.name 	= "Эстебан";
 	sld.lastname = "Морэ";
 	sld.rank = 25;
@@ -1089,7 +1092,8 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarPanama = "Panama_Cave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarPanama.hp = 200; //сколько HP
 	pchar.questTemp.tugs.berglarPanama.locator = "gate_back"; //выходной локатор
-	sld = GetCharacter(NPC_GenerateCharacter("BerglarPanama", "citiz_4", "man", "man", 27, SPAIN, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarPanama", "citiz_4", "man", "spy", 27, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
+	sld = GetCharacter(NPC_GenerateCharacter("BerglarPanama", "citiz_4", "man", "man_fast", 27, SPAIN, -1, false));
 	sld.name 	= "Хуан";
 	sld.lastname = "Карлос";
 	sld.rank = 27;
@@ -1115,7 +1119,8 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarCartahena = "Cartahena_Cave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarCartahena.hp = 170; //сколько HP
 	pchar.questTemp.tugs.berglarCartahena.locator = "gate_back"; //выходной локатор
-	sld = GetCharacter(NPC_GenerateCharacter("BerglarCartahena", "citiz_7", "man", "man", 22, SPAIN, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarCartahena", "citiz_7", "man", "spy", 22, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("BerglarCartahena", "citiz_7", "man", "man_fast", 22, SPAIN, -1, false));
 	sld.name 	= "Мигель";
 	sld.lastname = "Карлитос";
 	sld.rank = 22;
@@ -1143,7 +1148,8 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarSantaCatalina = "SantaCatalina_Cave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarSantaCatalina.hp = 230; //сколько HP
 	pchar.questTemp.tugs.berglarSantaCatalina.locator = "gate_back"; //выходной локатор
-	sld = GetCharacter(NPC_GenerateCharacter("BerglarSantaCatalina", "citiz_9", "man", "man", 25, SPAIN, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarSantaCatalina", "citiz_9", "man", "spy", 25, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("BerglarSantaCatalina", "citiz_9", "man", "man_fast", 25, SPAIN, -1, false));
 	sld.name 	= "Лоренсо";
 	sld.lastname = "Сантино";
 	sld.rank = 25;
@@ -1739,7 +1745,8 @@ void PoormansInit()
 	sld.greeting = "Gr_poorman";
 	LAi_group_MoveCharacter(sld, "ENGLAND_CITIZENS");
 	//заказчик нищих
-	sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "man", 30, PIRATE, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "spy", 30, PIRATE, -1, false)); // LEO: Страдать превозмогаторам 07.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "man_fast", 30, PIRATE, -1, false));
 	sld.name = "Оливер";
 	sld.lastname = "Траст";
 	sld.talker = 8; //начать диалог

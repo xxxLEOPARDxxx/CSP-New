@@ -814,20 +814,21 @@ void SetTreasureHunter(string temp)
     
     j = GetOfficersQuantity(Pchar) + 2;
     
-	sCapId = "LandHunter02";
+	sCapId = "LandHunter0";
     sTemp = "LAND_HUNTER";
 	ok = true;
 	arrayNPCModelHow = 0;
     for (i = 1; i <= j; i++)
     {
-        sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "off_hol_2", "man", "man", sti(PChar.rank) + 5, PIRATE, 0, true));
+        if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "spy", sti(PChar.rank) + 5, PIRATE, 0, true));
+        else sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "man_fast", sti(PChar.rank) + 5, PIRATE, 0, true));
         SetFantomParamHunter(sld); //крутые парни
         sld.Dialog.CurrentNode = "TreasureHunter";
         sld.dialog.filename = "Hunter_dialog.c";
         sld.greeting = "Gr_HUNTER";
         sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
 
-        SetModelPirate(sld);
+        /*SetModelPirate(sld);
         k = 0;
 		while (!CheckNPCModelUniq(sld) && k < 10)
 		{
@@ -835,7 +836,7 @@ void SetTreasureHunter(string temp)
 			SetModelPirate(sld);
 		}
 		arrayNPCModel[arrayNPCModelHow] = sld.model;
-		arrayNPCModelHow++;
+		arrayNPCModelHow++;*/
 		
         LAi_SetActorTypeNoGroup(sld);
         LAi_SetCheckMinHP(sld, (LAi_GetCharacterHP(sld) - 1), false, "Battle_Hunters_Land");
@@ -895,11 +896,12 @@ void SetPGGTreasureHunter(string temp)
 		}
 		else
 		{
-			sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "off_hol_2", "man", "man", sti(PChar.rank) + 5, PIRATE, 0, true));
+			if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "spy", sti(PChar.rank) + 5, PIRATE, 0, true));
+			else sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "man_fast", sti(PChar.rank) + 5, PIRATE, 0, true));
 			SetFantomParamHunter(sld); //крутые парни
 			sld.greeting = "Gr_HUNTER";
 			sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
-			SetModelPirate(sld);
+			/*SetModelPirate(sld);
 			k = 0;
 			while (!CheckNPCModelUniq(sld) && k < 10)
 			{
@@ -907,7 +909,7 @@ void SetPGGTreasureHunter(string temp)
 				SetModelPirate(sld);
 			}
 			arrayNPCModel[arrayNPCModelHow] = sld.model;
-			arrayNPCModelHow++;
+			arrayNPCModelHow++;*/
 			sld.dialog.filename = "Hunter_dialog.c";
 			sld.Dialog.CurrentNode = "TreasureHunter";
 		}

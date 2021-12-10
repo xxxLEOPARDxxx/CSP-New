@@ -33,6 +33,19 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 					link.l1.go = "Mushket_late";
 				}
 			}
+			
+			if (CheckAttribute(pchar, "questTemp.PDM_ONV_PortoBello"))	//Квест "Охота на ведьму"
+            {
+                link.l1 = "Тебе ни о чём не говорит имя Карла?";
+                link.l1.go = "PDM_ONV_PB_1";
+            }
+		break;
+		
+		case "PDM_ONV_PB_1":	//Квест "Охота на ведьму"
+			dialog.text = "Мне это имя ни о чём не говорит. Но вам повезло, тот мужчина за столиком не раз произносил это имя, когда в неистовой злобе глотал ром.";
+			link.l1 = "Как же ты меня выручил. Спасибо!";
+			link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_PortoBello");
 		break;
 		
 		case "Portobello_rat_1":

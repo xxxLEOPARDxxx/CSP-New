@@ -107,6 +107,7 @@ void InitInterface(string iniName)
     SetEventHandler("ievnt_command","ProcessCommandExecute",0);
     SetEventHandler("MouseRClickUP","HideInfo",0);
 	SetEventHandler("ShowInfoWindow","ShowInfoWindow",0);
+	SetEventHandler("CheckButtonChange","procCheckBoxChange",0);
     
     /////////////
     CreateString(true,"titul", XI_ConvertString("Hunter_type"),"DIALOG2",COLOR_NORMAL,589,100,SCRIPT_ALIGN_LEFT,1.0);
@@ -122,8 +123,30 @@ void InitInterface(string iniName)
     curNationIdx = sti(chref.nation);
     SetNewNation(0);
     XI_RegistryExitKey("IExit_F2");
+	if (CheckOfficersPerk(pchar,"SeaDogProfessional")) 
+	{
+		SetNodeUsing("SeaDogProfessional_Switch",true);
+		if (!CheckAttribute(pchar,"SeaDogProfessionalSwitch")) pchar.SeaDogProfessionalSwitch = 1;
+		if (pchar.SeaDogProfessionalSwitch == 1) SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SeaDogProfessional_Switch", 2, 1, true );
+		else SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"SeaDogProfessional_Switch", 2, 1, false );
+	}
+	else SetNodeUsing("SeaDogProfessional_Switch",false);
 }
 
+
+void procCheckBoxChange()
+{
+	string sNodName = GetEventData();
+	int nBtnIndex = GetEventData();
+	int bBtnState = GetEventData();
+
+	if( sNodName == "SeaDogProfessional_Switch" )
+	{
+		{
+			pchar.SeaDogProfessionalSwitch = bBtnState;
+		}
+	}
+}
 void CalculateHunter()
 {
 
@@ -185,7 +208,7 @@ void IDoExit(int exitCode)
     DelEventHandler("ievnt_command","ProcessCommandExecute");
     DelEventHandler("MouseRClickUP","HideInfo");
 	DelEventHandler("ShowInfoWindow","ShowInfoWindow");
-
+	DelEventHandler("CheckButtonChange","procCheckBoxChange");
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
 	{

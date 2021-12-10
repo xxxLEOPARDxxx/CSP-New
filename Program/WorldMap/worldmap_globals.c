@@ -351,7 +351,10 @@ bool wdmCreateFollowShipByIndex(float kSpeed, int index, ref encID, int timeOutI
 	float timeOutInSec = daysPerSec*timeOutInDays;
 	//Создаём реального энкоунтера
 	bool res = false;
-	bool klas = (CheckOfficersPerk(pchar,"SeaDogProfessional")) && (GetCharacterShipClass(pchar) < 5);
+	bool sdps = false;
+	if (CheckAttribute(pchar,"SeaDogProfessionalSwitch") && pchar.SeaDogProfessionalSwitch == 1) sdps = true;
+	bool klas = (sdps) && (GetCharacterShipClass(pchar) < 5);
+	//log_info(""+klas);
 	if (klas || (GetNationRelation2MainCharacter(iNation) != RELATION_ENEMY) || (rand(100) < (GetCharacterSPECIAL(pchar, "LUCK") * 3)))
 	{
 		res = SendMessage(&worldMap, "lsssff", MSG_WORLDMAP_CREATEENC_MER, nationShipName, "", "", kSpeed, timeOutInSec); // boal new

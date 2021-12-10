@@ -115,15 +115,19 @@ void ProcessDialogEvent()
 			{
 				if(GetCompanionQuantity(PChar) > 1)
 				{
+					ref rChar;
 					for(int i = 1; i<GetCompanionQuantity(PChar); i++)
 					{
-						ref rChar = &characters[GetCompanionIndex(PChar,i)];
-						if(GetFreeCrewQuantity(rChar) >= sti(npchar.quest.crew.qty))
+						if (GetCompanionIndex(PChar,i)>-1)
 						{
-							link.l1 = "Сожалею, матрос, но для всех вас у меня нет мест на корабле. Придется вам пойти к моему компаньону, его зовут "+ rChar.name + " " + rChar.lastname + ".";
-							link.l1.go = "crew_comp";
-							pchar.addcrew.character = rChar.id;
-							break;
+							rChar = &characters[GetCompanionIndex(PChar,i)];
+							if(sti(rChar.index) != -1 && GetFreeCrewQuantity(rChar) >= sti(npchar.quest.crew.qty))
+							{
+								link.l1 = "Сожалею, матрос, но для всех вас у меня нет мест на корабле. Придется вам пойти к моему компаньону, его зовут "+ rChar.name + " " + rChar.lastname + ".";
+								link.l1.go = "crew_comp";
+								pchar.addcrew.character = rChar.id;
+								break;
+							}
 						}
 						else
 						{	

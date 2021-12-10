@@ -115,7 +115,7 @@ void CreateCitizens(aref loc)
 					chr.quest.crew = "true";
 					chr.quest.crew.qty = 10+rand(14)+(GetSummonSkillFromNameToOld(GetMainCharacter(),SKILL_LEADERSHIP) * 8); // WW 10-24 + 6-60 = 16-84 от авторитета   
 					chr.quest.crew.type = rand(2);
-					chr.quest.crew.money = (60+rand(2)*20+rand(80))*(sti(Pchar.rank)/4)+rand(100); // LEO: 60-180 Переправил, ибо дешево было ппц
+					chr.quest.crew.money = (60+rand(2)*20+rand(80))*(1+(sti(Pchar.rank)/4))+rand(100); // LEO: 60-180 Переправил, ибо дешево было ппц
 					chr.talker = rand(9);
 				}
 			}

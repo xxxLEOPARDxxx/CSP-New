@@ -340,8 +340,8 @@ void ProcessDialogEvent()
 			dialog.text = "Ну что же, прикажите доставить этого ладрона ко мне немедленно, мне не терпится начать следствие. И прошу вас зайти также к генерал-губернатору.";
 			link.l1 = "Хорошо, монсеньор.";
 			link.l1.go = "exit";
-			NPChar.LifeDay = 10;
-    	    SaveCurrentNpcQuestDateParam(NPChar, "LifeTimeCreate");
+			//NPChar.LifeDay = 10;
+    	    //SaveCurrentNpcQuestDateParam(NPChar, "LifeTimeCreate");
 			AddQuestRecord("Spa_Line_3_RockBrasilian", "6");
 			pchar.questTemp.State = "TakeRockBras_RockGiven";
 			sld = characterFromId("RockBrasilian");

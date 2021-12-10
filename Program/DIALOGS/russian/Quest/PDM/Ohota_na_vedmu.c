@@ -223,10 +223,13 @@ void ProcessDialogEvent()
 			link.l1 = "Я думал"+ GetSexPhrase("","а")+", что ты торговец, которому, может быть, нужно сопровождение... Но, похоже, я "+ GetSexPhrase("ошибся","ошиблась")+".";
 			link.l1.go = "RazgovorSViktorom_2";
 			PlayVoice("Kopcapkz\Voices\PDM\Gavrila Dubinin.wav");
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_PortoBello");
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_SanJuan");
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_Maracaibo");
 		break;
 		
 		case "RazgovorSViktorom_2":
-			dialog.text = "Да, "+ GetSexPhrase("приятель, ты ошибся","милая, ты ошиблась")+". Я Виктор Мартос, безработный боцман. Вчера один безмозглый обормот предложил мне работать дровосеком. Знаешь, что с ним случилось?";
+			dialog.text = "Да, "+ GetSexPhrase("приятель, ты ошибся","милая, ты ошиблась")+". Я Силино Сэв, безработный боцман. Вчера один безмозглый обормот предложил мне работать дровосеком. Знаешь, что с ним случилось?";
 			link.l1 = "Понятно... Но давай мы посидим за кружкой рома, и ты расскажешь мне свою историю.";
 			link.l1.go = "RazgovorSViktorom_3";
 		break;

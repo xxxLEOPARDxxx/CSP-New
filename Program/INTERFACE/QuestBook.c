@@ -909,7 +909,7 @@ void HideInfoWindow()
 
 void ShowPGGInfo()
 {
-	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index") && GameInterface.(CurTable).(CurRow).td3.str != "Офицер на обучении")
+	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index") && GameInterface.(CurTable).(CurRow).td4.str != "Офицер на обучении")
 	{ // нет ПГГ в списке
 		ref chrefspp = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
 		ref refBaseShip = GetRealShip(sti(chrefspp.ship.type));
@@ -918,9 +918,9 @@ void ShowPGGInfo()
 		SetFormatedText("SHIP_NAME", XI_ConvertString(RealShips[sti(chrefspp.Ship.Type)].BaseName) + " '" + chrefspp.Ship.Name + "'");
 		SetFormatedText("SHIP_WINDOW_CAPTION", "Характеристики");
 		SetFormatedText("SHIP_INFO_PLACE", "Информация по стоянке");
-		SetFormatedText("PORT_INFO_PLACE", "Остров/колония:\n"+GameInterface.(CurTable).(CurRow).td6.str+" / "+GameInterface.(CurTable).(CurRow).td5.str);
-		SetFormatedText("DATE_INFO_PLACE", "Дата стоянки:\n"+GameInterface.(CurTable).(CurRow).td7.str);
-		SetFormatedText("MONEY_INFO_PLACE", "Цена в месяц:\n"+GameInterface.(CurTable).(CurRow).td8.str+" п.");
+		SetFormatedText("PORT_INFO_PLACE", "Остров/колония:\n"+GameInterface.(CurTable).(CurRow).td7.str+" / "+GameInterface.(CurTable).(CurRow).td6.str);
+		SetFormatedText("DATE_INFO_PLACE", "Дата стоянки:\n"+GameInterface.(CurTable).(CurRow).td8.str);
+		SetFormatedText("MONEY_INFO_PLACE", "Цена в месяц:\n"+GameInterface.(CurTable).(CurRow).td9.str+" п.");
 		SetFormatedText("SHIP_RANK", refBaseShip.Class);
 		SetFormatedText("CLASS_ARMOR", refBaseShip.HullArmor);
 		SetNewGroupPicture("CLASS_ARMOR_ICON", "ICONS_CHAR", "Reputation");
@@ -936,7 +936,7 @@ void ShowPGGInfo()
 		if (IsCharacterPerkOn(chrefspp, "SeaWolf")) texturedata = "INTERFACES\Sith\Char_SeaWolf.tga";
 		SetNewPicture("CHARACTER_PROFESSION", texturedata);
 		string portpic;
-		switch (GameInterface.(CurTable).(CurRow).td5.icon.image)
+		switch (GameInterface.(CurTable).(CurRow).td6.icon.image)
 		{
 			case "France": portpic = "loading\enc_fra.tga";
 			break;
@@ -1008,7 +1008,7 @@ void ShowPGGInfo()
 		XI_WindowDisable("SHOW_ADV_INFO", false);
 		sMessageMode = "RPG_Hint";
 	}
-	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index") && GameInterface.(CurTable).(CurRow).td3.str == "Офицер на обучении")
+	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index") && GameInterface.(CurTable).(CurRow).td4.str == "Офицер на обучении")
 	{
 		ref chrefspp1 = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
 		SetFormatedText("OFFICERS_WINDOW_CAPTION", "Офицер на обучении");
@@ -1939,22 +1939,24 @@ void FillShipPlaceTable(string _tabName)
 
 	// шапка -->
 	GameInterface.(_tabName).select = 0;
-	GameInterface.(_tabName).hr.td1.str = "Фото";
+	GameInterface.(_tabName).hr.td1.str = "N";
 	GameInterface.(_tabName).hr.td1.scale = 0.9;
-	GameInterface.(_tabName).hr.td2.str = "Класс";
+	GameInterface.(_tabName).hr.td2.str = "Фото";
 	GameInterface.(_tabName).hr.td2.scale = 0.9;
-	GameInterface.(_tabName).hr.td3.str = "Корабль";
+	GameInterface.(_tabName).hr.td3.str = "Класс";
 	GameInterface.(_tabName).hr.td3.scale = 0.9;
-	GameInterface.(_tabName).hr.td4.str = "Капитан";
+	GameInterface.(_tabName).hr.td4.str = "Корабль";
 	GameInterface.(_tabName).hr.td4.scale = 0.9;
-	GameInterface.(_tabName).hr.td5.str = "Город";
+	GameInterface.(_tabName).hr.td5.str = "Капитан";
 	GameInterface.(_tabName).hr.td5.scale = 0.9;
-	GameInterface.(_tabName).hr.td6.str = "Локация";
+	GameInterface.(_tabName).hr.td6.str = "Город";
 	GameInterface.(_tabName).hr.td6.scale = 0.9;
-	GameInterface.(_tabName).hr.td7.str = "Дата стоянки";
+	GameInterface.(_tabName).hr.td7.str = "Локация";
 	GameInterface.(_tabName).hr.td7.scale = 0.9;
-	GameInterface.(_tabName).hr.td8.str = "Цена в месяц";
+	GameInterface.(_tabName).hr.td8.str = "Дата стоянки";
 	GameInterface.(_tabName).hr.td8.scale = 0.9;
+	GameInterface.(_tabName).hr.td9.str = "Цена в месяц";
+	GameInterface.(_tabName).hr.td9.scale = 0.9;
 	// <--
 	cn = 1;
 	for (n=0; n<MAX_COLONIES; n++)
@@ -1973,37 +1975,39 @@ void FillShipPlaceTable(string _tabName)
 
 					row = "tr" + cn;
 					GameInterface.(_tabName).(row).index = chrefsp.id;
-					GameInterface.(_tabName).(row).td1.icon.texture = "interfaces\ships\" + shipTexture + ".tga.tx";
-					GameInterface.(_tabName).(row).td1.icon.uv = "0,0,1,1";
-					GameInterface.(_tabName).(row).td1.icon.offset = "-2, 0";
-					GameInterface.(_tabName).(row).td1.icon.width  = 40;
-					GameInterface.(_tabName).(row).td1.icon.height = 40;
-					GameInterface.(_tabName).(row).td2.str = refBaseShip.Class;
-					GameInterface.(_tabName).(row).td2.scale = 0.8;
-					GameInterface.(_tabName).(row).td3.str = XI_ConvertString(RealShips[sti(chrefsp.Ship.Type)].BaseName) + " '" + chrefsp.Ship.Name + "'";
+					GameInterface.(_tabName).(row).td1.str = cn;
+					GameInterface.(_tabName).(row).td1.scale = 0.8;
+					GameInterface.(_tabName).(row).td2.icon.texture = "interfaces\ships\" + shipTexture + ".tga.tx";
+					GameInterface.(_tabName).(row).td2.icon.uv = "0,0,1,1";
+					GameInterface.(_tabName).(row).td2.icon.offset = "-2, 0";
+					GameInterface.(_tabName).(row).td2.icon.width  = 40;
+					GameInterface.(_tabName).(row).td2.icon.height = 40;
+					GameInterface.(_tabName).(row).td3.str = refBaseShip.Class;
 					GameInterface.(_tabName).(row).td3.scale = 0.8;
-					GameInterface.(_tabName).(row).td4.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chrefsp.faceId + ".tga";
-					GameInterface.(_tabName).(row).td4.icon.uv = "0,0,1,1";
-					GameInterface.(_tabName).(row).td4.icon.offset = "-2, 0";
-					GameInterface.(_tabName).(row).td4.icon.width  = 40;
-					GameInterface.(_tabName).(row).td4.icon.height = 40;
-					GameInterface.(_tabName).(row).td4.str = GetFullName(chrefsp);
-					GameInterface.(_tabName).(row).td4.textoffset = "40, 0";
+					GameInterface.(_tabName).(row).td4.str = XI_ConvertString(RealShips[sti(chrefsp.Ship.Type)].BaseName) + " '" + chrefsp.Ship.Name + "'";
 					GameInterface.(_tabName).(row).td4.scale = 0.8;
-					GameInterface.(_tabName).(row).td5.icon.group  = "NATIONS";
-					GameInterface.(_tabName).(row).td5.icon.image  = Nations[sti(rCity.nation)].Name;
+					GameInterface.(_tabName).(row).td5.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chrefsp.faceId + ".tga";
+					GameInterface.(_tabName).(row).td5.icon.uv = "0,0,1,1";
+					GameInterface.(_tabName).(row).td5.icon.offset = "-2, 0";
 					GameInterface.(_tabName).(row).td5.icon.width  = 40;
 					GameInterface.(_tabName).(row).td5.icon.height = 40;
-					GameInterface.(_tabName).(row).td5.icon.offset = "-2, 0";
-					GameInterface.(_tabName).(row).td5.str = GetConvertStr(rCity.id + " Town", "LocLables.txt");
+					GameInterface.(_tabName).(row).td5.str = GetFullName(chrefsp);
+					GameInterface.(_tabName).(row).td5.textoffset = "40, 0";
 					GameInterface.(_tabName).(row).td5.scale = 0.8;
-					GameInterface.(_tabName).(row).td5.textoffset = "30, 0";
-					GameInterface.(_tabName).(row).td6.str = GetConvertStr(rCity.islandLable, "LocLables.txt");
+					GameInterface.(_tabName).(row).td6.icon.group  = "NATIONS";
+					GameInterface.(_tabName).(row).td6.icon.image  = Nations[sti(rCity.nation)].Name;
+					GameInterface.(_tabName).(row).td6.icon.width  = 40;
+					GameInterface.(_tabName).(row).td6.icon.height = 40;
+					GameInterface.(_tabName).(row).td6.icon.offset = "-2, 0";
+					GameInterface.(_tabName).(row).td6.str = GetConvertStr(rCity.id + " Town", "LocLables.txt");
 					GameInterface.(_tabName).(row).td6.scale = 0.8;
-					GameInterface.(_tabName).(row).td7.str = chrefsp.ShipInStockMan.AltDate;
+					GameInterface.(_tabName).(row).td6.textoffset = "35, 0";
+					GameInterface.(_tabName).(row).td7.str = GetConvertStr(rCity.islandLable, "LocLables.txt");
 					GameInterface.(_tabName).(row).td7.scale = 0.8;
-					GameInterface.(_tabName).(row).td8.str = chrefsp.ShipInStockMan.MoneyForShip;
+					GameInterface.(_tabName).(row).td8.str = chrefsp.ShipInStockMan.AltDate;
 					GameInterface.(_tabName).(row).td8.scale = 0.8;
+					GameInterface.(_tabName).(row).td9.str = chrefsp.ShipInStockMan.MoneyForShip;
+					GameInterface.(_tabName).(row).td9.scale = 0.8;
 
 					cn++;
 				}
@@ -2017,34 +2021,36 @@ void FillShipPlaceTable(string _tabName)
 		{
 			row = "tr" + cn;
 			GameInterface.(_tabName).(row).index = chref.id;
-			GameInterface.(_tabName).(row).td1.str = "---"
-			GameInterface.(_tabName).(row).td2.str = "---";
-			GameInterface.(_tabName).(row).td2.scale = 0.8;
-			GameInterface.(_tabName).(row).td3.str = "Офицер на обучении";
+			GameInterface.(_tabName).(row).td1.str = "N";
+			GameInterface.(_tabName).(row).td1.scale = 0.8;
+			GameInterface.(_tabName).(row).td2.str = "---"
+			GameInterface.(_tabName).(row).td3.str = "---";
 			GameInterface.(_tabName).(row).td3.scale = 0.8;
-			GameInterface.(_tabName).(row).td4.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chref.faceId + ".tga";
-			GameInterface.(_tabName).(row).td4.icon.uv = "0,0,1,1";
-			GameInterface.(_tabName).(row).td4.icon.offset = "-2, 0";
-			GameInterface.(_tabName).(row).td4.icon.width  = 40;
-			GameInterface.(_tabName).(row).td4.icon.height = 40;
-			GameInterface.(_tabName).(row).td4.str = GetFullName(chref);
-			GameInterface.(_tabName).(row).td4.textoffset = "40, 0";
+			GameInterface.(_tabName).(row).td4.str = "Офицер на обучении";
 			GameInterface.(_tabName).(row).td4.scale = 0.8;
-			GameInterface.(_tabName).(row).td5.icon.group  = "NATIONS";
-			if (!CheckAttribute(pchar, "PirateOrder"))GameInterface.(_tabName).(row).td5.icon.image  = "SPAIN";
-			else GameInterface.(_tabName).(row).td5.icon.image  = "PIRATE";
+			GameInterface.(_tabName).(row).td5.icon.texture = "INTERFACES\PORTRAITS\128\face_" + chref.faceId + ".tga";
+			GameInterface.(_tabName).(row).td5.icon.uv = "0,0,1,1";
+			GameInterface.(_tabName).(row).td5.icon.offset = "-2, 0";
 			GameInterface.(_tabName).(row).td5.icon.width  = 40;
 			GameInterface.(_tabName).(row).td5.icon.height = 40;
-			GameInterface.(_tabName).(row).td5.icon.offset = "-2, 0";
-			GameInterface.(_tabName).(row).td5.str = "Риф Скелета, Бухта проклятых";
+			GameInterface.(_tabName).(row).td5.str = GetFullName(chref);
+			GameInterface.(_tabName).(row).td5.textoffset = "40, 0";
 			GameInterface.(_tabName).(row).td5.scale = 0.8;
-			GameInterface.(_tabName).(row).td5.textoffset = "30, 0";
-			GameInterface.(_tabName).(row).td6.str = "Капитул";
+			GameInterface.(_tabName).(row).td6.icon.group  = "NATIONS";
+			if (!CheckAttribute(pchar, "PirateOrder"))GameInterface.(_tabName).(row).td6.icon.image  = "SPAIN";
+			else GameInterface.(_tabName).(row).td6.icon.image  = "PIRATE";
+			GameInterface.(_tabName).(row).td6.icon.width  = 40;
+			GameInterface.(_tabName).(row).td6.icon.height = 40;
+			GameInterface.(_tabName).(row).td6.icon.offset = "-2, 0";
+			GameInterface.(_tabName).(row).td6.str = "Риф Скелета, Бухта проклятых";
 			GameInterface.(_tabName).(row).td6.scale = 0.8;
-			GameInterface.(_tabName).(row).td7.str = "Бессрочно";
+			GameInterface.(_tabName).(row).td6.textoffset = "35, 0";
+			GameInterface.(_tabName).(row).td7.str = "Капитул";
 			GameInterface.(_tabName).(row).td7.scale = 0.8;
-			GameInterface.(_tabName).(row).td8.str = "---";
+			GameInterface.(_tabName).(row).td8.str = "Бессрочно";
 			GameInterface.(_tabName).(row).td8.scale = 0.8;
+			GameInterface.(_tabName).(row).td9.str = "---";
+			GameInterface.(_tabName).(row).td9.scale = 0.8;
 
 			cn++;
 		}

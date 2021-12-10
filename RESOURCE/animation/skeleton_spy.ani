@@ -1,5 +1,5 @@
 
-animation = spy.an
+animation = skeleton.an
 
 data = "Turn speed", "5.5"
 
@@ -36,7 +36,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time =5282
 	end_time = 5308
-	speed = 2.5
+	speed = 2.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	data = "Dist", "2"	; m
@@ -51,7 +51,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5308
 	end_time = 5331
-	speed = 2.5
+	speed = 2.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	data = "Dist", "2"	; m
@@ -66,7 +66,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time =5331
 	end_time = 5356
-	speed = 2.5
+	speed = 2.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	data = "Dist", "2"	; m
@@ -79,51 +79,51 @@ data = "Turn speed", "5.5"
 ;SLASH
 	[attack_force_1]
 	type = normal
-	start_time = 5356
-	end_time = 5382
-	speed = 2.0
+	start_time = 5184
+	end_time = 5217
+	speed = 1.5
 	loop = false
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2.3"	; m
-	data = "Ang", "10"	; grd
+	data = "Dist", "2.2"	; m
+	data = "Ang", "40"	; grd
 	
-	event = "Attack", 5362, normal			;slash
-	event = "SndAlliace_attack_thrust2", 5355, normal
-	event = "Resact", 5375, normal
+	event = "Attack", 5195, normal			;slash
+	event = "SndAlliace_attack_slash1", 5188, normal
+	event = "Resact", 5212, normal
 		
 	[attack_force_2]
 	type = normal
-	start_time = 5356
-	end_time = 5382
-	speed = 2.0
+	start_time = 5217
+	end_time = 5248
+	speed = 1.5
 	loop = false
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2.3"	; m
-	data = "Ang", "10"	; grd
+	data = "Dist", "2.2"	; m
+	data = "Ang", "40"	; grd
 	
-	event = "Attack", 5362, normal			;slash
-	event = "SndAlliace_attack_thrust2", 5355, normal
-	event = "Resact", 5375, normal
+	event = "Attack", 5226, normal			;slash
+	event = "SndAlliace_attack_slash2", 5224, normal
+	event = "Resact", 5241, normal
 
 	[attack_force_3]
 	type = normal
-	start_time = 5356
-	end_time = 5382
-	speed = 2.0
+	start_time = 5248
+	end_time = 5282
+	speed = 1.5
 	loop = false
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2.3"	; m
-	data = "Ang", "10"	; grd
+	data = "Dist", "2.2"	; m
+	data = "Ang", "40"	; grd
 	
-	event = "Attack", 5362, normal			;slash
-	event = "SndAlliace_attack_thrust2", 5355, normal
-	event = "Resact", 5375, normal
+	event = "Attack", 5258, normal			;slash
+	event = "SndAlliace_attack_slash1", 5250, normal
+	event = "Resact", 5273, normal
 
 	[attack_force_4]
 	type = normal
 	start_time = 5356
 	end_time = 5382
-	speed = 2.0
+	speed = 1.6
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	data = "Dist", "2.3"	; m
@@ -154,15 +154,15 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8454
 	end_time = 8473
-	speed = 0.8
+	speed = 1.1
 	loop = false
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2.6"	; m
+	data = "Dist", "2.5"	; m
 	data = "Ang", "25"	; grd
 		
-	event = "Attack", 8459, normal			;slash
-	event = "SndAlliace_attack_break", 8455, normal
-	event = "Resact", 8471, normal
+	event = "Attack", 8328, normal			;slash
+	event = "SndAlliace_attack_break", 8320, normal
+	event = "Resact", 8336, normal
 	
 ;PARRY 
 ;ÛıÓ‰ ‚ÎÂ‚Ó ·ÎÓÍ Ò‚ÂıÛ
@@ -361,10 +361,9 @@ data = "Turn speed", "5.5"
 ;–≈¿ ÷»ﬂ Õ¿ œŒœ¿ƒ¿Õ»≈ ¬ ¡ÀŒ 
 	[block_hit]
 	type = normal
-	type = reverse
 	start_time = 8606
 	end_time = 8617
-	speed = 2.8
+	speed = 4.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_BlockHit", 8606, normal
@@ -375,7 +374,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8300
 	end_time = 8311
-	speed = 1.5
+	speed = 4.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_BlockHit", 8301, normal	
@@ -386,7 +385,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8680
 	end_time = 8690
-	speed = 1.5
+	speed = 4.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_BlockBreak", 5506, normal
@@ -397,55 +396,52 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5485
 	end_time = 5506	
-	speed = 5.1
+	speed = 8.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
-	event = "SndAlliace_manhit", 5485, normal		
+	event = "SndAlliace_s_manhit", 5485, normal		
 	
 	[hit_attack_2]
 	type = normal
 	start_time = 5506
 	end_time = 5530	
-	speed = 5.1
+	speed = 8.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
-	event = "SndAlliace_manhit", 5506, normal			
+	event = "SndAlliace_s_manhit", 5506, normal			
 	
 	[hit_attack_3]
 	type = normal
 	start_time = 5530
 	end_time = 5552	
-	speed = 5.1
+	speed = 8.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
-	event = "SndAlliace_manhit", 5530, normal			
+	event = "SndAlliace_s_manhit", 5530, normal			
 
 	[hit_feint]
 	type = normal
 	start_time = 5506
 	end_time = 5530	
-	; speed = 1.7
-	speed = 5.1
+	speed = 5.9
 	loop = false	
 	data = "Blend time", "0.2"		; sec
-	event = "SndAlliace_manhit", 5506, normal	
+	event = "SndAlliace_s_manhit", 5506, normal	
 	
   	[hit_round]
 	type = normal
 	start_time = 5485
 	end_time = 5506
-	; speed = 1.7
-	speed = 5.1
+	speed = 4.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
-	event = "SndAlliace_manhit", 5485, normal
+	event = "SndAlliace_s_manhit", 5485, normal
 
 	[hit_parry]
 	type = normal
 	start_time = 8475
 	end_time = 8500
-	; speed = 1.7
-	speed = 5.1
+	speed = 5.9
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_manZapad", 5508, normal	
@@ -454,11 +450,10 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5530
 	end_time = 5552
-	; speed = 1.5
-	speed = 5.1
+	speed = 4.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
-	event = "SndAlliace_manhit", 5530, normal
+	event = "SndAlliace_s_manhit", 5530, normal
 	
 ;¬€—“–≈À 
 
@@ -466,7 +461,7 @@ data = "Turn speed", "5.5"
 	[Shot]
 	start_time = 6334
 	end_time = 6396
-	speed = 2.35
+	speed = 1.85
 	loop = false
 
 	event = "To hand", 6340, normal
@@ -490,7 +485,7 @@ data = "Turn speed", "5.5"
 	data = "Angle", "330.0"
 	
 	event = "LStep", 6033, normal
-	event = "SndAlliace_N_fight_death1", 6016, normal
+	event = "SndAlliace_N_skeleton_death1", 6016, normal
 
 
 	[death_1]
@@ -504,7 +499,7 @@ data = "Turn speed", "5.5"
 	data = "Angle", "330.0"
 	
 	event = "LStep", 6080, normal
-	event = "SndAlliace_N_fight_death2", 6072, normal
+	event = "SndAlliace_N_skeleton_death2", 6072, normal
 	
 	
 	[death_2]
@@ -518,7 +513,7 @@ data = "Turn speed", "5.5"
 	data = "Angle", "330.0"
 
 	event = "RStep", 6172, normal	
-	event = "SndAlliace_N_fight_death3", 6147, normal
+	event = "SndAlliace_N_skeleton_death1", 6147, normal
 
 
 	[death_3]
@@ -532,7 +527,7 @@ data = "Turn speed", "5.5"
 	data = "Angle", "140.0"
 
 	event = "RStep", 6241, normal
-	event = "SndAlliace_N_fight_death4", 6223, normal
+	event = "SndAlliace_N_skeleton_death2", 6223, normal
 
 
 ; ƒ≈…—“¬»ﬂ ¬ ¡Œ≈¬Œ… —“Œ… ≈ (IDLES)
@@ -929,7 +924,7 @@ data = "Turn speed", "5.5"
 	start_time = 5158
 	end_time = 5184
 
-	speed = 2.2
+	speed = 1.7
 	loop = false
 
 	data = "Blend time", "0.3"		; sec
@@ -947,7 +942,7 @@ data = "Turn speed", "5.5"
 	
 	start_time = 6282
 	end_time = 6317
-	speed = 1.7
+	speed = 1.5
 	loop = false
 
 	data = "Blend time", "0.3"		; sec

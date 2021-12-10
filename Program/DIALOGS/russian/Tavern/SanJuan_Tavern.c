@@ -10,6 +10,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = HeroStringReactionRepeat("Знаешь, " + NPChar.name + ", как-нибудь в следующий раз.", "Точно, "+ GetSexPhrase("забыл","забыла") +" что-то...",
                       "Да уж, действительно в третий раз...", "Да уж...", npchar, Dialog.CurrentNode);
 			link.l1.go = "exit";
+			
+			if (CheckAttribute(pchar, "questTemp.PDM_ONV_SanJuan"))	//Квест "Охота на ведьму"
+            {
+                link.l1 = "Тебе ни о чём не говорит имя Карла?";
+                link.l1.go = "PDM_ONV_SJ_1";
+            }
+			
             // ==> Проверяем поле состояния квестов. Эдди.
 			switch(pchar.questTemp.State)
             {
@@ -50,6 +57,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l1 = "Это верно, приятель. Спасибо тебе, будь здоров.";
 			link.l1.go = "exit";
 			pchar.questTemp.State = "MorrisWillams_2PinnaceNotFound";
+		break;
+		
+		case "PDM_ONV_SJ_1":	//Квест "Охота на ведьму"
+			dialog.text = "Мне это имя ни о чём не говорит. Но вам повезло, тот мужчина за столиком не раз произносил это имя, когда в неистовой злобе глотал ром.";
+			link.l1 = "Как же ты меня выручил. Спасибо!";
+			link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_ONV_SanJuan");
 		break;
 
 	}

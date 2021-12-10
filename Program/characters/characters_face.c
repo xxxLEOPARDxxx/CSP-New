@@ -564,6 +564,8 @@ void SetModelPirate(ref ChrefPirate)
     ModelPirate = "Pirate_" + (rand(24) + 1);
 
     ChrefPirate.model = ModelPirate;
+	DeleteAttribute(ChrefPirate,"VISUAL_CIRASS");
+	DeleteAttribute(ChrefPirate,"HeroModel");
     FaceMaker(ChrefPirate);
 }
 

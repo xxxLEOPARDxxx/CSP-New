@@ -484,7 +484,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			sld.nation = SPAIN;
 			LAi_SetImmortal(sld, true);
 			LAi_group_MoveCharacter(sld, "SPAIN_CITIZENS");
-			ChangeCharacterAddressGroup(sld,"Havana_town","goto","goto6");
+			ChangeCharacterAddressGroup(sld,"Havana_town","goto","goto" + (rand(20)+1));
 					
 			//слухи
 			AddSimpleRumour("Ходят слухи, что капитан " + GetFullName(pchar) + " подрядился выполнять поручения самого де Соуза! Инквизиция... При одном этом слове - дрожь по телу.", SPAIN, 5, 1);

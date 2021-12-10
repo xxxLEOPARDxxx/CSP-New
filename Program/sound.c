@@ -559,6 +559,7 @@ void SetSchemeForSea ()
 void SetSchemeForMap ()
 {
 	ResetSoundScheme();
+	AddSoundScheme("sea_map");
 	// AddSoundScheme("sea_sailor_song_voice_SSSV"); // LEO: Песни Шанти
 	SetMusic("music_map");
 	ResumeAllSounds();

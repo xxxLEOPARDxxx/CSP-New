@@ -169,10 +169,13 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 				sCapId = typeHunter + "LandHunter0";
 	            sTemp = "LAND_HUNTER"; 
 				ok = true;
-				arrayNPCModelHow = 0;
-	            for (i = 1; i <= 8; i++)
+				//arrayNPCModelHow = 0;
+				k = 8;
+	            for (i = 1; i <= k; i++)
 	            {
-	                sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "off_hol_2", "man", "man", 5, j, 0, true));
+	                if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "OZG_" + (rand(9) + 1), "man", "spy", 30+rand(10), j, 0, true));
+	                else sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "OZG_" + (rand(9) + 1), "man", "man_fast", 30+rand(10), j, 0, true));
+					log_info(sld.id + " " + i);
 	                SetFantomParamHunter(sld); //крутые парни
 	                sld.name 	= "Охотник за головами";
 	                sld.lastname 	= "";
@@ -181,15 +184,15 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 	                sld.greeting = "Gr_HUNTER";
 	                sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
 	
-	                SetOZGModel(sld);
+	                //SetOZGModel(sld);
 /* 	                k = 0;
 					while (!CheckNPCModelUniq(sld) && k < 10)
 					{
 					    k++;
          				SetOZGModel(sld);
 					} */
-					arrayNPCModel[arrayNPCModelHow] = sld.model;
-					arrayNPCModelHow++;
+					//arrayNPCModel[arrayNPCModelHow] = sld.model;
+					//arrayNPCModelHow++;
 					
 					if (order && i == 1)
 					{
@@ -218,13 +221,13 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 				LAi_group_SetRelation(sTemp, LAI_GROUP_PLAYER_OWN, LAI_GROUP_NEITRAL);
 				
 				LAi_group_ClearAllTargets();
-				LAi_SetFightModeForOfficers(false); 
+				LAi_SetFightModeForOfficers(false);
 				if (ok)
 	            {
 	                pchar.HunterCost = abs(ChangeCharacterNationReputation(pchar, j, 0));
 	                PChar.HunterCost = makeint(PChar.HunterCost)*2000 + rand(5000); //сразу генерим
 	                PChar.HunterCost.TempHunterType = typeHunter;
-	                PChar.HunterCost.Qty = i;
+	                PChar.HunterCost.Qty = k;
 	                sld = characterFromID(sCapId + "1");
 	                LAi_type_actor_Reset(sld);
 	                LAi_ActorDialog(sld, pchar, "", 4.0, 0);

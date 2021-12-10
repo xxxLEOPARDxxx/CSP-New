@@ -105,7 +105,7 @@ void WorldSituationsUpdate()
 		case 1:
             SalaryNextDayUpdate();  // запрлата
 			Log_QuestInfo("WorldSituationsUpdate SalaryNextDayUpdate");
-			ref _rChar;//Lipsar ---> Ремонт сторожей
+			/*ref _rChar;//Lipsar ---> Ремонт сторожей
 			for (int i = 0; i< MAX_COLONIES; i++)
 			{
 				
@@ -143,7 +143,7 @@ void WorldSituationsUpdate()
 					}
 				}
 			}
-			Log_TestInfo("Ремонт сторожей");//Lipsar <--- Ремонт сторожей
+			Log_TestInfo("Ремонт сторожей");//Lipsar <--- Ремонт сторожей*/
 		break;
 		
 		case 2:

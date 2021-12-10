@@ -154,11 +154,11 @@ void QuestComplete(string sQuestName, string qname)
 	            //LAi_group_MoveCharacter(sld, LAI_GROUP_TmpEnemy);
 	            LAi_group_MoveCharacter(sld, "LAND_HUNTER");
 				
-				sld = characterFromID(PChar.HunterCost.TempHunterType + "LandHunter02" + i);
+				/* sld = characterFromID(PChar.HunterCost.TempHunterType + "LandHunter02" + i);
 				LAi_RemoveCheckMinHP(sld);
 	            LAi_SetWarriorType(sld);
 	            //LAi_group_MoveCharacter(sld, LAI_GROUP_TmpEnemy);
-	            LAi_group_MoveCharacter(sld, "LAND_HUNTER");
+	            LAi_group_MoveCharacter(sld, "LAND_HUNTER"); */
 			}
             //LAi_group_SetRelation(LAI_GROUP_TmpEnemy, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
             //LAi_group_FightGroups(LAI_GROUP_TmpEnemy, LAI_GROUP_PLAYER, true);
@@ -2368,7 +2368,8 @@ void QuestComplete(string sQuestName, string qname)
 					}	
 					//<-- генерим ранг 
 					// sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "spy", "spy", Rank, PIRATE, 0, true)); // LEO: Убрал от бугуртов недовольных - Gregg :)
-					sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "man", "man", Rank, PIRATE, 0, true));
+					if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "man", "spy", Rank, PIRATE, 0, true)); // LEO: Пизда превозмогаторам 08.12.2021
+					else sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "man", "man_fast", Rank, PIRATE, 0, true));
 					sld.dialog.filename = "MayorQuests_dialog.c";
 					sld.dialog.currentnode = "SeekSpy_house";
 					sld.greeting = "cit_common"; 
@@ -2951,7 +2952,8 @@ void QuestComplete(string sQuestName, string qname)
 		//////////////////////////////////////////////////////////////////////// 		
 		case "Berglars_Ostin": 
 			chrDisableReloadToLocation = true;
-			sld = GetCharacter(NPC_GenerateCharacter("Ostin", "Ostin", "man", "man", 30, SPAIN, -1, false));
+			if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Ostin", "Ostin", "man", "spy", 30, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
+			else sld = GetCharacter(NPC_GenerateCharacter("Ostin", "Ostin", "man", "man_fast", 30, SPAIN, -1, false));
 			FantomMakeCoolFighter(sld, 30, 100, 70, "blade32", "pistol5", 50);
 			sld.name 	= "Альберто";
 			sld.lastname = "Гаодио";
@@ -7845,7 +7847,8 @@ void QuestComplete(string sQuestName, string qname)
         case "Ascold_InGraveAfterFight":
 			pchar.questTemp.Ascold = "Ascold_MummyIsLive";
 		    LAi_LocationFightDisable(&Locations[FindLocation("Guadeloupe_Cave")], true); 
-			sld = GetCharacter(NPC_GenerateCharacter("LeifEricson", "Mummy", "skeleton", "skeleton", 100, PIRATE, -1, true));	
+			if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("LeifEricson", "Mummy", "skeleton", "spy", 100, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+			else sld = GetCharacter(NPC_GenerateCharacter("LeifEricson", "Mummy", "skeleton", "man_fast", 100, PIRATE, -1, true));
 			FantomMakeCoolFighter(sld, 100, 100, 100, "blade28", "", 3000);
 			sld.name = "Лейф";
 			sld.lastname = "Эриксон";
@@ -11198,16 +11201,17 @@ void QuestCursedSceleton()
 {
 	ref sld;
 	//sld = GetCharacter(CharacterFromID("CursedSkeleton"));
-	sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton", sti(pchar.rank)+20, PIRATE, 1, true));
+	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton_spy", sti(pchar.rank)+20, PIRATE, 1, true));
+	else sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton_fast", sti(pchar.rank)+20, PIRATE, 1, true));
 	FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
 	DeleteAttribute(sld, "SuperShooter");
 	int hitpoints = rand(sti(pchar.rank)*15)+1000;
 	LAi_SetHP(sld, hitpoints, hitpoints);
-			
+
 	sld.name = "Проклятый капитан";
 	sld.lastname = "";
 	AddBonusEnergyToCharacter(sld, 200);
-				
+
 	sld.Dialog.CurrentNode = "First time";
 	sld.dialog.filename = "Cursed_Skeleton.c";
 	

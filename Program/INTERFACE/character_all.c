@@ -2281,6 +2281,7 @@ void AcceptPerk()
     {   // перерисуем персонажа
     	FillSkillTables();
     }
+	if (perkName == "SeaDogProfessional") {pchar.SeaDogProfessionalSwitch = 1; log_info("Вымпел Грозы Морей теперь можно поднять в меню наций.");}
     // перерисуем все -->
     SetFormatedText("TABSTR_1", XI_ConvertString("Personal_abilities") + " " +xi_refCharacter.perks.FreePoints_self);
     SetFormatedText("TABSTR_2", XI_ConvertString("Ship_abilities") + " " + xi_refCharacter.perks.FreePoints_ship);
