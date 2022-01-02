@@ -24,7 +24,7 @@ void ActiveF4Control()
     PlaySound("Sea Battles\Vzriv_fort_001.wav");
     CreateParticleSystem("blast_inv", x + x1, y1, z, 0.0, 0.0, 0.0, 0);  */
 	
-	/* //Korsar Maxim - На Ф4 спауним Ведекера-офа из ГПК к себе в офы
+	/* // На Ф4 спауним Ведекера-офа из ГПК к себе в офы
 	ref sld = GetCharacter(NPC_GenerateCharacter("Mechanic1", "CCS_Mechanic", "man", "man", 30, PIRATE, -1, true));
 	sld.name = "Хенрик";
 	sld.lastname = "Ведекер";

@@ -622,13 +622,13 @@ hero_21
 - В совершенстве умеет пользоваться мушкетом.
 }
 
-heroName_22 {Ингасио}
+heroName_22 {Игнасио}
 heroLastname_22 {Марко}
 
-heroNameGen_22 {Ингасио}
+heroNameGen_22 {Игнасио}
 heroLastnameGen_22 {Марко}
 
-heroNameDat_22 {Ингасио}
+heroNameDat_22 {Игнасио}
 heroLastNameDat_22 {Марко}
 
 heroFace_22 {212}

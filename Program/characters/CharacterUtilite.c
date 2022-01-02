@@ -2375,10 +2375,6 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
             if (CheckAttribute(arItm, "model"))
             {
                 chref.model = GetSubStringByNum(chref.HeroModel, sti(arItm.model));
-				if (startherotype == 2 && sti(arItm.model) == 5 && findsubstr(chref.HeroModel, "Whisper" , 0) != -1 &&  !CheckAttribute(pchar, "Whisper.NanoCostume"))
-				{
-					chref.model = "PGG_Whisper_5_Cirass"
-				}
                 chref.cirassId = itemNum;
             }
             else
@@ -2399,6 +2395,7 @@ void SetEquipedItemToCharacter(ref chref, string groupID, string itemID)
                 DeleteAttribute(chref, "cirassId");
             }
         }
+		ChangeWhisperHeroModel();
         SetNewModelToChar(chref);//boal
 	break;
 
@@ -2729,6 +2726,7 @@ void ChangeWhisperHeroModel()
 			if (Pchar.model=="PGG_Whisper_5_Cirass_NoHat")
 			{
 				Pchar.model="PGG_Whisper_5_Cirass";
+				if (CheckAttribute(pchar, "Whisper.NanoCostume"))	Pchar.model="PGG_Whisper_5";
 			}
 			if (Pchar.model=="PGG_Whisper_6_NoHat")
 			{
@@ -2746,7 +2744,15 @@ void ChangeWhisperHeroModel()
 			{
 				Pchar.model = Pchar.model + "_mush";
 			}
-			pchar.HeroModel  = "PGG_Whisper_0,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5,PGG_Whisper_6,PGG_Whisper_7,PGG_Whisper_8";
+			
+			if (CheckAttribute(pchar, "Whisper.NanoCostume"))
+			{
+				pchar.HeroModel  = "PGG_Whisper_0,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5,PGG_Whisper_6,PGG_Whisper_7,PGG_Whisper_8";
+			}
+			else
+			{	
+				pchar.HeroModel  = "PGG_Whisper_0,PGG_Whisper_1,PGG_Whisper_2,PGG_Whisper_3,PGG_Whisper_4,PGG_Whisper_5_Cirass,PGG_Whisper_6,PGG_Whisper_7,PGG_Whisper_8";
+			}
 			DeleteAttribute(pchar,"Whisper.Equipped");
 			SetNewModelToChar(pchar);
 		}
@@ -2779,6 +2785,7 @@ void ChangeWhisperHeroModel()
 			if (Pchar.model=="PGG_Whisper_5_Cirass")
 			{
 				Pchar.model="PGG_Whisper_5_Cirass_NoHat";
+				if (CheckAttribute(pchar, "Whisper.NanoCostume"))	Pchar.model="PGG_Whisper_5_NoHat";
 			}
 			if (Pchar.model=="PGG_Whisper_6")
 			{
@@ -2796,7 +2803,14 @@ void ChangeWhisperHeroModel()
 			{
 				Pchar.model = Pchar.model + "_mush";
 			}
-			pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1_NoHat,PGG_Whisper_2_NoHat,PGG_Whisper_3_NoHat,PGG_Whisper_4_NoHat,PGG_Whisper_5_NoHat,PGG_Whisper_6_NoHat,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
+			if (CheckAttribute(pchar, "Whisper.NanoCostume"))
+			{
+				pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1_NoHat,PGG_Whisper_2_NoHat,PGG_Whisper_3_NoHat,PGG_Whisper_4_NoHat,PGG_Whisper_5_NoHat,PGG_Whisper_6_NoHat,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
+			}
+			else
+			{
+				pchar.HeroModel  = "PGG_Whisper_0_NoHat,PGG_Whisper_1_NoHat,PGG_Whisper_2_NoHat,PGG_Whisper_3_NoHat,PGG_Whisper_4_NoHat,PGG_Whisper_5_Cirass_NoHat,PGG_Whisper_6_NoHat,PGG_Whisper_7_NoHat,PGG_Whisper_8_NoHat";
+			}
 			pchar.Whisper.Equipped = true;
 			SetNewModelToChar(pchar);
 		}

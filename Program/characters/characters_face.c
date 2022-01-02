@@ -434,7 +434,7 @@ void FaceMaker(aref rCharacter)
 		case "quest_mush_1":	rCharacter.FaceId = 292; break; //саксонец
 		case "quest_mush_2":	rCharacter.FaceId = 293; break; //пират
 		case "Lil_Jim_0":		rCharacter.FaceId = 294; break; //Маленький Джимми
-		case "CCS_Mechanic":	rCharacter.FaceId = 295; break; //Korsar Maxim -
+		case "CCS_Mechanic":	rCharacter.FaceId = 295; break;
 		// временное решение для девиц из борделя
 		case "horse01": 		rCharacter.FaceId = 164; break;
 		case "horse02": 		rCharacter.FaceId = 165; break;
@@ -445,6 +445,9 @@ void FaceMaker(aref rCharacter)
 		case "horse07": 		rCharacter.FaceId = 166; break;
 		case "horse08": 		rCharacter.FaceId = 167; break;
 
+		case "PGG_Blad_0": 		rCharacter.FaceId = 221; break;
+		case "PGG_Blad_6": 		rCharacter.FaceId = 221; break;
+		
 		case "PGG_DeLuck_0": 	rCharacter.FaceId = 481; break;
 		case "PotCMobCap": 		rCharacter.FaceId = 510; break;
 		case "Chard3b":			rCharacter.FaceId = 1510; break; //Волверстон
@@ -465,7 +468,7 @@ void FaceMaker(aref rCharacter)
 		case "ozg_green":		rCharacter.FaceId = 287; break;
 		case "PGG_Chard_0":		rCharacter.FaceId = 211; break;
 		case "PGG_Tich_0":		rCharacter.FaceId = 540; break;
-		else rCharacter.FaceId = 478; break;
+		else rCharacter.FaceId 	= 478; break;
 	}
 	if (InterfaceStates.VISUAL_CIRASS && !CheckAttribute(rCharacter,"VISUAL_CIRASS"))
 	{

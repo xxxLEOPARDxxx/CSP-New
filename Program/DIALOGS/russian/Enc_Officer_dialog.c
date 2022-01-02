@@ -302,7 +302,28 @@ void ProcessDialogEvent()
 					Link.lcraftMechanic.go = "mechanic_craft_ammo_finish";
 				}
 			}*/
-			
+			if (CheckAttribute(pchar, "WhisperPGG") && npchar.id == pchar.WhisperPGG)
+			{
+				if (CheckAttribute(pchar, "CabinHelp"))
+				{
+					if(Pchar.CabinHelp == true)
+					{
+						Link.WhisperCabinHelp = "Я больше не зочу, чтобы ты сопровождала меня в каютах.";
+						Link.WhisperCabinHelp.go = "WhisperCabinHelp";
+					}
+					else
+					{
+						Link.WhisperCabinHelp = "Я хочу, чтобы ты помогала мне в каютах.";
+						Link.WhisperCabinHelp.go = "WhisperCabinHelp";
+					}
+				}
+				if(GetCharacterItem(npchar, "pistol7shotgun") >= 1)
+				{
+					Link.WhisperWeapons = "У тебя необычное оружие. Можно мне взглянуть?";
+					Link.WhisperWeapons.go = "WhisperWeapons";
+				}
+				
+			}
 			if(npchar.id == "W_chinaman" && CheckAttribute(pchar, "Whisper.GiveChinaSword") && CheckCharacterItem(pchar, "blade_china"))
 			{
 				Link.wChinaSword = "Посмотри, что у меня для тебя есть. Было непросто, но все же я достала твой меч.";
@@ -340,6 +361,26 @@ void ProcessDialogEvent()
 			AddSPECIALValue(Npchar, SPECIAL_A, 1);
 			AddSPECIALValue(Npchar, SPECIAL_L, 1);
         break;
+
+		case "WhisperCabinHelp":
+			dialog.text = "Договорились.";
+            Link.l1 = "Вот и хорошо.";
+            Link.l1.go = "exit";
+			pchar.CabinHelp = !sti(pchar.CabinHelp);
+		break;
+		
+		case "WhisperWeapons":
+			dialog.text = "Можешь взять мой меч, если хочешь. Но дробовик я не доверю никому, уж слишком многое мне пришлось сделать, чтобы его вернуть, сам"+ GetSexPhrase("","а") +" ведь знаешь. Да и не думаю, что кто-то кроме меня разберётся, как им пользоваться.";
+            Link.l2 = "Понятно.";
+            Link.l2.go = "exit";
+			Link.l1 = "Я видел"+ GetSexPhrase("","а") +", ты используешь для него какие-то особые боеприпасы?";
+            Link.l1.go = "WhisperWeapons_1";
+		break;
+		case "WhisperWeapons_1":
+			dialog.text = "Да. Такие вряд ли можно купить где-либо на Карибах, так что я изготавливаю их сама. Получается немного, но, думаю, со временем я наловчусь и смогу делать больше.";
+            Link.l2 = "Ясно.";
+            Link.l2.go = "exit";
+		break;
 
 		case "w_give_china_sword":
 			dialog.text = "Я не верить своим глазам... Это и правда он, меч моей семьи. Мне нечего предложить вам взамен, кроме своей вечной преданности. Если доверите охранять вас, я буду защищать вашу жизнь прежде своей.";
@@ -504,7 +545,7 @@ void ProcessDialogEvent()
         case "Love_Sex":
             NextDiag.TempNode = "Hired";
 		    dialog.text = RandPhraseSimple("Что!!!?? Капитан, вы давно не сходили на берег и не были в борделе?", "Не понимаю, о чем это вы?");
-            link.l1 = RandPhraseSimple("Ну сам подумай.. ты такая красавичик, да еще и в моем подчинении", "Ну не идти же мне в бордель, когда под боком есть ты!");
+            link.l1 = RandPhraseSimple("Ну сам подумай.. ты такой красавичик, да еще и в моем подчинении", "Ну не идти же мне в бордель, когда под боком есть ты!");
 			link.l1.go = "Love_Sex_2";							
 			link.l2 = RandPhraseSimple("Извини меня, красавчик, очень трудно было удержаться, чтоб не предложить..", "Эх.. ладно, проехали...");
 			link.l2.go = "exit";	
@@ -679,7 +720,7 @@ void ProcessDialogEvent()
 
 		case "contract2": 
 			dialog.text = "Спасибо за добрые слова, капитан. А какие условия по контракту?"; 
-			Link.l1 = "Большая единоразовая оплата. Экипировка получше, "+ NPCharSexPhrase(NPChar,"сам","сама") +" понимаешь. Срок контракта 10 лет. Уволиться можешь по истечению срока, а если всё будет устраивать нас обоих, продливаем дальше."; 
+			Link.l1 = "Большая единоразовая оплата. Экипировка получше, "+ NPCharSexPhrase(NPChar,"сам","сама") +" понимаешь. Срок контракта 10 лет. Уволиться можешь по истечению срока, а если всё будет устраивать нас обоих, продлеваем дальше."; 
 			Link.l1.go = "contract3"; 
 		break; 
 

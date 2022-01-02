@@ -754,7 +754,8 @@ void SaveStartGameParam()
 	optref.StartGameParam.bPartitionSet          = bPartitionSet;
 	optref.StartGameParam.bSailorsWeight         = bSailorsWeight;
 	optref.StartGameParam.bNewSails         	 = bNewSails;
-	optref.StartGameParam.bNoPirateRestrictions  = bNoPirateRestrictions;
+	optref.StartGameParam.bHardAnimations  		 = bHardAnimations;
+	optref.StartGameParam.bHardBoss  		 	 = bHardBoss;
 	optref.StartGameParam.bHigherShipRate  		 = bHigherShipRate;
 	optref.StartGameParam.bHigherSelfRate  		 = bHigherSelfRate;
 	optref.StartGameParam.bHalfImmortalPGG  	 = bHalfImmortalPGG;
@@ -817,9 +818,13 @@ void LoadStartGameParam()
 	{
     	bNewSails = sti(optref.StartGameParam.bNewSails);
     }
-	if (CheckAttribute(optref, "StartGameParam.bNoPirateRestrictions"))
+	if (CheckAttribute(optref, "StartGameParam.bHardAnimations"))
 	{
-    	bNoPirateRestrictions = sti(optref.StartGameParam.bNoPirateRestrictions);
+    	bHardAnimations = sti(optref.StartGameParam.bHardAnimations);
+    }
+	if (CheckAttribute(optref, "StartGameParam.bHardBoss"))
+	{
+    	bHardBoss = sti(optref.StartGameParam.bHardBoss);
     }
 	if (CheckAttribute(optref, "StartGameParam.bHigherShipRate"))
 	{

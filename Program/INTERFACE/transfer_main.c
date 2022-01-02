@@ -10,6 +10,8 @@ int nCurScrollNum = -1;
 ref xi_refCharacter, refEnemyCharacter;
 ref refCharacter;
 
+string slastvideo1, slastvideo2;
+int iTest = 0;
 string CurTable, CurRow;
 int iSelected; // курсор в таблице
 
@@ -28,6 +30,8 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 {
     bQuestCheckProcessFreeze = true;
 
+	slastvideo1 = "";
+	slastvideo2 = "";
 	xi_refCharacter   = _chr;
 	refEnemyCharacter = _chr; // изначальный кэп
 	refCharacter = pchar;
@@ -178,7 +182,18 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 		ShowOkMessage();
 		if (CheckAttribute(pchar,"ShipsSurr"))
 		{
-			if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true) pchar.ShipsSurr = sti(pchar.ShipsSurr)+1;
+			if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true) 
+			{
+				pchar.ShipsSurr = sti(pchar.ShipsSurr)+1;
+				if (sti(pchar.ShipsSurr) < 5)
+				{
+					PlaySound("interface\AchievementComplite.wav");
+					string sTemp1 = XI_ConvertString(RealShips[sti(xi_refCharacter.Ship.Type)].BaseName) + " '" + xi_refCharacter.Ship.name + "'";
+					string sTemp2 = 5-sti(pchar.ShipsSurr);
+					if (sti(pchar.ShipsSurr) == 5) sTemp2 = " Пора сообщить ему о пяти сдавшихся посудинах."; else sTemp2 = " Нужно ещё " + GetStrSmallRegister(XI_ConvertString(sTemp2)) + ".";
+					Log_info("Победа! " + sTemp1 + " сдался без боя. Чёрная Борода будет доволен." + sTemp2);
+				}
+			}
 		}
 	}
 	bSwap = false;
@@ -270,6 +285,11 @@ void ProcessExitCancel()
 	if (sMessageMode == "CREW_WINDOW")
 	{
 		ExitCrewWindow();
+		return;
+	}
+	if (sMessageMode == "HIRE_CREW_WINDOW")
+	{
+		ExitHireCrewWindow();
 		return;
 	}
 	if (!isCompanion(xi_refCharacter))
@@ -775,6 +795,20 @@ void ShowShipInfo(ref chr, string sAdd)
 		ref refBaseShip = GetRealShip(iShip);
 		string sShip = refBaseShip.BaseName;
 		SetNewPicture("SHIP_BIG_PICTURE" + sAdd, "interfaces\ships\" + sShip + ".tga.tx");
+		if (!CheckAttribute(refBaseShip,"QuestShip")) SetNodeUsing("SHIP_BIG_PICTURE_VIDEO"+sAdd,false);
+		else
+		{
+			SetNewPicture("SHIP_BIG_PICTURE" + sAdd, "interfaces\ships\" + sShip + ".tga.tx");
+
+			string slastvideo;
+			if (sAdd == "") slastvideo = slastvideo1; else slastvideo = slastvideo2;
+			if ( ("SHIP_"+sShip) != slastvideo)
+			{
+				SetNodeUsing("SHIP_BIG_PICTURE_VIDEO"+sAdd,true);
+				SetNewVideoPicture("SHIP_BIG_PICTURE_VIDEO"+sAdd,"SHIP_"+sShip);
+				if (sAdd == "") slastvideo1 = "SHIP_"+sShip; else slastvideo2 = "SHIP_"+sShip;
+			}
+		}
 
 		SetFormatedText("SHIP_NAME" + sAdd, chr.ship.name);
 		SetFormatedText("SHIP_TYPE" + sAdd, XI_ConvertString(refBaseShip.BaseName));
@@ -1462,7 +1496,8 @@ void ExitShipChangeMenu()
     {
 		SetCurrentNode("CAPTAN_BUTTON");
 	}
-	sMessageMode = "";
+	if (sMessageMode != "HIRE_CREW_WINDOW")
+		sMessageMode = "";
 }
 
 void GoToShipChange() // нажатие ОК на табличке ок-отмена
@@ -2162,6 +2197,8 @@ void ShowCaptureWindow()
 
 void ExitCaptureCrewWindow()
 {
+	if (sMessageMode == "CAPTURE_CREW_WINDOW") { return; }
+
 	XI_WindowShow("CAPTURE_CREW_WINDOW", false);
 	XI_WindowDisable("CAPTURE_CREW_WINDOW", true);
     XI_WindowDisable("MAIN_WINDOW", false);
@@ -2175,7 +2212,7 @@ void ShowCaptureCrewWindow()
 	XI_WindowShow("CAPTURE_CREW_WINDOW", true);
 	XI_WindowDisable("CAPTURE_CREW_WINDOW", false);
 	XI_WindowDisable("MAIN_WINDOW", true);
-	sMessageMode = "";
+	sMessageMode = "CAPTURE_CREW_WINDOW";
 }
 
 void ShowHireCrewWindow()
@@ -2183,7 +2220,7 @@ void ShowHireCrewWindow()
 	XI_WindowShow("HIRE_CREW_WINDOW", true);
 	XI_WindowDisable("HIRE_CREW_WINDOW", false);
 	XI_WindowDisable("MAIN_WINDOW", true);
-	sMessageMode = "";
+	sMessageMode = "HIRE_CREW_WINDOW";
 }
 
 void ExitHireCrewWindow()
@@ -2261,8 +2298,9 @@ void ShowCrewCaptureAsk()
 
 void SetEnemyCrewToPrisoner()
 {
+	sMessageMode = "";
 	ExitCaptureCrewWindow();
-	ChangeCharacterReputation(pchar, -1); // плохое дело
+	ChangeCharacterReputation(pchar, -(sti(xi_refCharacter.Ship.Crew.Quantity) + 9) / 10); // плохое дело
 	OfficersReaction("bad");
 	SetCharacterGoods(pchar, GOOD_SLAVES, (GetCargoGoods(pchar, GOOD_SLAVES) + sti(xi_refCharacter.Ship.Crew.Quantity))); // в перегруз, потом сам выкинет
 	xi_refCharacter.Ship.Crew.Quantity = 0;
@@ -2271,8 +2309,9 @@ void SetEnemyCrewToPrisoner()
 
 void SetEnemyCrewToKilled()
 {
+	sMessageMode = "";
 	ExitCaptureCrewWindow();
-	ChangeCharacterReputation(pchar, -3); // плохое дело
+	ChangeCharacterReputation(pchar, -(sti(xi_refCharacter.Ship.Crew.Quantity) + 4) / 5); // плохое дело
 	OfficersReaction("bad");
 	xi_refCharacter.Ship.Crew.Quantity = 0;
 	OnShipScrollChange();
@@ -2280,10 +2319,11 @@ void SetEnemyCrewToKilled()
 
 void SetEnemyCrewToFree()
 {
+	sMessageMode = "";
 	ExitCaptureCrewWindow();
 	if(SetEnemyCrewGoods() == true)
 	{
-		ChangeCharacterReputation(pchar, 1); // хорошее дело
+		ChangeCharacterReputation(pchar, -(sti(xi_refCharacter.Ship.Crew.Quantity) + 49) / 50); // хорошее дело
 		OfficersReaction("good");
 	}
 	RemoveEnemyShipHPFree();	

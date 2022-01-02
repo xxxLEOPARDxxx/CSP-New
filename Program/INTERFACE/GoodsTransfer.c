@@ -9,6 +9,9 @@ int iCurFighter = 0;
 int iCurItemIndex;
 string sCurItemRow;
 
+int iITEMS_SET = 0;
+int iGOODS_SET = 0;
+
 bool isGoodTable;
 int curBuyGoodsWeight;
 float curBuyItemsWeight;
@@ -21,6 +24,7 @@ void InitInterface(string iniName)
 	FillItemsTable();
 	FillGoodsTable();
 	SetCheckButtonsStates();
+	//for (int i=1;i<7;i++)	{FillSetNameI(i);	FillSetNameG(i);} //переименование комплектов пока что не работает
 
 	SetEventHandler("exitCancel", "ProcessCancelExit", 0);
 	SetEventHandler("evntDoPostExit", "DoPostExit", 0);
@@ -32,11 +36,21 @@ void InitInterface(string iniName)
 	SetEventHandler("frame","ProcessFrame",1);
 	SetEventHandler("UnShowWindow", "UnShowWindow", 0);
 	SetEventHandler("ShowSAWindow", "ShowSAWindow", 0);
-	SetEventHandler("SaveGOODSet", "SaveGOODSet", 0);
-	SetEventHandler("LoadGOODSet", "LoadGOODSet", 0);
-	SetEventHandler("SaveITEMSet", "SaveITEMSet", 0);
-	SetEventHandler("LoadITEMSet", "LoadITEMSet", 0);
-//ShowInfoWindow - добавить обработчик правой кнопки для подсказок
+	SetEventHandler("SaveGoodsSet", "SaveGoodsSet", 0);
+	SetEventHandler("LoadGoodsSet", "LoadGoodsSet", 0);
+	SetEventHandler("SaveItemsSet", "SaveItemsSet", 0);
+	SetEventHandler("LoadItemsSet", "LoadItemsSet", 0);
+	SetEventHandler("SaveSETNameI", "SaveSETNameI", 0);
+	SetEventHandler("ShowEditBoxI", "ShowEditBoxI", 0);
+	SetEventHandler("HideEditBoxI", "HideEditBoxI", 0);
+	SetEventHandler("SaveSETNameG", "SaveSETNameG", 0);
+	SetEventHandler("ShowEditBoxG", "ShowEditBoxG", 0);
+	SetEventHandler("HideEditBoxG", "HideEditBoxG", 0);
+	SetEventHandler("SaveGoodsSet", "SaveGoodsSet", 0);
+	SetEventHandler("SaveItemsSet", "SaveItemsSet", 0);
+	SetEventHandler("LoadGoodsSet", "LoadGoodsSet", 0);
+	SetEventHandler("LoadItemsSet", "LoadItemsSet", 0);
+//TODO ShowInfoWindow - добавить обработчик правой кнопки для подсказок
 }
 
 void IDoExit(int exitCode)
@@ -51,10 +65,20 @@ void IDoExit(int exitCode)
 	DelEventHandler("UnShowWindow", "UnShowWindow");
 	DelEventHandler("frame","ProcessFrame");
 	DelEventHandler("ShowSAWindow", "ShowSAWindow");
-	DelEventHandler("SaveGOODSet", "SaveGOODSet");
-	DelEventHandler("LoadGOODSet", "LoadGOODSet");
-	DelEventHandler("SaveITEMSet", "SaveITEMSet");
-	DelEventHandler("LoadITEMSet", "LoadITEMSet");
+	DelEventHandler("SaveGoodsSet", "SaveGoodsSet");
+	DelEventHandler("LoadGoodsSet", "LoadGoodsSet");
+	DelEventHandler("SaveItemsSet", "SaveItemsSet");
+	DelEventHandler("LoadItemsSet", "LoadItemsSet");
+	DelEventHandler("SaveSETNameI", "SaveSETNameI");
+	DelEventHandler("ShowEditBoxI", "ShowEditBoxI");
+	DelEventHandler("HideEditBoxI", "HideEditBoxI");
+	DelEventHandler("SaveSETNameG", "SaveSETNameG");
+	DelEventHandler("ShowEditBoxG", "ShowEditBoxG");
+	DelEventHandler("HideEditBoxG", "HideEditBoxG");
+	DelEventHandler("SaveGoodsSet", "SaveGoodsSet");
+	DelEventHandler("SaveItemsSet", "SaveItemsSet");
+	DelEventHandler("LoadGoodsSet", "LoadGoodsSet");
+	DelEventHandler("LoadItemsSet", "LoadItemsSet");
 
 	interfaceResultCommand = exitCode;
 	EndCancelInterface(true);
@@ -223,6 +247,18 @@ void ProcCommand()
 
 	switch(nodName)
 	{
+		case "CLEAR_GOODS_SET":
+			DeleteAttribute(&Characters[iCurCompanion],"TransferGoods");
+			FillGoodsTable();
+			SetCheckButtonsStates();
+			break;
+
+		case "CLEAR_ITEMS_SET":
+			DeleteAttribute(&Characters[iCurFighter],"TransferItems");
+			FillItemsTable();
+			SetCheckButtonsStates();
+			break;
+
 		case "TG_ADD_ALL_BUTTON":
 			OnAddBtnClick(10*iMult);
 			break;
@@ -299,6 +335,9 @@ void ProcCommand()
 
 void ProcessFrame()
 {
+	if (GetCurrentNode() != "EDIT_BOX_GOODS") HideEditBoxG();
+	if (GetCurrentNode() != "EDIT_BOX_ITEMS") HideEditBoxI();
+
 	if (GetCurrentNode() == "SHIPS_SCROLL")
 	{
 		if (sti(GameInterface.SHIPS_SCROLL.current) != nCurScrollNumS)
@@ -326,7 +365,10 @@ void ProcessCheckBox()
 	string sControl = GetEventData();
 	int iSelectedCB = GetEventData();
 	int iNewState = GetEventData();
-	string companionId = Characters[iCurCompanion].Id;
+//========================================//
+	if (sControl == "CHECK_GOODS_SET")	{iGOODS_SET = iSelectedCB;	return;	}
+//========================================//
+	if (sControl == "CHECK_ITEMS_SET")	{iITEMS_SET = iSelectedCB;	return;	}
 //========================================//
 	if (sControl == "CHECK_BUYCONTRABAND")
 	{
@@ -574,7 +616,113 @@ void AutoCalcAmmo(ref xi_refCharacter)
 {
 }
 
-void SaveGOODSet(){return;}
-void LoadGOODSet(){return;}
-void SaveITEMSet(){return;}
-void LoadITEMSet(){return;}
+//товары
+void FillSetNameG(int iNum)
+{
+	string sSET = "GoodsSet" + iNum;
+	string sName;
+	if (!checkattribute(pchar, sSET))	sName = "Комплект " + iNum;	else sName = pchar.(sSET);
+	log_info(sName);
+	SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"CHECK_GOODS_SET", 1, iNum, sName);
+}
+void SaveSETNameG()
+{
+	if(GameInterface.EDIT_BOX_GOODS.lastkey == " ") return;
+	string sSET = "GoodsSet" + iGOODS_SET;
+	pchar.(sSET).nameset = GameInterface.EDIT_BOX_GOODS.str;
+	FillSetNameG(iGOODS_SET);
+	HideEditBoxG();
+}
+void ShowEditBoxG()
+{
+	string sSET = "GoodsSet" + iGOODS_SET;
+	if (!checkattribute(pchar, sSET))	GameInterface.EDIT_BOX_GOODS.str = "Комплект " + iGOODS_SET;	else GameInterface.EDIT_BOX_GOODS.str = pchar.(sSET).nameset;
+	SetNodeUsing("EDIT_BOX_GOODS" , true);
+	SetNodeUsing("EDIT_BOX_GOODS_FRAME" , true);
+	SetCurrentNode("EDIT_BOX_GOODS");
+}
+void HideEditBoxG()
+{
+	SetNodeUsing("EDIT_BOX_GOODS" , false);
+	SetNodeUsing("EDIT_BOX_GOODS_FRAME" , false);
+}
+void SaveGoodsSet()
+{
+	string sSET = "GoodsSet" + iGOODS_SET;//GoodsSet1
+	if (!checkattribute(pchar, sSET)) pchar.(sSET) = "Комплект " + iGOODS_SET;//в первый раз записываем "Комплект N"
+	aref arToChar;
+	aref arFromChar;
+	makearef(arToChar, pchar.(sSET) );
+	makearef(arFromChar, Characters[iCurCompanion].TransferGoods);
+    CopyAttributes(arToChar,arFromChar);
+
+	//ShowEditBoxG();//переименование шаблока пока не работает
+}
+void LoadGoodsSet()
+{
+	string sSET = "GoodsSet" + iGOODS_SET;//ItemsSet1
+	aref arToChar;
+	aref arFromChar;
+	makearef(arToChar, Characters[iCurCompanion].TransferGoods);
+	makearef(arFromChar, pchar.(sSET) );
+    CopyAttributes(arToChar,arFromChar);
+
+	FillGoodsTable();
+	SetCheckButtonsStates();
+}
+
+//предметы
+void FillSetNameI(int iNum)
+{
+	string sSET = "ItemsSet" + iNum;
+	string sName;
+	if (!checkattribute(pchar, sSET)) sName = "Комплект " + iNum; else sName = pchar.(sSET);
+	log_info("I - " + sName);
+	SendMessage(&GameInterface,"lslls",MSG_INTERFACE_MSG_TO_NODE,"CHECK_ITEMS_SET", 1, iNum, sName);
+}
+void SaveSETNameI()
+{
+	if(GameInterface.EDIT_BOX_ITEMS.lastkey == " ") return;
+	string sSET = "ItemsSet" + iITEMS_SET;
+	pchar.(sSET).nameset = GameInterface.EDIT_BOX_ITEMS.str;
+	FillSetNameI(iITEMS_SET);
+	HideEditBoxI();
+}
+void ShowEditBoxI()
+{
+	string sSET = "ItemsSet" + iITEMS_SET;
+	if (!checkattribute(pchar, sSET))	GameInterface.EDIT_BOX_ITEMS.str = "Комплект " + iITEMS_SET;	else GameInterface.EDIT_BOX_ITEMS.str = pchar.(sSET).nameset;
+	SetNodeUsing("EDIT_BOX_ITEMS" , true);
+	SetNodeUsing("EDIT_BOX_ITEMS_FRAME" , true);
+	SetCurrentNode("EDIT_BOX_ITEMS");
+}
+void HideEditBoxI()
+{
+	SetNodeUsing("EDIT_BOX_ITEMS" , false);
+	SetNodeUsing("EDIT_BOX_ITEMS_FRAME" , false);
+}
+void SaveItemsSet()
+{
+	string sSET = "ItemsSet" + iITEMS_SET;//ItemsSet1
+	if (!checkattribute(pchar, sSET)) pchar.(sSET) = "Комплект " + iITEMS_SET;//в первый раз записываем "Комплект N"
+
+	aref arToChar;
+	aref arFromChar;
+	makearef(arToChar, pchar.(sSET) );
+	makearef(arFromChar, Characters[iCurFighter].TransferItems);
+    CopyAttributes(arToChar,arFromChar);
+
+	//ShowEditBoxI();//переименование шаблона пока не работает
+}
+void LoadItemsSet()
+{
+	string sSET = "ItemsSet" + iITEMS_SET;//ItemsSet1
+	aref arToChar;
+	aref arFromChar;
+	makearef(arToChar, Characters[iCurFighter].TransferItems);
+	makearef(arFromChar, pchar.(sSET) );
+    CopyAttributes(arToChar,arFromChar);
+
+	FillItemsTable();
+	SetCheckButtonsStates();
+}

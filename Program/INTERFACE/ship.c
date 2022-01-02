@@ -519,6 +519,8 @@ void OnShipScrollChange()
 		ref refShip = GetRealShip(iShip);
 		string sShip = refShip.BaseName; 
 		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + sShip + ".tga.tx");
+		if (!CheckAttribute(refShip,"QuestShip")) SetNodeUsing("SHIP_BIG_PICTURE_VIDEO",false);
+		else {SetNodeUsing("SHIP_BIG_PICTURE_VIDEO",true); SetNewVideoPicture("SHIP_BIG_PICTURE_VIDEO","SHIP_"+sShip);}
 
 		GameInterface.edit_box.str = xi_refCharacter.ship.name;
 		SetFormatedText("SHIP_RANK", refShip.Class);

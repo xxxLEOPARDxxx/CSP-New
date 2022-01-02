@@ -336,38 +336,23 @@ string RecalculateMushketHitsType(aref attack)
 float LAi_CalcExperienceForBlade(aref attack, aref enemy, string attackType, bool isBlocked,float dmg, bool blockSave)
 {
 	if (stf(enemy.chr_ai.hp) < dmg)
-	{
        dmg = stf(enemy.chr_ai.hp);
-	}
 	//Вычисляем полученый опыт
 	float ra = 1.0;
 	float re = 1.0;
-	if (CheckAttribute(attack, "rank")) ra = stf(attack.rank);
-	if (CheckAttribute(enemy, "rank")) re = stf(enemy.rank);
-	
-	if (ra < 1.0) ra = 1.0;
-	if (re < 1.0) re = 1.0;
-	float exp = dmg * ((1.0 + re*0.5)/(1.0 + ra*0.5));//Lipsar передeлка опыта
+	if (CheckAttribute(attack, "rank"))
+		ra = 1.0 + 0.5*stf(attack.rank);
+	if (CheckAttribute(enemy, "rank")) 
+		re = 1.0 + 0.5*stf(enemy.rank);
+	ra = re/ra;
+	if (ra > 3.0) 
+		ra = 3.0;//обрезание слишком большого множителя. кривые множители тоже решает
+	float exp = frandSmall(dmg * ra);//Lipsar передeлка опыта
+	// frandSmall на замену эффекта Lipsar-а
 
-	switch (attackType)
-	{
-	case "break":
-		if (isBlocked)
-		{
-			exp = exp * 1.1;
-		}
-		else
-		{
-			exp = exp * 1.2;
-		}
-		break;
-	case "feint":
+	if(attackType == "feintc")
 		exp = exp * 1.5;
-		break;
-	case "feintc":
-		exp = exp * 1.5;
-		break;
-	}
+	
 	return exp;
 }
 
@@ -568,25 +553,25 @@ float LAi_GunCalcDamage(aref attack, aref enemy)
 //Расчитать полученный опыт при попадании из пистолета
 float LAi_GunCalcExperience(aref attack, aref enemy, float dmg)
 {
+	if (stf(enemy.chr_ai.hp) < dmg)
+       dmg = stf(enemy.chr_ai.hp);
+	//Вычисляем полученый опыт
 	float ra = 1.0;
 	float re = 1.0;
-	if (stf(enemy.chr_ai.hp) < dmg)
-	{
-       dmg = stf(enemy.chr_ai.hp);
-	}
-	if(CheckAttribute(attack, "rank"))
-	{
-		ra = stf(attack.rank);
-	}
-	if(CheckAttribute(enemy, "rank"))
-	{
-		re = stf(enemy.rank);
-	}
-	if(ra < 1.0) ra = 1.0;
-	if(re < 1.0) re = 1.0;
-	dmg = dmg*((1.0 + re*0.5)/(1.0 + ra*0.5));
-
-    return dmg;
+	if (CheckAttribute(attack, "rank"))
+		ra = 1.0 + 0.5*stf(attack.rank);
+	if (CheckAttribute(enemy, "rank")) 
+		re = 1.0 + 0.5*stf(enemy.rank);
+	ra = re/ra;
+	if (ra > 3.0) 
+		ra = 3.0;//обрезание слишком большого множителя. кривые множители тоже решает
+	dmg = frandSmall(dmg * ra);//Lipsar передeлка опыта
+	// frandSmall на замену эффекта Lipsar-а	
+	if(bRechargePistolOnLine || findsubstr(attack.model.animation, "mushketer" , 0) != -1)
+		{}
+	else
+		dmg *= 2;
+	return dmg;
 }
 
 //Расчитаем текущую скорость перезарядки пистолета
@@ -901,6 +886,8 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	if(IsCharacterPerkOn(attack, "Grunt")) dmg *= 1.15; //Рубака
 	if(CheckAttribute(attack, "StrangeElixir")) dmg *= 1.1; //Убойная смесь
 	if(IsEquipCharacterByArtefact(attack, "talisman9") && CheckAttribute(enemy,"sex") && enemy.sex == "skeleton") dmg *= 1.33;
+	//Начисляем опыт - ДО нанесения урона
+	float exp = LAi_CalcExperienceForBlade(attack, enemy, attackType, isBlocked, dmg, blockSave);
 	LAi_ApplyCharacterDamage(enemy, MakeInt(dmg + 0.5));
 	/*if(!IsCharacterPerkOn(attack, "Grunt"))
 	{
@@ -918,8 +905,6 @@ void LAi_ApplyCharacterAttackDamage(aref attack, aref enemy, string attackType, 
 	MakePoisonAttackCheckSex(enemy, attack);
 	//Есть ли оружие у цели
 	bool isSetBalde = (CheckAttribute(enemy, "equip.blade"));//(SendMessage(enemy, "ls", MSG_CHARACTER_EX_MSG, "IsSetBalde") != 0);
-	//Начисляем опыта
-	float exp = LAi_CalcExperienceForBlade(attack, enemy, attackType, isBlocked, dmg, blockSave);
 	if (CheckAttribute(attack,"vampire"))
 	{
 		float hp = attack.chr_ai.hp;
@@ -1512,6 +1497,8 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	}
 	if(damage > 0.0)
 	{
+		//Начисляем опыт
+		float exp = LAi_GunCalcExperience(attack, enemy, damage);
 		if(IsEquipCharacterByArtefact(attack, "talisman1"))
 		{
 			if (rand(4)==0)	{LAi_ApplyCharacterDamage(enemy, MakeInt(damage + 0.5)*2); Log_Info("Критический выстрел");}
@@ -1524,8 +1511,6 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
 	}
 	//Есть ли оружие у цели
 	bool isSetBalde = (CheckAttribute(enemy, "equip.blade"));//(SendMessage(enemy, "ls", MSG_CHARACTER_EX_MSG, "IsSetBalde") != 0);
-	//Начисляем опыт
-	float exp = LAi_GunCalcExperience(attack, enemy, damage);
 	/*if(LAi_grp_alarmactive == false)
 	{
 		if(CheckAttribute(pchar, "sneak.success"))
@@ -1575,14 +1560,17 @@ void LAi_ApplyCharacterFireDamage(aref attack, aref enemy, float kDist)
         //LAi_CalcDeadExp(attack, enemy); // начисляем только за удар и смерть
   		LAi_SetResultOfDeath(attack, enemy, isSetBalde);
 	}
+	if(sBullet == "grapeshot")
+		exp *= 2;
 	if(!isSetBalde)
 	{
 		//LAi_ChangeReputation(attack, -1);
 		exp = 0.0;
 	}
+
 	if(!noExp)
     {
-        AddCharacterExpToSkill(attack, SKILL_PISTOL, MakeFloat(exp*0.2));
+        AddCharacterExpToSkill(attack, SKILL_PISTOL, MakeFloat(exp*0.25));
     }
 }
 

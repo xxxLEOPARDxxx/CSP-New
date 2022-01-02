@@ -74,6 +74,7 @@ void ProcessDialogEvent()
 			sld = CharacterFromID("PDM_Markus")
 			sld.dialog.filename   = "Quest/PDM/Aptekar.c";
 			sld.dialog.currentnode   = "Markus_Dat_Lekarstvo";
+			pchar.questTemp.PDM_Apt_Markus_lekarstvo = "PDM_Apt_Markus_lekarstvo";
 			
 			GiveItem2Character(PChar, "PDM_Heal_Poroshok");
 			AddQuestRecord("PDM_Aptekar", "3");
@@ -94,8 +95,9 @@ void ProcessDialogEvent()
 		
 		case "Markus_Dat_Lekarstvo_2":
 			dialog.text = "(осушив содержимое, Маркус на несколько секунд сделался бодрее... а затем улёгся на кровать и заснул)";
-			link.l1 = "(следует рассказать тавернщику о лекарстве)";
+			link.l1 = "(следует рассказать тавернщику о том, что вы только что увидели)";
 			link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_Apt_Markus_lekarstvo");
 			pchar.questTemp.PDM_Apt_Rasskazat_Tavern = "PDM_Apt_Rasskazat_Tavern";
 			NextDiag.TempNode = "Markus_Dat_Lekarstvo_3";
 		break;
@@ -112,10 +114,11 @@ void ProcessDialogEvent()
 			dialog.text = "Ах, вы должно быть, капитан "+pchar.name+"! Я должен поблагодарить вас за моё исцеление. "+sld.name+" рассказал мне обо всём, что вы для меня сделали.";
 			link.l1 = "Я рад"+ GetSexPhrase("","а") +", что ты поправился, и теперь ты расскажешь, что же с тобой случилось. "+sld.name+" сказал, что Ропфлейк захватил твой корабль.";
 			link.l1.go = "Markus_Vizdorovel_2";
-			AddCharacterSkill(pchar, "Leadership", 1);
-			AddCharacterSkill(pchar, "Defence", 1);
+			AddCharacterSkillDontClearExp(pchar, "Leadership", 1);
+			AddCharacterSkillDontClearExp(pchar, "Defence", 1);
 			Log_SetStringToLog("Авторитет + 1");
 			Log_SetStringToLog("Защита + 1");
+			DeleteAttribute(pchar, "questTemp.PDM_Apt_Vizdorovel");
 		break;
 		
 		case "Markus_Vizdorovel_2":
@@ -419,13 +422,18 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Alumnus_Lechenie_s_voprosom":	//Для Грегга
-			dialog.text = "...но здесь элемент огня представлен ароматом корицы, чье доминирование уравновешивается запахом... Капитан, это снова вы, чем я могу быть вам полезен?";
+			dialog.text = "...но здесь элемент огня представлен ароматом корицы, чьё доминирование уравновешивается запахом... Капитан, это снова вы, чем я могу быть вам полезен?";
 			link.l1 = "Здравствуйте, доктор Алюмнус, я бы хотел"+ GetSexPhrase("","а") +", чтобы вы осмотрели моих раненных офицеров.";
 			link.l1.go = "CheckForConfuse";
 			link.l2 = "Чего это у вас закрыта дверь с улицы? Клиентов упускаете.";
 			link.l2.go = "Alumnus_Lechenie_s_voprosom_2";
 			link.l3 = "Решил"+ GetSexPhrase("","а") +" проведать вас. До свидания.";
 			link.l3.go = "exit";	//Для выхода
+			if(CheckAttribute(PChar,"Luke.BadPoison"))	
+			{
+				link.l4 = "Доктор, мне очень нужна ваша помощь, меня отравили очень сильным ядом!";
+				link.l4.go = "LukePoison";
+			}
 		break;
 		
 		case "Alumnus_Lechenie_s_voprosom_2":
@@ -439,11 +447,16 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Alumnus_Lechenie":
-			dialog.text = "...но здесь элемент огня представлен ароматом корицы, чье доминирование уравновешивается запахом... Капитан, это снова вы, чем я могу быть вам полезен?";
+			dialog.text = "...но здесь элемент огня представлен ароматом корицы, чьё доминирование уравновешивается запахом... Капитан, это снова вы, чем я могу быть вам полезен?";
 			link.l1 = "Здравствуйте, доктор Алюмнус, я бы хотел"+ GetSexPhrase("","а") +", чтобы вы осмотрели моих раненных офицеров.";
 			link.l1.go = "CheckForConfuse";
 			link.l2 = "Решил"+ GetSexPhrase("","а") +" проведать вас. До свидания.";
 			link.l2.go = "exit";
+			if(CheckAttribute(PChar,"Luke.BadPoison"))	
+			{
+				link.l3 = "Доктор, мне очень нужна ваша помощь, меня отравили очень сильным ядом!";
+				link.l3.go = "LukePoison";
+			}
 		break;
 		
 		case "CheckForConfuse":
@@ -512,6 +525,13 @@ void ProcessDialogEvent()
 			Link.l1.go = "CheckForConfuse";
 			Link.l99 = "Пока всё. Благодарю вас за помощь.";
 			Link.l99.go = "exit";
+		break;
+		
+		case "LukePoison":
+			dialog.text = "Капитан, дайте мне вас осмотреть... Да, этот яд был приготовлен из очень редких и вредоносных трав! Но не волнуйтесь, я знаю, как это лечить. А сейчас, "+pchar.name+", ложитесь в кровать, я скоро вами займусь.";
+			link.l1 = "";
+			link.l1.go = "exit";
+			AddDialogExitQuest("HealingPoison");
 		break;
 	}
 }

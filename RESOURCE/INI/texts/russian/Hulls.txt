@@ -7,7 +7,7 @@ BattleCorvette1 {bortoutcorvette5.tga}
 Battlefrigate1 {bortoutfrigate3.tga}
 BattleManowar1 {bortoutmanowar_gu1.tga}
 Battleship1 {bortoutbatlleship1.tga}
-BattleXebec1 {bortoutxebec1.tga}
+BattleXebec1 {woodplanksShip_01.tga}
 Bellona1 {bellona2.tga}
 Bermsloop1 {bermsloop163t.tga}
 BlackAngel1 {bortoutcorvette6.tga}
@@ -25,6 +25,7 @@ CoastalFrigate1 {Surprisa112.tga}
 ColonialSchooner1 {bortoutshooner1.tga}
 Constitution1 {CONSTITUTION.tga}
 Corvette1 {bortoutcorvette1.tga}
+Clipper1 {Clipper_diff.tga}
 Corvette_quest1 {theBlackPearl1.tga}
 CorvetteLight1 {bortoutcorvette_pir.tga}
 Couronne1 {couronne.tga}
@@ -32,6 +33,7 @@ CrimsonBlood1 {13CrimsonBlood50.tga}
 Derfflinger1 {derfflinger.tga}
 Dutchlineship1 {dutchlineship1.tga}
 DutchPinnace1 {dutch.tga}
+Catherine1 {wood_BaseColor.tga}
 Dutchship1 {flyingdutchman1.tga}
 Empress1 {EmpressHull.tga}
 Enslaver1 {bortoutbrignew1.tga}
@@ -56,7 +58,7 @@ Frigate_sat1 {bortoutcorvette1.tga}
 FrigateMedium1 {HMS_Surprise1.tga}
 FrigateQueen1 {theQueenAnnesRevenge.tga}
 Galeon11 {bortoutgaleon1.tga}
-Galeon501 {galeonskin4_50.tga}
+Galeon501 {4deck_hullstrip_diffuse.tga}
 Galeon_h1 {bortoutGaleon_h1.tga}
 Galeon_l1 {bortoutgaleon_l1.tga}
 GaleonTrader1 {bortoutgaleon1.tga}
@@ -131,7 +133,7 @@ WarShip1 {bortoutWarship1.tga}
 WarTartane1 {bortouttartane1.tga}
 Wh_corvette_quest1 {corvettequest1.tga}
 Xebec1 {bortoutxebec1.tga}
-XebecLight1 {bortoutxebecnew2.tga}
+XebecLight1 {damage_panel_3_diffuse.tga}
 XebekVML1 {xebecVML.tga}
 XebekVT1 {plank_blue.tga}
 ZevenProvincien1 {couronne.tga}

@@ -509,7 +509,14 @@ float Ship_MastDamage()
 			}
 			else 
 			{
-				iResist = 1 + 1.0/(iClass-iXmark);
+				if(iXmark == iClass)
+				{
+					iResist = 1;
+				}
+				else
+				{
+					iResist = 1 + 1.0/(iClass-iXmark);
+				}
 			}
 		//<---- Lipsar резист урона мачтам от калибра и класса
             float nDirect = 0.35; //Glancing
@@ -2137,29 +2144,27 @@ void Ship_ApplyCrewHitpointsWithCannon(ref rOurCharacter, float fCrewHP, float f
 		fCrewHP = fCrewHP / MOD_Complexity_1_DMG;
 	}
 	ref rBaseShip = GetRealShip(GetCharacterShipType(rOurCharacter));
-	float fMultiply = 1.0 - (0.75 * stf(rOurCharacter.TmpSkill.Defence)); // было 0.05 - что полна€ хрень, тк скил 0..1
+	float fMinusC = sti(RealShips[sti(rOurCharacter.Ship.Type)].HullArmor)*0.04; //защищает так же как и брон€ корпуса, как бомбы - на 30%
+	//множитель картечи - 0,2*1,15
+	//log_info(FloatToString(fMinusC,2));
+	//Log_Info("fMinusC "+fMinusC);
+	if (fMinusC < 0.0) fMinusC = 0.0;
+	float fDamage = fCrewHP - fMinusC;
+	//Log_Info("fDamage "+fDamage);
+	if(fDamage < 1) fDamage = 1;//имитаци€ огн€ по палубе/в пушки - а то совсем жирно будет
+	float fMultiply = 1.0 - (0.5 * stf(rOurCharacter.TmpSkill.Defence)); // было 0.05 - что полна€ хрень, тк скил 0..1
 
 	if(CheckOfficersPerk(rOurCharacter, "Doctor2"))
-	{
 		fMultiply = fMultiply * 0.8;
-	}
 	else
 	{
 		if(CheckOfficersPerk(rOurCharacter, "Doctor1"))
-		{
 			fMultiply = fMultiply * 0.9;
-		}
 	}
 	if (GetCharacterItem(rOurCharacter, "SkullAztec"))
-	{
 		fMultiply = fMultiply * 0.8;
-	}
-	float fDamage = fCrewHP * fMultiply;
-	float fMinusC = (sti(RealShips[sti(rOurCharacter.Ship.Type)].HullArmor)-fCannonDamageMultiply)/100.0; //процентное снижение урона команде по разнице брони и мультипликатора урона пушек
-	//log_info(FloatToString(fMinusC,2));
-	if (fMinusC < 0.0) fMinusC = 0.0;
-	fDamage *= (1.0-fMinusC);//снижает урон в самом конце расчЄтов
-
+	fDamage *= fMultiply;
+	//Log_Info("fDamage+skill "+fDamage);
 	float fNewCrewQuantity = stf(rOurCharacter.Ship.Crew.Quantity) - fDamage;
 	float f5Percent = stf(rBaseShip.MinCrew) * 1.0; //WW boal fix неубиваемые 25 процентов команды- было 0.05;
 	// boal  check skill -->
@@ -2557,7 +2562,7 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 	{
 		if (bHalfImmortalPGG && CheckAttribute(rDead, "ImmortalOfficer"))
 		{
-			Log_Info(GetFullName(rDead) + " спасс€ на шлюпке.");
+			Log_Info(GetFullName(rDead) + " спас"+NPCharSexPhrase(rDead,"с€","лась")+" на шлюпке.");
 			AISeaGoods_AddGood(rDead, "boat", "lo_boat", 1000.0, 1);
 			PlaySound("interface\_EvShip1.wav");
 		}
@@ -2568,14 +2573,14 @@ void ShipDead(int iDeadCharacterIndex, int iKillStatus, int iKillerCharacterInde
 				//homo 22/06/07
 				AISeaGoods_AddGood(rDead, "boat", "lo_boat", 1000.0, 1);
 				RemoveCharacterCompanion(pchar, rDead);
-				Log_Info(GetFullName(rDead) + " спасс€ на шлюпке.");
+				Log_Info(GetFullName(rDead) + " спас"+NPCharSexPhrase(rDead,"с€","лась")+" на шлюпке.");
 				PlaySound("interface\_EvShip1.wav");
 			}
 		}
 	}
 	if (bDeadCompanion && bHalfImmortalPGG && CheckAttribute(rDead, "ImmortalOfficer"))
 	{
-		LAi_CheckKillCharacter(rDead);
+		LAi_CheckHalfImmortal(rDead);
 	}
 	// спасем офицеров boal 07/02/05
 	Play3DSound("ship_sink", fX, fY, fZ);
@@ -2805,8 +2810,9 @@ void Ship_HullHitEvent()
     if (sti(rOurCharacter.TmpPerks.ShipDefenseProfessional) && rand(1000) < 700) { bSeriousBoom = false; }				// no seriouse boom
 
     float fCrewDamage;
-	if (CheckAttribute(RealShips[sti(rOurCharacter.Ship.Type)],"Tuning.HighBort") && iBallType == GOOD_GRAPES) fCrewDamage = (stf(rBall.DamageCrew)/4) * fCannonDamageMultiply * AIShip_isPerksUse(rBallCharacter.TmpPerks.CrewDamageUp, 1.0, 1.15);
+	if (CheckAttribute(RealShips[sti(rOurCharacter.Ship.Type)],"Tuning.HighBort") && iBallType == GOOD_GRAPES) fCrewDamage = (stf(rBall.DamageCrew)*0.75) * fCannonDamageMultiply * AIShip_isPerksUse(rBallCharacter.TmpPerks.CrewDamageUp, 1.0, 1.15);
 	else fCrewDamage = stf(rBall.DamageCrew) * fCannonDamageMultiply * AIShip_isPerksUse(rBallCharacter.TmpPerks.CrewDamageUp, 1.0, 1.15);
+	//Log_Info("fCrewDamage "+fCrewDamage);
 
 	if (bSeriousBoom)
 	{
@@ -2849,6 +2855,9 @@ void Ship_HullHitEvent()
         }
         // boal <--
 	}
+	fDistanceDamageMultiply = Bring2Range(1.0, 0.66, 0.0, stf(AIBalls.CurrentMaxBallDistance), stf(AIBalls.CurrentBallDistance));
+	fCrewDamage *= fDistanceDamageMultiply;//добавлено Ќ≈ЅќЋ№Ўќ≈ вли€ние дистанции дл€ нормального урона
+	//Log_Info("fDistanceDamageMultiply "+fDistanceDamageMultiply);
 	Ship_ApplyCrewHitpointsWithCannon(rOurCharacter, fCrewDamage, fCannonDamageMultiply);
 
 	if (bInflame == true && fFirePlaceDistance < 4.0 && iFirePlaceIndex >= 0)
@@ -4757,10 +4766,11 @@ bool CheckCanSurrender(ref chr)
 	{
 		return false;
 	}
+	/*25.12.2021 bestreducer - на вс€кий закомментил дублирование проверки 
 	if (sti(pchar.rank) < (sti(chr.rank) - MOD_SKILL_ENEMY_RATE / 2))
 	{
 		return false;
-	}
+	}*/
 	if (GetCharacterShipClass(chr) == 1)
 	{
 		return false;

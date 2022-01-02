@@ -14,10 +14,20 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     			link.l1 = "Расскажи мне о человеке, который лежит на полу у тебя в таверне. На нём живого места на теле не осталось.";
 				link.l1.go = "PDM_Apt_Markus_v_krovi_1";
 			}
+			if (CheckAttribute(pchar, "questTemp.PDM_Apt_Markus_lekarstvo"))	//Квест "Аптекарь"
+			{
+    			link.l1 = "Ну как он? Живой? Я лекарство нашёл, щас пойду давать нашему больному.";
+				link.l1.go = "PDM_Apt_Markus_lekarstvo_1";
+			}
 			if (CheckAttribute(pchar, "questTemp.PDM_Apt_Rasskazat_Tavern"))	//Квест "Аптекарь"
 			{
     			link.l1 = "Возьмите этот мешок, мистер "+npchar.name+". В нём вы найдете кое-что, что пригодится Маркусу для того, чтобы поправиться. Насыпьте в воду и давайте ему пить это три раза в день. Он поправится, так сказал доктор.";
 				link.l1.go = "PDM_Apt_Rasskazat_Tavern_1";
+			}
+			if (CheckAttribute(pchar, "questTemp.PDM_Apt_Vizdorovel"))	//Квест "Аптекарь"
+			{
+    			link.l1 = "Я по поводу Маркуса. Как его самочувствие?";
+				link.l1.go = "PDM_Apt_Vizdorovel_1";
 			}
 		break;
 		//Квест "Аптекарь"
@@ -61,6 +71,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			AddQuestUserData("PDM_Aptekar", "sSex", GetSexPhrase("","а"));
 		break;
 		
+		case "PDM_Apt_Markus_lekarstvo_1":
+			dialog.text = "Он еле-еле дышит. Поспешите, он сейчас в комнате, которая на первом этаже.";
+			link.l1 = "Точно, я прямо сейчас направляюсь туда.";
+			link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_Apt_Markus_lekarstvo");
+		break;
+		
 		case "PDM_Apt_Rasskazat_Tavern_1":
 			dialog.text = "Как мило с вашей стороны, "+pchar.name+". Надеюсь, вы правы, "+ GetSexPhrase("сэр","мисс") +". Я позабочусь о нём, буду давать ваше лекарство, и надеюсь, с божьей помощью, он пойдёт на поправку. Возвращайтесь через неделю, "+pchar.name+", я думаю, он будет в состоянии что-то говорить.";
 			link.l1 = "Обязательно проведаю, "+npchar.name+". До свидания.";
@@ -73,6 +90,13 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			
 			AddQuestRecord("PDM_Aptekar", "4");
 			AddQuestUserData("PDM_Aptekar", "sSex", GetSexPhrase("","а"));
+		break;
+		
+		case "PDM_Apt_Vizdorovel_1":
+			dialog.text = "О чудо! Капитан, свершилось чудо, он выздоровел! Честно сказать, я не верил в это лекарство, но оно сработало! Не без Божьей помощи конечно, мы все молились за него. И Бог дал ему второй шанс.";
+			link.l1 = "Это прекрасная новость, "+npchar.name+"! Пойду, посмотрю на него.";
+			link.l1.go = "exit";
+			DeleteAttribute(pchar, "questTemp.PDM_Apt_Vizdorovel");
 		break;
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод

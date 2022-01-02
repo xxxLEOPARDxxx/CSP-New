@@ -808,6 +808,12 @@ void TWN_FightInTown_OpenNext()
     chrDisableReloadToLocation = false;
     LAi_SetFightMode(Pchar, false);
     Log_Info("Силы противника подавлены! Путь свободен.");
+	
+	if (pchar.location == "Santiago_town" && CheckAttribute(pchar, "PGGWhisperLetterSent"))
+	{
+		QuestWhisper_Siege_1();
+	}
+	
     PlaySound("interface\door_locked.wav");
     // подсчет живых матросов
     Log_TestInfo("Old boarding_player_crew: " + Pchar.GenQuestFort.PlayerCrew);
@@ -839,8 +845,31 @@ void TWN_FightInTown_OpenNext()
 	fTemp = stf(Pchar.GenQuestFort.PlayerCrew) * stf(Pchar.GenQuestFort.PlayerCrew_per_char); // живые
 	i     = makeint((stf(Pchar.GenQuestFort.PlayerCrew_Start) - fTemp) /1.5 + 0.5); // трупы
 	// это после резиденции RemoveCharacterGoodsSelf(Pchar, GOOD_WEAPON, i);
-	i = sti(Pchar.GenQuestFort.PlayerCrew_Start) - i; // выжившие с бонусом
-	SetCrewQuantityOverMax(Pchar, i);
+	i = sti(Pchar.GenQuestFort.PlayerCrew_Start) - i - GetCrewQuantity(pchar); // выжившие с бонусом
+	
+	int cn;
+	ref officer;
+	    for (j=1; j<COMPANION_MAX; j++) 
+	    {
+	        cn = GetCompanionIndex(pchar, j);
+	        if (cn>0)
+	        {
+		        officer = GetCharacter(cn);
+		        if (!GetRemovable(officer)) continue;
+
+                if (GetMaxCrewQuantity(officer) <= i)
+                {
+                    SetCrewQuantity(officer, GetMaxCrewQuantity(officer));
+					i -= GetMaxCrewQuantity(officer) + GetMinCrewQuantity(officer);
+                }
+                else
+                {
+                    AddCharacterCrew(officer,i);
+					i = 0;
+                }
+		    }
+			if (i == 0) break;
+		}
 	// вернем живых на корабль <--
 	if (csmCA(pchar, "CSM.LootCollector.Enable") && loadedLocation.type != "residence")
 	{

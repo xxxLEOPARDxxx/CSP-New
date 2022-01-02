@@ -230,6 +230,7 @@ int GetCharacterItemWithCabin(ref _refCharacter,string itemName)
 	}
 		
 	aref chests;
+	if (!CheckAttribute(locations[FindLocation(Get_My_Cabin())],"locators.box")) return qty;
 	makearef(chests,locations[FindLocation(Get_My_Cabin())].locators.box);
 	int chestsnum = GetAttributesNum(chests);
 	for(int i = 1; i <= chestsnum; i++)

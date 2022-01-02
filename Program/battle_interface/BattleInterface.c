@@ -1599,13 +1599,15 @@ void SetShipPictureDataByShipTypeName(string sType)
 	case "xebekvml":			BI_intNRetValue[0] = 28+7*32;	BI_intNRetValue[1] = 28+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Щебека
 	case "brigqeen":			BI_intNRetValue[0] = 30+7*32;	BI_intNRetValue[1] = 30+7*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Бриг
 	case "brigsw":				BI_intNRetValue[0] = 0+8*32;	BI_intNRetValue[1] = 0+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Бриг
-	case "corvette_quest":		BI_intNRetValue[0] = 2+8*32;	BI_intNRetValue[1] = 2+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Фрегат
-	case "ArabellaShip":		BI_intNRetValue[0] = 4+8*32;	BI_intNRetValue[1] = 4+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Фрегат
-	case "frigatequeen":		BI_intNRetValue[0] = 6+8*32;	BI_intNRetValue[1] = 6+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Фрегат
-	case "flyingdutchman":		BI_intNRetValue[0] = 8+8*32;	BI_intNRetValue[1] = 8+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Варшип
-	case "santisima":			BI_intNRetValue[0] = 10+8*32;	BI_intNRetValue[1] = 10+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Быстрый мановар
-	case "soleyru":				BI_intNRetValue[0] = 12+8*32;	BI_intNRetValue[1] = 12+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Сулей Руаяль
-	case "Wh_corvette_quest":	BI_intNRetValue[0] = 14+8*32;	BI_intNRetValue[1] = 14+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Корвет
+	case "Clipper":				BI_intNRetValue[0] = 2+8*32;	BI_intNRetValue[1] = 2+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Корвет
+	case "corvette_quest":		BI_intNRetValue[0] = 4+8*32;	BI_intNRetValue[1] = 4+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Фрегат
+	case "Wh_corvette_quest":	BI_intNRetValue[0] = 6+8*32;	BI_intNRetValue[1] = 6+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Корвет
+	case "ArabellaShip":		BI_intNRetValue[0] = 8+8*32;	BI_intNRetValue[1] = 8+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Фрегат
+	case "frigatequeen":		BI_intNRetValue[0] = 10+8*32;	BI_intNRetValue[1] = 10+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Фрегат
+	case "Catherine":			BI_intNRetValue[0] = 12+8*32;	BI_intNRetValue[1] = 12+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Королева-Катрин
+	case "flyingdutchman":		BI_intNRetValue[0] = 14+8*32;	BI_intNRetValue[1] = 14+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Варшип
+	case "santisima":			BI_intNRetValue[0] = 16+8*32;	BI_intNRetValue[1] = 16+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Быстрый мановар
+	case "soleyru":				BI_intNRetValue[0] = 18+8*32;	BI_intNRetValue[1] = 18+8*32 + 1;	BI_intNRetValue[2] = BI_ICONS_TEXTURE_SHIP1;	break;	// Сулей Руаяль
 	}
 	BI_intNRetValue[3] = false;
 }
@@ -2212,8 +2214,8 @@ void SetParameterData()
 
 		BattleInterface.ShipIcon.shiptexturename		= "battle_interface\ship_icons2_johnny88hud.tga"; // Иконка корабля
 		BattleInterface.ShipIcon.shipcolor				= argb(255,128,128,128);
-		BattleInterface.ShipIcon.shipoffset				= RecalculateHIcon(makeint(0* fHtRatio))+","+RecalculateVIcon(makeint(-4* fHtRatio));	
-		BattleInterface.ShipIcon.shipiconsize			= RecalculateHIcon(makeint(78* fHtRatio))+","+RecalculateVIcon(makeint(78* fHtRatio));	
+		BattleInterface.ShipIcon.shipoffset				= RecalculateHIcon(makeint(-1* fHtRatio))+","+RecalculateVIcon(makeint(-5* fHtRatio));	
+		BattleInterface.ShipIcon.shipiconsize			= RecalculateHIcon(makeint(70* fHtRatio))+","+RecalculateVIcon(makeint(70* fHtRatio));	
 		BattleInterface.ShipIcon.xsize = 32;
 		BattleInterface.ShipIcon.ysize = 32;
 
@@ -2545,6 +2547,9 @@ ref procGetSailTextureData()
 					case 86:sUpgrade = "sail_whole_white_pirate_18";	break;
 					case 87:sUpgrade = "sail_whole_white_pirate_19";	break;
 					case 88:sUpgrade = "sail_whole_white_pirate_20";	break; // LEO: <-- Только пираты
+					case 89:sUpgrade = "common_torn";					break;
+					case 90:sUpgrade = "common_torn1";					break;
+					case 91:sUpgrade = "common_torn2";					break;
 				}
 				nationFileName = "ships\parus_" + sUpgrade + ".tga";
 			
@@ -2829,7 +2834,7 @@ bool CheckInstantRepairCondition(ref chref)
 	float chrShipSP = GetSailPercent(chref);
 
 	bool bYesHPRepair = chrShipHP < InstantRepairRATE;// boal 23.01.2004
-	bool bYesSPRepair = chrShipSP < InstantRepairRATE; // boal 23.01.2004
+	bool bYesSPRepair = chrShipSP < InstantRepairRATEsail; //bestreducer быстрая починка// boal 23.01.2004
 
 	if( bYesHPRepair )	{ bYesHPRepair = GetCargoGoods(chref,GOOD_PLANKS)>0; }
 	if( bYesSPRepair )	{ bYesSPRepair = GetCargoGoods(chref,GOOD_SAILCLOTH)>0; }

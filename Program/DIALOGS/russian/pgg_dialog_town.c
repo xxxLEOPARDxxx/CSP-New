@@ -1,6 +1,5 @@
 #include "DIALOGS\russian\Common_Duel.c"
 
-//Korsar Maxim --> (Переписать это на женский лад, и можно юзать в диалоге)
 #define MAX_PGGW_STORIES 		9
 #define MAX_PGGW_QUEST_STORIES 	3
 #define MAX_PGGW_MEET_REP 		5
@@ -38,7 +37,6 @@ string PGG_Meet_BadRep[MAX_PGGW_MEET_REP] = {
 "О-о джентльмены, а вот и бывалый корсар, у которого наверняка есть что порассказать в дружной компании за кружкой рома... Не желаете присоединиться?",
 "Чувствую, запахло порохом… Джентльмены, к нам присоединился ещё один славный корсар, которому уж наверняка будет что порассказать на исповеди. Ха-ха-ха",
 };
-//Korsar Maxim <--
 
 void ProcessDialogEvent()
 {
@@ -519,6 +517,25 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			break;
 		}
+		
+		if (npchar.name == "Виспер" && !CheckAttribute(npchar, "PGGWhisperQuestStart") && !CheckAttribute(pchar,"GiantEvilSkeleton"))
+		{
+			if (GetCharacterShipClass(PChar) <= 4 && sti(npchar.Ship.Type) != SHIP_NOTUSED)
+			{
+				Dialog.Text = "Знаешь? Ты как нельзя вовремя, есть одно дело.";
+				link.l1 = "Хм. Ты о чем?";
+				link.l1.go = "Quest_Whisper";
+				break;
+			}
+			else
+			{
+				Dialog.Text = "Дело есть, но боюсь ты не справишься. Тебе бы кораблик посолидней...";
+				link.l1 = "Ясно.";
+				link.l1.go = "exit";
+				break;
+			}
+		}
+		
 		int iDays = GetQuestPastDayParam("QuestTalk");
 		if (CheckAttribute(NPChar, "PGGAi.Task.SetSail"))
 		{
@@ -665,6 +682,7 @@ void ProcessDialogEvent()
 		PChar.GenQuest.PGG_Quest.Island.Town = FindTownOnIsland(PChar.GenQuest.PGG_Quest.Island);
 		PChar.GenQuest.PGG_Quest.Days = GetMaxDaysFromIsland2Island(Islands[GetCharacterCurrentIsland(pchar)].id, PChar.GenQuest.PGG_Quest.Island)/2 + 1;
 		PChar.GenQuest.PGG_Quest.Goods = GOOD_SLAVES + drand(2);
+		if(CheckAttribute(pchar, "BSStart") && CheckAttribute(pchar, "BSInProgress"))	PChar.GenQuest.PGG_Quest.Goods = GOOD_GOLD;
 		if (CheckAttribute(NPChar, "PGGAi.ActiveQuest"))
 		{
 //			Dialog.Text = "Дело у меня к тебе, приятель. Знаю, можно тебе довериться, но в таверне обсуждать не возьмусь, ушей много лишних. Жду тебя у меня на борту. Помнишь, моя посудина зовется '" + NPChar.Ship.Name + "'.";
@@ -686,6 +704,17 @@ void ProcessDialogEvent()
 			link.l1 = "Некогда мне, да и бегать я не люблю.";
 		}
 		link.l1.go = "Quest_1_Work_1";
+		
+		if(NPChar.name == "Виспер" && !CheckAttribute(NPChar, "PGGWhisperQuestEnd"))
+		{
+			NPChar.PGGWhisperQuestStart = true;
+			DeleteAttribute(pchar, "GenQuest.PGG_Quest");
+			Dialog.Text = "Знаешь? Ты как нельзя вовремя, есть одно дело.";
+			link.l1 = "Ты о чём?";
+			link.l1.go = "Quest_Whisper";
+			break;
+		}
+
 		link.l2 = PCharRepPhrase(RandPhraseSimple("Я приду! Но, если ты попусту потратишь мое время, я вырву твой язык и отдам собакам!", 
 					RandSwear() + "Жди, надеюсь, дело стоящее. И не вздумай шутить со мной!"), 
 				RandPhraseSimple("Я с удовольствием принимаю ваше приглашение, мадам.", 
@@ -806,6 +835,7 @@ void ProcessDialogEvent()
 					PChar.GenQuest.PGG_Quest.Island.Town = FindTownOnIsland(PChar.GenQuest.PGG_Quest.Island);
 					PChar.GenQuest.PGG_Quest.Days = rand (4) + 5;
 					PChar.GenQuest.PGG_Quest.Goods = GOOD_SLAVES + drand(2);
+					if(CheckAttribute(pchar, "BSStart") && CheckAttribute(pchar, "BSInProgress"))	PChar.GenQuest.PGG_Quest.Goods = GOOD_GOLD;
 					PChar.GenQuest.PGG_Quest.PGGid = npchar.id;
 					NPChar.Nation.Bak = NPChar.Nation;
 					

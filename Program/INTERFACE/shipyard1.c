@@ -23,6 +23,8 @@ string Tun_Name2_Items[10] = {"","jewelry17","","jewelry9","jewelry2","jewelry3"
 int Tun_Mater3[10];//кол-во деньги	//gold
 string sAdd[10] = {"","\nкорпус: ","","\nмачты: ","\nскорость: ","\nманёвренность: ","\nбейдевинд: ","\nдэдвейт: ","\nкоманда: ","\nкалибр: "};
 //сменить крестики на жемчуг?? jewelry9
+int lastsort = 0;
+bool blastsort;
 
 void InitInterface_R(string iniName, ref _shipyarder)
 {
@@ -59,6 +61,7 @@ void InitInterface_R(string iniName, ref _shipyarder)
 	SetEventHandler("CheckButtonChange", "ProcessFilter", 0);
 	SetEventHandler("TableSelectChange", "TableSelectChange", 0);
 	SetEventHandler("ExitMsgMenu", "ExitMsgMenu", 0);
+	SetEventHandler("OnTableClick", "OnTableClick", 0);
 
 	EI_CreateFrame("SHIP_BIG_PICTURE_BORDER",156,40,366,275); // tak from SHIP_BIG_PICTURE
 	EI_CreateHLine("SHIP_BIG_PICTURE_BORDER", 161,246,361,1, 4);
@@ -105,6 +108,7 @@ void IDoExit(int exitCode)
 	DelEventHandler("CheckButtonChange", "ProcessFilter");
 	DelEventHandler("TableSelectChange", "TableSelectChange");
 	DelEventHandler("ExitMsgMenu", "ExitMsgMenu");
+	DelEventHandler("OnTableClick", "OnTableClick");
 
 	interfaceResultCommand = exitCode;
 	if( CheckAttribute(&InterfaceStates,"ReloadMenuExit"))
@@ -999,4 +1003,27 @@ void CalcTuningPrice()
 	Tun_Mater2[i] = makeint((7-shipClass)/2 * fQuestShip);
 	if (Tun_Mater2[i] < 1) Tun_Mater2[i] = 1;
 	Tun_Mater3[i] = makeint((100 * cannonQ * MOD_SKILL_ENEMY_RATE + 4000 * ((7-shipClass) * MOD_SKILL_ENEMY_RATE)) * fQuestShip);
+}
+
+void OnTableClick()
+{
+	string sControl = GetEventData();
+	int iRow = GetEventData();
+	int iColumn = GetEventData();
+
+	string sRow = "tr" + (iRow + 1);
+	if (sControl == "TABLE_SHIPYARD")
+		{
+		if (!SendMessage(&GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE, sControl, 1 )) 
+			{
+			if (iColumn == 3) return;//эти колонки не сортируем
+			if (lastsort == iColumn) {bLastSort = !bLastSort;} else {lastsort = iColumn; bLastSort = 1;}
+	
+			if (iColumn == 1) 
+				SortTable(sControl, iColumn, 1, bLastSort, -1);//текст
+			else 
+				SortTable(sControl, iColumn, 0, !bLastSort, -1);//числа
+			}
+		Table_UpdateWindow(sControl);
+		}
 }

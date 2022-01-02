@@ -378,6 +378,9 @@ string GetChosenType(string total)
 			case "parus_sail_whole_white_pirate_18.tga":return its(86);break;
 			case "parus_sail_whole_white_pirate_19.tga":return its(87);break;
 			case "parus_sail_whole_white_pirate_20.tga":return its(88);break;
+			case "parus_common_torn.tga":return its(89);break;
+			case "parus_common_torn1.tga":return its(90);break;
+			case "parus_common_torn2.tga":return its(91);break;
 		}
 	}
 	if (total == "color")
@@ -498,6 +501,9 @@ void SetNewSailsGerald()
 		case "parus_sail_whole_white_pirate_18.tga":shref.ship.upgrades.sails = 86;break;
 		case "parus_sail_whole_white_pirate_19.tga":shref.ship.upgrades.sails = 87;break;
 		case "parus_sail_whole_white_pirate_20.tga":shref.ship.upgrades.sails = 88;break;
+		case "parus_common_torn.tga":shref.ship.upgrades.sails = 89;break;
+		case "parus_common_torn1.tga":shref.ship.upgrades.sails = 90;break;
+		case "parus_common_torn2.tga":shref.ship.upgrades.sails = 91;break;
 	}
 	Log_testInfo(shref.ship.upgrades.sails);
 	if (CheckAttribute(shref,"EmblemedSails")) DeleteAttribute(shref,"EmblemedSails");

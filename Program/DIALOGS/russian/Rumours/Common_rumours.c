@@ -163,8 +163,6 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			link.l1.go = "BS_NU_11";
 			break;
 		}
-		
-		Dialog.Text = LinkRandPhrase("Ну... И-ик! ","Эх, какой ром! ","Н-да... ")+SelectRumourEx("habitue", NPChar);
 		link.l1 = RandPhraseSimple(RandSwear() + "За это надо выпить еще кружечку...",
                                  "Хорошо. Давай еще по одной.");
 		link.l1.go = "sit_3";
@@ -179,6 +177,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			AddQuestRecord("Pir_Line_5_Hunter", "3");
 			AddQuestUserData("Pir_Line_5_Hunter", "sCity", XI_ConvertString("Colony" + pchar.questTemp.piratesLine.Q5.city_1 + "Gen"));
 			pchar.questTemp.piratesLine = "PL5Hunter_toFirstUsurer";
+			break;
 		}
 		if (pchar.questTemp.piratesLine == "PL5Hunter_toSecond" && npchar.location == pchar.questTemp.piratesLine.Q5.city_2 + "_tavern")
 		{
@@ -188,6 +187,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			AddQuestRecord("Pir_Line_5_Hunter", "5");
 			AddQuestUserData("Pir_Line_5_Hunter", "sCity", XI_ConvertString("Colony" + pchar.questTemp.piratesLine.Q5.city_2 + "Gen"));
 			pchar.questTemp.piratesLine = "PL5Hunter_toSecondUsurer";
+			break;
 		}
 		if (pchar.questTemp.piratesLine == "PL5Hunter_toThird" && npchar.location == pchar.questTemp.piratesLine.Q5.city_3 + "_tavern")
 		{
@@ -197,6 +197,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			AddQuestRecord("Pir_Line_5_Hunter", "7");
 			AddQuestUserData("Pir_Line_5_Hunter", "sCity", XI_ConvertString("Colony" + pchar.questTemp.piratesLine.Q5.city_3 + "Gen"));
 			pchar.questTemp.piratesLine = "PPL5Hunter_toThirdUsurer";
+			break;
 		}
 		//-->работорговец
 		if (pchar.questTemp.Slavetrader == "FindRatJamaica_H" && npchar.location == "FortOrange_tavern")
@@ -204,12 +205,14 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			dialog.text = "(поет) Однажды мне встре-етился гамбургский шип. На мачтах - мокрицы и пле-есенный гриб, обшивка гнила-ая, в ракушках корма. Клопов полон ку-убрик, а камбуз - дерьма... Как жизнь, моря"+ GetSexPhrase("к","чка") +", рассказывай. Как оно там, в море?";
             link.l1 = "Да в море все так же, как и всегда - сыро и солоно. Ты вот скажи лучше, не знаешь ли, куда ушел мой приятель, который тут комнату снимал недавно? Франсуа Гонтьер его зовут.";
             link.l1.go = "Jamaica_ratH_1";
+			break;
         }
 		if (pchar.questTemp.Slavetrader == "EscapeSlaveVillemstad_H" && npchar.location == "Villemstad_tavern")
         {
 			dialog.text = "(поет) Я бла-агода-арен виски за свой багро-овый нос, и по-о его-о совету пальто в закла-ад отнес... Эх, наливай, моря"+ GetSexPhrase("к","чка") +"! Я только вчера из рейса, поэтому еще немного не в себе.";
             link.l1 = "Угощайся, приятель! Ну, и как там в море, что интересного видел?";
             link.l1.go = "EscapeSlave_Villemstad_H1";
+			break;
         }
 		//<--работорговец
 		
@@ -221,6 +224,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
     			dialog.text = "(поет) Летучий Голландец, Летучий Голландец, мчит по неведомым морям... Эх, моря"+ GetSexPhrase("к","чка") +", выпьем!";
                 link.l1 = "Послушай, мне говорили, что тут матросы с одного судна, 'Аделаида' называется, устроили погром по пьяни...";
                 link.l1.go = "Rat_Tavern_1";
+				break;
             }
 		}
 		//<--ОЗГ, Крыса
@@ -230,6 +234,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			dialog.text = "Эх, " + GetAddress_Form(pchar) + " что за жизнь нынче пошла... Ничего святого в людишках не осталось!";
 			link.l1 = "О чём это ты, приятель?";
 			link.l1.go = "Alcogol_GenQuest_Church_2_1";
+			break;
 		}
 		
 		if(CheckAttribute(PChar, "HellSpawn.SeekRebirth"))
@@ -356,8 +361,17 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 		{
 			pchar.PGG_killed_known = pchar.PGG_killed;
 			dialog.text = "Говорят, что в наших водах "+GetSexPhrase("завелся охотник на честных корсаров, ","завелась охотница на честных корсаров, ") + GetFullName(pchar)+GetSexPhrase(" его "," её") + " звать. Число душ, отправленных на тот свет этой личностью уже достигло " + pchar.PGG_killed + ". Все уважаемые в этих местах люди. Брр... Что-то меня мутить начинает. То ли из-за рома, то ли всей этой истории...";
+			break;
 		}
-		
+		//Титаник
+		if (CheckAttribute(pchar, "TitanicRumour") && rand(100) > 80)
+		{
+			AddQuestRecord("WhisperTitanic", 6);
+			AddQuestUserData("WhisperTitanic", "sCity", XI_ConvertString("Colony" + pchar.TitanicCity));
+			DeleteAttribute(pchar, "TitanicRumour");
+			dialog.text = "Вот это ром! Кстати, капитан, не советую вам соваться в " + XI_ConvertString("Colony" + pchar.TitanicCity) + ". Там сейчас вовсю разбойничает английская плавучая крепость.'Титаник' - её название, кажется...";
+			break;
+		}
 		//BlackThorn викинг
 		if (CheckAttribute(pchar, "questTemp.pirateVikingQuest") && rand(100) > 60)
 		{
@@ -377,7 +391,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 							//pchar.questTemp.pirateVikingQuest = "5";
 							pchar.LastHearedViking = npchar.city;
 							
-							if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("pirateVikingQuest_Captain", "OZG_3", "man", "spy", 80, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+							if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("pirateVikingQuest_Captain", "OZG_3", "man", "man_fast", 80, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
 							else sld = GetCharacter(NPC_GenerateCharacter("pirateVikingQuest_Captain", "OZG_3", "man", "man", 80, PIRATE, -1, true));
 							sld.mapEnc.worldMapShip = "quest_ship";
 							sld.mapEnc.Name = "щебека 'Драккар'";
@@ -391,6 +405,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 							sld.AlwaysSandbankManeuver = true;
 							sld.DontRansackCaptain = true;
 							sld.AnalizeShips = true;
+							if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 							SetCharacterPerk(sld, "MusketsShoot");
 
 							sld.ship.Crew.Morale = 100;
@@ -456,6 +471,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 				}
 			}
 		}
+		Dialog.Text = LinkRandPhrase("Ну... И-ик! ","Эх, какой ром! ","Н-да... ")+SelectRumourEx("habitue", NPChar);
 	break;
 //Black Sails
 		case "BS_NU_11":
@@ -1142,7 +1158,7 @@ void ProcessCommonDialogRumors(ref NPChar, aref Link, aref NextDiag);
 			dialog.text = "Ну что же, очень жаль. Пожалуй, мы поищем 'дурака' в другом месте...";
 			link.l1 = "Гм...";
 			link.l1.go = "exit";
-			pchar.questTemp.BlueBird = "over";
+			pchar.questTemp.BlueBird = "declined";//Блокировка ЧП
 		break;
 		case "RBlueBirdWon":
 			dialog.text = "Прекрасная новость, скажу я вам! Наконец-то мы сможем заняться торговлей по-настоящему... Вы хотите получить деньги прямо сейчас?";

@@ -6233,7 +6233,7 @@ int InitItems()
 	itm.Weight = 0.1;
 	itm.usepowder = false;
 	itm.minlevel = 0;
-	itm.rare = 0.001;
+	itm.rare = 0.05;
 	itm.SortIndex = 1;
 	itm.ItemType = "SUPPORT";
 	
@@ -9547,187 +9547,286 @@ void InitButtons()
 void InitRandItems()
 {
 	ref rnditem;
+	int n = 0;
+	int i;
 
-	makeref(rnditem,RandItems[0]);
-	rnditem.id = POTION;
-	rnditem.maxQuantity = 4;
-
-	
-    makeref(rnditem,RandItems[1]);
-	rnditem.id = "Mineral9";  
-	rnditem.maxQuantity = 2;
-
-	makeref(rnditem,RandItems[2]);
-	rnditem.id = "Mineral10";  
-	rnditem.maxQuantity = 2;
-	
-	makeref(rnditem,RandItems[3]);
-	rnditem.id = "jewelry16";
-	rnditem.maxQuantity = 15;
-	
-	makeref(rnditem,RandItems[4]);
-	rnditem.id = "jewelry1";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[5]);
-	rnditem.id = "jewelry2";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[6]);
-	rnditem.id = "jewelry3";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[7]);
-	rnditem.id = "jewelry5";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[8]);
-	rnditem.id = "jewelry6";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[9]);
-	rnditem.id = "jewelry7";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[10]);
-	rnditem.id = "jewelry10";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[11]);
-	rnditem.id = "jewelry11";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[12]);
-	rnditem.id = "jewelry12";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[13]);
-	rnditem.id = "jewelry13";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[14]);
+	// --------> зелья
+    makeref(rnditem,RandItems[n]);
 	rnditem.id = "potion1";
-	rnditem.maxQuantity = 4;
+	rnditem.maxQuantity = 8;
+	n++;
 
-	makeref(rnditem,RandItems[15]);
-	rnditem.id = "indian4";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[16]);
-	rnditem.id = "potion1";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[17]);
+    makeref(rnditem,RandItems[n]);
 	rnditem.id = "potion2";
 	rnditem.maxQuantity = 4;
+	n++;
 
-	makeref(rnditem,RandItems[18]);
-	rnditem.id = "indian13";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[19]);
+    makeref(rnditem,RandItems[n]);
 	rnditem.id = "potion3";
 	rnditem.maxQuantity = 4;
+	n++;
 
-	makeref(rnditem,RandItems[20]);
+    makeref(rnditem,RandItems[n]);
 	rnditem.id = "potion4";
 	rnditem.maxQuantity = 4;
+	n++;
 
-    // boal -->
-	makeref(rnditem,RandItems[21]);
-	rnditem.id = "pistol3";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[22]);
-	rnditem.id = "pistol2";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[23]);
-	rnditem.id = "pistol1";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[24]);
-	rnditem.id = "blade8";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[25]);
-	rnditem.id = "blade7";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[26]);
-	rnditem.id = "blade6";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[27]);
-	rnditem.id = "blade5";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[28]);
-	rnditem.id = "blade4";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[29]);
-	rnditem.id = "blade3";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[30]);
-	rnditem.id = "blade2";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[31]);
-	rnditem.id = "spyglass1";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[32]);
-	rnditem.id = "spyglass2";
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[33]);
-	rnditem.id = "blade1";
-	rnditem.maxQuantity = 1;
-
-    makeref(rnditem,RandItems[34]);
-	rnditem.id = "jewelry17";
-	rnditem.maxQuantity = 4;
-
-    makeref(rnditem,RandItems[35]);
-	rnditem.id = "jewelry18";
-	rnditem.maxQuantity = 4;
-
-    makeref(rnditem,RandItems[36]);
-	rnditem.id = "bullet"; // boal "Mineral1";
-	rnditem.maxQuantity = 20;
-
-	makeref(rnditem,RandItems[37]);
-	rnditem.id = "mineral3";
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[38]);
-	rnditem.id = "Mineral4";  
-	rnditem.maxQuantity = 1;
-
-    makeref(rnditem,RandItems[39]);
-	rnditem.id = "Mineral5";  
-	rnditem.maxQuantity = 1;
-
-	makeref(rnditem,RandItems[40]);
-	rnditem.id = "Mineral6";  
-	rnditem.maxQuantity = 4;
-
-	makeref(rnditem,RandItems[41]);
-	rnditem.id = "Mineral7";  
-	rnditem.maxQuantity = 1;
-
-    makeref(rnditem,RandItems[42]);
+    makeref(rnditem,RandItems[n]);
 	rnditem.id = "potion5";
 	rnditem.maxQuantity = 4;
+	n++;
 
-	makeref(rnditem,RandItems[43]);
+    makeref(rnditem,RandItems[n]);
 	rnditem.id = "potionwine";
 	rnditem.maxQuantity = 4;
+	n++;
 
-	makeref(rnditem,RandItems[44]);
+    makeref(rnditem,RandItems[n]);
 	rnditem.id = "potionrum";
 	rnditem.maxQuantity = 4;
-	// boal <--
+	n++;
+	// <--------
+
+	// --------> еда
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Food1";
+	rnditem.maxQuantity = 5;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Food2";
+	rnditem.maxQuantity = 5;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Food3";
+	rnditem.maxQuantity = 5;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Food4";
+	rnditem.maxQuantity = 5;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Food5";
+	rnditem.maxQuantity = 5;
+	n++;
+	// <--------
+
+	// --------> боеприпасы
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "bullet";
+	rnditem.maxQuantity = 20;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "GunPowder";
+	rnditem.maxQuantity = 20;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "grapeshot";
+	rnditem.maxQuantity = 20;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "cartridge";
+	rnditem.maxQuantity = 8;
+	n++;
+	// <--------
+
+	// --------> компоненты крафта (включая гарпун)
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "CompCraft_Nails";
+	rnditem.maxQuantity = 7;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "CompCraft_Magnesium";
+	rnditem.maxQuantity = 15;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "CompCraft_Flint";
+	rnditem.maxQuantity = 10;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "CompCraft_Lead";
+	rnditem.maxQuantity = 25;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "CompCraft_Copper";
+	rnditem.maxQuantity = 6;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "CompCraft_Sulfur";
+	rnditem.maxQuantity = 25;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "CompCraft_Parchment";
+	rnditem.maxQuantity = 25;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "slave_01";
+	rnditem.maxQuantity = 10;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "CompCraft_Grindstone";
+	rnditem.maxQuantity = 10;
+	n++;
+	// <--------
+
+	// --------> хлам
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "mineral3";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Mineral4";
+	rnditem.maxQuantity = 1;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Mineral5";
+	rnditem.maxQuantity = 1;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Mineral6";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Mineral7";
+	rnditem.maxQuantity = 1;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Mineral9";
+	rnditem.maxQuantity = 2;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "Mineral10";
+	rnditem.maxQuantity = 2;
+	n++;
+	// <--------
+
+	// --------> драгоценности
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry1";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry2";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry3";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry5";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry6";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry7";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry10";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry11";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry12";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry13";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry16";
+	rnditem.maxQuantity = 15;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry17";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "jewelry18";
+	rnditem.maxQuantity = 4;
+	n++;
+	// <--------
+
+	// --------> экипировка
+	for (i = 1; i <= 8; i++)
+	{
+		makeref(rnditem,RandItems[n]);
+		rnditem.id = "blade" + i;
+		rnditem.maxQuantity = 1;
+		n++;
+	}
+
+	for (i = 1; i <= 3; i++)
+	{
+		makeref(rnditem,RandItems[n]);
+		rnditem.id = "pistol" + i;
+		rnditem.maxQuantity = 1;
+		n++;
+	}
+
+	for (i = 1; i <= 2; i++)
+	{
+		makeref(rnditem,RandItems[n]);
+		rnditem.id = "spyglass" + i;
+		rnditem.maxQuantity = 1;
+		n++;
+	}
+	// <--------
+
+	// --------> идолы
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "indian4";
+	rnditem.maxQuantity = 5;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "indian13";
+	rnditem.maxQuantity = 4;
+	n++;
+
+    makeref(rnditem,RandItems[n]);
+	rnditem.id = "indian16";
+	rnditem.maxQuantity = 1;
+	n++;
+	// <--------
 }

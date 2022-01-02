@@ -125,7 +125,7 @@ int LAi_CalculateRaidersQuantity(int iBase)
 {
     int iOfficer = GetOfficersQuantity(pchar);
     float fMod = makefloat(MOD_SKILL_ENEMY_RATE  * 0.5); // 1.0 уровень сложности = (+ 1 бандит), т.е. на невозможке будет 5.0 = +5 бандитов *** (База - 4) + (назначенные абордажники) + (сложность * 0.5) ***
-    int iQty = iBase + iOfficer + makeint(fMod);
+    int iQty = iBase + iOfficer/*  + makeint(fMod) */; // LEO: Заебали нытики хуевы, убрал скейлинг сложности 14.12.2021
     return iQty;
 }
 
@@ -206,24 +206,20 @@ bool LAi_CreateEncounters(ref location)
 	{
 		//------------------ Банда рейдеров типа дежурит на грабежах ----------------------
 		case 0:
-			// if(!bbettatestmode){if (rand(10) > 10) return false;} // LEO
 			if(!bbettatestmode){if (rand(10) > 6) return false;}
 			if(CheckAttribute(location, "onUninhabitedIsland") || location.type == "seashore" || location.type == "mayak") return false; // На необитаемых нельзя
-			// num = GetAttributesNum(grp) - rand(3); //кол-во человек в банде
-			// num = makeint(15+rand(5)); //кол-во человек в банде
 			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); // LEO
-			// Log_Info("num "+num);
 			if (num <= 0 ) num = 1; //если локаторов меньше четырех
 			str = "Gang"+ location.index + "_";
 			//--> генерим ранг 
-			if (sti(pchar.rank) > 6) 
+			if (sti(pchar.rank) > 6 || MOD_SKILL_ENEMY_RATE == 10) 
 			{
-				if (sti(pchar.rank) > 20) iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*2.5/num);
-				else iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*1.6/num);
+				if (sti(pchar.rank) > 20) iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*2.5);
+				else iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*1.5);
 			}
 			else iRank = sti(pchar.rank); 
 			//<-- генерим ранг 
-			//Начинаем перебирать локаторы и логинить фантомов			
+			
 			// Mett: -->
 			for(int m = 1; m < 26; m++)
 			{
@@ -239,7 +235,6 @@ bool LAi_CreateEncounters(ref location)
 					chr = GetCharacter(NPC_GenerateCharacter(str + i, model[iMassive], "man", "man", iRank, iNation, 1, true));
 					SetFantomParamFromRank(chr, iRank, true);
 					//Получим локатор для логина
-					// locator = GetAttributeName(GetAttributeN(grp, i));
 					locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
 					ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 					chr.dialog.filename = "Enc_Raiders_dialog.c";
@@ -335,18 +330,18 @@ bool LAi_CreateEncounters(ref location)
 			{//--------------- обычная девка в джунглях ---------------				
 				if (sti(pchar.rank) > 1) 
 				{
-					if (sti(pchar.rank) > 20) iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*2.5/num);
-					else iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*1.6/num);
+					if (sti(pchar.rank) > 20) iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*2.5);
+					else iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*1.5);
 				}
 				else iRank = sti(pchar.rank);
-				//<-- генерим ранг 
+				
 				LAi_group_Delete("EnemyFight");
 				LAi_group_Delete("LandEncGroup");
 				LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], true);
 				LAi_SetFightMode(pchar, false);
 				LAi_LockFightMode(pchar, true);
 				chrDisableReloadToLocation = true;
-				//Начинаем перебирать локаторы и логинить фантомов
+				
 				model[0] = "pirate_1";
 				model[1] = "pirate_2";
 				model[2] = "pirate_3";
@@ -372,13 +367,10 @@ bool LAi_CreateEncounters(ref location)
 				model[22] = "pirate_23";
 				model[23] = "pirate_24";
 				model[24] = "pirate_25";
-				//i = 0;
-				//while(i < num)
+				
 				for(i=0; i < num; i++)
 				{
 					iMassive = rand(24);
-					//if (model[iMassive] != "")
-					//{
 						//Получим локатор для логина
 						locator = GetAttributeName(GetAttributeN(grp, i));
 						if (i == 0)
@@ -386,7 +378,7 @@ bool LAi_CreateEncounters(ref location)
 							switch(rand(2)) // генерим один из вариантов начала квеста
 							{
 								case 0:
-									Log_QuestInfo("Девица в джунглях : сгенерился вариант 1");
+									Log_TestInfo("Девица в джунглях : сгенерился вариант 1");
 									iChar =	NPC_GenerateCharacter("CangGirl", "girl_"+(rand(7)+1), "woman", "towngirl", 5, iNation, -1, false);
 									chr = &characters[iChar];
 									chr.dialog.filename = "Enc_RapersGirl_dialog.c";
@@ -394,7 +386,7 @@ bool LAi_CreateEncounters(ref location)
 									pchar.GenQuest.EncGirl = "Begin_1";
 								break;
 								case 1:	
-									Log_QuestInfo("Девица в джунглях : сгенерился вариант 2");	
+									Log_TestInfo("Девица в джунглях : сгенерился вариант 2");	
 									iChar =	NPC_GenerateCharacter("CangGirl", "whore_"+(rand(3)+1), "woman", "towngirl3", 5, iNation, -1, false);
 									chr = &characters[iChar];
 									chr.dialog.filename = "Enc_RapersGirl_dialog.c";
@@ -403,7 +395,7 @@ bool LAi_CreateEncounters(ref location)
 									pchar.GenQuest.EncGirl.Horse = true;									
 								break;
 								case 2:								
-									Log_QuestInfo("Девица в джунглях : сгенерился вариант 3");
+									Log_TestInfo("Девица в джунглях : сгенерился вариант 3");
 									iChar =	NPC_GenerateCharacter("CangGirl", "girl_"+(rand(7)+1), "woman", "towngirl", 5, iNation, -1, false);
 									chr = &characters[iChar];
 									chr.dialog.filename = "Enc_RapersGirl_dialog.c";
@@ -438,9 +430,6 @@ bool LAi_CreateEncounters(ref location)
 						LAi_group_MoveCharacter(chr, "EnemyFight");
 						LAi_ActorFollow(chr, &characters[iChar], "", -1);
 						LAi_SetCheckMinHP(chr, LAi_GetCharacterHP(chr)-1, false, "LandEnc_RapersBeforeDialog");
-					//	i++;
-					//	model[iMassive] = "";
-					//}
 				}
 				iRnd = 1;
 				if(sti(pchar.rank) > 1) iRnd = 2;
@@ -496,7 +485,7 @@ bool LAi_CreateEncounters(ref location)
 			}
 		break;
         //------------------ Праздношатающиеся перцы ----------------------
-		case 2: //Korsar Maxim - доработка маленького и скучного энкаунтера.
+		case 2: // доработка маленького и скучного энкаунтера.
 			LAi_group_Delete("LandEncGroup");
 			if (rand(10) > 7) return false;
 			if(CheckAttribute(location, "onUninhabitedIsland")) return false; // На необитаемых нельзя
@@ -509,7 +498,7 @@ bool LAi_CreateEncounters(ref location)
 				LAi_SetCitizenType(chr);
 				ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 				
-				if(rand(3) == 1) //Korsar Maxim - Девушка может появится с мужем, или стражем
+				if(rand(3) == 1) // Девушка может появится с мужем, или стражем
 				{
 					if(rand(1) == 0)
 					{
@@ -544,7 +533,7 @@ bool LAi_CreateEncounters(ref location)
 				LAi_SetCheckMinHP(chr, LAi_GetCharacterHP(chr)-1, false, "LandEnc_WalkerHit");
 				ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 				
-				if(rand(3) == 1) //Korsar Maxim - Перец может появится с дружками или охраной
+				if(rand(3) == 1) // Перец может появится с дружками или охраной
 				{
 					if(rand(1) == 0)
 					{
@@ -580,19 +569,16 @@ bool LAi_CreateEncounters(ref location)
 			chr.dialog.filename = "Enc_Walker.c";
 			chr.dialog.currentnode = "First time";
 			LAi_group_MoveCharacter(chr, "LandEncGroup");
-			//ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 		break;
 		//------------------ Военный патруль ----------------------
 		case 3:
 			if (rand(10) > 3) return false;
-			// if (rand(10) > 10) return false; // LEO
 			if(CheckAttribute(location, "onUninhabitedIsland")) return false; // На необитаемых нельзя
 			//--> генерим ранг. военному патрулю палец в рот не клади и на начальных уровнях.
-			// num = GetAttributesNum(grp); //кол-во человек в патруле
-			num = makeint(6+rand(MOD_SKILL_ENEMY_RATE)); //кол-во человек в патруле // LEO
+			num = makeint(5+rand(15)); //кол-во человек в патруле // LEO
 			if (num <= 0) num = 1;
-			if (sti(pchar.rank) > 14) iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*2.5/num);
-			else iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*1.6/num);
+			if (sti(pchar.rank) > 14) iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*2.5);
+			else iRank = sti(pchar.rank) + sti(MOD_SKILL_ENEMY_RATE*1.5);
 			//<-- генерим ранг 
 			//Начинаем перебирать локаторы и логинить фантомов
 			str = "Patrol"+ location.index + "_";
@@ -607,10 +593,11 @@ bool LAi_CreateEncounters(ref location)
 				}
 				else
 				{
-					if (i == 3)
+					// if (i == 2 || prand(2) == 1)
+					if (i > 3 && i < 8)
 					{
 						chr = GetCharacter(NPC_GenerateCharacter(str + i, NationShortName(iNation)+"_mush_"+(rand(2)+1), "man", "mushketer", iRank, iNation, 1, false));
-						//SetFantomParamFromRank(chr, iRank, true);
+						SetFantomParamFromRank(chr, iRank, true);
 					}
 					else
 					{
@@ -627,7 +614,6 @@ bool LAi_CreateEncounters(ref location)
 				LAi_SetCheckMinHP(chr, LAi_GetCharacterHP(chr)-1, false, "LandEnc_PatrolBeforeDialog");
 				LAi_group_MoveCharacter(chr, sGroup);
 				//Получим локатор для логина
-				// locator = GetAttributeName(GetAttributeN(grp, i));
 				locator = GetAttributeName(GetAttributeN(grp, 1)); // LEO
 				ChangeCharacterAddressGroup(chr, location.id, encGroup, locator);
 			}
@@ -661,11 +647,9 @@ bool LAi_CreateEncounters(ref location)
 			return false;
 		}
 			if(rand(15) > 3 || CheckAttribute(pchar, "GenQuest.Convict") || location.type == "seashore" || location.type == "mayak" ) return false; // LEO
-			// if(rand(15) > 15 || CheckAttribute(pchar, "GenQuest.Convict") || location.type == "seashore" || location.type == "mayak" ) return false;	
 			if(CheckAttribute(location, "onUninhabitedIsland")) return false; // На необитаемых нельзя		
 			if (sAreal == "Panama") return false;
 			num = LAi_CalculateRaidersQuantity(GetAttributesNum(grp)); //кол-во человек в группе // LEO
-			// num = GetAttributesNum(grp); //кол-во человек в группе
 			if(num <= 1) return false;
 			if (num <= 2) num = 2;
 			iRank = 2 + rand(3); //ранг каторжан
@@ -706,8 +690,6 @@ bool LAi_CreateEncounters(ref location)
 				if(model[iMassive] != "")
 				{
 					sAnime = "man"
-                    /* if(model[iMassive] == "pirate_1" || model[iMassive] == "pirate_11" || model[iMassive] == "pirate_12" || model[iMassive] == "pirate_13" || model[iMassive] == "pirate_14" || model[iMassive] == "pirate_15" || model[iMassive] == "pirate_16" || model[iMassive] == "pirate_21" || model[iMassive] == "pirate_25") sAnime = "man"; */
-					
 					chr = GetCharacter(NPC_GenerateCharacter("Convict_" + i, model[iMassive], "man", sAnime, iRank, PIRATE, -1, true));
 					SetFantomParamFromRank(chr, iRank, true);
 					// locator = GetAttributeName(GetAttributeN(grp, i));
@@ -762,16 +744,16 @@ bool LAi_CreateEncounters(ref location)
 			
 			int iScl = 10+2*sti(pchar.rank);//казуалам зеленый свет на начало игры
 			if (sti(pchar.rank) > 3) iRank = sti(pchar.rank);
-			/* else 
+			else
 			{
 				iRank = 1;
 				num = 2;
-			} */ // LEO: А не надо было меня саммонить на то, что мака изи добывается и похуям мороз, и игра становится изи. Теперь живите так. Индейцы сразу будут ебать толпой, а не в 2 лица.
+			}
 			
 			i = 0;
 			while(i < num)
 			{
-				if(i == 0 && rand(6) == 1) chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_boss", "man", "man", iRank+12, PIRATE, 1, true)); //Korsar Maxim - с шансом 1 на 7 встреч, первый индиан может быть главой каннибалов
+				if(i == 0 && rand(6) == 1) chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_boss", "man", "man", iRank+12, PIRATE, 1, true)); // с шансом 1 на 7 встреч, первый индиан может быть главой каннибалов
 				else chr = GetCharacter(NPC_GenerateCharacter(str + i, "Canib_"+(rand(5)+1), "man", "man", iRank+6, PIRATE, 1, true));
 				SetFantomParamFromRank(chr, iRank, true);
 				//Получим локатор для логина
@@ -783,7 +765,7 @@ bool LAi_CreateEncounters(ref location)
 				DeleteAttribute(chr, "items");
 				DeleteAttribute(chr, "perks.list");
 				
-				if(chr.model == "Canib_boss") //Korsar Maxim - Глава каннибалов круче своих по экипировке
+				if(chr.model == "Canib_boss") // Глава каннибалов круче своих по экипировке
 				{
 					chr.HeroModel = "Canib_Boss,Canib_Boss_1,Canib_Boss_2,Canib_Boss_3,Canib_Boss_4,Canib_Boss_5";
 					chr.name = "касик";

@@ -722,7 +722,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "ReadBook":
-			Dialog.Text = "Ну что-ж, почитал пару часов...";
+			Dialog.Text = "Ну что-ж, почитал"+GetSexPhrase("","а")+" пару часов...";
 			WasteTime(4);
 			pchar.booktime = sti(pchar.booktime) - 1;
 			pchar.bookreadtoday = true;
@@ -828,7 +828,17 @@ void ProcessDialogEvent()
 	            }
 	            else
 	            {
-	                if (pchar.location == "Panama_ExitTown")
+	                if (pchar.location == "Santiago_ExitTown")
+					{
+						if (CheckAttribute(pchar, "PGGWhisperLetter") || CheckAttribute(pchar, "PGGWhisperLetterSent"))
+						{
+							Dialog.Text = "У форта достаточно орудий, чтобы похоронить нас прямо в городе. Нет, Виспер права - захватить Сантьяго можно только с моря.";
+							Link.l1 = "...";
+							Link.l1.go = "exit";
+							break;
+						}
+					}
+					if (pchar.location == "Panama_ExitTown")
 					{
 						Dialog.Text = "Не-е-ет, я не сумасшедш"+ GetSexPhrase("ий","ая")+". Это же Панама! Взять ее НЕВОЗМОЖНО!!! Надо валить отсюда, а то точно дождусь черной метки...";
 	    				Link.l1 = "...";

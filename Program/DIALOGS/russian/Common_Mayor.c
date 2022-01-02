@@ -340,6 +340,12 @@ void ProcessDialogEvent()
 							}
 						}
 						//<<-- сдача найденного в борделе кольца 
+						if (npchar.id == "Santiago_Mayor" && CheckAttribute(pchar, "PGGWhisperLetter"))
+						{
+							link.lPGGWhisper = "Слыхали, губернатор? В Пуэрто Принсипе встало на якорь судно, что принадлежит некой Виспер. Это же та ведьма, что сбежала из инквизиции?";
+        					link.lPGGWhisper.go = "PGGWhisper";
+						}
+						
         				link.l7 = "Я бы хотел"+ GetSexPhrase("","а") +" узнать, где сейчас находится генерал-губернатор " + NationNameGenitive(sti(NPChar.nation)) + ".";
         				link.l7.go = "Where_guber";
         				link.l8 = "Может, вы хотите немного передохнуть от важных дел? Могу предложить провести время за игрой.";
@@ -349,6 +355,43 @@ void ProcessDialogEvent()
                     }
                 }//<-
 			}
+		break;
+		
+		case "PGGWhisper":
+			pchar.PGGWhisperLetterSent = true;
+			DeleteAttribute(pchar, "PGGWhisperLetter");
+			
+			sTemp = npchar.city;
+			if (CheckAttribute(pchar, "GenQuest.MayorQuestsList." + sTemp) && sti(pchar.GenQuest.MayorQuestsList.(sTemp)) > 2)
+			{
+				dialog.text = "Вы больше никому об этом не говорили?";
+				link.l1 = "Нет, вы первый.";
+				link.l1.go = "PGGWhisper_1";
+			}
+			else
+			{
+				pchar.PGGWhisperLetterSentFail = true;
+				AddQuestRecord("PGGWhisper", "6");
+				dialog.text = "Правда? Я такого не слышал, хотя обычно получаю все новости раньше местного трактирщика. Да и кто вы собственно так"+ GetSexPhrase("ой","ая") +", не подельни"+ GetSexPhrase("к","ца") +" её часом? Вот что, мои люди проверят вашу наводку, а вас самих тем временем допросит моя стража.";
+				link.l1 = "Вот чёрт, не поверил!";
+				link.l1.go = "fight";
+			}
+		break;
+		
+		case "PGGWhisper_1":
+			addMoneyToCharacter(pchar, 10000);
+			dialog.text = "Отлично. Это просто отличные новости! Если я приведу её сюда в цепях, инквизиция и король будут в восторге! Вот, возьмите, за такие сведения вы заслуживаете награду\nСкажите, не хотите ли ещё послужить на благо короны Испании? Сможете поймать и привести эту Виспер ко мне?";
+			link.l1 = "Я бы с радостью, но боюсь, что мне пора отплывать. Сроки на фрахт горят, знаете ли. Быть может, вы сможете поручить это дело своим солдатам?";
+			link.l1.go = "PGGWhisper_2";
+		break;
+		
+		case "PGGWhisper_2":
+			dialog.text = "А знаете, вы правы! Слишком часто я обращаюсь за помощью к сторонним капитанам, пора и самому взяться за дело. Я поручу перехват судна своему патрульному флоту\nПока её корабль в бухте, сама Виспер ведь может скрываться где-то в джунглях! Думаю, стоит подключить к поискам гарнизон из форта\nВы ещё здесь, капитан? Можете идти, благодарю за информацию.";
+			link.l1 = "До свидания, и удачи вам в поисках.";
+			link.l1.go = "exit";
+			pchar.quest.QuestWhisper_Siege.win_condition.l1          = "location";
+			pchar.quest.QuestWhisper_Siege.win_condition.l1.location = "Santiago_town";
+			pchar.quest.QuestWhisper_Siege.function             = "QuestWhisper_Siege";
 		break;
 		
 		//Blackthorn. Квест викинга
@@ -1979,6 +2022,11 @@ void ProcessDialogEvent()
             else
             {
 				dialog.Text = "На этот раз ваша взяла, но знайте, что скоро прибудет наша эскадра, и от вас мокрого места не останется.";
+				if(npchar.id == "Santiago_mayor" && CheckAttribute(pchar, "PGGWhisperLetterSent"))
+				{
+					dialog.Text = GetFullName(pchar) + "! Мне стоило догадаться, что ваша новость была всего лишь уловкой, чтобы обезоружить мой город. А я ведь поверил вам, как наивное дитя\n" + dialog.Text;
+				
+				}
 	            if (!bWorldAlivePause || bBettaTestMode)
 	            {
 	                int iColony = FindColony(npchar.city);
@@ -2551,6 +2599,22 @@ void ProcessDialogEvent()
 			sTemp = npchar.City;
 			if (!CheckAttribute(pchar, "GenQuest.MayorQuestsList." + sTemp)) pchar.GenQuest.MayorQuestsList.(sTemp) = 0;
 			pchar.GenQuest.MayorQuestsList.(sTemp) = sti(pchar.GenQuest.MayorQuestsList.(sTemp)) + 1;
+			
+			if (sTemp == "Santiago")
+			{
+				if (CheckAttribute(pchar, "PGGWhisperLetter"))
+				{
+					if (sti(pchar.GenQuest.MayorQuestsList.(sTemp)) > 2)
+					{
+						AddQuestRecord("PGGWhisper", "3");
+					}
+					else
+					{
+						AddQuestRecord("PGGWhisper", "2");
+					}
+				}
+			}
+			
 		break;
 //<-- осады homo
 		case "siege_task":

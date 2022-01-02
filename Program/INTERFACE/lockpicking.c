@@ -1000,7 +1000,7 @@ void IDoExit(int exitCode, bool bClear)
 		DeleteEntitiesByType("scrshoter");
 	}
 	
-	if((rand(99)+1) <= 10*(MOD_SKILL_ENEMY_RATE/2) && opened == false) //Korsar Maxim - доработка взлома. Шанс поломки отмычки при отмене взлома
+	if((rand(99)+1) <= 10*(MOD_SKILL_ENEMY_RATE/2) && opened == false) // доработка взлома. Шанс поломки отмычки при отмене взлома
     {
 	    TakeNItems(pchar, "Lockpick", -1);
 	    PlaySound("interface\lockpicking\lockpick_breaks.wav"); // Звук поломки

@@ -293,21 +293,62 @@ int MakeSiegeSquadron(int ination)
 {
     ref sld;
     aref aData;
-    bool btmp = false;
     string sCapId = NationShortName(ination)+"SiegeCap_";
     string sGroup = "Sea_" + sCapId + "1";
     makearef(aData, NullCharacter.Siege);
     aData.iSquadronPower = 0;
+
+	// Filter ship types.
+	string sNation = GetNationNameByType(ination);
+
+	int suitableShipTypes[SHIP_TYPES_QUANTITY];
+	int bestShipTypesCount = 0;
+	int usualShipTypesCount = 0;
+	int i = 0;
+
+	while (ShipsTypes[i].Class != 2) i++;
+
+	while (ShipsTypes[i].CannonsQuantity < 90)
+	{
+		if ((ShipsTypes[i].Type.War == true) && (ShipsTypes[i].nation.(sNation) == true))
+		{
+			suitableShipTypes[usualShipTypesCount] = i;
+			usualShipTypesCount++;
+		}
+		i++;
+	}
+
+	while (i < SHIP_TYPES_QUANTITY)
+	{
+		if (!CheckAttribute(ShipsTypes[i], "CanEncounter"))
+		{
+			if (ShipsTypes[i].CanEncounter != true)
+			{
+				break;
+			}
+		}
+		if ((ShipsTypes[i].Type.War == true) && (ShipsTypes[i].nation.(sNation) == true))
+		{
+			suitableShipTypes[usualShipTypesCount + bestShipTypesCount] = i;
+			bestShipTypesCount++;
+		}
+		i++;
+	}
+
+    int bestShipCount = rand(3) - 1;
+	if (bestShipCount < 0) bestShipCount = 0;
+	aData.ShipCount = 5 + rand(2);
+
+	Log_TestInfo("Default ship types count: " + usualShipTypesCount + " best ship types count: " + bestShipTypesCount);
+	Log_TestInfo("Best ships count in squadron: " + bestShipCount + " all ships count in squadron: " + aData.ShipCount);
+
     int itmp = 0;
-    
+	int shipType;
+
     Group_DeleteGroup(sGroup);
 	Group_FindOrCreateGroup(sGroup);
 
-    aData.ishipcount = 5 + rand(2)
-    aData.imanofwars = rand(3)-1
-    if (sti(aData.imanofwars) < 0) aData.imanofwars = 0;
-    int icon = sti(aData.ishipcount);
-    for (int i = 1; i <= icon; i++)
+    for (i = 1; i <= sti(aData.ShipCount); i++)
     {
         sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "off_hol_2", "man", "man", 5, ination, 30, true));
 
@@ -315,7 +356,31 @@ int MakeSiegeSquadron(int ination)
 	    sld.dialog.currentnode = "Siegehelp";
 	    sld.DeckDialogNode = "Siegehelp";
 
-        itmp = SetSiegeShip(sld);
+		if (i <= bestShipCount)
+		{
+			shipType = suitableShipTypes[usualShipTypesCount + rand(bestShipTypesCount - 1)];
+			itmp = makeint(shipType * 19 / 124);
+		}
+		else
+		{
+			shipType = suitableShipTypes[rand(usualShipTypesCount - 1)];
+			itmp = makeint(shipType * 15 / 87);
+		}
+
+		SetRandomNameToCharacter(sld);
+		SetRandomNameToShip(sld);
+		sld.Ship.Type = GenerateShipExt(ShipType, 1, sld);
+		SetBaseShipData(sld);
+		SetCrewQuantityFull(sld);
+
+		DeleteAttribute(sld,"ship.sails");
+		DeleteAttribute(sld,"ship.masts");
+		DeleteAttribute(sld,"ship.blots");
+
+		Fantom_SetCannons(sld, "war");
+		Fantom_SetBalls(sld, "war");
+		Fantom_SetGoods(sld, "war");
+
         aData.iSquadronPower = sti(aData.iSquadronPower) + itmp;
         SetFantomParamHunter(sld); //крутые парни
         SetCaptanModelByEncType(sld, "war");
@@ -328,57 +393,13 @@ int MakeSiegeSquadron(int ination)
     aData.iSquadronPower = sti(aData.iSquadronPower) - 19;
     Log_TestInfo("Сила эскадры: "+aData.iSquadronPower+" процентов");
     Log_TestInfo("Сила колонии: "+sti(colonies[FindColony(aData.colony)].FortValue)+" процентов");
-    
+
     Group_SetGroupCommander(sGroup, sCapId+ "1");
     ref rGroup = Group_GetGroupByID(sGroup);
     rGroup.Task = AITASK_MOVE;
     //Group_LockTask(sGroup);
     //Group_SetTaskAttack(sGroup, PLAYER_GROUP);
     return sti(aData.iSquadronPower);
-
-}
-
-
-int SetSiegeShip(ref rChar)
-{
-    int SiegeShips, hcrew, rez;
-	bool man = false;
-    aref aData;
-    makearef(aData, NullCharacter.Siege);
-
-    if (sti(aData.imanofwars) > 0)
-    {
-        SiegeShips = SHIP_MANOWAR;
-        aData.imanofwars = sti(aData.imanofwars) - 1;
-        rez = SiegeShips;
-		man = true;
-    }
-    else
-    {
-        SiegeShips = SHIP_FRIGATE + rand(makeint(SHIP_BATTLESHIP - SHIP_FRIGATE));
-        rez = SiegeShips;
-    }
-
-    SetRandomNameToCharacter(rChar);
-    SetRandomNameToShip(rChar);
-    rChar.Ship.Type = GenerateShipExt(SiegeShips, 1, rChar);
-    SetBaseShipData(rChar);
-    hcrew = GetMaxCrewQuantity(rChar);
-    SetCrewQuantity(rChar, hcrew);
-    SetCrewQuantityFull(rChar); // to_do
-
-    DeleteAttribute(rChar,"ship.sails");
-    DeleteAttribute(rChar,"ship.masts");
-    DeleteAttribute(rChar,"ship.blots");
-
-    Fantom_SetCannons(rChar, "war");
-    Fantom_SetBalls(rChar, "war");
-    Fantom_SetGoods(rChar, "war");
-	
-	if (man) rez = makeint(rez*19/124);
-	else rez = makeint(rez*15/87);
-	
-    return rez;
 }
 
 void Siege_DailyUpdate()
@@ -530,7 +551,7 @@ void CheckGroupCommander(string tmp)
     
     if ( !CharacterIsDead(rchar)) return;
     
-    int CapNum = sti(aData.ishipcount) + sti(aData.imanofwars);
+    int CapNum = sti(aData.ShipCount);
     
     for(int k = 1; k <= CapNum ; k++)
     {

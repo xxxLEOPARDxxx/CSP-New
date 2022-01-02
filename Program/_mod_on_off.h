@@ -2,7 +2,7 @@
 // здесь и далее ник boal - это разработческий ник ALexusB
 
 #define VERSION_NUMBER1       "ГПК v.1.3.2 ATR  "
-#define VERSION_NUMBER2       "CSP v2.2.0bFinal (30.10.2021)"
+#define VERSION_NUMBER2       "CSP v2.2.0bFinalRC2 (21.12.2021)"
 #define VERSION_NUMBER3       ""
 #define PROVIDER_TXT            "LEOPARD's team - MaelStrom Engine"
 #define VERSION_NUM      99910  // текущий номер
@@ -71,8 +71,10 @@ bool 	bPartitionSet 				= true;
 bool 	bSailorsWeight 				= true;
 // новые паруса
 bool 	bNewSails 					= true;
-// нет пиратам
-bool 	bNoPirateRestrictions		= true;
+// хардкорные анимации
+bool 	bHardAnimations				= true;
+// Усложнённые боссы 15.12.2021
+bool 	bHardBoss					= true;
 // -10 корабельного порога
 bool 	bHigherShipRate				= true;
 // Маркировка квестовых

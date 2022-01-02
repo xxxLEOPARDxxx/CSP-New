@@ -558,7 +558,7 @@ void DozorToMartiniqueShore()
 	DeleteAttribute(sld, "SinkTenPercent");
 	DeleteAttribute(sld, "DontRansackCaptain");
 	
-	//Korsar Maxim - фиксируем некоторые статы для флейта -->
+	// фиксируем некоторые статы для флейта -->
 	realships[sti(sld.ship.type)].SpeedRate = realships[sti(sld.ship.type)].SpeedRate + 1.5; //Уведичиваем скорость
 	realships[sti(sld.ship.type)].TurnRate  = realships[sti(sld.ship.type)].TurnRate  + 5; //Увеличиваем маневренность
 	realships[sti(sld.ship.type)].HP = 3000; //Фиксируем ХП
@@ -569,7 +569,7 @@ void DozorToMartiniqueShore()
 	realships[sti(sld.ship.type)].MaxCrew = 200;
 	realships[sti(sld.ship.type)].MinCrew = 35;
 	realships[sti(sld.ship.type)].OptCrew = 150;
-	//Korsar Maxim - фиксируем некоторые статы для флейта <--
+	// фиксируем некоторые статы для флейта <--
 	SetCrewQuantity(sld,GetMaxCrewQuantity(sld)); //Gregg - режем команду, а то прямо как у БМС вышел адовый оверперегруз
 	sld.skill.Sailing = 80; //подрезаем наву
 	sld.skill.Accuracy = 80; //подрезаем меткость

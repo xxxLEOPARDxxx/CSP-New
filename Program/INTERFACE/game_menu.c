@@ -53,7 +53,7 @@ void InitInterface_gm(string iniName)
 	string text4 = "Стартовые условия";
     SetFormatedText("STARTINFO_TITLE", text4);
 	SetFormatedText("VERSION_TEXT", VERSION_NUMBER1 + GetVerNum());
-	string text = "Анимация персонажа: "+pchar.model.animation+"\nДозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nНе ограничивать пиратские квесты: "+bNoPirateRestrictions+"\nАльтернативный баланс: "+bAltBalance;
+	string text = "Анимация персонажа: "+pchar.model.animation+"\nДозарядка пистолетов: "+bRechargePistolOnLine+"\nРежим хардкора: "+bHardcoreGame+"\nРаздел добычи: "+bPartitionSet+"\nВес матросов: "+bSailorsWeight+"\nУникальные паруса у пиратов: "+bNewSails+"\nХардкорные анимации: "+bHardAnimations+"\nУсложнённые боссы: "+bHardBoss+"\nАльтернативный баланс: "+bAltBalance;
 	string text3;
 	if (pchar.BaseNation == ENGLAND) text3 = "Англия";
 	if (pchar.BaseNation == FRANCE) text3 = "Франция";

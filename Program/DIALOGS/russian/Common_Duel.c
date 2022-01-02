@@ -277,11 +277,6 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		if (!CheckAttribute(npchar, "PGGAi.Boosted"))
 		{
 			Train_PPG(npchar, true, true);
-			if (npchar.id == "PsHero_2" && npchar.model=="PGG_Whisper_6")
-			{				
-				GiveItem2Character(npchar, "suit_1");
-				SetEquipedItemToCharacter(npchar, CIRASS_ITEM_TYPE, "suit_1");
-			}
 		}
 		break;
 	case "duel_exit":
@@ -584,6 +579,53 @@ void ProcessDuelDialog(ref NPChar, aref Link, aref NextDiag)
 		DialogExit();
 		LaunchDiceGame();
 	break;
-	}
 	
+// Квест ПГГ Виспер
+	case "Quest_Whisper":
+		npchar.QuestWhisper = true;
+		chrDisableReloadToLocation = true;
+
+		Dialog.Text = "Дело серьёзное, я не стану обсуждать его при всех. Продолжим у меня в комнате?";
+		link.l1 = "Ну пойдём.";
+		link.l1.go = "Quest_Whisper_Room";
+	break;
+	
+	case "Quest_Whisper_Room":
+		DoReloadCharacterToLocation(npchar.PGGAi.location.town + "_tavern_upstairs","goto","goto1");
+		ChangeCharacterAddressGroup(npchar, npchar.PGGAi.location.town + "_tavern_upstairs", "goto", "goto1");
+		pchar.InstantDialog = npchar.id;
+		
+		npchar.Dialog.Filename = "Quest\WhisperLine\Whisper_PGG.c";
+		npchar.dialog.currentnode   = "Quest_Whisper_1";
+		DoQuestFunctionDelay("InstantDialog", 1.1);
+		DialogExit();
+	break;
+	
+	case "Quest_Whisper_1":
+		dialog.text = "Итак, работа непростая, но куш, который мы сможем урвать, стоит риска.";
+		link.l1 = "Я слушаю.";
+		link.l1.go = "Quest_Whisper_2";
+	break;
+	
+	case "Quest_Whisper_2":
+		dialog.text = "Ты что, не запер"+ GetSexPhrase("","ла")+" за собой дверь?";
+		link.l1 = "...";
+		link.l1.go = "Quest_Whisper_2_exit";
+		for (int i = 1; i < 4; i++)
+		{
+			sld = GetCharacter(NPC_GenerateCharacter("PGG_Whisper_Incquisitor"+i, "PGG_Vincento_"+(2+i), "man", "man", MOD_SKILL_ENEMY_RATE/2, PIRATE, 1, false));
+			ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1_back");
+		}
+	break;
+
+	case "Quest_Whisper_2_exit":
+		DialogExit();
+		sld = CharacterFromId("PGG_Whisper_Incquisitor3");
+		sld.Dialog.Filename = "Quest\WhisperLine\Whisper_PGG.c";
+		sld.dialog.currentnode   = "Quest_Whisper_3";
+		pchar.InstantDialog = sld.id;
+		DoQuestFunctionDelay("InstantDialog", 0);
+	break;
+// <-- Квест ПГГ Виспер
+	}
 }

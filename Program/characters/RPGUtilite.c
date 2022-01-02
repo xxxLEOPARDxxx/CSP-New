@@ -79,7 +79,7 @@ float GetCharacterMaxEnergyABSValue(ref _refCharacter)
 	return ret;
 }
 
-//Korsar Maxim --> добавляем и убираем бонусную энергию для перса
+//--> добавляем и убираем бонусную энергию для перса
 void AddBonusEnergyToCharacter(ref _refCharacter, int iEnrg)
 {
 	if(CheckAttribute(_refCharacter, "bonusEnergy"))
@@ -102,7 +102,7 @@ void RemoveBonusEnergyFromCharacter(ref _refCharacter, int howMuch)
 	}
 	SetEnergyToCharacter(_refCharacter);
 }
-//Korsar Maxim <-- добавляем и убираем бонусную энергию для перса
+//<-- добавляем и убираем бонусную энергию для перса
 
 void SetEnergyToCharacter(ref _refCharacter)
 {
@@ -1734,6 +1734,7 @@ string GetCharType(aref _enemy)  //TO_DO переделать на тип в НПС
 {
     string  name  = "Warrior"; // define
     string  model = _enemy.model;
+	string  sex = _enemy.sex;
     switch (_enemy.chr_ai.type)
 	{
 		case LAI_TYPE_PATROL :
@@ -1783,7 +1784,7 @@ string GetCharType(aref _enemy)  //TO_DO переделать на тип в НПС
 		    name = "Citizen";
 		break;
 		case LAI_TYPE_WARRIOR : // to_do преверить тип
-		    if (model == "mummy" || model == "Skel1" || model == "Skel2" || model == "Skel3" || model == "Skel4" || model == "skeletcap" )
+		    if (model == "mummy" || HasSubStr(model,"Skel") || sex == "skeleton")
 		    {
 		        name = "Monster";
 		    }
@@ -2633,7 +2634,8 @@ void initNewMainCharacter()
     // куда плывем
 	if (sti(ch.nation) != PIRATE)
 	{
-		ch.HeroParam.ToCityId     = FindAlliedColonyForNation(sti(ch.nation), true);
+		if (sti(ch.nation) != SPAIN) ch.HeroParam.ToCityId = FindAlliedColonyForNation(sti(ch.nation), true);
+			else ch.HeroParam.ToCityId = FindAlliedColonyForNationExceptColony("Caracas"); //Каракас не берем, там оборотень
 	}
 	else
 	{

@@ -73,6 +73,9 @@ void InitInterface(string iniName)
 
 	InitTableHeader();
 	SetNodeUsing("EXIT_ENC_BTN",false);
+	SetNodeUsing("SHIP_PICTURE_VL", false);
+	SetNodeUsing("SHIP_PICTURE_VR", false);
+	SetNodeUsing("SHIP_BIG_PICTURE_VIDEO",false);
 }
 
 void XI_SetQuestData(bool qtitle)
@@ -903,12 +906,19 @@ void HideInfoWindow()
 {
 	SetNewPicture("SHIP_PICTURE_L", "None");
 	SetNewPicture("SHIP_PICTURE_R", "None");
+	SetNodeUsing("SHIP_PICTURE_VL",false);
+	SetNodeUsing("SHIP_PICTURE_VR",false);
+	curselectedshipl = 0;
+	curselectedshipr = 0;
 	CloseTooltip();
 	ExitRPGHint();
 }
 
+bool opened = false;
+
 void ShowPGGInfo()
 {
+	if (opened) return;
 	if (CheckAttribute(&GameInterface, CurTable + "." + CurRow + ".index") && GameInterface.(CurTable).(CurRow).td4.str != "Офицер на обучении")
 	{ // нет ПГГ в списке
 		ref chrefspp = CharacterFromID(GameInterface.(CurTable).(CurRow).index);
@@ -924,7 +934,18 @@ void ShowPGGInfo()
 		SetFormatedText("SHIP_RANK", refBaseShip.Class);
 		SetFormatedText("CLASS_ARMOR", refBaseShip.HullArmor);
 		SetNewGroupPicture("CLASS_ARMOR_ICON", "ICONS_CHAR", "Reputation");
-		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + shipTexture + ".tga.tx");
+		if (!CheckAttribute(refBaseShip,"QuestShip"))
+		{
+			SetNodeUsing("SHIP_BIG_PICTURE_VIDEO",false);
+			SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + shipTexture + ".tga.tx");
+		}
+		else 
+		{
+			SetNewPicture("SHIP_BIG_PICTURE", ""); 
+			SetNodeUsing("SHIP_BIG_PICTURE_VIDEO",true); 
+			SetNewVideoPicture("SHIP_BIG_PICTURE_VIDEO","SHIP_"+shipTexture);
+		}
+		opened = true;
 		SetNewPicture("SHIP_FRAME_PICTURE", "interfaces\Frame1.tga");
 		string texturedata;
 		if (IsCharacterPerkOn(chrefspp, "Grunt")) texturedata = "INTERFACES\Sith\Char_Master.tga";
@@ -1442,8 +1463,12 @@ void ExitRPGHint()
 		SetNodeUsing("CONTRACT",false);
 		SetNodeUsing("CONTRACT_TEXT",false);
 		sMessageMode = "";
+		opened = false;
 	}
 }
+
+int curselectedshipl = 0;
+int curselectedshipr = 0;
 
 void ShowInfoWindow()
 {
@@ -1472,13 +1497,33 @@ void ShowInfoWindow()
 			makeref(refBaseShip,ShipsTypes[Last_Left_Ship]);
 			sShip = refBaseShip.Name;
 			sPicture = "interfaces\ships\" + sShip + ".tga.tx";
-			SetNewPicture("SHIP_PICTURE_L", sPicture);
+			if (Last_Left_Ship < 125) {SetNewPicture("SHIP_PICTURE_L", sPicture); SetNodeUsing("SHIP_PICTURE_VL", false);}
+			else 
+			{
+				if (curselectedshipl != Last_Left_Ship)
+				{
+					SetNewPicture("SHIP_PICTURE_L", "");
+					SetNodeUsing("SHIP_PICTURE_VL", true); 
+					SetNewVideoPicture("SHIP_PICTURE_VL","SHIP_"+sShip);
+					curselectedshipl = Last_Left_Ship;
+				}
+			}
 		break;
 		case "SHIP_TABLE_LIST_RIGHT":
 			makeref(refBaseShip,ShipsTypes[Last_Right_Ship]);
 			sShip = refBaseShip.Name;
 			sPicture = "interfaces\ships\" + sShip + ".tga.tx";
-			SetNewPicture("SHIP_PICTURE_R", sPicture);
+			if (Last_Right_Ship < 125) {SetNewPicture("SHIP_PICTURE_R", sPicture); SetNodeUsing("SHIP_PICTURE_VR", false);}
+			else 
+			{
+				if (curselectedshipr != Last_Right_Ship)
+				{
+					SetNewPicture("SHIP_PICTURE_R", "");
+					SetNodeUsing("SHIP_PICTURE_VR", true); 
+					SetNewVideoPicture("SHIP_PICTURE_VR","SHIP_"+sShip);
+					curselectedshipr = Last_Right_Ship;
+				}
+			}
 		break;
 	}
 	// CreateTooltip("#" + sHeader, sText1, argb(255,255,255,255), "", argb(255,255,255,255), "", argb(255,192,255,192), "", argb(255,255,255,255), sPicture, "NATIONS", sGroupPicture, 64, 64);

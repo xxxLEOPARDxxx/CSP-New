@@ -654,6 +654,7 @@ void ProcessDialogEvent()
 		PChar.GenQuest.PGG_Quest.Island.Town = FindTownOnIsland(PChar.GenQuest.PGG_Quest.Island);
 		PChar.GenQuest.PGG_Quest.Days = GetMaxDaysFromIsland2Island(Islands[GetCharacterCurrentIsland(pchar)].id, PChar.GenQuest.PGG_Quest.Island)/2 + 1;
 		PChar.GenQuest.PGG_Quest.Goods = GOOD_SLAVES + drand(2);
+		if(CheckAttribute(pchar, "BSStart") && CheckAttribute(pchar, "BSInProgress"))	PChar.GenQuest.PGG_Quest.Goods = GOOD_GOLD;
 		if (CheckAttribute(NPChar, "PGGAi.ActiveQuest"))
 		{
 //			Dialog.Text = "Дело у меня к тебе, "+ GetSexPhrase("приятель","подруга") +". Знаю, можно тебе довериться, но в таверне обсуждать не возьмусь, ушей много лишних. Жду тебя у меня на борту. Помнишь, моя посудина зовется '" + NPChar.Ship.Name + "'.";
@@ -799,6 +800,7 @@ void ProcessDialogEvent()
 					PChar.GenQuest.PGG_Quest.Island.Town = FindTownOnIsland(PChar.GenQuest.PGG_Quest.Island);
 					PChar.GenQuest.PGG_Quest.Days = rand (4) + 5;
 					PChar.GenQuest.PGG_Quest.Goods = GOOD_SLAVES + drand(2);
+					if(CheckAttribute(pchar, "BSStart") && CheckAttribute(pchar, "BSInProgress"))	PChar.GenQuest.PGG_Quest.Goods = GOOD_GOLD;
 					PChar.GenQuest.PGG_Quest.PGGid = npchar.id;
 					NPChar.Nation.Bak = NPChar.Nation;
 

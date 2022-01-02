@@ -463,7 +463,7 @@ void ProcessDialogEvent()
 			npchar.LifeDay = 0;
 			TakeNItems(pchar, "indian11", 1);
 			Log_Info("Вы получили обноски");
-			PlaySound("interface\important_item.wav")
+			PlaySound("interface\important_item.wav");
 			Link.l1 = "Спасибо! Прощай.";
 			Link.l1.go = "chard_exit_to_cave_entrance_2";
 		break;
@@ -1145,6 +1145,7 @@ void ProcessDialogEvent()
 		break;
 		case "PC_nofight":
 			Pchar.model="PGG_Whisper_0_NoHat";
+			DeleteAttribute(pchar,"cirassID");
 			DoQuestFunctionDelay("WhisperHold", 0.5);
 			DialogExit();
 		break;
@@ -1310,12 +1311,17 @@ void ProcessDialogEvent()
 				}
 				else	
 				{
-					sTemp = "До инквизиции дошли сведения о твоих злодеяниях и богохульных ритуалах! ";
-					AddQuestRecord("TheLastMass", "1_2");
+					sTemp = "До инквизиции дошли сведения о твоих злодеяниях! ";
+					AddQuestRecord("TheLastMass", "1_1");
 				}
 				pchar.OrderHunter = "1";
 				Link.l1 = "Инквизитор? Советую тебе вернуться обратно в свою нору под церковью Сантьяго. Ну же, беги, пока я добр"+GetSexPhrase("ый","ая")+"!";
 				Link.l1.go = "OrderHunterMeeting"; 
+				if (WhisperIsHere())
+				{
+					Link.l1 = "...";
+					Link.l1.go = "OrderHunterMeetingWhisperIsHere"; 
+				}
 			}
 			else	
 			{
@@ -1338,6 +1344,26 @@ void ProcessDialogEvent()
 				}
 			}
 			dialog.text = GetFullName(PChar) + "! "+ sTemp + "Я выслеживал тебя долгое время, и вот, наконец, ты получишь заслуженное наказание.";
+			if (WhisperIsHere())
+			{
+				dialog.text = dialog.text + "\nС тобой эта ведьма Виспер? Мои братья будут рады, когда узнают, что я избавил церковь сразу от двух врагов!"
+			}
+		break;
+		
+		case "OrderHunterNegotiateWhisperIsHere":
+			pchar.PrevNpc = npchar.id;
+			SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+			StartInstantDialogNoType(pchar.WhisperPGG, "OrderHunterNegotiateWhisperIsHere_1", "Quest\WhisperLine\Whisper.c");
+		break;
+		
+		case "OrderHunterNegotiateWhisperIsHere_1":
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+			RestoreOldDialog(npchar);
+			dialog.text = "А вот теперь мне стало интересно. Нам нужно обязательно сходить на этот Риф Скелета.";
+            Link.l1 = "Что ж, я своё слово держу, можешь идти.";
+			Link.l1.go = "OrderHunterPeace";
+			Link.l2 = "Благодарю за информацию. Не принимай близко к сердцу, но я не могу позволить тебе уйти живым и предупредить о моём визите.";
+			Link.l2.go = "OrderHunterBattle";
 		break;
 		
 		case "OrderHunterNegotiate":
@@ -1349,21 +1375,45 @@ void ProcessDialogEvent()
 		
 		case "OrderHunterNegotiate_1":
 			dialog.text = "Дурная слава этого рифа обеспечивает защиту надёжней любых стен и орудий. Все обходят его стороной.";
-			AddQuestRecord("TheLastMass", "3");
-            Link.l1 = "Что ж, я своё слово держу, можешь идти.";
-			Link.l1.go = "OrderHunterPeace";
-			Link.l2 = "Благодарю за информацию. Не принимай близко к сердцу, но я не могу позволить тебе уйти живым и предупредить о моём визите.";
-			Link.l2.go = "OrderHunterBattle";
+			if (WhisperIsHere())
+			{
+				Link.l1.go = "OrderHunterNegotiateWhisperIsHere"; 
+			}
+			else
+			{
+				Link.l1 = "Что ж, я своё слово держу, можешь идти.";
+				Link.l1.go = "OrderHunterPeace";
+				Link.l2 = "Благодарю за информацию. Не принимай близко к сердцу, но я не могу позволить тебе уйти живым и предупредить о моём визите.";
+				Link.l2.go = "OrderHunterBattle";
+			}
 			
+			AddQuestRecord("TheLastMass", "3");
 			CaptureCapitol_SeaBattle();
 			pchar.quest.CaptureCapitol_SeaBattleStarted.win_condition.l1          = "location";
 			pchar.quest.CaptureCapitol_SeaBattleStarted.win_condition.l1.location = "Reefs";
 			pchar.quest.CaptureCapitol_SeaBattleStarted.function             = "CaptureCapitol_SeaBattleStarted";	
 		break;
 		
+		case "OrderHunterMeetingWhisperIsHere":
+			pchar.PrevNpc = npchar.id;
+			SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+			StartInstantDialogNoType(pchar.WhisperPGG, "OrderHunterMeetingWhisperIsHere_1", "Quest\WhisperLine\Whisper.c");
+		break;
+		
+		case "OrderHunterMeetingWhisperIsHere_1":
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+			RestoreOldDialog(npchar);
+			dialog.text = "Снова инквизиция? Меня уже тошнит от них\nЕсли тебя не затруднит, "+pchar.name+", сделай для меня одолжение и убей его.";
+            Link.l1 = "Может, дадим ему шанс одуматься? Инквизитор, советую тебе вернуться обратно в свою нору под церковью Сантьяго. Ну же, беги, пока я добр"+GetSexPhrase("ый","ая")+"!";
+			Link.l1.go = "OrderHunterMeetingWhisperIsHere_2"; 
+		break;
+		
+		case "OrderHunterMeetingWhisperIsHere_2":
+			StartInstantDialog(pchar.PrevNpc, "OrderHunterMeeting", "Quest\WhisperLine\Whisper.c");
+		break;
+		
 		case "OrderHunterMeeting":
-			dialog.text = "Сантьяго больше не является нашим главным штабом на Карибах. Сюда из Европы прибыл дон Хулио Иглесиас и начал строительство нового Капитула. А в связи с последними событиями, наш орден получил в распоряжение практически неограниченное финансирование и собственную военную эскадру.";
-
+			dialog.text = "Сантьяго больше не является нашей главной резиденцией на Карибах. Сюда из Европы прибыл дон Хулио Иглесиас и начал строительство нового Капитула. А в связи с последними событиями, наш орден получил в распоряжение практически неограниченное финансирование и собственную военную эскадру.";
             Link.l1 = "Надо же! Как интересно... А где находится ваша новая столица?";
 			Link.l1.go = "OrderHunterMeeting_1";
 		break;
@@ -1422,13 +1472,43 @@ void ProcessDialogEvent()
 		case "OrderLeader_1":
 			dialog.text = "Меня загнали в угол, подобно дикому зверю. Но я не стану уподобляться ему и впадать в страх! Нет! Я не отчаиваюсь, если мне суждено отправиться сегодня в Царствие Небесное - так тому и быть. Но я всё же надеюсь, что Господь наделит меня силой, чтобы я мог сразить врага его.";
 
-            Link.l1 = "Что это было там, наверху? Подозреваю, что после связей с нечистью это скорее ты враг Богу, а не я, и дорога тебе прямиком в Ад.";
+			if (WhisperIsHere())
+			{
+				Link.l1.go = "OrderLeaderWhisperIsHere"; 
+			}
+			else
+			{
+				Link.l1 = "Что это было там, наверху? Подозреваю, что после связей с нечистью это скорее ты враг Богу, а не я, и дорога тебе прямиком в Ад.";
+				Link.l1.go = "OrderLeader_2";
+			}
+		break;
+		
+		case "OrderLeaderWhisperIsHere":
+			pchar.PrevNpc = npchar.id;
+			SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+			StartInstantDialogNoType(pchar.WhisperPGG, "OrderLeaderWhisperIsHere_1", "Quest\WhisperLine\Whisper.c");
+		break;
+		
+		case "OrderLeaderWhisperIsHere_1":
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+			RestoreOldDialog(npchar);
+			dialog.text = "Так за всем этим стоял... безумный фанатик? Признаюсь честно - я немного разочарована.";
+			Link.l1.go = "OrderLeaderWhisperIsHere_2";
+		break;
+		
+		case "OrderLeaderWhisperIsHere_2":
+			SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+			StartInstantDialogNoType(pchar.PrevNpc, "OrderLeaderWhisperIsHere_3", "Quest\WhisperLine\Whisper.c");
+		break;
+		
+		case "OrderLeaderWhisperIsHere_3":
+			dialog.text = "Это ведь ты, Виспер? Я многое слышал о злоключениях, что ты устроила моему брату, Антониу де Соузе. Думаю, он был бы рад узнать, что я наконец отправил тебя в ад, ведьма!";
+			Link.l1 = "Что это было там, наверху? Подозреваю, что после связей с нечистью это скорее ты враг Богу, а не мы, и дорога тебе прямиком в Ад.";
 			Link.l1.go = "OrderLeader_2";
 		break;
 		
 		case "OrderLeader_2":
-			dialog.text = "Посмотри на икону у меня за спиной. Георгий Победоносный сражается со змеем. Она прекрасна, не правда ли? Я много смотрел на неё и думал, а что если не убивать змея, а приручить его? И вот, однажды я нашёл способ\nКогда-то эти люди были слугами тьмы, но я сумел обуздать силы этого проклятого острова и направить их во благо. Я сделал их орудиями в руках Господа!";
-
+			dialog.text = "Посмотри на икону у меня за спиной. Георгий Победоносный сражается со змеем. Она прекрасна, не правда ли? Я много смотрел на неё и думал, а что если не убивать змея, а приручить его? Подобно тому, как человек приручает агнца, и других тварей. И вот, однажды я нашёл способ\nКогда-то эти люди были слугами тьмы, но я сумел обуздать силы этого проклятого острова и направить их во благо. Я сделал их орудиями в руках Господа!";
             Link.l1 = "Во благо своих извращённых желаний? Не представляю как ты этого добился и знать не хочу. В этих гниющих телах были души людей! Вместо того, чтобы освободить их, ты оставил их мучиться и подчиняться твоим капризам. Вряд ли Богу такое понравится. Но теперь всё кончено, они обрели покой.";
 			Link.l1.go = "OrderLeader_3";
 		break;
@@ -1518,6 +1598,242 @@ void ProcessDialogEvent()
 		case "CapitolCaptured_sell":
 			pchar.SellCapitol = true;
 			DialogExit();
+			if (CheckAttribute(pchar, "WhisperChSpokeToUsurer"))
+			{
+				AddQuestRecord("WhisperChinamanRelic", "4");
+			}
 		break;
+		
+		case "Beatrice":
+			dialog.text = "Нечасто увидишь тут девушек. Вы тоже собираетесь устроиться офицером на какое-нибудь судно? Я бы не советовала пытать удачу здесь, местным пиратам от нас нужно только одно, и это вовсе не знание морского дела.";
+            Link.l1 = "Буду иметь в виду.";
+			Link.l1.go = "exit";
+			npchar.MetWhisper = true;
+		break;
+		
+		case "Hugo_Lesopilka":
+			dialog.text = "Налей-ка мне ещё, девочка.";
+            Link.l1 = "Я тебе не официантка!";
+			Link.l1.go = "exit";
+		break;
+		
+		//Реакции
+		case "WhisperIsHere_exit":
+			DialogExit();
+			RestoreOldDialog(npchar);
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+		break;
+		
+		case "BS_WhisperIsHere":
+			dialog.text = "Снова придётся воевать с Испанией? Что ж, мне не привыкать.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_1_WhisperIsHere":
+			dialog.text = "Пташка? Ты о Максин?";
+			Link.l1 = "Да. Надеюсь, она ещё в Порт Рояле.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_2_WhisperIsHere":
+			dialog.text = "Похоже, от 'Рейнджера' мало что осталось...";
+			Link.l1 = "Пойдём в Форт Оранж. Быть может, местные пропойцы видели, что здесь произошло.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_3_WhisperIsHere":
+			dialog.text = "'Держи друзей близко, а врагов - еще ближе.' Мне нравится эта Гатри!";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_4_WhisperIsHere":
+			dialog.text = "По мне, так Энн поступила правильно. Свидетели в нашем деле ни к чему.";
+			Link.l1 = "Пожалуй, ты права.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_5_WhisperIsHere":
+			dialog.text = "У меня плохое предчувствие. Будь начеку.";
+			Link.l1 = "Ты о чём? Дело сделано, мы наконец можем расслабиться.";
+			Link.l1.go = "BS_5_WhisperIsHere_1";
+		break;
+		
+		case "BS_5_WhisperIsHere_1":
+			dialog.text = "Расслабиться, когда на кону сто пятьдесят миллионов? В такие моменты тебе нужно быть наготове как никогда прежде!";
+			Link.l1 = "Не нервничай ты так. Ничего не случится.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_6_WhisperIsHere_1":
+			dialog.text = "Ох, как же мне плохо\nНе хочу тебя попрекать, но ведь я же говорила быть осторожней. Чёрт, я думала ты знаешь, что делаешь, и тоже выпила эту отраву.";
+			Link.l1 = "Прости, это было немного неожиданно, даже для меня. Флинт отравил нас? Как остальные?";
+			Link.l1.go = "BS_6_WhisperIsHere_2";
+		break;
+		
+		case "BS_6_WhisperIsHere_2":
+			dialog.text = "Я знаю не больше твоего, сама очнулась полчаса назад.";
+			Link.l1 = "Ладно, давай спускаться вниз. Может в таверне кто-то что слышал.";
+			Link.l1.go = "BS_6_WhisperIsHere_3";
+		break;
+		
+		case "BS_6_WhisperIsHere_3":
+			dialog.text = "Только не спеши, у меня голова всё еще кружится.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_7_WhisperIsHere":
+			dialog.text = "Да уж, знатно вас кинул этот Флинт.";
+			Link.l1 = "Он кинул всех нас. Тебя, как моего партнёра, в том числе.";
+			Link.l1.go = "BS_7_WhisperIsHere_1";
+		break;
+		
+		case "BS_7_WhisperIsHere_1":
+			dialog.text = "Ты прав"+ GetSexPhrase("","а") +", и мне не терпится начистить ему рожу.";
+			Link.l1 = "Мне тоже, но только после того, как он ответит зачем он это сделал.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_8_WhisperIsHere":
+			dialog.text = "Не высовывайтесь? А не боишься, что нас там перебьют, пока Вейн будет отсиживаться?";
+			Link.l1 = "Мы с тобой столькое пережили. Неужели ты испугалась какой-то жалкой засады?";
+			Link.l1.go = "BS_8_WhisperIsHere_1";
+		break;
+		
+		case "BS_8_WhisperIsHere_1":
+			dialog.text = "Твоя правда, тогда веди.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_9_WhisperIsHere":
+			dialog.text = "Давай лучше не будем её злить. Не хватало нам нажить ещё одного врага...";
+			Link.l1.go = "BS_9_WhisperIsHere_1";
+		break;
+		
+		case "BS_9_WhisperIsHere_1":
+			DialogExit();
+			RestoreOldDialog(npchar);
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+			StartInstantDialogNoType("Pirates_trader", "BS_NPVK_6_1", "Quest\BlackSails\NePluyjVKolodec.c");
+		break;
+		
+		case "BS_10_WhisperIsHere":
+			dialog.text = "Хотя... Наверное нам проще было бы её убить.";
+			Link.l1.go = "BS_10_WhisperIsHere_1";
+		break;
+		
+		case "BS_10_WhisperIsHere_1":
+			DialogExit();
+			RestoreOldDialog(npchar);
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+			StartInstantDialogNoType("Pirates_trader", "BS_NPVK_7_1", "Quest\BlackSails\NePluyjVKolodec.c");
+		break;
+		
+		case "BS_11_WhisperIsHere":
+			dialog.text = "Эта бесцельная беготня меня изрядно утомила.";
+			Link.l1 = "Меня тоже. Но я чувствую, что Сильвер где-то рядом. Давай ещё проверим тюрьму.";
+			Link.l1.go = "BS_9_WhisperIsHere_1";
+		break;
+		
+		case "BS_12_WhisperIsHere":
+			dialog.text = "Вот это драка! Я даже немного вспотела.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_13_WhisperIsHere":
+			dialog.text = "Что будешь делать со своей долей?";
+			Link.l1 = "Не знаю. Думаю завязать с пиратством. Может колонию отстрою, или две. А ты?";
+			Link.l1.go = "BS_13_WhisperIsHere_1";
+		break;
+		
+		case "BS_13_WhisperIsHere_1":
+			dialog.text = "Я хочу вернуться к себе на родину. Быть может, деньги помогут с этим.";
+			Link.l1 = "Разве это так уж дорого? Садись пассажиром на любой попутный корабль, и вперед!";
+			Link.l1.go = "BS_13_WhisperIsHere_2";
+		break;
+		
+		case "BS_13_WhisperIsHere_2":
+			dialog.text = "Моя родина находится очень далеко. Боюсь, корабли туда не ходят.";
+			Link.l1 = "Опять ты говоришь загадками. Ладно, пойдём уже. Думаю, Сильвер закончил.";
+			Link.l1.go = "BS_13_WhisperIsHere_3";
+		break;
+		
+		case "BS_13_WhisperIsHere_3":
+			DialogExit();
+			RestoreOldDialog(npchar);
+			LAi_SetWarriorTypeNoGroup(npchar);
+			LAi_SetPlayerType(pchar);
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+			ChangeCharacterAddressGroup(npchar, "Pirates_tavern", "goto", "goto2");
+			BSHangover_Cutscene_2("");
+		break;
+	
+		case "BS_14_WhisperIsHere_1":
+			dialog.text = "Эх... Похоже, нашим с тобой мечтам не суждено будет сбыться.";
+			Link.l1 = "Похоже на то. Но по крайней мере, ты пока не бросишь меня ради своей родины. Я к тебе уже привязал"+ GetSexPhrase("ся","ась") +", знаешь ли.";
+			Link.l1.go = "BS_14_WhisperIsHere_2";
+		break;
+		
+		case "BS_14_WhisperIsHere_2":
+			dialog.text = "Ох, не заставляй меня краснеть.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+	
+		case "BS_15_WhisperIsHere":
+			dialog.text = "Долго он ещё собирается бегать?";
+			Link.l1 = "Пока не приведёт нас к своему кораблю, наверное.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+	
+		case "BS_16_WhisperIsHere":
+			dialog.text = "А вот и корабль. Похоже, что бы был"+ GetSexPhrase("","а") +" прав"+ GetSexPhrase("","а") +".";
+			Link.l1 = "Я всегда прав"+ GetSexPhrase("","а") +".";
+			Link.l1.go = "BS_16_WhisperIsHere_1";
+		break;
+	
+		case "BS_16_WhisperIsHere_1":
+			dialog.text = "С этим я бы поспорила, но ладно.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+	
+		case "BS_17_WhisperIsHere":
+			dialog.text = "Смотрите, к нам гости!";
+			Link.l1.go = "BS_17_WhisperIsHere_1";
+		break;
+		
+		case "BS_17_WhisperIsHere_1":
+			DialogExit();
+			RestoreOldDialog(npchar);
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+			StartInstantDialogNoType("Flint", "BS_PN_8_1", "Quest\BlackSails\Pogonya_Nachalas.c");
+		break;
+		
+		case "BS_18_WhisperIsHere":
+			dialog.text = "Похоже, что нам досталась самая 'грязная' работа.";
+			Link.l1 = "Да ладно тебе.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_19_WhisperIsHere":
+			dialog.text = "Давай уже выйдем на свежий воздух. Хватит с меня подземелий на сегодня.";
+			Link.l1 = "Да, пойдём.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_20_WhisperIsHere":
+			dialog.text = "Что-то мне нехорошо...";
+			Link.l1.go = "BS_20_WhisperIsHere_1";
+		break;
+		
+		case "BS_20_WhisperIsHere_1":
+			DialogExit();
+			RestoreOldDialog(npchar);
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+			SetCharacterTask_Dead(npchar);
+			DoQuestFunctionDelay("BSUrka_PoisonOfficers", 1);
+			DoQuestFunctionDelay("BSUrka_PoisonSelf", 3.0);
+			DoQuestFunctionDelay("BSUrka_Poison_Flint", 6.0);
+		break;
+
+		// <- Реакции
 	}
 }

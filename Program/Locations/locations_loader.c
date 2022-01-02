@@ -1464,7 +1464,7 @@ void ShowAllLocators()
     VisibleLocatorsGroup("quest", 1.0, 15.0, 255, 255, 200, 200);
     VisibleLocatorsGroup("patrol", 1.0, 15.0, 255, 255, 100, 200);
     VisibleLocatorsGroup("tables", 1.0, 15.0, 255, 255, 0, 0);
-	//Korsar Maxim - видимость новых (и старых) локаторов
+	// видимость новых (и старых) локаторов
 	VisibleLocatorsGroup("ships_other", 1.0, 15.0, 255, 255, 200, 200);
 	VisibleLocatorsGroup("ships", 1.0, 15.0, 255, 255, 200, 200);
 	VisibleLocatorsGroup("Actor", 1.0, 15.0, 155, 255, 0, 0);
@@ -1505,7 +1505,7 @@ void HideAllLocators()
     HideLocatorsGroup("patrol");
     HideLocatorsGroup("tables");
 	
-	//Korsar Maxim - прячем новые (и старые) локаторы
+	// прячем новые (и старые) локаторы
     HideLocatorsGroup("ships_other");
     HideLocatorsGroup("ships");
     HideLocatorsGroup("Actor");

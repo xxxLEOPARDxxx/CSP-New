@@ -592,6 +592,10 @@ void ProcessFrame()
 			SetDescription();
    			GameInterface.TABLE_LIST.select = 1;
 			GameInterface.TABLE_LIST.top = 0;
+
+			bool canMoveGoods = GetRemovable(refCharacter) && GetShipRemovable(refCharacter);
+			SetSelectable("TAKE_ALL_FROM_SHIP", canMoveGoods);
+			SetSelectable("TAKE_ALL_FROM_STORAGE", canMoveGoods);
 		}
 	}
 }

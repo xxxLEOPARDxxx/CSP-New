@@ -676,6 +676,23 @@ void FillAboardCabinBox(ref _location, ref _npchar)
 		// _location.box1.items.talisman3 = 1;
         ok = false;
 	}
+	if(_npchar.id == "Flint")
+	{
+		_location.box1.items.icollection = 3 + rand(5);
+		_location.box1.items.indian1 = 1;
+		_location.box1.items.indian7 = 1;
+		_location.box1.items.chest = 5 + rand(10);
+		_location.box1.items.jewelry1 = 40+rand(5);
+		_location.box1.items.jewelry2 = 40+rand(5);
+		_location.box1.items.jewelry3 = 40+rand(5);
+		_location.box1.items.jewelry4 = 31+rand(5);
+		_location.box1.items.jewelry6 = rand(50);
+		_location.box1.items.jewelry7 = rand(100);
+		_location.box1.items.jewelry10 = rand(50);
+		_location.box1.items.jewelry14 = rand(50);
+		_location.box1.items.jewelry15 = rand(10);
+		_location.box1.items.jewelry18 = rand(100);
+	}
 	//Квест "Золото не тонет", английский галеон у Доминики, драгоценности
 	if (_npchar.id == "PDM_Lesopilka_Galeon")
 	{
@@ -2064,6 +2081,20 @@ void SetQuestAboardCabinDialog(ref refChar)
 				DeleteAttribute(refChar,"SaveItemsForDead");
 			}
 		}
+		if(refChar.CaptanId == "Flint")
+		{
+			if(CheckAttribute(pchar,"FlintBoardingDialog"))
+			{
+				LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
+				sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+				sld.dialog.currentnode = "BS_F1_35";
+				BSHangover_FlintFight();
+			}
+			else
+			{
+				DeleteAttribute(refChar,"SaveItemsForDead");
+			}
+		}
 		if(refChar.CaptanId == "ShipWreck_BadPirate")
 		{
 			LAi_SetCheckMinHP(refChar, 10, true, "QuestAboardCabinDialog");  // сколько НР мин
@@ -2568,22 +2599,7 @@ void PDMQuestsInit()
 	sld.lastname	= "Кэллоу";
 	sld.rank     = 7;
 	sld.model	= "ozg_green";
-	SetCharacterPerk(sld, "HullDamageUp");
-	SetCharacterPerk(sld, "CrewDamageUp");
-	SetCharacterPerk(sld, "SailsDamageUp");
-	SetCharacterPerk(sld, "LongRangeShoot");
-	SetCharacterPerk(sld, "ShipDefenseProfessional");
-	SetCharacterPerk(sld, "SwordplayProfessional");
-	SetCharacterPerk(sld, "BasicDefense");
-	SetCharacterPerk(sld, "AdvancedDefense");
-	SetCharacterPerk(sld, "CriticalHit");
-	SetCharacterPerk(sld, "Sliding");
-	SetCharacterPerk(sld, "Energaiser");
-	SetCharacterPerk(sld, "ByWorker");
 	GiveItem2Character(sld, BLADE_LONG);
-	SetSPECIAL(sld, 8,9,6,3,8,6,10);
-	SetSelfSkill(sld, 20, 40, 15, 20, 20);		//(ЛО, СО, ТО, пистолеты, фортуна)
-	SetShipSkill(sld, 20, 10, 45, 40, 32, 10, 15, 15, 12);	//(лидер, торг, точн, пушки, навиг, ремонт, аборд, защита, скрыт)
 	sld.sex = "man";
 	sld.City = "LaVega";
 	sld.location	= "LaVega_tavern";
@@ -2592,27 +2608,6 @@ void PDMQuestsInit()
 	LAi_SetSitType(sld);
 	LAi_SetImmortal(sld, true);
 	ChangeCharacterAddressGroup(sld,"LaVega_tavern","sit","sit_base3");
-	//Губернатор Ле Франсуа КЛОН
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_LeFransua_Mayor_Klon", "huber_fra", "man", "man", 30, PIRATE, -1, false));
-	sld.name	= "Бартоломью";
-	sld.lastname	= "Роджер";
-	sld.nation = PIRATE;
-	LAi_SetSitType(sld);
-	LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
-	LAi_SetImmortal(sld, true);
-	GiveItem2Character(sld, GUN_COMMON);
-	GiveItem2Character(sld, BLADE_LONG);
-	LAi_SetHuberType(sld);
-	SetRandSPECIAL(sld);
-    SetSelfSkill(sld, 90, 90, 90, 60, 70);
-	sld.standUp = true; //вставать и нападать на врага
-	//Ростовщик на Тортуге КЛОН
-	sld = GetCharacter(NPC_GenerateCharacter("PDM_Tortuga_usurer_Klon", "usurer_3", "man", "man", 1, FRANCE, -1, false));
-	sld.City = "Tortuga";
-	sld.Dialog.Filename = "PDM_Cursed_Idol.c";
-	LAi_SetStayType(sld);
-	LAi_SetImmortal(sld, true);
-	LAi_group_MoveCharacter(sld, "FRANCE_CITIZENS");
 	
 	//******Новая Родина Sinistra******
 	//Хьюго Лесопилка
@@ -2716,9 +2711,9 @@ void OfficerGirlInit()
 	sld.rank 	= 15;
     sld.reputation = 70; // good девочка
 	sld.alignment = "good";
-	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	// Прописка всех моделей для кирас. -->
 	sld.HeroModel = "PGG_YokoDias_0,PGG_YokoDias_1,PGG_YokoDias_2,PGG_YokoDias_3,PGG_YokoDias_4,PGG_YokoDias_5,PGG_YokoDias_6,PGG_YokoDias_7,PGG_YokoDias_8";
-	//Korsar Maxim - Прописка всех моделей для кирас. <--
+	// Прописка всех моделей для кирас. <--
 	GiveItem2Character(sld, "blade5");
 	TakeNItems(sld,"potion2", Rand(4)+1);
 	sld.equip.blade = "blade5";
@@ -3266,11 +3261,12 @@ void SetReefSkeletonsToLocation(aref _location, string loc)
 			if (GetDataDay() == 3 && GetDataMonth() == 3 && GetTime() >= 3.0 && GetTime() < 4.0 && loc == "MountainPath" && !CheckAttribute(pchar,"salasarmet") && CheckAttribute(pchar,"SalasarEventKnow"))
 			{
 				pchar.salasarmet = true;
-				if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("salasar", "salasar", "skeleton", "spy", iRank, PIRATE, 1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("salasar", "salasar", "skeleton", "spy", iRank, PIRATE, 1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
 				else sld = GetCharacter(NPC_GenerateCharacter("salasar", "salasar", "skeleton", "skeleton", iRank, PIRATE, 1, true));
 				sld.name = "Армандо";
 				sld.lastname = "Салазар";
 				sld.SaveItemsForDead = true;
+				if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 				
 				SetSPECIAL(sld, 10,10,10,10,10,10,10); // SPECIAL (Сила, Восприятие, Выносливость, Лидерство, Обучаемость, Реакция, Удача)
 				FantomMakeCoolFighter(sld, 55, 100, 100, RandPhraseSimple("blade46","blade42"), "pistol8", 300); //55 лвл, Кханда или Офицерский клеванг, Бландербуз
@@ -3294,7 +3290,7 @@ void SetReefSkeletonsToLocation(aref _location, string loc)
 			}
 			if (loc != "MountainPath")
 			{
-				if (startHeroType != 2 && startHeroType != 7)
+				if (startHeroType != 2 && startHeroType != 7 && !CheckAttribute(pchar, "PGGWhisperQuest"))
 				{
 					Log_info("Вы пробудили проклятых!");
 					chrDisableReloadToLocation = true; //пока Злой Скелет Гигант жив - хер, а не выход

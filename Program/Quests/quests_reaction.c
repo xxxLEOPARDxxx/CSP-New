@@ -303,7 +303,7 @@ void QuestComplete(string sQuestName, string qname)
     			PlayVoice("interface\_EvShip1.wav");
     			LAi_SetCurHPMax(npchar);
     			AddPassenger(Pchar, npchar, false);
-    			Log_Info("Офицер " + GetFullName(npchar) + " поднялся на борт.");
+    			Log_Info("" + GetFullName(npchar) + " поднял"+NPCharSexPhrase(npchar,"ся","ась")+" на борт.");
             }
         break;
 		case "Get_TreasureBarrel":
@@ -1202,7 +1202,7 @@ void QuestComplete(string sQuestName, string qname)
 				LAi_group_SetCheck("CoastalGuards", "CoastalGuardsAllDead");
 				pchar.quest.CoastG.win_condition.l1 = "NPC_Death";
 				pchar.quest.CoastG.win_condition.l1.character = sld.id;
-				pchar.quest.CoastG.win_condition = "Rand_ContraFinal";
+				pchar.quest.CoastG.win_condition.function = "Rand_ContraFinal";
 				//LAi_SetActorType(Pchar); //fix
 				//LAi_ActorFollow(PChar, &Characters[makeint(Pchar.quest.contraband.SoldierIDX1)], "", 35);
 				//Lai_QuestDelay("Rand_CoastalPatrolAppear", 3.0);
@@ -1646,7 +1646,7 @@ void QuestComplete(string sQuestName, string qname)
 
 		case "convoy_agreeded":
 			sld = characterFromID("QuestTrader");
-			CharacterIntoCompanionAndGoOut(pchar, sld, "reload", "reload1_back", 3.0, false);
+			CharacterIntoCompanionAndGoOut(pchar, sld, "reload", "reload1", 2.0, false);
             ReOpenQuestHeader("convoy_quest");
 			AddQuestRecord("convoy_quest", "1");
 			AddQuestUserData("convoy_quest", "sSex", GetSexPhrase("ся","ась"));
@@ -2368,11 +2368,12 @@ void QuestComplete(string sQuestName, string qname)
 					}	
 					//<-- генерим ранг 
 					// sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "spy", "spy", Rank, PIRATE, 0, true)); // LEO: Убрал от бугуртов недовольных - Gregg :)
-					if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "man", "spy", Rank, PIRATE, 0, true)); // LEO: Пизда превозмогаторам 08.12.2021
+					if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "man", "spy", Rank, PIRATE, 0, true)); // LEO: Пизда превозмогаторам 08.12.2021
 					else sld = GetCharacter(NPC_GenerateCharacter("MayorQuestSpy", "citiz_"+(rand(11)+1), "man", "man_fast", Rank, PIRATE, 0, true));
 					sld.dialog.filename = "MayorQuests_dialog.c";
 					sld.dialog.currentnode = "SeekSpy_house";
 					sld.greeting = "cit_common"; 
+					if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 					sld.money =  1000 + (sti(pchar.rank)*500) + rand(5000);
 			        sld.SaveItemsForDead  = true; 
 					AddBonusEnergyToCharacter(sld, 30);
@@ -2952,7 +2953,7 @@ void QuestComplete(string sQuestName, string qname)
 		//////////////////////////////////////////////////////////////////////// 		
 		case "Berglars_Ostin": 
 			chrDisableReloadToLocation = true;
-			if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Ostin", "Ostin", "man", "spy", 30, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
+			if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Ostin", "Ostin", "man", "spy", 30, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
 			else sld = GetCharacter(NPC_GenerateCharacter("Ostin", "Ostin", "man", "man_fast", 30, SPAIN, -1, false));
 			FantomMakeCoolFighter(sld, 30, 100, 70, "blade32", "pistol5", 50);
 			sld.name 	= "Альберто";
@@ -2961,6 +2962,7 @@ void QuestComplete(string sQuestName, string qname)
 			sld.dialog.filename   = "Quest\Berglars.c";
 			sld.dialog.currentnode = "Final_fight";
 			sld.greeting = "Gr_OliverTrast";
+			if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 			sld.money = 30670;
 			sld.SaveItemsForDead  = true; 
 			sld.DontClearDead = true;
@@ -3339,15 +3341,15 @@ void QuestComplete(string sQuestName, string qname)
 			Log_TestInfo("ПГГ ушел");
 			sld = CharacterFromID(pchar.chosenHero);
 			DeleteAttribute(pchar, "chosenHero");
-			string futureLoc = sld.PGGAi.location.town.backup + "_Tavern";
-			ChangeCharacterAddressGroup(sld, futureLoc, "goto", "goto1");
+			string futureLoc = "none";
+			ChangeCharacterAddress(sld, futureLoc, "");
 			LAi_SetImmortal(sld, false);
 			if (CheckAttribute(sld, "PGGOfficers"))
 			{
 				for (i = 0; i < sti(sld.PGGOfficers); i++)
 				{
 					chr = CharacterFromID("PGGOfficer" + i);
-					ChangeCharacterAddressGroup(chr, futureLoc, "goto", "goto1");
+					ChangeCharacterAddress(chr, futureLoc, "");
 				}
 				DeleteAttribute(sld, "PGGOfficers");
 			}
@@ -7167,23 +7169,16 @@ void QuestComplete(string sQuestName, string qname)
 					Blade = "blade24";
 				}
 				sld = GetCharacter(NPC_GenerateCharacter("Soldier_"+i, Model, "man", "man", Rank, sti(colonies[iTemp].nation), 0, true));
-				//FantomMakeCoolFighter(sld, Rank, 100, 90, Blade, "pistol5", 200);
-				//Boyer mod
 				FantomMakeCoolFighter(sld, Rank, (80 + round(4 * MOD_SKILL_ENEMY_RATE / 2)), (70 + round(4 * MOD_SKILL_ENEMY_RATE / 2)), Blade, "pistol5", (140 + round(10 * MOD_SKILL_ENEMY_RATE / 2)));
 				sld.City = colonies[iTemp].id;
 				sld.CityType = "soldier";
 				sld.Dialog.Filename = "Quest\Isabella\BrigCaptain.c";
 				sld.dialog.currentnode = "ArrestInHome_2";
 				LAi_SetWarriorType(sld);
-				if (i != 1) LAi_warrior_DialogEnable(sld, false);
+				if (i == 1) {LAi_ActorDialog(sld, pchar, "", 1.5, 0); LAi_SetActorTypeNoGroup(sld);}
 				LAi_group_MoveCharacter(sld, GetNationNameByType(sti(colonies[iTemp].nation)) + "_citizens");
 				ChangeCharacterAddressGroup(sld, "SanJuan_houseSp6", "reload", "reload1");
 			}
-			sld = characterFromID("Soldier_1");
-			LAi_SetActorTypeNoGroup(sld);
-			//LAi_ActorDialog(sld, pchar, "", 1.5, 0);
-			//Boyer mod #20170318-33...give slightly more time...to find cover maybe?
-			nTimeAdd = MOD_SKILL_ENEMY_RATE * 0.13;
         break;
 		//через два месяца Алиллу - в дом
 		case "Romantic_AtillaToHouse":
@@ -7847,11 +7842,12 @@ void QuestComplete(string sQuestName, string qname)
         case "Ascold_InGraveAfterFight":
 			pchar.questTemp.Ascold = "Ascold_MummyIsLive";
 		    LAi_LocationFightDisable(&Locations[FindLocation("Guadeloupe_Cave")], true); 
-			if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("LeifEricson", "Mummy", "skeleton", "spy", 100, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+			if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("LeifEricson", "Mummy", "skeleton", "spy", 100, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
 			else sld = GetCharacter(NPC_GenerateCharacter("LeifEricson", "Mummy", "skeleton", "man_fast", 100, PIRATE, -1, true));
 			FantomMakeCoolFighter(sld, 100, 100, 100, "blade28", "", 3000);
 			sld.name = "Лейф";
 			sld.lastname = "Эриксон";
+			if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 			sld.Dialog.Filename = "Quest\LeifEricson.c";
             sld.SaveItemsForDead = true; // сохранять на трупе вещи
 			GiveItem2Character(sld, "Azzy_bottle");
@@ -8243,6 +8239,7 @@ void QuestComplete(string sQuestName, string qname)
             LAi_SetFightMode(pchar, false);
 			LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], true);
 			Pchar.model="PGG_Whisper_0_NoHat";
+			DeleteAttribute(pchar,"cirassID");
 			DoQuestFunctionDelay("WhisperHold", 0.5);
 		break;
 		
@@ -9692,13 +9689,24 @@ void QuestComplete(string sQuestName, string qname)
 		Pchar.quest.LukesEscape.function = "LukesEscape";
 	break;
 	case "HealingPoison":
-		SetLaunchFrameFormParam("Прошёл месяц тяжелых страданий, и вы излечились яда.", "Reload_To_Location", 0.1, 2.0);
-		SetLaunchFrameReloadLocationParam("Bridgetown_church", "barmen","bar1", "");
+		SetLaunchFrameFormParam("Прошёл месяц тяжелых страданий, и вы излечились от яда.", "Reload_To_Location", 0.1, 2.0);
+		if(PChar.location == "Bridgetown_church")
+		{
+			SetLaunchFrameReloadLocationParam("Bridgetown_church", "barmen","bar1", "");
+		}
+		if(PChar.location == "Farmacia")
+		{
+			SetLaunchFrameReloadLocationParam("Farmacia", "barmen","bar2", "");
+		}
 		LaunchFrameForm();
 		AddDataToCurrent(0, 1, 0);
 		DeleteAttribute(PChar,"Luke.BadPoison");
 		AddCharacterHealth(pchar, 50);
 		AddQuestRecord("Silence_Price", "6_1");
+		/*bDisableFastReload = true;		БЛОКИРОВКА ПОСЫЛЬНОГО ПО ИСТОРИИ ДАВНЕЙ ЖРАЖБЫ
+		Pchar.quest.IDD_Pochta_1.win_condition.l1 = "ExitFromLocation";
+		Pchar.quest.IDD_Pochta_1.win_condition.l1.location = Pchar.location;
+		Pchar.quest.IDD_Pochta_1.function = "IDD_Pochta_1";*/
 	break;
 		//конец История давней дружбы
 		//Евент с искателем лазутчиков Lipsar//
@@ -9781,19 +9789,6 @@ void QuestComplete(string sQuestName, string qname)
 			sld.dialog.currentnode = "CollowNeRad_1";
 		break;
 		
-		case "PDM_Pobeda_nad_Callow":
-			AddQuestRecord("PDM_Cursed_Idol", "6");							//Квест под номером в СЖ
-			CloseQuestHeader("PDM_Cursed_Idol"); 								//Закончить квест в СЖ
-			AddCharacterExpToSkill(PChar, "Leadership", 100);
-    		AddCharacterExpToSkill(PChar, "Sailing", 100);
-    		AddCharacterExpToSkill(PChar, "Accuracy", 100);
-    		AddCharacterExpToSkill(PChar, "Cannons", 100);
-			AddCharacterExpToSkill(PChar, "Repair", 100);
-    		AddCharacterExpToSkill(PChar, "Defence", 100);
-    		AddCharacterExpToSkill(PChar, "Sneak", 100);
-			PChar.quest.PDM_NEPobeda_nad_Callow.over = "yes";
-		break;
-		
 		case "PDM_Callow_poradomoy":
 			sld = CharacterFromID("James_Callow")
 			sld.dialog.filename = "Quest/PDM/Cursed_Idol.c";
@@ -9802,7 +9797,67 @@ void QuestComplete(string sQuestName, string qname)
 			chrDisableReloadToLocation = false;
 			bDisableFastReload = false;
 			LAi_LocationFightDisable(loadedLocation, true); //запрещаем оружие
+			
+			sld = CharacterFromID("Tortuga_usurer")
+			sld.dialog.filename = "Usurer_dialog.c";
+			sld.dialog.currentnode = "First time";
 		break;
+		
+		case "PDM_PI_Skelety_on_Ship":
+            pchar.quest.Munity = "";
+            pchar.GenQuest.MunityStart = true;
+			//SetMusic("none");
+			//PlayStereoOGG("CSR\Music\Sea\Deck_Nekro.ogg");	
+            PlayVoice("Kopcapkz\Voices\Skeletons\Skeleton_hit_14.ogg");
+			PlayVoice("Kopcapkz\Voices\Skeletons\Skeleton_hit_16.ogg");
+			PlayVoice("Kopcapkz\Voices\Skeletons\Skeleton_hit_23.ogg");
+			PlayVoice("CSR\Music\Sea\Deck_Nekro.ogg");
+			DoQuestFunctionDelay("PDM_PI_Vykl_Music", 1.0);
+            InterfaceStates.Buttons.Save.enable = 0;
+            LAi_SetFightMode(Pchar, true);
+			Log_SetStringToLog("Скелеты атакуют!!!");
+			//Скелеты
+            for (i=1; i<=8; i++)
+			{
+				sTemp = "skel_"+(rand(5)+1);
+				sld = GetCharacter(NPC_GenerateCharacter("PDM_PI_skel_"+i, sTemp, "skeleton", "skeleton", 10, PIRATE, -1, true));
+				FantomMakeCoolFighter(sld, sti(pchar.rank), 10 + MOD_SKILL_ENEMY_RATE * 2, 10 + MOD_SKILL_ENEMY_RATE * 2, "blade2", "", 10 + MOD_SKILL_ENEMY_RATE * 2);
+				//ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto2");
+				PlaceCharacter(sld, "goto", "random_free");
+				LAi_SetWarriorType(sld);
+				LAi_group_MoveCharacter(sld, "EnemyFight");
+			}
+			//Матросы 1
+			for (i=9; i<=12; i++)
+			{
+				sTemp = "shipowner_"+(rand(28)+1);
+				sld = GetCharacter(NPC_GenerateCharacter("PDM_PI_Matrosiki_"+i, sTemp, "man", "man", 10, PIRATE, -1, true));
+				FantomMakeCoolFighter(sld, sti(pchar.rank), 15, 15, "blade7", "", 10);
+				//ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto2");
+				PlaceCharacter(sld, "goto", "random");
+				LAi_SetWarriorType(sld);
+				LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+			}
+            ChangeCrewExp(PChar, "Soldiers", 2); // бонус на подавление
+            LAi_group_SetHearRadius("EnemyFight", 100.0);
+            LAi_group_FightGroups("EnemyFight", LAI_GROUP_PLAYER, true);
+            LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+
+            LAi_group_SetCheck("EnemyFight", "PDM_PI_Dead_Skelety");
+        break;
+
+        case "PDM_PI_Dead_Skelety":
+			Log_SetStringToLog("Вы потеряли часть команды");
+			if (pchar.rank >= 1 && pchar.rank <= 6) AddCharacterCrew(pchar, -30);
+			if (pchar.rank >= 7 && pchar.rank <= 12) AddCharacterCrew(pchar, -70));
+			if (pchar.rank >= 13 && pchar.rank <= 18) AddCharacterCrew(pchar, -120));
+			if (pchar.rank >= 19) AddCharacterCrew(pchar, -200));
+            InterfaceStates.Buttons.Save.enable = 1;
+            pchar.quest.Munity = "Deads";
+            //LAi_group_SetAlarm(LAI_GROUP_PLAYER, "EnemyFight", 0.0);
+            LAi_SetFightMode(Pchar, false);
+			SetTimerFunction("PDM_PI_Skelety_v_more", 0, 0, 5);
+        break;
 //========================  Квест "Новая Родина".  =======================		
 
 		case "PDM_HugoSeaHavana":
@@ -10136,12 +10191,12 @@ void QuestComplete(string sQuestName, string qname)
 			sld = CharacterFromID("Josephine_Lodet")
 			sld.dialog.currentnode   = "Konets";
 			
-			Log_SetStringToLog("Лёгкое оружие + 1");
-			Log_SetStringToLog("Среднее оружие + 1");
-			Log_SetStringToLog("Тяжёлое оружие + 1");
-			AddCharacterSkill(pchar, "FencingLight", 1);
-			AddCharacterSkill(pchar, "Fencing", 1);
-			AddCharacterSkill(pchar, "FencingHeavy", 1);
+			Log_SetStringToLog("Холодное оружие + 1");
+
+
+			AddCharacterSkillDontClearExp(pchar, "FencingLight", 1);
+			AddCharacterSkillDontClearExp(pchar, "Fencing", 1);
+			AddCharacterSkillDontClearExp(pchar, "FencingHeavy", 1);
 			ChangeCharacterReputation(pchar, -10);
 			ChangeCharacterNationReputation(pchar, SPAIN, -7);
 		break;
@@ -10333,6 +10388,7 @@ void QuestComplete(string sQuestName, string qname)
 			ChangeCharacterAddressGroup(sld,"CommonRoom_MH3","goto","goto1");
 			sld.dialog.filename   = "Quest/PDM/Aptekar.c";
 			sld.dialog.currentnode   = "Markus_Vizdorovel";
+			pchar.questTemp.PDM_Apt_Vizdorovel = "PDM_Apt_Vizdorovel";
 		break;
 		
 		case "PDM_Apt_Prihov_v_buhtu":
@@ -10731,7 +10787,7 @@ void QuestComplete(string sQuestName, string qname)
 			if (loadedLocation.id != "DeckWithReefs" || CheckAttribute(pchar,"GiantEvilSkeletonSpawned")) {chrDisableReloadToLocation = false; break;}
 			scareOfficers(50);
 			log_info("Хранитель грота был пробуждён.");
-			if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_5", "skeleton", "Giant_spy", iRank, PIRATE, 1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+			if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_5", "skeleton", "Giant_spy", iRank, PIRATE, 1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
 			else sld = GetCharacter(NPC_GenerateCharacter("GiantEvilSkeleton", "PGG_Giant_0", "skeleton", "Giant", iRank, PIRATE, 1, true));
 			sld.name = "Хранитель";
 			sld.lastname = "Грота";
@@ -10743,6 +10799,7 @@ void QuestComplete(string sQuestName, string qname)
 			LAi_SetHP(sld,2500,2500);
 			
 			SelAllPerksToNotPCHAR(sld); //укоротил все перки
+			if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 			
 			//установить ЛУ и КУ
 			SetSelfSkill(sld, 100, 100, 100, 100, 100); //лёгкое, среднее, тяжёлое, пистолет, удача
@@ -10960,7 +11017,7 @@ void WaitNextDays(string qName)
 			DailyEatCrewUpdate(); // boal
 			ChangeImport();
 			UpdateSmugglers();
-			CheckOfficersHPMinus(); //Korsar Maxim - ежедневное обновление дней для выздоровления офов
+			CheckOfficersHPMinus(); // ежедневное обновление дней для выздоровления офов
 			CheckBook(); //Книги - Gregg
 			CheckTrauma();//Тяжёлая травма
             SalaryNextDayUpdate();  // запрлата
@@ -11196,12 +11253,12 @@ void Flag_Rerise()
 	}
 }
 
-// blackthorn - генератор "Проклятый скелет"
+// blackthorn - генератор "Проклятый капитан"
 void QuestCursedSceleton()
 {
 	ref sld;
 	//sld = GetCharacter(CharacterFromID("CursedSkeleton"));
-	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton_spy", sti(pchar.rank)+20, PIRATE, 1, true));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton_spy", sti(pchar.rank)+20, PIRATE, 1, true));
 	else sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton_fast", sti(pchar.rank)+20, PIRATE, 1, true));
 	FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
 	DeleteAttribute(sld, "SuperShooter");
@@ -11214,6 +11271,7 @@ void QuestCursedSceleton()
 
 	sld.Dialog.CurrentNode = "First time";
 	sld.dialog.filename = "Cursed_Skeleton.c";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	
 	LAi_group_Delete("cursed");
 	Group_FindOrCreateGroup("cursed");

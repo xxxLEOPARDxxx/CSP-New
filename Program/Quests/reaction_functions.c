@@ -283,15 +283,16 @@ void BlueBird_seaBattle(string qName)
 {
 	LAi_group_Delete("EnemyFight");
 	group_DeleteGroup("BlueBird_Group");
-	sld = GetCharacter(NPC_GenerateCharacter("BlueBirdCapitain", "PGG_DeLuck_0", "man", "man", 20, PIRATE, 30, true));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("BlueBirdCapitain", "PGG_DeLuck_0", "man", "spy", 20, PIRATE, 30, true));
+	else sld = GetCharacter(NPC_GenerateCharacter("BlueBirdCapitain", "PGG_DeLuck_0", "man", "man_fast", 20, PIRATE, 30, true));
 	sld.name 	= "Фольке";
     sld.lastname = "Дэллюк";
 	sld.dialog.filename = "Quest\ForAll_dialog.c";
 	sld.dialog.currentnode = "BlueBirdCapitain";
 	sld.greeting = "CapSinkShip";
-	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	// Прописка всех моделей для кирас. -->
 	sld.HeroModel = "PGG_DeLuck_0,PGG_DeLuck_1,PGG_DeLuck_2,PGG_DeLuck_3,PGG_DeLuck_4,PGG_DeLuck_5";
-	//Korsar Maxim - Прописка всех моделей для кирас. <--
+	// Прописка всех моделей для кирас. <--
 	FantomMakeCoolFighter(sld, 30, 70, 70, "blade34", "pistol6", 100);
 	FantomMakeCoolSailor(sld, SHIP_XebekVML, "Синяя Птица", CANNON_TYPE_CULVERINE_LBS24, 70, 70, 70);
 	DeleteAttribute(sld, "SinkTenPercent");
@@ -303,6 +304,7 @@ void BlueBird_seaBattle(string qName)
 	sld.DontClearDead = true;
 	sld.AnalizeShips = true;  //анализировать вражеские корабли при выборе таска
 	sld.DontRansackCaptain = true;
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	SetCharacterPerk(sld, "FastReload");
 	SetCharacterPerk(sld, "HullDamageUp");
 	SetCharacterPerk(sld, "SailsDamageUp");
@@ -3470,9 +3472,9 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.name = "Джон";
 	sld.lastname = "Уоркман";
 	sld.rank = 30;
-	//Korsar Maxim - Прописка всех моделей для кирас. (Увы, но моделям на основе драгуна можно только 1.3.2 кирасы) -->
+	// Прописка всех моделей для кирас. (Увы, но моделям на основе драгуна можно только 1.3.2 кирасы) -->
 	sld.HeroModel = "Dragoon_1,Dragoon_2,Dragoon_3,Dragoon_4,Dragoon_5,Dragoon_6,Dragoon_1,Dragoon_1,Dragoon_1";
-	//Korsar Maxim - Прописка всех моделей для кирас. (Увы, но моделям на основе драгуна можно только 1.3.2 кирасы) <--
+	// Прописка всех моделей для кирас. (Увы, но моделям на основе драгуна можно только 1.3.2 кирасы) <--
 	sld.city = "LostShipsCity";
 	sld.location	= "SanAugustineResidence";
 	sld.location.group = "goto";
@@ -3976,9 +3978,9 @@ void FirstLoginLostShipsCity(string qName) //первоначальная генерация нпс в ГПК
 	sld.name = "Хенрик";
 	sld.lastname = "Ведекер";
 	sld.rank = 5;
-	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	// Прописка всех моделей для кирас. -->
 	sld.HeroModel = "CCS_Mechanic,CCS_Mechanic_1,CCS_Mechanic_2,CCS_Mechanic_3,CCS_Mechanic_4,CCS_Mechanic_5";
-	//Korsar Maxim - Прописка всех моделей для кирас. <--
+	// Прописка всех моделей для кирас. <--
 	sld.city = "LostShipsCity";
 	sld.location	= "SanGabrielMechanic";
 	sld.location.group = "barmen";
@@ -5210,6 +5212,13 @@ void LSC_enterToPrison(string qName)
 	LAi_SetImmortal(sld, true);
 	LAi_SetGroundSitType(sld);
 	ChangeCharacterAddressGroup(sld, "TartarusPrison", "quest", "prison3");
+	sld = CharacterFromID("LSC_Prisoner1");
+	if(!CharacterIsDead(sld)) 
+	{
+		ChangeCharacterAddressGroup(sld, sld.location, "goto", "goto7");
+		LAi_group_MoveCharacter(sld, "TmpEnemy");
+		LAi_group_FightGroups("TmpEnemy", LAI_GROUP_PLAYER, true);
+	}
 }
 
 //начать большой шторм
@@ -5468,13 +5477,14 @@ void LSC_climeUsurer_4(string qName)
 	//ставим бога мертвых	
 	LAi_LockFightMode(Pchar, false);
 	LAi_LocationFightDisable(loadedLocation, true);
-	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod", "mictlantecuhtli", "skeleton", "spy", 100, PIRATE, 0, true));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod", "mictlantecuhtli", "skeleton", "spy", 100, PIRATE, 0, true));
 	else sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod", "mictlantecuhtli", "skeleton", "man_fast", 100, PIRATE, 0, true));
     FantomMakeCoolFighter(sld, 50, 100, 100, "toporAZ", "pistol4", 3000); //дадим четырехствольник
 	sld.name = "Миктлантекутли";
 	sld.lastname = "";
 	sld.dialog.filename   = "Quest\Mictlantecuhtli.c";
 	sld.dialog.currentnode   = "ClimeUsurer";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	LAi_SetImmortal(sld, true);
 	ChangeCharacterAddressGroup(sld, "Temple_Skulls", "goto", "goto2");
 	LAi_SetActorType(sld);
@@ -5589,7 +5599,7 @@ void Teno_startInShore_2()
 	LAi_SetActorType(sld);
 	LAi_ActorRunToLocation(sld, "reload", "sea", "none", "", "", "CanFightCurLocation", 10.0);
 	//Ставим вождя
-	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("Montesuma", "Aztec", "man", "spy", 50, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("Montesuma", "Aztec", "man", "spy", 50, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
 	else sld = GetCharacter(NPC_GenerateCharacter("Montesuma", "Aztec", "man", "man", 50, PIRATE, -1, true));
 	FantomMakeCoolFighter(sld, 50, 100, 100, "toporAZ", "", 500);
 	sld.name = "Монтесума";
@@ -5600,6 +5610,7 @@ void Teno_startInShore_2()
 	sld.dialog.filename   = "Quest\Tenochtitlan\Montesuma.c";
 	sld.dialog.currentnode   = "First time";
 	sld.greeting = "Gr_Montesuma";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	sld.reactionOnFightModeOn = true; 
 	sld.BreakTmplAndFight = true;
 	sld.SaveItemsForDead = true;
@@ -6796,11 +6807,13 @@ void FindMsStid_ring(string qName)
 void LoginWinterwood()
 {
     ref sld, ch, itm;
-	sld = GetCharacter(NPC_GenerateCharacter("Winterwood", "officer_20", "man", "man_fast", 10, PIRATE, 3, false));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Winterwood", "officer_20", "man", "man_fast", 10, PIRATE, 3, false));
+	else sld = GetCharacter(NPC_GenerateCharacter("Winterwood", "officer_20", "man", "man", 10, PIRATE, 3, false));
 	sld.name = "Стюарт";
 	sld.lastname = "Уинтервуд";
     sld.dialog.filename = "Quest\CapBloodLine\questNPC.c";
     sld.greeting = "pirat_common";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
     FantomMakeCoolFighter(sld, 7, 25, 20, "blade10", "pistol3", 10);
     TakeItemFromCharacter(sld, "spyglass3");
     GiveItem2Character(sld, "DOjeronRing"); //палец to_do
@@ -7785,6 +7798,7 @@ void RestoreBridgetown()
         ref rColony;
         Pchar.questTemp.CapBloodLine = false;
         Pchar.model="PGG_Blad_0"; // 21.03.09 Warship fix Корректная замена модели
+		DeleteAttribute(pchar,"Cirgnore");  //снятие атрибута, блокирующего смену модели кирасной логикой
         //Губернатор
         ref sld = &characters[GetCharacterIndex("Bridgetown_Mayor")];
         sld.Dialog.Filename = "Common_Mayor.c";
@@ -8997,7 +9011,8 @@ void zpq_sld1_fc(string qName)
 void zpq_seaBattle(string qName)
 {
 	LAi_group_Delete("EnemyFight");
-	sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim_0", "man", "man", 40, PIRATE, 1, true));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim_0", "man", "spy", 40, PIRATE, 1, true));
+	else sld = GetCharacter(NPC_GenerateCharacter("zpqCaptain", "Lil_Jim_0", "man", "man_fast", 40, PIRATE, 1, true));
 	FantomMakeCoolFighter(sld, 40, 105, 105, "blade23", "pistol3", 200);
 	FantomMakeCoolSailor(sld, SHIP_LUGGERQUEST, "Нормандия", CANNON_TYPE_CANNON_LBS24, 105, 105, 105);
     sld.name 	= "Маленький";
@@ -9006,6 +9021,7 @@ void zpq_seaBattle(string qName)
 	sld.AlwaysSandbankManeuver = true;
 	sld.DontRansackCaptain = true;
 	sld.AnalizeShips = true;
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	sld.HeroModel = "Lil_Jim_0,Lil_Jim_1,Lil_Jim_2,Lil_Jim_3,Lil_Jim_4,Lil_Jim_5";
 	SetCharacterPerk(sld, "MusketsShoot");
 
@@ -9191,13 +9207,14 @@ void SelectCarlosCity() //выбираем город
 void CreateCarlos()//создаем Карлоса
 {
     ref sld, ch;
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Carlos", "ozg_carlos", "man", "spy", 20, PIRATE, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Carlos", "ozg_carlos", "man", "spy", 20, PIRATE, -1, false));
 	else sld = GetCharacter(NPC_GenerateCharacter("Carlos", "ozg_carlos", "man", "man_fast", 20, PIRATE, -1, false));
 	sld.name = "Карлос";
 	sld.lastname = "Кассир";
     sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "Carlos";
     sld.greeting = "pirat_common";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	sld.HeroModel = "ozg_carlos,ozg_carlos_1,ozg_carlos_2,ozg_carlos_3,ozg_carlos_4,ozg_carlos_5";
     FantomMakeCoolFighter(sld, 20, 70, 70, "blade21", "pistol3", 50);
     sld.DontClearDead = true;
@@ -9316,7 +9333,7 @@ void SelectHoumCity()//выберем колонию для Холма
 void CreateHoum()//создадим Холма
 {
     ref sld;
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Houm", "ozg_horn", "man", "spy", 25, ENGLAND, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Houm", "ozg_horn", "man", "spy", 25, ENGLAND, -1, false));
 	else sld = GetCharacter(NPC_GenerateCharacter("Houm", "ozg_horn", "man", "man_fast", 25, ENGLAND, -1, false));
 	FantomMakeCoolFighter(sld, 25, 50, 50, "blade19", "pistol6", 70);
 	FantomMakeCoolSailor(sld, SHIP_GALEON_H, "Мертвая голова", CANNON_TYPE_CANNON_LBS32, 70, 70, 70);
@@ -9325,6 +9342,7 @@ void CreateHoum()//создадим Холма
     sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "Houm";
     sld.greeting = "Gr_HeadPirates";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	sld.Ship.Mode = "pirate";
     DeleteAttribute(sld, "SaveItemsForDead");
 	DeleteAttribute(sld, "DontClearDead");
@@ -9368,12 +9386,13 @@ void Headhunter_CreateHoumShips(string qName)//cоздание кораблей Хоума
 		LAi_SetImmortal(sld, false);
 		Group_AddCharacter("Houm_Attack", "Houm");//добавим Хоума в группу
 		
-		if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Houm_helper", "pirate_1", "man", "spy", 35, ENGLAND, -1, true));//создание кэпа-помощника
+		if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Houm_helper", "pirate_1", "man", "spy", 35, ENGLAND, -1, true));//создание кэпа-помощника
 		else sld = GetCharacter(NPC_GenerateCharacter("Houm_helper", "pirate_1", "man", "man_fast", 35, ENGLAND, -1, true));//создание кэпа-помощника
 		sld.name = "Андре";
 		sld.lastname = "Деготь";
 		FantomMakeCoolSailor(sld, SHIP_BRIG, "", CANNON_TYPE_CANNON_LBS24, 70, 70, 70);//создание брига
 		FantomMakeCoolFighter(sld, 35, 60, 60, "blade15", "pistol5", 90);//создание фантома кэпа
+		if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 		DeleteAttribute(sld, "SaveItemsForDead");
 		DeleteAttribute(sld, "DontClearDead");
 		sld.Ship.Mode = "pirate";
@@ -9433,12 +9452,13 @@ void Headhunter_CreateRatpinasse(string qName)//создание пинаса Аделаида с перпо
 	Group_FindOrCreateGroup("PinasseC");//создать группу
 	Group_SetType("PinasseC", "war");//тип группы
 	
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("RatSeaOfficer", "officer_15", "man", "spy", 35, FRANCE, -1, true));//создание кэпа
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("RatSeaOfficer", "officer_15", "man", "spy", 35, FRANCE, -1, true));//создание кэпа
 	else sld = GetCharacter(NPC_GenerateCharacter("RatSeaOfficer", "officer_15", "man", "man_fast", 35, FRANCE, -1, true));//создание кэпа
 	sld.name = "Первый помощник";
 	sld.lastname = "Барнс";
 	FantomMakeCoolSailor(sld, SHIP_PINNACE, "Аделаида", CANNON_TYPE_CANNON_LBS32, 100, 100, 100);//создание кораблей
 	FantomMakeCoolFighter(sld, 35, 80, 80, "blade15", "pistol2", 90);//создание фантома кэпа
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	sld.DontRansackCaptain = true; 
 	DeleteAttribute(sld, "AlwaysFriend");
 	DeleteAttribute(sld, "SaveItemsForDead");
@@ -9481,13 +9501,14 @@ void PinasseC_AfterBattle(string qName)//реакция на досрочное уничтожение пинаса
 void CreateRatOfficer()//посадим в таверну самого Крысу - не будем модель прятать
 {
     ref sld;
-	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("RatOfficer", "ozg_piRat", "man", "spy", 10, PIRATE, -1, false));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("RatOfficer", "ozg_piRat", "man", "spy", 10, PIRATE, -1, false));
 	else sld = GetCharacter(NPC_GenerateCharacter("RatOfficer", "ozg_piRat", "man", "man_fast", 10, PIRATE, -1, false));
 	sld.name = "Матиас";
 	sld.lastname = "Грин";
     sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "RatOfficer";
     sld.greeting = "pirat_common";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	sld.HeroModel = "ozg_piRat,ozg_piRat_1,ozg_piRat_2,ozg_piRat_3,ozg_piRat_4,ozg_piRat_5";
     GiveItem2Character(sld, "blade15");
 	EquipCharacterbyItem(sld, "blade15");
@@ -9572,7 +9593,7 @@ void Headhunter_CreateRatTruepinasse(string qName)//создание пинаса Аделаида с К
 	Group_SetType("PinasseT", "war");//тип группы
 	Island_SetReloadEnableGlobal("Beliz", false);
 	
-	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("RatCaptain", "ozg_piRat", "man", "spy", 25, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("RatCaptain", "ozg_piRat", "man", "spy", 25, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
 	else sld = GetCharacter(NPC_GenerateCharacter("RatCaptain", "ozg_piRat", "man", "man_fast", 25, PIRATE, -1, true));//создание кэпа
 	sld.name = "Матиас";
 	sld.lastname = "Грин";
@@ -9580,6 +9601,7 @@ void Headhunter_CreateRatTruepinasse(string qName)//создание пинаса Аделаида с К
 	sld.HeroModel = "ozg_piRat,ozg_piRat_1,ozg_piRat_2,ozg_piRat_3,ozg_piRat_4,ozg_piRat_5";
 	FantomMakeCoolSailor(sld, SHIP_PINNACE, "Аделаида", CANNON_TYPE_CANNON_LBS32, 80, 80, 80);//создание кораблей
 	FantomMakeCoolFighter(sld, 25, 70, 70, "blade15", "pistol6", 100);//создание фантома кэпа
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	DeleteAttribute(sld, "SaveItemsForDead");
 	DeleteAttribute(sld, "DontClearDead");
 	sld.Ship.Mode = "pirate";
@@ -9668,7 +9690,7 @@ void RatHunters_Enter(string qName)//пришли киллеры
 	int iTemp = sti(pchar.rank) + MOD_SKILL_ENEMY_RATE;
 	for (i=1; i<=2; i++)
 	{
-		if (MOD_SKILL_ENEMY_RATE == 10)ref sld = GetCharacter(NPC_GenerateCharacter("RatHunters"+i, "officer_7", "man", "spy", iTemp, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+		if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)ref sld = GetCharacter(NPC_GenerateCharacter("RatHunters"+i, "officer_7", "man", "spy", iTemp, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
 		else sld = GetCharacter(NPC_GenerateCharacter("RatHunters"+i, "officer_7", "man", "man_fast", iTemp, PIRATE, -1, true));
 		FantomMakeCoolFighter(sld, iTemp, 50, 50, "topor2", "pistol5", 50);
 		LAi_SetActorType(sld);
@@ -9682,6 +9704,7 @@ void RatHunters_Enter(string qName)//пришли киллеры
 			sld.dialog.Filename = "Quest\Other_quests_NPC.c";
 			sld.dialog.currentnode = "RatHunters";	
 			sld.greeting = "Gr_HUNTER"; 
+			if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
          	ChangeCharacterAddressGroup(sld, "Villemstad_tavern_upstairs", "goto", "goto3");
 			LAi_ActorDialog(sld, pchar, "", 2.0, 0); 
 		}
@@ -9695,13 +9718,14 @@ void RatHunters_Enter(string qName)//пришли киллеры
 void CreateHalen()//создаем Халена и ближайшее окружение
 {
     ref sld;
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Halen", "ozg_martin", "man", "spy", 30, HOLLAND, -1, false)); // LEO: Превозмогаторам страдать 08.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Halen", "ozg_martin", "man", "spy", 30, HOLLAND, -1, false)); // LEO: Превозмогаторам страдать 08.12.2021
 	else sld = GetCharacter(NPC_GenerateCharacter("Halen", "ozg_martin", "man", "man_fast", 30, HOLLAND, -1, false));
 	sld.name = "Мартин";
 	sld.lastname = "ван Хален";
     sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "Halen";
     sld.greeting = "pirat_common";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
     FantomMakeCoolFighter(sld, 30, 70, 70, "blade34", "pistol6", 100);
     ChangeCharacterAddressGroup(sld, "Villemstad_town", "reload", "reload3");
 	sld.SaveItemsForDead = true;
@@ -9743,16 +9767,18 @@ void Headhunter_SeabattleInPort(string qName)//создание корвета Халена
 		
 	if (GetCharacterIndex("Halen") == -1)
 	{
-		if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Halen1", "officer_17", "man", "spy", 25, HOLLAND, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+		if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Halen1", "officer_17", "man", "spy", 25, HOLLAND, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
 		else sld = GetCharacter(NPC_GenerateCharacter("Halen1", "officer_17", "man", "man_fast", 25, HOLLAND, -1, true));
+		if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	}
 	else
 	{
-		if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Halen1", "ozg_martin", "man", "spy", 25, HOLLAND, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+		if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Halen1", "ozg_martin", "man", "spy", 25, HOLLAND, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
 		else sld = GetCharacter(NPC_GenerateCharacter("Halen1", "ozg_martin", "man", "man_fast", 25, HOLLAND, -1, true));//создание кэпа
 		sld.name = "Мартин";
 		sld.lastname = "ван Хален";
 		sld.HeroModel = "ozg_martin,ozg_martin_1,ozg_martin_2,ozg_martin_3,ozg_martin_4,ozg_martin_5";
+		if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	}
 	sld.DontRansackCaptain = true; 
 	FantomMakeCoolSailor(sld, SHIP_CORVETTE, "Любовник удачи", CANNON_TYPE_CANNON_LBS32, 70, 70, 70);//создание кораблей
@@ -9772,9 +9798,10 @@ void Headhunter_SeabattleInPort(string qName)//создание корвета Халена
 	ChangeCrewExp(sld, "Cannoners", 80);
 	ChangeCrewExp(sld, "Soldiers", 80);
 
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Halen_helper", "off_hol_2", "man", "spy", 25, HOLLAND, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Halen_helper", "off_hol_2", "man", "spy", 25, HOLLAND, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
 	else sld = GetCharacter(NPC_GenerateCharacter("Halen_helper", "off_hol_2", "man", "man_fast", 25, HOLLAND, -1, true));//создание кэпа
 	sld.DontRansackCaptain = true; 
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	FantomMakeCoolSailor(sld, SHIP_FRIGATE, "", CANNON_TYPE_CANNON_LBS32, 50, 50, 50);//призовем на помощь фрегат
 	FantomMakeCoolFighter(sld, 35, 60, 60, "blade15", "pistol2", 90);//создание фантома кэпа
 	sld.Ship.Mode = "war";
@@ -9830,7 +9857,7 @@ void Headhunter_Halen_frigate_AfterBattle(string qName)//потопили корвет
 void CreateMiko()//создадим Мико Пистольеро
 {
     ref sld;
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("Miko", "ozg_miko", "man", "spy", 40, SPAIN, -1, false)); // LEO: Превозмогаторам страдать 08.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("Miko", "ozg_miko", "man", "spy", 40, SPAIN, -1, false)); // LEO: Превозмогаторам страдать 08.12.2021
 	else sld = GetCharacter(NPC_GenerateCharacter("Miko", "ozg_miko", "man", "man_fast", 40, SPAIN, -1, false));
 	FantomMakeCoolFighter(sld, 40, 50, 100, "blade22", "pistol4", 150);
 	sld.name = "Мико";
@@ -9838,6 +9865,7 @@ void CreateMiko()//создадим Мико Пистольеро
     sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "Miko";
     sld.greeting = "pirat_common";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	sld.HeroModel = "ozg_miko,ozg_miko_1,ozg_miko_2,ozg_miko_3,ozg_miko_4,ozg_miko_5";
 	sld.SaveItemsForDead = true;
 	sld.DontClearDead = true;
@@ -9851,13 +9879,14 @@ void CreateMiko()//создадим Мико Пистольеро
 	ChangeCharacterAddressGroup(sld, "Pearl_Town_2", "goto", "goto1");
 	for (i=2; i<=5; i++)//добавим охраны в поселение
 	{
-		if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("AddPearlguard"+i, "Pirate_"+(rand(24)+1), "man", "spy", 25, SPAIN, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+		if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter("AddPearlguard"+i, "Pirate_"+(rand(24)+1), "man", "spy", 25, SPAIN, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
 		else sld = GetCharacter(NPC_GenerateCharacter("AddPearlguard"+i, "Pirate_"+(rand(24)+1), "man", "man_fast", 25, SPAIN, -1, true));
 		sld.Dialog.Filename = "Pearl_dialog.c";
 		sld.dialog.currentnode = "PearlMan";
 		sld.city = "Pearl_Town_2";
 		sld.citytype = "soldier";
 		sld.greeting = "pirat_common";
+		if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 		FantomMakeCoolFighter(sld, 25, 50, 50, "blade16", "pistol3", 100);
         LAi_SetPatrolType(sld);
 		ChangeCharacterAddressGroup(sld, "Pearl_Town_2", "goto", "goto"+i);    
@@ -9880,7 +9909,7 @@ void Headhunter_Jahunters(string qName)//наймиты Джа в бухте
 	chrDisableReloadToLocation = true;
 	for (i=1; i<=6; i++)
 	{
-		if (MOD_SKILL_ENEMY_RATE == 10)ref sld = GetCharacter(NPC_GenerateCharacter("JaHunters"+i, "officer_17", "man", "spy", 25, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
+		if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)ref sld = GetCharacter(NPC_GenerateCharacter("JaHunters"+i, "officer_17", "man", "spy", 25, PIRATE, -1, true)); // LEO: Превозмогаторам страдать 08.12.2021
 		else sld = GetCharacter(NPC_GenerateCharacter("JaHunters"+i, "officer_17", "man", "man_fast", 25, PIRATE, -1, true));
 		FantomMakeCoolFighter(sld, 25, 60, 60, "topor2", "pistol6", 70);
 		LAi_SetActorType(sld);
@@ -9889,6 +9918,7 @@ void Headhunter_Jahunters(string qName)//наймиты Джа в бухте
 			sld.dialog.Filename = "Quest\Other_quests_NPC.c";
 			sld.dialog.currentnode = "JaHunters";	
 			sld.greeting = "Gr_HUNTER"; 
+			if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 			ChangeCharacterAddressGroup(sld, "shore55", "goto", "goto4");
 			LAi_ActorDialog(sld, pchar, "", 10.0, 0); 
 			LAi_SetImmortal(sld, true);
@@ -9911,16 +9941,16 @@ void Create_Ja(string qName)//cоздаем Фрегат "Ахерон" с Джа
 	int hcrew;
 	Group_FindOrCreateGroup("BlueBird_Group2");
 	bQuestDisableMapEnter = true;
-	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("Jafar", "QuestCaptain", "man", "spy", 28, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("Jafar", "QuestCaptain", "man", "spy", 28, PIRATE, -1, true)); // LEO: Превозмогаторам - страдать 01.12.2021
 	else sld = GetCharacter(NPC_GenerateCharacter("Jafar", "QuestCaptain", "man", "man_fast", 28, PIRATE, -1, true));
 	sld.name 	= "Джа";
     sld.lastname = "Престон";
 	sld.dialog.filename = "Quest\Other_quests_NPC.c";
 	sld.dialog.currentnode = "Ja_talk";
 	sld.greeting = "CapSinkShip";
-	//Korsar Maxim - Прописка всех моделей для кирас. -->
+	// Прописка всех моделей для кирас. -->
 	sld.HeroModel = "QuestCaptain,QuestCaptain_1,QuestCaptain_2,QuestCaptain_3,QuestCaptain_4,QuestCaptain_5,QuestCaptain,QuestCaptain,QuestCaptain";
-	//Korsar Maxim - Прописка всех моделей для кирас. <--
+	// Прописка всех моделей для кирас. <--
 	FantomMakeCoolFighter(sld, 35, 75, 75, "blade14", "pistol6", 100);
 	FantomMakeCoolestSailor(sld, SHIP_CONSTITUTION, "Ахерон", CANNON_TYPE_CANNON_LBS36, 80, 80, 80);
 	DeleteAttribute(sld, "SinkTenPercent");
@@ -9931,6 +9961,7 @@ void Create_Ja(string qName)//cоздаем Фрегат "Ахерон" с Джа
 	sld.AnalizeShips = true;  //анализировать вражеские корабли при выборе таска
 	sld.AlwaysEnemy = true;
 	sld.DontRansackCaptain = true;
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	SetCharacterPerk(sld, "FastReload");
 	SetCharacterPerk(sld, "HullDamageUp");
 	SetCharacterPerk(sld, "SailsDamageUp");
@@ -10295,6 +10326,30 @@ void LukesEscape(string qName)
 	AddCharacterHealth(pchar, -30);
 	Pchar.Luke.BadPoison = "1";
 }
+void IDD_Pochta_1(string qName)
+{
+	chrDisableReloadToLocation = true; 
+	sld = GetCharacter(NPC_GenerateCharacter("IDD_Pochta_1", "officer_4", "man", "man", 30, PIRATE, -1, false));
+	sld.name = "Посыльный";
+	sld.lastname = "";
+	FantomMakeCoolFighter(sld, 10, 40, 40, "blade6", "pistol1", 50);
+	sld.Dialog.filename = "Quest\SilencePrice\Shpionskie_Igry.c";
+	LAi_SetImmortal(sld,true);
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto25");
+	LAi_SetActorType(sld);
+	LAi_ActorDialog(sld, Pchar, "", 20.0, 0.0);
+}
+void IDD_SI_Zovet_Boss(string qName)
+{
+	sld = CharacterFromID("IDD_Lamb_Ohr2")
+	sld.name = "Стефано";
+	sld.lastname = "";
+	sld.Dialog.filename = "Quest\SilencePrice\Shpionskie_Igry.c";
+	sld.dialog.currentnode   = "Dokladivaet_Ohr2_1";
+	LAi_CharacterEnableDialog(sld);
+	ChangeCharacterAddressGroup(sld, "FortFrance_town", "reload", "houseH2");
+	LAi_ActorDialog(sld, pchar, "", 0.3, 0);
+}
 void spawn_2()
 {
 }
@@ -10318,18 +10373,6 @@ void SetPortAlarm(string qName) //Тревога в городе, если причалил под вражеским 
 }
 //Korsar Maxim <-- мой код
 
-//Korsar Maxim - LEO и Gregg, эти места для вашего квестового (И не только) кода!
-// || || || || || ||
-// \/ \/ \/ \/ \/ \/
- 
-//LEO -->
-
-//LEO <--
-
-//Gregg -->
-
-//Gregg <--
-
 //Sinistra Проклятый идол -->
 void PDM_Callow_RodjerProdolg(string qName)
 { 
@@ -10337,99 +10380,68 @@ void PDM_Callow_RodjerProdolg(string qName)
 	LAi_LockFightMode(Pchar, false);
 	LAi_LocationFightDisable(loadedLocation, true); //Запрещаем оружие
 	Pchar.GenQuest.Hunter2Pause = true;
-    //--------------------------- французы ------------------------------
+    //--------------------------- скелеты ------------------------------
 	
     int Rank = sti(pchar.rank) - 5 + MOD_SKILL_ENEMY_RATE;
 	if (Rank < 1) Rank = 1;
-	sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_off", "off_fra_1", "man", "man", Rank, FRANCE, -1, true));
-    FantomMakeCoolFighter(sld, sti(pchar.rank), 20, 20, "blade18", "", 20);	
+	sld = GetCharacter(NPC_GenerateCharacter("PDM_Pinki_Skelet", "skel3", "skeleton", "skeleton", Rank, PIRATE, -1, true));
+	sld.name = "Пинки";
+	sld.lastname = "Пай";
+    FantomMakeCoolFighter(sld, sti(pchar.rank), 15 + MOD_SKILL_ENEMY_RATE * 4, 15 + MOD_SKILL_ENEMY_RATE * 4, "blade18", "", 25 + MOD_SKILL_ENEMY_RATE * 4);	
 	ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto2");
 	LAi_SetActorType(sld);
-	sld.dialog.filename   = "Quest/PDM/Cursed_Idol.c";		//Название файла диалога
-	sld.dialog.currentnode   = "FraOff_1";				//С какой фразы начинать диалог
+	sld.dialog.filename   = "Quest/PDM/Cursed_Idol.c";
+	sld.dialog.currentnode   = "FraOff_1";
 	LAi_ActorDialog(sld, pchar, "", -1, 0);	
-	for (i=1; i<=3; i++)
+	int j;
+	j = (GetOfficersQuantity(Pchar) + 1) * 2 + 1;
+	for (i=1; i<=j; i++)
     {
-        sTemp = "sold_fra_"+(rand(7)+1);  //количество
-		if (i==12) sTemp = "off_fra_1";
- 		sld = GetCharacter(NPC_GenerateCharacter("FraEnemy_"+i, sTemp, "man", "man", Rank, FRANCE, -1, true));
-        FantomMakeCoolFighter(sld, sti(pchar.rank), 10, 10, "blade2", "", 10);
+        sTemp = "skel_"+(rand(5)+1);
+ 		sld = GetCharacter(NPC_GenerateCharacter("PDM_PI_skel_"+i, sTemp, "skeleton", "skeleton", Rank, PIRATE, -1, true));
+        FantomMakeCoolFighter(sld, sti(pchar.rank), 10 + MOD_SKILL_ENEMY_RATE * 2, 10 + MOD_SKILL_ENEMY_RATE * 2, "blade2", "", 10 + MOD_SKILL_ENEMY_RATE * 2);
         ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto2");
 		LAi_SetActorType(sld);
 		LAi_ActorFollow(sld, pchar, "", -1);
     }
 }
-void PDM_Callow_Voina(string qName)
+void PDM_PI_Skelety_v_more(string qName)
 {
-	sld = CharacterFromID("James_Callow");
-	FantomMakeCoolFighter(sld, 6, 25, 25, "blade34", "", 120);
-	FantomMakeCoolSailor(sld, SHIP_SCHOONERLIGHT, "Жадный Билли", CANNON_TYPE_CULVERINE_LBS12, 60, 30, 50);
-	sld.name	= "Джеймс";
-	sld.lastname	= "Кэллоу";
-	LAi_SetImmortal(sld, false);
-	sld.AlwaysSandbankManeuver = true;
-	sld.SaveItemsForDead = true;
-	sld.DontClearDead = true;
-	sld.AnalizeShips = true;  //анализировать вражеские корабли при выборе таска
-	sld.DontRansackCaptain = true;
-	sld.AlwaysEnemy = true;
-	GiveItem2Character(sld, "lockpick");
-	AddItems(sld, "jewelry1", rand(5)+2);
-	AddItems(sld, "jewelry2", rand(2)+2);
-	AddItems(sld, "jewelry3", rand(5)+2);	
-	AddItems(sld, "jewelry4", rand(5)+2);
-	AddItems(sld, "jewelry12", rand(20)+2);
-	AddMoneyToCharacter(sld, 15000);
-	SetCharacterPerk(sld, "HullDamageUp");
-	SetCharacterPerk(sld, "CrewDamageUp");
-	SetCharacterPerk(sld, "CriticalShoot");
-	SetCharacterPerk(sld, "LongRangeShoot");
-	SetCharacterPerk(sld, "ShipDefenseProfessional");
-	SetCharacterPerk(sld, "SwordplayProfessional");
-	SetCharacterPerk(sld, "AdvancedDefense");
-	SetCharacterPerk(sld, "CriticalHit");
-	SetCharacterPerk(sld, "Sliding");
-	sld.ship.Crew.Morale = 80;
-	ChangeCrewExp(sld, "Sailors", 60);
-	ChangeCrewExp(sld, "Cannoners", 30);
-	ChangeCrewExp(sld, "Soldiers", 50);
-	
-	Group_FindOrCreateGroup("Nui");					//Название группы
-	Group_SetType("Nui", "war");						//Тип поведения
-	Group_AddCharacter("Nui", "James_Callow");	//Добавить капитана
-	Group_SetGroupCommander("Nui", "James_Callow");
-	Group_SetTaskAttack("Nui", PLAYER_GROUP);
-	Group_SetPursuitGroup("Nui", PLAYER_GROUP);
-	Group_SetAddress("Nui", "Hispaniola1", "", "");
-	Group_LockTask("Nui");
-
-	pchar.quest.PDM_Pobeda_nad_Callow.win_condition.l1 = "NPC_Death";
-	pchar.quest.PDM_Pobeda_nad_Callow.win_condition.l1.character = "James_Callow";
-	pchar.quest.PDM_Pobeda_nad_Callow.win_condition = "PDM_Pobeda_nad_Callow";
-	PChar.quest.PDM_NEPobeda_nad_Callow.win_condition.l1 = "MapEnter";
-	PChar.quest.PDM_NEPobeda_nad_Callow.function = "PDM_NEPobeda_nad_Callow";
+	if(IsEntity(worldMap) && CheckAttribute(pchar, "questTemp.PDM_PI_Skelety_v_more"))
+	{	
+		SetLaunchFrameFormParam("Капитан! Мертвецы атакуют!", "", 0, 3.0);
+		LaunchFrameForm();
+		DoQuestFunctionDelay("PDM_PI_Skelety_v_more_paluba", 3.0);
+	}
+	if(!IsEntity(worldMap) && CheckAttribute(pchar, "questTemp.PDM_PI_Skelety_v_more"))
+	{
+		SetTimerFunction("PDM_PI_Skelety_v_more_2", 0, 0, 5);
+	}
 }
-void PDM_NEPobeda_nad_Callow(string qName)
+void PDM_PI_Skelety_v_more_2(string qName)
 {
-	sld = CharacterFromID("James_Callow");
-	Group_FindOrCreateGroup("Nui");					//Название группы
-	Group_SetType("Nui", "war");						//Тип поведения
-	Group_AddCharacter("Nui", "James_Callow");	//Добавить капитана
-	Group_SetGroupCommander("Nui", "James_Callow");
-	Group_SetTaskAttack("Nui", PLAYER_GROUP);
-	Group_SetPursuitGroup("Nui", PLAYER_GROUP);
-	Group_SetAddress("Nui", "none", "", "");
-	Group_LockTask("Nui");								
-	AddCharacterExpToSkill(PChar, "Leadership", -40);
-    AddCharacterExpToSkill(PChar, "Sailing", -40);
-    AddCharacterExpToSkill(PChar, "Accuracy", -20);
-    AddCharacterExpToSkill(PChar, "Cannons", -20);
-	AddCharacterExpToSkill(PChar, "Repair", -20);
-    AddCharacterExpToSkill(PChar, "Defence", -20);
-    AddCharacterExpToSkill(PChar, "Sneak", -20);
-	AddQuestRecord("PDM_Cursed_Idol", "7");
-	AddQuestUserData("PDM_Cursed_Idol", "sSex", GetSexPhrase("","а"));
-	CloseQuestHeader("PDM_Cursed_Idol"); 
+	if(IsEntity(worldMap) && CheckAttribute(pchar, "questTemp.PDM_PI_Skelety_v_more"))
+	{	
+		SetLaunchFrameFormParam("Капитан! Мертвецы атакуют!", "", 0, 3.0);
+		LaunchFrameForm();
+		DoQuestFunctionDelay("PDM_PI_Skelety_v_more_paluba", 3.0);
+	}
+	if(!IsEntity(worldMap) && CheckAttribute(pchar, "questTemp.PDM_PI_Skelety_v_more"))
+	{
+		SetTimerFunction("PDM_PI_Skelety_v_more", 0, 0, 5);
+	}
+}
+void PDM_PI_Skelety_v_more_paluba(string qName)
+{
+	int i;
+	MakeCloneShipDeck(pchar, true); // подмена палубы
+	i = FindLocation("Ship_deck");
+	Locations[i].image = "loading\Mutiny_"+rand(3)".tga";
+	DoQuestReloadToLocation("Ship_deck", "reload", "reload1", "PDM_PI_Skelety_on_Ship");
+}
+void PDM_PI_Vykl_Music(string qName)
+{
+	SetMusic("none");
 }
 //Sinistra Проклятый идол <--
 
@@ -10697,6 +10709,36 @@ void LambriniPGG_Tavern(string qName)
 	DoQuestFunctionDelay("InstantDialog", 0);
 }
 //Sinistra Клан Ламбрини <--
+
+void StartInstantDialogNoType(string id, string node, string fileName)
+{
+	DialogExit();
+	sld = CharacterFromId(id);
+	sld.Dialog.Filename = fileName;
+	sld.dialog.currentnode = node;
+	pchar.InstantDialog = sld.id;
+	DoQuestFunctionDelay("InstantDialogNoType", 0);
+}
+
+void InstantDialogNoType(string qName)
+{
+	sld.chr_ai.tmpl.dialog = "";
+	sld.chr_ai.tmpl.time = "0";
+	sld.chr_ai.tmpl.dlgtime = "-1";	
+	sld.chr_ai.tmpl.state = "wait";
+	DeleteAttribute(sld, "chr_ai.tmpl.poklon");
+	LAi_tmpl_dialog_StartDialog(sld, pchar, -1.0);
+}
+
+void StartInstantDialog(string id, string node, string fileName)
+{
+	DialogExit();
+	sld = CharacterFromId(id);
+	sld.Dialog.Filename = fileName;
+	sld.dialog.currentnode = node;
+	pchar.InstantDialog = sld.id;
+	DoQuestFunctionDelay("InstantDialog", 0);
+}
 
 void InstantDialog(string qName)
 {
@@ -11014,14 +11056,21 @@ void scareOfficers(int minSkill)
 		sld = GetCharacter(idx);
 		if (sld.location == pchar.location )
 		{
-			if(minSkill + drand(30+i) > sti(GetSummonSkillFromName(sld, SKILL_LEADERSHIP)))
+			if(!CheckAttribute(sld, "HasNoFear"))
 			{
-				ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "goto",  "goto1");
-				Log_Info("Офицер "+GetFullName(sld)+" напуган"+NPCharSexPhrase(sld,"","а")+ " и убегает!");
+				if(minSkill + drand(30+i) > sti(GetSummonSkillFromName(sld, SKILL_LEADERSHIP)))
+				{
+					ChangeCharacterAddressGroup(sld, Get_My_Cabin(), "goto",  "goto1");
+					Log_Info("Офицер "+GetFullName(sld)+" напуган"+NPCharSexPhrase(sld,"","а")+ " и убегает!");
+				}
+				else
+				{
+					Log_Info("Офицер "+GetFullName(sld)+" переборол"+NPCharSexPhrase(sld,"","а")+ " свой страх!");
+				}
 			}
 			else
 			{
-				Log_Info("Офицер "+GetFullName(sld)+" переборол"+NPCharSexPhrase(sld,"","а")+ " свой страх!");
+				Log_Info(GetFullName(sld)+" непоколебим"+NPCharSexPhrase(sld,", его","а, её")+ " невозможно напугать!");
 			}
 		}
 	}
@@ -11104,13 +11153,34 @@ void LooserGenerator_InStore(string s)
 		chrDisableReloadTolocation = true;
 		InterfaceStates.Buttons.Save.enable = false;
 		
-		pchar.GenQuestBox.CommonPackhouse_1.box1.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_1.box2.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_1.box3.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_1.box4.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_1.box5.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_1.box6.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_1.box7.items.Bag_with_money = (rand(2)+1);
+		int qty = 0;
+        int iFlag [8];
+        int iBagsQty;
+        int iSumm;
+        int iRnd;
+        string sBox;
+		while(qty<7)
+		{
+			iRnd = 1 + rand(6);
+    
+			if (iFlag[iRnd] != -1)
+			{
+				iFlag[iRnd] = -1;
+				iBagsQty = 1+rand(1);
+				iSumm = qty + iBagsQty;
+				sBox = "box"+iRnd;
+				if(iSumm > 7)
+				{
+					iBagsQty = 7 - qty -1;
+					pchar.GenQuestBox.CommonPackhouse_1.(sBox).items.Bag_with_money = iBagsQty;
+				}
+				else
+				{
+					pchar.GenQuestBox.CommonPackhouse_1.(sBox).items.Bag_with_money = iBagsQty;
+					qty+=iBagsQty;
+				}
+			}
+		}
 
 		return;
 	}
@@ -11138,13 +11208,34 @@ void LooserGenerator_InShipyard(string s)
 		chrDisableReloadTolocation = true;
 		InterfaceStates.Buttons.Save.enable = false;
 		
-		pchar.GenQuestBox.CommonPackhouse_2.box1.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_2.box2.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_2.box3.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_2.box4.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_2.box5.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_2.box6.items.Bag_with_money = (rand(2)+1);
-		pchar.GenQuestBox.CommonPackhouse_2.box7.items.Bag_with_money = (rand(2)+1);
+		int qty = 0;
+        int iFlag [8];
+        int iBagsQty;
+        int iSumm;
+        int iRnd;
+        string sBox;
+		while(qty<7)
+		{
+			iRnd = 1 + rand(6);
+    
+			if (iFlag[iRnd] != -1)
+			{
+				iFlag[iRnd] = -1;
+				iBagsQty = 1+rand(1);
+				iSumm = qty + iBagsQty;
+				sBox = "box"+iRnd;
+				if(iSumm > 7)
+				{
+					iBagsQty = 7 - qty -1;
+					pchar.GenQuestBox.CommonPackhouse_2.(sBox).items.Bag_with_money = iBagsQty;
+				}
+				else
+				{
+					pchar.GenQuestBox.CommonPackhouse_2.(sBox).items.Bag_with_money = iBagsQty;
+					qty+=iBagsQty;
+				}
+			}
+		}
 
 		return;
 	}
@@ -11178,64 +11269,7 @@ void LooserGenerator_OpenLocation(string s)
 // Успешное завершение квеста
 void LooserGenerator_Complette()
 {
-	if (pchar.rank >= 1 && pchar.rank <= 7)
-	{
-		if (sti(pchar.items."Bag_with_money") >= 8) Log_info("Излишек кошельков превращается в золото");
-		if (sti(pchar.items."Bag_with_money") == 8)	AddMoneyToCharacter(pchar, 200);
-		if (sti(pchar.items."Bag_with_money") == 9)	AddMoneyToCharacter(pchar, 400);
-		if (sti(pchar.items."Bag_with_money") == 10) AddMoneyToCharacter(pchar, 600);
-		if (sti(pchar.items."Bag_with_money") == 11) AddMoneyToCharacter(pchar, 800);
-		if (sti(pchar.items."Bag_with_money") == 12) AddMoneyToCharacter(pchar, 1000);
-		if (sti(pchar.items."Bag_with_money") == 13) AddMoneyToCharacter(pchar, 1200);
-		if (sti(pchar.items."Bag_with_money") == 14) AddMoneyToCharacter(pchar, 1400);
-		if (sti(pchar.items."Bag_with_money") == 15) AddMoneyToCharacter(pchar, 1600);
-		if (sti(pchar.items."Bag_with_money") == 16) AddMoneyToCharacter(pchar, 1800);
-		if (sti(pchar.items."Bag_with_money") >= 17) AddMoneyToCharacter(pchar, 2000);
-	}
-	if (pchar.rank >= 8 && pchar.rank <= 14)
-	{
-		if (sti(pchar.items."Bag_with_money") >= 8) Log_info("Излишек кошельков превращается в золото");
-		if (sti(pchar.items."Bag_with_money") == 8)	AddMoneyToCharacter(pchar, 700);
-		if (sti(pchar.items."Bag_with_money") == 9)	AddMoneyToCharacter(pchar, 1400);
-		if (sti(pchar.items."Bag_with_money") == 10) AddMoneyToCharacter(pchar, 2100);
-		if (sti(pchar.items."Bag_with_money") == 11) AddMoneyToCharacter(pchar, 2800);
-		if (sti(pchar.items."Bag_with_money") == 12) AddMoneyToCharacter(pchar, 3500);
-		if (sti(pchar.items."Bag_with_money") == 13) AddMoneyToCharacter(pchar, 4200);
-		if (sti(pchar.items."Bag_with_money") == 14) AddMoneyToCharacter(pchar, 4900);
-		if (sti(pchar.items."Bag_with_money") == 15) AddMoneyToCharacter(pchar, 5600);
-		if (sti(pchar.items."Bag_with_money") == 16) AddMoneyToCharacter(pchar, 6300);
-		if (sti(pchar.items."Bag_with_money") >= 17) AddMoneyToCharacter(pchar, 7000);
-	}
-	if (pchar.rank >= 15 && pchar.rank <= 21)
-	{
-		if (sti(pchar.items."Bag_with_money") >= 8) Log_info("Излишек кошельков превращается в золото");
-		if (sti(pchar.items."Bag_with_money") == 8)	AddMoneyToCharacter(pchar, 2500);
-		if (sti(pchar.items."Bag_with_money") == 9)	AddMoneyToCharacter(pchar, 5000);
-		if (sti(pchar.items."Bag_with_money") == 10) AddMoneyToCharacter(pchar, 7500);
-		if (sti(pchar.items."Bag_with_money") == 11) AddMoneyToCharacter(pchar, 10000);
-		if (sti(pchar.items."Bag_with_money") == 12) AddMoneyToCharacter(pchar, 12500);
-		if (sti(pchar.items."Bag_with_money") == 13) AddMoneyToCharacter(pchar, 15000);
-		if (sti(pchar.items."Bag_with_money") == 14) AddMoneyToCharacter(pchar, 17500);
-		if (sti(pchar.items."Bag_with_money") == 15) AddMoneyToCharacter(pchar, 20000);
-		if (sti(pchar.items."Bag_with_money") == 16) AddMoneyToCharacter(pchar, 22500);
-		if (sti(pchar.items."Bag_with_money") >= 17) AddMoneyToCharacter(pchar, 25000);
-	}
-	if (pchar.rank >= 22)
-	{
-		if (sti(pchar.items."Bag_with_money") >= 8) Log_info("Излишек кошельков превращается в золото");
-		if (sti(pchar.items."Bag_with_money") == 8)	AddMoneyToCharacter(pchar, 8000);
-		if (sti(pchar.items."Bag_with_money") == 9)	AddMoneyToCharacter(pchar, 16000);
-		if (sti(pchar.items."Bag_with_money") == 10) AddMoneyToCharacter(pchar, 24000);
-		if (sti(pchar.items."Bag_with_money") == 11) AddMoneyToCharacter(pchar, 32000);
-		if (sti(pchar.items."Bag_with_money") == 12) AddMoneyToCharacter(pchar, 40000);
-		if (sti(pchar.items."Bag_with_money") == 13) AddMoneyToCharacter(pchar, 48000);
-		if (sti(pchar.items."Bag_with_money") == 14) AddMoneyToCharacter(pchar, 56000);
-		if (sti(pchar.items."Bag_with_money") == 15) AddMoneyToCharacter(pchar, 64000);
-		if (sti(pchar.items."Bag_with_money") == 16) AddMoneyToCharacter(pchar, 72000);
-		if (sti(pchar.items."Bag_with_money") >= 17) AddMoneyToCharacter(pchar, 80000);
-	}
-
-	AddCharacterSkill(pchar, "Fortune", 1);
+	AddCharacterSkillDontClearExp(pchar, "Fortune", 1);
 	Log_SetStringToLog("Везение + 1");	
 				
 	PlayStereoSound("interface\important_item.wav");
@@ -11328,7 +11362,7 @@ void Rand_ContraFinal(string s)
 {
 	pchar.quest.Rand_ContraFinale.win_condition.l1 = "ExitFromLocation";
 	pchar.quest.Rand_ContraFinale.win_condition.l1.location = pchar.location;
-	pchar.quest.Rand_ContraFinale.win_condition = "Rand_Clear";
+	pchar.quest.Rand_ContraFinale.win_condition.function = "Rand_Clear";
 }
 
 void Rand_Clear(string s)

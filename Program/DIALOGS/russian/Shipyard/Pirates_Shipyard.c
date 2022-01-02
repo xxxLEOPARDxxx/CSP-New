@@ -369,7 +369,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
         		
         case "ship_tunning_start":
-            if ( sti(Pchar.Ship.Type) == SHIP_NOTUSED || Pchar.location.from_sea != "Pirates_town")
+			if ( sti(Pchar.Ship.Type) == SHIP_NOTUSED || Pchar.location.from_sea != "Pirates_town")
             {
                 dialog.Text = "Корабль-то где? Что вы мне тут голову морочите?!";
 			    Link.l1 = "И то правда.. что это я... Извиняюсь";
@@ -398,9 +398,33 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
     			    {
     			        s1 = s1 + " Ба! Да корабль-то побывал не в одних руках. То-то он такой потертый. Патент корсарский у тебя есть? Ладно шучу... к делу.";
     			    }
-    			    s1 = s1 + " Что бы ты хотел"+ GetSexPhrase("","а") +" с ним сделать?";
+    			    s1 = s1 + " Что бы ты хотел"+ GetSexPhrase("","а") +" с ним делать?";
                     dialog.Text = s1;
 
+					if (RealShips[sti(Pchar.Ship.Type)].BaseName == "Wh_corvette_quest")
+					{//Капремонт пса
+						dialog.text = "Итак, 'Пёс войны'. Что будем с ним делать?";
+						if(!CheckAttribute(npchar, "WarDogUpgrade"))
+						{
+							npchar.WarDogUpgrade = "start";
+							dialog.text = "Посмотрим... Так! Это что, шутка? 'Пёс войны'? Пришла разбередить мою старую рану?";
+							link.l1 = "Что? О чём вы?";
+							link.l1.go = "WarDogUpgrade_1";
+							break;
+						}
+						if(CheckAttribute(pchar, "TitanicIsDown"))
+						{
+							link.lWarDogUpgrade = "Уже слыхал? Непотопляемый потонул. Репутация твоего ученика навсегда втоптана в грязь. ";
+							link.lWarDogUpgrade.go = "WarDogUpgrade_8";
+						}
+						if(CheckAttribute(npchar, "WarDogUpgradePayment") && sti(pchar.money) >= 1000000)
+						{
+							link.lWarDogUpgrade = "Я принесла ваш миллион. Надеюсь этот ремонт действительно того стоит.";
+							link.lWarDogUpgrade.go = "WarDogUpgrade_pay";
+						}
+						
+					}
+					
 					if (cannonMax < 36 && cannonDiff > 0 && !CheckAttribute(&RealShips[sti(Pchar.Ship.Type)], "Tuning.Cannon"))
 					{
 						Link.l1 = "Увеличить калибр и максимальное количество орудий.";
@@ -2178,6 +2202,237 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 			link.l2 = "Мне нужны орудия на корабль.";
 			link.l2.go = "Cannons";
 		break;
+		
+		//Капремонт пса
+		case "WarDogUpgrade_1":
+			dialog.text = "Да ну? Как будто вы понятия не имеете, что это лично я его спроектировал.";
+			link.l1 = "Так это ваша разработка? Должна признаться, вы поработали на славу.";
+			link.l1.go = "WarDogUpgrade_2";
+		break;
+
+		case "WarDogUpgrade_2":
+			dialog.text = "Ой, не смешите меня. Я же знаю, что это развалюха. Когда я его делал, был молодым, зеленым, глупым. Если бы я начал проектировать его сейчас, не допустил бы старых ошибок.";
+			link.l1 = "Неужели все настолько плохо? По мне так кораблик все еще отличный. Получше многих посудин, что я повстречала на Карибах.";
+			link.l1.go = "WarDogUpgrade_3";
+		break;
+
+		case "WarDogUpgrade_3":
+			dialog.text = "Он мог бы быть куда быстрее, маневреннее, крепче... ";
+			link.l1 = "Правда? А не хотите его доработать? Провести работу над ошибками, так сказать.";
+			link.l1.go = "WarDogUpgrade_4";
+		break;
+
+		case "WarDogUpgrade_4":
+			dialog.text = "Вряд ли. У меня сейчас полно других неотложных дел, а 'Псу' нужен капитальный ремонт, на который уйдет немало времени и сил. К тому же, годы уже не те... В последнее время мне противит возвращаться к своим старым проектам. Хотя\nЕсли окажете мне одну услугу, мисс, так и быть, я подумаю об этом. ";
+			link.l1 = "Чего вы хотите?";
+			link.l1.go = "WarDogUpgrade_5";
+		break;
+
+		case "WarDogUpgrade_5":
+			dialog.text = "Есть тут на архипелаге один корабел-зазнайка, не буду тыкать пальцем. Он возомнил себя лучшим во всем мире, даже лучше меня, и не стесняется хвастаться этим при каждой подходящей возможности\nЧего он не рассказывает людям, так это того, что все его 'гениальные идеи' - на самом деле мои старые чертежи, которые я по той или иной причине забросил. Видишь ли, он был моим учеником, пока однажды не украл мои революционные в сфере кораблестроения наброски и смылся к англичанам\nА недавно он заявил, будто создал непотопляемый корабль. 'Титаник' - так он его назвал. Какая безвкусица! Тьфу!";
+			link.l1 = "'Титаник'... звучит знакомо. Где бы я могла это слышать?.. Впрочем, неважно, продолжай.";
+			link.l1.go = "WarDogUpgrade_5_1";
+		break;
+
+		case "WarDogUpgrade_5_1":
+			dialog.text = "Он продал его какому-то английскому каперу, а тот использует судно для набегов на испанские порты на материке. Говорят, этот капитан стал настолько самоуверен, что ему все равно на проплывающие мимо корабли, если они не сулят прибыли, хоть Весёлым Роджером перед ним размахивай. Но если нападёшь - будь уверена, сдачи он даст в десятикратном размере.\nЯ хочу, чтобы ты стерла самодовольную ухмылку с лица моего ученика и сломала его игрушку. Потопи 'непотопляемого', а я поработаю над чертежом 'Пса'.";
+			link.l1 = "Я вот думаю, может лучше попробовать взять его на абордаж? Вдруг он и правда непотопляемый?";
+			link.l1.go = "WarDogUpgrade_6";
+			
+		break;
+
+		case "WarDogUpgrade_6":	
+			dialog.text = "Если мой ученик сделал корабль на совесть, потопить его и правда будет невозможно. Но я сомневаюсь, что этот бездарь был способен понять замысел, сокрытый в моих расчетах. К тому же, на момент кражи, этот чертеж был готов не полностью, так что уязвимые места у него точно должны быть\nА об абордаже и думать забудь! Мало того, что команды там хватит, чтобы заселить пару городов, к тому же ты лишь подтвердишь слух о его непотопляемости - мол, победить его можно только если вырезать веь экипаж. Просто пусти его на дно.";
+			link.l1 = "Есть какие-нибудь советы, как это сделать?";
+			link.l1.go = "WarDogUpgrade_6_2";
+		break;
+
+		case "WarDogUpgrade_6_2":
+			dialog.text = "Даже не знаю... Если честно, я ломать корабли не умею, всю жизнь их только строил. Но можешь попробовать набить порохом пару-тройку бригов и использовать их как брандеры, если конечно сможешь убедить команду рискнуть своими жизнями.";
+			link.l1 = "Какие-то уж слишком радикальные у тебя методы. А говоришь, что ломать не умеешь. Ладно, как-нибудь разберусь. Так где искать этот корабль?";
+			link.l1.go = "WarDogUpgrade_6_1";
+		break;
+
+		case "WarDogUpgrade_6_1":
+			sld = GetCharacter(NPC_GenerateCharacter("W_Titanic", "off_eng_1", "man", "man", 99, ENGLAND, -1, true));
+			FantomMakeCoolestSailor(sld, SHIP_BATTLEMANOWAR, "Титаник", CANNON_TYPE_CANNON_LBS48, 100, 100, 100);
+			ref W_Titanic = &RealShips[sti(sld.Ship.Type)];
+			W_Titanic.HP = 30000;
+			W_Titanic.MastMultiplier = 0.01;
+			W_Titanic.TurnRate = 40;
+			W_Titanic.MaxCrew = 3500;
+			W_Titanic.MinCrew = 3000;
+			W_Titanic.SpeedRate = 14;
+			W_Titanic.WindAgainstSpeed = 4;
+			//W_Titanic.HullArmor = 60;
+			W_Titanic.Capacity = 100000;
+			
+			SetCrewQuantityFull(sld);
+			ProcessHullRepair(sld, 100.0);
+			
+			sld.ship.Crew.Morale = 100;
+			ChangeCrewExp(sld, "Sailors", 50);
+			ChangeCrewExp(sld, "Cannoners", 50);
+			ChangeCrewExp(sld, "Soldiers", 50);
+
+			AddItems(sld, "talisman3", 1);
+			EquipCharacterByItem(sld,"talisman3");
+			
+			SetHalfPerksToChar(sld, true);
+			SetCharacterPerk(sld, "CannonProfessional");
+
+			sld.rank = 60;
+			SetSelfSkill(sld, 100, 100, 100, 100, 100);
+			SetShipSkill(sld, 100, 100, 100, 100, 100, 100, 100, 100, 100);
+
+			SetSPECIAL(sld, 10, 10, 10, 10, 10, 10, 10);
+			SetCharacterGoods(sld,GOOD_FOOD,5000);
+			SetCharacterGoods(sld,GOOD_BALLS,50000);
+			SetCharacterGoods(sld,GOOD_GRAPES,0);
+			SetCharacterGoods(sld,GOOD_KNIPPELS,0);
+			SetCharacterGoods(sld,GOOD_BOMBS,50000);
+			SetCharacterGoods(sld,GOOD_POWDER,100000);
+			SetCharacterGoods(sld,GOOD_PLANKS,150);
+			SetCharacterGoods(sld,GOOD_SAILCLOTH,150);
+			SetCharacterGoods(sld,GOOD_RUM,200);
+			SetCharacterGoods(sld,GOOD_WEAPON,600);
+			SetCharacterGoods(sld,GOOD_MEDICAMENT,300);
+			
+			sld.Abordage.Enable = false;
+			sld.Tasks.CanBoarding = false;
+			sld.CantBoardEnemies = true;
+			//sld.AlwaysFriend = true;
+			sld.AlwaysEnemy = true;
+			sld.DontRansackCaptain = true;
+			sld.AlwaysSandbankManeuver = true;
+			Group_FindOrCreateGroup("WarDog");
+			Group_SetType("WarDog", "pirate");
+			Group_AddCharacter("WarDog", sld.id);
+			Group_SetGroupCommander("WarDog", sld.id);
+			SetCharacterRelationBoth(sti(sld.index), GetMainCharacterIndex(), RELATION_ENEMY);
+			
+			LAi_SetImmortal(sld, false);
+			//Group_SetPursuitGroup("WarDog", PLAYER_GROUP);
+			Group_SetTaskAttack("WarDog", PLAYER_GROUP);
+			Group_LockTask("WarDog");
+			
+			WhisperTitanic_ToRandomTown()
+			Group_SetAddress("WarDog", pchar.TitanicCity, "Quest_ships", "reload_fort1_siege");	
+			pchar.TitanicIsKicking = true;
+			SetFunctionNPCDeathCondition("WhisperTitanic_Is_Dead", "W_Titanic", false);
+			pchar.quest.WhisperTitanic_SurrenderFort.win_condition.l1          = "location";
+			pchar.quest.WhisperTitanic_SurrenderFort.win_condition.l1.location = pchar.TitanicCity;
+			pchar.quest.WhisperTitanic_SurrenderFort.function             = "WhisperTitanic_SurrenderFort";	
+			
+			SetQuestHeader("WhisperTitanic");
+			AddQuestRecord("WhisperTitanic", 1);
+			AddQuestUserData("WhisperTitanic", "sCity", XI_ConvertString("Colony" + pchar.TitanicCity + "Gen"));
+			dialog.text = "Говорят, он сейчас взял в осаду . Испанцы то и дело присылают подкрепления, но 'Титаник' топит эскадру за эскадрой. Скорее всего он там еще надолго задержится, пока не разорит город дочиста. Я все сказал, можешь приступать\nИ пока ты не ушла, можешь заказать для 'Пса' какое-то из менее серьёзных улучшений. Они пойдут в дополнение к капитальному ремонту.";
+			link.l1 = "Ну, посмотрим, что можно улучшить.";
+			link.l1.go = "ship_tunning_start";
+		break;
+
+		case "WarDogUpgrade_7":
+			dialog.text = "Ну, чем порадуешь старика?";
+			link.l1 = "Пока ничем.  ";
+			link.l1.go = "exit";
+			if(CheckAttribute(pchar, "TitanicIsDown"))
+			{
+				link.l1 = "Непотопляемый потонул. Репутация твоего ученика навсегда втоптана в грязь. Но, должна признать ученик твой оказался не промах, было непросто.  ";
+				link.l1.go = "WarDogUpgrade_8";
+			}
+		break;
+
+		case "WarDogUpgrade_8":
+			DeleteAttribute(pchar, "TitanicIsDown");
+			dialog.text = "Да, хорошие новости. Теперь у меня должно прибавиться клиентов. Говорят, 'Титаник' уплыл куда-то на север, где напоролся на огромную льдину, что благополучно пробила ему обшивку.";
+			link.l1 = "Кто сказал тебе такую чушь? Я лично потопила его!";
+			link.l1.go = "WarDogUpgrade_9";
+		break;
+
+		case "WarDogUpgrade_9":
+			dialog.text = "Правда? Ну ладно, ладно, верю.";
+			link.l1 = "Так что насчёт улучшения для Пса? Ты обещал заняться им, если я помогу с 'Титаником'.";
+			link.l1.go = "WarDogUpgrade_10";
+		break;
+
+		case "WarDogUpgrade_10":
+			dialog.text = "Ах да... Я сделал пару новых чертежей, прикинул что можно улучшить\nВремени эта работа займет немало, так что она тебе обойдется в миллион пиастров. ";
+			link.l1 = "Что?! Мы о таком не договаривались.";
+			link.l1.go = "WarDogUpgrade_11";
+		break;
+
+		case "WarDogUpgrade_11":
+			npchar.WarDogUpgradePayment = true;
+			AddQuestRecord("WhisperTitanic", 3);
+			dialog.text = "Милочка, тут потребуется колоссальная работа. Поверьте, при других условиях я бы потребовал гораздо больше, при чем не только деньги. А эта сумма так, чтобы я не помер с голоду, пока буду работать.";
+			if(sti(pchar.money) >= 1000000)
+			{
+				link.l1 = "Вот твой миллион, старый скупердяй.";
+				link.l1.go = "WarDogUpgrade_pay";
+			}
+			link.l2 = "Да уж. Мне нужно подумать.";
+			link.l2.go = "exit";
+		break;
+		
+		case "WarDogUpgrade_pay":
+			DeleteAttribute(npchar, "WarDogUpgradePayment");
+			dialog.text = "Что ж, приступим...";
+			addMoneyToCharacter(pchar, -1000000);
+			link.l1 = "Давай, а я посмотрю.";
+			link.l1.go = "WarDogUpgrade_pay_2";
+		break;
+		
+		case "WarDogUpgrade_pay_2":
+			AddQuestRecord("WhisperTitanic", 4);
+			CloseQuestHeader("WhisperTitanic");
+			shTo = &RealShips[sti(Pchar.Ship.Type)];
+			iCaliber = sti(shTo.MaxCaliber);
+			switch(iCaliber)
+			{
+				case 24:
+					iCaliber = 4;
+				break;
+				case 32:
+					iCaliber = 5;
+				break;
+			}
+			iCaliber = iCaliber + 1;
+			switch(iCaliber)
+			{
+				case 5:
+					iCaliber = 36;
+				break;
+				case 6:
+					iCaliber = 42;
+				break;
+			}
+			shTo.MaxCaliber = iCaliber;
+			
+			GetBaseShipParam_ToUpgrade(shTo, "SpeedRate", 2.0);
+			GetBaseShipParam_ToUpgrade(shTo, "TurnRate", 10.0);
+			GetBaseShipParam_ToUpgrade(shTo, "HP", 1000);
+			GetBaseShipParam_ToUpgrade(shTo, "MaxCrew", 120);
+			GetBaseShipParam_ToUpgrade(shTo, "WindAgainstSpeed", 1.0);
+			GetBaseShipParam_ToUpgrade(shTo, "Capacity", 700);
+			shTo.HullArmor = 30;
+			shTo.OptCrew = 300;
+			
+			DeleteAttribute(npchar, "WarDogUpgradePayment");
+			DialogExit();
+			AddCharacterExpToSkill(pchar, "Repair", 5000);
+			SetLaunchFrameFormParam("Прошел месяц. Наблюдая за работой Алексуса, вы узнали много нового о кораблестроении и плотницком ремесле.", "", 0.1, 15.0);
+			LaunchFrameForm();
+			WaitDate("",0,0,30, 0, 20);
+			npchar.dialog.currentnode = "WarDogUpgrade_pay_1";
+		break;
+		
+		case "WarDogUpgrade_pay_1":
+			dialog.text = "Ну вот и всё. Теперь мне действительно не стыдно называть 'Пса' одной из своих работ. Уже можешь выходить в море. Только поаккуратней там, не хочу, чтобы мои труды пошли насмарку.";
+			link.l1 = "Ладно, пойду проверять.";
+			link.l1.go = "exit";
+		break;
+		//<-Капремонт пса
 	}
 	UnloadSegment(NPChar.FileDialog2);  // если где-то выход внутри switch  по return не забыть сделать анлод
 }
@@ -2221,4 +2476,23 @@ void checkMatherial(ref Pchar, ref NPChar, int good1, int good2, int good3)
     }
     TakeNItems(pchar, good3, -amount);
     NPChar.Tuning.Matherial3 = sti(NPChar.Tuning.Matherial3) - amount;
+}
+
+void GetBaseShipParam_ToUpgrade(ref shTo, string param, float num)
+{
+	string sAttr = "Bonus_"+param;
+	Log_Info(sAttr);
+	int iRealShipType = sti(shTo.basetype);
+	string sParam =	GetBaseShipParamFromType(iRealShipType, param);
+	if(CheckAttribute(shTo, sAttr))
+	{
+		shTo.(param) = stf(shTo.(param)) - stf(shTo.(sAttr));
+		shTo.(sAttr) = stf(shTo.(sAttr)) + num; 
+		shTo.(param) = stf(shTo.(param)) + stf(shTo.(sAttr));
+	}
+	else
+	{
+		shTo.(sAttr) = num; 
+		shTo.(param) = stf(shTo.(param)) + stf(shTo.(sAttr));
+	}	
 }

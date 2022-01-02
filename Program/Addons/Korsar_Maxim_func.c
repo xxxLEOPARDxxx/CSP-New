@@ -1,6 +1,6 @@
 //функции для некоторых вычислений
 
-//Korsar maxim - выбор приветствия ПГГ в зависимости от пола
+// выбор приветствия ПГГ в зависимости от пола
 string GetPggTavernGreeting(ref rChar)
 {
     switch (rChar.sex)
@@ -19,7 +19,7 @@ string GetPggTavernGreeting(ref rChar)
     }
 }
 
-/// Korsar Maxim - (Выдача рандомного оружия по качеству (ржавое, обычное, редкое, уникальное))
+/// (Выдача рандомного оружия по качеству (ржавое, обычное, редкое, уникальное))
 string GiveRandomBladeByType(string sType)
 {
 	switch(sType)
@@ -98,7 +98,7 @@ string GiveRandomBladeByType(string sType)
 	return blade;
 }
 
-//Korsar Maxim - быстрое пополнение массива мушкетерских моделей. (Дабы не копатся в разных файлах)
+// быстрое пополнение массива мушкетерских моделей. (Дабы не копатся в разных файлах)
 string GetPirateMushketerModel()
 {
     string sModel;

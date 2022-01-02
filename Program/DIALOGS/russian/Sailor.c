@@ -142,6 +142,8 @@ void ProcessDialogEvent()
 					link.l1 = "Сожалею, матрос, но для всех вас у меня нет мест ни на одном корабле. Придется вам поискать другого капитана.";
 					link.l1.go = "exit";
 				}
+				link.l2 = "Сожалею, матрос, но я рассчитывал на несколько... иное. Придется вам поискать другого капитана.";
+				link.l2.go = "exit";
 			}
 		break;
 		
@@ -237,7 +239,7 @@ void ProcessDialogEvent()
 			DialogExit();
 		break;
 		
-		//Korsar Maxim - спайчекинг
+		// спайчекинг
 		case "SeekSpy_Checking":
 			dialog.text = "Да, я подтверждаю, " + NPCharSexPhrase(&characters[sti(pchar.GenQuest.SeekSpy.BaseIdx)], "он действительно местный житель.", "она действительно местная жительница.");
 			link.l1 = RandPhraseSimple("Я понял"+ GetSexPhrase("","а") +". Спасибо за помощь.", "Все ясно. Спасибо за помощь.");

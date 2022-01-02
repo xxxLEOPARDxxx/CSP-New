@@ -588,7 +588,7 @@ void GiveItemToTrader(aref ch)
 	if(rand(200) == 77 && !CheckMainHeroTotem("Totem_14")) AddItems(ch, "Totem_14", 1);
 }
 
-void GiveItemToSmuggler(aref ch) //Korsar Maxim - Торговля предметов с контриками
+void GiveItemToSmuggler(aref ch) // Торговля предметов с контриками
 {
 	int i, j, irand;
 	int rank = sti(PChar.rank);
@@ -652,7 +652,7 @@ void GiveItemToSmuggler(aref ch) //Korsar Maxim - Торговля предметов с контрикам
 	AddItems(ch, "bullet", Rand(20) + 10);
 	AddItems(ch, "GunPowder", Rand(10) + 5);
 	
-    AddItems(ch, "Lockpick", Rand(3) + 3); //Korsar Maxim - у Контрика всегда есть отмычки
+    AddItems(ch, "Lockpick", Rand(3) + 3); // у Контрика всегда есть отмычки
 
     irand = rand(4);
     if(irand == 1) AddItems(ch, "pistol1", Rand(2) + 1);
@@ -1802,6 +1802,17 @@ string PerksChars()
 void SetSpeciality(ref chref, string perkName)
 {
 	chref.perks.list.(perkName) = true;
+}
+
+void RemoveSpeciality(ref chref)
+{
+	DeleteAttribute(chref, "perks.list.Buccaneer");
+	DeleteAttribute(chref, "perks.list.Trader");
+	DeleteAttribute(chref, "perks.list.Fencer");
+	DeleteAttribute(chref, "perks.list.Grunt");
+	DeleteAttribute(chref, "perks.list.Agent");
+	DeleteAttribute(chref, "perks.list.SeaWolf");
+	DeleteAttribute(chref, "perks.list.Adventurer");
 }
 
 // boal prison count -->

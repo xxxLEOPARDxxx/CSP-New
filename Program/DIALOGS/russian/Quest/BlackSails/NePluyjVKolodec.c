@@ -50,10 +50,27 @@ void ProcessDialogEvent()
 		
 		case "BS_NPVK_6":
             dialog.text = "Капитан. Ваш тон я могу списать на неопытность и непонимание сути вещей, но предупреждаю: ещё слово и говорить будет оружие!";
-            link.l1 = "Да кем ты себя возомнила, девка?";	//Драка
+            if (WhisperIsHere())
+			{
+				link.l1.go = "BS_NPVK_6_WhisperIsHere";
+				break;
+			}
+			link.l1 = "Да кем ты себя возомнила, девка?";	//Драка
 			link.l1.go = "Fight_gatri";
 			link.l2 = "Давайте сбавим тон и найдём решение наших 'затруднений'.";
 			link.l2.go = "BS_NPVK_7";
+		break;
+		
+		case "BS_NPVK_6_1":
+			link.l1 = "Да кем ты себя возомнила, девка?";	//Драка
+			link.l1.go = "Fight_gatri";
+			link.l2 = "Давайте сбавим тон и найдём решение наших 'затруднений'.";
+			link.l2.go = "BS_NPVK_7";
+		break;
+		
+		case "BS_NPVK_6_WhisperIsHere":
+			SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+			StartInstantDialogNoType(pchar.WhisperPGG, "BS_9_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
 		break;
 		
 		case "Fight_gatri":
@@ -67,8 +84,23 @@ void ProcessDialogEvent()
 		
 		case "BS_NPVK_7":
             dialog.text = "600 мер золотой руды. Сразу или частями – на ваш выбор. И мы забудем это недоразумение.";
-            link.l1 = "Сколько?! Да вы в своём уме? Это же невероятно!";
+            if (WhisperIsHere())
+			{
+				link.l1.go = "BS_NPVK_7_WhisperIsHere";
+				break;
+			}
+			link.l1 = "Сколько?! Да вы в своём уме? Это же невероятно!";
 			link.l1.go = "BS_NPVK_8";
+		break;
+		
+		case "BS_NPVK_7_1":
+			link.l1 = "Сколько?! Да вы в своём уме? Это же невероятно!";
+			link.l1.go = "BS_NPVK_8";
+		break;
+		
+		case "BS_NPVK_7_WhisperIsHere":
+			SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+			StartInstantDialogNoType(pchar.WhisperPGG, "BS_10_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
 		break;
 		
 		case "BS_NPVK_8":

@@ -86,7 +86,7 @@ void InitLocations()
 		loc.locators_radius.teleport = 1.0;
 		loc.locators_radius.quest = 1.0;
 		
-		//Korsar Maxim - видимость новых (и старых) локаторов
+		// видимость новых (и старых) локаторов
 		loc.locators_radius.Actor = 1.0;
 		loc.locators_radius.ships_other = 1.0;
 		loc.locators_radius.ships = 1.0;

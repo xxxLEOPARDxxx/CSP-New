@@ -1,7 +1,39 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Прочие функции
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-void RepairShip(ref chr)
+void BS_SpawnEnemies(int iRnd, int iNation, string winFunction)
+{
+	ref chr;
+	string sLoc, sLoc_2, relation;
+	int i;
+ 
+	relation = LAI_GROUP_PLAYER;
+	sLoc = pchar.location;
+	
+	chrDisableReloadToLocation = true;
+	PChar.GenQuestFort.FarLocator = false;
+
+	Pchar.GenQuestFort.FarLocator = true;
+	sLoc = LAi_FindNPCLocator("goto");
+	sLoc_2 = LAi_FindNPCLocator("smugglers");
+	for (i = 1; i < iRnd; i++)
+	{
+		chr = SetFantomDefenceForts("goto", sLoc, iNation, "BS_SpawnEnemies");
+		
+		chr.id = "pirate_" + i;
+		FantomMakeCoolFighterWRankDepend(chr,sti(pchar.rank),25+rand(75),25+rand(75),50);
+	}
+	//натравим.
+	LAi_group_SetHearRadius("BS_SpawnEnemies", 100.0);
+	LAi_group_FightGroupsEx("BS_SpawnEnemies", LAI_GROUP_PLAYER, true, Pchar, -1, false, false);	
+	LAi_group_FightGroupsEx("BS_SpawnEnemies", relation, true, Pchar, -1, false, false);	
+
+	LAi_group_SetCheckFunction("BS_SpawnEnemies", winFunction);
+	
+	LAi_SetFightMode(pchar, true);
+}
+
+void BSRepairShip(ref chr)
 {
 	ProcessHullRepair(chr, 100.0);
 	ProcessSailRepair(chr, 100.0);
@@ -172,6 +204,7 @@ void BSOnTheHorizon_Flint();
 	sld = GetCharacter(NPC_GenerateCharacter("Flint", "BS_Flint_0", "man", "man", 999, PIRATE, -1, true));
 	FantomMakeCoolestSailor(sld, SHIP_NL_PinnaceofWar47, "Морж", CANNON_TYPE_CANNON_LBS24, 100, 100, 100);
 	FantomMakeCoolFighter(sld, 100, 100, 100, "blade43", "pistol4", 1000);
+	SetSPECIAL(sld, 10, 10, 10, 10, 10, 10, 10);
 	sld.name = "Джеймс";
 	sld.lastname = "Флинт";
 	string sGroup = "Flint_Group";
@@ -354,6 +387,15 @@ void BSCourtlyPassions_sailor_begin(string qName)
 	}
 }
 
+ref BSTutorialSailor();
+{
+	sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Pirate_9", "man", "man", 1, PIRATE, 0, false));
+	sld.name 	= "Сандро";
+	sld.lastname 	= "Торн";
+	sld.greeting = "Teacher_pirat";
+	return sld;
+}
+
 void BSCourtlyPassions_sailor()
 {
 	ref sld, chr;
@@ -364,10 +406,7 @@ void BSCourtlyPassions_sailor()
 		if (!CheckAttribute(chr, "curtown") || chr.curtown != pchar.location)
 		{
 			chrDisableReloadToLocation = true;
-			sld = GetCharacter(NPC_GenerateCharacter("Sailor_1", "Pirate_9", "man", "man", 1, PIRATE, 0, false));
-			sld.name 	= "Сандро";
-			sld.lastname 	= "Торн";
-			sld.greeting = "Teacher_pirat";
+			sld = BSTutorialSailor();
 			ChangeCharacterAddressGroup(sld, PChar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
 			chrDisableReloadToLocation = true;
 			LAi_SetActorType(sld);
@@ -409,17 +448,22 @@ void BSCourtlyPassions_wait(string _quest)
 	PChar.quest.BSCourtlyPassions_dungeon.function = "BSCourtlyPassions_dungeon";
 }
 
-void BSCourtlyPassions_dungeon_lockWeapons(string _quest)
+void LockWeapons(string _quest)
 {
 	ref _location = &locations[reload_location_index];
 	LAi_LocationFightDisable(_location, true);
+}
+void UnLockWeapons(string _quest)
+{
+	ref _location = &locations[reload_location_index];
+	LAi_LocationFightDisable(_location, false);
 }
 
 void BSCourtlyPassions_dungeon(string _quest)
 {
 	WaitDate("",0,0,0,24 - sti(environment.time),5);
 	LAi_LocationDisableMonGenTimer("FortFrance_dungeon", 3);//Лок спавна скелетов
-	DoQuestFunctionDelay("BSCourtlyPassions_dungeon_lockWeapons", 0);
+	DoQuestFunctionDelay("LockWeapons", 0);
 	chrDisableReloadToLocation = true;
 	sld = GetCharacter(NPC_GenerateCharacter("BS_Vein", "BS_Vein", "man", "man", 99, PIRATE, -1, true));
 	sld.name 	= "Чарльз";
@@ -465,6 +509,18 @@ void BSCourtlyPassions_kill_podsos(string _quest)
 	LocatorReloadEnterDisable("FortFrance_Brothel", "reload2_back", true);
 	LocatorReloadEnterDisable(pchar.location.from_sea, "boat", false);
 	BSCourtlyPassions_SeaBattle();
+	
+	DoQuestCheckDelay("hide_weapon", 2.0);
+	DoQuestFunctionDelay("BSCourtlyPassions_kill_podsos_1", 2.5);
+}
+
+void BSCourtlyPassions_kill_podsos_1(string _quest)
+{
+	if (WhisperIsHere())
+	{
+		SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+		StartInstantDialogNoType(pchar.WhisperPGG, "BS_16_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+	}
 }
 
 void BSCourtlyPassions_fleeng(string _quest)
@@ -525,6 +581,12 @@ void BSCourtlyPassions_fleeng_4(string _quest)
 	PChar.quest.BSCourtlyPassions_fleeng_5.win_condition.l1 = "location";
 	PChar.quest.BSCourtlyPassions_fleeng_5.win_condition.l1.location = "Shore39";
 	PChar.quest.BSCourtlyPassions_fleeng_5.function = "BSCourtlyPassions_fleeng_5";
+	
+	if (WhisperIsHere())
+	{
+		SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+		StartInstantDialogNoType(pchar.WhisperPGG, "BS_15_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+	}
 }
 
 void BSCourtlyPassions_fleeng_5(string _quest)
@@ -534,21 +596,8 @@ void BSCourtlyPassions_fleeng_5(string _quest)
 	LAi_SetActorType(sld);
 	ChangeCharacterAddressGroup(sld, "Shore39", "goto", "goto1");
 	LAi_ActorGoToLocation(sld, "reload", "sea", "", "", "", "", -1);
-	
-	string cnd;
-	for (i = 2; i < 6; i++)
-	{
-		
-		sld = GetCharacter(NPC_GenerateCharacter("BS_VeinPodsos"+i, "pirate_"+sti(rand(25)+1), "man", "man", 99, PIRATE, 3, true));
-		ChangeCharacterAddressGroup(sld, "Shore39", "goto", "goto"+i);
-		LAi_group_MoveCharacter(sld, "EnemyFight");
-		LAi_SetWarriorTypeNoGroup(sld);
-		LAi_warrior_DialogEnable(sld, false);
-		cnd = "l" + i;
-		pchar.quest.BSCourtlyPassions_kill_podsos.win_condition.(cnd) = "NPC_Death";
-		pchar.quest.BSCourtlyPassions_kill_podsos.win_condition.(cnd).character = sld.id;
-	}
-	PChar.quest.BSCourtlyPassions_kill_podsos.function = "BSCourtlyPassions_kill_podsos";
+
+	BS_SpawnEnemies(3 + drand(3) + GetOfficersQuantity(pchar), PIRATE, "BSCourtlyPassions_kill_podsos");
 }
 
 void BSCourtlyPassions_SeaBattle()
@@ -818,6 +867,12 @@ void BSChaseBegun_lock_shore(string q)
 	PChar.quest.BSChaseBegun_dungeon.win_condition.l1 = "location";
 	PChar.quest.BSChaseBegun_dungeon.win_condition.l1.location = "Bermudes_Dungeon";
 	PChar.quest.BSChaseBegun_dungeon.function = "BSChaseBegun_dungeon";
+	
+	if (WhisperIsHere())
+	{
+		SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+		StartInstantDialogNoType(pchar.WhisperPGG, "BS_18_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+	}
 }
 
 void BSChaseBegun_dungeon(string q)
@@ -953,8 +1008,8 @@ void BSChaseBegun_FewDeaysLater()
 void BSChaseBegun_FewDeaysLater_Reload(string q)
 {
 	ClearIslandShips("SantoDomingo");
-    Colonies[FindColony("SantoDomingo")].DontSetShipInPort = true; // не заыть потереть
-    Colonies[FindColony("SantoDomingo")].BSChaseBegun = true; // не заыть потереть
+    Colonies[FindColony("SantoDomingo")].DontSetShipInPort = true;
+    Colonies[FindColony("SantoDomingo")].BSChaseBegun = true;
 	BSChaseBegun_SeaBattle();
 	DoReloadCharacterToLocation("Pirates_townhall","goto","goto4");
 }
@@ -1048,7 +1103,7 @@ void BSChaseBegun_SeaBattle()
 	
 	for (i = 1; i < 9; i++)
 	{
-		sld = GetCharacter(NPC_GenerateCharacter("BSChaseBegun_SeaBattle"+i, "off_eng_"+(rand(1)+1), "man", "man", 999, SPAIN, -1, true));
+		sld = GetCharacter(NPC_GenerateCharacter("BSChaseBegun_SeaBattle"+i, "off_spa_"+(rand(1)+1), "man", "man", 999, SPAIN, -1, true));
 		CreatePGG_War(sld, 2, chr);
 		sld.Ship.Cannons.Type = CANNON_TYPE_CANNON_LBS24;
 		sld.ship.Crew.Morale = 100;
@@ -1109,6 +1164,12 @@ void BSUrka_Negril(string q)
 	AddQuestRecord("BSUrka", "2");
 	BS_RestoreMaksHostess("q");
 	pchar.BSUrka_Negril = true;
+	
+	if (WhisperIsHere())
+	{
+		SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+		StartInstantDialogNoType(pchar.WhisperPGG, "BS_2_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+	}
 }
 	
 void BSBons_SeaBattle(bool bonsAdmiral)
@@ -1299,6 +1360,10 @@ void BSUrka_Curacao_SeaBattle()
 	PChar.quest.BSUrka_Curacao_EndSeaBattle.function = "BSUrka_Curacao_EndSeaBattle";
 	
 	SetFunctionNPCDeathCondition("BSUrka_Curacao_SeaBattleStarted", "BSUrka_Curacao_enemyfleet1", false);
+	
+	PChar.quest.BSUrka_Curacao_Entered.win_condition.l1 = "location";
+	PChar.quest.BSUrka_Curacao_Entered.win_condition.l1.location = "Curacao";
+	PChar.quest.BSUrka_Curacao_Entered.function = "BSUrka_Curacao_SeaBattleStarted";
 }
 
 void BSUrka_Curacao_SeaBattleStarted(string q)
@@ -1595,6 +1660,663 @@ void BSUrka_Fail(string q)
 	EraseBSCharacters();
 	BSRestoreWorldAlivePause();
 }
+
+void BSUrka_Finish(string q)
+{
+	pchar.BSChaseBegun_townhall_Flint = true;
+	BSChaseBegun_townhall("");
+	DeleteAttribute(pchar, "BSChaseBegun_townhall_Flint");
+	
+	sld = CharacterFromID("Flint");
+	LAi_SetStayTypeNoGroup(sld);
+	sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
+	sld.dialog.currentnode = "BS_NU_50";
+	sld.talker = 10;
+}
+
+void BSUrka_Poison()
+{
+	LAi_SetActorTypeNoGroup(pchar);
+	DoQuestFunctionDelay("BSUrka_Poison_1", 3);
+	DoQuestFunctionDelay("BSUrka_Poison_2", 5);
+	DoQuestFunctionDelay("BSUrka_Poison_3", 7);
+	DoQuestFunctionDelay("BSUrka_Poison_4", 9);
+	DoQuestFunctionDelay("BSUrka_Poison_5", 10);
+	DoQuestFunctionDelay("BSUrka_Poison_6", 12);
+	if (!WhisperIsHere())
+	{
+		DoQuestFunctionDelay("BSUrka_PoisonOfficers", 13);
+		DoQuestFunctionDelay("BSUrka_PoisonSelf", 14.0);
+		DoQuestFunctionDelay("BSUrka_Poison_Flint", 17.0);
+	}
+	
+	sld = CharacterFromID("Flint");
+	LAi_SetActorTypeNoGroup(sld);
+	LAi_ActorTurnToCharacter(sld, pchar);
+}
+void BSUrka_PoisonSelf(string q)
+{
+	SetCharacterTask_Dead(pchar);
+}
+
+void BSUrka_PoisonOfficers(string q)
+{
+	int idx;
+	for(int i=1; i<=MAX_NUM_FIGHTERS; i++)
+	{
+		idx = GetOfficersIndex(PChar,i);
+		if (idx != -1) {
+			ref offchar = GetCharacter(idx);
+			SetCharacterTask_Dead(offchar);
+		}
+	}
+}
+
+void BSUrka_Poison_1(string q)
+{
+	sld = CharacterFromID("BS_Silver");
+	SetCharacterTask_Dead(sld);
+	Log_Info("После нескольких глотков, вы ощущаете лёгкое головокружение.");
+}
+void BSUrka_Poison_2(string q)
+{
+	sld = CharacterFromID("BS_Rakham");
+	SetCharacterTask_Dead(sld);
+}
+void BSUrka_Poison_3(string q)
+{
+	sld = CharacterFromID("BS_Vein");
+	SetCharacterTask_Dead(sld);
+}
+void BSUrka_Poison_4(string q)
+{
+	sld = CharacterFromID("BS_Bony");
+	SetCharacterTask_Dead(sld);
+	
+	if (WhisperIsHere())
+	{
+		LAi_SetPlayerType(pchar);
+		SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+		StartInstantDialogNoType(pchar.WhisperPGG, "BS_20_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+	}
+}
+void BSUrka_Poison_5(string q)
+{
+	sld = CharacterFromID("gatri_temp");
+	SetCharacterTask_Dead(sld);
+	Log_Info("Вы чувствуете, как сознание покидает вас.");
+}
+void BSUrka_Poison_6(string q)
+{
+	sld = CharacterFromID("BS_Maks");
+	SetCharacterTask_Dead(sld);
+}
+void BSUrka_Poison_Flint(string q)
+{
+	BSUrka_FewDaysLater();
+}
+
+void BSUrka_FewDaysLater()
+{
+	WaitDate("",0,0,3,3,3);
+	SetLaunchFrameFormParam("Несколько дней спустя...", "", 0.1, 2.0);
+	LaunchFrameForm();
+	DoQuestFunctionDelay("BSUrka_FewDaysLater_Reload", 2.0);
+}
+
+void BSUrka_FewDaysLater_Reload(string q)
+{
+	DoReloadCharacterToLocation("Pirates_tavern_upstairs","goto","goto1");
+	pchar.quest.BSHangover_Start.win_condition.l1          = "location";
+	pchar.quest.BSHangover_Start.win_condition.l1.location = "Pirates_tavern_upstairs";
+	pchar.quest.BSHangover_Start.function             = "BSHangover_Start";	
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Неуловимая «Урка» --     конец
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   -- Тяжелое похмелье --     начало
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void BSHangover_Start(string q)
+{
+	LAi_SetPlayerType(pchar);
+	chrDisableReloadToLocation = false;
+	CloseQuestHeader("BSUrka");
+	SetQuestHeader("BSHangover");
+	AddQuestRecord("BSHangover", "1");
+	
+	LocatorReloadEnterDisable("Pirates_town", "reload3_back", true);
+	LocatorReloadEnterDisable("Pirates_townhall", "reload2", true);
+	LocatorReloadEnterDisable("Pirates_portoffice", "reload1", true);
+	
+	pchar.quest.BSHangover_Downstairs.win_condition.l1          = "location";
+	pchar.quest.BSHangover_Downstairs.win_condition.l1.location = "Pirates_tavern";
+	pchar.quest.BSHangover_Downstairs.function             = "BSHangover_Downstairs";	
+	
+	if (WhisperIsOfficer())
+	{
+		sld = CharacterFromID(pchar.WhisperId);
+		ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto1");
+		SaveOldDialog(sld);
+		StartInstantDialogNoType(pchar.WhisperPGG, "BS_6_WhisperIsHere_1", "Quest\WhisperLine\Whisper.c");
+	}
+}
+
+void BSHangover_Downstairs(string q)
+{
+	sld = CharacterFromID("BS_Maks");
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto1");
+	sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	sld.dialog.currentnode = "BS_F1_5";
+	LAi_SetStayTypeNoGroup(sld);
+	LAi_SetImmortal(sld, true);
+	sld.talker = 10;
+}
+
+void BSHangover_PortRoyal(string q)
+{
+	BSCourtlyPassions_finalRoyal("");
+	sld = CharacterFromID("BS_Maks");
+	sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	sld.dialog.currentnode = "BS_F1_8_MaksRoyal";
+}
+
+void BSHangover_Vein(string q)
+{
+	sld = CharacterFromID("BS_Vein");
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto1");
+	SaveOldDialog(sld);
+	StartInstantDialog("BS_Vein", "BS_F1_14", "Quest\BlackSails\BS_Final_1.c");
+}
+
+void BSHangover_RoyalVein(string q)
+{
+	chrDisableReloadToLocation = true;
+
+	sld = CharacterFromID("BS_Vein");
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto7");
+	
+	sld = CharacterFromID("PortRoyal_hostess");
+	SaveOldDialog(sld);
+	sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	sld.dialog.currentnode = "BS_F1_16";
+	
+}
+
+void BSHangover_SearchStingerCheck()
+{
+	if(sti(pchar.BSSearchStinger) == 7)	
+	{
+		AddQuestRecord("BSHangover", "6");
+		LocatorReloadEnterDisable("Bridgetown_town", "gate_back", false);
+		pchar.quest.BSHangover_Jail.win_condition.l1          = "location";
+		pchar.quest.BSHangover_Jail.win_condition.l1.location = "Bridgetown_prison";
+		pchar.quest.BSHangover_Jail.function             = "BSHangover_Jail";
+		
+		if (WhisperIsHere())
+		{
+			SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+			StartInstantDialogNoType(pchar.WhisperPGG, "BS_11_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+		}
+	}
+}
+
+void BSHangover_Jail(string q)
+{
+	chrDisableReloadToLocation = true;
+	DoQuestFunctionDelay("BSHangover_Jail_1", 0);
+}
+void BSHangover_Jail_1(string q)
+{
+	sld = CharacterFromID("BridgetownJailOff");
+	SaveOldDialog(sld);
+	sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	sld.dialog.currentnode = "BS_F1_SearchStinger";
+}
+
+void BSHangover_StingerFound(string q)
+{
+	chrDisableReloadToLocation = true;
+	LockWeapons("");
+	sld = CharacterFromID("BS_Silver");
+	Lai_SetStayTypeNoGroup(sld);
+	sld.talker = 10;
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto61");
+	sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	sld.dialog.currentnode = "BS_F1_19";
+}
+void BSHangover_VeinFollows(string q)
+{
+	sld = CharacterFromID("BS_Vein");
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto1");
+	Lai_SetActorTypeNoGroup(sld);
+	LAi_ActorFollowEverywhere(sld, "", -1);
+	
+	LocatorReloadEnterDisable("Bridgetown_town", "gate_back", true);
+	LocatorReloadEnterDisable("Bridgetown_town", "gate1_back", true);
+	LocatorReloadEnterDisable("Bridgetown_town", "reload1_back", true);
+	LocatorReloadEnterDisable("Bridgetown_town", "reload2_back", true);
+	LocatorReloadEnterDisable("Bridgetown_exittown", "reload1_back", true);
+}
+
+void BSHangover_FewDaysLater()
+{
+	WaitDate("",0,0,3,3,3);
+	SetLaunchFrameFormParam("Несколько дней спустя...", "", 0.1, 2.0);
+	LaunchFrameForm();
+	DoQuestFunctionDelay("BSHangover_FewDaysLater_Reload", 2.0);
+}
+
+void BSHangover_FewDaysLater_Reload(string q)
+{
+	DoReloadCharacterToLocation("Bridgetown_tavern_upstairs","goto","goto1");
+	pchar.quest.BSHangover_horse.win_condition.l1          = "location";
+	pchar.quest.BSHangover_horse.win_condition.l1.location = "Bridgetown_tavern_upstairs";
+	pchar.quest.BSHangover_horse.function             = "BSHangover_horse";	
+}
+
+void BSHangover_horse(string q)
+{
+	sld = CharacterFromID("BS_Vein");
+	Lai_SetStayTypeNoGroup(sld);
+	ChangeCharacterAddressGroup(sld, pchar.location, "goto", "goto1");
+	sld = GetCharacter(NPC_GenerateCharacter("BSHangover_horse", "horse0"+(rand(7)+1), "woman", "woman", 1, PIRATE, 0, false));
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto4");
+	sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	sld.dialog.currentnode = "BS_F1_29";
+	Lai_SetStayTypeNoGroup(sld);
+	sld.talker = 10;
+	
+	LocatorReloadEnterDisable("Bridgetown_town", "gate_back", false);
+	LocatorReloadEnterDisable("Bridgetown_town", "gate1_back", false);
+	LocatorReloadEnterDisable("Bridgetown_town", "reload1_back", false);
+	LocatorReloadEnterDisable("Bridgetown_town", "reload2_back", false);
+	LocatorReloadEnterDisable("Bridgetown_exittown", "reload1_back", false);
+	LocatorReloadEnterDisable("Shore5", "boat", true);
+	
+	pchar.LockMapReload = "Чёрта с два я уплыву отсюда без Флинта!";
+	
+	pchar.quest.BSHangover_Cave.win_condition.l1          = "location";
+	pchar.quest.BSHangover_Cave.win_condition.l1.location = "barbados_cave";
+	pchar.quest.BSHangover_Cave.function             = "BSHangover_Cave";	
+	
+	if (WhisperIsOfficer())
+	{
+		sld = CharacterFromID(pchar.WhisperId);
+		ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto1");
+	}
+}
+
+void BSHangover_Cave(string q)
+{
+	chrDisableReloadToLocation = true;
+	LAi_LocationDisableMonGenTimer("barbados_cave", 3);
+	pchar.DisableToughSkeleton = true;
+	
+	sld = CharacterFromID("BS_Silver");
+	ChangeCharacterAddressGroup(sld, pchar.location, "item", "berglar1");
+	LAi_SetWarriorType(sld);
+	//LAi_SetHP(sld, 2000, 2000);
+	LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+	LAi_SetImmortal(sld, true);
+	DoQuestFunctionDelay("BSHangover_SilverMortality", 35);
+	
+	string cnd;
+	for (int i = 1; i <= 12; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("DeSouzaHunter"+sti(i), "OZG_" + (rand(6) + 1), "man", "man", sti(pchar.rank)+MOD_SKILL_ENEMY_RATE * 2, PIRATE, 0, true));
+		
+		LAi_SetWarriorType(sld);
+		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+		sld.LifeDay = 0;
+		
+		cnd = "l" + i;
+		pchar.quest.BSHangover_CaveAfterBattle.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.BSHangover_CaveAfterBattle.win_condition.(cnd).character ="DeSouzaHunter"+sti(i);
+
+		ChangeCharacterAddressGroup(sld, PChar.location, "goto", "goto"+i);
+	}
+	PChar.quest.BSHangover_CaveAfterBattle.function = "BSHangover_CaveAfterBattle";
+	LAi_group_SetRelation(LAI_GROUP_MONSTERS, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+}
+
+void BSHangover_CaveAfterBattle(string qName)
+{
+	sld = CharacterFromID("BS_Silver");
+	sld.dialog.currentnode   = "BS_F1_32";
+	if(LAi_IsDead(sld))
+	{
+		DeleteCharacter(sld);
+		LAi_SetCurHPMax(sld);
+		DoQuestFunctionDelay("BSHangover_CaveAfterBattle_1", 0);
+		sld.dialog.currentnode   = "BS_F1_32_beaten";
+	}
+	else
+	{
+		LAi_SetActorTypeNoGroup(sld);
+		LAi_ActorDialog(sld, pchar, "", -1, 0);
+	}
+	
+	pchar.quest.BSHangover_CaveEntrance.win_condition.l1          = "location";
+	pchar.quest.BSHangover_CaveEntrance.win_condition.l1.location = "barbados_CaveEntrance";
+	pchar.quest.BSHangover_CaveEntrance.function             = "BSHangover_CaveEntrance";	
+}
+
+void BSHangover_CaveAfterBattle_1(string qName)
+{
+	sld = CharacterFromID("BS_Silver");
+	LAi_SetGroundSitTypeNoGroup(sld);
+	LAi_SetImmortal(sld, true);
+	ChangeCharacterAddressGroup(sld, pchar.location, "item", "berglar1");
+	sld.CantLoot = true;
+	//LAi_SetActorTypeNoGroup(sld);
+	//LAi_ActorDialog(sld, pchar, "", -1, 0);
+}
+
+void BSHangover_SilverMortality(string qName)
+{
+	sld = CharacterFromID("BS_Silver");
+	LAi_SetImmortal(sld, false);
+	sld.DontClearDead = true;
+}
+
+void BSHangover_CaveEntrance(string qName)
+{
+	PChar.quest.BSChaseBegun_Fail.over = "yes";
+	PChar.quest.BSUrka_Fail1.over = "yes";
+	PChar.quest.BSUrka_Fail2.over = "yes";
+	PChar.quest.BSUrka_Curacao_EndSeaBattle.over = "yes";
+	PChar.quest.BSUrka_SeaBattleEnded.over = "yes";
+	pchar.quest.BSCourtlyPassions_DontStart.over = "yes";
+	chrDisableReloadToLocation = true;
+	DeleteAttribute(pchar, "DisableToughSkeleton");
+	
+	for (int i = 1; i <= 4; i++)
+	{
+		if(i == 1)	sld = CharacterFromID("BS_Vein");
+		if(i == 2)	sld = CharacterFromID("BS_Silver");
+		if(i == 3)	sld = CharacterFromID("BS_Rakham");
+		if(i == 4)	sld = CharacterFromID("BS_Bony");
+		LAi_SetHP(sld, 1000 - MOD_SKILL_ENEMY_RATE * 50, 1000);
+		ChangeCharacterAddressGroup(sld, pchar.location, "enc01", "enc01_02");
+		LAi_SetWarriorType(sld);
+		LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
+		LAi_SetImmortal(sld, false);
+		sld.DontClearDead = true;
+		sld.CantLoot = true;
+	}
+	
+	string cnd;
+	for (i = 1; i <= 20; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("DeSouzaHunter"+sti(i), "OZG_" + (rand(6) + 1), "man", "man", sti(pchar.rank)+MOD_SKILL_ENEMY_RATE * 2, PIRATE, 0, true));
+		
+		LAi_SetWarriorType(sld);
+		LAi_group_MoveCharacter(sld, LAI_GROUP_MONSTERS);
+		sld.LifeDay = 0;
+		
+		cnd = "l" + i;
+		pchar.quest.BSHangover_CaveEntranceAfterBattle.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.BSHangover_CaveEntranceAfterBattle.win_condition.(cnd).character ="DeSouzaHunter"+sti(i);
+
+		ChangeCharacterAddressGroup(sld, PChar.location, "monsters", "monster"+(rand(2)+1));
+	}
+	PChar.quest.BSHangover_CaveEntranceAfterBattle.function = "BSHangover_CaveEntranceAfterBattle";
+	LAi_group_SetRelation(LAI_GROUP_MONSTERS, LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
+}
+
+void BSHangover_CaveEntranceAfterBattle(string qName)
+{
+	AddQuestRecord("BSHangover", "8");
+	BSHangover_IsEveryoneOkay();
+	DoQuestFunctionDelay("BSHangover_CaveEntranceAfterBattle_2", 3);
+	DoQuestFunctionDelay("BSHangover_CaveEntranceAfterBattle_1", 5);
+	
+	sld = CharacterFromID("Flint");
+	sld.AlwaysEnemy = true;
+	DeleteAttribute(sld, "AlwaysFriend");
+	BSRepairShip(sld);
+	DeleteAttribute(sld, "Abordage.Enable");
+	//LAi_SetHP(sld, 50, 50);
+	sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	sld.dialog.currentnode = "BS_F1_35";
+	LAi_SetImmortal(sld, false);
+	pchar.FlintBoardingDialog = true;
+	Group_SetAddress("Flint_Group", "Barbados", "Quest_ships", "quest_ship_7");	
+}
+
+void BSHangover_CaveEntranceAfterBattle_2(string qName)
+{
+	if (WhisperIsHere())
+	{
+		SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+		StartInstantDialogNoType(pchar.WhisperPGG, "BS_12_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+	}
+}
+void BSHangover_CaveEntranceAfterBattle_1(string qName)
+{
+	sld = CharacterFromID("BS_Vein");
+	Lai_SetStayTypeNoGroup(sld);
+	sld.dialog.currentnode = "BS_F1_34";
+	sld.talker = 10;
+}
+
+void BSHangover_IsEveryoneOkay()
+{
+	for (int i = 1; i <= 4; i++)
+	{
+		if(i == 1)	sld = CharacterFromID("BS_Vein");
+		if(i == 2)	sld = CharacterFromID("BS_Silver");
+		if(i == 3)	sld = CharacterFromID("BS_Rakham");
+		if(i == 4)	sld = CharacterFromID("BS_Bony");
+		Lai_SetActorTypeNoGroup(sld);
+		if(LAi_IsDead(sld))
+		{
+			if(!CheckAttribute(pchar, "BSHangover_IsEveryoneOkay"))
+			{
+				pchar.BSHangover_IsEveryoneOkay = true;
+				SetLaunchFrameFormParam("Битва окончена. Ваши компаньоны постепенно приходят в себя", "", 0.1, 2.0);
+				LaunchFrameForm();
+			}
+			DeleteCharacter(sld);
+			LAi_SetCurHPMax(sld);
+			sld.RezMe = true;
+			DoQuestFunctionDelay("BSHangover_IsEveryoneOkay_1", 0);
+		}
+	}
+	
+	pchar.quest.BSHangover_Fail1.win_condition.c1 = "NPC_Death";
+	pchar.quest.BSHangover_Fail1.win_condition.c1.character ="Flint";
+	PChar.quest.BSHangover_Fail1.function = "BSHangover_Fail";
+	
+	pchar.quest.BSHangover_Fail1.win_condition.c1 = "BS_Vein";
+	pchar.quest.BSHangover_Fail1.win_condition.c1.character ="Flint";
+	PChar.quest.BSHangover_Fail1.function = "BSHangover_Fail";
+}
+
+void BSHangover_IsEveryoneOkay_1(string q)
+{
+	for (int i = 1; i <= 4; i++)
+	{
+		if(i == 1)	sld = CharacterFromID("BS_Vein");
+		if(i == 2)	sld = CharacterFromID("BS_Silver");
+		if(i == 3)	sld = CharacterFromID("BS_Rakham");
+		if(i == 4)	sld = CharacterFromID("BS_Bony");
+		
+		if(CheckAttribute(sld, "RezMe"))
+		{
+			DeleteAttribute(sld, "RezMe")
+			ChangeCharacterAddressGroup(sld, pchar.location, "goto",  "goto1");
+		}
+	}
+}
+
+void BSHangover_Fail(string q)
+{
+	CloseQuestHeader("BSHangover");
+	EraseBSCharacters();
+}
+void BSHangover_FlintFight()
+{
+	for (int i = 1; i <= 6; i++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("FlintOff"+i, "officer_" + (rand(62)+2), "man", "man", sti(pchar.rank) + MOD_SKILL_ENEMY_RATE, PIRATE, 0, true));
+		LAi_SetWarriorType(sld);
+		LAi_group_MoveCharacter(sld, LAI_GROUP_BRDENEMY);
+	}
+	DoQuestFunctionDelay("BSHangover_FlintFight_1", 3);
+	DoQuestFunctionDelay("BSHangover_FlintFight_2", 15);
+	if (WhisperIsOfficer())
+	{
+		DoQuestFunctionDelay("BSHangover_FlintFight_3", 8);
+		DoQuestFunctionDelay("BSHangover_FlintFight_4", 30);
+	}
+}
+
+void BSHangover_FlintFight_1(string q)
+{
+	Log_Info("На подмогу Флинту приходит один из его офицеров!");
+	sld = CharacterFromID("FlintOff1");
+	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+}
+
+void BSHangover_FlintFight_2(string q)
+{
+	Log_Info("На подмогу Флинту приходит ещё несколько офицеров!");
+	sld = CharacterFromID("FlintOff2");
+	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+	sld = CharacterFromID("FlintOff3");
+	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+}
+
+void BSHangover_FlintFight_3(string q)
+{
+	Log_Info("Виспер приходит к вам на подмогу!");
+	sld = CharacterFromID(pchar.WhisperId);
+	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+}
+
+void BSHangover_FlintFight_4(string q)
+{
+	Log_Info("Вся кают-компания собралась здесь чтобы помочь Флинту!");
+	sld = CharacterFromID("FlintOff4");
+	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+	sld = CharacterFromID("FlintOff5");
+	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+	sld = CharacterFromID("FlintOff6");
+	ChangeCharacterAddressGroup(sld, pchar.location, "reload", "reload1");
+}
+
+void BSHangover_MaksOnShip(string q)
+{
+	BS_RestoreMaksHostess("");
+	pchar.quest.BSHangover_FlintEscaped.win_condition.l1          = "location";
+	pchar.quest.BSHangover_FlintEscaped.win_condition.l1.location = "pirates_town";
+	pchar.quest.BSHangover_FlintEscaped.function             = "BSHangover_FlintEscaped";	
+}
+void BSHangover_FlintEscaped(string q)
+{
+	chrDisableReloadToLocation = true;
+	sld = CharacterFromID("BS_Vein");
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
+	sld = BSTutorialSailor();
+	ChangeCharacterAddressGroup(sld, PChar.location, "goto", LAi_FindNearestFreeLocator2Pchar("goto"));
+	chrDisableReloadToLocation = true;
+	LAi_SetActorType(sld);
+	sld.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	sld.dialog.currentnode = "BS_F1_41";
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
+	LAi_SetImmortal(sld, true);
+}
+
+void BSHangover_TownHall(string q)
+{
+	ref chr;
+	chr = CharacterFromID("gatri_temp");
+	//ChangeCharacterAddressGroup(chr, "Pirates_townhall", "goto", "goto3");
+	LAi_SetActorType(chr);
+	LAi_SetStayTypeNoGroup(chr);
+	chr.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	chr.dialog.currentnode = "BS_F1_48";
+	chr.talker = 10;
+	
+	chr = CharacterFromID("BS_Rakham");
+	ChangeCharacterAddressGroup(chr, "Pirates_townhall", "goto", "goto5");
+	LAi_SetActorType(chr);
+	
+	chr = CharacterFromID("BS_Vein");
+	ChangeCharacterAddressGroup(chr, "Pirates_townhall", "goto", "goto5");
+	LAi_SetActorType(chr);
+	
+	chr = CharacterFromID("BS_Bony");
+	ChangeCharacterAddressGroup(chr, "Pirates_townhall", "goto", "goto1");
+	LAi_SetActorType(chr);
+
+	chr = CharacterFromID("BS_Silver");
+	ChangeCharacterAddressGroup(chr, "Pirates_townhall", "goto", "goto3");
+	LAi_SetActorType(chr);
+	
+	chr = CharacterFromID("BS_Maks");
+	ChangeCharacterAddressGroup(chr, "Pirates_townhall", "goto", "goto3");
+	LAi_SetActorType(chr);
+}
+
+
+void BSHangover_Cutscene(string q)
+{
+	FreeSitLocator("Pirates_tavern", "sit_front4");  // очистим стул
+	FreeSitLocator("Pirates_tavern", "sit_front1");  // очистим стул
+	FreeSitLocator("Pirates_tavern", "sit_base4");  // очистим стул
+	FreeSitLocator("Pirates_tavern", "sit_base1");  // очистим стул
+	ChangeCharacterAddressGroup(pchar, "Pirates_tavern", "sit", "sit_base4");
+
+	LAi_SetSitTypeNoGroup(pchar);
+	DoQuestFunctionDelay("BSHangover_Cutscene_0", 0);
+}
+void BSHangover_Cutscene_0(string q)
+{
+	DoQuestFunctionDelay("BSHangover_Cutscene_1", 5);
+	if (WhisperIsHere())
+	{
+		sld = CharacterFromID(pchar.WhisperId);
+		ChangeCharacterAddressGroup(sld, "Pirates_tavern", "sit", "sit_front4");
+		LAi_SetSitTypeNoGroup(sld);
+	}
+}
+void BSHangover_Cutscene_1(string q)
+{
+	SetLaunchFrameFormParam("Прошло три часа", "", 0.1, 2.0);
+	LaunchFrameForm();
+	WaitDate("",0,0,0,3,3);
+	if (WhisperIsHere())
+	{
+		SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+		StartInstantDialogNoType(pchar.WhisperPGG, "BS_13_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+	}
+	else
+	{
+		DoQuestFunctionDelay("BSHangover_Cutscene_2", 5);
+	}
+}
+void BSHangover_Cutscene_2(string q)
+{
+	ChangeCharacterAddressGroup(pchar, "Pirates_tavern", "goto", "goto4");
+	LAi_SetPlayerType(pchar);
+	AddQuestRecord("BSHangover", "12");
+	pchar.quest.BSHangover_FirstEnding.win_condition.l1          = "location";
+	pchar.quest.BSHangover_FirstEnding.win_condition.l1.location = "pirates_townhall";
+	pchar.quest.BSHangover_FirstEnding.function             = "BSHangover_FirstEnding";	
+}
+
+void BSHangover_FirstEnding(string q)
+{
+	ref chr;
+	chr = CharacterFromID("BS_Silver");
+	LAi_SetStayTypeNoGroup(chr);
+	chr.dialog.filename = "Quest\BlackSails\BS_Final_1.c";
+	chr.dialog.currentnode = "BS_F1_53";
+	chr.talker = 10;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   -- Тяжелое похмелье --     конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

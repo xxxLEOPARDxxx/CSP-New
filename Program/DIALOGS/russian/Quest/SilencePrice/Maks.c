@@ -18,7 +18,7 @@ void ProcessDialogEvent()
     break;
     case "First Time":
         dialog.text = "Ты кто так" + GetSexPhrase("ой", "ая") + "? Иди отсюда, пока цел" + GetSexPhrase("", "а") + ", я не в настроении разговаривать.";
-        link.l1 = "Тише, тише приятель, я принес" + GetSexPhrase("", "ла") + " тебе письмо от Люка Актера.";
+        link.l1 = "Тише, тише, приятель, я принёс" + GetSexPhrase("", "ла") + " тебе письмо от Люка Актера.";
         link.l1.go = "GiveLetter1";
 		Map_CreateFastWarriorTreasure();
 		DeleteAttribute(Pchar,"Luke.SpawnMaks");
@@ -30,8 +30,8 @@ void ProcessDialogEvent()
         AddDialogExitQuest("GiveLetter");
     break;
     case "Plata":
-        dialog.text = "Что же, все верно. Да, чуть не забыл, вот твои деньги. И все равно, держись от меня подальше.";
-        link.l1 = "Cпасибо. С радостью покину твое общество.";
+        dialog.text = "Что же, все верно. Да, чуть не забыл, вот твои деньги. И всё равно, держись от меня подальше.";
+        link.l1 = "Спасибо. С радостью покину твоё общество.";
         AddQuestRecord("Silence_Price", "2");
         AddQuestUserData("Silence_Price", "sSex", GetSexPhrase("", "а"));
         PlaySound("Interface\notebook_01");
@@ -45,11 +45,11 @@ void ProcessDialogEvent()
     break;
 	case "Bye":
 		dialog.text="Проваливай, я не в настроении разговаривать.";
-		link.l1="Не очень то и хотелось.";
+		link.l1="Не очень-то и хотелось.";
 		link.l1.go="exit";
 	break;
 	case "Guardians":
-		dialog.text = "Что здесь проиходит?! Вражеский шпион?! Взять его!";
+		dialog.text = "Что здесь происходит?! Вражеский шпион?! Взять его!";
 		link.l1 = "Ну попробуйте...";
 		link.l1.go = "exit";
 		AddDialogExitQuest("FightGuardians");

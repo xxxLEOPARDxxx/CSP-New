@@ -7,7 +7,7 @@ int    arrayNPCModelHow; // для рандомизации моделей в одной локации
 // создаем горожан в локацию + солдаты, фантомы-многодневки (живут 48ч) переработка boal 13.05.06
 void CreateCitizens(aref loc)
 {
-	if(CheckAttribute(pchar, "Arrive.EnemyPort")) //Korsar Maxim - если есть этот аттрибут, то через секунду сработает скрипт для агра стражи на игрока.
+	if(CheckAttribute(pchar, "Arrive.EnemyPort")) // если есть этот аттрибут, то через секунду сработает скрипт для агра стражи на игрока.
 	{
 		DoQuestFunctionDelay("SetPortAlarm", 1.0);
 		DeleteAttribute(pchar, "Arrive.EnemyPort");
@@ -809,7 +809,38 @@ void CreateHabitues(aref loc)
 // заполнение инквизиции. eddy
 void CreateIncquisitio(aref loc)
 {	
-	if (GetCityNation("Santiago") != SPAIN) return; 
+	if (loc.id == "Reefs_chapter")
+	{
+		if (CheckNPCQuestDate(loc, "Reefs_Guard_date"))
+		{
+			SetNPCQuestDate(loc, "Reefs_Guard_date");
+			for (int j=1; j<=6; j++)
+			{
+				if (!CheckAttribute(pchar, "PirateOrder"))	sld = GetCharacter(NPC_GenerateCharacter("MaltGuard_"+j, "sold_spa_"+(rand(7)+1), "man", "man", 35, PIRATE, 3, true));
+				else	sld = GetCharacter(NPC_GenerateCharacter("MaltGuard_"+j, "officer_" + (rand(63)+1), "man", "man", 35, PIRATE, 1, true));
+				sld.City = "Santiago";
+				FantomMakeCoolFighter(sld, sti(pchar.rank)+MOD_SKILL_ENEMY_RATE+15, 100, 90, BLADE_LONG, "pistol3", 100);//спецназ
+				LAi_SetLoginTime(sld, 0.0, 24.0);
+				LAi_SetCitizenType(sld);
+				LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");	
+				locatorName = PlaceCharacter(sld, "soldiers", "random");		
+				sld.Dialog.Filename = "Common_Soldier.c";
+				sld.greeting = "soldier_common";
+				SetFoodToCharacter(sld, 3, 20);
+			}
+		}
+		for(int k=1; k<MAX_CHARACTERS; k++)
+		{
+			makeref(sld, Characters[k]);
+			if (CheckAttribute(sld, "OfficerInStockMan"))
+			{
+				LAi_SetCitizenType(sld);
+				locatorName = PlaceCharacter(sld, "soldiers", "random");
+			}
+		}
+	}
+	
+	if (GetCityNation("Santiago") != SPAIN && !CheckAttribute(pchar, "PGGWhisperLetterSent")) return; 
 	
 	if (CheckAttribute(loc, "Incquisitio"))
 	{
@@ -897,36 +928,6 @@ void CreateIncquisitio(aref loc)
 					PlaceCharacter(sld, "prison", "random_free");
 					SetFoodToCharacter(sld, 3, 20);
 				}
-			}
-		}
-	}
-	if (loc.id == "Reefs_chapter")
-	{
-		if (!CheckAttribute(loc, "Guardians_date") || GetNpcQuestPastDayParam(loc, "Guardians_date") > 3)
-		{
-			SaveCurrentNpcQuestDateParam(loc, "Guardians_date");
-			for (int j=1; j<=6; j++)
-			{
-				if (!CheckAttribute(pchar, "PirateOrder"))	sld = GetCharacter(NPC_GenerateCharacter("MaltGuard_"+j, "sold_spa_"+(rand(7)+1), "man", "man", 35, PIRATE, 3, true));
-				else	sld = GetCharacter(NPC_GenerateCharacter("MaltGuard_"+j, "officer_" + (rand(63)+1), "man", "man", 35, PIRATE, 3, true));
-				sld.City = "Santiago";
-				FantomMakeCoolFighter(sld, sti(pchar.rank)+MOD_SKILL_ENEMY_RATE+15, 100, 90, BLADE_LONG, "pistol3", 100);//спецназ
-				LAi_SetLoginTime(sld, 0.0, 24.0);
-				LAi_SetCitizenType(sld);
-				LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");	
-				locatorName = PlaceCharacter(sld, "soldiers", "random");		
-				sld.Dialog.Filename = "Common_Soldier.c";
-				sld.greeting = "soldier_common";
-				SetFoodToCharacter(sld, 3, 20);
-			}
-		}
-		for(int k=1; k<MAX_CHARACTERS; k++)
-		{
-			makeref(sld, Characters[k]);
-			if (CheckAttribute(sld, "OfficerInStockMan"))
-			{
-				LAi_SetCitizenType(sld);
-				locatorName = PlaceCharacter(sld, "soldiers", "random");
 			}
 		}
 	}

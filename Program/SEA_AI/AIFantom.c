@@ -105,6 +105,7 @@ int Fantom_GetShipTypeExt(int iClassMin, int iClassMax, string sShipType, string
 	DeleteAttribute(rFantom, "abordage_twice");
 	DeleteAttribute(rFantom, "QuestDate");
 	DeleteAttribute(rFantom, "ransom");
+	DeleteAttribute(rFantom, "DontRansackCaptain");
 
 	rFantom.SeaAI.Group.Name = sGroupName;
 	rFantom.Ship.Mode = sFantomType;
@@ -200,6 +201,7 @@ void Fantom_AddFantomCharacter(string sGroupName, int iShipType, string sFantomT
 	DeleteAttribute(rFantom, "abordage_twice");
 	DeleteAttribute(rFantom, "QuestDate");
 	DeleteAttribute(rFantom, "ransom");
+	DeleteAttribute(rFantom, "DontRansackCaptain");
 
 	//#20170912-02 Fix for RealShips/Character sails
     	DeleteAttribute(rFantom, "ship.sails");

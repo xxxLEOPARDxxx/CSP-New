@@ -67,8 +67,8 @@ void GenerateIslandShips(string sIslandID)
 						for (j = 0; j < iShipsQuantity; j++)
 						{
 							sTemp = "off_" + NationShortName(iNation) + "_" + i;
-							if(defendersCount > 0) iChar = NPC_GenerateCharacter("FortDefender"+i+j, sTemp, "man","man", 30, iNation, -1, true);
-							else iChar = NPC_GenerateCharacter("Officer"+i + (j-defendersCount), "pirate", "man","man", sti(pchar.rank) + 5, iNation, -1, true);
+							if(defendersCount > 0) iChar = NPC_GenerateCharacter("FortDefender"+i+j, sTemp, "man","spy", 30, iNation, -1, true);
+							else iChar = NPC_GenerateCharacter("Officer"+i + (j-defendersCount), "pirate", "man","spy", sti(pchar.rank) + 5, iNation, -1, true);
 							
 							if(defendersCount > 0) FortDefender = true;
 							else FortDefender = false;

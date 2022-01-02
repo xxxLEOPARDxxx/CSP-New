@@ -489,6 +489,13 @@ void FillShipParam(ref _chr)
 		ref refBaseShip = GetRealShip(iShip);
 		string sShip = refBaseShip.BaseName;
 		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + sShip + ".tga");
+		if (!CheckAttribute(refBaseShip,"QuestShip")) SetNodeUsing("SHIP_BIG_PICTURE_VIDEO",false);
+		else 
+		{
+			SetNewPicture("SHIP_BIG_PICTURE", "interfaces\ships\" + sShip + ".tga.tx"); 
+			SetNodeUsing("SHIP_BIG_PICTURE_VIDEO",true); 
+			SetNewVideoPicture("SHIP_BIG_PICTURE_VIDEO","SHIP_"+sShip);
+		}
 
 		GameInterface.edit_box.str = _chr.ship.name;
 		SetFormatedText("SHIP_RANK", refBaseShip.Class);
@@ -516,6 +523,7 @@ void FillShipParam(ref _chr)
 	else
 	{
 		SetNewPicture("SHIP_BIG_PICTURE", "interfaces\blank_ship2.tga");
+		SetNodeUsing("SHIP_BIG_PICTURE_VIDEO",false);
 		GameInterface.edit_box.str = XI_Convertstring("NoneBoat");
 		SetFormatedText("FRAME_INFO_CAPTION","");
 		SetFormatedText("INFO_TEXT","");
@@ -1220,6 +1228,7 @@ void SetButtionsAccess()
     SetSelectable("BUTTON_BUY", true);
 	//#20180922-01
     SetSelectable("BUTTON_PAINT", true);
+	SetSelectable("SHIPSUP_BUTTON", true);
 
     if (bShipyardOnTop)
     {
@@ -1227,6 +1236,7 @@ void SetButtionsAccess()
     	SetSelectable("BUTTON_SELL", false);
     	//#20180922-01
     	SetSelectable("BUTTON_PAINT", false);
+		SetSelectable("SHIPSUP_BUTTON", false);
     	if (shipIndex == -1)// проверка на цену
     	{
     	    if (GetShipBuyPrice(sti(refNPCShipyard.Ship.Type), refNPCShipyard) > sti(pchar.Money) )
@@ -1264,6 +1274,7 @@ void SetButtionsAccess()
             SetSelectable("BUTTON_REPAIR", false);
             //#20180922-01
             SetSelectable("BUTTON_PAINT", false);
+			SetSelectable("SHIPSUP_BUTTON", false);
         }
         else
         {
@@ -1273,10 +1284,12 @@ void SetButtionsAccess()
     	        SetSelectable("BUTTON_SELL", false);
                 //#20180922-01
                 SetSelectable("BUTTON_PAINT", false);
+				SetSelectable("SHIPSUP_BUTTON", false);
     	    }
     	    else {
                 //#20180922-01
                 SetSelectable("BUTTON_PAINT", true);
+				SetSelectable("SHIPSUP_BUTTON", true);
     	    }
     	    if (xi_refCharacter.id == pchar.id && GetCompanionQuantity(pchar) > 1)
     	    { // нельзя продать корабль ГГ, если есть еще компаньоны
@@ -2540,21 +2553,28 @@ void ShowChangeHullMenu()
 	SetChangeHullInfo();
 }
 
+int GetShipHullCount(ref rShip)
+{
+	int iMax = 3;
+	if (CheckAttribute(rShip,"hullNums")) iMax = sti(rShip.hullNums);
+	return iMax;
+}
+
 void SetChangeHullInfo()
 {
-    	SetFormatedText("CHANGE_SAILS_TYPE_CAPTION_TEXT", "Корпус: ");
-    	
 	ref rShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
-    	string sShipName = rShip.name;
-    	
-    	string sTypeName = "Hull" + sti(PChar.ChangeHull.Type);
-	
+	string sShipName = rShip.name;
+
+	SetFormatedText("CHANGE_HULL_CAPTION", "Окраска корпуса (" + sti(PChar.ChangeHull.Type) + "/" + GetShipHullCount(rShip) + ")");
+
+	string sTypeName = "Hull" + sti(PChar.ChangeHull.Type);
+
 	string sTexture = GetShipTexturesForChangeHull();
 	SetNewPicture("CHANGE_HULL_TYPE", "ships\" + sShipName + "\" + sTypeName + "\" + sTexture);
-	
+
 	int iMoney = CalculateHullChangePrice(sti(rShip.Class));
-    	SetFormatedText("CHANGE_HULL_MONEY", "Цена: " + iMoney);
-	
+	SetFormatedText("CHANGE_HULL_MONEY", "Цена: " + iMoney);
+
 	if(sti(PChar.money) > iMoney)
 	{
 		SetSelectable("CHANGE_HULL_OK", true);
@@ -2568,8 +2588,8 @@ void SetChangeHullInfo()
 string GetShipTexturesForChangeHull()
 {
 	ref rShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
-    	string sShipName = rShip.name;
-		
+	string sShipName = rShip.name;
+
 	int Hulls = LanguageOpenFile("Hulls.txt");
 	string sTex = LanguageConvertString(Hulls, sShipName);
 	LanguageCloseFile(Hulls);
@@ -2580,11 +2600,10 @@ string GetShipTexturesForChangeHull()
 void SelectChangeHull(bool bLeft)
 {
 	ref rShip = GetRealShip(sti(xi_refCharacter.Ship.Type));
-    	string sShipName = rShip.name;
-    
-	int iMax = 3;
-	if (CheckAttribute(rShip,"hullNums")) iMax = sti(rShip.hullNums);
-	
+	string sShipName = rShip.name;
+
+	int iMax = GetShipHullCount(rShip);
+
 	if(bLeft)
 	{
 		PChar.ChangeHull.Type = sti(PChar.ChangeHull.Type) - 1;
@@ -2603,7 +2622,7 @@ void SelectChangeHull(bool bLeft)
 			PChar.ChangeHull.Type = 1;
 		}
 	}
-	
+
 	SetChangeHullInfo();
 }
 		

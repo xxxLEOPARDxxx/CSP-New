@@ -36,13 +36,13 @@ void ProcessDialogEvent()
 		DeleteAttribute(pchar,"Luke.Info");
 	break;
 	case "PrepareFight":
-		dialog.text = "Ты вообще, знаешь кто такой люк? Он агент, и не факт, что у одной нации. Что ты на это скажешь?";
+		dialog.text = "Ты вообще, знаешь кто такой Люк? Он агент, и не факт, что у одной нации. Что ты на это скажешь?";
 		link.l1 = "Аргкх! Я даже подумать не мог"+GetSexPhrase(".","ла.") + " Какие у тебя с ним дела?!";
 		link.l1.go = "PrepareFight_1";
 	break;
 	case "PrepareFight_1":
-		dialog.text = "Тебя это абсолютно никак не касается! Все, что мне нужно от тебя, это твой корабль.";
-		link.l1 = "Я не ослышал" + GetSexPhrase("ся?!","лась?!") + " Ты хочешь мой корабль?! Зачем он тебе?";
+		dialog.text = "Тебя это абсолютно никак не касается! Всё, что мне нужно от тебя, это твой корабль.";
+		link.l1 = "Я не ослышал" + GetSexPhrase("ся?!","ась?!") + " Ты хочешь мой корабль?! Зачем он тебе?";
 		link.l1.go = "PrepareFight_2";
 	break;
 	case "PrepareFight_2":
@@ -57,12 +57,12 @@ void ProcessDialogEvent()
 		link.l1.go = "PeaceDial_1";
 	break;
 	case "PeaceDial_1":
-		dialog.text = "Знаешь, я тебе помогу. Я скажу тебе где он находится. Самому мне его никак не достать, у меня нет корабля, да и в колонии " + NationNameGenitive(sti(Colonies[FindColony(Pchar.Luke.City)].nation)) + " мне путь заказан.";
-		link.l1 = "Хорошо, я соглас" + GetSexPhrase("ен.","на.") + " Говори мне, все, что знаешь.";
+		dialog.text = "Знаешь, я тебе помогу. Я скажу тебе, где он находится. Самому мне его никак не достать, у меня нет корабля, да и в колонии " + NationNameGenitive(sti(Colonies[FindColony(Pchar.Luke.City)].nation)) + " мне путь заказан.";
+		link.l1 = "Хорошо, я соглас" + GetSexPhrase("ен.","на.") + " Говори мне, всё что знаешь.";
 		link.l1.go = "PeaceDial_2";
 	break;
 	case "PeaceDial_2":
-		dialog.text = "Сейчас он находится в порту " + XI_ConvertString("Colony" + Pchar.Luke.City + "Gen") + ". Скорее всего он где то прячется, ищи тщательнее, и будь осторж" + GetSexPhrase("ен","на") + ", он очень хитер.";
+		dialog.text = "Сейчас он находится в порту " + XI_ConvertString("Colony" + Pchar.Luke.City + "Gen") + ". Скорее всего он где-то прячется, ищи тщательнее, и будь осторож" + GetSexPhrase("ен","на") + ", он очень хитер.";
 		link.l1 = "";
 		link.l1.go = "PeaceDial_3";
 	break;

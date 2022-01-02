@@ -202,8 +202,8 @@ string LAi_NPC_EquipBladeSelection(int rank)
 	}
 	if (prank >= (25 - MOD_SKILL_ENEMY_RATE)) // ранг ГГ 25+ (синее+красное, примерно поровну) LEO: Не, я имел ввиду именно с 25 ранга ГГ, а не с 30. Там имелось ввиду, что к 30 рангу уже лейт гейм, а ставить жёска надо именно с 25 :)
 	{
-		min = 28;
-		max = 42;
+		min = 18;
+		max = 39;
 	}
 	
 	int sel = rand(max - min) + min;
@@ -317,34 +317,35 @@ string LAi_NPC_EquipBladeSelection(int rank)
 			blade = GetGeneratedItem("blade13"); // Кракемарт
 		break;
 		case 33:
-			blade = GetGeneratedItem("blade14"); // Катана
-		break;
-		case 34:
 			blade = GetGeneratedItem("blade20"); // Клейбэг
 		break;
-		case 35:
+		case 34:
 			blade = GetGeneratedItem("blade23"); // Бретта
 		break;
-	    case 36:
+	    case 35:
 			blade = GetGeneratedItem("blade24"); // Чиавона
 		break;
-		case 37:
+		case 36:
 			blade = GetGeneratedItem("blade25"); // Карабела
 		break;
-		case 38:
+		case 37:
 			blade = GetGeneratedItem("blade26"); // Паппенхаймер
 		break;
-		case 39:
-			blade = GetGeneratedItem("blade28"); // Танат
-		break;
-		case 40:
+		case 38:
 			blade = GetGeneratedItem("blade30"); // Нобиль
 		break;
+		case 39:
+			blade = GetGeneratedItem("blade33"); // Валлонская шпага
+		break;
+		
+		case 40:
+			blade = GetGeneratedItem("blade14"); // Катана
+		break;
 		case 41:
-			blade = GetGeneratedItem("blade32"); // Фламберж
+			blade = GetGeneratedItem("blade28"); // Танат
 		break;
 		case 42:
-			blade = GetGeneratedItem("blade33"); // Валлонская шпага
+			blade = GetGeneratedItem("blade32"); // Фламберж
 		break;
 	}
 	return blade;
@@ -371,8 +372,8 @@ string LAi_Soldier_EquipBlade(int rank)
 	}
 	if (prank >= (25 - MOD_SKILL_ENEMY_RATE)) // ранг ГГ 25+ (синее+красное, примерно поровну) LEO: Не, я имел ввиду именно с 25 ранга ГГ, а не с 30. Там имелось ввиду, что к 30 рангу уже лейт гейм, а ставить жёска надо именно с 25 :)
 	{
-		min = 28;
-		max = 42;
+		min = 18;
+		max = 39;
 	}
 	
 	int sel = rand(max - min) + min;
@@ -486,34 +487,35 @@ string LAi_Soldier_EquipBlade(int rank)
 			blade = GetGeneratedItem("blade13"); // Кракемарт
 		break;
 		case 33:
-			blade = GetGeneratedItem("blade14"); // Катана
-		break;
-		case 34:
 			blade = GetGeneratedItem("blade20"); // Клейбэг
 		break;
-		case 35:
+		case 34:
 			blade = GetGeneratedItem("blade23"); // Бретта
 		break;
-	    case 36:
+	    case 35:
 			blade = GetGeneratedItem("blade24"); // Чиавона
 		break;
-		case 37:
+		case 36:
 			blade = GetGeneratedItem("blade25"); // Карабела
 		break;
-		case 38:
+		case 37:
 			blade = GetGeneratedItem("blade26"); // Паппенхаймер
 		break;
-		case 39:
-			blade = GetGeneratedItem("blade28"); // Танат
-		break;
-		case 40:
+		case 38:
 			blade = GetGeneratedItem("blade30"); // Нобиль
 		break;
+		case 39:
+			blade = GetGeneratedItem("blade33"); // Валлонская шпага
+		break;
+		
+		case 40:
+			blade = GetGeneratedItem("blade14"); // Катана
+		break;
 		case 41:
-			blade = GetGeneratedItem("blade32"); // Фламберж
+			blade = GetGeneratedItem("blade28"); // Танат
 		break;
 		case 42:
-			blade = GetGeneratedItem("blade33"); // Валлонская шпага
+			blade = GetGeneratedItem("blade32"); // Фламберж
 		break;
 	}
 	return blade;

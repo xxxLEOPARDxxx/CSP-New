@@ -1,6 +1,6 @@
 #define SAILS_COLOR_QUANTITY				9
-#define SHIP_TYPES_QUANTITY					137
-#define SHIP_TYPES_QUANTITY_WITH_FORT		138	// must be (SHIP_TYPES_QUANTITY + 1)
+#define SHIP_TYPES_QUANTITY					139
+#define SHIP_TYPES_QUANTITY_WITH_FORT		140	// must be (SHIP_TYPES_QUANTITY + 1)
 
 //====================================================================================================================================================================================================================
 //7											(Название корабля)		Пушки: к-во(калибр)														(Бейдевинд)		(Нац. принадлежность)	(Тип кор: торг|воен)
@@ -147,18 +147,20 @@
 #define SHIP_XEBEKVML				126		// Синяя птица: 			Gun: 22(16ф) | HP: 2500 | трюм: 1800| Crew: 180 | Speed: 17.5| Turn: 55| FW: 7.5 |		4 класс
 #define SHIP_BRIGQEEN				127		// Стрела: 					Gun: 24(16ф) | HP: 2800 | трюм: 2000| Crew: 200 | Speed: 16.5| Turn: 45| FW: 6.0 |		4 класс
 #define SHIP_BRIGSW					128		// Морской волк:			Gun: 24(16ф) | HP: 3200 | трюм: 2100| Crew: 130 | Speed: 16.5| Turn: 50| FW: 7.5 |		4 класс
-#define SHIP_CORVETTE_QUEST			129		// ЧЖ: 						Gun: 40(24ф) | HP: 3800 | трюм: 2700| Crew: 250 | Speed: 18.0| Turn: 60| FW: 5.5 |		3 класс
-#define SHIP_ARABELLA				130		// Синко Льягас: 			Gun: 52(32ф) | HP: 6000 | трюм: 3700| Crew: 350 | Speed: 16.0| Turn: 42| FW: 4.0 |		2 класс
-#define SHIP_FRIGATEQUEEN			131		// МКА: 					Gun: 52(32ф) | HP: 5500 | трюм: 3200| Crew: 300 | Speed: 17.0| Turn: 45| FW: 4.5 |		2 класс
-#define SHIP_FLYINGDUTCHMAN			132		// ЛГ: 						Gun: 66(42ф) | HP: 7700 | трюм: 5200| Crew: 444 | Speed: 15.0| Turn: 40| FW: 3.0 |		2 класс
-#define SHIP_SANTISIMA		 	   	133		// Быстрый мановар: 		Gun: 106(42ф)| HP: 10700| трюм: 5750| Crew: 800 | Speed: 13.0| Turn: 32| FW: 1.2 |		1 класс
-#define SHIP_SOLEYRU				134		// Сулей Руаяль: 			Gun: 112(42ф)| HP: 18000| трюм: 6800| Crew: 1200| Speed: 10.6| Turn: 29| FW: 1.3 |		1 класс
-#define SHIP_WH_CORVETTE_QUEST		135		// Пёс войны: 				Gun: 40(32ф) | HP: 3400 | трюм: 2500| Crew: 230 | Speed: 20.0| Turn: 60| FW: 6.0 |		3 класс
+#define SHIP_CLIPPER				129		// Клиппер: 				Gun: 40(24ф) | HP: 3800 | трюм: 2700| Crew: 250 | Speed: 18.0| Turn: 60| FW: 5.5 |		3 класс
+#define SHIP_CORVETTE_QUEST			130		// ЧЖ: 						Gun: 40(24ф) | HP: 3800 | трюм: 2700| Crew: 250 | Speed: 18.0| Turn: 60| FW: 5.5 |		3 класс
+#define SHIP_WH_CORVETTE_QUEST		131		// Пёс войны: 				Gun: 40(32ф) | HP: 3400 | трюм: 2500| Crew: 230 | Speed: 17.5| Turn: 60| FW: 6.0 |		3 класс
+#define SHIP_ARABELLA				132		// Синко Льягас: 			Gun: 52(32ф) | HP: 9000 | трюм: 3700| Crew: 350 | Speed: 16.0| Turn: 42| FW: 4.0 |		2 класс
+#define SHIP_FRIGATEQUEEN			133		// МКА: 					Gun: 52(36ф) | HP: 8000 | трюм: 3200| Crew: 300 | Speed: 17.0| Turn: 45| FW: 4.5 |		2 класс
+#define SHIP_CATHERINE				134		// Королева: 				Gun: 52(42ф) | HP: 9000 | трюм: 5400| Crew: 490 | Speed: 15.0| Turn: 35| FW: 2.0 |		2 класс
+#define SHIP_FLYINGDUTCHMAN			135		// ЛГ: 						Gun: 66(42ф) | HP: 7000 | трюм: 4200| Crew: 444 | Speed: 15.0| Turn: 40| FW: 3.0 |		2 класс
+#define SHIP_SANTISIMA		 	   	136		// Быстрый мановар: 		Gun: 106(42ф)| HP: 10700| трюм: 5750| Crew: 800 | Speed: 13.0| Turn: 32| FW: 1.2 |		1 класс
+#define SHIP_SOLEYRU				137		// Сулей Руаяль: 			Gun: 112(42ф)| HP: 18000| трюм: 6800| Crew: 1200| Speed: 10.6| Turn: 29| FW: 1.3 |		1 класс
 //====================================================================================================================================================================================================================
 
 //	ЛОДКА + ФОРТ
-#define SHIP_BOAT          	  	   136
-#define SHIP_FORT           	   137
+#define SHIP_BOAT          	  	   138
+#define SHIP_FORT           	   139
 
 
 #define SHIP_NOTUSED			 1000

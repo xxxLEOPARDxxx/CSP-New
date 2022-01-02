@@ -136,8 +136,8 @@ void ProcessDialogEvent()
 			link.l1.go = "Pomenyt";
 			Log_SetStringToLog("Авторитет + 2");
 			Log_SetStringToLog("Скрытность + 2");
-			AddCharacterSkill(pchar, "Leadership", 2);
-			AddCharacterSkill(pchar, "Sneak", 2);
+			AddCharacterSkillDontClearExp(pchar, "Leadership", 2);
+			AddCharacterSkillDontClearExp(pchar, "Sneak", 2);
 			ChangeCharacterReputation(pchar, 2);
 			sld = CharacterFromID("PDM_PK_Francheska")
 			LAi_CharacterDisableDialog(sld);
@@ -286,8 +286,8 @@ void ProcessDialogEvent()
 			
 			Log_SetStringToLog("Скрытность + 3");
 			Log_SetStringToLog("Везение + 1");
-			AddCharacterSkill(pchar, "Sneak", 3);
-			AddCharacterSkill(pchar, "Fortune", 1);
+			AddCharacterSkillDontClearExp(pchar, "Sneak", 3);
+			AddCharacterSkillDontClearExp(pchar, "Fortune", 1);
 			AddCharacterHealth(pchar, 10);
 			
 			AddQuestRecord("PDM_Poteryanoe_Koltso", "5");
@@ -342,9 +342,9 @@ void ProcessDialogEvent()
 			Log_SetStringToLog("Авторитет + 1");
 			Log_SetStringToLog("Скрытность + 1");
 			Log_SetStringToLog("Навигация + 1");
-			AddCharacterSkill(pchar, "Leadership", 1);
-			AddCharacterSkill(pchar, "Sneak", 1);
-			AddCharacterSkill(pchar, "Leadership", 1);
+			AddCharacterSkillDontClearExp(pchar, "Leadership", 1);
+			AddCharacterSkillDontClearExp(pchar, "Sneak", 1);
+			AddCharacterSkillDontClearExp(pchar, "Leadership", 1);
 			ChangeCharacterReputation(pchar, 2);
 			sld = CharacterFromID("Josephine_Lodet")
 			sld.dialog.filename   = "Common_citizen.c";

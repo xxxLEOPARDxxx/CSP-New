@@ -387,5 +387,35 @@ void ProcessDialogEvent()
 			pchar.questTemp.Whisper.SmugPatrol = true;	
 			DoQuestCheckDelay("TalkSelf_Quest", 2.0);
 		break;
+		
+		//Реакции
+		case "WhisperIsHere_exit":
+			DialogExit();
+			RestoreOldDialog(npchar);
+			LAi_SetWarriorTypeNoGroup(npchar);
+			LAi_SetPlayerType(pchar);
+			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
+		break;
+		
+		case "BS_21_WhisperIsHere":
+			dialog.text = "";
+			Link.l1 = "Ты как нельзя вовремя! Не знаю, о чем я только думаю, когда лезу в каюты драться с капитанами в одиночку.";
+			Link.l1.go = "BS_21_WhisperIsHere_1";
+		break;
+		
+		case "BS_21_WhisperIsHere_1":
+			Pchar.CabinHelp = false;
+			dialog.text = "Если хочешь, я буду всегда штурмовать каюты с тобой.";
+			Link.l1 = "Да, было бы неплохо.";
+			Link.l1.go = "BS_21_WhisperIsHere_2";
+			Link.l2 = "Пожалуй, это лишнее.";
+			Link.l2.go = "WhisperIsHere_exit";
+		break;
+		
+		case "BS_21_WhisperIsHere_2":
+			Pchar.CabinHelp = true;
+			dialog.text = "Договорились.";
+			Link.l1.go = "WhisperIsHere_exit";
+		break;
 	}
 }

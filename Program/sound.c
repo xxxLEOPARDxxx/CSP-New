@@ -747,11 +747,13 @@ void Sound_OnAlarm(bool _alarmed)
 
 	if (alarmed != 0)
 	{ //alarm on!
-		if (loadedLocation.id == "FencingTown_Arena") SetMusic("music_bitva_arena");
-		else SetMusic("music_bitva");
-		
-		if (loadedLocation.id == "MountainPath") SetMusic("music_MountainPathFight");
-		else SetMusic("music_bitva");
+		switch (loadedLocation.id)
+        {
+            case "FencingTown_Arena": SetMusic("music_bitva_arena"); break;
+            case "MountainPath": SetMusic("music_MountainPathFight"); break;
+            case "DeckWithReefs": SetMusic("music_MountainPathFight"); break;
+            else SetMusic("music_bitva"); break;
+        }
 	}
 	else
 	{ //alarm off

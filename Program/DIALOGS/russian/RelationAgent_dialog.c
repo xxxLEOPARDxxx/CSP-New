@@ -407,20 +407,30 @@ void ProcessDialogEvent()
 		case "patent_1":
 			dialog.text = "Вы имеете в виду подкуп должностного лица!? Хотите, чтобы я выдал вам патент сам?";
 			link.l1 = "Именно!";
-            if (GetCharacterSkillToOld(PChar, SKILL_FORTUNE) > rand(11) || bBettaTestMode)
-            {
-			    link.l1.go = "patent_2_give";
-			}
-			else
+			if (pchar.questTemp.piratesLine == "begin" || pchar.questTemp.piratesLine == "over" || pchar.questTemp.piratesLine == "waiting_Q8")
 			{
-                link.l1.go = "patent_2_none";
+				if (GetCharacterSkillToOld(PChar, SKILL_FORTUNE) > rand(11) || bBettaTestMode)
+				{
+					link.l1.go = "patent_2_give";
+				}
+				else
+				{
+					link.l1.go = "patent_2_none";
+				}
 			}
+			else link.l1.go = "patent_2_none2";
 			link.l2 = "Нет. Всего хорошего, "+GetAddress_FormToNPC(NPChar);
 			link.l2.go = "exit";
 		break;
 		
 		case "patent_2_none":
 			dialog.text = "В данный момент я не располагаю такими связями, чтобы раздобыть чистый бланк патента со всеми печатями и подписями.";
+            link.l1 = "Жаль. Прощайте, "+GetAddress_FormToNPC(NPChar);
+			link.l1.go = "exit";
+		break;
+		
+		case "patent_2_none2":
+			dialog.text = "Насколько мне известно, вы работаете на Береговое Братство, в связи с чем даже наличие каперского патента не позволит вам поступить на службу к любому генерал-губернатору.";
             link.l1 = "Жаль. Прощайте, "+GetAddress_FormToNPC(NPChar);
 			link.l1.go = "exit";
 		break;
@@ -620,12 +630,13 @@ void ProcessDialogEvent()
 				pchar.questTemp.LSC = "toOliverTrast";
 				AddQuestRecord("ISS_PoorsMurder", "10");
 				LocatorReloadEnterDisable("Marigo_town", "houseH2", false);
-				if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "spy", 30, PIRATE, -1, true)); // LEO: Страдать превозмогаторам 07.12.2021
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "spy", 30, PIRATE, -1, true)); // LEO: Страдать превозмогаторам 07.12.2021
 				else sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "man_fast", 30, PIRATE, -1, true));
 				sld.name = "Оливер";
 				sld.lastname = "Траст";
 				FantomMakeCoolFighter(sld, 40, 90, 90, "blade26", "pistol3", 100);
 				sld.SaveItemsForDead = true;
+				if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 				sld.Dialog.Filename = "Quest\ForAll_dialog.c";
 				sld.dialog.currentnode = "Begin_PoorKill";
 				sld.nation = HOLLAND;

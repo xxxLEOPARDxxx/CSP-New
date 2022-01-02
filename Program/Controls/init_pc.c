@@ -30,6 +30,8 @@ void ExternControlsInit(bool bFirst, bool standart)
 		
 		CI_CreateAndSetControls( "", "TimeScaleFaster", CI_GetKeyCode("VK_ADD"), 0, false );
 	    CI_CreateAndSetControls( "", "TimeScaleSlower", CI_GetKeyCode("VK_SUBTRACT"), 0, false );
+		CI_CreateAndSetControls("", "TimeScaleFasterBA", CI_GetKeyCode("VK_A_PLUS"), 0, false );
+		CI_CreateAndSetControls("", "TimeScaleSlowerBA", CI_GetKeyCode("VK_A_MINUS"), 0, false );
 		CI_CreateAndSetControls( "", "VK_PAUSETimePause", CI_GetKeyCode("VK_PAUSE"), 0, false );
 
 		if (MOD_BETTATESTMODE == "On")
@@ -435,6 +437,8 @@ void ExternControlsInit(bool bFirst, bool standart)
 
 		CI_CreateAndSetControls( "", "TimeScaleFaster", CI_GetKeyCode("VK_ADD"), 0, false );
 	    CI_CreateAndSetControls( "", "TimeScaleSlower", CI_GetKeyCode("VK_SUBTRACT"), 0, false );
+		CI_CreateAndSetControls("", "TimeScaleFasterBA", CI_GetKeyCode("VK_A_PLUS"), 0, false );
+		CI_CreateAndSetControls("", "TimeScaleSlowerBA", CI_GetKeyCode("VK_A_MINUS"), 0, false );
 		CI_CreateAndSetControls( "", "VK_PAUSETimePause", CI_GetKeyCode("VK_PAUSE"), 0, false );
 
 		if (MOD_BETTATESTMODE == "On")

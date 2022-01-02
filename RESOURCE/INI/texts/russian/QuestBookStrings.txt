@@ -1,4 +1,10 @@
+WhisperTitanic {Титаник}
+
+PGGWhisper {Посягнуть на святое}
+
 TheLastMass {Последняя месса}
+
+BSHangover {Тяжелое похмелье}
 
 BSUrka {Неуловимая 'Урка'}
 

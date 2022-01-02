@@ -58,6 +58,7 @@ void SetFantomParamFromRank(ref NPchar, int  rank, bool setEquip)
 			case "DanielleOff": SetCharacterPerk(NPchar, "Fencer"); break;
 			case "SharleMary": SetCharacterPerk(NPchar, "Fencer"); break;
 			case "Sharp_Sibling": SetCharacterPerk(NPchar, "Fencer"); break;
+			case "James_Callow": SetCharacterPerk(NPchar, "Fencer"); break;
 			else {SetSpeciality(NPchar, PerksChars()); break;}
 		}
 		

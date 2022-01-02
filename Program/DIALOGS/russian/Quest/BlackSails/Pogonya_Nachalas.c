@@ -3,7 +3,7 @@ void ProcessDialogEvent()
 {
 	ref NPChar;
 	aref Link, NextDiag;
-
+	int z;
 	DeleteAttribute(&Dialog,"Links");
 
 	makeref(NPChar,CharacterRef);
@@ -155,6 +155,19 @@ void ProcessDialogEvent()
 		
 		case "BS_PN_8":	//Флинт
 			dialog.text = "Подозреваю, что прояснить ситуацию, мог бы мой старпом – Билли Бонс, но он чудесным образом пропал во время своей вахты.";
+			if (WhisperIsHere())
+			{
+				SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+				StartInstantDialogNoType(pchar.WhisperPGG, "BS_17_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+			}
+			else
+			{
+				link.l1 = "Что за?!...";
+				link.l1.go = "BS_PN_9exit";
+			}
+		break;
+		
+		case "BS_PN_8_1":	//Флинт
 			link.l1 = "Что за?!...";
 			link.l1.go = "BS_PN_9exit";
 		break;
@@ -278,7 +291,7 @@ void ProcessDialogEvent()
 			LocatorReloadEnterDisable("Pirates_Shipyard", "reload1_back", false);
 			dialog.text = "А что происходит? Тут постоянно кто-то в кого-то стреляет. Совсем нет покоя старику! Взгляните, я могу переделать систему блоков для гафеля, и им можно будет управлять буквально одной рукой!";
 			link.l1 = "Давайте позже, мастер. Не будем вам мешать!";
-			link.l1.go = "exit";
+			link.l1.go = "BS_PN_14_1";
 			
 			NPChar.Dialog.Filename = "Common_Shipyard.c";
 			NPChar.Dialog.CurrentNode = "Second time";
@@ -286,6 +299,17 @@ void ProcessDialogEvent()
 			PChar.quest.BSChaseBegun_town.win_condition.l1 = "location";
 			PChar.quest.BSChaseBegun_town.win_condition.l1.location = "Pirates_Town";
 			PChar.quest.BSChaseBegun_town.function = "BSChaseBegun_town";
+			
+		break;
+		
+		case "BS_PN_14_1":
+			DialogExit();
+			NextDiag.CurrentNode = NextDiag.TempNode;
+			if (WhisperIsHere())
+			{
+				SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+				StartInstantDialogNoType(pchar.WhisperPGG, "BS_19_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+			}
 		break;
 		
 		//Запись в СЖ: «Позади подземелье и куча трупов. У меня всё больше вопросов к Джекману. Алексус как всегда на своей волне. Пора в поселение, по времени как раз успеваю. Вперёд!»
@@ -577,6 +601,12 @@ void ProcessDialogEvent()
 
 			sld = CharacterFromID("gatri_temp");
 			LAi_SetActorType(sld);
+			
+			if (WhisperIsHere())
+			{
+				SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+				StartInstantDialogNoType(pchar.WhisperPGG, "BS_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+			}
 		break;
 		//Запись в СЖ: «Самоубийственный план, как по мне. Но больше возможностей взять золотишко не будет. Выдвигаюсь, как только буду готов(ва). Вейн займётся выманиванием охраны, Флинт выдвинется раньше и станет вне видимости форта на якорь. Дело за мной».
 		
@@ -599,8 +629,12 @@ void ProcessDialogEvent()
 			DeleteAttribute(pchar, "LockShoreReload");
 			SetCompanionIndex(PChar, -1, GetCharacterIndex(npchar.id));//Флинт присоединяется к эскадре
 			Flag_PIRATE();
-			RepairShip(npchar);
 			
+			for (z = 1; z < 9; z++)
+			{
+				sld CharacterFromID("BSChaseBegun_SeaBattle"+z);
+				sld.LifeDay = 0;
+			}
 		break;
 		
 		case "BS_PN_30":	//Флинт
@@ -618,23 +652,31 @@ void ProcessDialogEvent()
 		
 			dialog.text = "С Сильвером я потолкую. Пока нам нужно залечь на дно. Встретимся через неделю на Бермудах. Ищи по своим каналам любую зацепку, я поищу по своим. Нутром чую, 'Урка' ещё на Карибах. Вопрос – где?";
 			link.l1 = "Есть у меня одна пташка на примете, послушаю, что она пропоёт.";
-			NextDiag.TempNode = "BS_PN_31exit"
-			link.l1.go = "BS_PN_31exit";
+			link.l1.go = "BS_PN_32";
 		break;
 		
-		case "BS_PN_31exit":
+		case "BS_PN_32":
 			chrDisableReloadToLocation = false;
 			LAi_SetActorTypeNoGroup(npchar);
-			LAi_ActorGoToLocation(npchar, "reload", "reload3_back", "none", "", "", "", 20);
 			dialog.text = "Пока нам стоит разойтись, поговорим позже.";
 			link.l1 = "Поддерживаю.";
-			link.l1.go = "exit";
-			
+			link.l1.go = "BS_PN_32exit";
+		break;
+		
+		case "BS_PN_32exit":
+			DialogExit();
+			LAi_ActorGoToLocation(npchar, "reload", "reload3_back", "none", "", "", "", 20);
 			BS_ReplaceHostessWithMaks();
 			sld = CharacterFromID("PortRoyal_hostess");
 			sld.dialog.filename = "Quest\BlackSails\Neulovimaya_Urka.c";
 			sld.dialog.currentnode = "BS_NU_1";
 			BSBons_SeaBattle(false);
+			
+			if (WhisperIsHere())
+			{
+				SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+				StartInstantDialogNoType(pchar.WhisperPGG, "BS_1_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+			}
 		break;
 		
 		//Запись в СЖ: «Любой план летит к чертям, как только возьмёшься за его реализацию. Но ещё не всё потерянно! Навещу-ка я Максин в Порт Рояле, портовые девки много чего знают, а эта мне обязана. Долг - платежом красен».

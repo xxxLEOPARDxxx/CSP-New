@@ -112,6 +112,8 @@ void InitInterface_R(string iniName, ref pTrader)
 	}
 
 	SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + its(refStoreChar.FaceId) + ".tga");
+
+	if (!IsPCharHaveTreasurer()) {SetNodeUsing("Autotrade_All",  false); SetNodeUsing("Autotrade_This",  false);}//скрываем автозакупку без казначея
 }
 
 void ProcessBreakExit()

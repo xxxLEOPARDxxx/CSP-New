@@ -133,7 +133,7 @@ int CreateBermudesCharacters(int n)
 	makeref(ch,Characters[n]);			//Корабел
 	ch.id		= "Pirates_shipyarder";
 	ch.model	= "Researcher";//"trader_15";
-	ch.model.animation = "man";//Korsar Maxim --> Была анимация "Ман2". Блэкмарк студио было лень пересадить текстуру ученого на копию модели механика из ГПК, поэтому, я сделал это за них.
+	ch.model.animation = "man";// --> Была анимация "Ман2". Блэкмарк студио было лень пересадить текстуру ученого на копию модели механика из ГПК, поэтому, я сделал это за них.
 	ch.greeting = "Gr_shipyarderA";
 	ch.name 	= "Мастер";
     ch.lastname = "Алексус";
@@ -141,7 +141,7 @@ int CreateBermudesCharacters(int n)
 	ch.City = "Pirates";
 	ch.location	= "Pirates_Shipyard";
 	ch.location.group = "sit";
-	ch.location.locator = "sit1";//Korsar Maxim - Снова в креселке сидит
+	ch.location.locator = "sit1";// Снова в креселке сидит
 	ch.Dialog.Filename = "Common_Shipyard.c";
 	ch.nation = PIRATE;
 	ch.quest.shiping = "0";

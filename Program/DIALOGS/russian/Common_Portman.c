@@ -77,7 +77,9 @@ void ProcessDialogEvent()
 		AddMoneyToCharacter(Pchar, -sti(NPChar.MoneyForShip));
 
 		chref = GetCharacter(sti(NPChar.ShipToStoreIdx));//сторож
-
+		
+		DownCrewExp(chref,GetNpcQuestPastDayParam(chref, "ShipInStockMan.Date"));
+		
         int iChar = GetPassenger(PChar, sti(strcut(attrL, i+1, strlen(attrL)-1))); //выбранный пассажир
 		compref = GetCharacter(iChar);
 
@@ -96,7 +98,6 @@ void ProcessDialogEvent()
 		// снимем пассажира <--
 		SetCompanionIndex(pchar, -1, iChar);
 		DelBakSkill(compref);
-
 		DeleteAttribute(chref, "ShipInStockMan");
 		chref.id = "ShipInStockMan";//сбрасываем индекс к стандартному, чтобы этот номер массива в следующий раз можно было занять
 		DeleteAttribute(chref,"ship");//затираем данные корабля у сторожа
@@ -1751,6 +1752,7 @@ void ProcessDialogEvent()
 
 			AddMoneyToCharacter(Pchar, -sti(NPChar.MoneyForShip));
 			chref = GetCharacter(sti(NPChar.ShipToStoreIdx));
+			DownCrewExp(chref,GetNpcQuestPastDayParam(chref, "ShipInStockMan.Date"));
 			DeleteAttribute(chref, "ShipInStockMan");
 			SetCompanionIndex(pchar, -1, sti(NPChar.ShipToStoreIdx));
 

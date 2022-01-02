@@ -141,7 +141,7 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 			order = false;
 			if (j == SPAIN)
 			{
-				if (startHeroType == 2 || startHeroType == 7)
+				if (startHeroType == 2 || startHeroType == 7 || CheckAttribute(pchar, "PGGWhisperComplete"))
 				{
 					if (!CheckAttribute(pchar,"OrderDestroyed"))
 					{
@@ -173,7 +173,7 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 				k = 8;
 	            for (i = 1; i <= k; i++)
 	            {
-	                if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "OZG_" + (rand(9) + 1), "man", "spy", 30+rand(10), j, 0, true));
+	                if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "OZG_" + (rand(9) + 1), "man", "spy", 30+rand(10), j, 0, true));
 	                else sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "OZG_" + (rand(9) + 1), "man", "man_fast", 30+rand(10), j, 0, true));
 					log_info(sld.id + " " + i);
 	                SetFantomParamHunter(sld); //крутые парни
@@ -182,6 +182,7 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 	                sld.Dialog.CurrentNode = "First time";
 	                sld.dialog.filename = "Hunter_dialog.c";
 	                sld.greeting = "Gr_HUNTER";
+					if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	                sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
 	
 	                //SetOZGModel(sld);
@@ -198,7 +199,8 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 					{
 						FantomMakeCoolFighter(sld, 20, 100, 100, "blade22", "pistol_grapebok", 100);
 						sld.SaveItemsForDead = true;
-						sld.model = "PGG_Vincento_0";
+						sld.model = "PGG_Vincento_"+rand(5);
+						sld.Heromodel = "PGG_Vincento_"+rand(5); // fix
 						FaceMaker(sld);
 						sld.name 	= "Инквизитор";
 						sld.Dialog.CurrentNode = "OrderHunter";
@@ -227,7 +229,7 @@ void LandHunterReactionResult(ref loc)  // отработает после входа в локацию, но 
 	                pchar.HunterCost = abs(ChangeCharacterNationReputation(pchar, j, 0));
 	                PChar.HunterCost = makeint(PChar.HunterCost)*2000 + rand(5000); //сразу генерим
 	                PChar.HunterCost.TempHunterType = typeHunter;
-	                PChar.HunterCost.Qty = k;
+	                PChar.HunterCost.Qty = i;// fix
 	                sld = characterFromID(sCapId + "1");
 	                LAi_type_actor_Reset(sld);
 	                LAi_ActorDialog(sld, pchar, "", 4.0, 0);

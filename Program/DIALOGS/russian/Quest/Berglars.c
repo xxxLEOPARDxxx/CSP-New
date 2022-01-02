@@ -12,6 +12,14 @@ void ProcessDialogEvent()
 	makearef(Link, Dialog.Links);
 	makearef(NextDiag, NPChar.Dialog);
 	
+	if (!CheckAttribute(NPChar,"refreshanim")) NPChar.refreshanim = "yes";
+    if (NPChar.refreshanim == "yes")
+    {
+        if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) NPChar.model.animation = "spy"; //LEO: Превозмогаторам страдать 08.12.2021
+        Characters_RefreshModel(NPChar);
+        if (bHardBoss) NPChar.AlwaysReload = true;//перезарядка независимо от Дозарядки
+        NPChar.refreshanim = "no";
+    }
 	if (Dialog.CurrentNode == "First time")
 	{
 		switch (pchar.questTemp.tugs.berglarState)
@@ -480,7 +488,9 @@ void ProcessDialogEvent()
 			if (npchar.id == "BerglarFortFrance")
 			{
 				GetCharacterPos(pchar, &locx, &locy, &locz);
-				sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "man", 18, PIRATE, 0, true));
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "spy", 18, PIRATE, 0, true)); //LEO: Превозмогаторам страдать 08.12.2021
+				else sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "man_fast", 18, PIRATE, 0, true));
+				if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 				FantomMakeCoolFighter(sld, 18, 60, 50, BLADE_LONG, "pistol3", 10);
 				LAi_group_MoveCharacter(sld, "EnemyFight");
 				ChangeCharacterAddressGroup(sld, npchar.location, "monsters", LAi_FindNearestFreeLocator("monsters", locx, locy, locz));
@@ -488,7 +498,9 @@ void ProcessDialogEvent()
 			if (npchar.id == "BerglarPanama")
 			{
 				GetCharacterPos(pchar, &locx, &locy, &locz);
-				sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "man", 21, PIRATE, 0, true));
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "spy", 21, PIRATE, 0, true)); //LEO: Превозмогаторам страдать 08.12.2021
+				else sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "man_fast", 21, PIRATE, 0, true));
+				if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 				FantomMakeCoolFighter(sld, 21, 60, 50, BLADE_LONG, "pistol3", 20);
 				LAi_group_MoveCharacter(sld, "EnemyFight");
 				ChangeCharacterAddressGroup(sld, npchar.location, "monsters", LAi_FindNearestFreeLocator("monsters", locx, locy, locz));
@@ -496,7 +508,9 @@ void ProcessDialogEvent()
 			if (npchar.id == "BerglarSantaCatalina")
 			{
 				GetCharacterPos(pchar, &locx, &locy, &locz);
-				sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "man", 20, PIRATE, 0, true));
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "spy", 20, PIRATE, 0, true)); //LEO: Превозмогаторам страдать 08.12.2021
+				else sld = GetCharacter(NPC_GenerateCharacter("Berglars_Helper", "pirate_"+(rand(9)+1), "man", "man_fast", 20, PIRATE, 0, true));
+				if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 				FantomMakeCoolFighter(sld, 20, 60, 50, BLADE_LONG, "pistol3", 20);
 				LAi_group_MoveCharacter(sld, "EnemyFight");
 				ChangeCharacterAddressGroup(sld, npchar.location, "monsters", LAi_FindNearestFreeLocator("monsters", locx, locy, locz));

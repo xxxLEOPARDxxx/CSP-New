@@ -97,7 +97,7 @@ void WorldSituationsUpdate()
 			
 			ChangeImport();
 			UpdateSmugglers();
-			CheckOfficersHPMinus(); //Korsar Maxim - ежедневное обновление дней дл€ выздоровлени€ офов
+			CheckOfficersHPMinus(); // ежедневное обновление дней дл€ выздоровлени€ офов
 			CheckBook(); // ниги - Gregg
 			CheckTrauma();//“€жЄла€ травма
 		break;
@@ -105,7 +105,11 @@ void WorldSituationsUpdate()
 		case 1:
             SalaryNextDayUpdate();  // запрлата
 			Log_QuestInfo("WorldSituationsUpdate SalaryNextDayUpdate");
-			/*ref _rChar;//Lipsar ---> –емонт сторожей
+			if(!CheckAttribute(pchar,"repairDefenders")) pchar.repairDefenders = 0;
+			if(pchar.repairDefenders != GetDataMonth())
+			{
+				pchar.repairDefenders = GetDataMonth();
+			ref _rChar;//Lipsar ---> –емонт сторожей
 			for (int i = 0; i< MAX_COLONIES; i++)
 			{
 				
@@ -143,7 +147,8 @@ void WorldSituationsUpdate()
 					}
 				}
 			}
-			Log_TestInfo("–емонт сторожей");//Lipsar <--- –емонт сторожей*/
+			Log_TestInfo("–емонт сторожей");//Lipsar <--- –емонт сторожей
+			}
 		break;
 		
 		case 2:
@@ -413,13 +418,13 @@ void SetQuestsCharacters()
 	LAi_group_MoveCharacter(sld, GetNationNameByType(iNation) + "_citizens");
 }
 
-//Korsar Maxim - выздоровление офицеров после потери сознани€.
+// выздоровление офицеров после потери сознани€.
 void CheckOfficersHPMinus()
 {
 	ref sld;
 	int i, iOfficer;
 	
-	for(i = 1; i < 22; i++)  //Korsar Maxim - Ќюанс: обновл€ютс€ только офы на должност€х. ѕассажиры не считаютс€, но € уже дрыхнуть хочу, поэтому дальше не разбираюсь. ( то реши это - сотрите этот месседж)
+	for(i = 1; i < 22; i++)  // Ќюанс: обновл€ютс€ только офы на должност€х. ѕассажиры не считаютс€, но € уже дрыхнуть хочу, поэтому дальше не разбираюсь. ( то реши это - сотрите этот месседж)
 	{
 		if (GetOfficersIndex(Pchar, i) != -1)
 		{

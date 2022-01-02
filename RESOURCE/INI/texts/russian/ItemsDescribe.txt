@@ -2892,19 +2892,7 @@ itmdescr_Ship_Print_1
 itmname_Bag_with_money	{Мешочек с деньгами}
 itmdescr_Bag_with_money
 {
-По 200 в мешочке! Увесистые...
-}
-itmdescr_Bag_with_money_2
-{
-По 700 в мешочке! Увесистые...
-}
-itmdescr_Bag_with_money_3
-{
-По 2500 в мешочке! Увесистые...
-}
-itmdescr_Bag_with_money_4
-{
-По 8000 в мешочке! Увесистые...
+Внутри мешочка лежат золотые монеты! Увесистые...
 }
 
 itmname_PDM_Heal_Poroshok	{Целебный порошок}

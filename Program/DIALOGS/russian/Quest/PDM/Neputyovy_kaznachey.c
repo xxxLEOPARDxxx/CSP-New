@@ -201,7 +201,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Viktor_VernulsyDengi_2":
-			dialog.text = "Ты принёс деньги?";
+			dialog.text = "Ты прин"+ GetSexPhrase("ёс","есла") +" деньги?";
 			link.l1 = "" + Plata2 + " золотых. Вот, держи.";
 			link.l1.go = "Zaplati_2";
 			link.l2 = "Ещё нет, но я скоро принесу их тебе.";

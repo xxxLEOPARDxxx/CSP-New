@@ -176,6 +176,10 @@ void csmLootCollector()
 			
 			if (!csmCA(rDeadman, "id"))
 				continue;
+			
+			sld = CharacterFromId(rDeadman.id)
+			if (CheckAttribute(sld, "CantLoot"))//fix
+				continue;
 
 			if (!csmCA(rDeadman, "items") && !csmCA(rDeadman, "money"))
 				continue;

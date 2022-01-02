@@ -206,7 +206,7 @@ void ProcessDialogEvent()
 				}
 				// <-- Линейка Виспер
 				// ЧП
-				if(GetQuestPastDayParam("BSPrologueEnded") > (7) && sti(npchar.nation) == PIRATE && npchar.id != "Pirates_tavernkeeper" && !CheckAttribute(pchar,"BSOnTheHorizon"))
+				if(GetQuestPastDayParam("BSPrologueEnded") > (7) &&  sti(pchar.rank) >= 30 && sti(npchar.nation) == PIRATE && npchar.id != "Pirates_tavernkeeper" && !CheckAttribute(pchar,"BSOnTheHorizon"))
 				{
 					pchar.BSOnTheHorizon = true;
 					dialog.text = "Эй, а не тебя ли разыскивает наша надежда и опора, светлоликая мисс Гатри?";
@@ -1198,6 +1198,10 @@ void ProcessDialogEvent()
 			if (CheckAttribute(pchar,"ContraInterruptWaiting"))
 			{
 				dialog.text = "Простите, но я сейчас не могу сдать комнату. Буквально пару минут назад в таверну ворвалась толпа солдат и принялась обыскивать мои комнаты. Контрабандистов ищут, знаете ли. Только бизнес мне портят своими разборками... Приходите позже, капитан. ";
+				if (sti(npchar.nation == PIRATE))
+				{
+					dialog.text = "Простите, но я сейчас не могу сдать комнату. Прошлый жилец решил устроить в ней бордель, или чего похуже. Кровать сломана, а запах как в свинарнике... Приходите позже, капитан.";
+				}
 				link.l1 = "Ясно.";
 				link.l1.go = "exit";
 				break;
@@ -1757,7 +1761,7 @@ void ProcessDialogEvent()
 		
 		//Lipsar Квест История Давней Дружбы
 		case "MaksQuest_1":
-			dialog.text = "Наверное ты ищещь того мутного типа, в шляпе и зеленом камзоле.";
+			dialog.text = "Наверное, ты ищешь того мутного типа, в шляпе и зелёном камзоле.";
 			link.l1 = "Спасибо, помог.";
 			link.l1.go = "exit";
 			DeleteAttribute(Pchar,"Luke.SpawnMaks");
@@ -1765,7 +1769,7 @@ void ProcessDialogEvent()
 		case "LukeQuest_1":
 			bDisableFastReload = true;
 			dialog.text = "Как только вы ушли, в таверну зашли какие то люди, поговорили с ним, и они ушли вместе. А куда, я даже не знаю.";
-			link.l1 = "Вот те на! Как они выглядели не подскажешь?";
+			link.l1 = "Вот те на! Как они выглядели, не подскажешь?";
 			link.l1.go = "LukeQuest_2";
 		break;
 		case "LukeQuest_2":

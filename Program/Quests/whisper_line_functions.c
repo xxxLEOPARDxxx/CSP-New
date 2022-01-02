@@ -44,8 +44,8 @@ void Whisper_StartGame(string qName)
 	Pchar.model="PGG_Whisper_5_NoHat";
 	SetNewModelToChar(Pchar);
 	
-	//Костыль для перезарядки пистолета и смены модели ГГ, хз, можно ли проще сделать
-	//DoReloadCharacterToLocation(pchar.location,"reload","reload2_back");
+	Locations[FindLocation("Pirates_Shipyard")].id.label = "";
+	Locations[FindLocation("Shore3")].id.label = "";
 	
 	//Запретить выход из локации
 	chrDisableReloadToLocation = true;
@@ -192,6 +192,9 @@ void TeleportBot(string qName)
 }
 void WhisperTeleport(string qName)
 {
+	Locations[FindLocation("Pirates_Shipyard")].id.label = "Shipyard";
+	Locations[FindLocation("Shore3")].id.label = "Shore3";
+	
 	InterfaceStates.Buttons.Save.enable = false;
 	pchar.questTemp.WhisperLine = false;
 	sld = GetCharacter(NPC_GenerateCharacter("wl_Pirate_Cap", "PGG_Rozencraft", "man", "man", 1, PIRATE, -1, true));
@@ -839,6 +842,15 @@ void WhisperPirateTown(string qName)
 	
 	LAi_SetActorType(pchar);
 	LAi_ActorTurnToCharacter(pchar, sld);
+	
+	sld = CharacterFromID("Beatrice");
+	SaveOldDialog(sld);
+	sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+	sld.dialog.currentnode = "Beatrice";
+	sld = CharacterFromID("Hugo_Lesopilka");
+	SaveOldDialog(sld);
+	sld.dialog.filename = "Quest\WhisperLine\Whisper.c";
+	sld.dialog.currentnode = "Hugo_Lesopilka";
 }
 
 void WhisperPirateTownGetHat(string qName)
@@ -1022,6 +1034,11 @@ void WhisperAfterTownBattle(string qName)
 
 void WhisperMeetCrew(string qName)
 {	
+	sld = CharacterFromID("Beatrice");
+	RestoreOldDialog(sld);
+	sld = CharacterFromID("Hugo_Lesopilka");
+	RestoreOldDialog(sld);
+	
 	LAi_group_Delete("wl_TownDefenders");
 	
 	sld = GetCharacter(NPC_GenerateCharacter("Wh_Jack", "PGG_HuanChahotka_0", "man", "man", 5, PIRATE, -1, false));
@@ -1072,6 +1089,7 @@ void WhisperMeetCrew(string qName)
 }
 void WhisperJimTalk(string qName)
 {	
+	DeleteAttribute(pchar, "Cirgnore");
 	//sld = CharacterFromID("Wh_Jack");
 	//Dead_DelLoginedCharacter(sld);
 	sld = characterFromID("Wh_Jim");
@@ -1277,6 +1295,7 @@ void WhisperHuntersCaveEntrance(string qName)
 	
 	sld = GetCharacter(NPC_GenerateCharacter("W_Lejitos", "PGG_Lejitos_0", "man", "man", 1, PIRATE, -1, false));
 	sld.CanTakeMushket = true;
+	sld.HasNoFear = true;
 	sld.name = "Элихио";
 	sld.lastname = "Лехито";
 	LAi_group_MoveCharacter(sld, LAI_GROUP_PLAYER);
@@ -2364,7 +2383,7 @@ void CaptureCapitol_ShoreBattleRespite(string q)
 	ref locLoad = &locations[reload_location_index];
 	LAi_LocationFightDisable(locLoad, true);
 	DoQuestCheckDelay("hide_weapon", 2.0);
-	sld = GetCharacter(NPC_GenerateCharacter("CapitolLeader", "PGG_Vincento_0", "man", "man", 99, SPAIN, -1, true));
+	sld = GetCharacter(NPC_GenerateCharacter("CapitolLeader", "Dark_Incquisitor", "man", "man", 99, SPAIN, -1, true));
 	
 	if (startherotype == 2)	
 	{
@@ -2462,7 +2481,7 @@ void CaptureCapitol_OnLeaderDeath_1(string q)
 	LAi_SetActorTypeNoGroup(sld);
     LAi_SetActorType(sld);
 	LAi_ActorDialog(sld, pchar, "", -1, 0);
-	
+	sld.Dialog.Filename = "Quest\WhisperLine\Whisper.c";
 	sld.Dialog.CurrentNode = "CapitolCaptured";
 }
 
@@ -2492,9 +2511,311 @@ void BuildPirateOrder()
 	LAi_group_MoveCharacter(sld, "PIRATE_CITIZENS");
 	LAi_SetImmortal(sld, true);
 	sld.Dialog.Filename = "MalteseOrder.c";
+	sld.City = "Reefs";
 }
 //todo: Если найдётся подходящая модель, посадить в одну из клеток Капитула пленницу (Новый квест и потенциальный оф)
 //Добавить возможность оставить собственного пленника в темнице, чтобы через время выбить из него генераторный квест
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////   -- Капитул --     конец
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   Квест ПГГ Виспер     начало
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void QuestWhisper_RoomFight(string q)
+{
+	ref chr;
+	
+	chr = CharacterFromID(pchar.WhisperId);
+	chr.dialog.currentnode   = "Quest_Whisper_8";
+	DoQuestCheckDelay("hide_weapon", 2.0);
+	LAi_SetActorTypeNoGroup(chr);
+	LAi_ActorDialog(chr, pchar, "", -1, 0);
+	chrDisableReloadToLocation = true;
+	DoQuestCheckDelay("OpenTheDoors", 3.0);
+}
+
+void QuestWhisper_Siege(string q)
+{
+	ref chr;
+	chr = CharacterFromID(pchar.WhisperId);
+	ChangeCharacterAddressGroup(chr, pchar.location, "goto", "goto20");
+	chr.dialog.currentnode   = "Quest_Whisper_ToSiege";
+	LAi_SetStayTypeNoGroup(chr);
+	chr.talker = 10;
+	
+	GiveItem2Character(chr, "blade_whisper");
+	EquipCharacterByItem(chr, "blade_whisper");
+	GiveItem2Character(chr, "pistol_grapebok");
+	EquipCharacterByItem(chr, "pistol_grapebok");
+	GiveItem2Character(chr, "cirass5");
+	EquipCharacterbyItem(chr, "cirass5");
+	TakeNItems(chr, "GunPowder", 30);
+    TakeNItems(chr, "grapeshot", 30);
+	
+	chr.perks.list.AgileMan = "1";
+	ApplayNewSkill(chr, "AgileMan", 0);
+	
+	chr.SPECIAL.Agility = 10;
+	chr.SPECIAL.Intellect = 10;
+	chr.SPECIAL.Endurance = 10;
+	chr.SPECIAL.Luck = 10;
+	LAi_SetHP(chr, LAi_GetCharacterMaxHP(chr) + 100, LAi_GetCharacterMaxHP(chr) + 100);
+	AddBonusEnergyToCharacter(chr, 80);
+	AddCharacterExpToSkill(chr, "FencingLight", 20000);
+	AddCharacterExpToSkill(chr, "Pistol", 20000);
+	RemoveSpeciality(chr);
+	SetCharacterPerk(chr, "Adventurer");
+	
+	chrDisableReloadToLocation = true;
+	
+	ClearIslandShips("Santiago");
+    Colonies[FindColony("Santiago")].DontSetShipInPort = true;
+	chr = CharacterFromID("Santiago Fort Commander");
+	SetCrewQuantity(chr,500 + rand (100));
+	
+	pchar.LockMapReload = "Ну уж нет. Если я сейчас уплыву, шанс взять этот форт без больших потерь будет навсегда упущен.";
+}
+void QuestWhisper_Siege_1()
+{
+	ref chr;
+	
+	chr = CharacterFromID(pchar.WhisperId);
+	chr.dialog.currentnode   = "Quest_Whisper_AfterSiege";
+	DoQuestCheckDelay("hide_weapon", 2.0);
+	LAi_SetActorTypeNoGroup(chr);
+	LAi_ActorDialog(chr, pchar, "", -1, 0);
+	chrDisableReloadToLocation = true;
+}
+
+void QuestWhisper_Incq(string q)
+{
+	chrDisableReloadToLocation = true;
+	DoQuestFunctionDelay("QuestWhisper_Incq_1", 0.1);
+	DoQuestFunctionDelay("QuestWhisper_Incq_2", 11.0 - MOD_SKILL_ENEMY_RATE);
+	sld = CharacterFromID(pchar.WhisperId);
+	ChangeCharacterAddressGroup(sld, "Santiago_Incquisitio", "goto", "goto14");
+	LAi_SetWarriorTypeNoGroup(sld);
+	LAi_group_FightGroups("SPAIN_CITIZENS", LAI_GROUP_PLAYER, true);
+}
+void QuestWhisper_Incq_1(string q)
+{
+	string cnd;
+	int j;
+	for (j=1; j<=3; j++)
+	{
+		sld = GetCharacter(NPC_GenerateCharacter("Incquisitor_"+j, "priest_sp"+j, "man", "man", 20, SPAIN, 1, true));
+		ChangeCharacterAddressGroup(sld, "Santiago_Incquisitio", "goto", "goto1"+j);
+		LAi_SetWarriorTypeNoGroup(sld);
+		cnd = "i"+j;
+		pchar.quest.QuestWhisper_Incq_3.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.QuestWhisper_Incq_3.win_condition.(cnd).character = sld.id;
+	}
+	for (j=1; j<=4; j++)
+	{
+		sld = CharacterFromID("IncqGuard_"+j);
+		cnd = "ig"+j;
+		pchar.quest.QuestWhisper_Incq_3.win_condition.(cnd) = "NPC_Death";
+		pchar.quest.QuestWhisper_Incq_3.win_condition.(cnd).character = sld.id;
+	}
+	pchar.quest.QuestWhisper_Incq_3.function = "QuestWhisper_Incq_3";
+}
+
+void QuestWhisper_Incq_2(string q)
+{
+	sld = CharacterFromID(pchar.WhisperId);
+	string sGun = GetCharacterEquipByGroup(sld, GUN_ITEM_TYPE);
+	ref rItm = ItemsFromID(sGun); 
+	int iCharge = iGetPistolChargeNum(sld, LAi_GunSetChargeQuant(sld,sti(rItm.chargeQ)));
+	LAi_SetImmortal(sld, false);
+	DeleteAttribute(sld, "SaveItemsForDead");
+}
+
+void QuestWhisper_Incq_3(string q)
+{
+	sld = CharacterFromID(pchar.WhisperId);
+	sld.dialog.currentnode   = "Quest_Whisper_Incq";
+	if (LAi_IsDead(sld))
+	{
+		DeleteCharacter(sld);
+		LAi_SetCurHPMax(sld);
+		sld.dialog.currentnode   = "Quest_Whisper_Incq_fall";
+		DoQuestFunctionDelay("QuestWhisper_Incq_3_1", 1.0);
+		PGG_ChangeRelation2MainCharacter(sld, 30);
+		sld.FailedRecruitment = true;
+	}
+	DoQuestCheckDelay("hide_weapon", 2.0);
+	LAi_SetActorTypeNoGroup(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
+}
+
+void QuestWhisper_Incq_3_1(string q)
+{
+	sld = CharacterFromID(pchar.WhisperId);
+	ChangeCharacterAddressGroup(sld, "Santiago_Incquisitio", "goto", "goto14");
+	LAi_SetActorTypeNoGroup(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
+}
+
+void QuestWhisper_Incq_4(string q)
+{
+	sld = CharacterFromID(pchar.WhisperId);
+	sld.dialog.currentnode   = "Quest_Whisper_Incq_1";
+	LAi_SetStayTypeNoGroup(pchar);
+	LAi_SetActorTypeNoGroup(sld);
+	LAi_ActorDialog(sld, pchar, "", -1, 0);
+	
+	sld.HasNoFear = true;
+	GiveItem2Character(sld, "pistol7shotgun");
+	EquipCharacterByItem(sld, "pistol7shotgun");
+	sld.DontChangeGun = true;
+	TakeNItems(sld, "12_gauge", 50);
+    TakeNItems(sld, "grapeshot", 50);
+	DeleteAttribute(pchar, "PGGWhisperLetterSent");
+}
+
+void QuestWhisper_Incq_5(string q)
+{
+	LAi_group_SetRelation("SPAIN_CITIZENS", LAI_GROUP_PLAYER, LAI_GROUP_NEITRAL);
+	sld = CharacterFromID(pchar.WhisperId);
+	ChangeCharacterAddressGroup(sld, "Santiago_Town", "patrol", "patrol10");
+	sld.dialog.currentnode   = "Quest_Whisper_Finish";
+	chrDisableReloadToLocation = true;
+	LAi_SetActorTypeNoGroup(sld);
+	LAi_ActorDialog(sld, pchar, "", 5, 0);
+}
+
+bool WhisperIsHere()
+{
+	if (CheckAttribute(pchar, "WhisperId"))
+	{
+		sld = CharacterFromID(pchar.WhisperId);
+		if (sld.location == pchar.location && !LAi_IsDead(sld))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool WhisperIsOfficer()
+{
+	if (CheckAttribute(pchar, "WhisperId"))
+	{
+		sld = CharacterFromID(pchar.WhisperId);
+		if (IsOfficer(sld))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   -- Квест ПГГ Виспер --     конец
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   Квест Титаник     начало
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void RefreshTitanic()
+{
+	sld = CharacterFromID("W_Titanic");
+	//sld.AlwaysFriend = true;
+
+	ProcessHullRepair(sld, 100.0 - sti(pchar.rank));
+	ProcessSailRepair(sld, 100.0);
+	DeleteAttribute(sld, "ship.blots");
+	DeleteAttribute(sld, "ship.sails");
+	DeleteAttribute(sld, "ship.masts");
+	SetCrewQuantityFull(sld);
+	
+	DeleteAttribute(pchar, "Abordage.Enable");
+}
+
+void RefreshTitanic_1(string q)
+{
+	if(CheckAttribute(pchar, "TitanicIsKicking"))
+	{
+		AddQuestRecord("WhisperTitanic", 5);
+		AddQuestUserData("WhisperTitanic", "sCity", XI_ConvertString("Colony" + pchar.TitanicCity));
+		RefreshTitanic();
+		WhisperTitanic_ToRandomTown();
+		Log_TestInfo("Титаник уплыл в" + pchar.TitanicCity);
+		pchar.quest.WhisperTitanic_SurrenderFort.win_condition.l1          = "location";
+		pchar.quest.WhisperTitanic_SurrenderFort.win_condition.l1.location = pchar.TitanicCity;
+		pchar.quest.WhisperTitanic_SurrenderFort.function             = "WhisperTitanic_SurrenderFort";	
+	}
+}
+
+void WhisperTitanic_ToRandomTown()
+{
+	if (CheckAttribute(&colonies[1], "nation"))
+	{
+		int n, nation;
+		int storeArray[MAX_COLONIES];
+		int howStore = 0;
+		for(n=0; n<MAX_COLONIES; n++)
+		{
+			if (colonies[n].nation == SPAIN)
+			{
+				storeArray[howStore] = n;
+				howStore++;
+			}
+		}
+		bool townIsSet = false;
+		string prevCity = "";
+		if(CheckAttribute(pchar, "TitanicCity"))	prevCity = pchar.TitanicCity;
+		while (!townIsSet)
+		{
+			nation = storeArray[rand(howStore-1)];
+			pchar.TitanicCity = colonies[nation].id;
+			if (colonies[nation].id == "Beliz" || colonies[nation].id == "Santacatalina" || colonies[nation].id == "PortoBello" || colonies[nation].id == "Cartahena" || colonies[nation].id == "Maracaibo" || colonies[nation].id == "Caracas" || colonies[nation].id == "Cumana") townIsSet = true;
+			if(prevCity == pchar.TitanicCity) townIsSet = false;	
+		}
+		Group_SetAddress("WarDog", pchar.TitanicCity, "Quest_ships", "reload_fort1_siege");	
+		pchar.TitanicRumour = true;
+	}
+}
+void WhisperTitanic_SurrenderFort(string q)
+{
+	DoQuestFunctionDelay("WhisperTitanic_SurrenderFort_1", 0);
+	PChar.quest.RefreshTitanic_1.win_condition.l1 = "ExitFromLocation";
+	PChar.quest.RefreshTitanic_1.win_condition.l1.location = pchar.location;
+	PChar.quest.RefreshTitanic_1.function = "RefreshTitanic_1";
+}
+void WhisperTitanic_SurrenderFort_1(string q)
+{
+	Log_Info("Похоже, что солдаты из форта уже сдались англичанам.")
+	sld = CharacterFromID(pchar.TitanicCity + " Fort Commander");
+	sld.Fort.DieTime.Year = GetDataYear();
+	sld.Fort.DieTime.Month = GetDataMonth();
+	sld.Fort.DieTime.Day = GetDataDay();
+	sld.Fort.DieTime.Time = GetTime();
+	sld.Fort.Mode = FORT_DEAD;
+}
+
+void WhisperTitanic_Is_Dead(string q)
+{
+	AddQuestRecord("WhisperTitanic", 2);
+	DeleteAttribute(pchar, "TitanicIsKicking");
+	DeleteAttribute(pchar, "TitanicRumour");
+	pchar.TitanicIsDown = true;
+	Log_Info("Titanic is down");
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////   -- Квест Титаник --     конец
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

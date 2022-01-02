@@ -53,7 +53,7 @@ void ProcessDialogEvent()
 			pchar.quest.(sTemp).over = "yes";			
 			DeleteAttribute(npchar, "GenQuest.GetPassenger");
 			LAi_SetActorType(npchar);
-			LAi_ActorGoToLocation(npchar, "reload", "reload1_back", "none", "", "", "", 5.0);
+			LAi_ActorGoToLocation(npchar, "reload", "reload1", "none", "", "", "", 5.0);
 			Diag.CurrentNode = Diag.TempNode;
 			DialogExit();
 		break;
@@ -81,7 +81,7 @@ void ProcessDialogEvent()
 			SetCharacterRemovable(npchar, false);
 			chrDisableReloadToLocation = false;
 			LAi_SetActorType(npchar);
-			LAi_ActorGoToLocation(npchar, "reload", "reload1_back", "none", "", "", "", 5.0);			
+			LAi_ActorGoToLocation(npchar, "reload", "reload1", "none", "", "", "", 5.0);			
 			Diag.CurrentNode = "convoy_DeskTalk";
 			DialogExit();
 		break;

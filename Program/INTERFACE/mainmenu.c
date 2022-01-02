@@ -270,7 +270,7 @@ void MainMenu_CreateShip()
 	//int
 	iChar = GenerateCharacter(rand(4), WITHOUT_SHIP, "citizen", MAN, 0, WARRIOR);   //PIRATE
 	ref	rCharacter = &characters[iChar];
-	int nChoosedBaseShipType = 3 + rand(130);
+	int nChoosedBaseShipType = 3 + rand(135);
 	rCharacter.ship.type = GenerateShip(nChoosedBaseShipType, false);
 	SetBaseShipData( rCharacter );
 	ref refBaseShip = GetRealShip( sti(rCharacter.ship.type) );
@@ -311,6 +311,7 @@ void DeleteBackEnvironment()
 	MainMenu_DeleteAnimals();
 	DeleteClass( GetCharacter(iChar));//  boal fix FANTOM_CHARACTERS) );
 	DeleteShipEnvironment();
+	Ship_Walk_Delete();
 	DeleteWeather();
 	DeleteSea();
 	DeleteClass( InterfaceBackScene );
@@ -376,6 +377,10 @@ void ICreateWeather()
 	iBlendWeatherNum = -1; // залоченная погода
 	InterfaceBackScene.current_weather = n;
 	InterfaceStates.mainmenuweather    = n;
+	
+	Ship_Walk_Init();
+	LayerFreeze(SEA_EXECUTE, false);
+	LayerFreeze(SEA_REALIZE, false);
 
 	CreateSea("execute","realize");
 	CreateWeather("execute","realize");

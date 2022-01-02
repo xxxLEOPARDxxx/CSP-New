@@ -149,7 +149,8 @@ void QuestDuelGenerateCharacters()
 				}
 				
 				sSex = "man";
-				sAnimation = "man";
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sAnimation = "spy";
+				else sAnimation = "man_fast";
 				bEquip = true;
 			break;
 			
@@ -166,7 +167,8 @@ void QuestDuelGenerateCharacters()
 				}
 				
 				sSex = "man";
-				sAnimation = "man";
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sAnimation = "spy";
+				else sAnimation = "man_fast";
 				bEquip = true;
 			break;
 			
@@ -175,7 +177,8 @@ void QuestDuelGenerateCharacters()
 				sCharacter = "QuestDuel_Mercenary_" + rand(100000);
 				sModel = GetModelForQuestDuel(19, "officer");
 				sSex = "man";
-				sAnimation = "man";
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sAnimation = "spy";
+				else sAnimation = "man_fast";
 				bEquip = true;
 			break;
 			
@@ -193,7 +196,8 @@ void QuestDuelGenerateCharacters()
 				sCharacter = "QuestDuel_Relative_" + rand(100000);
 				sModel = GetModelForQuestDuel(11, "citiz");
 				sSex = "man";
-				sAnimation = "man";
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sAnimation = "spy";
+				else sAnimation = "man_fast";
 				bEquip = true;
 			break;
 			
@@ -203,7 +207,8 @@ void QuestDuelGenerateCharacters()
 				sCharacter = "QuestDuel_Relative_" + rand(100000);
 				sModel = GetModelForQuestDuel(11, "citiz");
 				sSex = "man";
-				sAnimation = "man";
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sAnimation = "spy";
+				else sAnimation = "man_fast";
 				bEquip = true;
 			break;
 			
@@ -630,6 +635,7 @@ void QuestDuelEquipCharacterSkills(ref chr, bool bMercenary)
 	chr.skill.FencingHeavy = fFencingHeavy;
 	chr.skill.FencingLight = fFencingLight;
 	chr.skill.Pistol = fPistol;
+	if (bHardBoss) chr.AlwaysReload = true;//перезарядка независимо от Дозарядки
 }
 
 void QuestDuelBattleWithDuelistWinner(string qName)

@@ -1093,7 +1093,8 @@ void SetMushketCapitainInWorld()
 	//создаем кэпов
 	int Rank = sti(pchar.rank) + 15;
 	if (Rank > 30) Rank = 30;
-	ref sld = GetCharacter(NPC_GenerateCharacter("MushketCap", "officer_17", "man", "man", Rank, PIRATE, -1, true));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) ref sld = GetCharacter(NPC_GenerateCharacter("MushketCap", "officer_17", "man", "spy", Rank, PIRATE, -1, true));
+	else sld = GetCharacter(NPC_GenerateCharacter("MushketCap", "officer_17", "man", "man_fast", Rank, PIRATE, -1, true));
 	sld.name = "Альберт";
 	sld.lastname = "Зиверт";
  	SetCaptanModelByEncType(sld, "pirate");
@@ -1110,6 +1111,7 @@ void SetMushketCapitainInWorld()
 	sld.AnalizeShips = true;  //анализировать вражеские корабли при выборе таска
 	sld.DontRansackCaptain = true; //не сдаваться
 	sld.WatchFort = true; //видеть форты
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	SetCharacterPerk(sld, "FastReload");
 	SetCharacterPerk(sld, "HullDamageUp");
 	SetCharacterPerk(sld, "SailsDamageUp");

@@ -170,37 +170,8 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
 		break;
 		case "Step_S2_2":
 			dialog.text = "Я вам ничего платить не буду! И если вы сейчас же не уберетесь из моего дома, то я позову слуг!";
-			link.l1 = "Ты слишком самонадеян. Но это лечится. И у меня как раз есть средство - моя шпага.";
-			link.l1.go = "Step_S2_3";
-			link.l2 = "Ну как знаешь, тебе же хуже будет...";
-			link.l2.go = "Step_S2_4";
-		break;
-		case "Step_S2_3":
-			dialog.text = "Убивают!!! Эндрю, ко мне!";
-			link.l1 = "Эрндрю?..";
-			link.l1.go = "Step_S2_fihgt";
-		break;
-		case "Step_S2_fihgt":
-			bDisableFastReload = false; 
-            AddQuestRecord("Spa_Line_2_Inquisition", "4");
-            LAi_LocationFightDisable(&Locations[FindLocation("Villemstad_bank")], false);
-            LAi_NoRebirthEnable(npchar);
-            LAi_SetImmortal(npchar, false);
-            LAi_SetActorType(npchar);
-            LAi_ActorAfraid(npchar, pchar, false);
-            sld = GetCharacter(NPC_GenerateCharacter("Andrew", "shipowner_7", "man", "man", 35, HOLLAND, 10, true));
-            FantomMakeCoolFighter(sld, 35, 80, 60, BLADE_LONG, "pistol3", 70);
-        	LAi_SetWarriorType(sld);
-			LAi_NoRebirthEnable(sld);
-            LAi_group_MoveCharacter(sld, "EnemyFight");
-            GetCharacterPos(pchar, &locx, &locy, &locz);
-           	ChangeCharacterAddressGroup(sld, "Villemstad_bank", "goto", LAi_FindNearestFreeLocator("goto", locx, locy, locz));
-            LAi_group_SetRelation("EnemyFight", LAI_GROUP_PLAYER, LAI_GROUP_ENEMY);
-            LAi_group_FightGroups("EnemyFight", LAI_GROUP_PLAYER, true);
-			Pchar.quest.Inquisition_afterFightAndrew.win_condition.l1 = "MapEnter";
-            Pchar.quest.Inquisition_afterFightAndrew.win_condition = "Inquisition_afterFightAndrew";
-            NextDiag.CurrentNode = NextDiag.TempNode;
-			DialogExit();
+			link.l1 = "Ну как знаешь, тебе же хуже будет...";
+			link.l1.go = "Step_S2_4";
 		break;
 		case "Step_S2_4":
 			dialog.text = "Ты что же, угрожать мне "+ GetSexPhrase("вздумал","вздумала") +"?";

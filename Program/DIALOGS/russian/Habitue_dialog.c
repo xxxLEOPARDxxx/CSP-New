@@ -608,6 +608,11 @@ void ProcessDialogEvent()
             }
 
             dialog.text = "'Летучий голландец'? Да, есть такой корабль, хотя многие не верят.";
+			if(CheckAttribute(Pchar,"GhostShip.AlreadyTalked")) 
+			{
+				link.l1 = "Аа, уже слышал, проехали";
+				link.l1.go = "exit";
+			}
             if (sti(PChar.GenQuest.GhostShip.KillMe) > 0 || sti(PChar.GenQuest.GhostShip.DeadByMe) > 0)
             {
                 link.l1 = "Да я сам его видел! Еле жив остался. Где его найти?";
@@ -622,24 +627,27 @@ void ProcessDialogEvent()
 		case "GhostShip_Speak_3_2":
 			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Говорят, что он сейчас около таинственного острова Кхаэль-Роа.";
-			link.l1    = "А скажи мне, любезный, где искать этот остров?";
-			link.l1.go = "GhostShip_Speak_3_3";
+			if(!CheckAttribute(PChar,"GhostShip.AlreadyTalked"))
+			{
+				link.l1    = "А скажи мне, любезный, где искать этот остров?";
+				link.l1.go = "GhostShip_Speak_3_3";
+			}
+			else
+			{
+				link.l1 = "Что же, наведаюсь к нему.";
+				GhostShipOnMap();
+				link.l1.go = "exit_sit";
+			}
 		break;
 
 		case "GhostShip_Speak_3_3":
 			if(Pchar.chr_ai.type != LAI_TYPE_SIT) LAi_SetSitType(pchar);
 			dialog.text = "Ходят слухи, что он где-то в треугольнике, что образуют острова Сан-Мартин, Невис и Антигуа.";
-    		if (sti(PChar.GenQuest.GhostShip.KillMe) > 0 || sti(PChar.GenQuest.GhostShip.DeadByMe) > 0)
-            {
-                link.l1 = "Что же, наведаюсь к нему еще раз!";
-            }
-            else
-            {
-				link.l1 = "Что же, попробую его найти, посмотреть, что это за призрак.";
-			}
+			link.l1 = "Что же, попробую его найти, посмотреть, что это за призрак.";
 			link.l1.go = "exit_sit";
 			pchar.GenQuest.GhostShip.AskAbout = "2";// вечный генератор
 			AddQuestRecord("GhostShipQuest", "3");
+			Pchar.GhostShip.AlreadyTalked = true;
 			GhostShipOnMap();
 		break;
 		/////////////////////////////////////////////
@@ -1155,18 +1163,6 @@ void ProcessDialogEvent()
 			link.l1.go = "exit";
 			link.l2 = "Посмотрим, что можно сделать.";
 			link.l2.go = "HOTP_CasinoQuest_5";
-			if (pchar.rank >= 8 && pchar.rank <= 14)
-			{			
-			ChangeItemDescribe("Bag_with_money", "itmdescr_Bag_with_money_2");
-			}
-			if (pchar.rank >= 15 && pchar.rank <= 21)
-			{			
-			ChangeItemDescribe("Bag_with_money", "itmdescr_Bag_with_money_3");
-			}
-			if (pchar.rank >= 22)
-			{			
-			ChangeItemDescribe("Bag_with_money", "itmdescr_Bag_with_money_4");
-			}
 
 			Diag.TempNode = "First time";
 		break;

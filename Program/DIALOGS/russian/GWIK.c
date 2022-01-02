@@ -32,7 +32,7 @@ void ProcessDialogEvent()
 				Link.l1 = "Я бы хотел"+ GetSexPhrase("","а")+" приобрести у вас информацию о ценах в магазинах по архипелагу.";
 				link.l1.go = "trade_info";
 			}
-			Link.l2 = "Просто заш"+ GetSexPhrase("ёл","шла")+" поздороваться, всего доброго.";
+			Link.l2 = "Просто заш"+ GetSexPhrase("ёл","ла")+" поздороваться, всего доброго.";
 			link.l2.go = "exit";
 			npchar.met = 1;
 		break;

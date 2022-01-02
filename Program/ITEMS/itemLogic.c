@@ -884,7 +884,7 @@ object g_TmpModelVariable; // код от к3, в скриптах нет вообще, есть проверка в 
 
 void spawnToughSkeleton(aref _location)
 {
-	if (drand(100) < 50 && CheckAttribute(_location, "locators.monsters") && !bMonstersGen && _location.type == "cave" && !CheckAttribute(pchar, "cursed.waitingSkull"))
+	if (drand(100) < 50 && CheckAttribute(_location, "locators.monsters") && !bMonstersGen && _location.type == "cave" && !CheckAttribute(pchar, "cursed.waitingSkull") && !CheckAttribute(pchar, "DisableToughSkeleton"))
 	{	
 		if (!CheckAttribute(pchar, "cursed.quest") || GetQuestPastDayParam("pchar.questTemp.Cursed") >= 90)
 		{
@@ -892,7 +892,7 @@ void spawnToughSkeleton(aref _location)
 			ref sld;
 			
 			//LAi_group_Delete("EnemyFight");
-			if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton_spy", sti(pchar.rank)+20, PIRATE, 1, true));
+			if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton_spy", sti(pchar.rank)+20, PIRATE, 1, true));
 			else sld = GetCharacter(NPC_GenerateCharacter("CursedSkeleton", "PGG_Skeletcap_0", "skeleton", "skeleton_fast", sti(pchar.rank)+20, PIRATE, 1, true));
 			FantomMakeCoolFighter(sld, sti(pchar.rank)+20, 100, 100, LinkRandPhrase(RandPhraseSimple("blade23","blade25"), RandPhraseSimple("blade30","blade26"), RandPhraseSimple("blade24","blade13")), RandPhraseSimple("pistol6", "pistol3"), MOD_SKILL_ENEMY_RATE*4);
 			DeleteAttribute(sld, "SuperShooter");
@@ -902,6 +902,7 @@ void spawnToughSkeleton(aref _location)
 			sld.cirassId = Items_FindItemIdx("cirass5");  // предмета нет, но влияение есть
 			sld.name = "Проклятый капитан";
 			sld.lastname = "";
+			if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 			
 			pchar.quest.cursed_appearance.name  = sld.name;
 			pchar.quest.cursed_appearance.lastname = sld.lastname;

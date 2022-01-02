@@ -18,6 +18,9 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Jackman_Defeated":
+			sld = CharacterFromID("gatri_temp");
+			sld.location.locator = "goto6";
+			
 			dialog.text = "Приш"+ GetSexPhrase("ел","ла") +" поглумиться надо мной?";
 			link.l1 = "Вовсе нет. Мне просто любопытно, почему Гатри оставила тебя в живых?";
 			link.l1.go = "Jackman_Defeated_1";
@@ -36,6 +39,12 @@ void ProcessDialogEvent()
 			npchar.Dialog.Filename = "Mayor\Jackman.c";
 			NextDiag.CurrentNode = "I_know_you_good";
             DialogExit();
+			
+			if (WhisperIsHere())
+			{
+				SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+				StartInstantDialogNoType(pchar.WhisperPGG, "BS_3_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+			}
 		break;
 		
 		//Заменить хозяйку борделя в ПР на Максин. Пускать на глобалке английских охотников (скоростые) 2-3 третьеклассника.
@@ -316,27 +325,27 @@ void ProcessDialogEvent()
 			
 			sld = CharacterFromID("BS_Silver");
 			LAi_SetActorType(sld);
-			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", -1);
+			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", 10);
 			
 			sld = CharacterFromID("BS_Bony");
 			LAi_SetActorType(sld);
-			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", -1);
+			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", 10);
 			
 			sld = CharacterFromID("BS_Maks");
 			LAi_SetActorType(sld);
-			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", -1);
+			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", 10);
 			
 			sld = CharacterFromID("BS_Rakham");
 			LAi_SetActorType(sld);
-			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", -1);
+			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", 10);
 			
 			sld = CharacterFromID("BS_Vein");
 			LAi_SetActorType(sld);
-			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", -1);
+			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", 10);
 			
 			sld = CharacterFromID("gatri_temp");
 			LAi_SetActorType(sld);
-			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", -1);
+			LAi_ActorGoToLocation(sld, "officers", "reload1_3", "reload1_2", "", "", "", 10);
 		break;
 		//Запись в СЖ: «Макс дала важную информацию. Испанцы предвидели охоту за галеоном и запутали следы. Но болтливые и похотливые людишки рушат любые планы и вскрывают любые тайны. Заметка себе: «Не болтать в борделях!»»
 		
@@ -353,7 +362,7 @@ void ProcessDialogEvent()
 			
 			SetCompanionIndex(PChar, -1, GetCharacterIndex(npchar.id));//Флинт присоединяется к эскадре
 			Flag_PIRATE();
-			RepairShip(npchar);
+			BSRepairShip(npchar);
 			LAi_SetImmortal(npchar, false);
 			
 			SetShipRemovable(npchar, false);
@@ -421,7 +430,7 @@ void ProcessDialogEvent()
 		case "BS_NU_33_Ya_Ne_Krisa":
 			FantomMakeCoolestSailor(npchar, SHIP_FRIGATE_H, "Рейнджер", CANNON_TYPE_CANNON_LBS32, 100, 100, 100);
 			SetCompanionIndex(PChar, -1, GetCharacterIndex(npchar.id));//вейн присоединяется к эскадре
-			RepairShip(npchar);
+			BSRepairShip(npchar);
 			SetShipRemovable(npchar, false);
 			Fantom_SetBalls(npchar, "war");
 			SetCharacterGoods(npchar,GOOD_FOOD,1000);
@@ -615,6 +624,12 @@ void ProcessDialogEvent()
 			pchar.quest.BSUrka_Found.win_condition.l1          = "location";
 			pchar.quest.BSUrka_Found.win_condition.l1.location = "Cumana";
 			pchar.quest.BSUrka_Found.function             = "BSUrka_Found";	
+			
+			if (WhisperIsHere())
+			{
+				SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+				StartInstantDialogNoType(pchar.WhisperPGG, "BS_4_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+			}
 		break;
 		
 		//Запись в СЖ: «Охота затянулась, и нервы начинают сдавать. Нужно разобраться с этим поскорее, пока мы не передрались»
@@ -688,6 +703,22 @@ void ProcessDialogEvent()
 			pchar.BSBonsSpawned = true;
 			BSBons_SeaBattle(true);
 			BSChaseBegun_unlock_townhall();
+			
+			if (WhisperIsHere())
+			{
+				SaveOldDialog(CharacterFromID(pchar.WhisperPGG));
+				StartInstantDialogNoType(pchar.WhisperPGG, "BS_5_WhisperIsHere", "Quest\WhisperLine\Whisper.c");
+			}
+			
+			PChar.quest.BSUrka_Finish.win_condition.l1 = "location";
+			PChar.quest.BSUrka_Finish.win_condition.l1.location = "Pirates_townhall";
+			PChar.quest.BSUrka_Finish.function = "BSUrka_Finish";
+			
+			PChar.quest.BSChaseBegun_Fail.over = "yes";
+			PChar.quest.BSUrka_Fail1.over = "yes";
+			PChar.quest.BSUrka_Fail2.over = "yes";
+			PChar.quest.BSUrka_Curacao_EndSeaBattle.over = "yes";
+			PChar.quest.BSUrka_SeaBattleEnded.over = "yes";
 		break;
 		
 		//Если мы предаём Флинта, то следующий диалог:
@@ -740,8 +771,13 @@ void ProcessDialogEvent()
 		
 		case "BS_NU_50":	//Флинт
             dialog.text = "Дело сделано, золото выгружают с кораблей на склад мисс Гатри, подсчетом и дележом займёмся сразу по окончании выгрузки. А пока предлагаю выпить за успешное окончание дела! Вы лучшая команда, с которой мне приходилось иметь дело. За вас! До дна!";
-            link.l1 = "";
-			link.l1.go = "exit";
+            link.l1 = "До дна!";
+			link.l1.go = "BS_NU_50exit";
+		break;
+		
+		case "BS_NU_50exit":	//Флинт
+			DialogExit();
+			BSUrka_Poison();
 		break;
 		
 		//Типа пьём и валимся с ног все, кроме Флинта, Флинт уходит из резиденции. Нас отравили.

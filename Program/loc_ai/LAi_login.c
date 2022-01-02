@@ -307,17 +307,64 @@ void LAi_CharacterPostLogin(ref location)
 		CheckHighOnDrugs();
 		CheckLootCollector();
 		CheckBSFinish();
+		CheckWoundedOfficers();
 	}
-	
 }
 
+void CheckWoundedOfficers()
+{
+	if(CheckAttribute(pchar, "WoundedOfficers"))
+	{
+		for (int i = 1; i <= 20; i++)
+		{
+			string offNum = "WoundedOfficers.Officer"+i;
+			if (CheckAttribute(pchar, offNum))
+			{
+				ref chr = CharacterFromID(pchar.(offNum));
+				if(FindFellowtravellers(pchar,chr) == FELLOWTRAVEL_NO)
+				{
+					LAi_SetCurHPMax(chr);
+					DeleteAttribute(chr, "Ship");
+					chr.Ship.Type = SHIP_NOTUSED;
+					AddPassenger(pchar, chr, false);
+					DeleteAttribute(pchar, offnum);
+					
+					int healing_time = makeint(LAi_GetCharacterMaxHP(chr)/10);//время от хп
+					
+					if (CheckOfficersPerk(pchar, "EmergentSurgeon")) healing_time -= makeint(healing_time/10*3);//снижения от перков врачей
+					else
+					{
+						if (CheckOfficersPerk(pchar, "Doctor2")) healing_time -= makeint(healing_time/10*2);
+						else
+						{
+							if (CheckOfficersPerk(pchar, "Doctor1")) healing_time -= makeint(healing_time/10);
+						}
+					}
+
+					if(!CheckAttribute(chr, "HPminusDays") && !CheckAttribute(chr, "HPminusDaysNeedtoRestore"))//Если теряет сознание без уже действующих "незаживших ран"
+					{
+						chr.HPminusDays = 0;               //Для подчета дней, которые офицер уже прожил после потери сознания.
+						//rOff.HPminus = 40;                  //Минус в ХП
+						chr.HPminusDaysNeedtoRestore = healing_time; //Количество дней для выздоровления
+					}
+					else //Если теряет сознание при одной "незвжившей ране" и более
+					{    
+						//if(ihpm > 40) rOff.HPminus = chr.HPminus + 40;
+						chr.HPminusDaysNeedtoRestore = sti(chr.HPminusDaysNeedtoRestore) + healing_time;
+					}
+				}
+			}
+		}
+		DeleteAttribute(pchar, "WoundedOfficers");
+	}
+}
 void CheckBSFinish()
 {
 	if(!CheckAttribute(pchar, "BSFinish") && sti(pchar.rank) >= 25)
 	{
 		if (CheckAttribute(pchar,"questTemp.Headhunter") && pchar.questTemp.Headhunter == "end_quest_full")
 		{
-			if (!CheckAttribute(pchar, "BSInProgress"))	pchar.BSStart = true;
+			//if (!CheckAttribute(pchar, "BSInProgress"))	pchar.BSStart = true;
 		}
 		if (CheckAttribute(pchar,"questTemp.BlueBird") && pchar.questTemp.BlueBird == "over")
 		{
@@ -404,6 +451,21 @@ void UniqueHeroEvents()
 		Log_info("Расчетное синхронизированное время:");
 		Log_info(" - Ожидайте - ");
 		DoQuestFunctionDelay("DHmessages",4.0);
+	}
+	
+	if (CheckAttribute(pchar, "WhisperPGG"))
+	{
+		sld = CharacterFromID(pchar.WhisperPGG);
+		if (IsCompanion(sld) || IsOfficer(sld))
+		{
+			if (CheckNPCQuestDate(sld, "AmmoUpdate"))
+			{
+				SetNPCQuestDate(sld, "AmmoUpdate");
+				int maxShells = sti(sld.rank) + sti(pchar.rank);
+				if (sti(sld.Items.12_gauge) < maxShells)	sld.Items.12_gauge = sti(sld.Items.12_gauge) + maxShells/10;
+				if (sti(sld.Items.grapeshot) < maxShells)	sld.Items.grapeshot = sti(sld.Items.grapeshot) + maxShells/10;
+			}
+		}
 	}
 }
 
@@ -546,8 +608,8 @@ void PGGWalkEnd(string qName)
 	{
 		sld = CharacterFromID(pchar.chosenHero);
 		DeleteAttribute(pchar, "chosenHero");
-		string futureLoc = sld.PGGAi.location.town.backup + "_Tavern";
-		ChangeCharacterAddressGroup(sld, futureLoc, "goto", "goto1");
+		string futureLoc = "none";
+		ChangeCharacterAddress(sld, futureLoc, "");
 		LAi_SetImmortal(sld, false);
 		if (CheckAttribute(sld, "PGGOfficers"))
 		{
@@ -637,18 +699,19 @@ void GenerateSpySeeker(ref location)
 		bool bOK = 	CheckAttribute(pchar, "GenQuest.questName") && pchar.GenQuest.questName != "SeekSpy";
 		bool bOK2 = !CheckAttribute(pchar, "GenQuest.questName");
 		if(!CheckAttribute(pchar, "SpySeeker.dayrandom")) pchar.SpySeeker.dayrandom = 0;
-		if(CheckAttribute(pchar,"questTemp.CapBloodLine")) return;
+		if(pchar.questTemp.CapBloodLine == true) return;
 		if(HasSubStr(location.id, "Common") && rand(1000) > 750 && pchar.dayrandom != pchar.SpySeeker.dayrandom && !HasSubStr(location.id, "Crypt") && GetCityNation(location.fastreload) != 4) 
 		{
 			if(bOK || bOK2)
 			{
 				chrDisableReloadToLocation = true;
-				if (MOD_SKILL_ENEMY_RATE == 10) ref rChar = GetCharacter(NPC_GenerateCharacter("SpySeeker", "officer_"+ (1 + drand(63)), "man", "spy", pchar.rank, GetCityNation(location.fastreload), -1, false)); //LEO: Превозмогаторам страдание 08.12.2021
+				if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) ref rChar = GetCharacter(NPC_GenerateCharacter("SpySeeker", "officer_"+ (1 + drand(63)), "man", "spy", pchar.rank, GetCityNation(location.fastreload), -1, false)); //LEO: Превозмогаторам страдание 08.12.2021
 				else rChar = GetCharacter(NPC_GenerateCharacter("SpySeeker", "officer_"+ (1 + drand(63)), "man", "man_fast", pchar.rank, GetCityNation(location.fastreload), -1, false));
 				rChar.Dialog.FileName = "Common_Seeker.c";
 				LAi_SetImmortal(rChar, true);
 				rChar.saveItemsForDead = true;
 				SetCharacterPerk(rChar, "Fencer");
+				if (bHardBoss) rChar.AlwaysReload = true;//перезарядка независимо от Дозарядки
 				FantomMakeCoolFighter(rChar, sti(pchar.rank), sti(PChar.skill.Fencing), sti(PChar.skill.Pistol), BLADE_LONG, "pistol3",100);
 				int iRel = GetNationRelation(GetCityNation(location.fastreload), GetBaseHeroNation());
 				if(iRel == RELATION_ENEMY) pchar.SpySeeker = "Enemy";

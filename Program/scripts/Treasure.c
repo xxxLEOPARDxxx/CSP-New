@@ -820,12 +820,13 @@ void SetTreasureHunter(string temp)
 	arrayNPCModelHow = 0;
     for (i = 1; i <= j; i++)
     {
-        if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "spy", sti(PChar.rank) + 5, PIRATE, 0, true));
+        if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "spy", sti(PChar.rank) + 5, PIRATE, 0, true));
         else sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "man_fast", sti(PChar.rank) + 5, PIRATE, 0, true));
         SetFantomParamHunter(sld); //крутые парни
         sld.Dialog.CurrentNode = "TreasureHunter";
         sld.dialog.filename = "Hunter_dialog.c";
         sld.greeting = "Gr_HUNTER";
+		if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
         sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
 
         /*SetModelPirate(sld);
@@ -896,10 +897,11 @@ void SetPGGTreasureHunter(string temp)
 		}
 		else
 		{
-			if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "spy", sti(PChar.rank) + 5, PIRATE, 0, true));
+			if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations)sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "spy", sti(PChar.rank) + 5, PIRATE, 0, true));
 			else sld = GetCharacter(NPC_GenerateCharacter(sCapId + i, "Pirate_" + (rand(24) + 1), "man", "man_fast", sti(PChar.rank) + 5, PIRATE, 0, true));
 			SetFantomParamHunter(sld); //крутые парни
 			sld.greeting = "Gr_HUNTER";
+			if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 			sld.location = "none"; // вот где порылась собака!!!!!!!!!!!
 			/*SetModelPirate(sld);
 			k = 0;
@@ -1193,7 +1195,8 @@ void GhostShipInit()
 {
 	ref sld;
 	//============> Капитан призрака
-	sld = GetCharacter(NPC_GenerateCharacter("GhostCapt", "PotCMobCap", "skeleton", "skeleton", 55, PIRATE, -1, true));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("GhostCapt", "PotCMobCap", "skeleton", "spy", 55, PIRATE, -1, true));
+	else sld = GetCharacter(NPC_GenerateCharacter("GhostCapt", "PotCMobCap", "skeleton", "man_fast", 55, PIRATE, -1, true));
 	sld.dialog.filename      = "Quest\GhostShip_dialog.c";
 	sld.dialog.currentnode   = "GhostCapt";
 	sld.name 	= "Дейви";
@@ -1201,6 +1204,7 @@ void GhostShipInit()
 	sld.reputation = 15;
 	LAi_NoRebirthDisable(sld); 
 	LAi_RebirthOldName(sld);
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	sld.RebirthPhantom     = true;
 	sld.AlwaysEnemy        = true;
 	sld.DontHitInStorm     = true; // не ломается в шторм

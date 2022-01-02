@@ -4,11 +4,13 @@ int nCurScrollNum, nCurScrollOfficerNum;
 string CurTable, CurRow;
 int iSelected; // курсор в таблице
 bool bChangePIRATES;
+int iCurTab2;
 string speedfrom[9] = {"", "Скорость", "от навыка и умений", "от матросов", "от парусов", "от корпуса", "от груза", "от обрастания дна","от атласа карт"};
 string rangefrom[5] = {"", "Ядра", "Картечь", "Книппели", "Бомбы"};
 
 void InitInterface_R(string iniName, ref _char)
 {
+	if (checkattribute(pchar, "iCurTab2")) iCurTab2 = sti(pchar.iCurTab2); else {iCurTab2 = 3; pchar.iCurTab2 = 3;}
 	xi_refCharacter = _char;
 	GameInterface.title = "titleCharacter";
 
@@ -58,6 +60,8 @@ void ProcessExitCancel()
 
 void IDoExit(int exitCode)
 {
+	pchar.iCurTab2 = iCurTab2;
+
 	if (bChangePIRATES)
 	{
 		xi_refCharacter.skill.FreeSPECIAL = 0; // если не все распределил, сам дурак
@@ -348,7 +352,7 @@ void FillSkillTables()
 
     SetFormatedText("TABSTR_1", XI_ConvertString("Personal_abilities") + " " +xi_refCharacter.perks.FreePoints_self);
     SetFormatedText("TABSTR_2", XI_ConvertString("Ship_abilities") + " " + xi_refCharacter.perks.FreePoints_ship);
-    SetControlsTabMode(3);
+    SetControlsTabMode();
 
 	GameInterface.TABLE_SPECIAL.select = 0;
 	GameInterface.TABLE_SPECIAL.hr.td1.str = "";
@@ -1117,25 +1121,17 @@ void procTabChange()
 	int iComIndex = GetEventData();
 	string sNodName = GetEventData();
 	SetCurrentNode("TABLE_PERKS");
-	if( sNodName == "TABBTN_1" )
-	{
-		SetControlsTabMode( 1 );
-		return;
-	}
-	if( sNodName == "TABBTN_2" )
-	{
-		SetControlsTabMode( 2 );
-		return;
-	}
-	if( sNodName == "TABBTN_3" )
-	{
-		SetControlsTabMode( 3 );
-		return;
-	}
+	if( sNodName == "TABBTN_1" ) iCurTab2 = 1;
+	if( sNodName == "TABBTN_2" ) iCurTab2 = 2;
+	if( sNodName == "TABBTN_3" ) iCurTab2 = 3;
+	SetControlsTabMode();
+	return;
+
 }
 
-void SetControlsTabMode(int nMode)
+void SetControlsTabMode()
 {
+	int nMode = iCurTab2;
 	int nColor1 = argb(255,196,196,196);
 	int nColor2 = nColor1;
 	int nColor3 = nColor1;

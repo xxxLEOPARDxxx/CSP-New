@@ -678,8 +678,8 @@ void ProcessDialogEvent()
 		break;		
 		
 			case "BlueBirdCapitain_4":
-			dialog.text = "Подожди... Послушай, я предложу тебе другое. Ты "+ GetSexPhrase("отчаянный и толковый корсар","отчаянная и толковая девушка") +", а я... я проиграл свою игру. У меня нет больше людей, и уже нет корабля - ты выиграл"+ GetSexPhrase("","а") +" абордаж. Даже если мне удастся тебя сейчас убить, конец все равно один.\nМожет, лучше объединим силы? Я предлагаю сменить вражду на мир и готов работать с тобой, под твоим началом.";
-			link.l1 = "Нет, я тебе не верю. Сегодня - ты мой офицер, а завтра - воткнешь кинжал в спину?";
+			dialog.text = "Подожди... Послушай, я предложу тебе другое. Я проиграл, всё кончено, дай мне уйти, а?! А я, может быть, замолвлю за тебя словечко перед нанимателем! Ты ведь даже не представляешь, во что вляпал"+ GetSexPhrase("ся","ась") +"!" ;
+			link.l1 = "Ээ нет, приятель. Концы, как говорится, в воду! Ничего личного, дело есть дело.";
 			link.l1.go = "BlueBirdCapitain_5";
 			/*link.l2 = "Ха! Вот это интересно! А ты знаешь, Джа - я соглас"+ GetSexPhrase("ен","на") +". Такого офицера, как ты, еще поискать надо. Но смотри - надумашь шутки шутить - мигом за борт отправлю!";
 			link.l2.go = "BlueBirdCapitain_6";*/
@@ -2735,9 +2735,9 @@ void ProcessDialogEvent()
 			npchar.IsMushketer = true;
 			Npchar.CanTakeMushket = true;
 			npchar.model = "MusketeerEnglish_2";
-			//Korsar Maxim - Прописка всех моделей для кирас. -->
+			// Прописка всех моделей для кирас. -->
         	npchar.HeroModel = "MusketeerEnglish_2,MusketeerEnglish_2_1,MusketeerEnglish_2_2,MusketeerEnglish_2_3,MusketeerEnglish_2_4,MusketeerEnglish_2_5,MusketeerEnglish_2,MusketeerEnglish_2,MusketeerEnglish_2";
-	        //Korsar Maxim - Прописка всех моделей для кирас. <-- 			
+	        // Прописка всех моделей для кирас. <-- 			
 			npchar.model.animation = "mushketer";
 			GiveItem2Character(npchar, "mushket2x2");
 			npchar.IsMushketer.LastGunID = -1;

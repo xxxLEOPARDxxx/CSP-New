@@ -684,16 +684,22 @@ int GenerateShipExt(int iBaseType, bool isLock, ref chr)
 			case "XebekVML":
 				iCannonDiff = rand(2);  // 22, 20, 18
 			break;
+			case "Clipper":
+				iCannonDiff = rand(3);  // 38, 36, 34, 32
+			break;
 			case "Corvette_quest":
 				iCannonDiff = rand(3);  // 40, 38, 36, 34
 			break;
 			case "Wh_corvette_quest":
-				iCannonDiff = rand(2);  // 40, 38, 36, 34
+				iCannonDiff = rand(3);  // 40, 38, 36, 34
 			break;
 			case "ArabellaShip":
 				iCannonDiff = rand(3);  // 52, 50, 48, 46
 			break;
 			case "Flyingdutchman":
+				iCannonDiff = rand(4);  // 60, 58, 56, 54, 52
+			break;
+			case "Catherine":
 				iCannonDiff = rand(4);  // 60, 58, 56, 54, 52
 			break;
 		}
@@ -944,109 +950,130 @@ void SetCabinTypeEx(ref rRealShip, int shipclass) //Выдача случайной каюты по кл
 	}
 }
 
+// LEO: Пока ненужно всё это 16.12.2021
 void QuestShipDifficultyBoosts(ref rRealShip) //LEO & Gregg: Кастомные бафы для квестовых кораблей в зависимости от сложности
 {
 	if(rRealShip.BaseName == "LuggerQuest")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (31 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (3 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.2 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (40 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (31 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (3 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.2 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (40 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "XebekVML")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (4 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (4 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "BrigQeen")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (4 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (4 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "BrigSW")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (4 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (4 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (1.0 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (50 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
+	}
+	if(rRealShip.BaseName == "Clipper")
+	{
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.7 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (70 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "Corvette_quest")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.7 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (70 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.7 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (70 * MOD_SKILL_ENEMY_RATE);
+		rRealShip.MastMultiplier = 1.3;
+	}
+	if(rRealShip.BaseName == "Catherine")
+	{
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (2 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE); // LEO: Нефиг летать быстрее всех. Для этого есть ЧЖ
+		// rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (60 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "Wh_corvette_quest")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (2 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (2 * MOD_SKILL_ENEMY_RATE);
 		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE); // LEO: Нефиг летать быстрее всех. Для этого есть ЧЖ
-		rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (60 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.WindAgainstSpeed = stf(rRealShip.WindAgainstSpeed) + (0.15 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (60 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "ArabellaShip")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "FrigateQueen")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "Flyingdutchman")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (50 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (7 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.8 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (150 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "Santisima")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (75 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (10 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.5 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (130 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (75 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (10 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.5 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (130 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	if(rRealShip.BaseName == "SoleyRu")
 	{
-		rRealShip.Capacity = sti(rRealShip.Capacity) + (120 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.OptCrew = sti(rRealShip.OptCrew) + (20 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.5 * MOD_SKILL_ENEMY_RATE);
-		rRealShip.HP = sti(rRealShip.HP) + (200 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.Capacity = sti(rRealShip.Capacity) + (120 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.OptCrew = sti(rRealShip.OptCrew) + (20 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.SpeedRate = stf(rRealShip.SpeedRate) + (0.1 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.TurnRate = stf(rRealShip.TurnRate) + (0.5 * MOD_SKILL_ENEMY_RATE);
+		// rRealShip.HP = sti(rRealShip.HP) + (200 * MOD_SKILL_ENEMY_RATE);
 		rRealShip.MastMultiplier = 1.3;
 	}
 	rRealShip.MaxCrew = makeint(sti(rRealShip.OptCrew) * 1.25 + 0.5); // перегруз

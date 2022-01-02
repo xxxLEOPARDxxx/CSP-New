@@ -107,7 +107,8 @@ void GenerateArenaDuel()
 	Characters[iCharacter].skill.FencingHeavy = iFencingHeavy;
 	Characters[iCharacter].skill.LeaderShip = iLeaderShip;
 	Characters[iCharacter].model = "officer_" + (rand(63)+1);
-	Characters[iCharacter].model.animation = "spy"; // LEO: Анимка "spy" хоть где то должна работать 01.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) Characters[iCharacter].model.animation = "spy"; // LEO: Превозмогаторам страдать 15.12.2021
+	else Characters[iCharacter].model.animation = "man_fast";
 	Characters[iCharacter].greeting = "Gr_ArenaMember";
 	
 	SetRandomNameToCharacter(&Characters[iCharacter]);
@@ -1041,7 +1042,7 @@ void GenerateArenaTournament()
 	for(int i=1; i <= 7; i++)
 	{
 		int iRank2 = GetRank(PChar, 5) + MOD_SKILL_ENEMY_RATE;
-		if (iMoney >= 1000000) iChar = NPC_GenerateCharacterIndep("Arena_Tournament_Character_" + i, "officer_"+(rand(63)+1), "man", "spy", iRank2, PIRATE, -1, true);
+		if (iMoney >= 1000000 && bHardAnimations) iChar = NPC_GenerateCharacterIndep("Arena_Tournament_Character_" + i, "officer_"+(rand(63)+1), "man", "spy", iRank2, PIRATE, -1, true);
 		else iChar = NPC_GenerateCharacterIndep("Arena_Tournament_Character_" + i, "officer_"+(rand(63)+1), "man", "man_fast", iRank2, PIRATE, -1, true);
 		
 		chr = &Characters[iChar];

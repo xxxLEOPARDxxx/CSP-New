@@ -12,8 +12,10 @@ int  BuyOrSell = 0; // 1-buy -1 sell
 string sChrId;
 ref refStore, refCharacter, refShipChar;
 int iShipQty, iStoreQty, iShipPrice, iStorePrice, iUnits;
+int iFOODQty, iRUMQty;
 float fWeight;
 int  iCurGoodsIdx;
+string sCurRow;
 bool ok;
 
 // BUHO - Fist state variable
@@ -25,7 +27,6 @@ int FIS_FilterState;
 void InitInterface_R(string iniName, ref pStore)
 {
  	StartAboveForm(true);
-
 	refStore = pStore;
 	refCharacter = pchar;
 	SetQuestGoodsToStore(refStore); // установка квестовых товаров и цен
@@ -34,15 +35,15 @@ void InitInterface_R(string iniName, ref pStore)
 		refShipChar = CharacterFromID(pchar.shiptrade.character);
 	}
 	GameInterface.TABLE_LIST.hr.td1.str = XI_ConvertString("In the hold");
-	GameInterface.TABLE_LIST.hr.td1.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td1.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td2.str = "Вес";
-	GameInterface.TABLE_LIST.hr.td2.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td2.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td3.str = XI_ConvertString("Price sell");
-	GameInterface.TABLE_LIST.hr.td3.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td3.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td4.str = XI_ConvertString("Good name");
-	GameInterface.TABLE_LIST.hr.td4.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td4.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td5.str = XI_ConvertString("Price buy");
-	GameInterface.TABLE_LIST.hr.td5.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td5.scale = 0.8;
 	if(refStore.Colony == "none")
 	{
 		GameInterface.TABLE_LIST.hr.td6.str = XI_ConvertString("In the hold");
@@ -51,13 +52,13 @@ void InitInterface_R(string iniName, ref pStore)
 	{
 		GameInterface.TABLE_LIST.hr.td6.str = XI_ConvertString("In the store");
 	}
-	GameInterface.TABLE_LIST.hr.td6.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td6.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td7.str = "Пачка";
-	GameInterface.TABLE_LIST.hr.td7.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td7.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td8.str = "Вес пачки";
-	GameInterface.TABLE_LIST.hr.td8.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td8.scale = 0.8;
 	GameInterface.TABLE_LIST.hr.td9.str = "Общий вес";
-	GameInterface.TABLE_LIST.hr.td9.scale = 0.9;
+	GameInterface.TABLE_LIST.hr.td9.scale = 0.8;
 
 	FillShipsScroll();
 
@@ -71,7 +72,7 @@ void InitInterface_R(string iniName, ref pStore)
 	case FIS_STORE: SendMessage(&GameInterface, "lslll", MSG_INTERFACE_MSG_TO_NODE, "CB_STORE", 2, 1, 1); break;
 	}
 
-	CreateString(true,"ShipName","",FONT_NORMAL,COLOR_MONEY, 405,108,SCRIPT_ALIGN_CENTER,1.0);
+	CreateString(true,"ShipName","",FONT_CAPTION,COLOR_NORMAL, 650,3,SCRIPT_ALIGN_CENTER,1.0);
 
 	SetShipWeight();
 	SetDescription();
@@ -91,10 +92,12 @@ void InitInterface_R(string iniName, ref pStore)
 	SetEventHandler("TableSelectChange", "CS_TableSelectChange", 0);
 	SetEventHandler("TransactionOK", "TransactionOK", 0);
 	SetEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT", 0);
-
-	SetEventHandler("ADD_ALL_BUTTON", "ADD_ALL_BUTTON", 0);
 	SetEventHandler("ADD_BUTTON","ADD_BUTTON",0);
+	SetEventHandler("ADD_10_BUTTON","ADD_10_BUTTON",0);
+	SetEventHandler("ADD_ALL_BUTTON", "ADD_ALL_BUTTON", 0);
+
 	SetEventHandler("REMOVE_BUTTON", "REMOVE_BUTTON", 0);
+	SetEventHandler("REMOVE_10_BUTTON", "REMOVE_10_BUTTON", 0);
 	SetEventHandler("REMOVE_ALL_BUTTON", "REMOVE_ALL_BUTTON", 0);
 	SetEventHandler("Autotrade_All", "Autotrade_All", 0);
 	SetEventHandler("Autotrade_This", "Autotrade_This", 0);
@@ -103,14 +106,18 @@ void InitInterface_R(string iniName, ref pStore)
 
 	if(refStore.Colony == "none")
 	{
-		SetFormatedText("STORECAPTION1", "Корабль: '" + refShipChar.ship.name + "'");
+
+		SetFormatedText("STORECAPTION1", XI_ConvertString(RealShips[sti(refShipChar.ship.type)].BaseName) + " - " + refShipChar.ship.name);
 		SetNewPicture("OTHER_PICTURE", "interfaces\portraits\256\face_" + its(refShipChar.FaceId) + ".tga");
 		SetNodeUsing("AUTOTRADE_ALL", false);//убираем автозакупку в море
+		SetNodeUsing("Autotrade_This", false);//убираем автозакупку в море
 	}
 	else
 	{
 		SetFormatedText("STORECAPTION1", XI_ConvertString("Colony" + refStore.Colony) + ": " + XI_ConvertString("titleStore"));
 	}
+
+	if (bSeaActive || !IsPCharHaveTreasurer()) {SetNodeUsing("Autotrade_All",  false); SetNodeUsing("Autotrade_This",  false);}//скрываем автозакупку без казначея и в море
 }
 
 void ProcessBreakExit()
@@ -120,14 +127,15 @@ void ProcessBreakExit()
 
 void ProcessCancelExit()
 {
-	if (bShowChangeWin)
+	/*if (bShowChangeWin)
 	{
 		EndTooltip();
 	}
 	else
 	{
 		IDoExit( RC_INTERFACE_FOOD_INFO_EXIT );
-	}
+	}*/
+	IDoExit( RC_INTERFACE_FOOD_INFO_EXIT );
 }
 
 void IDoExit(int exitCode)
@@ -148,9 +156,11 @@ void IDoExit(int exitCode)
 	DelEventHandler("frame","ProcessFrame");
 	DelEventHandler("TransactionOK", "TransactionOK");
 	DelEventHandler("confirmChangeQTY_EDIT", "confirmChangeQTY_EDIT");
-	DelEventHandler("ADD_ALL_BUTTON", "ADD_ALL_BUTTON");
 	DelEventHandler("ADD_BUTTON","ADD_BUTTON");
+	DelEventHandler("ADD_10_BUTTON","ADD_10_BUTTON");
+	DelEventHandler("ADD_ALL_BUTTON", "ADD_ALL_BUTTON");
 	DelEventHandler("REMOVE_BUTTON", "REMOVE_BUTTON");
+	DelEventHandler("REMOVE_10_BUTTON", "REMOVE_10_BUTTON");
 	DelEventHandler("REMOVE_ALL_BUTTON", "REMOVE_ALL_BUTTON");
 	DelEventHandler("Autotrade_All", "Autotrade_All");
 	DelEventHandler("Autotrade_This", "Autotrade_This");
@@ -260,11 +270,10 @@ void AddToTable()
 	{
 		row = "tr" + n;
 		sGood = Goods[i].name;
+		sShipQ = GetCargoGoods(refCharacter, i);
 		makearef(refGoods,refStore.Goods.(sGood));
 		tradeType = MakeInt(refGoods.TradeType);
 		if (tradeType == TRADE_TYPE_CANNONS) continue; // не пушки
-
-		sShipQ = GetCargoGoods(refCharacter, i);
 
 		if(refStore.Colony != "none")
 		{
@@ -286,33 +295,25 @@ void AddToTable()
 		if (sti(sShipQ) == 0 && FIS_FilterState == FIS_SHIP) continue;
 		//// {*} BUHO END ADDITION
 
-		GameInterface.TABLE_LIST.(row).td1.str = sShipQ;
-		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(sShipQ));
-		GameInterface.TABLE_LIST.(row).td3.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_BUY, pchar, 1);
-		GameInterface.TABLE_LIST.(row).td7.str = Goods[i].Units;
-		GameInterface.TABLE_LIST.(row).td8.str = Goods[i].Weight;
-		GameInterface.TABLE_LIST.(row).td6.str = sStoreQ;
-		GameInterface.TABLE_LIST.(row).td9.str = GetGoodWeightByType(i, sti(sStoreQ));
-
 		switch(tradeType)
 		{
 			case TRADE_TYPE_NORMAL:
 				iColor = argb(255,255,255,255);
 			break;
 			case TRADE_TYPE_EXPORT:
-				iColor = argb(255,196,255,196);
+				iColor = argb(255,145,255,145);
 			break;
 			case TRADE_TYPE_IMPORT:
-				iColor = argb(255,196,196,255);
+				iColor = argb(255,145,145,255);
 			break;
 			case TRADE_TYPE_CONTRABAND:
-				iColor = argb(255,255,196,196);
+				iColor = argb(255,255,115,115);
 			break;
 			case TRADE_TYPE_AMMUNITION:
 				if (refStore.Colony == "none")
 				{
 					iColor = argb(255,196,196,196);
-					GameInterface.TABLE_LIST.(row).td3.str = "-"; // нельзя купить в море 
+					GameInterface.TABLE_LIST.(row).td3.str = "-"; // нельзя купить в море 		
 				}
 				else
 				{
@@ -323,25 +324,48 @@ void AddToTable()
 				iColor = argb(255,255,173,51);
 			break;
 		}
-
-//		if(checkAttribute(refCharacter, "ship.cargo.goods." + sGood + ".isquest")) iColor = argb(255,255,192,255);
+		if ((tradeType == TRADE_TYPE_AMMUNITION) && (refStore.Colony == "none")) 
+				GameInterface.TABLE_LIST.(row).td3.str = "-"; // нельзя купить в море 
+			else GameInterface.TABLE_LIST.(row).td3.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_BUY, pchar, 1);
 
 		GameInterface.TABLE_LIST.(row).td4.icon.group = "GOODS";
 		GameInterface.TABLE_LIST.(row).td4.icon.image = sGood;
 		GameInterface.TABLE_LIST.(row).td4.icon.offset = "0, 0";
-		GameInterface.TABLE_LIST.(row).td4.icon.width = 20;
-		GameInterface.TABLE_LIST.(row).td4.icon.height = 20;
-		GameInterface.TABLE_LIST.(row).td4.textoffset = "20,0";
+		GameInterface.TABLE_LIST.(row).td4.icon.width = 32;
+		GameInterface.TABLE_LIST.(row).td4.icon.height = 32;
+		GameInterface.TABLE_LIST.(row).td4.align = "left";
+		GameInterface.TABLE_LIST.(row).td4.textoffset = "35,0";
 		GameInterface.TABLE_LIST.(row).td4.str = XI_ConvertString(sGood);
-		GameInterface.TABLE_LIST.(row).index = i;
 		GameInterface.TABLE_LIST.(row).td4.color = iColor;
 
-		if (tradeType == TRADE_TYPE_CONTRABAND) GameInterface.TABLE_LIST.(row).td5.str = "-";
-			else
-			{
-				GameInterface.TABLE_LIST.(row).td5.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, pchar, 1);
-				if (refStore.Colony == "none") GameInterface.TABLE_LIST.(row).td5.str = makeint( (sti(GameInterface.TABLE_LIST.(row).td5.str) + 1) / 2);//в море половинная цена продажи???
-			}
+		GameInterface.TABLE_LIST.(row).td1.scale = 0.9;
+		GameInterface.TABLE_LIST.(row).td2.scale = 0.9;
+		GameInterface.TABLE_LIST.(row).td3.scale = 0.9;
+		GameInterface.TABLE_LIST.(row).td4.scale = 0.9;
+		GameInterface.TABLE_LIST.(row).td5.scale = 0.9;
+		GameInterface.TABLE_LIST.(row).td6.scale = 0.9;
+		GameInterface.TABLE_LIST.(row).td7.scale = 0.9;
+		GameInterface.TABLE_LIST.(row).td8.scale = 0.9;
+		GameInterface.TABLE_LIST.(row).td9.scale = 0.9;
+
+		GameInterface.TABLE_LIST.(row).index = i;
+
+		GameInterface.TABLE_LIST.(row).td7.str = Goods[i].Units;
+		GameInterface.TABLE_LIST.(row).td8.str = Goods[i].Weight;
+		GameInterface.TABLE_LIST.(row).td6.str = sStoreQ;
+		GameInterface.TABLE_LIST.(row).td9.str = GetGoodWeightByType(i, sti(sStoreQ));
+		GameInterface.TABLE_LIST.(row).td1.str = sShipQ;
+		GameInterface.TABLE_LIST.(row).td2.str = GetGoodWeightByType(i, sti(sShipQ));
+
+		if (tradeType == TRADE_TYPE_CONTRABAND) 
+		{
+			GameInterface.TABLE_LIST.(row).td5.str = "---";
+		}
+		else
+		{
+			GameInterface.TABLE_LIST.(row).td5.str = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, refCharacter, 1);
+			if (refStore.Colony == "none") GameInterface.TABLE_LIST.(row).td5.str = makeint( (sti(GameInterface.TABLE_LIST.(row).td5.str) + 1) / 2);//в море половинная цена продажи???
+		}
 		n++;
 	}
 	NextFrameRefreshTable();
@@ -425,12 +449,12 @@ void ShowHelpHint()
 void EndTooltip()
 {
 	CloseTooltip(); // всегда убирать, если был
-	GameInterface.qty_edit.str = 0;
-	SetShipWeight();
+	//GameInterface.qty_edit.str = 0;
+	//SetShipWeight();
 	SetVariable();
 	SetCurrentNode("TABLE_LIST");
- 	XI_WindowDisable("QTY_WINDOW", true);
-	XI_WindowShow("QTY_WINDOW", false);
+ 	//XI_WindowDisable("QTY_WINDOW", true);
+	//XI_WindowShow("QTY_WINDOW", false);
 	bShowChangeWin = false;
 }
 
@@ -442,21 +466,21 @@ void ShowItemInfo()
 	}
 	else
 	{
-		GameInterface.qty_edit.str = "0";
-		BuyOrSell = 0;
+		//GameInterface.qty_edit.str = "0";
+		//BuyOrSell = 0;
 		ChangeQTY_EDIT();
 
-		XI_WindowDisable("QTY_WINDOW", false);
-		XI_WindowShow("QTY_WINDOW", true);
+		//XI_WindowDisable("QTY_WINDOW", false);
+		//XI_WindowShow("QTY_WINDOW", true);
 		bShowChangeWin = true;
-		if (GetRemovable(refCharacter))
+		/*if (GetRemovable(refCharacter))
 		{
 			SetSelectable("QTY_OK_BUTTON", true);
 		}
 		else
 		{
 			SetSelectable("QTY_OK_BUTTON", false);
-		}
+		}*/
 	}
 }
 
@@ -479,11 +503,11 @@ void CS_TableSelectChange()
 {
 	string sControl = GetEventData();
 	int iSelected = GetEventData();
-    TableSelect = iSelected;
-    string sRow = "tr" + (iSelected);
+	TableSelect = iSelected;
+	sCurRow = "tr" + (iSelected);
 	SetShipWeight();
 	SetVariable();
-    ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(sRow).index));
+	ShowGoodsInfo(sti(GameInterface.TABLE_LIST.(sCurRow).index));
 }
 
 void DoChange()
@@ -518,36 +542,47 @@ void SetVariable()
 	sText  = makeint(fShipWeight) + " / " + sText;
 	sText = sText;
 
-	SetFormatedText("CAPACITY", XI_ConvertString("Capacity") + ":\n" + sText);
+	//SetFormatedText("CAPACITY", XI_ConvertString("Capacity") + ": " + sText);
+	SetFormatedText("CAPACITY",sText);
 
 	iTotalSpace = iMaxGoodsStore;
 	string sMaxGoodsStore;
 	if(refStore.Colony == "none")
 	{
 		iTotalSpace = sti(RealShips[sti(refShipChar.ship.type)].capacity);
-		sMaxGoodsStore = XI_ConvertString("Capacity") + ":\n" + makeint(fStoreWeight) + " / " + iTotalSpace;
+		sMaxGoodsStore = makeint(fStoreWeight) + " / " + iTotalSpace;
+		//sMaxGoodsStore = XI_ConvertString("Capacity") + ": " + makeint(fStoreWeight) + " / " + iTotalSpace;
 	}
 	else
 	{
+		sMaxGoodsStore = XI_ConvertString("store");
+		//sMaxGoodsStore = XI_ConvertString("store");
 		//// {*} BUHO-PT - ADDED CODE - Food and rum in store.
-		int iFoodDays = CalculateShipFood(refCharacter);
+		/*int iFoodDays = CalculateShipFood(refCharacter);
 		int iRumdays = CalculateShipRum(refCharacter);
 		sMaxGoodsStore = "Провизия:\n" + "Еда: " + iFoodDays + "д");
-		sMaxGoodsStore = sMaxGoodsStore + "\n" + "Ром: " + iRumDays + "д");
+		sMaxGoodsStore = sMaxGoodsStore + "\n" + "Ром: " + iRumDays + "д");*/
 	}
 	SetFormatedText("STORE_CAPACITY", sMaxGoodsStore);
 
-	sText = XI_ConvertString("OurMoney") + " " + FindRussianMoneyString(sti(pchar.money));
+	//sText = XI_ConvertString("OurMoney") + " " + FindRussianMoneyString(sti(pchar.money));
+	sText = FindRussianMoneyString(sti(pchar.money));
 	SetFormatedText("OUR_GOLD", sText);
 
 	if (CheckAttribute(refCharacter, "ship.name"))
 	{
-		GameInterface.strings.shipname = refCharacter.ship.name;
+		GameInterface.strings.shipname = XI_ConvertString(refBaseShip.BaseName) + " - " + refCharacter.ship.name;
+		//GameInterface.strings.shipname = refCharacter.ship.name;
+		//SetFormatedText("THIS_SHIP_NAME", refCharacter.ship.name);
 	}
 	else
 	{
 		GameInterface.strings.shipname = "";
+		//SetFormatedText("THIS_SHIP_NAME","");
 	}
+
+
+
 }
 
 void ProcessFrame()
@@ -556,12 +591,14 @@ void ProcessFrame()
 	{
 		if(sti(GameInterface.SHIPS_SCROLL.current)!=nCurScrollNum)
 		{
-			XI_WindowDisable("QTY_WINDOW", true);
-			XI_WindowShow("QTY_WINDOW", false);
+			//XI_WindowDisable("QTY_WINDOW", true);
+			//XI_WindowShow("QTY_WINDOW", false);
+			XI_WindowDisable("QTY_WINDOW", false);
+			XI_WindowShow("QTY_WINDOW", true);
 			nCurScrollNum = sti(GameInterface.SHIPS_SCROLL.current);
 
 			SetDescription();
-   			GameInterface.TABLE_LIST.select = 1;
+		GameInterface.TABLE_LIST.select = 1;
 			GameInterface.TABLE_LIST.top = 0;
 		}
 	}
@@ -638,16 +675,24 @@ void ShowGoodsInfo(int iGoodIndex)
 	}
 
 	BuyOrSell = 0;
-	SetFormatedText("QTY_TypeOperation", "");
-	SetFormatedText("QTY_Result", "");
+	SetNodeUsing("QTY_TypeOperation",false);
+	SetNewGroupPicture("QTY_TypeOperation_pic", "","");
+	SetNewGroupPicture("QTY_Result_Coins", "","");
+	SetNewGroupPicture("QTY_Result_weight", "","");
+	SetFormatedText("QTY_Result_C", "");
+	SetFormatedText("QTY_Result_W", "");
 	GameInterface.qty_edit.str = "0";
 
 	SetNewGroupPicture("QTY_GOODS_PICTURE", "GOODS", GoodName);
 	SetFormatedText("QTY_CAPTION", sHeader);
+	SetFormatedText("QTY_CAPTION2", sHeader);
 	SetFormatedText("QTY_GOODS_INFO", goodsDescr);
+	SendMessage( &GameInterface,"lsl",MSG_INTERFACE_MSG_TO_NODE,"QTY_GOODS_INFO", 5 );
 	LanguageCloseFile(lngFileID);
 
 	iShipQty = GetCargoGoods(refCharacter, iGoodIndex);
+	iFOODQty = GetCargoGoods(refCharacter, GOOD_FOOD);
+	iRUMQty = GetCargoGoods(refCharacter, GOOD_RUM);
 
 	if(refStore.Colony != "none")
 	{
@@ -675,7 +720,7 @@ void ShowGoodsInfo(int iGoodIndex)
 		    iStorePrice /= 2;
 		    if (iStorePrice < 1) iStorePrice = 1;
 		}
-        SetFormatedText("QTY_INFO_STORE_PRICE",XI_ConvertString("Price buy") + NewStr() + its(iStorePrice));
+		SetFormatedText("QTY_INFO_STORE_PRICE",XI_ConvertString("Price buy") + NewStr() + iStorePrice);
 	}
 	if ((MakeInt(refStore.Goods.(GoodName).TradeType) == TRADE_TYPE_AMMUNITION) && (refStore.Colony == "none"))
 	{
@@ -695,22 +740,26 @@ void ShowFoodInfo()
 	if (iCurGoodsIdx == GOOD_FOOD)
 	{
 		// чтоб прикинуть как оно будет, скинем на время колво на продажное
-		SetCharacterGoods(refCharacter, GOOD_FOOD, iShipQty + BuyOrSell*sti(GameInterface.qty_edit.str));
+		SetCharacterGoods(refCharacter, GOOD_FOOD, iFOODQty + BuyOrSell*sti(GameInterface.qty_edit.str));
 		SetFoodShipInfo(refCharacter, "FOOD_SHIP");
-		SetCharacterGoods(refCharacter, GOOD_FOOD, iShipQty);
+		SetCharacterGoods(refCharacter, GOOD_FOOD, iFOODQty);
 	}
 	else
 	{
 		if(iCurGoodsIdx == GOOD_RUM) // Warship 11.07.09 На сколько хватит рому
 		{
 			// чтоб прикинуть как оно будет, скинем на время колво на продажное
-			SetCharacterGoods(refCharacter, GOOD_RUM, iShipQty + BuyOrSell*sti(GameInterface.qty_edit.str));
-			SetRumShipInfo(refCharacter, "FOOD_SHIP");
-			SetCharacterGoods(refCharacter, GOOD_RUM, iShipQty);
+			SetCharacterGoods(refCharacter, GOOD_RUM, iRUMQty + BuyOrSell*sti(GameInterface.qty_edit.str));
+			SetRumShipInfo(refCharacter, "RUM_SHIP");
+			SetCharacterGoods(refCharacter, GOOD_RUM, iRUMQty);
 		}
 		else
 		{
-		SetFormatedText("FOOD_SHIP", "");
+	  SetRumShipInfo(refCharacter, "RUM_SHIP");
+		SetCharacterGoods(refCharacter, GOOD_RUM, iRUMQty);
+	  //SetFormatedText("RUM_SHIP", "");
+	  SetFoodShipInfo(refCharacter, "FOOD_SHIP");
+		SetCharacterGoods(refCharacter, GOOD_FOOD, iFOODQty);
 		}
 	}
 }
@@ -783,7 +832,7 @@ void TransactionOK()
 		{
    			RemoveCharacterGoods(refShipChar, iCurGoodsIdx, nTradeQuantity);
 		}
-
+		string sGood = Goods[iCurGoodsIdx].Name;
 		AddCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);
 		moneyback = makeint(iShipPrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5);
 		pchar.money = sti(pchar.money)  - moneyback;
@@ -801,10 +850,12 @@ void TransactionOK()
 		}
 		else
 		{
-   			AddCharacterGoods(refShipChar, iCurGoodsIdx, nTradeQuantity);
+   			AddCharacterGoods(refShipChar, iCurGoodsIdx, nTradeQuantity);//надо ли здесь покупателю-капитану статус ворованного сохранять? а то будут ныть, что продал в море и сразу отмылся товар, стал честным
 		}
 
+		sGood = Goods[iCurGoodsIdx].Name;												  
 		RemoveCharacterGoods(refCharacter, iCurGoodsIdx, nTradeQuantity);
+
 		moneyback = makeint(iStorePrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5);
   		pchar.money = sti(pchar.money)  + moneyback;
 		Statistic_AddValue(Pchar, "Money_get", moneyback);
@@ -821,7 +872,7 @@ void TransactionOK()
 void confirmChangeQTY_EDIT()
 {
 	ChangeQTY_EDIT();
-	SetCurrentNode("QTY_OK_BUTTON");
+	SetCurrentNode("TABLE_LIST");
 }
 
 void ChangeQTY_EDIT()
@@ -834,8 +885,12 @@ void ChangeQTY_EDIT()
 
 	if (sti(GameInterface.qty_edit.str) == 0)
 	{
-		SetFormatedText("QTY_TypeOperation", "");
-		SetFormatedText("QTY_Result", "");
+		SetNodeUsing("QTY_TypeOperation",false);
+		SetNewGroupPicture("QTY_TypeOperation_pic", "","");
+		SetNewGroupPicture("QTY_Result_Coins", "","");
+		SetNewGroupPicture("QTY_Result_weight", "","");
+		SetFormatedText("QTY_Result_C", "");
+		SetFormatedText("QTY_Result_W", "");
 		BuyOrSell = 0;
 	}
 	else
@@ -865,9 +920,15 @@ void ChangeQTY_EDIT()
 				GameInterface.qty_edit.str = makeint(iWeight / fWeight * iUnits ); // округдение
 			}
 			// проверка на колво доступное <--
-			SetFormatedText("QTY_TypeOperation", "Продать");
-			SetFormatedText("QTY_Result", "Золото " + makeint(iStorePrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5) +
-							", вес " + iWeight + " ц");
+		    SetNodeUsing("QTY_TypeOperation",true);
+		    SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"QTY_TypeOperation", 0, "SELL" );
+		    SetNewGroupPicture("QTY_TypeOperation_pic", "SPW_ARROWS_chalk_right","arrow spw chalk right");
+		    SetNewGroupPicture("QTY_Result_Coins", "ICONS","commerce skill icon");
+		    SetNewGroupPicture("QTY_Result_weight", "ICONS","weight icon");
+				//SetFormatedText("QTY_Result","Деньги " + makeint(iStorePrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5) +
+			//                ", вес " + iWeight + " ц");
+				SetFormatedText("QTY_Result_C","+" + makeint(iStorePrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5));
+				SetFormatedText("QTY_Result_W", "- " + iWeight + " ц");
 		}
 		else
 		{
@@ -898,16 +959,24 @@ void ChangeQTY_EDIT()
 			}
 			// проверка на колво доступное <--
 
-			SetFormatedText("QTY_TypeOperation", "Купить");
-			SetFormatedText("QTY_Result", "Золото " + makeint(iShipPrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5) +
-							", вес " + iWeight + " ц");
+			SetNodeUsing("QTY_TypeOperation",true);
+			SendMessage( &GameInterface,"lsls",MSG_INTERFACE_MSG_TO_NODE,"QTY_TypeOperation", 0, "BUY" );
+			SetNewGroupPicture("QTY_TypeOperation_pic", "SPW_ARROWS_chalk_left","arrow spw chalk left");
+			SetNewGroupPicture("QTY_Result_Coins", "ICONS","commerce skill icon");
+			SetNewGroupPicture("QTY_Result_weight", "ICONS","weight icon");
+			SetFormatedText("QTY_Result_C", "-" + makeint(iShipPrice*stf(GameInterface.qty_edit.str) / iUnits + 0.5));
+			SetFormatedText("QTY_Result_W", "+ " + iWeight + " ц");
 		}
 	}
 	// если получили ноль
-	if (sti(GameInterface.qty_edit.str) == 0)
+	if (sti(GameInterface.qty_edit.str) <= 0)
 	{
-		SetFormatedText("QTY_TypeOperation", "");
-		SetFormatedText("QTY_Result", "");
+		SetNodeUsing("QTY_TypeOperation",false);
+		SetNewGroupPicture("QTY_TypeOperation_pic", "","");
+		SetNewGroupPicture("QTY_Result_Coins", "","");
+		SetNewGroupPicture("QTY_Result_weight", "","");
+		SetFormatedText("QTY_Result_C", "");
+		SetFormatedText("QTY_Result_W", "");
 		BuyOrSell = 0;
 	}
 	SetFormatedText("QTY_INFO_STORE_QTY", its(iStoreQty - BuyOrSell*sti(GameInterface.qty_edit.str)));
@@ -948,7 +1017,11 @@ void ADD_ALL_BUTTON()  // купить все
 void REMOVE_BUTTON()  // продать
 {
 	if (!GetRemovable(refCharacter)) return;
-	if (!bShowChangeWin) return;
+	//if (!bShowChangeWin) return;
+	if (!bShowChangeWin)
+	{
+	    ShowItemInfo();
+	}
 	if (BuyOrSell == 0)
 	{
 		GameInterface.qty_edit.str = -iUnits;
@@ -968,10 +1041,41 @@ void REMOVE_BUTTON()  // продать
 	ChangeQTY_EDIT();
 }
 
+void REMOVE_10_BUTTON()  // продать 10
+{
+	if (!GetRemovable(refCharacter)) return;
+	//if (!bShowChangeWin) return;
+	if (!bShowChangeWin)
+	{
+	    ShowItemInfo();
+	}
+	if (BuyOrSell == 0)
+	{
+		GameInterface.qty_edit.str = -iUnits*10;
+	}
+	else
+	{
+		if (BuyOrSell == -1)
+		{
+			GameInterface.qty_edit.str = -(sti(GameInterface.qty_edit.str) + iUnits*10);
+		}
+		else
+		{
+			GameInterface.qty_edit.str = (sti(GameInterface.qty_edit.str) - iUnits*10);
+		}
+		BuyOrSell = 0;
+	}
+	ChangeQTY_EDIT();
+}
+
 void ADD_BUTTON()  // купить
 {
 	if (!GetRemovable(refCharacter)) return;
-	if (!bShowChangeWin) return;
+	//if (!bShowChangeWin) return;
+	if (!bShowChangeWin)
+	{
+	    ShowItemInfo();
+	}
 	if (BuyOrSell == 0)
 	{
 		GameInterface.qty_edit.str = iUnits;
@@ -991,12 +1095,39 @@ void ADD_BUTTON()  // купить
 	ChangeQTY_EDIT();
 }
 
+void ADD_10_BUTTON()  // купить 10
+{
+	if (!GetRemovable(refCharacter)) return;
+	//if (!bShowChangeWin) return;
+	if (!bShowChangeWin)
+	{
+	    ShowItemInfo();
+	}
+	if (BuyOrSell == 0)
+	{
+		GameInterface.qty_edit.str = iUnits*10;
+	}
+	else
+	{
+  		if (BuyOrSell == 1)
+		{
+			GameInterface.qty_edit.str = (sti(GameInterface.qty_edit.str) + iUnits*10);
+		}
+		else
+		{
+			GameInterface.qty_edit.str = -(sti(GameInterface.qty_edit.str) - iUnits*10);
+		}
+		BuyOrSell = 0;
+	}
+	ChangeQTY_EDIT();
+}
+
 void Autotrade_All()
 {
 	int i, cn;
 	ref chref;
 
-	if (!IsPCharHaveTreasurer()) {Log_Info("Нет казначея. Закупки некому проводить!"); return;}
+	if (!IsPCharHaveTreasurer()) {Log_InfoOwn("Нет казначея. Закупки некому проводить!"); return;}
 
 	for(i=0; i<COMPANION_MAX; i++)
 	{
@@ -1016,7 +1147,7 @@ void Autotrade_All()
 
 void Autotrade_This()
 {
-	if (!IsPCharHaveTreasurer()) {Log_Info("Нет казначея. Закупки некому проводить!"); return;}
+	if (!IsPCharHaveTreasurer()) {Log_InfoOwn("Нет казначея. Закупки некому проводить!"); return;}
 	if(!GetRemovable(refCharacter)) return;
 	Autotrade_Goods(refCharacter);
 	AddToTable();
@@ -1026,6 +1157,7 @@ void Autotrade_This()
 void Autotrade_Goods(ref rChar)
 {
 	int i, iNeedGood, iCost, iStoreGoodQty;
+
 	ref rGood, rTreasurer;
 	string sGood;
 	float fNeedCargo;
@@ -1071,7 +1203,9 @@ void Autotrade_Goods(ref rChar)
 				RemoveCharacterGoodsSelf(rChar, i, iNeedGood); // Забираем только у этого перса
 				AddStoreGoods(refStore, i, iNeedGood); // Прибавляем товар в магаз
 
+
 				iCost = GetStoreGoodsPrice(refStore, i, PRICE_TYPE_SELL, PChar, 1)*iNeedGood/sti(rGood.Units); // Цена товара для продажи
+
 				WaitDate("", 0, 0, 0, 0, 1);
 				iMoneyQty += iCost;
 			}
@@ -1095,8 +1229,9 @@ void Autotrade_Goods(ref rChar)
 			if(sti(PChar.Money) >= iCost)
 			{
 				AddCharacterGoodsSimple(rChar, i, iNeedGood); // Даем только в этот корабль
+				
 				RemoveStoreGoods(refStore, i, iNeedGood); // Изымаем из магаза
-				WaitDate("", 0, 0, 0, 0, 2);
+				WaitDate("", 0, 0, 0, 0, 1);
 				iMoneyQty -= iCost;
 			}
 		}

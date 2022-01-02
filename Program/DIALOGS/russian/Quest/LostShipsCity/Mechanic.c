@@ -817,9 +817,9 @@ void ProcessDialogEvent()
 			sld.lastname = "Ведекер";
 			sld.greeting = "Gr_questOfficer";
 			sld.Dialog.Filename = "Enc_Officer_dialog.c";
-			//Korsar Maxim - Прописка всех моделей для кирас. -->
+			// Прописка всех моделей для кирас. -->
          	sld.HeroModel = "CCS_Mechanic,CCS_Mechanic_1,CCS_Mechanic_2,CCS_Mechanic_3,CCS_Mechanic_4,CCS_Mechanic_5,CCS_Mechanic,CCS_Mechanic,CCS_Mechanic";
-        	//Korsar Maxim - Прописка всех моделей для кирас. <--
+        	// Прописка всех моделей для кирас. <--
 			sld.quest.meeting = true;
 			SetSelfSkill(sld, 30, 30, 30, 30, 99);
 			SetShipSkill(sld, 55, 50, 60, 45, 65, 100, 50, 90, 50);

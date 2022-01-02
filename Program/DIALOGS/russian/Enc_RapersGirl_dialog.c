@@ -421,7 +421,7 @@ void ProcessDialogEvent()
 		
 		case "Node_132_10":
 			EncGirl_GenQuest_GetChestPlaceName();
-			dialog.text = " лад спр€тан в пещере на " + XI_ConvertString(pchar.GenQuest.EncGirl.islandId + "Acc") + ", нам нужно высадитс€ у " + XI_ConvertString(pchar.GenQuest.EncGirl.shoreId + "Gen") + ", а место покажу сама... “олько, чур, делить пополам будем!";
+			dialog.text = " лад спр€тан в пещере на " + XI_ConvertString(pchar.GenQuest.EncGirl.islandId + "Acc") + ", нам нужно высадитьс€ у " + XI_ConvertString(pchar.GenQuest.EncGirl.shoreId + "Gen") + ", а место покажу сама... “олько, чур, делить пополам будем!";
 			link.l1 = "’орошо-хорошо, не обижу. »ди за мной и не отставай.";
 			link.l1.go = "Node_132_11";
 		break;

@@ -344,6 +344,7 @@ void WayBeginning(string _tmp)
     	pchar.quest.Tut_start.function                  = "Blood_StartGame";
 		Pchar.questTemp.WhisperLine = false;
 		InterfaceStates.startGameWeather = FindWeather("20 Hour");
+		pchar.Cirgnore = true; //атрибут, блокирующий смену модели кирасной логикой
 		DoQuestReloadToLocation("Estate", "reload", "reload1", "");
 		return;
     }
@@ -360,6 +361,7 @@ void WayBeginning(string _tmp)
     	pchar.quest.Tut_start.win_condition.l1.location = "Bermudes_Dungeon";
     	pchar.quest.Tut_start.function                  = "Whisper_StartGame";
         Pchar.questTemp.CapBloodLine = false;
+		pchar.Cirgnore = true; //атрибут, блокирующий смену модели кирасной логикой
 		DoQuestReloadToLocation("Bermudes_Dungeon", "reload", "reload2_back", "");
 		return;
     }

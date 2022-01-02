@@ -1368,49 +1368,47 @@ string LAi_GetBoardingMushketerModel(ref rCharacter)
 bool CheckForSurrender(ref mchr, ref echr, int _deck)
 {
     if(boarding_location_type == BRDLT_FORT) return false; // Forts don't surrender.
-    
-    if (GetPrisonerQty() > PRISONER_MAX) return false; // очень много пленых
-    
-	if (sti(echr.rank) > (50 - MOD_SKILL_ENEMY_RATE)) return false; //max уровень кэпов
 
-	if (!CheckOfficersPerk(mchr,"SeaDogProfessional")) //скрыта€ фича-пасхалка
-	{
-		if (sti(mchr.rank) < (sti(echr.rank) - MOD_SKILL_ENEMY_RATE / 2))  return false; // 26/06/07 ѕроверка на ранг
-	}
-    
-	int eclass = GetCharacterShipClass(echr);
-	int mclass = GetCharacterShipClass(mchr);
-	if (eclass == 1) return false; // 1 класс не сдаетс€ в принципе
-	
-	float fCrewRate = 0.5;  
+    if (GetPrisonerQty() > PRISONER_MAX) return false; // очень много пленых
+
+	float fEnemyRate = 0.5 - 0.02 * MOD_SKILL_ENEMY_RATE;
 	if (sti(echr.Nation) == PIRATE)
 	{
-		fCrewRate = 0.2;
+		fEnemyRate = 0.2 - 0.01 * MOD_SKILL_ENEMY_RATE;
 	}
 	else
 	{
 		if (CheckAttribute(echr, "Ship.Mode") && echr.Ship.Mode == "Trade") // торговцы склонны сдатьс€
 		{
-			fCrewRate = 0.9; 
+			fEnemyRate = 0.9 - 0.03 * MOD_SKILL_ENEMY_RATE;
 		}
 	}
-	
+
+	int eclass = GetCharacterShipClass(echr);
+	int mclass = GetCharacterShipClass(mchr);
+
 	float mcrew = stf(GetWeaponCrew(mchr, GetCrewQuantity(mchr))); // честный учет с оружием
 	float ecrew = stf(GetCrewQuantity(echr));
-	
-	float fRep    = abs(REPUTATION_NEUTRAL - sti(mchr.reputation)) / 50.0; // приведение к 0..1
-	float emorale = stf(echr.ship.crew.morale) / MORALE_MAX; // 0..1  это рандом
-	float mmorale = stf(mchr.ship.crew.morale) / MORALE_MAX; // 0..1
-	float mskill  = (GetSummonSkillFromNameToOld(mchr, "Leadership") + GetSummonSkillFromNameToOld(mchr, "Grappling")) / 20.0;  // 0..10
-	float eskill  = (GetCharacterSkillToOld(echr, "Leadership") + GetCharacterSkillToOld(echr, "Defence")) / 20.0;    // 0..10
 
-    mcrew = mcrew * (mcrew * GetCrewExp(mchr, "Soldiers")) / (GetOptCrewQuantity(mchr) * GetCrewExpRate()); 
-    ecrew = ecrew * (ecrew * GetCrewExp(echr, "Soldiers")) / (GetOptCrewQuantity(echr) * GetCrewExpRate());  // это рандом, а значит случайность
-    mcrew = mcrew *(0.5 + mmorale);
-    ecrew = ecrew *(0.5 + emorale); // рандом в  emorale - она ранд
-    
-    mcrew = mcrew * (0.2 + mskill)*(0.05 + fRep)*fCrewRate;
-    ecrew = ecrew * (0.2 + eskill);
+	float fRep    = Bring2Range(0.0, 1.0, stf(REPUTATION_MIN), stf(REPUTATION_MAX), stf(mchr.reputation)); // приведение к 0..1
+	float mmorale = stf(mchr.ship.crew.morale) / MORALE_MAX; // 0..1
+	float emorale = stf(echr.ship.crew.morale) / MORALE_MAX; // 0..1
+	float mskill  = (GetSummonSkillFromName(mchr, "Leadership") + GetSummonSkillFromName(mchr, "Grappling")) / (2.0 * SKILL_MAX_TOTAL);  // 0..1
+	float eskill  = (GetCharacterSkill(echr, "Leadership") + GetCharacterSkill(echr, "Defence")) / (2.0 * SKILL_MAX_TOTAL);              // 0..1
+	float mcskill = GetCrewExp(mchr, "Soldiers") / GetCrewExpRate();
+	float ecskill = GetCrewExp(echr, "Soldiers") / GetCrewExpRate();
+
+	mcrew = mcrew * (1.0 + 5.0 * mskill) * (1.0 + 5.0 * mcskill) * (1.0 + 5.0 * mmorale) * (1.0 + 0.5 * _deck) * fEnemyRate * (fRep * fRep * fRep); // ≈сли у √√ низка€ репутаци€ - очень не хот€т сдаватьс€
+	ecrew = ecrew * (1.0 + 5.0 * eskill) * (1.0 + 5.0 * ecskill) * (1.0 + 5.0 * emorale);
+
+	float seaDogCoeff = 1.0;
+	if (CheckOfficersPerk(mchr, "SeaDogProfessional"))
+	{
+		if (pchar.SeaDogProfessionalSwitch == 1)
+			seaDogCoeff = 2.0;
+	}
+	mcrew = mcrew * seaDogCoeff;
+
 	// подсчет компаньенов у сторон  -->
     int mShip = GetCompanionQuantity(mchr);
     int eShip;
@@ -1423,26 +1421,24 @@ bool CheckForSurrender(ref mchr, ref echr, int _deck)
     {
     	eShip = 1;
     }
+    mcrew = mcrew * (1.0 + (mShip - 1) / 10.0);
+    ecrew = ecrew * (1.0 + (eShip - 1) / 10.0);
 	// <--
-	float fStep = 1;
-	if (_deck == 2)
-	{
-		fStep = 1.4;
-	}
-    mcrew = mcrew * (1.0 + mclass / 20.0) * fStep; // вли€ние класса минимально, тк есть в экипаже
-    ecrew = ecrew * (1.0 + eclass / 20.0);  // класс также вли€ет наоборот, дает бонус мелким
-    
-    mcrew = mcrew * (1.0 + (mShip-1) / 5.0);
-    ecrew = ecrew * (1.0 + (eShip-1) / 5.0);
-    if (bBettaTestMode) // иначе плодил компил.лог в подзорку
-    {
-    	Log_Info("Surrender Hero = "+ mcrew + "    Enemy = " + ecrew + " eShipQty = " + eShip);
-    }
+
+    Log_TestInfo("Surrender Hero = " + mcrew + "    Enemy = " + ecrew + " eShipQty = " + eShip);
+
     if (mcrew > ecrew)
 	{
-		return true; // Yay! Surrender!
+		int randval = rand(1000);
+		Log_TestInfo("rand: " + randval);
+		if (randval < 1000.0 * (mcrew - ecrew) / ecrew)
+		{
+			Log_TestInfo("Surrender!");
+			return true;
+		}
 	}
-	return false; // не сдалс€
+	Log_TestInfo("Fight!");
+	return false;
 }
 
 // boal 03/12/05 выбор локатора от корабл€ лок - маленькие, алок - большие-->

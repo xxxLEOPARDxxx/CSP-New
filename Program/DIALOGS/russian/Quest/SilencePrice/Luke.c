@@ -48,18 +48,18 @@ void ProcessDialogEvent()
     case "StartQuest_1":
         dialog.text = "Да это же я, Люк! Мы с тобой ходили под флагом Барта Португальца.";
         link.l1 = "Твою бизань! Люк! Как ты изменился, старина!";
-        link.l2 = "Хмм... Все еще нет. Ты бы отвалил от меня, приятель, по добру по здорову";
+        link.l2 = "Хмм... Все ещё нет. Ты бы отвалил от меня, приятель, по добру, по здорову";
         link.l1.go = "StartQuest_3";
         link.l2.go = "exit";
     break;
     case "StartQuest_3":
-        dialog.text = "Хех! А я уж думал совсем с ума сошел, и это не ты. Пойдем в таверну, посидим, поболтаем!";
+        dialog.text = "Хех! А я уж думал, совсем с ума сошёл, и это не ты. Пойдем в таверну, посидим, поболтаем!";
         link.l1 = "Ха! С радостью!";
 		DeleteAttribute(NPChar, "quest");
         AddDialogExitQuest("Taverna");
     break;
     case "StartQuest_4":
-        dialog.text = GetFullName(Pchar) + " как ты, " + GetSexPhrase("приятель", "подруга") + "? Расскажи, как тебя сюда занесло?";
+        dialog.text = GetFullName(Pchar) + ", как ты, " + GetSexPhrase("приятель", "подруга") + "? Расскажи, как тебя сюда занесло?";
         link.l1 = "Я своего рода путешественни" + GetSexPhrase("к", "ца") + ", то на один остров поплыву, то на другой, а может и на Мейн захочу.";
         link.l1.go = "StartQuest_6";
     break;

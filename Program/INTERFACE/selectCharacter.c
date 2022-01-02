@@ -90,6 +90,7 @@ void InitInterface(string iniName)
 	TmpI_ShowLevelComplexity();
 	TmpI_ShowOffAmount();
 	SetByDefault();
+	DisableEnable_CheckProcess();
 	SetMusic("music_MainMenu");
 }
 
@@ -139,13 +140,21 @@ void SetByDefault()
     {
         CheckButton_SetState("CHECK_SAILS", 1, false);
     }
-	if (bNoPirateRestrictions)// 1 0
+	if (bHardAnimations)// 1 0
     {
-    	CheckButton_SetState("CHECK_NOPIRATE", 1, true);
+    	CheckButton_SetState("CHECK_HARD_ANIMATIONS", 1, true);
     }
     else
     {
-        CheckButton_SetState("CHECK_NOPIRATE", 1, false);
+        CheckButton_SetState("CHECK_HARD_ANIMATIONS", 1, false);
+    }
+	if (bHardBoss)// 1 0
+    {
+    	CheckButton_SetState("CHECK_HARD_BOSS", 1, true);
+    }
+    else
+    {
+        CheckButton_SetState("CHECK_HARD_BOSS", 1, false);
     }
 	if (bHigherShipRate)// 1 0
     {
@@ -332,13 +341,21 @@ void IProcessFrame()
 	{
 		bNewSails = false;
 	}
-	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_NOPIRATE", 3, 1))
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_HARD_ANIMATIONS", 3, 1))
 	{
-		bNoPirateRestrictions = true;
+		bHardAnimations = true;
 	}
 	else
 	{
-		bNoPirateRestrictions = false;
+		bHardAnimations = false;
+	}
+	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_HARD_BOSS", 3, 1))
+	{
+		bHardBoss = true;
+	}
+	else
+	{
+		bHardBoss = false;
 	}
 	if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_LOWERSHIP", 3, 1))
 	{
@@ -544,6 +561,7 @@ void ProcessCommandExecute()
                MOD_SKILL_ENEMY_RATE--;
             }
             TmpI_ShowLevelComplexity();
+			DisableEnable_CheckProcess();
 		}
 		break;
 
@@ -555,6 +573,7 @@ void ProcessCommandExecute()
 	               MOD_SKILL_ENEMY_RATE++;
 	            }
 	            TmpI_ShowLevelComplexity();
+				DisableEnable_CheckProcess();
 			}
 		break;
 		case "RANDCHARNATION":
@@ -995,9 +1014,14 @@ void ShowInfo()
 			yy = 256;
 		break;
 		
-		case "CHECK_NOPIRATE":
-			sHeader = XI_ConvertString("NoPirate");
-			sText1 = GetRPGText("NoPirate_hint");
+		case "CHECK_HARD_ANIMATIONS":
+			sHeader = XI_ConvertString("HARD_ANIMATIONS");
+			sText1 = GetRPGText("HARD_ANIMATIONS_hint");
+		break;
+		
+		case "CHECK_HARD_BOSS":
+			sHeader = XI_ConvertString("HARD_BOSS");
+			sText1 = GetRPGText("HARD_BOSS_hint");
 		break;
 		
 		case "CHECK_ENC_SEARCH_SHIP":
@@ -1331,4 +1355,25 @@ void TmpI_ShowDefendersAmount()
 void StopBlind_Hint()
 {
 SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE,"NOOB_HINT_STR", 5, 0);
+}
+
+void DisableEnable_CheckProcess() // ugeen 2016
+{
+	if (MOD_SKILL_ENEMY_RATE == 10)
+	{
+		SetClickable("CHECK_HARD_ANIMATIONS", true);
+		Button_SetEnable("CHECK_HARD_ANIMATIONS", true);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_HARD_ANIMATIONS", 5, 1, 0);
+	}
+	else
+	{
+		if(SendMessage(&GameInterface,"lsll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_HARD_ANIMATIONS", 3, 1)) // если перезарядка включена
+		{
+			SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE,"CHECK_HARD_ANIMATIONS", 2, 1, 0 ); // отключаем
+		}
+		
+		SetClickable("CHECK_HARD_ANIMATIONS", false);
+		Button_SetEnable("CHECK_HARD_ANIMATIONS", false);
+		SendMessage(&GameInterface,"lslll",MSG_INTERFACE_MSG_TO_NODE, "CHECK_HARD_ANIMATIONS", 5, 1, 1);
+	}
 }

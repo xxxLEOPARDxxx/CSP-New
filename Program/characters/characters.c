@@ -151,7 +151,7 @@ bool CreateCharacter(ref character)
 		fCurCharge = stf(character.chr_ai.charge);
 	}
 	
-	if (CheckAttribute(character, "HeroModel") && !CheckAttribute(character,"ismushketer") && character.model != "protocusto")
+	if (CheckAttribute(character, "HeroModel") && !CheckAttribute(character,"ismushketer") && character.model != "protocusto" && !CheckAttribute(character,"Cirgnore")) ////добавил проверку на атрибут, блокирующий смену модели кирасной логикой
 	{
 		int VisCir = sti(InterfaceStates.VISUAL_CIRASS);
 		if (VisCir==0) //всем хуй

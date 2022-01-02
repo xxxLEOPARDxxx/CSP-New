@@ -200,6 +200,13 @@ int GetCharacterRaiseCrewMoraleMoney(ref chr)
 	return nPaymentQ;
 }
 
+void DownCrewExp(ref chr, int days)
+{
+	ChangeCrewExp(chr, "Sailors", -makeint(days/10));
+	ChangeCrewExp(chr, "Cannoners", -makeint(days/10));
+	ChangeCrewExp(chr, "Soldiers", -makeint(days/10));
+}
+
 float ChangeCrewExp(ref chr, string sType, float fNewExp)
 {
 	if (!CheckAttribute(chr, "Ship.Crew.Exp." + sType)) chr.Ship.Crew.Exp.(sType) = (1 + rand(50));

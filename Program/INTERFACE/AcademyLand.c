@@ -6,7 +6,6 @@ int iCheckEnablePotionCount = 0;
 int iCheckEnableFoodCount = 0;
 
 int idLngFile = 0;
-			    	
 void InitInterface(string iniName)
 {
 	GameInterface.title = "titleAcademyLand";

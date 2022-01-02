@@ -585,7 +585,7 @@ bool SetCharacterToNearLocatorFromMe(string characterID, float minDistance)
 ref CharacterFromID(string characterID)
 {
     int i = GetCharacterIndex(characterID);
-    if (i < 0 && MOD_BETTATESTMODE == "On")
+    if (i < 0 && MOD_BETTATESTMODE == "On" && characterID != "Flint")
 	{
 		Log_Info("Error: Не найдет НПС с characterID = "+characterID);
 		trace("Error: Не найдет НПС с characterID = "+characterID);

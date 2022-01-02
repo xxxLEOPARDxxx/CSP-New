@@ -8,7 +8,7 @@ void AcademyLandInit()
 	
 	PChar.AcademyLand.TrainingType = 0;
 	PChar.AcademyLand.DefenceType = 0;
-		
+
 	PChar.AcademyLand.Temp.Rank = 0;
 	PChar.AcademyLand.Temp.Skill = 0;
 	PChar.AcademyLand.Temp.HP = 0;
@@ -201,10 +201,10 @@ void LandAcademyFortCapture(string _tmp)
 	
 	for(i = 1; i <= iPlayerCrew; i++)
 	{
-		iChar = NPC_GenerateCharacter("AcademyLandPlayer_" + i, "officer_1", "man", "man", iRank, PIRATE, 0, false);
+		iChar = NPC_GenerateCharacterIndep("AcademyLandPlayer_" + i, "shipowner_2"+(rand(9)), "man", "man", iRank, PIRATE, 0, false);
 		chr = &Characters[iChar];
 		
-		CreateModel(iChar, "pofficer", MAN);
+		// CreateModel(iChar, "pofficer", MAN);
 		
 		SetRandSPECIAL(chr);
 		chr.rank = iRank;
@@ -229,11 +229,12 @@ void LandAcademyFortCapture(string _tmp)
 		LAi_SetWarriorType(chr);
 		LAi_SetFightMode(chr, true);
 		LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER);
+		LAi_NPC_EquipPerk(chr, "fantom");
 	}
 	
 	for(n = 1; n <= iEnemyCrew; n++)
 	{
-		iChar = NPC_GenerateCharacter("AcademyLandEnemy_" + n, "pirate_1", "man", "man", iRank, PIRATE, 0, false);
+		iChar = NPC_GenerateCharacterIndep("AcademyLandEnemy_" + n, "pirate_1", "man", "man", iRank, PIRATE, 0, false);
 		
 		CreateModel(iChar, "pirate", MAN);
 		
@@ -261,8 +262,8 @@ void LandAcademyFortCapture(string _tmp)
 		LAi_SetWarriorType(chr);
 		LAi_SetFightMode(chr, true);
 		LAi_group_MoveCharacter(chr, "EnemyFight");
+		LAi_NPC_EquipPerk(chr, "fantom");
 	}
-	
 	RemoveCharacterEquip(PChar, BLADE_ITEM_TYPE);
 	RemoveCharacterEquip(PChar, GUN_ITEM_TYPE);
 	
@@ -296,7 +297,8 @@ string GetLocatorAcademyLandFortCapture(int iNum, bool bDefence, bool bPlayer, b
 			{
 				if(iNum >= 3 && iNum <= 10)
 				{
-					return "reload2_back";
+					// return "reload2_back";
+					return "loc" + iNum;
 				}
 				else
 				{
@@ -311,7 +313,8 @@ string GetLocatorAcademyLandFortCapture(int iNum, bool bDefence, bool bPlayer, b
 				}
 				else
 				{
-					return "reload4";
+					// return "reload4";
+					return "aloc" + iNum;
 				}
 			}
 		}
@@ -325,14 +328,16 @@ string GetLocatorAcademyLandFortCapture(int iNum, bool bDefence, bool bPlayer, b
 				}
 				else
 				{
-					return "reload4";
+					// return "reload4";
+					return "aloc" + iNum;
 				}
 			}
 			else
 			{
 				if(iNum >= 3 && iNum <= 10)
 				{
-					return "reload2_back";
+					// return "reload2_back";
+					return "loc" + iNum;
 				}
 				else
 				{
@@ -664,10 +669,10 @@ void LandAcademyWallOnWall(string _tmp)
 	
 	for(i = 1; i <= iPlayerCrew; i++)
 	{
-		iChar = NPC_GenerateCharacter("AcademyLandPlayer_" + i, "officer_1", "man", "man", iRank, PIRATE, 0, false);
+		iChar = NPC_GenerateCharacterIndep("AcademyLandPlayer_" + i, "shipowner_2"+(rand(9)), "man", "man", iRank, PIRATE, 0, false);
 		chr = &Characters[iChar];
 		
-		CreateModel(iChar, "pofficer", MAN);
+		// CreateModel(iChar, "pofficer", MAN);
 		
 		SetRandSPECIAL(chr);
 		chr.rank = iRank;
@@ -691,11 +696,12 @@ void LandAcademyWallOnWall(string _tmp)
 		LAi_SetWarriorType(chr);
 		LAi_SetFightMode(chr, true);
 		LAi_group_MoveCharacter(chr, LAI_GROUP_PLAYER);
+		LAi_NPC_EquipPerk(chr, "fantom");
 	}
 	
 	for(n = 1; n <= iEnemyCrew; n++)
 	{
-		iChar = NPC_GenerateCharacter("AcademyLandEnemy_" + n, "pirate_1", "man", "man", iRank, PIRATE, 0, false);
+		iChar = NPC_GenerateCharacterIndep("AcademyLandEnemy_" + n, "pirate_1", "man", "man", iRank, PIRATE, 0, false);
 		
 		CreateModel(iChar, "pirate", MAN);
 		
@@ -722,6 +728,7 @@ void LandAcademyWallOnWall(string _tmp)
 		LAi_SetWarriorType(chr);
 		LAi_SetFightMode(chr, true);
 		LAi_group_MoveCharacter(chr, "EnemyFight");
+		LAi_NPC_EquipPerk(chr, "fantom");
 	}
 	
 	RemoveCharacterEquip(PChar, BLADE_ITEM_TYPE);
@@ -826,7 +833,7 @@ void LandAcademyOneOnOne(string _tmp)
 		sSaber = PChar.AcademyLand.Temp.Saber;
 	}
 	
-	iChar = NPC_GenerateCharacter("AcademyLandEnemy_1", "pofficer", "man", "man", iRank, PIRATE, 0, false);
+	iChar = NPC_GenerateCharacterIndep("AcademyLandEnemy_1", "pofficer", "man", "man", iRank, PIRATE, 0, false);
 	CreateModel(iChar, "pofficer", MAN);
 	
 	chr = &Characters[iChar];
@@ -862,6 +869,7 @@ void LandAcademyOneOnOne(string _tmp)
 	LAi_SetFightMode(PChar, true);
 	PChar.LandAcademy.Player = true;
 	
+	LAi_NPC_EquipPerk(chr, "fantom");
 	SetCharacterPerk(chr, "Energaiser");
 	SetCharacterPerk(PChar, "Energaiser");
 	

@@ -65,11 +65,7 @@ void InitPsHeros()
 			ch.Money = 8000 + rand(1000)*10; // чтоб быстрее корабли купили
 			k = rand(13)+1;
 			sname = "Totem_"+k;
-			if (n == 2)
-			{
-				GiveItem2Character(ch, "suit_1");
-				SetEquipedItemToCharacter(ch, CIRASS_ITEM_TYPE, "suit_1");
-			}
+			
 			if (sname != "") GiveItem2Character(ch, sname);
 			
 			if (rand(4) < 3)
@@ -124,6 +120,7 @@ void InitPsHeros()
     {
 		SaveCurrentQuestDateParam("ChangeImport"+i);
 	}
+	SaveCurrentQuestDateParam("QuestOffer");//кд на приставания в тавернах
 }
 // boal 091004 много героев  <--
 
@@ -275,11 +272,6 @@ void PGG_DailyUpdateEx(int i)
 			if (CheckAttribute(chr, "PGGAi.Rebirth") && sti(chr.PGGAi.Rebirth))
 			{
 				Train_PPG(chr, true, true);
-				if (chr.id == "PsHero_2")
-				{
-					chr.model="PGG_Whisper_0";
-					SetNewModelToChar(chr);
-				}
 				LAi_SetCurHPMax(chr);
 				DeleteAttribute(chr, "PGGAi.Rebirth");
 				DeleteAttribute(chr, "Ship");
@@ -777,7 +769,7 @@ void PGG_SetUpForTask(ref chr)
 			int iGoods;
 			int iSpace;
 			
-			if (PGG_ChangeRelation2MainCharacter(chr, 0) < 51 && sti(chr.reputation) < 15 && rand(500) == 5 && sti(pchar.money) >= sti(chr.rank)*10000+100000 && GetCharacterShipClass(chr) <= GetCharacterShipClass(PChar))
+			if (PGG_ChangeRelation2MainCharacter(chr, 0) < 51 && sti(chr.reputation) < 15 && rand(100) == 5 && sti(pchar.money) >= sti(chr.rank)*10000+100000 && GetCharacterShipClass(chr) <= GetCharacterShipClass(PChar))
 			{//Любой пгг с определенным шансом будет охотиться за нами
 				chr.AlwaysEnemy = true;
 				chr.PGG_Hunter = true;
@@ -1204,13 +1196,13 @@ void PGG_UpdateEquip(ref chr)
 			}
 		}
 	}
-
+	Fantom_SetBalls(chr, "pirate");
 //--------------------------------------------------
 // Blade & Gun Section
 //--------------------------------------------------
 	if (rand(100) < 5)
 	{
-		DeleteAttribute(chr, "equip");
+		if(!CheckAttribute(chr, "DontChangeGun"))	DeleteAttribute(chr, "equip");
 		//трем сабли.
 		blade = FindCharacterItemByGroup(chr, BLADE_ITEM_TYPE);
 		while(blade != "")
@@ -1225,7 +1217,10 @@ void PGG_UpdateEquip(ref chr)
 
 		if(rand(1000) < MOD_SKILL_ENEMY_RATE*100)
 		{
-			TakeNItems(chr, "potion1", rand(makeint(sti(chr.rank)/2 + 0.5))); // даю меньше
+			TakeNItems(chr, "potion1", rand(makeint(sti(chr.rank)/4 + 0.5))); // даю меньше
+			if(GetCharacterItem(chr, "potion1") > 30)	chr.Items.potion1 = 30;
+			TakeNItems(chr, "potion2", rand(makeint(sti(chr.rank)/5 + 0.5))); // даю меньше
+			if(GetCharacterItem(chr, "potion2") > 10)	chr.Items.potion2 = 10;
 		}
 
 		if(rand(1000) < MOD_SKILL_ENEMY_RATE * sti(chr.rank) * 8)
@@ -1487,13 +1482,12 @@ void PGG_TavernCheckIsPGGHere()
 	{
 		chr = CharacterFromID("PsHero_" + i);
 		
-		if (findsubstr(pchar.location, chr.PGGAi.location.town, 0) != -1 && !LAi_IsDead(chr) && chr.PGGAi.location != "Dead") //закрыл дополнительно.
+		if (findsubstr(pchar.location, chr.PGGAi.location.town, 0) != -1 && !LAi_IsDead(chr) && chr.PGGAi.location != "Dead" && !CheckAttribute(chr, "PGGAi.Task.SetSail")) //закрыл дополнительно.
 		{
-			PGG_PlaceCharacter2Tavern(chr, false);//fix
 			//квест от ПГГ. Только от одного. И ГГ еще не занят в квесте.
 			if (!CheckAttribute(pchar, "GenQuest.PGG_Quest") && PGG_CheckForQuestOffer(chr)) continue;
 			//в таверне или нет.
-			if (rand(1) == 1 && !CheckAttribute(chr, "PGGAi.Task.SetSail") && chr.sex != "skeleton")
+			if (rand(1) == 1 && chr.sex != "skeleton")
 			{
 				PGG_PlaceCharacter2Tavern(chr, true);
 				PGG_DebugLog("PGG " + chr.id + " in tavern");
@@ -1519,7 +1513,7 @@ void PGG_GraveyardCheckIsPGGHere(ref location)
 			if (findsubstr(pchar.location, chr.PGGAi.location.town, 0) != -1 && !LAi_IsDead(chr) && chr.PGGAi.location != "Dead") //закрыл дополнительно.
 			{
 				//квест от ПГГ. Только от одного. И ГГ еще не занят в квесте.
-				if (!CheckAttribute(pchar, "GenQuest.PGG_Quest") && PGG_CheckForQuestOffer(chr)) continue;
+				//if (!CheckAttribute(pchar, "GenQuest.PGG_Quest") && PGG_CheckForQuestOffer(chr)) continue;
 				//в таверне или нет.
 				if (rand(1) == 1 && !CheckAttribute(chr, "PGGAi.Task.SetSail") && chr.sex == "skeleton")
 				{
@@ -1936,22 +1930,27 @@ bool PGG_CheckForQuestOffer(ref chr)
 {
 	bool retVal = false;
 	
-	if (rand(2) == 1) return retVal; // пусть сам ГГ тоже подходит, а не только ПГГ достает, второй заход в таврену может вынудить подойти ПГГ
-	
+	if (rand(2) == 1 || CheckAttribute(chr, "PGGWhisperQuestStart")) return retVal; // пусть сам ГГ тоже подходит, а не только ПГГ достает, второй заход в таврену может вынудить подойти ПГГ
+	//не забыть вернуть вероятности и условия
 	int iTst = 110 - PGG_ChangeRelation2MainCharacter(chr, 0); //зависит от отношения, лучше = чаще
 	// пусть будет честный тест 
 	if (bBettaTestMode && CheckAttribute(PChar, "PGGAlwaysQuest")) iTst = 10; //в версии нет этого аттрибута
-	if (sti(chr.Ship.Type) != SHIP_NOTUSED && sti(PChar.Ship.Type) != SHIP_NOTUSED && rand(100) > iTst && CheckNPCQuestDate(chr, "QuestOffer"))
+	
+	int iDays = GetQuestPastDayParam("QuestOffer");
+	bool bOkWhisper = !CheckAttribute(pchar,"GiantEvilSkeleton") && chr.name == "Виспер";
+	bool bOk = PGG_IsQuestAvaible() || bOkWhisper);
+	
+	if (sti(chr.Ship.Type) != SHIP_NOTUSED && sti(PChar.Ship.Type) != SHIP_NOTUSED && rand(100) > iTst && iDays > 25 + drand(10))
 	{
-		if (GetCharacterShipClass(PChar) <= 4 && GetCompanionQuantity(PChar) < COMPANION_MAX && GetCharacterShipClass(chr) <= 4 && PGG_IsQuestAvaible())
+		if (GetCharacterShipClass(PChar) <= 4 && GetCompanionQuantity(PChar) < COMPANION_MAX && bOk)
 		{
 			chr.PGGAi.ActiveQuest.QstNumber = 0; 
 			retVal = true;
+			SaveCurrentQuestDateParam("QuestOffer"); // какое-то время ПГГ не будут докучать нам
 		}
 	}
-	SetNPCQuestDate(chr, "QuestOffer"); // сегодня уже не подошел, чтоб перезаход в таверну не генерил заново.
-	int iDays = GetQuestPastDayParam("QuestOffer");
-	if (retVal && iDays > 25+drand(10))
+	
+	if (retVal)
 	{
 		chrDisableReloadToLocation = true;
 		PlaceCharacter(chr, "goto", "random_must_be_near");
@@ -2826,5 +2825,17 @@ string SelectRandomPGG(string sex, string animation)
 	{
 		Log_TestInfo("ПГГ не выбран.")
 		return "";
+	}
+}
+
+string SelectWhisperPGG()
+{
+	for (i = 1; i < PsHeroQty; i++)
+	{
+		sld = CharacterFromID("PsHero_"+i);
+		if (sld.name == "Виспер")
+		{
+			return sld.id;
+		}
 	}
 }

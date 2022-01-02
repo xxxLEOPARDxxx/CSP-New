@@ -998,15 +998,14 @@ void Cap_SetMapAgain(ref sld, aref arCapBase)
 //Иниты Остина, убийцы в городах
 void BerglarsInit()
 {
-	//Korsar Maxim - Бандиты сразу экипировывуют оружие при выдаче (Это из-за новой логики экипировки.), поэтому теперь оно выдается и экипировывуется прямо в диалоге Бергларов.
+	// Бандиты сразу экипировывуют оружие при выдаче (Это из-за новой логики экипировки.), поэтому теперь оно выдается и экипировывуется прямо в диалоге Бергларов.
 	ref sld;
 	pchar.questTemp.tugs.berglarState = 1; //счетчик
 	//============> грабитель в Сент-Джонсе
 	pchar.questTemp.tugs.berglarSentJons = "SentJons_TownCave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarSentJons.hp = 160; //сколько HP
 	pchar.questTemp.tugs.berglarSentJons.locator = "basement1"; //выходной локатор
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarSentJons", "citiz_12", "man", "spy", 22, ENGLAND, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
-	else sld = GetCharacter(NPC_GenerateCharacter("BerglarSentJons", "citiz_12", "man", "man_fast", 22, ENGLAND, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("BerglarSentJons", "citiz_12", "man", "spy", 22, ENGLAND, -1, false));
 	sld.name 	= "Альберт";
 	sld.lastname = "Грин";
 	sld.rank = 25;
@@ -1034,8 +1033,7 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarFortFrance = "FortFrance_Dungeon"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarFortFrance.hp = 180; //сколько HP
 	pchar.questTemp.tugs.berglarFortFrance.locator = "basement1"; //выходной локатор
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarFortFrance", "citiz_11", "man", "spy", 23, FRANCE, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
-	else sld = GetCharacter(NPC_GenerateCharacter("BerglarFortFrance", "citiz_11", "man", "man_fast", 23, FRANCE, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("BerglarFortFrance", "citiz_11", "man", "man", 23, FRANCE, -1, false));
 	sld.name 	= "Гаэтано";
 	sld.lastname = "Лемье";
 	sld.rank = 25;
@@ -1061,8 +1059,7 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarMarigo = "Marigo_Cave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarMarigo.hp = 200; //сколько HP
 	pchar.questTemp.tugs.berglarMarigo.locator = "gate_back"; //выходной локатор
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarMarigo", "citiz_1", "man", "spy", 21, HOLLAND, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
-	else sld = GetCharacter(NPC_GenerateCharacter("BerglarMarigo", "citiz_1", "man", "man_fast", 21, HOLLAND, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("BerglarMarigo", "citiz_1", "man", "man", 21, HOLLAND, -1, false));
 	sld.name 	= "Эстебан";
 	sld.lastname = "Морэ";
 	sld.rank = 25;
@@ -1092,8 +1089,7 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarPanama = "Panama_Cave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarPanama.hp = 200; //сколько HP
 	pchar.questTemp.tugs.berglarPanama.locator = "gate_back"; //выходной локатор
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarPanama", "citiz_4", "man", "spy", 27, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
-	sld = GetCharacter(NPC_GenerateCharacter("BerglarPanama", "citiz_4", "man", "man_fast", 27, SPAIN, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("BerglarPanama", "citiz_4", "man", "man", 27, SPAIN, -1, false));
 	sld.name 	= "Хуан";
 	sld.lastname = "Карлос";
 	sld.rank = 27;
@@ -1119,8 +1115,7 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarCartahena = "Cartahena_Cave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarCartahena.hp = 170; //сколько HP
 	pchar.questTemp.tugs.berglarCartahena.locator = "gate_back"; //выходной локатор
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarCartahena", "citiz_7", "man", "spy", 22, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
-	else sld = GetCharacter(NPC_GenerateCharacter("BerglarCartahena", "citiz_7", "man", "man_fast", 22, SPAIN, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("BerglarCartahena", "citiz_7", "man", "man", 22, SPAIN, -1, false));
 	sld.name 	= "Мигель";
 	sld.lastname = "Карлитос";
 	sld.rank = 22;
@@ -1148,8 +1143,7 @@ void BerglarsInit()
 	pchar.questTemp.tugs.berglarSantaCatalina = "SantaCatalina_Cave"; //указание где забивать стрелу
 	pchar.questTemp.tugs.berglarSantaCatalina.hp = 230; //сколько HP
 	pchar.questTemp.tugs.berglarSantaCatalina.locator = "gate_back"; //выходной локатор
-	if (MOD_SKILL_ENEMY_RATE == 10)sld = GetCharacter(NPC_GenerateCharacter("BerglarSantaCatalina", "citiz_9", "man", "spy", 25, SPAIN, -1, false)); //LEO: Превозмогаторам страдать 08.12.2021
-	else sld = GetCharacter(NPC_GenerateCharacter("BerglarSantaCatalina", "citiz_9", "man", "man_fast", 25, SPAIN, -1, false));
+	sld = GetCharacter(NPC_GenerateCharacter("BerglarSantaCatalina", "citiz_9", "man", "man", 25, SPAIN, -1, false));
 	sld.name 	= "Лоренсо";
 	sld.lastname = "Сантино";
 	sld.rank = 25;
@@ -1745,7 +1739,7 @@ void PoormansInit()
 	sld.greeting = "Gr_poorman";
 	LAi_group_MoveCharacter(sld, "ENGLAND_CITIZENS");
 	//заказчик нищих
-	if (MOD_SKILL_ENEMY_RATE == 10) sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "spy", 30, PIRATE, -1, false)); // LEO: Страдать превозмогаторам 07.12.2021
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "spy", 30, PIRATE, -1, false)); // LEO: Страдать превозмогаторам 07.12.2021
 	else sld = GetCharacter(NPC_GenerateCharacter("PoorKillSponsor", "smuggler_boss", "man", "man_fast", 30, PIRATE, -1, false));
 	sld.name = "Оливер";
 	sld.lastname = "Траст";
@@ -1758,6 +1752,7 @@ void PoormansInit()
 	LAi_SetImmortal(sld, true);
 	LAi_SetHP(sld, 100.0, 100.0);
 	sld.greeting = "Gr_OliverTrast";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	//несчастный мушкетер
 	sld = GetCharacter(NPC_GenerateCharacter("OffMushketer", "MusketeerEnglish_1", "man", "man", 25, ENGLAND, -1, false));
 	sld.name = "Хемфри";
@@ -2853,13 +2848,14 @@ void LoginDeadmansGod()
 	LAi_SetFightMode(pchar, false);
 	LAi_LockFightMode(pchar, false);
 	LAi_LocationFightDisable(loadedLocation, true);
-	if (MOD_SKILL_ENEMY_RATE == 10) ref sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod", "mictlantecuhtli", "skeleton", "spy", 100, PIRATE, 0, true));
-	else sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod", "mictlantecuhtli", "skeleton", "man", 100, PIRATE, 0, true));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) ref sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod", "mictlantecuhtli", "skeleton", "spy", 100, PIRATE, 0, true));
+	else sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod", "mictlantecuhtli", "skeleton", "man_fast", 100, PIRATE, 0, true));
     FantomMakeCoolFighter(sld, 100, 100, 100, "toporAZ", "pistol5", 3000);
 	sld.name = "Миктлантекутли";
 	sld.lastname = "";
 	sld.dialog.filename   = "Quest\Mictlantecuhtli.c";
 	sld.dialog.currentnode   = "InGreateTemple";
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	ChangeCharacterAddressGroup(sld, "Temple_great", "goto", "goto1");
 	LAi_SetActorType(sld);
 	LAi_ActorDialog(sld, pchar, "", 0.0, 0);
@@ -2868,13 +2864,14 @@ void LoginDeadmansGod()
 
 void LoginDeadmansGod2()
 {
-	if (MOD_SKILL_ENEMY_RATE == 10) ref sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod2", "mictlantumsamil", "skeleton", "spy", 60, PIRATE, 0, true)); // LEO: Превозмогаторам - страдать 01.12.2021
-	else sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod2", "mictlantumsamil", "skeleton", "man", 60, PIRATE, 0, true));
+	if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) ref sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod2", "mictlantumsamil", "skeleton", "spy", 60, PIRATE, 0, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+	else sld = GetCharacter(NPC_GenerateCharacter("DeadmansGod2", "mictlantumsamil", "skeleton", "man_fast", 60, PIRATE, 0, true));
     FantomMakeCoolFighter(sld, 60, 100, 100, "blade201", "", 2500);
 	sld.name = "Юм";
 	sld.lastname = "Самиль";
 	sld.vampire = true;
 	sld.SaveItemsForDead = true;
+	if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 	ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "goto3");
 	LAi_CharacterPlaySound(sld, "DeadmansGod");
 	LAi_group_MoveCharacter(sld, "evil");
@@ -2889,14 +2886,15 @@ void LoginUmSamilGuards()
 	chrDisableReloadToLocation = true;
 	for(int i = 0; i < 3; i++)
 	{
-		if (MOD_SKILL_ENEMY_RATE == 10) ref sld = GetCharacter(NPC_GenerateCharacter("UmSamilGuard"+i, "Chavinavi_1", "skeleton", "man_fast", 55, PIRATE, 0, true)); // LEO: Превозмогаторам - страдать 01.12.2021
-		else sld = GetCharacter(NPC_GenerateCharacter("UmSamilGuard"+i, "Chavinavi_1", "skeleton", "man", 55, PIRATE, 0, true));
+		if (MOD_SKILL_ENEMY_RATE == 10 && bHardAnimations) ref sld = GetCharacter(NPC_GenerateCharacter("UmSamilGuard"+i, "Chavinavi_1", "skeleton", "spy", 55, PIRATE, 0, true)); // LEO: Превозмогаторам - страдать 01.12.2021
+		else sld = GetCharacter(NPC_GenerateCharacter("UmSamilGuard"+i, "Chavinavi_1", "skeleton", "man_fast", 55, PIRATE, 0, true));
 		if (i == 0) FantomMakeCoolFighter(sld, 55, 90, 90, "blade37", "", 750);
 		if (i == 1) FantomMakeCoolFighter(sld, 55, 90, 90, "blade39", "", 750);
 		if (i == 2) FantomMakeCoolFighter(sld, 55, 90, 90, "blade42", "", 750);
 		sld.name = "Воин-Ягуар";
 		sld.lastname = "";
 		sld.vampire = true;
+		if (bHardBoss) sld.AlwaysReload = true;//перезарядка независимо от Дозарядки
 		if (i == 0) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster1");
 		if (i == 1) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster4");
 		if (i == 2) ChangeCharacterAddressGroup(sld, "treasure_alcove", "goto", "monster3");
