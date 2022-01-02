@@ -471,6 +471,7 @@ void SetOfficerParam(ref Npchar, int _type)
     }
     SetRankFromSkill(Npchar);
 
+	Npchar.officerequip = true;
     LAi_NPC_Equip(Npchar, sti(Npchar.rank), true, true); // fix 101104 выдадим все заново!!!!
 
     SetFantomHP(Npchar);

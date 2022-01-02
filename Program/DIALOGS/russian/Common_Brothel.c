@@ -19,6 +19,12 @@ void ProcessDialogEvent()
         ProcessCommonDialog(NPChar, Link, NextDiag);
 		UnloadSegment(NPChar.FileDialog2);
 	}
+	
+	if (Dialog.CurrentNode == "SpecialExit")
+	{
+		LAi_SetCitizenTypeNoGroup(npchar);
+		Dialog.CurrentNode = "exit";
+	}
     // вызов диалога по городам <--
 	switch(Dialog.CurrentNode)
 	{
@@ -321,7 +327,7 @@ void ProcessDialogEvent()
 			sld = &characters[sti(npchar.quest.choiceIdx)];
 			if (sti(pchar.money) >= sti(sld.quest.price))
 			{
-				if (rand(4) == 0 && pchar.sex != "woman" && !CheckAttribute(pchar,"NoPriest") && GetCharacterSPECIALSimple(pchar, SPECIAL_L) >= 8)
+				if (if (rand(4) == 0 && pchar.sex != "woman" && !CheckAttribute(pchar,"NoPriest") && GetCharacterSPECIALSimple(pchar, SPECIAL_L) >= 8)
 				{					
 					dialog.text = "Отлично, дорогой, " + sld.name + " будет ждать тебя в комнате для уединения на втором этаже. Уверена, ты будешь оооочень доволен...");
 					Link.l1 = "Хех, ну я пошел...";
@@ -335,6 +341,10 @@ void ProcessDialogEvent()
 					sld.Dialog.Filename = "Common_Brothel.c";
 					sld.dialog.currentnode = "Priest1";
 					pchar.NoPriest = true;
+					pchar.PedroID = sld.id;
+					pchar.quest.Pedro.win_condition.l1 = "location";
+					pchar.quest.Pedro.win_condition.l1.location = npchar.city + "_Brothel_room";
+					pchar.quest.Pedro.function = "Pedro_Horse";
 				}
 				else
 				{
@@ -1001,7 +1011,7 @@ void ProcessDialogEvent()
 			chrDisableReloadToLocation = true;
 			dialog.text = "Приветствую тебя, сын мой. Ну давай, подходи поближе...";
 			Link.l1 = "Что за херня происходит? Нет, не подходи...";
-			Link.l1.go = "exit";
+			Link.l1.go = "SpecialExit";
 			//--> кол-во посещений
 			if (!CheckAttribute(npchar, "quest.sexHappend")) npchar.quest.sexHappend = 1;
 			else npchar.quest.sexHappend = sti(npchar.quest.sexHappend) + 1;

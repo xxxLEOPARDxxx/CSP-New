@@ -946,7 +946,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_Seabattle_won":
-			Dialog.text = "Что-ж, полагаю, это конец. Ты справил"+ GetSexPhrase("ся","ась") +" с всеми моими задачами. Теперь ты мой преемник.";
+			Dialog.text = "Что-ж, полагаю, это конец. Ты справил" + GetSexPhrase("ся","ась") + " со всеми моими задачами. Теперь ты " + GetSexPhrase("мой преемник.","моя преемница.");
 			link.l1 = "И что же будет?";
 			link.l1.go = "Titch_Seabattle_won_2";
 		break;
@@ -1042,7 +1042,7 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Titch_Seabattle_won_4":
-			Dialog.text = "Для тебя - жизнь продолжнается. А вот мне пора. Теперь - прощай навсегда! (Всё дело в том, как себя поставишь! Дурачься на потеху — убедишь, лишь дураков. А будешь дьяволом — тебе покоряться все.)";
+			Dialog.text = "Для тебя - жизнь продолжнается. А вот мне пора. Теперь - прощай навсегда! (Всё дело в том, как себя поставишь! Дурачься на потеху - убедишь лишь дураков. А будешь дьяволом - тебе покорятся все.)";
 			link.l1 = "Я ничего не понял"+ GetSexPhrase("","а") +", но прощай, Эдвард Тич!";
 			link.l1.go = "Titch_Seabattle_won_exit";
 		break;
@@ -1214,6 +1214,7 @@ void ProcessDialogEvent()
 			Link.l1 = "Благодарю!";
 			Link.l1.go = "Titch_7";
 			npchar.ships_sur = true;
+			DeleteAttribute(pchar, "ShipsSurr");
 		break;
 	}
 }

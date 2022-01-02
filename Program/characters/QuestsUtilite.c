@@ -279,7 +279,7 @@ void FillCabinBoxMap(ref _location, int _probability)
 		{
 			itemID = itm.id;
 			groupID = itm.groupID;
-			if(groupID == MAPS_ITEM_TYPE && !CheckAttribute(itm, "mapSpecial"))
+			if(groupID == MAPS_ITEM_TYPE && !CheckAttribute(itm, "mapSpecial") && (itemID != "Map_Best") && (itemID != "Map_LSC"))
 			{
 				if(rand(_probability) == 1) 
 				{

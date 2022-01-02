@@ -74,6 +74,41 @@ void ProcessDialogEvent()
 		break;
 		
 		case "Fight_gatri":
+			pchar.quest.BS_Fail_Prologue.win_condition.l1 = "ExitFromLocation";
+			pchar.quest.BS_Fail_Prologue.win_condition.l1.location = pchar.location;
+			pchar.quest.BS_Fail_Prologue.function = "BS_RestoreGatriTrader";
+			
+			ChangeCharacterHunterScore(pchar, "enghunter", 200);
+			ChangeCharacterHunterScore(pchar, "frahunter", 200);
+			ChangeCharacterHunterScore(pchar, "spahunter", 200);
+			ChangeCharacterHunterScore(pchar, "holhunter", 200);
+			
+			CloseQuestHeader("BSPrologue");
+			pchar.questTemp.BlueBird = "declined";//Блокировка ЧП
+			string killGatri;
+			for (i = 1; i < 4; i++)
+			{
+				sld = CharacterFromID("gatri_grunt"+i);
+				LAi_SetImmortal(sld, false);
+				killGatri = "l"+i;
+				pchar.quest.KillGatri.win_condition.(killGatri) = "NPC_Death";
+				pchar.quest.KillGatri.win_condition.(killGatri).character = sld.id;
+				pchar.quest.KillGatri1.win_condition.(killGatri) = "NPC_Death";
+				pchar.quest.KillGatri1.win_condition.(killGatri).character = sld.id;
+				LAi_SetHP(sld, 1000, 1000);
+				
+			}
+			killGatri = npchar.id;
+			LAi_SetImmortal(npchar, false);
+			npchar.Dialog.FileName = npchar.beforeGatriFileName;
+			npchar.Dialog.CurrentNode = npchar.beforeGatriCurrentNode;
+			pchar.quest.KillGatri.win_condition.(killGatri) = "NPC_Death";
+			pchar.quest.KillGatri.win_condition.(killGatri).character = npchar.id;
+			pchar.quest.KillGatri1.win_condition.(killGatri) = "NPC_Death";
+			pchar.quest.KillGatri1.win_condition.(killGatri).character = npchar.id;
+			pchar.quest.KillGatri.function = "LockWeapons";
+			pchar.quest.KillGatri1.win_condition = "OpenTheDoors";
+			
 			chrDisableReloadToLocation = true;
 			LAi_LocationFightDisable(&Locations[FindLocation(pchar.location)], false);
 			AddDialogExitQuest("MainHeroFightModeOn");

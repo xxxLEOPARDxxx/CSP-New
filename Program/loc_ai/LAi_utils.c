@@ -1123,7 +1123,7 @@ void Dead_AddLoginedCharacter(aref chr)
 							{
 								AddItems(chref, GetGeneratedItem(chr.equip.blade), 1); 
 							}
-							if(rItem.quality == "good" && sti(mchr.rank) >= 15)	
+							if(rItem.quality == "good" && sti(mchr.rank) >= 25)
 							{
 								AddItems(chref, GetGeneratedItem(chr.equip.blade), 1); 
 							}

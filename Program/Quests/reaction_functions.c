@@ -11369,3 +11369,10 @@ void Rand_Clear(string s)
 {	
 	DeleteAttribute(pchar,"ContraInter");
 }
+
+void Pedro_Horse(string qName)
+{
+	chrDisableReloadToLocation = true;
+	LAi_SetActorType(CharacterFromID(pchar.PedroID));
+	LAi_ActorDialog(CharacterFromID(pchar.PedroID), pchar, "", -1, 0); 
+}

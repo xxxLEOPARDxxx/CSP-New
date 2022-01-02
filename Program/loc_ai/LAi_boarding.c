@@ -1402,7 +1402,7 @@ bool CheckForSurrender(ref mchr, ref echr, int _deck)
 	ecrew = ecrew * (1.0 + 5.0 * eskill) * (1.0 + 5.0 * ecskill) * (1.0 + 5.0 * emorale);
 
 	float seaDogCoeff = 1.0;
-	if (CheckOfficersPerk(mchr, "SeaDogProfessional"))
+	if (CheckOfficersPerk(mchr, "SeaDogProfessional") && CheckAttribute(pchar, "SeaDogProfessionalSwitch"))
 	{
 		if (pchar.SeaDogProfessionalSwitch == 1)
 			seaDogCoeff = 2.0;

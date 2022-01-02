@@ -79,6 +79,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             DoReloadCharacterToLocation("Santiago_town",  "reload", "reload3");
             NextDiag.CurrentNode = "Cupture_after";
             chrDisableReloadToLocation = false;
+			AddDialogExitQuestFunction("TWN_ExitForPay");
             DialogExit();
         break;
         //********************** Квест №5, Нападение на Ла Вегу. ************************

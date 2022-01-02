@@ -4757,21 +4757,11 @@ bool CheckCanSurrender(ref chr)
 	{
 		return false;
 	}
-	if (!CheckAttribute(chr,"Ship.Type") || sti(chr.Ship.Type) < 0 || sti(chr.Ship.Type) ==SHIP_NOTUSED)
+	if (!CheckAttribute(chr,"Ship.Type") || sti(chr.Ship.Type) < 0 || sti(chr.Ship.Type) == SHIP_NOTUSED)
 	{
 		return false;
 	}
-	//conditions when ship will never surrender
 	if (GetPrisonerQty() > PRISONER_MAX)
-	{
-		return false;
-	}
-	/*25.12.2021 bestreducer - на вс€кий закомментил дублирование проверки 
-	if (sti(pchar.rank) < (sti(chr.rank) - MOD_SKILL_ENEMY_RATE / 2))
-	{
-		return false;
-	}*/
-	if (GetCharacterShipClass(chr) == 1)
 	{
 		return false;
 	}

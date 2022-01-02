@@ -1358,7 +1358,7 @@ void ProcessDialogEvent()
 		
 		case "OrderHunterNegotiateWhisperIsHere_1":
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			dialog.text = "А вот теперь мне стало интересно. Нам нужно обязательно сходить на этот Риф Скелета.";
             Link.l1 = "Что ж, я своё слово держу, можешь идти.";
 			Link.l1.go = "OrderHunterPeace";
@@ -1402,7 +1402,7 @@ void ProcessDialogEvent()
 		
 		case "OrderHunterMeetingWhisperIsHere_1":
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			dialog.text = "Снова инквизиция? Меня уже тошнит от них\nЕсли тебя не затруднит, "+pchar.name+", сделай для меня одолжение и убей его.";
             Link.l1 = "Может, дадим ему шанс одуматься? Инквизитор, советую тебе вернуться обратно в свою нору под церковью Сантьяго. Ну же, беги, пока я добр"+GetSexPhrase("ый","ая")+"!";
 			Link.l1.go = "OrderHunterMeetingWhisperIsHere_2"; 
@@ -1491,7 +1491,7 @@ void ProcessDialogEvent()
 		
 		case "OrderLeaderWhisperIsHere_1":
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			dialog.text = "Так за всем этим стоял... безумный фанатик? Признаюсь честно - я немного разочарована.";
 			Link.l1.go = "OrderLeaderWhisperIsHere_2";
 		break;
@@ -1620,7 +1620,7 @@ void ProcessDialogEvent()
 		//Реакции
 		case "WhisperIsHere_exit":
 			DialogExit();
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
 		break;
 		
@@ -1711,7 +1711,7 @@ void ProcessDialogEvent()
 		
 		case "BS_9_WhisperIsHere_1":
 			DialogExit();
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
 			StartInstantDialogNoType("Pirates_trader", "BS_NPVK_6_1", "Quest\BlackSails\NePluyjVKolodec.c");
 		break;
@@ -1723,7 +1723,7 @@ void ProcessDialogEvent()
 		
 		case "BS_10_WhisperIsHere_1":
 			DialogExit();
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
 			StartInstantDialogNoType("Pirates_trader", "BS_NPVK_7_1", "Quest\BlackSails\NePluyjVKolodec.c");
 		break;
@@ -1731,7 +1731,7 @@ void ProcessDialogEvent()
 		case "BS_11_WhisperIsHere":
 			dialog.text = "Эта бесцельная беготня меня изрядно утомила.";
 			Link.l1 = "Меня тоже. Но я чувствую, что Сильвер где-то рядом. Давай ещё проверим тюрьму.";
-			Link.l1.go = "BS_9_WhisperIsHere_1";
+			Link.l1.go = "WhisperIsHere_exit";
 		break;
 		
 		case "BS_12_WhisperIsHere":
@@ -1759,7 +1759,7 @@ void ProcessDialogEvent()
 		
 		case "BS_13_WhisperIsHere_3":
 			DialogExit();
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			LAi_SetWarriorTypeNoGroup(npchar);
 			LAi_SetPlayerType(pchar);
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
@@ -1802,7 +1802,7 @@ void ProcessDialogEvent()
 		
 		case "BS_17_WhisperIsHere_1":
 			DialogExit();
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
 			StartInstantDialogNoType("Flint", "BS_PN_8_1", "Quest\BlackSails\Pogonya_Nachalas.c");
 		break;
@@ -1826,7 +1826,7 @@ void ProcessDialogEvent()
 		
 		case "BS_20_WhisperIsHere_1":
 			DialogExit();
-			RestoreOldDialog(npchar);
+			W_RestoreOfficerDialog();
 			LAi_tmpl_SetFollow(npchar, GetMainCharacter(), -1.0);
 			SetCharacterTask_Dead(npchar);
 			DoQuestFunctionDelay("BSUrka_PoisonOfficers", 1);

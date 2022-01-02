@@ -378,6 +378,7 @@ void SelectMainCharacter(bool bLeft)
 	PChar.model.animation = sAni;
 	SetNewModelToChar(PChar);
 
+	CreateString(true, "SelectCharacterName", sCharacterName, FONT_CAPTION, COLOR_NORMAL, 395, 545, SCRIPT_ALIGN_CENTER, 1.0);
     LanguageCloseFile(idLngFile);
 	
 	curmodel = 0;
@@ -421,6 +422,7 @@ void SelectOperation()
 
 	string sName = LanguageConvertString(idLngFile, "heroName_" + startHeroType);
 	string sLastName = LanguageConvertString(idLngFile, "heroLastname_" + startHeroType);
+	string sCharacterName = sName + " " + sLastName;
 
 	string sHeroModel = LanguageConvertString(idLngFile, "heroModel_" + startHeroType);
 	PChar.HeroModel = sHeroModel;
@@ -433,6 +435,7 @@ void SelectOperation()
 	SetNewModelToChar(PChar);
 
 	UpdateHeroInfo();
+	CreateString(true, "SelectCharacterName", sCharacterName, FONT_CAPTION, COLOR_NORMAL, 395, 545, SCRIPT_ALIGN_CENTER, 1.0);
 
     LanguageCloseFile(idLngFile);
 }

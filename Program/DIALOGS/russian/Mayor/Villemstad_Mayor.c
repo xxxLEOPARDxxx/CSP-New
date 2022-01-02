@@ -33,6 +33,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             pchar.questTemp.Q11_Villemstad = 1;
             NextDiag.TempNode = "Cupture_after";
             Statistic_AddValue(Pchar, NationShortName(sti(NPChar.nation)) + "_TakeTown", 1);
+			AddDialogExitQuestFunction("TWN_ExitForPay");
             SetReturn_Gover_Dialog_Exit(NPChar);
             chrDisableReloadToLocation = false;
         break;

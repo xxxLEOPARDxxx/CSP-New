@@ -2201,7 +2201,7 @@ itmdescr_Lockpick
 itmname_chest_treasure	{Малый сундук}
 itmdescr_chest_treasure
 {
-Запертый сундук, найденный среди побрекушек в кладе. 
+Запертый сундук, найденный среди побрякушек в кладе. 
 }
 
 itmname_chest_Craftsmans	{Сундук ремесленника}

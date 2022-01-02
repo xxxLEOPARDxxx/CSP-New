@@ -83,10 +83,10 @@ void ProcessDialogEvent()
 				NextDiag.TempNode = "First time";
 				break;
             }
-			if (npchar.id != "Pirates_trader" && CheckAttribute(pchar, "BSStart"))
+			if (npchar.id != "Pirates_trader" && npchar.id != "Caiman_trader" && CheckAttribute(pchar, "BSStart"))
 			{
 				//Black sails
-				if(pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "over")
+				if(pchar.questTemp.BlueBird == "over")
 				{
 					dialog.text = "Капитан, ничего личного, но очень влиятельная особа запретила вести дела с вами. Никаких сделок, извините.";
 					link.l1 = "Простите, но я не понимаю. Что произошло?";
@@ -146,10 +146,10 @@ void ProcessDialogEvent()
 				break;
 			}
 			
-			if (npchar.id != "Pirates_trader" && CheckAttribute(pchar, "BSStart"))
+			if (npchar.id != "Pirates_trader" && npchar.id != "Caiman_trader" && CheckAttribute(pchar, "BSStart"))
 			{
 				//Black sails
-				if(pchar.questTemp.Headhunter == "end_quest_full" || pchar.questTemp.BlueBird == "over")
+				if(pchar.questTemp.BlueBird == "over")
 				{
 					dialog.text = "Капитан, ничего личного, но очень влиятельная особа запретила вести дела с вами. Никаких сделок, извините.";
 					link.l1 = "Простите, но я не понимаю. Что произошло?";

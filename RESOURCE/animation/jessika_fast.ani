@@ -1,14 +1,14 @@
 
 animation = jessika.an
 
-data = "Turn speed", "5.5"
+data = "Turn speed", "6.3"
 
 
 ;===================================================================================
 ; ¡Œ≈¬€≈ ¿Õ»Ã¿÷»»
 ;===================================================================================
 
-;THRUSTS
+;SLASH-FORCE
 	[attack_force_1]
 	type = normal
 	start_time = 36
@@ -18,7 +18,7 @@ data = "Turn speed", "5.5"
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2"	; m
+	data = "Dist", "2.3"	; m
 	data = "Ang", "40"	; grd
 	
 	event = "Attack", 49, normal			;slash
@@ -34,7 +34,7 @@ data = "Turn speed", "5.5"
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2"	; m
+	data = "Dist", "2.3"	; m
 	data = "Ang", "40"	; grd
 		
 	event = "Attack", 49, normal			;slash
@@ -50,7 +50,7 @@ data = "Turn speed", "5.5"
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2"	; m
+	data = "Dist", "2.3"	; m
 	data = "Ang", "40"	; grd
 	
 	event = "Attack", 78, normal			;slash
@@ -66,7 +66,7 @@ data = "Turn speed", "5.5"
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2"	; m
+	data = "Dist", "2.3"	; m
 	data = "Ang", "40"	; grd
 		
 	event = "Attack", 78, normal			;slash
@@ -163,11 +163,11 @@ data = "Turn speed", "5.5"
 	start_time = 170
 	end_time = 206
 	
-	speed = 1.3
+	speed = 1.25
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
-	data = "Dist", "2.5"	; m
+	data = "Dist", "2.4"	; m
 	data = "Ang", "25"	; grd
 		
 	event = "Attack", 186, normal			;slash
@@ -389,7 +389,7 @@ data = "Turn speed", "5.5"
 	start_time = 351
 	end_time = 368
 	
-	speed = 3.5
+	speed = 5.5
 	loop = false
 	
 	data = "Blend time", "0.2"		; sec
@@ -513,7 +513,7 @@ type = normal
 	event = "SndAlliace_pistol_shot", 693, normal
 	event = "Fire", 720, normal
 	event = "To belt", 746, normal
-	
+	data = "Turn speed", "7.0"		
 	data = "Blend time", "0.3"		; sec
 	
 	
@@ -721,7 +721,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "1.3"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	
 	event = "LStep", 387, normal
 	event = "RStep", 371, normal
@@ -738,7 +738,7 @@ loop = true
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-1.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	
 	event = "LStep", 387, reverse
 	event = "RStep", 371, reverse
@@ -755,7 +755,7 @@ loop = true
 	
 	data = "Blend time", "0.3"		; sec
 	data = "Walk speed", "5.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	
 	event = "LStep", 407, normal
 	event = "RStep", 416, normal                   
@@ -772,7 +772,7 @@ loop = true
 	
 	data = "Blend time", "0.4"		; sec
 	data = "Walk speed", "-1.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	
 	event = "LStep", 387, reverse
 	event = "RStep", 371, reverse
@@ -831,8 +831,8 @@ loop = true
 	end_time = 1481
 	
 	data = "Blend time", "0.4"		; sec
-	data = "Walk speed", "1.3"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Walk speed", "1.5"		; m/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	event = "LStep", 1471, normal
 	event = "RStep", 1458, normal
@@ -846,8 +846,8 @@ loop = true
 	end_time = 1482
 	
 	data = "Blend time", "0.4"		; sec
-	data = "Walk speed", "-1.3"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Walk speed", "-1.4"		; m/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	event = "LStep", 1471, reverse
 	event = "RStep", 1458, reverse
@@ -869,7 +869,7 @@ loop = true
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 
 	
@@ -888,7 +888,7 @@ loop = true
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 
 
@@ -905,7 +905,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 
 
@@ -926,7 +926,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 
 	
@@ -941,7 +941,7 @@ type = normal
 	
 	data = "Blend time", "0.3"		; sec
 	data = "Walk speed", "5.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	event = "LStep", 1363, normal
 	event = "RStep", 1372, normal
@@ -958,7 +958,7 @@ type = normal
 	
 	data = "Blend time", "0.4"		; sec
 	data = "Walk speed", "-1.3"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	event = "LStep", 1471, reverse
 	event = "RStep", 1458, reverse
@@ -974,7 +974,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "4.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	event = "LStep", 1363, normal
 	event = "RStep", 1372, normal                
@@ -990,7 +990,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "4.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	event = "LStep", 1363, normal
 	event = "RStep", 1372, normal             
@@ -1012,7 +1012,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	
 	[back run stairs down]
@@ -1028,7 +1028,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	
 	
@@ -1042,7 +1042,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 	
 
@@ -1056,7 +1056,7 @@ type = normal
 	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 
 
@@ -1418,7 +1418,7 @@ speed = 1.4
 
 data = "Blend time", "0.4"          ; sec
 data = "Walk speed", "2.6"          ; m/sec
-data = "Turn speed", "5.5"          ; rad/sec
+data = "Turn speed", "6.3"          ; rad/sec
 
 event = "swim", 2618, normal
 

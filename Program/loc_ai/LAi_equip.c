@@ -45,7 +45,12 @@ void LAi_NPC_Equip(ref chr, int rank, bool isWeapons, bool isGun)
 		}
 		else
 		{
-            blade = LAi_NPC_EquipBladeSelection(sti(chr.rank));
+			if (CheckAttribute(chr,"officerequip")) 
+			{
+				if (sti(pchar.rank) >= 25) blade = LAi_NPC_EquipBladeSelection(15);
+				else blade = LAi_NPC_EquipBladeSelection(4);
+			}
+            else blade = LAi_NPC_EquipBladeSelection(sti(chr.rank));
 		}
 		
 		DeleteAttribute(chr, "items"); // это можно не делать, но так наверняка (идет проверка на колво предметов, и сабель может стать вагон)

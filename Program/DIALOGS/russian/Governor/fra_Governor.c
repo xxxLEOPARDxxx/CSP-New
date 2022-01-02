@@ -1283,7 +1283,7 @@ void ProcessCommonDialogEvent(ref NPChar, aref Link, aref NextDiag)
             link.l1.go = "Step_11_6";
         break;
 		case "Step_11_6":
-            dialog.text = "Все трофеи, захваченные в Санта Каталине, по праву принадлежат вам.";
+            dialog.text = "Ещё вопросы?";
 			link.l1 = "Я хотел"+ GetSexPhrase("","а") +" бы обсудить вопрос о моем участии в разработке жемчужного промысла, месье...";
             link.l1.go = "Step_11_7";
         break;

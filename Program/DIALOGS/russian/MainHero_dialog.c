@@ -1395,6 +1395,7 @@ void ProcessDialogEvent()
 			Link.l1 = "Ќу, тут ничего не поделаешь уже, будем жить дальше.";	
 			Link.l1.go = "exit";
 			NextDiag.TempNode = "TalkSelf_Main";
+			chrDisableReloadToLocation = false;
 		break;
 		
 	}

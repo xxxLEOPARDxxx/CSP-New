@@ -3,7 +3,7 @@
 
 animation = Moscovit.an
 
-data = "Turn speed", "4.0"
+data = "Turn speed", "6.3"
 
 
 ;===================================================================================
@@ -163,7 +163,7 @@ data = "Turn speed", "4.0"
 	type = normal
 	start_time = 207
 	end_time = 233
-	speed = 2.3
+	speed = 2.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Parry start", 212, normal
@@ -175,7 +175,7 @@ data = "Turn speed", "4.0"
 	type = normal
 	start_time = 207
 	end_time = 233
-	speed = 2.3
+	speed = 2.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Parry start", 212, normal
@@ -187,7 +187,7 @@ data = "Turn speed", "4.0"
 	type = normal
 	start_time = 207
 	end_time = 233
-	speed = 2.3
+	speed = 2.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Parry start", 212, normal
@@ -199,7 +199,7 @@ data = "Turn speed", "4.0"
 	type = normal
 	start_time = 207
 	end_time = 233
-	speed = 2.3
+	speed = 2.0
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Parry start", 212, normal
@@ -368,7 +368,7 @@ data = "Turn speed", "4.0"
 	event = "Fire", 725, normal
 	event = "To belt", 751, normal
 	data = "Blend time", "0.3"		; sec
-
+	data = "Turn speed", "7.5"
 
 ; РЕАКЦИИ на поражения от противника -----------------------------------------------------------------------------------
 [hit_attack_1]
@@ -411,7 +411,7 @@ data = "Turn speed", "4.0"
 	type = normal
 	start_time = 647
 	end_time = 664
-	speed = 1.9
+	speed = 1.2
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_manhit", 649, normal			
@@ -429,7 +429,7 @@ data = "Turn speed", "4.0"
 	type = normal
 	start_time = 612
 	end_time = 648
-	speed = 1.9
+	speed = 1.5
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_parryhit", 612, normal		
@@ -450,8 +450,9 @@ data = "Turn speed", "4.0"
 	start_time = 761
 	end_time = 784
 	loop = false
-	speed = 2.
+	speed = 1.75
 	data = "Blend time", "0.02"	; sec
+	data = "Walk speed", "2.2"		; m/sec
 	event = "SndAlliace_recoil", 761, normal
 
 ;Смещение влево (A) 	
@@ -461,10 +462,10 @@ data = "Turn speed", "4.0"
 	data = "Blend time", "0.1"		; sec
 	event = "LStep", 4174, normal
 	event = "RStep", 4179, normal
-	speed = 1.8
+	speed = 2.0
 	loop = false
 	type = normal
-
+	data = "Walk speed", "2.2"		; m/sec	
 ;Смещение вправо (D) 
 [straif_weapon_right]
 	start_time = 4184
@@ -472,9 +473,10 @@ data = "Turn speed", "4.0"
 	data = "Blend time", "0.1"		; sec
 	event = "LStep", 4191, normal
 	event = "RStep", 4196, normal
-	speed = 1.8
+	speed = 2.0
 	loop = false
 	type = normal
+	data = "Walk speed", "2.2"		; m/sec											  
 
 ;IDLES - Паузы в бою ---------------------------------------------------------------------------------------------------------------------
 ;тупо стоит
@@ -567,7 +569,7 @@ data = "Turn speed", "4.0"
 	end_time = 402
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "1.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	event = "LStep", 373, normal
 	event = "RStep", 390, normal
 
@@ -580,7 +582,7 @@ data = "Turn speed", "4.0"
 	type = reverse
 	data = "Blend time", "0.4"		; sec
 	data = "Walk speed", "-1.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	event = "LStep", 373, reverse
 	event = "RStep", 390, reverse
 
@@ -593,7 +595,7 @@ data = "Turn speed", "4.0"
 	end_time = 427
 	data = "Blend time", "0.3"		; sec
 	data = "Walk speed", "5.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	event = "LStep", 425, normal
 	event = "RStep", 413, normal                   
 
@@ -809,7 +811,7 @@ data = "Turn speed", "4.0"
 	end_time = 4236
 	data = "Blend time", "0.4"		; sec
 	data = "Walk speed", "1.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 4207, normal
 	event = "RStep", 4226, normal
 
@@ -822,7 +824,7 @@ data = "Turn speed", "4.0"
 	end_time = 4236
 	data = "Blend time", "0.4"		; sec
 	data = "Walk speed", "-1.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 4207, reverse
 	event = "RStep", 4226, reverse
 
@@ -837,7 +839,7 @@ data = "Turn speed", "4.0"
 	speed = 2.
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 ;Идти вниз по лестнице задом наперед
 [back stairs down]
@@ -850,7 +852,7 @@ data = "Turn speed", "4.0"
 	speed = 2.
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;Идти вверх по лестнице
 [stairs up]
@@ -863,7 +865,7 @@ data = "Turn speed", "4.0"
 	speed = 2.
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;Идти вверх по лестнице задом наперед
 [back stairs up]
@@ -876,7 +878,7 @@ data = "Turn speed", "4.0"
 	speed = 2.
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;Бег вперёд
 [run]
@@ -887,7 +889,7 @@ data = "Turn speed", "4.0"
 	end_time = 1387
 	data = "Blend time", "0.3"		; sec
 	data = "Walk speed", "5.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 1385, normal
 	event = "RStep", 1373, normal
 
@@ -900,7 +902,7 @@ data = "Turn speed", "4.0"
 	end_time = 4236
 	data = "Blend time", "0.4"		; sec
 	data = "Walk speed", "-1.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 4207, reverse
 	event = "RStep", 4226, reverse
 
@@ -913,7 +915,7 @@ data = "Turn speed", "4.0"
 	end_time = 1387
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "4.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 1385, normal
 	event = "RStep", 1373, normal                  
 
@@ -926,7 +928,7 @@ data = "Turn speed", "4.0"
 	end_time = 1387
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "4.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 1385, normal
 	event = "RStep", 1373, normal                
 		
@@ -941,7 +943,7 @@ data = "Turn speed", "4.0"
 	speed = 2.
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ; Бег по лестнице вниз задом наперед	
 [back run stairs down]
@@ -954,7 +956,7 @@ loop = true
 	speed = 2.
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.9"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	
 ;Разворот влево
 [turn left]
@@ -965,7 +967,7 @@ loop = true
 	end_time = 1445
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;Разворот вправо
 [turn right]
@@ -976,7 +978,7 @@ loop = true
 	end_time = 1461
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;ПЛАВАНИЕ ===================================================================
 [swim]
@@ -985,7 +987,7 @@ loop = true
 	speed = 1.3
 	data = "Blend time", "0.4"          ; sec
 	data = "Walk speed", "1.2"          ; m/sec
-	data = "Turn speed", "5.5"          ; rad/sec
+	data = "Turn speed", "6.3"          ; rad/sec
 	event = "swim", 4285, normal
 
 ;Спрыгивание. всплытие                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ;Спрыгивание

@@ -473,6 +473,7 @@ void TWN_Capture_Forts()
 		if (!CheckAttribute(Pchar, "GenQuestFort.SoundOff"))  // будет для выхода в море и повтора захвата
 		{
         	PlayVoice("INTERFACE\_GTBoard_0.wav");
+			SetCrewQuantity(pchar, GetMinCrewQuantity(pchar));
         	if (isCityHasFort(sld.City))// довесок после форта
             {
             	AddCharacterExpToSkillSquadron(Pchar, "Leadership", 230);
@@ -846,11 +847,20 @@ void TWN_FightInTown_OpenNext()
 	i     = makeint((stf(Pchar.GenQuestFort.PlayerCrew_Start) - fTemp) /1.5 + 0.5); // трупы
 	// это после резиденции RemoveCharacterGoodsSelf(Pchar, GOOD_WEAPON, i);
 	i = sti(Pchar.GenQuestFort.PlayerCrew_Start) - i - GetCrewQuantity(pchar); // выжившие с бонусом
-	
-	int cn;
-	ref officer;
+	if (GetMaxCrewQuantity(pchar) >= i)
+        {
+            AddCharacterCrew(pchar, i);
+			i = 0;
+        }
+	else
+	{
+		i -= GetMaxCrewQuantity(pchar) + GetMinCrewQuantity(pchar);
+		SetCrewQuantity(pchar,GetMaxCrewQuantity(pchar));
+		int cn;
+		ref officer;
 	    for (j=1; j<COMPANION_MAX; j++) 
 	    {
+			if (i == 0) break;
 	        cn = GetCompanionIndex(pchar, j);
 	        if (cn>0)
 	        {
@@ -868,8 +878,8 @@ void TWN_FightInTown_OpenNext()
 					i = 0;
                 }
 		    }
-			if (i == 0) break;
 		}
+	}
 	// вернем живых на корабль <--
 	if (csmCA(pchar, "CSM.LootCollector.Enable") && loadedLocation.type != "residence")
 	{

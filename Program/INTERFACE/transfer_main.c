@@ -184,14 +184,23 @@ void InitInterface_RS(string iniName, ref _chr, string _type)
 		{
 			if (RealShips[sti(xi_refCharacter.Ship.Type)].Type.Merchant == true) 
 			{
-				pchar.ShipsSurr = sti(pchar.ShipsSurr)+1;
-				if (sti(pchar.ShipsSurr) < 5)
+				pchar.ShipsSurr = sti(pchar.ShipsSurr) + 1;
+				if (sti(pchar.ShipsSurr) <= 5)
 				{
 					PlaySound("interface\AchievementComplite.wav");
-					string sTemp1 = XI_ConvertString(RealShips[sti(xi_refCharacter.Ship.Type)].BaseName) + " '" + xi_refCharacter.Ship.name + "'";
-					string sTemp2 = 5-sti(pchar.ShipsSurr);
-					if (sti(pchar.ShipsSurr) == 5) sTemp2 = " Пора сообщить ему о пяти сдавшихся посудинах."; else sTemp2 = " Нужно ещё " + GetStrSmallRegister(XI_ConvertString(sTemp2)) + ".";
-					Log_info("Победа! " + sTemp1 + " сдался без боя. Чёрная Борода будет доволен." + sTemp2);
+					string sTemp1 = 5 - sti(pchar.ShipsSurr);
+					if (sti(pchar.ShipsSurr) == 5)
+					{
+						sTemp1 = " Пора сообщить ему о пяти сдавшихся посудинах.";
+					}
+					else
+					{
+						if (sti(sTemp1) == 1)
+							sTemp1 = " Осталась одна посудина.";
+						else
+							sTemp1 = " Осталось " + sti(sTemp1) + " посудины.";
+					}
+					Log_info("Победа! Корабль '" + xi_refCharacter.Ship.name + "' сдался без боя. Чёрная Борода будет доволен." + sTemp1);
 				}
 			}
 		}

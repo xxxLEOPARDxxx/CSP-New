@@ -3,8 +3,7 @@
 
 animation = Giant.an
 
-data = "Turn speed", "5.5"
-
+data = "Turn speed", "6.3"
 
 ;===================================================================================
 ; =================================================================  љЭ?ђЯ? ЉНїЮЉ?її
@@ -137,9 +136,9 @@ data = "Turn speed", "5.5"
 
 [attack_force_4]
 	type = normal
-	start_time = 5356
+	start_time = 5355
 	end_time = 5382
-	speed = 1.6
+	speed = 1.5
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	data = "Dist", "2.3"	; m
@@ -175,7 +174,7 @@ data = "Turn speed", "5.5"
 	data = "Ang", "25"	; grd
 	event = "Attack", 8328, normal			;slash
 	event = "SndAlliace_attack_break", 8320, normal
-	event = "Resact", 8336, normal
+	event = "Resact", 8332, normal
 	
 ;PARRY - Њарирование удара (Shift+Right_Mouse) ---------------------------------------------------------------- 
 ;уход влево блок сверху
@@ -183,7 +182,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5385
 	end_time = 5410
-	speed = 2.0
+	speed = 1.9
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Parry start", 5388, normal
@@ -196,7 +195,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5437
 	end_time = 5461
-	speed = 2.0
+	speed = 1.9
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Parry start", 5440, normal
@@ -209,7 +208,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5462
 	end_time = 5485
-	speed = 2.0
+	speed = 1.9
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Parry start", 5465, normal
@@ -222,7 +221,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8395
 	end_time = 8410
-	speed = 1.4
+	speed = 1.3
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Parry start", 8398, normal
@@ -235,7 +234,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8395
 	end_time = 8410
-	speed = 1.3
+	speed = 1.2
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Feint start",8398, normal
@@ -247,7 +246,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8395
 	end_time = 8410
-	speed = 1.3
+	speed = 1.2
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Feint start",8398, normal
@@ -259,7 +258,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8395
 	end_time = 8410
-	speed = 1.3
+	speed = 1.2
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Feint start",8398, normal
@@ -271,7 +270,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8395
 	end_time = 8410
-	speed = 1.3
+	speed = 1.2
 	loop = false
 	data = "Blend time", "0.2"		; sec
 	event = "Feint start",8398, normal
@@ -393,13 +392,13 @@ data = "Turn speed", "5.5"
 	event = "Fire", 6360, normal
 	event = "To belt", 6386, normal
 	data = "Blend time", "0.3"		; sec
-
+	data = "Turn speed", "7.5"
 ; Ц?Љ†?її на поражени§ от противника -----------------------------------------------------------------------------------
 [hit_attack_1]
 	type = normal
 	start_time = 5485
 	end_time = 5506	
-	speed = 4.5
+	speed = 4.2
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_manhit", 5485, normal	
@@ -408,7 +407,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5506
 	end_time = 5530	
-	speed = 4.5
+	speed = 4.2
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_manhit", 5506, normal	
@@ -417,7 +416,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5530
 	end_time = 5552	
-	speed = 4.5
+	speed = 4.2
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_manhit", 5530, normal	
@@ -444,7 +443,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 8475
 	end_time = 8500
-	speed = 1.9
+	speed = 1.5
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_manZapad", 5508, normal	
@@ -453,7 +452,7 @@ data = "Turn speed", "5.5"
 	type = normal
 	start_time = 5530
 	end_time = 5552
-	speed = 1.5
+	speed = 1.9
 	loop = false	
 	data = "Blend time", "0.2"		; sec
 	event = "SndAlliace_manhit", 5530, normal
@@ -466,9 +465,9 @@ data = "Turn speed", "5.5"
 	start_time = 6849
 	end_time = 6859
 	loop = false
-	speed = 1.8
+	speed = 1.75
 	data = "Blend time", "0.02"	; sec
-	data = "Walk speed", "2.0"		; m/sec
+	data = "Walk speed", "2.2"		; m/sec
 	event = "SndAlliace_recoil", 6850, normal
 	
 ;Чмещение влево (A) 	
@@ -504,6 +503,7 @@ data = "Turn speed", "5.5"
 	speed = 0.6
 	data = "Blend time", "0.4"		; sec
 	data = "Probability", "0.2"
+	data = "Turn speed", "7.0" ;rad/sec									
 
 [fight stand_2]
 	loop = true
@@ -513,6 +513,7 @@ data = "Turn speed", "5.5"
 	speed = 0.8	
 	data = "Blend time", "0.4"		; sec
 	data = "Probability", "0.1"
+	data = "Turn speed", "7.0" ;rad/sec									
 
 [fight stand_3]
 	loop = true
@@ -522,6 +523,7 @@ data = "Turn speed", "5.5"
 	speed = 1.0	
 	data = "Blend time", "0.2"		; sec
 	data = "Probability", "0.1"
+	data = "Turn speed", "7.0" ;rad/sec									
 
 [fight stand_4]
 	loop = true
@@ -531,6 +533,7 @@ data = "Turn speed", "5.5"
 	speed = 1.0	
 	data = "Blend time", "0.2"		; sec
 	data = "Probability", "0.1"
+	data = "Turn speed", "7.0" ;rad/sec									
 
 [fight stand_5]
 	loop = true
@@ -540,6 +543,7 @@ data = "Turn speed", "5.5"
 	speed = 1.0	
 	data = "Blend time", "0.2"		; sec
 	data = "Probability", "0.1"
+	data = "Turn speed", "7.0" ;rad/sec									
 
 [fight stand_6]
 	loop = true
@@ -549,6 +553,7 @@ data = "Turn speed", "5.5"
 	speed = 1.0
 	data = "Blend time", "0.2"		; sec
 	data = "Probability", "0.1"
+	data = "Turn speed", "7.0" ;rad/sec									
 
 [fight stand_7]
 	loop = true
@@ -558,6 +563,7 @@ data = "Turn speed", "5.5"
 	speed = 1.0	
 	data = "Blend time", "0.2"		; sec
 	data = "Probability", "0.1"
+	data = "Turn speed", "7.0" ;rad/sec									
 
 ;?разнилка после отскока назад   
 [fight stand_8]
@@ -568,6 +574,7 @@ data = "Turn speed", "5.5"
 	speed = 1.0	
 	data = "Blend time", "0.2"		; sec
 	data = "Probability", "0.0"   
+	data = "Turn speed", "7.0" ;rad/sec									
 
 ;Њ?Ц?Ю?Ґ?Нї€ с клинком в руке ---------------------------------------------------------------------------------------------
 ;Тодьба впер™д с клинком в руке
@@ -577,7 +584,7 @@ data = "Turn speed", "5.5"
 	speed = 0.8
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "1.8"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	event = "RStep", 6321, normal
 	event = "LStep", 6329, normal
 
@@ -589,7 +596,7 @@ data = "Turn speed", "5.5"
 	speed = 0.8
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-1.7"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 ;event = "RStep", 6325, reverse
 ;event = "LStep", 6333, reverse
 
@@ -602,7 +609,7 @@ data = "Turn speed", "5.5"
 	end_time = 169
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "5.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	event = "LStep", 161, normal
 	event = "RStep", 167, normal
 
@@ -615,7 +622,7 @@ data = "Turn speed", "5.5"
 	end_time = 169
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "5.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "7.0"		; rad/sec
 	event = "LStep", 161, normal
 	event = "RStep", 167, normal
 
@@ -816,7 +823,7 @@ data = "Turn speed", "5.5"
 	end_time = 18
 	data = "Blend time", "0.3"		; sec
 	data = "Walk speed", "1.8"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 6, normal
 	event = "RStep", 14, normal
 
@@ -829,7 +836,7 @@ data = "Turn speed", "5.5"
 	end_time = 18
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-1.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 6, reverse
 	event = "RStep", 14, reverse
 
@@ -844,7 +851,7 @@ data = "Turn speed", "5.5"
 	speed = 1.4	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.8"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;їдти вниз по лестнице задом наперед
 [back stairs down]
@@ -857,7 +864,7 @@ data = "Turn speed", "5.5"
 	speed = 2.0
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;їдти вверх по лестнице
 [stairs up]
@@ -870,7 +877,7 @@ data = "Turn speed", "5.5"
 	speed = 2.0
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.8"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;їдти вверх по лестнице задом наперед
 [back stairs up]
@@ -883,7 +890,7 @@ data = "Turn speed", "5.5"
 	speed = 2.0
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.6"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ;љег впер™д
 [run]
@@ -894,7 +901,7 @@ data = "Turn speed", "5.5"
 	end_time = 169
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "5.5"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 161, normal
 	event = "RStep", 167, normal
 
@@ -907,7 +914,7 @@ data = "Turn speed", "5.5"
 	end_time = 18	
 	data = "Blend time", "0.5"		; sec
 	data = "Walk speed", "-1.7"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 6, reverse
 	event = "RStep", 14, reverse
 
@@ -920,7 +927,7 @@ data = "Turn speed", "5.5"
 	end_time = 169
 	data = "Blend time", "0.3"		; sec
 	data = "Walk speed", "3.3"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 161, normal
 	event = "RStep", 167, normal
 
@@ -933,7 +940,7 @@ data = "Turn speed", "5.5"
 	end_time = 169
 	data = "Blend time", "0.3"		; sec
 	data = "Walk speed", "3.3"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 161, normal
 	event = "RStep", 167, normal
 	
@@ -948,7 +955,7 @@ data = "Turn speed", "5.5"
 	speed = 2.	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.6"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 
 ; љег по лестнице вниз задом наперед
 [back run stairs down]
@@ -961,7 +968,7 @@ data = "Turn speed", "5.5"
 	speed = 2.	
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "-0.6"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec	
+	data = "Turn speed", "6.3"		; rad/sec	
 	
 ;Цазворот влево
 [turn left]
@@ -969,7 +976,7 @@ data = "Turn speed", "5.5"
 	end_time = 240
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 229, normal
 	event = "RStep", 239, normal
 
@@ -979,7 +986,7 @@ data = "Turn speed", "5.5"
 	end_time = 240
 	data = "Blend time", "0.2"		; sec
 	data = "Walk speed", "0.0"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 229, normal
 	event = "RStep", 239, normal
 
@@ -990,7 +997,7 @@ data = "Turn speed", "5.5"
 	speed = 1.1
 	data = "Blend time", "0.4"		; sec
 	data = "Walk speed", "0.8"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "swim", 245, normal
 
 ;Чпрыгивание. всплытие                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ;Чпрыгивание
@@ -1735,7 +1742,7 @@ data = "Turn speed", "5.5"
 	end_time = 116	
 	data = "Blend time", "0.5"		; sec
 	data = "Walk speed", "1.2"		; m/sec
-	data = "Turn speed", "5.5"		; rad/sec
+	data = "Turn speed", "6.3"		; rad/sec
 	event = "LStep", 103, normal
 	event = "RStep", 111, normal
  	event = "itemaction_set1", 98, normal

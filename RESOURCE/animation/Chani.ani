@@ -1,7 +1,7 @@
 
 animation = Chani.an
 
-data = "Turn speed", "4.0"
+data = "Turn speed", "6.3"
 
 ;===================================================================================
 ;Sitting animations copied from males 
@@ -247,7 +247,7 @@ end_time = 17
 
 data = "Blend time", "0.4"		; sec
 data = "Walk speed", "1.8"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 13, normal
 event = "RStep", 5, normal
@@ -262,7 +262,7 @@ type = reverse
 
 data = "Blend time", "0.5"		; sec
 data = "Walk speed", "-1.0"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 13, reverse
 event = "RStep", 5, reverse
@@ -275,7 +275,7 @@ end_time = 30
 
 data = "Blend time", "0.3"		; sec
 data = "Walk speed", "5.5"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 26, normal
 event = "RStep", 20, normal
@@ -290,7 +290,7 @@ type = reverse
 
 data = "Blend time", "0.5"		; sec
 data = "Walk speed", "-1.5"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 13, reverse
 event = "RStep", 5, reverse
@@ -304,7 +304,7 @@ speed = 1.4
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "0.8"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 43, normal
 event = "RStep", 34, normal
@@ -318,7 +318,7 @@ speed = 1.4
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "0.8"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 62, normal
 event = "RStep", 54, normal
@@ -332,7 +332,7 @@ type = reverse
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "-0.5"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 62, reverse
 event = "RStep", 54, reverse
@@ -346,7 +346,7 @@ type = reverse
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "-0.6"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 43, reverse
 event = "RStep", 34, reverse
@@ -359,7 +359,7 @@ end_time = 30
 
 data = "Blend time", "0.3"		; sec
 data = "Walk speed", "3.3"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 27, normal
 event = "RStep", 21, normal
@@ -372,7 +372,7 @@ end_time = 30
 
 data = "Blend time", "0.3"		; sec
 data = "Walk speed", "3.3"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 27, normal
 event = "RStep", 21, normal
@@ -386,7 +386,7 @@ type = reverse
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "-0.5"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 62, reverse
 event = "RStep", 54, reverse
@@ -400,7 +400,7 @@ type = reverse
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "-0.6"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 43, reverse
 event = "RStep", 34, reverse
@@ -412,7 +412,7 @@ end_time = 121
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "0.0"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 ;Действие поворота вправо
 [turn right]
@@ -423,7 +423,7 @@ type = reverse
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "0.0"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 ;Спрыгивание
 [jump]
@@ -480,7 +480,7 @@ end_time = 2332
 
 data = "Blend time", "0.4"		; sec
 data = "Walk speed", "1.6"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "LStep", 2328, normal
 event = "RStep", 2320, normal
@@ -497,7 +497,7 @@ speed = 1.1
 
 data = "Blend time", "0.4"		; sec
 data = "Walk speed", "1.0"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "6.3"		; rad/sec
 
 event = "swim", 168, normal
 
@@ -669,7 +669,7 @@ end_time = 2299
 
 data = "Blend time", "0.2"		; sec
 data = "Walk speed", "1.4"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "8.0"		; rad/sec
 
 event = "RStep", 2288, normal
 event = "LStep", 2296, normal
@@ -683,7 +683,7 @@ type = reverse
 speed = 0.9
 data = "Blend time", "0.4"		; sec
 data = "Walk speed", "-1.2"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "8.0"		; rad/sec
 
 event = "RStep", 2288, reverse
 event = "LStep", 2296, reverse
@@ -696,7 +696,7 @@ end_time = 30
 
 data = "Blend time", "0.5"		; sec
 data = "Walk speed", "5.5"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "8.0"		; rad/sec
 
 event = "LStep", 27, normal
 event = "RStep", 21, normal
@@ -711,7 +711,7 @@ type = reverse
 
 data = "Blend time", "0.4"		; sec
 data = "Walk speed", "-1.5"		; m/sec
-data = "Turn speed", "5.5"		; rad/sec
+data = "Turn speed", "8.0"		; rad/sec
 
 event = "RStep", 2288, reverse
 event = "LStep", 2296, reverse
@@ -735,7 +735,7 @@ data = "Ang", "40"	; grd
 
 event = "Attack", 1592, normal			;slash
 event = "SndAlliace_W_attack_slash2", 1586, normal
-event = "Resact", 1597, normal
+event = "Resact", 1594, normal
 
 [attack_fast_2]
 type = normal
@@ -751,7 +751,7 @@ data = "Ang", "40"	; grd
 
 event = "Attack", 1579, normal			;slash
 event = "SndAlliace_W_attack_slash1", 1573, normal
-event = "Resact", 1585, normal
+event = "Resact", 1581, normal
 
 [attack_fast_3]
 type = normal
@@ -785,7 +785,7 @@ data = "Ang", "20"	; grd
 
 event = "Attack", 1514, normal			;slash
 event = "SndAlliace_W_attack_thrust1", 1510, normal
-event = "Resact", 1518, normal
+event = "Resact", 1516, normal
 
 [attack_force_2]
 start_time = 1519
@@ -817,7 +817,7 @@ data = "Ang", "40"	; grd
 
 event = "Attack", 1603, normal			;slash
 event = "SndAlliace_W_attack_thrust1", 1598, normal
-event = "Resact", 1608 normal
+event = "Resact", 1605, normal
 
 [attack_force_4]
 type = normal
@@ -833,7 +833,7 @@ data = "Ang", "40"	; grd
 
 event = "Attack", 1603, normal			;slash
 event = "SndAlliace_W_attack_thrust1", 1598, normal
-event = "Resact", 1608, normal
+event = "Resact", 1605, normal
 
 
 
@@ -852,7 +852,7 @@ data = "Ang", "160"	; grd
 event = "Attack", 1537, normal			;slash
 event = "SndAlliace_W_attack_round", 1535, normal
 event = "Attack", 1552, normal			;slash
-event = "Resact", 1560, normal
+event = "Resact", 1554, normal
 
 
 ;BREAKS_пробивающий
@@ -870,7 +870,7 @@ data = "Ang", "30"	; grd
 
 event = "Attack", 1553, normal			;slash
 event = "SndAlliace_W_attack_break", 1550, normal
-event = "Resact", 1560, normal
+event = "Resact", 1555, normal
 
 ;PARRY _ Парирование
 [parry_1]
@@ -887,7 +887,7 @@ event = "Parry start", 1563, normal
 event = "Parry end", 1571, normal
 
 event = "SndAlliace_W_attack_parry", 1562, normal
-event = "Resact", 1573, normal
+event = "Resact", 1570, normal
 
 [parry_2]
 type = normal
@@ -903,7 +903,7 @@ event = "Parry start", 1563, normal
 event = "Parry end", 1571, normal
 
 event = "SndAlliace_W_attack_parry", 1562, normal
-event = "Resact", 1573, normal
+event = "Resact", 1570, normal
 
 [parry_3]
 type = normal
@@ -918,7 +918,7 @@ event = "Parry start", 1979, normal
 event = "Parry end", 1995, normal
 
 event = "SndAlliace_W_attack_parry", 1978, normal
-event = "Resact", 1999, normal
+event = "Resact", 1995, normal
 
 [parry_4]
 type = normal
@@ -933,7 +933,7 @@ event = "Parry start", 1979, normal
 event = "Parry end", 1995, normal
 
 event = "SndAlliace_W_attack_parry", 1978, normal
-event = "Resact", 1999, normal
+event = "Resact", 1995, normal
 
 
 ;FEINTS_Финт
@@ -950,7 +950,7 @@ event = "Feint start", 2022, normal
 event = "Feint end", 2050, normal
 
 event = "SndAlliace_W_attack_parry", 2021, normal
-event = "Resact", 2057, normal
+event = "Resact", 2050, normal
 
 [attack_feint_2]
 type = normal
@@ -965,7 +965,7 @@ event = "Feint start", 1588, normal
 event = "Feint end", 1596, normal
 
 event = "SndAlliace_W_attack_parry", 1587, normal
-event = "Resact", 1598, normal
+event = "Resact", 1596, normal
 
 [attack_feint_3]
 type = normal
@@ -980,7 +980,7 @@ event = "Feint start", 1979, normal
 event = "Feint end", 1995, normal
 
 event = "SndAlliace_W_attack_parry", 1978, normal
-event = "Resact", 1999, normal
+event = "Resact", 1995, normal
 
 [attack_feint_4]
 type = normal
@@ -996,7 +996,7 @@ event = "Feint start", 1563, normal
 event = "Feint end", 1571, normal
 
 event = "SndAlliace_W_attack_parry", 1562, normal
-event = "Resact", 1573, normal
+event = "Resact", 1571, normal
 
 ;FEINT SUCCESSFUL
 
@@ -1012,7 +1012,7 @@ data = "Ang", "10"	; grd
 
 event = "Attack", 1538, normal			;slash
 event = "SndAlliace_W_attack_feintc", 1535, normal
-event = "Resact", 1544, normal
+event = "Resact", 1538, normal
 	
 	
 [attack_feintc_2]
@@ -1027,7 +1027,7 @@ data = "Ang", "10"	; grd
 
 event = "Attack", 1593, normal			;slash
 event = "SndAlliace_W_attack_feintc", 1589, normal
-event = "Resact", 1597, normal
+event = "Resact", 1593, normal
 
 	
 [attack_feintc_3]
@@ -1042,7 +1042,7 @@ data = "Ang", "10"	; grd
 
 event = "Attack", 1567, normal			;slash
 event = "SndAlliace_W_attack_feintc", 1564, normal
-event = "Resact", 1573, normal
+event = "Resact", 1567, normal
 	
 	
 [attack_feintc_4]
@@ -1057,7 +1057,7 @@ data = "Ang", "10"	; grd
 
 event = "Attack", 1553, normal			;slash
 event = "SndAlliace_W_attack_feintc", 1549, normal
-event = "Resact", 1559, normal
+event = "Resact", 1553, normal
 
 ;--------------------------------------------------
 
@@ -1134,24 +1134,24 @@ data = "Blend time", "0.2"		; sec
 
 ;Блок
 [block]
-type = normal
+type = PINGPONG
 start_time = 1680
-end_time = 1680
+end_time = 1681
 
-speed = 1.2
+speed = 0.03
 loop = true
 
 data = "Blend time", "0.2"		; sec
-event = "Resact", 1680, normal	
+ ;event = "Resact", 1680, normal	
 
 [block_axe]
 type = normal
 start_time = 1680
-end_time = 1680
+end_time = 1681
 ;start_time = 2015
 ;end_time = 2084
 
-speed = 1.2
+speed = 0.03
 loop = true
 
 data = "Blend time", "0.2"		; sec
@@ -1370,6 +1370,7 @@ event = "Fire", 1654, normal
 event = "To belt", 1663, normal
 
 data = "Blend time", "0.3"		; sec
+data = "Turn speed", "8.0"		; rad/sec									 
 
 [RifleShot]
 start_time = 1643

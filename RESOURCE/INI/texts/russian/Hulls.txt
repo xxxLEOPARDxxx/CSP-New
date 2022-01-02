@@ -132,7 +132,7 @@ WarGalleon21 {HvyTrade_fra.tga}
 WarShip1 {bortoutWarship1.tga}
 WarTartane1 {bortouttartane1.tga}
 Wh_corvette_quest1 {corvettequest1.tga}
-Xebec1 {bortoutxebec1.tga}
+Xebec1 {4deck_hullstrip_diffuse.tga}
 XebecLight1 {damage_panel_3_diffuse.tga}
 XebekVML1 {xebecVML.tga}
 XebekVT1 {plank_blue.tga}
